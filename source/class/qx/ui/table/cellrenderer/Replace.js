@@ -109,10 +109,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
       var label;
 
       // use map
-      if ( replaceMap  )
+      if (replaceMap)
       {
         label = replaceMap[value];
-        if ( typeof label != "undefined" )
+        if (typeof label != "undefined")
         {
           cellInfo.value = label;
           return qx.bom.String.escape(this._formatValue(cellInfo));
@@ -120,9 +120,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
       }
 
       // use function
-      if ( replaceFunc )
+      if (replaceFunc)
       {
-        cellInfo.value = replaceFunc (value);
+        cellInfo.value = replaceFunc(value);
       }
       return qx.bom.String.escape(this._formatValue(cellInfo));
     },
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
     addReversedReplaceMap : function()
     {
        var map = this.getReplaceMap();
-       for (var key in map )
+       for (var key in map)
        {
          var value = map[key];
          map[value] = key;

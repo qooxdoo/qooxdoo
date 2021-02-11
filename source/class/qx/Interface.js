@@ -633,7 +633,7 @@ qx.Bootstrap.define("qx.Interface",
                 throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
               }
 
-              switch(typeof config.statics[key])
+              switch (typeof config.statics[key])
               {
                 case "boolean":
                 case "string":

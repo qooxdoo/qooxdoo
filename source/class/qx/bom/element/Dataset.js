@@ -91,7 +91,8 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
       if (element.dataset) {
         return element.dataset;
       } else {
-        var res = {}, attr = element.attributes;
+        var res = {}, 
+attr = element.attributes;
         for (var i=0; i < attr.length; i++) {
           if (attr[i].name.match(RegExp("^data-(.*)"))) {
             var key = RegExp.$1;

@@ -156,7 +156,7 @@ qx.Class.define("qx.event.type.Pointer",
               return document.elementFromPoint(orig.changedTouches[0].clientX, orig.changedTouches[0].clientY);
             }
           }
-        } catch(ex) {
+        } catch (ex) {
           return qx.bom.Event.getTarget(this._native);
         }
         return qx.bom.Event.getTarget(orig);

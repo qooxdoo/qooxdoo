@@ -134,7 +134,6 @@ qx.Class.define("qx.test.event.message.Bus",
       this.assertFalse(flag2, "Handler2 (filter 'mess*') was wrongly called for message 'massage'.");
       msg1.dispose();
       msg2.dispose();
-
     },
 
     testRegex : function()
@@ -208,9 +207,9 @@ qx.Class.define("qx.test.event.message.Bus",
       var flag = false;
       function handler() {
          flag = true;
-      };
+      }
 
-      function anotherHandler() {};
+      function anotherHandler() {}
 
       var messageBus = qx.event.message.Bus.getInstance();
       messageBus.subscribe("message", handler, this);

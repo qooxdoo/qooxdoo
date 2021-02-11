@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
     createDataCellHtml : function(cellInfo, htmlArr)
     {
       var cellRendererFactoryFunction = this.getCellRendererFactoryFunction();
-      if ( ! cellRendererFactoryFunction ) {
+      if (!cellRendererFactoryFunction) {
         throw new Error("No function provided! Aborting.");
       }
       var cellRenderer = cellRendererFactoryFunction(cellInfo);

@@ -30,12 +30,12 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       selectBox.setModel(dd);
 
       // Initial value '''
-      this.assertEquals('',selectBox.getValue());
+      this.assertEquals('', selectBox.getValue());
 
       // Attempt to set value to "Item 3"
       selectBox.setValue("Item 3");
       this.assertEquals(2, selectBox.getSelection());
-      this.assertEquals("Item 3",selectBox.getValue());
+      this.assertEquals("Item 3", selectBox.getValue());
 
       // Attempt to set invalid value occurs validation error.
       this.assertException(qx.lang.Function.bind(selectBox.setValue, selectBox, "Item 4"),
@@ -44,7 +44,7 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
         "An validation error is expected, because this value does not exists in model."
       );
 
-      this.assertEquals("Item 3",selectBox.getValue(), "Nothing should be changed by input setValue('Item 4') because input value is not in model.");
+      this.assertEquals("Item 3", selectBox.getValue(), "Nothing should be changed by input setValue('Item 4') because input value is not in model.");
 
       selectBox.destroy();
       dd.dispose();

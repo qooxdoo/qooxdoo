@@ -199,7 +199,6 @@ qx.Class.define("qx.test.ui.core.Queues",
       this.assertUndefined(spy1.args[0][0].job1);
 
       this.assertTrue(spy2.args[0][0]["$$default"]);
-
     }
   }
 });

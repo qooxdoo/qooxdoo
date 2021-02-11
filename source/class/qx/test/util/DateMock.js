@@ -64,7 +64,7 @@ qx.Class.define("qx.test.util.DateMock",
       return this.__date.timezoneOffset;
     },
 
-    getTime : function(){
+    getTime : function() {
       return this.__date.time;
     }
   }

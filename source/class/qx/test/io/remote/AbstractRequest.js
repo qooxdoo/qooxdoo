@@ -38,7 +38,7 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
     {
       this._requests = [];
 
-      for (var i = 0; i < 10 ; i++) {
+      for (var i = 0; i < 10; i++) {
         var request = this._createRequest();
 
         request.addListener("aborted", this.responseError, this);
@@ -102,7 +102,6 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
           var response = qx.lang.Json.parse(e.getContent());
           request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
-
         }, this);
 
         request.send();

@@ -56,17 +56,16 @@ qx.Class.define("qx.ui.mobile.form.Group",
 
     this.addCssClass("bordered");
 
-    if(showBorder != null) {
+    if (showBorder != null) {
       this.setShowBorder(showBorder);
     }
 
     // Convenience: Add all widgets of array to group.
-    if(widgets) {
-      for(var i = 0; i < widgets.length; i++) {
+    if (widgets) {
+      for (var i = 0; i < widgets.length; i++) {
         this.add(widgets[i]);
       }
     }
-
   },
 
 
@@ -110,8 +109,7 @@ qx.Class.define("qx.ui.mobile.form.Group",
      * Reacts on change of showBorder property.
      */
     _onChangeShowBorder : function() {
-
-      if(this.isShowBorder()==true) {
+      if (this.isShowBorder()==true) {
         this.addCssClass("bordered");
       } else {
         this.removeCssClass("bordered");

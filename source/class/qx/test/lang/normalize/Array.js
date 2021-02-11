@@ -219,9 +219,9 @@ qx.Class.define("qx.test.lang.normalize.Array",
       var spy = this.spy();
       [1].reduce(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
-      this.assertEquals(6, [1,2,3].reduce(function(a, b) {return a + b;}, 0));
-      this.assertArrayEquals([0,1,2,3,4], [[1,2], [3,4]].reduce(
-        function(a, b) {return a.concat(b);}, [0]
+      this.assertEquals(6, [1, 2, 3].reduce(function(a, b) { return a + b; }, 0));
+      this.assertArrayEquals([0, 1, 2, 3, 4], [[1, 2], [3, 4]].reduce(
+        function(a, b) { return a.concat(b); }, [0]
       ));
     },
 
@@ -230,9 +230,9 @@ qx.Class.define("qx.test.lang.normalize.Array",
       var spy = this.spy();
       [1].reduceRight(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
-      this.assertEquals(6, [1,2,3].reduceRight(function(a, b) {return a + b;}, 0));
-      this.assertArrayEquals([0, 3,4,1,2], [[1,2], [3,4]].reduceRight(
-        function(a, b) {return a.concat(b);}, [0]
+      this.assertEquals(6, [1, 2, 3].reduceRight(function(a, b) { return a + b; }, 0));
+      this.assertArrayEquals([0, 3, 4, 1, 2], [[1, 2], [3, 4]].reduceRight(
+        function(a, b) { return a.concat(b); }, [0]
       ));
     },
 

@@ -449,7 +449,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found = qx.bom.Selector.matches(selector, found);
         }
         children = children.concat(found);
-      };
+      }
       return qxWeb.$init(children, qxWeb);
     },
 
@@ -470,7 +470,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     forEach : function(fn, ctx) {
       for (var i=0; i < this.length; i++) {
         fn.call(ctx, this[i], i, this);
-      };
+      }
       return this;
     },
 
@@ -493,7 +493,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found = qx.bom.Selector.matches(selector, [found]);
         }
         parents = parents.concat(found);
-      };
+      }
       return qxWeb.$init(parents, qxWeb);
     },
 
@@ -507,19 +507,21 @@ qx.Bootstrap.define("qx.module.Traversing", {
     * @return {Boolean} Returns true if at least one element of the current collection is child of the parent collection
     *
     */
-    isChildOf : function(parent){
-      if(this.length == 0){
+    isChildOf : function(parent) {
+      if (this.length == 0) {
         return false;
       }
-      var ancestors = null, parentCollection = qxWeb(parent), isChildOf = false;
-      for(var i = 0, l = this.length; i < l && !isChildOf; i++){
+      var ancestors = null, 
+parentCollection = qxWeb(parent), 
+isChildOf = false;
+      for (var i = 0, l = this.length; i < l && !isChildOf; i++) {
         ancestors = qxWeb(this[i]).getAncestors();
-        for(var j = 0, len = parentCollection.length; j < len; j++){
-          if(ancestors.indexOf(parentCollection[j]) != -1){
+        for (var j = 0, len = parentCollection.length; j < len; j++) {
+          if (ancestors.indexOf(parentCollection[j]) != -1) {
             isChildOf = true;
             break;
           }
-        };
+        }
       }
       return isChildOf;
     },
@@ -577,7 +579,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           closest.push(found[0]);
         } else {
           current = current.getParents(); // One up
-          if(current[0] && current[0].parentNode) {
+          if (current[0] && current[0].parentNode) {
             findClosest(current);
           }
         }
@@ -585,7 +587,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
       for (var i=0; i < this.length; i++) {
         findClosest(qxWeb(this[i]));
-      };
+      }
 
       return qxWeb.$init(closest, qxWeb);
     },
@@ -604,7 +606,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.bom.Selector.query(selector, this[i]));
-      };
+      }
       return qxWeb.$init(found, qxWeb);
     },
 

@@ -52,21 +52,21 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         ]);
         var l2 = new qx.util.DynamicScriptLoader([
           "qx/test/dynamicscriptloader/first.js",
-          "qx/test/dynamicscriptloader/second.js",
+          "qx/test/dynamicscriptloader/second.js"
         ]);
         var l1Ready = false;
         var l2Ready = false;
-        l1.addListenerOnce('ready',function(){
+        l1.addListenerOnce('ready', function() {
             l1Ready = true;
-            this.resume(function(){
+            this.resume(function() {
               this.assertTrue(l1Ready && l2Ready);
-              this.assertEquals(qx.test.DYNAMICSCRIPTTEST.second.third,"dynamically loaded");
-            },this);
-        },this);
-        l2.addListenerOnce('ready',function(){
+              this.assertEquals(qx.test.DYNAMICSCRIPTTEST.second.third, "dynamically loaded");
+            }, this);
+        }, this);
+        l2.addListenerOnce('ready', function() {
             l2Ready = true;
             this.assertTrue(!l1Ready && l2Ready);
-        },this);
+        }, this);
 
         l1.start();
         l2.start();
@@ -80,26 +80,26 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
           "qx/test/dynamicscriptloader/third.js"
         ]);
         var noEvent = true;
-        var checkId = loader.addListener('loaded',function(e){
-          if (e.getData().status !== "preloaded"){
+        var checkId = loader.addListener('loaded', function(e) {
+          if (e.getData().status !== "preloaded") {
             noEvent = false;
           }
         });
-        loader.addListenerOnce('ready',function(){
+        loader.addListenerOnce('ready', function() {
           this.assertTrue(noEvent);
-        },this);
+        }, this);
         loader.start();
     },
     "test 3: fail to load": function() {
         var loader = new qx.util.DynamicScriptLoader([
-          "qx/test/dynamicscriptloader/xyc.js",
+          "qx/test/dynamicscriptloader/xyc.js"
         ]);
-        loader.addListenerOnce('failed',function(e){
+        loader.addListenerOnce('failed', function(e) {
           var data = e.getData();
-          this.resume(function(){
-            this.assertEquals(data.script,"qx/test/dynamicscriptloader/xyc.js");
-         },this);
-        },this);
+          this.resume(function() {
+            this.assertEquals(data.script, "qx/test/dynamicscriptloader/xyc.js");
+         }, this);
+        }, this);
         loader.start();
         this.wait();
     },
@@ -108,8 +108,8 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         loader.start();
         try {
           loader.start();
-        } catch(e) {
-          this.assertEquals(e.message,'you can only call start once per instance');
+        } catch (e) {
+          this.assertEquals(e.message, 'you can only call start once per instance');
         }
      }
   }

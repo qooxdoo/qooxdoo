@@ -124,7 +124,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__timer = new qx.event.Timer();
     this.__timer.addListener("interval", this._oninterval, this);
     this.initScrollTimeout();
-
   },
 
 
@@ -459,7 +458,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "header":
           control = (this.getTable().getNewTablePaneHeader())(this);
@@ -549,12 +548,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     // property modifier
     _applyShowCellFocusIndicator : function(value, old)
     {
-      if(value) {
+      if (value) {
         this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
         this._updateFocusIndicator();
       }
       else {
-        if(this.__focusIndicator) {
+        if (this.__focusIndicator) {
           this.__focusIndicator.setDecorator(null);
         }
       }
@@ -1059,7 +1058,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
 
-      if (! table.getEnabled()) {
+      if (!table.getEnabled()) {
         return;
       }
 
@@ -1121,7 +1120,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
 
-      if (! table.getEnabled()) {
+      if (!table.getEnabled()) {
         return;
       }
 
@@ -1166,7 +1165,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onPointerdownHeader : function(e)
     {
-      if (! this.getTable().getEnabled()) {
+      if (!this.getTable().getEnabled()) {
         return;
       }
 
@@ -1349,7 +1348,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var columnModel = this.getTable().getTableColumnModel();
 
       // We are currently resizing -> Finish resizing
-      if (! this.getLiveResize()) {
+      if (!this.getLiveResize()) {
         this._hideResizeLine();
         columnModel.setColumnWidth(this.__resizeColumn,
                                    this.__lastResizeWidth,
@@ -1422,7 +1421,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
 
-      if (! table.getEnabled()) {
+      if (!table.getEnabled()) {
         return;
       }
 
@@ -1581,7 +1580,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      if (! this.getShowCellFocusIndicator() ||
+      if (!this.getShowCellFocusIndicator() ||
           row === null ||
           (this.__lastPointerDownCell &&
            row == this.__lastPointerDownCell.row &&
@@ -1991,7 +1990,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     stopEditing : function()
     {
       // If the focus indicator is not being shown normally...
-      if (! this.getShowCellFocusIndicator())
+      if (!this.getShowCellFocusIndicator())
       {
         // ... then hide it again
         this.__focusIndicator.setDecorator(null);
@@ -2017,7 +2016,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         this.__table.focus();
 
-        if(cancel) {
+        if (cancel) {
           this.cancelEditing();
         }
 
@@ -2425,7 +2424,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       if (!firstVisibleRowComplete)
       {
-
         // NOTE: We don't consider paneOffset, because this may cause alternating
         //       adding and deleting of one row when scrolling. Instead we add one row
         //       in every case.
@@ -2444,7 +2442,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // Avoid expensive calls to setScrollTop if
       // scrolling is not needed
-      if (! firstVisibleRowComplete ) {
+      if (!firstVisibleRowComplete) {
         this._paneClipper.scrollToY(paneOffset);
       }
     },

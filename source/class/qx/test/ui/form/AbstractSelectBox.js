@@ -23,10 +23,10 @@ qx.Class.define("qx.test.ui.form.AbstractSelectBox",
   {
     setUp : function()
     {
-      this.__selectBox = new qx.ui.form.SelectBox;
+      this.__selectBox = new qx.ui.form.SelectBox();
       this.getRoot().add(this.__selectBox);
 
-      this.__comboBox = new qx.ui.form.ComboBox;
+      this.__comboBox = new qx.ui.form.ComboBox();
       this.getRoot().add(this.__comboBox);
 
       this.flush();

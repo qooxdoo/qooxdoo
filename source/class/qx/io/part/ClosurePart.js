@@ -55,7 +55,6 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       {
         var pkg = this._packages[i];
         if (pkg.getReadyState() == "initialized") {
-
           pkg.loadClosure(function(pkg) {
             packagesLoaded++;
             that._loader.notifyPackageResult(pkg);
@@ -81,7 +80,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     {
       if (this._checkCompleteLoading(callback, self)) {
         return;
-      };
+      }
 
       this._readyState = "loading";
 

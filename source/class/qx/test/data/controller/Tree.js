@@ -174,7 +174,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     },
 
 
-    testRemoveBindingsRecursive: function(){
+    testRemoveBindingsRecursive: function() {
       // reform the model tree
       this.__model.getChildren().remove(this.__c);
       this.__a.getChildren().push(this.__c);
@@ -196,7 +196,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     },
 
 
-    testModelChange: function(){
+    testModelChange: function() {
       // set model to null
       this.__controller.setModel(null);
 
@@ -1079,7 +1079,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     },
 
 
-    testBindItemDouble: function(){
+    testBindItemDouble: function() {
       var delegate = {
         bindItem : function(controller, item, id) {
           controller.bindProperty("color", "textColor", null, item, id);
@@ -1093,7 +1093,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     },
 
 
-    testBindItemDoubleReverse: function(){
+    testBindItemDoubleReverse: function() {
       var delegate = {
         bindItem : function(controller, item, id) {
           controller.bindPropertyReverse("color", "textColor", null, item, id);

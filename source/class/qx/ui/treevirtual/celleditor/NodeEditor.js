@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.treevirtual.celleditor.NodeEditor",
 
       // validation function will be called with new and old label
       var validationFunc = this.getValidationFunction();
-      if (validationFunc ) {
+      if (validationFunc) {
         label = validationFunc(label, cellEditor.originalLabel);
       }
 

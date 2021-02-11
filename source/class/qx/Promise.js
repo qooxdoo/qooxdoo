@@ -18,35 +18,35 @@
  ************************************************************************ */
 
 /**
- * This class adds Promise/A+ support to Qooxdoo, as specified at 
+ * This class adds Promise/A+ support to Qooxdoo, as specified at
  * https://github.com/promises-aplus/promises-spec and using the Bluebird Promise
- * library (http://bluebirdjs.com/) to implement it.  The official Promise/A+ API) 
- * is mirrored exactly, and a number of extension methods are added with the BluebirdJS 
+ * library (http://bluebirdjs.com/) to implement it.  The official Promise/A+ API)
+ * is mirrored exactly, and a number of extension methods are added with the BluebirdJS
  * API for inspiration (many/most of the extension functions are taken verbatim).
- * 
+ *
  * There are two ways to bind a 'this' value to callbacks - the first is to
  * append a context method to methods like then(), and the second is to specify
  * the context as the second parameter to the constructor and all callbacks will
  * be bound to that value.
- * 
+ *
  * For example:
- * 
+ *
  * <pre class="javascript">
  *   var promise = new qx.Promise(myAsyncFunction, this);
  *   promise.then(function() {
  *     // 'this' is preserved from the outer scope
  *   });
- *   
+ *
  *   // ... is the same as: ...
  *   var promise = new qx.Promise(myAsyncFunction);
  *   promise.then(function() {
  *     // 'this' is preserved from the outer scope
  *   }, this);
  * </pre>
- * 
+ *
  * If you have an existing qx.Promise and want to bind all callbacks, use the
  * bind() method - but note that it returns a new promise:
- * 
+ *
  *  <pre class="javascript">
  *    var promise = someMethodThatReturnsAPromise();
  *    var boundPromise = promise.bind(this);
@@ -54,28 +54,30 @@
  *      // 'this' is preserved from the outer scope
  *    }, this);
  *  </pre>
- * 
+ *
  */
 
-/* 
+/*
  @ignore(process.*)
  @ignore(global.*)
  @ignore(Symbol.*)
  @ignore(chrome.*)
- 
-*/ 
 
+*/
+
+/* global global, setImmediate, chrome, _dereq_ */
+/* eslint-disable no-global-assign */
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
 
   /**
    * Constructor.
-   * 
+   *
    * The promise function is called with two parameters, functions which are to be called
    * when the promise is fulfilled or rejected respectively.  If you do not provide any
    * parameters, the promise can be externally resolved or rejected by calling the
    * <code>resolve()</code> or <code>reject()</code> methods.
-   * 
+   *
    * @param fn {Function} the promise function called with <code>(resolve, reject)</code>
    * @param context {Object?} optional context for all callbacks
    */
@@ -100,7 +102,7 @@ qx.Class.define("qx.Promise", {
             } else if (reason && !(reason instanceof Error)) {
               self.error("Calling reject with non-error object, createdAt=" + JSON.stringify(self.$$createdAt || null));
             }
-            reject.apply(this, args)
+            reject.apply(this, args);
           });
         };
       }
@@ -133,18 +135,18 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Promise API methods
-     * 
+     *
      */
 
     /**
      * Returns a promise which is determined by the functions <code>onFulfilled</code>
      * and <code>onRejected</code>.
-     * 
-     * @param onFulfilled {Function} called when the Promise is fulfilled. This function 
+     *
+     * @param onFulfilled {Function} called when the Promise is fulfilled. This function
      *  has one argument, the fulfillment value.
-     * @param onRejected {Function?} called when the Promise is rejected. This function 
+     * @param onRejected {Function?} called when the Promise is rejected. This function
      *  has one argument, the rejection reason.
      * @return {qx.Promise}
      */
@@ -153,13 +155,13 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Appends a rejection handler callback to the promise, and returns a new promise 
-     * resolving to the return value of the callback if it is called, or to its original 
+     * Appends a rejection handler callback to the promise, and returns a new promise
+     * resolving to the return value of the callback if it is called, or to its original
      * fulfillment value if the promise is instead fulfilled.
-     * 
-     * @param onRejected {Function?} called when the Promise is rejected. This function 
+     *
+     * @param onRejected {Function?} called when the Promise is rejected. This function
      *  has one argument, the rejection reason.
-     * @return {qx.Promise} a qx.Promise is rejected if onRejected throws an error or 
+     * @return {qx.Promise} a qx.Promise is rejected if onRejected throws an error or
      *  returns a Promise which is itself rejected; otherwise, it is resolved.
      */
     "catch": function(onRejected) {
@@ -169,14 +171,14 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Extension Promise methods
-     * 
+     *
      */
 
     /**
      * Creates a new qx.Promise with the 'this' set to a different context
-     * 
+     *
      * @param context {Object} the 'this' context for the new Promise
      * @return {qx.Promise} the new promise
      */
@@ -185,9 +187,9 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Like calling <code>.then</code>, but the fulfillment value must be an array, which is flattened 
+     * Like calling <code>.then</code>, but the fulfillment value must be an array, which is flattened
      * to the formal parameters of the fulfillment handler.
-     * 
+     *
      * For example:
      * <pre>
      * qx.Promise.all([
@@ -202,7 +204,7 @@ qx.Class.define("qx.Promise", {
      *   }
      * });
      * </pre>
-     * 
+     *
      * @param fulfilledHandler {Function} called when the Promises are fulfilled.
      * @return {qx.Promise}
      */
@@ -213,8 +215,8 @@ qx.Class.define("qx.Promise", {
     /**
      * Appends a handler that will be called regardless of this promise's fate. The handler
      * is not allowed to modify the value of the promise
-     * 
-     * @param handler {Function?} called when the Promise is fulfilled or rejected. This function 
+     *
+     * @param handler {Function?} called when the Promise is fulfilled or rejected. This function
      *  has no arguments, but can return a promise
      * @return {qx.Promise} a qx.Promise chained from this promise
      */
@@ -231,10 +233,10 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.all} except that it iterates over the value of this promise, when
-     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array), 
-     * <code>.all</code> will return a Promise that waits for all promises in that Iterable to be 
+     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array),
+     * <code>.all</code> will return a Promise that waits for all promises in that Iterable to be
      * fullfilled.  The Iterable can be a mix of values and Promises
-     * 
+     *
      * @return {qx.Promise}
      */
     all: function() {
@@ -243,10 +245,10 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.race} except that it iterates over the value of this promise, when
-     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array), 
-     * <code>.race</code> will return a Promise that waits until the first promise in that Iterable 
+     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array),
+     * <code>.race</code> will return a Promise that waits until the first promise in that Iterable
      * has been fullfilled.  The Iterable can be a mix of values and Promises
-     * 
+     *
      * @return {qx.Promise}
      */
     race: function(iterable) {
@@ -255,9 +257,9 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.some} except that it iterates over the value of this promise, when
-     * it is fulfilled.  Like <code>some</code>, with 1 as count. However, if the promise fulfills, 
+     * it is fulfilled.  Like <code>some</code>, with 1 as count. However, if the promise fulfills,
      * the fulfillment value is not an array of 1 but the value directly.
-     * 
+     *
      * @return {qx.Promise}
      */
     any: function(iterable) {
@@ -266,9 +268,9 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.some} except that it iterates over the value of this promise, when
-     * it is fulfilled; return a promise that is fulfilled as soon as count promises are fulfilled 
+     * it is fulfilled; return a promise that is fulfilled as soon as count promises are fulfilled
      * in the array. The fulfillment value is an array with count values in the order they were fulfilled.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
@@ -279,14 +281,14 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.forEach} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over the values with the given <code>iterator</code> function with the signature 
-     * <code>(value, index, length)</code> where <code>value</code> is the resolved value. Iteration happens 
+     * it is fulfilled; iterates over the values with the given <code>iterator</code> function with the signature
+     * <code>(value, index, length)</code> where <code>value</code> is the resolved value. Iteration happens
      * serially. If any promise is rejected the returned promise is rejected as well.
-     * 
-     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator 
-     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with 
+     *
+     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator
+     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -296,9 +298,9 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Same as {@link qx.Promise.filter} except that it iterates over the value of this promise, when it is fulfilled; 
+     * Same as {@link qx.Promise.filter} except that it iterates over the value of this promise, when it is fulfilled;
      * iterates over all the values into an array and filter the array to another using the given filterer function.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -310,18 +312,18 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Same as {@link qx.Promise.map} except that it iterates over the value of this promise, when it is fulfilled; 
+     * Same as {@link qx.Promise.map} except that it iterates over the value of this promise, when it is fulfilled;
      * iterates over all the values into an array and map the array to another using the given mapper function.
-     * 
-     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill 
-     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or 
+     *
+     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill
+     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or
      * any promise returned by the mapper function is rejected, the returned promise is rejected as well.
-     * 
-     * The mapper function for a given item is called as soon as possible, that is, when the promise 
-     * for that item's index in the input array is fulfilled. This doesn't mean that the result array 
-     * has items in random order, it means that .map can be used for concurrency coordination unlike 
+     *
+     * The mapper function for a given item is called as soon as possible, that is, when the promise
+     * for that item's index in the input array is fulfilled. This doesn't mean that the result array
+     * has items in random order, it means that .map can be used for concurrency coordination unlike
      * .all.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -334,17 +336,17 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.mapSeries} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over all the values into an array and iterate over the array serially, 
+     * it is fulfilled; iterates over all the values into an array and iterate over the array serially,
      * in-order.
-     * 
-     * Returns a promise for an array that contains the values returned by the iterator function in their 
-     * respective positions. The iterator won't be called for an item until its previous item, and the 
-     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of 
+     *
+     * Returns a promise for an array that contains the values returned by the iterator function in their
+     * respective positions. The iterator won't be called for an item until its previous item, and the
+     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of
      * utility but it can also be used simply as a side effect iterator similar to Array#forEach.
-     * 
-     * If any promise in the input array is rejected or any promise returned by the iterator function is 
+     *
+     * If any promise in the input array is rejected or any promise returned by the iterator function is
      * rejected, the result will be rejected as well.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -355,21 +357,21 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.reduce} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over all the values in the <code>Iterable</code> into an array and 
+     * it is fulfilled; iterates over all the values in the <code>Iterable</code> into an array and
      * reduce the array to a value using the given reducer function.
-     * 
-     * If the reducer function returns a promise, then the result of the promise is awaited, before 
-     * continuing with next iteration. If any promise in the array is rejected or a promise returned 
+     *
+     * If the reducer function returns a promise, then the result of the promise is awaited, before
+     * continuing with next iteration. If any promise in the array is rejected or a promise returned
      * by the reducer function is rejected, the result is rejected as well.
-     * 
-     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains 
-     * only 1 item, the callback will not be called and the iterable's single item is returned. If the 
-     * iterable is empty, the callback will not be called and initialValue is returned (which may be 
+     *
+     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains
+     * only 1 item, the callback will not be called and the iterable's single item is returned. If the
+     * iterable is empty, the callback will not be called and initialValue is returned (which may be
      * undefined).
-     * 
-     * qx.Promise.reduce will start calling the reducer as soon as possible, this is why you might want to 
+     *
+     * qx.Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over qx.Promise.all (which awaits for the entire array before you can call Array#reduce on it).
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
@@ -419,9 +421,9 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Utility methods
-     * 
+     *
      */
 
     /**
@@ -445,12 +447,12 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Returns the actual Promise implementation.
-     * 
-     * Note that Bluebird is the current implementation, and may change without 
-     * notice in the future; if you use this API you accept that this is a private 
+     *
+     * Note that Bluebird is the current implementation, and may change without
+     * notice in the future; if you use this API you accept that this is a private
      * implementation detail exposed for debugging or diagnosis purposes only.  For
      * this reason, the toPromise() method is listed as deprecated starting from the
-     * first release  
+     * first release
      * @deprecated {6.0} this API method is subject to change
      */
     toPromise: function() {
@@ -468,7 +470,7 @@ qx.Class.define("qx.Promise", {
 
     /** Promise library, either the Native one or a Polyfill; reliable choice for native Promises */
     Promise: null,
-    
+
     /** This is used to suppress warnings about rejections without an Error object, only used if
      * the reason is undefined
      */
@@ -476,18 +478,18 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Promise API methods
-     * 
+     *
      */
 
     /**
-     * Returns a Promise object that is resolved with the given value. If the value is a thenable (i.e. 
-     * has a then method), the returned promise will "follow" that thenable, adopting its eventual 
-     * state; otherwise the returned promise will be fulfilled with the value. Generally, if you 
-     * don't know if a value is a promise or not, Promise.resolve(value) it instead and work with 
+     * Returns a Promise object that is resolved with the given value. If the value is a thenable (i.e.
+     * has a then method), the returned promise will "follow" that thenable, adopting its eventual
+     * state; otherwise the returned promise will be fulfilled with the value. Generally, if you
+     * don't know if a value is a promise or not, Promise.resolve(value) it instead and work with
      * the return value as a promise.
-     * 
+     *
      * @param value {Object}
      * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
@@ -527,10 +529,10 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a promise that resolves when all of the promises in the object properties have resolved, 
+     * Returns a promise that resolves when all of the promises in the object properties have resolved,
      * or rejects with the reason of the first passed promise that rejects.  The result of each property
      * is placed back in the object, replacing the promise.  Note that non-promise values are untouched.
-     * 
+     *
      * @param value {var} An object
      * @return {qx.Promise}
      */
@@ -546,20 +548,20 @@ qx.Class.define("qx.Promise", {
         }
         return qx.Promise.all(arr)
           .then(function(arr) {
-            arr.forEach(function(item, index) { 
-              value[names[index]] = item; 
+            arr.forEach(function(item, index) {
+              value[names[index]] = item;
             });
             return value;
           });
       }
       return value instanceof qx.Promise ? value.then(action) : action(value);
     },
-    
+
     /**
-     * Returns a promise that resolves when all of the promises in the iterable argument have resolved, 
-     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values 
+     * Returns a promise that resolves when all of the promises in the iterable argument have resolved,
+     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values
      * are untouched.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
@@ -568,7 +570,7 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves 
+     * Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves
      * or rejects, with the value or reason from that promise.
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
@@ -580,15 +582,15 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Extension API methods
-     * 
+     *
      */
 
     /**
-     * Like Promise.some, with 1 as count. However, if the promise fulfills, the fulfillment value is not an 
+     * Like Promise.some, with 1 as count. However, if the promise fulfills, the fulfillment value is not an
      * array of 1 but the value directly.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
@@ -597,11 +599,11 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an Iterable (arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix 
-     * of promises and values), iterate over all the values in the Iterable into an array and return a promise 
-     * that is fulfilled as soon as count promises are fulfilled in the array. The fulfillment value is an 
+     * Given an Iterable (arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix
+     * of promises and values), iterate over all the values in the Iterable into an array and return a promise
+     * that is fulfilled as soon as count promises are fulfilled in the array. The fulfillment value is an
      * array with count values in the order they were fulfilled.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
@@ -611,15 +613,15 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Iterate over an array, or a promise of an array, which contains promises (or a mix of promises and values) 
-     * with the given <code>iterator</code> function with the signature <code>(value, index, length)</code> where 
-     * <code>value</code> is the resolved value of a respective promise in the input array. Iteration happens 
+     * Iterate over an array, or a promise of an array, which contains promises (or a mix of promises and values)
+     * with the given <code>iterator</code> function with the signature <code>(value, index, length)</code> where
+     * <code>value</code> is the resolved value of a respective promise in the input array. Iteration happens
      * serially. If any promise in the input array is rejected the returned promise is rejected as well.
-     * 
-     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator 
-     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with 
+     *
+     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator
+     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -629,10 +631,10 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an Iterable(arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix of 
-     * promises and values), iterate over all the values in the Iterable into an array and filter the array to 
+     * Given an Iterable(arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix of
+     * promises and values), iterate over all the values in the Iterable into an array and filter the array to
      * another using the given filterer function.
-     * 
+     *
      * It is essentially an efficient shortcut for doing a .map and then Array#filter:
      * <pre>
      *   qx.Promise.map(valuesToBeFiltered, function(value, index, length) {
@@ -645,7 +647,7 @@ qx.Class.define("qx.Promise", {
      *       });
      *   });
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -657,22 +659,22 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over 
-     * all the values in the <code>Iterable</code> into an array and map the array to another using 
+     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over
+     * all the values in the <code>Iterable</code> into an array and map the array to another using
      * the given mapper function.
-     * 
-     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill 
-     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or 
+     *
+     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill
+     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or
      * any promise returned by the mapper function is rejected, the returned promise is rejected as well.
-     * 
-     * The mapper function for a given item is called as soon as possible, that is, when the promise 
-     * for that item's index in the input array is fulfilled. This doesn't mean that the result array 
-     * has items in random order, it means that .map can be used for concurrency coordination unlike 
+     *
+     * The mapper function for a given item is called as soon as possible, that is, when the promise
+     * for that item's index in the input array is fulfilled. This doesn't mean that the result array
+     * has items in random order, it means that .map can be used for concurrency coordination unlike
      * .all.
-     * 
+     *
      * A common use of Promise.map is to replace the .push+Promise.all boilerplate:
-     * 
+     *
      * <pre>
      *   var promises = [];
      *   for (var i = 0; i < fileNames.length; ++i) {
@@ -681,7 +683,7 @@ qx.Class.define("qx.Promise", {
      *   qx.Promise.all(promises).then(function() {
      *       console.log("done");
      *   });
-     *   
+     *
      *   // Using Promise.map:
      *   qx.Promise.map(fileNames, function(fileName) {
      *       // Promise.map awaits for returned promises as well.
@@ -690,7 +692,7 @@ qx.Class.define("qx.Promise", {
      *       console.log("done");
      *   });
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -702,21 +704,21 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code>(arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over 
-     * all the values in the <code>Iterable</code> into an array and iterate over the array serially, 
+     * Given an <code>Iterable</code>(arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over
+     * all the values in the <code>Iterable</code> into an array and iterate over the array serially,
      * in-order.
-     * 
-     * Returns a promise for an array that contains the values returned by the iterator function in their 
-     * respective positions. The iterator won't be called for an item until its previous item, and the 
-     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of 
+     *
+     * Returns a promise for an array that contains the values returned by the iterator function in their
+     * respective positions. The iterator won't be called for an item until its previous item, and the
+     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of
      * utility but it can also be used simply as a side effect iterator similar to Array#forEach.
-     * 
-     * If any promise in the input array is rejected or any promise returned by the iterator function is 
+     *
+     * If any promise in the input array is rejected or any promise returned by the iterator function is
      * rejected, the result will be rejected as well.
-     * 
+     *
      * Example where .mapSeries(the instance method) is used for iterating with side effects:
-     * 
+     *
      * <pre>
      * // Source: http://jakearchibald.com/2014/es7-async-functions/
      * function loadStory() {
@@ -731,7 +733,7 @@ qx.Class.define("qx.Promise", {
      *     .then(function() { document.querySelector('.spinner').style.display = 'none'; });
      * }
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -741,18 +743,18 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate 
-     * over all the values in the <code>Iterable</code> into an array and reduce the array to a 
+     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate
+     * over all the values in the <code>Iterable</code> into an array and reduce the array to a
      * value using the given reducer function.
-     * 
-     * If the reducer function returns a promise, then the result of the promise is awaited, before 
-     * continuing with next iteration. If any promise in the array is rejected or a promise returned 
+     *
+     * If the reducer function returns a promise, then the result of the promise is awaited, before
+     * continuing with next iteration. If any promise in the array is rejected or a promise returned
      * by the reducer function is rejected, the result is rejected as well.
-     * 
-     * Read given files sequentially while summing their contents as an integer. Each file contains 
+     *
+     * Read given files sequentially while summing their contents as an integer. Each file contains
      * just the text 10.
-     * 
+     *
      * <pre>
      *   qx.Promise.reduce(["file1.txt", "file2.txt", "file3.txt"], function(total, fileName) {
      *       return fs.readFileAsync(fileName, "utf8").then(function(contents) {
@@ -762,15 +764,15 @@ qx.Class.define("qx.Promise", {
      *       //Total is 30
      *   });
      * </pre>
-     * 
-     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains 
-     * only 1 item, the callback will not be called and the iterable's single item is returned. If the 
-     * iterable is empty, the callback will not be called and initialValue is returned (which may be 
+     *
+     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains
+     * only 1 item, the callback will not be called and the iterable's single item is returned. If the
+     * iterable is empty, the callback will not be called and initialValue is returned (which may be
      * undefined).
-     * 
-     * Promise.reduce will start calling the reducer as soon as possible, this is why you might want to 
+     *
+     * Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over Promise.all (which awaits for the entire array before you can call Array#reduce on it).
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
@@ -781,7 +783,7 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a new function that wraps the given function fn. The new function will always return a promise that is 
+     * Returns a new function that wraps the given function fn. The new function will always return a promise that is
      * fulfilled with the original functions return values or rejected with thrown exceptions from the original function.
      * @param cb {Function}
      * @return {Function}
@@ -794,16 +796,16 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Like .all but for object properties or Maps* entries instead of iterated values. Returns a promise that 
-     * is fulfilled when all the properties of the object or the Map's' values** are fulfilled. The promise's 
-     * fulfillment value is an object or a Map with fulfillment values at respective keys to the original object 
-     * or a Map. If any promise in the object or Map rejects, the returned promise is rejected with the rejection 
+     * Like .all but for object properties or Maps* entries instead of iterated values. Returns a promise that
+     * is fulfilled when all the properties of the object or the Map's' values** are fulfilled. The promise's
+     * fulfillment value is an object or a Map with fulfillment values at respective keys to the original object
+     * or a Map. If any promise in the object or Map rejects, the returned promise is rejected with the rejection
      * reason.
-     * 
-     * If object is a trusted Promise, then it will be treated as a promise for object rather than for its 
-     * properties. All other objects (except Maps) are treated for their properties as is returned by 
+     *
+     * If object is a trusted Promise, then it will be treated as a promise for object rather than for its
+     * properties. All other objects (except Maps) are treated for their properties as is returned by
      * Object.keys - the object's own enumerable properties.
-     * 
+     *
      * @param input {Object} An Object
      * @return {qx.Promise}
      */
@@ -862,19 +864,19 @@ qx.Class.define("qx.Promise", {
      *   The sole user option in this map is <code>context</code>, which may
      *   be specified to arrange for the provided callback function to be
      *   called in the specified context.
-     *   
+     *
      * @return {qx.Promise}
      */
     promisify : function(f, options) {
       return qx.Promise.__callStaticMethod('promisify', arguments);
     },
-    
-    
+
+
 
     /* *********************************************************************************
-     * 
+     *
      * Internal API methods
-     * 
+     *
      */
 
     /**
@@ -990,16 +992,14 @@ qx.Class.define("qx.Promise", {
       args.forEach(function(arg) {
         if (arg instanceof qx.data.Array) {
           dest.push(arg.toArray());
-
         } else if (arg instanceof qx.Promise) {
           dest.push(arg.toPromise());
-
         } else {
           dest.push(arg);
         }
       });
       return dest;
-    }    
+    }
   },
 
   defer: function(statics, members) {
@@ -1051,25 +1051,25 @@ qx.Class.define("qx.Promise", {
  * @ignore(process.versions.node.split)
  * @ignore(promise)
  * @ignore(Promise)
- * @ignore(self) 
+ * @ignore(self)
  * @ignore(setImmediate)
  */
 (function() {
   /* @preserve
    * The MIT License (MIT)
-   * 
+   *
    * Copyright (c) 2013-2015 Petka Antonov
-   * 
+   *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
    * in the Software without restriction, including without limitation the rights
    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
    * copies of the Software, and to permit persons to whom the Software is
    * furnished to do so, subject to the following conditions:
-   * 
+   *
    * The above copyright notice and this permission notice shall be included in
    * all copies or substantial portions of the Software.
-   * 
+   *
    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -1077,44 +1077,45 @@ qx.Class.define("qx.Promise", {
    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
    * THE SOFTWARE.
-   * 
+   *
    */
   /**
    * bluebird build version 3.4.5
    * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, using, timers, filter, any, each
    */
-  !function(e){
+  !(function(e) {
     qx.Promise.__attachBluebird(e());
-  }
-  (function(){
-    var define,module,exports;
-    return (function e(t,n,r){
-      function s(o,u){
-        if(!n[o]){
-          if(!t[o]){
+  })
+  (function() {
+    var define, module, exports;
+    return (function e(t, n, r) {
+      function s(o, u) {
+        if (!n[o]) {
+          if (!t[o]) {
             var a=typeof _dereq_=="function"&&_dereq_;
-            if(!u&&a)
-              return a(o,!0);
-            if(i)
-              return i(o,!0);
+            if (!u&&a)
+              { return a(o, !0); }
+            if (i)
+              { return i(o, !0); }
             var f=new Error("Cannot find module '"+o+"'");
-            throw f.code="MODULE_NOT_FOUND",f
+            /* eslint-disable-next-line no-sequences */
+            throw f.code="MODULE_NOT_FOUND", f;
           }
           var l=n[o]={exports:{}};
-          t[o][0].call(l.exports, function(e){
+          t[o][0].call(l.exports, function(e) {
             var n=t[o][1][e];
-            return s(n?n:e)
-          },l,l.exports,e,t,n,r)
+            return s(n?n:e);
+          }, l, l.exports, e, t, n, r);
         }
-        return n[o].exports
+        return n[o].exports;
       }
       var i=typeof _dereq_=="function"&&_dereq_;
-      for(var o=0;o<r.length;o++)
-        s(r[o]);
-      return s
+      for (var o=0; o<r.length; o++)
+        { s(r[o]); }
+      return s;
     })({
       1:[
-        function(_dereq_,module,exports){
+        function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var SomePromiseArray = Promise._SomePromiseArray;
@@ -1134,13 +1135,11 @@ qx.Class.define("qx.Promise", {
             Promise.prototype.any = function () {
               return any(this);
             };
-
           };
-
-        },{}],2:[function(_dereq_,module,exports){
+        }, {}], 2:[function(_dereq_, module, exports) {
           "use strict";
           var firstLineError;
-          try {throw new Error(); } catch (e) {firstLineError = e;}
+          try { throw new Error(); } catch (e) { firstLineError = e; }
           var schedule = _dereq_("./schedule");
           var Queue = _dereq_("./queue");
           var util = _dereq_("./util");
@@ -1204,13 +1203,13 @@ qx.Class.define("qx.Promise", {
               setTimeout(function() {
                 fn(arg);
               }, 0);
-            } else try {
+            } else { try {
               this._schedule(function() {
                 fn(arg);
               });
             } catch (e) {
               throw new Error("No async scheduler available\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
-            }
+            } }
           };
 
           function AsyncInvokeLater(fn, receiver, arg) {
@@ -1304,8 +1303,7 @@ qx.Class.define("qx.Promise", {
 
           module.exports = Async;
           module.exports.firstLineError = firstLineError;
-
-        },{"./queue":26,"./schedule":29,"./util":36}],3:[function(_dereq_,module,exports){
+        }, {"./queue":26, "./schedule":29, "./util":36}], 3:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, tryConvertToPromise, debug) {
             var calledBind = false;
@@ -1325,7 +1323,7 @@ qx.Class.define("qx.Promise", {
             };
 
             var bindingRejected = function(e, context) {
-              if (!context.promiseRejectionQueued) this._reject(e);
+              if (!context.promiseRejectionQueued) { this._reject(e); }
             };
 
             Promise.prototype.bind = function (thisArg) {
@@ -1373,21 +1371,19 @@ qx.Class.define("qx.Promise", {
               return Promise.resolve(value).bind(thisArg);
             };
           };
-
-        },{}],4:[function(_dereq_,module,exports){
+        }, {}], 4:[function(_dereq_, module, exports) {
           "use strict";
           var old;
-          if (typeof Promise !== "undefined") old = Promise;
+          if (typeof Promise !== "undefined") { old = Promise; }
           function noConflict() {
-            try { if (Promise === bluebird) Promise = old; }
+            try { if (Promise === bluebird) { Promise = old; } }
             catch (e) {}
             return bluebird;
           }
           var bluebird = _dereq_("./promise")();
           bluebird.noConflict = noConflict;
           module.exports = bluebird;
-
-        },{"./promise":22}],5:[function(_dereq_,module,exports){
+        }, {"./promise":22}], 5:[function(_dereq_, module, exports) {
           "use strict";
           var cr = Object.create;
           if (cr) {
@@ -1440,7 +1436,7 @@ qx.Class.define("qx.Promise", {
                   cache[" size"]++;
                   if (cache[" size"] > 512) {
                     var keys = Object.keys(cache);
-                    for (var i = 0; i < 256; ++i) delete cache[keys[i]];
+                    for (var i = 0; i < 256; ++i) { delete cache[keys[i]]; }
                     cache[" size"] = keys.length - 256;
                   }
                 }
@@ -1458,7 +1454,7 @@ qx.Class.define("qx.Promise", {
 
             function ensureMethod(obj, methodName) {
               var fn;
-              if (obj != null) fn = obj[methodName];
+              if (obj != null) { fn = obj[methodName]; }
               if (typeof fn !== "function") {
                 var message = "Object " + util.classString(obj) + " has no method '" +
                 util.toString(methodName) + "'";
@@ -1473,7 +1469,7 @@ qx.Class.define("qx.Promise", {
               return fn.apply(obj, this);
             }
             Promise.prototype.call = function (methodName) {
-              var args = [].slice.call(arguments, 1);;
+              var args = [].slice.call(arguments, 1);
               if (!true) {
                 if (canEvaluate) {
                   var maybeCaller = getMethodCaller(methodName);
@@ -1492,7 +1488,7 @@ qx.Class.define("qx.Promise", {
             }
             function indexedGetter(obj) {
               var index = +this;
-              if (index < 0) index = Math.max(0, index + obj.length);
+              if (index < 0) { index = Math.max(0, index + obj.length); }
               return obj[index];
             }
             Promise.prototype.get = function (propertyName) {
@@ -1511,8 +1507,7 @@ qx.Class.define("qx.Promise", {
               return this._then(getter, undefined, undefined, propertyName, undefined);
             };
           };
-
-        },{"./util":36}],6:[function(_dereq_,module,exports){
+        }, {"./util":36}], 6:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, PromiseArray, apiRejection, debug) {
             var util = _dereq_("./util");
@@ -1521,7 +1516,7 @@ qx.Class.define("qx.Promise", {
             var async = Promise._async;
 
             Promise.prototype["break"] = Promise.prototype.cancel = function() {
-              if (!debug.cancellation()) return this._warn("cancellation is disabled");
+              if (!debug.cancellation()) { return this._warn("cancellation is disabled"); }
 
               var promise = this;
               var child = promise;
@@ -1544,7 +1539,7 @@ qx.Class.define("qx.Promise", {
                   }
                   break;
                 } else {
-                  if (promise._isFollowing()) promise._followee().cancel();
+                  if (promise._isFollowing()) { promise._followee().cancel(); }
                   promise._setWillBeCancelled();
                   child = promise;
                   promise = parent;
@@ -1583,13 +1578,13 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._cancel = function() {
-              if (!this._isCancellable()) return;
+              if (!this._isCancellable()) { return; }
               this._setCancelled();
               async.invoke(this._cancelPromises, this, undefined);
             };
 
             Promise.prototype._cancelPromises = function() {
-              if (this._length() > 0) this._settlePromises();
+              if (this._length() > 0) { this._settlePromises(); }
             };
 
             Promise.prototype._unsetOnCancel = function() {
@@ -1640,10 +1635,8 @@ qx.Class.define("qx.Promise", {
             Promise.prototype._resultCancelled = function() {
               this.cancel();
             };
-
           };
-
-        },{"./util":36}],7:[function(_dereq_,module,exports){
+        }, {"./util":36}], 7:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(NEXT_FILTER) {
             var util = _dereq_("./util");
@@ -1686,8 +1679,7 @@ qx.Class.define("qx.Promise", {
 
             return catchFilter;
           };
-
-        },{"./es5":13,"./util":36}],8:[function(_dereq_,module,exports){
+        }, {"./es5":13, "./util":36}], 8:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var longStackTraces = false;
@@ -1695,7 +1687,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._promiseCreated = function() {};
             Promise.prototype._pushContext = function() {};
-            Promise.prototype._popContext = function() {return null;};
+            Promise.prototype._popContext = function() { return null; };
             Promise._peekContext = Promise.prototype._peekContext = function() {};
 
             function Context() {
@@ -1719,7 +1711,7 @@ qx.Class.define("qx.Promise", {
             };
 
             function createContext() {
-              if (longStackTraces) return new Context();
+              if (longStackTraces) { return new Context(); }
             }
 
             function peekContext() {
@@ -1752,13 +1744,12 @@ qx.Class.define("qx.Promise", {
               Promise._peekContext = Promise.prototype._peekContext = peekContext;
               Promise.prototype._promiseCreated = function() {
                 var ctx = this._peekContext();
-                if (ctx && ctx._promiseCreated == null) ctx._promiseCreated = this;
+                if (ctx && ctx._promiseCreated == null) { ctx._promiseCreated = this; }
               };
             };
             return Context;
           };
-
-        },{}],9:[function(_dereq_,module,exports){
+        }, {}], 9:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, Context) {
             var getDomain = Promise._getDomain;
@@ -1797,7 +1788,7 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._ensurePossibleRejectionHandled = function () {
-              if ((this._bitField & 524288) !== 0) return;
+              if ((this._bitField & 524288) !== 0) { return; }
               this._setRejectionIsUnhandled();
               async.invokeLater(this._notifyUnhandledRejection, this, undefined);
             };
@@ -1955,7 +1946,7 @@ qx.Class.define("qx.Promise", {
                 return function(name) {
                   var methodName = "on" + name.toLowerCase();
                   var method = util.global[methodName];
-                  if (!method) return false;
+                  if (!method) { return false; }
                   method.apply(util.global, [].slice.call(arguments, 1));
                   return true;
                 };
@@ -2063,16 +2054,16 @@ qx.Class.define("qx.Promise", {
               }
             };
             Promise.prototype._onCancel = function () {};
-            Promise.prototype._setOnCancel = function (handler) { ; };
+            Promise.prototype._setOnCancel = function (handler) {  };
             Promise.prototype._attachCancellationCallback = function(onCancel) {
-              ;
+
             };
             Promise.prototype._captureStackTrace = function () {};
             Promise.prototype._attachExtraTrace = function () {};
             Promise.prototype._clearCancellationData = function() {};
             Promise.prototype._propagateFrom = function (parent, flags) {
-              ;
-              ;
+
+
             };
 
             function cancellationExecute(executor, resolve, reject) {
@@ -2091,7 +2082,7 @@ qx.Class.define("qx.Promise", {
             }
 
             function cancellationAttachCancellationCallback(onCancel) {
-              if (!this._isCancellable()) return this;
+              if (!this._isCancellable()) { return this; }
 
               var previousOnCancel = this._onCancel();
               if (previousOnCancel !== undefined) {
@@ -2161,7 +2152,7 @@ qx.Class.define("qx.Promise", {
               if (canAttachTrace(error)) {
                 var trace = this._trace;
                 if (trace !== undefined) {
-                  if (ignoreSelf) trace = trace._parent;
+                  if (ignoreSelf) { trace = trace._parent; }
                 }
                 if (trace !== undefined) {
                   trace.attachExtraTrace(error);
@@ -2178,10 +2169,10 @@ qx.Class.define("qx.Promise", {
                 parent) {
               if (returnValue === undefined && promiseCreated !== null &&
                   wForgottenReturn) {
-                if (parent !== undefined && parent._returnedNonUndefined()) return;
-                if ((promise._bitField & 65535) === 0) return;
+                if (parent !== undefined && parent._returnedNonUndefined()) { return; }
+                if ((promise._bitField & 65535) === 0) { return; }
 
-                if (name) name = name + " ";
+                if (name) { name += " "; }
                 var handlerLine = "";
                 var creatorLine = "";
                 if (promiseCreated._trace) {
@@ -2202,7 +2193,6 @@ qx.Class.define("qx.Promise", {
                   if (stack.length > 0) {
                     var firstUserLine = stack[0];
                     for (var i = 0; i < traceLines.length; ++i) {
-
                       if (traceLines[i] === firstUserLine) {
                         if (i > 0) {
                           creatorLine = "\n" + traceLines[i - 1];
@@ -2210,7 +2200,6 @@ qx.Class.define("qx.Promise", {
                         break;
                       }
                     }
-
                   }
                 }
                 var msg = "a promise was created in a " + name +
@@ -2224,12 +2213,12 @@ qx.Class.define("qx.Promise", {
             function deprecated(name, replacement) {
               var message = name +
               " is deprecated and will be removed in a future version.";
-              if (replacement) message += " Use " + replacement + " instead.";
+              if (replacement) { message += " Use " + replacement + " instead."; }
               return warn(message);
             }
 
             function warn(message, shouldUseOwnTrace, promise) {
-              if (!config.warnings) return;
+              if (!config.warnings) { return; }
               var warning = new Warning(message);
               var ctx;
               if (shouldUseOwnTrace) {
@@ -2299,7 +2288,7 @@ qx.Class.define("qx.Promise", {
               var ret = [];
               for (var i = 0; i < stack.length; ++i) {
                 var line = stack[i];
-                var isTraceLine = "    (No stack trace)" === line ||
+                var isTraceLine = line === "    (No stack trace)" ||
                 stackFramePattern.test(line);
                 var isInternalFrame = isTraceLine && shouldIgnore(line);
                 if (isTraceLine && !isInternalFrame) {
@@ -2316,7 +2305,7 @@ qx.Class.define("qx.Promise", {
               var stack = error.stack.replace(/\s+$/g, "").split("\n");
               for (var i = 0; i < stack.length; ++i) {
                 var line = stack[i];
-                if ("    (No stack trace)" === line || stackFramePattern.test(line)) {
+                if (line === "    (No stack trace)" || stackFramePattern.test(line)) {
                   break;
                 }
               }
@@ -2394,7 +2383,7 @@ qx.Class.define("qx.Promise", {
                       var newStr = JSON.stringify(obj);
                       str = newStr;
                     }
-                    catch(e) {
+                    catch (e) {
 
                     }
                   }
@@ -2430,7 +2419,7 @@ qx.Class.define("qx.Promise", {
             }
 
             function setBounds(firstLineError, lastLineError) {
-              if (!longStackTracesIsSupported()) return;
+              if (!longStackTracesIsSupported()) { return; }
               var firstStackLines = firstLineError.stack.split("\n");
               var lastStackLines = lastLineError.stack.split("\n");
               var firstIndex = -1;
@@ -2459,7 +2448,7 @@ qx.Class.define("qx.Promise", {
               }
 
               shouldIgnore = function(line) {
-                if (bluebirdFramePattern.test(line)) return true;
+                if (bluebirdFramePattern.test(line)) { return true; }
                 var info = parseLineInfo(line);
                 if (info) {
                   if (info.fileName === firstFileName &&
@@ -2476,14 +2465,14 @@ qx.Class.define("qx.Promise", {
               this._promisesCreated = 0;
               var length = this._length = 1 + (parent === undefined ? 0 : parent._length);
               captureStackTrace(this, CapturedTrace);
-              if (length > 32) this.uncycle();
+              if (length > 32) { this.uncycle(); }
             }
             util.inherits(CapturedTrace, Error);
             Context.CapturedTrace = CapturedTrace;
 
             CapturedTrace.prototype.uncycle = function() {
               var length = this._length;
-              if (length < 2) return;
+              if (length < 2) { return; }
               var nodes = [];
               var stackToIndex = {};
 
@@ -2530,7 +2519,7 @@ qx.Class.define("qx.Promise", {
             };
 
             CapturedTrace.prototype.attachExtraTrace = function(error) {
-              if (error.__stackCleaned__) return;
+              if (error.__stackCleaned__) { return; }
               this.uncycle();
               var parsed = parseStackAndMessage(error);
               var message = parsed.message;
@@ -2550,7 +2539,7 @@ qx.Class.define("qx.Promise", {
             var captureStackTrace = (function stackDetection() {
               var v8stackFramePattern = /^\s*at\s*/;
               var v8stackFormatter = function(stack, error) {
-                if (typeof stack === "string") return stack;
+                if (typeof stack === "string") { return stack; }
 
                 if (error.name !== undefined &&
                     error.message !== undefined) {
@@ -2589,7 +2578,7 @@ qx.Class.define("qx.Promise", {
 
               var hasStackAfterThrow;
               try { throw new Error(); }
-              catch(e) {
+              catch (e) {
                 hasStackAfterThrow = ("stack" in e);
               }
               if (!("stack" in err) && hasStackAfterThrow &&
@@ -2599,13 +2588,13 @@ qx.Class.define("qx.Promise", {
                 return function captureStackTrace(o) {
                   Error.stackTraceLimit += 6;
                   try { throw new Error(); }
-                  catch(e) { o.stack = e.stack; }
+                  catch (e) { o.stack = e.stack; }
                   Error.stackTraceLimit -= 6;
                 };
               }
 
               formatStack = function(stack, error) {
-                if (typeof stack === "string") return stack;
+                if (typeof stack === "string") { return stack; }
 
                 if ((typeof error === "object" ||
                     typeof error === "function") &&
@@ -2617,7 +2606,6 @@ qx.Class.define("qx.Promise", {
               };
 
               return null;
-
             })([]);
 
             if (typeof console !== "undefined" && typeof console.warn !== "undefined") {
@@ -2644,7 +2632,7 @@ qx.Class.define("qx.Promise", {
                 monitoring: false
             };
 
-            if (longStackTraces) Promise.longStackTraces();
+            if (longStackTraces) { Promise.longStackTraces(); }
 
             return {
               longStackTraces: function() {
@@ -2674,8 +2662,7 @@ qx.Class.define("qx.Promise", {
               fireGlobalEvent: fireGlobalEvent
             };
           };
-
-        },{"./errors":12,"./util":36}],10:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 10:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             function returner() {
@@ -2687,7 +2674,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype["return"] =
               Promise.prototype.thenReturn = function (value) {
-              if (value instanceof Promise) value.suppressUnhandledRejections();
+              if (value instanceof Promise) { value.suppressUnhandledRejections(); }
               return this._then(
                   returner, undefined, undefined, {value: value}, undefined);
             };
@@ -2704,26 +2691,25 @@ qx.Class.define("qx.Promise", {
                     undefined, thrower, undefined, {reason: reason}, undefined);
               } else {
                 var _reason = arguments[1];
-                var handler = function() {throw _reason;};
+                var handler = function() { throw _reason; };
                 return this.caught(reason, handler);
               }
             };
 
             Promise.prototype.catchReturn = function (value) {
               if (arguments.length <= 1) {
-                if (value instanceof Promise) value.suppressUnhandledRejections();
+                if (value instanceof Promise) { value.suppressUnhandledRejections(); }
                 return this._then(
                     undefined, returner, undefined, {value: value}, undefined);
               } else {
                 var _value = arguments[1];
-                if (_value instanceof Promise) _value.suppressUnhandledRejections();
-                var handler = function() {return _value;};
+                if (_value instanceof Promise) { _value.suppressUnhandledRejections(); }
+                var handler = function() { return _value; };
                 return this.caught(value, handler);
               }
             };
           };
-
-        },{}],11:[function(_dereq_,module,exports){
+        }, {}], 11:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var PromiseReduce = Promise.reduce;
@@ -2753,9 +2739,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.mapSeries = PromiseMapSeries;
           };
-
-
-        },{}],12:[function(_dereq_,module,exports){
+        }, {}], 12:[function(_dereq_, module, exports) {
           "use strict";
           var es5 = _dereq_("./es5");
           var Objectfreeze = es5.freeze;
@@ -2765,7 +2749,7 @@ qx.Class.define("qx.Promise", {
 
           function subError(nameProperty, defaultMessage) {
             function SubError(message) {
-              if (!(this instanceof SubError)) return new SubError(message);
+              if (!(this instanceof SubError)) { return new SubError(message); }
               notEnumerableProp(this, "message",
                   typeof message === "string" ? message : defaultMessage);
               notEnumerableProp(this, "name", nameProperty);
@@ -2787,7 +2771,7 @@ qx.Class.define("qx.Promise", {
           try {
             _TypeError = TypeError;
             _RangeError = RangeError;
-          } catch(e) {
+          } catch (e) {
             _TypeError = subError("TypeError", "type error");
             _RangeError = subError("RangeError", "range error");
           }
@@ -2829,7 +2813,7 @@ qx.Class.define("qx.Promise", {
 
           function OperationalError(message) {
             if (!(this instanceof OperationalError))
-              return new OperationalError(message);
+              { return new OperationalError(message); }
             notEnumerableProp(this, "name", "OperationalError");
             notEnumerableProp(this, "message", message);
             this.cause = message;
@@ -2841,7 +2825,6 @@ qx.Class.define("qx.Promise", {
             } else if (Error.captureStackTrace) {
               Error.captureStackTrace(this, this.constructor);
             }
-
           }
           inherits(OperationalError, Error);
 
@@ -2872,9 +2855,8 @@ qx.Class.define("qx.Promise", {
               AggregateError: errorTypes.AggregateError,
               Warning: Warning
           };
-
-        },{"./es5":13,"./util":36}],13:[function(_dereq_,module,exports){
-          var isES5 = (function(){
+        }, {"./es5":13, "./util":36}], 13:[function(_dereq_, module, exports) {
+          var isES5 = (function() {
             "use strict";
             return this === undefined;
           })();
@@ -2935,7 +2917,7 @@ qx.Class.define("qx.Promise", {
               try {
                 return str.call(obj) === "[object Array]";
               }
-              catch(e) {
+              catch (e) {
                 return false;
               }
             };
@@ -2954,8 +2936,7 @@ qx.Class.define("qx.Promise", {
                 }
             };
           }
-
-        },{}],14:[function(_dereq_,module,exports){
+        }, {}], 14:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var PromiseMap = Promise.map;
@@ -2968,8 +2949,7 @@ qx.Class.define("qx.Promise", {
               return PromiseMap(promises, fn, options, INTERNAL);
             };
           };
-
-        },{}],15:[function(_dereq_,module,exports){
+        }, {}], 15:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, tryConvertToPromise) {
             var util = _dereq_("./util");
@@ -3013,7 +2993,7 @@ qx.Class.define("qx.Promise", {
               return finallyHandler.call(this, this.promise._target()._settledValue());
             }
             function fail(reason) {
-              if (checkCancel(this, reason)) return;
+              if (checkCancel(this, reason)) { return; }
               errorObj.e = reason;
               return errorObj;
             }
@@ -3059,7 +3039,7 @@ qx.Class.define("qx.Promise", {
             }
 
             Promise.prototype._passThrough = function(handler, type, success, fail) {
-              if (typeof handler !== "function") return this.then();
+              if (typeof handler !== "function") { return this.then(); }
               return this._then(success,
                   fail,
                   undefined,
@@ -3081,8 +3061,7 @@ qx.Class.define("qx.Promise", {
 
             return PassThroughHandlerContext;
           };
-
-        },{"./util":36}],16:[function(_dereq_,module,exports){
+        }, {"./util":36}], 16:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               apiRejection,
@@ -3109,7 +3088,7 @@ qx.Class.define("qx.Promise", {
                   return ret;
                 }
                 var maybePromise = tryConvertToPromise(result, traceParent);
-                if (maybePromise instanceof Promise) return maybePromise;
+                if (maybePromise instanceof Promise) { return maybePromise; }
               }
               return null;
             }
@@ -3152,7 +3131,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseSpawn.prototype._promiseCancelled = function() {
-              if (this._isResolved()) return;
+              if (this._isResolved()) { return; }
               var implementsReturn = typeof this._generator["return"] !== "undefined";
 
               var result;
@@ -3252,7 +3231,7 @@ qx.Class.define("qx.Promise", {
                 }
                 maybePromise = maybePromise._target();
                 var bitField = maybePromise._bitField;
-                ;
+
                 if (((bitField & 50397184) === 0)) {
                   this._yieldedPromise = maybePromise;
                   maybePromise._proxy(this, null);
@@ -3306,8 +3285,7 @@ qx.Class.define("qx.Promise", {
               return ret;
             };
           };
-
-        },{"./errors":12,"./util":36}],17:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 17:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, tryConvertToPromise, INTERNAL, async,
@@ -3416,7 +3394,7 @@ qx.Class.define("qx.Promise", {
                 reject = function (reason) {
                   this._reject(reason);
                 };
-              }}
+              } }
 
             Promise.join = function () {
               var last = arguments.length - 1;
@@ -3436,7 +3414,7 @@ qx.Class.define("qx.Promise", {
                       if (maybePromise instanceof Promise) {
                         maybePromise = maybePromise._target();
                         var bitField = maybePromise._bitField;
-                        ;
+
                         if (((bitField & 50397184) === 0)) {
                           maybePromise._then(callbacks[i], reject,
                               undefined, ret, holder);
@@ -3469,15 +3447,13 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               }
-              var args = [].slice.call(arguments);;
-              if (fn) args.pop();
+              var args = [].slice.call(arguments);
+              if (fn) { args.pop(); }
               var ret = new PromiseArray(args).promise();
               return fn !== undefined ? ret.spread(fn) : ret;
             };
-
           };
-
-        },{"./util":36}],18:[function(_dereq_,module,exports){
+        }, {"./util":36}], 18:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               PromiseArray,
@@ -3519,7 +3495,7 @@ qx.Class.define("qx.Promise", {
                 if (limit >= 1) {
                   this._inFlight--;
                   this._drainQueue();
-                  if (this._isResolved()) return true;
+                  if (this._isResolved()) { return true; }
                 }
               } else {
                 if (limit >= 1 && this._inFlight >= limit) {
@@ -3527,7 +3503,7 @@ qx.Class.define("qx.Promise", {
                   this._queue.push(index);
                   return false;
                 }
-                if (preservedValues !== null) preservedValues[index] = value;
+                if (preservedValues !== null) { preservedValues[index] = value; }
 
                 var promise = this._promise;
                 var callback = this._callback;
@@ -3550,9 +3526,9 @@ qx.Class.define("qx.Promise", {
                 if (maybePromise instanceof Promise) {
                   maybePromise = maybePromise._target();
                   var bitField = maybePromise._bitField;
-                  ;
+
                   if (((bitField & 50397184) === 0)) {
-                    if (limit >= 1) this._inFlight++;
+                    if (limit >= 1) { this._inFlight++; }
                     values[index] = maybePromise;
                     maybePromise._proxy(this, (index + 1) * -1);
                     return false;
@@ -3585,7 +3561,7 @@ qx.Class.define("qx.Promise", {
               var limit = this._limit;
               var values = this._values;
               while (queue.length > 0 && this._inFlight < limit) {
-                if (this._isResolved()) return;
+                if (this._isResolved()) { return; }
                 var index = queue.pop();
                 this._promiseFulfilled(values[index], index);
               }
@@ -3596,7 +3572,7 @@ qx.Class.define("qx.Promise", {
               var ret = new Array(len);
               var j = 0;
               for (var i = 0; i < len; ++i) {
-                if (booleans[i]) ret[j++] = values[i];
+                if (booleans[i]) { ret[j++] = values[i]; }
               }
               ret.length = j;
               this._resolve(ret);
@@ -3638,11 +3614,8 @@ qx.Class.define("qx.Promise", {
             Promise.map = function (promises, fn, options, _filter) {
               return map(promises, fn, options, _filter);
             };
-
-
           };
-
-        },{"./util":36}],19:[function(_dereq_,module,exports){
+        }, {"./util":36}], 19:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, INTERNAL, tryConvertToPromise, apiRejection, debug) {
@@ -3698,8 +3671,7 @@ qx.Class.define("qx.Promise", {
               }
             };
           };
-
-        },{"./util":36}],20:[function(_dereq_,module,exports){
+        }, {"./util":36}], 20:[function(_dereq_, module, exports) {
           "use strict";
           var util = _dereq_("./util");
           var maybeWrapAsError = util.maybeWrapAsError;
@@ -3735,7 +3707,7 @@ qx.Class.define("qx.Promise", {
 
           function nodebackForPromise(promise, multiArgs) {
             return function(err, value) {
-              if (promise === null) return;
+              if (promise === null) { return; }
               if (err) {
                 var wrapped = wrapAsOperationalError(maybeWrapAsError(err));
                 promise._attachExtraTrace(wrapped);
@@ -3743,7 +3715,7 @@ qx.Class.define("qx.Promise", {
               } else if (!multiArgs) {
                 promise._fulfill(value);
               } else {
-                var args = [].slice.call(arguments, 1);;
+                var args = [].slice.call(arguments, 1);
                 promise._fulfill(args);
               }
               promise = null;
@@ -3751,8 +3723,7 @@ qx.Class.define("qx.Promise", {
           }
 
           module.exports = nodebackForPromise;
-
-        },{"./errors":12,"./es5":13,"./util":36}],21:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./es5":13, "./util":36}], 21:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var util = _dereq_("./util");
@@ -3762,7 +3733,7 @@ qx.Class.define("qx.Promise", {
 
             function spreadAdapter(val, nodeback) {
               var promise = this;
-              if (!util.isArray(val)) return successAdapter.call(promise, val, nodeback);
+              if (!util.isArray(val)) { return successAdapter.call(promise, val, nodeback); }
               var ret =
                 tryCatch(nodeback).apply(promise._boundValue(), [null].concat(val));
               if (ret === errorObj) {
@@ -3811,8 +3782,7 @@ qx.Class.define("qx.Promise", {
               return this;
             };
           };
-
-        },{"./util":36}],22:[function(_dereq_,module,exports){
+        }, {"./util":36}], 22:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function() {
             var makeSelfResolutionError = function () {
@@ -3832,7 +3802,7 @@ qx.Class.define("qx.Promise", {
             if (util.isNode) {
               getDomain = function() {
                 var ret = process.domain;
-                if (ret === undefined) ret = null;
+                if (ret === undefined) { ret = null; }
                 return ret;
               };
             } else {
@@ -3854,7 +3824,7 @@ qx.Class.define("qx.Promise", {
             Promise.OperationalError = errors.OperationalError;
             Promise.RejectionError = errors.OperationalError;
             Promise.AggregateError = errors.AggregateError;
-            var INTERNAL = function(){};
+            var INTERNAL = function() {};
             var APPLY = {};
             var NEXT_FILTER = {};
             var tryConvertToPromise = _dereq_("./thenables")(Promise, INTERNAL);
@@ -3903,7 +3873,8 @@ qx.Class.define("qx.Promise", {
               var len = arguments.length;
               if (len > 1) {
                 var catchInstances = new Array(len - 1),
-                j = 0, i;
+                j = 0,
+i;
                 for (i = 0; i < len - 1; ++i) {
                   var item = arguments[i];
                   if (util.isObject(item)) {
@@ -3995,7 +3966,7 @@ qx.Class.define("qx.Promise", {
               if (result === errorObj) {
                 ret._rejectCallback(result.e, true);
               }
-              if (!ret._isFateSealed()) ret._setAsyncGuaranteed();
+              if (!ret._isFateSealed()) { ret._setAsyncGuaranteed(); }
               return ret;
             };
 
@@ -4057,7 +4028,8 @@ qx.Class.define("qx.Promise", {
 
               var domain = getDomain();
               if (!((bitField & 50397184) === 0)) {
-                var handler, value, settler = target._settlePromiseCtx;
+                var handler, value,
+settler = target._settlePromiseCtx;
                 if (((bitField & 33554432) !== 0)) {
                   value = target._rejectionHandler0;
                   handler = didFulfill;
@@ -4141,7 +4113,7 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._setAsyncGuaranteed = function() {
-              if (async.hasCustomScheduler()) return;
+              if (async.hasCustomScheduler()) { return; }
               this._bitField = this._bitField | 134217728;
             };
 
@@ -4179,7 +4151,7 @@ qx.Class.define("qx.Promise", {
               var reject = follower._rejectionHandler0;
               var promise = follower._promise0;
               var receiver = follower._receiverAt(0);
-              if (receiver === undefined) receiver = UNDEFINED_BINDING;
+              if (receiver === undefined) { receiver = UNDEFINED_BINDING; }
               this._addCallbacks(fulfill, reject, promise, receiver, null);
             };
 
@@ -4188,7 +4160,7 @@ qx.Class.define("qx.Promise", {
               var reject = follower._rejectionHandlerAt(index);
               var promise = follower._promiseAt(index);
               var receiver = follower._receiverAt(index);
-              if (receiver === undefined) receiver = UNDEFINED_BINDING;
+              if (receiver === undefined) { receiver = UNDEFINED_BINDING; }
               this._addCallbacks(fulfill, reject, promise, receiver, null);
             };
 
@@ -4239,13 +4211,13 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._resolveCallback = function(value, shouldBind) {
-              if (((this._bitField & 117506048) !== 0)) return;
+              if (((this._bitField & 117506048) !== 0)) { return; }
               if (value === this)
-                return this._rejectCallback(makeSelfResolutionError(), false);
+                { return this._rejectCallback(makeSelfResolutionError(), false); }
               var maybePromise = tryConvertToPromise(value, this);
-              if (!(maybePromise instanceof Promise)) return this._fulfill(value);
+              if (!(maybePromise instanceof Promise)) { return this._fulfill(value); }
 
-              if (shouldBind) this._propagateFrom(maybePromise, 2);
+              if (shouldBind) { this._propagateFrom(maybePromise, 2); }
 
               var promise = maybePromise._target();
 
@@ -4257,7 +4229,7 @@ qx.Class.define("qx.Promise", {
               var bitField = promise._bitField;
               if (((bitField & 50397184) === 0)) {
                 var len = this._length();
-                if (len > 0) promise._migrateCallback0(this);
+                if (len > 0) { promise._migrateCallback0(this); }
                 for (var i = 1; i < len; ++i) {
                   promise._migrateCallbackAt(this, i);
                 }
@@ -4310,7 +4282,7 @@ qx.Class.define("qx.Promise", {
                 handler, receiver, value, promise
             ) {
               var bitField = promise._bitField;
-              if (((bitField & 65536) !== 0)) return;
+              if (((bitField & 65536) !== 0)) { return; }
               promise._pushContext();
               var x;
               if (receiver === APPLY) {
@@ -4326,7 +4298,7 @@ qx.Class.define("qx.Promise", {
               }
               var promiseCreated = promise._popContext();
               bitField = promise._bitField;
-              if (((bitField & 65536) !== 0)) return;
+              if (((bitField & 65536) !== 0)) { return; }
 
               if (x === NEXT_FILTER) {
                 promise._reject(value);
@@ -4340,7 +4312,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._target = function() {
               var ret = this;
-              while (ret._isFollowing()) ret = ret._followee();
+              while (ret._isFollowing()) { ret = ret._followee(); }
               return ret;
             };
 
@@ -4357,7 +4329,7 @@ qx.Class.define("qx.Promise", {
               var bitField = this._bitField;
               var asyncGuaranteed = ((bitField & 134217728) !== 0);
               if (((bitField & 65536) !== 0)) {
-                if (isPromise) promise._invokeInternalOnCancel();
+                if (isPromise) { promise._invokeInternalOnCancel(); }
 
                 if (receiver instanceof PassThroughHandlerContext &&
                     receiver.isFinallyHandler()) {
@@ -4378,7 +4350,7 @@ qx.Class.define("qx.Promise", {
                 if (!isPromise) {
                   handler.call(receiver, value, promise);
                 } else {
-                  if (asyncGuaranteed) promise._setAsyncGuaranteed();
+                  if (asyncGuaranteed) { promise._setAsyncGuaranteed(); }
                   this._settlePromiseFromHandler(handler, receiver, value, promise);
                 }
               } else if (receiver instanceof Proxyable) {
@@ -4390,7 +4362,7 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               } else if (isPromise) {
-                if (asyncGuaranteed) promise._setAsyncGuaranteed();
+                if (asyncGuaranteed) { promise._setAsyncGuaranteed(); }
                 if (((bitField & 33554432) !== 0)) {
                   promise._fulfill(value);
                 } else {
@@ -4437,7 +4409,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._fulfill = function (value) {
               var bitField = this._bitField;
-              if (((bitField & 117506048) >>> 16)) return;
+              if (((bitField & 117506048) >>> 16)) { return; }
               if (value === this) {
                 var err = makeSelfResolutionError();
                 this._attachExtraTrace(err);
@@ -4457,7 +4429,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._reject = function (reason) {
               var bitField = this._bitField;
-              if (((bitField & 117506048) >>> 16)) return;
+              if (((bitField & 117506048) >>> 16)) { return; }
               this._setRejected();
               this._fulfillmentHandler0 = reason;
 
@@ -4520,8 +4492,8 @@ qx.Class.define("qx.Promise", {
               }
             };
 
-            function deferResolve(v) {this.promise._resolveCallback(v);}
-            function deferReject(v) {this.promise._rejectCallback(v, false);}
+            function deferResolve(v) { this.promise._resolveCallback(v); }
+            function deferReject(v) { this.promise._rejectCallback(v, false); }
 
             Promise.defer = Promise.pending = function() {
               debug.deprecated("Promise.defer", "new Promise");
@@ -4563,31 +4535,29 @@ qx.Class.define("qx.Promise", {
             _dereq_('./each.js')(Promise, INTERNAL);
             _dereq_('./any.js')(Promise);
 
-            util.toFastProperties(Promise);                                          
-            util.toFastProperties(Promise.prototype);                                
-            function fillTypes(value) {                                              
-              var p = new Promise(INTERNAL);                                       
-              p._fulfillmentHandler0 = value;                                      
-              p._rejectionHandler0 = value;                                        
-              p._promise0 = value;                                                 
-              p._receiver0 = value;                                                
-            }                                                                        
-            // Complete slack tracking, opt out of field-type tracking and           
-            // stabilize map                                                         
-            fillTypes({a: 1});                                                       
-            fillTypes({b: 2});                                                       
-            fillTypes({c: 3});                                                       
-            fillTypes(1);                                                            
-            fillTypes(function(){});                                                 
-            fillTypes(undefined);                                                    
-            fillTypes(false);                                                        
-            fillTypes(new Promise(INTERNAL));                                        
-            debug.setBounds(Async.firstLineError, util.lastLineError);               
-            return Promise;                                                          
-
+            util.toFastProperties(Promise);
+            util.toFastProperties(Promise.prototype);
+            function fillTypes(value) {
+              var p = new Promise(INTERNAL);
+              p._fulfillmentHandler0 = value;
+              p._rejectionHandler0 = value;
+              p._promise0 = value;
+              p._receiver0 = value;
+            }
+            // Complete slack tracking, opt out of field-type tracking and
+            // stabilize map
+            fillTypes({a: 1});
+            fillTypes({b: 2});
+            fillTypes({c: 3});
+            fillTypes(1);
+            fillTypes(function() {});
+            fillTypes(undefined);
+            fillTypes(false);
+            fillTypes(new Promise(INTERNAL));
+            debug.setBounds(Async.firstLineError, util.lastLineError);
+            return Promise;
           };
-
-        },{"./any.js":1,"./async":2,"./bind":3,"./call_get.js":5,"./cancel":6,"./catch_filter":7,"./context":8,"./debuggability":9,"./direct_resolve":10,"./each.js":11,"./errors":12,"./es5":13,"./filter.js":14,"./finally":15,"./generators.js":16,"./join":17,"./map.js":18,"./method":19,"./nodeback":20,"./nodeify.js":21,"./promise_array":23,"./promisify.js":24,"./props.js":25,"./race.js":27,"./reduce.js":28,"./settle.js":30,"./some.js":31,"./synchronous_inspection":32,"./thenables":33,"./timers.js":34,"./using.js":35,"./util":36}],23:[function(_dereq_,module,exports){
+        }, {"./any.js":1, "./async":2, "./bind":3, "./call_get.js":5, "./cancel":6, "./catch_filter":7, "./context":8, "./debuggability":9, "./direct_resolve":10, "./each.js":11, "./errors":12, "./es5":13, "./filter.js":14, "./finally":15, "./generators.js":16, "./join":17, "./map.js":18, "./method":19, "./nodeback":20, "./nodeify.js":21, "./promise_array":23, "./promisify.js":24, "./props.js":25, "./race.js":27, "./reduce.js":28, "./settle.js":30, "./some.js":31, "./synchronous_inspection":32, "./thenables":33, "./timers.js":34, "./using.js":35, "./util":36}], 23:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, tryConvertToPromise,
               apiRejection, Proxyable) {
@@ -4595,7 +4565,7 @@ qx.Class.define("qx.Promise", {
             var isArray = util.isArray;
 
             function toResolutionValue(val) {
-              switch(val) {
+              switch (val) {
               case -2: return [];
               case -3: return {};
               }
@@ -4627,7 +4597,7 @@ qx.Class.define("qx.Promise", {
               if (values instanceof Promise) {
                 values = values._target();
                 var bitField = values._bitField;
-                ;
+
                 this._values = values;
 
                 if (((bitField & 50397184) === 0)) {
@@ -4703,7 +4673,7 @@ qx.Class.define("qx.Promise", {
                   isResolved = this._promiseFulfilled(maybePromise, i);
                 }
               }
-              if (!isResolved) result._setAsyncGuaranteed();
+              if (!isResolved) { result._setAsyncGuaranteed(); }
             };
 
             PromiseArray.prototype._isResolved = function () {
@@ -4716,7 +4686,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseArray.prototype._cancel = function() {
-              if (this._isResolved() || !this._promise._isCancellable()) return;
+              if (this._isResolved() || !this._promise._isCancellable()) { return; }
               this._values = null;
               this._promise._cancel();
             };
@@ -4748,7 +4718,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseArray.prototype._resultCancelled = function() {
-              if (this._isResolved()) return;
+              if (this._isResolved()) { return; }
               var values = this._values;
               this._cancel();
               if (values instanceof Promise) {
@@ -4772,8 +4742,7 @@ qx.Class.define("qx.Promise", {
 
             return PromiseArray;
           };
-
-        },{"./util":36}],24:[function(_dereq_,module,exports){
+        }, {"./util":36}], 24:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var THIS = {};
@@ -4863,10 +4832,10 @@ qx.Class.define("qx.Promise", {
               var switchCaseArgumentOrder = function(likelyArgumentCount) {
                 var ret = [likelyArgumentCount];
                 var min = Math.max(0, likelyArgumentCount - 1 - 3);
-                for(var i = likelyArgumentCount - 1; i >= min; --i) {
+                for (var i = likelyArgumentCount - 1; i >= min; --i) {
                   ret.push(i);
                 }
-                for(var i = likelyArgumentCount + 1; i <= 3; ++i) {
+                for (var i = likelyArgumentCount + 1; i <= 3; ++i) {
                   ret.push(i);
                 }
                 return ret;
@@ -4982,14 +4951,14 @@ qx.Class.define("qx.Promise", {
             }
 
             function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {
-              var defaultThis = (function() {return this;})();
+              var defaultThis = (function() { return this; })();
               var method = callback;
               if (typeof method === "string") {
                 callback = fn;
               }
               function promisified() {
                 var _receiver = receiver;
-                if (receiver === THIS) _receiver = this;
+                if (receiver === THIS) { _receiver = this; }
                 var promise = new Promise(INTERNAL);
                 promise._captureStackTrace();
                 var cb = typeof method === "string" && this !== defaultThis
@@ -4997,10 +4966,10 @@ qx.Class.define("qx.Promise", {
                 var fn = nodebackForPromise(promise, multiArgs);
                 try {
                   cb.apply(_receiver, withAppended(arguments, fn));
-                } catch(e) {
+                } catch (e) {
                   promise._rejectCallback(maybeWrapAsError(e), true, true);
                 }
-                if (!promise._isFateSealed()) promise._setAsyncGuaranteed();
+                if (!promise._isFateSealed()) { promise._setAsyncGuaranteed(); }
                 return promise;
               }
               util.notEnumerableProp(promisified, "__isPromisified__", true);
@@ -5063,11 +5032,11 @@ qx.Class.define("qx.Promise", {
               options = Object(options);
               var multiArgs = !!options.multiArgs;
               var suffix = options.suffix;
-              if (typeof suffix !== "string") suffix = defaultSuffix;
+              if (typeof suffix !== "string") { suffix = defaultSuffix; }
               var filter = options.filter;
-              if (typeof filter !== "function") filter = defaultFilter;
+              if (typeof filter !== "function") { filter = defaultFilter; }
               var promisifier = options.promisifier;
-              if (typeof promisifier !== "function") promisifier = makeNodePromisified;
+              if (typeof promisifier !== "function") { promisifier = makeNodePromisified; }
 
               if (!util.isIdentifier(suffix)) {
                 throw new RangeError("suffix must be a valid identifier\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
@@ -5087,9 +5056,7 @@ qx.Class.define("qx.Promise", {
               return promisifyAll(target, suffix, filter, promisifier, multiArgs);
             };
           };
-
-
-        },{"./errors":12,"./nodeback":20,"./util":36}],25:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./nodeback":20, "./util":36}], 25:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(
               Promise, PromiseArray, tryConvertToPromise, apiRejection) {
@@ -5097,7 +5064,7 @@ qx.Class.define("qx.Promise", {
             var isObject = util.isObject;
             var es5 = _dereq_("./es5");
             var Es6Map;
-            if (typeof Map === "function") Es6Map = Map;
+            if (typeof Map === "function") { Es6Map = Map; }
 
             var mapToEntries = (function() {
               var index = 0;
@@ -5208,13 +5175,12 @@ qx.Class.define("qx.Promise", {
               return props(promises);
             };
           };
-
-        },{"./es5":13,"./util":36}],26:[function(_dereq_,module,exports){
+        }, {"./es5":13, "./util":36}], 26:[function(_dereq_, module, exports) {
           "use strict";
           function arrayMove(src, srcIndex, dst, dstIndex, len) {
             for (var j = 0; j < len; ++j) {
               dst[j + dstIndex] = src[j + srcIndex];
-              src[j + srcIndex] = void 0;
+              src[j + srcIndex] = undefined;
             }
           }
 
@@ -5240,8 +5206,8 @@ qx.Class.define("qx.Promise", {
             var capacity = this._capacity;
             this._checkCapacity(this.length() + 1);
             var front = this._front;
-            var i = (((( front - 1 ) &
-                ( capacity - 1) ) ^ capacity ) - capacity );
+            var i = ((((front - 1) &
+                (capacity - 1)) ^ capacity) - capacity);
             this[i] = value;
             this._front = i;
             this._length = this.length() + 1;
@@ -5300,8 +5266,7 @@ qx.Class.define("qx.Promise", {
           };
 
           module.exports = Queue;
-
-        },{}],27:[function(_dereq_,module,exports){
+        }, {}], 27:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(
               Promise, INTERNAL, tryConvertToPromise, apiRejection) {
@@ -5321,7 +5286,7 @@ qx.Class.define("qx.Promise", {
               } else {
                 promises = util.asArray(promises);
                 if (promises === null)
-                  return apiRejection("expecting an array or an iterable object but got " + util.classString(promises));
+                  { return apiRejection("expecting an array or an iterable object but got " + util.classString(promises)); }
               }
 
               var ret = new Promise(INTERNAL);
@@ -5349,10 +5314,8 @@ qx.Class.define("qx.Promise", {
             Promise.prototype.race = function () {
               return race(this, undefined);
             };
-
           };
-
-        },{"./util":36}],28:[function(_dereq_,module,exports){
+        }, {"./util":36}], 28:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               PromiseArray,
@@ -5374,7 +5337,7 @@ qx.Class.define("qx.Promise", {
               }
               this._initialValue = initialValue;
               this._currentCancellable = null;
-              if(_each === INTERNAL) {
+              if (_each === INTERNAL) {
                 this._eachValues = Array(this._length);
               } else if (_each === 0) {
                 this._eachValues = null;
@@ -5387,8 +5350,8 @@ qx.Class.define("qx.Promise", {
             util.inherits(ReductionPromiseArray, PromiseArray);
 
             ReductionPromiseArray.prototype._gotAccum = function(accum) {
-              if (this._eachValues !== undefined && 
-                  this._eachValues !== null && 
+              if (this._eachValues !== undefined &&
+                  this._eachValues !== null &&
                   accum !== INTERNAL) {
                 this._eachValues.push(accum);
               }
@@ -5418,8 +5381,8 @@ qx.Class.define("qx.Promise", {
             };
 
             ReductionPromiseArray.prototype._resultCancelled = function(sender) {
-              if (sender === this._initialValue) return this._cancel();
-              if (this._isResolved()) return;
+              if (sender === this._initialValue) { return this._cancel(); }
+              if (this._isResolved()) { return; }
               this._resultCancelled$();
               if (this._currentCancellable instanceof Promise) {
                 this._currentCancellable.cancel();
@@ -5525,8 +5488,7 @@ qx.Class.define("qx.Promise", {
               return ret;
             }
           };
-
-        },{"./util":36}],29:[function(_dereq_,module,exports){
+        }, {"./util":36}], 29:[function(_dereq_, module, exports) {
           "use strict";
           var util = _dereq_("./util");
           var schedule;
@@ -5562,7 +5524,7 @@ qx.Class.define("qx.Promise", {
               o2.observe(div2, opts);
 
               var scheduleToggle = function() {
-                if (toggleScheduled) return;
+                if (toggleScheduled) { return; }
                 toggleScheduled = true;
                 div2.classList.toggle("foo");
               };
@@ -5588,8 +5550,7 @@ qx.Class.define("qx.Promise", {
             schedule = noAsyncScheduler;
           }
           module.exports = schedule;
-
-        },{"./util":36}],30:[function(_dereq_,module,exports){
+        }, {"./util":36}], 30:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, debug) {
@@ -5633,8 +5594,7 @@ qx.Class.define("qx.Promise", {
               return Promise.settle(this);
             };
           };
-
-        },{"./util":36}],31:[function(_dereq_,module,exports){
+        }, {"./util":36}], 31:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, apiRejection) {
@@ -5699,7 +5659,6 @@ qx.Class.define("qx.Promise", {
                 return true;
               }
               return false;
-
             };
             SomePromiseArray.prototype._promiseRejected = function (reason) {
               this._addRejected(reason);
@@ -5783,8 +5742,7 @@ qx.Class.define("qx.Promise", {
 
             Promise._SomePromiseArray = SomePromiseArray;
           };
-
-        },{"./errors":12,"./util":36}],32:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 32:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             function PromiseInspection(promise) {
@@ -5888,8 +5846,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.PromiseInspection = PromiseInspection;
           };
-
-        },{}],33:[function(_dereq_,module,exports){
+        }, {}], 33:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var util = _dereq_("./util");
@@ -5898,12 +5855,12 @@ qx.Class.define("qx.Promise", {
 
             function tryConvertToPromise(obj, context) {
               if (isObject(obj)) {
-                if (obj instanceof Promise) return obj;
+                if (obj instanceof Promise) { return obj; }
                 var then = getThen(obj);
                 if (then === errorObj) {
-                  if (context) context._pushContext();
+                  if (context) { context._pushContext(); }
                   var ret = Promise.reject(then.e);
-                  if (context) context._popContext();
+                  if (context) { context._popContext(); }
                   return ret;
                 } else if (typeof then === "function") {
                   if (isAnyBluebirdPromise(obj)) {
@@ -5948,9 +5905,9 @@ qx.Class.define("qx.Promise", {
             function doThenable(x, then, context) {
               var promise = new Promise(INTERNAL);
               var ret = promise;
-              if (context) context._pushContext();
+              if (context) { context._pushContext(); }
               promise._captureStackTrace();
-              if (context) context._popContext();
+              if (context) { context._popContext(); }
               var synchronous = true;
               var result = util.tryCatch(then).call(x, resolve, reject);
               synchronous = false;
@@ -5961,13 +5918,13 @@ qx.Class.define("qx.Promise", {
               }
 
               function resolve(value) {
-                if (!promise) return;
+                if (!promise) { return; }
                 promise._resolveCallback(value);
                 promise = null;
               }
 
               function reject(reason) {
-                if (!promise) return;
+                if (!promise) { return; }
                 promise._rejectCallback(reason, synchronous, true);
                 promise = null;
               }
@@ -5976,8 +5933,7 @@ qx.Class.define("qx.Promise", {
 
             return tryConvertToPromise;
           };
-
-        },{"./util":36}],34:[function(_dereq_,module,exports){
+        }, {"./util":36}], 34:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, debug) {
             var util = _dereq_("./util");
@@ -6069,10 +6025,8 @@ qx.Class.define("qx.Promise", {
 
               return ret;
             };
-
           };
-
-        },{"./util":36}],35:[function(_dereq_,module,exports){
+        }, {"./util":36}], 35:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function (Promise, apiRejection, tryConvertToPromise,
               createContext, INTERNAL, debug) {
@@ -6084,7 +6038,7 @@ qx.Class.define("qx.Promise", {
             var NULL = {};
 
             function thrower(e) {
-              setTimeout(function(){throw e;}, 0);
+              setTimeout(function() { throw e; }, 0);
             }
 
             function castPreservingDisposable(thenable) {
@@ -6102,7 +6056,7 @@ qx.Class.define("qx.Promise", {
               var len = resources.length;
               var ret = new Promise(INTERNAL);
               function iterator() {
-                if (i >= len) return ret._fulfill();
+                if (i >= len) { return ret._fulfill(); }
                 var maybePromise = castPreservingDisposable(resources[i++]);
                 if (maybePromise instanceof Promise &&
                     maybePromise._isDisposable()) {
@@ -6148,10 +6102,10 @@ qx.Class.define("qx.Promise", {
             Disposer.prototype.tryDispose = function(inspection) {
               var resource = this.resource();
               var context = this._context;
-              if (context !== undefined) context._pushContext();
+              if (context !== undefined) { context._pushContext(); }
               var ret = resource !== NULL
               ? this.doDispose(resource, inspection) : null;
-              if (context !== undefined) context._popContext();
+              if (context !== undefined) { context._popContext(); }
               this._promise._unsetDisposable();
               this._data = null;
               return ret;
@@ -6199,8 +6153,8 @@ qx.Class.define("qx.Promise", {
 
             Promise.using = function () {
               var len = arguments.length;
-              if (len < 2) return apiRejection(
-              "you must pass at least 2 arguments to Promise.using");
+              if (len < 2) { return apiRejection(
+              "you must pass at least 2 arguments to Promise.using"); }
               var fn = arguments[len - 1];
               if (typeof fn !== "function") {
                 return apiRejection("expecting a function but got " + util.classString(fn));
@@ -6297,10 +6251,8 @@ qx.Class.define("qx.Promise", {
               }
               throw new TypeError();
             };
-
           };
-
-        },{"./errors":12,"./util":36}],36:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 36:[function(_dereq_, module, exports) {
           "use strict";
           var es5 = _dereq_("./es5");
           var canEvaluate = typeof navigator == "undefined";
@@ -6350,7 +6302,6 @@ qx.Class.define("qx.Promise", {
           function isPrimitive(val) {
             return val == null || val === true || val === false ||
             typeof val === "string" || typeof val === "number";
-
           }
 
           function isObject(value) {
@@ -6359,7 +6310,7 @@ qx.Class.define("qx.Promise", {
           }
 
           function maybeWrapAsError(maybeError) {
-            if (!isPrimitive(maybeError)) return maybeError;
+            if (!isPrimitive(maybeError)) { return maybeError; }
 
             return new Error(safeToString(maybeError));
           }
@@ -6390,7 +6341,7 @@ qx.Class.define("qx.Promise", {
           }
 
           function notEnumerableProp(obj, name, value) {
-            if (isPrimitive(obj)) return obj;
+            if (isPrimitive(obj)) { return obj; }
             var descriptor = {
                 value: value,
                 configurable: true,
@@ -6435,7 +6386,7 @@ qx.Class.define("qx.Promise", {
                   }
                   for (var i = 0; i < keys.length; ++i) {
                     var key = keys[i];
-                    if (visitedKeys[key]) continue;
+                    if (visitedKeys[key]) { continue; }
                     visitedKeys[key] = true;
                     var desc = Object.getOwnPropertyDescriptor(obj, key);
                     if (desc != null && desc.get == null && desc.set == null) {
@@ -6449,7 +6400,7 @@ qx.Class.define("qx.Promise", {
             } else {
               var hasProp = {}.hasOwnProperty;
               return function(obj) {
-                if (isExcludedProto(obj)) return [];
+                if (isExcludedProto(obj)) { return []; }
                 var ret = [];
 
                 /*jshint forin:false */
@@ -6468,7 +6419,6 @@ qx.Class.define("qx.Promise", {
                 return ret;
               };
             }
-
           })();
 
           var thisAssignmentPattern = /this\s*\.\s*\S+\s*=/;
@@ -6499,9 +6449,8 @@ qx.Class.define("qx.Promise", {
             function FakeConstructor() {}
             FakeConstructor.prototype = obj;
             var l = 8;
-            while (l--) new FakeConstructor();
+            while (l--) { new FakeConstructor(); }
             return obj;
-            eval(obj);
           }
 
           var rident = /^[a-z$_][a-z$_0-9]*$/i;
@@ -6511,7 +6460,7 @@ qx.Class.define("qx.Promise", {
 
           function filledRange(count, prefix, suffix) {
             var ret = new Array(count);
-            for(var i = 0; i < count; ++i) {
+            for (var i = 0; i < count; ++i) {
               ret[i] = prefix + i + suffix;
             }
             return ret;
@@ -6536,11 +6485,11 @@ qx.Class.define("qx.Promise", {
             try {
               notEnumerableProp(e, "isOperational", true);
             }
-            catch(ignore) {}
+            catch (ignore) {}
           }
 
           function originatesFromRejection(e) {
-            if (e == null) return false;
+            if (e == null) { return false; }
             return ((e instanceof Error["__BluebirdErrorTypes__"].OperationalError) ||
                 e["isOperational"] === true);
           }
@@ -6552,13 +6501,13 @@ qx.Class.define("qx.Promise", {
           var ensureErrorObject = (function() {
             if (!("stack" in new Error())) {
               return function(value) {
-                if (canAttachTrace(value)) return value;
-                try {throw new Error(safeToString(value));}
-                catch(err) {return err;}
+                if (canAttachTrace(value)) { return value; }
+                try { throw new Error(safeToString(value)); }
+                catch (err) { return err; }
               };
             } else {
               return function(value) {
-                if (canAttachTrace(value)) return value;
+                if (canAttachTrace(value)) { return value; }
                 return new Error(safeToString(value));
               };
             }
@@ -6620,7 +6569,7 @@ qx.Class.define("qx.Promise", {
           function getNativePromise() {
             if (typeof Promise === "function") {
               try {
-                var promise = new Promise(function(){});
+                var promise = new Promise(function() {});
                 if ({}.toString.call(promise) === "[object Promise]") {
                   return Promise;
                 }
@@ -6672,13 +6621,10 @@ qx.Class.define("qx.Promise", {
             return (version[0] === 0 && version[1] > 10) || (version[0] > 0);
           })();
 
-          if (ret.isNode) ret.toFastProperties(process);
+          if (ret.isNode) { ret.toFastProperties(process); }
 
-          try {throw new Error(); } catch (e) {ret.lastLineError = e;}
+          try { throw new Error(); } catch (e) { ret.lastLineError = e; }
           module.exports = ret;
-
-        },{"./es5":13}]},{},[4])(4)
+        }, {"./es5":13}]}, {}, [4])(4);
   });
-
-
 })();

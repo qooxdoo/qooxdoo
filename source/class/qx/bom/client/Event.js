@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       try {
         new window.CustomEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       try {
         new window.MouseEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -154,11 +154,11 @@ qx.Bootstrap.define("qx.bom.client.Event",
         e.initMouseEvent("click", false, false, window, 0, 0, 0, orig+1, 0,
             false, false, false, false, 0, null);
 
-        if(e.pageX !== orig) {
+        if (e.pageX !== orig) {
           return "MouseEvents";
         }
         return "UIEvents";
-      } catch(ex) {
+      } catch (ex) {
         return "UIEvents";
       }
     },
@@ -192,15 +192,15 @@ qx.Bootstrap.define("qx.bom.client.Event",
           target = targets[i];
           break;
         }
-      };
+      }
 
       return {type: type, target: target};
     },
-    
+
     /**
      * Detects if the engine/browser supports auxclick events
-     * 
-     * See https://github.com/qooxdoo/qooxdoo/issues/9268 
+     *
+     * See https://github.com/qooxdoo/qooxdoo/issues/9268
      *
      * @return {Boolean} <code>true</code> if auxclick events are supported.
      */
@@ -209,8 +209,8 @@ qx.Bootstrap.define("qx.bom.client.Event",
       try {
         hasAuxclick = ("onauxclick" in document.documentElement);
       }
-      catch(ex) {};
-      
+      catch (ex) {}
+
       return (hasAuxclick ? true : false);
     },
 

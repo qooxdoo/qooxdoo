@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       for (var i=0; i < prefixes.length; i++) {
         var key = "@" + qx.bom.Style.getCssName(prefixes[i]) + "-keyframes";
         keyFrames.push(key);
-      };
+      }
       keyFrames.unshift("@keyframes");
 
       var sheet = qx.bom.Stylesheet.createElement();
@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
           qx.bom.Stylesheet.addRule(sheet, keyFrames[i] + " name", "");
           return keyFrames[i];
         } catch (e) {}
-      };
+      }
 
       return null;
     },
@@ -207,7 +207,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         if (window[choices[i]] != undefined) {
           return choices[i];
         }
-      };
+      }
 
       return null;
     }

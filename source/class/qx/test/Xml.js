@@ -186,7 +186,7 @@ qx.Class.define("qx.test.Xml",
       var namespaceURI = "http://www.qooxdoo.org/";
       qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "qxid", "foo");
 
-      this.assertEquals('foo', qx.xml.Element.getAttributeNS(node,namespaceURI,'qxid'));
+      this.assertEquals('foo', qx.xml.Element.getAttributeNS(node, namespaceURI, 'qxid'));
     },
 
     testCreateSubElementNS : function()

@@ -23,6 +23,7 @@
  *
  * @group (Polyfill)
  */
+/* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.Number", {
 
   statics : {

@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.list.List",
     this.__defaultGroups = new qx.data.Array();
     this.initGroups(this.__defaultGroups);
 
-    if(model != null) {
+    if (model != null) {
       this.initModel(model);
     }
 
@@ -356,9 +356,9 @@ qx.Class.define("qx.ui.list.List",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
-        case "row-layer" :
+        case "row-layer":
           control = new qx.ui.virtual.layer.Row(null, null);
           break;
       }
@@ -599,7 +599,7 @@ qx.Class.define("qx.ui.list.List",
 
     // property apply
     _applyVariableItemHeight : function(value, old) {
-      if(value) {
+      if (value) {
         this._setRowItemSize();
       }
       else {
@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.list.List",
       rc.resetItemSizes();
 
       if (gh) {
-        for (var i = 0,l = this.__lookupTable.length; i < l; ++i)
+        for (var i = 0, l = this.__lookupTable.length; i < l; ++i)
         {
           if (this.__lookupTable[i] == -1) {
             rc.setItemSize(i, gh);
@@ -753,7 +753,7 @@ qx.Class.define("qx.ui.list.List",
     {
       var filter = qx.util.Delegate.getMethod(this.getDelegate(), "filter");
 
-      for (var i = 0,l = model.length; i < l; ++i)
+      for (var i = 0, l = model.length; i < l; ++i)
       {
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
@@ -796,7 +796,7 @@ qx.Class.define("qx.ui.list.List",
 
       if (groupMethod != null)
       {
-        for (var i = 0,l = this.__lookupTable.length; i < l; ++i)
+        for (var i = 0, l = this.__lookupTable.length; i < l; ++i)
         {
           var index = this.__lookupTable[i];
           var item = this.getModel().getItem(index);

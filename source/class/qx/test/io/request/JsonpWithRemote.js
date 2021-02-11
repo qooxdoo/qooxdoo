@@ -35,7 +35,7 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote",
   members :
   {
     setUp: function() {
-      this.require(["http"]);
+      this.require(["http", "php"]);
     },
 
     tearDown: function() {
@@ -60,7 +60,7 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote",
     },
 
     noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date()).valueOf());
     }
 
   }

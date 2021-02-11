@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.bom.Document",
     {
       "mshtml" : function(win)
       {
-        if(qx.core.Environment.get("engine.version") >= 8) {
+        if (qx.core.Environment.get("engine.version") >= 8) {
           return (win||window).document.documentMode === 5;
         } else {
           return (win||window).document.compatMode !== "CSS1Compat";

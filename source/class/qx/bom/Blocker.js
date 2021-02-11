@@ -40,7 +40,7 @@
  * value for the blocker zIndex or for your DOM element to block. If you want
  * to block the content of your DOM element it has to have at least the zIndex
  * value of "10001" with default blocker values.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  * @require(qx.bom.Element)
@@ -85,7 +85,7 @@ qx.Class.define("qx.bom.Blocker",
       if (!this.__isActive)
       {
         qx.event.Registration.addListener(window, "resize", this.__onResize, this);
-        
+
         this.__blockedElement = element;
 
         var styles = this.__calculateStyles();
@@ -242,6 +242,7 @@ qx.Class.define("qx.bom.Blocker",
       this.__iframeElement = qx.bom.Iframe.create();
 
       qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
+      /* eslint-disable-next-line no-script-url */
       qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
       qx.bom.element.Style.setStyles(this.__iframeElement,
       {

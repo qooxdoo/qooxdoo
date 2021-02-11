@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.basic.Label",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __font : null,
@@ -277,7 +277,6 @@ qx.Class.define("qx.ui.basic.Label",
     // overridden
     _applySelectable : function(value)
     {
-
       // This is needed for all browsers not having text-overflow:ellipsis
       // but supporting XUL (firefox < 4)
       // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
@@ -309,7 +308,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     // overridden
     _createContentElement : function() {
-      return new qx.html.Label;
+      return new qx.html.Label();
     },
 
 
@@ -434,6 +433,7 @@ qx.Class.define("qx.ui.basic.Label",
       {
         var domEl = this.getContentElement().getDomElement();
         if (domEl) {
+          /* eslint-disable-next-line no-self-assign */
           domEl.innerHTML = domEl.innerHTML;
         }
       }
@@ -542,7 +542,6 @@ qx.Class.define("qx.ui.basic.Label",
     _onWebFontStatusChange : function(ev)
     {
       if (ev.getData().valid === true) {
-
         // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
         if (qx.core.Environment.get("browser.name") == "safari" &&
           parseFloat(qx.core.Environment.get("browser.version")) >= 8) {

@@ -162,7 +162,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Float} The rotation delta
        */
       getRotation : function() {
-        if(typeof this._native._rotation === "undefined") {
+        if (typeof this._native._rotation === "undefined") {
           return this._native.rotation;
         } else {
           return this._native._rotation;

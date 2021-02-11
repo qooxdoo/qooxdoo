@@ -42,8 +42,8 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.require(["php"]);
       this.__store = new qx.data.store.Jsonp();
 
-      this.url = qx.util.ResourceManager.getInstance().
-        toUri("qx/test/jsonp_primitive.php");
+      this.url = qx.util.ResourceManager.getInstance()
+        .toUri("qx/test/jsonp_primitive.php");
     },
 
 
@@ -53,7 +53,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.__store.dispose();
 
       if (this.request) {
-
         // From prototype
         delete this.request.dispose;
 

@@ -45,8 +45,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
     }
 
-    this.addListener("focus", this._onFocus,this);
-    this.addListener("blur", this._onBlur,this);
+    this.addListener("focus", this._onFocus, this);
+    this.addListener("blur", this._onBlur, this);
   },
 
 
@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _convertValue : function(value)
     {
-      if(typeof value === 'boolean')
+      if (typeof value === 'boolean')
       {
         return value;
       }
@@ -246,7 +246,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     */
     _getCaretPosition : function() {
       var val = this.getContentElement().value;
-      if(val && this._getAttribute("type") !== "number") {
+      if (val && this._getAttribute("type") !== "number") {
         return val.slice(0, this.getContentElement().selectionStart).length;
       } else {
         return val.length;
@@ -284,7 +284,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
 
   destruct : function() {
-    this.removeListener("focus", this._onFocus,this);
-    this.removeListener("blur", this._onBlur,this);
+    this.removeListener("focus", this._onFocus, this);
+    this.removeListener("blur", this._onBlur, this);
   }
 });

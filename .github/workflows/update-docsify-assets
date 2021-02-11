@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+ASSET_DIR=./_media
+
+# download
+FILES=(
+ "vue.css https://unpkg.com/docsify/lib/themes/vue.css"
+ "docsify.js https://unpkg.com/docsify/lib/docsify.js"
+ "docsify-variables.min.js https://unpkg.com/docsify-variables/dist/docsify-variables.min.js"
+ "docsify-page-toc.js https://unpkg.com/docsify-page-toc/dist/docsify-page-toc.js"
+ "docsify-sidebar-collapse.min.js https://unpkg.com/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"
+ "search.min.js https://unpkg.com/docsify/lib/plugins/search.min.js"
+ "emoji.min.js https://unpkg.com/docsify/lib/plugins/emoji.min.js"
+ "prism-bash.min.js https://unpkg.com/prismjs/components/prism-bash.min.js"
+ "prism-json.min.js https://unpkg.com/prismjs/components/prism-json.min.js"
+ "sidecar.v1.js https://sidecar.gitter.im/dist/sidecar.v1.js"
+)
+
+for CMD in "${FILES[@]}"; do
+  wget -nv -O $ASSET_DIR/$CMD
+done

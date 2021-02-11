@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @return {String} an RGB string
      */
     rgbToRgbString : function(rgb) {
-      return "rgb" + (rgb.length === 4 ? "a" : "") +  "(" + rgb.map(function(v){return Math.round(v*1000)/1000 }).join(",") + ")";
+      return "rgb" + (rgb.length === 4 ? "a" : "") +  "(" + rgb.map(function(v) { return Math.round(v*1000)/1000; }).join(",") + ")";
     },
 
 
@@ -267,9 +267,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2) +
-        ( rgb.length === 4 && rgb[3] !== 1
+        (rgb.length === 4 && rgb[3] !== 1
           ? qx.lang.String.pad(
-              Math.round(rgb[3]*255).toString(16).toUpperCase(),2
+              Math.round(rgb[3]*255).toString(16).toUpperCase(), 2
             )
           : ""
         )
@@ -403,7 +403,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         return [-1, -1, -1];
       }
 
-      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
+      return alpha == 1 ? [red, green, blue] : [red, green, blue, alpha];
     },
 
 
@@ -418,8 +418,8 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 16) * 17;
       var green = parseInt(RegExp.$2, 16) * 17;
       var blue = parseInt(RegExp.$3, 16) * 17;
-      var alpha = Math.round(parseInt(( RegExp.$4 || 'f' ), 16) / 15*1000)/1000;
-      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
+      var alpha = Math.round(parseInt((RegExp.$4 || 'f'), 16) / 15*1000)/1000;
+      return alpha == 1 ? [red, green, blue] : [red, green, blue, alpha];
     },
 
 
@@ -464,7 +464,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var green = parseInt(RegExp.$2, 16);
       var blue = parseInt(RegExp.$3, 16);
       var alpha = Math.round(parseInt((RegExp.$4 || 'ff'), 16) / 255 * 1000)/1000;
-      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
+      return alpha == 1 ? [red, green, blue] : [red, green, blue, alpha];
     },
 
 
@@ -588,10 +588,10 @@ qx.Bootstrap.define("qx.util.ColorUtil",
           hue = 4.0 + greenc - redc;
         }
 
-        hue = hue / 6.0;
+        hue /= 6.0;
 
         if (hue < 0) {
-          hue = hue + 1.0;
+          hue += 1.0;
         }
       }
 
@@ -644,7 +644,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         r = Math.floor(tov * (1.0 - (saturation * f)));
         t = Math.floor(tov * (1.0 - (saturation * (1.0 - f))));
 
-        switch(i)
+        switch (i)
         {
           case 0:
             rgb.red = tov;
@@ -693,14 +693,14 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param rgb {Number[]} red, blue and green as array
      * @return {Array} an array with hue, saturation and lightness
      */
-    rgbToHsl: function(rgb){
+    rgbToHsl: function(rgb) {
       var r = rgb[0]/255;
       var g = rgb[1]/255;
       var b = rgb[2]/255;
       // implementation from
       // https://stackoverflow.com/questions/2348597/why-doesnt-this-javascript-rgb-to-hsl-code-work/54071699#54071699
-      var a = Math.max(r,g,b);
-      var n = a-Math.min(r,g,b);
+      var a = Math.max(r, g, b);
+      var n = a-Math.min(r, g, b);
       var f = (1-Math.abs(a+a-n-1));
       var h = n && ((a==r) ? (g-b)/n : ((a==g) ? 2+(b-r)/n : 4+(r-g)/n));
       return [60*(h<0?h+6:h), 100 * (f ? n/f : 0), 100*(a+a-n)/2];
@@ -711,18 +711,18 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param hsl {Number[]} an array with hue, saturation and lightness
      * @return {Integer[]} an array with red, green, blue
      */
-    hslToRgb: function(hsl){
+    hslToRgb: function(hsl) {
       var h = hsl[0];
       var s = hsl[1]/100;
       var l = hsl[2]/100;
       // implementation from
       // https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex/54014428#54014428
-      var a = s*Math.min(l,1-l);
-      var f = function(n){
+      var a = s*Math.min(l, 1-l);
+      var f = function(n) {
         var k = (n+h/30)%12;
-        return l - a*Math.max(Math.min(k-3,9-k,1),-1);
+        return l - a*Math.max(Math.min(k-3, 9-k, 1), -1);
       };
-      return [f(0),f(8),f(4)].map(function(v){ return Math.round(v*2550)/10});
+      return [f(0), f(8), f(4)].map(function(v) { return Math.round(v*2550)/10; });
     },
     /**
      * Creates a random color.
@@ -747,7 +747,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param hue_tuner {Function}  function
      * @return {String} a valid CSS rgb color string.*
      */
-    __tuner: function(color,tuneMap,tuner,hue_tuner){
+    __tuner: function(color, tuneMap, tuner, hue_tuner) {
       var rgba = this.stringToRgb(color);
       for (var key in tuneMap) {
         if (tuneMap[key] == 0) {
@@ -755,21 +755,21 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         }
         switch (key) {
           case 'red':
-            rgba[0] = tuner(rgba[0],tuneMap[key],255);
+            rgba[0] = tuner(rgba[0], tuneMap[key], 255);
             break;
           case 'green':
-            rgba[1] = tuner(rgba[1],tuneMap[key],255);
+            rgba[1] = tuner(rgba[1], tuneMap[key], 255);
             break;
           case 'blue':
-            rgba[2] = tuner(rgba[2],tuneMap[key],255);
+            rgba[2] = tuner(rgba[2], tuneMap[key], 255);
             break;
           case 'alpha':
-            rgba[3] = tuner(rgba[3]||1,tuneMap[key],1);
+            rgba[3] = tuner(rgba[3]||1, tuneMap[key], 1);
             break;
           case 'hue':
-            if (hue_tuner){
+            if (hue_tuner) {
               var hsb = this.rgbToHsb(rgba);
-              hsb[0] = hue_tuner(hsb[0],tuneMap[key]);
+              hsb[0] = hue_tuner(hsb[0], tuneMap[key]);
               var rgb = this.hsbToRgb(hsb);
               rgb[3] = rgba[3];
               rgba = rgb;
@@ -780,21 +780,21 @@ qx.Bootstrap.define("qx.util.ColorUtil",
             break;
           case 'saturation':
             var hsb = this.rgbToHsb(rgba);
-            hsb[1] = tuner(hsb[1],tuneMap[key],100);
+            hsb[1] = tuner(hsb[1], tuneMap[key], 100);
             rgb = this.hsbToRgb(hsb);
             rgb[3] = rgba[3];
             rgba = rgb;
             break;
           case 'brightness':
             var hsb = this.rgbToHsb(rgba);
-            hsb[2] = tuner(hsb[2],tuneMap[key],100);
+            hsb[2] = tuner(hsb[2], tuneMap[key], 100);
             rgb = this.hsbToRgb(hsb);
             rgb[3] = rgba[3];
             rgba = rgb;
             break;
           case 'lightness':
             var hsl = this.rgbToHsl(rgba);
-            hsl[2] = tuner(hsl[2],tuneMap[key],100);
+            hsl[2] = tuner(hsl[2], tuneMap[key], 100);
             rgb = this.hslToRgb(hsl);
             rgb[3] = rgba[3];
             rgba = rgb;
@@ -803,20 +803,20 @@ qx.Bootstrap.define("qx.util.ColorUtil",
             throw new Error("Invalid key in tune map: " + key);
         }
       }
-      if (rgba.length === 4){
-          if ( rgba[3] === undefined || rgba[3] >= 1){
+      if (rgba.length === 4) {
+          if (rgba[3] === undefined || rgba[3] >= 1) {
             rgba.pop();
           }
-          else if ( rgba[3] < 0){
-            rgba[3] = 0
+          else if (rgba[3] < 0) {
+            rgba[3] = 0;
           }
       }
-      [0,1,2].forEach(function(i){
-        if (rgba[i] < 0){
+      [0, 1, 2].forEach(function(i) {
+        if (rgba[i] < 0) {
           rgba[i] = 0;
           return;
         }
-        if (rgba[i] > 255){
+        if (rgba[i] > 255) {
           rgba[i] = 255;
           return;
         }
@@ -844,19 +844,19 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param scaleMap {Map}  as described above
      * @return {String} a valid CSS rgb color string.
      */
-    scale: function(color,scaleMap){
-      return this.__tuner(color,scaleMap,function(value,scale,max) {
-        if (value > max){
+    scale: function(color, scaleMap) {
+      return this.__tuner(color, scaleMap, function(value, scale, max) {
+        if (value > max) {
           value = max;
         }
-        if (scale > 0){
-          if (scale > 100){
+        if (scale > 0) {
+          if (scale > 100) {
             scale = 100;
           }
           return value + (max - value) * scale / 100;
         }
         // scale < 0
-        if (scale < -100){
+        if (scale < -100) {
           scale = -100;
         }
         return value + value * scale / 100;
@@ -879,23 +879,23 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param scaleMap {Map} as described above
      * @return {String} a valid CSS rgb color string.
      */
-    adjust: function(color,adjustMap){
-      return this.__tuner(color,adjustMap, function(value,offset,max) {
+    adjust: function(color, adjustMap) {
+      return this.__tuner(color, adjustMap, function(value, offset, max) {
         value += offset;
-        if (value > max){
+        if (value > max) {
           return max;
         }
-        if (value < 0){
+        if (value < 0) {
           return 0;
         }
         return value;
       },
-      function(value,offset) {
+      function(value, offset) {
         value += offset;
-        while (value >= 360){
+        while (value >= 360) {
           value -= 360;
         }
-        while (value < 0){
+        while (value < 0) {
           value += 360;
         }
         return value;
@@ -909,13 +909,13 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param color {String} a valid qooxdoo/CSS rgb color string
      * @return {Number} luminance
      */
-    luminance: function(color){
+    luminance: function(color) {
       var rgb = this.stringToRgb(color);
       var lum = function(i) {
         var c = rgb[i] / 255;
         return c < 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-      }
-      return .2126 * lum(0) + .7152 * lum(1) + .0722 * lum(2);
+      };
+      return 0.2126 * lum(0) + 0.7152 * lum(1) + 0.0722 * lum(2);
     },
     /**
      * contrast
@@ -926,10 +926,10 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @param front {String} a valid qooxdoo/CSS rgb color string
      * @return {Number} contrast
      */
-    contrast: function(back,front){
-        var bl = this.luminance(back) + .05;
+    contrast: function(back, front) {
+        var bl = this.luminance(back) + 0.05;
         var fl = this.luminance(front) + 0.5;
-        return Math.max(bl,fl) / Math.min(bl,fl);
+        return Math.max(bl, fl) / Math.min(bl, fl);
     }
   }
 });

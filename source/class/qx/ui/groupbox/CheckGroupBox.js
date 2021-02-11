@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "legend":
           control = new qx.ui.form.CheckBox();

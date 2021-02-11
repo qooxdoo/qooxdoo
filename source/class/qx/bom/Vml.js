@@ -127,7 +127,7 @@ qx.Class.define("qx.bom.Vml",
       var xOrigin = xOffset ? (-xOffset) / (imageWidth) : 0;
       var yOrigin = yOffset ? (-yOffset) / (imageHeight) : 0;
 
-      Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin ,false);
+      Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin, false);
     }
   },
 

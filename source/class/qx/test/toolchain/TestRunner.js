@@ -23,7 +23,6 @@ qx.Class.define("qx.test.toolchain.TestRunner",
   members :
   {
     testAsynchronous: function() {
-
       qx.event.Timer.once(
         function() {
         this.resume(function() {

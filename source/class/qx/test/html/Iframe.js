@@ -126,10 +126,9 @@ qx.Class.define("qx.test.html.Iframe",
 
       var origSetSource;
       frame.addListener("load", function() {
-
         origSetSource = qx.bom.Iframe.setSource;
         qx.bom.Iframe.setSource = function() {
-          throw "setSource";
+          throw new Error("setSource");
         };
 
         try {
@@ -137,14 +136,13 @@ qx.Class.define("qx.test.html.Iframe",
           frame.setSource(url);
           qx.html.Element.flush();
           this.resume();
-        } catch(e) {
+        } catch (e) {
           this.resume(function() {
             this.fail("Setting same URL must be skipped");
           });
         }
 
         qx.bom.Iframe.setSource = origSetSource;
-
       }, this);
 
       this.wait();

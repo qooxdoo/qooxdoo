@@ -71,7 +71,6 @@ qx.Class.define("qx.test.bom.GeoLocation",
       this.assertEventFired(this._geo, "position", function() {
         that._geo.getCurrentPosition(false, 1000, 1000);
         that.assert(getCurrentPositionStub.called);
-
       }, function(e) {
         that.assertEquals(that._position.timestamp, e.getTimestamp());
         that.assertEquals(that._position.coords.latitude, e.getLatitude());
@@ -96,14 +95,12 @@ qx.Class.define("qx.test.bom.GeoLocation",
       this.assertEventFired(this._geo, "error", function() {
         that._geo.getCurrentPosition(false, 1000, 1000);
         that.assert(getCurrentPositionStub.called);
-
       }, function(e) {
         that.assertEquals(1, e.getData().code);
         that.assertEquals("Error", e.getData().message);
       });
 
       getCurrentPositionStub.restore();
-
     },
 
     testWatchPosition: function() {
@@ -121,7 +118,6 @@ qx.Class.define("qx.test.bom.GeoLocation",
         that._geo.startWatchPosition(false, 1000, 1000);
         that.assert(watchStub.called);
         that.assertEquals(200, that._geo._watchId);
-
       }, function(e) {
         that.assertEquals(that._position.timestamp, e.getTimestamp());
         that.assertEquals(that._position.coords.latitude, e.getLatitude());

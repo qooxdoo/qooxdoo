@@ -65,7 +65,7 @@ qx.Class.define("qx.test.util.Uri",
     },
 
     testToParameterArray : function() {
-      var obj = {id: [1,2,3]};
+      var obj = {id: [1, 2, 3]};
       var str = qx.util.Uri.toParameter(obj);
       this.assertEquals("id=1&id=2&id=3", str);
     },
@@ -91,9 +91,9 @@ qx.Class.define("qx.test.util.Uri",
     },
 
     "test: appendParamsToUrl() with undefined": function() {
-      var url = "http://example.com/path",
-          params = undefined,
-          result = this.Uri.appendParamsToUrl(url, params);
+      var url = "http://example.com/path";
+      var params;
+      var result = this.Uri.appendParamsToUrl(url, params);
 
       this.assertEquals(url, result);
     },

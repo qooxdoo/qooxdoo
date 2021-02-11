@@ -26,9 +26,15 @@ Authors:
 qx.Class.define("qx.test.io.remote.RequestXhr",
 {
   extend : qx.test.io.remote.AbstractRequest,
+  include: [qx.dev.unit.MRequirements],
 
   members :
   {
+    setUp: function() {
+      this.base(arguments);
+      this.require(["php"]);
+    },
+
     // Overridden
     _createRequest : function() {
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");

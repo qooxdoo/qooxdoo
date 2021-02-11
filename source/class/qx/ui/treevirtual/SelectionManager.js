@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // If the cell hasn't been focused automatically...
         if (evt instanceof qx.event.type.Mouse)
         {
-          if (! tree.getFocusCellOnPointerMove())
+          if (!tree.getFocusCellOnPointerMove())
           {
             // ... then focus it now so we can determine the node to open/close
             var scrollers = tree._getPaneScrollerArr();
@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           // See which key generated the event
           var identifier = evt.getKeyIdentifier();
 
-          switch(identifier)
+          switch (identifier)
           {
             case "Space":
               // This should only select the row, not toggle the opened state
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
               if (!node.bHideOpenClose &&
                   node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
               {
-                dataModel.setState(node, { bOpened : ! node.bOpened });
+                dataModel.setState(node, { bOpened : !node.bOpened });
               }
 
               return tree.getOpenCloseClickSelectsRow() ? false : true;

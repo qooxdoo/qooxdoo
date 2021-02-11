@@ -116,11 +116,11 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         // Create splitter knob
         case "knob":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           this._add(control);
           break;
       }

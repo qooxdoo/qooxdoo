@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       */
     add : function(child, layoutProperties)
     {
-      if(!(child instanceof qx.ui.mobile.toolbar.Separator))
+      if (!(child instanceof qx.ui.mobile.toolbar.Separator))
       {
         layoutProperties = layoutProperties ? layoutProperties : {};
         qx.lang.Object.mergeWith(layoutProperties, {flex: 1}, false);

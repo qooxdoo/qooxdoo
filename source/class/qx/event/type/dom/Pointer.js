@@ -272,14 +272,14 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         if (evt[prop] !== properties[prop] && qx.event.type.dom.Pointer.READONLY_PROPERTIES.indexOf(prop) === -1) {
           try {
             evt[prop] = properties[prop];
-          }catch(ex) {
+          } catch (ex) {
             // Nothing - cannot override properties in strict mode
           }
         }
       }
 
       // normalize Windows 8 pointer types
-      switch(evt.pointerType) {
+      switch (evt.pointerType) {
         case domEvent.MSPOINTER_TYPE_MOUSE:
           evt.pointerType = "mouse";
           break;

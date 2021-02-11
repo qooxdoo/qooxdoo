@@ -30,7 +30,7 @@ qx.Class.define("qx.test.mobile.form.Label",
 
       var foundValue = label.getContentElement().getAttribute("for");
 
-      this.assertEquals(target.getId(),foundValue,"'For' attribute has an unexpected value.");
+      this.assertEquals(target.getId(), foundValue, "'For' attribute has an unexpected value.");
 
       label.destroy();
       target.destroy();

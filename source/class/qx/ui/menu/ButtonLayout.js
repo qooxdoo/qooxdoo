@@ -75,7 +75,8 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       }
 
 
-      var left = padding.left, top = padding.top;
+      var left = padding.left, 
+top = padding.top;
       var Util = qx.ui.layout.Util;
 
       for (var i=0, l=columns.length; i<l; i++)

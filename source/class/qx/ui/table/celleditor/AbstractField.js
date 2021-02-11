@@ -81,8 +81,8 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if (validationFunc ) {
-        value = validationFunc( value, cellEditor.originalValue );
+      if (validationFunc) {
+        value = validationFunc(value, cellEditor.originalValue);
       }
 
       if (typeof cellEditor.originalValue == "number") {

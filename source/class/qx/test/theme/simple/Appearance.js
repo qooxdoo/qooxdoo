@@ -153,7 +153,6 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down"], style({vertical: true}).icon);
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right"], style({vertical: false}).icon);
-
     },
 
     testSlideBarButtonBackward : function()
@@ -247,7 +246,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
       this.assertIdentical("pointer", style.cursor);
 
-      states.first = false,
+      states.first = false;
       style = styleFunc(states);
 
       this.assertIdentical("table-header-cell", style.decorator);
@@ -434,13 +433,6 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       var style = this.__obj["treevirtual-end"].style();
 
       this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-end"], style.icon);
-    },
-
-    testTreeVirtualCross : function()
-    {
-      var style = this.__obj["treevirtual-cross"].style();
-
-      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-cross"], style.icon);
     },
 
     testTreeVirtualCross : function()

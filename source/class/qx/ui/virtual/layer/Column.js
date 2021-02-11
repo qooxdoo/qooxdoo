@@ -66,7 +66,6 @@ qx.Class.define("qx.ui.virtual.layer.Column",
 
       for (var x=0; x<columnSizes.length; x++)
       {
-
         var color = this.getColor(column);
         var backgroundColor = color ? "background-color:" + color + ";" : "";
 

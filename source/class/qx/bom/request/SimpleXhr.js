@@ -211,8 +211,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       } else {
         return (this._transport.responseXML !== null) ? this._transport.responseXML : this._transport.responseText;
       }
-
-      return null;
     },
 
     /**
@@ -621,7 +619,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this._transport.status)) {
-
         // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug("Response is of type: '" + contentType + "'");
@@ -633,7 +630,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // Erroneous HTTP status
       } else {
-
         try {
           this._setResponse(this.__parser.parse(response, contentType));
         } catch (e) {

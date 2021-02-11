@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.bom.Selection",
           try {
             // IE throws an invalid argument error when the document has no selection
             elementRange.moveToElementText(parentElement);
-          } catch(ex) {
+          } catch (ex) {
             return 0;
           }
 
@@ -292,7 +292,7 @@ qx.Bootstrap.define("qx.bom.Selection",
           try {
             // IE throws an invalid argument error when the document has no selection
             elementRange.moveToElementText(parentElement);
-          } catch(ex) {
+          } catch (ex) {
             return 0;
           }
           var len = elementRange.text.length;
@@ -402,7 +402,7 @@ qx.Bootstrap.define("qx.bom.Selection",
 
         if (qx.dom.Node.isElement(node) || qx.dom.Node.isText(node))
         {
-          switch(node.nodeName.toLowerCase())
+          switch (node.nodeName.toLowerCase())
           {
             case "input":
             case "textarea":
@@ -653,7 +653,7 @@ qx.Bootstrap.define("qx.bom.Selection",
             }
 
             if (compareNode == node) {
-              sel.collapse(node,0);
+              sel.collapse(node, 0);
             }
           }
         }

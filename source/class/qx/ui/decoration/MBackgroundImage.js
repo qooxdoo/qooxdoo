@@ -137,12 +137,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      */
     _styleBackgroundImage : function(styles)
     {
-      if(! this.getBackgroundImage()) {
+      if (!this.getBackgroundImage()) {
         return;
       }
 
-      if("background" in styles) {
-        if(!qx.lang.Type.isArray(styles['background'])) {
+      if ("background" in styles) {
+        if (!qx.lang.Type.isArray(styles['background'])) {
           styles['background'] = [styles['background']];
         }
       } else {
@@ -153,7 +153,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         'backgroundPositionX', 'backgroundOrigin'];
 
       (function (images, repeats, tops, lefts, origins) {
-        for(var i=0;i<images.length;i++) {
+        for (var i=0; i<images.length; i++) {
           var image = images[i];
           var repeat = repeats[i];
           var top = tops[i] || 0;

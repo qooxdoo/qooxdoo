@@ -253,8 +253,8 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      */
     __processDialogButtons: function(buttons)
     {
-      if(buttons) {
-        if(buttons instanceof Array) {
+      if (buttons) {
+        if (buttons instanceof Array) {
           buttons = buttons.join(",");
         } else {
           buttons = ""+buttons;
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       // prevent the back action until the dialog is visible
       var onBackButton = function(evt)
       {
-        if(dialog.isVisible() && !!evt.getData()) {
+        if (dialog.isVisible() && !!evt.getData()) {
           evt.preventDefault();
         }
       };
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         }
       });
 
-      if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
+      if (dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
         var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
         widget.add(waitingWidget);
@@ -315,7 +315,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         labelWidget.add(new qx.ui.mobile.basic.Label(text));
         labelWidget.addCssClass("gap");
         widget.add(labelWidget);
-        if(dialogType == qx.ui.mobile.dialog.Manager.INPUT_DIALOG)
+        if (dialogType == qx.ui.mobile.dialog.Manager.INPUT_DIALOG)
         {
           var inputWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
           inputWidget.addCssClass("gap");
@@ -326,17 +326,17 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
         var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
         buttonContainer.addCssClass("gap");
-        for(var i=0, l=buttons.length; i<l; i++)
+        for (var i=0, l=buttons.length; i<l; i++)
         {
           var button = new qx.ui.mobile.form.Button(buttons[i]);
           /* see the comment in android.css for width: 0 for toolbar-button class*/
           button.addCssClass('dialog-button');
           buttonContainer.add(button, {flex:1});
-          var callback = (function(index){
+          var callback = (function(index) {
             return function()
             {
               dialog.hide();
-              if(handler) {
+              if (handler) {
                 handler.call(scope, index, inputText ? inputText.getValue() : null);
               }
               dialog.destroy();
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
       dialog.show();
 
-      if(inputText) {
+      if (inputText) {
         inputText.getContainerElement().focus();
       }
 

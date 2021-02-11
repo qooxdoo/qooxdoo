@@ -24,6 +24,7 @@
  * @ignore(SCRIPT_LOADED)
  */
 
+ /* global SCRIPT_LOADED */
 qx.Class.define("qx.test.bom.request.Script",
 {
   extend : qx.dev.unit.TestCase,
@@ -104,7 +105,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.assertCalled(req.onevent);
     },
 
-    "test: fire event": function(){
+    "test: fire event": function() {
       var req = this.req;
       var event = this.spy();
       req.onevent = this.spy();
@@ -156,7 +157,6 @@ qx.Class.define("qx.test.bom.request.Script",
     // Error handling
 
     "test: properties indicate failure when request failed": function() {
-
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -178,7 +178,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: properties indicate failure when request timed out": function() {
-
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -324,7 +323,6 @@ qx.Class.define("qx.test.bom.request.Script",
     //
 
     "test: call onload": function() {
-
       // More precisely, the request completes when the browser
       // has loaded and parsed the script
 
@@ -387,7 +385,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: not call onload when loading failed because of network error": function() {
-
       // Known to fail in IE < 9,
       // i.e. all browsers using onreadystatechange event handlerattribute
       //
@@ -414,7 +411,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onerror on network error": function() {
-
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -431,7 +427,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call onerror on invalid script": function() {
-
       // Known to fail in all browsers tested
       // Native "error" event not fired for script element.
       //
@@ -470,7 +465,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: call ontimeout when request exceeds timeout limit": function() {
-
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -495,12 +489,10 @@ qx.Class.define("qx.test.bom.request.Script",
 
       req.onload = function() {
         that.resume(function() {
-
           // Assert that onload() cancels timeout
           that.wait(350, function() {
             that.assertNotCalled(req.ontimeout);
           });
-
         });
       };
 
@@ -555,7 +547,6 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     "test: remove script from DOM when request timed out": function() {
-
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();

@@ -214,9 +214,9 @@ qx.Class.define("qx.test.data.DataArray",
 
     testShiftWithEventPropagation : function() {
       var data = {
-        "bar" : [1,2,3,4,5]
+        "bar" : [1, 2, 3, 4, 5]
       };
-      var model = qx.data.marshal.Json.createModel( data, true );
+      var model = qx.data.marshal.Json.createModel(data, true);
       this.assertEquals(1, model.getBar().shift());
       model.dispose();
     },
@@ -262,7 +262,7 @@ qx.Class.define("qx.test.data.DataArray",
 
     testToArray: function() {
       this.assertEquals("one two three", this.__a.toArray().join(" "), "toArray does not work!");
-      this.assertInstance( this.__a.toArray(), Array, "toArray does not work!");
+      this.assertInstance(this.__a.toArray(), Array, "toArray does not work!");
     },
 
 
@@ -375,7 +375,6 @@ qx.Class.define("qx.test.data.DataArray",
 
 
     testRemoveAll: function() {
-
       var self = this;
       this.assertEventFired(self.__a, "changeLength", function () {
         self.__a.removeAll();

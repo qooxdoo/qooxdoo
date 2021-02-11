@@ -523,7 +523,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
 
     testBubbleEventsArrayLong: function() {
-      this.__data = {a: [0, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]};
+      this.__data = {a: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]};
       // first create the classes before setting the data
       this.__marshaler.toClass(this.__data, true);
       // set the data
@@ -544,7 +544,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
 
     testBubbleEventsArrayReorder: function() {
-      this.__data = {a: [11, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]};
+      this.__data = {a: [11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]};
       // first create the classes before setting the data
       this.__marshaler.toClass(this.__data, true);
       // set the data
@@ -615,14 +615,13 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model4 = qx.data.marshal.Json.createModel(data, false);
 
       // Check whether the above assumptions are correct
-      this.assertFalse( qx.util.OOUtil.supportsEvent(model1, "changeBubble") );
-      this.assertFalse( qx.util.OOUtil.supportsEvent(model2, "changeBubble") );
-      this.assertTrue ( qx.util.OOUtil.supportsEvent(model3, "changeBubble") );
-      this.assertTrue ( qx.util.OOUtil.supportsEvent(model4, "changeBubble") );
+      this.assertFalse(qx.util.OOUtil.supportsEvent(model1, "changeBubble"));
+      this.assertFalse(qx.util.OOUtil.supportsEvent(model2, "changeBubble"));
+      this.assertTrue(qx.util.OOUtil.supportsEvent(model3, "changeBubble"));
+      this.assertTrue(qx.util.OOUtil.supportsEvent(model4, "changeBubble"));
 
       // Check if bubble event really fires for models 3 & 4
       [ model3, model4 ].forEach(function (model) {
-
         this.assertEventFired(model, "changeBubble", function () {
           model.setPi(0);
         }, function (e) {
@@ -632,9 +631,7 @@ qx.Class.define("qx.test.data.marshal.Json",
           this.assertEquals("pi", data.name, "Not the right name in the event.");
           this.assertEquals(model, data.item, "Not the right item in the event.");
         }.bind(this), "Change event not fired!");
-
       }, this);
-
     },
 
 
@@ -682,11 +679,11 @@ qx.Class.define("qx.test.data.marshal.Json",
       var propertiesSaved;
 
       var valN = function(data) {
-        if (data < 10) { throw new qx.core.ValidationError("NNN");}
+        if (data < 10) { throw new qx.core.ValidationError("NNN"); }
       };
 
       var valS = function(data) {
-        if (data.length > 10) {throw new qx.core.ValidationError("SSS");}
+        if (data.length > 10) { throw new qx.core.ValidationError("SSS"); }
       };
 
       var delegate = {getValidationRule : function(properties, propertyName) {

@@ -206,7 +206,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // can set each style sheet's left and width field appropriately.
         var pane = progressive.getStructure().getPane();
         pane.addListener("resize", this._resizeColumns, this);
-
       }
     },
 
@@ -255,7 +254,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                         ")");
       }
 
-      if (! this.__renderers[column])
+      if (!this.__renderers[column])
       {
         throw new Error("No existing renderer for column " + column);
       }
@@ -335,7 +334,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       div.innerHTML = html.join("");
 
       // Add this row to the table
-      switch(element.location)
+      switch (element.location)
       {
       case "end":
         // Determine color of row based on state of last added row
@@ -530,7 +529,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         var tr = qx.ui.progressive.renderer.table.Row;
         qx.bom.Stylesheet.removeRule(tr.__clazz[this.__hash].rowstylesheet,
                                       stylesheet);
-
       }
 
       // Remove each of the column style sheets

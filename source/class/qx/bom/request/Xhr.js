@@ -51,7 +51,7 @@
  *  req.responseType = "blob";
  *  req.send();
  * </pre>
- 
+
  * </div>
  *
  * @ignore(XDomainRequest)
@@ -170,7 +170,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @type {Object} The response of the request as a Document object.
      */
     response: null,
-    
+
     /**
      * @type {Object} The response of the request as object.
      */
@@ -283,8 +283,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // way. Otherwise just assume network error.
       //
       // Basically, this allows to detect network errors.
-      } catch(OpenError) {
-
+      } catch (OpenError) {
         // Only work around exceptions caused by cross domain request attempts
         if (!qx.util.Request.isCrossDomain(url)) {
           // Is same origin
@@ -301,7 +300,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           // - IE 9
           if (window.XDomainRequest) {
             this.readyState = 4;
-            this.__nativeXhr = new XDomainRequest();
+            this.__nativeXhr = new window.XDomainRequest();
             this.__nativeXhr.onerror = qx.Bootstrap.bind(function() {
               this._emit("readystatechange");
               this._emit("error");
@@ -330,7 +329,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             this._emit("loadend");
           }, this));
         }
-
       }
 
       // BUGFIX: IE < 9
@@ -352,7 +350,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.readyState = qx.bom.request.Xhr.OPENED;
         this._emit("readystatechange");
       }
-
     },
 
     /**
@@ -440,7 +437,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.__nativeXhr.responseType = this.responseType;
         }
         this.__nativeXhr.send(data);
-      } catch(SendError) {
+      } catch (SendError) {
         if (!this.__async) {
           throw SendError;
         }
@@ -463,9 +460,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
             that.readyState = 4;
             that.__readyStateChange();
           });
-
         }
-
       }
 
       // BUGFIX: Firefox
@@ -689,7 +684,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // May fail in IE
       try {
         this.__nativeXhr.onreadystatechange;
-      } catch(PropertiesNotAccessable) {
+      } catch (PropertiesNotAccessable) {
         return false;
       }
 
@@ -973,7 +968,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           if ((this.responseType === "") || (this.responseType === "document")) {
            this.responseXML = nxhr.responseXML;
           }
-        } catch(XhrPropertiesNotReadable) {
+        } catch (XhrPropertiesNotReadable) {
           propertiesReadable = false;
         }
 
@@ -993,7 +988,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           nxhr.onreadystatechange = function() {};
         }
       }
-
     },
 
     /**
@@ -1035,7 +1029,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       } else {
         if (this.__abort) {
           this._emit("abort");
-        } else{
+        } else {
           if (this.__isNetworkError()) {
             this._emit("error");
           } else {
@@ -1157,7 +1151,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         if (this) {
           this.dispose();
         }
-      } catch(e) {}
+      } catch (e) {}
     },
 
     /**

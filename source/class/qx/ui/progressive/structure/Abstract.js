@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     this.base(arguments);
 
     // If no pane was specified. Create one.
-    if (! pane)
+    if (!pane)
     {
       this.__container = new qx.ui.core.Widget();
       this.__pane = this.__container;

@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
     this.__onNativeErrorBound = qx.Bootstrap.bind(this._onNativeError, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this._onTimeout, this);
 
-    this.__headElement = document.head || document.getElementsByTagName( "head" )[0] ||
+    this.__headElement = document.head || document.getElementsByTagName("head")[0] ||
                          document.documentElement;
 
     this._emitter = new qx.event.Emitter();
@@ -404,7 +404,6 @@ qx.Bootstrap.define("qx.bom.request.Script",
       var script = this.__scriptElement;
 
       if (!this.__disposed) {
-
         // Prevent memory leaks
         if (script) {
           script.onload = script.onreadystatechange = null;
@@ -503,12 +502,10 @@ qx.Bootstrap.define("qx.bom.request.Script",
 
       // Determine status by calling user-provided check function
       if (determineSuccess) {
-
         // Status set before has higher precedence
         if (!this.status) {
           this.status = determineSuccess() ? 200 : 500;
         }
-
       }
 
       if (this.status === 500) {

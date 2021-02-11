@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "list":
           control = new qx.ui.list.List().set({
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       }
 
       var minHeight = list.getMinHeight();
-      if (null !== minHeight && minHeight > maxHeight) {
+      if (minHeight !== null && minHeight > maxHeight) {
         maxHeight = minHeight;
       }
 

@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     // overridden
     _getCssClasses : function() {
-      return ["layout-card","qx-vbox"];
+      return ["layout-card", "qx-vbox"];
     },
 
 
@@ -246,9 +246,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      * @param widget {qx.ui.mobile.core.Widget} The target widget which should have a fixed size.
      */
     _fixWidgetSize : function(widget) {
-      if(widget) {
-        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize);
-        if(hasResizeMixin) {
+      if (widget) {
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor, qx.ui.mobile.core.MResize);
+        if (hasResizeMixin) {
           // Size has to be fixed for animation.
           widget.fixSize();
         }
@@ -263,9 +263,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      * @param widget {qx.ui.mobile.core.Widget} The target widget which should have a flexible size.
      */
     _releaseWidgetSize : function(widget) {
-      if(widget) {
-        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize);
-        if(hasResizeMixin) {
+      if (widget) {
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor, qx.ui.mobile.core.MResize);
+        if (hasResizeMixin) {
           // Size has to be released after animation.
           widget.releaseFixedSize();
         }

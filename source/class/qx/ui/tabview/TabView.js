@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @returns {null|TypeError} The status of this operation.
      */
     setValue : function(item) {
-      if (null === item) {
+      if (item === null) {
         this.resetSelection();
         return null;
       }
@@ -151,7 +151,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       if (item instanceof qx.ui.tabview.Page) {
         this.setSelection([item]);
         return null;
-
       } else {
         return new TypeError("Given argument is not null or a {qx.ui.tabview.Page}.");
       }
@@ -193,7 +192,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "bar":
           control = new qx.ui.container.SlideBar();
@@ -202,7 +201,7 @@ qx.Class.define("qx.ui.tabview.TabView",
           break;
 
         case "pane":
-          control = new qx.ui.container.Stack;
+          control = new qx.ui.container.Stack();
           control.setZIndex(5);
           this._add(control, {flex:1});
           break;
@@ -219,7 +218,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @return {qx.ui.form.RadioGroup} 
      */
     _createRadioGroupInstance : function() {
-      return new qx.ui.form.RadioGroup;
+      return new qx.ui.form.RadioGroup();
     },
     
     /**
@@ -299,11 +298,11 @@ qx.Class.define("qx.ui.tabview.TabView",
         }
       }
       var children = this.getChildren();
-      if(!(index == null) && index > children.length) {
+      if (!(index == null) && index > children.length) {
         throw new Error("Index should be less than : " + children.length);
       }
 
-      if(index == null) {
+      if (index == null) {
         index = children.length;
       }
 
@@ -326,7 +325,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       // Update states
       children = this.getChildren();
-      if(index == children.length-1) {
+      if (index == children.length-1) {
         page.addState("lastTab");
       }
 
@@ -463,7 +462,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       if (layout && layout instanceof layoutClass) {
         // pass
       } else {
-        this._setLayout(layout = new layoutClass);
+        this._setLayout(layout = new layoutClass());
       }
 
       // Update reversed

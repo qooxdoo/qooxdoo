@@ -103,7 +103,7 @@ qx.Class.define("qx.util.DisposeUtil",
           }
         }
       }
-      catch(ex) {
+      catch (ex) {
         throw new Error("The array field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
       }
 
@@ -148,7 +148,7 @@ qx.Class.define("qx.util.DisposeUtil",
           }
         }
       }
-      catch(ex) {
+      catch (ex) {
         throw new Error("The map field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
       }
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.util.DisposeUtil",
     disposeTriggeredBy : function(disposeMe, trigger)
     {
       var triggerDispose = trigger.dispose;
-      trigger.dispose = function(){
+      trigger.dispose = function() {
         triggerDispose.call(trigger);
         disposeMe.dispose();
       };
@@ -180,9 +180,9 @@ qx.Class.define("qx.util.DisposeUtil",
      */
     destroyContainer : function(container)
     {
-      if(qx.core.Environment.get("qx.debug"))
+      if (qx.core.Environment.get("qx.debug"))
       {
-        if(qx.ui.mobile && container instanceof qx.ui.mobile.core.Widget) {
+        if (qx.ui.mobile && container instanceof qx.ui.mobile.core.Widget) {
           qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
           "Container must be an instance of qx.ui.mobile.container.Composite.");
         } else {
@@ -198,7 +198,7 @@ qx.Class.define("qx.util.DisposeUtil",
       this._collectContainerChildren(container, arr);
 
       var len = arr.length;
-      for(var i=len-1; i>=0; i--)
+      for (var i=len-1; i>=0; i--)
       {
         arr[i].destroy();
       }
@@ -215,7 +215,7 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       var children = container.getChildren();
 
-      for(var i=0; i<children.length; i++)
+      for (var i=0; i<children.length; i++)
       {
         var item = children[i];
         arr.push(item);
@@ -237,14 +237,14 @@ qx.Class.define("qx.util.DisposeUtil",
     __isChildrenContainer : function(obj)
     {
       var classes = [];
-      if(qx.ui.mobile && obj instanceof qx.ui.mobile.core.Widget) {
+      if (qx.ui.mobile && obj instanceof qx.ui.mobile.core.Widget) {
         classes = [qx.ui.mobile.container.Composite];
       } else {
         classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
         qx.ui.container.SlideBar, qx.ui.container.Stack];
       }
 
-      for (var i=0,l=classes.length; i<l; i++) {
+      for (var i=0, l=classes.length; i<l; i++) {
         if (typeof classes[i] !== "undefined" &&
           qx.Class.isSubClassOf(obj.constructor, classes[i]))
         {

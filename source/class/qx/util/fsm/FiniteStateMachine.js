@@ -278,7 +278,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     addState : function(state)
     {
       // Ensure that we got valid state info
-      if (!state instanceof qx.util.fsm.State)
+      if (!(state instanceof qx.util.fsm.State))
       {
         throw new Error("Invalid state: not an instance of " +
                         "qx.util.fsm.State");
@@ -330,7 +330,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     replaceState : function(state, bDispose)
     {
       // Ensure that we got valid state info
-      if (!state instanceof qx.util.fsm.State)
+      if (!(state instanceof qx.util.fsm.State))
       {
         throw new Error("Invalid state: not an instance of " +
                         "qx.util.fsm.State");
@@ -895,7 +895,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (this.__bEventProcessingInProgress)
       {
         // We were processing already, so don't process concurrently.
-        return ;
+        return;
       }
 
       // Track that we're processing events
@@ -1031,7 +1031,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Do we handle this event type for the widget from which it
         // originated?
-        if (! action)
+        if (!action)
         {
           // Nope.
           if (debugEvents)
@@ -1048,7 +1048,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         action = e;
       }
 
-      switch(action)
+      switch (action)
       {
         case qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE:
           // Process this event.  One of the transitions should handle it.
@@ -1095,7 +1095,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         var trans = transitions[t];
 
         // Does the predicate allow use of this transition?
-        switch(trans.getPredicate()(this, event))
+        switch (trans.getPredicate()(this, event))
         {
           case true:
             // Transition is allowed.  Proceed.
@@ -1121,7 +1121,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         if (typeof (nextState) == "string")
         {
           // We found a literal state name.  Ensure it exists.
-          if (!nextState in this.__states)
+          if (!(nextState in this.__states))
           {
             throw new Error("Attempt to transition to nonexistent state " +
                             nextState);
@@ -1133,7 +1133,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         else
         {
           // If it's not a string, nextState must be a StateChange constant
-          switch(nextState)
+          switch (nextState)
           {
             case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
               // They want to remain in the same state.

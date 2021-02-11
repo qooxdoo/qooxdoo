@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.Canvas);
+    this._setLayout(new qx.ui.layout.Canvas());
 
     // Sub widgets
     this._createChildControl("frame");
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "frame":
           control = new qx.ui.container.Composite();

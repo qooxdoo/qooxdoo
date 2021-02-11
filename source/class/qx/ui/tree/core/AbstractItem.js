@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "label":
           control = new qx.ui.basic.Label().set({
@@ -306,16 +306,13 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
       else if (!this.isOpen()) {
         this.__setIconSource(value);
       }
-
     },
 
 
     // property apply
     _applyIconOpened : function(value, old)
     {
-
       if (this.isOpen()) {
-
         // ... both "closed" and "opened" icon were user-defined
         if (this.__getUserValueIcon() && this.__getUserValueIconOpened()) {
           this.__setIconSource(value);
@@ -326,7 +323,6 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
           this.__setIconSource(value);
         }
       }
-
     },
 
 
@@ -368,7 +364,6 @@ qx.Class.define("qx.ui.tree.core.AbstractItem",
       }
 
       value ? this.addState("opened") : this.removeState("opened");
-
     },
 
     /**

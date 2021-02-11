@@ -81,6 +81,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
 
     "test: poll action": function() {
       // Handles GET
+      this.require(["php"]);
       var url = this.getUrl("qx/test/xmlhttp/random.php"),
           res = this.res,
           count = 0,
@@ -102,7 +103,6 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
         if (count >= 10) {
           this.resume();
         }
-
       }, this);
 
       res.poll("get", 100);
@@ -110,6 +110,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
     },
 
     "test: long poll": function() {
+      this.require(["php"]);
       var res = this.res,
           url = this.getUrl("qx/test/xmlhttp/long_poll.php"),
           count = 0,

@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "label":
           control = new qx.ui.basic.Label(this.getLabel()).set({

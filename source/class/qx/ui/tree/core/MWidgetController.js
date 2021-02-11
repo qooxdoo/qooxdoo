@@ -202,7 +202,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
      */
     removeBindings : function()
     {
-      while(this.__boundItems.length > 0) {
+      while (this.__boundItems.length > 0) {
         var item = this.__boundItems.pop();
         this._removeBindingsFrom(item);
       }
@@ -243,7 +243,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
         try {
           this._tree.getLookupTable().removeBinding(id);
-        } catch(e) {
+        } catch (e) {
           item.removeBinding(id);
         }
       }

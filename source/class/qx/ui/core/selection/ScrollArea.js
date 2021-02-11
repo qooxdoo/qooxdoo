@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
         var i=start;
 
         // Loop required to scroll pages up dynamically
-        while(1)
+        while (1)
         {
           // Iterate through all selectables from start
           for (; i>=0; i--)
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
         var i=start;
 
         // Loop required to scroll pages down dynamically
-        while(1)
+        while (1)
         {
           // Iterate through all selectables from start
           for (; i<length; i++)

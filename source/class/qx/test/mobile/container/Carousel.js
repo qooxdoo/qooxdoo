@@ -70,7 +70,7 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       this.getRoot().add(carousel);
 
-      this.assertEquals(0,carousel.getCurrentIndex());
+      this.assertEquals(0, carousel.getCurrentIndex());
 
       carousel.nextPage();
       this.assertEquals(1, carousel.getCurrentIndex());
@@ -80,11 +80,11 @@ qx.Class.define("qx.test.mobile.container.Carousel",
       this.assertEquals(1, carousel.getCurrentIndex());
 
       carousel.previousPage();
-      this.assertEquals(0,carousel.getCurrentIndex());
+      this.assertEquals(0, carousel.getCurrentIndex());
 
       // OVERFLOW
       carousel.previousPage();
-      this.assertEquals(0,carousel.getCurrentIndex());
+      this.assertEquals(0, carousel.getCurrentIndex());
 
       carousel.destroy();
       carouselPage1.destroy();
@@ -134,7 +134,7 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       this.getRoot().add(carousel);
 
-      this.assertEquals(0,carousel.getCurrentIndex());
+      this.assertEquals(0, carousel.getCurrentIndex());
 
       carousel.setCurrentIndex(1);
       this.assertEquals(1, carousel.getCurrentIndex());

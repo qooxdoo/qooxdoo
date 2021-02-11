@@ -121,12 +121,12 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
      * Points the focus of the form to this widget.
      */
     focus : function() {
-      if(this.isReadOnly() || this.getEnabled() == false) {
+      if (this.isReadOnly() || this.getEnabled() == false) {
         return;
       }
 
       var targetElement = this.getContainerElement();
-      if(targetElement) {
+      if (targetElement) {
         qx.bom.Element.focus(targetElement);
       }
     },
@@ -137,7 +137,7 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
      */
     blur : function() {
       var targetElement = this.getContainerElement();
-      if(targetElement) {
+      if (targetElement) {
         qx.bom.Element.blur(targetElement);
       }
     }

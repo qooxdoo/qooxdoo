@@ -169,7 +169,6 @@ qx.Class.define("qx.test.Interface",
 
 
     testWithDebug : function() {
-
       if (this.isDebugOn())
       {
         this.assertException(function() {
@@ -331,7 +330,7 @@ qx.Class.define("qx.test.Interface",
         this.assertException(function() {
           a.add("Juhu");
         }, qx.core.AssertionError, null, "f");
-      };
+      }
     },
 
 
@@ -369,7 +368,7 @@ qx.Class.define("qx.test.Interface",
             }
           });
         });
-      };
+      }
 
 
       qx.Interface.define("qx.test.i.IProperties2",
@@ -436,7 +435,7 @@ qx.Class.define("qx.test.Interface",
             implement : [qx.test.i.IEvents1]
           });
         });
-      };
+      }
     },
 
 
@@ -516,7 +515,7 @@ qx.Class.define("qx.test.Interface",
         this.assertException(function() {
           qx.Class.define("qx.test.i.Implement2", def);
         }, Error, "Implementation of method", "No members defined.");
-      };
+      }
 
       // no properties
       var def = qx.lang.Object.clone(classDef);
@@ -527,7 +526,7 @@ qx.Class.define("qx.test.Interface",
         this.assertException(function() {
           qx.Class.define("qx.test.i.Implement4", def);
         }, Error, new RegExp("property .* is not supported"), "No properties defined.");
-      };
+      }
     },
 
 
@@ -537,7 +536,6 @@ qx.Class.define("qx.test.Interface",
      */
     testAbstractClass : function()
     {
-
       qx.Interface.define("qx.test.i.IJuhu",
       {
         members :
@@ -581,7 +579,7 @@ qx.Class.define("qx.test.Interface",
             }
           });
         }, Error, '.*Implementation of method "sayKinners" is missing in class "qx.test.i.Juhu1" required by interface "qx.test.i.IJuhu"');
-      };
+      }
 
 
       qx.Class.define("qx.test.i.Juhu1", {
@@ -591,7 +589,6 @@ qx.Class.define("qx.test.Interface",
           sayKinners : function() { return "Kinners"; }
         }
       });
-
     },
 
 
@@ -615,8 +612,6 @@ qx.Class.define("qx.test.Interface",
           }
         }
       });
-
-
     }
   }
 });

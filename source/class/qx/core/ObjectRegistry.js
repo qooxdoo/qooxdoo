@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
           obj.$$discardedHashCode = hash;
           delete obj.$$hash;
         }
-        catch(ex)
+        catch (ex)
         {
           // IE has trouble directly removing the hash
           // but it's ok with using removeAttribute
@@ -241,8 +241,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         return parseInt(b, 10)-parseInt(a, 10);
       });
 
-      var obj, i=0, l=hashes.length;
-      while(true)
+      var obj, 
+i=0, 
+l=hashes.length;
+      while (true)
       {
         try
         {
@@ -256,7 +258,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
             }
           }
         }
-        catch(ex)
+        catch (ex)
         {
           qx.Bootstrap.error(this, "Could not dispose object " + obj.toString() + ": " + ex, ex);
 

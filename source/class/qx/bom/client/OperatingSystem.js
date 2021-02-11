@@ -47,7 +47,6 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         agent.indexOf("Windows Phone") != -1
       ) {
         return "win";
-
       } else if (
         input.indexOf("Macintosh") != -1 ||
         input.indexOf("MacPPC") != -1 ||
@@ -55,37 +54,30 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         input.indexOf("Mac OS X") != -1
       ) {
         return "osx";
-
       } else if (agent.indexOf("RIM Tablet OS") != -1) {
         return "rim_tabletos";
-
       } else if (agent.indexOf("webOS") != -1) {
         return "webos";
-
       } else if (
         input.indexOf("iPod") != -1 ||
         input.indexOf("iPhone") != -1 ||
         input.indexOf("iPad") != -1
       ) {
         return "ios";
-
       } else if (
         agent.indexOf("Android") != -1
       ) {
         return "android";
-
       } else if (
         input.indexOf("Linux") != -1
       ) {
         return "linux";
-
       } else if (
         input.indexOf("X11") != -1 ||
         input.indexOf("BSD") != -1 ||
         input.indexOf("Darwin") != -1
       ) {
         return "unix";
-
       } else if (
         input.indexOf("SymbianOS") != -1
       ) {
@@ -167,11 +159,11 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
     getVersion : function() {
       var version = qx.bom.client.OperatingSystem.__getVersionForDesktopOs(navigator.userAgent);
 
-      if(version == null) {
+      if (version == null) {
         version = qx.bom.client.OperatingSystem.__getVersionForMobileOs(navigator.userAgent);
       }
 
-      if(version != null) {
+      if (version != null) {
         return version;
       } else {
         return "";
@@ -209,7 +201,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
     __getVersionForMobileOs : function(userAgent) {
       var windows = userAgent.indexOf("Windows Phone") != -1;
       var android = userAgent.indexOf("Android") != -1;
-      var iOs = userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false ;
+      var iOs = userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false;
 
       if (windows) {
         var windowsVersionRegExp = new RegExp(/Windows Phone (\d+(?:\.\d+)+)/i);
@@ -230,7 +222,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
         var iOsMatch = iOsVersionRegExp.exec(userAgent);
 
         if (iOsMatch && iOsMatch[2] && iOsMatch[3]) {
-          if(iOsMatch[4]) {
+          if (iOsMatch[4]) {
             return iOsMatch[2]+"."+ iOsMatch[3]+"."+ iOsMatch[4];
           } else {
             return iOsMatch[2]+"."+ iOsMatch[3];

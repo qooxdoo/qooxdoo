@@ -103,12 +103,12 @@ qx.Bootstrap.define("qx.util.RingBuffer",
 
       //Count # of stored entries
       var max = this.getMaxEntries();
-      if (this.__entriesStored < max){
+      if (this.__entriesStored < max) {
         this.__entriesStored++;
       }
 
       //Count # of stored elements since last mark call
-      if (this.__isMarkActive && (this.__entriesStoredSinceMark < max)){
+      if (this.__isMarkActive && (this.__entriesStoredSinceMark < max)) {
         this.__entriesStoredSinceMark++;
       }
     },
@@ -127,7 +127,7 @@ qx.Bootstrap.define("qx.util.RingBuffer",
      * Remembers the current position in the ring buffer
      *
      */
-    mark : function(){
+    mark : function() {
       this.__isMarkActive = true;
       this.__entriesStoredSinceMark = 0;
     },
@@ -136,7 +136,7 @@ qx.Bootstrap.define("qx.util.RingBuffer",
     /**
      * Removes the current mark position
      */
-    clearMark : function(){
+    clearMark : function() {
       this.__isMarkActive = false;
     },
 
@@ -178,10 +178,9 @@ qx.Bootstrap.define("qx.util.RingBuffer",
         count = this.__entriesStoredSinceMark;
       }
 
-      if (count > 0){
-
+      if (count > 0) {
         var indexOfYoungestElementInHistory = this.__addToIndex(this.__nextIndexToStoreTo,  -1);
-        var startIndex = this.__addToIndex(indexOfYoungestElementInHistory, - count + 1);
+        var startIndex = this.__addToIndex(indexOfYoungestElementInHistory, -count + 1);
 
         var result;
 
@@ -221,12 +220,12 @@ qx.Bootstrap.define("qx.util.RingBuffer",
      * @param addMe {Number} The number to add.
      * @return {Number} The new index
      */
-    __addToIndex : function (idx, addMe){
+    __addToIndex : function (idx, addMe) {
       var max = this.getMaxEntries();
       var result = (idx + addMe) % max;
 
       //If negative, wrap up into the ringbuffer space
-      if (result < 0){
+      if (result < 0) {
         result += max;
       }
       return result;

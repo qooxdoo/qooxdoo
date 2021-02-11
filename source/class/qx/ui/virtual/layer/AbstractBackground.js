@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       if (color) {
         this.__customColors[index] = qx.theme.manager.Color.getInstance().resolve(color);
       } else {
-        delete(this.__customColors[index]);
+        delete (this.__customColors[index]);
       }
     },
 
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       if (decorator) {
         this.__decorators[index] = qx.theme.manager.Decoration.getInstance().resolve(decorator);
       } else {
-        delete(this.__decorators[index]);
+        delete (this.__decorators[index]);
       }
       this.updateLayerData();
     },

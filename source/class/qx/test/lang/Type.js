@@ -28,6 +28,7 @@ qx.Class.define("qx.test.lang.Type",
 
       this.assertTrue(Type.isString(""));
       this.assertTrue(Type.isString("Juhu"));
+      /* eslint-disable-next-line no-new-wrappers */
       this.assertTrue(Type.isString(new String("Juhu")));
       this.assertTrue(Type.isString(new qx.locale.LocalizedString("Juhu")));
       this.assertTrue(Type.isString(new qx.type.BaseString("juhu")));
@@ -50,6 +51,7 @@ qx.Class.define("qx.test.lang.Type",
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isArray([]));
+      /* eslint-disable-next-line no-array-constructor */
       this.assertTrue(Type.isArray(new Array()));
       this.assertTrue(Type.isArray(new qx.type.BaseArray()));
 
@@ -72,6 +74,7 @@ qx.Class.define("qx.test.lang.Type",
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isObject({}));
+      /* eslint-disable-next-line no-new-object */
       this.assertTrue(Type.isObject(new Object()));
       var qxObj = new qx.core.Object();
       this.assertTrue(Type.isObject(qxObj));
@@ -119,6 +122,7 @@ qx.Class.define("qx.test.lang.Type",
 
       this.assertTrue(Type.isNumber(1));
       this.assertTrue(Type.isNumber(1.1));
+      /* eslint-disable-next-line no-new-wrappers */
       this.assertTrue(Type.isNumber(new Number(1)));
       this.assertTrue(Type.isNumber(0));
 
@@ -142,6 +146,7 @@ qx.Class.define("qx.test.lang.Type",
 
       this.assertTrue(Type.isBoolean(true));
       this.assertTrue(Type.isBoolean(false));
+      /* eslint-disable-next-line no-new-wrappers */
       this.assertTrue(Type.isBoolean(new Boolean()));
 
       this.assertFalse(Type.isBoolean());

@@ -38,9 +38,8 @@ qx.Bootstrap.define("qx.util.Uri",
      * @return {Object} Map with parts of URI as properties
      */
     parseUri: function(str, strict) {
-
       var options = {
-        key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+        key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
         q:   {
           name:   "queryKey",
           parser: /(?:^|&)([^&=]*)=?([^&]*)/g
@@ -77,7 +76,6 @@ qx.Bootstrap.define("qx.util.Uri",
      * @return {String} URL with string appended in query part.
      */
     appendParamsToUrl: function(url, params) {
-
       if (params === undefined) {
         return url;
       }

@@ -149,6 +149,7 @@ qx.Class.define("qx.bom.Window",
     {
       var newWindow = null;
       if (url == null) {
+        /* eslint-disable-next-line no-script-url */
         url = "javascript:/";
       }
 
@@ -186,13 +187,13 @@ qx.Class.define("qx.bom.Window",
         newWindow = window.open(url, name, configurationString);
       }
 
-      if(newWindow && listener && (listener instanceof Function)){
+      if (newWindow && listener && (listener instanceof Function)) {
         var context = self || newWindow;
         var onLoadFunction = qx.lang.Function.bind(listener, context);
-        var onNativeLoad = function(){
+        var onNativeLoad = function() {
           onLoadFunction();
           qx.bom.Event.removeNativeListener(newWindow, 'load', onNativeLoad);
-        }
+        };
         qx.bom.Event.addNativeListener(newWindow, 'load', onNativeLoad);
       }
       return newWindow;
@@ -289,7 +290,7 @@ qx.Class.define("qx.bom.Window",
     getBlocker : function()
     {
       if (this.__blocker == null) {
-        this.__blocker = new qx.bom.Blocker;
+        this.__blocker = new qx.bom.Blocker();
       }
 
       return this.__blocker;
@@ -325,7 +326,7 @@ qx.Class.define("qx.bom.Window",
       {
         try {
           closed = win.closed;
-        } catch(ex) {}
+        } catch (ex) {}
       }
 
       return closed;
@@ -354,7 +355,7 @@ qx.Class.define("qx.bom.Window",
       {
         try {
           win.moveTo(left, top);
-        } catch(ex) {
+        } catch (ex) {
           qx.log.Logger.error("Cross-Domain Scripting problem: Could not move window!", ex);
         }
       }
@@ -383,7 +384,7 @@ qx.Class.define("qx.bom.Window",
       {
         try {
           win.resizeTo(width, height);
-        } catch(ex) {
+        } catch (ex) {
           qx.log.Logger.error("Cross-Domain Scripting problem: Could not resize window!", ex);
         }
       }

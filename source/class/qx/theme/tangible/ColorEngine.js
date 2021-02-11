@@ -79,7 +79,7 @@ var helper = {
   // helpers
   onX: function (key) {
     var baseColor = key.split('-')[2];
-    return helper.contrastTone(baseColor) === "dark" ? "#000000" : "#ffffff"
+    return helper.contrastTone(baseColor) === "dark" ? "#000000" : "#ffffff";
   },
   // helpers
   xState: function (key) {
@@ -99,7 +99,7 @@ var helper = {
       case 'disabled':
         return qx.util.ColorUtil.scale(color, {
           lightness: -10,
-          saturation: - 70
+          saturation: -70
         });
       case 'selected':
           return qx.util.ColorUtil.scale(color, {
@@ -108,7 +108,7 @@ var helper = {
       case 'selected_disabled':
           return qx.util.ColorUtil.scale(color, {
             lightness: 30,
-            saturation: - 70
+            saturation: -70
           });
       default:
         return color;
@@ -119,7 +119,7 @@ var helper = {
     var splitKey = key.split('-');
     var textStyle = splitKey[1];
     var fillColor = splitKey[3];
-    return helper.inkColorForFill(textStyle, fillColor)
+    return helper.inkColorForFill(textStyle, fillColor);
   },
 
   setAlpha: function(key) {

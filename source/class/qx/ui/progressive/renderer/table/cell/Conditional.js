@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      */
     addRegex : function(regex, align, color, style, weight, target)
     {
-      if (! regex)
+      if (!regex)
       {
         throw new Error("regex cannot be null!");
       }
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
             compareValue = cellInfo.element.data[test.target];
           }
 
-          switch(test.condition)
+          switch (test.condition)
           {
           case "==":
             if (compareValue == test.value1)
@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
             compareValue = cellInfo.element.data[test.target];
           }
 
-          switch(test.condition)
+          switch (test.condition)
           {
           case "between":
             if (compareValue >= test.value1 &&
@@ -441,7 +441,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
         }
 
         var styleString = [];
-        for(var key in style)
+        for (var key in style)
         {
           if (style[key])
           {

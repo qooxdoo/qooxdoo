@@ -93,7 +93,7 @@ qx.Class.define("qx.bom.Font",
 
       for (var i=0; i<parts.length; i++)
       {
-        switch(part = parts[i])
+        switch (part = parts[i])
         {
           case "bold":
             font.setBold(true);
@@ -136,7 +136,7 @@ qx.Class.define("qx.bom.Font",
      */
     fromConfig : function(config)
     {
-      var font = new qx.bom.Font;
+      var font = new qx.bom.Font();
       font.set(config);
       return font;
     },

@@ -91,6 +91,7 @@
  * Note that sinon.assert.xyz() translates as assertXyz().
  *
  */
+/* global sinon */
 qx.Mixin.define("qx.dev.unit.MMock",
 {
   construct: function()
@@ -426,7 +427,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
      * @return {Object} Injected stub.
      */
     injectStub: function(object, property, customStub) {
-      var stub = customStub || this.deepStub(new object[property]);
+      var stub = customStub || this.deepStub(new object[property]());
 
       this.stub(object, property).returns(stub);
       return stub;
@@ -449,7 +450,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
      */
     revealMock: function(object, property, customObject) {
       var source = customObject ||
-        this.__deepClone(new object[property]);
+        this.__deepClone(new object[property]());
 
       this.stub(object, property).returns(source);
       return this.mock(source);
@@ -486,7 +487,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
 
       // Find classes in inheritance chain up to targetClazz
       if (targetClazz) {
-        while(clazz.superclass) {
+        while (clazz.superclass) {
           clazzes.push(clazz);
           clazz = clazz.superclass;
           if (clazz == targetClazz.superclass) {
@@ -497,7 +498,6 @@ qx.Mixin.define("qx.dev.unit.MMock",
 
       // Check if property is own in one of the classes in chain
       for (var prop in object) {
-
         if (clazzes.length) {
           var found = clazzes.some(function(clazz) {
             return clazz.prototype.hasOwnProperty(prop);
@@ -521,7 +521,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
      */
     __stubProperty: function(object, prop) {
       // Leave constructor and properties intact
-      if(prop === "constructor" || typeof object[prop] !== "function") {
+      if (prop === "constructor" || typeof object[prop] !== "function") {
         return;
       }
 

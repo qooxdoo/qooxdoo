@@ -79,14 +79,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     this.base(arguments);
     this.exclude();
 
-    if(qx.ui.mobile.dialog.Popup.ROOT == null) {
+    if (qx.ui.mobile.dialog.Popup.ROOT == null) {
       qx.ui.mobile.dialog.Popup.ROOT = qx.core.Init.getApplication().getRoot();
     }
     qx.ui.mobile.dialog.Popup.ROOT.add(this);
 
     this.__anchor = anchor;
 
-    if(widget) {
+    if (widget) {
       this._initializeChild(widget);
     }
   },
@@ -199,15 +199,15 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         var isTop = anchorPosition.top > computedPopupPosition.top;
         var isLeft = anchorPosition.left > computedPopupPosition.left;
 
-        computedPopupPosition.top = computedPopupPosition.top - rootPosition.top;
-        computedPopupPosition.left = computedPopupPosition.left - rootPosition.left;
+        computedPopupPosition.top -= rootPosition.top;
+        computedPopupPosition.left -= rootPosition.left;
 
         var isOutsideViewPort = computedPopupPosition.top < 0
           || computedPopupPosition.left < 0
           || computedPopupPosition.left + popupDimension.width > rootWidth
           || computedPopupPosition.top + popupDimension.height > rootHeight;
 
-        if(isOutsideViewPort) {
+        if (isOutsideViewPort) {
           this._positionToCenter();
         } else {
           if (isTop) {
@@ -243,7 +243,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__registerEventListener();
 
         // Move outside of viewport
-        this.placeTo(-1000,-1000);
+        this.placeTo(-1000, -1000);
 
         // Needs to be added to screen, before rendering position, for calculating
         // objects height.
@@ -254,11 +254,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = true;
 
-      if(this.getModal() === true)
+      if (this.getModal() === true)
       {
         qx.ui.mobile.core.Blocker.getInstance().show();
 
-        if(this.getHideOnBlockerTap()) {
+        if (this.getHideOnBlockerTap()) {
           qx.ui.mobile.core.Blocker.getInstance().addListener("tap", this.hide, this);
         }
       }
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = false;
 
-      if(this.getModal())
+      if (this.getModal())
       {
         qx.ui.mobile.core.Blocker.getInstance().hide();
       }
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      * Toggles the visibility of this popup.
      */
     toggleVisibility : function() {
-      if(this.__isShown == true) {
+      if (this.__isShown == true) {
         this.hide();
       } else {
         this.show();
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         || clientY > popupLocation.top + this.__lastPopupDimension.height
         || clientY < popupLocation.top;
 
-      if(isOutsideWidget) {
+      if (isOutsideWidget) {
         this.hide();
       }
     },
@@ -392,9 +392,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
 
-      if(this.__anchor) {
+      if (this.__anchor) {
         this.__anchor.addCssClass("anchor-target");
-        qx.ui.mobile.dialog.Popup.ROOT.addListener("pointerdown",this._trackUserTap,this);
+        qx.ui.mobile.dialog.Popup.ROOT.addListener("pointerdown", this._trackUserTap, this);
       }
     },
 
@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
 
-      if(this.__anchor) {
+      if (this.__anchor) {
         this.__anchor.removeCssClass("anchor-target");
         qx.ui.mobile.dialog.Popup.ROOT.removeListener("pointerdown", this._trackUserTap, this);
       }
@@ -424,13 +424,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _initializeChild : function(widget)
     {
-      if(this.__childrenContainer == null) {
+      if (this.__childrenContainer == null) {
         this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
         this.__childrenContainer.setDefaultCssClass("popup-content");
         this._add(this.__childrenContainer);
       }
 
-      if(this._createTitleWidget()) {
+      if (this._createTitleWidget()) {
         this.__childrenContainer.remove(this._createTitleWidget());
         this.__childrenContainer.add(this._createTitleWidget());
       }
@@ -452,10 +452,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _createTitleWidget : function()
     {
-      if(this.__titleWidget) {
+      if (this.__titleWidget) {
         return this.__titleWidget;
       }
-      if(this.getTitle() || this.getIcon())
+      if (this.getTitle() || this.getIcon())
       {
         this.__titleWidget = new qx.ui.mobile.basic.Atom(this.getTitle(), this.getIcon());
         this.__titleWidget.addCssClass('popup-title');
@@ -471,8 +471,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     // property apply
     _applyTitle : function(value, old)
     {
-      if(value) {
-        if(this.__titleWidget)
+      if (value) {
+        if (this.__titleWidget)
         {
           this.__titleWidget.setLabel(value);
         }
@@ -481,10 +481,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this.__titleWidget = new qx.ui.mobile.basic.Atom(value, this.getIcon());
           this.__titleWidget.addCssClass('popup-title');
 
-          if(this.__widget) {
+          if (this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
           } else {
-            if(this.__childrenContainer) {
+            if (this.__childrenContainer) {
               this.__childrenContainer.add(this._createTitleWidget());
             }
           }
@@ -555,7 +555,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     removeWidget : function()
     {
-      if(this.__widget)
+      if (this.__widget)
       {
         this.__widget.removeListener("domupdated", this._updatePosition, this);
         this.__childrenContainer.remove(this.__widget);

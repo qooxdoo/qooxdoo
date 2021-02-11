@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
       };
 
       // Add the URL portion of the hint
-      switch(cellInfo.value)
+      switch (cellInfo.value)
       {
         case true:
           imageHints.url = this.__iconUrlTrue;

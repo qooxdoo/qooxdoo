@@ -19,6 +19,7 @@
 /**
  * @ignore(my.TestLogger)
  */
+/* global my */
 qx.Class.define("qx.test.log.Filters", {
   extend: qx.dev.unit.TestCase,
 

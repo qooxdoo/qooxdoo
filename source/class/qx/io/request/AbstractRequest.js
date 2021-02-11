@@ -536,7 +536,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       for (var key in requestHeaders) {
         transport.setRequestHeader(key, requestHeaders[key]);
       }
-
     },
 
     /**
@@ -835,7 +834,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this.getStatus())) {
-
         // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Response is of type: '" + this.getResponseContentType() + "'");
@@ -851,7 +849,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       // Erroneous HTTP status
       } else {
-
         try {
           this._setResponse(this._getParsedResponse());
         } catch (e) {

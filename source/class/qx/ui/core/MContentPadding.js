@@ -100,7 +100,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /**

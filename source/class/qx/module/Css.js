@@ -35,7 +35,6 @@ qx.Bootstrap.define("qx.module.Css", {
 
       if (elem) {
         if (qx.dom.Node.isElement(elem)) {
-
           var elementHeight;
           if (force) {
             var stylesToSwap = {
@@ -73,7 +72,6 @@ qx.Bootstrap.define("qx.module.Css", {
 
       if (elem) {
         if (qx.dom.Node.isElement(elem)) {
-
           var elementWidth;
           if (force) {
             var stylesToSwap = {
@@ -112,7 +110,6 @@ qx.Bootstrap.define("qx.module.Css", {
     {
       var obj = this[0];
       if (qx.dom.Node.isElement(obj)) {
-
         var contentHeight;
         if (force) {
           var stylesToSwap = {
@@ -146,7 +143,6 @@ qx.Bootstrap.define("qx.module.Css", {
     {
       var obj = this[0];
       if (qx.dom.Node.isElement(obj)) {
-
         var contentWidth;
         if (force) {
           var stylesToSwap = {
@@ -572,7 +568,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     toggleClasses : function(names) {
-      for (var i=0,l=names.length; i<l; i++) {
+      for (var i=0, l=names.length; i<l; i++) {
         this.toggleClass(names[i]);
       }
       return this;

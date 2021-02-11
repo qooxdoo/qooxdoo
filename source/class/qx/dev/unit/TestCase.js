@@ -152,14 +152,14 @@ qx.Class.define("qx.dev.unit.TestCase",
      */
     resumeHandler : function(deferredFunction, self)
     {
-      if(qx.core.Environment.get("qx.debug")) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertFunction(deferredFunction, "First parameter of resumeHandler() must be a function!");
       }
 
       var func = deferredFunction;
       var that = this;
 
-      return function(){
+      return function() {
         // bind arguments to deferŕedFunction
         var args = qx.lang.Array.fromArguments(arguments);
 

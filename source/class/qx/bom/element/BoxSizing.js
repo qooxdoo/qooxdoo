@@ -124,7 +124,7 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
         // IE8 bombs when trying to apply an unsupported value
         try {
           element.style[qx.core.Environment.get("css.boxsizing")] = value;
-        } catch(ex) {
+        } catch (ex) {
           if (qx.core.Environment.get("qx.debug")) {
             qx.log.Logger.warn(this, "This client does not support the boxSizing value", value);
           }

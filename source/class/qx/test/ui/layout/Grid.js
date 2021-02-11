@@ -90,7 +90,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
     },
 
     testColSpanWithoutFlexAllowGrowTrue : function() {
-      
       this._gridLayout.setSpacingX(6);
       this._gridLayout.setAllowGrowSpannedCellWidth(true);
 
@@ -117,7 +116,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
     },
 
     testColSpanWithoutFlexAllowGrowFalse : function() {
-      
       this._gridLayout.setSpacingX(6);
       this._gridLayout.setAllowGrowSpannedCellWidth(false);
 
@@ -146,7 +144,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
     },
 
     testColSpanWithoutFlexAllowGrowFalseChangeToTrue : function() {
-      
       this._gridLayout.setSpacingX(6);
       this._gridLayout.setAllowGrowSpannedCellWidth(false);
 

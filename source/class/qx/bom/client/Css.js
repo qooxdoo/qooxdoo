@@ -39,7 +39,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getBoxModel : function() {
       var content = qx.bom.client.Engine.getName() !== "mshtml" ||
-        !qx.bom.client.Browser.getQuirksMode() ;
+        !qx.bom.client.Browser.getQuirksMode();
 
       return content ? "content" : "border";
     },
@@ -415,7 +415,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
         el.style.pointerEvents = initial;
 
         return supported;
-
       }
       return false;
     },
@@ -448,7 +447,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
         // old IEs will throw an "Invalid argument" exception here
         try {
           detector.style.display = flexSyntax[i].value;
-        } catch(ex) {
+        } catch (ex) {
           return null;
         }
         if (detector.style.display === flexSyntax[i].value) {

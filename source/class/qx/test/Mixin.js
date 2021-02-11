@@ -105,7 +105,7 @@ qx.Class.define("qx.test.Mixin",
           });
         },
         Error, "Overwriting member", "t2");
-      };
+      }
 
       // this is allowed
       qx.Class.define("qx.Mix3",
@@ -135,7 +135,7 @@ qx.Class.define("qx.test.Mixin",
           });
         },
         Error, "already has a property", "t3");
-      };
+      }
     },
 
 
@@ -180,7 +180,7 @@ qx.Class.define("qx.test.Mixin",
         this.assertException(function() {
           qx.Class.include(qx.UseLog2, qx.MLogger);
         }, Error, "Overwriting member");
-      };
+      }
 
       // allowed to overwrite!
       qx.Class.define("qx.UseLog3",
@@ -234,7 +234,7 @@ qx.Class.define("qx.test.Mixin",
       {
         members :
         {
-          sayJuhu : function() { return this.base(arguments) + " Kinners";},
+          sayJuhu : function() { return this.base(arguments) + " Kinners"; },
 
           /** @lint ignoreUndeclaredPrivates(__b) */
           foo : function(dontRecurs)
@@ -257,7 +257,7 @@ qx.Class.define("qx.test.Mixin",
         this.assertException(function() {
           qx.Class.include(qx.Patch1, qx.MPatch);
         }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
-      };
+      }
 
       qx.Class.patch(qx.Patch1, qx.MPatch);
       qx.Class.patch(qx.Patch2, qx.MPatch);

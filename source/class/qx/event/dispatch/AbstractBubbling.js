@@ -151,7 +151,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       var tracker = {};
 
       var __TRACE_LOGGING = false;//(event._type == "pointerup" && event._target.className === "qx-toolbar-button-checked");
-      var __TRACE = function(){};
+      var __TRACE = function() {};
       if (__TRACE_LOGGING) {
         var serial = (this.SERIAL||0)+1;
         this.SERIAL=serial + 1;
@@ -159,7 +159,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           var args = [].slice.apply(arguments);
           args.unshift("serial #" + serial + ": ");
           console.log.apply(this, args);
-        }
+        };
       }
 
       qx.event.Utils.catch(tracker, function() {
@@ -174,7 +174,6 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
         __TRACE("captureList=" + captureList.length);
         return qx.event.Utils.series(captureList, function(localList, i) {
-
           __TRACE("captureList[" + i + "]: localList.length=" + localList.length);
 
           var currentTarget = captureTargets[i];

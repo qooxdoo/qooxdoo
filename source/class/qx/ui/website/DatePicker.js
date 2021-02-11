@@ -222,9 +222,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
 
     // overridden
     setConfig : function(name, config) {
-
       if (name === 'position') {
-
         var validPositions = qx.ui.website.DatePicker.__validPositions;
         if (validPositions.indexOf(config) === -1) {
           throw new Error('Wrong config value for "position"! ' +
@@ -275,7 +273,6 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      * @param e {Event} tap event
      */
     _onBodyTap : function(e) {
-
       var target = qxWeb(e.getTarget());
 
       // fast check for tap on the connected input field
@@ -383,7 +380,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       if (collection.getConfig('mode') === 'icon') {
         collection.off('tap', collection._onTap);
       } else {
-        if(!collection.hasListener('tap', collection._onTap)) {
+        if (!collection.hasListener('tap', collection._onTap)) {
           collection.on('tap', collection._onTap);
         }
       }

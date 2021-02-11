@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     stop : function()
     {
-      if(!this.isInitialized()) {
+      if (!this.isInitialized()) {
         return;
       }
       this._stop();
@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
     // property apply
     _applyLifeCycleState : function(value, old) {
-      if(value == "start" || value == "stop") {
+      if (value == "start" || value == "stop") {
         qx.core.Init.getApplication().fireEvent(value);
       }
 

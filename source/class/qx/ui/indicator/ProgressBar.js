@@ -71,7 +71,6 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
     if (value != null) {
       this.setValue(value);
     }
-
   },
 
 

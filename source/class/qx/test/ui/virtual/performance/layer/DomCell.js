@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
       {
         var left = 0;
         var col = firstColumn;
-        for(var y=0; y<columnSizes.length; y++)
+        for (var y=0; y<columnSizes.length; y++)
         {
           var content = col + " / " + row;
           var cell = document.createElement("div");

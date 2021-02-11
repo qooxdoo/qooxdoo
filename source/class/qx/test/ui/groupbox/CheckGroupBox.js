@@ -25,10 +25,10 @@ qx.Class.define("qx.test.ui.groupbox.CheckGroupBox",
     {
       this.base(arguments);
 
-      var groupBox = this._checkGroupBox = new qx.ui.groupbox.CheckGroupBox;
+      var groupBox = this._checkGroupBox = new qx.ui.groupbox.CheckGroupBox();
       this.getRoot().add(groupBox);
-      groupBox.setLayout(new qx.ui.layout.HBox);
-      this._label = new qx.ui.basic.Label;
+      groupBox.setLayout(new qx.ui.layout.HBox());
+      this._label = new qx.ui.basic.Label();
       groupBox.add(this._label);
 
       this.flush();

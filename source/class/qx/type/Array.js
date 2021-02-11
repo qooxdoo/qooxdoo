@@ -48,7 +48,7 @@ qx.Class.define("qx.type.Array",
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {
-    qx.type.BaseArray.apply(this,arguments);
+    qx.type.BaseArray.apply(this, arguments);
   },
 
 
@@ -193,7 +193,7 @@ qx.Class.define("qx.type.Array",
         arg = [];
         for (var i=0; i < arr.length; i++) {
           arg[i] = arr[i];
-        };
+        }
       }
       return arg;
     },

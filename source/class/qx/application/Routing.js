@@ -409,15 +409,15 @@ qx.Bootstrap.define("qx.application.Routing", {
         if (back[i].path == path)
         {
           entry = back[i];
-          var toForward = back.splice(0,i);
-          for (var a=0; a<toForward.length; a++){
+          var toForward = back.splice(0, i);
+          for (var a=0; a<toForward.length; a++) {
             forward.unshift(toForward[a]);
           }
           found = true;
           break;
         }
       }
-      if (found){
+      if (found) {
         return {
           data : entry,
           action : "back"
@@ -430,15 +430,15 @@ qx.Bootstrap.define("qx.application.Routing", {
         if (forward[i].path == path)
         {
           entry = forward[i];
-          var toBack = forward.splice(0,i+1);
-          for (var a=0; a<toBack.length; a++){
+          var toBack = forward.splice(0, i+1);
+          for (var a=0; a<toBack.length; a++) {
             back.unshift(toBack[a]);
           }
           break;
         }
       }
 
-      if (entry){
+      if (entry) {
         return {
           data : entry,
           action : "forward"
@@ -470,7 +470,8 @@ qx.Bootstrap.define("qx.application.Routing", {
         };
       }
 
-      var path, back = qx.application.Routing.__back;
+      var path, 
+back = qx.application.Routing.__back;
 
       if (back.length > 0) {
         // Remove current state

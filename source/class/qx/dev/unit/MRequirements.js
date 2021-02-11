@@ -90,7 +90,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
         try {
           qx.lang.Json.parse(req.responseText);
           qx.dev.unit.MRequirements.__hasPhp = true;
-        } catch(ex) {
+        } catch (ex) {
           qx.dev.unit.MRequirements.__hasPhp = false;
         }
       }, this);
@@ -102,7 +102,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
       req.open("POST", url, false);
       try {
         req.send();
-      } catch(ex) {
+      } catch (ex) {
         qx.dev.unit.MRequirements.__hasPhp = false;
       }
 
@@ -120,7 +120,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     {
       try {
         return qx.core.Init.getApplication() instanceof qx.application.Standalone;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -135,7 +135,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     {
       try {
         return qx.core.Init.getApplication() instanceof qx.application.Inline;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -150,7 +150,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     {
       try {
         return qx.core.Init.getApplication() instanceof qx.application.Native;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },

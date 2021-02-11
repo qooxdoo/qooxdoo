@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
       var doc = win.document;
 
       // [BUG #7785] Document element's clientHeight is calculated wrong on iPad iOS7
-      if(qx.core.Environment.get("os.name") == "ios" && window.innerHeight != doc.documentElement.clientHeight) {
+      if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != doc.documentElement.clientHeight) {
         return window.innerHeight;
       }
 
@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
       // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
       var currentOrientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
       var deviceOrientation  = win.orientation;
-      if (deviceOrientation == null || Math.abs( deviceOrientation % 180 ) == currentOrientation) {
+      if (deviceOrientation == null || Math.abs(deviceOrientation % 180) == currentOrientation) {
         // No device orientation available or device orientation equals own understanding of orientation
         return {
           "-270":  90,

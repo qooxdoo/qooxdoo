@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * Reset the current selection. If {@link #allowEmptySelection} is set to
      * <code>true</code> the first element will be selected.
      */
-    resetSelected : function(){
+    resetSelected : function() {
       this.__setSelected(null);
     },
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
           if (!result[i].getEnabled()) {
             result.splice(i, 1);
           }
-        };
+        }
       }
 
       return result;

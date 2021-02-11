@@ -103,6 +103,5 @@ qx.Bootstrap.define("qx.module.Dataset", {
   defer : function(statics)
   {
     qxWeb.$attachAll(this);
-
    }
 });

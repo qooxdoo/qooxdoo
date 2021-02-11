@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
       // String data is the unresolved url for the image.
       // Object data is a map containing the url, tooltip, and a height
-      if (typeof(cellInfo.cellData) == "string")
+      if (typeof (cellInfo.cellData) == "string")
       {
         imageData.url = cellInfo.cellData;
       }
@@ -93,7 +93,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
       }
       else
       {
-
         var aliasManager = qx.util.AliasManager.getInstance();
         var resourceManager = qx.util.ResourceManager.getInstance();
         var resolved = aliasManager.resolve(imageData.url);

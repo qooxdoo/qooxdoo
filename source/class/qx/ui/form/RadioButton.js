@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden
@@ -215,13 +215,12 @@ qx.Class.define("qx.ui.form.RadioButton",
      */
     _onKeyPress : function(e)
     {
-
       var grp = this.getGroup();
       if (!grp) {
         return;
       }
 
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "Left":
         case "Up":

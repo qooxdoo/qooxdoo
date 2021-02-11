@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.table.selection.Model",
     selectionMode :
     {
       init : 2, //SINGLE_SELECTION,
-      check : [1,2,3,4,5],
+      check : [1, 2, 3, 4, 5],
       //[ NO_SELECTION, SINGLE_SELECTION, SINGLE_INTERVAL_SELECTION, MULTIPLE_INTERVAL_SELECTION, MULTIPLE_INTERVAL_SELECTION_TOGGLE ],
       apply : "_applySelectionMode"
     }
@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.table.selection.Model",
     {
       var me = this.self(arguments);
 
-      switch(this.getSelectionMode())
+      switch (this.getSelectionMode())
       {
         case me.NO_SELECTION:
           return;
@@ -434,7 +434,7 @@ qx.Class.define("qx.ui.table.selection.Model",
     {
       var SelectionModel = qx.ui.table.selection.Model;
 
-      switch(this.getSelectionMode())
+      switch (this.getSelectionMode())
       {
         case SelectionModel.NO_SELECTION:
           return;

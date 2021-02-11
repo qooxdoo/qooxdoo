@@ -95,7 +95,6 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
     this.__applyingFilters = false;
     this.Filters = [];
-
   },
 
 
@@ -161,7 +160,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       if (this.__filterTypes[filter] === "between" && target != null)
       {
         if (value1 != null && value2 != null) {
-          var temp = new Array(filter, value1, value2, target);
+          var temp = [filter, value1, value2, target];
         }
       }
 
@@ -235,7 +234,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       if (regex != null && target != null) {
-        var temp = new Array("regex", regex, target, regexarg);
+        var temp = ["regex", regex, target, regexarg];
       }
 
       if (temp != null) {
@@ -272,7 +271,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       if (regex != null && target != null) {
-        var temp = new Array("notregex", regex, target, regexarg);
+        var temp = ["notregex", regex, target, regexarg];
       }
 
       if (temp != null) {
@@ -300,11 +299,10 @@ qx.Class.define("qx.ui.table.model.Filtered",
         filter_test = false;
         for (i in this.Filters)
         {
-
           if (this.__filterTypes[this.Filters[i][0]] === "numeric")
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
-            switch(this.Filters[i][0])
+            switch (this.Filters[i][0])
             {
             case "==":
               if (compareValue == this.Filters[i][1]) {
@@ -353,7 +351,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
           {
             compareValue = this.getValueById(this.Filters[i][3], row);
 
-            switch(this.Filters[i][0])
+            switch (this.Filters[i][0])
             {
             case "between":
               if (compareValue >= this.Filters[i][1] &&

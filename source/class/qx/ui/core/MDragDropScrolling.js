@@ -185,7 +185,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     _getThresholdByEdgeType : function(edgeType) {
       if (this.__xDirs.indexOf(edgeType) !== -1) {
         return this.getDragScrollThresholdX();
-      } else if(this.__yDirs.indexOf(edgeType) !== -1) {
+      } else if (this.__yDirs.indexOf(edgeType) !== -1) {
         return this.getDragScrollThresholdY();
       }
     },

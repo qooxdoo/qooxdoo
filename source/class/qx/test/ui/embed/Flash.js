@@ -191,10 +191,10 @@ qx.Class.define("qx.test.ui.embed.Flash",
         params.flashvars = "init=qx.test.ui.embed.Flash.flashCallback&flashVar1=bli bla blub&flashVar2=bulb alb ilb";
 
         var children = flash.childNodes;
-        for(var name in params)
+        for (var name in params)
         {
           var testSuccessful = false;
-          for(var i = 0; i < children.length; i++)
+          for (var i = 0; i < children.length; i++)
           {
             that.assertIdentical("param", children[i].nodeName.toLowerCase());
 

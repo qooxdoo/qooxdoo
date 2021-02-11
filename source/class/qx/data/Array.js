@@ -413,7 +413,7 @@ qx.Class.define("qx.data.Array",
         for (var i = 2; i < arguments.length; i++) {
           value[i-2] = arguments[i];
         }
-        var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
+        var endIndex = (startIndex + Math.max(arguments.length - 3, amount - 1));
         var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
         var eventData = {
@@ -466,7 +466,7 @@ qx.Class.define("qx.data.Array",
       this.__array.sort.apply(this.__array, arguments);
 
       // prevent changeBubble event if nothing has been changed
-      if (qx.lang.Array.equals(this.__array, oldArray) === true){
+      if (qx.lang.Array.equals(this.__array, oldArray) === true) {
         return;
       }
 
@@ -1106,7 +1106,7 @@ qx.Class.define("qx.data.Array",
     __updateEventPropagation : function(from, to) {
       for (var i=from; i < to; i++) {
         this._registerEventChaining(this.__array[i], this.__array[i], i);
-      };
+      }
     }
   },
 

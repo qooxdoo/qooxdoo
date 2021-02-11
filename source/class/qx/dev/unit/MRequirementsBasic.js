@@ -45,12 +45,11 @@ qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
      * @lint environmentNonLiteralKey(feature)
      */
     require : function(featureList) {
-
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertArray(featureList);
       }
 
-      for (var i=0,l=featureList.length; i<l; i++) {
+      for (var i=0, l=featureList.length; i<l; i++) {
         var feature = featureList[i];
         var hasMethodName = "has" + qx.lang.String.capitalize(feature);
 

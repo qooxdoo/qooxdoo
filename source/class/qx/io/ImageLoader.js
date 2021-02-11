@@ -98,7 +98,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     {
       var entry = this.__data[source];
 
-      if (! entry || ! entry.format)
+      if (!entry || !entry.format)
       {
         var result = this.__dataUrlRegExp.exec(source);
         if (result != null)
@@ -299,7 +299,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       // [BUG #9149]: When loading a SVG IE11 won't have
       // the width/height of the element set, unless
       // it is inserted into the DOM.
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
+      if (qx.bom.client.Engine.getName() == "mshtml" &&
           parseFloat(qx.bom.client.Engine.getVersion()) === 11)
       {
         document.body.appendChild(element);
@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         entry.failed = true;
       }
 
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
+      if (qx.bom.client.Engine.getName() == "mshtml" &&
           parseFloat(qx.bom.client.Engine.getVersion()) === 11)
       {
         document.body.removeChild(element);

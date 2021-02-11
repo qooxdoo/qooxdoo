@@ -77,7 +77,8 @@ qx.Class.define("qx.ui.form.Resetter",
      * @return {null|Error} Returns an error when some fields could not be reset.
      */
     reset: function() {
-      var dataEntry, e, errors = [];
+      var dataEntry, e, 
+errors = [];
       for (var i = 0; i < this.__items.length; i++) {
         dataEntry = this.__items[i];
         e = dataEntry.item.setValue(dataEntry.init);

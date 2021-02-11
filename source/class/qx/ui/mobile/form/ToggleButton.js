@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.base(arguments);
 
-    if(labelChecked && labelUnchecked) {
+    if (labelChecked && labelUnchecked) {
        this.__labelUnchecked = labelUnchecked;
        this.__labelChecked = labelChecked;
     }
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _setValue : function(value)
     {
-      if(typeof value !== 'boolean') {
+      if (typeof value !== 'boolean') {
         throw new Error("value for "+this+" should be boolean");
       }
       if (value) {
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onTap : function(evt)
     {
-      if(this._checkLastPointerTime()) {
+      if (this._checkLastPointerTime()) {
         this.toggle();
       }
     },
@@ -217,6 +217,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
 
-    this._disposeObjects("__switch","__labelUnchecked","__labelChecked");
+    this._disposeObjects("__switch", "__labelUnchecked", "__labelChecked");
   }
 });

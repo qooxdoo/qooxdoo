@@ -56,13 +56,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][0] >= data[i+1][0]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(0, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][0] <= data[i+1][0]);
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -88,7 +88,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] >= data[i+1][1]);
         }
-      };
+      }
 
       // sort ascending
       model.sortByColumn(1, true);
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] <= data[i+1][1]);
         }
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] >= data[i+1][1]);
         }
-      };
+      }
 
       // sort ascending
       model.sortByColumn(1, true);
@@ -145,7 +145,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] <= data[i+1][1]);
         }
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -164,13 +164,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] >= data[i+1][2]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] <= data[i+1][2]);
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -188,13 +188,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] >= data[i+1][2]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] <= data[i+1][2]);
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -205,7 +205,7 @@ qx.Class.define("qx.test.ui.table.Table",
       var table = new qx.ui.table.Table();
 
       var executed = false;
-      var id = table.addListener("changeRowHeight", function() {executed = true;}, this);
+      var id = table.addListener("changeRowHeight", function() { executed = true; }, this);
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -224,7 +224,7 @@ qx.Class.define("qx.test.ui.table.Table",
       table.setMetaColumnCounts([1, -1]);
 
       var executed = false;
-      var id = table.addListener("cellClick", function() {executed = true;}, this);
+      var id = table.addListener("cellClick", function() { executed = true; }, this);
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -283,11 +283,11 @@ qx.Class.define("qx.test.ui.table.Table",
       tableModelSimple.setData(data);
 
       // select and focus row 2
-      tableSimple.getSelectionModel().addSelectionInterval(1,1);
-      tableSimple.setFocusedCell(1,1);
+      tableSimple.getSelectionModel().addSelectionInterval(1, 1);
+      tableSimple.setFocusedCell(1, 1);
 
       // remove this row
-      tableModelSimple.removeRows(1,1);
+      tableModelSimple.removeRows(1, 1);
 
       // check if the selection and the focus is gone
       this.assertEquals(null, tableSimple.getFocusedRow()); // don't use assertNull because it can be undefined

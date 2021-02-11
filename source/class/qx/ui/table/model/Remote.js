@@ -178,8 +178,8 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       if (this._rowCount == -1)
       {
-        if (! this._loadRowCountRequestRunning ||
-            ! this.getBlockConcurrentLoadRowCount())
+        if (!this._loadRowCountRequestRunning ||
+            !this.getBlockConcurrentLoadRowCount())
         {
           this._loadRowCountRequestRunning = true;
           this._loadRowCount();
@@ -569,7 +569,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       if (this._rowBlockCache[block] == null)
       {
-
         // This is a new block -> Check whether we have to remove another block first
         this._rowBlockCount++;
 

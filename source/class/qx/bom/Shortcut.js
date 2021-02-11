@@ -20,7 +20,7 @@
 
 /**
  * Shortcuts can be used to globally define keyboard shortcuts.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -124,7 +124,7 @@ qx.Class.define("qx.bom.Shortcut",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __modifier : "",
@@ -244,7 +244,7 @@ qx.Class.define("qx.bom.Shortcut",
         {
           var identifier = this.__normalizeKeyIdentifier(a[i]);
 
-          switch(identifier)
+          switch (identifier)
           {
             case "Control":
             case "Shift":

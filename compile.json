@@ -16,25 +16,13 @@
     "en"
   ],
   "libraries": [
-    "./framework"
-  ],
-  "ignores" : [
-    "XPathResult",
-    "XMLHttpRequest",
-    "XMLSerializer",
-    "XPathEvaluator",
-    "history.*",
-    "ActiveXObject",
-    "DOMParser",
-    "ImageHtml",
-    "alert",
-    "Image"
+    "."
   ],
   "applications": [
     {
       "class": "qx.application.Native",
       "name": "qx_server",
-	  "type": "node",
+      "type": "node",
       "environment": {
         "qx.debug": false
       },
@@ -76,5 +64,49 @@
       ]
     }
   ],
+  "eslintConfig": {
+    "extends": [
+       "@qooxdoo/qx/browser",
+       "@qooxdoo/qx",
+       "@qooxdoo/jsdoc-disable"
+    ],
+    "rules": {
+      "no-new": "off",
+      "no-unused-vars": "off",
+      "no-eval": "off",
+      "new-cap": "off",
+
+      "brace-style": "allman",
+      "no-warning-comments": "off",
+      "no-lonely-if": "off",
+      "guard-for-in": "off",
+      "max-params": "off",
+      "no-nested-ternary": "off",
+      "no-multi-spaces": "off",
+      "quotes": "off",
+      "no-redeclare": "off",
+      "operator-linebreak": "off",
+      "no-eq-null": "off",
+      "no-useless-call": "off",
+      "consistent-return": "off",
+      "max-statements-per-line": "off",
+      "no-prototype-builtins": "off",
+      "array-callback-return": "off",
+      "no-constant-condition": "off",
+      "no-empty": "off",
+      "no-fallthrough": "off",
+      "valid-typeof": "off",
+      "no-cond-assign": "off",
+      "no-else-return": "off",
+      "no-unneeded-ternary": "off",
+      "one-var": "off",
+      "no-useless-concat": "off",
+      "no-unmodified-loop-condition": "off",
+      "func-call-spacing": "off",
+      "no-unexpected-multiline": "off",
+      "no-labels": "off",
+      "no-inner-declarations": "off"
+    }
+  },
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
 }

@@ -226,14 +226,14 @@ qx.Class.define("qx.test.mobile.core.Widget",
       var widget = new qx.ui.mobile.core.Widget();
       this.getRoot().add(widget);
 
-      this.assertEquals(true,widget.getEnabled());
-      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+      this.assertEquals(true, widget.getEnabled());
+      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(), 'disabled'));
 
       widget.setEnabled(false);
-      this.assertEquals(false,widget.getEnabled());
-      this.assertEquals(true,qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
+      this.assertEquals(false, widget.getEnabled());
+      this.assertEquals(true, qx.bom.element.Class.has(widget.getContainerElement(), 'disabled'));
 
-      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointerEvents'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(), 'pointerEvents'));
 
       widget.destroy();
 
@@ -242,18 +242,17 @@ qx.Class.define("qx.test.mobile.core.Widget",
 
       widget.setEnabled(true);
       widget.setAnonymous(true);
-      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
-      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointerEvents'));
+      this.assertFalse(qx.bom.element.Class.has(widget.getContainerElement(), 'disabled'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(), 'pointerEvents'));
 
       widget.setEnabled(false);
-      this.assertEquals(true,qx.bom.element.Class.has(widget.getContainerElement(),'disabled'));
-      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointerEvents'));
+      this.assertEquals(true, qx.bom.element.Class.has(widget.getContainerElement(), 'disabled'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(), 'pointerEvents'));
 
       widget.setEnabled(true);
-      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(),'pointerEvents'));
+      this.assertEquals('none', qx.bom.element.Style.get(widget.getContainerElement(), 'pointerEvents'));
 
       widget.destroy();
-
     },
 
 

@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     _onKeyUp : function(e)
     {
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     _onKeyDown : function(e)
     {
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":

@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
       });
 
     // If no structure is provided...
-    if (! structure)
+    if (!structure)
     {
       // ... then create a default one.
       structure = new qx.ui.progressive.structure.Default();
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     removeRenderer : function(name)
     {
-      if (! this.__renderer[name])
+      if (!this.__renderer[name])
       {
         throw new Error("No existing renderer named " + name);
       }
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
       {
         // Retrieve the current element
         current = state.getModel().getNextElement();
-        if (! current)
+        if (!current)
         {
           // No more elements.  We're done.
           this.debug("Render time: " + (new Date() - this.__t1) + "ms");

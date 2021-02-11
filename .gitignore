@@ -9,13 +9,6 @@ tmp/
 # Emacs backup files
 *~
 
-# SDK build dir
-/release/
-
-# Python bytecode
-*.pyc
-*.pyo
-
 # OSX file system
 .DS_Store
 
@@ -32,15 +25,12 @@ tmp/
 /lib
 /compiled
 /apps
-/docs
 /deploy
 /build
 /qx_packages
-/qooxdoo-compiler
-/source
 
 # CSS compiler
-/framework/source/resource/qx/mobile/scss/.sass-cache/
+/source/resource/qx/mobile/scss/.sass-cache/
 
 # Node/NPM
 node_modules/

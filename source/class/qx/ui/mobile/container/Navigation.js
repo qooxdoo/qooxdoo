@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
       this._setStyle("transitionDuration", widget.getNavigationBarToggleDuration()+"s");
 
-      if(widget.isNavigationBarHidden()) {
+      if (widget.isNavigationBarHidden()) {
         this.addCssClass("hidden");
       } else {
         navigationBar.show();
@@ -255,10 +255,10 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   destruct : function()
   {
-    this.getLayout().removeListener("animationStart",this._onAnimationStart, this);
-    this.getLayout().removeListener("animationEnd",this._onAnimationEnd, this);
+    this.getLayout().removeListener("animationStart", this._onAnimationStart, this);
+    this.getLayout().removeListener("animationEnd", this._onAnimationEnd, this);
 
-    this._disposeObjects("__navigationBar", "__content","__layout");
+    this._disposeObjects("__navigationBar", "__content", "__layout");
     this.__navigationBar = this.__content = this.__layout = null;
   }
 });

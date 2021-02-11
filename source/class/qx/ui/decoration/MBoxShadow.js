@@ -129,7 +129,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
       propName = qx.bom.Style.getCssName(propName);
 
       var Color = null;
-      if(qx.core.Environment.get("qx.theme")) {
+      if (qx.core.Environment.get("qx.theme")) {
         Color = qx.theme.manager.Color.getInstance();
       }
 
@@ -137,7 +137,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
         "shadowSpreadRadius", "shadowColor", "inset"];
         
       (function(vLengths, hLengths, blurs, spreads, colors, insets) {
-        for(var i=0;i<vLengths.length;i++) {
+        for (var i=0; i<vLengths.length; i++) {
           var vLength = vLengths[i] || 0;
           var hLength = hLengths[i] || 0;
           var blur = blurs[i] || 0;
@@ -145,11 +145,11 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
           var color = colors[i] || "black";
           var inset = insets[i];
 
-          if(Color) {
+          if (Color) {
             color = Color.resolve(color);
           }
 
-          if(color != null) {
+          if (color != null) {
             var value = (inset ? 'inset ' : '') + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
             // apply or append the box shadow styles
             if (!styles[propName]) {

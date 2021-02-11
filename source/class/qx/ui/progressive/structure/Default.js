@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     this.base(arguments, pane);
 
     // If no header was specified, use null header
-    if (! header)
+    if (!header)
     {
       this.__nullHeader = new qx.ui.progressive.headfoot.Null();
       this.__header = this.__nullHeader;
@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     }
 
     // If no footer was specified, use a null footer
-    if (! footer)
+    if (!footer)
     {
       this.__nullFooter = new qx.ui.progressive.headfoot.Null();
       this.__footer = this.__nullFooter;

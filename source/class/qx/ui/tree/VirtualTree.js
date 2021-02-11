@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setChildProperty(childProperty);
     }
 
-    if(rootModel != null) {
+    if (rootModel != null) {
       this.initModel(rootModel);
     }
 
@@ -540,7 +540,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__openProperty = openProperty;
 
       // if no name is provided, just remove any prior open-close controller
-      if (! openProperty) {
+      if (!openProperty) {
         if (this._openCloseController) {
           this._openCloseController.dispose();
           this._openCloseController = null;
@@ -832,7 +832,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       // only continue when the effected property is the child property
-      if ( propertyName.startsWith(this.getChildProperty()) )
+      if (propertyName.startsWith(this.getChildProperty()))
       {
         var item = data.item;
 
@@ -909,7 +909,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         var item = selection.getItem(0);
         var isNode = this.isNode(item);
 
-        switch(e.getKeyIdentifier())
+        switch (e.getKeyIdentifier())
         {
           case "Left":
             if (isNode && this.isNodeOpen(item)) {
@@ -1221,7 +1221,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       var level = this.__nestingLevel[index];
-      while(index > 0)
+      while (index > 0)
       {
         index--;
         var levelBefore = this.__nestingLevel[index];
@@ -1243,7 +1243,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       this.__parentChain = [];
       var parent = this.getParent(item);
-      while(parent != null)
+      while (parent != null)
       {
         this.__parentChain.unshift(parent);
         parent = this.getParent(parent);
@@ -1265,7 +1265,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var lookupTable = this.getLookupTable();
       var parent = this.__parentChain.pop();
 
-      while(parent != null)
+      while (parent != null)
       {
         if (lookupTable.contains(parent)) {
           return parent;

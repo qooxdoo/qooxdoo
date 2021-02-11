@@ -32,7 +32,7 @@ qx.Class.define("qx.test.bom.Font",
 
 
     setUp : function() {
-      this.__font = new qx.bom.Font;
+      this.__font = new qx.bom.Font();
     },
 
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.bom.Font",
 
     testFontFamily : function()
     {
-      this.__font.setFamily( ["Arial"] );
+      this.__font.setFamily(["Arial"]);
 
       var styles = this.__font.getStyles();
       this.assertEquals("Arial", styles.fontFamily, "Wrong style value for 'family' property!");
@@ -105,7 +105,7 @@ qx.Class.define("qx.test.bom.Font",
 
     testFontFamilyMultipleWords : function()
     {
-      this.__font.setFamily( ['Times New Roman'] );
+      this.__font.setFamily(['Times New Roman']);
 
       var styles = this.__font.getStyles();
       this.assertEquals('"Times New Roman"', styles.fontFamily, "Wrong style value for 'family' property!");

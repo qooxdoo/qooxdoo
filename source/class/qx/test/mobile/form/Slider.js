@@ -27,9 +27,9 @@ qx.Class.define("qx.test.mobile.form.Slider",
       var slider = new qx.ui.mobile.form.Slider().set({"step": 4.5});
       this.getRoot().add(slider);
 
-      this.assertEquals(0,slider.getValue());
-      this.assertEquals(0,qx.bom.element.Dataset.get(slider._getKnobElement(),"value"));
-      this.assertEquals(0,qx.bom.element.Dataset.get(slider._getKnobElement(),"percent"));
+      this.assertEquals(0, slider.getValue());
+      this.assertEquals(0, qx.bom.element.Dataset.get(slider._getKnobElement(), "value"));
+      this.assertEquals(0, qx.bom.element.Dataset.get(slider._getKnobElement(), "percent"));
 
       this.assertEventFired(slider, "changeValue", function() {
         slider.nextValue();
@@ -57,8 +57,8 @@ qx.Class.define("qx.test.mobile.form.Slider",
       var slider = new qx.ui.mobile.form.Slider();
       this.getRoot().add(slider);
       slider.setEnabled(false);
-      this.assertEquals(false,slider.getEnabled());
-      this.assertEquals(true,qx.bom.element.Class.has(slider.getContainerElement(),'disabled'));
+      this.assertEquals(false, slider.getEnabled());
+      this.assertEquals(true, qx.bom.element.Class.has(slider.getContainerElement(), 'disabled'));
 
       slider.destroy();
     }

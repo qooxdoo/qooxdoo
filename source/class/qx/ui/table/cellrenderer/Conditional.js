@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
             compareValue = tableModel.getValueById(this.conditions[i][6], cellInfo.row);
           }
 
-          switch(this.conditions[i][0])
+          switch (this.conditions[i][0])
           {
             case "==":
               if (compareValue == this.conditions[i][5]) {
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
             compareValue = tableModel.getValueById(this.conditions[i][7], cellInfo.row);
           }
 
-          switch(this.conditions[i][0])
+          switch (this.conditions[i][0])
           {
             case "between":
               if (compareValue >= this.conditions[i][5] && compareValue <= this.conditions[i][6]) {
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       }
 
       var styleString = [];
-      for(var key in style) {
+      for (var key in style) {
         if (style[key]) {
           styleString.push(key, ":", style[key], ";");
         }

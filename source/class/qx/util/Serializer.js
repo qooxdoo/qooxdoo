@@ -86,7 +86,6 @@ qx.Class.define("qx.util.Serializer",
      */
     __toUriParameter : function(name, value, qxSerializer)
     {
-
       if (value && value.$$type == "Class") {
         value = value.classname;
       }

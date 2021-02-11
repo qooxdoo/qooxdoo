@@ -1,0 +1,69 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "environment": {
+    "qx.icontheme": [
+      "Tango",
+      "Oxygen"
+    ]
+  },
+  "libraries": [
+    "../.."
+  ],
+  "applications": [
+    {
+      "class": "qxl.testrunner.GuiApplication",
+      "theme": "qx.theme.Simple",
+      "name": "testrunner",
+      "title": "TestRunner",
+      "include": [
+        "qxl.testrunner.view.widget.Widget"
+      ],
+      "environment": {
+        "qxl.testrunner.performance": true,
+        "qxl.testrunner.reportPerfResultUrl": false,
+        "qxl.testrunner.reportServer": false,
+        "qxl.testrunner.testOrigin": "iframe",
+        "qxl.testrunner.testParts": false,
+        "qxl.testrunner.title": "qx",
+        "qxl.testrunner.view": "qxl.testrunner.view.widget.Widget",
+        "qx.testPageUri": "tests/index.html",
+        "qx.testNameSpace": "qx.test"
+      }
+    },
+    {
+      "class": "qxl.testrunner.TestLoader",
+      "theme": "qx.theme.Simple",
+      "name": "tests",
+      "title": "Tests",
+      "include": [
+        "qx.test.*"
+      ],
+      "environment": {
+        "qx.standaloneAutorun": false,
+        "qx.test.bool_false": false,
+        "qx.test.bool_true": true,
+        "qx.test.delay.scale": 1,
+        "qx.test.travis": false,
+        "qx.testNameSpace": "qx.test",
+        "qxl.testrunner.testParts": false
+      }
+    }
+  ],
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source"
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "serve": {
+    "listenPort": 8080
+  }
+}

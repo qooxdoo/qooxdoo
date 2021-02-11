@@ -24,6 +24,7 @@
  * @ignore(Klass)
  * @asset(qx/test/xmlhttp/*)
  */
+/* global Klass */
 
 /**
  * Tests asserting behavior
@@ -95,7 +96,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.dispose();
 
       // May fail in IE
-      try { qx.Class.undefine("Klass"); } catch(e) {}
+      try { qx.Class.undefine("Klass"); } catch (e) {}
     },
 
     //
@@ -237,7 +238,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals('{"abc":"def","uvw":"xyz"}', req._serializeData(data));
 
       req.setRequestHeader("Content-Type", contentType);
-      this.assertEquals('[1,2,3]', req._serializeData([1,2,3]));
+      this.assertEquals('[1,2,3]', req._serializeData([1, 2, 3]));
     },
 
     //
@@ -410,7 +411,6 @@ qx.Class.define("qx.test.io.request.Xhr",
       }, function(e) {
         that.assertEquals("Affe", e.getData());
       });
-
     },
 
     //

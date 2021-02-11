@@ -52,7 +52,7 @@ qx.Class.define("qx.util.Base64", {
       }
       else
       {
-        isMultiByte = ! is8bit;
+        isMultiByte = !is8bit;
       }
 
       var padding = '=';
@@ -225,11 +225,12 @@ qx.Class.define("qx.util.Base64", {
       }
       else
       {
-        isMultiByte = ! is8bit;
+        isMultiByte = !is8bit;
       }
 
       var ilength = input.length;
-      var stringBytes = [], i = 0;
+      var stringBytes = [], 
+i = 0;
 
       while (i < ilength)
       {

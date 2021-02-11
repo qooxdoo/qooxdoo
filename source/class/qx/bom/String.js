@@ -394,7 +394,7 @@ qx.Bootstrap.define("qx.bom.String",
      */
     fromText : function(str)
     {
-      return qx.bom.String.escape(str).replace(/(  |\n)/g, function(chr)
+      return qx.bom.String.escape(str).replace(/( {2}|\n)/g, function(chr)
       {
         var map =
         {

@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
    */
   construct : function(form)
   {
-    this.base(arguments,form);
+    this.base(arguments, form);
     this.removeCssClass("single");
     this.addCssClass("single-placeholder");
   },
@@ -42,12 +42,11 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
 
     // override
     addItems : function(items, names, title) {
-      if(title != null)
+      if (title != null)
       {
         this._addGroupHeader(title);
       }
       for (var i = 0, l = items.length; i < l; i++) {
-
         var item = items[i];
         var name = names[i];
 

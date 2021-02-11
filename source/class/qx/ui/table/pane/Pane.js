@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         cellInfo.rowData = tableModel.getRowData(row);
 
         rowRenderer.updateDataRowElement(cellInfo, rowNodes[y]);
-      };
+      }
     },
 
 
@@ -619,7 +619,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         var rowElem = tableChildNodes[removeRowBase];
         try {
           tableBody.removeChild(rowElem);
-        } catch(exp) {
+        } catch (exp) {
           break;
         }
       }

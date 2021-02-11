@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "iframe":
           control = new qx.ui.embed.Iframe(this.getSource());

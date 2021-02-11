@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
         imageHeight : 11
       };
 
-      switch(cellInfo.cellData)
+      switch (cellInfo.cellData)
       {
         case true:
           imageData.url = this.__iconUrlTrue;

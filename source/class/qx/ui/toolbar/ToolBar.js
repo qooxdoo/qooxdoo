@@ -252,7 +252,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
        // if we can possibly show something
      } else if (this.__removedItems.length > 0) {
-
        do {
          var removedChild = this.__removedItems[0];
          // if we have something we can show
@@ -292,7 +291,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
              requiredWidth += removedChildWidth;
              // check if we need to remove the overflow widget
              if (overflowWidget && this.__removedItems.length == 0) {
-
                overflowWidget.setVisibility("excluded");
              }
            } else {
@@ -351,7 +349,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (item && item.getVisibility && item.getVisibility() == "visible") {
           return item;
         }
-      };
+      }
 
       // if there is non found by priority, check all available widgets
       var children = this._getChildren();
@@ -365,7 +363,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (child.getVisibility && child.getVisibility() == "visible") {
           return child;
         }
-      };
+      }
     },
 
 
@@ -424,7 +422,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // set all buttons back to visible
         for (var i = 0; i < this.__removedItems.length; i++) {
           this.__removedItems[i].setVisibility("visible");
-        };
+        }
         // reset the removed items
         this.__removedItems = [];
       }
@@ -501,7 +499,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (children[i].setShow) {
           children[i].setShow(value);
         }
-      };
+      }
     },
 
 
@@ -615,7 +613,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      */
     addSpacer : function()
     {
-      var spacer = new qx.ui.core.Spacer;
+      var spacer = new qx.ui.core.Spacer();
       this._add(spacer, {flex:1});
       return spacer;
     },
@@ -625,7 +623,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * Adds a separator to the toolbar.
      */
     addSeparator : function() {
-      this.add(new qx.ui.toolbar.Separator);
+      this.add(new qx.ui.toolbar.Separator());
     },
 
 
@@ -661,6 +659,5 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     if (this.hasListener("resize")) {
       this.removeListener("resize", this._onResize, this);
     }
-
   }
 });

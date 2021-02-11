@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /*
@@ -498,17 +498,17 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       /*
        * Height for width support
-       * 
+       *
        * Results into a re-layout which means that width/height is applied in the next iteration.
-       * 
-       * Note that it is important that this happens after the above first pass at calculating a 
+       *
+       * Note that it is important that this happens after the above first pass at calculating a
        * computed size because otherwise getBounds() will return null, and this will cause an
        * issue where the existing size is expected to have already been applied by the layout.
-       * See https://github.com/qooxdoo/qooxdoo/issues/9553  
+       * See https://github.com/qooxdoo/qooxdoo/issues/9553
        */
       if (this.getHeight() == null && this._hasHeightForWidth()) {
         var flowHeight = this._getHeightForWidth(width);
-        
+
         if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
         {
           // This variable is used in the next computation of the size hint

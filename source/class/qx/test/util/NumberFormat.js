@@ -53,7 +53,7 @@ qx.Class.define("qx.test.util.NumberFormat",
       try {
         nf.dispose();
       }
-      catch(e) {
+      catch (e) {
       }
 
       try {
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.util.NumberFormat",
       try {
         nf.dispose();
       }
-      catch(e) {
+      catch (e) {
       }
 
       for (i = 0, len= wrongArgs.length; i < len; i += 1) {
@@ -78,7 +78,7 @@ qx.Class.define("qx.test.util.NumberFormat",
         try {
           nf.dispose();
         }
-        catch(e) {
+        catch (e) {
         }
       }
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.util.NumberFormat",
         try {
           nf.dispose();
         }
-        catch(e) {
+        catch (e) {
         }
       }
     },
@@ -163,7 +163,6 @@ qx.Class.define("qx.test.util.NumberFormat",
           "testing if parsing fails on string '" + badNumberStr + "'"
         );
       }
-
     },
 
     testLocaleSwitch : function()

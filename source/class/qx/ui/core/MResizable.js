@@ -123,7 +123,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __dragDropHandler : null,
@@ -321,7 +321,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // check again in case we have a corner [BUG #1200]
       if (resizeActive > 0) {
         // this is really a | (or)!
-        resizeActive = resizeActive | this.__computeResizeActive(
+        resizeActive |= this.__computeResizeActive(
           location, pointerLeft, pointerTop, pointerTolerance * 2
         );
       }
@@ -618,10 +618,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   destruct : function()
   {
-    if(this.getCursor()) {
+    if (this.getCursor()) {
       this.getApplicationRoot().resetGlobalCursor();
     }
-    
+
     if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown)
     {
       this.__resizeFrame.destroy();

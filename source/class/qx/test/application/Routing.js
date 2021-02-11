@@ -171,7 +171,7 @@ qx.Class.define("qx.test.application.Routing",
     },
 
     testGetPathOrFallback : function() {
-      this.__r.on("/registered", function(){});
+      this.__r.on("/registered", function() {});
 
       this.assertEquals("/", this.__r._getPathOrFallback(""));
       this.assertEquals("/", this.__r._getPathOrFallback(null));

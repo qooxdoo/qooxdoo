@@ -269,7 +269,7 @@ qx.Class.define("qx.test.ui.command.Command",
       var cmd = new qx.ui.command.Command("Meta+T");
 
       // Create a button linked to cmd
-      var button = new qx.ui.form.Button("Command button", null,cmd);
+      var button = new qx.ui.form.Button("Command button", null, cmd);
 
       cmd.setEnabled(false);
       button.destroy();
@@ -321,7 +321,7 @@ qx.Class.define("qx.test.ui.command.Command",
       var cmd = new qx.ui.command.Command("Ctrl+X");
       this.assertEquals("Ctrl+X", cmd.toString());
       cmd.dispose();
-      this.assertEquals("qx.ui.command.Command[undefined]",cmd.toString());
+      this.assertEquals("qx.ui.command.Command[undefined]", cmd.toString());
     }
   }
 });

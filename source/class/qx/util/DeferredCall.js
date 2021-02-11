@@ -88,7 +88,6 @@ qx.Class.define("qx.util.DeferredCall",
      * Calls the callback directly.
      */
     call : function() {
-
       if (qx.core.Environment.get("qx.debug")) {
         // warn if the context is disposed
         var context = this.__context;

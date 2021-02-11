@@ -31,6 +31,7 @@
  * @ignore(iScroll)
  * @asset(qx/mobile/js/iscroll*.js)
  */
+/* global iScroll */
 qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 {
 
@@ -65,7 +66,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _createScrollElement : function()
     {
       var scroll = qx.dom.Element.create("div");
-      qx.bom.element.Class.add(scroll,"iscroll");
+      qx.bom.element.Class.add(scroll, "iscroll");
       return scroll;
     },
 
@@ -96,7 +97,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     * @return {Number} the scrolling height.
     */
     _getScrollHeight : function() {
-      if(!this.getContainerElement()) {
+      if (!this.getContainerElement()) {
         return 0;
       }
       return this._getScrollContentElement().scrollHeight - this.getContainerElement().offsetHeight;
@@ -108,7 +109,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     * @return {Number} the scrolling width.
     */
     _getScrollWidth : function() {
-      if(!this.getContainerElement()) {
+      if (!this.getContainerElement()) {
         return 0;
       }
       return this._getScrollContentElement().scrollWidth - this.getContainerElement().offsetWidth;
@@ -137,7 +138,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           x = lowerLimitX;
         }
 
-        if(this.__scroll) {
+        if (this.__scroll) {
           this.__scroll.scrollTo(-x, -y, time);
         } else {
           // Case when iScroll is not loaded yet, but user tries
@@ -192,7 +193,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       var defaultScrollProperties = this._getDefaultScrollProperties();
       var customScrollProperties = {};
 
-      if(this._scrollProperties != null) {
+      if (this._scrollProperties != null) {
         customScrollProperties = this._scrollProperties;
       }
 
@@ -219,7 +220,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         onScrollEnd: function () {
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
             container.fireEvent("scrollEnd");
@@ -231,7 +231,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         onScrollMove: function () {
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
             if (this.y == this.maxScrollY) {
@@ -301,7 +300,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       if (request.status < 400)
       {
-        if(!this.isDisposed()) {
+        if (!this.isDisposed()) {
           this._setScroll(this.__createScrollInstance());
           this._scrollTo(this._currentX, this._currentY);
         }
@@ -330,7 +329,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      * Prevents any further scrolling of this container.
      */
     disable : function() {
-      if(this.__scroll) {
+      if (this.__scroll) {
         this.__scroll.disable();
       }
     },
@@ -340,7 +339,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      * Delegation method for iScroll. Enables the iScroll object.
      */
     enable : function() {
-      if(this.__scroll) {
+      if (this.__scroll) {
         this.__scroll.enable();
       }
     },

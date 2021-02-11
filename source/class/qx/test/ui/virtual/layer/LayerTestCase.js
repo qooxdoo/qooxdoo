@@ -37,7 +37,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       }
 
       var columnSizes = [];
-      for(var i=15; i<=18; i++) {
+      for (var i=15; i<=18; i++) {
         columnSizes.push(this.colWidth);
       }
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       }
 
       var columnSizes = [];
-      for(var i=firstColumn; i<=lastColumn; i++) {
+      for (var i=firstColumn; i<=lastColumn; i++) {
         columnSizes.push(this.colWidth);
       }
 

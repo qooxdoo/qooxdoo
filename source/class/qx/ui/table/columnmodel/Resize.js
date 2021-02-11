@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         );
 
         // ... when columns are resized, ...
-        this.addListener("widthChanged", this._oncolumnwidthchanged, this );
+        this.addListener("widthChanged", this._oncolumnwidthchanged, this);
 
         // ... and when a column visibility changes.
         this.addListener("visibilityChanged", this._onvisibilitychanged, this);
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       if (this.__bInProgress)
       {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this.__bInProgress = true;

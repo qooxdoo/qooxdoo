@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.Part",
         this.__decodeUris(loader.packages[key].uris), key, key==bootPackageKey
       );
       this.__packages[key] = pkg;
-    };
+    }
 
     // create the parts
     this.__parts = {};
@@ -278,7 +278,6 @@ qx.Bootstrap.define("qx.Part",
 
       var partsPreloaded = 0;
       for (var i=0; i<partNames.length; i++) {
-
         this.__parts[partNames[i]].preload(function() {
           partsPreloaded++;
 
@@ -287,11 +286,11 @@ qx.Bootstrap.define("qx.Part",
             var states = [];
             for (var i = 0; i < partNames.length; i++) {
               states.push(this.__parts[partNames[i]].getReadyState());
-            };
+            }
             if (callback) {
               callback.call(self, states);
             }
-          };
+          }
         }, this);
       }
     },

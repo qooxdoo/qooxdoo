@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
     {
       var selectionModel = this.getSelectionModel();
 
-      switch(evt.getModifiers())
+      switch (evt.getModifiers())
       {
         case 0:
           selectionModel.setSelectionInterval(index, index);
