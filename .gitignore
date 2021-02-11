@@ -28,10 +28,10 @@ tmp/
 /apps
 /deploy
 /build
-/compiled
 /qx_packages
 /tmp
 /bootstrap
+/qx
 
 # CSS compiler
 /source/resource/qx/mobile/scss/.sass-cache/
