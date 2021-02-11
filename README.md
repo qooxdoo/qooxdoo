@@ -41,7 +41,7 @@ need to first execute the following steps:
 ```bash
 git clone https://github.com/qooxdoo/qooxdoo.git
 cd qooxdoo
-npm install
+npm ci
 ./bootstrap-compiler
 ./bootstrap/qx config set qx.library `pwd`
 ```
@@ -49,8 +49,8 @@ This compiles the compiler you will be using to compile your code from the sourc
 of this repository, which makes sure that you are using the latest version of the
 compiler. 
 
-If you work on the compiler itself, you will then use `./bin/source/qx`. In order
-to compile modified framework code, use the optimized `./bin/build/qx` executable. 
+For development, use the `./bin/source/qx` executable. To save yourself some typing,
+we recommend to create a shortcut  with `ln -s ./bin/source/qx .`
 
 ## Contributing
 
