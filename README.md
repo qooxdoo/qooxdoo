@@ -76,7 +76,5 @@ other developers who use Qooxdoo.
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
 [coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
 [coveralls-url]: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
-[saucelab-image]: https://saucelabs.com/buildstatus/qx-core
-[saucelab-url]: https://saucelabs.com/open_sauce/user/qx-core
 [gitter-image]: https://badges.gitter.im/qooxdoo/qooxdoo.svg
 [gitter-url]: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
