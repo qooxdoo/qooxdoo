@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
         widget.setUserData("cell.type", "item");
         this._bindItem(widget, this._list._lookup(row));
 
-        if (this._list._manager.isItemSelected(row)) {
+        if(this._list._manager.isItemSelected(row)) {
           this._styleSelectabled(widget);
         } else {
           this._styleUnselectabled(widget);
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      */
     __updateStates : function(widget, states)
     {
-      if (widget == null) {
+      if(widget == null) {
         return;
       }
 

@@ -34,7 +34,7 @@ qx.Class.define("qx.test.dev.StackTrace",
       var trace = [];
       try {
         throw new Error("Expected exception");
-      } catch (ex) {
+      } catch(ex) {
         trace = qx.dev.StackTrace.getStackTraceFromError(ex);
       }
       qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
@@ -60,7 +60,7 @@ qx.Class.define("qx.test.dev.StackTrace",
         try {
           throw e;
         }
-        catch (ex) {
+        catch(ex) {
           var trace = qx.dev.StackTrace.getStackTraceFromError(ex);
           this.assertNotIdentical(0, trace.length, "Didn't get stack trace from " + cls.toString());
         }

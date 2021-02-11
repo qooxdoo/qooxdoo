@@ -1,0 +1,18 @@
+.ol-search ul li {
+   display: block;
+   color:  #333;
+   background-color: #fff;
+   font-size: 0.85em;
+}
+.ol-search ul li i {
+   display: block;
+   color:  #333;
+   background-color: #fff;
+   font-size: 0.85em;
+   cursor: pointer
+}
+.ol-search ul li.select i,
+.ol-search ul li:hover i {
+  background-color: rgb(0,60,136);
+  color: #fff;
+}

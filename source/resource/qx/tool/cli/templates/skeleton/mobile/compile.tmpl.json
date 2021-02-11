@@ -1,0 +1,28 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ${locales},
+  "environment": {
+      "qx.icontheme": "${icon_theme}"
+  },
+  "applications": [
+    {
+      "class": "${namespace}.Application",
+      "name": "${namespace}",
+      "bootPath": "source/boot"
+    }
+  ]
+}

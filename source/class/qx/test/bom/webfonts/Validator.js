@@ -25,7 +25,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
     {
       this.__nodesBefore = document.body.childNodes.length;
       this.require(["webFontSupport"]);
-      this.__val = new qx.bom.webfonts.Validator();
+      this.__val = new qx.bom.webfonts.Validator;
     },
 
     tearDown : function()

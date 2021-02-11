@@ -852,7 +852,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
       // by keyboard interaction. We have to ignore the event to avoid a selection for
       // "pointerover" (quick selection). For more details see [BUG #4225]
-      if (this.__oldScrollTop != null &&
+      if(this.__oldScrollTop != null &&
          this.__oldScrollTop != this._getScroll().top)
       {
         this.__oldScrollTop = null;
@@ -1005,7 +1005,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Action depends on selected mode
       if (!this.isReadOnly()) {
-        switch (this.getMode())
+        switch(this.getMode())
         {
           case "single":
           case "one":
@@ -1367,7 +1367,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __navigationKeys :
     {
       Home : 1,
-      Down : 1,
+      Down : 1 ,
       Right : 1,
       PageDown : 1,
       End : 1,
@@ -1431,7 +1431,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
       }
       else if (this.__navigationKeys[key] && readOnly) {
-        switch (key)
+        switch(key)
         {
           case "Home":
             next = this._getFirstSelectable();
@@ -1483,7 +1483,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
         if (current !== null)
         {
-          switch (key)
+          switch(key)
           {
             case "Home":
               next = this._getFirstSelectable();
@@ -1520,7 +1520,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
         else
         {
-          switch (key)
+          switch(key)
           {
             case "Home":
             case "Down":
@@ -1541,7 +1541,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         // Process result
         if (next !== null)
         {
-          switch (mode)
+          switch(mode)
           {
             case "single":
             case "one":

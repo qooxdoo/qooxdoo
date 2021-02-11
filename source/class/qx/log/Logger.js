@@ -459,7 +459,7 @@ qx.Bootstrap.define("qx.log.Logger",
       {
         var clazz = object.constructor;
 
-        while (clazz.classname !== baseclass.classname)
+        while(clazz.classname !== baseclass.classname)
         {
           if (clazz.prototype.hasOwnProperty(methodName))
           {
@@ -571,7 +571,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
 
       // Build entry
-      var time = new Date();
+      var time = new Date;
       var entry =
       {
         time : time,
@@ -731,7 +731,7 @@ qx.Bootstrap.define("qx.log.Logger",
       var text = "unknown";
       var trace = [];
 
-      switch (type)
+      switch(type)
       {
         case "null":
         case "undefined":

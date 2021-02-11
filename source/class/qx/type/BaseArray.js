@@ -429,6 +429,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
 });
 
 (function() {
+
 function createStackConstructor(stack)
 {
   // In IE don't inherit from Array but use an empty object as prototype
@@ -445,7 +446,7 @@ function createStackConstructor(stack)
     for (var length = args.length; length;) {
       Stack.prototype[args[--length]] = Array.prototype[args[length]];
     }
-  }
+  };
 
   // Remember Array's slice method
   var slice = Array.prototype.slice;
@@ -474,7 +475,7 @@ function createStackConstructor(stack)
   };
 
   // Fix "toString" method
-  Stack.prototype.toString = function() {
+  Stack.prototype.toString = function(){
     return slice.call(this, 0).toString();
   };
 
@@ -502,28 +503,28 @@ function createStackConstructor(stack)
   // to return an instance of the same class
   Stack.prototype.filter = function()
   {
-    var ret = new this.constructor();
+    var ret = new this.constructor;
     ret.push.apply(ret, filter.apply(this, arguments));
     return ret;
   };
 
   Stack.prototype.map = function()
   {
-    var ret = new this.constructor();
+    var ret = new this.constructor;
     ret.push.apply(ret, map.apply(this, arguments));
     return ret;
   };
 
   Stack.prototype.slice = function()
   {
-    var ret = new this.constructor();
+    var ret = new this.constructor;
     ret.push.apply(ret, Array.prototype.slice.apply(this, arguments));
     return ret;
   };
 
   Stack.prototype.splice = function()
   {
-    var ret = new this.constructor();
+    var ret = new this.constructor;
     ret.push.apply(ret, Array.prototype.splice.apply(this, arguments));
     return ret;
   };
@@ -534,7 +535,7 @@ function createStackConstructor(stack)
   };
 
   // Add valueOf() to return the length
-  Stack.prototype.valueOf = function() {
+  Stack.prototype.valueOf = function(){
     return this.length;
   };
 
@@ -545,17 +546,18 @@ function createStackConstructor(stack)
 
 function Stack(length)
 {
-  if (arguments.length === 1 && typeof length === "number") {
-    this.length = length > -1 && length === length >> 0.5 ? length : this.push(length);
-  } else if (arguments.length) {
+  if(arguments.length === 1 && typeof length === "number") {
+    this.length = -1 < length && length === length >> .5 ? length : this.push(length);
+  } else if(arguments.length) {
     this.push.apply(this, arguments);
   }
-}
+};
 
-function PseudoArray() {}
+function PseudoArray(){};
 PseudoArray.prototype = [];
-Stack.prototype = new PseudoArray();
+Stack.prototype = new PseudoArray;
 Stack.prototype.length = 0;
 
 qx.type.BaseArray = createStackConstructor(Stack);
+
 })();

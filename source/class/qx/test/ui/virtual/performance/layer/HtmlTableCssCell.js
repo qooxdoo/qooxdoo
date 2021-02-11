@@ -58,6 +58,8 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
 
       clazz.__style = qx.bom.Stylesheet.createElement(stylesheet);
     }
+
+
   },
 
 
@@ -82,7 +84,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
 
       html.push('<table class="qooxdoo-table">');
       html.push('<colgroup>');
-      for (var y=0; y<columnSizes.length; y++) {
+      for(var y=0; y<columnSizes.length; y++) {
        html.push('<col width=' + columnSizes[y] + '>');
       }
       html.push('</colgroup>');
@@ -94,7 +96,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
         var height = rowSizes[x];
 
         html.push('<tr height=' + height + '>');
-        for (var y=0; y<columnSizes.length; y++)
+        for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
 

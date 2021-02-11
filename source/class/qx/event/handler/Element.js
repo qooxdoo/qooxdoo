@@ -151,7 +151,7 @@ qx.Class.define("qx.event.handler.Element",
       var eventId = elementId + "-" + type;
 
       var eventData = this._registeredEvents[eventId];
-      if (eventData) {
+      if(eventData) {
         qx.bom.Event.removeNativeListener(target, type, eventData.listener);
       }
 

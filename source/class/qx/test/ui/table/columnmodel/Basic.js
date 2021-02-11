@@ -52,7 +52,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
 
      if (qx.core.Environment.get("qx.debug"))
      {
-       this.assertException(function() {
+       this.assertException(function(){
          tcm.setColumnWidth(6, 10);
        }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
      }
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.table.columnmodel.Basic",
      {
        this.assertException(function()
        {
-         tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Default());
+         tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Default);
        }, qx.core.AssertionError, "Column not found in table model", "Invalid column width.");
      }
 

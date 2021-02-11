@@ -22,12 +22,16 @@ tmp/
 
 # Build & test infrastructure
 /build.log
+/html
 /lib
 /compiled
 /apps
 /deploy
 /build
+/compiled
 /qx_packages
+/tmp
+/bootstrap
 
 # CSS compiler
 /source/resource/qx/mobile/scss/.sass-cache/

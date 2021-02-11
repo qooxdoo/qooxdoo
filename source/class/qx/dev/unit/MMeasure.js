@@ -108,7 +108,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
       var profilingEnabled;
       try {
         profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getNativeProfiling();
-      } catch (ex) {
+      } catch(ex) {
         profilingEnabled = false;
       }
 

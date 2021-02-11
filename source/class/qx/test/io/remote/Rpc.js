@@ -55,7 +55,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
-      var obj = { date: new Date(Date.UTC(2020, 0, 1, 0, 0, 0, 123)) },
+      var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
           msg,
           data;
 
@@ -71,7 +71,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: request data for params with nested date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
-      var obj = {nested: {date: new Date(Date.UTC(2020, 0, 1, 0, 0, 0, 123))} },
+      var obj = {nested: {date: new Date(Date.UTC(2020,0,1,0,0,0,123))} },
           msg,
           data;
 

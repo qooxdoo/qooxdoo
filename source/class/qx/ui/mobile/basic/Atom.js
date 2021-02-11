@@ -141,17 +141,17 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     // property apply
     _applyShow : function(value, old)
     {
-      if (this.__label) {
-        if (value === 'both' || value === 'label') {
+      if(this.__label) {
+        if(value === 'both' || value === 'label') {
           this.__label.show();
-        } else if (value === 'icon') {
+        } else if(value === 'icon') {
           this.__label.exclude();
         }
       }
-      if (this.__icon) {
-        if (value === 'both' || value === 'icon') {
+      if(this.__icon) {
+        if(value === 'both' || value === 'icon') {
           this.__icon.show();
-        } else if (value === 'label') {
+        } else if(value === 'label') {
           this.__icon.exclude();
         }
       }
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     _createIconWidget : function(iconUrl)
     {
       var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
-      qx.bom.element.Style.set(iconWidget.getContentElement(), "display", "block");
+      qx.bom.element.Style.set(iconWidget.getContentElement(),"display","block");
       iconWidget.setAnonymous(true);
       iconWidget.addCssClass("gap");
       return iconWidget;
@@ -284,7 +284,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      */
     __createChildren : function(label, icon) {
       this.__label = this._createLabelWidget(label);
-      if (label)
+      if(label)
       {
         this.setLabel(label);
       }
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
       this.__createLayout(verticalLayout, hasNoLabel);
 
-      if (this.__childrenContainer) {
+      if(this.__childrenContainer) {
         this.__childrenContainer.dispose();
       }
 
@@ -310,20 +310,20 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       this.__childrenContainer.addCssClass("qx-flex-center");
       this.__childrenContainer.setAnonymous(true);
 
-      if (this.__icon) {
+      if(this.__icon) {
         this.__childrenContainer.add(this.__icon);
       }
 
-      if (this.__label) {
+      if(this.__label) {
         this.__label.addCssClass("qx-flex-center");
         this.__childrenContainer.add(this.__label);
       }
 
       // Show/Hide Label/Icon
-      if (this.getShow() === 'icon' && this.__label) {
+      if(this.getShow() === 'icon' && this.__label) {
         this.__label.exclude();
       }
-      if (this.getShow() === 'label' && this.__icon) {
+      if(this.getShow() === 'label' && this.__icon) {
         this.__icon.exclude();
       }
 

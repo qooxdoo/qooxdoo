@@ -52,7 +52,7 @@ qx.Class.define("qx.bom.HashHistory",
     addToHistory : function(state, newTitle)
     {
       if (!qx.lang.Type.isString(state)) {
-        state += "";
+        state = state + "";
       }
 
       if (qx.lang.Type.isString(newTitle))
@@ -120,7 +120,7 @@ qx.Class.define("qx.bom.HashHistory",
         retry = 0;
       }
 
-      if (!this.__iframe.contentWindow || !this.__iframe.contentWindow.document)
+      if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
       {
         if (retry > 20) {
           throw new Error("can't initialize iframe");
@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.HashHistory",
      */
     _getHash : function()
     {
-      if (!this.__iframeReady) {
+      if (!this.__iframeReady){
         return null;
       }
       return this.__iframe.contentWindow.document.location.hash;
@@ -214,7 +214,7 @@ qx.Class.define("qx.bom.HashHistory",
      */
     _setHash : function (value)
     {
-      if (!this.__iframe || !this._baseUrl) {
+      if (!this.__iframe || !this._baseUrl){
         return;
       }
       var hash = !this.__iframe.contentWindow.document.location.hash ? "" : this.__iframe.contentWindow.document.location.hash.substr(1);

@@ -87,7 +87,7 @@ qx.Mixin.define("qx.ui.decoration.MTransition",
     _styleTransition: function(styles) {
       var propName = qx.core.Environment.get("css.transition");
       if (!propName ||
-          this.getTransitionDuration() == null) {
+          this.getTransitionDuration() == null ){
         return;
       }
       if (qx.bom.client.Browser.getName() === "chrome" && qx.bom.client.Browser.getVersion() >= 71) {
@@ -101,10 +101,10 @@ qx.Mixin.define("qx.ui.decoration.MTransition",
 
       propName = qx.bom.Style.getCssName(propName.name);
 
-      var transitionProperties = ["transitionProperty", "transitionDuration", "transitionTimingFunction", "transitionDelay"];
+      var transitionProperties = ["transitionProperty","transitionDuration","transitionTimingFunction","transitionDelay"];
 
       (function(tPros, tDurs, tTims, tDels) {
-        for (var i=0; i<tPros.length; i++) {
+        for(var i=0;i<tPros.length;i++) {
           var tPro = tPros[i] || 'all';
           var tDur = tDurs[i] || '0s';
           var tTim = tTims[i] || 'ease';

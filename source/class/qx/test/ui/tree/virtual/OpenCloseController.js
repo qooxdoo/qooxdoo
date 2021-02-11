@@ -44,7 +44,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
 
     setUp : function()
     {
-      if (!this.spyOpenNode)
+      if (! this.spyOpenNode)
       {
         this.spyOpenNode = this.spy(this, "openNode");
         this.spyCloseNode = this.spy(this, "closeNode");
@@ -198,7 +198,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.assertEquals(openNodeNames[0], "Branch 1");
 
       // the model value should now be true
-      this.assertTrue(node.getOpen());
+      this.assertTrue(node.getOpen())
 
       // send a close event to the controller as if the open button were clicked
       this.fireDataEvent("close", node);
@@ -211,7 +211,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.assertEquals(openNodeNames.length, 0);
 
       // the model value should now be false
-      this.assertFalse(node.getOpen());
+      this.assertFalse(node.getOpen())
     },
 
 

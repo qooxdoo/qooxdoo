@@ -243,7 +243,7 @@ qx.Class.define("qx.test.ui.tree.TreeFolder",
     },
 
 
-    testRemoveAll: function() {
+    testRemoveAll: function(){
       var removed = this.__root.removeAll();
 
       this.assertEquals(2, removed.length);

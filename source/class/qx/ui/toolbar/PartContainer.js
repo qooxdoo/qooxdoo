@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.toolbar.PartContainer",
   construct : function()
   {
     this.base(arguments);
-    this._setLayout(new qx.ui.layout.HBox());
+    this._setLayout(new qx.ui.layout.HBox);
   },
 
 

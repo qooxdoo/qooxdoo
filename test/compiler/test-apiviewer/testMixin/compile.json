@@ -1,0 +1,56 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "environment": {
+    "qx.icontheme": "Tango"
+  },
+  "applications": [
+    {
+      "class": "testMixin.Application",
+      "theme": "testMixin.theme.Theme",
+      "name": "testMixin",
+      "bootPath": "source/boot"
+    },
+    {
+      "class": "qxl.apiviewer.Application",
+      "theme": "qxl.apiviewer.Theme",
+      "name": "apiviewer",
+      "title": "Qooxdoo API Viewer",
+      "environment": {
+        "qx.icontheme": "Tango",
+        "qxl.apiviewer.applicationName": "",
+        "qxl.apiviewer.exclude": [
+          "qxl.*",
+          "qx.*",
+          "q",
+          "qxWeb"
+        ],
+        "qxl.apiviewer.include": []
+      },
+      "include": [
+        "qx.*"
+      ],
+      "exclude": [
+        "qx.test.*",
+        "qx.module.Blocker",
+        "qx.module.Placement"
+      ]
+    }
+  ]
+}

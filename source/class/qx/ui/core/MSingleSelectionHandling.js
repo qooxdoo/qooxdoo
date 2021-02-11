@@ -74,7 +74,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * @returns {null|TypeError} The status of this operation.
      */
     setValue : function(item) {
-      if (item === null) {
+      if (null === item) {
         this.resetSelection();
         return null;
       }
@@ -82,6 +82,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
       if (item instanceof qx.ui.core.Widget) {
         this.__getManager().setSelected(item);
         return null;
+
       } else {
         return new TypeError("Given argument is not null or a {qx.ui.core.Widget}.");
       }
@@ -129,7 +130,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      *    items contains more than one elements.
      */
     setSelection : function(items) {
-      switch (items.length)
+      switch(items.length)
       {
         case 0:
           this.resetSelection();

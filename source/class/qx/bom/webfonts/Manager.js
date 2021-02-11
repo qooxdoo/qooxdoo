@@ -147,7 +147,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var fontWeight = sourcesList.fontWeight;
       var fontStyle = sourcesList.fontStyle;
       var sources = [];
-      for (var i=0, l=sourceUrls.length; i<l; i++) {
+      for (var i=0,l=sourceUrls.length; i<l; i++) {
         var split = sourceUrls[i].split("#");
         var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
         if (split.length > 1) {
@@ -188,7 +188,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     remove : function(familyName, fontWeight, fontStyle) {
       var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
       var index = null;
-      for (var i=0, l=this.__createdStyles.length; i<l; i++) {
+      for (var i=0,l=this.__createdStyles.length; i<l; i++) {
         if (this.__createdStyles[i] == fontLookupKey) {
           index = i;
           this.__removeRule(familyName, fontWeight, fontStyle);
@@ -326,7 +326,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         try {
           this.__addRule(rule);
         }
-        catch (ex) {
+        catch(ex) {
           if (qx.core.Environment.get("qx.debug")) {
             this.warn("Error while adding @font-face rule:", ex.message);
             return;
@@ -423,7 +423,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var formatList = this.__preferredFormats.length > 0
         ? this.__preferredFormats : qx.bom.webfonts.Manager.FONT_FORMATS;
 
-      for (var i=0, l=formatList.length; i<l; i++) {
+      for (var i=0,l=formatList.length; i<l; i++) {
         var format = formatList[i];
         if (sourcesMap[format]) {
           rules.push(this.__getSourceForFormat(format, sourcesMap[format], version));
@@ -454,7 +454,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         url += "?" + version;
       }
 
-      switch (format) {
+      switch(format) {
         case "eot": return "url('" + url + "');" +
           "src: url('" + url + "?#iefix') format('embedded-opentype')";
         case "woff2":
@@ -515,7 +515,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         ".*font-style: *" + (fontStyle ? fontStyle : "normal")+")"
         ;
       var reg = new RegExp(regtext, "m");
-      for (var i=0, l=document.styleSheets.length; i<l; i++) {
+      for (var i=0,l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {
           var cssText = sheet.cssText.replace(/\n/g, "").replace(/\r/g, "");
@@ -526,7 +526,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           sheet.cssText = cssText;
         }
         else if (sheet.cssRules) {
-          for (var j=0, m=sheet.cssRules.length; j<m; j++) {
+          for (var j=0,m=sheet.cssRules.length; j<m; j++) {
             var cssText = sheet.cssRules[j].cssText.replace(/\n/g, "").replace(/\r/g, "");
             if (reg.exec(cssText)) {
               this.__styleSheet.deleteRule(j);

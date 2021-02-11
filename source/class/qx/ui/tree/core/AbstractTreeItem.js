@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       this.base(arguments, state);
 
       var children = this._getChildren();
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
         if (child.addState) {
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       this.base(arguments, state);
 
       var children = this._getChildren();
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
         if (child.removeState) {

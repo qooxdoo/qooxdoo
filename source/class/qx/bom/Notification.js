@@ -148,6 +148,7 @@ qx.Class.define("qx.bom.Notification", {
      */
     show : function(title, message, icon, expire, tag) {
       if (qx.bom.Notification.getNotification()) {
+
         // Generate unique tag to be able to identify the
         // notification later on.
         if (tag !== undefined) {
@@ -160,6 +161,7 @@ qx.Class.define("qx.bom.Notification", {
 
         // We've not asked for permission yet. Lets do it.
         } else if (Notification.permission != "denied") {
+
           var that = this;
           Notification.requestPermission(function (permission) {
             if (Notification.permission === undefined) {
@@ -171,6 +173,7 @@ qx.Class.define("qx.bom.Notification", {
             }
           });
         }
+
       }
 
       return tag === undefined ? null : tag;

@@ -182,6 +182,7 @@ qx.Class.define("qx.ui.form.TextArea",
         var clone = this.__getAreaClone();
 
         if (clone && this.getBounds()) {
+
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
 
@@ -254,6 +255,7 @@ qx.Class.define("qx.ui.form.TextArea",
       var cloneDom = clone.getDomElement();
 
       if (cloneDom) {
+
         // Clone created but not yet in DOM. Try again.
         if (!cloneDom.parentNode) {
           qx.html.Element.flush();
@@ -444,6 +446,7 @@ qx.Class.define("qx.ui.form.TextArea",
         } else {
           this.getContentElement().setStyle("overflowY", "hidden");
         }
+
       } else {
         this.removeListener("input", this.__autoSize);
         this.getContentElement().setStyle("overflowY", "auto");
@@ -514,7 +517,7 @@ qx.Class.define("qx.ui.form.TextArea",
       var hint = this.base(arguments);
 
       // lines of text
-      hint.height *= this.getMinimalLineHeight();
+      hint.height = hint.height * this.getMinimalLineHeight();
 
       // 20 character wide
       hint.width = this._getTextSize().width * 20;

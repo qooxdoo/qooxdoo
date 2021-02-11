@@ -218,6 +218,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         if (qx.core.Environment.get("engine.name") == "mshtml" ||
             qx.core.Environment.get("engine.name") == "webkit" ||
             (qx.core.Environment.get("engine.name") == "gecko" && qx.core.Environment.get("browser.version") >= 29)) {
+
           // some key press events are already emulated. Ignore these events.
           if (!qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
             qx.event.Utils.then(tracker, function() {
@@ -307,7 +308,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var listener = this.__inputListeners[key];
         Event.removeNativeListener(listener.target, "keypress", listener.callback);
       }
-      delete (this.__inputListeners);
+      delete(this.__inputListeners);
     },
 
 
@@ -445,7 +446,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "gecko" : function(domEvent)
       {
-        if (qx.core.Environment.get("engine.version") < 66) {
+        if(qx.core.Environment.get("engine.version") < 66) {
           var charCode = domEvent.charCode;
           var type = domEvent.type;
 
@@ -478,7 +479,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         // So we store the last key up/down keycode and compare it to the
         // current keycode.
         // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=603
-        if (keyCode != this.__lastKeyCode)
+        if(keyCode != this.__lastKeyCode)
         {
           return this._idealKeyHandler(0, this.__lastKeyCode, type, domEvent);
         }
@@ -490,6 +491,7 @@ qx.Class.define("qx.event.handler.Keyboard",
             return this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
           }
         }
+
       }
     })),
 

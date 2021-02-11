@@ -48,7 +48,7 @@ qx.Class.define("qx.test.lang.Json",
     testFormattingNumber : function()
     {
       var str = this.JSON.stringify(['e', {pluribus: 'unum'}], null, 2);
-      var expected = /[\n {2}"e",\n  {\n {4}"pluribus":\s"unum"\n {2}}\n]/;
+      var expected = /[\n  "e",\n  {\n    "pluribus":\s"unum"\n  }\n]/;
       this.assertMatch(str, expected);
     },
 

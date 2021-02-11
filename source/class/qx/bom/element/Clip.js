@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
       else
       {
         right = (width == null ? "auto" : left + width + "px");
-        left += "px";
+        left = left + "px";
       }
 
       if (top == null)
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
       else
       {
         bottom = (height == null ? "auto" : top + height + "px");
-        top += "px";
+        top = top + "px";
       }
 
       return "clip:rect(" + top + "," + right + "," + bottom + "," + left + ");";
@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
       else
       {
         right = (width == null ? "auto" : left + width + "px");
-        left += "px";
+        left = left + "px";
       }
 
       if (top == null)
@@ -231,7 +231,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
       else
       {
         bottom = (height == null ? "auto" : top + height + "px");
-        top += "px";
+        top = top + "px";
       }
 
       element.style.clip = "rect(" + top + "," + right + "," + bottom + "," + left + ")";

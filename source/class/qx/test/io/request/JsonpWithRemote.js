@@ -60,7 +60,7 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote",
     },
 
     noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date()).valueOf());
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
     }
 
   }

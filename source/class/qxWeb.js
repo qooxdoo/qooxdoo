@@ -150,7 +150,7 @@ qx.Bootstrap.define("qxWeb", {
       // members
       for (var name in clazz.members) {
         if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0)
-        { qxWeb.prototype[name] = clazz.members[name]; }
+        qxWeb.prototype[name] = clazz.members[name];
       }
 
       // statics
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qxWeb", {
       for (var name in clazz.statics) {
         if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0 && name !== "name" && name !== "basename" &&
             name !== "classname" && name !== "toString" && name !== name.toUpperCase())
-        { destination[name] = clazz.statics[name]; }
+        destination[name] = clazz.statics[name];
       }
     },
 
@@ -318,7 +318,7 @@ qx.Bootstrap.define("qxWeb", {
      * @param varargs {var} As many items as you want to add.
      * @return {q} A new collection containing the removed items.
      */
-    splice : function(index, howMany, varargs) {
+    splice : function(index , howMany, varargs) {
       return qxWeb.$init(Array.prototype.splice.apply(this, arguments), this.constructor);
     },
 
@@ -426,6 +426,7 @@ qx.Bootstrap.define("qxWeb", {
      */
     logThis : function() {
       if (qx.core.Environment.get("qx.debug")) {
+
         // loop over the collection elements to make sure we get the current content
         // of the collection and not the reference values later (they might change depending on
         // manipulation of the collection)

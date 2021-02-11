@@ -145,7 +145,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     _styleLinearBackgroundGradient : function(styles) {
       var backgroundStyle = [];
 
-      if (!this.getStartColor() || !this.getEndColor()) {
+      if(!this.getStartColor() || !this.getEndColor()) {
         return;
       }
 
@@ -162,7 +162,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         "startColorPosition", "endColorPosition"];
 
       (function(startColors, endColors, units, orientations, startColorPositions, endColorPositions) {
-        for (var i=0; i<startColors.length; i++) {
+        for(var i=0;i<startColors.length;i++) {
           var startColor = this.__getColor(startColors[i]);
           var endColor = this.__getColor(endColors[i]);
           var unit = units[i];
@@ -170,13 +170,13 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           var startColorPosition = startColorPositions[i];
           var endColorPosition = endColorPositions[i];
 
-          if (!styleImpl(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle)) {
+          if(!styleImpl(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle)) {
             break;
           }
         }
 
-        if ("background" in styles) {
-          if (!qx.lang.Type.isArray(styles['background'])) {
+        if("background" in styles) {
+          if(!qx.lang.Type.isArray(styles['background'])) {
             styles['background'] = [styles['background']];
           }
         } else {

@@ -150,7 +150,7 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
 
     /* MediaMatch v.2.0.1 - Testing css media queries in Javascript. Authors & copyright (c) 2013: WebLinc, David Knight. */
 
-    window.matchMedia || (window.matchMedia = (function (win) {
+    window.matchMedia || (window.matchMedia = function (win) {
       'use strict';
 
       // Internal globals
@@ -377,6 +377,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
                 }
               } while (qIndex--);
             }
+
+
           }, 10);
         },
 
@@ -473,6 +475,6 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
 
         return mql;
       };
-    })(window));
+    }(window));
   }
 });

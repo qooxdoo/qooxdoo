@@ -23,7 +23,6 @@
  *
  * @group (Polyfill)
  */
-/* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.String", {
 
   statics : {
@@ -37,7 +36,7 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
      * @return {String} The trimmed string
      */
     trim : function() {
-      return this.replace(/^\s+|\s+$/g, '');
+      return this.replace(/^\s+|\s+$/g,'');
     },
 
 
@@ -72,26 +71,26 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
     endsWith : function (searchString, position)
     {
       var subjectString = this.toString();
-      if (typeof position !== 'number'
+      if (  typeof position !== 'number'
          || !isFinite(position)
          || Math.floor(position) !== position
-         || position > subjectString.length) {
+         || position > subjectString.length ) {
         position = subjectString.length;
       }
       position -= searchString.length;
       var lastIndex = subjectString.indexOf(searchString, position);
       return lastIndex !== -1 && lastIndex === position;
     },
-
+    
 
     /**
      * Returns a non-negative integer that is the Unicode code point value.
      *   see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt
      *
-     * @param position {Integer} Position of an element in the string to
+     * @param position {Integer} Position of an element in the string to 
      *   return the code point value from.
-     * @return {Integer} A number representing the code point value of
-     *   the character at the given pos. If there is no element at pos,
+     * @return {Integer} A number representing the code point value of 
+     *   the character at the given pos. If there is no element at pos, 
      *   returns undefined..
      */
     codePointAt : function (position)
@@ -103,7 +102,7 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
       var size = string.length;
       // `ToInteger`
       var index = position ? Number(position) : 0;
-      if (isNaN(index)) {
+      if (index != index) { // better `isNaN`
         index = 0;
       }
       // Account for out-of-bounds indices:
@@ -125,22 +124,20 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
       }
       return first;
     },
-
+    
 
     /**
      * Returns a string created by using the specified sequence of code points.
      *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
      *
      * @param var_args {Integer} A sequence of code points as a variable argument list
-     *   The undescore is used as a throwaway variable.
-     * @return {String} A string created by using
+     *   The undescore is used as a throwaway variable.  
+     * @return {String} A string created by using 
      *   the specified sequence of code points.
      */
     fromCodePoint : function (_)
     {
-      var codeUnits = [],
-codeLen = 0,
-result = "";
+      var codeUnits = [], codeLen = 0, result = "";
       for (var index=0, len = arguments.length; index !== len; ++index) {
         var codePoint = +arguments[index];
         // correctly handles all cases including `NaN`, `-Infinity`, `+Infinity`

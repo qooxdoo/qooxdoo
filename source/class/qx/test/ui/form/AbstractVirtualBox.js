@@ -23,10 +23,10 @@ qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
   {
     setUp : function()
     {
-      this.__selectBox = new qx.ui.form.VirtualSelectBox();
+      this.__selectBox = new qx.ui.form.VirtualSelectBox;
       this.getRoot().add(this.__selectBox);
 
-      this.__comboBox = new qx.ui.form.VirtualComboBox();
+      this.__comboBox = new qx.ui.form.VirtualComboBox;
       this.getRoot().add(this.__comboBox);
 
       this.flush();

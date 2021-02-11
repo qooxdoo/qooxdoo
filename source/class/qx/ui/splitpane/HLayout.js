@@ -172,12 +172,8 @@ qx.Class.define("qx.ui.splitpane.HLayout",
       var children = this._getLayoutChildren();
       var length = children.length;
       var child, hint, props;
-      var minWidth=0, 
-width=0, 
-maxWidth=0;
-      var minHeight=0, 
-height=0, 
-maxHeight=0;
+      var minWidth=0, width=0, maxWidth=0;
+      var minHeight=0, height=0, maxHeight=0;
 
       for (var i=0; i<length; i++)
       {

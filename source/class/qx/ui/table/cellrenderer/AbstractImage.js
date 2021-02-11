@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "middle",
           position: "static"
-        };
+        }
         if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
           // background size is critical for high-resolution images but breaks combined images
           style["background-size"] = this.__imageData.width + "px " + this.__imageData.height + "px";

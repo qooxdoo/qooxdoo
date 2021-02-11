@@ -112,8 +112,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      * Called when changed the property step.
      * Delegates value change on DOM element.
      */
-    _onChangeStep : function(value, old) {
-      this._setAttribute("step", value);
+    _onChangeStep : function(value,old) {
+      this._setAttribute("step",value);
     },
 
 
@@ -121,8 +121,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      * Called when changed the property maximum.
      * Delegates value change on DOM element.
      */
-    _onChangeMaximum : function(value, old) {
-      this._setAttribute("max", value);
+    _onChangeMaximum : function(value,old) {
+      this._setAttribute("max",value);
     },
 
 
@@ -130,8 +130,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      * Called when changed the property minimum.
      * Delegates value change on DOM element.
      */
-    _onChangeMinimum : function(value, old) {
-      this._setAttribute("min", value);
+    _onChangeMinimum : function(value,old) {
+      this._setAttribute("min",value);
     }
   }
 });

@@ -126,6 +126,7 @@ qx.Class.define("qx.test.Annotation", {
       this.assertArrayEquals([ "property-alpha-anno" ], qx.Annotation.getProperty(clazzBottom, "alpha"));
       this.assertArrayEquals([ "refined-bravo-anno", "property-bravo-anno" ], qx.Annotation.getProperty(clazzBottom, "bravo"));
       this.assertArrayEquals([ "refined-bravo-anno" ], qx.Annotation.getOwnProperty(clazzBottom, "bravo"));
+      
     },
 
     testByType: function() {
@@ -135,7 +136,7 @@ qx.Class.define("qx.test.Annotation", {
         construct: function(value) {
           this.base(arguments);
           if (value)
-            { this.setValue(value); }
+            this.setValue(value);
         },
 
         properties: {

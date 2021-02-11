@@ -524,7 +524,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "statusbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
@@ -925,10 +925,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     getMode : function()
     {
-      if (!this.isVisible()) {
+      if(!this.isVisible()) {
         return "minimized";
       } else {
-        if (this.isMaximized()) {
+        if(this.isMaximized()) {
           return "maximized";
         } else {
           return "normal";
@@ -1051,6 +1051,7 @@ qx.Class.define("qx.ui.window.Window",
         if (parent) {
           this.__centeringResizeId =
             parent.addListener("resize", this.center, this);
+          
         }
       }
     },

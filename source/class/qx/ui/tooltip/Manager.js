@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     {
       var current = this.getCurrent();
 
-      if (current && !current.getAutoHide()) {
+      if(current && !current.getAutoHide()) {
         return;
       }
 
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * @param target {Object | null} widget to show tooltip for
      */
     showToolTip : function(target) {
-      if (!target) {
+      if (!target){
         return;
       }
 
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
       //do nothing if
       if (!target //don't have a target
           // tooltip is disabled and the value of showToolTipWhenDisabled is false
-          || (!target.getEnabled() && !target.isShowToolTipWhenDisabled())
+          || (!target.getEnabled() && !target.isShowToolTipWhenDisabled() )
           //tooltip is blocked
           || target.isBlockToolTip()
           //an invalid message isn't set and tooltips are disabled
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
-      if (tooltip && !tooltip.getAutoHide()) {
+      if(tooltip && !tooltip.getAutoHide()) {
         return;
       }
 
@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       var tooltip = this.getCurrent();
 
-      if (tooltip && !tooltip.getAutoHide()) {
+      if(tooltip && !tooltip.getAutoHide()) {
         return;
       }
 

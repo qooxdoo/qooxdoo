@@ -28,7 +28,7 @@ qx.Class.define("qx.test.mobile.form.Button",
       this.getRoot().add(button);
 
       this.assertString(button.getLabel());
-      this.assertEquals("affe", button.getLabel());
+      this.assertEquals("affe", button.getLabel() );
       this.assertEquals(button.getLabel(), button.getLabelWidget().getContentElement().innerHTML);
 
       this.assertEventFired(button, "changeLabel", function() {

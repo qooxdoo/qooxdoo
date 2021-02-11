@@ -116,10 +116,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          scale : [".2", ".2"]
+          scale : [".2",".2"]
         },
         100: {
-          scale : ["1", "1"]
+          scale : ["1","1"]
         }
       }
     },
@@ -130,10 +130,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          scale : ["1", "1"]
+          scale : ["1","1"]
         },
         100: {
-          scale : [".2", ".2"]
+          scale : [".2",".2"]
         }
       }
     },
@@ -253,10 +253,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          translate : ["0px", "100%"]
+          translate : ["0px","100%"]
         },
         100: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         }
       }
     },
@@ -267,10 +267,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         },
         100: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         }
       }
     },
@@ -281,10 +281,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         },
         100: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         }
       }
     },
@@ -295,10 +295,10 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center",
       keyFrames : {
         0: {
-          translate : ["0px", "0px"]
+          translate : ["0px","0px"]
         },
         100: {
-          translate : ["0px", "100%"]
+          translate : ["0px","100%"]
         }
       }
     },
@@ -315,13 +315,13 @@ qx.Bootstrap.define("qx.util.Animation",
           opacity : 0
         },
         50: {
-          rotate : ["0deg", "90deg"],
-          scale : [".8", "1"],
+          rotate : ["0deg","90deg"],
+          scale : [".8","1"],
           opacity : 1
         },
         100: {
-          rotate : ["0deg", "0deg"],
-          scale : ["1", "1"],
+          rotate : ["0deg","0deg"],
+          scale : ["1","1"],
           opacity : 1
         }
       }
@@ -333,12 +333,12 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
-          scale : ["1", "1"]
+          rotate : ["0deg","0deg"],
+          scale : ["1","1"]
         },
         100: {
-          rotate : ["0deg", "-180deg"],
-          scale : [".8", "1"]
+          rotate : ["0deg","-180deg"],
+          scale : [".8","1"]
         }
       }
     },
@@ -355,13 +355,13 @@ qx.Bootstrap.define("qx.util.Animation",
           opacity : 0
         },
         50: {
-          rotate : ["0deg", "-90deg"],
-          scale : [".8", "1"],
+          rotate : ["0deg","-90deg"],
+          scale : [".8","1"],
           opacity : 1
         },
         100: {
-          rotate : ["0deg", "0deg"],
-          scale : ["1", "1"],
+          rotate : ["0deg","0deg"],
+          scale : ["1","1"],
           opacity : 1
         }
       }
@@ -373,12 +373,12 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
-          scale : ["1", "1"]
+          rotate : ["0deg","0deg"],
+          scale : ["1","1"]
         },
         100: {
-          rotate : ["0deg", "180deg"],
-          scale : [".8", "1"]
+          rotate : ["0deg","180deg"],
+          scale : [".8","1"]
         }
       }
     },
@@ -389,18 +389,18 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "-70deg"],
-          translate : ["0px", "0px", "-800px"],
+          rotate : ["0deg","-70deg"],
+          translate : ["0px","0px","-800px"],
           opacity : "0"
         },
         35: {
-          rotate : ["0deg", "-20deg"],
-          translate : ["-180px", "0px", "-400px"],
+          rotate : ["0deg","-20deg"],
+          translate : ["-180px","0px","-400px"],
           opacity : "1"
         },
         100: {
-          rotate : ["0deg", "0deg"],
-          translate : ["0px", "0px", "0px"],
+          rotate : ["0deg","0deg"],
+          translate : ["0px","0px","0px"],
           opacity : "1"
         }
       }
@@ -412,18 +412,18 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
-          translate : ["0px", "0px", "0px"],
+          rotate : ["0deg","0deg"],
+          translate : ["0px","0px","0px"],
           opacity : "1"
         },
         35: {
-          rotate : ["0deg", "20deg"],
-          translate : ["-180px", "0px", "-400px"],
+          rotate : ["0deg","20deg"],
+          translate : ["-180px","0px","-400px"],
           opacity : ".5"
         },
         100: {
-          rotate : ["0deg", "70deg"],
-          translate : ["0px", "0px", "-800px"],
+          rotate : ["0deg","70deg"],
+          translate : ["0px","0px","-800px"],
           opacity : "0"
         }
       }
@@ -435,18 +435,18 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "70deg"],
-          translate : ["0px", "0px", "-800px"],
+          rotate : ["0deg","70deg"],
+          translate : ["0px","0px","-800px"],
           opacity : "0"
         },
         35: {
-          rotate : ["0deg", "20deg"],
-          translate : ["-180px", "0px", "-400px"],
+          rotate : ["0deg","20deg"],
+          translate : ["-180px","0px","-400px"],
           opacity : "1"
         },
         100: {
-          rotate : ["0deg", "0deg"],
-          translate : ["0px", "0px", "0px"],
+          rotate : ["0deg","0deg"],
+          translate : ["0px","0px","0px"],
           opacity : "1"
         }
       }
@@ -458,18 +458,18 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "center center",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
-          translate : ["0px", "0px", "0px"],
+          rotate : ["0deg","0deg"],
+          translate : ["0px","0px","0px"],
           opacity : "1"
         },
         35: {
-          rotate : ["0deg", "-20deg"],
-          translate : ["180px", "0px", "-400px"],
+          rotate : ["0deg","-20deg"],
+          translate : ["180px","0px","-400px"],
           opacity : ".5"
         },
         100: {
-          rotate : ["0deg", "-70deg"],
-          translate : ["0px", "0px", "-800px"],
+          rotate : ["0deg","-70deg"],
+          translate : ["0px","0px","-800px"],
           opacity : "0"
         }
       }
@@ -481,15 +481,15 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "100% 50%",
       keyFrames : {
         0: {
-          rotate : ["0deg", "90deg"],
+          rotate : ["0deg","90deg"],
           scale: ".5",
-          translate: ["0", "0", "0px"],
+          translate: ["0","0","0px"],
           opacity : [".5"]
         },
         100: {
-          rotate : ["0deg", "0deg"],
+          rotate : ["0deg","0deg"],
           scale: "1",
-          translate: ["0", "0", "0"],
+          translate: ["0","0","0"],
           opacity : ["1"]
         }
       }
@@ -501,15 +501,15 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "0% 50%",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
+          rotate : ["0deg","0deg"],
           scale: "1",
-          translate: ["0", "0", "0px"],
+          translate: ["0","0","0px"],
           opacity : ["1"]
         },
         100: {
-          rotate : ["0deg", "-90deg"],
+          rotate : ["0deg","-90deg"],
           scale: ".5",
-          translate: ["0", "0", "0"],
+          translate: ["0","0","0"],
           opacity : [".5"]
         }
       }
@@ -521,15 +521,15 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "0% 50%",
       keyFrames : {
         0: {
-          rotate : ["0deg", "-90deg"],
+          rotate : ["0deg","-90deg"],
           scale: ".5",
-          translate: ["0", "0", "0px"],
+          translate: ["0","0","0px"],
           opacity : [".5"]
         },
         100: {
-          rotate : ["0deg", "0deg"],
+          rotate : ["0deg","0deg"],
           scale: "1",
-          translate: ["0", "0", "0"],
+          translate: ["0","0","0"],
           opacity : ["1"]
         }
       }
@@ -541,15 +541,15 @@ qx.Bootstrap.define("qx.util.Animation",
       origin: "100% 50%",
       keyFrames : {
         0: {
-          rotate : ["0deg", "0deg"],
+          rotate : ["0deg","0deg"],
           scale: "1",
-          translate: ["0", "0", "0px"],
+          translate: ["0","0","0px"],
           opacity : ["1"]
         },
         100: {
-          rotate : ["0deg", "90deg"],
+          rotate : ["0deg","90deg"],
           scale: ".5",
-          translate: ["0", "0", "0"],
+          translate: ["0","0","0"],
           opacity : [".5"]
         }
       }

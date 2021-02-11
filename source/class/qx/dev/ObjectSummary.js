@@ -117,7 +117,7 @@ qx.Class.define("qx.dev.ObjectSummary",
         }
       }
 
-      if (!this._m_dObjectList) {
+      if (! this._m_dObjectList) {
         this._m_dObjectList = {};
       }
       var dMore = {};

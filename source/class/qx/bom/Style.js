@@ -92,12 +92,12 @@ qx.Bootstrap.define("qx.bom.Style",
       if (!cssName)
       {
         // all vendor prefixes (except for "ms") start with an uppercase letter
-        cssName = propertyName.replace(/[A-Z]/g, function(match) {
+        cssName = propertyName.replace(/[A-Z]/g, function(match){
           return  ('-' + match.charAt(0).toLowerCase());
         });
 
         // lowercase "ms" vendor prefix needs special handling
-        if ((/^ms/.test(cssName))) {
+        if((/^ms/.test(cssName))) {
           cssName = "-" + cssName;
         }
         this.__cssName[propertyName] = cssName;

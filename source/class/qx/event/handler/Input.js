@@ -285,7 +285,7 @@ qx.Class.define("qx.event.handler.Input",
 
           try {
             delete target.__inputHandlerAttached;
-          } catch (ex) {
+          } catch(ex) {
             target.__inputHandlerAttached = null;
           }
         }

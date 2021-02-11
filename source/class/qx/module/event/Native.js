@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
         // this allows us to prevent some key press events in IE.
         // See bug #1049
         this.keyCode = 0;
-      } catch (ex) {}
+      } catch(ex) {}
 
       this.returnValue = false;
     },

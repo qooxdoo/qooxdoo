@@ -153,6 +153,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down"], style({vertical: true}).icon);
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right"], style({vertical: false}).icon);
+
     },
 
     testSlideBarButtonBackward : function()

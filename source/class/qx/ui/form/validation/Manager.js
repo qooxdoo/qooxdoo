@@ -280,8 +280,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
         // if its a widget supporting the selection
         if (this.__supportsSingleSelection(formItem)) {
           validatorResult = !!formItem.getSelection()[0];
+
         } else if (this.__supportsDataBindingSelection(formItem)) {
           validatorResult = (formItem.getSelection().getLength() > 0);
+
         } else {
           var value = formItem.getValue();
           validatorResult = !!value || value === 0;
@@ -327,6 +329,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         if (validatorResult === undefined) {
           validatorResult = true;
         }
+
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           validatorResult = false;

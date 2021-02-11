@@ -47,7 +47,7 @@ qx.Class.define("qx.test.data.singlevalue.Resolve",
 
     testResolveArrayIndex : function() {
       var arr = new qx.data.Array([23]);
-      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(arr, "[0]"));
+      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(arr,"[0]"));
     },
 
 

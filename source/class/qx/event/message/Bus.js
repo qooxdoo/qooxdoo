@@ -218,7 +218,7 @@ qx.Class.define("qx.event.message.Bus",
       var modified_subscriber = function(message) {
         subscriber.call(context, message);
         that.unsubscribe(topic, modified_subscriber, context);
-      };
+      }
       return this.subscribe(topic, modified_subscriber, context);
     },
 
@@ -288,7 +288,7 @@ qx.Class.define("qx.event.message.Bus",
            delete sub[topic];
            return true;
          } else {
-           if (!context) {
+           if (! context) {
              context = null;
            }
            var i = subscrList.length;

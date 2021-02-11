@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "arrow":
           control = new qx.ui.basic.Image();

@@ -221,7 +221,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var children = this._getLayoutChildren();
 
-      for (var i=0, l=children.length; i<l; i++)
+      for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
         var props = child.getLayoutProperties();
@@ -1385,7 +1385,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
           // ignore cells, which have cell spanning but are not the origin
           // of the widget
-          if (widgetProps.row !== row || widgetProps.column !== col)
+          if(widgetProps.row !== row || widgetProps.column !== col)
           {
             top += rowHeights[row] + vSpacing;
             continue;
@@ -1450,8 +1450,7 @@ qx.Class.define("qx.ui.layout.Grid",
       // calculate col widths
       var colWidths = this._getColWidths();
 
-      var minWidth=0, 
-width=0;
+      var minWidth=0, width=0;
 
       for (var i=0, l=colWidths.length; i<l; i++)
       {
@@ -1468,8 +1467,7 @@ width=0;
       // calculate row heights
       var rowHeights = this._getRowHeights();
 
-      var minHeight=0, 
-height=0;
+      var minHeight=0, height=0;
       for (var i=0, l=rowHeights.length; i<l; i++)
       {
         var row = rowHeights[i];

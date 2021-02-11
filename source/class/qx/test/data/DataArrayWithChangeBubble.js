@@ -406,7 +406,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
         that.assertArrayEquals(["A", "B", "C"], e.getData().old);
         that.assertEquals(that.array, e.getData().item);
 
-        changeBubbleExecutionCounter++;
+        changeBubbleExecutionCounter ++;
       };
 
       var spy = this.spy(handler);

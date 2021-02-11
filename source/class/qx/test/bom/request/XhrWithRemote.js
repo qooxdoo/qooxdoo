@@ -302,7 +302,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
         // Type of error is of no interest
         try {
           req.open("TRACE", url);
-        } catch (e) {
+        } catch(e) {
           throw Error();
         }
       });
@@ -407,6 +407,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
       primeReq.onreadystatechange = function() {
         if (primeReq.readyState == 4) {
+
           that.resume(function() {
             // From cache with new request
             var req = new qx.bom.request.Xhr();
@@ -522,7 +523,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.onreadystatechange = function() {
         // Count call for state OPENED
         if (req.readyState == 1) {
-          count += 1;
+          count = count + 1;
         }
 
         // Assert when DONE
@@ -656,7 +657,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertException(function() {
         try {
           req.send();
-        } catch (e) {
+        } catch(e) {
           throw Error();
         }
       });

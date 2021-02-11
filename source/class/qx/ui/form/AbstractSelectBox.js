@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "list":
           control = new qx.ui.form.List().set({
@@ -312,7 +312,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      *
      * @param e {qx.event.type.Data} Data event
      */
-    _onResize : function(e) {
+    _onResize : function(e){
       this.getChildControl("popup").setMinWidth(e.getData().width);
     },
 

@@ -291,14 +291,6 @@ qx.Class.define("qx.test.core.Environment",
       qx.core.Environment.get("plugin.silverlight.version");
     },
 
-    testFlash : function() {
-      // just make sure the call is working
-      this.assertBoolean(qx.core.Environment.get("plugin.flash"));
-      qx.core.Environment.get("plugin.flash.version");
-      this.assertBoolean(qx.core.Environment.get("plugin.flash.express"));
-      this.assertBoolean(qx.core.Environment.get("plugin.flash.strictsecurity"));
-    },
-
     testPdf : function()
     {
       // just make sure the call is working

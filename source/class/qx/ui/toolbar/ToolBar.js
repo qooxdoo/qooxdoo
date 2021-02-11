@@ -252,6 +252,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
        // if we can possibly show something
      } else if (this.__removedItems.length > 0) {
+
        do {
          var removedChild = this.__removedItems[0];
          // if we have something we can show
@@ -291,6 +292,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
              requiredWidth += removedChildWidth;
              // check if we need to remove the overflow widget
              if (overflowWidget && this.__removedItems.length == 0) {
+
                overflowWidget.setVisibility("excluded");
              }
            } else {
@@ -613,7 +615,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      */
     addSpacer : function()
     {
-      var spacer = new qx.ui.core.Spacer();
+      var spacer = new qx.ui.core.Spacer;
       this._add(spacer, {flex:1});
       return spacer;
     },
@@ -623,7 +625,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * Adds a separator to the toolbar.
      */
     addSeparator : function() {
-      this.add(new qx.ui.toolbar.Separator());
+      this.add(new qx.ui.toolbar.Separator);
     },
 
 
@@ -659,5 +661,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     if (this.hasListener("resize")) {
       this.removeListener("resize", this._onResize, this);
     }
+
   }
 });

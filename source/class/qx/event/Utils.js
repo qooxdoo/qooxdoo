@@ -69,7 +69,7 @@ qx.Class.define("qx.event.Utils", {
     track: qx.core.Environment.select("qx.promise", {
       "true": function(tracker, fn) {
         if (typeof fn !== "function" && !qx.lang.Type.isPromise(fn)) {
-          fn = (function(value) { return function() { return value; }; })(fn);
+          fn = (function(value) { return function() { return value; } })(fn);
         }
         return this.then(tracker, fn);
       },
@@ -96,7 +96,7 @@ qx.Class.define("qx.event.Utils", {
         var ex = null;
         try {
           throw new Error("");
-        } catch (e) {
+        } catch(e) {
           ex = e;
         }
         tracker.promises.push({ promise: newPromise, ex: ex });
@@ -262,7 +262,7 @@ qx.Class.define("qx.event.Utils", {
               catch1();
               catch2();
             };
-          })(tracker.catch, fn);
+          })(tracker.catch, fn)
       } else {
         tracker.catch = fn;
       }

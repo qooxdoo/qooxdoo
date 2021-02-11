@@ -75,6 +75,7 @@ qx.Bootstrap.define("qx.bom.IdleCallback",
         return window.requestIdleCallback(cb, timeout);
       }
       else {
+
         var deadline = {
           started : (new Date()).getTime(),
 

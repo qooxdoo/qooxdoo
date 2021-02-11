@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "spacer":
           control = new qx.ui.core.Spacer();
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       var list = this.getChildControl("list");
       if (list.getSelection()[0] != listItem) {
-        if (listItem) {
+        if(listItem) {
           list.setSelection([listItem]);
         } else {
           list.resetSelection();
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onKeyPress : function(e)
     {
       var iden = e.getKeyIdentifier();
-      if (iden == "Enter" || iden == "Space")
+      if(iden == "Enter" || iden == "Space")
       {
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)

@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.core.DragDropCursor",
 
     // Automatically add to root
     var root = this.getApplicationRoot();
-    root.add(this, { left: -1000, top: -1000 });
+    root.add(this, { left: -1000, top: - 1000 });
   },
 
 

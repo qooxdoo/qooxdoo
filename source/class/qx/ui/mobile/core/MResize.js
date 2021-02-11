@@ -82,7 +82,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         var width = parent.getContainerElement().offsetWidth;
 
         // Only fix size, when value are above zero.
-        if (height === 0 || width === 0) {
+        if(height === 0 || width === 0) {
           return;
         }
 

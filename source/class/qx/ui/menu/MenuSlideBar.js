@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.menu.MenuSlideBar",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "button-forward":
           control = new qx.ui.form.HoverButton();

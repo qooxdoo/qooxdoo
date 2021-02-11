@@ -205,7 +205,7 @@ qx.Class.define("qx.test.ui.table.Table",
       var table = new qx.ui.table.Table();
 
       var executed = false;
-      var id = table.addListener("changeRowHeight", function() { executed = true; }, this);
+      var id = table.addListener("changeRowHeight", function() {executed = true;}, this);
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -224,7 +224,7 @@ qx.Class.define("qx.test.ui.table.Table",
       table.setMetaColumnCounts([1, -1]);
 
       var executed = false;
-      var id = table.addListener("cellClick", function() { executed = true; }, this);
+      var id = table.addListener("cellClick", function() {executed = true;}, this);
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -283,11 +283,11 @@ qx.Class.define("qx.test.ui.table.Table",
       tableModelSimple.setData(data);
 
       // select and focus row 2
-      tableSimple.getSelectionModel().addSelectionInterval(1, 1);
-      tableSimple.setFocusedCell(1, 1);
+      tableSimple.getSelectionModel().addSelectionInterval(1,1);
+      tableSimple.setFocusedCell(1,1);
 
       // remove this row
-      tableModelSimple.removeRows(1, 1);
+      tableModelSimple.removeRows(1,1);
 
       // check if the selection and the focus is gone
       this.assertEquals(null, tableSimple.getFocusedRow()); // don't use assertNull because it can be undefined

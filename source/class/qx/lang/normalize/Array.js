@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @return {var} result value
      */
     reduce : function(callback, init) {
-      if (typeof callback !== "function") {
+      if(typeof callback !== "function") {
         throw new TypeError("First argument is not callable");
       }
 

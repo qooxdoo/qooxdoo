@@ -203,7 +203,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         return null;
       }
 
-      if (!theme.decorations[value]) {
+      if(!theme.decorations[value]) {
         return null;
       }
       
@@ -213,7 +213,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       // handle recursive decorator includes
       var recurseDecoratorInclude = function(currentEntry, name) {
         // follow the include chain to the topmost decorator entry
-        if (currentEntry.include && theme.decorations[currentEntry.include]) {
+        if(currentEntry.include && theme.decorations[currentEntry.include]) {
           recurseDecoratorInclude(theme.decorations[currentEntry.include], currentEntry.include);
         }
 

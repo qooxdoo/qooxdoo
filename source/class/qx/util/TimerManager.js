@@ -234,7 +234,7 @@ qx.Class.define("qx.util.TimerManager",
       }
 
       // If this is the first element on the queue...
-      if (!this.__timerListenerActive)
+      if (! this.__timerListenerActive)
       {
         // ... then start listening for the periodic timer.
         qx.event.Idle.getInstance().addListener("interval",
@@ -242,6 +242,7 @@ qx.Class.define("qx.util.TimerManager",
                                                 this);
         this.__timerListenerActive = true;
       }
+
     },
 
     /**

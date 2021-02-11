@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
       this.getContentElement().style.height = this.getContentElement().scrollHeight+'px';
 
       var scroll = this.__getScrollContainer();
-      if (scroll) {
+      if(scroll) {
         scroll.refresh();
       }
     },

@@ -41,6 +41,7 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      */
     register : function(element, type) {
       if (!element.$$gestureHandler) {
+
         if (!qx.core.Environment.get("event.dispatchevent")) {
           if (!element.$$emitter) {
             element.$$emitter = new qx.event.Emitter();

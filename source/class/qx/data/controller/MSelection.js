@@ -110,7 +110,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @return {null} The status of this operation.
      */
     setValue : function(selection) {
-      if (selection === null) {
+      if (null === selection) {
         this.resetSelection();
       } else {
         this.setSelection(selection);
@@ -279,6 +279,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
+
         var targetSelection = [];
         // go through the selection array
         for (var i = 0; i < this.getSelection().length; i++) {
@@ -325,6 +326,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
           // reset the selection
           this.getTarget().resetSelection();
         }
+
       }
 
       // reset the changing flag

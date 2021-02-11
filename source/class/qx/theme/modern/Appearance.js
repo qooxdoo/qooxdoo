@@ -788,6 +788,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+
         var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
                                             "scrollbar-slider-vertical";
         if (states.disabled) {
@@ -835,6 +836,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
         else
         {
+
           return {
             padding : 3,
             icon : icon,
@@ -1145,12 +1147,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var decorator, 
-padding=0;
-        var marginTop=0, 
-marginBottom=0, 
-marginLeft=0, 
-marginRight=0;
+        var decorator, padding=0;
+        var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
         if (states.checked)
         {

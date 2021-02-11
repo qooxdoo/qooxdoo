@@ -1,24 +1,166 @@
 {
   "targets": [
     {
+      "type": "source",
+      "application-types": [
+        "browser"
+      ],
+      "outputPath": "compiled/browser/source",
+      "babelOptions": {
+        "targets": {
+          "edge": "18",
+          "chrome": "79",
+          "firefox": "72"
+        }
+      }
+    },
+    {
       "type": "build",
-      "outputPath": "compiled/build",
+      "application-types": [
+        "browser"
+      ],
+      "outputPath": "compiled/browser/build",
+      "deployPath": "html"
+    },
+    {
+      "type": "source",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "compiled/node/source",
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "compiled/node/build",
+      "deployPath": "lib",
+      "writeCompileInfo": true,
       "minify": "off",
       "babelOptions": {
-        "targets": "node >= 10"
-      },
-      "deployPath": "lib",
-      "writeCompileInfo": true
+        "targets": "node >= 11"
+      }
     }
   ],
-  "defaultTarget": "build",
+  "defaultTarget": "source",
   "locales": [
     "en"
+  ],
+  "ignores": [
+    "manifest_path",
+    "setImmediate",
+    "__dirname",
+    "module.*",
+    "process.*",
+    "Promise.*",
+    "require.*",
+    "path.*",
+    "args.*"
   ],
   "libraries": [
     "."
   ],
   "applications": [
+    {
+      "class": "qx.tool.cli.Application",
+      "name": "compiler",
+      "title": "Qooxdoo Compiler",
+      "type": "node",
+      "deploy": true,
+      "include": [
+        "qx.core.BaseInit",
+        "qx.tool.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    },
+    {
+      "class": "qx.tool.cli.LibraryApplication",
+      "name": "compilerLibrary",
+      "title": "Qooxdoo Compiler as Library",
+      "type": "node",
+      "deploy": true,
+      "include": [
+        "qx.core.BaseInit",
+        "qx.tool.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    },
+    {
+      "class": "qxl.testnode.Application",
+      "name": "testnode",
+      "title": "Node Test",
+      "type": "node",
+      "deploy": false,
+      "environment": {
+        "testnode.testNameSpace": "qx.test"
+      },
+      "include": [
+        "qx.core.BaseInit",
+        "qx.test.tool.*",
+        "qx.test.compiler.*",
+        "qx.tool.*",
+        "qx.dev.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    },
     {
       "class": "qx.application.Native",
       "name": "qx_server",
@@ -64,19 +206,33 @@
       ]
     }
   ],
+  "sass": {
+    "compiler": "legacy"
+  },
   "eslintConfig": {
     "extends": [
        "@qooxdoo/qx/browser",
        "@qooxdoo/qx",
        "@qooxdoo/jsdoc-disable"
     ],
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
     "rules": {
+      "@qooxdoo/qx/no-illegal-private-usage": "off",
+      "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
+      "jsdoc/require-returns-type": "off",
+      
       "no-new": "off",
       "no-unused-vars": "off",
       "no-eval": "off",
       "new-cap": "off",
 
-      "brace-style": "allman",
+      "@qooxdoo/qx/brace-style": "off",
+      "brace-style": "off",
+      "@qooxdoo/qx/indent": "off",
+      "indent": "off",
       "no-warning-comments": "off",
       "no-lonely-if": "off",
       "guard-for-in": "off",

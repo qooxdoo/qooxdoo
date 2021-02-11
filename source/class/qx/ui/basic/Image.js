@@ -302,6 +302,7 @@ qx.Class.define("qx.ui.basic.Image",
           this.getPaddingLeft() || 0, this.getPaddingTop() || 0
         );
       }
+
     },
 
     renderLayout : function(left, top, width, height) {
@@ -565,7 +566,7 @@ qx.Class.define("qx.ui.basic.Image",
     __fireLoadEvent : function()
     {
       this.__requestId++;
-      qx.bom.AnimationFrame.request(function(rId) {
+      qx.bom.AnimationFrame.request(function(rId){
         // prevent firing of the event if source changed in the meantime
         if (rId === this.__requestId) {
           this.fireEvent("loaded");
@@ -662,8 +663,8 @@ qx.Class.define("qx.ui.basic.Image",
 
           //inherit styles from current element
           var currentStyles = currentContentElement.getAllStyles();
-          if (currentStyles) {
-            for (var prop in currentStyles) {
+          if(currentStyles) {
+            for(var prop in currentStyles) {
                 styles[prop] = currentStyles[prop];
             }
           }
@@ -780,6 +781,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Special case for non resource manager handled font icons
       if (isFont) {
+
         // Don't use scale if size is set via postfix
         if (this.getScale() && parseInt(source.split("/")[2], 10)) {
           this.setScale(false);
@@ -898,7 +900,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // only try to load the image if it not already failed
-      if (!ImageLoader.isFailed(source)) {
+      if(!ImageLoader.isFailed(source)) {
         ImageLoader.load(source, this.__loaderCallback, this);
       } else {
         this.__resetSource(el);
@@ -973,6 +975,7 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
       else if (el.getNodeName() == "div") {
+
         // checks if a decorator already set.
         // In this case we have to merge background styles
         var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
@@ -1012,12 +1015,12 @@ qx.Class.define("qx.ui.basic.Image",
           }
         } else {
           // force re-apply to remove old decorator styles
-          if (el.setSource) {
+          if (el.setSource){
             el.setSource(null);
           }
         }
       }
-      if (el.setSource) {
+      if (el.setSource){
         el.setSource(source);
       }
     },
@@ -1064,7 +1067,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param height {Integer} height of the image
      */
     __updateContentHint : function(width, height) {
-      if (width === undefined) {
+      if (width === undefined ) {
         width = this.__width;
       }
       if (height === undefined) {
@@ -1092,7 +1095,7 @@ qx.Class.define("qx.ui.basic.Image",
       
       var ratio = originalHeight / originalWidth;
 
-      switch (this.getForceRatio()) {
+      switch(this.getForceRatio()) {
       case 'height':
         if (maxHeight !== null && height > maxHeight) {
           height = maxHeight;

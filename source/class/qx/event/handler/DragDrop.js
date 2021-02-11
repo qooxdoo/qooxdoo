@@ -825,6 +825,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           return self.__detectAction();
         });
       });
+
     },
 
 
@@ -909,7 +910,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onKeyDown : function(e) {
       var iden = e.getKeyIdentifier();
-      switch (iden)
+      switch(iden)
       {
         case "Alt":
         case "Control":
@@ -930,7 +931,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onKeyUp : function(e) {
       var iden = e.getKeyIdentifier();
-      switch (iden)
+      switch(iden)
       {
         case "Alt":
         case "Control":
@@ -951,7 +952,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onKeyPress : function(e) {
       var iden = e.getKeyIdentifier();
-      switch (iden)
+      switch(iden)
       {
         case "Escape":
           return this.clearSession();

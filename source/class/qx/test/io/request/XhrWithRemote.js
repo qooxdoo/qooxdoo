@@ -35,6 +35,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     },
 
     "test: fetch resource": function() {
+
       var req = this.req,
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
 
@@ -87,6 +88,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
             this.assertArrayEquals(expectedPhases, phases);
           }, this);
         }
+
       }, this);
 
       req.setUrl(url);
@@ -107,6 +109,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
         if (req.getPhase() === "abort") {
           this.assertArrayEquals(expectedPhases, phases);
         }
+
       }, this);
 
       req.setUrl(url);
@@ -134,6 +137,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
             this.assertArrayEquals(expectedPhases, phases);
           });
         }
+
       }, this);
 
       req.setUrl(url);
@@ -218,7 +222,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     // },
 
     noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date()).valueOf());
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
     },
 
     hasNoIe: function() {

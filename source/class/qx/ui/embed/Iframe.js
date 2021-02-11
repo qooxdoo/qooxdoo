@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.__blockerElement = this._createBlockerElement();
 
-    if (qx.core.Environment.get("ecmascript.mutationobserver"))
+    if ( qx.core.Environment.get("ecmascript.mutationobserver") )
     {
       this.addListenerOnce("appear", function ()
       {
@@ -115,6 +115,7 @@ qx.Class.define("qx.ui.embed.Iframe",
         // Observe parent element
         var parent = this.getLayoutParent().getContentElement().getDomElement();
         observer.observe(parent, { childList: true, subtree: true });
+
       }, this);
     }
     else // !qx.core.Environment.get("ecmascript.mutationobserver")
@@ -305,7 +306,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       try {
         var documentElement = doc.documentElement;
-      } catch (e) {
+      } catch(e) {
         // this may fail due to security restrictions
         return;
       }
@@ -350,11 +351,11 @@ qx.Class.define("qx.ui.embed.Iframe",
         try
         {
           if (old === false) {
-            qx.bom.Event.removeNativeListener(document, "help", (function() { return false; }));
+            qx.bom.Event.removeNativeListener(document, "help", (function() {return false;}));
           }
 
           if (value === false) {
-            qx.bom.Event.addNativeListener(document, "help", (function() { return false; }));
+            qx.bom.Event.addNativeListener(document, "help", (function() {return false;}));
           }
         } catch (e) {
           if (qx.core.Environment.get("qx.debug")) {
@@ -388,8 +389,8 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       if (iframeSource != this.getSource())
       {
-        if (qx.core.Environment.get("browser.name") != "edge" &&
-             qx.core.Environment.get("browser.name") != "ie")
+        if ( qx.core.Environment.get("browser.name") != "edge" &&
+             qx.core.Environment.get("browser.name") != "ie" )
         {
           qx.bom.Iframe.getWindow(iframeDomElement).stop();
         }

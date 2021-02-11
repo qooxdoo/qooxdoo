@@ -1,0 +1,31 @@
+
+#navbarNav.collapsing, #navbarNav.collapse.show {
+  background-color: rgba(0,0,0,.9);
+  padding-left: 32px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.carousel-indicators li {
+  background-color: #EEE;
+}
+
+.carousel-indicators li.active {
+  background-color: #AAA;
+}
+
+#applications li {
+  margin-bottom: 0.25em;
+  
+  p {
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  
+  p.tools {
+    display: none;
+    margin: 0 0 0 40px;
+    font-size: 11px;
+  }
+}
+

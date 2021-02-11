@@ -179,22 +179,22 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style: function(states) {
         return {
           decorator: "toggle-button"
-            + (states.checked ? "-checked" : "")
-            + (states.disabled ? "-disabled" : "")
-            + (!states.disabled && states.hovered ? "-hovered":""),
+            + ( states.checked ? "-checked" : "")
+            + ( states.disabled ? "-disabled" : "")
+            + ( !states.disabled && states.hovered ? "-hovered":"" ),
           textColor: states.disabled ?
             "text-disabled-on-primary" : "text-on-primary"
-        };
+        }
       }
     },
     "toggle-button/label": {
       include: "button/label",
       style: function(states) {
-        if (states.checked) {
+        if (states.checked){
           return {
             textColor: undefined
-          };
-        }
+          }
+        };
         return {
           textColor: undefined
         };
@@ -428,8 +428,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
           return {
             decorator: decorator,
-            padding: [6, 15, 6, 15],
-            margin: [ 2, 0, 2, 4 ],
+            padding: [6, 15,6,15],
+            margin: [ 2, 0,2,4 ],
             cursor: states.disabled ? undefined : "pointer",
             textColor: "text-primary-on-surface"
           };
@@ -462,8 +462,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           icon: qx.theme.tangible.Image.URLS["arrow-down"],
           decorator: decorator,
           cursor: states.disabled ? undefined : "pointer",
-          padding: [6, 10, 6, 10],
-          margin: [ 2, 4, 2, 0],
+          padding: [6, 10,6,10],
+          margin: [ 2, 4,2,0],
           textColor: "text-on-primary"
         };
       }
@@ -472,7 +472,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style: function(states) {
         return {
           textColor: "text-icon-on-primary"
-        };
+        }
       }
     },
     /*
@@ -516,7 +516,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style: function(states) {
         return {
             rowHeight: 30
-        };
+        }
       }
     },
 
@@ -1278,7 +1278,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style: function(states) {
         return {
           decorator: "radiobutton",
-          padding: [2, 0, 0, 0]
+          padding: [2,0,0,0]
         };
       }
     },
@@ -2165,9 +2165,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
         style: function(states) {
           // set the margin
-          var margin = [7, 0, 7, 10];
+          var margin = [7, 0,7,10];
           if (states.left || states.middle || states.right) {
-            margin = [7, 0, 7, 3];
+            margin = [7, 0,7,3];
           }
           var decorator = "toolbar-button";
           if (states.hovered || states.pressed || states.focused ||states.checked) {
@@ -2190,9 +2190,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
         style: function(states) {
           // set the margin
-          var margin = [7, 10, 7, 0];
+          var margin = [7, 10,7,0];
           if (states.left || states.middle || states.right) {
-            margin = [7, 3, 7, 0];
+            margin = [7, 3,7,0];
           }
           var decorator = "toolbar-button";
           if (states.hovered || states.pressed || states.focused ||states.checked) {

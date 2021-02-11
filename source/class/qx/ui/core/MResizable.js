@@ -321,7 +321,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // check again in case we have a corner [BUG #1200]
       if (resizeActive > 0) {
         // this is really a | (or)!
-        resizeActive |= this.__computeResizeActive(
+        resizeActive = resizeActive | this.__computeResizeActive(
           location, pointerLeft, pointerTop, pointerTolerance * 2
         );
       }
@@ -618,7 +618,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   destruct : function()
   {
-    if (this.getCursor()) {
+    if(this.getCursor()) {
       this.getApplicationRoot().resetGlobalCursor();
     }
 

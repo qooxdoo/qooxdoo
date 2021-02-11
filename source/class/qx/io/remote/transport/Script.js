@@ -283,7 +283,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     _switchReadyState : function(vReadyState)
     {
       // Ignoring already stopped requests
-      switch (this.getState())
+      switch(this.getState())
       {
         case "completed":
         case "aborted":
@@ -415,7 +415,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         }
       }
 
-      switch (this.getResponseType())
+      switch(this.getResponseType())
       {
         case "text/plain":
           // server is responsible for using a string as the response

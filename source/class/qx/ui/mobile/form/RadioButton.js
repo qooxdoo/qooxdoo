@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
      * @param value {Boolean} the new value of the radio button
      */
     _setValue : function(value) {
-      if (value == true) {
+      if(value == true) {
         this.addCssClass("checked");
       } else {
         this.removeCssClass("checked");

@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                       complete);
             var percent = Math.floor(complete * 100) + "%";
 
-            if (!isNaN(barWidth))
+            if (! isNaN(barWidth))
             {
               this.__progressBar.setMinWidth(barWidth);
               this.__percentDone.setLabel(percent);

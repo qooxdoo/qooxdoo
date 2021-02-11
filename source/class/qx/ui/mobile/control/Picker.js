@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     */
     visibleItems : {
       init : 5,
-      check : [3, 5, 7, 9],
+      check : [3,5,7,9],
       apply : "_applyVisibleItems"
     },
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 
     // property apply
     _applyVisibleItems : function(value) {
-      this._setAttribute("data-items", value);
+      this._setAttribute("data-items",value);
     },
 
 
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
      * @param delegate {qx.ui.mobile.list.IListDelegate?null} the list delegate object for this slot.
      */
     addSlot : function(slotModel, delegate) {
-      if (slotModel !== null && slotModel instanceof qx.data.Array) {
+      if(slotModel !== null && slotModel instanceof qx.data.Array) {
         this._pickerModel.push(slotModel);
         var slotIndex = this._pickerModel.length - 1;
 
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
      * @param slotIndex {Integer} the index of the target picker slot.
      */
     removeSlot : function(slotIndex) {
-      if (this._pickerModel.length > slotIndex && slotIndex > -1) {
+      if(this._pickerModel.length > slotIndex && slotIndex > -1) {
         var slotModel = this._pickerModel.getItem(slotIndex);
         var scrollContainer = this._slots.getItem(slotIndex).container;
 

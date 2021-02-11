@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     this.addListener("appear", this._onContainerUpdate, this);
 
-    qx.event.Registration.addListener(this.__carouselScroller.getContainerElement(), "transitionEnd", this._onScrollerTransitionEnd, this);
+    qx.event.Registration.addListener(this.__carouselScroller.getContainerElement(),"transitionEnd",this._onScrollerTransitionEnd, this);
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
     qx.event.Registration.addListener(window, "resize", this._onContainerUpdate, this);
     qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     add : function(page) {
       if (qx.core.Environment.get("qx.debug")) {
-        if (!(page instanceof qx.ui.mobile.container.Composite)) {
+        if (!page instanceof qx.ui.mobile.container.Composite) {
           throw new Error("Page is expected to be an instance of qx.ui.mobile.container.Composite.");
         }
       }
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @return {Integer} the current page count
     */
     getPageCount : function() {
-      if (this.__pages) {
+      if(this.__pages) {
         return this.__pages.length;
       }
 
@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       var i = 4;
       // Check if MSCSSMatrix is used.
-      if ('MSCSSMatrix' in window && !('WebKitCSSMatrix' in window)) {
+      if('MSCSSMatrix' in window && !('WebKitCSSMatrix' in window)) {
         i = transformValueArray.length - 4;
       }
 
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Pointer} The pointer event.
      */
     _onPointerDown : function(evt) {
-      if (!evt.isPrimary()) {
+      if(!evt.isPrimary()) {
         return;
       }
 
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Track} The track event.
      */
     _onTrack : function(evt) {
-      if (!evt.isPrimary()) {
+      if(!evt.isPrimary()) {
         return;
       }
 
@@ -548,7 +548,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @param evt {qx.event.type.Pointer} the pointerup event.
     */
     _onPointerUp : function(evt) {
-      if (!evt.isPrimary()) {
+      if(!evt.isPrimary()) {
         return;
       }
 
@@ -562,13 +562,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt) {
-      if (!evt.isPrimary()) {
+      if(!evt.isPrimary()) {
         return;
       }
 
       if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 50) {
         var duration = this._calculateTransitionDuration(this.__deltaX, evt.getDuration());
-        duration = Math.min(this.getTransitionDuration(), duration);
+        duration = Math.min(this.getTransitionDuration(),duration);
 
         this._setTransitionDuration(duration);
         if (evt.getDirection() == "left") {
@@ -665,9 +665,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       if (this.__paginationLabels.length) {
         var paginationStyle = window.getComputedStyle(this.__pagination.getContentElement());
-        var paginationWidth = parseFloat(paginationStyle.width, 10);
+        var paginationWidth = parseFloat(paginationStyle.width,10);
 
-        if (isNaN(paginationWidth)) {
+        if(isNaN(paginationWidth)) {
           return;
         }
 
@@ -693,7 +693,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param x {Integer} scroller's x position.
      */
     _updateScrollerPosition : function(x) {
-      if (isNaN(x) || this.__carouselScroller.getContentElement() === null) {
+      if(isNaN(x) || this.__carouselScroller.getContentElement() === null) {
         return;
       }
       this.__carouselScroller.setTranslateX(x);
@@ -723,10 +723,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   {
     this._removeListeners();
 
-    this._disposeObjects("__carouselScroller", " __pagination");
+    this._disposeObjects("__carouselScroller"," __pagination");
 
     qx.util.DisposeUtil.destroyContainer(this);
-    qx.util.DisposeUtil.disposeArray(this, "__paginationLabels");
+    qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 
     this.__pages = this.__paginationLabels = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
   }

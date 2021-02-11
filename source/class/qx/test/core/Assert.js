@@ -126,6 +126,7 @@ qx.Class.define("qx.test.core.Assert",
       this.assertException(function() {
         qx.core.Assert.assertElement(window);
       }, qx.core.AssertionError, null, "4");
+
     },
 
     testAssertArgumentsCount : function() {

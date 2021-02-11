@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         top += rowSizes[y];
         left = 0;
       }
-      children.forEach(function(child) {
+      children.forEach(function(child){
         if (visibleItems.indexOf(child) === -1) {
           this._remove(child);
         }
@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         top += rowSizes[y];
         left = 0;
       }
-      children.forEach(function(child) {
+      children.forEach(function(child){
         if (visibleItems.indexOf(child) === -1) {
           this._remove(child);
         }

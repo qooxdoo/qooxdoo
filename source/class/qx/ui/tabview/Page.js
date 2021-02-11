@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.tabview.Page",
     if (icon != null) {
       this.setIcon(icon);
     }
+
   },
 
 
@@ -198,10 +199,10 @@ qx.Class.define("qx.ui.tabview.Page",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "button":
-          control = new qx.ui.tabview.TabButton();
+          control = new qx.ui.tabview.TabButton;
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
 

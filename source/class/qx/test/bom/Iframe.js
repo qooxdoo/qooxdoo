@@ -48,11 +48,11 @@ qx.Class.define("qx.test.bom.Iframe",
     {
       // do not test 'onload' on IE, this returns always 'undefined'
       // http://tobielangel.com/2007/1/11/attribute-nightmare-in-ie/
-      if (qx.core.Environment.get("engine.name") == "mshtml") {
+      if(qx.core.Environment.get("engine.name") == "mshtml") {
         delete attributes["onload"];
       }
 
-      for (var key in attributes) {
+      for(var key in attributes) {
         this.assertEquals(attributes[key],
           qx.bom.element.Attribute.get(this.__iframe, key),
           "Wrong value on attribute '" + key + "'");
