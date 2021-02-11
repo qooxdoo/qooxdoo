@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      */
     getButton : function()
     {
-      switch (this.type)
+      switch(this.type)
       {
         case "contextmenu":
           return "right";

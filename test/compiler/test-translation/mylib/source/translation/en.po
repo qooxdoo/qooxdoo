@@ -1,0 +1,6 @@
+msgid "Lib Alpha"
+msgstr "lib-alpha-value"
+
+msgid "Lib Override"
+msgstr "lib-override-original-value"
+

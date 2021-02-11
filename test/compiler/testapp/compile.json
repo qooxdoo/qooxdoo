@@ -1,0 +1,142 @@
+{
+  "babel": {
+    "plugins": {
+      "@babel/plugin-proposal-optional-chaining": true
+    }
+  },
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "environment": {
+        "test.overridden4": "target",
+        "test.overridden5": "target"
+      },
+      "application-types": [ "browser" ]
+    },
+    {
+      "type": "source",
+      "outputPath": "compiled/source-chrome",
+      "environment": {
+        "test.overridden4": "target",
+        "test.overridden5": "target"
+      },
+      "application-types": [ "browser" ],
+      "babelOptions": {
+        "targets": "chrome >= 69"
+      }
+    },
+    {
+      "type": "source",
+      "outputPath": "compiled/source-node",
+      "environment": {
+        "test.overridden4": "target",
+        "test.overridden5": "target"
+      },
+      "application-types": [ "node" ],
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en",
+    "nl"
+  ],
+  "applications": [
+    {
+      "class": "testapp.Application",
+      "theme": "qx.theme.Indigo",
+      "name": "testapp",
+      "environment": {
+        "test.overridden1": true,
+        "test.overridden2": false,
+        "test.overridden5": "application"
+      }
+    },
+    {
+      "class": "qxl.testtapper.Application",
+      "name": "testtapper",
+      "theme": "qx.theme.Simple",
+      "title": "Qooxdoo TestTAPper",
+      "environment": {
+        "qx.icontheme": "Tango"
+      },
+      "include": [
+        "testapp.test.*"
+      ]
+    },
+    {
+        "class": "testapp.NodeApplication",
+        "type": "node",
+        "name": "nodeapp"
+    }
+  ],
+  "libraries": [
+    ".",
+    "../testlib"
+  ],
+  "environment": {
+    "test.isFalse": false,
+    "test.isTrue": true,
+    "test.someValue": "some",
+    "test.overridden1": false,
+    "test.overridden2": true,
+    "test.overridden3": "global",
+    "test.overridden4": "global",
+    "test.overridden5": "global"
+  },
+  "bundle": {
+    "include": [
+      "qx.*"
+    ],
+    "exclude": [
+      "qx.util.*"
+    ]
+  },
+  "parts": {
+    "boot": {
+      "include": [
+        "testapp.*"
+      ]
+    },
+    "pluginFramework": {
+      "include": [
+        "testapp.pdk.*"
+      ]
+    },
+    "utils": {
+      "include": [
+        "testapp.utils.*"
+      ]
+    },
+    "pluginOne": {
+      "include": [
+        "testapp.plugins.PluginOne",
+        "testapp.plugins.One*"
+      ]
+    },
+    "pluginTwo": {
+      "include": [
+        "testapp.plugins.PluginTwo",
+        "testapp.plugins.Two*"
+      ]
+    }
+  },
+  "serve": {
+    "listenPort": 9082
+  },
+  "sass": {
+    "compiler": "latest"
+  },
+  "jsx": {
+    "pragma": "jsx.dom",
+    "pragmaFrag": "jsx.Fragment"
+  },
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/resource/schema/v1/compile.json"
+}

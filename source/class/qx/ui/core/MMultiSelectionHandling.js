@@ -146,7 +146,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * @returns {null|TypeError} The status of this operation.
      */
     setValue : function(items) {
-      if (items === null) {
+      if (null === items) {
         this.__manager.clearSelection();
         return null;
       }
@@ -162,6 +162,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       try {
         this.setSelection(items);
         return null;
+
       } catch (e) {
         return e;
       }

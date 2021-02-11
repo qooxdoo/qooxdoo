@@ -198,7 +198,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       // Checking active queue fill
-      if (this.__queue.length == 0 ||(this.__queue[0].isAsynchronous() && this.__active.length >= this.getMaxConcurrentRequests())) {
+      if ( this.__queue.length == 0 ||(this.__queue[0].isAsynchronous() && this.__active.length >= this.getMaxConcurrentRequests())) {
         return;
       }
 
@@ -228,7 +228,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       vTransport.addListener("failed", this._oncompleted, this);
 
       // Store send timestamp
-      vTransport._start = (new Date()).valueOf();
+      vTransport._start = (new Date).valueOf();
 
       // Send
       vTransport.send();
@@ -343,7 +343,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
           request[requestHandler](e);
         }
       }
-      catch (ex)
+      catch(ex)
       {
         this.error("Request " + request + " handler " + requestHandler +
           " threw an error: ", ex);
@@ -359,7 +359,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
             request["_onaborted"](event);
           }
         }
-        catch (ex1)
+        catch(ex1)
         {
         }
       }
@@ -390,7 +390,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         return;
       }
 
-      var vCurrent = (new Date()).valueOf();
+      var vCurrent = (new Date).valueOf();
       var vTransport;
       var vRequest;
       var vDefaultTimeout = this.getDefaultTimeout();

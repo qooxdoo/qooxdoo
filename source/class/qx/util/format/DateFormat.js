@@ -96,9 +96,9 @@ qx.Class.define("qx.util.format.DateFormat",
     if (format != null)
     {
       this.__format = format.toString();
-      if (this.__format in qx.util.format.DateFormat.ISO_MASKS)
+      if(this.__format in qx.util.format.DateFormat.ISO_MASKS)
       {
-        if (this.__format === 'isoUtcDateTime') {
+        if(this.__format === 'isoUtcDateTime') {
           this.__UTC = true;
         }
         this.__format = qx.util.format.DateFormat.ISO_MASKS[this.__format];
@@ -322,7 +322,7 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __isLeapYear : function(year)
     {
-      var februaryDate = new Date(year, 2, 1);
+      var februaryDate = new Date(year,2,1);
       februaryDate.setDate(-1);
       return februaryDate.getDate() + 1 === 29;
     },
@@ -334,22 +334,22 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param year {Integer} the year to check.
      * @return {Object} a json object {month: M, day: D}.
      */
-    __getMonthAndDayFromDayOfYear : function(dayOfYear, year)
+    __getMonthAndDayFromDayOfYear : function(dayOfYear,year)
     {
       var month = 0;
       var day = 0;
       // if we don't know the year, we take a non-leap year'
-      if (!year) {
+      if(!year) {
         year = 1971;
       }
       var dayCounter = 0;
-      for (var i=1; i <= 12; i++)
+      for(var i=1; i <= 12; i++)
       {
-        var tempDate = new Date(year, i, 1);
+        var tempDate = new Date(year,i,1);
         tempDate.setDate(-1);
         var days = tempDate.getDate() + 1;
         dayCounter += days;
-        if (dayCounter < dayOfYear)
+        if(dayCounter < dayOfYear)
         {
           month++;
           day += days;
@@ -361,7 +361,7 @@ qx.Class.define("qx.util.format.DateFormat",
         }
       }
 
-      return {month: month, day: day};
+      return {month: month,day: day};
     },
 
     /**
@@ -375,20 +375,20 @@ qx.Class.define("qx.util.format.DateFormat",
     __getYearFromWeekYearAndMonth : function(weekYear, month, dayOfMonth)
     {
       var year;
-      switch (month) {
-        case 11:
+      switch(month){
+        case 11 :
           year = weekYear - 1;
-          if (weekYear != this.__getWeekYear(new Date(year, month, dayOfMonth))) {
+          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
             year = weekYear;
           }
         break;
-        case 0:
+        case 0 :
           year = weekYear + 1;
-          if (weekYear != this.__getWeekYear(new Date(year, month, dayOfMonth))) {
+          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
             year = weekYear;
           }
         break;
-        default:
+        default :
           year = weekYear;
       }
       return year;
@@ -438,15 +438,15 @@ qx.Class.define("qx.util.format.DateFormat",
         return null;
       }
 
-      if (isNaN(date.getTime())) {
+      if(isNaN(date.getTime())) {
         if (qx.core.Environment.get("qx.debug")) {
           qx.log.Logger.error("Provided date is invalid");
         }
         return null;
       }
 
-      if (this.__UTC) {
-        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
+      if(this.__UTC) {
+        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
 
       var locale = this.getLocale();
@@ -485,7 +485,7 @@ qx.Class.define("qx.util.format.DateFormat",
           // Get its replacement
           var replacement = "?";
 
-          switch (wildcardChar)
+          switch(wildcardChar)
           {
             case 'y': // Year
               if (wildcardSize == 2) {
@@ -498,7 +498,7 @@ qx.Class.define("qx.util.format.DateFormat",
                     replacement = "0" + replacement;
                   }
                 }
-                if (fullYear < 0) {
+                if(fullYear < 0) {
                   replacement = "-" + replacement;
                 }
               }
@@ -507,7 +507,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'Y': // Year
               replacement = this.__getWeekYear(date) + "";
-              var year = replacement.replace('-', '');
+              var year = replacement.replace('-','');
               if (wildcardSize > replacement.length) {
                 for (var j = year.length; j < wildcardSize; j++) {
                   year = "0" + year;
@@ -521,10 +521,10 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize >= 1 && wildcardSize <= 3) {
                 replacement = fullYear > 0 ? 'AD' : 'BC';
               }
-              else if (wildcardSize == 4) {
+              else if(wildcardSize == 4) {
                 replacement = fullYear > 0 ? 'Anno Domini' : 'Before Christ';
               }
-              else if (wildcardSize == 5) {
+              else if(wildcardSize == 5) {
                 replacement = fullYear > 0 ? 'A' : 'B';
               }
 
@@ -534,7 +534,7 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
               }
-              if (wildcardSize == 3) {
+              if(wildcardSize == 3) {
                 replacement = 'Q' + (parseInt(month/4) + 1);
               }
 
@@ -544,7 +544,7 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
               }
-              if (wildcardSize == 3) {
+              if(wildcardSize == 3) {
                 replacement = 'Q' + (parseInt(month/4) + 1);
               }
 
@@ -618,6 +618,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 replacement = qx.locale.Date.getMonthName("wide", month, locale, "format", true);
               } else if (wildcardSize == 5) {
                 replacement = qx.locale.Date.getMonthName("narrow", month, locale, "format", true);
+
               }
 
               break;
@@ -770,55 +771,55 @@ qx.Class.define("qx.util.format.DateFormat",
           rule.manipulator(dateValues, value, rule.pattern);
         }
 
-        if (rule.pattern == "Y+")
+        if(rule.pattern == "Y+")
         {
           var yearRuleApplied = false;
-          for (var k=0; k<this.__parseFeed.usedRules.length; k++) {
-            if (this.__parseFeed.usedRules[k].pattern == 'y+') {
+          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
+            if(this.__parseFeed.usedRules[k].pattern == 'y+'){
               yearRuleApplied = true;
               break;
             }
           }
-          if (!yearRuleApplied) {
+          if(!yearRuleApplied) {
             applyWeekYearAfterRule = true;
           }
         }
 
-        if (rule.pattern.indexOf("D") != -1)
+        if(rule.pattern.indexOf("D") != -1)
         {
           var dayRuleApplied = false;
-          for (var k=0; k<this.__parseFeed.usedRules.length; k++) {
-            if (this.__parseFeed.usedRules[k].pattern.indexOf("d") != -1) {
+          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
+            if(this.__parseFeed.usedRules[k].pattern.indexOf("d") != -1){
               dayRuleApplied = true;
               break;
             }
           }
-          if (!dayRuleApplied) {
+          if(!dayRuleApplied) {
             applyDayOfYearAfterRule = true;
           }
         }
 
         currGroup += (rule.groups == null) ? 1 : rule.groups;
       }
-      if (applyWeekYearAfterRule) {
-        dateValues.year = this.__getYearFromWeekYearAndMonth(dateValues.weekYear, dateValues.month, dateValues.day);
+      if(applyWeekYearAfterRule) {
+        dateValues.year = this.__getYearFromWeekYearAndMonth(dateValues.weekYear,dateValues.month,dateValues.day);
       }
 
-      if (applyDayOfYearAfterRule)
+      if(applyDayOfYearAfterRule)
       {
         var dayAndMonth = this.__getMonthAndDayFromDayOfYear(dateValues.dayOfYear, dateValues.year);
         dateValues.month = dayAndMonth.month;
         dateValues.day = dayAndMonth.day;
       }
 
-      if (dateValues.era < 0 && (dateValues.year * dateValues.era < 0)) {
-        dateValues.year *= dateValues.era;
+      if(dateValues.era < 0 && (dateValues.year * dateValues.era < 0)) {
+        dateValues.year = dateValues.year * dateValues.era;
       }
 
       var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
 
-      if (this.__UTC) {
-        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
+      if(this.__UTC) {
+        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
 
       if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear()) {
@@ -855,7 +856,7 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         var currChar = format.charAt(i);
 
-        switch (state)
+        switch(state)
         {
           case "quoted_literal":
             // We are now inside a quoted literal
@@ -864,6 +865,7 @@ qx.Class.define("qx.util.format.DateFormat",
             {
               if (i + 1 >= format.length)
               {
+
                 // this is the last character
                 i++;
 
@@ -879,6 +881,7 @@ qx.Class.define("qx.util.format.DateFormat",
               }
               else
               {
+
                 // quoted literal ends
                 i++;
 
@@ -1046,7 +1049,7 @@ qx.Class.define("qx.util.format.DateFormat",
           {
             var rule = this.__parseRules[ruleIdx];
 
-            if (this.__isRuleForWildcard(rule, wildcardChar, wildcardSize))
+            if ( this.__isRuleForWildcard(rule,wildcardChar,wildcardSize))
             {
               // We found the right rule for the wildcard
               wildcardRule = rule;
@@ -1082,7 +1085,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       try {
         regex = new RegExp(pattern);
-      } catch (exc) {
+      } catch(exc) {
         throw new Error("Malformed date format: " + format);
       }
 
@@ -1104,12 +1107,12 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __isRuleForWildcard : function(rule, wildcardChar, wildcardSize)
     {
-      if (wildcardChar==='y' && rule.pattern==='y+')
+      if(wildcardChar==='y' && rule.pattern==='y+')
       {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
       }
-      else if (wildcardChar==='Y' && rule.pattern==='Y+')
+      else if(wildcardChar==='Y' && rule.pattern==='Y+')
       {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
@@ -1131,7 +1134,7 @@ qx.Class.define("qx.util.format.DateFormat",
       if (this.__parseRules != null)
       {
         // The parse rules are already initialized
-        return;
+        return ;
       }
 
       var rules = this.__parseRules = [];
@@ -1144,7 +1147,7 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         value = parseInt(value, 10);
 
-        if (value >= 0)
+        if(value >= 0)
         {
           if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
             value += 2000;
@@ -1160,7 +1163,7 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         value = parseInt(value, 10);
 
-        if (value >= 0)
+        if(value >= 0)
         {
           if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
             value += 2000;
@@ -1178,7 +1181,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var localWeekDayManipulator = function(dateValues, value) {
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
-        var dayOfWeek =  (parseInt(value, 10) - 1 + startOfWeek) <= 6 ? parseInt(value, 10) - 1 + startOfWeek : (parseInt(value, 10) - 1 + startOfWeek) -7;
+        var dayOfWeek =  (parseInt(value,10) - 1 + startOfWeek) <= 6 ? parseInt(value,10) - 1 + startOfWeek : (parseInt(value,10) - 1 + startOfWeek) -7;
         dateValues.weekDay = dayOfWeek;
       };
 
@@ -1214,30 +1217,30 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.era = value == 'Anno Domini' ? 1 : -1;
       };
 
-      var abbrevQuarterNames = ['Q1', 'Q2', 'Q3', 'Q4'];
+      var abbrevQuarterNames = ['Q1','Q2','Q3','Q4'];
       var abbrevQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = abbrevQuarterNames.indexOf(value);
       };
 
-      var fullQuarterNames = ['1st quarter', '2nd quarter', '3rd quarter', '4th quarter'];
+      var fullQuarterNames = ['1st quarter','2nd quarter','3rd quarter','4th quarter'];
       var fullQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
       };
 
       var cache = {};
 
-      var dateNamesManipulator = function(pattern) {
-        var monthPatternLetters = ['L', 'M'];
+      var dateNamesManipulator = function(pattern){
+        var monthPatternLetters = ['L','M'];
         var dayPatternLetters = ['c', 'e', 'E'];
         var firstLetterInPattern = pattern.charAt(0);
         var isMonth = monthPatternLetters.indexOf(firstLetterInPattern)>=0;
 
         var getContext = function() {
           var letters = isMonth ? monthPatternLetters : dayPatternLetters;
-          var context = firstLetterInPattern === letters[0] ? "stand-alone" : "format";
+          var context = firstLetterInPattern === letters[0] ? "stand-alone" : "format" ;
           var patternLength = pattern.length;
           var lengthName = 'abbreviated';
-          switch (patternLength)
+          switch(patternLength)
           {
             case 4:
               lengthName = 'wide';
@@ -1251,13 +1254,13 @@ qx.Class.define("qx.util.format.DateFormat",
           return [context, lengthName];
         };
 
-        if (!cache[pattern])
+        if(!cache[pattern])
         {
           cache[pattern] = {};
           var context = getContext();
           var func = isMonth ? qx.locale.Date.getMonthNames : qx.locale.Date.getDayNames;
           var names = func.call(qx.locale.Date, context[1], locale, context[0], true);
-          for (var i=0, l=names.length; i<l; i++)
+          for(var i=0, l=names.length; i<l; i++)
           {
             names[i] = LString.escapeRegexpChars(names[i].toString());
           }
@@ -1280,10 +1283,10 @@ qx.Class.define("qx.util.format.DateFormat",
         regexFunc       : function(yNumber)
           {
             var regex = "(-*";
-            for (var i=0; i<yNumber; i++)
+            for(var i=0;i<yNumber;i++)
             {
               regex += "\\d";
-              if (i===yNumber-1 && i!==1) {
+              if(i===yNumber-1 && i!==1) {
                 regex += "+?";
               }
             }
@@ -1299,10 +1302,10 @@ qx.Class.define("qx.util.format.DateFormat",
         regexFunc       : function(yNumber)
           {
             var regex = "(-*";
-            for (var i=0; i<yNumber; i++)
+            for(var i=0;i<yNumber;i++)
             {
               regex += "\\d";
-              if (i===yNumber-1) {
+              if(i===yNumber-1) {
                 regex += "+?";
               }
             }

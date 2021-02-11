@@ -60,6 +60,7 @@ qx.Class.define("qx.event.handler.Iframe",
      * @param target {Element} DOM element which is the target of this event
      */
     onevent : qx.event.GlobalError.observeMethod(function(target) {
+
       // Fire navigate event when actual URL diverges from stored URL
       var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
 

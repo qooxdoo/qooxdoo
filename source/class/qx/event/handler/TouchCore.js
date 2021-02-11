@@ -178,7 +178,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @return {Number} the calculated distance.
      */
     _getScalingDistance : function(touch0, touch1) {
-      return (Math.sqrt(Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2)));
+      return(Math.sqrt( Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2) ));
     },
 
 
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getRotationAngle :  function(touch0, touch1) {
       var x = touch0.pageX - touch1.pageX;
       var y = touch0.pageY - touch1.pageY;
-      return (Math.atan2(y, x)*180/Math.PI);
+      return(Math.atan2(y, x)*180/Math.PI);
     },
 
 
@@ -264,25 +264,25 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
 
-        if (domEvent.touches && domEvent.touches.length > 1) {
-          this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0], domEvent.touches[1]);
+        if(domEvent.touches && domEvent.touches.length > 1) {
+          this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0],domEvent.touches[1]);
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0], domEvent.touches[1]);
         }
 
         for (var i = 0; i < domEvent.changedTouches.length; i++) {
           var touch = domEvent.changedTouches[i];
-          this.__touchStartPosition[touch.identifier] = [touch.clientX, touch.clientY];
+          this.__touchStartPosition[touch.identifier] = [touch.clientX,touch.clientY];
         }
       }
 
-      if (type == "touchmove") {
+      if(type == "touchmove") {
         // Polyfill for scale
-        if (typeof domEvent.scale == "undefined" && domEvent.targetTouches.length > 1) {
-          var currentScalingDistance = this._getScalingDistance(domEvent.targetTouches[0], domEvent.targetTouches[1]);
+        if(typeof domEvent.scale == "undefined" && domEvent.targetTouches.length > 1) {
+          var currentScalingDistance = this._getScalingDistance(domEvent.targetTouches[0],domEvent.targetTouches[1]);
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
         // Polyfill for rotation
-        if ((typeof domEvent.rotation == "undefined" || qx.core.Environment.get("event.mspointer")) && domEvent.targetTouches.length > 1) {
+        if((typeof domEvent.rotation == "undefined" || qx.core.Environment.get("event.mspointer")) && domEvent.targetTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.targetTouches[0], domEvent.targetTouches[1]);
           domEvent._rotation = currentRotation - this.__beginRotation;
         }
@@ -367,7 +367,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
         }
-      } else if (qx.core.Environment.get("engine.name") == "mshtml" &&
+      } else if(qx.core.Environment.get("engine.name") == "mshtml" &&
                 qx.core.Environment.get("browser.documentmode") < 11) {
         // Fix for IE10 and pointer-events:none
         //
@@ -376,7 +376,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         // See: https://github.com/qooxdoo/qooxdoo/issues/9481
         //
         var targetForIE = this.__evaluateTarget(domEvent);
-        if (targetForIE) {
+        if(targetForIE) {
           target = targetForIE;
         }
       }
@@ -395,14 +395,14 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __evaluateTarget : function(domEvent) {
       var clientX = null;
       var clientY = null;
-      if (domEvent && domEvent.touches && domEvent.touches.length !== 0) {
+      if(domEvent && domEvent.touches && domEvent.touches.length !== 0){
         clientX = domEvent.touches[0].clientX;
         clientY = domEvent.touches[0].clientY;
       }
 
       // Retrieve an array with elements on point X/Y.
       var hitTargets = document.msElementsFromPoint(clientX, clientY);
-      if (hitTargets) {
+      if(hitTargets) {
         // Traverse this array for the elements which has no pointer-events:none inside.
         for (var i = 0; i < hitTargets.length; i++) {
           var currentTarget = hitTargets[i];

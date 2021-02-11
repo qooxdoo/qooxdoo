@@ -90,6 +90,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._el, "data-foo", true);
       this.assertEquals("true", this._el.getAttribute("data-foo"));
+
     },
 
     testSetAttributeWithUndefinedValue : function()
@@ -235,6 +236,7 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "value", "foo");
       Attribute.reset(this._input, "value");
       this.assertNull(Attribute.get(this._input, "value"));
+
     }
   }
 });

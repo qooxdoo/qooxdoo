@@ -48,7 +48,7 @@ qx.Class.define("qx.type.Array",
    *        OR an argument list of elements.
    */
   construct : function(length_or_items) {
-    qx.type.BaseArray.apply(this, arguments);
+    qx.type.BaseArray.apply(this,arguments);
   },
 
 

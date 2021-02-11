@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       widget.setUserData("cell.childProperty", this.getChildProperty());
       widget.setUserData("cell.showLeafs", this._tree.isShowLeafs());
 
-      if (this._tree.getSelection().contains(item)) {
+      if(this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);
       } else {
         this._styleUnselectabled(widget);
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
      * @param widget {qx.ui.core.Widget} widget to style.
      */
     _styleSelectabled : function(widget) {
-      if (widget == null) {
+      if(widget == null) {
         return;
       }
 
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
      * @param widget {qx.ui.core.Widget} widget to style.
      */
     _styleUnselectabled : function(widget) {
-      if (widget == null) {
+      if(widget == null) {
         return;
       }
 

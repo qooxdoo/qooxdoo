@@ -97,7 +97,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
         this.skip("Optimization makes this test fail frequently for chrome - skipping");
       }
       
-      var rm = qx.util.ResourceManager.getInstance();
+      var rm = qx.util.ResourceManager.getInstance()
       var src1 = rm.toUri("qx/static/blank.html");  // <body></body>
       var src2 = rm.toUri("qx/test/hello.html");    // <body>Hello World!</body>
 
@@ -128,11 +128,11 @@ qx.Class.define("qx.test.ui.embed.Iframe",
 
           // IE and edge deliver an extra blank at the end of 
           // body.innerText
-          if (typeof innerText == "string" &&
+          if(typeof innerText == "string" &&
              (qx.core.Environment.get("browser.name") == "edge" ||
-              qx.core.Environment.get("browser.name") == "ie")) 
+              qx.core.Environment.get("browser.name") == "ie" )) 
           {
-            innerText = innerText.replace(/\s$/gm, '');
+            innerText = innerText.replace(/\s$/gm,'');
           }
           this.assertEquals(
             "Hello World!",

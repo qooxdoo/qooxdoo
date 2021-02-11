@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
         if (target && (qx.bom.element.Attribute.get(target, "data-selectable") != "false")) {
           qx.bom.element.Class.add(target, "active");
         }
-      }, 100);
+      },100);
     },
 
 
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
      *
      * @param domEvent {qx.event.type.Event} The event object to dispatch.
      */
-    _dispatchEvent: function(domEvent) {
+    _dispatchEvent: function(domEvent){
       // EVENT TARGET
       var domTarget = domEvent.getTarget();
       if (!domTarget || domTarget.id == null) {

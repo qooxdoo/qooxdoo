@@ -199,7 +199,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Resolve ID
       var aliasMap = this.__aliasMap;
-      if (!aliasMap[theme.name]) {
+      if(!aliasMap[theme.name]) {
         aliasMap[theme.name] = {};
       }
       var resolved = aliasMap[theme.name][id];
@@ -272,6 +272,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       // If an include or base is defined, too, we need to merge the entries
       if (entry.include || entry.base)
       {
+
         // Gather included data
         var incl;
         if (entry.include) {
@@ -335,7 +336,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Cache new entry and return
-      if (!cache[theme.name]) {
+      if(!cache[theme.name]) {
         cache[theme.name] = {};
       }
        return cache[theme.name][unique] = result || null;

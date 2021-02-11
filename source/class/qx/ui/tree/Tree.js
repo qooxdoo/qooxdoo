@@ -557,7 +557,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
       if (item !== null)
       {
-        switch (e.getKeyIdentifier())
+        switch(e.getKeyIdentifier())
         {
           case "Left":
             if (item.isOpenable() && item.isOpen()) {

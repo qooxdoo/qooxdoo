@@ -23,5 +23,4 @@ qx.Bootstrap.define("q", {
   extend : qxWeb
 });
 // make sure it's the same
-/* eslint-disable-next-line no-global-assign */
 q = qxWeb;

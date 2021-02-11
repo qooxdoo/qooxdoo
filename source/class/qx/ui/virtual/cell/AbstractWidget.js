@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     _cleanupPool : function() {
       var widget = this.__pool.pop();
 
-      while (widget)
+      while(widget)
       {
         widget.destroy();
         widget = this.__pool.pop();

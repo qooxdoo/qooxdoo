@@ -1,0 +1,49 @@
+    <div class="container-fluid pt-0">
+      <nav class="navbar fixed-top navbar-expand-sm pl-1" id="navigatopnBar">
+        <a class="navbar-brand invisible" href="#" style="width: 0" id="navigationLogo">
+          <img src="/assets/logo.svg" width="auto" height="30" alt="">
+        </a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-dark" id="navbarNav">
+          <ul class="navbar-nav">
+            {{~ it.site.pages :page:index }}
+                {{? page.title }}
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="{{= page.url }}">{{= page.title }}</a>
+                </li>
+                {{?}}
+            {{~}}
+            <li class="nav-item">
+              <a class="nav-link text-light" target="docs" href="/docs">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" target="api" href="/apps/apiviewer">API</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Github star -->
+        <span class="d-none d-md-block">
+          <a class="github-button" target="github" href="https://github.com/qooxdoo/qooxdoo" data-show-count="true" aria-label="Star qooxdoo/qooxdoo on GitHub">Star</a>
+        </span>
+      </nav>
+    </div>
+
+
+    <div class="container-fluid py-5" style="background:
+         radial-gradient(black 15%, transparent 16%) 0 0,
+         radial-gradient(black 15%, transparent 16%) 4px 4px,
+         radial-gradient(rgba(0,255,169,.1) 15%, transparent 20%) 0 1px,
+         radial-gradient(rgba(0,255,169,.1) 15%, transparent 20%) 4px 5px;
+         background-color:#002838;
+         background-size:8px 8px;
+         box-shadow: inset 0 -10px 25px -10px #000000;">
+      <img class="img-fluid mx-auto d-block mt-5 pt-5 pb-3" src="/assets/logo.svg">
+      <h3 class="text-white text-center pb-5 d-none d-sm-block" style="font-family: 'Abel', sans-serif;">&raquo;The JS Framework for Coders&laquo;</h3>
+      <h5 class="text-white text-center pb-5 d-block d-sm-none" style="font-family: 'Abel', sans-serif;">&raquo;The JS Framework for Coders&laquo;</h5>
+    </div>
+
+
+

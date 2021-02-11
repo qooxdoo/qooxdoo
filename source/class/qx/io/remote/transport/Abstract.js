@@ -458,7 +458,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
         }
       }
 
-      switch (value)
+      switch(value)
       {
         case "created":
           this.fireEvent("created");

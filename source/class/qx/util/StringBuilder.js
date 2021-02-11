@@ -113,7 +113,7 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @return {Integer} The string length
      */
-    size : function() {
+    size : function(){
       return this.join("").length;
     }
   },

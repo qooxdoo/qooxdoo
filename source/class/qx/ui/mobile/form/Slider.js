@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _updateSizes : function()
     {
       var containerElement = this.getContainerElement();
-      if (containerElement) {
+      if(containerElement) {
         this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
         this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
         this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
@@ -342,11 +342,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     // Property apply
-    _applyDisplayValue : function(value, old) {
-      if (old != null) {
+    _applyDisplayValue : function(value, old ) {
+      if(old != null) {
         this.removeCssClass(old);
       }
-      if (value != null) {
+      if(value != null) {
         this.addCssClass(value);
       }
     },
@@ -383,7 +383,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       var value = this.getMinimum() + (Math.round(position / this._pixelPerStep) * this.getStep());
       value = this._limitValue(value);
-      if (this.isReverseDirection()) {
+      if(this.isReverseDirection()) {
         var center = this.getMinimum() + this._getRange()/2;
         var dist = center-value;
         value = center + dist;

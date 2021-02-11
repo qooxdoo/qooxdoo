@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.form.MenuButton",
       this.base(arguments, e);
 
       // only open on left clicks [BUG #5125]
-      if (e.getButton() != "left") {
+      if(e.getButton() != "left") {
         return;
       }
 
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.form.MenuButton",
     // overridden
     _onKeyDown : function(e)
     {
-      switch (e.getKeyIdentifier())
+      switch(e.getKeyIdentifier())
       {
         case "Enter":
           this.removeState("abandoned");

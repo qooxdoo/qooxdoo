@@ -139,15 +139,15 @@ qx.Class.define("qx.event.handler.Mouse",
     // listener once.
     registerEvent : qx.core.Environment.get("os.name") === "ios" ?
       function(target, type, capture) {
-        target["on" + type] = (function() { return null; });
-      } : (function() { return null; }),
+        target["on" + type] = (function() {return null;});
+      } : (function() {return null;}),
 
 
     // interface implementation
     unregisterEvent : qx.core.Environment.get("os.name") === "ios" ?
       function(target, type, capture) {
         target["on" + type] = undefined;
-      } : (function() { return null; }),
+      } : (function() {return null;}),
 
 
 

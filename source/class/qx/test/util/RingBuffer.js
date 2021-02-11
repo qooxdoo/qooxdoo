@@ -52,7 +52,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       var max = 3;
       var buf = new qx.util.RingBuffer(max);
 
-      for (var i=0; i<=1003; i++) {
+      for (var i=0; i<=1003; i++){
          buf.addEntry(i);
       }
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       buf.addEntry("Some string");
       buf.addEntry({"some":"map"});
       buf.addEntry(["Some array"]);
-      buf.addEntry(function() {});
+      buf.addEntry(function(){});
 
       var allEntries = buf.getAllEntries();
       this.assertEquals(6, allEntries.length);

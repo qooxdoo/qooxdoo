@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.form.Slider",
      MEMBERS
   *****************************************************************************
   */
-  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+
   members :
   {
 
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.form.Slider",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "knob":
           control = new qx.ui.core.Widget();
@@ -358,23 +358,25 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onKeyPress : function(e)
     {
-      switch (e.getKeyIdentifier())
+      var isHorizontal = this.getOrientation() === "horizontal";
+      var backward = isHorizontal ? "Left" : "Up";
+      var forward = isHorizontal ? "Right" : "Down";
+
+      switch(e.getKeyIdentifier())
       {
-        case "Right":
-        case "Up":
+        case forward:
           this.slideForward();
           break;
 
-        case "Left":
-        case "Down":
+        case backward:
           this.slideBack();
           break;
 
-        case "PageUp":
+        case "PageDown":
           this.slidePageForward(100);
           break;
 
-        case "PageDown":
+        case "PageUp":
           this.slidePageBack(100);
           break;
 
@@ -434,7 +436,7 @@ qx.Class.define("qx.ui.form.Slider",
       {
         // Switch into drag mode
         this.__dragMode = true;
-        if (!this.__dragTimer) {
+        if (!this.__dragTimer){
           // create a timer to fire delayed dragging events if dragging stops.
           this.__dragTimer = new qx.event.Timer(100);
           this.__dragTimer.addListener("interval", this._fireValue, this);
@@ -537,6 +539,7 @@ qx.Class.define("qx.ui.form.Slider",
             this.getChildControl("knob").removeState("hovered");
           }
         }
+
       }
       else if (this.__trackingMode)
       {
@@ -738,10 +741,8 @@ qx.Class.define("qx.ui.form.Slider",
       // Compute range
       var range = this.getMaximum() - this.getMinimum();
 
-      // If horizontal, value is the minimum value (left) + the percent calculated from left position of the knob
-      // If Verical, value is the maximum value (top) - the percent calculated from top position of the knob
-      var value = this.__isHorizontal ? this.getMinimum() + Math.round(range * percent) : this.getMaximum() - Math.round(range * percent) ;
-      return value;
+      // Compute value
+      return this.getMinimum() + Math.round(range * percent);
     },
 
 
@@ -768,9 +769,8 @@ qx.Class.define("qx.ui.form.Slider",
         return 0;
       }
 
-      // Translating value to distance from minimum for horizontal and distance from maximum for vertical
-      // This allow to have for vertical the max value to the top and the min value to the bottom
-      var value = this.__isHorizontal ? value - this.getMinimum() : this.getMaximum() - value;
+      // Translating value to distance from minimum
+      var value = value - this.getMinimum();
 
       // Compute and limit percent
       var percent = value / range;
@@ -1079,9 +1079,9 @@ qx.Class.define("qx.ui.form.Slider",
       if (value != null) {
         this._updateKnobPosition();
         if (this.__dragMode) {
-          this.__dragValue = [value, old];
+          this.__dragValue = [value,old];
         } else {
-          this.fireEvent("changeValue", qx.event.type.Data, [value, old]);
+          this.fireEvent("changeValue", qx.event.type.Data, [value,old]);
         }
       } else {
         this.resetValue();
@@ -1092,8 +1092,8 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Helper for applyValue which fires the changeValue event.
      */
-    _fireValue: function() {
-      if (!this.__dragValue) {
+    _fireValue: function(){
+      if (!this.__dragValue){
         return;
       }
       var tmp = this.__dragValue;

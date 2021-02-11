@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
         return true;
       }
 
-      switch (keyIdentifier)
+      switch(keyIdentifier)
       {
         case "+":
         case "-":

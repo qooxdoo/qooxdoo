@@ -42,8 +42,9 @@ qx.Class.define("qx.test.bom.Dataset",
       var Dataset = qx.bom.element.Dataset;
 
       Dataset.set(this._el, "maxAge", "100");
-      this.assertEquals("100", Dataset.get(this._el, "maxAge"));
+      this.assertEquals("100", Dataset.get(this._el,"maxAge"));
       this.assertEquals("100", this._el.getAttribute("data-max-age"));
+
     },
 
 

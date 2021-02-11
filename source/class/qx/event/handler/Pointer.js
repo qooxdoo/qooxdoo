@@ -134,7 +134,7 @@ qx.Class.define("qx.event.handler.Pointer",
         // ensure compatibility with native events for IE8
         try {
           domEvent.srcElement = target;
-        } catch (ex) {
+        }catch(ex) {
           // Nothing - cannot change properties in strict mode
         }
 

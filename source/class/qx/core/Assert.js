@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.core.Assert",
       var msg = "";
       for (var i=1, l=arguments.length; i<l; i++)
       {
-        msg += this.__toString(arguments[i] === undefined ? "'undefined'" : arguments[i]);
+        msg = msg + this.__toString(arguments[i] === undefined ? "'undefined'" : arguments[i]);
       }
 
       var fullComment = "";
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.core.Assert",
       {
         try {
           stringValue = value.toString();
-        } catch (e) {
+        } catch(e) {
           stringValue = "";
         }
       }
@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.core.Assert",
     {
         expected != found || this.__fail(
         msg || "",
-        "Expected '", expected,
+        "Expected '",expected,
         "' to be not equal with '", found, "'!"
       );
     },
@@ -470,7 +470,7 @@ qx.Bootstrap.define("qx.core.Assert",
       try {
         this.__logError = false;
         callback();
-      } catch (ex) {
+      } catch(ex) {
         error = ex;
       } finally {
         this.__logError = true;
@@ -482,7 +482,7 @@ qx.Bootstrap.define("qx.core.Assert",
 
       error instanceof exception || this.__fail(msg || "",
         "The raised exception does not have the expected type! ",
-        exception, " != ", error);
+        exception , " != ", error);
 
       if (re) {
         this.assertMatch(error.toString(), re, msg);
@@ -788,7 +788,7 @@ qx.Bootstrap.define("qx.core.Assert",
     {
       this.assertString(type, "Invalid argument 'type'");
 
-      typeof (value) === type || this.__fail(
+      typeof(value) === type || this.__fail(
         msg || "",
         "Expected value to be typeof '", type, "' but found ", value, "!"
       );
@@ -931,7 +931,7 @@ qx.Bootstrap.define("qx.core.Assert",
         return false;
       }
       var clazz = object.constructor;
-      while (clazz) {
+      while(clazz) {
         if (clazz.classname === classname) {
           return true;
         }

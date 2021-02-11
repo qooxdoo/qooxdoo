@@ -65,7 +65,7 @@ qx.Class.define("qx.test.util.Uri",
     },
 
     testToParameterArray : function() {
-      var obj = {id: [1, 2, 3]};
+      var obj = {id: [1,2,3]};
       var str = qx.util.Uri.toParameter(obj);
       this.assertEquals("id=1&id=2&id=3", str);
     },

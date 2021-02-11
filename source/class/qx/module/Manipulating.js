@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       if (element.childNodes.length == 0) {
         return element;
       }
-      for (var i=0, l=element.childNodes.length; i<l; i++) {
+      for (var i=0,l=element.childNodes.length; i<l; i++) {
         if (element.childNodes[i].nodeType === 1) {
           return this.__getInnermostElement(element.childNodes[i]);
         }
@@ -378,7 +378,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       qx.bom.Html.clean(content, document, fragment);
       this._forEachElement(function(item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
-        for (var i=0, l=kids.length; i<l; i++) {
+        for (var i=0,l=kids.length; i<l; i++) {
           var child;
           if (index < this.length - 1) {
             child = kids[i].cloneNode(true);
@@ -555,7 +555,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       try {
         this[0].focus();
       }
-      catch (ex) {}
+      catch(ex) {}
 
       return this;
     },
@@ -573,7 +573,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         try {
           item.blur();
         }
-        catch (ex) {}
+        catch(ex) {}
       });
 
       return this;

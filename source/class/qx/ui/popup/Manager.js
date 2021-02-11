@@ -116,8 +116,7 @@ qx.Class.define("qx.ui.popup.Manager",
      */
     hideAll : function()
     {
-      var l = this.__objects.length, 
-current = {};
+      var l = this.__objects.length, current = {};
 
       while (l--) {
         current = this.__objects[l];

@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.Mixin",
         var mixin = config.statics ? config.statics : {};
         qx.Bootstrap.setDisplayNames(mixin, name);
 
-        for (var key in mixin) {
+        for(var key in mixin) {
           if (mixin[key] instanceof Function)
           {
             mixin[key].$$mixin = mixin;
@@ -128,7 +128,7 @@ qx.Bootstrap.define("qx.Mixin",
           qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
         }
 
-        for (var key in mixin.$$members)
+        for(var key in mixin.$$members)
         {
           if (mixin.$$members[key] instanceof Function) {
             mixin.$$members[key].$$mixin = mixin;
@@ -195,7 +195,7 @@ qx.Bootstrap.define("qx.Mixin",
 
         for (var key in mixin.events)
         {
-          if (events[key]) {
+          if(events[key]) {
             throw new Error('Conflict between mixin "' + mixin.name + '" and "' + events[key] + '" in member "' + key + '"!');
           }
 
@@ -204,7 +204,7 @@ qx.Bootstrap.define("qx.Mixin",
 
         for (var key in mixin.properties)
         {
-          if (properties[key]) {
+          if(properties[key]) {
             throw new Error('Conflict between mixin "' + mixin.name + '" and "' + properties[key] + '" in property "' + key + '"!');
           }
 
@@ -213,7 +213,7 @@ qx.Bootstrap.define("qx.Mixin",
 
         for (var key in mixin.members)
         {
-          if (members[key]) {
+          if(members[key]) {
             throw new Error('Conflict between mixin "' + mixin.name + '" and "' + members[key] + '" in member "' + key + '"!');
           }
 
@@ -326,6 +326,7 @@ qx.Bootstrap.define("qx.Mixin",
     baseClassMethod : function(clazz, mixin, methodName) {
       if (!qx.core.Environment.get("qx.compiler")) {
         qx.log.Logger.error("qx.Mixin.baseClassMethod should not be used except with code compiled by the compiler (ie NOT the generator / python toolchain)");
+        
       } else {
         if (clazz.$$mixinBaseClassMethods && 
             clazz.$$mixinBaseClassMethods[mixin.name] !== undefined && 
@@ -368,6 +369,7 @@ qx.Bootstrap.define("qx.Mixin",
             clazz.$$mixinBaseClassMethods[mixin.name] = {};
           }
           clazz.$$mixinBaseClassMethods[mixin.name][methodName] = fn;
+          
         } else if (qx.core.Environment.get("qx.debug")) {
           throw new Error("Cannot find base class method called " + methodName + 
             " for mixin " + mixin.name + ", when viewed from " + clazz.classname);
@@ -461,6 +463,7 @@ qx.Bootstrap.define("qx.Mixin",
                  "Date"
                ].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
                config[key].classname !== undefined)) {
+
             throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
           }
         }

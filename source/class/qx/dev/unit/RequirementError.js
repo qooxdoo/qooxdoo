@@ -37,6 +37,7 @@ qx.Class.define("qx.dev.unit.RequirementError", {
    * @param message {String?} Optional error message
    */
   construct : function(requirement, message) {
+
     this.__message = message || "Requirement not met";
     this.__requirement = requirement;
 

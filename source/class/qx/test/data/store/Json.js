@@ -50,8 +50,8 @@ qx.Class.define("qx.test.data.store.Json",
       this.__data = eval("({s: 'String', n: 12, b: true})");
       this.__propertyNames = ["s", "n", "b"];
 
-      this.url = qx.util.ResourceManager.getInstance()
-        .toUri("qx/test/primitive.json");
+      this.url = qx.util.ResourceManager.getInstance().
+        toUri("qx/test/primitive.json");
     },
 
 
@@ -69,6 +69,7 @@ qx.Class.define("qx.test.data.store.Json",
       this.getSandbox().restore();
 
       if (this.request) {
+
         // Restore manually (is unreachable from sandbox)
         if (typeof this.request.dispose.restore == "function") {
           this.request.dispose.restore();
@@ -231,6 +232,7 @@ qx.Class.define("qx.test.data.store.Json",
           this.assertNotNull(model.getO(), "The model is not created how it should!");
           this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
           this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
         }, this);
       }, this);
 
@@ -279,6 +281,7 @@ qx.Class.define("qx.test.data.store.Json",
 
           this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
           this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
         }, this);
       }, this);
 
@@ -290,6 +293,7 @@ qx.Class.define("qx.test.data.store.Json",
 
 
     testOwnClassWithout: function() {
+
       var delegate = {
         getModelClass : function(properties) {
           return null;
@@ -303,6 +307,7 @@ qx.Class.define("qx.test.data.store.Json",
           this.assertNotNull(model.getO(), "The model is not created how it should!");
           this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
           this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
         }, this);
       }, this);
 
@@ -531,7 +536,7 @@ qx.Class.define("qx.test.data.store.Json",
     },
 
 
-    testDisposeOldModel: function() {
+    testDisposeOldModel: function(){
       this.__store.addListener("loaded", function() {
         this.resume(function() {
           var model = this.__store.getModel();
@@ -596,7 +601,7 @@ qx.Class.define("qx.test.data.store.Json",
 
       this.__store.addListener("error", function(e)
       {
-        this.resume(function() {
+        this.resume(function(){
           this.assertTrue(e.getData().getPhase() == "statusError");
         });
       }, this);

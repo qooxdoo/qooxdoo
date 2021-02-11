@@ -65,12 +65,12 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       // check if renderer does something with value
       var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
       var label = cellRenderer._getContentHtml(cellInfo);
-      if (value != label) {
+      if ( value != label ) {
         value = label;
       }
 
       // replace null values
-      if (value === null) {
+      if ( value === null ) {
         value = "";
       }
 
@@ -79,10 +79,10 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       {
         var item;
 
-        for (var i=0, l=list.length; i<l; i++)
+        for (var i=0,l=list.length; i<l; i++)
         {
           var row = list[i];
-          if (row instanceof Array) {
+          if ( row instanceof Array ) {
             item = new qx.ui.form.ListItem(row[0], row[1]);
             item.setUserData("row", row[2]);
             if (value == row[2]) {
@@ -126,8 +126,8 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if (validationFunc) {
-         value = validationFunc(value, cellEditor.originalValue);
+      if (validationFunc ) {
+         value = validationFunc( value, cellEditor.originalValue );
       }
 
       if (typeof cellEditor.originalValue == "number") {

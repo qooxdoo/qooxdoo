@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      */
     _moveToEdgeAndAlign : function(size, target, offsets, position)
     {
-      switch (position)
+      switch(position)
       {
         case "edge-start":
           return target.start - offsets.end - size;

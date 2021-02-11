@@ -244,6 +244,7 @@ qx.Class.define("qx.test.ui.core.Widget",
         this.assert(scrollTop > scrollTopInitial, msg);
         scroll.destroy();
       }, this);
+
     },
 
     testLazyScrollChildIntoViewY : function()
@@ -329,11 +330,12 @@ qx.Class.define("qx.test.ui.core.Widget",
           {
             var control;
       
-            switch (id)
+            switch(id)
             {
               case "xyz":
                 control = new qx.ui.core.Widget();
                 break;
+      
             }
       
             return control || this.base(arguments, id);
@@ -355,7 +357,7 @@ qx.Class.define("qx.test.ui.core.Widget",
     },
 
 
-    testCreateChildControlHash: function() {
+    testCreateChildControlHash: function(){
       qx.Class.define("qx.test.ui.core.W", {
         extend : qx.ui.core.Widget,
 
@@ -445,7 +447,7 @@ qx.Class.define("qx.test.ui.core.Widget",
 
       var w = new qx.ui.core.Widget();
 
-      this.assertException(function() {
+      this.assertException(function(){
         w._add(undefined);
       },
       qx.core.AssertionError.constructor,
@@ -461,7 +463,7 @@ qx.Class.define("qx.test.ui.core.Widget",
 
       var w = new qx.ui.core.Widget();
 
-      this.assertException(function() {
+      this.assertException(function(){
         w._add(new qx.bom.Font());
       },
       qx.core.AssertionError.constructor,

@@ -110,7 +110,7 @@ qx.Class.define("qx.util.DeferredCallManager",
 
       // the flush is currently running and the call is already
       // scheduled -> remove it from the current queue
-      if (this.__currentQueue && this.__currentQueue[callKey])
+      if(this.__currentQueue && this.__currentQueue[callKey])
       {
         this.__currentQueue[callKey] = null;
         return;
@@ -119,7 +119,7 @@ qx.Class.define("qx.util.DeferredCallManager",
       delete this.__calls[callKey];
 
       // stop timer if no other calls are waiting
-      if (qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
+      if(qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
       {
         window.clearTimeout(this.__timeoutId);
         this.__timeoutId = null;
@@ -138,7 +138,7 @@ qx.Class.define("qx.util.DeferredCallManager",
 
       // the queue may change while doing the flush so we work on a copy of
       // the queue and loop while the queue has any entries.
-      while (this.__hasCalls)
+      while(this.__hasCalls)
       {
         this.__currentQueue = qx.lang.Object.clone(this.__calls);
         this.__calls = {};

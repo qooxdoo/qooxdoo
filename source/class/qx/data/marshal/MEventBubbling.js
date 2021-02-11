@@ -128,6 +128,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
 
       // if the target is an array
       if (qx.Class.hasInterface(e.getTarget().constructor, qx.data.IListData)) {
+
         if (data.name.indexOf) {
           var dotIndex = data.name.indexOf(".") != -1 ? data.name.indexOf(".") : data.name.length;
           var bracketIndex = data.name.indexOf("[") != -1 ? data.name.indexOf("[") : data.name.length;

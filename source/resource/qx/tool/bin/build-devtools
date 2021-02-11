@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+require("../../../../../index");
+
+const website = new qx.tool.utils.Website();
+
+(async () => {
+  try {
+    await website.buildDevtools();
+  } catch (e) {
+    console.error(e);
+  }
+})();

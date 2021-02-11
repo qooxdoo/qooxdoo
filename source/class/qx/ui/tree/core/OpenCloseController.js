@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
           tree.closeNode(node);
         }
       }
-    };
+    }.bind(this);
     sync(rootModel);
     
     // Wire change listeners
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
         if (isOpen && !this._tree.isNodeOpen(item)) {
           this._tree.openNode(item);
         }
-        else if (!isOpen && this._tree.isNodeOpen(item)) {
+        else if (! isOpen && this._tree.isNodeOpen(item)) {
           this._tree.closeNode(item);
         }
       }

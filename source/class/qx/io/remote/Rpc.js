@@ -557,7 +557,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       var handleRequestFinished = function(eventType, eventTarget)
       {
-        switch (callType)
+        switch(callType)
         {
           case 0: // sync
             break;
@@ -567,7 +567,7 @@ qx.Class.define("qx.io.remote.Rpc",
             {
               handler(result, ex, id);
             }
-            catch (e)
+            catch(e)
             {
               eventTarget.error(
                 "rpc handler threw an error:" +
@@ -610,7 +610,7 @@ qx.Class.define("qx.io.remote.Rpc",
         {
           obj.toString = function()
           {
-            switch (obj.origin)
+            switch(obj.origin)
             {
               case qx.io.remote.Rpc.origin.server:
                 return "Server error " + obj.code + ": " + obj.message;
@@ -707,15 +707,17 @@ qx.Class.define("qx.io.remote.Rpc",
         // Parse. Skip when response is already an object
         // because the script transport was used.
         if (!qx.lang.Type.isObject(response)) {
+
           // Handle converted dates
           if (self._isConvertDates()) {
+
             // Parse as JSON and revive date literals
             if (self._isResponseJson()) {
               response = qx.lang.Json.parse(response, function(key, value) {
                 if (value && typeof value === "string") {
                   if (value.indexOf("new Date(Date.UTC(") >= 0) {
                     var m = value.match(/new Date\(Date.UTC\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)\)/);
-                    return new Date(Date.UTC(m[1], m[2], m[3], m[4], m[5], m[6], m[7]));
+                    return new Date(Date.UTC(m[1],m[2],m[3],m[4],m[5],m[6],m[7]));
                   }
                 }
                 return value;
@@ -889,7 +891,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param args {Array} an array of values passed through to the backend.
      * @return {var} the result returned by the server.
      */
-    callSync : function(methodName, args)
+    callSync : function(methodName,args)
     {
       return this._callInternal(arguments, 0);
     },

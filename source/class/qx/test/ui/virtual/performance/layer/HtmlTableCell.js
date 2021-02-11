@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
 
       html.push('<table style="table-layout:fixed; border-collapse: collapse; margin: 0px; padding: 0px;">');
       html.push('<colgroup>');
-      for (var y=0; y<columnSizes.length; y++) {
+      for(var y=0; y<columnSizes.length; y++) {
        html.push('<col width="' + columnSizes[y] + '">');
       }
       html.push('</colgroup>');
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
         var height = rowSizes[x];
 
         html.push('<tr height="' + height + '" style="border-collapse: collapse; margin: 0px; padding: 0px;">');
-        for (var y=0; y<columnSizes.length; y++)
+        for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
 

@@ -73,7 +73,7 @@ qx.Class.define("qx.dev.unit.TestClass",
     }
 
     var proto = clazz.prototype;
-    var testCase = new clazz();
+    var testCase = new clazz;
 
     for (var test in proto)
     {

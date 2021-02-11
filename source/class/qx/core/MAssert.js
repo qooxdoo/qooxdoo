@@ -325,7 +325,7 @@ qx.Mixin.define("qx.core.MAssert",
      */
     assertKeyInMap : function(value, map, msg) {
       qx.core.Assert.assertKeyInMap(value, map, msg);
-    },
+    } ,
 
 
     /**

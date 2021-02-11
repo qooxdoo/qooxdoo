@@ -51,19 +51,19 @@ qx.Class.define("qx.test.bom.client.Device",
       ];
 
 
-      for (var i = 0; i<mobileUserAgentTests.length; i++) {
+      for (var i = 0; i<mobileUserAgentTests.length; i++){
           this.info("Mobile User Agent Testing:"+mobileUserAgentTests[i]);
-          this.assertEquals("mobile", qx.bom.client.Device.detectDeviceType(mobileUserAgentTests[i]), "Expected User Agent string to be detected as a mobile device: "+ mobileUserAgentTests[i]);
+          this.assertEquals("mobile",qx.bom.client.Device.detectDeviceType(mobileUserAgentTests[i]),"Expected User Agent string to be detected as a mobile device: "+ mobileUserAgentTests[i]);
       }
 
-      for (i = 0; i<tabletUserAgentTests.length; i++) {
+      for (i = 0; i<tabletUserAgentTests.length; i++){
           this.info("Tablet User Agent Testing:"+tabletUserAgentTests[i]);
-          this.assertEquals("tablet", qx.bom.client.Device.detectDeviceType(tabletUserAgentTests[i]), "Expected User Agent string to be detected as a tablet device: " + tabletUserAgentTests[i]);
+          this.assertEquals("tablet",qx.bom.client.Device.detectDeviceType(tabletUserAgentTests[i]),"Expected User Agent string to be detected as a tablet device: " + tabletUserAgentTests[i]);
       }
 
-      for (i = 0; i<desktopUserAgentTests.length; i++) {
+      for (i = 0; i<desktopUserAgentTests.length; i++){
           this.info("Desktop User Agent Testing:"+desktopUserAgentTests[i]);
-          this.assertEquals("desktop", qx.bom.client.Device.detectDeviceType(desktopUserAgentTests[i]), "Expected User Agent string to be detected as a desktop device:" + desktopUserAgentTests[i]);
+          this.assertEquals("desktop",qx.bom.client.Device.detectDeviceType(desktopUserAgentTests[i]),"Expected User Agent string to be detected as a desktop device:" + desktopUserAgentTests[i]);
       }
     }
   }

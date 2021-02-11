@@ -341,8 +341,8 @@ qx.Class.define("qx.data.marshal.Json",
           var noBubbleClassName = className.replace("♥", "");
           if (qx.Class.getByName(noBubbleClassName))
           {
-            throw new Error("Class '" + noBubbleClassName + "' found, " +
-                             "but it does not support changeBubble event.");
+            throw new Error( "Class '" + noBubbleClassName + "' found, " +
+                             "but it does not support changeBubble event." );
           }
           throw new Error("Class '" + className + "' could not be found.");
         }
@@ -412,6 +412,7 @@ qx.Class.define("qx.data.marshal.Json",
       // ignore rules
       } else if (this.__ignore(this.__jsonToBestHash(data, includeBubbleEvents), parentProperty, depth)) {
         return data;
+
       } else if (isArray) {
         var arrayClass = qx.data.Array;
         if (this.__delegate && this.__delegate.getArrayClass) {
@@ -427,6 +428,7 @@ qx.Class.define("qx.data.marshal.Json",
           array.push(this.__toModel(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth+1));
         }
         return array;
+
       } else if (isObject) {
         // create an instance for the object
         var hash = this.__jsonToBestHash(data, includeBubbleEvents);

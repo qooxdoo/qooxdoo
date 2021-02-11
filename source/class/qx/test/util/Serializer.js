@@ -313,7 +313,7 @@ qx.Class.define("qx.test.util.Serializer",
       };
 
       var model = qx.data.marshal.Json.createModel(data);
-      model.setGoo({mi:"moo", la:"lili"});
+      model.setGoo({mi:"moo",la:"lili"});
 
       this.assertEquals('{"foo":"foo","bar":"bar","goo":{"mi":"moo","la":"lili"}}', qx.util.Serializer.toJson(model));
 
@@ -395,9 +395,9 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData3([true, false]);
       this.assertJsonEquals(
         {
-          "data1" : [12, 1],
-          "data2" : ["a", "b"],
-          "data3" : [true, false]
+          "data1" : [12,1],
+          "data2" : ["a","b"],
+          "data3" : [true,false]
         },
         this.__s.toNativeObject(this.__model));
     },
@@ -408,9 +408,9 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData3(new qx.data.Array([true, false]));
       this.assertJsonEquals(
         {
-          "data1" : [12, 1],
-          "data2" : ["a", "b"],
-          "data3" : [true, false]
+          "data1" : [12,1],
+          "data2" : ["a","b"],
+          "data3" : [true,false]
         },
         this.__s.toNativeObject(this.__model));
 

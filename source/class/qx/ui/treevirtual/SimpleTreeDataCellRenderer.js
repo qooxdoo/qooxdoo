@@ -634,7 +634,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       {
         // then return either a line or a blank icon, depending on
         // bUseTreeLines
-        return (bUseTreeLines && !node.lastChild[column]
+        return (bUseTreeLines && ! node.lastChild[column]
                 ? STDCR.__icon.line
                 : { icon : this.BLANK });
       }
@@ -643,7 +643,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       // Is this a branch node that does not have the open/close button hidden?
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
-          !node.bHideOpenClose)
+          ! node.bHideOpenClose)
       {
         // Does this node have any children, or do we always want the
         // open/close symbol to be shown?

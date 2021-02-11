@@ -232,16 +232,14 @@ qx.Bootstrap.define("qx.lang.Json",
   // This polyfill does not work under Rhino because it cannot convert POJO to object (it tries
   //  to serialize the class)
   if (qx.core.Environment.get("runtime.name") === "rhino" || qx.core.Environment.get("runtime.name") === undefined)
-    { return; }
+    return;
 
   // Convenience aliases.
-  var getClass = {}.toString,
-isProperty, forEach, undef;
+  var getClass = {}.toString, isProperty, forEach, undef;
 
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = typeof define === "function" && define.amd,
-JSON3 = typeof exports === "object" && exports;
+  var isLoader = typeof define === "function" && define.amd, JSON3 = typeof exports === "object" && exports;
 
   if (JSON3 || isLoader) {
     if (typeof JSON === "object" && JSON) {
@@ -281,14 +279,11 @@ JSON3 = typeof exports === "object" && exports;
       // bracket notation. IE 8 only supports this for primitives.
       return "a"[0] != "a";
     }
-    var value,
-serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}',
-isAll = name === "json";
+    var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}', isAll = name === "json";
     if (isAll || name === "json-stringify" || name === "json-parse") {
       // Test `JSON.stringify`.
       if (name == "json-stringify" || isAll) {
-        var stringify = JSON3.stringify,
-stringifySupported = typeof stringify === "function" && isExtended;
+        var stringify = JSON3.stringify, stringifySupported = typeof stringify === "function" && isExtended;
         if (stringifySupported) {
           // A test function object with a custom `toJSON` method.
           (value = function () {
@@ -301,10 +296,8 @@ stringifySupported = typeof stringify === "function" && isExtended;
               stringify(0) === "0" &&
               // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
               // literals.
-              /* eslint-disable no-new-wrappers */
               stringify(new Number()) === "0" &&
               stringify(new String()) === '""' &&
-              /* eslint-enable no-new-wrappers */
               // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
               // does not define a canonical JSON representation (this applies to
               // objects with `toJSON` properties as well, *unless* they are nested
@@ -427,9 +420,7 @@ stringifySupported = typeof stringify === "function" && isExtended;
     // object. Delegates to the native `Object#hasOwnProperty` method.
     if (!(isProperty = {}.hasOwnProperty)) {
       isProperty = function (property) {
-        var members = {};
-        var constructor;
-        /* eslint-disable no-proto */
+        var members = {}, constructor;
         if ((members.__proto__ = null, members.__proto__ = {
           // The *proto* property cannot be set multiple times in recent
           // versions of Firefox and SeaMonkey.
@@ -441,13 +432,11 @@ stringifySupported = typeof stringify === "function" && isExtended;
             // Capture and break the object's prototype chain (see section 8.6.2
             // of the ES 5.1 spec). The parenthesized expression prevents an
             // unsafe transformation by the Closure Compiler.
-            var original = this.__proto__;
-            var result = property in (this.__proto__ = null, this);
+            var original = this.__proto__, result = property in (this.__proto__ = null, this);
             // Restore the original prototype chain.
             this.__proto__ = original;
             return result;
-            /* eslint-enable no-proto */
-      };
+          };
         } else {
           // Capture a reference to the top-level `Object` constructor.
           constructor = members.constructor;
@@ -481,8 +470,7 @@ stringifySupported = typeof stringify === "function" && isExtended;
     // Internal: Normalizes the `for...in` iteration algorithm across
     // environments. Each enumerated key is yielded to a `callback` function.
     forEach = function (object, callback) {
-      var size = 0,
-Properties, members, property, forEach;
+      var size = 0, Properties, members, property, forEach;
 
       // Tests for bugs in the current environment's `for...in` algorithm. The
       // `valueOf` property inherits the non-enumerable flag from
@@ -508,8 +496,7 @@ Properties, members, property, forEach;
         // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
         // properties.
         forEach = function (object, callback) {
-          var isFunction = getClass.call(object) == functionClass,
-property, length;
+          var isFunction = getClass.call(object) == functionClass, property, length;
           var hasProperty = !isFunction && typeof object.constructor != 'function' && isHostType(object, 'hasOwnProperty') ? object.hasOwnProperty : isProperty;
           for (property in object) {
             // Gecko <= 1.0 enumerates the `prototype` property of functions under
@@ -519,15 +506,13 @@ property, length;
             }
           }
           // Manually invoke the callback for each non-enumerable property.
-          for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property)) {  }
+          for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property));
         };
       } else if (size == 2) {
         // Safari <= 2.0.4 enumerates shadowed properties twice.
         forEach = function (object, callback) {
           // Create a set of iterated properties.
-          var members = {},
-isFunction = getClass.call(object) == functionClass,
-property;
+          var members = {}, isFunction = getClass.call(object) == functionClass, property;
           for (property in object) {
             // Store each property name to prevent double enumeration. The
             // `prototype` property of functions is not enumerated due to cross-
@@ -540,8 +525,7 @@ property;
       } else {
         // No bugs detected; use the standard `for...in` algorithm.
         forEach = function (object, callback) {
-          var isFunction = getClass.call(object) == functionClass,
-property, isConstructor;
+          var isFunction = getClass.call(object) == functionClass, property, isConstructor;
           for (property in object) {
             if (!(isFunction && property === "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
               callback(property);
@@ -590,11 +574,7 @@ property, isConstructor;
       // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
       var unicodePrefix = "\\u00";
       var quote = function (value) {
-        var result = '"',
-index = 0,
-length = value.length,
-isLarge = length > 10 && charIndexBuggy,
-symbols;
+        var result = '"', index = 0, length = value.length, isLarge = length > 10 && charIndexBuggy, symbols;
         if (isLarge) {
           symbols = value.split("");
         }
@@ -620,8 +600,7 @@ symbols;
       // Internal: Recursively serializes an object. Implements the
       // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
       var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
-        var value = object[property],
-className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, hasMembers, result;
+        var value = object[property], className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, hasMembers, result;
         try {
           // Necessary for host object support.
           value = object[property];
@@ -638,8 +617,8 @@ className, year, month, date, time, hours, minutes, seconds, milliseconds, resul
                 // seconds, and milliseconds if the `getUTC*` methods are
                 // buggy. Adapted from @Yaffle's `date-shim` project.
                 date = floor(value / 864e5);
-                for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++) {  }
-                for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++) {  }
+                for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
+                for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
                 date = 1 + date - getDay(year, month);
                 // The `time` value specifies the time within the day (see ES
                 // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
@@ -757,7 +736,7 @@ className, year, month, date, time, hours, minutes, seconds, milliseconds, resul
           } else if (getClass.call(filter) == arrayClass) {
             // Convert the property names array into a makeshift set.
             properties = {};
-            for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((getClass.call(value) == stringClass || getClass.call(value) == numberClass) && (properties[value] = 1))) {  }
+            for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((getClass.call(value) == stringClass || getClass.call(value) == numberClass) && (properties[value] = 1)));
           }
         }
         if (width) {
@@ -765,7 +744,7 @@ className, year, month, date, time, hours, minutes, seconds, milliseconds, resul
             // Convert the `width` to an integer and create a string containing
             // `width` number of space characters.
             if ((width -= width % 1) > 0) {
-              for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ") {  }
+              for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
             }
           } else if (getClass.call(width) == stringClass) {
             whitespace = width.length <= 10 ? width : width.slice(0, 10);
@@ -808,9 +787,7 @@ className, year, month, date, time, hours, minutes, seconds, milliseconds, resul
       // the end of the source string. A token may be a string, number, `null`
       // literal, or Boolean literal.
       var lex = function () {
-        var source = Source,
-length = source.length,
-value, begin, position, isSigned, charCode;
+        var source = Source, length = source.length, value, begin, position, isSigned, charCode;
         while (Index < length) {
           charCode = source.charCodeAt(Index);
           switch (charCode) {
@@ -908,13 +885,13 @@ value, begin, position, isSigned, charCode;
                 }
                 isSigned = false;
                 // Parse the integer component.
-                for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++) {  }
+                for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++);
                 // Floats cannot contain a leading decimal point; however, this
                 // case is already accounted for by the parser.
                 if (source.charCodeAt(Index) == 46) {
                   position = ++Index;
                   // Parse the decimal component.
-                  for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++) {  }
+                  for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
                   if (position == Index) {
                     // Illegal trailing decimal.
                     abort();
@@ -932,7 +909,7 @@ value, begin, position, isSigned, charCode;
                     Index++;
                   }
                   // Parse the exponential component.
-                  for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++) {  }
+                  for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
                   if (position == Index) {
                     // Illegal empty exponent.
                     abort();
@@ -1063,8 +1040,7 @@ value, begin, position, isSigned, charCode;
       // `callback` function for each value. This is an implementation of the
       // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
       var walk = function (source, property, callback) {
-        var value = source[property],
-length;
+        var value = source[property], length;
         if (typeof value === "object" && value) {
           // `forEach` can't be used to traverse an array in Opera <= 8.54
           // because its `Object#hasOwnProperty` implementation returns `false`
@@ -1105,9 +1081,9 @@ length;
       return JSON3;
     });
   }
-})(this||window);
+}(this||window));
 // End of original code.
-})();
+}());
 
 // Finally expose (polyfilled) window.JSON as qx.lang.Json.JSON
 qx.lang.Json.stringify = window.JSON.stringify;

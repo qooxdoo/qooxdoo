@@ -65,7 +65,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._body = this._document.body;
 
     if ((qx.core.Environment.get("os.name") == "ios" && parseFloat(qx.core.Environment.get("os.version")) > 6) &&
-      (!qx.application.Inline || !(qx.core.Init.getApplication() instanceof qx.application.Inline)))
+      (!qx.application.Inline || !qx.core.Init.getApplication() instanceof qx.application.Inline) )
     {
       this.__needsScrollFix = true;
     }
@@ -246,7 +246,7 @@ qx.Class.define("qx.event.handler.Focus",
               textRange.collapse();
               textRange.select();
             }
-          } catch (ex) {}
+          } catch(ex) {}
         }, 0);
       }
       else
@@ -258,7 +258,7 @@ qx.Class.define("qx.event.handler.Focus",
         {
           try {
             element.focus();
-          } catch (ex) {}
+          } catch(ex) {}
         }, 0);
       }
 
@@ -284,7 +284,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       try {
         element.blur();
-      } catch (ex) {}
+      } catch(ex) {}
 
       if (this.getActive() === element) {
         this.resetActive();
@@ -1029,6 +1029,7 @@ qx.Class.define("qx.event.handler.Focus",
         if (target) {
           this.tryActivate(target);
         }
+
       },
 
       "webkit" : function(domEvent)
@@ -1061,7 +1062,7 @@ qx.Class.define("qx.event.handler.Focus",
           focusedElement.nodeName.toLowerCase() === "textarea") {
           return focusedElement;
         }
-        if (qx.Class.isClass("qx.ui.core.Widget")) {
+        if( qx.Class.isClass("qx.ui.core.Widget") ) {
           // Check compound widgets
           var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
             textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
@@ -1213,7 +1214,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __isSelectable : function(node)
     {
-      while (node && node.nodeType === 1)
+      while(node && node.nodeType === 1)
       {
         var attr = node.getAttribute("qxSelectable");
         if (attr != null) {

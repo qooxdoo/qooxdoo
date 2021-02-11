@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+const path = require("path");
+const fs = require("fs");
+const utils = require("../tools/utils");
+
+async function main() {
+  let knownGood = path.join(__dirname, "..", "..", "known-good");
+  let qx = path.join(knownGood, "node_modules", ".bin", "qx");
+  if (!fs.existsSync(qx)) {
+    console.log("Compiling source version");
+    await utils.runCommand(knownGood, "npm", "ci");
+    await utils.runCommand(knownGood, "npm", "upgrade", "@qooxdoo/compiler");
+    if (!fs.existsSync(qx)) {
+      console.error("Failed to discover known-good version of the compiler!");
+      process.exit(1);
+    }
+  }
+  let data = await utils.fsPromises.readFile(path.join(knownGood, "node_modules", "@qooxdoo", "compiler", "package.json"));
+  data = JSON.parse(data);
+  console.log("***");
+  console.log("*** Known Good Compiler Version: " + data.version);
+  console.log("***");
+  var myArgs = process.argv.slice(2);
+  console.log("run", qx, ...myArgs);
+  utils.runCommand(".", qx, ...myArgs);
+}
+main();

@@ -169,6 +169,7 @@ qx.Class.define("qx.test.Interface",
 
 
     testWithDebug : function() {
+
       if (this.isDebugOn())
       {
         this.assertException(function() {
@@ -536,6 +537,7 @@ qx.Class.define("qx.test.Interface",
      */
     testAbstractClass : function()
     {
+
       qx.Interface.define("qx.test.i.IJuhu",
       {
         members :
@@ -589,6 +591,7 @@ qx.Class.define("qx.test.Interface",
           sayKinners : function() { return "Kinners"; }
         }
       });
+
     },
 
 
@@ -612,6 +615,8 @@ qx.Class.define("qx.test.Interface",
           }
         }
       });
+
+
     }
   }
 });

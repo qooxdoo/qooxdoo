@@ -40,6 +40,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
 
 
     setUp : function() {
+
       // imagine me being a table like widget containing two columns (e.g. an miniature todo-list)
       qx.Class.define("qx.test.data.controller.fixture.ArrayField", {
         extend : qx.ui.core.Widget,
@@ -66,9 +67,9 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
           /**
            * @return {qx.data.Array|null}
            */
-          getValue : function() { return this.__value; },
+          getValue : function() {return this.__value;},
 
-          resetValue : function() { this.__value = null; }
+          resetValue : function() {this.__value = null;}
         }
       });
 
@@ -88,7 +89,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
         members : {
           // implement IForm interface
           setEnabled : function() {},
-          getEnabled : function() { return true; },
+          getEnabled : function() {return true;},
 
           /**
            * @param value {qx.core.Object|null}
@@ -100,7 +101,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
           /**
            * @return {qx.core.Object|null}
            */
-          getValue : function() { return this.getModel(); },
+          getValue : function() {return this.getModel();},
 
           resetValue : function() { this.resetModel(); },
 

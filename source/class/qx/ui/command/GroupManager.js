@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.command.GroupManager",
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
 
-      if (this.__groups.includes(group)) {
+      if (this.__groups.includes(group)){
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Group is already added!");
         }
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.command.GroupManager",
       }
 
       var index = this.__groups.indexOf(group);
-      if (index === -1) {
+      if (index === -1){
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Group was not added before. Please use " +
             "'add()' method to add the group.");
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.command.GroupManager",
       // iterate through all groups and deactivate all expect the given one
       for (var i=0; i<this.__groups.length; i++) {
         var item = this.__groups[i];
-        if (item == group) {
+        if (item == group){
           item.setActive(true);
           this.__activeGroup = item;
           continue;
@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.command.GroupManager",
      */
     block : function()
     {
-      if (this.__activeGroup) {
+      if(this.__activeGroup){
         this.__activeGroup.setActive(false);
       }
     },
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.command.GroupManager",
      */
     unblock : function()
     {
-      if (this.__activeGroup) {
+      if(this.__activeGroup){
         this.__activeGroup.setActive(true);
       }
     },
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.command.GroupManager",
     _getGroup : function(group)
     {
       var index = this.__groups.indexOf(group);
-      if (index === -1) {
+      if (index === -1){
         return null;
       }
 

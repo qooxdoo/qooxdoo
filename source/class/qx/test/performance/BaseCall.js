@@ -66,7 +66,7 @@ qx.Class.define("qx.test.performance.Base", {
   extend : qx.core.Object,
 
   members : {
-    foo_base : function(a, b, c) {}
+    foo_base : function(a,b,c) {}
   }
 });
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.test.performance.Extend", {
   extend : qx.test.performance.Base,
 
   members : {
-    foo_base : function(a, b, c) {
+    foo_base : function(a,b,c) {
       this.base(arguments, a, b, c);
     },
 

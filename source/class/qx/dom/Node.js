@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.dom.Node",
      */
     isNodeName : function (node, nodeName)
     {
-      if (!nodeName || !node || !node.nodeName) {
+      if(!nodeName || !node || !node.nodeName) {
         return false;
       }
 
@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.dom.Node",
      */
     getName : function (node)
     {
-      if (!node || !node.nodeName) {
+      if(!node || !node.nodeName) {
         return null;
       }
 
@@ -269,17 +269,14 @@ qx.Bootstrap.define("qx.dom.Node",
      */
     getText : function(node)
     {
-      if (!node || !node.nodeType) {
+      if(!node || !node.nodeType) {
         return null;
       }
 
-      switch (node.nodeType)
+      switch(node.nodeType)
       {
         case 1: // NODE_ELEMENT
-          var i, 
-a=[], 
-nodes=node.childNodes, 
-length=nodes.length;
+          var i, a=[], nodes=node.childNodes, length=nodes.length;
           for (i=0; i<length; i++) {
             a[i] = this.getText(nodes[i]);
           }

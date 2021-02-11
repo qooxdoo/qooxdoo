@@ -71,8 +71,8 @@ qx.Class.define("qx.util.EditDistance",
           }
 
           distance[posA][posB] = Math.min(
-            distance[posA-1][posB] + 1,     // deletion
-            distance[posA][posB-1] + 1,     // insertion
+            distance[posA-1][posB  ] + 1,     // deletion
+            distance[posA  ][posB-1] + 1,     // insertion
             distance[posA-1][posB-1] + cost   // substitution
           );
         }
@@ -117,7 +117,7 @@ qx.Class.define("qx.util.EditDistance",
         return operations;
       }
 
-      while (posA !== 0 || posB !== 0)
+      while(posA !== 0 || posB !== 0)
       {
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {

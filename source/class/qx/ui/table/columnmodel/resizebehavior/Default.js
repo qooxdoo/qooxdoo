@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     {
       for (var prop in map)
       {
-        switch (prop)
+        switch(prop)
         {
           case "width":
             this.setWidth(col, map[prop]);
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       });
 
       // Now that we've calculated the width, set it.
-      for (i=0, l=columns.length; i<l; i++)
+      for (i=0,l=columns.length; i<l; i++)
       {
         var colWidth = columns[i].getComputedWidth();
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
@@ -404,7 +404,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     {
       this.__layout.invalidateChildrenCache();
       var children = this.__layoutChildren;
-      for (var i=0, l=children.length; i<l; i++) {
+      for (var i=0,l=children.length; i<l; i++) {
         children[i].invalidateLayoutCache();
       }
     },
@@ -445,7 +445,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       {
         // Yup.  Don't resize anything else.  The other columns will just get
         // pushed off and require scrollbars be added (if not already there).
-        return;
+        return ;
       }
 
       // This column became shorter.  See if we no longer take up the full

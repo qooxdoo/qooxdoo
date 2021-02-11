@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "pane":
           control = new qx.ui.core.scroll.ScrollPane();

@@ -193,6 +193,7 @@ qx.Class.define("qx.data.controller.Object",
       targetObject, targetProperty, sourceProperty,
       bidirectional, options, reverseOptions
     ) {
+
       // store the added target
       this.__targets.push([
         targetObject, targetProperty, sourceProperty,
@@ -234,6 +235,7 @@ qx.Class.define("qx.data.controller.Object",
       targetObject, targetProperty, sourceProperty,
       bidirectional, options, reverseOptions
     ) {
+
       // do nothing if no model is set
       if (this.getModel() == null) {
         return;

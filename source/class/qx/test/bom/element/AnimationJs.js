@@ -55,6 +55,7 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
     },
 
     "test animate properties which are CSS properties and element attributes" : function() {
+
       // known to fail in chrome
       if (qx.core.Environment.get("browser.name") == "chrome") {
         throw new qx.dev.unit.RequirementError();
@@ -72,6 +73,7 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
       this.wait(500, function() {
         this.assertEquals("400px", qx.bom.element.Style.get(this.__el, "width"));
         this.assertEquals("400px", qx.bom.element.Style.get(this.__el, "height"));
+
       }, this);
     }
   }

@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     // This text node is for compatibility reasons, because Firefox can not
     // change appearance of SelectBoxes.
-    this._setAttribute("type", "text");
+    this._setAttribute("type","text");
     this.setReadOnly(true);
 
     this.addListener("focus", this.blur);
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if (this.getModel() == null) {
+      if(this.getModel() == null) {
         return;
       }
 
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * values of the SelectBox in a different way than the default.
      */
     _render : function() {
-      if (this.getModel() != null && this.getModel().length > 0) {
+      if(this.getModel() != null && this.getModel().length > 0) {
         var selectedItem = this.getModel().getItem(this.getSelection());
         this._setAttribute("value", selectedItem);
       }
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {qx.data.Array}, the new model
      * @param old {qx.data.Array?}, the old model
      */
-    _applyModel : function(value, old) {
+    _applyModel : function(value, old){
       value.addListener("change", this._render, this);
       if (old != null) {
         old.removeListener("change", this._render, this);
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * Refreshs selection dialogs model, and shows it.
      */
     __showSelectionDialog : function () {
-      if (this.isEnabled() == true) {
+      if(this.isEnabled() == true) {
         // Set index before items, because setItems() triggers rendering.
         this.__selectionDialog.setSelectedIndex(this.getSelection());
         this.__selectionDialog.setItems(this.getModel());
@@ -333,26 +333,26 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {Integer} the selection value to validate.
      */
     _validateSelection : function(value) {
-      if (value != null && qx.lang.Type.isNumber(value) == false)
+      if(value != null && qx.lang.Type.isNumber(value) == false)
       {
         throw new qx.core.ValidationError(
           "Validation Error: Input value is not a number"
         );
       }
 
-      if (this.getModel() === null) {
+      if(this.getModel() === null) {
         throw new qx.core.ValidationError(
           "Validation Error: Please apply model before selection"
         );
       }
 
-      if (!this.isNullable() && value === null) {
+      if(!this.isNullable() && value === null ) {
         throw new qx.core.ValidationError(
           "Validation Error: SelectBox is not nullable"
         );
       }
 
-      if (value != null && (value < 0 || value >= this.getModel().getLength())) {
+      if(value != null && (value < 0 || value >= this.getModel().getLength())) {
         throw new qx.core.ValidationError(
           "Validation Error: Input value is out of model range"
         );
@@ -381,7 +381,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   {
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
 
-    this._disposeObjects("__selectionDialog", "__selectionDialogTitle");
+    this._disposeObjects("__selectionDialog","__selectionDialogTitle");
 
     this.removeListener("focus", this.blur);
     this.removeListener("tap", this._onTap, this);

@@ -100,7 +100,7 @@ qx.Class.define("qx.dev.Debug",
       var sol = function(currentLevel)
       {
         var indentStr;
-        if (!bHtml)
+        if (! bHtml)
         {
           indentStr = "";
           for (var i = 0; i < currentLevel; i++)
@@ -197,7 +197,7 @@ qx.Class.define("qx.dev.Debug",
       {
         message += sol(0) + "Array, length=" + obj.length + ":" + eol;
       }
-      else if (typeof (obj) == "object")
+      else if (typeof(obj) == "object")
       {
         var count = 0;
         for (var prop in obj)
@@ -217,7 +217,7 @@ qx.Class.define("qx.dev.Debug",
         // Recursively display this object
         displayObj(obj, 0, maxLevel);
       }
-      catch (ex)
+      catch(ex)
       {
         message += sol(0) + "*** EXCEPTION (" + ex + ") ***" + eol;
       }
@@ -250,7 +250,7 @@ qx.Class.define("qx.dev.Debug",
       }
 
       // unwrap
-      while (func.wrapper) {
+      while(func.wrapper) {
         func = func.wrapper;
       }
 
@@ -316,6 +316,7 @@ qx.Class.define("qx.dev.Debug",
         || maxLevel <= 0
       ) {
         return model;
+
       } else if (qx.Class.hasInterface(model.constructor, qx.data.IListData)) {
         // go threw the data structure
         for (var i = 0; i < model.length; i++) {
@@ -328,6 +329,7 @@ qx.Class.define("qx.dev.Debug",
             + newLine;
         }
         return message + newLine;
+
       } else if (model.constructor != null) {
         // go threw all properties
         var properties = model.constructor.$$properties;

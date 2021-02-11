@@ -108,6 +108,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
 
     testToolTipText : function()
     {
+
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 

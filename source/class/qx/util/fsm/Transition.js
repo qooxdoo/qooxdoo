@@ -147,7 +147,7 @@ qx.Class.define("qx.util.fsm.Transition",
     for (var field in transitionInfo)
     {
       // If we find one of our properties, call its setter.
-      switch (field)
+      switch(field)
       {
       case "predicate":
         this.setPredicate(
@@ -287,7 +287,7 @@ qx.Class.define("qx.util.fsm.Transition",
     __transformPredicate : function(value)
     {
       // Validate the predicate.  Convert all valid types to function.
-      switch (typeof (value))
+      switch(typeof (value))
       {
       case "undefined":
         // No predicate means predicate passes
@@ -323,14 +323,14 @@ qx.Class.define("qx.util.fsm.Transition",
     __transformNextState : function(value)
     {
       // Validate nextState.  It must be a string or a number.
-      switch (typeof (value))
+      switch(typeof (value))
       {
       case "string":
         return value;
 
       case "number":
         // Ensure that it's one of the possible state-change constants
-        switch (value)
+        switch(value)
         {
         case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
         case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
@@ -363,6 +363,7 @@ qx.Class.define("qx.util.fsm.Transition",
         "autoActionsBeforeOntransition",
         value,
         this.getUserData("context"));
+
     },
 
     /**
@@ -377,6 +378,7 @@ qx.Class.define("qx.util.fsm.Transition",
         "autoActionsAfterOntransition",
         value,
         this.getUserData("context"));
+
     },
 
     /**
@@ -388,7 +390,7 @@ qx.Class.define("qx.util.fsm.Transition",
     __transformOntransition : function(value)
     {
       // Validate the ontransition function.  Convert undefined to function.
-      switch (typeof (value))
+      switch(typeof (value))
       {
       case "undefined":
         // No provided function just means do nothing.  Use a null
@@ -421,7 +423,7 @@ qx.Class.define("qx.util.fsm.Transition",
     __bindIfFunction : function(f, context)
     {
       // Is the first parameter a function?
-      if (typeof (f) == "function")
+      if (typeof(f) == "function")
       {
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);

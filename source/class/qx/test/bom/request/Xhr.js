@@ -197,7 +197,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.onevent);
     },
 
-    "test: fire event": function() {
+    "test: fire event": function(){
       var req = this.req;
       var event = this.spy();
       req.onevent = this.spy();
@@ -342,6 +342,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     "test: not emit error when timeout": function() {
+
       // Since Opera does not fire "error" on network error, fire additional
       // "error" on timeout (may well be related to network error)
       if (qx.core.Environment.get("engine.name") === "opera") {
@@ -410,7 +411,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
       try {
         fakeReq.respond();
-      } catch (e) {
+      } catch(e) {
 
       } finally {
         this.wait(20, function() {
@@ -505,6 +506,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var fakeReq = this.getFakeReq();
 
       function success(state) {
+
         // Stub and prepare success
         fakeReq.readyState = state;
         fakeReq.responseText = "YIPPIE";
@@ -525,6 +527,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
         success(this.constructor.HEADERS_RECEIVED);
         success(this.constructor.LOADING);
       }
+
     },
 
     "test: not query responseText if unavailable": function() {
@@ -533,6 +536,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       var fakeReq = this.getFakeReq();
 
       function trap(state) {
+
         // Stub and set trap
         fakeReq.readyState = state;
         fakeReq.responseText = "BOGUS";
@@ -550,6 +554,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
         trap(this.constructor.HEADERS_RECEIVED);
         trap(this.constructor.LOADING);
       }
+
     },
 
     //
@@ -804,6 +809,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
       assertDisposedException(function() { req.abort(); });
       assertDisposedException(function() { req.getResponseHeader(); });
       assertDisposedException(function() { req.getAllResponseHeaders(); });
+
     },
 
     fakeNativeXhr: function() {

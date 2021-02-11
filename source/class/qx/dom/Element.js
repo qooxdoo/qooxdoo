@@ -57,7 +57,7 @@ qx.Bootstrap.define("qx.dom.Element",
     {
       element = element.firstChild;
 
-      while (element)
+      while(element)
       {
         if (element.nodeType === 1) {
           return true;

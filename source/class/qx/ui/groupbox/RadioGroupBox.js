@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "legend":
           control = new qx.ui.form.RadioButton();

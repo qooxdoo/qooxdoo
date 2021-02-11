@@ -152,7 +152,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     },
 
 
-    testRemoveBinding: function() {
+    testRemoveBinding: function(){
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
       // add a binding
@@ -182,7 +182,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     },
 
 
-    testGetAllBindingsForObject: function() {
+    testGetAllBindingsForObject: function(){
       // remove all old bindings
       qx.data.SingleValueBinding.removeAllBindings();
 
@@ -242,10 +242,11 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
           qx.data.SingleValueBinding.removeAllBindingsForObject(null);
         }, qx.core.AssertionError, null, "Null is not possible!");
       }
+
    },
 
 
-    testGetAllBindings: function() {
+    testGetAllBindings: function(){
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
 
@@ -277,7 +278,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     },
 
 
-    testDebugStuff: function() {
+    testDebugStuff: function(){
       // just a test if the method runs threw without an exception
       var id1 = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
       qx.data.SingleValueBinding.bind(this.__a, "zIndex", this.__b, "zIndex");
@@ -642,7 +643,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     },
 
 
-    testRemoveRelatedBindings: function() {
+    testRemoveRelatedBindings: function(){
       var c = new qx.test.data.singlevalue.TextFieldDummy();
 
       // add three bindings

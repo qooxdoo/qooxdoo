@@ -111,7 +111,7 @@ qx.Class.define("qx.bom.element.Decoration",
       {
         try {
           element.filters["DXImageTransform.Microsoft.AlphaImageLoader"].apply();
-        } catch (e) {}
+        } catch(e) {}
       }
     },
 

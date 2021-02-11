@@ -229,7 +229,7 @@ members :
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         /*
         ---------------------------------------------------------------------------
@@ -568,7 +568,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -600,7 +600,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -632,7 +632,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -677,7 +677,7 @@ members :
         }
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -712,7 +712,7 @@ members :
         }
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -748,7 +748,7 @@ members :
         }
       }
 
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "brightnessField":
@@ -921,6 +921,7 @@ members :
      */
     _onHueSaturationHandlePointerMove : function(e)
     {
+
       // Update if captured currently (through previous pointerdown)
       if (this.__capture === "hue-saturation-handle")
       {
@@ -1126,7 +1127,7 @@ members :
       {
         var hexField = this.getChildControl("hex-field");
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
-      } catch (ex) {
+      } catch(ex) {
         return;
       }
 
@@ -1144,7 +1145,7 @@ members :
     _setHexFromRgb : function()
     {
       var value = qx.util.ColorUtil.rgbToHexString(
-        [this.getRed(), this.getGreen(), this.getBlue()]
+        [this.getRed(),this.getGreen(),this.getBlue()]
       );
 
       // get rid of the starting '#'
@@ -1198,7 +1199,7 @@ members :
      */
     _setHueFromRgb : function()
     {
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -1220,7 +1221,7 @@ members :
      */
     _setRgbFromHue : function()
     {
-      switch (this.__updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":

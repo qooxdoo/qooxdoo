@@ -142,6 +142,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
         2000-400, this.scroller.getPane().getScrollY(),
         "the scroll position must be limited to the max scroll position"
       );
+
     },
 
     testScrollbarYAuto : function()

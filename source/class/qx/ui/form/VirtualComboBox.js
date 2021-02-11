@@ -235,14 +235,14 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
       switch (id)
       {
-        case "textfield":
+        case "textfield" :
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
           control.addState("inner");
           this._add(control, {flex : 1});
           break;
 
-        case "button":
+        case "button" :
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.setKeepActive(true);
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
     {
       var action = this._getAction(event);
 
-      switch (action)
+      switch(action)
       {
         case "select":
           this.setValue(this.getChildControl("textfield").getValue());
@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       }
 
       var selected = this.__selection.getItem(0);
-      if (selected) {
+      if(selected){
         selected = this.__convertValue(selected);
         this.setValue(selected);
       }
@@ -365,7 +365,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       if (selected === undefined || this.__convertValue(selected) !== value)
       {
         // only reset the old selection if there is one
-        if (selected !== undefined) {
+        if(selected !== undefined) {
           // reset the old selection
           this.__ignoreChangeSelection = true;
           selection.removeAll();

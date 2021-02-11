@@ -316,7 +316,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
 
     __getLongValue: function() {
       var val = new qx.type.Array(50);
-      for (var i=0; i < val.length; i++) {
+      for(var i=0; i < val.length; i++) {
         val[i] = "AAAAA ";
       }
       return val.join("");

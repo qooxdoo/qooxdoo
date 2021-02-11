@@ -46,7 +46,7 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
        * Faking "qx.test.bool_true" to temporarily evaluate to false here.
        * (Undone in the "tearDown" method).
        */
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return false; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
       /*
        * The 'if' statement should be optimized by the generator, as the value
        * of "qx.test.bool_true" is known at compile time, so that only "a = 1"
@@ -62,11 +62,11 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
       }
       // The next will fail if the 'else' branch has been chosen, due to missing
       // or wrong optimization.
-      this.assertEquals(1, a);
+      this.assertEquals(1,a);
     },
 
     "tearDown If 'if' statement is pruned by the generator" : function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return true; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
     },
 
     /*
@@ -77,17 +77,17 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
      */
     "test If 'select' call is pruned by the generator": function () {
       // Fake "qx.test.bool_true" to be false at run time.
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return false; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
       // Under optimization, the .select call will have been gone at run time.
       var a = qx.core.Environment.select("qx.test.bool_true", {
         "true" : 1,
         "false": 2
       });
-      this.assertEquals(1, a);
+      this.assertEquals(1,a);
     },
 
     "tearDown If 'select' call is pruned by the generator": function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return true; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
    },
 
     /*
@@ -97,14 +97,14 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
      */
     "test If simple 'get' call is pruned by the generator": function () {
       // Fake "qx.test.bool_true" to be false at run time.
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return false; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
       // Under optimization, the .get call will have been gone at run time.
       var a = qx.core.Environment.get("qx.test.bool_true");
-      this.assertEquals(true, a);
+      this.assertEquals(true,a);
     },
 
     "tearDown If simple 'get' call is pruned by the generator": function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function() { return true; };
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
     }
   }
 });

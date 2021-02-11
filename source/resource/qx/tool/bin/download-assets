@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+ASSET_DIR=$(dirname $DIR)/website/src/assets
+
+# versions
+BOOTSTRAP_VERSION=4.0.0-beta.3
+FONTAWESOME_VERSION=v5.0.2
+JQUERY_VERSION=3.2.1
+
+# download
+FILES=(
+ "bootstrap.min.css https://maxcdn.bootstrapcdn.com/bootstrap/$BOOTSTRAP_VERSION/css/bootstrap.min.css"
+ "bootstrap.min.css.map https://maxcdn.bootstrapcdn.com/bootstrap/$BOOTSTRAP_VERSION/css/bootstrap.min.css.map"
+ "abel.css https://fonts.googleapis.com/css?family=Abel"
+ "buttons.js https://buttons.github.io/buttons.js"
+ "fontawesome-all.js https://use.fontawesome.com/releases/$FONTAWESOME_VERSION/js/all.js"
+ "jquery.js https://code.jquery.com/jquery-$JQUERY_VERSION.min.js"
+)
+
+for CMD in "${FILES[@]}"; do
+  wget -nv -O $ASSET_DIR/$CMD
+done

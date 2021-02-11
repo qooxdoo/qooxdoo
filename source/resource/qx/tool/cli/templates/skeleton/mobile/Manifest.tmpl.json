@@ -1,0 +1,38 @@
+{
+ "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "info" :
+  {
+    "name" : "${name}",
+
+    "summary" : "${summary}",
+    "description" : "${description}",
+
+    "homepage" : "${homepage}",
+
+    "license" : "${license}",
+    "authors" : ${author_map},
+
+    "version" : "${version}"
+  },
+
+  "provides" :
+  {
+    "namespace"   : "${namespace}",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation"
+  },
+  "externalResources": {
+        "script": [
+         ],
+        "css": [
+          "${namespace}/css/custom.css"
+        ]
+  },
+
+  "requires": {
+    "@qooxdoo/framework": "${qooxdoo_range}",
+    "@qooxdoo/compiler" : "${compiler_range}"
+  }
+}

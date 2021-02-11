@@ -146,7 +146,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.assertEquals("three", this.__label.getValue(), "Array[last] binding does not work!");
 
       // change the value
-      this.__a.getArray().setItem(2, "THREE");
+      this.__a.getArray().setItem(2,"THREE");
       this.assertEquals("THREE", this.__label.getValue(), "Array[last] binding does not work!");
     },
 
