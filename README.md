@@ -43,7 +43,7 @@ git clone https://github.com/qooxdoo/qooxdoo.git
 cd qooxdoo
 npm install
 ./bootstrap-compiler
-
+./bootstrap/qx config set qx.library `pwd`
 ```
 This compiles the compiler you will be using to compile your code from the sources
 of this repository, which makes sure that you are using the latest version of the
