@@ -22,7 +22,7 @@ qx.Interface.define("qx.tool.migration.IMigration", {
      * Runs the migration for the version indicated in the class name. Returns
      * true if migration have to be applied/ were applied, otherwise false.
      *
-     * Then migration code must be written in a way that it can be safely
+     * The migration code must be written in a way that it can be safely
      * run multiple times over the same code and always produce the same result,
      * i.e. it must check if the migration code changes have already
      * been applied and skip the migration in that case.

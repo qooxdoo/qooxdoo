@@ -54,7 +54,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
             var value = m[3];
             configDb.setOverride(key, value);
           } else {
-            throw new Error(`Failed to parse environment setting commandline option '--set ${kv}'`);
+            throw new qx.tool.utils.Utils.UserError(`Failed to parse environment setting commandline option '--set ${kv}'`);
           }
         });
       }
@@ -88,6 +88,9 @@ qx.Class.define("qx.tool.cli.commands.Command", {
         return path.resolve(qxpath);
       }
       qxpath = await qx.tool.config.Utils.getAppQxPath(this.argv["block-global-framework"]);
+      if (!qxpath) {
+        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+      }
       return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
     },
 
