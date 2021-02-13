@@ -186,7 +186,7 @@ It is required that all properties applied in one state are applied in all other
 states. Something like this is seen as bad style and may result in wrong
 styling:
 
-```
+```javascript
 style : function(states)
 {
   var result = {};
@@ -202,7 +202,7 @@ style : function(states)
 
 Instead, you should always define the else case:
 
-```
+```javascript
 style : function(states)
 {
   var result = {};
