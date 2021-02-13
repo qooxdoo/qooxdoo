@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2017 Zenesis Ltd
+     2017-2021 Zenesis Ltd
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -76,6 +76,36 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     },
 
     /**
+     * Returns the absolute path to the qooxdoo framework used
+     * by the current project, unless the user provided a CLI
+     * option "qxpath", in which case this value is returned.
+     *
+     * @return {Promise<String>} Promise that resolves with the absolute path
+     */
+    async getUserQxPath() {
+      let qxpath = this.argv["qxpath"];
+      if (qxpath) {
+        return path.resolve(qxpath);
+      }
+      qxpath = await qx.tool.config.Utils.getAppQxPath(this.argv["block-global-framework"]);
+      return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
+    },
+
+    /**
+     * Returns the version of the qooxdoo framework used by the current project
+     *
+     * @throws {Error} If the version cannot be determined
+     * @return {Promise<String>} Promise that resolves with the version string
+     */
+    async getUserQxVersion() {
+      let qxpath = await this.getUserQxPath();
+      let qxversion = await qx.tool.config.Utils.getLibraryVersion(qxpath);
+      return qxversion;
+    },
+
+    // deprecated methods, will be removed
+
+    /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getProjectData} instead
      */
     getProjectData : qx.tool.config.Utils.getProjectData,
@@ -99,16 +129,6 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getQxPath} instead
      */
     getGlobalQxPath: qx.tool.config.Utils.getQxPath,
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getUserQxPath} instead
-     */
-    getUserQxPath : qx.tool.config.Utils.getUserQxPath,
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getUserQxVersion} instead
-     */
-    getUserQxVersion : qx.tool.config.Utils.getUserQxVersion,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryVersion} instead

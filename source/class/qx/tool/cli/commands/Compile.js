@@ -319,10 +319,9 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       }
 
       if (this.argv.verbose) {
-        let ignoreGlobalFramework = this.argv["block-global-framework"];
         console.log(`
 Compiler:  v${qx.tool.compiler.Version.VERSION} in ${require.main.filename}
-Framework: v${await qx.tool.config.Utils.getUserQxVersion(ignoreGlobalFramework)} in ${await qx.tool.config.Utils.getUserQxPath(ignoreGlobalFramework)}`);
+Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
       }
 
       if (this.argv["machine-readable"]) {
@@ -1005,7 +1004,7 @@ Framework: v${await qx.tool.config.Utils.getUserQxVersion(ignoreGlobalFramework)
     async __checkDependencies(libs, packages) {
       const Console = qx.tool.compiler.Console.getInstance();
       let errors = [];
-      const SDK_VERSION = await qx.tool.config.Utils.getUserQxVersion(this.argv["block-global-framework"]);
+      const SDK_VERSION = await this.getUserQxVersion();
       // check all requires
       for (let lib of libs) {
         let requires = lib.getRequires();

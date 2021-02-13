@@ -31,16 +31,24 @@ qx.Class.define("qx.tool.config.Utils", {
   statics: {
 
     /**
-     * Returns data on the project in which the CLI commands are executed. If a qooxdoo.json file
-     * exists, the data is taken from there. If not, it tries the following:
-     * 1) If a Manifest.json exists in the current dir, it is assumed to be the main library dir.
-     * 2) if a compile.json file exists in the current dir, it is assumed to be the application dir
-     * 3) if not, the subdir demo/default is checked for a compile.json file.
+     * Returns data on the project in the currect working directory.
+     * If a qooxdoo.json file exists, the data is taken from there.
+     * If not, the relies on the following assumptions:
      *
-     * @return {Promise<Object>} A promise that resolves to a map containing the following keys:
+     * 1. If a Manifest.json exists in the current working directory,
+     * it is assumed to be the main library directory.
+     *
+     * 2. If a compile.json file exists in the current working directory,
+     * it is assumed to be the directory in which the application can be found.
+     *
+     * The method returns a promise that resolves to a map containing the following keys:
      * 'libraries': an array of maps containing a 'path' property with a relative path to a library folder,
      * 'applications': an array of maps containing a 'path' property with a relative path to an
-     * application folder. If no project data can be determined, resolves to an empty map.
+     * application folder.
+     *
+     * If no libraries or applications can be found, empty arrays are returned.
+     *
+     * @return {Promise<Object>}
      */
     async getProjectData() {
       let qooxdooJsonPath = path.join(process.cwd(), qx.tool.config.Registry.config.fileName);
@@ -100,8 +108,18 @@ qx.Class.define("qx.tool.config.Utils", {
     },
 
     /**
-     * Compute the path to the qooxdoo library which will be used
-     * by default.
+     * Compute the path to the qooxdoo library (the `qx` namespace)
+     * which will be used by default.
+     *
+     * The path will be resolved the following way:
+     *
+     * 1. If a global framework has been set by `qx config set qx.library`,
+     * this will override any local setting unless the `ignoreGlobalFramework`
+     * parameter is `true`, in which case it will be ignored.
+     *
+     * 2. The library contained in the projects node_modules folder, if it exists;
+     *
+     * 3. A globally installed `@qooxdoo/framework` NPM package.
      *
      * @param {Boolean} ignoreGlobalFramework If true, ignore the global framework
      * path set in the "qx.library" configuration value.
@@ -129,7 +147,11 @@ qx.Class.define("qx.tool.config.Utils", {
     },
 
     /**
-     * Returns the absolute path to the qooxdoo framework used by the current project
+     * Returns the absolute path to the qooxdoo framework used by the current project,
+     * as opposed to the the path of the qooxdoo library that exists in the local
+     * environment (installation, upgrade, etc.). If the application does not specify
+     * a path, it is taken from the environment.
+     *
      * @param {Boolean} ignoreGlobalFramework If true, ignore the global framework
      * path set in the "qx.library" configuration value.
      * @return {Promise<String>} Promise that resolves with the path {String}
@@ -161,31 +183,6 @@ qx.Class.define("qx.tool.config.Utils", {
         }
       }
       return this.getQxPath(ignoreGlobalFramework);
-    },
-
-    /**
-     * Returns the absolute path to the qooxdoo framework used by the current project, unless
-     * the user provided a CLI option "qxpath", in which case this value is returned.
-     * @param {Boolean} ignoreGlobalFramework If true, ignore the global framework
-     * path set in the "qx.library" configuration value.
-     * @return {Promise<String>} Promise that resolves with the absolute path
-     */
-    async getUserQxPath(ignoreGlobalFramework=false) {
-      let qxpath = await this.getAppQxPath(ignoreGlobalFramework);
-      return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
-    },
-
-    /**
-     * Returns the version of the qooxdoo framework used by the current project#
-     * @param {Boolean} ignoreGlobalFramework If true, ignore the global framework
-     * path set in the "qx.library" configuration value.
-     * @throws {Error} If the version cannot be determined
-     * @return {Promise<String>} Promise that resolves with the version string
-     */
-    async getUserQxVersion(ignoreGlobalFramework=false) {
-      let qxpath = await this.getUserQxPath(ignoreGlobalFramework);
-      let qxversion = await this.getLibraryVersion(qxpath);
-      return qxversion;
     },
 
     /**

@@ -104,7 +104,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       const argv = this.argv;
 
       // qooxdoo version
-      let qooxdoo_version = await qx.tool.config.Utils.getUserQxVersion(this.argv["block-global-framework"]);
+      let qooxdoo_version = await this.getUserQxVersion();
       if (argv.verbose) {
         qx.tool.compiler.Console.log(`>>> qooxdoo version:  ${qooxdoo_version}`);
       }

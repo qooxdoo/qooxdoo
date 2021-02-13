@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2017 Christian Boulanger
+     2017-2021 Christian Boulanger
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -16,9 +16,6 @@
 
 ************************************************************************ */
 const process = require("process");
-const path = require("upath");
-const semver = require("semver");
-const fs = qx.tool.utils.Promisify.fs;
 
 /**
  * Installs a package

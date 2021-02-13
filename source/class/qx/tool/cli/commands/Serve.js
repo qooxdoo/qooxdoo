@@ -151,7 +151,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       if (!this.__showStartpage) {
         app.use("/", express.static(defaultMaker.getTarget().getOutputDir()));
       } else {
-        let s = await qx.tool.config.Utils.getAppQxPath(this.argv['block-global-framework']);
+        let s = await qx.tool.config.Utils.getQxPath();
         if (!await fs.existsAsync(path.join(s, "docs"))) {
           s = path.dirname(s);
         }
