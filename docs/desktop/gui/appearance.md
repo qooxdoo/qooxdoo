@@ -259,73 +259,90 @@ selector into the current selector.
 
 ### Child Control Aliases
 
-Child control aliases are compared to the normal aliases mentioned above, just
-define aliases for the child controls. They do not redirect the local selector
-to the selector defined by the alias. An example to make this more clear:
+Child control aliases are compared to the normal aliases mentioned above but only
+define aliases for the child controls. They do not redirect the parent selector
+to the selector defined by the alias. An example to make this more clear is shown
+below.
 
 ```javascript
-qx.Theme.define("qx.theme.modern.Appearance",
+qx.Theme.define("qx.theme.classic.Appearance",
 {
   appearances :
   {
     [...],
+    
 
-    "spinner/upbutton" :
-    {
-      alias : "button",
+    "dialog": {
+        alias: "window",
 
-      style : function(states) {
-        return {
-          padding : 2,
-          icon : "decoration/arrows/up.gif"
-        }
-      }
-    },
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
 
     [...]
   }
 });
 ```
+
 
 The result mapping would look like the following:
 
 ```
-"spinner/upbutton" => "spinner/upbutton"
-"spinner/upbutton/icon" => "button/image"
-"spinner/upbutton/label" => "button/label"
+"dialog" => "dialog"
+"dialog/captionbar" => "window/captionbar"
+"dialog/close-button" => "window/close-button"
+etc...
 ```
+and the resulting widget looks like this
 
-As you can see the `spinner/upbutton` is kept in its original state. This allows
+![Widget with alias](appearance/widget_with_alias.png)
+
+The blue widget is irrelevant to the code and it is there for 
+display purposes.
+
+As you can see, the original `dialog` selector is not redirected to 
+the `window` selector. Only the child controls are redirected to 
+their respective child controls of the window widget. The `dialog` widget
+is styled with the return from the `style` function.  This allows
 one to just refine a specific outer part of a complex widget instead of the
-whole widget. It is also possible to include the original part of the `button`
-into the `spinner/upbutton` as well. This is useful to just override a few
-properties like seen in the following example:
+whole widget.
+
+It is also possible to include the original styling of the `window` selector
+into the `dialog` as well. In this case the styling of th `window` selector is
+applied to the `dialog` selector but it also gives the ability to override
+some styling properties.
+
 
 ```javascript
-qx.Theme.define("qx.theme.modern.Appearance",
+qx.Theme.define("qx.theme.classic.Appearance",
 {
   appearances :
   {
     [...],
 
-    "spinner/upbutton" :
-    {
-      alias : "button",
-      include : "button",
 
-      style : function(states)
-      {
-        return {
-          padding : 2,
-          icon : "decoration/arrows/up.gif"
-        }
-      }
-    },
+    "dialog": {
+        alias: "window",
+        include: "window",
+
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
 
     [...]
   }
 });
 ```
+
+![Widget with alias and include](appearance/widget_with_alias_and_include.png)
 
 When `alias` and `include` are identically pointing to the same selector the
 result is identical to the real alias
