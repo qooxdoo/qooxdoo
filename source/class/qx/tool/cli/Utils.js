@@ -48,7 +48,7 @@ qx.Class.define("qx.tool.cli.Utils", {
         exe.on("close", code => {
           if (code !== 0) {
             let message = `Error executing '${cmd} ${args.join(" ")}'. Use --verbose to see what went wrong.`;
-            throw new qx.tool.utils.Utils.UserError(message);
+            reject(new qx.tool.utils.Utils.UserError(message));
           } else {
             resolve(0);
           }
