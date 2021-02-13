@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2017-202 The authors
+     2017-2021 The authors
 
    License:
      MIT: https://opensource.org/licenses/MIT
