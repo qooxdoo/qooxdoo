@@ -301,7 +301,7 @@ and the resulting widget looks like this
 
 ![Widget with alias](appearance/widget_with_alias.png)
 
-The blue widget is irrelevant to the code and it is there for 
+The blue widget inside the window is irrelevant to the code and it is there for 
 display purposes.
 
 As you can see, the original `dialog` selector is not redirected to 
