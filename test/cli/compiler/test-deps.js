@@ -6,8 +6,8 @@ const readFile = promisify(fs.readFile);
 require("../index");
 
 async function createMaker() {
-  var QOOXDOO_PATH = "../../node_modules/@qooxdoo/framework";
-  
+  var QOOXDOO_PATH = "../../..";
+
   qx.tool.compiler.ClassFile.JSX_OPTIONS = {
     "pragma": "jsx.dom",
     "pragmaFrag": "jsx.Fragment"
@@ -58,10 +58,10 @@ async function createMaker() {
       "test.overridden2": false,
       "test.overridden5": "application"
     },
-    templatePath: "../../source/resource/qx/tool/cli/templates",
+    templatePath: "../../../source/resource/qx/tool/cli/templates",
     writeIndexHtmlToRoot: true
   }));
-  
+
   maker.addApplication(new qx.tool.compiler.app.Application("testapp.Application").set({
     theme: "qx.theme.Indigo",
     name: "apptwo",
@@ -74,9 +74,9 @@ async function createMaker() {
       "test.overridden2": false,
       "test.overridden5": "application"
     },
-    templatePath: "../../source/resource/qx/tool/cli/templates"
+    templatePath: "../../../source/resource/qx/tool/cli/templates"
   }));
-  
+
   let analyser = maker.getAnalyser();
   analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary("testapp"));
   analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary(QOOXDOO_PATH));
@@ -85,7 +85,7 @@ async function createMaker() {
       "@babel/plugin-proposal-optional-chaining": true
     }
   });
-  
+
   return maker;
 }
 
@@ -165,7 +165,7 @@ test("Checks dependencies and environment settings", assert => {
       .then(() => readCompileInfo().then(tmp => compileInfo = tmp))
       .then(() => readDbJson().then(tmp => db = tmp))
       .then(() => readJson("test-deps/transpiled/testapp/Application.json").then(tmp => meta = tmp))
-      
+
       /**
        * Text translation
        */
@@ -213,7 +213,7 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(Boolean(map["c"]), "missing unresolved dontKnow in testapp.Issue488");
         assert.ok(arr.length === 6, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue488");
       })
-      
+
       /*
        * Test Issue494
        */
@@ -222,7 +222,7 @@ test("Checks dependencies and environment settings", assert => {
         var arr = ci.unresolved||[];
         assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue494");
       })
-      
+
       /*
        * Test Issue495
        */
@@ -231,7 +231,7 @@ test("Checks dependencies and environment settings", assert => {
         var arr = ci.unresolved||[];
         assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue495");
       })
-      
+
       /*
        * Test Issue500
        */
@@ -240,7 +240,7 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(src.match(/Unable to launch monitor/), "Template Literals");
         assert.ok(src.match(/abcdef/), "Template Literals", "Ordinary Literals");
       })
-      
+
       /*
        * Test Issue503
        */
@@ -249,7 +249,7 @@ test("Checks dependencies and environment settings", assert => {
         var arr = ci.unresolved||[];
         assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue503");
       })
-      
+
       /*
        * Test Warnings
        */
@@ -258,7 +258,7 @@ test("Checks dependencies and environment settings", assert => {
         var arr = ci.unresolved||[];
         assert.ok(arr.length === 0, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Warnings");
       })
-      
+
 
 
       /*
@@ -268,7 +268,7 @@ test("Checks dependencies and environment settings", assert => {
       .then(src => {
         assert.ok(!!src.match(/jsx.dom\("div", null, "Hello World"\)/), "JSX");
       })
-      
+
 
       /*
        * Test environment settings
@@ -295,23 +295,23 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(src.match(/var multiplyNumbers = 2952;/), "merging binary expressions: multiplyNumbers");
         assert.ok(src.match(/qx.core.Environment.get\("qx.promise"\)/), "override default env setting");
       }))
-      
+
       .then(() => readFile("test-deps/transpiled/testapp/MMyMixin.js", "utf8")
       .then(src => {
         assert.ok(src.match(/mixedInIsTrue/), "Conditional Mixin part 1");
         assert.ok(!src.match(/mixedInIsFalse/), "Conditional Mixin part 2");
       }))
-      
+
       .then(() => readFile("test-deps/transpiled/testapp/TestThat1.js", "utf8")
       .then(src => {
         assert.ok(src.match(/testapp\.TestThat1\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
       }))
-      
+
       .then(() => readFile("test-deps/transpiled/testapp/TestThat2.js", "utf8")
       .then(src => {
         assert.ok(src.match(/testapp\.TestThat2\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
       }))
-      
+
       /*
        * Test index.html generation
        */

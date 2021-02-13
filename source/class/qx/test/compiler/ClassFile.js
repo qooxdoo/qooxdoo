@@ -9,7 +9,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-   * Henner Kollmann 
+   * Henner Kollmann
 
 ************************************************************************ */
 
@@ -21,7 +21,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
     this.__analyser = new qx.tool.compiler.Analyser();
     this.__analyser.setOutputDir("tmp/unittest");
     this.__lib.setRootDir(".");
-    this.__lib.setSourcePath("test/unittest/test-compiler");
+    this.__lib.setSourcePath("unittest/test-compiler");
     this.__lib.getSourceFileExtension = () => ".js";
   },
 

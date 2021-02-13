@@ -23,8 +23,8 @@
   "scripts": {
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
-    "pretest": "node bootstrap-compiler",
-    "test": "node ./bin/build/qx lint --warnAsError && node ./bin/build/qx --block-global-framework test"
+    "pretest": "node bootstrap-compiler --target=build",
+    "test": "node ./bin/build/qx lint --warnAsError && node ./bin/build/qx test --fail-fast --block-global-framework"
   },
   "files": [
     "LICENSE",

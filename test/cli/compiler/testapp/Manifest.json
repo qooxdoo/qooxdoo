@@ -18,7 +18,7 @@
   "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
   "requires": {
     "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-alpha"
+    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
   },
   "externalResources": {
     "script": [ "testapp/test-external.js", "https://code.jquery.com/jquery-3.4.1.js", "qx/test/script.js" ],
