@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
   "targets": [
     {
       "type": "source",
@@ -15,6 +15,10 @@
   ],
   "defaultTarget": "source",
   "locales": ["en"],
+  "libraries": [
+    ".",
+    "../../../../.."
+  ],
   "environment": {
       "qx.icontheme": "Tango"
   },

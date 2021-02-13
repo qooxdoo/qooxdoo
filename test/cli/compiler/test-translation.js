@@ -1,5 +1,5 @@
 const test = require("tape");
-const testUtils = require("../../bin/tools/utils");
+const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 
 async function simpleParsePo(filename) {

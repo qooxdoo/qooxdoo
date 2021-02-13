@@ -126,42 +126,6 @@
       ]
     },
     {
-      "class": "qxl.testnode.Application",
-      "name": "testnode",
-      "title": "Node Test",
-      "type": "node",
-      "deploy": false,
-      "environment": {
-        "testnode.testNameSpace": "qx.test"
-      },
-      "include": [
-        "qx.core.BaseInit",
-        "qx.test.tool.*",
-        "qx.test.compiler.*",
-        "qx.tool.*",
-        "qx.dev.*"
-      ],
-      "exclude": [
-        "q",
-        "qxWeb",
-        "qx.module.*",
-        "qx.ui.*",
-        "qx.log.appender.Native",
-        "qx.log.appender.Element",
-        "qx.bom.Stylesheet",
-        "qx.bom.Selector",
-        "qx.bom.MediaQuery",
-        "qx.bom.Flash",
-        "qx.bom.Vml",
-        "qx.bom.client.Html",
-        "qx.bom.client.Plugin",
-        "qx.bom.client.Pdfjs",
-        "qx.event.handler.Pointer",
-        "qx.event.handler.Gesture",
-        "qx.event.handler.PointerCore"
-      ]
-    },
-    {
       "class": "qx.application.Native",
       "name": "qx_server",
       "type": "node",
@@ -223,7 +187,7 @@
       "jsdoc/require-jsdoc": "off",
       "jsdoc/require-param": "off",
       "jsdoc/require-returns-type": "off",
-      
+
       "no-new": "off",
       "no-unused-vars": "off",
       "no-eval": "off",
