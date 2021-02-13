@@ -7,7 +7,7 @@ async function main() {
   let knownGood = path.join(__dirname, "..", "..", "known-good");
   let qx = path.join(knownGood, "node_modules", ".bin", "qx");
   if (!fs.existsSync(qx)) {
-    console.log("Compiling source version");
+    console.log("Loading working compiler with npm");
     await utils.runCommand(knownGood, "npm", "ci");
     await utils.runCommand(knownGood, "npm", "upgrade", "@qooxdoo/compiler");
     if (!fs.existsSync(qx)) {
