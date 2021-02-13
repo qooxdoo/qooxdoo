@@ -312,9 +312,10 @@ one to just refine a specific outer part of a complex widget instead of the
 whole widget.
 
 It is also possible to include the original styling of the `window` selector
-into the `dialog` as well. In this case the styling of th `window` selector is
+into the `dialog` as well. In this case the styling of the `window` selector is
 applied to the `dialog` selector but it also gives the ability to override
-some styling properties.
+some styling properties. Also, the `styles` parameter of the `style` function
+contains the styles of the original selector.
 
 
 ```javascript
@@ -329,7 +330,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         alias: "window",
         include: "window",
 
-        style: function(states) {
+        style: function(states, styles) {
           return {
             contentPadding: 10,
             padding: 10,
@@ -345,7 +346,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 ![Widget with alias and include](appearance/widget_with_alias_and_include.png)
 
 When `alias` and `include` are identically pointing to the same selector the
-result is identical to the real alias
+result is the same as the string alias.
 
 ### Base Calls
 
