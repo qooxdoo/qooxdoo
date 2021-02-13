@@ -335,7 +335,7 @@ result is the same as the string alias.
 ### Includes
 
 Includes are used to reuse the result of another key and merge it with the local
-data. Includes may also used standalone without the `style` key but this is
+data. Includes may also be used standalone without the `style` key but this is
 merely the same like an alias. An alias is the faster and better choice in this
 case.
 
