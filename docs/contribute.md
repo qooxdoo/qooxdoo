@@ -78,8 +78,10 @@ changes, then you just need to use the `./bin/source/qx` in your test app.
 
 Before you submit a PR, you should check that your code passes
 the lint tests by running `npm test` in the framework repo
-directory; this will automatically run lint against the codebase.
+directory; this will automatically run lint against the codebase and do compiler
+and framework tests.
 
+0
 However, note that the `npm test` command expects to use `./bin/build/qx`
 command to run its tests - this means that you will need to run
 this command first if you have been modifying the compiler code:
