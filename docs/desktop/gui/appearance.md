@@ -242,20 +242,6 @@ runtime of the `style` method. This allows to use more complex statements to
 solve the requirements of today's themes were a lot of states or dependencies
 between states can have great impact on the result map.
 
-### Includes
-
-Includes are used to reuse the result of another key and merge it with the local
-data. Includes may also used standalone without the `style` key but this is
-merely the same like an alias. An alias is the faster and better choice in this
-case.
-
-The results of the include block are merged with lower priority than the local
-data so it just gets added to the map. To remove a key from the included map
-just define the key locally as well (using the `style` method) and set it to
-`undefined`.
-
-Includes do nothing to child controls. They just include exactly the given
-selector into the current selector.
 
 ### Child Control Aliases
 
@@ -306,17 +292,15 @@ display purposes.
 
 As you can see, the original `dialog` selector is not redirected to 
 the `window` selector. Only the child controls are redirected to 
-their respective child controls of the window widget. The `dialog` widget
-is styled with the return from the `style` function.  This allows
+their respective child control styles. The `dialog` widget
+is styled with the returned map from the `style` function.  This allows
 one to just refine a specific outer part of a complex widget instead of the
 whole widget.
 
 It is also possible to include the original styling of the `window` selector
 into the `dialog` as well. In this case the styling of the `window` selector is
 applied to the `dialog` selector but it also gives the ability to override
-some styling properties. Also, the `styles` parameter of the `style` function
-contains the styles of the original selector.
-
+some styling properties.
 
 ```javascript
 qx.Theme.define("qx.theme.classic.Appearance",
@@ -330,7 +314,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         alias: "window",
         include: "window",
 
-        style: function(states, styles) {
+        style: function(states) {
           return {
             contentPadding: 10,
             padding: 10,
@@ -347,6 +331,51 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 When `alias` and `include` are identically pointing to the same selector the
 result is the same as the string alias.
+
+### Includes
+
+Includes are used to reuse the result of another key and merge it with the local
+data. Includes may also used standalone without the `style` key but this is
+merely the same like an alias. An alias is the faster and better choice in this
+case.
+
+The results of the include block are merged with lower priority than the local
+data so it just gets added to the map. To remove a key from the included map
+just define the key locally as well (using the `style` method) and set it to
+`undefined`.
+
+Includes do nothing to child controls. They just include exactly the given
+selector into the current selector. Here is our `dialog` example using only 
+the `include` key
+
+```javascript
+qx.Theme.define("qx.theme.classic.Appearance",
+{
+  appearances :
+  {
+    [...],
+
+
+    "dialog": {
+        include: "window",
+
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
+
+    [...]
+  }
+});
+```
+
+![Widget with include](appearance/widget_with_include.png)
+
+The widget itself is styled but it's child controls didn't receive any
+styling.
 
 ### Base Calls
 
