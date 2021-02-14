@@ -38,21 +38,21 @@ qx.Class.define("qx.tool.migration.Utils", {
      */
     async runMigrations(announceOnly=false, argv={}) {
       if (!argv.quiet) {
-        qx.tool.cli.utils.Logger.info(`>>> Running migrations...`);
+        qx.tool.utils.Logger.info(`>>> Running migrations...`);
       }
       argv.announceOnly = announceOnly;
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9]/));
-      for (clazz of migrationClasses) {
+      for (let clazz of migrationClasses) {
         let migration = new qx.Class.getByName(clazz)();
         if (argv.verbose) {
-          qx.tool.cli.utils.Logger.info(` - Running migration ${clazz}`);
+          qx.tool.utils.Logger.info(` - Running migration ${clazz}`);
         }
         try {
           migration.migrate(argv);
         } catch (e) {
-          qx.tool.cli.utils.Logger.error(e);
+          qx.tool.utils.Logger.error(e);
           process.exit(1);
         }
       }
@@ -61,13 +61,13 @@ qx.Class.define("qx.tool.migration.Utils", {
     /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
-     * @param {Boolean} annouceOnly If true, annouce the migration only. If false (default), apply it.
+     * @param {Boolean} dryRun If true, annouce the migration only. If false (default), apply it.
      */
-    async renameFiles(fileList, annouceOnly=false) {
+    async renameFiles(fileList, dryRun=false) {
       qx.core.Assert.assertArray(fileList);
       let filesToRename = this.checkFilesToRename(fileList);
       if (filesToRename.length) {
-        if (annouceOnly) {
+        if (dryRun) {
           // announce migration
           qx.tool.compiler.Console.warn(`*** Warning: The following files will be renamed:`);
           for (let [newPath, oldPath] of filesToRename) {
@@ -78,9 +78,7 @@ qx.Class.define("qx.tool.migration.Utils", {
           for (let [newPath, oldPath] of filesToRename) {
             try {
               await fs.renameAsync(oldPath, newPath);
-              if (!quiet) {
-                qx.tool.compiler.Console.info(`Renamed '${oldPath}' to '${newPath}'.`);
-              }
+              qx.tool.compiler.Console.info(`Renamed '${oldPath}' to '${newPath}'.`);
             } catch (e) {
               qx.tool.compiler.Console.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
               process.exit(1);

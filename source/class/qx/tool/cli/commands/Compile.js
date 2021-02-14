@@ -657,7 +657,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
       // Search for Qooxdoo library if not already provided
       var qxLib = libraries["qx"];
       if (!qxLib) {
-        let qxPath = await qx.tool.config.UtilsgetQxPath(this.argv["block-global-framework"]);
+        let qxPath = await qx.tool.config.Utils.getQxPath(this.argv["block-global-framework"]);
         var library = await qx.tool.compiler.app.Library.createLibrary(qxPath);
         libraries[library.getNamespace()] = library;
         qxLib = libraries["qx"];

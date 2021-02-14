@@ -16,6 +16,7 @@
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
 
 ************************************************************************ */
+const path = require("path");
 
 /**
  * Base class for commands
@@ -60,7 +61,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
       }
 
       // check if we have to migrate files
-      await (new qx.tool.cli.commands.package.Migrate(this.argv)).process(true);
+      this.checkMigrations();
     },
 
     /**
@@ -73,6 +74,16 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      */
     processArgs: function(argv) {
       // Nothing
+    },
+
+    /**
+     * Check if the current application needs to be migrated
+     * @return {Boolean}
+     */
+    checkMigrations(){
+      // do nothing for the moment
+      //qx.tool.migration.Utils.runMigrations()
+      return false;
     },
 
     /**
@@ -141,21 +152,21 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#run} instead
      */
-    run : qx.tool.cli.Utils.run,
+    run : qx.tool.utils.Utils.run,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#exec} instead
      */
-    exec : qx.tool.cli.Utils.exec,
+    exec : qx.tool.utils.Utils.exec,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#getTemplateDir} instead
      */
-    getTemplateDir : qx.tool.cli.Utils.getTemplateDir,
+    getTemplateDir : qx.tool.utils.Utils.getTemplateDir,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#isExplicitArg} instead
      */
-    isExplicitArg : qx.tool.cli.Utils.isExplicitArg
+    isExplicitArg : qx.tool.utils.Utils.isExplicitArg
   }
 });
