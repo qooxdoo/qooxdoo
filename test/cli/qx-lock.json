@@ -2,11 +2,11 @@
   "libraries": [
     {
       "library_name": "qxl.testnode",
-      "library_version": "1.0.12",
-      "path": "qx_packages/qooxdoo_qxl_testnode_v1_0_12",
+      "library_version": "1.0.13",
+      "path": "qx_packages/qooxdoo_qxl_testnode_v1_0_13",
       "uri": "qooxdoo/qxl.testnode",
       "repo_name": "qooxdoo/qxl.testnode",
-      "repo_tag": "v1.0.12"
+      "repo_tag": "v1.0.13"
     }
   ],
   "version": "2.1.0"
