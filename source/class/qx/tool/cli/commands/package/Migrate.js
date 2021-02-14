@@ -40,6 +40,9 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
           "verbose": {
             alias: "v",
             describe: "Verbose logging"
+          },
+          "dry-run": {
+            describe: "Do not apply migrations"
           }
         }
       };
@@ -49,27 +52,15 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
   members: {
     /**
      * Announces or applies a migration
-     * @param {Boolean} announceOnly If true, announce the migration without
-     * applying it.
      */
     process: async function(announceOnly=false) {
-      const self = qx.tool.cli.commands.package.Migrate;
-      if (self.migrationInProcess) {
-        return;
-      }
-      self.migrationInProcess = true;
-      let needFix = qx.tool.migration.Utils.runMigrations(this.argv, announceOnly);
-      self.migrationInProcess = false;
-      if (needFix) {
-        if (announceOnly) {
-          qx.tool.compiler.Console.error(`
-*** Try executing 'qx package migrate' to apply the changes. Alternatively,
-    upgrade or downgrade framework and/or compiler to match the library dependencies.`);
-          process.exit(1);
-        }
+      let runner = new qx.tool.migration.Runner().set({
+        command: this,
+        verbose: argv.verbose
+      });
+      runner.runMigrations();
+      if (!this.argv.quiet) {
         qx.tool.compiler.Console.info("Migration completed.");
-      } else if (!announceOnly && !this.argv.quiet) {
-        qx.tool.compiler.Console.info("Everything is up-to-date. No migration necessary.");
       }
     }
   }

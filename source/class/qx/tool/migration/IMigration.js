@@ -27,12 +27,13 @@ qx.Interface.define("qx.tool.migration.IMigration", {
      * i.e. it must check if the migration code changes have already
      * been applied and skip the migration in that case.
      *
-     * @param {Object} options Map of options:
-     *    announceOnly {Boolean} If true, a migration step is only announced and not executed
-     *    quiet {Boolean} If true, suppress non-error output
-     *    verbose {Boolean} Log additional output for debugging purposes
-     * @return {Promise<boolean>}
+     * The method returns true if the migration does not need to be applied or
+     * has successfully been applied, and false if it still needs to be applied but
+     * hasn't yet, for example if this is a dry run.
+     *
+     * @return {Promise<boolean>} True if the migration has been applied or
+     * is not neccessary; false if it is necessary but hasn't been applied.
      */
-    migrate(options) {}
+    async migrate() {}
   }
 })

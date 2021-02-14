@@ -61,7 +61,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
       }
 
       // check if we have to migrate files
-      this.checkMigrations();
+      //this.checkMigrations();
     },
 
     /**
@@ -77,19 +77,28 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     },
 
     /**
+     * Returns the parsed command line arguments
+     * @return {Object}
+     */
+    getArgs() {
+      return this.argv;
+    },
+
+    /**
      * Check if the current application needs to be migrated
-     * @return {Boolean}
      */
     checkMigrations(){
-      // do nothing for the moment
-      //qx.tool.migration.Utils.runMigrations()
-      return false;
+      let runner = new qx.tool.migration.Runner().set({
+        command: this,
+        dryRun: true
+      });
+      runner.runMigrations();
     },
 
     /**
      * Returns the absolute path to the qooxdoo framework used
-     * by the current project, unless the user provided a CLI
-     * option "qxpath", in which case this value is returned.
+     * in the current environment. If the user provided a
+     * CLI option "qxpath", this value is returned.
      *
      * @return {Promise<String>} Promise that resolves with the absolute path
      */
@@ -106,7 +115,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     },
 
     /**
-     * Returns the version of the qooxdoo framework used by the current project
+     * Returns the version of the qooxdoo framework used by the current environment
      *
      * @throws {Error} If the version cannot be determined
      * @return {Promise<String>} Promise that resolves with the version string

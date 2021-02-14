@@ -25,7 +25,7 @@ const fs = qx.tool.utils.Promisify.fs;
  * Migration class for updating from v6 to v7
  */
 qx.Class.define("qx.tool.migration.M7_0_0", {
-  extend: qx.core.Object,
+  extend: qx.tool.migration.BaseMigration,
   implement: qx.tool.migration.IMigration,
   members: {
     /**
