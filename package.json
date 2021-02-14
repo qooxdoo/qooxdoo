@@ -24,7 +24,7 @@
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node bootstrap-compiler --target=build",
-    "test": "node ./bin/build/qx lint --warnAsError && node ./bin/build/qx test --fail-fast --block-global-framework"
+    "test": "node ./bin/build/qx test --fail-fast --block-global-framework 2>nul | npx tap-summary"
   },
   "files": [
     "LICENSE",
@@ -104,6 +104,7 @@
   },
   "devDependencies": {
     "source-map-support": "^0.5.19",
+    "tap-summary": "^4.0.0",
     "tape": "^5.1.1"
   },
   "engine": "node >= 12"
