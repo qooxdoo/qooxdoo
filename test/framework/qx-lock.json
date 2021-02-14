@@ -9,28 +9,12 @@
       "repo_tag": "v1.0.6"
     },
     {
-      "library_name": "testrunner",
-      "library_version": "6.0.1",
-      "path": "qx_packages/qooxdoo_qxl_testrunner_v6_0_1",
-      "uri": "qooxdoo/qxl.testrunner",
-      "repo_name": "qooxdoo/qxl.testrunner",
-      "repo_tag": "v6.0.1"
-    },
-    {
       "library_name": "logpane",
       "library_version": "1.0.3",
       "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_3",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
       "repo_tag": "v1.0.3"
-    },
-    {
-      "library_name": "versionlabel",
-      "library_version": "1.0.5",
-      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_5",
-      "uri": "qooxdoo/qxl.versionlabel",
-      "repo_name": "qooxdoo/qxl.versionlabel",
-      "repo_tag": "v1.0.5"
     }
   ],
   "version": "2.1.0"
