@@ -97,17 +97,12 @@ qx.Class.define("qx.tool.cli.commands.Command", {
 
     /**
      * Returns the absolute path to the qooxdoo framework used
-     * in the current environment. If the user provided a
-     * CLI option "qxpath", this value is returned.
+     * by the current application.
      *
      * @return {Promise<String>} Promise that resolves with the absolute path
      */
-    async getUserQxPath() {
-      let qxpath = this.argv["qxpath"];
-      if (qxpath) {
-        return path.resolve(qxpath);
-      }
-      qxpath = await qx.tool.config.Utils.getAppQxPath(this.argv["block-global-framework"]);
+    async getQxPath() {
+      qxpath = await qx.tool.config.Utils.getAppQxPath();
       if (!qxpath) {
         throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
       }
@@ -120,8 +115,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @throws {Error} If the version cannot be determined
      * @return {Promise<String>} Promise that resolves with the version string
      */
-    async getUserQxVersion() {
-      let qxpath = await this.getUserQxPath();
+    async getQxVersion() {
+      let qxpath = await this.getQxPath();
       let qxversion = await qx.tool.config.Utils.getLibraryVersion(qxpath);
       return qxversion;
     },
@@ -147,11 +142,6 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getAppQxPath} instead
      */
     getAppQxPath : qx.tool.config.Utils.getAppQxPath,
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getQxPath} instead
-     */
-    getGlobalQxPath: qx.tool.config.Utils.getQxPath,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryVersion} instead

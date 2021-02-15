@@ -321,7 +321,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       if (this.argv.verbose) {
         console.log(`
 Compiler:  v${qx.tool.compiler.Version.VERSION} in ${require.main.filename}
-Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
+Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       if (this.argv["machine-readable"]) {
@@ -647,7 +647,6 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         targetConfigs.push(defaultTargetConfig);
       }
 
-
       let libraries = this.__libraries = {};
       await qx.Promise.all(data.libraries.map(async libPath => {
         var library = await qx.tool.compiler.app.Library.createLibrary(libPath);
@@ -657,13 +656,13 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
       // Search for Qooxdoo library if not already provided
       var qxLib = libraries["qx"];
       if (!qxLib) {
-        let qxPath = await qx.tool.config.Utils.getQxPath(this.argv["block-global-framework"]);
+        let qxPath = await qx.tool.config.Utils.getQxPath();
         var library = await qx.tool.compiler.app.Library.createLibrary(qxPath);
         libraries[library.getNamespace()] = library;
         qxLib = libraries["qx"];
       }
       if (this.argv.verbose) {
-        Console.log("QooxDoo found in " + qxLib.getRootDir());
+        Console.log("Qooxdoo found in " + qxLib.getRootDir());
       }
       let errors = await this.__checkDependencies(Object.values(libraries), data.packages);
       if (errors.length > 0) {
@@ -1004,7 +1003,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
     async __checkDependencies(libs, packages) {
       const Console = qx.tool.compiler.Console.getInstance();
       let errors = [];
-      const SDK_VERSION = await this.getUserQxVersion();
+      const SDK_VERSION = await this.getQxVersion();
       // check all requires
       for (let lib of libs) {
         let requires = lib.getRequires();

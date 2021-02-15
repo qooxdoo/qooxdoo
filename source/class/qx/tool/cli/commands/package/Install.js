@@ -244,7 +244,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @private
      */
     __installFromRelease: async function(uri, tag_name, writeToManifest) {
-      let qooxdoo_version = await this.getUserQxVersion();
+      let qooxdoo_version = await this.getQxVersion();
       let {repo_name, package_path} = this.__getUriInfo(uri);
       if (!tag_name) {
         let cache = this.getCache();
@@ -307,7 +307,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @private
      */
     __installFromTree: async function(uri, hash, writeToManifest) {
-      let qooxdoo_version = await this.getUserQxVersion();
+      let qooxdoo_version = await this.getQxVersion();
       if (this.argv.verbose) {
         qx.tool.compiler.Console.info(`>>> Installing '${uri}' from tree hash '${hash}' for qooxdoo version ${qooxdoo_version}`);
       }
@@ -329,7 +329,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @private
      */
     async __installFromPath(uri, dir, writeToManifest=false) {
-      let qooxdoo_version = await this.getUserQxVersion();
+      let qooxdoo_version = await this.getQxVersion();
       if (this.argv.verbose) {
         qx.tool.compiler.Console.info(`>>> Installing '${uri}' from '${dir}' for qooxdoo version ${qooxdoo_version}`);
       }
@@ -439,7 +439,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
             break;
           case "qooxdoo-sdk":
           case "@qooxdoo/framework": {
-            let qxVer = await this.getUserQxVersion();
+            let qxVer = await this.getQxVersion();
             if (!semver.satisfies(qxVer, lib_range, {loose: true}) && this.argv.ignore) {
               throw new qx.tool.utils.Utils.UserError(
                 `Library '${lib_uri}' needs @qooxdoo/framework version ${lib_range}, found ${qxVer}`
