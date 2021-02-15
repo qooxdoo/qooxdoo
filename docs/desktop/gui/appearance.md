@@ -186,7 +186,7 @@ It is required that all properties applied in one state are applied in all other
 states. Something like this is seen as bad style and may result in wrong
 styling:
 
-```
+```javascript
 style : function(states)
 {
   var result = {};
@@ -202,7 +202,7 @@ style : function(states)
 
 Instead, you should always define the else case:
 
-```
+```javascript
 style : function(states)
 {
   var result = {};
@@ -242,10 +242,100 @@ runtime of the `style` method. This allows to use more complex statements to
 solve the requirements of today's themes were a lot of states or dependencies
 between states can have great impact on the result map.
 
+
+### Child Control Aliases
+
+Child control aliases are compared to the normal aliases mentioned above but only
+define aliases for the child controls. They do not redirect the parent selector
+to the selector defined by the alias. An example to make this more clear is shown
+below.
+
+```javascript
+qx.Theme.define("qx.theme.classic.Appearance",
+{
+  appearances :
+  {
+    [...],
+    
+
+    "dialog": {
+        alias: "window",
+
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
+
+    [...]
+  }
+});
+```
+
+
+The result mapping would look like the following:
+
+```
+"dialog" => "dialog"
+"dialog/captionbar" => "window/captionbar"
+"dialog/close-button" => "window/close-button"
+etc...
+```
+and the resulting widget looks like this
+
+![Widget with alias](appearance/widget_with_alias.png)
+
+The blue widget inside the window is irrelevant to the code and it is there for 
+display purposes.
+
+As you can see, the original `dialog` selector is not redirected to 
+the `window` selector. Only the child controls are redirected to 
+their respective child control styles. The `dialog` widget
+is styled with the returned map from the `style` function.  This allows
+one to just refine a specific outer part of a complex widget instead of the
+whole widget.
+
+It is also possible to include the original styling of the `window` selector
+into the `dialog` as well. In this case the styling of the `window` selector is
+applied to the `dialog` selector but it also gives the ability to override
+some styling properties.
+
+```javascript
+qx.Theme.define("qx.theme.classic.Appearance",
+{
+  appearances :
+  {
+    [...],
+
+
+    "dialog": {
+        alias: "window",
+        include: "window",
+
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
+
+    [...]
+  }
+});
+```
+
+![Widget with alias and include](appearance/widget_with_alias_and_include.png)
+
+When `alias` and `include` are identically pointing to the same selector the
+result is the same as the string alias.
+
 ### Includes
 
 Includes are used to reuse the result of another key and merge it with the local
-data. Includes may also used standalone without the `style` key but this is
+data. Includes may also be used standalone without the `style` key but this is
 merely the same like an alias. An alias is the faster and better choice in this
 case.
 
@@ -255,80 +345,37 @@ just define the key locally as well (using the `style` method) and set it to
 `undefined`.
 
 Includes do nothing to child controls. They just include exactly the given
-selector into the current selector.
-
-### Child Control Aliases
-
-Child control aliases are compared to the normal aliases mentioned above, just
-define aliases for the child controls. They do not redirect the local selector
-to the selector defined by the alias. An example to make this more clear:
+selector into the current selector. Here is our `dialog` example using only 
+the `include` key
 
 ```javascript
-qx.Theme.define("qx.theme.modern.Appearance",
+qx.Theme.define("qx.theme.classic.Appearance",
 {
   appearances :
   {
     [...],
 
-    "spinner/upbutton" :
-    {
-      alias : "button",
 
-      style : function(states) {
-        return {
-          padding : 2,
-          icon : "decoration/arrows/up.gif"
-        }
-      }
-    },
+    "dialog": {
+        include: "window",
+
+        style: function(states) {
+          return {
+            contentPadding: 10,
+            padding: 10,
+          };
+        },
+      },
 
     [...]
   }
 });
 ```
 
-The result mapping would look like the following:
+![Widget with include](appearance/widget_with_include.png)
 
-```
-"spinner/upbutton" => "spinner/upbutton"
-"spinner/upbutton/icon" => "button/image"
-"spinner/upbutton/label" => "button/label"
-```
-
-As you can see the `spinner/upbutton` is kept in its original state. This allows
-one to just refine a specific outer part of a complex widget instead of the
-whole widget. It is also possible to include the original part of the `button`
-into the `spinner/upbutton` as well. This is useful to just override a few
-properties like seen in the following example:
-
-```javascript
-qx.Theme.define("qx.theme.modern.Appearance",
-{
-  appearances :
-  {
-    [...],
-
-    "spinner/upbutton" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          padding : 2,
-          icon : "decoration/arrows/up.gif"
-        }
-      }
-    },
-
-    [...]
-  }
-});
-```
-
-When `alias` and `include` are identically pointing to the same selector the
-result is identical to the real alias
+The widget itself is styled but it's child controls didn't receive any
+styling.
 
 ### Base Calls
 
