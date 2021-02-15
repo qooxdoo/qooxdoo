@@ -254,7 +254,8 @@ qx.Class.define("qx.ui.root.Abstract",
       var el = target.getContentElement();
       var nodeName = el.getNodeName();
       var domEl = el.getDomElement();
-      if (nodeName === "input" || nodeName === "textarea" || (domEl && domEl.contentEditable === "true")) {
+      var originalTarget = e.getOriginalTarget();
+      if (nodeName === "input" || nodeName === "textarea" || (domEl && domEl.contentEditable === "true")|| (originalTarget && originalTarget.contentEditable === "true")) {
         return;
       }
 
