@@ -1,4 +1,5 @@
 {
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
   "info": {
     "name": "testlib",
     "summary": "Custom Library",
@@ -15,8 +16,7 @@
     "resource": "source/resource",
     "translation": "source/translation"
   },
-  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
   "requires": {
-    "@qooxdoo/framework": "^7.0.0-alpha"
+    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
   }
 }
