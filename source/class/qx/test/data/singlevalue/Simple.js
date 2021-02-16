@@ -153,8 +153,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testRemoveBinding: function(){
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
       // add a binding
       var id = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
       // set and chech the name
@@ -183,8 +181,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testGetAllBindingsForObject: function(){
-      // remove all old bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // add two binding
       var id = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
@@ -232,7 +228,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       // check if a remove of an object without a binding works
       var o = new qx.core.Object();
-      qx.data.SingleValueBinding.removeAllBindings();
       o.dispose();
 
       // only test in the source version
@@ -247,8 +242,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testGetAllBindings: function(){
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // add three bindings
       var id1 = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
@@ -286,14 +279,10 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bind(this.__b, "zIndex", this.__a, "zIndex");
       // test the single log
       qx.data.SingleValueBinding.showBindingInLog(this.__a, id1);
-      // test the all log
-      qx.data.SingleValueBinding.showAllBindingsInLog();
     },
 
 
     testMixinSupport: function() {
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // create a new Binding
       var id1 = this.__a.bind("appearance", this.__b, "appearance");
