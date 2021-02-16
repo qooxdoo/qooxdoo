@@ -125,25 +125,34 @@ qx.Class.define("qx.tool.config.Utils", {
      * 3. A globally installed `@qooxdoo/framework` NPM package.
      *
      * @param {String?} cwd The working directory. If not given, the current working dir is used
-     * @return {Promise<*|never|string>}
+     * @return {Promise<*string>}
+     * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
     async getQxPath(cwd=null) {
       cwd = cwd || process.cwd();
-      let dir = cwd;
-      do {
+      let dir = path.resolve(cwd);
+      let root = path.parse(dir).root;
+      while (dir !== root) {
         // 1. Manifest.json files
-        if (this.isQxLibrary(dir)) {
+        if (await this.isQxLibrary(dir)) {
           return dir;
         }
         // 2. node_modules folders
         let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
-        if (await fs.existsAsync(path.join(npmdir, qx.tool.config.Manifest.config.fileName))) {
+        if (fs.existsSync(path.join(npmdir, "Manifest.json"))) {
           return npmdir;
         }
-      } while (dir !== "/"); // TODO Windows!
-      // global npm package
+        // walk up the directory tree
+        dir = path.resolve(path.join(dir, ".."));
+        //root = path.parse(dir).root;
+      }
+      // 3. Fallback: global npm package
       let npmdir = await qx.tool.utils.Utils.exec("npm root -g");
-      return path.join(npmdir, "@qooxdoo", "framework");
+      dir = path.join(npmdir, "@qooxdoo", "framework");
+      if (!this.isQxLibrary(dir)) {
+        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+      }
+      return dir;
     },
 
     /**
@@ -153,14 +162,16 @@ qx.Class.define("qx.tool.config.Utils", {
      *
      * @param {String?} cwd The working directory. If not given, the current working dir is used
      * @return {Promise<String>} Promise that resolves with the path {String}
+     * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
     async getAppQxPath(cwd=null) {
       cwd = cwd || process.cwd();
+      // if there is no compile.json file, get qx path from environment
       if (!await fs.existsAsync(path.join(cwd, qx.tool.config.Compile.config.fileName))) {
         return this.getQxPath(cwd);
       }
+      // check `libraries` key of compile.json and check all paths if they contain the qx library
       let compileConfig = await qx.tool.config.Compile.getInstance().load();
-      let qxpath = false;
       let appPath = await this.getApplicationPath();
       let libraries = compileConfig.getValue("libraries");
       if (libraries) {
@@ -196,6 +207,31 @@ qx.Class.define("qx.tool.config.Utils", {
         throw new qx.tool.utils.Utils.UserError(`Invalid manifest file ${manifestPath}.`);
       }
       return false;
+    },
+
+    /**
+     * Returns an array of {@link qx.tool.config.Abstract} Objects which contain
+     * metadata on the `Manifest.json` file(s) in the current project/package.
+     * @param {String?} cwd The working directory. If not given, the current working dir is used
+     * @return {Promise<qx.tool.config.Abstract[]>}
+     */
+    async getManifestModels(cwd=null) {
+      cwd = cwd || process.cwd();
+      const registryModel = qx.tool.config.Registry.getInstance();
+      let manifestModels = [];
+      if (await registryModel.exists()) {
+        // we have a qooxdoo.json index file containing the paths of libraries in the repository
+        await registryModel.load();
+        let libraries = registryModel.getLibraries();
+        for (let library of libraries) {
+          manifestModels.push(new qx.tool.config.Abstract(qx.tool.config.Manifest.config).set({
+            baseDir: path.join(cwd, library.path)
+          }));
+        }
+      } else if (fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
+        manifestModels.push(qx.tool.config.Manifest.getInstance());
+      }
+      return manifestModels;
     },
 
     /**

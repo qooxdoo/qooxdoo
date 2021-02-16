@@ -66,7 +66,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
       }
       // Update all Manifests
-      for (const manifestModel of this.getManifestModels()) {
+      for (const manifestModel of qx.tool.config.Utils.getManifestModels()) {
         await manifestModel.set({
           warnOnly: true
         }).load();

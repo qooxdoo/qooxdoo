@@ -16,6 +16,9 @@
 
 ************************************************************************ */
 
+const process = require("process");
+const fs = qx.tool.utils.Promisify.fs;
+const replaceInFile = require("replace-in-file");
 
 /**
  * The base class for migrations, containing useful methods to manipulate source
@@ -24,6 +27,8 @@
  */
 qx.Class.define("qx.tool.migration.BaseMigration",{
   type: "abstract",
+  extend: qx.core.Object,
+
   /**
    * Constructor
    * @param {qx.tool.migration.Runner} runner The runner instance
@@ -40,29 +45,6 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   },
 
   members: {
-
-    /**
-     * Returns an array of {@link qx.tool.config.Abstract} Objects which contain
-     * metadata on the `Manifest.json` file(s) in the current project/package.
-     * @return {Promise<qx.tool.config.Abstract[]>}
-     */
-    async getManifestModels() {
-      const registryModel = qx.tool.config.Registry.getInstance();
-      let manifestModels = [];
-      if (await registryModel.exists()) {
-        // we have a qooxdoo.json index file containing the paths of libraries in the repository
-        await registryModel.load();
-        let libraries = registryModel.getLibraries();
-        for (let library of libraries) {
-          manifestModels.push(new qx.tool.config.Abstract(qx.tool.config.Manifest.config).set({
-            baseDir: path.join(cwd, library.path)
-          }));
-        }
-      } else if (fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
-        manifestModels.push(qx.tool.config.Manifest.getInstance());
-      }
-      return manifestModels;
-    },
 
     /**
      * Rename source files
@@ -131,7 +113,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
           if (!this.getRunner().getQuiet()) {
             qx.tool.compiler.Console.warn(` - Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
           }
-          let results = await replace_in_file(replaceInFiles);
+          let results = await replaceInFile(replaceInFiles);
           modified = modified.concat(results.filter(result => result.hasChanged).map(result => result.file));
         } catch (e) {
           qx.tool.compiler.Console.error(`Error replacing in files: ${e.message}`);

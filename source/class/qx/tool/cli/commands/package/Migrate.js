@@ -53,10 +53,11 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
     /**
      * Announces or applies a migration
      */
-    process: async function(announceOnly=false) {
+    process: async function() {
       let runner = new qx.tool.migration.Runner().set({
         command: this,
-        verbose: argv.verbose
+        dryRun: this.argv.dryRun,
+        verbose: this.argv.verbose
       });
       runner.runMigrations();
       if (!this.argv.quiet) {

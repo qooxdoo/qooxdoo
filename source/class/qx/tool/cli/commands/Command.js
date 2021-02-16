@@ -92,7 +92,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
         command: this,
         dryRun: true
       });
-      runner.runMigrations();
+      //runner.runMigrations();
     },
 
     /**
@@ -102,9 +102,9 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @return {Promise<String>} Promise that resolves with the absolute path
      */
     async getQxPath() {
-      qxpath = await qx.tool.config.Utils.getAppQxPath();
+      let qxpath = await qx.tool.config.Utils.getAppQxPath();
       if (!qxpath) {
-        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+
       }
       return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
     },

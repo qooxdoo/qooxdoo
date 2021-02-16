@@ -100,11 +100,6 @@ qx.Class.define("qx.tool.cli.Cli", {
           describe: "suppresses normal progress output to console",
           type: "boolean"
         })
-        .option("block-global-framework", {
-          describe: "prevents use of global override of the framework (used for deployment)",
-          type: "boolean",
-          default: false
-        });
     },
 
     /**
@@ -114,11 +109,11 @@ qx.Class.define("qx.tool.cli.Cli", {
     async __bootstrapArgv() {
       var title = "qooxdoo command line interface";
       title = "\n" + title + "\n" + "=".repeat(title.length);
-      
+
       // NOTE:: We CANNOT get the framework version here because we will not know which framework
       //  to load until we have parse the command line args
-      
-      title += 
+
+      title +=
 `
 Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
 `;
@@ -126,7 +121,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       title +=
       `Typical usage:
         qx <commands> [options]
-        
+
       Type qx <command> --help for options and subcommands.`;
       let yargs = this.__createYargs()
         .usage(title);
