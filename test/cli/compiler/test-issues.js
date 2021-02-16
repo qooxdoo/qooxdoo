@@ -1,6 +1,6 @@
 const test = require("tape");
 const fs = require("fs");
-const testUtils = require("../../bin/tools/utils");
+const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 
 test("Issue553", async assert => {

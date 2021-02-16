@@ -3,16 +3,6 @@
     {
       "type": "source",
       "outputPath": "compiled/source",
-      "bundle": {
-        "include": [
-          "qx.*",
-          "qxWeb",
-          "qxl.*"
-        ],
-        "exclude": [
-          "qx.test.*"
-        ]
-      },
       "babelOptions": {
         "targets": "edge >=18, chrome >= 73, firefox >= 66"
       }
@@ -55,7 +45,11 @@
       "include": [
         "qx.test.*"
       ],
-      "exclude": []
+      "exclude": [
+        "qx.tool.*",
+        "qx.test.tool.*",
+        "qx.test.compiler.*"
+      ]
     }
   ],
   "sass": {

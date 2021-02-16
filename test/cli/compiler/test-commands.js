@@ -10,7 +10,7 @@ const appNamespace = "testCommandsApp";
 (async () => {
   try {
     console.info("Running command tests...");
-	
+
     process.chdir("test-commands");
 
     try {
@@ -19,12 +19,12 @@ const appNamespace = "testCommandsApp";
       console.error(e);
       assert.ok(e.name === "UserError");
     }
-	
+
     // delete existing app
     if (await fs.existsAsync(appNamespace) && await fs.statAsync(appNamespace)) {
       await rimraf(appNamespace, {maxBusyTries: 10});
     }
-    
+
     // create a test app
     const commands = qx.tool.cli.commands;
     const appConfig = {noninteractive:true, namespace:appNamespace, theme: "Indigo", icontheme: "Tango"};
@@ -32,7 +32,7 @@ const appNamespace = "testCommandsApp";
     process.chdir(appNamespace);
 
     // run tests
-    let actual; 
+    let actual;
     let expected;
     const manifestModel = await qx.tool.config.Manifest.getInstance().load();
 
