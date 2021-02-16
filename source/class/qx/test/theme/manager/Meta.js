@@ -97,6 +97,7 @@ qx.Class.define("qx.test.theme.manager.Meta",
   members :
   {
     __formerTheme : null,
+    __formerListener: null,
 
     __linerGradientRegExp: /(orange.*yellow|rgb\(255, 0, 0\).*rgb\(0, 0, 255\)|none|data:image\/png;base64,iVBORw0K)/,
 
@@ -110,7 +111,10 @@ qx.Class.define("qx.test.theme.manager.Meta",
 
       this.manager = qx.theme.manager.Meta.getInstance();
       this.__formerTheme = this.manager.getTheme();
-
+      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
+      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      this.__formerListener = {...listener[hash]};
+      delete listener[hash];
       // add a theme able widget
       this.__button = new qx.ui.form.Button("Foo").set({ appearance: "test-button-gradient" });
       this.getRoot().add(this.__button);
@@ -121,10 +125,13 @@ qx.Class.define("qx.test.theme.manager.Meta",
     tearDown : function()
     {
       this.__button.destroy();
-
-
       this.manager.setTheme(this.__formerTheme);
       this.__formerTheme = null;
+      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
+      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      listener[hash] = this.__formerListener;
+      this.__formerListener = null;
+      qx.ui.core.queue.Manager.flush();
     },
 
 
