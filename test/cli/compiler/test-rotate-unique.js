@@ -1,6 +1,6 @@
 var test = require("tape");
 var fs = require("fs");
-const testUtils = require("../../bin/tools/utils");
+const testUtils = require("../../../bin/tools/utils");
 require("../index");
 
 test("Checks rotateUnique", async assert => {

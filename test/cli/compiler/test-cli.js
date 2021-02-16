@@ -1,6 +1,6 @@
 const test = require("tape");
 const fs = require("fs");
-const testUtils = require("../../bin/tools/utils");
+const testUtils = require("../../../bin/tools/utils");
 
 test("test version", async assert => {
   try {
