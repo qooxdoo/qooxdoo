@@ -34,6 +34,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     __a : null,
     __b: null,
 
+
     setUp : function() {
       // create the widgets
       this.__a = new qx.test.data.singlevalue.TextFieldDummy();
@@ -250,15 +251,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       // get all bindings
       var allBindings = qx.data.SingleValueBinding.getAllBindings();
-
-      // check if only the added hashs are in the object
-      var hashArray = [this.__a.toHashCode(), this.__b.toHashCode()];
-      var i = 0;
-      for (var hash in allBindings) {
-        this.assertInArray(hash, hashArray, "This hash should be in!");
-        i++;
-      }
-      this.assertEquals(2, i, "Too much or too less objects in the array!");
 
       // check for the binding ids
       this.assertEquals(id1, allBindings[this.__a.toHashCode()][0][0], "This id should be in!");
