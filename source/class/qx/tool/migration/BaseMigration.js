@@ -18,6 +18,7 @@
 
 const process = require("process");
 const fs = qx.tool.utils.Promisify.fs;
+const fsp = require('fs').promises;
 const replaceInFile = require("replace-in-file");
 
 /**
@@ -47,6 +48,16 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   members: {
 
     /**
+     * @see {@link qx.tool.cli.commands.Command#getQxPath}
+     */
+    getQxPath: qx.tool.cli.commands.Command.prototype.getQxPath,
+
+    /**
+     * @see {@link qx.tool.cli.commands.Command#getQxVersion}
+     */
+    getQxVersion: qx.tool.cli.commands.Command.prototype.getQxVersion,
+
+    /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
      * @return {Boolean} Whether this migration still has to be applied
@@ -58,9 +69,9 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       if (filesToRename.length) {
         if (dryRun) {
           // announce migration
-          qx.tool.compiler.Console.warn(`*** Warning: The following files will be renamed:`);
+          this.Console.warn(`*** Warning: The following files will be renamed:`);
           for (let [newPath, oldPath] of filesToRename) {
-            qx.tool.compiler.Console.warn(`    '${oldPath}' => '${newPath}'.`);
+            this.warn(`    '${oldPath}' => '${newPath}'.`);
           }
           return true;
         }
@@ -68,9 +79,9 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
         for (let [newPath, oldPath] of filesToRename) {
           try {
             await fs.renameAsync(oldPath, newPath);
-            qx.tool.compiler.Console.info(`Renamed '${oldPath}' to '${newPath}'.`);
+            this.info(`Renamed '${oldPath}' to '${newPath}'.`);
           } catch (e) {
-            qx.tool.compiler.Console.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
+            this.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
             process.exit(1);
           }
         }
@@ -95,32 +106,49 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
+     * Checks if the given file or array of files contains a given text
+     * @param {String|String[]} files
+     * @param {String} text
+     * @return {Boolean}
+     */
+    async checkFilesContain(files, text) {
+      files = Array.isArray(files) ? files : [files];
+      for (let file of files) {
+        if ((await fsp.stat(file)).isFile() && (await fsp.readFile(file, "utf8")).includes(text)) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    /**
      * Replace text in source files
      * @param {{files: string, from: string, to: string}[]} replaceInFilesArr
      *    Array containing objects compatible with https://github.com/adamreisnz/replace-in-file
-     * @return {Array} An array with files which have been modified
+     * @return {Boolean} If the migration is still necessary
      */
     async replaceInFiles(replaceInFilesArr=[]) {
       qx.core.Assert.assertArray(replaceInFilesArr);
       let dryRun = this.getRunner().getDryRun();
-      let modified = [];
+      let mustBeMigrated = false;
       for (let replaceInFiles of replaceInFilesArr) {
-        if (dryRun && !this.getRunner().getQuiet()) {
-          qx.tool.compiler.Console.warn(`*** In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
-          continue;
-        }
-        try {
-          if (!this.getRunner().getQuiet()) {
-            qx.tool.compiler.Console.warn(` - Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
+        if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
+          if (dryRun) {
+            this.warn(`*** In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
+            mustBeMigrated = true;
+            continue;
           }
-          let results = await replaceInFile(replaceInFiles);
-          modified = modified.concat(results.filter(result => result.hasChanged).map(result => result.file));
-        } catch (e) {
-          qx.tool.compiler.Console.error(`Error replacing in files: ${e.message}`);
-          process.exit(1);
+          try {
+            this.debug(` - Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
+            await replaceInFile(replaceInFiles);
+            mustBeMigrated = false;
+          } catch (e) {
+            this.error(`Error replacing in files: ${e.message}`);
+            process.exit(1);
+          }
         }
       }
-      return modified;
+      return mustBeMigrated;
     }
   }
 });

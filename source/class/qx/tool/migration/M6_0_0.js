@@ -29,44 +29,47 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
   implement: qx.tool.migration.IMigration,
   members: {
     /**
-     * @inheritDoc
-     * @see {qx.tool.migration.IMigration#migrate()}
+     * @see {qx.tool.migration.IMigration#getVersionRange()}
      */
-    async migrate() {
+    getVersionRange() {
+      return "<6.0.0";
+    },
+
+    /**
+     * @see {qx.tool.migration.IMigration#run()}
+     */
+    async run() {
+      let mustBeMigrated = false;
       let dryRun = this.getRunner().getDryRun();
-      let quiet = this.getRunner().getQuiet();
       let pkg = qx.tool.cli.commands.Package;
       let cwd = process.cwd();
       // rename configuration files from initial names
+      // replace those static variables with verbatims
       let migrateFiles = [
         [path.join(cwd, pkg.lockfile.filename), path.join(cwd, pkg.lockfile.legacy_filename)],
         [path.join(cwd, pkg.cache_dir), path.join(cwd, pkg.legacy_cache_dir)],
         [path.join(qx.tool.cli.ConfigDb.getDirectory(), pkg.package_cache_name), path.join(qx.tool.cli.ConfigDb.getDirectory(), pkg.legacy_package_cache_name)]
       ];
       // change names in .gitignore
-      if (this.checkFilesToRename(migrateFiles).length) {
-        let replaceInFiles = [{
-          files: path.join(cwd, ".gitignore"),
-          from: pkg.legacy_cache_dir + "/",
-          to: pkg.cache_dir + "/"
-        }];
-        let mustBeMigrated = await this.renameFiles(migrateFiles)
-        if (mustBeMigrated) {
+      if (await this.checkFilesToRename(migrateFiles).length) {
+        if (await this.renameFiles(migrateFiles)) {
           if (dryRun){
-            if (!quiet) {
-              qx.tool.compiler.Console.warn("*** Legacy configuration file names need to be fixed...");
-            }
+            this.warn("*** Legacy configuration file names need to be fixed.");
+            mustBeMigrated = true;
           } else {
-            await this.replaceInFiles(replaceInFiles);
-            if (!quiet) {
-              qx.tool.compiler.Console.info("- Fixing path names in the lockfile...");
-            }
+            await this.replaceInFiles([{
+              files: path.join(cwd, ".gitignore"),
+              from: pkg.legacy_cache_dir + "/",
+              to: pkg.cache_dir + "/"
+            }]);
+            this.info("- Fixing path names in the lockfile...");
             await new qx.tool.cli.commands.package.Upgrade({reinstall: true}).process();
+            mustBeMigrated = false;
           }
         }
       }
       // Update all Manifests
-      for (const manifestModel of qx.tool.config.Utils.getManifestModels()) {
+      for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
         await manifestModel.set({
           warnOnly: true
         }).load();
@@ -99,9 +102,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
         if (mustBeMigrated) {
           if (dryRun) {
-            if (!quiet) {
-              qx.tool.compiler.Console.warn("*** Manifest(s) need to be updated:\n" + s);
-            }
+            this.warn("*** Manifest(s) need to be updated:\n" + s);
           } else {
             manifestModel
               .transform("info.authors", authors => {
@@ -127,53 +128,48 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .transform("info.version", version => {
                 let coerced = semver.coerce(version);
                 if (coerced === null) {
-                  qx.tool.compiler.Console.warn(`*** Version string '${version}' could not be interpreted as semver, changing to 1.0.0`);
+                  this.warn(`*** Version string '${version}' could not be interpreted as semver, changing to 1.0.0`);
                   return "1.0.0";
                 }
                 return String(coerced);
               })
               .unset("info.qooxdoo-versions").unset("info.qooxdoo-range").unset("provides.type").unset("requires.qxcompiler").unset("requires.qooxdoo-compiler").unset("requires.qooxdoo-sdk");
             await manifestModel.save();
-            qx.tool.compiler.Console.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            mustBeMigrated = false;
           }
         }
 
         // check framework and compiler dependencies
-        const frameworkDir = await this.getUserQxPath();
-        const framework_version = await this.getUserQxVersion();
+        const frameworkDir = await this.getQxPath();
+        const framework_version = await this.getQxVersion();
         const framework_range = manifestModel.getValue("requires.@qooxdoo/framework") || framework_version;
         if (!semver.satisfies(framework_version, framework_range)) {
           mustBeMigrated = true;
           if (dryRun) {
-            if (!quiet) {
-              qx.tool.compiler.Console.warn(`*** Mismatch between used framework version (${framework_version} in ${frameworkDir}) and the declared dependencies in the Manifest.`);
-            }
+            this.warn(`*** Mismatch between used framework version (${framework_version} in ${frameworkDir}) and the declared dependencies in the Manifest.`);
           } else {
             manifestModel.setValue("requires.@qooxdoo/framework", "^" + framework_version);
             manifestModel.setWarnOnly(false); // now model should validate
+            manifestModel.setValidate(true);
             await manifestModel.save();
-            if (!quiet) {
-              qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
-            }
+            this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
+            mustBeMigrated = false;
           }
         }
-        manifestModel.setValidate(true);
       }
+
       // Update compile.json
-      if (!dryRun) {
-        let compileJsonFilename = path.join(process.cwd(), "compile.json");
-        await this.replaceInFiles([{
-          files: compileJsonFilename,
-          from: "\"qx/browser\"",
-          to: "\"@qooxdoo/qx/browser\""
-        }]);
-      }
+      let files = [path.join(process.cwd(), "compile.json")];
+      let from = "\"qx/browser\"";
+      let to = "\"@qooxdoo/qx/browser\"";
+      mustBeMigrated = mustBeMigrated || await this.replaceInFiles([{files, from, to }]);
       // Check for legacy compile.js - needs manual intervention
       let compileJsFilename = path.join(process.cwd(), "compile.js");
       if (await fs.existsAsync(compileJsFilename)) {
         let data = await fs.readFileAsync(compileJsFilename, "utf8");
         if (data.indexOf("module.exports") < 0) {
-          qx.tool.compiler.Console.error(`*** Your compile.js appears to be missing a module.exports statement and must be updated - please see https://git.io/fjBqU for more details`);
+          this.error(`*** Your compile.js appears to be missing a module.exports statement and must be updated - please see https://git.io/fjBqU for more details`);
           process.exit(1);
         }
       }

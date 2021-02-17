@@ -29,13 +29,18 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
   implement: qx.tool.migration.IMigration,
   members: {
     /**
-     * @inheritDoc
-     * @see {qx.tool.migration.IMigration#migrate()}
+     * @see {qx.tool.migration.IMigration#getVersionRange()}
      */
-    async migrate(options={}) {
-      let {announceOnly} = options;
+    getVersionRange() {
+      return "<7.0.0";
+    },
 
-      // TODO
+    /**
+     * @see {qx.tool.migration.IMigration#run()}
+     */
+    async run() {
+      this.warn("    *** v7 migration not implemented..");
+      return false;
     }
   }
 });

@@ -89,10 +89,13 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      */
     checkMigrations(){
       let runner = new qx.tool.migration.Runner().set({
-        command: this,
         dryRun: true
       });
-      //runner.runMigrations();
+      let mustBeMigrated = runner.runMigrations();
+      if (mustBeMigrated) {
+        this.warn(`*** Please run (npx) qx migrate to apply the changes.`);
+        process.exit(1);
+      }
     },
 
     /**
@@ -103,9 +106,6 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      */
     async getQxPath() {
       let qxpath = await qx.tool.config.Utils.getAppQxPath();
-      if (!qxpath) {
-
-      }
       return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
     },
 

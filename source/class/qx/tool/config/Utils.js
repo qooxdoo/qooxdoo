@@ -113,7 +113,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * Compute the path to the qooxdoo library (the `qx` namespace)
      * which is used independently of the application being compiled.
      *
-     * The path will be resolved the following way:
+     * The path will be resolved via the following strategies:
      *
      * 1. finding a `Manifest.json` in the current working directory that provides
      * the `qx` library, or such a file in the parent directory, its parent dir,
@@ -123,6 +123,8 @@ qx.Class.define("qx.tool.config.Utils", {
      * or in the parent directory's, etc.
      *
      * 3. A globally installed `@qooxdoo/framework` NPM package.
+     *
+     * If all strategies fail, an error is thrown.
      *
      * @param {String?} cwd The working directory. If not given, the current working dir is used
      * @return {Promise<*string>}
@@ -146,7 +148,7 @@ qx.Class.define("qx.tool.config.Utils", {
         dir = path.resolve(path.join(dir, ".."));
         //root = path.parse(dir).root;
       }
-      // 3. Fallback: global npm package
+      // 3. global npm package
       let npmdir = await qx.tool.utils.Utils.exec("npm root -g");
       dir = path.join(npmdir, "@qooxdoo", "framework");
       if (!this.isQxLibrary(dir)) {
@@ -228,7 +230,7 @@ qx.Class.define("qx.tool.config.Utils", {
             baseDir: path.join(cwd, library.path)
           }));
         }
-      } else if (fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
+      } else if (await fs.existsAsync(qx.tool.config.Manifest.config.fileName)) {
         manifestModels.push(qx.tool.config.Manifest.getInstance());
       }
       return manifestModels;

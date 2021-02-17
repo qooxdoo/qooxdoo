@@ -126,7 +126,17 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       let yargs = this.__createYargs()
         .usage(title);
       this.argv = yargs.argv;
-      qx.tool.cli.LogAppender.setMinLevel(this.argv.debug ? "debug" : "warn");
+      // Logging - needs to be unified..
+      if (this.argv.debug) {
+        qx.tool.cli.LogAppender.setMinLevel("debug");
+        qx.log.Logger.setLevel("debug");
+      } else if (this.argv.quiet) {
+        qx.tool.cli.LogAppender.setMinLevel("error");
+        qx.log.Logger.setLevel("error");
+      } else {
+        qx.tool.cli.LogAppender.setMinLevel("warn"); // BC
+        qx.log.Logger.setLevel("info");
+      }
     },
 
     /**
@@ -174,7 +184,8 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
           "Lint",
           "Run",
           "Test",
-          "Serve"
+          "Serve",
+          "Migrate"
         ],
         "qx.tool.cli.commands");
 

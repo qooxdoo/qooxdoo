@@ -19,21 +19,29 @@
 qx.Interface.define("qx.tool.migration.IMigration", {
   members: {
     /**
-     * Runs the migration for the version indicated in the class name. Returns
-     * true if migration have to be applied/ were applied, otherwise false.
-     *
-     * The migration code must be written in a way that it can be safely
-     * run multiple times over the same code and always produce the same result,
-     * i.e. it must check if the migration code changes have already
-     * been applied and skip the migration in that case.
-     *
-     * The method returns true if the migration does not need to be applied or
-     * has successfully been applied, and false if it still needs to be applied but
-     * hasn't yet, for example if this is a dry run.
-     *
-     * @return {Promise<boolean>} True if the migration has been applied or
-     * is not neccessary; false if it is necessary but hasn't been applied.
+     * Returns the semver range of version on which this migration should be
+     * applied.
+     * @return {String}
      */
-    async migrate() {}
+    getVersionRange() {},
+
+    /**
+     * Runs the migration for the version indicated in the class name.
+     *
+     * The migration code must be written in a way that it can
+     * be safely run multiple times over already migrated code,
+     * i.e. it must check if the migration code changes have
+     * already been applied and skip the migration in that case.
+     *
+     * The method returns false if the migration does not need to be applied
+     * or has successfully been applied, and true if it still needs to be
+     * applied but hasn't yet, for example if this is a dry run. If automatic
+     * migration is mot possible, the method should output a warning about
+     * the needed manual intervention and execute `process.exit(1)`.
+     *
+     * @return {Promise<boolean>} False if the migration has been applied or
+     * is not neccessary; true if it is necessary but hasn't been applied.
+     */
+    async run() {}
   }
 })

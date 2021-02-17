@@ -16,31 +16,19 @@
 
 ************************************************************************ */
 const process = require("process");
+const semver = require("semver");
 
+/**
+ * Runs all available migrations
+ */
 qx.Class.define("qx.tool.migration.Runner",{
   extend: qx.core.Object,
   properties: {
-    /**
-     * The command instance that is calling the runner (can be null)
-     */
-    command: {
-      check: "qx.tool.cli.command.Command",
-      nullable: true,
-      apply: "_applyCommand"
-    },
 
     /**
      * Whether to apply the migrations (false) or just announce them (true)
      */
     dryRun: {
-      check: "Boolean",
-      init: false
-    },
-
-    /**
-     * Whether there should be no non-error output (true)
-     */
-    quiet: {
       check: "Boolean",
       init: false
     },
@@ -53,15 +41,16 @@ qx.Class.define("qx.tool.migration.Runner",{
       init: false
     },
 
+    /**
+     * If set, run only those migrations which match the given version,
+     * Otherwise, run all.
+     */
+    version: {
+      nullable: true,
+      validate: v => v === null || semver.valid(v)
+    }
   },
   members: {
-
-    _applyCommand(command) {
-      if (command) {
-        this.setQuiet(command.getArgs().quiet);
-        this.setVerbose(command.getArgs().verbose);
-      }
-    },
 
     /**
      * Runs all migration classes in the `qx.tool.migration` namespace,
@@ -70,34 +59,45 @@ qx.Class.define("qx.tool.migration.Runner",{
      * have had bugs that were later fixed. This is safe because all
      * migration files must be written in a way that they can be safely
      * run several times without unwanted side effects. see {@link
-      * qx.tool.migration.IMigration#migrate}
+      * qx.tool.migration.IMigration#run}
      * @return {Promise<void>}
      */
     async runMigrations() {
-      if (this.getQuiet()) {
-        qx.tool.utils.Logger.info(`>>> Running migrations...`);
-      }
+      let version = this.getVersion();
+      let mustBeMigrated = false;
+      this.info(`>>> Running migrations...`);
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
-        .filter(clazz => clazz.match(/^M[0-9]/));
-      for (let clazz of migrationClasses) {
-        let migration = new qx.Class.getByName(clazz)({command});
+        .filter(clazz => clazz.match(/^M[0-9]/))
+        .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
+      for (let Clazz of migrationClasses) {
+        let migration = new Clazz(this);
+        let range = migration.getVersionRange();
+        let skip = version && !semver.satisfies(version, range);
         if (this.getVerbose()) {
-          qx.tool.utils.Logger.info(` - Running migration ${clazz}`);
+          if (skip) {
+            this.info(` - Skipping migration ${Clazz.classname} since app version ${version} does not match range ${range}`);
+          } else {
+            this.info(` - Running migration ${Clazz.classname} since app version ${version} matches range ${range}`);
+          }
+        }
+        if (skip) {
+          continue;
         }
         try {
-          let mustBeMigrated = migration.migrate();
-          if (mustBeMigrated) {
-            if (!this.getQuiet()) {
-              qx.tool.compiler.Console.warn(`*** Please run (npx) qx pkg migrate to apply the changes.`);
-            }
-            process.exit(1);
+          let result = await migration.run();
+          if (this.getVerbose()) {
+            this.debug(
+              result ? `   Migration necessary.` : `   Migration is not necessary or was successfully applied`
+            );
           }
+          mustBeMigrated = mustBeMigrated || result;
         } catch (e) {
           qx.tool.utils.Logger.error(e);
           process.exit(1);
         }
       }
+      return mustBeMigrated;
     },
   }
 });

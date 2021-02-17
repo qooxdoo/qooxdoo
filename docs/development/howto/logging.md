@@ -56,14 +56,36 @@ Here's the complete list of appenders that Qooxdoo provides by default:
 - [qx.log.appender.Console](apps://apiviewer/#qx.log.appender.Console)
 - [qx.log.appender.Element](apps://apiviewer/#qx.log.appender.Element)
 - [qx.log.appender.PhoneGap](apps://apiviewer/#qx.log.appender.PhoneGap)
+- [qx.log.appender.NodeConsole](apps://apiviewer/#qx.log.appender.NodeConsole)
 - [qx.log.appender.RhinoConsole](apps://apiviewer/#qx.log.appender.RhinoConsole)
 
-if none of the default appenders are right for you, you can also create a custom
-log appender.
+## Log Levels
+
+As we have seen, there are four different types of log messages: 
+
+1. debug
+2. info
+3. warn
+4. error
+
+You can control the number of log messages that are sent to the appenders
+by setting the log level by `qx.log.Logger.setLevel("X")`, "X" being one
+of the log level types. Higher log levels will suppress the lower types, i.e.
+if you set the log level to "warn", messages of type "warn" and "error"
+will be logged, but "info" and "debug" messages will be ignored. 
+
+If the qooxdoo environment variable "qx.debug" is true, the log level will
+be "debug", otherwise it will be "error" by default. 
+
+## Filters
+
+TBD.
 
 ## Writing Custom Log Appenders
 
-Writing your own appenders is easy. Here's a blueprint to get you started.
+If none of the default appenders are right for you, you
+can also create a custom log appender. Writing your own
+appenders is easy. Here's a blueprint to get you started.
 
 ```javascript
 qx.Class.define("qx.log.appender.MyCustomAppender", {
@@ -100,18 +122,16 @@ this is what an entry map consists of:
 
 ### Logged Item Map
 
-- _text_ Text representation of the logged item. If the logged item is an array,
+- **text**: Text representation of the logged item. If the logged item is an array,
   the value of _text_ is an array containing text representations of each of the
   logged array's entries. For maps, the value is an array of maps with the
   following fields:
+  
+  -   **key**: The map key's name
+  -   **text**: Representation of the corresponding value
+  
+- **trace**: Stack trace (if the logged item is an Error object)
 
-  ```
-  -   *key* The map key's name
-  -   *text* Representation of the corresponding value
-  ```
-
-- _trace_ Stack trace (if the logged item is an Error object)
-
-- _type_ One of "undefined", "null", "boolean", "number", "string", "function",
+- **type**: One of "undefined", "null", "boolean", "number", "string", "function",
   "array", "error", "map", "class", "instance", "node", "stringify", "unknown"
   "stringify"
