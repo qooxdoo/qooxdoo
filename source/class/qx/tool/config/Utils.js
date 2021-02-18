@@ -215,7 +215,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * Returns an array of {@link qx.tool.config.Abstract} Objects which contain
      * metadata on the `Manifest.json` file(s) in the current project/package.
      * @param {String?} cwd The working directory. If not given, the current working dir is used
-     * @return {Promise<qx.tool.config.Abstract[]>}
+     * @return {Promise<qx.tool.config.Manifest[]>}
      */
     async getManifestModels(cwd=null) {
       cwd = cwd || process.cwd();

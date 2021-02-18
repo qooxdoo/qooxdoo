@@ -149,6 +149,53 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
         }
       }
       return migrationInfo;
+    },
+
+
+    /**
+     * Updates a dependency in the given Manifest model
+     * @param {qx.tool.config.Manifest} manifestModel
+     * @param {String} dependencyName
+     * @param {String} version
+     * @return {Promise<void>}
+     * @private
+     * @return {Promise<{applied: number, pending: number}>}
+     */
+    async updateManfestDependency(manifestModel, dependencyName, version) {
+      let migrationInfo = this.getRunner().createMigrationInfo();
+      const range = manifestModel.getValue(`requires.${dependencyName}`);
+      if (!semver.satisfies(version, range)) {
+        let new_range = "^" + version;
+        if (this.getDryRun()) {
+          this.warn(`*** Manifest version range for ${dependencyName} will be updated from ${range} to ${new_range}.`);
+          migrationInfo.pending++;
+        } else {
+          manifestModel.setValue(`requires.${dependencyName}`, range);
+          migrationInfo.applied++;
+        }
+      }
+      return migrationInfo;
+    },
+
+    /**
+     * Updates the json-schema in a configuration file
+     * @param {qx.tool.config.Abstract} configModel
+     * @param {String} schemaUri
+     * @return {Promise<{applied: number, pending: number}>}
+     */
+    async updateSchemaVersion(configModel, schemaUri) {
+      qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
+      let migrationInfo = this.getRunner().createMigrationInfo();
+      if (configModel.getValue("$schema") !== schemaUri) {
+        if (this.getRunner().getDryRun()) {
+          this.warn(`*** Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
+          migrationInfo.pending++;
+        } else {
+          configModel.setValue("$schema", schemaUri);
+          migrationInfo.applied++;
+        }
+        return migrationInfo;
+      }
     }
   }
 });

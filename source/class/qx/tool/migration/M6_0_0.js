@@ -42,6 +42,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
     async run() {
       let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
+      let verbose = this.getRunner().getVerbose();
       let pkg = qx.tool.cli.commands.Package;
       let cwd = process.cwd();
       // rename configuration files from initial names
@@ -136,39 +137,54 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
                 }
                 return String(coerced);
               })
-              .unset("info.qooxdoo-versions").unset("info.qooxdoo-range").unset("provides.type").unset("requires.qxcompiler").unset("requires.qooxdoo-compiler").unset("requires.qooxdoo-sdk");
+              .unset("info.qooxdoo-versions")
+              .unset("info.qooxdoo-range")
+              .unset("provides.type")
+              .unset("requires.qxcompiler")
+              .unset("requires.qooxdoo-compiler")
+              .unset("requires.qooxdoo-sdk");
             await manifestModel.save();
-            this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose || this.info(`   Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             migrationInfo.applied++;
           }
-        }
-
-        // check framework and compiler dependencies
-        const frameworkDir = await this.getQxPath();
-        const framework_version = await this.getQxVersion();
-        const framework_range = manifestModel.getValue("requires.@qooxdoo/framework") || framework_version;
-        if (!semver.satisfies(framework_version, framework_range)) {
-          if (dryRun) {
-            this.warn(`*** Mismatch between used framework version (${framework_version} in ${frameworkDir}) and the declared dependencies in the Manifest.`);
-            migrationInfo.pending++;
-          } else {
-            manifestModel.setValue("requires.@qooxdoo/framework", "^" + framework_version);
-            manifestModel.setWarnOnly(false); // now model should validate
-            manifestModel.setValidate(true);
-            await manifestModel.save();
-            this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
-            migrationInfo.applied++;
+          // update dependencies in Manifest
+          let updateManifest = {
+            "@qooxdoo/framework": "6.0.0",
+            "@qooxdoo/compiler": "1.0.0"
           }
+          for (let [dependencyName, version] of Object.entries(updateManifest)) {
+            let result = await this.updateManfestDependency(manifestModel, dependencyName, version);
+            migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
+          }
+          verbose || this.info(`    Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
         }
+        // update schema
+        let result = this.updateSchemaVersion(manifestModel,  "https://qooxdoo.org/schema/Manifest-1-0-0.json")
+        migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
+        // save Manifest file
+        manifestModel.setWarnOnly(false); // now model should validate
+        manifestModel.setValidate(true);
+        manifestModel.save();
       }
 
       // Update compile.json
-      let files = [path.join(process.cwd(), "compile.json")];
-      let from = "\"qx/browser\"";
-      let to = "\"@qooxdoo/qx/browser\"";
-      let {applied, pending} = await this.replaceInFiles([{files, from, to }]);
-      migrationInfo.applied += applied;
-      migrationInfo.pending += pending;
+      let compileJsonModel = qx.tool.config.Compile.getInstance()
+        .setWarnOnly()
+        .setValidate(false)
+        .load();
+      let eslintExtends = compileJsonModel.getValue("eslintConfig.extends");
+      let newEsLintExtends = [
+        "@qooxdoo/qx/browser",
+        "@qooxdoo/qx",
+        "@qooxdoo/jsdoc-disable"
+      ];
+      if (eslintExtends !== newEsLintExtends) {
+        compileJsonModel.setValue("eslintConfig.extends", newEsLintExtends);
+      }
+      let result = this.updateSchemaVersion(compileJsonModel,  "https://qooxdoo.org/schema/compile-1-0-0.json")
+      migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
+      compileJsonModel.setValidate(true).save();
+
       // Check for legacy compile.js - needs manual intervention
       let compileJsFilename = path.join(process.cwd(), "compile.js");
       if (await fs.existsAsync(compileJsFilename)) {

@@ -64,6 +64,21 @@ qx.Class.define("qx.tool.migration.Runner",{
     },
 
     /**
+     * Update a migration info from the result of a migration method
+     * or utility function. This allows to be forward compatible
+     * to changes in the structure of the migrationInfo object
+     *
+     * @param {Object} migrationInfo
+     * @param {Object} result
+     */
+    updateMigrationInfo(migrationInfo, result) {
+      return {
+        applied: migrationInfo.applied + result.applied,
+        pending: migrationInfo.pending + result.pending
+      }
+    },
+
+    /**
      * Runs all migration classes in the `qx.tool.migration` namespace which
      * match the version of the current application.
      *
