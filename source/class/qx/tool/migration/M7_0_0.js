@@ -39,8 +39,9 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
      * @see {qx.tool.migration.IMigration#run()}
      */
     async run() {
+      let migrationInfo = this.getRunner().createMigrationInfo();
       this.warn("    *** v7 migration not implemented..");
-      return false;
+      return migrationInfo;
     }
   }
 });

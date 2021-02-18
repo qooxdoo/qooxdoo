@@ -59,9 +59,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
           }
         });
       }
-
       // check if we have to migrate files
-      //this.checkMigrations();
+      await this.checkMigrations();
     },
 
     /**
@@ -87,15 +86,24 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     /**
      * Check if the current application needs to be migrated
      */
-    checkMigrations(){
+    async checkMigrations(){
+      let version = await this.getQxVersion();
+      if (version) {
+        this.debug(`Checking migrations for qooxdoo version ${version}`);
+      } else {
+        this.debug("Not checking migrations because no application qooxdoo version can be determined.");
+        return;
+      }
       let runner = new qx.tool.migration.Runner().set({
-        dryRun: true
+        dryRun: true,
+        version
       });
-      let mustBeMigrated = runner.runMigrations();
-      if (mustBeMigrated) {
+      let migrationInfo = await runner.runMigrations();
+      if (migrationInfo.pending) {
         this.warn(`*** Please run (npx) qx migrate to apply the changes.`);
         process.exit(1);
       }
+      this.debug("No migrations necessary.");
     },
 
     /**

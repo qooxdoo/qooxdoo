@@ -37,9 +37,10 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
 
     /**
      * @see {qx.tool.migration.IMigration#run()}
+     * @return {Promise<{applied: number, pending: number}>}
      */
     async run() {
-      let mustBeMigrated = false;
+      let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
       let pkg = qx.tool.cli.commands.Package;
       let cwd = process.cwd();
@@ -55,7 +56,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         if (await this.renameFiles(migrateFiles)) {
           if (dryRun){
             this.warn("*** Legacy configuration file names need to be fixed.");
-            mustBeMigrated = true;
+            migrationInfo.pending++;
           } else {
             await this.replaceInFiles([{
               files: path.join(cwd, ".gitignore"),
@@ -64,11 +65,12 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
             }]);
             this.info("- Fixing path names in the lockfile...");
             await new qx.tool.cli.commands.package.Upgrade({reinstall: true}).process();
-            mustBeMigrated = false;
+            migrationInfo.applied++;
           }
         }
       }
       // Update all Manifests
+      let updateManifest = false;
       for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
         await manifestModel.set({
           warnOnly: true
@@ -76,11 +78,11 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         manifestModel.setValidate(false);
         let s = "";
         if (!qx.lang.Type.isArray(manifestModel.getValue("info.authors"))) {
-          mustBeMigrated = true;
+          updateManifest = true;
           s += "   missing info.authors\n";
         }
         if (!semver.valid(manifestModel.getValue("info.version"))) {
-          mustBeMigrated = true;
+          updateManifest = true;
           s += "   missing or invalid info.version\n";
         }
         let obj = {
@@ -92,7 +94,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           "requires.qooxdoo-compiler": null
         };
         if (manifestModel.keyExists(obj)) {
-          mustBeMigrated = true;
+          updateManifest = true;
           s += "   obsolete entry:\n";
           for (let key in obj) {
             if (obj[key]) {
@@ -100,9 +102,10 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
             }
           }
         }
-        if (mustBeMigrated) {
+        if (updateManifest) {
           if (dryRun) {
             this.warn("*** Manifest(s) need to be updated:\n" + s);
+            migrationInfo.pending++;
           } else {
             manifestModel
               .transform("info.authors", authors => {
@@ -136,7 +139,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("info.qooxdoo-versions").unset("info.qooxdoo-range").unset("provides.type").unset("requires.qxcompiler").unset("requires.qooxdoo-compiler").unset("requires.qooxdoo-sdk");
             await manifestModel.save();
             this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
-            mustBeMigrated = false;
+            migrationInfo.applied++;
           }
         }
 
@@ -145,16 +148,16 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         const framework_version = await this.getQxVersion();
         const framework_range = manifestModel.getValue("requires.@qooxdoo/framework") || framework_version;
         if (!semver.satisfies(framework_version, framework_range)) {
-          mustBeMigrated = true;
           if (dryRun) {
             this.warn(`*** Mismatch between used framework version (${framework_version} in ${frameworkDir}) and the declared dependencies in the Manifest.`);
+            migrationInfo.pending++;
           } else {
             manifestModel.setValue("requires.@qooxdoo/framework", "^" + framework_version);
             manifestModel.setWarnOnly(false); // now model should validate
             manifestModel.setValidate(true);
             await manifestModel.save();
             this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
-            mustBeMigrated = false;
+            migrationInfo.applied++;
           }
         }
       }
@@ -163,7 +166,9 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       let files = [path.join(process.cwd(), "compile.json")];
       let from = "\"qx/browser\"";
       let to = "\"@qooxdoo/qx/browser\"";
-      mustBeMigrated = mustBeMigrated || await this.replaceInFiles([{files, from, to }]);
+      let {applied, pending} = await this.replaceInFiles([{files, from, to }]);
+      migrationInfo.applied += applied;
+      migrationInfo.pending += pending;
       // Check for legacy compile.js - needs manual intervention
       let compileJsFilename = path.join(process.cwd(), "compile.js");
       if (await fs.existsAsync(compileJsFilename)) {
@@ -173,7 +178,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           process.exit(1);
         }
       }
-      return mustBeMigrated;
+      return migrationInfo;
     }
   }
 });

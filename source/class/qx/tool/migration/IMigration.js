@@ -33,14 +33,16 @@ qx.Interface.define("qx.tool.migration.IMigration", {
      * i.e. it must check if the migration code changes have
      * already been applied and skip the migration in that case.
      *
-     * The method returns false if the migration does not need to be applied
-     * or has successfully been applied, and true if it still needs to be
-     * applied but hasn't yet, for example if this is a dry run. If automatic
-     * migration is mot possible, the method should output a warning about
-     * the needed manual intervention and execute `process.exit(1)`.
+     * If automatic migration is mot possible for a specific change in the
+     * framework, the method should output a warning about the needed
+     * manual intervention and execute `process.exit(1)`.
      *
-     * @return {Promise<boolean>} False if the migration has been applied or
-     * is not neccessary; true if it is necessary but hasn't been applied.
+     * The method returns an object with two numeric properties, `applied`
+     * containing the number of migrations that have been applied, `pending`
+     * containing the number of those that still have to be applied (for example,
+     * after a dry-run).
+     *
+     * @return {Promise<{applied: number, pending: number}>}
      */
     async run() {}
   }

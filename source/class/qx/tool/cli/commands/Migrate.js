@@ -50,21 +50,23 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
      * Announces or applies a migration
      */
     process: async function() {
+      let version = await this.getQxVersion();
+      if (!version) {
+        this.warn(`Migration is not possible because the application's qooxdoo version cannot be determined.`);
+        return;
+      }
       let runner = new qx.tool.migration.Runner().set({
         dryRun: Boolean(this.argv.dryRun),
-        verbose: Boolean(this.argv.verbose)
+        verbose: Boolean(this.argv.verbose),
+        version
       });
-      let mustBeMigrated = await runner.runMigrations();
-      this.info(
-        mustBeMigrated
-          ? (this.argv.dryRun ? "Re-run without --dry-run to apply the migrations." : "Something went wrong.")
-          : "A migration is not necessary or was successfully applied."
-      );
+      let {applied, pending} = await runner.runMigrations();
+      this.info(`${applied} migrations applied, ${pending} migrations pending.`);
     },
 
     /**
      * @override
      */
-    checkMigrations(){}
+    async checkMigrations(){}
   }
 });

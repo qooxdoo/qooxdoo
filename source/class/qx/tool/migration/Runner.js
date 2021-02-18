@@ -53,19 +53,30 @@ qx.Class.define("qx.tool.migration.Runner",{
   members: {
 
     /**
-     * Runs all migration classes in the `qx.tool.migration` namespace,
-     * even those which have lower version numbers than the application
-     * which is to be migrated, since the previous migration might have
-     * have had bugs that were later fixed. This is safe because all
-     * migration files must be written in a way that they can be safely
-     * run several times without unwanted side effects. see {@link
-      * qx.tool.migration.IMigration#run}
-     * @return {Promise<void>}
+     * Return a new default migrationIinfo object
+     * @return {{applied: number, pending: number}}
+     */
+    createMigrationInfo() {
+      return {
+        applied: 0,
+        pending: 0
+      }
+    },
+
+    /**
+     * Runs all migration classes in the `qx.tool.migration` namespace which
+     * match the version of the current application.
+     *
+     * The method returns an object with two numeric properties, `applied`
+     * containing the number of migrations that have been applied, `pending`
+     * containing the number of those that still have to be applied (for example,
+     * after a dry-run).
+     *
+     * @return {Promise<{applied, pending}>}
      */
     async runMigrations() {
       let version = this.getVersion();
-      let mustBeMigrated = false;
-      this.info(`>>> Running migrations...`);
+      let migrationInfo = this.createMigrationInfo();
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9]/))
@@ -78,26 +89,29 @@ qx.Class.define("qx.tool.migration.Runner",{
           if (skip) {
             this.info(` - Skipping migration ${Clazz.classname} since app version ${version} does not match range ${range}`);
           } else {
-            this.info(` - Running migration ${Clazz.classname} since app version ${version} matches range ${range}`);
+            if (version) {
+              this.info(` - Running migration ${Clazz.classname} since app version ${version} matches range ${range}`);
+            } else {
+              this.info(` - Running migration ${Clazz.classname}`);
+            }
           }
         }
         if (skip) {
           continue;
         }
         try {
-          let result = await migration.run();
+          let {applied, pending} = await migration.run();
           if (this.getVerbose()) {
-            this.debug(
-              result ? `   Migration necessary.` : `   Migration is not necessary or was successfully applied`
-            );
+            this.info(`    ${applied} migrations applied, ${pending} migrations pending.`);
           }
-          mustBeMigrated = mustBeMigrated || result;
+          migrationInfo.applied += applied;
+          migrationInfo.pending += pending;
         } catch (e) {
           qx.tool.utils.Logger.error(e);
           process.exit(1);
         }
       }
-      return mustBeMigrated;
+      return migrationInfo;
     },
   }
 });

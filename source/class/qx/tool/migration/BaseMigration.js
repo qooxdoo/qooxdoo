@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
-     * @return {Boolean} Whether this migration still has to be applied
+     * @return {Promise<Boolean>} Whether this migration still has to be applied
      */
     async renameFiles(fileList) {
       let dryRun = this.getRunner().getDryRun();
@@ -69,9 +69,9 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       if (filesToRename.length) {
         if (dryRun) {
           // announce migration
-          this.Console.warn(`*** Warning: The following files will be renamed:`);
+          this.warn(`*** Warning: The following files will be renamed:`);
           for (let [newPath, oldPath] of filesToRename) {
-            this.warn(`    '${oldPath}' => '${newPath}'.`);
+            this.warn(`'${oldPath}' => '${newPath}'.`);
           }
           return true;
         }
@@ -109,7 +109,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * Checks if the given file or array of files contains a given text
      * @param {String|String[]} files
      * @param {String} text
-     * @return {Boolean}
+     * @return {Promise<Boolean>}
      */
     async checkFilesContain(files, text) {
       files = Array.isArray(files) ? files : [files];
@@ -125,30 +125,30 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * Replace text in source files
      * @param {{files: string, from: string, to: string}[]} replaceInFilesArr
      *    Array containing objects compatible with https://github.com/adamreisnz/replace-in-file
-     * @return {Boolean} If the migration is still necessary
+     * @return {Promise<{applied: number, pending: number}>}
      */
     async replaceInFiles(replaceInFilesArr=[]) {
       qx.core.Assert.assertArray(replaceInFilesArr);
+      let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
-      let mustBeMigrated = false;
       for (let replaceInFiles of replaceInFilesArr) {
         if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
           if (dryRun) {
             this.warn(`*** In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
-            mustBeMigrated = true;
+            migrationInfo.pending++;
             continue;
           }
           try {
             this.debug(` - Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
             await replaceInFile(replaceInFiles);
-            mustBeMigrated = false;
+            migrationInfo.applied++;
           } catch (e) {
             this.error(`Error replacing in files: ${e.message}`);
             process.exit(1);
           }
         }
       }
-      return mustBeMigrated;
+      return migrationInfo;
     }
   }
 });
