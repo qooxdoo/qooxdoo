@@ -216,6 +216,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * directory
      * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
+     * @throws {qx.tool.utils.Utils.UserError}
      */
     async getAppQxVersion(baseDir=null) {
       baseDir = baseDir || process.cwd();
@@ -228,9 +229,9 @@ qx.Class.define("qx.tool.config.Utils", {
         })
         .load();
       let qxVersionRange = manifestModel.getValue("requires."+manifestRequiresKey);
-      let qxVersion = qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/);
+      let qxVersion = qxVersionRange && qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/);
       if (!qxVersion || !semver.valid(qxVersion[1])) {
-        throw qx.tool.utils.Utils.UserError(
+        throw new qx.tool.utils.Utils.UserError(
           `Cannot determine the qooxdoo version used to compile the application. `+
           `Please specify a caret or tilde range for the requires[${manifestRequiresKey}] key in the Manifest")`
         );

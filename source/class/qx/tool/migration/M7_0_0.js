@@ -26,15 +26,14 @@ const fs = qx.tool.utils.Promisify.fs;
  */
 qx.Class.define("qx.tool.migration.M7_0_0", {
   extend: qx.tool.migration.BaseMigration,
-  implement: qx.tool.migration.IMigration,
   members: {
 
     /**
-     * @see {qx.tool.migration.IMigration#run()}
+     * @return {Promise<{applied: number, pending: number}>}
      */
-    async run() {
+    async migrate() {
       let migrationInfo = this.getRunner().createMigrationInfo();
-      this.warn("v7 migration not implemented..");
+      this.debug("No v7 migration implemented yet..");
       return migrationInfo;
     }
   }

@@ -70,10 +70,11 @@ qx.Class.define("qx.tool.migration.Runner",{
     },
 
     /**
-     * Runs all migration classes in the `qx.tool.migration` namespace which
-     * match the version of the current application.
+     * Instantiates all migration classes in the `qx.tool.migration` namespace which
+     * match the version of the current application, and runs all methods of
+     * these instances that start with "migrate".
      *
-     * The method returns an object with two numeric properties, `applied`
+     * The methods must return an object with two numeric properties, `applied`
      * containing the number of migrations that have been applied, `pending`
      * containing the number of those that still have to be applied (for example,
      * after a dry-run).
@@ -90,21 +91,27 @@ qx.Class.define("qx.tool.migration.Runner",{
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
         .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
       for (let Clazz of migrationClasses) {
-        let migration = new Clazz(this);
-        let skip = appQxVersion && !semver.lt(appQxVersion, migration.getVersion());
+        let migrationInstance = new Clazz(this);
+        let skip = appQxVersion && !semver.lt(appQxVersion, migrationInstance.getVersion());
         if (this.getVerbose()) {
           if (skip) {
-            this.debug(`Skipping migration ${Clazz.classname}.`);
+            this.debug(`>>> Skipping migration ${Clazz.classname}.`);
           } else {
-            this.debug(`Running migration ${Clazz.classname}...`);
+            this.debug(`>>> Running migration ${Clazz.classname}...`);
           }
         }
         if (skip) {
           continue;
         }
-        let result = await migration.run();
-        this.debug(`${result.applied} migrations applied, ${result.pending} migrations pending.`);
-        migrationInfo = this.updateMigrationInfo(migrationInfo, result);
+        let migrationMethods = Object.getOwnPropertyNames(Clazz.prototype)
+          .filter(key => key.startsWith("migrate"))
+          .filter(key => typeof Clazz.prototype[key] == "function");
+        for (let method of migrationMethods) {
+          let result = await migrationInstance[method]();
+          migrationInfo = this.updateMigrationInfo(migrationInfo, result);
+          this.debug(`>>> ${Clazz.classname}.${method}: ${result.applied} applied/${result.pending} pending`);
+        }
+        //this.debug(`${Clazz.classname}: ${migrationInfo.applied} migrations applied, ${migrationInfo.pending} migrations pending.`);
       }
       return migrationInfo;
     },

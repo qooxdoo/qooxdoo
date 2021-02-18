@@ -434,9 +434,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      * outside of the API. Will not validate if validate property is false.
      */
     validate() {
-      if (this.getValidate()){
-        this._validateData(this.getData());
-      }
+      this._validateData(this.getData());
     },
 
     /**

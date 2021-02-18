@@ -17,6 +17,8 @@
 
 ************************************************************************ */
 const path = require("path");
+const fsp = require("fs").promises;
+const process = require("process");
 
 /**
  * Base class for commands
@@ -87,83 +89,97 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * Check if the current application needs to be migrated
      */
     async checkMigrations(){
-      let runner = new qx.tool.migration.Runner().set({
-        dryRun: true
-      });
-      let migrationInfo = await runner.runMigrations();
-      if (migrationInfo.pending) {
-        this.warn(`*** Please run (npx) qx migrate to apply the changes.`);
-        process.exit(1);
+      let appQxVersion;
+      try {
+        appQxVersion = await this.getAppQxVersion();
+      } catch (e) {
+        // if no application qx verson exists, do nothing
+        return;
       }
-      this.debug("No migrations necessary.");
+      const semaphore = path.join(process.cwd(), ".qxmigrationcheck");
+      try {
+        await fsp.stat(semaphore);
+        this.debug(`Not checking migration because check is already in progress.`);
+      } catch (e) {
+        // run migration in dry-run mode
+        await fsp.writeFile(semaphore,"");
+        let runner = new qx.tool.migration.Runner().set({
+          dryRun: true
+        });
+        let migrationInfo = await runner.runMigrations();
+        await fsp.unlink(semaphore);
+        if (migrationInfo.pending) {
+          this.warn(
+            `*** There are ${migrationInfo.pending} new migrations for your qooxdoo version. \n` +
+            `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n`+
+            `*** and '(npx) qx migrate' to apply th changes.`
+          );
+          process.exit(1);
+        }
+        this.debug("No migrations necessary.");
+      }
     },
 
     /**
-     * Returns the absolute path to the qooxdoo framework used
-     * by the current application.
-     *
-     * @return {Promise<String>} Promise that resolves with the absolute path
+     * @see {@link qx.tool.config.Utils#getQxPath}
      */
-    getQxPath: qx.tool.config.Utils.getQxPath,
+    getQxPath: qx.tool.config.Utils.getQxPath.bind(qx.tool.config.Utils),
 
     /**
-     * Returns the version of the qooxdoo framework used by the current environment
-     *
-     * @throws {Error} If the version cannot be determined
-     * @return {Promise<String>} Promise that resolves with the version string
+     * @see {@link qx.tool.config.Utils#getQxVersion}
      */
-    getQxVersion: qx.tool.config.Utils.getQxVersion,
+    getQxVersion: qx.tool.config.Utils.getQxVersion.bind(qx.tool.config.Utils),
 
     /**
      * @see {@link qx.tool.config.Utils#getAppQxPath}
      */
-    getAppQxPath : qx.tool.config.Utils.getAppQxPath,
+    getAppQxPath : qx.tool.config.Utils.getAppQxPath.bind(qx.tool.config.Utils),
 
     /**
      * @see {@link qx.tool.config.Utils#getAppQxVersion}
      */
-    getAppQxVersion : qx.tool.config.Utils.getAppQxVersion,
+    getAppQxVersion : qx.tool.config.Utils.getAppQxVersion.bind(qx.tool.config.Utils),
 
     // deprecated methods, will be removed
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getProjectData} instead
      */
-    getProjectData : qx.tool.config.Utils.getProjectData,
+    getProjectData : qx.tool.config.Utils.getProjectData.bind(qx.tool.config.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryPath} instead
      */
-    getLibraryPath : qx.tool.config.Utils.getLibraryPath,
+    getLibraryPath : qx.tool.config.Utils.getLibraryPath.bind(qx.tool.config.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getApplicationPath} instead
      */
-    getApplicationPath: qx.tool.config.Utils.getApplicationPath,
+    getApplicationPath: qx.tool.config.Utils.getApplicationPath.bind(qx.tool.config.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryVersion} instead
      */
-    getLibraryVersion : qx.tool.config.Utils.getLibraryVersion,
+    getLibraryVersion : qx.tool.config.Utils.getLibraryVersion.bind(qx.tool.config.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#run} instead
      */
-    run : qx.tool.utils.Utils.run,
+    run : qx.tool.utils.Utils.run.bind(qx.tool.utils.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#exec} instead
      */
-    exec : qx.tool.utils.Utils.exec,
+    exec : qx.tool.utils.Utils.exec.bind(qx.tool.utils.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#getTemplateDir} instead
      */
-    getTemplateDir : qx.tool.utils.Utils.getTemplateDir,
+    getTemplateDir : qx.tool.utils.Utils.getTemplateDir.bind(qx.tool.utils.Utils),
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.cli.Utils#isExplicitArg} instead
      */
-    isExplicitArg : qx.tool.utils.Utils.isExplicitArg
+    isExplicitArg : qx.tool.utils.Utils.isExplicitArg.bind(qx.tool.utils.Utils)
   }
 });

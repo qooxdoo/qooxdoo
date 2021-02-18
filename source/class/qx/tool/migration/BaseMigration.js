@@ -51,17 +51,17 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     /**
      * @see {@link qx.tool.config.Utils#getQxPath}
      */
-    getQxPath: qx.tool.config.Utils.getQxPath,
+    getQxPath: qx.tool.config.Utils.getQxPath.bind(qx.tool.config.Utils),
 
     /**
      * @see {@link qx.tool.config.Utils#getQxVersion}
      */
-    getQxVersion: qx.tool.config.Utils.getQxVersion,
+    getQxVersion: qx.tool.config.Utils.getQxVersion.bind(qx.tool.config.Utils),
 
     /**
      * @see {@link qx.tool.config.Utils#getQxAppVersion}
      */
-    getAppQxPath: qx.tool.config.Utils.getAppQxPath,
+    getAppQxPath: qx.tool.config.Utils.getAppQxPath.bind(qx.tool.config.Utils),
 
     /**
      * Returns the version of qooxdoo this migration applies to.
@@ -71,35 +71,49 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
+     * Output message that announces a migration. What this does is to mark it
+     * visually
+     * @param message
+     */
+    announce(message) {
+      if (this.getRunner().getVerbose()) {
+        this.info("*** " + message);
+      }
+    },
+
+    /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
      * @return {Promise<Boolean>} Whether this migration still has to be applied
      */
     async renameFiles(fileList) {
+      let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
       qx.core.Assert.assertArray(fileList);
       let filesToRename = this.checkFilesToRename(fileList);
       if (filesToRename.length) {
         if (dryRun) {
           // announce migration
-          this.warn(`The following files will be renamed:`);
+          this.announce(`The following files will be renamed:`);
           for (let [newPath, oldPath] of filesToRename) {
-            this.warn(`'${oldPath}' => '${newPath}'.`);
+            this.announce(`'${oldPath}' => '${newPath}'.`);
           }
-          return true;
-        }
-        // apply migration
-        for (let [newPath, oldPath] of filesToRename) {
-          try {
-            await fs.renameAsync(oldPath, newPath);
-            this.info(`Renamed '${oldPath}' to '${newPath}'.`);
-          } catch (e) {
-            this.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
-            process.exit(1);
+          migrationInfo.pending++;
+        } else {
+          // apply migration
+          for (let [newPath, oldPath] of filesToRename) {
+            try {
+              await fs.renameAsync(oldPath, newPath);
+              this.debug(`Renamed '${oldPath}' to '${newPath}'.`);
+            } catch (e) {
+              this.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
+              process.exit(1);
+            }
           }
+          migrationInfo.applied++;
         }
       }
-      return false; // already renamed or no files
+      return migrationInfo;
     },
 
     /**
@@ -147,7 +161,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       for (let replaceInFiles of replaceInFilesArr) {
         if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
           if (dryRun) {
-            this.warn(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
+            this.announce(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
             migrationInfo.pending++;
             continue;
           }
@@ -178,7 +192,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let migrationInfo = this.getRunner().createMigrationInfo();
       const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
       if (this.getRunner().getDryRun()) {
-        this.warn(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
+        this.announce(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
         migrationInfo.pending++;
       } else {
         manifestModel.setValue(`requires.${dependencyName}`, semverRange);
@@ -198,7 +212,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let migrationInfo = this.getRunner().createMigrationInfo();
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
-          this.warn(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
+          this.announce(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
           migrationInfo.pending++;
         } else {
           configModel.setValue("$schema", schemaUri);

@@ -7,8 +7,8 @@
     "license": "MIT license",
     "authors": "",
     "version": "trunk",
-    "qooxdoo-versions": null,
-    "qooxdoo-range": null
+    "qooxdoo-versions": "deprecated",
+    "qooxdoo-range": "deprecated"
   },
   "provides": {
     "namespace": "qxl.test1",
@@ -16,12 +16,12 @@
     "class": "source/class",
     "resource": "source/resource",
     "translation": "source/translation",
-    "type":  "This should be removed"
+    "type":  "deprecated"
   },
   "requires": {
-    "qxcompiler": null,
-    "qooxdoo-sdk": null,
-    "qooxdoo-compiler": null,
+    "qxcompiler": "deprecated",
+    "qooxdoo-sdk": "deprecated",
+    "qooxdoo-compiler": "deprecated",
     "@qooxdoo/framework": "^6.0.0-alpha || ^6.0.0-beta",
     "@qooxdoo/compiler": "^1.0.0-beta",
     "qooxdoo/qxl.test2/qxl.test2C": "^1.1.0"
