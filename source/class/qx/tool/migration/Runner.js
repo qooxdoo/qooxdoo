@@ -39,15 +39,6 @@ qx.Class.define("qx.tool.migration.Runner",{
     verbose: {
       check: "Boolean",
       init: false
-    },
-
-    /**
-     * If set, run only those migrations which match the given version,
-     * Otherwise, run all.
-     */
-    version: {
-      nullable: true,
-      validate: v => v === null || semver.valid(v)
     }
   },
   members: {
@@ -90,41 +81,30 @@ qx.Class.define("qx.tool.migration.Runner",{
      * @return {Promise<{applied, pending}>}
      */
     async runMigrations() {
-      let version = this.getVersion();
+      let qxVersion = await qx.tool.config.Utils.getQxVersion();
+      let appQxVersion = await qx.tool.config.Utils.getAppQxVersion();
+      this.debug(`${this.getDryRun()?"Checking":"Running" } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
       let migrationInfo = this.createMigrationInfo();
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
-        .filter(clazz => clazz.match(/^M[0-9]/))
+        .filter(clazz => clazz.match(/^M[0-9_]+$/))
         .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
       for (let Clazz of migrationClasses) {
         let migration = new Clazz(this);
-        let range = migration.getVersionRange();
-        let skip = version && !semver.satisfies(version, range);
+        let skip = appQxVersion && !semver.lt(appQxVersion, migration.getVersion());
         if (this.getVerbose()) {
           if (skip) {
-            this.info(` - Skipping migration ${Clazz.classname} since app version ${version} does not match range ${range}`);
+            this.debug(`Skipping migration ${Clazz.classname}.`);
           } else {
-            if (version) {
-              this.info(` - Running migration ${Clazz.classname} since app version ${version} matches range ${range}`);
-            } else {
-              this.info(` - Running migration ${Clazz.classname}`);
-            }
+            this.debug(`Running migration ${Clazz.classname}...`);
           }
         }
         if (skip) {
           continue;
         }
-        try {
-          let {applied, pending} = await migration.run();
-          if (this.getVerbose()) {
-            this.info(`    ${applied} migrations applied, ${pending} migrations pending.`);
-          }
-          migrationInfo.applied += applied;
-          migrationInfo.pending += pending;
-        } catch (e) {
-          qx.tool.utils.Logger.error(e);
-          process.exit(1);
-        }
+        let result = await migration.run();
+        this.debug(`${result.applied} migrations applied, ${result.pending} migrations pending.`);
+        migrationInfo = this.updateMigrationInfo(migrationInfo, result);
       }
       return migrationInfo;
     },

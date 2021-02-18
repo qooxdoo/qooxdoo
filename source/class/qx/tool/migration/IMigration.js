@@ -19,11 +19,10 @@
 qx.Interface.define("qx.tool.migration.IMigration", {
   members: {
     /**
-     * Returns the semver range of version on which this migration should be
-     * applied.
+     * Returns the version below which this migration should be applied.
      * @return {String}
      */
-    getVersionRange() {},
+    getVersion() {},
 
     /**
      * Runs the migration for the version indicated in the class name.

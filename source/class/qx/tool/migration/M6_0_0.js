@@ -14,7 +14,7 @@
    Authors:
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
 
-************************************************************************ */
+**********************************************************************/
 
 const process = require("process");
 const path = require("upath");
@@ -28,12 +28,6 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
   extend: qx.tool.migration.BaseMigration,
   implement: qx.tool.migration.IMigration,
   members: {
-    /**
-     * @see {qx.tool.migration.IMigration#getVersionRange()}
-     */
-    getVersionRange() {
-      return "<6.0.0";
-    },
 
     /**
      * @see {qx.tool.migration.IMigration#run()}
@@ -56,7 +50,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       if (await this.checkFilesToRename(migrateFiles).length) {
         if (await this.renameFiles(migrateFiles)) {
           if (dryRun){
-            this.warn("*** Legacy configuration file names need to be fixed.");
+            this.warn("Legacy configuration file names need to be fixed.");
             migrationInfo.pending++;
           } else {
             await this.replaceInFiles([{
@@ -105,7 +99,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
         if (updateManifest) {
           if (dryRun) {
-            this.warn("*** Manifest(s) need to be updated:\n" + s);
+            this.warn("Manifest(s) need to be updated:\n" + s);
             migrationInfo.pending++;
           } else {
             manifestModel
@@ -132,7 +126,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .transform("info.version", version => {
                 let coerced = semver.coerce(version);
                 if (coerced === null) {
-                  this.warn(`*** Version string '${version}' could not be interpreted as semver, changing to 1.0.0`);
+                  this.warn(`Version string '${version}' could not be interpreted as semver, will be changed to 1.0.0`);
                   return "1.0.0";
                 }
                 return String(coerced);
@@ -143,35 +137,38 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("requires.qxcompiler")
               .unset("requires.qooxdoo-compiler")
               .unset("requires.qooxdoo-sdk");
-            await manifestModel.save();
-            verbose || this.info(`   Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose || this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             migrationInfo.applied++;
           }
+          await manifestModel.save();
           // update dependencies in Manifest
           let updateManifest = {
-            "@qooxdoo/framework": "6.0.0",
-            "@qooxdoo/compiler": "1.0.0"
+            "@qooxdoo/framework": "^6.0.0",
+            "@qooxdoo/compiler": "^1.0.0"
           }
-          for (let [dependencyName, version] of Object.entries(updateManifest)) {
-            let result = await this.updateManfestDependency(manifestModel, dependencyName, version);
+          for (let [dependencyName, range] of Object.entries(updateManifest)) {
+            let result = await this.updateManfestDependency(manifestModel, dependencyName, range);
             migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
           }
-          verbose || this.info(`    Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
+          verbose || this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
         }
         // update schema
-        let result = this.updateSchemaVersion(manifestModel,  "https://qooxdoo.org/schema/Manifest-1-0-0.json")
+        let result = await this.updateSchemaVersion(manifestModel,  "https://qooxdoo.org/schema/Manifest-1-0-0.json")
         migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
         // save Manifest file
-        manifestModel.setWarnOnly(false); // now model should validate
-        manifestModel.setValidate(true);
-        manifestModel.save();
+        if (!this.getRunner().getDryRun()) {
+          manifestModel.setValidate(false); // shouldn't be necessary
+          await manifestModel.save();
+        }
       }
 
       // Update compile.json
       let compileJsonModel = qx.tool.config.Compile.getInstance()
-        .setWarnOnly()
-        .setValidate(false)
-        .load();
+        .set({
+          warnOnly: true,
+          validate: false
+        });
+      await compileJsonModel.load();
       let eslintExtends = compileJsonModel.getValue("eslintConfig.extends");
       let newEsLintExtends = [
         "@qooxdoo/qx/browser",
@@ -179,18 +176,27 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         "@qooxdoo/jsdoc-disable"
       ];
       if (eslintExtends !== newEsLintExtends) {
-        compileJsonModel.setValue("eslintConfig.extends", newEsLintExtends);
+        if (this.getRunner().getDryRun()) {
+          this.warn("eslintConfig.extends will be updated.");
+          migrationInfo.pending++;
+        } else {
+          compileJsonModel.setValue("eslintConfig.extends", newEsLintExtends);
+          migrationInfo.applied++;
+        }
       }
-      let result = this.updateSchemaVersion(compileJsonModel,  "https://qooxdoo.org/schema/compile-1-0-0.json")
+      let result = await this.updateSchemaVersion(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
       migrationInfo = this.getRunner().updateMigrationInfo(migrationInfo, result);
-      compileJsonModel.setValidate(true).save();
+      if (!this.getRunner().getDryRun()) {
+        //compileJsonModel.set({validate:true});
+        await compileJsonModel.save();
+      }
 
       // Check for legacy compile.js - needs manual intervention
       let compileJsFilename = path.join(process.cwd(), "compile.js");
       if (await fs.existsAsync(compileJsFilename)) {
         let data = await fs.readFileAsync(compileJsFilename, "utf8");
         if (data.indexOf("module.exports") < 0) {
-          this.error(`*** Your compile.js appears to be missing a module.exports statement and must be updated - please see https://git.io/fjBqU for more details`);
+          this.error(`Your compile.js appears to be missing a module.exports statement and must be updated - please see https://git.io/fjBqU for more details`);
           process.exit(1);
         }
       }

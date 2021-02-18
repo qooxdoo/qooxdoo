@@ -101,7 +101,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * @throws {Error} Throws an error if no application can be found.
      * @return {Promise<String>} A promise that resolves with the absolute path to the application
      */
-    async getApplicationPath() {
+    async getApplicationPath(dir) {
       let {applications} = await this.getProjectData();
       if (applications instanceof Array && applications.length) {
         return path.resolve(process.cwd(), applications[0].path);
@@ -126,13 +126,12 @@ qx.Class.define("qx.tool.config.Utils", {
      *
      * If all strategies fail, an error is thrown.
      *
-     * @param {String?} cwd The working directory. If not given, the current working dir is used
+     * @param {String?} dir The working directory. If not given, the current working dir is used
      * @return {Promise<*string>}
      * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
-    async getQxPath(cwd=null) {
-      cwd = cwd || process.cwd();
-      let dir = path.resolve(cwd);
+    async getQxPath(dir=null) {
+      dir = path.resolve(dir || process.cwd());
       let root = path.parse(dir).root;
       while (dir !== root) {
         // 1. Manifest.json files
@@ -158,24 +157,35 @@ qx.Class.define("qx.tool.config.Utils", {
     },
 
     /**
+     * Returns true if a compilable application exists in the given directory by checking
+     * if there is a "compile.json" file.
+     *
+     * @param {String} dir
+     * @return {Promise<*>}
+     */
+    async applicationExists(dir){
+      return await fs.existsAsync(path.join(dir, qx.tool.config.Compile.config.fileName))
+    },
+
+    /**
      * Returns the absolute path to the qooxdoo framework
      * used by the current project, If the application does
      * not specify a path, it is taken from the environment.
      *
-     * @param {String?} cwd The working directory. If not given, the current working dir is used
+     * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>} Promise that resolves with the path {String}
-     * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
+     * @throws {qx.tool.utils.Utils.UserError}
      */
-    async getAppQxPath(cwd=null) {
-      cwd = cwd || process.cwd();
-      // if there is no compile.json file, get qx path from environment
-      if (!await fs.existsAsync(path.join(cwd, qx.tool.config.Compile.config.fileName))) {
-        return this.getQxPath(cwd);
+    async getAppQxPath(baseDir=null) {
+      baseDir = baseDir || process.cwd();
+      // if there is no compile.json file, throw
+      if (!await this.applicationExists(baseDir)) {
+        throw new qx.tool.utils.Utils.UserError(`No compilable application exists in ${baseDir}.`);
       }
-      // check `libraries` key of compile.json and check all paths if they contain the qx library
-      let compileConfig = await qx.tool.config.Compile.getInstance().load();
+      // 1. check `libraries` key of compile.json which overrides anything else
+      let compileJsonModel = await qx.tool.config.Compile.getInstance().set({baseDir}).load();
       let appPath = await this.getApplicationPath();
-      let libraries = compileConfig.getValue("libraries");
+      let libraries = compileJsonModel.getValue("libraries");
       if (libraries) {
         for (let somepath of libraries) {
           let libraryPath = somepath;
@@ -187,7 +197,45 @@ qx.Class.define("qx.tool.config.Utils", {
           }
         }
       }
-      return this.getQxPath(cwd);
+      // 2. node_modules etc.
+      return this.getQxPath(baseDir);
+    },
+
+    /**
+     * Returns the qooxdoo version from the current environment (not the application)
+     * @param {String?} dir The base directory. If not given, the current working dir is used
+     * @return {Promise<String>}
+     */
+    async getQxVersion(dir=null) {
+      let qxpath = await this.getQxPath(dir);
+      return this.getLibraryVersion(qxpath);
+    },
+
+    /**
+     * Returns the qooxdoo version used in the application in the current or given
+     * directory
+     * @param {String?} baseDir The base directory. If not given, the current working dir is used
+     * @return {Promise<String>}
+     */
+    async getAppQxVersion(baseDir=null) {
+      baseDir = baseDir || process.cwd();
+      let manifestRequiresKey="@qooxdoo/framework";
+      let manifestModel = await qx.tool.config.Manifest.getInstance()
+        .set({
+          baseDir,
+          warnOnly: true,
+          validate: false
+        })
+        .load();
+      let qxVersionRange = manifestModel.getValue("requires."+manifestRequiresKey);
+      let qxVersion = qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/);
+      if (!qxVersion || !semver.valid(qxVersion[1])) {
+        throw qx.tool.utils.Utils.UserError(
+          `Cannot determine the qooxdoo version used to compile the application. `+
+          `Please specify a caret or tilde range for the requires[${manifestRequiresKey}] key in the Manifest")`
+        );
+      }
+      return qxVersion[1];
     },
 
     /**

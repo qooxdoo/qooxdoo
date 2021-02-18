@@ -1,16 +1,16 @@
 const test = require("tape");
+const path = require("path");
+const process = require("process");
 const testUtils = require("../../../bin/tools/utils");
-const testDir = "test-migration";
+const fsp = require("fs").promises;
+const qx = path.resolve(__dirname, "..", "..", "..", "bin", "source", "qx");
 
-test("migrate v5 -> v6", async assert => {
+test("v6.0.0", async assert => {
   try {
-    await testUtils.deleteRecursive(`${testDir}/v5`);
-    await testUtils.runCommand(testDir, "npm ", "compile", "--machine-readable", ...cmd);
-    await testUtils.runCompiler("issue553");
-    assert.ok(fs.existsSync("issue553/compiled/source/index.html"));
-    let indexHtml = await fsPromises.readFile("issue553/compiled/source/index.html", "utf8");
-    assert.ok(!!indexHtml.match(/issue553one\/boot.js/m));
-
+    const testDir = path.join(__dirname, "test-migrations", "v6.0.0");
+    await testUtils.deleteRecursive(path.join(testDir, "migrated"));
+    await testUtils.sync(path.join(testDir, "unmigrated"), path.join(testDir, "migrated"));
+    await testUtils.runCommand(path.join(testDir, "migrated"), qx, "migrate", "--verbose", "--debug");
     assert.end();
   } catch(ex) {
     assert.end(ex);

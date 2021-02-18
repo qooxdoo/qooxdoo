@@ -87,16 +87,8 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * Check if the current application needs to be migrated
      */
     async checkMigrations(){
-      let version = await this.getQxVersion();
-      if (version) {
-        this.debug(`Checking migrations for qooxdoo version ${version}`);
-      } else {
-        this.debug("Not checking migrations because no application qooxdoo version can be determined.");
-        return;
-      }
       let runner = new qx.tool.migration.Runner().set({
-        dryRun: true,
-        version
+        dryRun: true
       });
       let migrationInfo = await runner.runMigrations();
       if (migrationInfo.pending) {
@@ -112,10 +104,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      *
      * @return {Promise<String>} Promise that resolves with the absolute path
      */
-    async getQxPath() {
-      let qxpath = await qx.tool.config.Utils.getAppQxPath();
-      return path.isAbsolute(qxpath) ? qxpath : path.resolve(qxpath);
-    },
+    getQxPath: qx.tool.config.Utils.getQxPath,
 
     /**
      * Returns the version of the qooxdoo framework used by the current environment
@@ -123,11 +112,17 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @throws {Error} If the version cannot be determined
      * @return {Promise<String>} Promise that resolves with the version string
      */
-    async getQxVersion() {
-      let qxpath = await this.getQxPath();
-      let qxversion = await qx.tool.config.Utils.getLibraryVersion(qxpath);
-      return qxversion;
-    },
+    getQxVersion: qx.tool.config.Utils.getQxVersion,
+
+    /**
+     * @see {@link qx.tool.config.Utils#getAppQxPath}
+     */
+    getAppQxPath : qx.tool.config.Utils.getAppQxPath,
+
+    /**
+     * @see {@link qx.tool.config.Utils#getAppQxVersion}
+     */
+    getAppQxVersion : qx.tool.config.Utils.getAppQxVersion,
 
     // deprecated methods, will be removed
 
@@ -145,11 +140,6 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getApplicationPath} instead
      */
     getApplicationPath: qx.tool.config.Utils.getApplicationPath,
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getAppQxPath} instead
-     */
-    getAppQxPath : qx.tool.config.Utils.getAppQxPath,
 
     /**
      * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryVersion} instead

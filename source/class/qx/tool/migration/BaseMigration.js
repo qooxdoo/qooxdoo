@@ -20,6 +20,7 @@ const process = require("process");
 const fs = qx.tool.utils.Promisify.fs;
 const fsp = require('fs').promises;
 const replaceInFile = require("replace-in-file");
+const semver = require("semver");
 
 /**
  * The base class for migrations, containing useful methods to manipulate source
@@ -48,14 +49,26 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   members: {
 
     /**
-     * @see {@link qx.tool.cli.commands.Command#getQxPath}
+     * @see {@link qx.tool.config.Utils#getQxPath}
      */
-    getQxPath: qx.tool.cli.commands.Command.prototype.getQxPath,
+    getQxPath: qx.tool.config.Utils.getQxPath,
 
     /**
-     * @see {@link qx.tool.cli.commands.Command#getQxVersion}
+     * @see {@link qx.tool.config.Utils#getQxVersion}
      */
-    getQxVersion: qx.tool.cli.commands.Command.prototype.getQxVersion,
+    getQxVersion: qx.tool.config.Utils.getQxVersion,
+
+    /**
+     * @see {@link qx.tool.config.Utils#getQxAppVersion}
+     */
+    getAppQxPath: qx.tool.config.Utils.getAppQxPath,
+
+    /**
+     * Returns the version of qooxdoo this migration applies to.
+     */
+    getVersion() {
+      return this.classname.match(/\.M([0-9_]+)$/)[1].replace(/_/g,".");
+    },
 
     /**
      * Rename source files
@@ -69,7 +82,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       if (filesToRename.length) {
         if (dryRun) {
           // announce migration
-          this.warn(`*** Warning: The following files will be renamed:`);
+          this.warn(`The following files will be renamed:`);
           for (let [newPath, oldPath] of filesToRename) {
             this.warn(`'${oldPath}' => '${newPath}'.`);
           }
@@ -134,12 +147,12 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       for (let replaceInFiles of replaceInFilesArr) {
         if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
           if (dryRun) {
-            this.warn(`*** In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
+            this.warn(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
             migrationInfo.pending++;
             continue;
           }
           try {
-            this.debug(` - Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
+            this.debug(`Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
             await replaceInFile(replaceInFiles);
             migrationInfo.applied++;
           } catch (e) {
@@ -155,24 +168,21 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     /**
      * Updates a dependency in the given Manifest model
      * @param {qx.tool.config.Manifest} manifestModel
-     * @param {String} dependencyName
-     * @param {String} version
+     * @param {String} dependencyName The name of the dependency in the `require object
+     * @param {String} semverRange A semver-compatible range string
      * @return {Promise<void>}
      * @private
      * @return {Promise<{applied: number, pending: number}>}
      */
-    async updateManfestDependency(manifestModel, dependencyName, version) {
+    async updateManfestDependency(manifestModel, dependencyName, semverRange) {
       let migrationInfo = this.getRunner().createMigrationInfo();
-      const range = manifestModel.getValue(`requires.${dependencyName}`);
-      if (!semver.satisfies(version, range)) {
-        let new_range = "^" + version;
-        if (this.getDryRun()) {
-          this.warn(`*** Manifest version range for ${dependencyName} will be updated from ${range} to ${new_range}.`);
-          migrationInfo.pending++;
-        } else {
-          manifestModel.setValue(`requires.${dependencyName}`, range);
-          migrationInfo.applied++;
-        }
+      const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
+      if (this.getRunner().getDryRun()) {
+        this.warn(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
+        migrationInfo.pending++;
+      } else {
+        manifestModel.setValue(`requires.${dependencyName}`, semverRange);
+        migrationInfo.applied++;
       }
       return migrationInfo;
     },
@@ -188,14 +198,14 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let migrationInfo = this.getRunner().createMigrationInfo();
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
-          this.warn(`*** Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
+          this.warn(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
           migrationInfo.pending++;
         } else {
           configModel.setValue("$schema", schemaUri);
           migrationInfo.applied++;
         }
-        return migrationInfo;
       }
+      return migrationInfo;
     }
   }
 });
