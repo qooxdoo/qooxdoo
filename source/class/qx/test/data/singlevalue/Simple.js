@@ -34,6 +34,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     __a : null,
     __b: null,
 
+
     setUp : function() {
       // create the widgets
       this.__a = new qx.test.data.singlevalue.TextFieldDummy();
@@ -153,8 +154,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testRemoveBinding: function(){
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
       // add a binding
       var id = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
       // set and chech the name
@@ -183,8 +182,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testGetAllBindingsForObject: function(){
-      // remove all old bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // add two binding
       var id = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
@@ -232,7 +229,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       // check if a remove of an object without a binding works
       var o = new qx.core.Object();
-      qx.data.SingleValueBinding.removeAllBindings();
       o.dispose();
 
       // only test in the source version
@@ -247,8 +243,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testGetAllBindings: function(){
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // add three bindings
       var id1 = qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
@@ -257,15 +251,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
       // get all bindings
       var allBindings = qx.data.SingleValueBinding.getAllBindings();
-
-      // check if only the added hashs are in the object
-      var hashArray = [this.__a.toHashCode(), this.__b.toHashCode()];
-      var i = 0;
-      for (var hash in allBindings) {
-        this.assertInArray(hash, hashArray, "This hash should be in!");
-        i++;
-      }
-      this.assertEquals(2, i, "Too much or too less objects in the array!");
 
       // check for the binding ids
       this.assertEquals(id1, allBindings[this.__a.toHashCode()][0][0], "This id should be in!");
@@ -286,14 +271,10 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bind(this.__b, "zIndex", this.__a, "zIndex");
       // test the single log
       qx.data.SingleValueBinding.showBindingInLog(this.__a, id1);
-      // test the all log
-      qx.data.SingleValueBinding.showAllBindingsInLog();
     },
 
 
     testMixinSupport: function() {
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
 
       // create a new Binding
       var id1 = this.__a.bind("appearance", this.__b, "appearance");
