@@ -37,7 +37,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
   members :
   {
     setUp: function() {
-      this.require(["http"]);
+      this.require(["http", "php"]);
       this.res = new qx.io.rest.Resource();
     },
 

@@ -829,23 +829,22 @@ qx.Class.define("qx.test.util.DateFormat",
     var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","en_US");
     var d = new Date();
 
-    var frenchFormatteddateString = dfFR.format(d);
-
     this.assertEquals(df.format(d),dfUS.format(d));
 
     manager.setLocale('fr_FR');
     this.assertEquals(df.format(d),dfFR.format(d));
+
     manager.setLocale('de_DE');
     this.assertEquals(df.format(d),dfDE.format(d));
 
     manager.resetLocale();
     this.assertEquals(df.format(d),dfinitial.format(d));
 
-    manager.setLocale('fr_FR');
+    df.setLocale('fr_FR');
     this.assertEquals(df.format(d),dfFR.format(d));
 
     df.resetLocale();
-    this.assertEquals(df.format(d),dfUS.format(d));
+    this.assertEquals(df.format(d),dfinitial.format(d));
 
     dfFR.setLocale('de_DE');
     this.assertEquals(dfFR.format(d),dfDE.format(d));
@@ -859,7 +858,7 @@ qx.Class.define("qx.test.util.DateFormat",
     dfUS.dispose();
 
   },
-  
+
   hasNoEdge: function() {
     return !(qx.core.Environment.get("browser.name") == "edge");
   }
