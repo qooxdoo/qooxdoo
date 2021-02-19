@@ -22,9 +22,18 @@ qx.Class.define("qx.test.theme.manager.Icon",
 
   members :
   {
+    __formerTheme : null,
+    __formerListener: null,
+
     setUp : function() {
       this.manager = qx.theme.manager.Icon.getInstance();
       this.__formerTheme = this.manager.getTheme();
+
+      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
+      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      this.__formerListener = {...listener[hash]};
+      delete listener[hash];
+
     },
 
     tearDown : function()
@@ -32,6 +41,12 @@ qx.Class.define("qx.test.theme.manager.Icon",
       qx.test.Theme.themes = null;
       this.manager.setTheme(this.__formerTheme);
       this.__formerTheme = null;
+
+      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
+      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      listener[hash] = this.__formerListener;
+      this.__formerListener = null;
+      qx.ui.core.queue.Manager.flush();
     },
 
 

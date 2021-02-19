@@ -102,8 +102,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       });
       this.__label = new qx.test.data.singlevalue.TextFieldDummy();
 
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
     },
 
 
@@ -321,7 +319,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       qx.data.SingleValueBinding.bind(this.__a, "child.name", this.__label, "value");
       qx.data.SingleValueBinding.bind(this.__a, "child.name", this.__label, "value");
 
-      qx.data.SingleValueBinding.removeAllBindings();
 
     },
 

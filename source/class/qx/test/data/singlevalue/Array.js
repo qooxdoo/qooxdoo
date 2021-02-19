@@ -100,8 +100,6 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       });
       this.__label = new qx.test.data.singlevalue.TextFieldDummy();
 
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
     },
 
 

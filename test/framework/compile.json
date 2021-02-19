@@ -29,6 +29,7 @@
     "sl",
     "sv"
   ],
+  "writeAllTranslations": true,
   "libraries": [
     "../.."
   ],
