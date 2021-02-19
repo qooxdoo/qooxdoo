@@ -377,30 +377,6 @@ moreUtils = {
   },
 
   /**
-   * Rotates files so that this file does not exist, by renaming the existing file to have a ".1"
-   * appended, and the ".1" to be renamed to ".2" etc, up to `length` versions
-   *
-   * @param filename {String} filename to rotate
-   * @param length {Integer} maximum number of files
-   * @async
-   */
-  rotateUnique: async function(filename, length) {
-    if (await this.safeStat(filename) && length > 1) {
-      var lastFile = null;
-      for (var i = length; i > 0; i--) {
-        var tmp = filename + "." + i;
-        if (i == length) {
-          await this.safeUnlink(tmp);
-        } else if (await this.safeStat(tmp)) {
-          await rename(tmp, lastFile);
-        }
-        lastFile = tmp;
-      }
-      await rename(filename, lastFile);
-    }
-  },
-
-  /**
    * Deletes a file or directory; directories are recursively removed
    * @param name {String} file or dir to delete
    * @async
@@ -605,7 +581,6 @@ module.exports = {
   copyFile: moreUtils.copyFile,
   safeStat: moreUtils.safeStat,
   safeRename: moreUtils.safeRename,
-  rotateUnique: moreUtils.rotateUnique,
   correctCase: moreUtils.correctCase
 };
 
