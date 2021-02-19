@@ -140,7 +140,7 @@ qx.Class.define("qx.tool.config.Utils", {
         }
         // 2. node_modules folders
         let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
-        if (fs.existsSync(path.join(npmdir, "Manifest.json"))) {
+        if (await fs.existsAsync(path.join(npmdir, "Manifest.json"))) {
           return npmdir;
         }
         // walk up the directory tree
