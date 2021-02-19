@@ -90,7 +90,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
       qx.core.Assert.assertArray(fileList);
-      let filesToRename = this.checkFilesToRename(fileList);
+      let filesToRename = await this.checkFilesToRename(fileList);
       if (filesToRename.length) {
         if (dryRun) {
           // announce migration
@@ -120,12 +120,12 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * Given an array of [newPath,oldPath], filter by those which exist
      * at oldPath and not at newPath
      * @param fileList {[]}
-     * @return []
+     * @return {Promise<[]>}
      */
-    checkFilesToRename(fileList) {
+    async checkFilesToRename(fileList) {
       let filesToRename = [];
       for (let [newPath, oldPath] of fileList) {
-        if (!fs.existsSync(newPath) && fs.existsSync(oldPath)) {
+        if (! await fs.existsAsync(newPath) && await fs.existsAsync(oldPath)) {
           filesToRename.push([newPath, oldPath]);
         }
       }
