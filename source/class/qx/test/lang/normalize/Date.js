@@ -87,9 +87,9 @@ qx.Class.define("qx.test.lang.normalize.Date",
       this.assertIdentical(Date.parse("2001-02-03T04:05:06.007"), Date.UTC(2001, 1, 3, 4, 5, 6, 7) + localOffset, "2001-02-03T04:05:06.007");
       this.assertIdentical(Date.parse("2001-02-03T04:05:06.007-06:30"), Date.UTC(2001, 1, 3, 4, 5, 6, 7) + sixHoursThirty, "2001-02-03T04:05:06.007-06:30");
 
-      this.assertIdentical(Date.parse("-010000T04:05"), Date.UTC(-10000, 0, 1, 4, 5, 0, 0) + localOffset, "-010000T04:05");
-      this.assertIdentical(Date.parse("-010000-02T04:05"), Date.UTC(-10000, 1, 1, 4, 5, 0, 0) + localOffset, "-010000-02T04:05");
-      this.assertIdentical(Date.parse("-010000-02-03T04:05"), Date.UTC(-10000, 1, 3, 4, 5, 0, 0) + localOffset, "-010000-02-03T04:05");
+      this.assertIdentical(Date.parse("-010000T04:05Z"), Date.UTC(-10000, 0, 1, 4, 5, 0, 0), "-010000T04:05Z");
+      this.assertIdentical(Date.parse("-010000-02T04:05Z"), Date.UTC(-10000, 1, 1, 4, 5, 0, 0), "-010000-02T04:05Z");
+      this.assertIdentical(Date.parse("-010000-02-03T04:05Z"), Date.UTC(-10000, 1, 3, 4, 5, 0, 0), "-010000-02-03T04:05Z");
 
       this.assertTrue(isNaN(Date.parse("1970-01-01T00:00:00,000")), "invalid date-time (comma instead of dot)");
       this.assertTrue(isNaN(Date.parse("1970-01-01T0000")), "invalid date-time (missing colon in time part)");
