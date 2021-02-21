@@ -39,6 +39,9 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
         builder: {
           "dry-run": {
             describe: "Do not apply migrations"
+          },
+          "max-version": {
+            describe: "Do not apply migrations targeted at versions higher than this value"
           }
         }
       };
@@ -52,7 +55,8 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
     process: async function() {
       let runner = new qx.tool.migration.Runner().set({
         dryRun: Boolean(this.argv.dryRun),
-        verbose: Boolean(this.argv.verbose)
+        verbose: Boolean(this.argv.verbose),
+        maxVersion: this.argv.maxVersion
       });
       let {applied, pending} = await runner.runMigrations();
       this.info(`Finished ${this.argv.dryRun?"checking":"running"} migrations: ${applied} migrations applied, ${pending} migrations pending.`);

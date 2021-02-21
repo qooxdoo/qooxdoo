@@ -28,13 +28,8 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
   extend: qx.tool.migration.BaseMigration,
   members: {
 
-    /**
-     * @return {Promise<{applied: number, pending: number}>}
-     */
     async migrate() {
-      let migrationInfo = this.getRunner().createMigrationInfo();
       this.debug("No v7 migration implemented yet..");
-      return migrationInfo;
     }
   }
 });

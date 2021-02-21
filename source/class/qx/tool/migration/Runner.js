@@ -39,35 +39,19 @@ qx.Class.define("qx.tool.migration.Runner",{
     verbose: {
       check: "Boolean",
       init: false
+    },
+
+    /**
+     * The maximum version for which the migration class should be applicable
+     */
+    maxVersion: {
+      check: "String",
+      validate: version => semver.valid(version),
+      nullable: true
     }
   },
   members: {
 
-    /**
-     * Return a new default migrationIinfo object
-     * @return {{applied: number, pending: number}}
-     */
-    createMigrationInfo() {
-      return {
-        applied: 0,
-        pending: 0
-      }
-    },
-
-    /**
-     * Update a migration info from the result of a migration method
-     * or utility function. This allows to be forward compatible
-     * to changes in the structure of the migrationInfo object
-     *
-     * @param {Object} migrationInfo
-     * @param {Object} result
-     */
-    updateMigrationInfo(migrationInfo, result) {
-      return {
-        applied: migrationInfo.applied + result.applied,
-        pending: migrationInfo.pending + result.pending
-      }
-    },
 
     /**
      * Instantiates all migration classes in the `qx.tool.migration` namespace which
@@ -85,20 +69,22 @@ qx.Class.define("qx.tool.migration.Runner",{
       let qxVersion = await qx.tool.config.Utils.getQxVersion();
       let appQxVersion = await qx.tool.config.Utils.getAppQxVersion();
       this.debug(`${this.getDryRun()?"Checking":"Running" } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
-      let migrationInfo = this.createMigrationInfo();
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
         .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
+      let applied = 0;
+      let pending = 0;
       for (let Clazz of migrationClasses) {
         let migrationInstance = new Clazz(this);
-        let skip = appQxVersion && !semver.lt(appQxVersion, migrationInstance.getVersion());
-        if (this.getVerbose()) {
-          if (skip) {
-            this.debug(`>>> Skipping migration ${Clazz.classname}.`);
-          } else {
-            this.debug(`>>> Running migration ${Clazz.classname}...`);
-          }
+        let migrationVersion = migrationInstance.getVersion();
+        let maxVersion = this.getMaxVersion();
+        let skip = (appQxVersion && !semver.lt(appQxVersion, migrationVersion))
+          || (maxVersion && semver.gt(migrationVersion, maxVersion));
+        if (skip) {
+          this.debug(`>>> Skipping migration ${Clazz.classname}.`);
+        } else {
+          this.debug(`>>> Running migration ${Clazz.classname}...`);
         }
         if (skip) {
           continue;
@@ -107,13 +93,14 @@ qx.Class.define("qx.tool.migration.Runner",{
           .filter(key => key.startsWith("migrate"))
           .filter(key => typeof Clazz.prototype[key] == "function");
         for (let method of migrationMethods) {
-          let result = await migrationInstance[method]();
-          migrationInfo = this.updateMigrationInfo(migrationInfo, result);
-          this.debug(`>>> ${Clazz.classname}.${method}: ${result.applied} applied/${result.pending} pending`);
+          await migrationInstance[method]();
+          this.debug(`>>> - ${method}: ${migrationInstance.getApplied()-applied} applied/${migrationInstance.getPending()-pending} pending`);
         }
-        //this.debug(`${Clazz.classname}: ${migrationInfo.applied} migrations applied, ${migrationInfo.pending} migrations pending.`);
+        this.debug(`>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`);
+        applied += migrationInstance.getApplied();
+        pending += migrationInstance.getPending();
       }
-      return migrationInfo;
+      return {applied, pending};
     },
   }
 });

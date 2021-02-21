@@ -23,9 +23,10 @@ const replaceInFile = require("replace-in-file");
 const semver = require("semver");
 
 /**
- * The base class for migrations, containing useful methods to manipulate source
- * files. It also holds a reference to the runner which contains some meta data
- * for all migrations.
+ * The base class for migrations, containing useful methods to
+ * manipulate source files, and to update runtime information
+ * on the individual migration class. It also holds a reference
+ * to the runner which contains meta data for all migrations.
  */
 qx.Class.define("qx.tool.migration.BaseMigration",{
   type: "abstract",
@@ -43,6 +44,16 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   properties: {
     runner: {
       check: "qx.tool.migration.Runner"
+    },
+
+    applied: {
+      check: "Number",
+      init: 0
+    },
+
+    pending: {
+      check: "Number",
+      init: 0
     }
   },
 
@@ -82,12 +93,25 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
+     * Marks a migration step as applied
+     */
+    markAsApplied() {
+      this.setApplied(this.getApplied()+1);
+    },
+
+    /**
+     * Marks a migration step as pending
+     */
+    markAsPending() {
+      this.setPending(this.getPending()+1);
+    },
+
+    /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
      * @return {Promise<Boolean>} Whether this migration still has to be applied
      */
     async renameFiles(fileList) {
-      let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
       qx.core.Assert.assertArray(fileList);
       let filesToRename = await this.checkFilesToRename(fileList);
@@ -98,7 +122,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
           for (let [newPath, oldPath] of filesToRename) {
             this.announce(`'${oldPath}' => '${newPath}'.`);
           }
-          migrationInfo.pending++;
+          this.markAsPending();
         } else {
           // apply migration
           for (let [newPath, oldPath] of filesToRename) {
@@ -110,10 +134,9 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
               process.exit(1);
             }
           }
-          migrationInfo.applied++;
+          this.markAsApplied();
         }
       }
-      return migrationInfo;
     },
 
     /**
@@ -152,30 +175,29 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * Replace text in source files
      * @param {{files: string, from: string, to: string}[]} replaceInFilesArr
      *    Array containing objects compatible with https://github.com/adamreisnz/replace-in-file
-     * @return {Promise<{applied: number, pending: number}>}
+     * @return {Promise<void>}
      */
     async replaceInFiles(replaceInFilesArr=[]) {
       qx.core.Assert.assertArray(replaceInFilesArr);
-      let migrationInfo = this.getRunner().createMigrationInfo();
       let dryRun = this.getRunner().getDryRun();
       for (let replaceInFiles of replaceInFilesArr) {
         if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
           if (dryRun) {
             this.announce(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
-            migrationInfo.pending++;
+            this.markAsPending();
             continue;
           }
           try {
             this.debug(`Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
             await replaceInFile(replaceInFiles);
-            migrationInfo.applied++;
+            this.markAsApplied();
           } catch (e) {
             this.error(`Error replacing in files: ${e.message}`);
             process.exit(1);
           }
         }
       }
-      return migrationInfo;
+
     },
 
 
@@ -186,40 +208,36 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * @param {String} semverRange A semver-compatible range string
      * @return {Promise<void>}
      * @private
-     * @return {Promise<{applied: number, pending: number}>}
+     * @return {Promise<void>}
      */
     async updateManfestDependency(manifestModel, dependencyName, semverRange) {
-      let migrationInfo = this.getRunner().createMigrationInfo();
       const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
       if (this.getRunner().getDryRun()) {
         this.announce(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
-        migrationInfo.pending++;
+        this.markAsPending();
       } else {
         manifestModel.setValue(`requires.${dependencyName}`, semverRange);
-        migrationInfo.applied++;
+        this.markAsApplied();
       }
-      return migrationInfo;
     },
 
     /**
      * Updates the json-schema in a configuration file
      * @param {qx.tool.config.Abstract} configModel
      * @param {String} schemaUri
-     * @return {Promise<{applied: number, pending: number}>}
+     * @return {Promise<void>}
      */
     async updateSchemaVersion(configModel, schemaUri) {
       qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
-      let migrationInfo = this.getRunner().createMigrationInfo();
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
           this.announce(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
-          migrationInfo.pending++;
+          this.markAsPending();
         } else {
           configModel.setValue("$schema", schemaUri);
-          migrationInfo.applied++;
+          this.markAsApplied();
         }
       }
-      return migrationInfo;
     }
   }
 });
