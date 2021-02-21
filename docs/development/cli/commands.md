@@ -22,6 +22,8 @@ without any further parameters. Here's an abridged version of the output:
                                             application with continuous
                                             compilation, using compile.json
   upgrade [options]                         upgrades a Qooxdoo application
+  migrate [options]                         migrates a qx app to the current 
+                                            Qooxdoo version
 ```
 
 To see the subcommands parameters and options, just type in
