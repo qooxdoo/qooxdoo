@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2017-2021 Christian Boulanger
+     2021 The authors
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -16,18 +16,21 @@
 
 ************************************************************************ */
 
+const process = require("process");
+const path = require("upath");
+const semver = require("semver");
+const fs = qx.tool.utils.Promisify.fs;
+
 /**
- * @deprecated {7.0.0}
+ * Migration class for updating from v6 to v7
  */
-qx.Class.define("qx.tool.cli.commands.package.Migrate", {
-  extend: qx.tool.cli.commands.Migrate,
-  statics: {
-    getYargsCommand: qx.tool.cli.commands.Migrate.getYargsCommand
-  },
+qx.Class.define("qx.tool.migration.M7_0_0", {
+  extend: qx.tool.migration.BaseMigration,
   members: {
-    process: async function() {
-      this.warn("`qx package migrate` has been deprecated in favor of `qx migrate`.");
-      this.base(arguments);
+
+    async migrate() {
+      this.debug("No v7 migration implemented yet..");
     }
   }
 });
+

@@ -73,23 +73,6 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       "github.token": {
         desc: "The API token used to connect to GitHub"
       },
-      "qx.library": {
-        desc: "The directory where qooxdoo library is installed",
-        set: async function(value) {
-          if (!value) {
-            return undefined;
-          }
-          if (!await fs.existsAsync(path.join(value, qx.tool.config.Manifest.config.fileName))) {
-            if (await fs.existsAsync(path.join(value, "framework/Manifest.json"))) {
-              value = path.join(value, "framework");
-            } else {
-              qx.tool.compiler.Console.error(`Cannot set qx.library to ${value} because there is no Manifest.json`);
-              return undefined;
-            }
-          }
-          return path.resolve(value);
-        }
-      },
       "qx.translation.strictPoCompatibility": {
         desc: "Whether to write PO files with strict compatibility, i.e. include line numbers in output",
         set: async function(value) {
@@ -184,8 +167,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
 
       let keys = {};
       function scan(obj, parentKey) {
-        for (let key in obj) {
-          let value = obj[key];
+        for (let [key, value] of Object.entries(obj)) {
           let fullKey = parentKey + (parentKey.length ? "." : "") + key;
           if (qx.tool.utils.Utils.isPlainObject(value)) {
             scan(value, fullKey);

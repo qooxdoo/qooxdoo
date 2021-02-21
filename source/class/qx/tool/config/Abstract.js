@@ -431,7 +431,7 @@ qx.Class.define("qx.tool.config.Abstract", {
 
     /**
      * Validates the stored config model data. Used when data is changed
-     * outside of the API
+     * outside of the API. Will not validate if validate property is false.
      */
     validate() {
       this._validateData(this.getData());

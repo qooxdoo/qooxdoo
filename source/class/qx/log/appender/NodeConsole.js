@@ -46,7 +46,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      */
     log : function(logMessage, level)
     {
-      if (level == "error") {
+      if (level === "error") {
         this.__ERR.write(logMessage+'\n');
       } else {
         this.__OUT.write(logMessage+'\n');
@@ -122,7 +122,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
     if (typeof(process) !== "undefined") {
       statics.__OUT = process.stdout;
       statics.__ERR = process.stderr;
+      qx.log.Logger.register(statics);
     }
   }
-
 });

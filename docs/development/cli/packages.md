@@ -44,7 +44,6 @@ Commands:
                                available libraries to the latest compatible
                                version, otherwise upgrade only the package
                                identified by the URI.
-  migrate                      migrates the package system to a newer version.
 
 ```
 

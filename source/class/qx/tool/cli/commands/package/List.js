@@ -112,7 +112,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       //   await (new qx.tool.cli.commands.package.Update({quiet:true})).process();
       // }
 
-      let qooxdoo_version = await this.getUserQxVersion();
+      let qooxdoo_version = await this.getQxVersion();
       let num_compat_repos = await this.__createIndexes(qooxdoo_version);
       if (this.argv.verbose) {
         qx.tool.compiler.Console.log(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qooxdoo_version}`);

@@ -2,8 +2,19 @@
 
 ## Breaking changes
 
-- `qx.ui.form.Slider` now works correctly in vertical orientation. The maximum value is at the top of the slider and the minimal value at the bottom. Before that, the 2 values were reversed
+- The `qx.library` config setting is no longer used by the
+compiler. If you want to override the path to the framework
+source, add the path to `compile.json`'s `libraries` array.
+
+- `qx.ui.form.Slider` now works correctly in vertical orientation.
+The maximum value is at the top of the slider and the minimal value
+at the bottom. Before that, the 2 values were reversed 
+
 - all flash supporting classes are removed - flash is dead since January 2020.
+
+## Deprecations:
+
+- `qx package migrate` has been deprecated in favor of `qx migrate` 
 
 # v6.0.0
 
