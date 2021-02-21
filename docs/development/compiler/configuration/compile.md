@@ -350,15 +350,14 @@ key, for example:
 ```json5
     /** Libraries */
     "libraries": [
-        "../qooxdoo/framework",
+        "/path/to/qooxdoo",
         "."
     ],
 ```
 
-Unless you list it in the `libraries` key, the compiler will first check the
-`qx.library` setting (see `qx config set qx.library` ), and if not will
-look first in your `node_modules` directory and then it's own `node_modules`
-directory for the `@qooxdoo/framework` npm module.
+Unless you list it in the `libraries` key, the compiler will
+look first in your `node_modules` directory and then it's own
+`node_modules` directory for the `@qooxdoo/framework` npm module.
 
 ## Parts
 

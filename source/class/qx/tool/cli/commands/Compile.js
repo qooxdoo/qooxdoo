@@ -196,11 +196,11 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
   events: {
 
     /**
-     * Fired when application writing starts 
+     * Fired when application writing starts
      */
     "writingApplications": "qx.event.type.Event",
 
-    /** 
+    /**
      * Fired when writing of single application starts; data is an object containing:
      *   maker {qx.tool.compiler.makers.Maker}
      *   target {qx.tool.compiler.targets.Target}
@@ -208,32 +208,32 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
      */
     "writingApplication": "qx.event.type.Data",
 
-    /** 
+    /**
      * Fired when writing of single application is complete; data is an object containing:
      *   maker {qx.tool.compiler.makers.Maker}
      *   target {qx.tool.compiler.targets.Target}
      *   appMeta {qx.tool.compiler.targets.meta.ApplicationMeta}
      *
-     * Note that target.getAppMeta() will return null after this event has been fired 
+     * Note that target.getAppMeta() will return null after this event has been fired
      */
     "writtenApplication": "qx.event.type.Data",
 
     /**
-     * Fired after writing of all applications; data is an object containing an array, 
+     * Fired after writing of all applications; data is an object containing an array,
      * each of which has previously been passed with `writeApplication`:
-     
+
      *   maker {qx.tool.compiler.makers.Maker}
      *   target {qx.tool.compiler.targets.Target}
      *   appMeta {qx.tool.compiler.targets.meta.ApplicationMeta}
      *
-     * Note that target.getAppMeta() will return null after this event has been fired 
+     * Note that target.getAppMeta() will return null after this event has been fired
      */
     "writtenApplications" :"qx.event.type.Data",
 
     /**
      * Fired when a class is about to be compiled.
      *
-     * The event data is an object with the following properties: 
+     * The event data is an object with the following properties:
      *
      * dbClassInfo: {Object} the newly populated class info
      * oldDbClassInfo: {Object} the previous populated class info
@@ -243,8 +243,8 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
     /**
      * Fired when a class is compiled.
-     * 
-     * The event data is an object with the following properties: 
+     *
+     * The event data is an object with the following properties:
      * dbClassInfo: {Object} the newly populated class info
      * oldDbClassInfo: {Object} the previous populated class info
      * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
@@ -253,16 +253,16 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
     /**
      * Fired when the database is been saved
-     * 
-     *  data: 
+     *
+     *  data:
      * database: {Object} the database to save
      */
     "saveDatabase": "qx.event.type.Data",
 
     /**
      * Fired after all enviroment data is collected
-     * 
-     * The event data is an object with the following properties: 
+     *
+     * The event data is an object with the following properties:
      *  application {qx.tool.compiler.app.Application} the app
      *  enviroment: {Object} enviroment data
      */
@@ -280,8 +280,8 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
     /**
      * Fired when minification begins.
-     * 
-     * The event data is an object with the following properties: 
+     *
+     * The event data is an object with the following properties:
      *  application {qx.tool.compiler.app.Application} the app being minified
      *  part: {String} the part being minified
      *  filename: {String} the part filename
@@ -290,8 +290,8 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
     /**
      * Fired when minification is done.
-     * 
-     * The event data is an object with the following properties: 
+     *
+     * The event data is an object with the following properties:
      *  application {qx.tool.compiler.app.Application} the app being minified
      *  part: {String} the part being minified
      *  filename: {String} the part filename
@@ -317,11 +317,11 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       if (this.argv["feedback"] === null) {
         this.argv["feedback"] = configDb.db("qx.default.feedback", true);
       }
-      
+
       if (this.argv.verbose) {
         console.log(`
 Compiler:  v${qx.tool.compiler.Version.VERSION} in ${require.main.filename}
-Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
+Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
       if (this.argv["machine-readable"]) {
@@ -405,7 +405,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
       });
 
       await this._loadConfigAndStartMaking();
-      
+
       if (!this.argv.watch) {
         let success = this.__makers.every(maker => maker.getSuccess());
         let hasWarnings = this.__makers.every(maker => maker.getHasWarnings());
@@ -427,10 +427,10 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         process.exitCode = success ? 0 : 1;
       }
     },
-    
+
     /**
      * Loads the configuration and starts the make
-     * 
+     *
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
@@ -493,7 +493,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         maker.addListener("writtenApplications", async () => {
           await this.fireDataEventAsync("writtenApplications", appInfos);
         });
-        
+
         if (target instanceof qx.tool.compiler.targets.BuildTarget) {
           target.addListener("minifyingApplication", e => this.dispatchEvent(e.clone()));
           target.addListener("minifiedApplication", e => this.dispatchEvent(e.clone()));
@@ -560,7 +560,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
     createMakersFromConfig: async function(data) {
       const Console = qx.tool.compiler.Console.getInstance();
       var t = this;
-      
+
       if (data.babelOptions) {
         if (!data.babelConfig) {
           data.babelConfig = { options: data.babelOptions };
@@ -647,7 +647,6 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         targetConfigs.push(defaultTargetConfig);
       }
 
-
       let libraries = this.__libraries = {};
       await qx.Promise.all(data.libraries.map(async libPath => {
         var library = await qx.tool.compiler.app.Library.createLibrary(libPath);
@@ -657,12 +656,13 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
       // Search for Qooxdoo library if not already provided
       var qxLib = libraries["qx"];
       if (!qxLib) {
-        var library = await qx.tool.compiler.app.Library.createLibrary(await this.getGlobalQxPath());
+        let qxPath = await qx.tool.config.Utils.getQxPath();
+        var library = await qx.tool.compiler.app.Library.createLibrary(qxPath);
         libraries[library.getNamespace()] = library;
         qxLib = libraries["qx"];
       }
       if (this.argv.verbose) {
-        Console.log("QooxDoo found in " + qxLib.getRootDir());
+        Console.log("Qooxdoo found in " + qxLib.getRootDir());
       }
       let errors = await this.__checkDependencies(Object.values(libraries), data.packages);
       if (errors.length > 0) {
@@ -780,12 +780,12 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         if (typeof target.setMinify == "function") {
           target.setMinify(minify);
         }
-        
+
         function chooseValue(...args) {
           for (let i = 0; i < args.length; i++) {
             if (args[i] !== undefined) {
-              return args[i]; 
-            } 
+              return args[i];
+            }
           }
           return undefined;
         }
@@ -800,7 +800,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         if (typeof saveUnminified == "boolean" && typeof target.setSaveUnminified == "function") {
           target.setSaveUnminified(saveUnminified);
         }
-        
+
         var inlineExternal = chooseValue(targetConfig["inline-external-scripts"], t.argv["inline-external-scripts"]);
         if (typeof inlineExternal == "boolean") {
           target.setInlineExternalScripts(inlineExternal);
@@ -864,7 +864,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
           });
           return dest;
         }
-        
+
         let babelConfig = qx.lang.Object.clone(data.babel || {}, true);
         babelConfig.options = babelConfig.options || {};
         qx.lang.Object.mergeWith(babelConfig.options, targetConfig.babelOptions || {});
@@ -880,7 +880,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         }
 
         if (this.argv["mangle-privates"]) {
-          maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable"); 
+          maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
         } else {
           maker.getAnalyser().setManglePrivates("off");
         }
@@ -963,7 +963,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
         } else {
           qx.tool.utils.files.Utils.safeUnlink(target.getOutputDir() + "index.html");
         }
-        
+
         const showMarkers = (classname, markers) => {
           if (markers) {
             markers.forEach(function(marker) {
@@ -1003,7 +1003,7 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
     async __checkDependencies(libs, packages) {
       const Console = qx.tool.compiler.Console.getInstance();
       let errors = [];
-      const SDK_VERSION = await this.getUserQxVersion();
+      const SDK_VERSION = await this.getQxVersion();
       // check all requires
       for (let lib of libs) {
         let requires = lib.getRequires();
@@ -1023,14 +1023,14 @@ Framework: v${await this.getUserQxVersion()} in ${await this.getUserQxPath()}`);
             requires["@qooxdoo/framework"] = range;
           }
         }
-        
-        // Find the libraries that we need, not including the libraries which we have been given explicitly 
+
+        // Find the libraries that we need, not including the libraries which we have been given explicitly
         //  in the compile.json's `libraries` property
         let requires_uris = Object.getOwnPropertyNames(requires)
           .filter(uri => !libs.find(lib => lib.getLibraryInfo().name == uri));
-        
+
         let urisToInstall = requires_uris.filter(name => !name.startsWith("qooxdoo-") && name !== "@qooxdoo/framework" && name !== "@qooxdoo/compiler");
-        
+
         let pkg_libs = Object.getOwnPropertyNames(packages);
         if (urisToInstall.length > 0 && pkg_libs.length === 0) {
           // if we don't have package data

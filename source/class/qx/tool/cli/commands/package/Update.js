@@ -71,6 +71,9 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
      * Updates the cache with information from GitHub.
      */
     process: async function() {
+
+      this.base(arguments);
+
       // init
       let names = [];
       const argv = this.argv;

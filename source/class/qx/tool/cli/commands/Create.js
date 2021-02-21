@@ -111,7 +111,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       let values = {};
 
       // qooxdoo path
-      data.qooxdoo_path = await this.getUserQxPath(); // use CLI options, if available
+      data.qooxdoo_path = await this.getQxPath(); // use CLI options, if available
 
       // qooxdoo version
       try {
@@ -125,7 +125,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       data.template_dir = this.getTemplateDir();
       data.getLibraryVersion = this.getLibraryVersion.bind(this);
       let template_vars;
-      
+
       const template_vars_path = path.join(this.getTemplateDir(), "template_vars");
       template_vars = require(template_vars_path)(argv, data);
 
