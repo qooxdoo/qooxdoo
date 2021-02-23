@@ -333,7 +333,8 @@ qx.Bootstrap.define("qx.Mixin",
             clazz.$$mixinBaseClassMethods[mixin.name][methodName] !== undefined) {
           return clazz.$$mixinBaseClassMethods[mixin.name][methodName];
         }
-  
+
+        // Find the class which added the mixin; if it is mixed in twice, we pick the super-most class  
         var mixedInAt = null;
         var mixedInIndex = -1;
         for (var searchClass = clazz; searchClass; searchClass = searchClass.superclass) {
@@ -349,6 +350,8 @@ qx.Bootstrap.define("qx.Mixin",
         var fn = null;
         
         if (mixedInAt) {
+          // Multiple mixins can provide an implementation, in which case the mixin which was
+          //  added second's "base" implementation is the first mixin's method
           for (var i = mixedInIndex - 1; i > -1; i--) {
             var peerMixin = mixedInAt.$$flatIncludes[i];
             if (peerMixin.$$members[methodName]) {
@@ -356,11 +359,17 @@ qx.Bootstrap.define("qx.Mixin",
               break;
             }
           }
+          // Try looking in the class itself
+          if (!fn && mixedInAt.prototype[methodName]) {
+            fn = mixedInAt.prototype[methodName].base;
+          }
+          // Try looking in the superclass
           if (!fn && mixedInAt.superclass) {
             fn = mixedInAt.superclass.prototype[methodName];
           }
         }
         
+        // Cache the result
         if (fn) {
           if (!clazz.$$mixinBaseClassMethods) {
             clazz.$$mixinBaseClassMethods = {};

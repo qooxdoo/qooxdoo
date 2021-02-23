@@ -1451,21 +1451,31 @@ qx.Bootstrap.define("qx.Class",
         // Hint: Could not use typeof function because RegExp objects are functions, too
         // Protect to apply base property and aspect support on special attributes e.g.
         // classes which are function like as well.
-        if (base !== false && member instanceof Function && member.$$type == null)
-        {
-          if (!qx.core.Environment.get("qx.compiler") && wrap == true)
-          {
-            // wrap "patched" mixin member
-            member = this.__mixinMemberWrapper(member, proto[key]);
-          }
-          else if (wrap != true)
-          {
-            // Configure extend (named base here)
-            // Hint: proto[key] is not yet overwritten here
+        if (base !== false && member instanceof Function && member.$$type == null) {
+          if (!qx.core.Environment.get("qx.compiler")) {
+            if (wrap) {
+              // wrap "patched" mixin member
+              member = this.__mixinMemberWrapper(member, proto[key]);
+            } else {
+              // Configure extend (named base here)
+              // Hint: proto[key] is not yet overwritten here
+              if (proto[key]) {
+                member.base = proto[key];
+              }
+              member.self = clazz;
+            }
+          } else {
+            // If the class has it's own implementation, we need to remember that method in the
+            //  mixed-in method's `.base`; wrap the method with a closure so that it can have a
+            //  `.base` set, if we were to set `member.base` it would mean that the mixin can
+            //  only be added into one class
             if (proto[key]) {
+              member = qx.lang.Function.create(member, {always: true});
               member.base = proto[key];
             }
-            member.self = clazz;
+            if (wrap) {
+              member.self = clazz;
+            }
           }
 
           if (qx.core.Environment.get("qx.aspects")) {
@@ -1490,8 +1500,7 @@ qx.Bootstrap.define("qx.Class",
      * @param base {Function} The overwritten method
      * @return {Function} the wrapped mixin member
      */
-    __mixinMemberWrapper : function(member, base)
-    {
+    __mixinMemberWrapper : function(member, base) {
       if (qx.core.Environment.get("qx.compiler")) {
         throw new Error("This function should not be used except with code compiled by the generator (ie python toolchain)");
         
