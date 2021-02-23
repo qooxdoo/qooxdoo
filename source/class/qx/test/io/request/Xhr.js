@@ -790,10 +790,10 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.setUpFakeTransport();
       var req = this.req;
-
+      var self = this;
       req.sendWithPromise()
       .catch(this.resumeHandler(function(_) {
-        this.assertIdentical(req, this);
+        self.assertIdentical(req, this);
       }));
 
       this.transport.onerror();
@@ -811,7 +811,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
       this.req.sendWithPromise(this)
       .catch(this.resumeHandler(function(_) {
-        this.assertIdentical(self, this);
+        self.assertIdentical(self, this);
       }));
 
       this.transport.onerror();
