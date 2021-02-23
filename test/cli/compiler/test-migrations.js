@@ -4,8 +4,8 @@ const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
 const fsp = require("fs").promises;
 const digest = require("util").promisify(require("dirsum").digest);
-//const qx = path.resolve(__dirname, "..", "..", "..", "bin", "source", "qx");
-const qx = testUtils.getCompiler();
+//const qxCmdPath = path.resolve(__dirname, "..", "..", "..", "bin", "source", "qx");
+const qxCmdPath = testUtils.getCompiler();
 
 // colorize output
 test.createStream().pipe(colorize()).pipe(process.stdout);
@@ -24,13 +24,13 @@ function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
       await testUtils.deleteRecursive(migratedDir);
       await testUtils.sync(unmigratedDir, migratedDir);
       t.comment("Upgrade notice");
-      let result = await testUtils.runCommand(migratedDir, qx, "clean", debugArg);
+      let result = await testUtils.runCommand(migratedDir, qxCmdPath, "clean", debugArg);
       t.match(result.output, new RegExp(`pending migrations`));
       t.comment("Dry run");
-      result = await testUtils.runCommand(migratedDir, qx, "migrate", "--verbose", "--dry-run", `--max-version=${maxVersion}`, debugArg);
+      result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", "--dry-run", `--max-version=${maxVersion}`, debugArg);
       t.match(result.output,new RegExp(`0 migrations applied, ${numMigrationsExpected} migrations pending`));
       t.comment("Run migration");
-      result = await testUtils.runCommand(migratedDir, qx, "migrate", "--verbose", `--max-version=${maxVersion}`, debugArg);
+      result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", `--max-version=${maxVersion}`, debugArg);
       t.match(result.output, new RegExp(`${numMigrationsExpected} migrations applied, 0 migrations pending`));
       let checksum = (await digest(migratedDir,'sha1')).hash;
       t.comment(`Checksum of migrated app: ${checksum}`);

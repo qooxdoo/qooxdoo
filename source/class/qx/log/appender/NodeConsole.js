@@ -47,10 +47,10 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      * @see https://github.com/chalk/chalk
      */
     __colorCodes: {
-      debug: '\u001b[38;5;183m',
-      info: "\u001b[38;5;119m",
-      warn: '\u001b[38;5;172m',
-      error: '\u001b[38;5;160m',
+      debug: '\u001b[38;5;3m', // yellow
+      info: "\u001b[38;5;12m", // light blue
+      warn: '\u001b[38;5;9m',  // light right
+      error: '\u001b[38;5;1m', // red
       reset: '\u001b[0m'
     },
 

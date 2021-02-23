@@ -17,7 +17,7 @@
 ************************************************************************ */
 /**
  * This is the main application class of the compiler.
- * 
+ *
  * @asset(qx/tool/*)
  *
  */
@@ -33,7 +33,7 @@ qx.Class.define("qx.tool.cli.Application", {
       try {
         await (new qx.tool.cli.Cli()).run();
       } catch (e) {
-        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
+        this.error("Error: " + (e.stack || e.message));
         process.exit(1);
       }
     }

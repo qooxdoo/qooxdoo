@@ -62,7 +62,7 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
     __removePath: async function(pathToRemove) {
       if (await fs.existsAsync(pathToRemove)) {
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`Removing ${pathToRemove}...`);
+          this.info(`Removing ${pathToRemove}...`);
         }
         await new Promise((resolve, reject) => {
           rimraf(pathToRemove, {}, err => {

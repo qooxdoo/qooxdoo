@@ -117,7 +117,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       try {
         data.qooxdoo_version = await this.getLibraryVersion(data.qooxdoo_path);
       } catch (e) {
-        qx.tool.compiler.Console.error(e.message);
+        this.error(e.message);
         throw new qx.tool.utils.Utils.UserError("Cannot find qooxdoo framework folder.");
       }
 
@@ -238,6 +238,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       }
 
       // copy template, replacing template vars
+      let that = this;
       function traverseFileSystem(sourceDir, targetDir) {
         let files = fs.readdirSync(sourceDir);
         for (let part of files) {
@@ -252,9 +253,9 @@ qx.Class.define("qx.tool.cli.commands.Create", {
                 template = template.replace(new RegExp(`\\$\{${var_name}\}`, "g"), values[var_name]);
               }
               if (argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
+                that.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
               }
-              // qx.tool.compiler.Console.log(template);
+              // that.log(template);
               if (fs.existsSync(targetFile)) {
                 throw new qx.tool.utils.Utils.UserError(`${targetFile} already exists.`);
               }
@@ -262,7 +263,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
             } else {
               // normal file
               if (argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> Copying ${sourceFile} to ${targetFile}...`);
+                that.info(`>>> Copying ${sourceFile} to ${targetFile}...`);
               }
               fs.copyFileSync(sourceFile, targetFile);
             }

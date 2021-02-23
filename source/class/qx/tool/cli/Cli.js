@@ -111,12 +111,8 @@ qx.Class.define("qx.tool.cli.Cli", {
       var title = "qooxdoo command line interface";
       title = "\n" + title + "\n" + "=".repeat(title.length);
 
-      // NOTE:: We CANNOT get the framework version here because we will not know which framework
-      //  to load until we have parse the command line args
-
-      title +=
-`
-Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
+      title += `
+Version: v${await qx.tool.config.Utils.getQxVersion()}
 `;
       title += "\n";
       // noinspection HtmlDeprecatedTag
@@ -232,14 +228,13 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
      * @param command {qx.tool.cli.Command} the command being run
      */
     async processCommand(command) {
-      qx.tool.compiler.Console.getInstance().setVerbose(this.argv.verbose);
       command.setCompilerApi(this._compilerApi);
       this._compilerApi.setCommand(command);
       await this.__notifyLibraries();
       try {
         return await command.process();
       } catch (e) {
-        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
+        this.error("Error: " + (e.stack || e.message));
         process.exit(1);
         return null;
       }
@@ -359,7 +354,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
             let backup = filepath + ".old";
             await fs.copyFileAsync(filepath, backup);
             if (!this.argv.quiet) {
-              qx.tool.compiler.Console.warn(`*** A backup of ${lockfile} has been saved to ${backup}, in case you need to revert to it. ***`);
+              this.warn(`*** A backup of ${lockfile} has been saved to ${backup}, in case you need to revert to it. ***`);
             }
             await installer.deleteLockfile();
             for (let lib of lockfileContent.libraries) {
@@ -370,7 +365,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
                   await installer.installFromLocaPath(lib.path, lib.uri);
                 }
               } else if (this.argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> ${lib.uri}@${lib.repo_tag} is already installed.`);
+                this.info(`>>> ${lib.uri}@${lib.repo_tag} is already installed.`);
               }
             }
             lockfileContent = await installer.getLockfileData();
@@ -404,7 +399,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
               m.shift();
               m = m.map(v => parseInt(v, 10));
               if (m[0] <= 1 && m[1] == 0 && m[2] < 15) {
-                qx.tool.compiler.Console.log("***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********");
+                this.warn("***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********");
               }
             }
           }
@@ -417,7 +412,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       // check if libraries are loaded
       if (config.libraries && needLibraries) {
         if (!config.libraries.every(libData => fs.existsSync(libData + "/Manifest.json"))) {
-          qx.tool.compiler.Console.log("One or more libraries not found - trying to install them from library repository...");
+          this.info("One or more libraries not found - trying to install them from library repository...");
           const installer = new qx.tool.cli.commands.package.Install({
             quiet: true,
             save: false

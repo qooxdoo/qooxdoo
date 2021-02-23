@@ -115,11 +115,11 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       let qooxdoo_version = await this.getQxVersion();
       let num_compat_repos = await this.__createIndexes(qooxdoo_version);
       if (this.argv.verbose) {
-        qx.tool.compiler.Console.log(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qooxdoo_version}`);
+        this.debug(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qooxdoo_version}`);
       }
 
       if (num_compat_repos === 0 && !this.argv.all && !this.argv.quiet) {
-        qx.tool.compiler.Console.info(
+        this.info(
           `Currently, no packages compatible with qooxdoo version ${qooxdoo_version} exist.`
         );
         return;
@@ -185,13 +185,13 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
             // output list
             if (this.argv.json) {
               // as JSON
-              qx.tool.compiler.Console.info(JSON.stringify(data, null, 2));
+              this.info(JSON.stringify(data, null, 2));
             } else {
-              qx.tool.compiler.Console.info(columnify(pretty, columnify_options));
+              this.info(columnify(pretty, columnify_options));
             }
           }
         } else if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`Repository ${repo} does not contain suitable qooxdoo libraries.`);
+          this.info(`Repository ${repo} does not contain suitable qooxdoo libraries.`);
         }
         return;
       }
@@ -253,7 +253,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
         for (let library of this.__libraries[repo.name]) {
           if (!semver.valid(library.version)) {
             if (this.argv.verbose) {
-              qx.tool.compiler.Console.warn(`>>> Ignoring '${repo.name}' ${library.name}': invalid version format '${library.version}'.`);
+              this.warn(`>>> Ignoring '${repo.name}' ${library.name}': invalid version format '${library.version}'.`);
             }
             continue;
           }
@@ -310,16 +310,16 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       // output list
       if (this.argv.json) {
         // as JSON
-        qx.tool.compiler.Console.info(JSON.stringify(expanded_list, null, 2));
+        this.info(JSON.stringify(expanded_list, null, 2));
       } else if (!this.argv.quiet) {
         // as columns
-        qx.tool.compiler.Console.info(columnify(expanded_list, columnify_options));
+        this.info(columnify(expanded_list, columnify_options));
         if (!this.argv.noheaders) {
-          qx.tool.compiler.Console.info();
-          qx.tool.compiler.Console.info("Note on columns: LATEST: Latest release that can be installed with this CLI;");
-          qx.tool.compiler.Console.info("                 COMPATIBLE: Latest release that is semver-compatible with the qooxdoo version used.");
+          this.info();
+          this.info("Note on columns: LATEST: Latest release that can be installed with this CLI;");
+          this.info("                 COMPATIBLE: Latest release that is semver-compatible with the qooxdoo version used.");
           if (!this.argv.all) {
-            qx.tool.compiler.Console.info("To see all libraries, including potentially incompatible ones, use 'qx package list --all'.");
+            this.info("To see all libraries, including potentially incompatible ones, use 'qx package list --all'.");
           }
         }
       }
@@ -385,7 +385,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
         let d = repo_data.description;
         if (!this.argv.all && d && (d.includes("(deprecated)") || d.includes("(unlisted)"))) {
           if (this.argv.verbose) {
-            qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name}: Deprecated or unlisted. `);
+            this.warn(`>>> Ignoring ${repo_name}: Deprecated or unlisted. `);
           }
           continue;
         }
@@ -406,7 +406,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
             let installedVersion = false;
             if (info === undefined) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name} ${tag_name}: Undefined info field. `);
+                this.warn(`>>> Ignoring ${repo_name} ${tag_name}: Undefined info field. `);
               }
               continue;
             }
@@ -417,7 +417,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
             let tag_version = tag_name.replace(/v/, "");
             if (version !== tag_version.substr(0, version.length)) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name} ${tag_name}, library '${library_name}': mismatch between tag version '${tag_version}' and library version '${version}'.`);
+                this.warn(`>>> Ignoring ${repo_name} ${tag_name}, library '${library_name}': mismatch between tag version '${tag_version}' and library version '${version}'.`);
               }
               continue;
             }
@@ -429,7 +429,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
               }
             } catch (e) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(`>>> Ignoring ${repo_name} ${tag_name}, library '${library_name}': invalid version format '${version}'.`);
+                this.warn(`>>> Ignoring ${repo_name} ${tag_name}, library '${library_name}': invalid version format '${version}'.`);
               }
             }
 

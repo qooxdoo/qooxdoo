@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
     process: async function() {
       let manifestModel = await qx.tool.config.Manifest.getInstance().load();
       let namespace = manifestModel.getValue("provides.namespace");
-      
+
       let script_path = this.argv.scriptpath;
       let script_name = path.basename(script_path);
       let resource_dir_path = path.join(process.cwd(), "source", "resource", namespace, this.argv.resourcedir);
@@ -108,7 +108,7 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
         }
       }
       // save
-      qx.tool.compiler.Console.debug(script_list);
+      this.debug(script_list);
       manifestModel
         .setValue("externalResources.script", script_list)
         .save();

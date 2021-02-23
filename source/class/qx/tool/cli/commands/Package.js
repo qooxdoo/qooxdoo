@@ -150,13 +150,13 @@ qx.Class.define("qx.tool.cli.commands.Package", {
       if (this.argv.save && manifestModel.isDirty()) {
         await manifestModel.save();
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`>>> Saved dependency data to ${manifestModel.getRelativeDataPath()}`);
+          this.info(`>>> Saved dependency data to ${manifestModel.getRelativeDataPath()}`);
         }
       }
       if (lockfileModel.isDirty()) {
         await lockfileModel.save();
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`>>> Saved library data to ${lockfileModel.getRelativeDataPath()}`);
+          this.info(`>>> Saved library data to ${lockfileModel.getRelativeDataPath()}`);
         }
       }
     },
@@ -256,7 +256,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
         let data = stringify(cache, {space: 2});
         await fs.writeFileAsync(path, data, "UTF-8");
       } catch (e) {
-        qx.tool.compiler.Console.error(`Error exporting cache to ${path}:` + e.message);
+        this.error(`Error exporting cache to ${path}:` + e.message);
         process.exit(1);
       }
     },

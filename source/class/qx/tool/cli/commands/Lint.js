@@ -100,7 +100,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       }
       if (this.argv.config) {
         const fileConfig = linter.getConfigForFile(files[0]);
-        qx.tool.compiler.Console.info(JSON.stringify(fileConfig, null, "  "));
+        this.info(JSON.stringify(fileConfig, null, "  "));
       } else {
         let report = linter.executeOnFiles(files);
         if (this.argv.fix) {
@@ -117,22 +117,22 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           const s = formatter(report.results);
           if (this.argv.outputFile) {
             if (this.argv.verbose) {
-              qx.tool.compiler.Console.info(`Report to be written to ${this.argv.outputFile}`);
+              this.info(`Report to be written to ${this.argv.outputFile}`);
             }
             await fs.writeFileAsync(this.argv.outputFile, s, "UTF-8")
               .then(() => {
                 if (this.argv.verbose) {
-                  qx.tool.compiler.Console.info(`Report written to ${this.argv.outputFile}`);
+                  this.info(`Report written to ${this.argv.outputFile}`);
                 }
               })
-              .catch(e => qx.tool.compiler.Console.error(`Error writing report to ${this.argv.outputFile}:` + e.message));
+              .catch(e => this.error(`Error writing report to ${this.argv.outputFile}:` + e.message));
           } else if (report.errorCount > 0 || this.argv.warnAsError) {
             throw new qx.tool.utils.Utils.UserError(s);
           } else {
-            qx.tool.compiler.Console.info(s);
+            this.info(s);
           }
         } else {
-          qx.tool.compiler.Console.info("No errors found!");
+          this.info("No errors found!");
         }
       }
     },

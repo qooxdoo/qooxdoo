@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
         var cmd = new qx.tool.cli.commands.Config(argv);
         return cmd[name](argv)
           .catch(e => {
-            qx.tool.compiler.Console.log(e.stack || e.message);
+            this.error(e.stack || e.message);
             process.exit(1);
           });
       }
@@ -102,7 +102,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       if (!argv.quiet) {
         let desc = this.__describe(argv.key);
         if (!desc) {
-          qx.tool.compiler.Console.warn("Warning: Unrecognised configuration key " + argv.key);
+          this.warn("Warning: Unrecognised configuration key " + argv.key);
         }
       }
     },
@@ -154,11 +154,11 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let value = cfg.db(argv.key);
       if (argv.bare) {
-        qx.tool.compiler.Console.log(value||"");
+        this.info(value||"");
       } else if (value !== undefined) {
-        qx.tool.compiler.Console.log(argv.key + "=" + value);
+        this.info(argv.key + "=" + value);
       } else {
-        qx.tool.compiler.Console.log(argv.key + " is not set");
+        this.info(argv.key + " is not set");
       }
     },
 
@@ -193,7 +193,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       }));
 
       // Display each value
-      qx.tool.compiler.Console.log(columnify(keys));
+      this.info(columnify(keys));
     }
   }
 });

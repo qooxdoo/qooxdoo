@@ -147,7 +147,8 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
             this.markAsApplied();
             // update dependencies in Manifest
             let updateManifest = {
-              "@qooxdoo/framework": "^6.0.0", "@qooxdoo/compiler": "^1.0.0"
+              "@qooxdoo/framework": "^6.0.0",
+              "@qooxdoo/compiler": "^1.0.0"
             }
             for (let [dependencyName, range] of Object.entries(updateManifest)) {
               await this.updateManfestDependency(manifestModel, dependencyName, range);
