@@ -24,7 +24,6 @@ const semver = require("semver");
 /**
  * Entry point for the CLI
  */
-/* global window */
 qx.Class.define("qx.tool.cli.Cli", {
   extend: qx.core.Object,
 
@@ -34,6 +33,8 @@ qx.Class.define("qx.tool.cli.Cli", {
       throw new Error("qx.tool.cli.Cli has already been initialized!");
     }
     qx.tool.cli.Cli.__instance = this;
+    // use node console log appender with colors
+    qx.log.appender.NodeConsole.setUseColors(true);
   },
 
   members: {
@@ -118,6 +119,7 @@ qx.Class.define("qx.tool.cli.Cli", {
 Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
 `;
       title += "\n";
+      // noinspection HtmlDeprecatedTag
       title +=
       `Typical usage:
         qx <commands> [options]
@@ -128,13 +130,10 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       this.argv = yargs.argv;
       // Logging - needs to be unified..
       if (this.argv.debug) {
-        qx.tool.cli.LogAppender.setMinLevel("debug");
         qx.log.Logger.setLevel("debug");
       } else if (this.argv.quiet) {
-        qx.tool.cli.LogAppender.setMinLevel("error");
         qx.log.Logger.setLevel("error");
       } else {
-        qx.tool.cli.LogAppender.setMinLevel("warn"); // BC
         qx.log.Logger.setLevel("info");
       }
     },

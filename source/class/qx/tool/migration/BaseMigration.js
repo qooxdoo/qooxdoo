@@ -93,23 +93,46 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
-     * Marks a migration step as applied
+     * Marks one or more migration steps as applied
+     * @param {Number|String} param Optional. If number, number of migrations to mark
+     * as applied, defaults to 1; if String, message to be `info()`ed if verbose=true
      */
-    markAsApplied() {
-      this.setApplied(this.getApplied()+1);
+    markAsApplied(param) {
+      let numberOfMigrations = 1;
+      if (typeof param == "string") {
+        if (this.getRunner().getVerbose()) {
+          this.info(param);
+        }
+      } else if (typeof param == "number") {
+        numberOfMigrations = param;
+      } else if (typeof param != "undefined") {
+        throw new TypeError("Argument must be string or number");
+      }
+      this.setApplied(this.getApplied()+numberOfMigrations);
     },
 
     /**
-     * Marks a migration step as pending
+     * Marks one or more migration steps as pending
+     * @param {Number|String} param Optional. If number, number of migrations to mark
+     * as applied, defaults to 1; if String, message to be `announce()`ed
      */
-    markAsPending() {
-      this.setPending(this.getPending()+1);
+    markAsPending(param) {
+      let numberOfMigrations = 1;
+      if (typeof param == "string") {
+        if (this.getRunner().getVerbose()) {
+          this.announce(param);
+        }
+      } else if (typeof param == "number") {
+        numberOfMigrations = param;
+      } else if (typeof param != "undefined") {
+        throw new TypeError("Argument must be string or number");
+      }
+      this.setPending(this.getPending()+numberOfMigrations);
     },
 
     /**
      * Rename source files
      * @param {String[]} fileList Array containing arrays of [new name, old name]
-     * @return {Promise<Boolean>} Whether this migration still has to be applied
      */
     async renameFiles(fileList) {
       let dryRun = this.getRunner().getDryRun();
@@ -231,11 +254,10 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
-          this.announce(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
-          this.markAsPending();
+          this.markAsPending(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
         } else {
           configModel.setValue("$schema", schemaUri);
-          this.markAsApplied();
+          this.markAsApplied(`Schema version for ${configModel.getDataPath()} updated.`);
         }
       }
     }

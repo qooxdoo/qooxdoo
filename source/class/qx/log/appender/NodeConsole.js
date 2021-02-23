@@ -14,6 +14,7 @@
    Authors:
      * Daniel Wagner (d_wagner)
      * Thomas Herchenroeder (thron7)
+     * Christian Boulanger (cboulanger)
 
 ************************************************************************ */
 
@@ -23,7 +24,6 @@
  *
  * @ignore(process.*)
  */
-
 qx.Class.define("qx.log.appender.NodeConsole", {
 
   statics:
@@ -38,6 +38,32 @@ qx.Class.define("qx.log.appender.NodeConsole", {
     __ERR : null,
 
     /**
+     * Whether to use color codes
+     */
+    __useColors: false,
+
+    /**
+     * Which color codes to use.
+     * @see https://github.com/chalk/chalk
+     */
+    __colorCodes: {
+      debug: '\u001b[38;5;183m',
+      info: "\u001b[38;5;119m",
+      warn: '\u001b[38;5;172m',
+      error: '\u001b[38;5;160m',
+      reset: '\u001b[0m'
+    },
+
+    /**
+     * Turn the use of colors on or off
+     * @param {Boolean} value
+     */
+    setUseColors(value) {
+      qx.core.Assert.assertBoolean(value);
+      this.__useColors = value;
+    },
+
+    /**
      * Writes a message to the shell. Errors will be sent to STDERR, everything
      * else goes to STDOUT
      *
@@ -46,6 +72,9 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      */
     log : function(logMessage, level)
     {
+      if (this.__useColors && this.__colorCodes[level]) {
+        logMessage = this.__colorCodes[level] + logMessage + this.__colorCodes.reset;
+      }
       if (level === "error") {
         this.__ERR.write(logMessage+'\n');
       } else {
@@ -100,18 +129,17 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      */
     process : function(entry)
     {
-      var level = entry.level || "info";
-      for (var prop in entry) {
-        if (prop == "items") {
-          var items = entry[prop];
+      let level = entry.level || "info";
+      for (let prop of Object.keys(entry)) {
+        if (prop === "items") {
+          let items = entry[prop];
           for (var p=0; p<items.length; p++) {
-            var item = items[p];
+            let item = items[p];
             this[level](item.text);
           }
         }
       }
     }
-
   },
 
   /**

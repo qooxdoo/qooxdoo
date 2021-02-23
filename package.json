@@ -94,6 +94,7 @@
     "set-value": "^3.0.2",
     "showdown": "^1.9.1",
     "source-map": "^0.5.7",
+    "tap-colorize": "^1.2.0",
     "tmp": "0.2.1",
     "uglify-es": "^3.3.9",
     "unset-value": "^1.0.0",

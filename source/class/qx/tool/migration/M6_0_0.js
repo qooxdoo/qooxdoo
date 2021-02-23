@@ -57,10 +57,10 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       ];
       // change names in .gitignore
       if ((await this.checkFilesToRename(migrateFiles)).length) {
-        let result = await this.renameFiles(migrateFiles);
+        await this.renameFiles(migrateFiles);
         if (dryRun) {
           this.announce(".gitignore needs to be updated.");
-          this.markAsPending();
+          this.markAsPending(3);
         } else {
           await this.replaceInFiles([{
             files: path.join(cwd, ".gitignore"),
@@ -105,7 +105,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
         if (updateManifest) {
           if (dryRun) {
-            this.markAsPending();
+            this.markAsPending(3);
           } else {
             manifestModel
               .transform("info.authors", authors => {
@@ -142,7 +142,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("requires.qxcompiler")
               .unset("requires.qooxdoo-compiler")
               .unset("requires.qooxdoo-sdk");
-            verbose || this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose && this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             await manifestModel.save();
             this.markAsApplied();
             // update dependencies in Manifest
