@@ -6,5 +6,6 @@
 window.docsify_alias = {
   '/.*/_sidebar\.md': '/_sidebar.md',
   '/test-[0-9]+': "/about.md",
-  "/test": "/about.md"
+  "/test": "/about.md",
+  "/cli/packages": "/development/cli/packages"
 };
