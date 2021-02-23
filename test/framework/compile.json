@@ -41,8 +41,7 @@
       "title": "Qooxdoo TestTAPper",
       "environment": {
         "qx.icontheme": "Tango",
-        "qxl.testtapper.testNameSpace": "qx.test",
-        "qx.debug": false
+        "qxl.testtapper.testNameSpace": "qx.test"
       },
       "include": [
         "qx.test.*"

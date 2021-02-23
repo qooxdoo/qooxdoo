@@ -1009,10 +1009,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       throw new qx.dev.unit.RequirementError(null, msg);
     },
 
-    hasDebug: function() {
-      return qx.core.Environment.get("qx.debug");
-    },
-
     // Fake response
     respond: function(response, req) {
       var req = req || this.req;
