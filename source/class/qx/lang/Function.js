@@ -157,6 +157,7 @@ qx.Bootstrap.define("qx.lang.Function",
      * <li><strong>periodical</strong>: If set the returned function will periodically perform the actual execution with this specified interval
      *      and return a timer handle when called. Default is no periodical execution.</li>
      * <li><strong>attempt</strong>: If set to true, the returned function will try to execute and return either the results or false on error. Default is false.</li>
+     * <li><strong>always</strong>: Always wrap the function with a closure, even if the options suggest that it is not necessary</li>
      * </ul>
      *
      * @return {Function} Wrapped function
@@ -173,7 +174,7 @@ qx.Bootstrap.define("qx.lang.Function",
       }
 
       // Check for at least one attribute.
-      if (!(options.self || options.args || options.delay != null || options.periodical != null || options.attempt)) {
+      if (!(options.self || options.args || options.delay != null || options.periodical != null || options.attempt || options.always)) {
         return func;
       }
 
