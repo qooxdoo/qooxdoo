@@ -509,7 +509,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action ignores invalid check in production": function() {
-      this.skip();
+      this.skip("needs runtime enviroment checks!");
       
       this.require(["debug"]);
 
