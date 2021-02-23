@@ -7,7 +7,7 @@ standard title.
 
 If you just want to change the title of the application web page, the easier way
 to do it is set the title on the Application object - if you're using the
-compiler API, see the `title` property of `qxcompiler.app.Application`, but if
+compiler API, see the `title` property of `qx.tool.compiler.app.Application`, but if
 you're using `qx` command line tool modify your `compile.json` to look like
 this:
 
