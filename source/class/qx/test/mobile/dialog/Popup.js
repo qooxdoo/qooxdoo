@@ -71,12 +71,9 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
       popup.hide();
       this.assertFalse(blocker.isShown(), 'Modal mode is true, called dialog.hide(), Blocker should not be shown.');
       popup.destroy();
-    },
-
-
-    hasDebug: function() {
-      return qx.core.Environment.get("qx.debug");
     }
+
+    
   }
 
 });

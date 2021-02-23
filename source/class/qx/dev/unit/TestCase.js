@@ -66,6 +66,16 @@ qx.Class.define("qx.dev.unit.TestCase",
     },
 
     /**
+     * Checks if qx.debug set
+     * used by this.require["debug"]
+    */
+   hasDebug: function() {
+     return qx.core.Environment.get("qx.debug");
+   },
+
+
+
+    /**
      * Instruct the test to wait. Used for asynchronous tests.
      *
      * @param delay {Integer?5000} Amount of time in milliseconds to wait.
