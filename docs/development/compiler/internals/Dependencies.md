@@ -60,7 +60,7 @@ introduce a recursive, unresolvable dependency.
 
 However this is only an issue for loading the class, if we can avoid calling
 `defer()` until all the classes have been loaded then the problem disappears;
-this is the solution used by QxCompiler in almost all cases. It's important to
+this is the solution used by the compiler in almost all cases. It's important to
 note that a class is not fully defined until it's `defer` method has been
 called, so the exception is that any class methods which are called when
 defining a class (such as `qx.core.Environment.get()`) must make sure that the
@@ -80,7 +80,7 @@ have dependencies caused by indirect calls from `.defer()`.
 
 If you find that you have code which is called via a class's `.defer()` method
 and there is an unsatisfied dependency, the solution is to add an `@require` at
-the top of your code to let QxCompiler know that your class will need it. This
+the top of your code to let the compiler know that your class will need it. This
 is fairly rare though - the entire Qooxdoo library only needed 6 additonal
 `@require` statements, to add to the 269 that were already in use.
 

@@ -42,7 +42,7 @@ the latest version of Qooxdoo and the compiler.
 To install globally, all you need to do is this:
 
 ```
-npm i -g @qooxdoo/compiler
+npm i -g @qooxdoo/framework
 ```
 
 ### Creating your first application
@@ -126,14 +126,14 @@ you just want to make sure that if your customer asks you to make a minor change
 a year after release, that you don't end up on some massive "upgrade" road trip.
 
 In situations like this, the solution is to install a private version of
-`@qooxdoo/compiler` inside your project; from then on, all you have to do is to
+`@qooxdoo/framework` inside your project; from then on, all you have to do is to
 use `npx` to execute `qx` commands.
 
 ```bash
 mkdir myFirstApp
 cd myFirstApp
 npm init             # answer npm's questions
-npm i @qooxdoo/compiler
+npm i @qooxdoo/framework
 npx qx create myFirstApp --noninteractive --out=.
 npx qx compile
 ```
