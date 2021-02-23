@@ -304,44 +304,17 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
               }
             }
 
-            // qooxdoo version @deprecated
-            var qx_versions = data.info["qooxdoo-versions"];
-            // @deprecated
-            var qx_version_range = (data.requires && (data.requires["@qooxdoo/framework"] || data.requires["qooxdoo-sdk"])) || data.info["qooxdoo-range"];
-            if (this.argv.verbose && data.info["qooxdoo-range"]) {
-              this.warn(`!!! info.qooxdoo-range is deprecated. Please use the requires["@qooxdoo/framework"] key instead.`);
-            }
-            if (this.argv.verbose && data.requires && data.requires["qooxdoo-sdk"]) {
-              this.warn(`!!! requires["qooxdoo-sdk"] is deprecated. Please use the requires["@qooxdoo/framework"] key instead.`);
-            }
-
-            // provide backwards-compatibility for info.qooxdoo-versions containing the semver range
-            // (to be removed)
-            if (typeof qx_versions == "string" && !qx_version_range) {
-              qx_version_range = qx_versions;
-              if (this.argv.verbose) {
-                this.warn(`!!! info.qooxdoo-version is deprecated. Please use the requires["@qooxdoo/framework"] key instead.`);
-              }
-            }
-
-            // provide backwards-compatibility for info.qooxdoo-version
-            if (qx_versions instanceof Array && qx_versions.length && !qx_version_range) {
-              qx_version_range = qx_versions.join(" || ");
-              if (this.argv.verbose) {
-                this.warn(`!!! Manifest key 'info.qooxdoo-version' is deprecated. Please use the requires["@qooxdoo/framework"] key instead.`);
-              }
-            }
-
+            var qx_version_range = data.requires && data.requires["@qooxdoo/framework"];
             if (!qx_version_range) {
               if (this.argv.verbose) {
-                this.warn(`!!! No compatibility information, skipping...`);
+                this.warn(`!!! No valid qooxdoo version information in the manifest, skipping...`);
               }
               continue;
             }
 
             if (!semver.validRange(qx_version_range, {loose: true})) {
               if (this.argv.verbose) {
-                this.warn(`!!! Invalid compatibility information, skipping...`);
+                this.warn(`!!! Invalid qooxdoo version information in the Manifest, skipping...`);
               }
               continue;
             }
