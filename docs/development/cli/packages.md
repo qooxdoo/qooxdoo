@@ -294,7 +294,6 @@ the `Manifest.json` - for example:
     class: "source/class",
     resource: "source/resource",
     translation: "source/translation",
-    type: "add-in",
     application: {
       class: "apiviewer.Application",
       theme: "apiviewer.Theme",
@@ -456,28 +455,22 @@ the version with a breaking change (which increments the major version). For
 example, a package that depends on `"@qooxdoo/framework":"^6.0.0-alpha"` will be
 considered compatible with all 6.x versions, but not with v7.x.
 
-In addition, the previous, now deprecated `info.Qooxdoo-versions` entry is
-supported, which takes an array of version numbers. You need to specify each and
-every version that you want to support, and any new Qooxdoo version will break
-compatibility. Support for this will be removed in version 7.
-
 ### qx package and NPM
 
-There are two ways in which the package system and the NPM package manager
-relate to each other: a) the general question why packages aren't distributed as
-NPM packages, as the compiler is, and b) how NPM-specific information is handled
-by the compiler.
+There are two ways in which the package system and the NPM
+package manager relate to each other: a) the general question why
+packages aren't distributed as NPM packages, as the compiler is,
+and b) how NPM-specific information is handled by the compiler.
 
-a) Since the compiler is an NPM module, one might ask why we aren't using NPM
-for Qooxdoo packages. Why create an additional package system? Qooxdoo packages
-work similarly to NPM, but without storing releases in a centralized repository.
-They are (currently) downloaded directly from GitHub releases because that is
-where most Qooxdoo code is developed and published.
+a) Since the compiler is an NPM module, one might ask why we aren't using
+NPM for Qooxdoo packages. Why create an additional package system? Qooxdoo
+packages work similarly to NPM, but without storing releases in a centralized
+repository. They are (currently) downloaded directly from GitHub releases
+because that is where most Qooxdoo code is developed and published.
 
-b) Under normal circumstances, a package does not need to use NPM or maintain a
-`package.json` file. In particular, neither the `@qooxdoo/compiler` nor the
-`@qooxdoo/framework` npm packages should be NPM dependencies of the package.
-Instead, they are installed either at the level of the application or globally
-(see the [docs on installation](../README.md)). You might want to use NPM for
-development-time task such as transpiling your code, but all NPM-related
-information in the package will be ignored by the compiler.
+b) Under normal circumstances, a package does not need to use NPM or
+maintain a `package.json` file. In particular, the `@qooxdoo/framework`
+npm package should not be NPM dependency of the package, unless the
+package contains a standalone application. You might want to use
+NPM for development-time task such as transpiling your code, but all
+NPM-related information in the package will be ignored by the compiler.

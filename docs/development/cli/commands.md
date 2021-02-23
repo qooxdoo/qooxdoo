@@ -85,9 +85,7 @@ use `--out=.`.
 ## Compile
 
 To compile a Qooxdoo project into a state that can be opened in a browser, use
-`qx compile`. This is the CLI frontend for the  
-[@qooxdoo/compiler library](https://github.com/qooxdoo/qooxdoo-compiler/blob/master/README.md)
-. The command has the following options:
+`qx compile`. The command has the following options:
 
 ```bash
 qx compile [options]
