@@ -156,10 +156,9 @@ A complete example is:
 The `targets` key is an array of objects, one for each possible target that can
 be compiled. Each object can contain:
 
-- `type` - this is either "source", "build", or a class name in
-  `@qooxdoo/compiler`; using a class name is advanced usage, but ultimately the
-  standard names just shortcuts to class names anyway ("source" is
-  `qxcompiler.targets.SourceTarget`, etc)
+- `type` - this is either "source", "build", or a class name; using a class name 
+  is advanced usage, but ultimately the standard names just shortcuts to class 
+  names anyway ("source" is `qx.tool.compiler.targets.SourceTarget`, etc).
 
 - `outputPath` the folder where the compilation outputs to, and will be created
   if it does not already exist
@@ -240,12 +239,12 @@ the @babel/plugin-proposal-\* plug ins which add early proposed additions to
 javascript.
 
 Not surprisingly this comes with caveats, first of which is that changes to the
-language may well require an upgrade to QxCompiler itself so that it can
+language may well require an upgrade to the compiler itself so that it can
 recognise the new language construct and act accordingly.
 
-In many cases, turning on a new plugin that QxCompiler does not support will
+In many cases, turning on a new plugin that the compiler does not support will
 just cause extra warnings, usually about unresolved symbols because (EG)
-QxCompiler did not understand a new syntax of declaring the variable in the
+the compiler did not understand a new syntax of declaring the variable in the
 first place. But there may be other side effects where the plugin simply cannot
 work without an upgrade.
 
@@ -314,13 +313,13 @@ etc.
 
 ### Bundling source files together (previous called Hybrid Targets)
 
-In addition to source or build targets, the generator (ie not QxCompiler)
+In addition to source or build targets, the generator (ie not the compiler)
 supports hybrid targets which is effectively a source target but with the
 ability combine multiple source files into a larger javascript file - this can
 have a significant reduction on the time it takes to load an application during
 development, especially if the application is running via a webserver.
 
-The equivalent in QxCompiler is to specify the `bundle`, which you can do
+The equivalent in the compiler is to specify the `bundle`, which you can do
 globally or on a per-application basis. The `bundle` allows you to use wildcards
 to select classes which are to be bundled together into as few files as
 possible - a common choice would be to include `qx.*` in the bundle, and leave
