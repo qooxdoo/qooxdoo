@@ -26,7 +26,7 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
   },
   members: {
     process: async function() {
-      this.warn("`qx package migrate` has been deprecated in favor of `qx migrate`.");
+      qx.tool.compiler.Console.warn("`qx package migrate` has been deprecated in favor of `qx migrate`.");
       this.base(arguments);
     }
   }

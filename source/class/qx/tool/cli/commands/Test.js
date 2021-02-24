@@ -141,10 +141,10 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         // handle result and inform user
         if (exitCode === 0) {
           if (test.getName() && !this.argv.quiet) {
-            this.info(`Test '${test.getName()}' passed.`);
+            qx.tool.compiler.Console.info(`Test '${test.getName()}' passed.`);
           }
         } else if (test.getName()) {
-          this.error(`Test '${test.getName()}' failed with exit code ${exitCode}.`);
+          qx.tool.compiler.Console.error(`Test '${test.getName()}' failed with exit code ${exitCode}.`);
         }
         // overwrite error code only in case of errors
         if (exitCode !== 0) {
@@ -170,7 +170,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       this.addListener("making", () => {
         if (!this.hasListener("runTests") && (this.__tests.length === 0) &&
           (!this.getCompilerApi() || typeof this.getCompilerApi().beforeTests != "function")) {
-          this.error(
+          qx.tool.compiler.Console.error(
             `No tests are registered! You need to either register tests, or install a testrunner.
              See documentation at https://qooxdoo.org/docs/#/development/testing/`
           );
@@ -179,13 +179,13 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       });
 
       this.addListener("afterStart", async () => {
-        this.info(`Running unit tests`);
+        qx.tool.compiler.Console.info(`Running unit tests`);
         await this.fireDataEventAsync("runTests", this);
         if (this.getCompilerApi() && typeof this.getCompilerApi().beforeTests == "function") {
           await this.getCompilerApi().beforeTests(this);
         }
         for (let test of this.__tests) {
-          this.info(`Running ${test.getName()}`);
+          qx.tool.compiler.Console.info(`Running ${test.getName()}`);
           await test.execute();
         }
         process.exit(this.getExitCode());

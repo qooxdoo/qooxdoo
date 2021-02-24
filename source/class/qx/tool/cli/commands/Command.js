@@ -109,7 +109,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
         let {pending, applied} = await runner.runMigrations();
         await fsp.unlink(semaphore);
         if (pending) {
-          this.warn(
+          qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
             `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n`+
             `*** and '(npx) qx migrate' to apply th changes.`

@@ -33,7 +33,7 @@ qx.Class.define("qx.tool.cli.Application", {
       try {
         await (new qx.tool.cli.Cli()).run();
       } catch (e) {
-        this.error("Error: " + (e.stack || e.message));
+        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
         process.exit(1);
       }
     }

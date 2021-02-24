@@ -69,7 +69,7 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
         prereleases: this.argv.prereleases
       })).process();
       if (!this.argv.quiet) {
-        this.info("Upgrading project dependencies to their latest available releases...");
+        qx.tool.compiler.Console.info("Upgrading project dependencies to their latest available releases...");
       }
       let data = await this.getLockfileData();
       let found = false;
@@ -92,13 +92,13 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
         found = true;
         if (this.argv.releasesOnly && (!qx.lang.Type.isString(library.repo_tag) || !library.repo_tag.startsWith("v"))) {
           if (!this.argv.quiet) {
-            this.info(`Skipping ${library.library_name} (${library.uri}@${library.repo_tag}) since it is not a release.`);
+            qx.tool.compiler.Console.info(`Skipping ${library.library_name} (${library.uri}@${library.repo_tag}) since it is not a release.`);
           }
           continue;
         }
         try {
           if (this.argv.dryrun) {
-            this.info(`Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`);
+            qx.tool.compiler.Console.info(`Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`);
             continue;
           }
           if (library.repo_tag && this.argv.reinstall) {
@@ -107,7 +107,7 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
             await installer.install(library.uri);
           }
         } catch (e) {
-          this.warn(e.message);
+          qx.tool.compiler.Console.warn(e.message);
         }
       }
       if (!found) {

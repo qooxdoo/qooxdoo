@@ -117,7 +117,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       try {
         data.qooxdoo_version = await this.getLibraryVersion(data.qooxdoo_path);
       } catch (e) {
-        this.error(e.message);
+        qx.tool.compiler.Console.error(e.message);
         throw new qx.tool.utils.Utils.UserError("Cannot find qooxdoo framework folder.");
       }
 

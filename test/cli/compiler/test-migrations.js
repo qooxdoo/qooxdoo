@@ -24,7 +24,7 @@ function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
       await testUtils.sync(unmigratedDir, migratedDir);
       t.comment("Upgrade notice");
       let result = await testUtils.runCommand(migratedDir, qxCmdPath, "clean", debugArg);
-      t.match(result.output, new RegExp(`pending migrations`));
+      t.match(result.error, new RegExp(`pending migrations`));
       t.comment("Dry run");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", "--dry-run", `--max-version=${maxVersion}`, debugArg);
       t.match(result.output,new RegExp(`0 migrations applied, ${numMigrationsExpected} migrations pending`));

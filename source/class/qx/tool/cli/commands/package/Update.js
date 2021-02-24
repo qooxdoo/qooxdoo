@@ -83,7 +83,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       // export only
       if (this.argv.exportOnly) {
         if (!this.argv.file) {
-          this.error("Path required via --file argument.");
+          qx.tool.compiler.Console.error("Path required via --file argument.");
           process.exit(1);
         }
         this.exportCache(this.argv.file);
@@ -109,7 +109,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             message: "Searching GitHub requires an API token - visit https://github.com/settings/tokens to obtain one " + "(you do not need to assign any permissions, just create a token);\nWhat is your GitHub API Token ? "
           }]);
           if (!response.token) {
-            this.error("You have not provided a GitHub token.");
+            qx.tool.compiler.Console.error("You have not provided a GitHub token.");
             return;
           }
           github.token = response.token;
@@ -122,8 +122,8 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
       let num_libraries = this.getCache().num_libraries;
       if (num_libraries && !this.argv.quiet) {
-        this.info(`Found ${num_libraries} releases of libraries.`);
-        this.info(`Run 'qx package list' in the root dir of your project to see which versions of these libraries are compatible.`);
+        qx.tool.compiler.Console.info(`Found ${num_libraries} releases of libraries.`);
+        qx.tool.compiler.Console.info(`Run 'qx package list' in the root dir of your project to see which versions of these libraries are compatible.`);
       }
 
       // save cache and export it if requested
@@ -135,7 +135,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
     async updateFromRepository() {
       if (!this.argv.quiet) {
-        this.info("Downloading cache from GitHub ...");
+        qx.tool.compiler.Console.info("Downloading cache from GitHub ...");
       }
       let url = this.getRepositoryCacheUrl();
       try {
@@ -156,7 +156,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
       // repositories
       if (!this.argv.quiet) {
-        this.info("Searching for package repositories on GitHub...");
+        qx.tool.compiler.Console.info("Searching for package repositories on GitHub...");
       }
 
       let query = "topic:qooxdoo-package fork:true";
@@ -188,7 +188,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           continue;
         }
         if (this.argv.verbose) {
-          this.info(`### Found ${name} ...`);
+          qx.tool.compiler.Console.info(`### Found ${name} ...`);
         }
         this.__names.push(name);
         let repository = new Repository(name, auth);
@@ -205,7 +205,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
         try {
           var releases_data = await repository.listReleases();
         } catch (e) {
-          this.error("Error retrieving releases: " + e);
+          qx.tool.compiler.Console.error("Error retrieving releases: " + e);
           continue;
         }
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
         let versions = releases.map(r => r.version);
         if (this.argv.verbose) {
-          this.info(`>>> Retrieved ${releases.length} release(s) of ${name}: ${versions.join(", ")}.`);
+          qx.tool.compiler.Console.info(`>>> Retrieved ${releases.length} release(s) of ${name}: ${versions.join(", ")}.`);
         }
 
         // get Manifest.json of each release to determine compatible qooxdoo versions
@@ -253,7 +253,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 data = qx.tool.utils.Json.parseJson(data);
               } catch (e) {
                 if (this.argv.verbose) {
-                  this.warn(`!!!  Parse error: ${e.message}`);
+                  qx.tool.compiler.Console.warn(`!!!  Parse error: ${e.message}`);
                 }
               }
             }
@@ -266,7 +266,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 this.debug(`>>> No qooxdoo.json`);
               }
             } else if (this.argv.verbose) {
-              this.warn(`!!! Error: ${e.message}`);
+              qx.tool.compiler.Console.warn(`!!! Error: ${e.message}`);
             }
           }
 
@@ -282,10 +282,10 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             } catch (e) {
               if (e.message.match(/404/)) {
                 if (this.argv.verbose) {
-                  this.warn(`!!!  File does not exist.`);
+                  qx.tool.compiler.Console.warn(`!!!  File does not exist.`);
                 }
               } else if (this.argv.verbose) {
-                this.warn(`!!! Error: ${e.message}`);
+                qx.tool.compiler.Console.warn(`!!! Error: ${e.message}`);
               }
               continue;
             }
@@ -297,7 +297,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 data = qx.tool.utils.Json.parseJson(data);
               } catch (e) {
                 if (this.argv.verbose) {
-                  this.warn(`!!! Parse error: ${e.message}`);
+                  qx.tool.compiler.Console.warn(`!!! Parse error: ${e.message}`);
                   this.debug(data);
                 }
                 continue;
@@ -307,14 +307,14 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             var qx_version_range = data.requires && data.requires["@qooxdoo/framework"];
             if (!qx_version_range) {
               if (this.argv.verbose) {
-                this.warn(`!!! No valid qooxdoo version information in the manifest, skipping...`);
+                qx.tool.compiler.Console.warn(`!!! No valid qooxdoo version information in the manifest, skipping...`);
               }
               continue;
             }
 
             if (!semver.validRange(qx_version_range, {loose: true})) {
               if (this.argv.verbose) {
-                this.warn(`!!! Invalid qooxdoo version information in the Manifest, skipping...`);
+                qx.tool.compiler.Console.warn(`!!! Invalid qooxdoo version information in the Manifest, skipping...`);
               }
               continue;
             }

@@ -133,7 +133,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         ]
         );
         if (!response.token) {
-          this.error("You have not provided a GitHub token.");
+          qx.tool.compiler.Console.error("You have not provided a GitHub token.");
           return;
         }
         github.token = response.token;
@@ -268,8 +268,8 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           .setValue("info.version", new_version);
         if (argv.dryrun) {
           if (!argv.quiet) {
-            this.info(`Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`);
-            this.info(manifestModel.getData());
+            qx.tool.compiler.Console.info(`Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`);
+            qx.tool.compiler.Console.info(manifestModel.getData());
           }
         } else {
           manifestModel.save();
@@ -282,17 +282,17 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         let data = await qx.tool.utils.Json.loadJsonAsync(package_json_path);
         data.version = new_version;
         if (this.argv.dryrun) {
-          this.info("Dry run: Not changing package.json version...");
+          qx.tool.compiler.Console.info("Dry run: Not changing package.json version...");
         } else {
           await qx.tool.utils.Json.saveJsonAsync(package_json_path, data);
           if (!this.argv.quiet) {
-            this.info(`Updated version in package.json.`);
+            qx.tool.compiler.Console.info(`Updated version in package.json.`);
           }
         }
       }
 
       if (argv.dryrun) {
-        this.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
+        qx.tool.compiler.Console.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
         process.exit(0);
       }
 
@@ -314,7 +314,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       if (!argv.quiet) {
-        this.info(`Creating tag and release '${tag}' of ${repo_name}...`);
+        qx.tool.compiler.Console.info(`Creating tag and release '${tag}' of ${repo_name}...`);
       }
 
       // commit and push
@@ -334,7 +334,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         };
         await octokit.repos.createRelease(release_data);
         if (!argv.quiet) {
-          this.info(`Published new version '${tag}'.`);
+          qx.tool.compiler.Console.info(`Published new version '${tag}'.`);
         }
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError(e.message);
@@ -347,7 +347,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           repo,
           names:topics});
         if (!argv.quiet) {
-          this.info(`Added GitHub topic '${topic}'.`);
+          qx.tool.compiler.Console.info(`Added GitHub topic '${topic}'.`);
         }
       }
       await this.run("git", ["pull"]);
@@ -359,7 +359,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
      */
     __createIndexFile: async argv => new Promise((resolve, reject) => {
       if (argv.verbose && !argv.quiet) {
-        this.info("Creating index file...");
+        qx.tool.compiler.Console.info("Creating index file...");
       }
       glob(qx.tool.config.Manifest.config.fileName, {matchBase: true}, async (err, files) => {
         if (err) {
@@ -394,13 +394,13 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         // write index file
         const registryModel = qx.tool.config.Registry.getInstance();
         if (argv.dryrun) {
-          this.info(`Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`);
-          this.info(data);
+          qx.tool.compiler.Console.info(`Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`);
+          qx.tool.compiler.Console.info(data);
         } else {
           await registryModel.load(data);
           await registryModel.save();
           if (!argv.quiet) {
-            this.info(`Created index file ${registryModel.getRelativeDataPath()}'.`);
+            qx.tool.compiler.Console.info(`Created index file ${registryModel.getRelativeDataPath()}'.`);
           }
         }
         resolve();
