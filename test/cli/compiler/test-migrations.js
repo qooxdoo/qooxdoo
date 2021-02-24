@@ -4,7 +4,6 @@ const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
 const fsp = require("fs").promises;
 const digest = require("util").promisify(require("dirsum").digest);
-//const qxCmdPath = path.resolve(__dirname, "..", "..", "..", "bin", "source", "qx");
 const qxCmdPath = testUtils.getCompiler();
 
 // colorize output
