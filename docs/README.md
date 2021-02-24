@@ -39,11 +39,11 @@ or you can install it globally.
 
 ### Global installation
 
-The following command line installs the Qooxdoo compiler so that it becomes
-available anywhere via your path settings.
+The following command line installs the Qooxdoo framework globally, which includes
+the compiler and makes it available anywhere via your path settings.
 
 ```bash
-$ npm install -g @qooxdoo/compiler
+$ npm install -g @qooxdoo/framework
 ```
 
 To start the Qooxdoo compiler type
@@ -56,14 +56,14 @@ $ qx
 
 Both the compiler and the Qooxdoo framework are evolving, so if you are writing
 a large application which you may have to maintain for months and years to come,
-you will probably be better of to install Qooxdoo together with the application
+you will probably be better off to install Qooxdoo together with the application
 code.
 
 ```bash
 $ mkdir myapp
 $ cd myapp
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler
+$ npm install --save-dev @qooxdoo/framework
 $ ls
 node_modules package-lock.json package.json
 ```

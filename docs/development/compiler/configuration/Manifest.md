@@ -59,9 +59,8 @@ This is a sample file:
     "css": ["styles/style.css"]
   },
   "requires": {
-    "@qooxdoo/framework": "^6.0.0-alpha",
-    "@qooxdoo/compiler": "^0.2.40",
-    "qooxdoo/contrib": "^0.1.1"
+    "@qooxdoo/framework": "^7.0.0",
+    "someorganization/somepackage": "^0.1.1"
   }
 }
 ```
@@ -126,5 +125,3 @@ This is a sample file:
   compatible version description. Special handling for:
   - @qooxdoo/framework: This checks the version of the used Qooxdoo framework
     NPM package.
-  - @qooxdoo/compiler: This checks the version of the used Qooxdoo compiler NPM
-    package.

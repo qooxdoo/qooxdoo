@@ -22,6 +22,12 @@
  * For usage samples, check out the attached links.
  *
  * @group (Polyfill)
+ *
+ * @deprecated {7.0}
+ *  This normalizer handles Date.parse and Date.now. The former has
+ *  been standardized since IE version 3, and the latter, since IE
+ *  version 9, both ancient. There is no need for this normalizer any
+ *  longer.
  */
 qx.Bootstrap.define("qx.lang.normalize.Date", {
 

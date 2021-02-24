@@ -32,29 +32,23 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * The name of the directory in which to download the package files
      */
     cache_dir: "qx_packages",
-    /**
-     * The previous name of the directory in which to download the package files
-     */
-    legacy_cache_dir: "contrib",
+
     /**
      * The name of the file that caches the package registry
      */
     package_cache_name: "package-cache.json",
-    /**
-     * The previous name of the file that caches the package registry
-     */
-    legacy_package_cache_name: "contrib-cache.json",
+
     /**
      * The lockfile with library versions etc.
      */
     lockfile: {
-      filename: "qx-lock.json",
-      legacy_filename: "contrib.json"
+      filename: "qx-lock.json"
     },
     /**
      * The URL of the cached repository data
      */
     repository_cache_url: "https://raw.githubusercontent.com/qooxdoo/package-cache/master/cache.json",
+
     /**
      * The yargs command data
      * @return {{}}
@@ -87,6 +81,12 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * The current cache object
      */
     __cache : null,
+
+    /**
+     * @override
+     */
+    async checkMigrations(){},
+
 
     /**
      * Returns the absolute path to the lockfile.

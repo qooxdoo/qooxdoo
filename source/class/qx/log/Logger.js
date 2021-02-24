@@ -139,7 +139,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Registers the given appender and inserts the last cached messages.
-     * 
+     *
      * Note that an appender is named by it's class name, unless it has a property
      * called `appenderName`
      *
@@ -229,7 +229,7 @@ qx.Bootstrap.define("qx.log.Logger",
      *
      * Note that an appender is named by it's class name, unless it has a property
      * called `appenderName`.
-     * 
+     *
      * @param logger {String|RegExp} the pattern to match in the logger name
      * @param appenderName {String?} the name of the appender class, if undefined then all appenders
      * @param level {String?} the minimum logging level to use the appender, if undefined the default level is used
@@ -631,7 +631,7 @@ qx.Bootstrap.define("qx.log.Logger",
         return appenders;
       }
 
-      var appenders = {};
+      appenders = {};
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
 

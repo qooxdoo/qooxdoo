@@ -21,7 +21,8 @@ without any further parameters. Here's an abridged version of the output:
   serve [configFile]                        runs a webserver to run the current
                                             application with continuous
                                             compilation, using compile.json
-  upgrade [options]                         upgrades a Qooxdoo application
+  migrate [options]                         migrates a qx app to the current 
+                                            Qooxdoo version
 ```
 
 To see the subcommands parameters and options, just type in
@@ -46,16 +47,13 @@ Commands:
 
 Options:
   --quiet, -q  Suppresses warnings (eg about unknown configuration keys)
+  --all        All known keys, including undefined ones
                                                                        [boolean]
 ```
 
 Configuration is based on simple key/value pairs, and while you can access keys
-with any name you likee, the `qx` command will look for the following special
-keys:
-
-`github.token` - this is the API token used when connecting to GitHub
-`qx.library` - this is the Qooxdoo library to use when compiling your
-application
+with any name you like, there are a couple of keys that are predefined, which
+you can list with `qx config list --all` together with a description.
 
 ## Create a new project
 
@@ -87,9 +85,7 @@ use `--out=.`.
 ## Compile
 
 To compile a Qooxdoo project into a state that can be opened in a browser, use
-`qx compile`. This is the CLI frontend for the  
-[@qooxdoo/compiler library](https://github.com/qooxdoo/qooxdoo-compiler/blob/master/README.md)
-. The command has the following options:
+`qx compile`. The command has the following options:
 
 ```bash
 qx compile [options]

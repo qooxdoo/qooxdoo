@@ -26,8 +26,8 @@ application, we encourage you to review the following points.
 
 **Compiler and CLI**
 
-Read this more detailed [introduction to the compiler and the CLI](./compiler)
-and [in-depth information on the CLI commands](./cli/commands).
+Read this more detailed [introduction to the compiler and the CLI](./compiler/README.md)
+and [in-depth information on the CLI commands](./cli/commands.md).
 
 **Development tools**
 

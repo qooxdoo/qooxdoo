@@ -100,11 +100,6 @@ qx.Class.define("qx.tool.cli.Cli", {
           describe: "suppresses normal progress output to console",
           type: "boolean"
         })
-        .option("block-global-framework", {
-          describe: "prevents use of global override of the framework (used for deployment)",
-          type: "boolean",
-          default: false
-        });
     },
 
     /**
@@ -114,11 +109,11 @@ qx.Class.define("qx.tool.cli.Cli", {
     async __bootstrapArgv() {
       var title = "qooxdoo command line interface";
       title = "\n" + title + "\n" + "=".repeat(title.length);
-      
+
       // NOTE:: We CANNOT get the framework version here because we will not know which framework
       //  to load until we have parse the command line args
-      
-      title += 
+
+      title +=
 `
 Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
 `;
@@ -126,12 +121,22 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       title +=
       `Typical usage:
         qx <commands> [options]
-        
+
       Type qx <command> --help for options and subcommands.`;
       let yargs = this.__createYargs()
         .usage(title);
       this.argv = yargs.argv;
-      qx.tool.cli.LogAppender.setMinLevel(this.argv.debug ? "debug" : "warn");
+      // Logging - needs to be unified..
+      if (this.argv.debug) {
+        qx.tool.cli.LogAppender.setMinLevel("debug");
+        qx.log.Logger.setLevel("debug");
+      } else if (this.argv.quiet) {
+        qx.tool.cli.LogAppender.setMinLevel("error");
+        qx.log.Logger.setLevel("error");
+      } else {
+        qx.tool.cli.LogAppender.setMinLevel("warn"); // BC
+        qx.log.Logger.setLevel("info");
+      }
     },
 
     /**
@@ -179,7 +184,8 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
           "Lint",
           "Run",
           "Test",
-          "Serve"
+          "Serve",
+          "Migrate"
         ],
         "qx.tool.cli.commands");
 

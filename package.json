@@ -103,6 +103,7 @@
     "yargs": "^15.4.1"
   },
   "devDependencies": {
+    "dirsum": "^0.1.1",
     "source-map-support": "^0.5.19",
     "tap-summary": "^4.0.0",
     "tape": "^5.1.1"

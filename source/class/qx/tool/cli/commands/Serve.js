@@ -56,8 +56,8 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
         command   : "serve",
         describe  : "runs a webserver to run the current application with continuous compilation, using compile.json",
         builder   : (() => {
-          let res = Object.assign({}, 
-            qx.tool.cli.commands.Compile.YARGS_BUILDER, 
+          let res = Object.assign({},
+            qx.tool.cli.commands.Compile.YARGS_BUILDER,
             qx.tool.cli.commands.Serve.YARGS_BUILDER
           );
           delete res.watch;
@@ -70,7 +70,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
     /**
      * Fired before server start
      *
-     * The event data is an object with the following properties: 
+     * The event data is an object with the following properties:
      *   server: the http server
      *   application: the used express server instance
      *   outputdir: the qooxdoo app output dir
@@ -140,7 +140,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       if (!defaultMaker && (apps.length === 1)) {
         defaultMaker = firstMaker;
       }
-      
+
       this.__showStartpage = this.argv.showStartpage;
       if ((this.__showStartpage === undefined) || (this.__showStartpage === null)) {
         this.__showStartpage = defaultMaker === null;
@@ -151,7 +151,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       if (!this.__showStartpage) {
         app.use("/", express.static(defaultMaker.getTarget().getOutputDir()));
       } else {
-        let s = await this.getAppQxPath();
+        let s = await qx.tool.config.Utils.getQxPath();
         if (!await fs.existsAsync(path.join(s, "docs"))) {
           s = path.dirname(s);
         }

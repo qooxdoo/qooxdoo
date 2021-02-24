@@ -16,10 +16,9 @@
 
 ************************************************************************ */
 
-
-
 const CLIEngine = require("eslint").CLIEngine;
 const fs = qx.tool.utils.Promisify.fs;
+const replaceInFile = require("replace-in-file");
 
 qx.Class.define("qx.tool.cli.commands.Lint", {
   extend: qx.tool.cli.commands.Command,
@@ -109,7 +108,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         }
         if (report.errorCount > 0 || report.warningCount > 0) {
           let outputFormat = this.argv.format || "codeframe";
-          
+
           // If there are too many errors, the pretty formatter is appallingly slow
           if (report.errorCount + report.warningCount > 150) {
             outputFormat = "compact";
@@ -174,7 +173,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           to: "@param $2 $1"
         });
       }
-      await this.migrate(null, replaceInFiles);
+      await replaceInFile(replaceInFiles);
     }
   }
 });
