@@ -114,7 +114,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     /**
      * Marks one or more migration steps as pending
      * @param {Number|String} param Optional. If number, number of migrations to mark
-     * as applied, defaults to 1; if String, message to be `announce()`ed
+     * as pending, defaults to 1; if String, message to be `announce()`ed
      */
     markAsPending(param) {
       let numberOfMigrations = 1;
@@ -131,10 +131,11 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
-     * Rename source files
+     * Rename source files, unless this is a dry run, in which case
+     * it will only annouce it and mark the migration step as pending.
      * @param {String[]} fileList Array containing arrays of [new name, old name]
      */
-    async renameFiles(fileList) {
+    async renameFilesUnlessDryRun(fileList) {
       let dryRun = this.getRunner().getDryRun();
       qx.core.Assert.assertArray(fileList);
       let filesToRename = await this.checkFilesToRename(fileList);
@@ -195,12 +196,13 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
-     * Replace text in source files
+     * Replace text in source files, unless this is a dry run, in which case
+     * it will only annouce it and mark the migration step as pending.
      * @param {{files: string, from: string, to: string}[]} replaceInFilesArr
      *    Array containing objects compatible with https://github.com/adamreisnz/replace-in-file
      * @return {Promise<void>}
      */
-    async replaceInFiles(replaceInFilesArr=[]) {
+    async replaceInFilesUnlessDryRun(replaceInFilesArr=[]) {
       qx.core.Assert.assertArray(replaceInFilesArr);
       let dryRun = this.getRunner().getDryRun();
       for (let replaceInFiles of replaceInFilesArr) {
@@ -225,7 +227,8 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
 
 
     /**
-     * Updates a dependency in the given Manifest model
+     * Updates a dependency in the given Manifest model, , unless this is a dry run, in which case
+     * it will only annouce it and mark the migration step as pending.
      * @param {qx.tool.config.Manifest} manifestModel
      * @param {String} dependencyName The name of the dependency in the `require object
      * @param {String} semverRange A semver-compatible range string
@@ -233,7 +236,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * @private
      * @return {Promise<void>}
      */
-    async updateManfestDependency(manifestModel, dependencyName, semverRange) {
+    async updateDependencyUnlessDryRun(manifestModel, dependencyName, semverRange) {
       const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
       if (this.getRunner().getDryRun()) {
         this.announce(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
@@ -245,12 +248,13 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
-     * Updates the json-schema in a configuration file
+     * Updates the json-schema in a configuration file, unless this is a dry run, in which case
+     * it will only annouce it and mark the migration step as pending.
      * @param {qx.tool.config.Abstract} configModel
      * @param {String} schemaUri
      * @return {Promise<void>}
      */
-    async updateSchemaVersion(configModel, schemaUri) {
+    async updateSchemaUnlessDryRun(configModel, schemaUri) {
       qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {

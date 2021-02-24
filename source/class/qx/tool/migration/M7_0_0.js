@@ -46,7 +46,7 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
             await manifestModel.save();
           }
         }
-        await this.updateSchemaVersion(manifestModel, "https://qooxdoo.org/schema/Manifest-2-0-0.json")
+        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-2-0-0.json")
         // save Manifest file
         if (!dryRun) {
           manifestModel.setValidate(false); // shouldn't be necessary

@@ -57,12 +57,12 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       ];
       // change names in .gitignore
       if ((await this.checkFilesToRename(migrateFiles)).length) {
-        await this.renameFiles(migrateFiles);
+        await this.renameFilesUnlessDryRun(migrateFiles);
         if (dryRun) {
           this.announce(".gitignore needs to be updated.");
           this.markAsPending(3);
         } else {
-          await this.replaceInFiles([{
+          await this.replaceInFilesUnlessDryRun([{
             files: path.join(cwd, ".gitignore"),
             from: "contrib/",
             to: "qx_packages/"
@@ -151,13 +151,13 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               "@qooxdoo/compiler": "^1.0.0"
             }
             for (let [dependencyName, range] of Object.entries(updateManifest)) {
-              await this.updateManfestDependency(manifestModel, dependencyName, range);
+              await this.updateDependencyUnlessDryRun(manifestModel, dependencyName, range);
             }
             verbose && qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
           }
         }
         // update schema
-        await this.updateSchemaVersion(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
+        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
 
         // save Manifest file
         if (!this.getRunner().getDryRun()) {
@@ -189,7 +189,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           this.markAsApplied();
         }
       }
-      await this.updateSchemaVersion(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
+      await this.updateSchemaUnlessDryRun(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
       if (!this.getRunner().getDryRun()) {
         await compileJsonModel.save();
         compileJsonModel.set({validate:true});
