@@ -88,10 +88,10 @@ function collapseMemberExpression(node) {
 
 function isCollapsibleLiteral(node) {
   let nodeType = node.type;
-  return nodeType === "Literal" || 
-    nodeType === "StringLiteral" || 
-    nodeType === "NumericLiteral" || 
-    nodeType === "BooleanLiteral" || 
+  return nodeType === "Literal" ||
+    nodeType === "StringLiteral" ||
+    nodeType === "NumericLiteral" ||
+    nodeType === "BooleanLiteral" ||
     nodeType === "BigIntLiteral";
 }
 
@@ -217,7 +217,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     });
     this.__taskQueue.drain = this._onTaskQueueDrain;
     this.__taskQueue.error = err => {
-      this.error(err.stack||err);
+      qx.tool.compiler.Console.error(err.stack||err);
     };
 
     analyser.getIgnores().forEach(s => this.addIgnore(s));
@@ -225,7 +225,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     this.__privates = {};
     this.__blockedPrivates = {};
     this.__privateMangling = analyser.getManglePrivates();
-    
+
     const CF = qx.tool.compiler.ClassFile;
     const addSymbols = arr => arr.forEach(s => this.__globalSymbols[s] = true);
     if (analyser.getGlobalSymbols().length) {
@@ -268,7 +268,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     __privates: null,
     __blockedPrivates: null,
     __externals: null,
-	
+
     _onTaskQueueDrain: function() {
       var cbs = this.__taskQueueDrain;
       this.__taskQueueDrain = [];
@@ -322,7 +322,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           callback(err);
           return;
         }
-        var result; 
+        var result;
         try {
           let babelConfig = t.__analyser.getBabelConfig() || {};
           let options = qx.lang.Object.clone(babelConfig.options || {}, true);
@@ -349,12 +349,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             sourceMaps: true,
             "presets": [
               [
-                { 
+                {
                   plugins: [ myPlugins.CodeElimination ]
                 }
               ],
               [
-                { 
+                {
                   plugins: [ myPlugins.Compiler ]
                 }
               ],
@@ -619,7 +619,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         var keyName = key.type == "StringLiteral" ? key.value : key.name;
         return keyName;
       }
-      
+
       function checkNodeJsDocDirectives(node) {
         var jsdoc = getJsDoc(node.leadingComments);
         if (jsdoc) {
@@ -669,16 +669,16 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       function enterFunction(path, node, idNode) {
         node = node || path.node;
         idNode = idNode || node.id || null;
-        
-        let isClassMember = t.__classMeta && 
-          t.__classMeta._topLevel && 
-          t.__classMeta._topLevel.keyName == "members" && 
+
+        let isClassMember = t.__classMeta &&
+          t.__classMeta._topLevel &&
+          t.__classMeta._topLevel.keyName == "members" &&
           path.parentPath.parentPath.parentPath == t.__classMeta._topLevel.path;
         if (idNode) {
           t.addDeclaration(idNode.name);
         }
         t.pushScope(idNode ? idNode.name : null, node, isClassMember);
-        
+
         function addDecl(param) {
           if (param.type == "AssignmentPattern") {
             addDecl(param.left);
@@ -822,7 +822,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             needsQxCoreEnvironment = path.node.loc;
           }
         },
-        
+
         IfStatement: {
           exit(path) {
             let node = path.node;
@@ -911,7 +911,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
       function collectJson(node, isProperties, jsonPath) {
         var result;
-        
+
         if (node.type == "ObjectExpression") {
           result = {};
           let nextJsonPath = jsonPath ? jsonPath + "." : "";
@@ -961,7 +961,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         } else if (node.type == "NewExpression" || node.type == "BinaryExpression") {
           result = "[[ " + node.type + " ]]";
         } else {
-          t.warn("Cannot interpret AST " + node.type + " at " + t.__className + 
+          t.warn("Cannot interpret AST " + node.type + " at " + t.__className +
               (node.loc ? " [" + node.loc.start.line + "," + node.loc.start.column + "]" : ""));
           result = null;
         }
@@ -1042,7 +1042,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         }
         return false;
       }
-      
+
       const FUNCTION_NAMES = {
         construct: "$$constructor",
         destruct: "$$destructor",
@@ -1086,7 +1086,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           checkValidTopLevel(path);
           handleTopLevelMethods(path, keyName, path.node);
         },
-        
+
         ObjectProperty(path) {
           if (path.parentPath.parentPath != this.classDefPath) {
             path.skip();
@@ -1096,14 +1096,14 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           var prop = path.node;
           var keyName = getKeyName(prop.key);
           checkValidTopLevel(path);
-          
+
           if (FUNCTION_NAMES[keyName] !== undefined) {
             let val = path.node.value;
             val.leadingComments = (path.node.leadingComments || []).concat(val.leadingComments || []);
             handleTopLevelMethods(path, keyName, val);
             return;
           }
-          
+
           if (keyName == "extend") {
             if (!isValidExtendClause(prop)) {
               t.addMarker("compiler.invalidExtendClause", prop.value.loc);
@@ -1112,21 +1112,21 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               t.__classMeta.superClass = collapseMemberExpression(prop.value);
               t._requireClass(t.__classMeta.superClass, { location: path.node.loc });
             }
-            
+
           } else if (keyName == "type") {
             var type = prop.value.value;
             t.__classMeta.isAbstract = type === "abstract";
             t.__classMeta.isStatic = type === "static";
             t.__classMeta.isSingleton = type === "singleton";
-            
+
           } else if (keyName == "implement") {
             path.skip();
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, { collectedClasses: t.__classMeta.interfaces });
-            
+
           } else if (keyName == "include") {
             path.skip();
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, { collectedClasses: t.__classMeta.mixins });
-            
+
           } else if (keyName == "members" || keyName == "statics" || keyName == "@") {
             t.__classMeta._topLevel = {
               path,
@@ -1135,7 +1135,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             path.skip();
             path.traverse(VISITOR);
             t.__classMeta._topLevel = null;
-            
+
           } else if (keyName == "properties") {
             path.skip();
             if (!prop.value.properties) {
@@ -1165,7 +1165,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               });
             }
             path.traverse(VISITOR);
-            
+
           } else if (keyName == "events") {
             path.skip();
             if (prop.value.properties) {
@@ -1177,7 +1177,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               });
             }
             path.traverse(VISITOR);
-            
+
           } else if (keyName == "aliases") {
             path.skip();
             if (!prop.value.properties) {
@@ -1191,7 +1191,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 meta.aliasMap[aliasName] = aliasValue;
               });
             }
-            
+
           } else if (keyName == "meta") {
             path.skip();
             if (!prop.value.properties) {
@@ -1217,7 +1217,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         "qx.Interface.define": "interface",
         "qx.Bootstrap.define": "class"
       };
-      
+
       var VISITOR = {
         NewExpression: {
           enter(path) {
@@ -1240,18 +1240,18 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ExpressionStatement: {
-          enter: path => { 
-            checkNodeJsDocDirectives(path.node); 
+          enter: path => {
+            checkNodeJsDocDirectives(path.node);
           },
-          exit: path => { 
-            checkNodeJsDocDirectives(path.node); 
+          exit: path => {
+            checkNodeJsDocDirectives(path.node);
           }
         },
 
-        EmptyStatement: path => { 
-          checkNodeJsDocDirectives(path.node); 
+        EmptyStatement: path => {
+          checkNodeJsDocDirectives(path.node);
         },
-        
+
         JSXElement(path) {
           t.__usesJsx = true;
         },
@@ -1299,19 +1299,19 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             path.node.body.splice(0, path.node.body.length, rootFn);
           }
         },
-        
+
         Literal(path) {
           if (typeof path.node.value == "string") {
             path.node.value = t.encodePrivate(path.node.value, false, path.loc);
           }
         },
-        
+
         Identifier(path) {
           path.node.name = t.encodePrivate(path.node.name, true, path.loc);
-           
+
           // These are AST node types which do not cause undefined references for the identifier,
           // eg ObjectProperty could be `{ abc: 1 }`, and `abc` is not undefined, it is an identifier
-          const CHECK_FOR_UNDEFINED = { 
+          const CHECK_FOR_UNDEFINED = {
             ObjectProperty: 1,
             ObjectMethod: 1,
             FunctionExpression: 1,
@@ -1329,7 +1329,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             LabeledStatement: 1,
             BreakStatement: 1
           };
-          
+
           // These are AST node types we expect to find at the root of the identifier, and which will
           //  not trigger a warning.  The idea is that all of the types in CHECK_FOR_UNDEFINED are types
           //  that cause references to variables, everything else is in DO_NOT_WARN_TYPES.  But, if anything
@@ -1379,7 +1379,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             }
             break;
           }
-          
+
           let name = collapseMemberExpression(root.node);
           if (name.startsWith("(")) {
             return;
@@ -1444,7 +1444,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     }
                   }
                   if (aliasIsThis || scope.isClassMember) {
-                    break; 
+                    break;
                   }
                 }
                 if (aliasIsThis) {
@@ -1476,7 +1476,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 if (t.__definingType == "Class" || t.__definingType == "Bootstrap") {
                   let typeProp = classDef.properties.find(prop => prop.key.type == "Identifier" && prop.key.value == "type");
                   if (typeProp) {
-                    t.__classMeta.isStatic == typeProp.value.type == "Literal" && typeProp.value.value === "static"; 
+                    t.__classMeta.isStatic == typeProp.value.type == "Literal" && typeProp.value.value === "static";
                   }
                 }
                 checkJsDocDirectives(meta.jsdoc, path.node.loc);
@@ -1485,7 +1485,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 path.skip();
                 path.traverse(CLASS_DEF_VISITOR, {classDefPath: path});
                 t.__popMeta(className);
-                
+
               } else if (name == "qx.core.Environment.add") {
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
@@ -1503,7 +1503,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   }
                 }
                 t._requireClass("qx.core.Environment", { usage: "dynamic", location: path.node.loc });
-                
+
               } else if (name == "qx.core.Environment.get") {
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
@@ -1516,7 +1516,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 t._requireClass("qx.core.Environment", { usage: "dynamic", location: path.node.loc });
                 path.skip();
                 path.traverse(VISITOR);
-                
+
               } else if (name == "qx.core.Environment.select") {
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
@@ -1530,7 +1530,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 t._requireClass("qx.core.Environment", { usage: "dynamic", location: path.node.loc });
                 path.skip();
                 path.traverse(VISITOR);
-                
+
               } else if (name == "this.base") {
                 let expr;
 
@@ -1560,7 +1560,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 }
                 let callExpr = types.callExpression(expr, path.node.arguments);
                 path.replaceWith(callExpr);
-                
+
               } else if (name == "this.base.apply" || name == "this.base.call") {
                 let methodName = name == "this.base.apply" ? "apply" : "call";
 
@@ -1581,11 +1581,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 let exprUnshift = types.callExpression(types.memberExpression(exprSplice, types.identifier("shift")), []);
                 let callExpr = types.callExpression(expr, [ path.node.arguments[0], exprUnshift ]);
                 path.replaceWith(callExpr);
-                
+
               } else if (name == "this.self") {
                 let expr = expandMemberExpression(t.__classMeta.className);
                 path.replaceWith(expr);
-                
+
               } else if (name == "this.tr" || name == "this.marktr" || name == "qx.locale.Manager.tr" || name == "qx.locale.Manager.marktr") {
                 let arg0 = getStringArg(0);
                 if (!arg0) {
@@ -1593,7 +1593,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else {
                   addTranslation({ msgid: arg0 });
                 }
-                
+
               } else if (name == "this.trn" || name == "qx.locale.Manager.trn") {
                 let arg0 = getStringArg(0);
                 let arg1 = getStringArg(1);
@@ -1602,7 +1602,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else {
                   addTranslation({ msgid: arg0, msgid_plural: arg1 });
                 }
-                
+
               } else if (name == "this.trc" || name == "qx.locale.Manager.trc") {
                 let arg0 = getStringArg(0);
                 let arg1 = getStringArg(1);
@@ -1611,7 +1611,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else {
                   addTranslation({ msgid: arg1, comment: arg0 });
                 }
-                
+
               } else if (name == "this.trnc" || name == "qx.locale.Manager.trnc") {
                 let arg0 = getStringArg(0);
                 let arg1 = getStringArg(1);
@@ -1621,7 +1621,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else {
                   addTranslation({ msgid: arg1, msgid_plural: arg2, comment: arg0 });
                 }
-                
+
               } else {
                 let pos = name.lastIndexOf(".");
                 // name can be ".concat" when used with "[].concat"
@@ -1686,7 +1686,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         ObjectProperty: {
           exit(path) {
             if (this.__privateMangling == "readable") {
-              if (path.node.value.type == "FunctionExpression" && 
+              if (path.node.value.type == "FunctionExpression" &&
                   path.node.value.id === null) {
                 let functionName = typeof path.node.key.value == "string" ? path.node.key.value : path.node.key.name;
                 if (!qx.tool.compiler.ClassFile.RESERVED_WORDS[functionName]) {
@@ -1696,10 +1696,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             }
           }
         },
-        
+
         Property(path) {
-          if (t.__classMeta && 
-              t.__classMeta._topLevel && 
+          if (t.__classMeta &&
+              t.__classMeta._topLevel &&
               t.__classMeta._topLevel.path == path.parentPath.parentPath) {
             t.__classMeta.functionName = getKeyName(path.node.key);
             makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
@@ -1720,11 +1720,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             t.__classMeta.functionName = null;
           }
         },
-        
+
         ObjectMethod(path) {
           if (t.__classMeta) {
             // Methods within a top level object (ie "members" or "statics"), record the method name and meta data
-            if (t.__classMeta._topLevel && 
+            if (t.__classMeta._topLevel &&
                 t.__classMeta._topLevel.path == path.parentPath.parentPath) {
               t.__classMeta.functionName = getKeyName(path.node.key);
               makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
@@ -1733,7 +1733,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               path.traverse(VISITOR);
               exitFunction(path);
               t.__classMeta.functionName = null;
-              
+
             // Otherwise traverse method as normal
             } else {
               path.skip();
@@ -1743,7 +1743,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             }
           }
         },
-        
+
         FunctionDeclaration: FUNCTION_DECL_OR_EXPR,
         FunctionExpression: FUNCTION_DECL_OR_EXPR,
         ArrowFunctionExpression: FUNCTION_DECL_OR_EXPR,
@@ -1792,11 +1792,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             });
           }
         },
-        
+
         ClassDeclaration(path) {
           t.addDeclaration(path.node.id.name);
         },
-        
+
         // Note that AST Explorer calls this MethodDefinition, not ClassMethod
         ClassMethod: {
           enter(path) {
@@ -1818,8 +1818,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         }
       };
 
-      return { 
-        CodeElimination: { visitor: CODE_ELIMINATION_VISITOR }, 
+      return {
+        CodeElimination: { visitor: CODE_ELIMINATION_VISITOR },
         Compiler: { visitor: VISITOR }
       };
     },
@@ -1972,7 +1972,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       if (scope.vars[name[0]] !== undefined) {
         return;
       }
-      
+
       // Global variable or a local variable?
       if (name[0] === "this" || name[0] === "[]" || this.__globalSymbols[name[0]] || this.hasDeclaration(name[0])) {
         return;
@@ -2004,10 +2004,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         scope.unresolved[name].locations.push(loc);
       }
     },
-    
+
     /**
      * Repeatably encodes a private symbol name, caching the result; ignores non-private symbols
-     * 
+     *
      * @param name {String} symbol name
      * @param isIdentifier {boolean} whether this is usage as an identifier (and not in a string literal)
      * @param location {Location} the location of the symbol
@@ -2054,7 +2054,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           prefix = "__P_" + (++prefixes.nextPrefix) + "_";
           prefixes.classPrefixes[this.__className] = prefix;
         }
-        
+
         if (this.__privateMangling == "readable") {
           coded = this.__privates[name] = name + prefix + Object.keys(this.__privates).length;
         } else {
@@ -2088,7 +2088,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         this.__externals.push(name);
       }
     },
-    
+
     /**
      * Adds an ignored symbol
      * @param name {String} name of the symbol
@@ -2179,7 +2179,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       t._requireClass("qx.core.Environment", { location: location });
       let info = t.__analyser.getSymbolType(name);
       if (!Object.prototype.hasOwnProperty.call(qx.tool.compiler.ClassFile.ENVIRONMENT_CONSTANTS, name)) {
-        
+
         // Generally speaking, we try to have as few load dependencies as possible, and this
         // means that in a class' `.defer()` we will still allow for runtime loading.  However,
         // we pull environment checks up as this is a common use case; the problem this is trying
@@ -2187,7 +2187,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         // implements the polyfill, and the polyfill's defer method is then installing a polyfill
         // when it does not need to (and should not do so).  For example, `qx.bom.client.EcmaScript`
         // *must* load and have its defer called before the `qx.lang.normalize.Object` class has
-        // it's defer called. 
+        // it's defer called.
         let load = dest.load;
         if (info && info.symbolType == "environment") {
           load = true;
@@ -2208,7 +2208,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      */
     addMarker: function(msgId, pos) {
       msgId = "qx.tool.compiler." + msgId;
-      
+
       let key = msgId;
       let fragment = msgId.indexOf("#");
       if (fragment > -1) {
@@ -2225,7 +2225,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           }
         }
       }
-      
+
       if (this.__haveMarkersFor[key]) {
         return;
       }
@@ -2427,7 +2427,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     }
 
   },
-  
+
   defer(statics) {
     statics.RESERVED_WORDS = {};
     let str = "abstract  arguments await  boolean break byte  case  catch char  class  const continue debugger  default delete  do " +
@@ -2470,15 +2470,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       var m = className.match(/^([^.]+)\./);
       return (m && m[1])||null;
     },
-    
+
     /**
      * These options are passed to Babel for JSX compilation; they can be changed by the CLI etc
      * as needed.
-     * 
+     *
      * Note that at the moment they use a class that does not exist!  `qx.html.Jsx` is coming soon
      * to a PR near you, but in the mean time you could use the compile.json `jsx` setting to
      * change these to something else, eg `{ pragma: "jsx.dom", pragmaFrag: "jsx.Fragment }` and
-     * use https://github.com/alecsgone/jsx-render in your application's code. 
+     * use https://github.com/alecsgone/jsx-render in your application's code.
      */
     JSX_OPTIONS: {
       "pragma": "qx.html.Jsx.createElement",
@@ -2509,7 +2509,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.$$start",
       "qx.$$translations"
     ],
-    
+
     COMMON_GLOBALS: [
       "Array",
       "ArrayBuffer",
@@ -2577,7 +2577,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "unescape",
       "window"
     ],
-    
+
     BROWSER_GLOBALS: [
       "ActiveXObject",
       "Blob",
@@ -2602,7 +2602,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "getComputedStyle",
       "localStorage"
     ],
-    
+
     NODE_GLOBALS: [
       "Module",
       "require",
@@ -2612,12 +2612,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "__dirname",
       "__filename"
     ],
-    
+
     RHINO_GLOBALS: [
       "Packages",
       "java"
     ],
-    
+
     RESERVED_WORDS: null,
 
     /**

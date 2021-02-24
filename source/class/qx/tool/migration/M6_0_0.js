@@ -131,7 +131,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .transform("info.version", version => {
                 let coerced = semver.coerce(version);
                 if (coerced === null) {
-                  this.warn(`Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`);
+                  qx.tool.compiler.Console.warn(`Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`);
                   return "1.0.0";
                 }
                 return String(coerced);
@@ -142,7 +142,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("requires.qxcompiler")
               .unset("requires.qooxdoo-compiler")
               .unset("requires.qooxdoo-sdk");
-            verbose && this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose && qx.tool.compiler.Console.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             await manifestModel.save();
             this.markAsApplied();
             // update dependencies in Manifest
@@ -153,7 +153,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
             for (let [dependencyName, range] of Object.entries(updateManifest)) {
               await this.updateManfestDependency(manifestModel, dependencyName, range);
             }
-            verbose && this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
+            verbose && qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
           }
         }
         // update schema

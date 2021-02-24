@@ -118,7 +118,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
               return this.loadAPIFile(className)
                 .then(meta => this.writeClass(meta))
                 .then(() => next())
-                .catch(err => this.error("Error while processing file: " + className + " error: " + err.stack));
+                .catch(err => qx.tool.compiler.Console.error("Error while processing file: " + className + " error: " + err.stack));
             };
 
             return next()
@@ -151,7 +151,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       var fileName = path.join(this.__target.getOutputDir(), "transpiled", classname.replace(/\./g, "/") + ".json");
       return readFile(fileName, "UTF-8")
         .then(content => this.__apiCache[classname] = jsonlint.parse(content))
-        .catch(err => this.error("Error parsing " + classname + ": " + err.stack));
+        .catch(err => qx.tool.compiler.Console.error("Error parsing " + classname + ": " + err.stack));
     },
 
     /**
@@ -186,7 +186,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
 
       // We don't know the type
-      // this.error("Unknown type: " + t);
+      // qx.tool.compiler.Console.error("Unknown type: " + t);
       return defaultType;
     },
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      */
     writeClass: async function(meta) {
       this.__currentClass = meta;
-      // this.info("Processing class " + meta.packageName + "." + meta.name);
+      // qx.tool.compiler.Console.info("Processing class " + meta.packageName + "." + meta.name);
       var extendsClause = "";
       if (meta.superClass && meta.superClass !== "Object" && meta.superClass !== "Array" && meta.superClass !== "Error") {
         let superType = this.getType(meta.superClass);

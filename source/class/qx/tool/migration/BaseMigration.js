@@ -88,7 +88,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      */
     announce(message) {
       if (this.getRunner().getVerbose()) {
-        this.info("*** " + message);
+        qx.tool.compiler.Console.info("*** " + message);
       }
     },
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let numberOfMigrations = 1;
       if (typeof param == "string") {
         if (this.getRunner().getVerbose()) {
-          this.info(param);
+          qx.tool.compiler.Console.info(param);
         }
       } else if (typeof param == "number") {
         numberOfMigrations = param;
@@ -153,7 +153,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
               await fs.renameAsync(oldPath, newPath);
               this.debug(`Renamed '${oldPath}' to '${newPath}'.`);
             } catch (e) {
-              this.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
+              qx.tool.compiler.Console.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
               process.exit(1);
             }
           }
@@ -215,7 +215,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
             await replaceInFile(replaceInFiles);
             this.markAsApplied();
           } catch (e) {
-            this.error(`Error replacing in files: ${e.message}`);
+            qx.tool.compiler.Console.error(`Error replacing in files: ${e.message}`);
             process.exit(1);
           }
         }
