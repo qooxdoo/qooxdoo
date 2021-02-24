@@ -115,7 +115,6 @@ qx.Class.define("qx.tool.cli.Cli", {
 Version: v${await qx.tool.config.Utils.getQxVersion()}
 `;
       title += "\n";
-      // noinspection HtmlDeprecatedTag
       title +=
       `Typical usage:
         qx <commands> [options]
