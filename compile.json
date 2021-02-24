@@ -129,6 +129,7 @@
       "class": "qx.application.Native",
       "name": "qx_server",
       "type": "node",
+      "deploy": true,
       "environment": {
         "qx.debug": false
       },
@@ -167,6 +168,20 @@
         "qx.event.handler.Pointer",
         "qx.event.handler.Gesture",
         "qx.event.handler.PointerCore"
+      ]
+    },
+    {
+      "class":  "qxWeb",
+      "name":   "qxWeb",
+      "type" :  "browser",
+      "deploy": true,
+      "include": [
+        "qx.ui.website.*",
+        "qx.module.*",
+        "qxWeb",
+        "q"
+      ],
+      "exclude" : [
       ]
     }
   ],
