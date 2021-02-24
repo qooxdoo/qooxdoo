@@ -43,8 +43,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
     __useColors: false,
 
     /**
-     * Which color codes to use.
-     * @see https://github.com/chalk/chalk
+     * Which ANSI color codes to use for which log level
      */
     __colorCodes: {
       debug: '\u001b[38;5;3m', // yellow
