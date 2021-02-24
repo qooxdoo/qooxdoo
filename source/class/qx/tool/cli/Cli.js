@@ -33,8 +33,8 @@ qx.Class.define("qx.tool.cli.Cli", {
       throw new Error("qx.tool.cli.Cli has already been initialized!");
     }
     qx.tool.cli.Cli.__instance = this;
-    // use node console log appender with colors
-    qx.log.appender.NodeConsole.setUseColors(true);
+    // include & register log appender
+    qx.log.appender.NodeConsole;
   },
 
   members: {
@@ -101,6 +101,10 @@ qx.Class.define("qx.tool.cli.Cli", {
           describe: "suppresses normal progress output to console",
           type: "boolean"
         })
+        .option("colorize", {
+          describe: "colorize log output to the console using ANSI color codes",
+          type: "boolean"
+        })
     },
 
     /**
@@ -130,6 +134,10 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         qx.log.Logger.setLevel("error");
       } else {
         qx.log.Logger.setLevel("info");
+      }
+      if (this.argv.colorize) {
+        // use node console log appender with colors
+        qx.log.appender.NodeConsole.setUseColors(true);
       }
     },
 
@@ -227,6 +235,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
      * @param command {qx.tool.cli.Command} the command being run
      */
     async processCommand(command) {
+      qx.tool.compiler.Console.getInstance().setVerbose(this.argv.verbose);
       command.setCompilerApi(this._compilerApi);
       this._compilerApi.setCommand(command);
       await this.__notifyLibraries();

@@ -10,8 +10,8 @@ const qxCmdPath = testUtils.getCompiler();
 test.createStream().pipe(colorize()).pipe(process.stdout);
 
 // debugging
-const debug = false;
-const debugArg = debug ? "--debug" : "";
+const debug = true;
+const debugArg = debug ? "--debug --colorize" : "--colorize";
 
 function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
   return async t => {
