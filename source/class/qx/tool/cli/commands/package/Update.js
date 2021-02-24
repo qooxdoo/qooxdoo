@@ -320,17 +320,16 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             }
 
             // add information to manifest index
-            qx_versions = qx_version_range;
             manifests[index] = {
               path: manifest_path,
-              qx_versions,
+              qx_versions: qx_version_range,
               info: data.info,
               requires: data.requires,
               provides: data.provides
             };
             num_libraries++;
             if (this.argv.verbose) {
-              this.debug(`>>> ${name} ${tag_name}: Found package '${data.info.name}' (compatible with ${qx_versions})`);
+              this.debug(`>>> ${name} ${tag_name}: Found package '${data.info.name}' (compatible with ${qx_version_range})`);
             } else if (!this.argv.quiet) {
               process.stdout.write("."); // output dots to indicate progress
             }

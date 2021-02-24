@@ -38,7 +38,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
     getYargsCommand: function() {
       return {
         command: "create <application namespace> [options]",
-        describe: "creates a new qooxdoo project.",
+        describe: "create a new qooxdoo project",
         builder: {
           "type": {
             alias : "t",

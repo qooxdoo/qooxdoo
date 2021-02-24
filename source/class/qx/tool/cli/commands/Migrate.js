@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
     getYargsCommand: function() {
       return {
         command: "migrate",
-        describe: "migrates the package system to a newer version.",
+        describe: "migrate a library/application to a newer qooxdoo version",
         builder: {
           "dry-run": {
             describe: "Do not apply migrations"
