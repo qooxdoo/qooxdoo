@@ -253,7 +253,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
                 template = template.replace(new RegExp(`\\$\{${var_name}\}`, "g"), values[var_name]);
               }
               if (argv.verbose) {
-                that.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
+                qx.tool.compiler.Console.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
               }
               // that.log(template);
               if (fs.existsSync(targetFile)) {
@@ -263,7 +263,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
             } else {
               // normal file
               if (argv.verbose) {
-                that.info(`>>> Copying ${sourceFile} to ${targetFile}...`);
+                qx.tool.compiler.Console.info(`>>> Copying ${sourceFile} to ${targetFile}...`);
               }
               fs.copyFileSync(sourceFile, targetFile);
             }

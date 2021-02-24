@@ -7,17 +7,15 @@ const readFile = promisify(fs.readFile);
 const process = require("process");
 const path = require("path");
 
+process.chdir(__dirname);
+
 async function createMaker() {
   const qxPath = path.resolve(__dirname + "/../../..");
   const templatePath = path.resolve(qxPath + "/source/resource/qx/tool/cli/templates");
-
-  process.cwd(__dirname);
-
   qx.tool.compiler.ClassFile.JSX_OPTIONS = {
     "pragma": "jsx.dom",
     "pragmaFrag": "jsx.Fragment"
   };
-
   // Makers use an Analyser to figure out what the Target should write
   var maker = new qx.tool.compiler.makers.AppMaker().set({
     // Targets know how to output an application

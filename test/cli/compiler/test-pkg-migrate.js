@@ -3,7 +3,7 @@ const rimraf = require("rimraf");
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
 const download = require("download");
-
+process.chdir(__dirname);
 const appNamespace = "testMigrateApp";
 
 (async () => {

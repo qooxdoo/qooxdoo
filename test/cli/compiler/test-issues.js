@@ -2,7 +2,7 @@ const test = require("tape");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
-require("process").cwd(__dirname);
+process.chdir(__dirname);
 
 test("Issue553", async assert => {
   try {

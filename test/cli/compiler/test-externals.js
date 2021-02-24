@@ -1,7 +1,7 @@
 const test = require("tape");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
-require("process").cwd(__dirname);
+require("process").chdir(__dirname);
 
 test("test externals", async t => {
   try {
