@@ -162,9 +162,14 @@ qx.Class.define("qx.core.Object",
      */
     base : function(args, varargs)
     {
+      let func = args.callee.base;
+      if (!func) {
+         func = this[args.callee.name].base;
+      }
+
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (!qx.Bootstrap.isFunctionOrAsyncFunction(args.callee.base)) {
+        if (!qx.Bootstrap.isFunctionOrAsyncFunction(func)) {
           throw new Error(
             "Cannot call super class. Method is not derived: " +
             args.callee.displayName
@@ -173,9 +178,9 @@ qx.Class.define("qx.core.Object",
       }
 
       if (arguments.length === 1) {
-        return args.callee.base.call(this);
+        return func.call(this);
       } else {
-        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+        return func.apply(this, Array.prototype.slice.call(arguments, 1));
       }
     },
 
