@@ -278,14 +278,16 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       var self = this;
       setTimeout(function() {
         self.resume(function() {
+          console.log("" + JSON.stringify(self.__container.getBounds()));
           console.log("1: " + JSON.stringify(self.__b1.getBounds()));
           console.log("2: " + JSON.stringify(self.__b2.getBounds()));
           console.log("3: " + JSON.stringify(self.__b3.getBounds()));
 
           var bounds = self.__b2.getBounds();
           console.log(JSON.stringify(bounds));
-          self.__container.setWidth(bounds.left + 40);
+          self.__container.setWidth(bounds.left + 60);
           self.flush();
+          console.log("" + JSON.stringify(self.__container.getBounds()));
 
           this.assertEventFired(this.__toolbar, "showItem", function() {
             self.__toolbar.remove(self.__b2);
@@ -295,7 +297,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
             self.assertEquals(self.__b3, e.getData());
             self.assertEquals("visible", self.__b3.getVisibility());
           });
-          
+
         });
       }, 100);
       this.wait();
