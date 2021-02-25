@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
     process: async function() {
       let manifestModel = await qx.tool.config.Manifest.getInstance().load();
       let namespace = manifestModel.getValue("provides.namespace");
-      
+
       let script_path = this.argv.scriptpath;
       let script_name = path.basename(script_path);
       let resource_dir_path = path.join(process.cwd(), "source", "resource", namespace, this.argv.resourcedir);
@@ -100,7 +100,9 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
       } else {
         // copy script to app resources and add to manifest
         if (!await fs.existsAsync(resource_dir_path)) {
-          require("mkdirp").sync(resource_dir_path, 0o755);
+          fs.mkdirSync(resource_dir_path, {
+            recursive: true,
+            mode: 0o755});
         }
         await fs.copyFileAsync(script_path, resource_file_path);
         if (!script_list.includes(external_res_path)) {
