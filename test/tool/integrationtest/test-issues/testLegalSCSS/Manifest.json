@@ -1,5 +1,5 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
   "info" :
   {
     "name" : "testLegalSCSS",
@@ -30,10 +30,10 @@
        "testLegalSCSS/css/test_css.css",
        "testLegalSCSS/scss/test_scss.scss",
        "testLegalSCSS/scss/test_theme_scss.scss"
-	   
+
     ]
  },
   "requires": {
-    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
+    "@qooxdoo/framework": "^7.0.0-beta"
   }
 }
