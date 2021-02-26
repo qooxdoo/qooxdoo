@@ -39,14 +39,14 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding",
     "testClassB1: overrides method" : function()
     {
       var instance = new qx.test.log.fixture.ClassB1();
-      this.__test(instance, 2, 2, /qx.test.log.fixture.ClassB1.prototype._applyOldProperty()/);
+      this.__test(instance, 2, 2, /qx.test.log.fixture.ClassB1._applyOldProperty/);
       instance.dispose();
     },
 
     "testClassC1: doesn't override method" : function()
     {
       var instance = new qx.test.log.fixture.ClassC1();
-      this.__test(instance, 2, 3, /qx.test.log.fixture.ClassB1.prototype._applyOldProperty()/);
+      this.__test(instance, 2, 3, /qx.test.log.fixture.ClassB1._applyOldProperty/);
       instance.dispose();
     },
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding",
     "testClassC2: overrides method" : function()
     {
       var instance = new qx.test.log.fixture.ClassC2();
-      this.__test(instance, 2, 3, /qx.test.log.fixture.ClassC2.prototype._applyOldProperty()/);
+      this.__test(instance, 2, 3, /qx.test.log.fixture.ClassC2._applyOldProperty/);
       instance.dispose();
     },
 
