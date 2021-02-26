@@ -7,7 +7,7 @@ or by supporting the project financially:
 
 ## Contributing code to the framework / testing
 
-For a guide on how to working on, and testing the framework itself,
+For a guide on working on, and testing the framework itself,
 see the section on [Coding the Framework](development/contribute.md).
 
 
