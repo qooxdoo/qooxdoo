@@ -31,7 +31,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       command.addTest(new qx.tool.cli.api.Test("compiler test", async function () {
         console.log("# ******** running compiler test");
         result = await qx.tool.utils.Utils.runCommand({
-          cwd: "test/cli",
+          cwd: "test/tool",
           cmd: "node",
           args: [
             path.join(__dirname, "bin", command._getConfig().targetType, "qx"),
