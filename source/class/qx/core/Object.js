@@ -167,7 +167,7 @@ qx.Class.define("qx.core.Object",
      */
     base : function(args, varargs)
     {
-      let func = args.callee.base;
+      var func = args.callee.base;
       if (!func) {
          func = this[args.callee.name].base;
       }
