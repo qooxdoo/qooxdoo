@@ -113,7 +113,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
       if (qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER === null) {
         console.warn("DEPRECATED: Using the Qooxdoo v5 style of SASS Compilation; this is backwards compatible " +
             "but the default will change in v7 to use the new style (see https://git.io/JfTPV for details, and how " +
-            "to disable qx.tool.compiler.Console.warning).");
+            "to disable this warning).");
         qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER = false;
       }
       return qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER;
