@@ -1,14 +1,14 @@
-var test = require("tape");
-var fs = require("fs");
+const qx = require("../qx");
+const test = require("tape");
+const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
-require("../index");
 
 test("Checks rotateUnique", async assert => {
   await testUtils.deleteRecursive("test-rotate-unique");
   await testUtils.fsPromises.mkdir("test-rotate-unique");
-  
+
   for (var i = 1; i < 6; i++) {
-   await qx.tool.utils.files.Utils.safeUnlink("test-rotate-unique/log.txt." + i); 
+   await qx.tool.utils.files.Utils.safeUnlink("test-rotate-unique/log.txt." + i);
   }
   for (var i = 1; i < 10; i++) {
     await qx.tool.utils.files.Utils.rotateUnique("test-rotate-unique/log.txt", 5);

@@ -1,4 +1,4 @@
-require("../index");
+const qx = require("../qx");
 const rimraf = qx.tool.utils.Promisify.promisify(require("rimraf"));
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");
@@ -9,10 +9,8 @@ const appNamespace = "testCommandsApp";
 
 (async () => {
   try {
-    console.info("Running command tests...");
-
-    process.chdir("test-commands");
-
+    qx.tool.compiler.Console.info("Running command tests...");
+    process.chdir(path.join(__dirname,"test-commands"));
     try {
       throw new qx.tool.utils.Utils.UserError("test");
     } catch (e) {

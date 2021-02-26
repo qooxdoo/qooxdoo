@@ -259,7 +259,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         if (!tag_name) {
           throw new qx.tool.utils.Utils.UserError(
             `'${repo_name}' has no stable release compatible with qooxdoo version ${qooxdoo_version}.
-             To install anyways, use --release x.y.z.
+             To install anyways, use '--release <release>' or 'qx install ${repo_name}@<release>'.
              Please ask the library maintainer to release a compatible version`);
         }
       }
@@ -434,10 +434,9 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
       for (let lib_uri of Object.getOwnPropertyNames(manifest.requires)) {
         let lib_range = manifest.requires[lib_uri];
         switch (lib_uri) {
-          case "qooxdoo-compiler":
           case "@qooxdoo/compiler":
+            // can be ignored
             break;
-          case "qooxdoo-sdk":
           case "@qooxdoo/framework": {
             let qxVer = await this.getQxVersion();
             if (!semver.satisfies(qxVer, lib_range, {loose: true}) && this.argv.ignore) {

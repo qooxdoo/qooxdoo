@@ -325,7 +325,7 @@ qx.Class.define("qx.tool.config.Abstract", {
           break;
         // throw otherwise
         default:
-          throw new Error(`Configuration file schema version mismatch: expected v${schemaMjVer}, found v${dataMjVer}. Could not migrate data.`);
+          throw new Error(`Configuration file schema version mismatch in ${this.getDataPath()}: expected v${schemaMjVer}, found v${dataMjVer}. Could not migrate data.`);
       }
       this.setDirty(true);
       return data;

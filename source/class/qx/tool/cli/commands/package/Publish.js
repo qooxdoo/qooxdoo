@@ -106,7 +106,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       // qooxdoo version
       let qooxdoo_version = await this.getQxVersion();
       if (argv.verbose) {
-        qx.tool.compiler.Console.log(`>>> qooxdoo version:  ${qooxdoo_version}`);
+        this.debug(`>>> qooxdoo version:  ${qooxdoo_version}`);
       }
 
       // check git status
@@ -214,7 +214,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       let repo_name = url.replace(/(https:\/\/github.com\/|git@github.com:)/, "").replace(/\.git/, "");
       let [owner, repo] = repo_name.split(/\//);
       if (argv.verbose) {
-        qx.tool.compiler.Console.log(`>>> Repository:  ${repo_name}`);
+        this.debug(`>>> Repository:  ${repo_name}`);
       }
       let repoExists = false;
       try {

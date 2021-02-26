@@ -38,7 +38,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
     getYargsCommand: function() {
       return {
         command: "create <application namespace> [options]",
-        describe: "creates a new qooxdoo project.",
+        describe: "create a new qooxdoo project",
         builder: {
           "type": {
             alias : "t",
@@ -238,6 +238,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       }
 
       // copy template, replacing template vars
+      let that = this;
       function traverseFileSystem(sourceDir, targetDir) {
         let files = fs.readdirSync(sourceDir);
         for (let part of files) {
@@ -254,7 +255,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
               if (argv.verbose) {
                 qx.tool.compiler.Console.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
               }
-              // qx.tool.compiler.Console.log(template);
+              // that.log(template);
               if (fs.existsSync(targetFile)) {
                 throw new qx.tool.utils.Utils.UserError(`${targetFile} already exists.`);
               }

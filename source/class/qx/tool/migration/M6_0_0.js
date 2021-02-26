@@ -57,12 +57,12 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       ];
       // change names in .gitignore
       if ((await this.checkFilesToRename(migrateFiles)).length) {
-        let result = await this.renameFiles(migrateFiles);
+        await this.renameFilesUnlessDryRun(migrateFiles);
         if (dryRun) {
           this.announce(".gitignore needs to be updated.");
-          this.markAsPending();
+          this.markAsPending(3);
         } else {
-          await this.replaceInFiles([{
+          await this.replaceInFilesUnlessDryRun([{
             files: path.join(cwd, ".gitignore"),
             from: "contrib/",
             to: "qx_packages/"
@@ -105,7 +105,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
         if (updateManifest) {
           if (dryRun) {
-            this.markAsPending();
+            this.markAsPending(3);
           } else {
             manifestModel
               .transform("info.authors", authors => {
@@ -131,7 +131,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .transform("info.version", version => {
                 let coerced = semver.coerce(version);
                 if (coerced === null) {
-                  this.warn(`Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`);
+                  qx.tool.compiler.Console.warn(`Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`);
                   return "1.0.0";
                 }
                 return String(coerced);
@@ -142,21 +142,22 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("requires.qxcompiler")
               .unset("requires.qooxdoo-compiler")
               .unset("requires.qooxdoo-sdk");
-            verbose || this.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose && qx.tool.compiler.Console.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             await manifestModel.save();
             this.markAsApplied();
             // update dependencies in Manifest
             let updateManifest = {
-              "@qooxdoo/framework": "^6.0.0", "@qooxdoo/compiler": "^1.0.0"
+              "@qooxdoo/framework": "^6.0.0",
+              "@qooxdoo/compiler": "^1.0.0"
             }
             for (let [dependencyName, range] of Object.entries(updateManifest)) {
-              await this.updateManfestDependency(manifestModel, dependencyName, range);
+              await this.updateDependencyUnlessDryRun(manifestModel, dependencyName, range);
             }
-            verbose && this.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
+            verbose && qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
           }
         }
         // update schema
-        await this.updateSchemaVersion(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
+        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
 
         // save Manifest file
         if (!this.getRunner().getDryRun()) {
@@ -188,7 +189,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           this.markAsApplied();
         }
       }
-      await this.updateSchemaVersion(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
+      await this.updateSchemaUnlessDryRun(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
       if (!this.getRunner().getDryRun()) {
         await compileJsonModel.save();
         compileJsonModel.set({validate:true});

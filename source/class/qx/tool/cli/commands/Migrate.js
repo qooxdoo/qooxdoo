@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
     getYargsCommand: function() {
       return {
         command: "migrate",
-        describe: "migrates the package system to a newer version.",
+        describe: "migrate a library/application to a newer qooxdoo version",
         builder: {
           "dry-run": {
             describe: "Do not apply migrations"
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
         maxVersion: this.argv.maxVersion
       });
       let {applied, pending} = await runner.runMigrations();
-      this.info(`Finished ${this.argv.dryRun?"checking":"running"} migrations: ${applied} migrations applied, ${pending} migrations pending.`);
+      qx.tool.compiler.Console.info(`Finished ${this.argv.dryRun?"checking":"running"} migrations: ${applied} migrations applied, ${pending} migrations pending.`);
     },
 
     /**
