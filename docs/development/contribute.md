@@ -118,20 +118,29 @@ changes, then you just need to use the `./bin/source/qx` in your test app.
 
 ## Running framework tests
 
-If you want to add to the Qooxdoo framework (i.e. the `qx` namespace), or alter
-its behavior somehow (including bug fixes), we ask you to provide a unit test
-that expresses in code how the new feature or the changed behavior is expected
-to work. This proves that the PR work as intended and also helps to prevent
-regressions.
+Before you submit a PR, you should check that your code passes the
+lint tests by running `npm test` in the framework repo directory;
+this will automatically run lint against the codebase and do compiler
+and framework tests. `npm test` will run `bootstrap-compiler`
+automatically. 
 
-After you have added your test classes/methods, navigate to folder containing
-your fork, and execute the following steps:
+Running the whole test suite takes quite a while.
+
+If you want to test the framework separatly run:
 
 ```bash
 cd test/framework
-npm install --no-save --no-package-lock @qooxdoo/framework
-npx qx lint <path(s) to the file(s) you changed/added, including the test class>
-npx qx test --class=<the class you added your test cases to>
+../../bin/source/qx test
 ```
 
-If all tests pass, your code is ready for review!
+For the compiler and CLI tests, run:
+```bash
+cd test/tool
+../../bin/source/qx test
+```
+
+Requirement for this is that `bootstrap-compiler` has run once.
+
+If you add a new feature, we ask you to provide a unit test that
+expresses in code how the new feature is expected to work. This proves
+that the PR work as intended and also helps to prevent regressions.
