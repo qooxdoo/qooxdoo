@@ -79,9 +79,9 @@ This is a sample file:
     the following fields:
     - **name** : Author name.
     - **email** : Author email address.
+    - **maintainer**: Boolean, can be used to mark those authors who are currently
+      maintaining the code, as opposed to previous authors who are no longer involved.
   - **version**: Version of the library.
-  - **Qooxdoo-versions**: List of versions of the Qooxdoo framework this library
-    is compatible with.
   - **sourceViewUri**: URL to view the library's class code online. This URL
     will be used in generated API documentation. It has a special syntax and
     allows for placeholders (e.g. for the class name and the source line

@@ -1003,7 +1003,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     async __checkDependencies(libs, packages) {
       const Console = qx.tool.compiler.Console.getInstance();
       let errors = [];
-      const SDK_VERSION = await this.getQxVersion();
       // check all requires
       for (let lib of libs) {
         let requires = lib.getRequires();
@@ -1027,9 +1026,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         // Find the libraries that we need, not including the libraries which we have been given explicitly
         //  in the compile.json's `libraries` property
         let requires_uris = Object.getOwnPropertyNames(requires)
-          .filter(uri => !libs.find(lib => lib.getLibraryInfo().name == uri));
+          .filter(uri => !libs.find(lib => lib.getLibraryInfo().name === uri));
 
-        let urisToInstall = requires_uris.filter(name => !name.startsWith("qooxdoo-") && name !== "@qooxdoo/framework" && name !== "@qooxdoo/compiler");
+        let urisToInstall = requires_uris.filter(name => name !== "@qooxdoo/framework");
 
         let pkg_libs = Object.getOwnPropertyNames(packages);
         if (urisToInstall.length > 0 && pkg_libs.length === 0) {
@@ -1054,21 +1053,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           let requiredRange = requires[reqUri];
           const rangeIsCommitHash = /^[0-9a-f]{40}$/.test(requiredRange);
           switch (reqUri) {
-            // npm release only
-            case "qooxdoo-compiler":
-            case "@qooxdoo/compiler": {
-              let compilerVersion = qx.tool.compiler.Version.VERSION;
-              let satifiesRange = semver.satisfies(compilerVersion, requiredRange, {loose: true, includePrerelease: true}) ||
-                  (Number(semver.major(compilerVersion)) === 0 && semver.gtr(compilerVersion, requiredRange, true));
-              if (!satifiesRange) {
-                errors.push(`${lib.getNamespace()}: Needs @qooxdoo/compiler version ${requiredRange}, found ${compilerVersion}`);
-              }
+            case "@qooxdoo/compiler":
+              // ignore
               break;
-            }
-            // npm release only
-            case "qooxdoo-sdk":
             case "@qooxdoo/framework": {
-              let qxVersion = SDK_VERSION;
+              let qxVersion = await this.getQxVersion();
               if (!semver.satisfies(qxVersion, requiredRange, {loose: true})) {
                 errors.push(`${lib.getNamespace()}: Needs @qooxdoo/framework version ${requiredRange}, found ${qxVersion}`);
               }

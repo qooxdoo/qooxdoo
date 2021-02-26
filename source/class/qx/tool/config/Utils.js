@@ -48,10 +48,12 @@ qx.Class.define("qx.tool.config.Utils", {
      *
      * If no libraries or applications can be found, empty arrays are returned.
      *
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<Object>}
      */
-    async getProjectData() {
-      let qooxdooJsonPath = path.join(process.cwd(), qx.tool.config.Registry.config.fileName);
+    async getProjectData(dir=null) {
+      dir = dir || process.cwd();
+      let qooxdooJsonPath = path.join(dir, qx.tool.config.Registry.config.fileName);
       let data = {
         libraries: [],
         applications: []
@@ -65,12 +67,12 @@ qx.Class.define("qx.tool.config.Utils", {
           data.applications = qooxdooJson.applications;
         }
       }
-      if (await fs.existsAsync(path.join(process.cwd(), qx.tool.config.Manifest.config.fileName))) {
+      if (await fs.existsAsync(path.join(dir, qx.tool.config.Manifest.config.fileName))) {
         if (!data.libraries.find(lib => lib.path === ".")) {
           data.libraries.push({path : "."});
         }
       }
-      if (await fs.existsAsync(path.join(process.cwd(), qx.tool.config.Compile.config.fileName))) {
+      if (await fs.existsAsync(path.join(dir, qx.tool.config.Compile.config.fileName))) {
         if (!data.applications.find(app => app.path === ".")) {
           data.applications.push({path : "."});
         }
@@ -82,11 +84,13 @@ qx.Class.define("qx.tool.config.Utils", {
      * Returns the path to the library in the current working directory. If that
      * directory contains several libraries, the first one found is returned.
      *
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @throws {Error} Throws an error if no library can be found.
      * @return {String} A promise that resolves with the absolute path to the library
      */
-    async getLibraryPath() {
-      let {libraries} = await this.getProjectData();
+    async getLibraryPath(dir=null) {
+      dir = dir || process.cwd();
+      let {libraries} = await this.getProjectData(dir);
       if (libraries instanceof Array && libraries.length) {
         return path.resolve(process.cwd(), libraries[0].path);
       }
@@ -98,11 +102,13 @@ qx.Class.define("qx.tool.config.Utils", {
      * the current working directory. If a directory contains
      * several applications, the first one found is returned.
      *
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @throws {Error} Throws an error if no application can be found.
      * @return {Promise<String>} A promise that resolves with the absolute path to the application
      */
-    async getApplicationPath(dir) {
-      let {applications} = await this.getProjectData();
+    async getApplicationPath(dir=null) {
+      dir = dir || process.cwd();
+      let {applications} = await this.getProjectData(dir);
       if (applications instanceof Array && applications.length) {
         return path.resolve(process.cwd(), applications[0].path);
       }
@@ -126,7 +132,7 @@ qx.Class.define("qx.tool.config.Utils", {
      *
      * If all strategies fail, an error is thrown.
      *
-     * @param {String?} dir The working directory. If not given, the current working dir is used
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<*string>}
      * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
@@ -160,7 +166,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * Returns true if a compilable application exists in the given directory by checking
      * if there is a "compile.json" file.
      *
-     * @param {String} dir
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<*>}
      */
     async applicationExists(dir){
@@ -172,18 +178,18 @@ qx.Class.define("qx.tool.config.Utils", {
      * used by the current project, If the application does
      * not specify a path, it is taken from the environment.
      *
-     * @param {String?} baseDir The base directory. If not given, the current working dir is used
+     * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<String>} Promise that resolves with the path {String}
      * @throws {qx.tool.utils.Utils.UserError}
      */
-    async getAppQxPath(baseDir=null) {
-      baseDir = baseDir || process.cwd();
+    async getAppQxPath(dir=null) {
+      dir = dir || process.cwd();
       // if there is no compile.json file, throw
-      if (!await this.applicationExists(baseDir)) {
-        throw new qx.tool.utils.Utils.UserError(`No compilable application exists in ${baseDir}.`);
+      if (!await this.applicationExists(dir)) {
+        throw new qx.tool.utils.Utils.UserError(`No compilable application exists in ${dir}.`);
       }
       // 1. check `libraries` key of compile.json which overrides anything else
-      let compileJsonModel = await qx.tool.config.Compile.getInstance().set({baseDir}).load();
+      let compileJsonModel = await qx.tool.config.Compile.getInstance().set({baseDir: dir}).load();
       let appPath = await this.getApplicationPath();
       let libraries = compileJsonModel.getValue("libraries");
       if (libraries) {
@@ -198,7 +204,7 @@ qx.Class.define("qx.tool.config.Utils", {
         }
       }
       // 2. node_modules etc.
-      return this.getQxPath(baseDir);
+      return this.getQxPath(dir);
     },
 
     /**

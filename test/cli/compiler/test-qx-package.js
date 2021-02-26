@@ -2,7 +2,7 @@ const test = require("tape");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
-
+require("process").chdir(__dirname);
 test("Create app", async assert => {
   try {
     await testUtils.deleteRecursive("test-qx-package/myapp");

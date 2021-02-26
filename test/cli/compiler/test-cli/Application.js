@@ -38,9 +38,9 @@ qx.Class.define("myapp.Application",
      * during startup of the application
      */
     main : function() {
-      if (qx.core.Environment.get("runtime.name") == "rhino") {
+      if (qx.core.Environment.get("runtime.name") ==="rhino") {
         qx.log.Logger.register(qx.log.appender.RhinoConsole);
-      } else if (qx.core.Environment.get("runtime.name") == "node.js") {
+      } else if (qx.core.Environment.get("runtime.name") === "node.js") {
         qx.log.Logger.register(qx.log.appender.NodeConsole);
       }
 
@@ -53,13 +53,6 @@ qx.Class.define("myapp.Application",
         }
       }
 
-      // Test zip
-//      var zip = new JSZip();
-//      zip.file("Hello.txt", "Hello World\n");
-
-//      if (!com.zenesis.qx.upload.UploadButton) {
-//        process.exit(1);
-//      }
       if (!myapp.Window) {
         process.exit(1);
       }
@@ -74,10 +67,10 @@ qx.Class.define("myapp.Application",
     _argumentsToSettings : function(args) {
       var opts;
       for (var i=0, l=args.length; i<l; i++) {
-        if (args[i].indexOf("settings=") == 0) {
+        if (args[i].indexOf("settings=") === 0) {
           opts = args[i].substr(9);
           break;
-        } else if (args[i].indexOf("'settings=") == 0) {
+        } else if (args[i].indexOf("'settings=") === 0) {
           opts = /'settings\=(.*?)'/.exec(args[i])[1];
           break;
         }

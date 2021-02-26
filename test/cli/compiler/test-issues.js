@@ -2,6 +2,7 @@ const test = require("tape");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
+process.chdir(__dirname);
 
 test("Issue553", async assert => {
   try {
@@ -11,7 +12,7 @@ test("Issue553", async assert => {
     let indexHtml = await fsPromises.readFile("test-issues/issue553/compiled/source/index.html", "utf8");
     assert.ok(!!indexHtml.match(/issue553one\/index.js/m));
     assert.end();
-  }catch(ex) {
+  } catch(ex) {
     assert.end(ex);
   }
 });

@@ -28,7 +28,7 @@ qx.Class.define("qx.tool.cli.commands.Pkg", {
     getYargsCommand: function() {
       return {
         command : "pkg <command> [options]",
-        desc : "alias for 'qx package'.",
+        desc : "alias for 'qx package'",
         builder : function(yargs) {
           qx.tool.cli.Cli.addYargsCommands(yargs, [
             "Install",

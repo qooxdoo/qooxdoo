@@ -155,6 +155,11 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Call the same method of the super class.
+     * 
+     * Either the compiler translate all calls to this.base
+     * into mypkg.MyBaseClass.prototype.myMethod.call(this, 123);
+     * this method is still needed for use in compile.js or playground
+     * which are not precompiled
      *
      * @param args {IArguments} the arguments variable of the calling method
      * @param varargs {var?} variable number of arguments passed to the overwritten function
@@ -162,9 +167,14 @@ qx.Class.define("qx.core.Object",
      */
     base : function(args, varargs)
     {
+      var func = args.callee.base;
+      if (!func) {
+         func = this[args.callee.name].base;
+      }
+
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (!qx.Bootstrap.isFunctionOrAsyncFunction(args.callee.base)) {
+        if (!qx.Bootstrap.isFunctionOrAsyncFunction(func)) {
           throw new Error(
             "Cannot call super class. Method is not derived: " +
             args.callee.displayName
@@ -173,9 +183,9 @@ qx.Class.define("qx.core.Object",
       }
 
       if (arguments.length === 1) {
-        return args.callee.base.call(this);
+        return func.call(this);
       } else {
-        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+        return func.apply(this, Array.prototype.slice.call(arguments, 1));
       }
     },
 

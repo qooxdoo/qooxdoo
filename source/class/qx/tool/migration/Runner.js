@@ -52,7 +52,6 @@ qx.Class.define("qx.tool.migration.Runner",{
   },
   members: {
 
-
     /**
      * Instantiates all migration classes in the `qx.tool.migration` namespace which
      * match the version of the current application, and runs all methods of
@@ -79,6 +78,7 @@ qx.Class.define("qx.tool.migration.Runner",{
         let migrationInstance = new Clazz(this);
         let migrationVersion = migrationInstance.getVersion();
         let maxVersion = this.getMaxVersion();
+        this.debug(`>>> Migration version: ${migrationVersion}, maximum version: ${maxVersion}`);
         let skip = (appQxVersion && !semver.lt(appQxVersion, migrationVersion))
           || (maxVersion && semver.gt(migrationVersion, maxVersion));
         if (skip) {
@@ -92,13 +92,16 @@ qx.Class.define("qx.tool.migration.Runner",{
         let migrationMethods = Object.getOwnPropertyNames(Clazz.prototype)
           .filter(key => key.startsWith("migrate"))
           .filter(key => typeof Clazz.prototype[key] == "function");
+
         for (let method of migrationMethods) {
+          let previousApplied = migrationInstance.getApplied();
+          let previousPending = migrationInstance.getPending();
           await migrationInstance[method]();
-          this.debug(`>>> - ${method}: ${migrationInstance.getApplied()-applied} applied/${migrationInstance.getPending()-pending} pending`);
+          this.debug(`>>> - ${method}: ${migrationInstance.getApplied() - previousApplied} applied/${migrationInstance.getPending() - previousPending} pending`);
         }
-        this.debug(`>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`);
         applied += migrationInstance.getApplied();
         pending += migrationInstance.getPending();
+        this.debug(`>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`);
       }
       return {applied, pending};
     },

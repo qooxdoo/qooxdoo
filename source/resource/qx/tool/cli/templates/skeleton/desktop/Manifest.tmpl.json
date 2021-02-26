@@ -1,17 +1,13 @@
 {
- "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+ "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
   "info" :
   {
     "name" : "${name}",
-
     "summary" : "${summary}",
     "description" : "${description}",
-
     "homepage" : "${homepage}",
-
     "license" : "${license}",
     "authors" : ${author_map},
-
     "version" : "${version}"
   },
 
@@ -25,7 +21,6 @@
   },
 
   "requires": {
-    "@qooxdoo/framework": "${qooxdoo_range}",
-    "@qooxdoo/compiler" : "${compiler_range}"
+    "@qooxdoo/framework": "${qooxdoo_range}"
   }
 }
