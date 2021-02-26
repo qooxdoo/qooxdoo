@@ -24,7 +24,8 @@
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node bootstrap-compiler --target=build",
-    "test": "node ./bin/build/qx test --fail-fast --block-global-framework=true 2>&1 | npx tap-summary"
+    "test": "node ./bin/build/qx test --fail-fast 2>&1 | npx tap-summary",
+    "prepack": "node ./bin/known-good/qx deploy --clean"
   },
   "files": [
     "LICENSE",

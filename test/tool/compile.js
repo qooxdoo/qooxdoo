@@ -12,7 +12,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
      * @return {Promise<void>}
      */
     async beforeTests(command) {
-      const COMPILER_TEST_PATH = "compiler";
+      const COMPILER_TEST_PATH = "integrationtest";
       function addTest(test) {
         command.addTest(new qx.tool.cli.api.Test(test, async function () {
           console.log("****");

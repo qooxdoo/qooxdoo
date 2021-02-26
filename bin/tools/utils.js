@@ -181,7 +181,7 @@ qx.Class.define("qx.tool.compiler.Version", {
 
   // Use the compiler in node_modules to compile a temporary version
   console.log("Creating temporary compiler with known-good one");
-  result = await runCommand(".", "node", "./bin/known-good/qx", "compile", "--target=" + target, "--output-path-prefix=bootstrap", "--app-name=compiler");
+  result = await runCommand("known-good", "node", "../bin/known-good/qx", "compile", "--target=" + target);
   if (result.exitCode) {
     process.exit(result.exitCode);
   }

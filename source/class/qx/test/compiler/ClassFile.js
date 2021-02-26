@@ -21,7 +21,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
     this.__analyser = new qx.tool.compiler.Analyser();
     this.__analyser.setOutputDir("tmp/unittest");
     this.__lib.setRootDir(".");
-    this.__lib.setSourcePath("unittest/test-compiler");
+    this.__lib.setSourcePath("unittest/compiler");
     this.__lib.getSourceFileExtension = () => ".js";
   },
 
