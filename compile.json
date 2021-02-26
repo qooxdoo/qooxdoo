@@ -1,4 +1,5 @@
 {
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
   "targets": [
     {
       "type": "source",
@@ -195,7 +196,7 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "parserOptions": {
-      "ecmaVersion": 2017
+      "ecmaVersion": 2018
     },
     "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
@@ -277,6 +278,5 @@
       "no-labels": "off",
       "no-inner-declarations": "off"
     }
-  },
-  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
+  }
 }

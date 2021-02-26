@@ -67,7 +67,7 @@ qx.Class.define("qx.tool.migration.Runner",{
     async runMigrations() {
       let qxVersion = await qx.tool.config.Utils.getQxVersion();
       let appQxVersion = await qx.tool.config.Utils.getAppQxVersion();
-      this.debug(`${this.getDryRun()?"Checking":"Running" } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
+      this.debug(`${this.getDryRun()?"Checking":"Running"} migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
