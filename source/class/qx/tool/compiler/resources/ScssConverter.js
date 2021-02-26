@@ -36,7 +36,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
       filename = path.basename(filename);
       return filename[0] != "_" && filename.endsWith(".scss");
     },
-    
+
     getDestFilename(target, asset) {
       let filename;
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
@@ -46,22 +46,22 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
       }
       return filename;
     },
-    
+
     async convert(target, asset, srcFilename, destFilename, isThemeFile) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
         let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
-      
+
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
         return this.legacyMobileSassConvert(target, asset, srcFilename, destFilename);
       }
-      
+
       let scssFile = new qx.tool.compiler.resources.ScssFile(target, asset.getLibrary(), asset.getFilename());
       scssFile.setThemeFile(isThemeFile);
       return scssFile.compile(destFilename);
     },
-    
+
     /**
      * The traditional SASS compilation; it does not use the newer advanced SASS compiler and so
      * does not support relative `url()` paths and automatically has Qooxdoo SASS built in.
@@ -71,7 +71,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
         let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
-      
+
       let qooxdooPath = target.getAnalyser().getQooxdooPath();
       let data = await fs.readFileAsync(srcFilename, "utf8");
       if (!data || !data.trim()) {
@@ -101,14 +101,14 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
       }
     }
   },
-  
+
   statics:{
     /** @type {Boolean} Default is true for the API, the CLI will set this to null */
-    USE_V6_COMPILER: true, 
-    
+    USE_V6_COMPILER: true,
+
     /** @type {Boolean} Whether to copy .scss files */
     COPY_ORIGINAL_FILES: false,
-    
+
     isNewCompiler() {
       if (qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER === null) {
         console.warn("DEPRECATED: Using the Qooxdoo v5 style of SASS Compilation; this is backwards compatible " +

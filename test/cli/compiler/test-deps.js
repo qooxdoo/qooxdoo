@@ -1,18 +1,21 @@
-var test = require("tape");
-var fs = require("fs");
-var async = require("async");
+const qx = require("../qx");
+const test = require("tape");
+const fs = require("fs");
+const async = require("async");
 const {promisify} = require("util");
 const readFile = promisify(fs.readFile);
-require("../index");
+const process = require("process");
+const path = require("path");
+
+process.chdir(__dirname);
 
 async function createMaker() {
-  var QOOXDOO_PATH = "../../..";
-
+  const qxPath = path.resolve(__dirname + "/../../..");
+  const templatePath = path.resolve(qxPath + "/source/resource/qx/tool/cli/templates");
   qx.tool.compiler.ClassFile.JSX_OPTIONS = {
     "pragma": "jsx.dom",
     "pragmaFrag": "jsx.Fragment"
   };
-
   // Makers use an Analyser to figure out what the Target should write
   var maker = new qx.tool.compiler.makers.AppMaker().set({
     // Targets know how to output an application
@@ -58,7 +61,7 @@ async function createMaker() {
       "test.overridden2": false,
       "test.overridden5": "application"
     },
-    templatePath: "../../../source/resource/qx/tool/cli/templates",
+    templatePath,
     writeIndexHtmlToRoot: true
   }));
 
@@ -74,12 +77,12 @@ async function createMaker() {
       "test.overridden2": false,
       "test.overridden5": "application"
     },
-    templatePath: "../../../source/resource/qx/tool/cli/templates"
+    templatePath
   }));
 
   let analyser = maker.getAnalyser();
-  analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary("testapp"));
-  analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary(QOOXDOO_PATH));
+  analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary(path.join(__dirname, "testapp")));
+  analyser.addLibrary(await qx.tool.compiler.app.Library.createLibrary(qxPath));
   analyser.setBabelConfig({
     plugins: {
       "@babel/plugin-proposal-optional-chaining": true

@@ -17,7 +17,7 @@
 ************************************************************************ */
 /**
  * This is the main application class of the compiler.
- * 
+ *
  * @asset(qx/tool/*)
  *
  */

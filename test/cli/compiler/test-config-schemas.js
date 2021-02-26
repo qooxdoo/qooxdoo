@@ -1,4 +1,4 @@
-require("../index");
+const qx = require("../qx");
 const rimraf = require("rimraf");
 const fs = qx.tool.utils.Promisify.fs;
 const process = require("process");

@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
         var cmd = new qx.tool.cli.commands.Config(argv);
         return cmd[name](argv)
           .catch(e => {
-            qx.tool.compiler.Console.log(e.stack || e.message);
+            qx.tool.compiler.Console.error(e.stack || e.message);
             process.exit(1);
           });
       }
@@ -154,11 +154,11 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let value = cfg.db(argv.key);
       if (argv.bare) {
-        qx.tool.compiler.Console.log(value||"");
+        qx.tool.compiler.Console.info(value||"");
       } else if (value !== undefined) {
-        qx.tool.compiler.Console.log(argv.key + "=" + value);
+        qx.tool.compiler.Console.info(argv.key + "=" + value);
       } else {
-        qx.tool.compiler.Console.log(argv.key + " is not set");
+        qx.tool.compiler.Console.info(argv.key + " is not set");
       }
     },
 
@@ -193,7 +193,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       }));
 
       // Display each value
-      qx.tool.compiler.Console.log(columnify(keys));
+      qx.tool.compiler.Console.info(columnify(keys));
     }
   }
 });

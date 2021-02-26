@@ -28,8 +28,31 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
   extend: qx.tool.migration.BaseMigration,
   members: {
 
-    async migrate() {
-      this.debug("No v7 migration implemented yet..");
+    async migrateManifest() {
+      let dryRun = this.getRunner().getDryRun();
+      let verbose = this.getRunner().getVerbose();
+      // Update all Manifests
+      let updateManifest = false;
+      for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
+        await manifestModel.set({
+          warnOnly: true,
+        }).load();
+        if (manifestModel.keyExists("requires.@qooxdoo/compiler")) {
+          if (dryRun) {
+            this.markAsPending("@qooxdoo/compiler dependency will be removed from Manifest.");
+          } else {
+            manifestModel.unset("requires.@qooxdoo/compiler");
+            this.markAsApplied();
+            await manifestModel.save();
+          }
+        }
+        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-2-0-0.json")
+        // save Manifest file
+        if (!dryRun) {
+          manifestModel.setValidate(false); // shouldn't be necessary
+          await manifestModel.save();
+        }
+      }
     }
   }
 });

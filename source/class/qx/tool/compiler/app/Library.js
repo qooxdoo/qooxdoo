@@ -146,7 +146,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       }
       return this.__promiseLoadManifest = this.__loadManifestImpl(loadFromDir);
     },
-    
+
     __loadManifestImpl(loadFromDir) {
       var Console = qx.tool.compiler.Console.getInstance();
       var t = this;
@@ -177,7 +177,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
                   className: check
                 };
               }
-            } 
+            }
           }
 
           function fixLibraryPath(dir) {
@@ -328,7 +328,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       let rootDir = path.join(t.getRootDir(), t.getSourcePath());
       if (!fs.existsSync(rootDir)) {
         let Console = qx.tool.compiler.Console.getInstance();
-        this.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", t.getNamespace(), rootDir));
+        qx.tool.compiler.Console.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", t.getNamespace(), rootDir));
         cb(null, []);
         return;
       }
@@ -352,13 +352,13 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       var type = this.__knownSymbols[name];
 
       if (type) {
-        return { 
-          symbolType: t.__knownSymbols[name], 
-          className: type == "class" ? name : null, 
-          name: name 
+        return {
+          symbolType: t.__knownSymbols[name],
+          className: type == "class" ? name : null,
+          name: name
         };
       }
-      
+
       function testEnvironment(check) {
         if (!check) {
           return null;
@@ -373,12 +373,12 @@ qx.Class.define("qx.tool.compiler.app.Library", {
           return {
             symbolType: "environment",
             className: check.className,
-            name: name 
+            name: name
           };
         }
         return null;
       }
-      
+
       let result = testEnvironment(this.__environmentChecks[name]);
       if (result) {
         return result;
@@ -388,7 +388,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         if (check.startsWith) {
           result = testEnvironment(check);
           if (result !== null) {
-            return result; 
+            return result;
           }
         }
       }
@@ -408,10 +408,10 @@ qx.Class.define("qx.tool.compiler.app.Library", {
 
       return null;
     },
-    
+
     /**
      * Checks whether the classname is an actual class, in this library
-     * 
+     *
      * @param classname {String} classname to look for
      * @return {Boolean}
      */
@@ -467,11 +467,11 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       return path.join(this.getRootDir(), this.getThemePath(), filename);
     }
   },
-  
+
   statics: {
     /**
      * Helper method to create a Library instance and load it's manifest
-     * 
+     *
      * @param rootDir {String} directory of the library (must contain a Manifest.json)
      * @return {Library}
      */

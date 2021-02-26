@@ -24,7 +24,6 @@ const semver = require("semver");
 /**
  * Entry point for the CLI
  */
-/* global window */
 qx.Class.define("qx.tool.cli.Cli", {
   extend: qx.core.Object,
 
@@ -34,6 +33,8 @@ qx.Class.define("qx.tool.cli.Cli", {
       throw new Error("qx.tool.cli.Cli has already been initialized!");
     }
     qx.tool.cli.Cli.__instance = this;
+    // include & register log appender
+    qx.log.appender.NodeConsole;
   },
 
   members: {
@@ -100,6 +101,10 @@ qx.Class.define("qx.tool.cli.Cli", {
           describe: "suppresses normal progress output to console",
           type: "boolean"
         })
+        .option("colorize", {
+          describe: "colorize log output to the console using ANSI color codes",
+          type: "boolean"
+        })
     },
 
     /**
@@ -110,12 +115,8 @@ qx.Class.define("qx.tool.cli.Cli", {
       var title = "qooxdoo command line interface";
       title = "\n" + title + "\n" + "=".repeat(title.length);
 
-      // NOTE:: We CANNOT get the framework version here because we will not know which framework
-      //  to load until we have parse the command line args
-
-      title +=
-`
-Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
+      title += `
+Version: v${await qx.tool.config.Utils.getQxVersion()}
 `;
       title += "\n";
       title +=
@@ -128,14 +129,15 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       this.argv = yargs.argv;
       // Logging - needs to be unified..
       if (this.argv.debug) {
-        qx.tool.cli.LogAppender.setMinLevel("debug");
         qx.log.Logger.setLevel("debug");
       } else if (this.argv.quiet) {
-        qx.tool.cli.LogAppender.setMinLevel("error");
         qx.log.Logger.setLevel("error");
       } else {
-        qx.tool.cli.LogAppender.setMinLevel("warn"); // BC
         qx.log.Logger.setLevel("info");
+      }
+      if (this.argv.colorize) {
+        // use node console log appender with colors
+        qx.log.appender.NodeConsole.setUseColors(true);
       }
     },
 
@@ -405,7 +407,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
               m.shift();
               m = m.map(v => parseInt(v, 10));
               if (m[0] <= 1 && m[1] == 0 && m[2] < 15) {
-                qx.tool.compiler.Console.log("***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********");
+                qx.tool.compiler.Console.warn("***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********");
               }
             }
           }
@@ -418,7 +420,7 @@ Versions: @qooxdoo/compiler    v${qx.tool.compiler.Version.VERSION}
       // check if libraries are loaded
       if (config.libraries && needLibraries) {
         if (!config.libraries.every(libData => fs.existsSync(libData + "/Manifest.json"))) {
-          qx.tool.compiler.Console.log("One or more libraries not found - trying to install them from library repository...");
+          qx.tool.compiler.Console.info("One or more libraries not found - trying to install them from library repository...");
           const installer = new qx.tool.cli.commands.package.Install({
             quiet: true,
             save: false
