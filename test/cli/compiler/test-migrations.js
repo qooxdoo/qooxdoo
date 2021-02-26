@@ -14,29 +14,29 @@ const debug = true;
 const debugArg = debug ? "--debug --colorize" : "--colorize";
 
 function testMigration(maxVersion, numMigrationsExpected, checksumExpected) {
-  return async t => {
+  return async tape => {
     try {
-      t.comment(`>>>>>>>>>>>>>>>>>> TESTING v${maxVersion} migration <<<<<<<<<<<<<<<<<<<`);
+      tape.comment(`>>>>>>>>>>>>>>>>>> TESTING v${maxVersion} migration <<<<<<<<<<<<<<<<<<<`);
       const baseDir = path.join(__dirname, "test-migrations", `v${maxVersion}`);
       const unmigratedDir = path.join(baseDir, "unmigrated");
       const migratedDir = path.join(baseDir, "migrated");
       await testUtils.deleteRecursive(migratedDir);
       await testUtils.sync(unmigratedDir, migratedDir);
-      t.comment("Upgrade notice");
+      tape.comment("Upgrade notice");
       let result = await testUtils.runCommand(migratedDir, qxCmdPath, "clean", debugArg);
-      t.match(result.error, new RegExp(`pending migrations`));
-      t.comment("Dry run");
+      tape.match(result.error, new RegExp(`pending migrations`));
+      tape.comment("Dry run");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", "--dry-run", `--max-version=${maxVersion}`, debugArg);
-      t.match(result.output,new RegExp(`0 migrations applied, ${numMigrationsExpected} migrations pending`));
-      t.comment("Run migration");
+      tape.match(result.output,new RegExp(`0 migrations applied, ${numMigrationsExpected} migrations pending`));
+      tape.comment("Run migration");
       result = await testUtils.runCommand(migratedDir, qxCmdPath, "migrate", "--verbose", `--max-version=${maxVersion}`, debugArg);
-      t.match(result.output, new RegExp(`${numMigrationsExpected} migrations applied, 0 migrations pending`));
+      tape.match(result.output, new RegExp(`${numMigrationsExpected} migrations applied, 0 migrations pending`));
       let checksum = (await digest(migratedDir,'sha1')).hash;
-      t.comment(`Checksum of migrated app: ${checksum}`);
-      t.equals(checksum, checksumExpected);
-      t.end();
+      tape.comment(`Checksum of migrated app: ${checksum}`);
+      tape.equals(checksum, checksumExpected);
+      tape.end();
     } catch(ex) {
-      t.end(ex);
+      tape.end(ex);
     }
   }
 }

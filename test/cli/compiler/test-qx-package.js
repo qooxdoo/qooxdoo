@@ -3,36 +3,36 @@ const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
 require("process").chdir(__dirname);
-test("Create app", async t => {
+test("Create app", async assert => {
   try {
     await testUtils.deleteRecursive("test-qx-package/myapp");
     let result;
     result = await testUtils.runCommand("test-qx-package", testUtils.getCompiler(), "create", "myapp", "-I");
-    t.ok(result.exitCode === 0);
-    t.ok(fs.existsSync("test-qx-package/myapp/compile.json"))
+    assert.ok(result.exitCode === 0);
+    assert.ok(fs.existsSync("test-qx-package/myapp/compile.json"))
     result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--all",);
-    t.ok(result.exitCode === 0);
-    t.end();
+    assert.ok(result.exitCode === 0);
+    assert.end();
   } catch (ex) {
-    t.end(ex);
+    assert.end(ex);
   }
 });
 
-test("Install qxl.test1, latest version", async t => {
+test("Install qxl.test1, latest version", async assert => {
   try {
     let result;
     result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "install", "qooxdoo/qxl.test1");
-    t.ok(result.exitCode === 0);
+    assert.ok(result.exitCode === 0);
     result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--short", "--noheaders", "--installed", "--all");
-    t.ok(result.exitCode === 0);
-    t.ok(result.output.split("\n").length === 3)
+    assert.ok(result.exitCode === 0);
+    assert.ok(result.output.split("\n").length === 3)
     result = await testUtils.runCompiler("test-qx-package/myapp");
-    t.ok(result.exitCode === 0);
+    assert.ok(result.exitCode === 0);
     result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "remove", "qooxdoo/qxl.test1");
-    t.ok(result.exitCode === 0);
-    t.end();
+    assert.ok(result.exitCode === 0);
+    assert.end();
   } catch (ex) {
-    t.end(ex);
+    assert.end(ex);
   }
 });
 
