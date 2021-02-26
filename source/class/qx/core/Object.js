@@ -155,6 +155,11 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Call the same method of the super class.
+     * 
+     * Either the compiler translate all calls to this.base
+     * into mypkg.MyBaseClass.prototype.myMethod.call(this, 123);
+     * this method is still needed for use in compile.js or playground
+     * which are not precompiled
      *
      * @param args {IArguments} the arguments variable of the calling method
      * @param varargs {var?} variable number of arguments passed to the overwritten function
