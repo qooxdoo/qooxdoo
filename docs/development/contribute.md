@@ -154,7 +154,7 @@ cd test/tool
 
 Requirement for this is that `bootstrap-compiler` has run once.
 
-## Writing new framework tests
+## Writing new tests
 
 If you add a new feature, we ask you to provide a unit test that
 expresses in code how the new feature is expected to work. This proves
