@@ -154,6 +154,22 @@ cd test/tool
 
 Requirement for this is that `bootstrap-compiler` has run once.
 
+## Writing new framework tests
+
 If you add a new feature, we ask you to provide a unit test that
 expresses in code how the new feature is expected to work. This proves
 that the PR work as intended and also helps to prevent regressions.
+
+### Framework tests
+
+Framework tests are written as normal qooxdoo classes and
+placed in the `qx.test` namespace. For now, please refer
+to the code in that namespace for examples on how to write
+a test. More detailed documentation will be added later.
+
+### Tooling-related tests
+
+Tests for the compiler or the CLI are NodeJS scripts in the
+`test/tool/integrationtest` subdirectory. They use vanilla NodeJs
+Javascript or the "tape" testing framework to produce output that conforms
+to the [Test-Anything Protocol (TAP)](https://testanything.org/). 
