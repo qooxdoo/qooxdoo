@@ -25,7 +25,7 @@
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node bootstrap-compiler --target=build",
     "test": "node ./bootsstrap/qx test 2>&1 | npx tap-summary",
-    "prepack": "node ./bootsstrap/qx deploy"
+    "prepack": "node ./bootsstrap/qx deploy --clean"
   },
   "files": [
     "LICENSE",
