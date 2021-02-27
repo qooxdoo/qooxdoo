@@ -128,7 +128,9 @@ qx.Class.define("qx.tool.config.Utils", {
      * 2. The qx library contained in the projects `node_modules` folder, if it exists,
      * or in the parent directory's, etc.
      *
-     * 3. A globally installed `@qooxdoo/framework` NPM package.
+     * 3. if not found try 1. and 2. with current script dir
+     *
+     * 4. A globally installed `@qooxdoo/framework` NPM package.
      *
      * If all strategies fail, an error is thrown.
      *
@@ -136,30 +138,47 @@ qx.Class.define("qx.tool.config.Utils", {
      * @return {Promise<*string>}
      * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
-    async getQxPath(dir=null) {
-      dir = path.resolve(dir || process.cwd());
-      let root = path.parse(dir).root;
-      while (dir !== root) {
-        // 1. Manifest.json files
-        if (await this.isQxLibrary(dir)) {
-          return dir;
-        }
-        // 2. node_modules folders
-        let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
-        if (await fs.existsAsync(path.join(npmdir, "Manifest.json"))) {
-          return npmdir;
-        }
-        // walk up the directory tree
-        dir = path.resolve(path.join(dir, ".."));
-        //root = path.parse(dir).root;
+
+     async __getQxPath(dir) {
+       let root = path.parse(dir).root;
+       while (dir !== root) {
+         // 1. Manifest.json files
+         if (await this.isQxLibrary(dir)) {
+           return dir;
+         }
+         // 2. node_modules folders
+         let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
+         if (await this.isQxLibrary(npmdir)) {
+           return npmdir;
+         }
+         // walk up the directory tree
+         dir = path.resolve(path.join(dir, ".."));
+       }
+       return null;
+     },
+
+     async getQxPath(dir=null) {
+      // 1. current dir
+      let res = await this.__getQxPath(path.resolve(dir || process.cwd()));
+      if (res) {
+        return res;
       }
+
+      // 2. try script dir
+      /* eslint-disable-next-line @qooxdoo/qx/no-illegal-private-usage */
+      res = await this.__getQxPath(__dirname);
+      if (res) {
+        return res;
+      }
+
       // 3. global npm package
       let npmdir = await qx.tool.utils.Utils.exec("npm root -g");
-      dir = path.join(npmdir, "@qooxdoo", "framework");
-      if (!this.isQxLibrary(dir)) {
-        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+      res = path.join(npmdir, "@qooxdoo", "framework");
+      if (await this.isQxLibrary(res)) {
+        return res;
       }
-      return dir;
+
+      throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
     },
 
     /**
