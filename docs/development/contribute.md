@@ -107,9 +107,22 @@ is a full version of the compiler, so you can use the `--target=build`
 command line option if you would prefer, but if you do, just remember to
 put the `./bin/build/qx` on the PATH instead of the `./bin/source/qx`).
 
-By default, the compiler compiles all the applications, but if you
-are only working on the compiler you can speed this up by adding
-`--app-name=compiler` so that only the compiler is compiled.
+By default, the compiler compiles [all the applications:
+
+- **compiler**: The compiler CLI that is accessible via `./bin/(source|build)/qx`
+- **compilerLibrary**: a node module containing a subset of the qooxdoo framework.
+  It includes mainly the `qx.tool` namespace, but also other classes which work 
+  on the server. It can be imported via
+  `const qx = require('./compiled/node/(source|build)/compilerLibrary)`
+- **qx_server**: The ["qooxdoo" node module](https://www.npmjs.com/package/qooxdoo) 
+  which provides Qooxdoo's OO-features to NodeJS and which can be imported via 
+  `const qx = require('./compiled/node/(source|build)/qx_server)`
+
+If you are only working on one of the application, i.e. just on the compiler, 
+you can speed this up by adding `--app-name=compiler` so that only the compiler
+is compiled. For a list of classes which are compiled into each application,
+see the [`compile.json` file](https://github.com/qooxdoo/qooxdoo/blob/master/compile.json#L67)
+in the repository root. 
 
 If you are only working on the framework, then you do not need to constantly
 compile the compiler with the bootstrap, unless you want to check the impact
