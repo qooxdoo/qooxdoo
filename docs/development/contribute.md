@@ -107,7 +107,7 @@ is a full version of the compiler, so you can use the `--target=build`
 command line option if you would prefer, but if you do, just remember to
 put the `./bin/build/qx` on the PATH instead of the `./bin/source/qx`).
 
-By default, the compiler compiles [all the applications:
+By default, the compiler compiles all the applications:
 
 - **compiler**: The compiler CLI that is accessible via `./bin/(source|build)/qx`
 - **compilerLibrary**: a node module containing a subset of the qooxdoo framework.
