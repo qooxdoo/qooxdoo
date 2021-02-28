@@ -258,15 +258,20 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         throw e;
       }
 
-      // framework dependency
-      let semver_range = this.argv.qxVersionRange || mainManifestModel.getValue("requires.@qooxdoo/framework");
-      if (!semver.satisfies(qooxdoo_version, semver_range, {loose: true})) {
+      // semver range of framework dependency
+      let semver_range = this.argv.qxVersionRange; // use CLI-supplied range
+      if (!semver_range) {
+        // no CLI value
         if (this.argv.breaking) {
-          // enforce current version
+          // use current version only -> breaking
           semver_range = "^" + qooxdoo_version;
         } else {
-          // backward-compatible
-          semver_range += " || ^" + qooxdoo_version;
+          // get current semver range -> backward-compatible
+          semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
+          if (!semver.satisfies(qooxdoo_version, semver_range, {loose: true})) {
+            // make it compatible with current version
+            semver_range += " || ^" + qooxdoo_version;
+          }
         }
       }
 
