@@ -54,15 +54,6 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
   members: {
 
     /**
-     * Returns the qooxdoo version, either from the `qx-version` command
-     * line parameter or from the overridden method {@link qx.tool.cli.commands.Command#getQxVersion()}
-     * @override
-     */
-    getQxVersion() {
-      return this.argv.qxVersion || this.base(arguments);
-    },
-
-    /**
      * Announces or applies a migration
      */
     process: async function() {
