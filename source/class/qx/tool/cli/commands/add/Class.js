@@ -159,7 +159,9 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
 
       // write out new class file
       try {
-        require("mkdirp").sync(path.dirname(absolute_path), 0o755);
+        fs.mkdirSync(path.dirname(absolute_path), {
+          recursive: true,
+          mode: 0o755});
         await fs.writeFileAsync(absolute_path, final_content, "utf-8");
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError(`Cannot write to ${absolute_path}: ${e.message}`);
@@ -170,7 +172,9 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
         let local_templates_path = path.join(process.cwd(), "templates", "class");
         let local_copy_path = path.join(local_templates_path, path.basename(template_path));
         try {
-          require("mkdirp").sync(local_templates_path, 0o755);
+          fs.mkdirSync(path.dirname(local_templates_path), {
+            recursive: true,
+            mode: 0o755});
           await fs.writeFileAsync(local_copy_path, template, "utf-8");
         } catch (e) {
           throw new qx.tool.utils.Utils.UserError(`Cannot copy template to ${local_templates_path}: ${e.message}`);
