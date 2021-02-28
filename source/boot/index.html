@@ -4,6 +4,20 @@
   <head>
     <title>${appTitle}</title>
     ${preBootJs}
+    <style type="text/css" media="screen">
+      .popup {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 150px;
+        background-color: #aaa;
+        color: white;
+        padding: 10px;
+        font-family: "Lucida Grande", "DejaVu Sans", "Verdana", sans-serif;
+        font-size: 14px;
+        border: solid 1px #000000;
+      }
+    </style>
     <script type="text/javascript" src="${appPath}index.js"></script>
     <script type="text/javascript">
       qx.$$loader.on("ready", function () {
