@@ -1,5 +1,4 @@
 const test = require("tape"); // https://github.com/substack/tape
-const colorize = require('tap-colorize');
 const path = require("path");
 const testUtils = require("../../../bin/tools/utils");
 const fsp = require("fs").promises;
@@ -11,6 +10,7 @@ const debug = Boolean(process.env.DEBUG);
 const qxCmdPath = testUtils.getCompiler(debug ? "source":"build");
 let debugArg = "";
 if (debug) {
+  const colorize = require('tap-colorize');
   test.createStream().pipe(colorize()).pipe(process.stdout);
   debugArg += "--debug --colorize";
 }

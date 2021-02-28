@@ -441,7 +441,9 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         let lib_range = manifest.requires[lib_uri];
         switch (lib_uri) {
           case "@qooxdoo/compiler":
-            // can be ignored
+          case "qooxdoo-sdk":
+          case "qooxdoo-compiler":
+            // ignore legacy entries
             break;
           case "@qooxdoo/framework": {
             let qxVer = await this.getQxVersion();
@@ -505,10 +507,15 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
       let version2release = {};
       let versionList = lib.releases.list.map(tag => {
         // all libraries in a package MUST have the same version
-        let version = lib.releases.data[tag].manifests[0].info.version;
+        let manifest = lib.releases.data[tag].manifests[0];
+        if (!qx.lang.Type.isObject(manifest) || !qx.lang.Type.isObject(manifest.info) || !manifest.info.version) {
+          this.debug(`${repo_name}/${tag}: Invalid Manifest!`);
+          return null;
+        }
+        let version = manifest.info.version;
         version2release[version] = tag;
         return version;
-      });
+      }).filter(version => Boolean(version));
       let highestCompatibleVersion = semver.maxSatisfying(versionList, lib_range, {loose: true});
       return {
         version: highestCompatibleVersion,

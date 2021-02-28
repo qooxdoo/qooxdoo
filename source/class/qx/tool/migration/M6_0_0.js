@@ -42,6 +42,25 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       }
     },
 
+    async migrateQooxdooJs() {
+      let compileJsFilename = path.join(process.cwd(), "qooxdoo.json");
+      if (await fs.existsAsync(compileJsFilename)) {
+        let model = await qx.tool.config.Registry.getInstance().set({
+          warnOnly: true,
+          validate: false
+        }).load();
+        if (model.getValue("$schema") !== model.getSchemaUri()) {
+          if (this.getRunner().getDryRun()) {
+            this.markAsPending("Add schema to qooxdoo.json");
+          } else {
+            model.setValue("$schema", model.getSchemaUri());
+            model.save();
+            this.markAsApplied();
+          }
+        }
+      }
+    },
+
 
     async migrateConfigFiles() {
       let dryRun = this.getRunner().getDryRun();
@@ -83,9 +102,9 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       let updateManifest = false;
       for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
         await manifestModel.set({
-          warnOnly: true
+          warnOnly: true,
+          validate: false
         }).load();
-        manifestModel.setValidate(false);
         if (!qx.lang.Type.isArray(manifestModel.getValue("info.authors"))) {
           updateManifest = true;
         }

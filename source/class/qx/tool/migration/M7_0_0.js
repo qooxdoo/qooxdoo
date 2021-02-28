@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
       let updateManifest = false;
       for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
         await manifestModel.set({
-          warnOnly: true,
+          warnOnly: true
         }).load();
         if (manifestModel.keyExists("requires.@qooxdoo/compiler")) {
           if (dryRun) {

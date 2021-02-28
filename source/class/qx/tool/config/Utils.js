@@ -234,15 +234,22 @@ qx.Class.define("qx.tool.config.Utils", {
           validate: false
         })
         .load();
-      let qxVersionRange = manifestModel.getValue("requires."+manifestRequiresKey);
-      let qxVersion = qxVersionRange && qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/);
-      if (!qxVersion || !semver.valid(qxVersion[1])) {
+      let qxVersion;
+      let qxVersionRange = manifestModel.getValue(`requires.${manifestRequiresKey}`);
+      qx.log.Logger.debug(`Manifest in ${baseDir} requires ${manifestRequiresKey}: ${qxVersionRange}`);
+      if (qxVersionRange && !qxVersionRange.match(/[<>]/)) { // cannot do comparisons
+        try {
+          // get the highest version mentioned with a tilde or caret range
+          qxVersion = qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/g).sort().reverse()[0].slice(1);
+        } catch(e) {}
+      }
+      if (!qxVersion || !semver.valid(qxVersion)) {
         throw new qx.tool.utils.Utils.UserError(
           `Cannot determine the qooxdoo version used to compile the application. `+
-          `Please specify a caret or tilde range for the requires[${manifestRequiresKey}] key in the Manifest")`
+          `Please specify a caret or tilde range for the requires.${manifestRequiresKey} key in the Manifest")`
         );
       }
-      return qxVersion[1];
+      return qxVersion;
     },
 
     /**

@@ -270,7 +270,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
           if (!semver.satisfies(qooxdoo_version, semver_range, {loose: true})) {
             // make it compatible with current version
-            semver_range += " || ^" + qooxdoo_version;
+            semver_range = `^${qooxdoo_version} || ${semver_range}`;
           }
         }
       }
