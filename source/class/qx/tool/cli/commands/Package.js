@@ -87,6 +87,14 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      */
     async checkMigrations(){},
 
+    /**
+     * Returns the qooxdoo version, either from the `qx-version` command
+     * line parameter or from the overridden method {@link qx.tool.cli.commands.Command#getQxVersion()}
+     * @override
+     */
+    getQxVersion() {
+      return this.argv.qxVersion || this.base(arguments);
+    },
 
     /**
      * Returns the absolute path to the lockfile.

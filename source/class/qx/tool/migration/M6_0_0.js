@@ -105,7 +105,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         }
         if (updateManifest) {
           if (dryRun) {
-            this.markAsPending(3);
+            this.markAsPending(2);
           } else {
             manifestModel
               .transform("info.authors", authors => {
@@ -145,25 +145,22 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
             verbose && qx.tool.compiler.Console.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
             await manifestModel.save();
             this.markAsApplied();
-            // update dependencies in Manifest
-            let updateManifest = {
-              "@qooxdoo/framework": "^6.0.0",
-              "@qooxdoo/compiler": "^1.0.0"
-            }
-            for (let [dependencyName, range] of Object.entries(updateManifest)) {
-              await this.updateDependencyUnlessDryRun(manifestModel, dependencyName, range);
-            }
+            await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/compiler", "^1.0.0");
             verbose && qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
           }
         }
         // update schema
         await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
 
+        // update qooxdoo version
+        await this.updateQxDependencyUnlessDryRun(manifestModel);
+
         // save Manifest file
         if (!this.getRunner().getDryRun()) {
           manifestModel.setValidate(false); // shouldn't be necessary
           await manifestModel.save();
         }
+
       }
     },
 
@@ -194,16 +191,6 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         await compileJsonModel.save();
         compileJsonModel.set({validate:true});
         await compileJsonModel.load();
-      }
-    },
-
-    async migratePackages() {
-      if (this.getRunner().getDryRun()) {
-        this.announce("Packages will be upgraded.");
-        this.markAsPending();
-      } else {
-        await new qx.tool.cli.commands.package.Upgrade({reinstall: true}).process();
-        this.markAsApplied();
       }
     }
   }

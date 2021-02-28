@@ -87,6 +87,10 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
           "uris-only": {
             alias: "u",
             describe: "Output only the GitHub URIs of the packages which are used to install the packages. Implies --noheaders and --libraries."
+          },
+          "qx-version": {
+            check: argv => semver.valid(argv.qxVersion),
+            describe: "A semver string. If given, the qooxdoo version for which to generate the listings"
           }
         }
       };

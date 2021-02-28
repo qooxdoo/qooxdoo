@@ -112,9 +112,12 @@ qx.Class.define("qx.tool.cli.commands.Command", {
           qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
             `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n`+
-            `*** and '(npx) qx migrate' to apply th changes.`
+            `*** and '(npx) qx migrate' to apply the changes.`
           );
-          process.exit(1);
+          if (!process.env.IGNORE_MIGRATION_WARNING) {
+            process.exit(1);
+          }
+          return;
         }
         this.debug("No migrations necessary.");
       }

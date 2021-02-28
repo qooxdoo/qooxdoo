@@ -154,7 +154,7 @@ qx.Class.define("qx.tool.config.Utils", {
         //root = path.parse(dir).root;
       }
       // 3. global npm package
-      let npmdir = await qx.tool.utils.Utils.exec("npm root -g");
+      let npmdir = (await qx.tool.utils.Utils.exec("npm root -g")).trim();
       dir = path.join(npmdir, "@qooxdoo", "framework");
       if (!this.isQxLibrary(dir)) {
         throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
@@ -299,11 +299,14 @@ qx.Class.define("qx.tool.config.Utils", {
     async getLibraryVersion(libPath) {
       let manifestPath = path.join(libPath, qx.tool.config.Manifest.config.fileName);
       let manifest = await qx.tool.utils.Json.loadJsonAsync(manifestPath);
+      if (!manifest) {
+        throw new Error(`No Manifest exists at ${manifestPath}.`);
+      }
       let version;
       try {
         version = manifest.info.version;
       } catch (e) {
-        throw new qx.tool.utils.Utils.UserError(`No valid version data in manifest.`);
+        throw new Error(`No valid version data in ${manifestPath}.`);
       }
       if (!semver.valid(version)) {
         throw new qx.tool.utils.Utils.UserError(`Manifest at ${manifestPath} contains invalid version number "${version}". Please use a semver compatible version.`);

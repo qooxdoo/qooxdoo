@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2017 Christian Boulanger
+     2017-2021 Christian Boulanger
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -15,6 +15,7 @@
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
 
 ************************************************************************ */
+
 const download = require("download");
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
@@ -70,6 +71,10 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
             alias: "p",
             nargs: 1,
             describe: "Install a library/the given library from a local path"
+          },
+          "qx-version": {
+            check: argv => semver.valid(argv.qxVersion),
+            describe: "A semver string. If given, the maximum qooxdoo version for which to install a package"
           }
         }
       };
@@ -82,7 +87,6 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @var {Boolean}
      */
     __cacheUpdated: false,
-
 
     /**
      * API method to install a library via its URI and version tag
@@ -244,27 +248,29 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
      * @private
      */
     __installFromRelease: async function(uri, tag_name, writeToManifest) {
-      let qooxdoo_version = await this.getQxVersion();
+      let qxVersion = (await this.getQxVersion()).replace("-beta","");
       let {repo_name, package_path} = this.__getUriInfo(uri);
       if (!tag_name) {
         let cache = this.getCache();
-        if (cache.compat[qooxdoo_version] === undefined) {
+        if (cache.compat[qxVersion] === undefined) {
           if (this.argv.verbose && !this.argv.quiet) {
             qx.tool.compiler.Console.info(">>> Updating cache...");
           }
-          await (new qx.tool.cli.commands.package.List({quiet:true, all:true})).process();
+          let options = {quiet:true, all:true, qxVersion};
+          await (new qx.tool.cli.commands.package.List(options)).process();
           cache = this.getCache(true);
         }
-        tag_name = cache.compat[qooxdoo_version][repo_name];
+        tag_name = cache.compat[qxVersion] && cache.compat[qxVersion][repo_name];
         if (!tag_name) {
-          throw new qx.tool.utils.Utils.UserError(
-            `'${repo_name}' has no stable release compatible with qooxdoo version ${qooxdoo_version}.
+          qx.tool.compiler.Console.warn(
+            `'${repo_name}' has no (stable) release compatible with qooxdoo version ${qxVersion}.
              To install anyways, use '--release <release>' or 'qx install ${repo_name}@<release>'.
-             Please ask the library maintainer to release a compatible version`);
+             Please ask the library maintainer to release a compatible version.`);
+          return;
         }
       }
       if (this.argv.verbose) {
-        qx.tool.compiler.Console.info(`>>> Installing '${uri}', release '${tag_name}' for qooxdoo version: ${qooxdoo_version}`);
+        qx.tool.compiler.Console.info(`>>> Installing '${uri}', release '${tag_name}' for qooxdoo version: ${qxVersion}`);
       }
       let {download_path} = await this.__download(repo_name, tag_name);
       // iterate over contained libraries
