@@ -193,7 +193,7 @@ the class were executed.
 ## The test function
 
 We need the URI of a valid image for this test, so we add an `@asset` hint to
-the class header that will cause the Generator to add the file
+the class header that will cause the compiler to add the file
 `source/class/tweets/logo.png` to the AUT's resources. In the test function, we
 first ask Qooxdoo's resource manager to resolve the resource ID into a valid
 URI. This is the expected value for the icon child control's `source` property.

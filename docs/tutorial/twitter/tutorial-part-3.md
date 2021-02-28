@@ -198,7 +198,7 @@ service.addListener(
 ```
 
 Now it's time for a test. We added a new classes so we need to invoke the
-generator and load the index file of the application. Hit the reload button of
+compiler and load the index file of the application. Hit the reload button of
 the browser and see the data in your debugging console. The important thing you
 should see is that the data is an array containing objects holding the items we
 want to access: the identica message as `text` and `"user.profile_image_url"`
@@ -257,7 +257,7 @@ service.bind("tweets", controller, "model");
 
 As soon as the tweets are available the controller will know about it and show
 the data in the list. How about a test of the whole thing right now? You need
-(again) to tell the generator to build the source version of the application.
+(again) to tell the compiler to build the source version of the application.
 
 After the application has been loaded in the browser, I guess you see nothing
 until you hit the reload button of the UI. That's one thing we have to fix: Load

@@ -109,7 +109,7 @@ service.bind("tweets", list, "model", {
 });
 ```
 
-Now we only need to run the generator to resolve the new dependencies:
+Now we only need to run the compiler to resolve the new dependencies:
 
 ![image](tutorial_4_5-2.png)
 
