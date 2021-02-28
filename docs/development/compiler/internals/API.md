@@ -13,7 +13,7 @@ A Library is a collection of code, in a namespace with a Manifest.json - i.e.
 this is exactly the same as generate.py sees the concept of a Library.
 
 Note that your application is also a Library - it has a namespace, classes in JS
-files, and a Manifest.json; both Compiler and the legacy Generator see these as
+files, and a Manifest.json; both Compiler and the pre-v6.0.0 Generator see these as
 just libraries. You know that one of the classes in your library is the main
 "Application" class but the compiler just sees a library.
 

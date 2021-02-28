@@ -238,6 +238,7 @@ on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or
 [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont).
 
 ### Web Fonts
+
 These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme.  These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as (FontSquirrel's Webfont Generator)[https://www.fontsquirrel.com/tools/webfont-generator] or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources directory, and then add them to your theme font by using the `sources` option.  
 
 This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montserrat]
@@ -483,12 +484,3 @@ provides multiple themes that can be switched at runtime.
   var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
   ```
 
-** NOTE ** This is not currently supported
-  This is basically the same when you define your own icon themes (like with
-  `qx.Theme.define("myapp.theme.icon.Foo)`) and define your own asset macros
-  (like `"myapp.iconthemes" : ["Foo", "Bar"]`). For the latter you would just
-  use an explicit pages/tool/generator/generator* config_ref#asset-let in your
-  config.json, rather than using the default QXICONTHEME
-  tool/generator/generator_config_macros.md#qxicontheme macro. A suitable alias
-  like _icon* -> _myapp/icontheme/Foo_ can be defined in the theme
-  ui_theming.md#icon_theme directly.

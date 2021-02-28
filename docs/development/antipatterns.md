@@ -116,7 +116,7 @@ There are exactly 4 ways to establish a load-time requirement of a class:
   classes "requires" of the current class.
 
 - **"require" config key**:All classes listed for a particular class in the
-  generator Json configuration file under the "require" key makes those classes
+  Json configuration file under the "require" key makes those classes
   requires for the key class.
 
 All those possibilities should be avoided or at least used as sparingly as
