@@ -245,13 +245,16 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * Updates the `@qooxdoo/framework` dependency in the given Manifest model, if
      * the current qooxdoo version is not covered by it. If this is a dry run, the
      * change will only be annouced and the migration step marked as pending.
+     *
      * @param {qx.tool.config.Manifest} manifestModel
      * @return {Promise<void>}
      */
     async updateQxDependencyUnlessDryRun(manifestModel) {
       let qxVersion = await this.getQxVersion();
-      if (!semver.satisfies(qxVersion, manifestModel.getValue("requires.@qooxdoo/framework"))) {
-        await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/framework", "^" + qxVersion);
+      let qxRange = manifestModel.getValue("requires.@qooxdoo/framework");
+      if (!semver.satisfies(qxVersion, qxRange)) {
+        qxRange = `^${qxVersion}`;
+        await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/framework", qxRange);
       }
     },
 
