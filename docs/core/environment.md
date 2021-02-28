@@ -196,16 +196,13 @@ environment variable, it will evaluate the expression in advance and eliminate
 code which can never be called; for example, the most common example of this is
 `qx.debug` which is true for the Source Target and false for Build Targets.
 
-This also happens with the generator, but only when using the `build` target.
-
-The optimization takes
-advantage of the values of environment settings given in the configuration, to
-remove code like calls to `qx.core.Environment.get()` for such a setting and
-replace it with the corresponding value. That means that changing the value of
-such a key via URL parameter later has no effect, as the call to retrieve its
-value is no longer in the code. You can then only set environment values via URL
-parameter for those keys which have **not** been given a value in the
-configuration.
+The optimization takes advantage of the values of environment settings given
+in the configuration, to remove code like calls to `qx.core.Environment.get()`
+for such a setting and replace it with the corresponding value. That
+means that changing the value of such a key via URL parameter later
+has no effect, as the call to retrieve its value is no longer in the
+code. You can then only set environment values via URL parameter for
+those keys which have **not** been given a value in the configuration.
 
 This isn't always practical - for example, you may wish to use the configuration
 to set the default value for an environment setting - to prevent the compiler 
@@ -296,10 +293,10 @@ see [here](../development/compiler/configuration/compile.md#environment-settings
 
 #### Via URL parameter
 
-Before using URL parameter to define environment settings, you have to specify
-another environment setting in the generator configuration which is named
-`qx.allowUrlSettings`. If the application is generated with this config setting
-in place, you can then use URL parameter to add further key:value pairs.
+Before using URL parameter to define environment settings, you have to
+specify another environment setting which is named `qx.allowUrlSettings`.
+If the application is generated with this config setting in place,
+you can then use URL parameter to add further key:value pairs.
 
 ```
 http://my.server.com/path/to/app/index.html?qxenv:myapp.key:value

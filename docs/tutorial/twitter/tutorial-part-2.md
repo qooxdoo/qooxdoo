@@ -95,7 +95,7 @@ var reloadButton = new qx.ui.toolbar.Button("Reload");
 toolbar.add(reloadButton);
 ```
 
-Now its time to see if all the fixes work. But be sure to run the generator
+Now its time to see if all the fixes work. But be sure to run the compiler
 before you reload the browser page because we added (again) another class (the
 button). Now everything should look the way we want it to be.
 
@@ -254,7 +254,7 @@ this.base(arguments, "tweets", "logo.png");
 ```
 
 This time, we added a new reference to an image. Like with class dependencies,
-we need to run the generator once more. After that, the image should be in the
+we need to run the compiler once more. After that, the image should be in the
 windows caption bar.
 
 Two more minor things are left to finish. First, the button does not look very

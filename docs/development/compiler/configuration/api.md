@@ -2,8 +2,9 @@
 
 ## compile.js
 
-Unlike the python generator's config.json, compile.json does not support
+Unlike the pre-v6.0.0 python generator's config.json, compile.json does not support
 processes, job executions, or even macros.  
+
 If you want to add processing, you can use a `compile.js` file to provide code
 which is called by the compiler and will allow you to exert complete, dynamic
 control over the configuration data and also interact with the compiler during

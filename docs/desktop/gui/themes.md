@@ -60,7 +60,7 @@ qx.Theme.define("myApplication.theme.Theme",
 });
 ```
 
-Finally you have to tell the generator to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
+Finally you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
 
 ```
 "applications": [
