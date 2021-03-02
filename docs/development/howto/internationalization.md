@@ -103,22 +103,22 @@ Example:
 let button = new qx.ui.form.Button(this.tr("Hello World"));
 ```
 
-`tr` marks the string `"Hello World"` for translation (This string is often
-referred to as the `message id`, as it serves as the lookup key for any provided
-translation). This means that the string itself will be extracted when the
-appropriate generator job is run (see further
-internationalization.md#extract*the_messages). During application run time, `tr`
-returns the translation of the given string \_under the current locale*. That
-means, the actual string you get at this point in time depends on the locale in
-effect. If, on the other hand, the environment setting qx.dynlocale
-core/environment.md#environment is set to "true", `tr` returns an instance of
-[`qx.locale.LocalizedString`](apps://apiviewer/#qx.locale.LocalizedString). The
-`toString()` method of the returned object performs the actual translation based
-on the current locale. This has the advantage that later changes to the locale
-(see further internationalization.md#run_the_translated_application) are
-immediately reflected in the widgets using this object, as most know how to
-handle and re-evaluate LocalizedString's. But you only need that setting if you
-plan to support locale switching during run time.
+`tr` marks the string `"Hello World"` for translation (This string
+is often referred to as the `message id`, as it serves as the
+lookup key for any provided translation). This means that the string
+itself will be extracted when the compilation is run (see further
+internationalization.md#extract*the_messages). 
+
+During application run time, `tr` returns the translation of the given string
+under the current locale. That means, the actual string you get at this
+point in time depends on the locale in effect. If, on the other hand, the
+environment setting `qx.dynlocale` is set to "true", `tr` returns an instance
+of [`qx.locale.LocalizedString`](apps://apiviewer/#qx.locale.LocalizedString).
+The `toString()` method of the returned object performs the actual translation
+based on the current locale. This has the advantage that later changes to the
+locale are immediately reflected in the widgets using this object, as most
+know how to handle and re-evaluate LocalizedString's. But you only need
+that setting if you plan to support locale switching during run time.
 
 If the string given to `tr` does not have a translation under the current
 locale, the string itself will be returned.

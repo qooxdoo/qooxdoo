@@ -117,7 +117,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
         }
 
         // Generate data from GitHub API
-        await this.updateFromGitHubAPI();
+        await this.updateFromGitHubAPI(github.token);
       }
 
       let num_libraries = this.getCache().num_libraries;
@@ -133,6 +133,10 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       }
     },
 
+    /**
+     * Update the package cache from the nightly cron job
+     * @return {Promise<void>}
+     */
     async updateFromRepository() {
       if (!this.argv.quiet) {
         qx.tool.compiler.Console.info("Downloading cache from GitHub ...");
@@ -147,9 +151,14 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       }
     },
 
-    async updateFromGitHubAPI() {
+    /**
+     * Updates the package cache from the GitHub Api
+     * @param {String} token
+     * @return {Promise<void>}
+     */
+    async updateFromGitHubAPI(token) {
       const auth = {
-        token: github.token
+        token
       };
       const search = new Search({}, auth);
       let num_libraries = 0;

@@ -6,7 +6,7 @@ JSON and they can be validated against a
 [JSON schema](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/resource/qx/tool/schema)
 . They have a more informational part (keyed `info`), which is more interesting
 for human readers, a technical part (named `provides` ) that is used in the
-processing of generator configurations, and a part named `externalResources` to
+processing of compiler configurations, and a part named `externalResources` to
 include CSS and Javascript files. Here is a brief sample with all the possible
 keys:
 

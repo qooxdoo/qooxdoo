@@ -22,16 +22,18 @@ qx.Class.define("qx.compiler.CompilerApi", {
           }
         }
         command.addTest(new qx.tool.cli.api.Test(test, async function () {
-          console.log("****");
-          console.log("# **** running test file " + test);
-          console.log("****");
+          this.info("*********************************************************************************************************");
+          this.info("# Running " + test);
+          this.info("**********************************************************************************************************");
+
           result = await qx.tool.utils.Utils.runCommand({
             cwd: COMPILER_TEST_PATH,
             cmd: "node",
             args: args,
             shell: false,
             env: {
-              QX_JS: require.main.filename
+              QX_JS: require.main.filename,
+              IGNORE_MIGRATION_WARNING: true
             }
           });
           if (result.exitCode === 0) {

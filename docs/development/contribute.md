@@ -107,9 +107,22 @@ is a full version of the compiler, so you can use the `--target=build`
 command line option if you would prefer, but if you do, just remember to
 put the `./bin/build/qx` on the PATH instead of the `./bin/source/qx`).
 
-By default, the compiler compiles all the applications, but if you
-are only working on the compiler you can speed this up by adding
-`--app-name=compiler` so that only the compiler is compiled.
+By default, the compiler compiles all the applications:
+
+- **compiler**: The compiler CLI that is accessible via `./bin/(source|build)/qx`
+- **compilerLibrary**: a node module containing a subset of the qooxdoo framework.
+  It includes mainly the `qx.tool` namespace, but also other classes which work 
+  on the server. It can be imported via
+  `const qx = require('./compiled/node/(source|build)/compilerLibrary)`
+- **qx_server**: The ["qooxdoo" node module](https://www.npmjs.com/package/qooxdoo) 
+  which provides Qooxdoo's OO-features to NodeJS and which can be imported via 
+  `const qx = require('./compiled/node/(source|build)/qx_server)`
+
+If you are only working on one of the application, i.e. just on the compiler, 
+you can speed this up by adding `--app-name=compiler` so that only the compiler
+is compiled. For a list of classes which are compiled into each application,
+see the [`compile.json` file](https://github.com/qooxdoo/qooxdoo/blob/master/compile.json#L67)
+in the repository root. 
 
 If you are only working on the framework, then you do not need to constantly
 compile the compiler with the bootstrap, unless you want to check the impact
@@ -118,20 +131,45 @@ changes, then you just need to use the `./bin/source/qx` in your test app.
 
 ## Running framework tests
 
-If you want to add to the Qooxdoo framework (i.e. the `qx` namespace), or alter
-its behavior somehow (including bug fixes), we ask you to provide a unit test
-that expresses in code how the new feature or the changed behavior is expected
-to work. This proves that the PR work as intended and also helps to prevent
-regressions.
+Before you submit a PR, you should check that your code passes the
+lint tests by running `npm test` in the framework repo directory;
+this will automatically run lint against the codebase and do compiler
+and framework tests. `npm test` will run `bootstrap-compiler`
+automatically. 
 
-After you have added your test classes/methods, navigate to folder containing
-your fork, and execute the following steps:
+Running the whole test suite takes quite a while.
+
+If you want to test the framework separatly run:
 
 ```bash
 cd test/framework
-npm install --no-save --no-package-lock @qooxdoo/framework
-npx qx lint <path(s) to the file(s) you changed/added, including the test class>
-npx qx test --class=<the class you added your test cases to>
+../../bin/source/qx test
 ```
 
-If all tests pass, your code is ready for review!
+For the compiler and CLI tests, run:
+```bash
+cd test/tool
+../../bin/source/qx test
+```
+
+Requirement for this is that `bootstrap-compiler` has run once.
+
+## Writing new tests
+
+If you add a new feature, we ask you to provide a unit test that
+expresses in code how the new feature is expected to work. This proves
+that the PR work as intended and also helps to prevent regressions.
+
+### Framework tests
+
+Framework tests are written as normal qooxdoo classes and
+placed in the `qx.test` namespace. For now, please refer
+to the code in that namespace for examples on how to write
+a test. More detailed documentation will be added later.
+
+### Tooling-related tests
+
+Tests for the compiler or the CLI are NodeJS scripts in the
+`test/tool/integrationtest` subdirectory. They use vanilla NodeJs
+Javascript or the "tape" testing framework to produce output that conforms
+to the [Test-Anything Protocol (TAP)](https://testanything.org/). 

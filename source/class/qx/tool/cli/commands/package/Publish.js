@@ -46,40 +46,57 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           },
           "noninteractive":{
             alias: "I",
+            type: "boolean",
             describe: "Do not prompt user"
           },
           "use-version": {
             alias: "V",
+            type: "string",
             describe: "Use given version number"
           },
           "prerelease": {
+            type: "boolean",
             alias: "p",
             describe: "Publish as a prerelease (as opposed to a stable release)"
           },
           "quiet": {
+            type: "boolean",
             alias: "q",
             describe: "No output"
           },
           "message":{
             alias: "m",
+            type: "string",
             describe: "Set commit/release message"
           },
           "dryrun":{
+            type: "boolean",
             alias: "d",
             describe: "Show result only, do not publish to GitHub"
           },
-          "verbose": {
-            alias: "v",
-            describe: "Verbose logging"
-          },
           "force": {
+            type: "boolean",
             alias: "f",
             describe: "Ignore warnings (such as demo check)"
           },
           "create-index": {
+            type: "boolean",
             alias: "i",
             describe: "Create an index file (qooxdoo.json) with paths to Manifest.json files"
-          }
+          },
+          "qx-version": {
+            type: "string",
+            check: argv => semver.valid(argv.qxVersion),
+            describe: "A semver string. If given, the qooxdoo version for which to publish the package"
+          },
+          "breaking": {
+            type: "boolean",
+            describe: "Do not create a backwards-compatible release, i.e. allow compatibility with current version only"
+          },
+          "qx-version-range": {
+            type: "string",
+            describe: "A semver range. If given, it overrides --qx-version and --breaking and sets this specific version range"
+          },
         }
       };
     }
@@ -104,17 +121,19 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       const argv = this.argv;
 
       // qooxdoo version
-      let qooxdoo_version = await this.getQxVersion();
+      let qxVersion = await this.getAppQxVersion();
       if (argv.verbose) {
-        this.debug(`>>> qooxdoo version:  ${qooxdoo_version}`);
+        this.info(`Using qooxdoo version:  ${qxVersion}`);
       }
 
       // check git status
       let status = await this.exec("git status --porcelain");
+      this.debug(status);
       if (status.trim() !=="") {
         throw new qx.tool.utils.Utils.UserError("Please commit or stash all remaining changes first.");
       }
       status = await this.exec("git status --porcelain --branch");
+      this.debug(status);
       if (status.includes("ahead")) {
         throw new qx.tool.utils.Utils.UserError("Please push all local commits to GitHub first.");
       }
@@ -239,13 +258,30 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         throw e;
       }
 
+      // semver range of framework dependency
+      let semver_range = this.argv.qxVersionRange; // use CLI-supplied range
+      if (!semver_range) {
+        // no CLI value
+        if (this.argv.breaking) {
+          // use current version only -> breaking
+          semver_range = "^" + qxVersion;
+        } else {
+          // get current semver range -> backward-compatible
+          semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
+          if (!semver.satisfies(qxVersion, semver_range, {loose: true})) {
+            // make it compatible with current version
+            semver_range = `^${qxVersion} || ${semver_range}`;
+          }
+        }
+      }
+
       // prompt user to confirm
       let doRelease = true;
       if (!argv.noninteractive) {
         let question = {
           type: "confirm",
           name: "doRelease",
-          message: `This will ${argv.version?"set":"increment"} the version to ${new_version} and create a release of the current master on GitHub. Do you want to proceed?`,
+          message: `This will ${argv.version?"set":"increment"} the version to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
           default: "y"
         };
         let answer = await inquirer.prompt(question);
@@ -255,11 +291,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         process.exit(0);
       }
 
-      // framework dependency
-      let semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
-      if (!semver.satisfies(qooxdoo_version, semver_range, {loose: true})) {
-        semver_range += "^" + qooxdoo_version;
-      }
+
 
       // update Manifest(s)
       for (let manifestModel of manifestModels) {

@@ -32,11 +32,12 @@ see [our Get Started Guide](docs/README.md).
 ## Development
 
 If you develop *with* qooxdoo, you would normally use a stable
-[NPM release](https://www.npmjs.com/package/@qooxdoo/qx) and a
-compiler called with `npx qx ...`. 
+[NPM release](https://www.npmjs.com/package/@qooxdoo/framework), which,
+since v6.0.0, contains the compiler and the CLI called with with 
+`npx qx <command>`. 
 
 In contrast, if you want to be hacking qooxdoo itself, please 
-refer to our [documentation](docs/contribute.md#coding-the-framework).
+refer to our [documentation](docs/development/contribute.md).
  
 ## Contributing
 
