@@ -112,11 +112,15 @@ qx.Class.define("qx.tool.cli.commands.Command", {
           qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
             `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n`+
-            `*** and '(npx) qx migrate' to apply th changes.`
+            `*** and '(npx) qx migrate' to apply the changes.`
           );
-          process.exit(1);
+          if (!process.env.IGNORE_MIGRATION_WARNING) {
+            process.exit(1);
+          }
+          return;
         }
         this.debug("No migrations necessary.");
+
       }
     },
 
@@ -125,61 +129,40 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      */
     getQxPath: qx.tool.config.Utils.getQxPath.bind(qx.tool.config.Utils),
 
-    /**
-     * @see {@link qx.tool.config.Utils#getQxVersion}
-     */
-    getQxVersion: qx.tool.config.Utils.getQxVersion.bind(qx.tool.config.Utils),
 
     /**
-     * @see {@link qx.tool.config.Utils#getAppQxPath}
+     * Returns the qooxdoo version, either from the `--qx-version` command line
+     * parameter (if supported by the command and supplied by the user) or from
+     * {@link qqx.tool.config.Utils#getQxVersion()}. Throws if no version can be
+     * determined.
+     *
+     * @throws {qx.tool.utils.Utils.UserError}
+     * @return {Promise<String>}
      */
-    getAppQxPath : qx.tool.config.Utils.getAppQxPath.bind(qx.tool.config.Utils),
+    getQxVersion() {
+      try {
+        return this.argv.qxVersion || qx.tool.config.Utils.getQxVersion();
+      } catch(e) {
+        throw new qx.tool.utils.Utils.UserError(e.message);
+      }
+    },
 
     /**
-     * @see {@link qx.tool.config.Utils#getAppQxVersion}
+     * Returns the qooxdoo version used in the application in the current
+     * directory via {@link qx.tool.config.Utils#getAppQxVersion}. Can be
+     * overridden by the `--qx-version` command line parameter (if supported by
+     * the command and supplied by the user). Throws if no version can be
+     * determined.
+     *
+     * @return {Promise<String>}
+     * @throws {qx.tool.utils.Utils.UserError}
      */
-    getAppQxVersion : qx.tool.config.Utils.getAppQxVersion.bind(qx.tool.config.Utils),
-
-    // deprecated methods, will be removed
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getProjectData} instead
-     */
-    getProjectData : qx.tool.config.Utils.getProjectData.bind(qx.tool.config.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryPath} instead
-     */
-    getLibraryPath : qx.tool.config.Utils.getLibraryPath.bind(qx.tool.config.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getApplicationPath} instead
-     */
-    getApplicationPath: qx.tool.config.Utils.getApplicationPath.bind(qx.tool.config.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.config.Utils#getLibraryVersion} instead
-     */
-    getLibraryVersion : qx.tool.config.Utils.getLibraryVersion.bind(qx.tool.config.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.cli.Utils#run} instead
-     */
-    run : qx.tool.utils.Utils.run.bind(qx.tool.utils.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.cli.Utils#exec} instead
-     */
-    exec : qx.tool.utils.Utils.exec.bind(qx.tool.utils.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.cli.Utils#getTemplateDir} instead
-     */
-    getTemplateDir : qx.tool.utils.Utils.getTemplateDir.bind(qx.tool.utils.Utils),
-
-    /**
-     * @deprecated {7.0} Use {@link qx.tool.cli.Utils#isExplicitArg} instead
-     */
-    isExplicitArg : qx.tool.utils.Utils.isExplicitArg.bind(qx.tool.utils.Utils)
+    getAppQxVersion() {
+      try {
+        return this.argv.qxVersion || qx.tool.config.Utils.getAppQxVersion();
+      } catch (e) {
+        throw new qx.tool.utils.Utils.UserError(e.message);
+      }
+    }
   }
 });

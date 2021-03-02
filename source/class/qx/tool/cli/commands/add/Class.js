@@ -101,7 +101,7 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
         // 1. in the templates/class dir of the current project
         path.join(process.cwd(), "templates"),
         // 2. in the templates/class dir of cli
-        this.getTemplateDir()
+        qx.tool.utils.Utils.getTemplateDir()
         // 3. @todo: in a package's templates dir
       ];
       let found = false;
