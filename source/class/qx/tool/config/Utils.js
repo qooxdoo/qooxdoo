@@ -212,7 +212,7 @@ qx.Class.define("qx.tool.config.Utils", {
      */
     async getQxVersion(dir=null) {
       let qxpath = await this.getQxPath(dir);
-      return this.getLibraryVersion(qxpath);
+      return qx.tool.config.Utils.getLibraryVersion(qxpath);
     },
 
     /**
