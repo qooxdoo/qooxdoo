@@ -15,10 +15,17 @@ const fsPromises = {
   readdir: promisify(fs.readdir)
 };
 
-function getCompiler() {
+/**
+ * Return the path to the compiler executable, unless the "QX_JS" OS environment
+ * variable is set, in which case the content of this variable is returned.
+ *
+ * @param {String} buildVersion? The build version, defaults to "build"
+ * @return {String}
+ */
+function getCompiler(buildVersion="build") {
   let qxJs = process.env.QX_JS;
   if (!qxJs) {
-    qxJs = path.join(__dirname, "..", "build", "qx");
+    qxJs = path.join(__dirname, "..", buildVersion, "qx");
   }
   return qxJs;
 }

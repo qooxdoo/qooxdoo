@@ -60,25 +60,19 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   members: {
 
     /**
-     * @see {@link qx.tool.config.Utils#getQxPath}
-     */
-    getQxPath: qx.tool.config.Utils.getQxPath.bind(qx.tool.config.Utils),
-
-    /**
-     * @see {@link qx.tool.config.Utils#getQxVersion}
-     */
-    getQxVersion: qx.tool.config.Utils.getQxVersion.bind(qx.tool.config.Utils),
-
-    /**
-     * @see {@link qx.tool.config.Utils#getQxAppVersion}
-     */
-    getAppQxPath: qx.tool.config.Utils.getAppQxPath.bind(qx.tool.config.Utils),
-
-    /**
      * Returns the version of qooxdoo this migration applies to.
      */
     getVersion() {
       return this.classname.match(/\.M([0-9_]+)$/)[1].replace(/_/g,".");
+    },
+
+    /**
+     * Returns the qooxdoo version that has been passed to the Runner or the
+     * one from the environment
+     * @return {Promise<String>|*}
+     */
+    async getQxVersion() {
+      return await this.getRunner().getQxVersion() || qx.tool.config.Utils.getQxVersion();
     },
 
     /**
@@ -248,6 +242,23 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     },
 
     /**
+     * Updates the `@qooxdoo/framework` dependency in the given Manifest model, if
+     * the current qooxdoo version is not covered by it. If this is a dry run, the
+     * change will only be annouced and the migration step marked as pending.
+     *
+     * @param {qx.tool.config.Manifest} manifestModel
+     * @return {Promise<void>}
+     */
+    async updateQxDependencyUnlessDryRun(manifestModel) {
+      let qxVersion = await this.getQxVersion();
+      let qxRange = manifestModel.getValue("requires.@qooxdoo/framework");
+      if (!semver.satisfies(qxVersion, qxRange)) {
+        qxRange = `^${qxVersion}`;
+        await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/framework", qxRange);
+      }
+    },
+
+    /**
      * Updates the json-schema in a configuration file, unless this is a dry run, in which case
      * it will only annouce it and mark the migration step as pending.
      * @param {qx.tool.config.Abstract} configModel
@@ -263,6 +274,23 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
           configModel.setValue("$schema", schemaUri);
           this.markAsApplied(`Schema version for ${configModel.getDataPath()} updated.`);
         }
+      }
+    },
+
+    /**
+     * Upgrades the applications's installed packages, unless this is a dry run, in which case
+     * it will only annouce it and mark the migration step as pending.
+     * @return {Promise<void>}
+     */
+    async upgradePackagesUnlessDryRun() {
+      const runner = this.getRunner();
+      if (runner.getDryRun()) {
+        this.announce("Packages will be upgraded.");
+        this.markAsPending();
+      } else {
+        let options = {verbose:runner.getVerbose(), qxVersion:runner.getQxVersion()};
+        await new qx.tool.cli.commands.package.Upgrade(options).process();
+        this.markAsApplied();
       }
     }
   }

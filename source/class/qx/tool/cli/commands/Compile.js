@@ -888,7 +888,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let allApplicationTypes = {};
         appConfigs.forEach(appConfig => {
           var app = appConfig.app = new qx.tool.compiler.app.Application(appConfig["class"]);
-          app.setTemplatePath(t.getTemplateDir());
+          app.setTemplatePath(qx.tool.utils.Utils.getTemplateDir());
 
           [ "type", "theme", "name", "environment", "outputPath", "bootPath", "loaderTemplate", "publish", "deploy", "standalone"].forEach(name => {
             if (appConfig[name] !== undefined) {

@@ -42,9 +42,9 @@ qx.Class.define("qx.tool.migration.Runner",{
     },
 
     /**
-     * The maximum version for which the migration class should be applicable
+     * The maximum qooxdoo version for which the migration class should be applicable
      */
-    maxVersion: {
+    qxVersion: {
       check: "String",
       validate: version => semver.valid(version),
       nullable: true
@@ -67,7 +67,7 @@ qx.Class.define("qx.tool.migration.Runner",{
     async runMigrations() {
       let qxVersion = await qx.tool.config.Utils.getQxVersion();
       let appQxVersion = await qx.tool.config.Utils.getAppQxVersion();
-      this.debug(`${this.getDryRun()?"Checking":"Running" } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
+      this.debug(`${this.getDryRun()?"Checking":"Running"} migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
       let migrationClasses = Object
         .getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
@@ -77,10 +77,10 @@ qx.Class.define("qx.tool.migration.Runner",{
       for (let Clazz of migrationClasses) {
         let migrationInstance = new Clazz(this);
         let migrationVersion = migrationInstance.getVersion();
-        let maxVersion = this.getMaxVersion();
-        this.debug(`>>> Migration version: ${migrationVersion}, maximum version: ${maxVersion}`);
+        let qxVersion = this.getQxVersion();
+        this.debug(`>>> Migration version: ${migrationVersion}, maximum qx version: ${qxVersion}`);
         let skip = (appQxVersion && !semver.lt(appQxVersion, migrationVersion))
-          || (maxVersion && semver.gt(migrationVersion, maxVersion));
+          || (qxVersion && semver.gt(migrationVersion, qxVersion));
         if (skip) {
           this.debug(`>>> Skipping migration ${Clazz.classname}.`);
         } else {
@@ -103,6 +103,8 @@ qx.Class.define("qx.tool.migration.Runner",{
         pending += migrationInstance.getPending();
         this.debug(`>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`);
       }
+
+
       return {applied, pending};
     },
   }

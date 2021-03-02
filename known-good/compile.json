@@ -17,7 +17,6 @@
         "node"
       ],
       "outputPath": "../bootstrap/compiled/node/build",
-      "deployPath": "lib",
       "writeCompileInfo": true,
       "minify": "off",
       "babelOptions": {

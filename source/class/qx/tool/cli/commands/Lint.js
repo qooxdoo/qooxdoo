@@ -161,9 +161,9 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
      * @private
      */
     async __applyFixes() {
-      let replaceInFiles = [];
       const fixParams = this.argv.fixJsdocParams;
       if (fixParams && fixParams !== "off") {
+        let replaceInFiles = [];
         const regex = fixParams === "type-first" ?
           /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g :
           /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
@@ -172,8 +172,8 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           from: regex,
           to: "@param $2 $1"
         });
+        await replaceInFile(replaceInFiles);
       }
-      await replaceInFile(replaceInFiles);
     }
   }
 });

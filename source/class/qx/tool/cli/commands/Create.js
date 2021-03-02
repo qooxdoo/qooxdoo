@@ -84,7 +84,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
      */
     getSkeletonNames: function() {
       // need access to an non static method...
-      let dir = path.join(this.prototype.getTemplateDir(), "skeleton");
+      let dir = path.join(qx.tool.utils.Utils.getTemplateDir(), "skeleton");
       let res = fs
         .readdirSync(dir)
         .filter(entry => {
@@ -115,18 +115,18 @@ qx.Class.define("qx.tool.cli.commands.Create", {
 
       // qooxdoo version
       try {
-        data.qooxdoo_version = await this.getLibraryVersion(data.qooxdoo_path);
+        data.qooxdoo_version = await qx.tool.config.Utils.getLibraryVersion(data.qooxdoo_path);
       } catch (e) {
         qx.tool.compiler.Console.error(e.message);
         throw new qx.tool.utils.Utils.UserError("Cannot find qooxdoo framework folder.");
       }
 
       // get map of metdata on variables that need to be inserted in the templates
-      data.template_dir = this.getTemplateDir();
-      data.getLibraryVersion = this.getLibraryVersion.bind(this);
+      data.template_dir = qx.tool.utils.Utils.getTemplateDir();
+      data.getLibraryVersion = qx.tool.config.Utils.getLibraryVersion.bind(qx.tool.config.Utils);
       let template_vars;
 
-      const template_vars_path = path.join(this.getTemplateDir(), "template_vars");
+      const template_vars_path = path.join(qx.tool.utils.Utils.getTemplateDir(), "template_vars");
       template_vars = require(template_vars_path)(argv, data);
 
       // prepare inquirer question data

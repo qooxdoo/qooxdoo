@@ -15,7 +15,9 @@
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
 
 ************************************************************************ */
+
 const process = require("process");
+const semver = require("semver");
 
 /**
  * Migrates an application to a higher version
@@ -40,8 +42,9 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
           "dry-run": {
             describe: "Do not apply migrations"
           },
-          "max-version": {
-            describe: "Do not apply migrations targeted at versions higher than this value"
+          "qx-version": {
+            check: argv => semver.valid(argv.qxVersion),
+            describe: "A semver string. If given, the maximum qooxdoo version for which to run migrations"
           }
         }
       };
@@ -49,6 +52,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
   },
 
   members: {
+
     /**
      * Announces or applies a migration
      */
@@ -56,7 +60,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
       let runner = new qx.tool.migration.Runner().set({
         dryRun: Boolean(this.argv.dryRun),
         verbose: Boolean(this.argv.verbose),
-        maxVersion: this.argv.maxVersion
+        qxVersion: this.argv.qxVersion || null
       });
       let {applied, pending} = await runner.runMigrations();
       qx.tool.compiler.Console.info(`Finished ${this.argv.dryRun?"checking":"running"} migrations: ${applied} migrations applied, ${pending} migrations pending.`);
