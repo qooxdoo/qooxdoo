@@ -373,6 +373,8 @@ qx.Class.define("qx.core.Object",
         clazz = clazz.superclass;
       }
 
+      qx.event.Registration.removeAllListeners(this);
+
       this.$$disposing = false;
       
       // Additional checks
