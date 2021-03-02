@@ -1,5 +1,5 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
   "info": {
     "name": "mylib",
     "summary": "undefined",
@@ -23,6 +23,6 @@
     ]
   },
   "requires": {
-    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
+    "@qooxdoo/framework": "^7.0.0-beta"
   }
 }
