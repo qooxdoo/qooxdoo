@@ -100,24 +100,21 @@ general, they just have to be loaded eventually).
 
 There are exactly 4 ways to establish a load-time requirement of a class:
 
-- [\*\*@require](mailto:**@require)() hint\*\*: Explicitly requiring another
+- **@require hint**: Explicitly requiring another
   class by using a `@require` hint in the source file of the class.
 
-- **statics section**:Initializing a `statics` member in the class definition
+- **statics section**: Initializing a `statics` member in the class definition
   with a class instance (using the `new` operator) or by calling a static class
   method makes the referenced class a requirement of the referencing class.
 
-- **properties section**:Instantiating another class or calling one of its
+- **properties section**: Instantiating another class or calling one of its
   static methods, in order to provide a value for the `init` attribute of a
   property definition, makes the other class a required class.
 
-- **defer section**:All references to other classes (instantiations, static
+- **defer section**: All references to other classes (instantiations, static
   method invocations) in the `defer` section of a class makes those other
   classes "requires" of the current class.
-
-- **"require" config key**:All classes listed for a particular class in the
-  Json configuration file under the "require" key makes those classes
-  requires for the key class.
+  
 
 All those possibilities should be avoided or at least used as sparingly as
 possible. Those requires make dependency tracking difficult and furthermore
