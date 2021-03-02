@@ -174,8 +174,10 @@
     {
       "class":  "qxWeb",
       "name":   "qxWeb",
+      "title": "qxWeb Demo Application",
       "type" :  "browser",
       "deploy": true,
+      "bootPath": "source/boot",
       "include": [
         "qx.ui.website.*",
         "qx.module.*",

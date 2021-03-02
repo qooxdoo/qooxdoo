@@ -103,6 +103,7 @@ qx.Class.define("qx.tool.cli.Cli", {
         })
         .option("colorize", {
           describe: "colorize log output to the console using ANSI color codes",
+          default: true,
           type: "boolean"
         })
     },
@@ -135,10 +136,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       } else {
         qx.log.Logger.setLevel("info");
       }
-      if (this.argv.colorize) {
-        // use node console log appender with colors
-        qx.log.appender.NodeConsole.setUseColors(true);
-      }
+      // use node console log appender with colors
+      qx.log.appender.NodeConsole.setUseColors(this.argv.colorize);
     },
 
     /**

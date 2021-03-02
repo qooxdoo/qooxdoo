@@ -313,8 +313,8 @@ etc.
 
 ### Bundling source files together (previous called Hybrid Targets)
 
-In addition to source or build targets, the generator (ie not the compiler)
-supports hybrid targets which is effectively a source target but with the
+In addition to source or build targets, the pre-v6.0.0 generator (ie not the compiler)
+supported hybrid targets which is effectively a source target but with the
 ability combine multiple source files into a larger javascript file - this can
 have a significant reduction on the time it takes to load an application during
 development, especially if the application is running via a webserver.
@@ -386,10 +386,10 @@ specifying any parts at all). It needs to list the classes which are required
 for the main application to be loaded - typically this will be your main
 application class and the theme.
 
-Unlike the generator, it is permissible to overlap class definitions when using
-wildcards - however, a class can still only be loaded into a single part, so the
-compiler will prioritise more specific package names and emit a warning if there
-is a conflict.
+Unlike the pre-v6.0.0 generator, it is permissible to overlap class
+definitions when using wildcards - however, a class can still only
+be loaded into a single part, so the compiler will prioritise more
+specific package names and emit a warning if there is a conflict.
 
 ## Environment Settings
 

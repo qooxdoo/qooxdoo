@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-   2017 Christian Boulanger
+   2017-2021 Christian Boulanger
 
    License:
    MIT: https://opensource.org/licenses/MIT
@@ -15,6 +15,9 @@
    * Christian Boulanger (info@bibliograph.org, @cboulanger)
 
 ************************************************************************ */
+
+const semver = require("semver");
+
 /**
  * Lists compatible library packages
  */
@@ -44,13 +47,17 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
             alias: "R",
             describe: "Do not upgrade, reinstall current version"
           },
-          "dryrun":{
-            alias: "d",
-            describe: "Show result only, do not actually upgrade"
-          },
           "prereleases": {
             alias: "p",
             describe: "Use prereleases if available"
+          },
+          "dry-run":{
+            alias: "d",
+            describe: "Show result only, do not actually upgrade"
+          },
+          "qx-version": {
+            check: argv => semver.valid(argv.qxVersion),
+            describe: "A semver string. If given, the qooxdoo version for which to upgrade the package"
           }
         }
       };
@@ -58,24 +65,32 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
   },
 
   members: {
+
+    /**
+     * Process the command
+     * @return {Promise<void>}
+     */
     async process() {
       await this.base(arguments);
+      let qxVersion = this.getAppQxVersion();
       await (new qx.tool.cli.commands.package.Update({
         quiet:true,
         prereleases: this.argv.prereleases
       })).process();
       await (new qx.tool.cli.commands.package.List({
         quiet:true,
-        prereleases: this.argv.prereleases
+        prereleases: this.argv.prereleases,
+        qxVersion
       })).process();
       if (!this.argv.quiet) {
-        qx.tool.compiler.Console.info("Upgrading project dependencies to their latest available releases...");
+        qx.tool.compiler.Console.info(`Upgrading project dependencies to the latest available release for qooxdoo version ${qxVersion}:`);
       }
       let data = await this.getLockfileData();
       let found = false;
       const installer = new qx.tool.cli.commands.package.Install({
         quiet: this.argv.quiet,
-        verbose: this.argv.verbose
+        verbose: this.argv.verbose,
+        qxVersion
       });
       for (const library of data.libraries) {
         // do not upggrade libraries that are not from a repository
@@ -96,22 +111,22 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
           }
           continue;
         }
-        try {
-          if (this.argv.dryrun) {
-            qx.tool.compiler.Console.info(`Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`);
-            continue;
-          }
-          if (library.repo_tag && this.argv.reinstall) {
-            await installer.install(library.uri, library.repo_tag);
-          } else {
-            await installer.install(library.uri);
-          }
-        } catch (e) {
-          qx.tool.compiler.Console.warn(e.message);
+        if (this.argv.dryRun) {
+          qx.tool.compiler.Console.info(`Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`);
+          continue;
+        }
+        if (library.repo_tag && this.argv.reinstall) {
+          await installer.install(library.uri, library.repo_tag);
+        } else {
+          await installer.install(library.uri);
         }
       }
       if (!found) {
-        throw new qx.tool.utils.Utils.UserError(`Library '${this.argv.library_uri}' is not installed.`);
+        if (this.argv.library_uri) {
+          throw new qx.tool.utils.Utils.UserError(`Library '${this.argv.library_uri}' is not installed.`);
+        } else {
+          qx.tool.compiler.Console.info("No packages to upgrade.");
+        }
       }
     }
   }

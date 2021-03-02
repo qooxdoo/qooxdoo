@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "qxl.test1",
+    "summary": "Test library 1",
+    "description": "",
+    "homepage": "http://www.qooxdoo.org",
+    "license": "MIT license",
+    "authors": "",
+    "version": "trunk",
+    "qooxdoo-versions": "deprecated",
+    "qooxdoo-range": "deprecated"
+  },
+  "provides": {
+    "namespace": "qxl.test1",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation",
+    "type":  "deprecated"
+  },
+  "requires": {
+    "qxcompiler": "deprecated",
+    "qooxdoo-sdk": "deprecated",
+    "qooxdoo-compiler": "deprecated",
+    "@qooxdoo/framework": "^6.0.0-alpha || ^6.0.0-beta",
+    "@qooxdoo/compiler": "^1.0.0-beta",
+    "qooxdoo/qxl.dialog": "^3.0.0"
+  },
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/resource/schema/v1/Manifest.json"
+}

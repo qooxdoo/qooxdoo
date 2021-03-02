@@ -1,0 +1,27 @@
+#. NO LONGER USED
+msgid "Lib Override"
+msgstr "lib-override-replaced-value"
+
+#: tranapp/Application.js
+msgid "App Alpha"
+msgstr ""
+
+#: tranapp/Application.js
+msgid "App Beta"
+msgstr ""
+
+#: tranapp/Application.js
+msgid "App Charlie"
+msgstr ""
+
+#
+msgid "Lib Beta"
+msgstr ""
+
+#
+msgid "Lib Charlie"
+msgstr ""
+
+#
+msgid "Lib Alpha"
+msgstr "lib-alpha-value"

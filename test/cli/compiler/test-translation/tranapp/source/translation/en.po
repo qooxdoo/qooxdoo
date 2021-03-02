@@ -1,3 +1,0 @@
-
-msgid "Lib Override"
-msgstr "lib-override-replaced-value"

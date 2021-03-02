@@ -32,7 +32,7 @@ var postButton = new qx.ui.form.Button("Post");
 postButton.setToolTipText("Post this message on identi.ca");
 ```
 
-Qooxdoo offers a handy way to tell both the JavaScript code and the generator
+Qooxdoo offers a handy way to tell both the JavaScript code and the compiler
 which strings need to be translated. Wrapping the strings with `this.tr()` will
 mark them as translatable strings. That should be an easy task:
 

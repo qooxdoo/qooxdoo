@@ -320,14 +320,10 @@ qx.Class.define("qx.tool.utils.Utils", {
         let exe = child_process.spawn(cmd, args, opts);
         // suppress all output unless in verbose mode
         exe.stdout.on("data", data => {
-          if (this.argv.verbose) {
-            qx.tool.compiler.Console.log(data.toString());
-          }
+          qx.log.Logger.debug(data.toString());
         });
         exe.stderr.on("data", data => {
-          if (this.argv.verbose) {
-            qx.tool.compiler.Console.error(data.toString());
-          }
+          qx.log.Logger.error(data.toString());
         });
         exe.on("close", code => {
           if (code !== 0) {
