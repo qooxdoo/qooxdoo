@@ -2,15 +2,28 @@ const test = require("tape");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
 const fsPromises = testUtils.fsPromises;
-require("process").chdir(__dirname);
+const path = require("path");
+const testDir = path.join(__dirname, "test-qx-package");
+const appDir = path.join(testDir, "myapp");
+
+// set DEBUG envvar to get colorized verbose output
+const debug = Boolean(process.env.DEBUG);
+const qxCmdPath = testUtils.getCompiler(debug ? "source":"build");
+let debugArg = "";
+if (debug) {
+  const colorize = require('tap-colorize');
+  test.createStream().pipe(colorize()).pipe(process.stdout);
+  debugArg += "--debug --colorize";
+}
+
 test("Create app", async assert => {
   try {
-    await testUtils.deleteRecursive("test-qx-package/myapp");
+    await testUtils.deleteRecursive(appDir);
     let result;
-    result = await testUtils.runCommand("test-qx-package", testUtils.getCompiler(), "create", "myapp", "-I");
+    result = await testUtils.runCommand(testDir, qxCmdPath, "create", "myapp", "-I");
     assert.ok(result.exitCode === 0);
-    assert.ok(fs.existsSync("test-qx-package/myapp/compile.json"))
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--all",);
+    assert.ok(fs.existsSync(path.join(appDir, "compile.json")));
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--all", "--verbose");
     assert.ok(result.exitCode === 0);
     assert.end();
   } catch (ex) {
@@ -21,14 +34,14 @@ test("Create app", async assert => {
 test("Install qxl.test1, latest version", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "install", "qooxdoo/qxl.test1");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--short", "--noheaders", "--installed", "--all");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
-    assert.ok(result.output.split("\n").length === 3)
-    result = await testUtils.runCompiler("test-qx-package/myapp");
+    assert.equal(result.output.split("\n").length, 3, "Output should be 3 lines");
+    result = await testUtils.runCompiler(appDir);
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "remove", "qooxdoo/qxl.test1");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test1");
     assert.ok(result.exitCode === 0);
     assert.end();
   } catch (ex) {
@@ -39,14 +52,14 @@ test("Install qxl.test1, latest version", async assert => {
 test("Install qxl.test2/qxl.test2A, latest version", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "install", "qooxdoo/qxl.test2/qxl.test2A");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test2/qxl.test2A");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--short", "--noheaders", "--installed", "--all");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
-    assert.ok(result.output.split("\n").length === 4);
-    result = await testUtils.runCompiler("test-qx-package/myapp");
+    assert.equal(result.output.split("\n").length, 4, "Output should be 4 lines");
+    result = await testUtils.runCompiler(appDir);
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "remove", "qooxdoo/qxl.test2/qxl.test2A");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test2/qxl.test2A");
     assert.ok(result.exitCode === 0);
     assert.end();
   } catch (ex) {
@@ -57,20 +70,20 @@ test("Install qxl.test2/qxl.test2A, latest version", async assert => {
 test("Install qxl.test1@release then migrate and upgrade", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "install", "qooxdoo/qxl.test1@v1.0.2");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1@v1.2.1");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--short", "--noheaders", "--installed", "--all");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
-    assert.ok(result.output.split("\n").length === 4);
-    result = await testUtils.runCommand("test-qx-package/myapp/qx_packages/qooxdoo_qxl_test1_v1_0_2", testUtils.getCompiler(), "package", "migrate");
+    assert.equal(result.output.split("\n").length, 4, "Output should be 4 lines");
+    result = await testUtils.runCommand(path.join(appDir, "qx_packages/qooxdoo_qxl_test1_v1_2_1"), qxCmdPath, "migrate");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCompiler("test-qx-package/myapp");
+    result = await testUtils.runCompiler(appDir);
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "upgrade");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "upgrade");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCompiler("test-qx-package/myapp");
+    result = await testUtils.runCompiler(appDir);
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "remove", "qooxdoo/qxl.test1");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "remove", "qooxdoo/qxl.test1");
     assert.ok(result.exitCode === 0);
     assert.end();
   } catch (ex) {
@@ -81,12 +94,12 @@ test("Install qxl.test1@release then migrate and upgrade", async assert => {
 test("Install qxl.test1@commit", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "install", "qooxdoo/qxl.test1@b1125235c1002aadf84134c0fa52f5f037f466cd");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1@b1125235c1002aadf84134c0fa52f5f037f466cd");
     assert.ok(result.exitCode === 0);
-    result = await testUtils.runCommand("test-qx-package/myapp", testUtils.getCompiler(), "package", "list", "--short", "--noheaders", "--installed", "--all");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
     assert.ok(result.output.split("\n").length === 4);
-    result = await testUtils.runCompiler("test-qx-package/myapp");
+    result = await testUtils.runCompiler(appDir);
     assert.ok(result.exitCode === 0);
     assert.end();
   } catch (ex) {

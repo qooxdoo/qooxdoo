@@ -279,56 +279,37 @@ qx.Class.define("qx.tool.config.Abstract", {
       }
       // load schema if validation is enabled
       if (this.isValidate() && this.getVersion() !== null) {
-        if (!this.__schema) {
-          let s = this.getSchemaPath();
-          if (!fs.existsSync(s)) {
-            throw new Error(`No schema file exists at ${this.getSchemaPath()}`);
-          }
-          this.__schema = await qx.tool.utils.Json.loadJsonAsync(s);
-        }
+
         // check initial data
         let dataSchemaInfo = qx.tool.utils.Json.getSchemaInfo(data);
         if (!dataSchemaInfo) {
           throw new Error(`Invalid data: no schema found, must be of schema ${this.getSchemaUri()}!`);
         }
-        let dataVersion = semver.coerce(dataSchemaInfo.version);
-        let schemaVersion = semver.coerce(this.getVersion());
+        let dataVersion = semver.major(semver.coerce(dataSchemaInfo.version));
+        let schemaVersion = semver.major(semver.coerce(this.getVersion()));
+        // use version given in the config file, but warn if we expect a different one
         if (dataVersion !== schemaVersion) {
-          // migrate the data if possible
-          data = this._migrateData(data, dataVersion, schemaVersion);
+          this.warn(`Possible schema version mismatch in ${this.getDataPath()}: expected v${schemaVersion}, found v${dataVersion}.`)
+          if (dataVersion) {
+            this.setVersion(dataSchemaInfo.version);
+          } else {
+            // don't validate if there is no schema
+            this.setValidate(false);
+          }
+        }
+        // load schema
+        if (!this.__schema) {
+          let s = this.getSchemaPath();
+          if (! await fs.existsAsync(s)) {
+            throw new Error(`No schema file exists at ${this.getSchemaPath()}`);
+          }
+          this.__schema = await qx.tool.utils.Json.loadJsonAsync(s);
         }
       }
       // validate and save
       this.setData(data);
       this.setLoaded(true);
       return this;
-    },
-
-    /**
-     * Migrates the data to a new schema if possible or throws otherwise
-     * @param {Object} data
-     * @param {String} dataVersion (Semver)
-     * @param {String} schemaVersion (Semver)
-     * @return {Object}
-     * @private
-     */
-    _migrateData(data, dataVersion, schemaVersion) {
-      let dataMjVer = Number(semver.major(dataVersion));
-      let schemaMjVer = Number(semver.major(schemaVersion));
-      switch (true) {
-        // identical
-        case (dataMjVer === schemaMjVer):
-          return data;
-        // 0->1: add schema id
-        case (dataMjVer === 0 && schemaMjVer === 1):
-          data.$schema = this.getSchemaUri();
-          break;
-        // throw otherwise
-        default:
-          throw new Error(`Configuration file schema version mismatch in ${this.getDataPath()}: expected v${schemaMjVer}, found v${dataMjVer}. Could not migrate data.`);
-      }
-      this.setDirty(true);
-      return data;
     },
 
     /**
