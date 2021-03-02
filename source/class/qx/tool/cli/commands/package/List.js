@@ -116,15 +116,15 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       //   await (new qx.tool.cli.commands.package.Update({quiet:true})).process();
       // }
 
-      let qooxdoo_version = await this.getQxVersion();
-      let num_compat_repos = await this.__createIndexes(qooxdoo_version);
+      let qxVersion = await this.getAppQxVersion();
+      let num_compat_repos = await this.__createIndexes(qxVersion);
       if (this.argv.verbose) {
-        this.debug(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qooxdoo_version}`);
+        this.debug(`>>> We have ${num_compat_repos} packages compatible with qooxdoo version ${qxVersion}`);
       }
 
       if (num_compat_repos === 0 && !this.argv.all && !this.argv.quiet) {
         qx.tool.compiler.Console.info(
-          `Currently, no packages compatible with qooxdoo version ${qooxdoo_version} exist.`
+          `Currently, no packages compatible with qooxdoo version ${qxVersion} exist.`
         );
         return;
       }
@@ -329,7 +329,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
       }
 
       // save to cache
-      this.getCache().compat[qooxdoo_version] = this.__latestCompatible[qooxdoo_version];
+      this.getCache().compat[qxVersion] = this.__latestCompatible[qxVersion];
       await this.saveCache();
     },
 

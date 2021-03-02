@@ -121,9 +121,9 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       const argv = this.argv;
 
       // qooxdoo version
-      let qooxdoo_version = await this.getQxVersion();
+      let qxVersion = await this.getAppQxVersion();
       if (argv.verbose) {
-        this.info(`Using qooxdoo version:  ${qooxdoo_version}`);
+        this.info(`Using qooxdoo version:  ${qxVersion}`);
       }
 
       // check git status
@@ -264,13 +264,13 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         // no CLI value
         if (this.argv.breaking) {
           // use current version only -> breaking
-          semver_range = "^" + qooxdoo_version;
+          semver_range = "^" + qxVersion;
         } else {
           // get current semver range -> backward-compatible
           semver_range = mainManifestModel.getValue("requires.@qooxdoo/framework");
-          if (!semver.satisfies(qooxdoo_version, semver_range, {loose: true})) {
+          if (!semver.satisfies(qxVersion, semver_range, {loose: true})) {
             // make it compatible with current version
-            semver_range = `^${qooxdoo_version} || ${semver_range}`;
+            semver_range = `^${qxVersion} || ${semver_range}`;
           }
         }
       }
