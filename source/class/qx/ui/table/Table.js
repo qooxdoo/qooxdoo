@@ -2354,6 +2354,19 @@ qx.Class.define("qx.ui.table.Table",
       dataRowRenderer.dispose();
     }
 
+    if (this.getTableModel() != null)
+    {
+      this.getTableModel().removeListener(
+        "metaDataChanged",
+        this._onTableModelMetaDataChanged, this
+      );
+
+      this.getTableModel().removeListener(
+        "dataChanged",
+        this._onTableModelDataChanged,
+        this);
+    }
+
     this._cleanUpMetaColumns(0);
     this.getTableColumnModel().dispose();
     this._disposeObjects(
