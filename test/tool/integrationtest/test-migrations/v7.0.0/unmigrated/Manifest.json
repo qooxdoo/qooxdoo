@@ -18,7 +18,7 @@
   "requires": {
     "@qooxdoo/framework": "^6.0.0",
     "@qooxdoo/compiler": "^1.0.0",
-    "qooxdoo/qxl.test2/qxl.test2C": "^1.1.0"
+    "qooxdoo/qxl.dialog": "^3.0.0"
   },
   "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json"
 }

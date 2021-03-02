@@ -144,7 +144,7 @@ the name of the file you are editing. There is only one file you don't have to
 change which is the meta theme named `Theme.js`. It does not refer to the
 framework theme so there is nothing to change. With that change, we included new
 dependencies to classes and resources which means, we have to rebuild our
-application. Run `./generate.py` in the root folder of your application to
+application. Run `npx qx compile` in the root folder of your application to
 rebuild the development version of the tweets application. After the process is
 done, we can reload the application and see a dramatically changed application
 using the Simple theme.
