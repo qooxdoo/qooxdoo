@@ -134,7 +134,6 @@ qx.Class.define("qx.tool.config.Utils", {
      *
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<*string>}
-     * @throws {qx.tool.utils.Utils.UserError} if no qooxdoo library can be found
      */
     async getQxPath(dir=null) {
       dir = path.resolve(dir || process.cwd());
@@ -157,7 +156,7 @@ qx.Class.define("qx.tool.config.Utils", {
       let npmdir = (await qx.tool.utils.Utils.exec("npm root -g")).trim();
       dir = path.join(npmdir, "@qooxdoo", "framework");
       if (!this.isQxLibrary(dir)) {
-        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+        throw new Error(`Path to the qx library cannot be determined.`);
       }
       return dir;
     },
@@ -167,20 +166,19 @@ qx.Class.define("qx.tool.config.Utils", {
      * if there is a "compile.json" file.
      *
      * @param {String?} dir The base directory. If not given, the current working dir is used
-     * @return {Promise<*>}
+     * @return {Promise<Boolean>}
      */
     async applicationExists(dir){
       return await fs.existsAsync(path.join(dir, qx.tool.config.Compile.config.fileName))
     },
 
     /**
-     * Returns the absolute path to the qooxdoo framework
-     * used by the current project, If the application does
-     * not specify a path, it is taken from the environment.
+     * Returns the absolute path to the qooxdoo framework used by the current
+     * project, If the application does not specify a path, it is taken from the
+     * environment. Throws if no path can be determined.
      *
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<String>} Promise that resolves with the path {String}
-     * @throws {qx.tool.utils.Utils.UserError}
      */
     async getAppQxPath(dir=null) {
       dir = dir || process.cwd();
@@ -219,10 +217,10 @@ qx.Class.define("qx.tool.config.Utils", {
 
     /**
      * Returns the qooxdoo version used in the application in the current or given
-     * directory
+     * directory. Throws if no such version can be determined
+     *
      * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
-     * @throws {qx.tool.utils.Utils.UserError}
      */
     async getAppQxVersion(baseDir=null) {
       baseDir = baseDir || process.cwd();
@@ -244,7 +242,7 @@ qx.Class.define("qx.tool.config.Utils", {
         } catch(e) {}
       }
       if (!qxVersion || !semver.valid(qxVersion)) {
-        throw new qx.tool.utils.Utils.UserError(
+        throw new Error(
           `Cannot determine the qooxdoo version used to compile the application. `+
           `Please specify a caret or tilde range for the requires.${manifestRequiresKey} key in the Manifest")`
         );
