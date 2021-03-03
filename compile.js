@@ -10,6 +10,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
      * @return {Promise<void>}
      */
     async beforeTests(command) {
+      const that = this;
       command.addTest(new qx.tool.cli.api.Test("lint", async function () {
         console.log("# ******** running lint ");
         result = await qx.tool.utils.Utils.runCommand({
@@ -17,9 +18,10 @@ qx.Class.define("qx.compiler.CompilerApi", {
           cmd: "node",
           args: [
             path.join(__dirname, "bin", command._getConfig().targetType, "qx"),
-            "lint"
+            "lint",
+            "--warnAsError"
           ],
-          shell: false
+          shell: true
         });
         if (result.exitCode === 0) {
           console.log("ok");
@@ -33,11 +35,8 @@ qx.Class.define("qx.compiler.CompilerApi", {
         result = await qx.tool.utils.Utils.runCommand({
           cwd: "test/tool",
           cmd: "node",
-          args: [
-            path.join(__dirname, "bin", command._getConfig().targetType, "qx"),
-            "test"
-          ],
-          shell: false
+          args: that.__getArgs(command),
+          shell: true
         });
         this.setExitCode(result.exitCode);
       }));
@@ -46,14 +45,24 @@ qx.Class.define("qx.compiler.CompilerApi", {
         result = await qx.tool.utils.Utils.runCommand({
           cwd: "test/framework",
           cmd: "node",
-          args: [
-            path.join(__dirname, "bin", command._getConfig().targetType, "qx"),
-            "test"
-          ],
-          shell: false
+          args: that.__getArgs(command),
+          shell: true
         });
         this.setExitCode(result.exitCode);
       }));
+    },
+
+    __getArgs(command) {
+      let res = [];
+      res.push(path.join(__dirname, "bin", command._getConfig().targetType, "qx"));
+      res.push("test");
+//      res.push("--terse");
+      for (const arg of ["colorize", "verbose", "quiet", "fail-fast"]) {
+        if (command.argv[arg]) {
+          res.push(` --${arg}=${command.argv[arg]}`);
+        }
+      }
+      return res;
     }
   }
 });

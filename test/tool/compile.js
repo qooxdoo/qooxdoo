@@ -16,7 +16,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       function addTest(test) {
         let args = [];
         args.push(test + ".js");
-        for (const arg of ["colorize", "verbose"]) {
+        for (const arg of ["colorize", "verbose", "quiet", "fail-fast"]) {
           if (command.argv[arg]) {
             args.push(` --${arg}=${command.argv[arg]}`);
           }
