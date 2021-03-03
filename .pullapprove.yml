@@ -5,7 +5,7 @@ groups:
   documentation: documentation changes require 2 approvals
     description:
     conditions:
-      - glob("docs/**/*.md") in files
+      - docs/* in files
     reviews:
       required: 2  # 2 approvals from this group are required
       request: 5  # 5 review request will be sent at a time
