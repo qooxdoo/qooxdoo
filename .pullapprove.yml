@@ -16,7 +16,7 @@ groups:
   hotfix:
     description: urgent hotfix; 2 approvals necessary
     conditions:
-      - ""hotfix' in labels"
+      - "hotfix" in labels
     reviews:
       required: 2
       request: 5
@@ -28,7 +28,7 @@ groups:
     description: default procedure; 5 approvals required
     conditions:
       # this group is asked to review if no previous groups match this PR
-      - "not groups.active"
+      - not groups.active
     reviews:
       required: 5
       request: 5
@@ -50,7 +50,7 @@ pullapprove_conditions:
 
 notifications:
   - when: pull_request.opened
-    if: "author_association == 'FIRST_TIME_CONTRIBUTOR'"
+    if: author_association == "FIRST_TIME_CONTRIBUTOR"
     comment: |
       Hey @{{ author }}, thanks for the PR! The review will start once
       the tests and CI checks have passed. If they don't, please review
