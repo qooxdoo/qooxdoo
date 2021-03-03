@@ -2,10 +2,10 @@ version: 3
 
 # see https://docs.pullapprove.com/config/groups/
 groups:
-  # source code documentation change only: 2 approvals necessary
-  documentation:
+  documentation: documentation changes require 2 approvals
+    description:
     conditions:
-      - "'documentation' in labels"
+      - glob("docs/**/*.md") in files
     reviews:
       required: 2  # 2 approvals from this group are required
       request: 5  # 5 review request will be sent at a time
@@ -13,9 +13,8 @@ groups:
       teams:
         - pr-mergers
 
-
-  # emergency hotfix:  2 approvals necessary
   hotfix:
+    description: urgent hotfix; 2 approvals necessary
     conditions:
       - "'hotfix' in labels"
     reviews:
@@ -25,8 +24,8 @@ groups:
       teams:
         - pr-mergers
 
-  # default procedure: 5 approvals required
   default:
+    description: default procedure; 5 approvals required
     conditions:
       # this group is asked to review if no previous groups match this PR
       - "not groups.active"
@@ -42,15 +41,12 @@ pullapprove_conditions:
   - condition: "base.ref == 'master'"
     unmet_status: success
     explanation: "Review not required unless merging to master"
-  - condition: "'*travis*' in statuses.successful"
-    unmet_status: "failure"
-    explanation: "Tests must pass before review starts"
-  - condition: "'WIP' not in title"
+  - condition: "not draft"
     unmet_status: pending
-    explanation: "Work in progress - review not yet required"
-  - condition: "'do not merge' not in labels"
+    explanation: "Work in progress, not to be reviewed yet"
+  - condition: "body and '- [ ]' not in body"
     unmet_status: pending
-    explanation: "PR should not be merged yet - review not yet required"
+    explanation: "Please finish all the tasks first"
 
 notifications:
   - when: pull_request.opened
