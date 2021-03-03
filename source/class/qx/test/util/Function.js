@@ -30,11 +30,11 @@ qx.Class.define("qx.test.util.Function",
       var debouncedTest = qx.util.Function.debounce(test, 10);
 
       debouncedTest(true);
-      this.assertNotCalled(test);
+      this.assertNotCalled(test, "not called");
       debouncedTest(false);
       this.wait(50, function() {
-        this.assertCalledOnce(test);
-        this.assertCalledWith(test, false);
+        this.assertCalledOnce(test, "called once");
+        this.assertCalledWith(test, false, "called with");
       }, this);
     },
 
@@ -45,15 +45,15 @@ qx.Class.define("qx.test.util.Function",
       var debouncedTest = qx.util.Function.debounce(test, 10, true);
 
       debouncedTest(true);
-      this.assertCalled(test);
-      this.assertCalledWith(test, true);
+      this.assertCalled(test, "called");
+      this.assertCalledWith(test, true, "called with");
 
       debouncedTest(false);
       debouncedTest(true);
       debouncedTest(false);
       this.wait(50, function() {
-        this.assertCalledTwice(test);
-        this.assertCalledWith(test, false);
+        this.assertCalledTwice(test, "called twice");
+        this.assertCalledWith(test, false, "called with");
       }, this);
     }
   }
