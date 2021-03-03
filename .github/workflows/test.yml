@@ -3,11 +3,13 @@ name: run framework tests
 on:
   push:
     paths:
+      - 'compile.*'
       - 'source/**'
       - 'test/**'
 
   pull_request:
     paths:
+      - 'compile.*'
       - 'source/**'
       - 'test/**'
 
