@@ -4,6 +4,28 @@ qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
 
   members: {
+    load() {
+      let yargs = qx.tool.cli.commands.Test.getYargsCommand;
+      qx.tool.cli.commands.Test.getYargsCommand = () => {
+        let args = yargs();
+        args.builder.diag = {
+          describe: "show diagnostic output",
+          type: "boolean",
+          default: false
+        };
+        args.builder.terse = {
+          describe: "show only summary and errors",
+          type: "boolean",
+          default: false
+        };
+        args.builder.browsers = {
+          describe: "list of browsers to test against, currently supported chromium, firefox, webkit",
+          type: "string"
+        };
+        return args;
+      }
+      return this.base(arguments);
+    },
     /**
      * Register compiler tests
      * @param {qx.tool.cli.commands.Command} command
@@ -56,8 +78,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       let res = [];
       res.push(path.join(__dirname, "bin", command._getConfig().targetType, "qx"));
       res.push("test");
-//      res.push("--terse");
-      for (const arg of ["colorize", "verbose", "quiet", "fail-fast"]) {
+      for (const arg of ["colorize", "verbose", "quiet", "fail-fast", "diag", "terse", "browsers"]) {
         if (command.argv[arg]) {
           res.push(` --${arg}=${command.argv[arg]}`);
         }
@@ -68,5 +89,5 @@ qx.Class.define("qx.compiler.CompilerApi", {
 });
 
 module.exports = {
-    CompilerApi: qx.compiler.CompilerApi
+  CompilerApi: qx.compiler.CompilerApi
 };
