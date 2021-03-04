@@ -43,42 +43,46 @@ qx.Class.define("qx.compiler.CompilerApi", {
             "lint",
             "--warnAsError"
           ],
-          shell: true
+          shell: true,
+          log: console.log,
+          error: console.log
         });
         if (result.exitCode === 0) {
-          console.log("ok");
+          qx.tool.compiler.Console.log("ok");
         } else {
-          console.log("not ok");
+          qx.tool.compiler.Console.log("not ok");
         }
         this.setExitCode(result.exitCode);
       }));
+      let argList = ["colorize", "verbose", "quiet", "fail-fast", "diag", "terse"];
       command.addTest(new qx.tool.cli.api.Test("compiler test", async function () {
-        console.log("# ******** running compiler test");
+        qx.tool.compiler.Console.log("# ******** running compiler test");
         result = await qx.tool.utils.Utils.runCommand({
           cwd: "test/tool",
           cmd: "node",
-          args: that.__getArgs(command),
+          args: that.__getArgs(command, argList),
           shell: true
         });
         this.setExitCode(result.exitCode);
       }));
+      argList.push("browsers");
       command.addTest(new qx.tool.cli.api.Test("framework test", async function () {
         console.log("# ******** running framework test");
         result = await qx.tool.utils.Utils.runCommand({
           cwd: "test/framework",
           cmd: "node",
-          args: that.__getArgs(command),
+          args: that.__getArgs(command, argList),
           shell: true
         });
         this.setExitCode(result.exitCode);
       }));
     },
 
-    __getArgs(command) {
+    __getArgs(command, argList) {
       let res = [];
       res.push(path.join(__dirname, "bin", command._getConfig().targetType, "qx"));
       res.push("test");
-      for (const arg of ["colorize", "verbose", "quiet", "fail-fast", "diag", "terse", "browsers"]) {
+      for (const arg of argList) {
         if (command.argv[arg]) {
           res.push(` --${arg}=${command.argv[arg]}`);
         }

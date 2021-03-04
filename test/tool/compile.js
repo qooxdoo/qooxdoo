@@ -34,12 +34,13 @@ qx.Class.define("qx.compiler.CompilerApi", {
             env: {
               QX_JS: require.main.filename,
               IGNORE_MIGRATION_WARNING: true
-            }
+            },
+            log: this.__log.bind(this);
           });
           if (result.exitCode === 0) {
-            console.log("ok");
+            qx.tool.compiler.Console.log("ok");
           } else {
-            console.log("not ok");
+            qx.tool.compiler.Console.log("not ok");
           }
           this.setExitCode(result.exitCode);
         })).setNeedsServer(false);
@@ -52,9 +53,31 @@ qx.Class.define("qx.compiler.CompilerApi", {
           }
         });
       } catch (e) {
-        console.error(e);
+        qx.tool.compiler.Console.error(e);
         process.exit(1);
       }
+    },
+
+    __log(msg) {
+      let arr = msg.split("\n");
+      // value is serializable
+      arr.forEach(val => {
+        if (val.match(/^not ok /)) {
+          qx.tool.compiler.Console.log(val);
+        } else if (val.includes("# SKIP")) {
+          if (!app.argv.terse) {
+            qx.tool.compiler.Console.log(val);
+          }
+        } else if (val.match(/^ok\s/)) {
+          if (!app.argv.terse) {
+          }
+        } else if (val.match(/^#/) && app.argv.diag) {
+          qx.tool.compiler.Console.log(val);
+        } else if (app.argv.verbose) {
+          qx.tool.compiler.Console.log(val);
+        }
+      });
+
     }
   }
 });

@@ -36,4 +36,4 @@ jobs:
       - name: install and test
         run:  |
               npm  ci
-              npm  test
+              npm  test -- --bowsers=chromium,firefox --terse
