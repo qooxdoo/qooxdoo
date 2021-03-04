@@ -35,7 +35,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
               QX_JS: require.main.filename,
               IGNORE_MIGRATION_WARNING: true
             },
-            log: this.__log.bind(this);
+            log: this.__log.bind(this)
           });
           if (result.exitCode === 0) {
             qx.tool.compiler.Console.log("ok");
