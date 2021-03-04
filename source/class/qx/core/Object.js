@@ -345,6 +345,13 @@ qx.Class.define("qx.core.Object",
         }
       }
 
+      // Remove all listeners.
+      //
+      // This must be done early, since it calls
+      // qx.core.ObjectRegistry.toHashCode(target) which would add a
+      // hash code back in after code here has cleaned it up.
+      qx.event.Registration.removeAllListeners(this);
+
       // Deconstructor support for classes
       var clazz = this.constructor;
       var mixins;
