@@ -11,7 +11,7 @@ groups:
       request: 5  # 5 review request will be sent at a time
     reviewers:
       teams:
-        - pr-mergers
+        - pr-reviewers
 
   hotfix:
     description: urgent hotfix; 2 approvals necessary
@@ -22,7 +22,7 @@ groups:
       request: 5
     reviewers:
       teams:
-        - pr-mergers
+        - pr-reviewers
 
   default:
     description: default procedure; 5 approvals required
@@ -34,7 +34,7 @@ groups:
       request: 5
     reviewers:
       teams:
-        - pr-mergers
+        - pr-reviewers
 
 # see https://docs.pullapprove.com/config/pullapprove-conditions/
 pullapprove_conditions:
