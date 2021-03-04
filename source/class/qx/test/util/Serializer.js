@@ -499,7 +499,7 @@ qx.Class.define("qx.test.util.Serializer",
      * **************************** */
 
     __setUpDateModel : function() {
-      var formater = new qx.util.format.DateFormat("yyyy-mm-dd", "en");
+      var formater = new qx.util.format.DateFormat("isoUtcDateTime", "en");
       var date1 = new Date(0);
       var date2 = new Date(100000);
       var date3 = new Date(25168418651);
@@ -514,9 +514,9 @@ qx.Class.define("qx.test.util.Serializer",
 
       this.assertJsonEquals(
         {
-          "data1" : "1970-00-01",
-          "data2" : "1970-01-01",
-          "data3" : "1970-13-19"
+          "data1" : "1970-01-01T00:00:00Z",
+          "data2" : "1970-01-01T00:01:40Z",
+          "data3" : "1970-10-19T07:13:38Z"
         },
         this.__s.toNativeObject(this.__model, null, formater)
       );
@@ -528,7 +528,7 @@ qx.Class.define("qx.test.util.Serializer",
       var formater = this.__setUpDateModel();
 
       this.assertEquals(
-        '{"data1":"1970-00-01","data2":"1970-01-01","data3":"1970-13-19"}',
+        '{"data1":"1970-01-01T00:00:00Z","data2":"1970-01-01T00:01:40Z","data3":"1970-10-19T07:13:38Z"}',
         this.__s.toJson(this.__model, null, formater)
       );
 
@@ -539,7 +539,7 @@ qx.Class.define("qx.test.util.Serializer",
       var formater = this.__setUpDateModel();
 
       this.assertEquals(
-        "data1=1970-00-01&data2=1970-01-01&data3=1970-13-19",
+        "data1=1970-01-01T00%3A00%3A00Z&data2=1970-01-01T00%3A01%3A40Z&data3=1970-10-19T07%3A13%3A38Z",
         this.__s.toUriParameter(this.__model, null, formater)
       );
 
