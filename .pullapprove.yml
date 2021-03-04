@@ -3,7 +3,7 @@ version: 3
 # see https://docs.pullapprove.com/config/groups/
 groups:
   documentation:
-    description: documentation changes require 2 approvalss
+    description: documentation changes require 2 approvals
     conditions:
       - '"docs/*" in files'
     reviews:
