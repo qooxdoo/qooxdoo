@@ -273,7 +273,7 @@ qx.Class.define("qx.tool.utils.Utils", {
         options.error = console.error;
       }
       if (!options.log) {
-        options.error = console.log;
+        options.log = console.log;
       }
       return new Promise((resolve, reject) => {
         let env = process.env;
