@@ -2,6 +2,10 @@ name: run framework tests
 
 on:
   push:
+    branches: 
+      - !main
+    tags-ignore:
+      - *
     paths:
       - 'compile.*'
       - 'source/**'
@@ -20,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [10.x, 12.x, 14.x]
 
     steps:
