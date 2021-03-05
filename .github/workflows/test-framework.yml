@@ -2,10 +2,10 @@ name: run framework tests
 
 on:
   push:
-    branches: 
+    branches:
       - !main
     tags-ignore:
-      - *
+      - '*'
     paths:
       - 'compile.*'
       - 'source/**'
