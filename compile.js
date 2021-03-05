@@ -65,13 +65,14 @@ qx.Class.define("qx.compiler.CompilerApi", {
         });
         this.setExitCode(result.exitCode);
       }));
-      argList.push("browsers");
       command.addTest(new qx.tool.cli.api.Test("framework test", async function () {
         console.log("# ******** running framework test");
+        let args = argList.slice();
+        args.push("browsers");
         result = await qx.tool.utils.Utils.runCommand({
           cwd: "test/framework",
           cmd: "node",
-          args: that.__getArgs(command, argList),
+          args: that.__getArgs(command, args),
           shell: true
         });
         this.setExitCode(result.exitCode);
