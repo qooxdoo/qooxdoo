@@ -918,7 +918,9 @@ qx.Class.define("qx.Promise", {
      * @param e {NativeEvent}
      */
     __onUnhandledRejection: function(e) {
-      e.preventDefault();
+      if (qx.lang.Type.isFunction(e.preventDefault)) {
+        e.preventDefault();
+      }
       var reason = null;
       if (e instanceof Error) {
         reason = e;
