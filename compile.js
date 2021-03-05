@@ -34,7 +34,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
     async beforeTests(command) {
       const that = this;
       command.addTest(new qx.tool.cli.api.Test("lint", async function () {
-        console.log("# ******** running lint ");
+        console.log("# ******* running lint ");
         result = await qx.tool.utils.Utils.runCommand({
           cwd: ".",
           cmd: "node",
