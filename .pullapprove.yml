@@ -44,9 +44,6 @@ pullapprove_conditions:
   - condition: 'not draft'
     unmet_status: pending
     explanation: "Work in progress, not to be reviewed yet"
-  - condition: 'body and "- [ ]" not in body'
-    unmet_status: pending
-    explanation: "Please finish all the tasks first"
 
 notifications:
   - when: pull_request.opened
