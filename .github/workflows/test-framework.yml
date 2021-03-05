@@ -3,7 +3,7 @@ name: run framework tests
 on:
   push:
     branches:
-      - !main
+      - '!main'
     tags-ignore:
       - '*'
     paths:
