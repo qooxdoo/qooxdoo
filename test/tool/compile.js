@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("upath");
 const process = require("process");
+const { performance } = require('perf_hooks');
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
@@ -13,6 +14,8 @@ qx.Class.define("qx.compiler.CompilerApi", {
      */
     async beforeTests(command) {
       const COMPILER_TEST_PATH = "integrationtest";
+      const that = this;
+      this.__argv = command.argv;
       function addTest(test) {
         let args = [];
         args.push(test + ".js");
@@ -25,7 +28,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
           this.info("*********************************************************************************************************");
           this.info("# Running " + test);
           this.info("**********************************************************************************************************");
-
+          this.__notOk = 0;
+          this.__Ok = 0;
+          let startTime = performance.now();
           result = await qx.tool.utils.Utils.runCommand({
             cwd: COMPILER_TEST_PATH,
             cmd: "node",
@@ -35,13 +40,12 @@ qx.Class.define("qx.compiler.CompilerApi", {
               QX_JS: require.main.filename,
               IGNORE_MIGRATION_WARNING: true
             },
-            log: this.__log.bind(this)
+            log: that.__log.bind(that),
+            error: that.__log.bind(that)
           });
-          if (result.exitCode === 0) {
-            qx.tool.compiler.Console.log("ok");
-          } else {
-            qx.tool.compiler.Console.log("not ok");
-          }
+          let endTime = performance.now();
+          let timeDiff = endTime - startTime;
+          qx.tool.compiler.Console.info(`DONE testing ${test}: ${this.__Ok} ok, ${this.__notOk} not ok - [${timeDiff.toFixed(0)} ms]`);
           this.setExitCode(result.exitCode);
         })).setNeedsServer(false);
       }
@@ -65,20 +69,25 @@ qx.Class.define("qx.compiler.CompilerApi", {
         if (val.match(/^not ok /)) {
           qx.tool.compiler.Console.log(val);
         } else if (val.includes("# SKIP")) {
-          if (!app.argv.terse) {
+          if (!this.__argv.terse) {
             qx.tool.compiler.Console.log(val);
           }
         } else if (val.match(/^ok\s/)) {
-          if (!app.argv.terse) {
+          if (!this.__argv.terse) {
+            qx.tool.compiler.Console.log(val);
           }
-        } else if (val.match(/^#/) && app.argv.diag) {
+        } else if (val.match(/^#/) && this.__argv.diag) {
           qx.tool.compiler.Console.log(val);
-        } else if (app.argv.verbose) {
+        } else if (this.__argv.verbose) {
           qx.tool.compiler.Console.log(val);
         }
       });
+    },
 
-    }
+    __argv: null,
+    __notOk: null,
+    __Ok: null
+
   }
 });
 
