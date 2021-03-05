@@ -2,6 +2,8 @@ name: run framework tests
 
 on:
   push:
+    branches:
+      - '!master'
     paths:
       - 'compile.*'
       - 'source/**'
