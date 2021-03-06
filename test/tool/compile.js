@@ -28,9 +28,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
           this.info("*********************************************************************************************************");
           this.info("# Running " + test);
           this.info("**********************************************************************************************************");
-          this.__notOk = 0;
-          this.__Ok = 0;
-          this.__skipped = 0;
+          that.__notOk = 0;
+          that.__Ok = 0;
+          that.__skipped = 0;
           let startTime = performance.now();
           result = await qx.tool.utils.Utils.runCommand({
             cwd: COMPILER_TEST_PATH,
@@ -46,7 +46,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
           });
           let endTime = performance.now();
           let timeDiff = endTime - startTime;
-          qx.tool.compiler.Console.info(`DONE testing ${test}: ${this.__Ok} ok, ${this.__notOk} not ok, ${this.__skipped} skipped - [${timeDiff.toFixed(0)} ms]`);
+          qx.tool.compiler.Console.info(`DONE testing ${test}: ${that.__Ok} ok, ${that.__notOk} not ok, ${that.__skipped} skipped - [${timeDiff.toFixed(0)} ms]`);
           this.setExitCode(result.exitCode);
         })).setNeedsServer(false);
       }
