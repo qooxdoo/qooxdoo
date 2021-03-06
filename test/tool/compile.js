@@ -30,6 +30,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
           this.info("**********************************************************************************************************");
           this.__notOk = 0;
           this.__Ok = 0;
+          this.__skipped = 0;
           let startTime = performance.now();
           result = await qx.tool.utils.Utils.runCommand({
             cwd: COMPILER_TEST_PATH,
@@ -45,7 +46,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
           });
           let endTime = performance.now();
           let timeDiff = endTime - startTime;
-          qx.tool.compiler.Console.info(`DONE testing ${test}: ${this.__Ok} ok, ${this.__notOk} not ok - [${timeDiff.toFixed(0)} ms]`);
+          qx.tool.compiler.Console.info(`DONE testing ${test}: ${this.__Ok} ok, ${this.__notOk} not ok, ${this.__skipped} skipped - [${timeDiff.toFixed(0)} ms]`);
           this.setExitCode(result.exitCode);
         })).setNeedsServer(false);
       }
@@ -67,12 +68,15 @@ qx.Class.define("qx.compiler.CompilerApi", {
       // value is serializable
       arr.forEach(val => {
         if (val.match(/^not ok /)) {
+          this.__notOk++;
           qx.tool.compiler.Console.log(val);
         } else if (val.includes("# SKIP")) {
+          this.__skipped++;
           if (!this.__argv.terse) {
             qx.tool.compiler.Console.log(val);
           }
         } else if (val.match(/^ok\s/)) {
+          this.__Ok++;
           if (!this.__argv.terse) {
             qx.tool.compiler.Console.log(val);
           }
@@ -86,7 +90,8 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
     __argv: null,
     __notOk: null,
-    __Ok: null
+    __Ok: null,
+    __skipped: null
 
   }
 });
