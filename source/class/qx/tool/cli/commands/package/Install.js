@@ -540,7 +540,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         qx.tool.compiler.Console.info(">>> Cannot install application " + (manifestApp.name||manifestApp["class"]) + " because compile.json does not exist (you must manually add it)");
         return false;
       }
-      compileConfigModel.load();
+      await compileConfigModel.load();
       let app = compileConfigModel.getValue("applications").find(app => {
         if (manifestApp.name && app.name) {
           return manifestApp.name === app.name;
