@@ -3847,6 +3847,11 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
+      // We may be deferring disposing, but we can at least prevent
+      // listener handlers from being called. We don't know exactly
+      // what listeners have already been disposed at this point.
+      qx.event.Registration.removeAllListeners(this);
+
       var parent = this.$$parent;
       if (parent) {
         parent._remove(this);
