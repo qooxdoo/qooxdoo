@@ -792,6 +792,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     setUserBounds : function(left, top, width, height)
     {
+      
+      if (!this.__userBounds) {
+        var parent = this.$$parent;
+        if (parent) {
+          parent.updateLayoutProperties();
+        }
+      }
+      
       this.__userBounds = {
         left: left,
         top: top,
@@ -810,8 +818,16 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     resetUserBounds : function()
     {
-      delete this.__userBounds;
-      qx.ui.core.queue.Layout.add(this);
+      if (this.__userBounds) {
+        delete this.__userBounds;
+
+        var parent = this.$$parent;
+        if (parent) {
+            parent.updateLayoutProperties();
+        }
+
+        qx.ui.core.queue.Layout.add(this);
+      }
     },
 
 

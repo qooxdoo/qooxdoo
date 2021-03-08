@@ -1,0 +1,42 @@
+name: run framework tests
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+    paths:
+      - 'compile.*'
+      - 'source/**'
+      - 'test/**'
+
+  pull_request:
+    paths:
+      - 'compile.*'
+      - 'source/**'
+      - 'test/**'
+
+jobs:
+  test:
+    name: run tests
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: install and test
+        run:  |
+              npm  ci
+              npm  test -- --browsers=chromium,firefox --terse
