@@ -269,6 +269,12 @@ qx.Class.define("qx.tool.utils.Utils", {
           options.args = args;
         }
       }
+      if (!options.error) {
+        options.error = console.error;
+      }
+      if (!options.log) {
+        options.log = console.log;
+      }
       return new Promise((resolve, reject) => {
         let env = process.env;
         if (options.env) {
@@ -288,12 +294,12 @@ qx.Class.define("qx.tool.utils.Utils", {
         };
         proc.stdout.on("data", data => {
           data = data.toString().trim();
-          console.log(data);
+          options.log(data);
           result.output += data;
         });
         proc.stderr.on("data", data => {
           data = data.toString().trim();
-          console.error(data);
+          options.error(data);
           result.error += data;
         });
         proc.on("close", code => {

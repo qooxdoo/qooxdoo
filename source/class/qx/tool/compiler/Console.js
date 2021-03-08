@@ -85,7 +85,7 @@ qx.Class.define("qx.tool.compiler.Console", {
         if (writer) {
           writer(str, msgId, ...args);
         } else {
-          console.log(str);
+          this.log(str);
         }
       }
     },

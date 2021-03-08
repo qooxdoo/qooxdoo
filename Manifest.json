@@ -172,7 +172,8 @@
       "runtime.name": "qx.bom.client.Runtime",
       "xml.*": "qx.bom.client.Xml",
       "client.idle": "qx.bom.client.Idle",
-      "qx.debug.io": "qx.bom.request.Script"
+      "qx.debug.io": "qx.bom.request.Script",
+      "plugin.pdfjs": "qx.bom.client.Pdfjs"
     }
   }
 }

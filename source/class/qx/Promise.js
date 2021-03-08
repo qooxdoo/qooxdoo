@@ -57,12 +57,11 @@
  *
  */
 
-/*
+/**
  @ignore(process.*)
  @ignore(global.*)
  @ignore(Symbol.*)
  @ignore(chrome.*)
-
 */
 
 /* global global, setImmediate, chrome, _dereq_ */
@@ -903,7 +902,12 @@ qx.Class.define("qx.Promise", {
         return;
       }
       qx.Promise.__initialized = true;
-      qx.bom.Event.addNativeListener(window, "unhandledrejection", qx.Promise.__onUnhandledRejection.bind(this));
+      var isNode = typeof process !== "undefined";
+      if (isNode) {
+        process.on("unhandledRejection", qx.Promise.__onUnhandledRejection.bind(this));
+      } else {
+        qx.bom.Event.addNativeListener(window, "unhandledrejection", qx.Promise.__onUnhandledRejection.bind(this));
+      }
       if (!qx.core.Environment.get("qx.promise")) {
         qx.log.Logger.error(this, "Promises are installed and initialised but disabled from properties because qx.promise==false; this may cause unexpected behaviour");
       }
@@ -914,7 +918,9 @@ qx.Class.define("qx.Promise", {
      * @param e {NativeEvent}
      */
     __onUnhandledRejection: function(e) {
-      e.preventDefault();
+      if (qx.lang.Type.isFunction(e.preventDefault)) {
+        e.preventDefault();
+      }
       var reason = null;
       if (e instanceof Error) {
         reason = e;
