@@ -20,7 +20,7 @@ jobs:
   test:
     name: ${{ matrix.os }}, node ${{ matrix.node-version }}, ${{ matrix.browser }}
     runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    if: !contains(github.event.head_commit.message, 'skip ci')
 
     strategy:
       matrix:
@@ -30,17 +30,17 @@ jobs:
 
     steps:
       - name: checkout
-        if: "!contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
+        if: !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')
         uses: actions/checkout@v2
 
       - name: use node.js ${{ matrix.node-version }}
-        if: "!contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
+        if: !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: configure MacOS
-        if: 'matrix.os == "macos-latest"'
+        if: matrix.os == 'macos-latest'
         run: ulimit -f unlimited
 
       - name: bootstap framework
@@ -49,13 +49,13 @@ jobs:
               ./bootstrap-compiler --target=build
 
       - name: install and run browser tests with ${{ matrix.browser }}
-        if: 'matrix.browser != "no-browser" &&  !contains(github.event.head_commit.message, "skip ${{ matrix.os }}")'
+        if: matrix.browser != 'no-browser' &&  !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')
         run:  |
               cd test/framework
               node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale 5
 
       - name: install and run node tests
-        if: 'matrix.browser == "no-browser" && !contains(github.event.head_commit.message, "skip ${{ matrix.os }}")'
+        if: matrix.browser == 'no-browser' && !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')
         run:  |
               cd test/tool
               node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse
