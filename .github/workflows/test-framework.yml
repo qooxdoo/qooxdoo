@@ -26,7 +26,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [10.x, 12.x, 14.x]
-        browser: [chromium, firefox]
+        browser: [no-browser, chromium, firefox, webkit]
 
     steps:
       - name: checkout
@@ -39,8 +39,23 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: install and run tests with ${{ matrix.browser }}
-        if: "!contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
+      - name: configure MacOS
+        if: 'matrix.os == "macos-latest"'
+        run: ulimit -f unlimited
+
+      - name: bootstap framework
         run:  |
               npm  ci
-              npm  test -- --browsers=${{ matrix.browser }} --terse
+              ./bootstrap-compiler --target=build
+
+      - name: install and run browser tests with ${{ matrix.browser }}
+        if: 'matrix.browser != "no-browser" &&  !contains(github.event.head_commit.message, "skip ${{ matrix.os }}")'
+        run:  |
+              cd test/framework
+              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale 5
+
+      - name: install and run node tests
+        if: 'matrix.browser == "no-browser" && !contains(github.event.head_commit.message, "skip ${{ matrix.os }}")'
+        run:  |
+              cd test/tool
+              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse
