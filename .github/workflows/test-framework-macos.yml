@@ -39,4 +39,4 @@ jobs:
       - name: install and test
         run:  |
               npm  ci
-              npm  test -- --browsers=webkit,chromium,firefox --terse
+              npm  test -- --browsers=chromium,firefox --terse
