@@ -42,7 +42,8 @@
       "environment": {
         "qx.icontheme": "Tango",
         "qxl.testtapper.testNameSpace": "qx.test",
-        "qxl.testtapper.browsers": ["chromium"]
+        "qxl.testtapper.browsers": ["chromium"],
+        "qx.test.delay.scale": 3
       },
       "include": [
         "qx.test.*"
