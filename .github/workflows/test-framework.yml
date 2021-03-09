@@ -49,11 +49,10 @@ jobs:
       - name: install and run browser tests with ${{ matrix.browser }}
         if: "matrix.browser != 'no-browser' && !(matrix.os == 'windows' && matrix.browser == 'webkit')"
         run:  |
-              cd test/framework
-              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=5
+              npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=5
 
       - name: install and run node tests
         if: "matrix.browser == 'no-browser'"
         run:  |
               cd test/tool
-              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse
+              npm test -- --browsers=none --terse
