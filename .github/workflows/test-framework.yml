@@ -18,7 +18,7 @@ on:
 
 jobs:
   test:
-    name: run tests on ${{ matrix.os }}
+    name: ${{ matrix.os }}, node ${{ matrix.node-version }}, ${{ matrix.browser }}
     runs-on: ${{ matrix.os }}
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
