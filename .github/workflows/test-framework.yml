@@ -47,7 +47,7 @@ jobs:
               ./bootstrap-compiler --target=build
 
       - name: install and run browser tests with ${{ matrix.browser }}
-        if: "matrix.browser != 'no-browser' && !(matrix.os == 'windows' && matrix.browser == 'webkit')"
+        if: "matrix.browser != 'no-browser' && !(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         run:  |
               npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=5
 
