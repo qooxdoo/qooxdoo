@@ -2141,7 +2141,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var panePos = this.__tablePane.getContentLocation();
 
-      if (pageX < panePos.left || pageX > panePos.right)
+      if (panePos === null || pageX < panePos.left || pageX > panePos.right)
       {
         // There was no cell or header cell hit
         return null;
@@ -2170,6 +2170,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var headerPos = this.__header.getContentLocation();
 
       if (
+        headerPos !== null &&
         pageY >= headerPos.top &&
         pageY <= headerPos.bottom &&
         pageX <= headerPos.right)
