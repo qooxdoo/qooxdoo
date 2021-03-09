@@ -30,11 +30,9 @@ jobs:
 
     steps:
       - name: checkout
-        if: "!contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
         uses: actions/checkout@v2
 
       - name: use node.js ${{ matrix.node-version }}
-        if: "!contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -49,13 +47,13 @@ jobs:
               ./bootstrap-compiler --target=build
 
       - name: install and run browser tests with ${{ matrix.browser }}
-        if: "matrix.browser != 'no-browser' &&  !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
+        if: "matrix.browser != 'no-browser' && !(matrix.os == 'windows' && matrix.browser == 'webkit')"
         run:  |
               cd test/framework
-              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale 5
+              node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=5
 
       - name: install and run node tests
-        if: "matrix.browser == 'no-browser' && !contains(github.event.head_commit.message, 'skip ${{ matrix.os }}')"
+        if: "matrix.browser == 'no-browser'"
         run:  |
               cd test/tool
               node ../../bin/build/qx test --colorize=false --quiet --browsers=${{ matrix.browser }} --terse
