@@ -26,33 +26,31 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [10.x, 12.x, 14.x]
-        browser: [no-browser, chromium, firefox, webkit]
+        browser: [no-browser, chromium, firefox]
 
     steps:
       - name: checkout
+        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         uses: actions/checkout@v2
 
       - name: use node.js ${{ matrix.node-version }}
+        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: configure MacOS
+      - name: if on macos, configure environment
         if: "matrix.os == 'macos-latest'"
         run: ulimit -f unlimited
 
-      - name: bootstap framework
-        run:  |
-              npm  ci
-              ./bootstrap-compiler --target=build
+      - name: install dependencies
+        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
+        run:  npm  ci
 
       - name: install and run browser tests with ${{ matrix.browser }}
-        if: "matrix.browser != 'no-browser' && !(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
-        run:  |
-              npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=5
+        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
+        run:  npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=10
 
       - name: install and run node tests
         if: "matrix.browser == 'no-browser'"
-        run:  |
-              cd test/tool
-              npm test -- --browsers=none --terse
+        run: npm test -- --browsers=none --terse
