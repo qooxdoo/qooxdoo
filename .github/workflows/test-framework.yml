@@ -24,30 +24,21 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [10.x, 12.x, 14.x]
         browser: [no-browser, chromium, firefox]
 
     steps:
       - name: checkout
-        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         uses: actions/checkout@v2
 
       - name: use node.js ${{ matrix.node-version }}
-        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: if on macos, configure environment
-        if: "matrix.os == 'macos-latest'"
-        run: ulimit -f unlimited
-
       - name: install dependencies
-        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         run:  npm  ci
 
       - name: install and run tests with ${{ matrix.browser }}
-        if: "!(matrix.os == 'windows-latest' && matrix.browser == 'webkit')"
         run:  npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=10
-
