@@ -14,7 +14,7 @@ at the bottom. Before that, the 2 values were reversed
 
 - `qx.ui.command.Group` fixed a bug where new `qx.ui.command.Command` added
   was not set the `active` status of the group, thus staying active even if the 
-  group was inactive.
+  group was inactive. This may affect code that relied in such behavior.
 
 ## Deprecations:
 
