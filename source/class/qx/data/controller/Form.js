@@ -205,9 +205,9 @@ qx.Class.define("qx.data.controller.Form",
     /**
      * Responsible for syncing the data from entered in the form to the model.
      * Please keep in mind that this method only works if you create the form
-     * with <code>selfUpdate</code> set to true. Otherwise, this method will
-     * do nothing because updates will be synced automatically on every
-     * change.
+     * controller with <code>selfUpdate</code> parameter set to true. Otherwise,
+     * this method will do nothing because updates will be synced automatically
+     * on every change.
      */
     updateModel: function(){
       // only do stuff if self update is enabled and a model or target is set
