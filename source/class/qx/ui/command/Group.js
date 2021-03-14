@@ -85,7 +85,8 @@ qx.Class.define("qx.ui.command.Group",
         }
         return false;
       }
-
+      
+      command.setActive(this.getActive());
       this._cmds[key] = command;
 
       return true;

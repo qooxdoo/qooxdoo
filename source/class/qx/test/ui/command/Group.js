@@ -41,6 +41,24 @@ qx.Class.define("qx.test.ui.command.Group",
       this.assertCallCount(handler, 1);
     },
 
+    testDeactivatingAndAdding : function()
+    {
+      var handler = this.spy();
+      var group = new qx.ui.command.Group();
+      group.setActive(false);
+
+      var cmd = new qx.ui.command.Command("Meta+T");
+
+      cmd.addListener("execute", handler);
+      this.assertTrue(group.add("test", cmd));
+
+      cmd.execute();
+      this.assertCallCount(handler, 0);
+
+      group.setActive(true);
+      cmd.execute();
+      this.assertCallCount(handler, 1);
+    },
 
     testHasCommand : function()
     {
