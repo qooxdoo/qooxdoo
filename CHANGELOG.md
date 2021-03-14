@@ -12,6 +12,10 @@ at the bottom. Before that, the 2 values were reversed
 
 - all flash supporting classes are removed - flash is dead since January 2020.
 
+- `qx.ui.command.Group` fixed a bug where new `qx.ui.command.Command` added was
+not set the `active` status of the group, thus staying active even if the group
+was inactive.
+
 ## Deprecations:
 
 - `qx package migrate` has been deprecated in favor of `qx migrate` 
