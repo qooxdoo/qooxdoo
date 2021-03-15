@@ -22,7 +22,7 @@
  *
  * *********************************************************************** */
 
-/* eslint-disable no-label */
+/* eslint-disable no-labels */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-redeclare */
 /* eslint-disable no-constant-condition */
@@ -46,11 +46,11 @@ const __tokenTypes = {
 
 
 /**
- * Tokenizer, based on json-to-ast by Vlad trushin 
+ * Tokenizer, based on json-to-ast by Vlad trushin
  */
 qx.Class.define("qx.tool.utils.json.Tokenizer", {
   extend: qx.core.Object,
-  
+
   construct: function(input, settings) {
     this.base(arguments);
     this.input = input;
@@ -58,74 +58,74 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
     this.tokens = null;
     this.tokenIndex = -1;
   },
-  
+
   members: {
     token() {
       if (this.tokens === null) {
-        throw new Error("No tokens to return (have you called tokenize?)"); 
+        throw new Error("No tokens to return (have you called tokenize?)");
       }
       if (this.tokenIndex >= this.tokens.length) {
-        throw new Error("No more tokens available"); 
+        throw new Error("No more tokens available");
       }
       if (this.tokenIndex < 0) {
-        return this.next(); 
+        return this.next();
       }
       return this.tokens[this.tokenIndex];
     },
-    
+
     hasMore() {
       const tokenTypes = qx.tool.utils.json.Tokenizer.tokenTypes;
-      
+
       if (this.tokens === null) {
-        throw new Error("No tokens to return (have you called tokenize?)"); 
+        throw new Error("No tokens to return (have you called tokenize?)");
       }
-      
+
       if (this.settings.returnWhitespace) {
         return this.tokenIndex < this.tokens.length;
       }
-      
+
       var tokenIndex = this.tokenIndex;
       if (tokenIndex < 0) {
-        tokenIndex = 0; 
+        tokenIndex = 0;
       }
       for (; tokenIndex < this.tokens.length; tokenIndex++) {
         var token = this.tokens[tokenIndex];
         if (token.type != tokenTypes.COMMENT && token.type != tokenTypes.WHITESPACE) {
-          return true; 
+          return true;
         }
       }
       return false;
     },
-    
+
     next() {
       const tokenTypes = qx.tool.utils.json.Tokenizer.tokenTypes;
-      
+
       if (this.tokens === null) {
-        throw new Error("No tokens to return (have you called tokenize?)"); 
+        throw new Error("No tokens to return (have you called tokenize?)");
       }
       if (this.tokenIndex >= this.tokens.length) {
-        throw new Error("No more tokens to get"); 
+        throw new Error("No more tokens to get");
       }
-      
+
       if (this.settings.returnWhitespace) {
         if (this.tokenIndex < this.tokens.length) {
-          return this.tokens[++this.tokenIndex]; 
+          return this.tokens[++this.tokenIndex];
         }
       } else {
         for (++this.tokenIndex; this.tokenIndex < this.tokens.length; this.tokenIndex++) {
           var token = this.tokens[this.tokenIndex];
           if (token.type != tokenTypes.COMMENT && token.type != tokenTypes.WHITESPACE) {
-            return token; 
+            return token;
           }
         }
       }
-      
+
       return null;
     },
-    
+
     tokenize() {
       const Tokenizer = qx.tool.utils.json.Tokenizer;
-      
+
       let line = 1;
       let column = 1;
       let index = 0;
@@ -159,7 +159,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
             )
           };
           if (matched.rawValue) {
-            token.rawValue = matched.rawValue; 
+            token.rawValue = matched.rawValue;
           }
 
           tokens.push(token);
@@ -177,9 +177,9 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
       }
 
       return tokens;
-    }    
+    }
   },
-  
+
   statics: {
     tokenTypes: __tokenTypes,
 
@@ -248,9 +248,9 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
     isExp(char) {
       return char === "e" || char === "E";
     },
-    
+
     // ERRORS
-    
+
     cannotTokenizeSymbol(symbol, line, column) {
       return `Cannot tokenize symbol <${symbol}> at ${line}:${column}`;
     },
@@ -285,7 +285,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
         }
       }
       if (value.length == 0) {
-        return null; 
+        return null;
       }
 
       return {
@@ -300,7 +300,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
     parseComment(input, index, line, column) {
       const str = input.substring(index, index + 2);
       const startIndex = index;
-      
+
       if (str === "/*") {
         for (index += 2; index < input.length; index++) {
           var char = input[index];
@@ -320,7 +320,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
             line++;
             column = 1;
           } else {
-            column++; 
+            column++;
           }
         }
         return {
@@ -348,7 +348,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
             break;
           }
         }
-        
+
         return {
           index,
           line,
@@ -357,7 +357,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
           value: input.substring(startIndex, index)
         };
       }
-      
+
       return null;
     },
 
@@ -380,7 +380,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
 
     parseKeyword(input, index, line, column) {
       const keywordTokensMap = qx.tool.utils.json.Tokenizer.keywordTokensMap;
-      
+
       for (const name in keywordTokensMap) {
         if (keywordTokensMap.hasOwnProperty(name) && input.substr(index, name.length) === name) {
           const {type, value} = keywordTokensMap[name];
@@ -400,7 +400,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
 
     parseString(input, index, line, column, settings) {
       const { stringStates, tokenTypes, escapes } = qx.tool.utils.json.Tokenizer;
-      
+
       const startIndex = index;
       let buffer = "";
       let state = stringStates._START_;
@@ -433,7 +433,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
                 value: buffer
               };
               if (settings.verbose) {
-                result.rawValue = input.substring(startIndex, index); 
+                result.rawValue = input.substring(startIndex, index);
               }
               return result;
             } else {
@@ -468,13 +468,13 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
           }
         }
       }
-      
+
       return null;
     },
 
     parseNumber(input, index, line, column) {
       const numberStates = qx.tool.utils.json.Tokenizer.numberStates;
-      
+
       const startIndex = index;
       let passedValueIndex = index;
       let state = numberStates._START_;
@@ -593,7 +593,7 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
 
       return null;
     }
-    
+
   }
 });
 
