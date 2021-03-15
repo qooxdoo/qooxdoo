@@ -1,12 +1,13 @@
 # Theming
 
-Qooxdoo includes five themes:
+Qooxdoo includes four themes:
 
 - `Simple` - a lightweight theme, which looks more like a website.
 - `TangibleLight` and `TangibleDark` - lightweight themes based on Google Materials design philosophy and using Material Font Icons
 - `Modern` - a graphically rich theme, showcasing many UI capabilities of Qooxdoo #{qooxdoo.version}
 - `Classic` - MS Windows oriented theme
-- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org website.
+- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org
+  website.
 
 Here are some screenshots:
 
@@ -305,7 +306,7 @@ This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montser
 
 Note that things like "family" are specified more than once and in different ways - the *top* level of properties (eg `size`, `family`, `bold`, etc relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
 
-The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS the browser will try and the first listed font family and then fallback to the second etc.
+The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS, the browser will try the first listed font family then the second etc.
 
 The `sources` property, tells Qooxdoo where to load the fonts from and what font variants are in the font files; the `family` property in this section is not an array - it is the actual family of the font contained in the file.
 
