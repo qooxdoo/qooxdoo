@@ -557,7 +557,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
         req.send();
       }, 100);
 
-      this.wait(200);
+      this.wait(500);
     }
   }
 });

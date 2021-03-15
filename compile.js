@@ -19,7 +19,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
           default: false
         };
         args.builder.browsers = {
-          describe: "list of browsers to test against, currently supported chromium, firefox, webkit",
+          describe: "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
           type: "string"
         };
         return args;
@@ -65,18 +65,20 @@ qx.Class.define("qx.compiler.CompilerApi", {
         });
         this.setExitCode(result.exitCode);
       }));
-      command.addTest(new qx.tool.cli.api.Test("framework test", async function () {
-        console.log("# ******** running framework test");
-        let args = argList.slice();
-        args.push("browsers");
-        result = await qx.tool.utils.Utils.runCommand({
-          cwd: "test/framework",
-          cmd: "node",
-          args: that.__getArgs(command, args),
-          shell: true
-        });
-        this.setExitCode(result.exitCode);
-      }));
+      if (command.argv["browsers"] != "none") {
+        command.addTest(new qx.tool.cli.api.Test("framework test", async function () {
+          console.log("# ******** running framework test");
+          let args = argList.slice();
+          args.push("browsers");
+          result = await qx.tool.utils.Utils.runCommand({
+            cwd: "test/framework",
+            cmd: "node",
+            args: that.__getArgs(command, args),
+            shell: true
+          });
+          this.setExitCode(result.exitCode);
+        }));
+      }
     },
 
     __getArgs(command, argList) {
