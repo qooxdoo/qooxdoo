@@ -1,6 +1,6 @@
 # Theming
 
-Qooxdoo includes four themes:
+Qooxdoo includes five themes:
 
 - `Simple` - a lightweight theme, which looks more like a website.
 - `TangibleLight` and `TangibleDark` - lightweight themes based on Google Materials design philosophy and using Material Font Icons
