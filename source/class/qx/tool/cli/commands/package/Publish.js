@@ -127,12 +127,17 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // check git status
-      let status = await this.exec("git status --porcelain");
+      let status;
+      try {
+        status = await qx.tool.utils.Utils.exec("git status --porcelain");
+      } catch (e) {
+        throw new qx.tool.utils.Utils.UserError("Cannot determine remote repository.");
+      }
       this.debug(status);
       if (status.trim() !=="") {
         throw new qx.tool.utils.Utils.UserError("Please commit or stash all remaining changes first.");
       }
-      status = await this.exec("git status --porcelain --branch");
+      status = await qx.tool.utils.Utils.exec("git status --porcelain --branch");
       this.debug(status);
       if (status.includes("ahead")) {
         throw new qx.tool.utils.Utils.UserError("Please push all local commits to GitHub first.");
@@ -226,7 +231,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       let tag = `v${new_version}`;
       let url;
       try {
-        url = (await this.exec("git config --get remote.origin.url")).trim();
+        url = (await qx.tool.utils.Utils.exec("git config --get remote.origin.url")).trim();
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError("Cannot determine remote repository.");
       }
