@@ -6,8 +6,7 @@ Qooxdoo includes five themes:
 - `TangibleLight` and `TangibleDark` - lightweight themes based on Google Materials design philosophy and using Material Font Icons
 - `Modern` - a graphically rich theme, showcasing many UI capabilities of Qooxdoo #{qooxdoo.version}
 - `Classic` - MS Windows oriented theme
-- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org
-  website.
+- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org website.
 
 Here are some screenshots:
 
