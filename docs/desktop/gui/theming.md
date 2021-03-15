@@ -179,6 +179,7 @@ qx.Theme.define("myApplication.theme.sample.Decoration",
         radius : 3
       }
     }
+  }
 });
 ```
 
@@ -242,7 +243,7 @@ These days there are a lot of fonts available, and it's not unusual to want to d
 
 This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montserrat]
 
-```
+```javascript
     "default": {
       size: 14,
       family: ["Montserrat", "sans-serif"],
