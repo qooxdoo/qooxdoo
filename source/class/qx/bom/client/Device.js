@@ -110,7 +110,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {Boolean} Flag which indicates whether it is a tablet device.
      */
     detectTabletDevice : function(userAgentString) {
-      var iPadOS13Up = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      var iPadOS13Up = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
       var isIE10Tablet = (/MSIE 10/i.test(userAgentString)) && (/ARM/i.test(userAgentString)) && !(/windows phone/i.test(userAgentString));
       var isCommonTablet = (!(/android.+mobile|Tablet PC/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString)));
 
