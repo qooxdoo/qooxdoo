@@ -1,32 +1,32 @@
 # Theming
 
-Qooxdoo includes four themes:
+Qooxdoo provides the following themes ready to use:
 
 - `Simple` - a lightweight theme, which looks more like a website.
+
+    ![Simple theme](theming/window_simple_theme.png)
+
 - `TangibleLight` and `TangibleDark` - lightweight themes based on Google Materials design philosophy and using Material Font Icons
+
+    ![Tangible Light theme](theming/window_tangible_light_theme.png)
+    ![Tangible Dark theme](theming/window_tangible_dark_theme.png)
+
 - `Modern` - a graphically rich theme, showcasing many UI capabilities of Qooxdoo #{qooxdoo.version}
+
+    ![Modern theme](theming/window_modern_theme.png)
+
 - `Classic` - MS Windows oriented theme
-- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org
-  website.
 
-Here are some screenshots:
+    ![Classic theme](theming/window_classic_theme.png)
 
-![Simple theme](theming/window_simple_theme.png)
+- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org website.
 
-![Tangible Light theme](theming/window_tangible_light_theme.png)
-
-![Tangible Dark theme](theming/window_tangible_dark_theme.png)
-
-![Modern theme](theming/window_modern_theme.png)
-
-![Classic theme](theming/window_classic_theme.png)
-
-![Indigo theme](theming/window_indigo_theme.png)
+    ![Indigo theme](theming/window_indigo_theme.png)
 
 While those four themes run out-of-the-box, it is easy to create your own
-themes. Those custom themes can either be created by extending existing ones
-desktop/ui_custom_themes.md#extending_themes or they can be created from scratch
-desktop/ui_custom_themes.md#custom_themes.
+themes. Those custom themes can either be created by 
+[extending existing ones](themes#extending-themes)
+or they can be [created from scratch](themes#define-custom-themes).
 
 A complete theme (a so-called _meta theme_) consists of several special themes,
 each designed to play a dedicated role and to setup the different parts of the
