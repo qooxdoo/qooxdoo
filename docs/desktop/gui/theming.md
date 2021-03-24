@@ -1,33 +1,32 @@
 # Theming
 
-Qooxdoo includes four themes:
+Qooxdoo provides the following themes ready to use:
 
 - `Simple` - a lightweight theme, which looks more like a website.
+
+    ![Simple theme](theming/window_simple_theme.png)
+
 - `TangibleLight` and `TangibleDark` - lightweight themes based on Google Materials design philosophy and using Material Font Icons
-- `Modern` - a graphically rich theme, showcasing many UI capabilities of
-  Qooxdoo %{version}
+
+    ![Tangible Light theme](theming/window_tangible_light_theme.png)
+    ![Tangible Dark theme](theming/window_tangible_dark_theme.png)
+
+- `Modern` - a graphically rich theme, showcasing many UI capabilities of Qooxdoo #{qooxdoo.version}
+
+    ![Modern theme](theming/window_modern_theme.png)
+
 - `Classic` - MS Windows oriented theme
-- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org
-  website.
 
-Here some screenshots:
+    ![Classic theme](theming/window_classic_theme.png)
 
-![Simple theme](theming/window_simple_theme.png)
+- `Indigo` - a theme, based on simple but offers the style of the qooxdoo.org website.
 
-![Tangible Light theme](theming/window_tangible_light_theme.png)
-
-![Tangible Dark theme](theming/window_tangible_dark_theme.png)
-
-![Modern theme](theming/window_modern_theme.png)
-
-![Classic theme](theming/window_classic_theme.png)
-
-![Indigo theme](theming/window_indigo_theme.png)
+    ![Indigo theme](theming/window_indigo_theme.png)
 
 While those four themes run out-of-the-box, it is easy to create your own
-themes. Those custom themes can either be created by extending existing ones
-desktop/ui_custom_themes.md#extending_themes or they can be created from scratch
-desktop/ui_custom_themes.md#custom_themes.
+themes. Those custom themes can either be created by 
+[extending existing ones](themes#extending-themes)
+or they can be [created from scratch](themes#define-custom-themes).
 
 A complete theme (a so-called _meta theme_) consists of several special themes,
 each designed to play a dedicated role and to setup the different parts of the
@@ -180,6 +179,7 @@ qx.Theme.define("myApplication.theme.sample.Decoration",
         radius : 3
       }
     }
+  }
 });
 ```
 
@@ -234,16 +234,16 @@ qx.Theme.define("qx.theme.modern.Font",
 ```
 
 It is important to note that you can only specify values available as property
-on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or  
+on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or
 [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont).
 
 ### Web Fonts
 
-These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme.  These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as (FontSquirrel's Webfont Generator)[https://www.fontsquirrel.com/tools/webfont-generator] or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources directory, and then add them to your theme font by using the `sources` option.  
+These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme. These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as (FontSquirrel's Webfont Generator)[https://www.fontsquirrel.com/tools/webfont-generator] or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources directory, and then add them to your theme font by using the `sources` option.
 
 This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montserrat]
 
-```
+```javascript
     "default": {
       size: 14,
       family: ["Montserrat", "sans-serif"],
@@ -307,9 +307,9 @@ This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montser
 
 Note that things like "family" are specified more than once and in different ways - the *top* level of properties (eg `size`, `family`, `bold`, etc relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
 
-The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties.  For example, you can see that `family` is an array, because just like CSS the browser is to try and the first listed font family and then fallback to the second etc.
+The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS, the browser will try the first listed font family then the second etc.
 
-The `sources` property, tells Qooxdoo where to load the fonts from and what font variants are in the font files; the `family` property in this section is not an array - it is the actual family of the font contained in the file.  
+The `sources` property, tells Qooxdoo where to load the fonts from and what font variants are in the font files; the `family` property in this section is not an array - it is the actual family of the font contained in the file.
 
 When looking at all the fonts in your theme, Qooxdoo will only load a font file once - however, due to restrictions on how a browser allows us to detect when a font is loaded, the way it does this is to create a unique key based on `sources.family`, `sources.fontWeight`, and `sources.fontStyle`.  The net effect is that if you use more than one font from the same family, then you *must* make sure that the `sources` key describes `fontWeight` and `fontStyle` and that the addition of `fontWeight` and `fontStyle` make a unique key.
 
@@ -360,17 +360,21 @@ whole picture.
 ## Applying Themes
 
 Typically, your application will have a certain, pre-defined theme known _at
-build-time_. The best way to associate such a default outlook with your
-application is to use the config.json variable `QXTHEME` inside the "let"
-section. Setting this variable to a fully-qualified meta theme class lets the
-build process handle the proper inclusion and linkage of the theme classes
-automatically. E.g.:
+build-time_. The default theme can be defined in `compile.json`.
 
+```json5
+  "applications": [
+    {
+      "class": "myApp.Application",
+      "theme": "myApp.theme.Theme",
+      "name": "myApp",
+      "bootPath": "source/boot"
+    }
+  ]
 ```
-...
-QXTHEME : qx.theme.Modern,
-...
-```
+
+The above example defines as default theme, the meta theme of the application.
+
 
 ## Switching Themes During Runtime
 
@@ -380,7 +384,7 @@ It is also possible to set a theme _at runtime_:
 qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 ```
 
-Having e.g. the Qooxdoo modern theme defined in your config.json file, this line
+Having e.g. the Qooxdoo modern theme defined in your `compile.json` file, this line
 of code switches the whole UI to the classic theme. Of course, this can also be
 a custom theme desktop/ui_custom_themes.md#custom_themes.
 
@@ -397,8 +401,8 @@ provides multiple themes that can be switched at runtime.
 
 - **Configure themes**: Add all meta theme classes of the themes you want to use
   to the `include` key for the application; for example:
-  
-```
+
+```json5
    "applications": [
       {
          "class": "qxl.widgetbrowser.Application",
@@ -410,7 +414,10 @@ provides multiple themes that can be switched at runtime.
             "qx.theme.Simple",
             "qx.theme.Classic",
             "qx.theme.TangibleLight",
-            "qx.theme.TangibleDark",
+            "qx.theme.TangibleDark"
+            ]
+        }
+      ],
 ```
 
   If you use third-party themes (like the Aristo or RetroTheme contributions)
@@ -452,15 +459,14 @@ provides multiple themes that can be switched at runtime.
   2.  your code doesn't "hard-wire" icons but uses aliases. Here are code
       snippets to illustrate that.
 
-  For 1. add macro definitions to your config.json which can later be used in
+  For 1. add the icon theme in your application's environment variable `qx.icontheme`  which can later be used in
   the @asset development/api_jsdoc_ref.md#asset hints of class code. E.g.:
 
-  ```json5
-  // config.json :
 
-  "let" : {
-    "QXICONTHEME" : ["Tango", "Oxygen"]
-  }
+  ```json5
+  "environment": {
+    "qx.icontheme": ["Tango", "Oxygen"]
+  },
   ```
 
   In application code register icons for both icon themes with the class using
@@ -473,7 +479,7 @@ provides multiple themes that can be switched at runtime.
 
   // Use the asset macro "qx.icontheme" to register icons from both themes.
   /**
-   * @asset(myapp/icontheme/${qx.icontheme}/16/apps/utilities-terminal.png)
+   * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
    */
   ```
 
