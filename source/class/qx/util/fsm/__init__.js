@@ -72,7 +72,7 @@
  *     // state
  *     "events" :
  *     {
- *       // The event type "compete" is handled by one of the transitions in
+ *       // The event type "complete" is handled by one of the transitions in
  *       // this state.  The transitions will be searched in order of their
  *       // addition to the state, until the predicate for a transition
  *       // returns true (or no predicate is specified for the transition,
@@ -80,7 +80,7 @@
  *       "complete"  : qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE,
  *
  *       // The event type "interval" has two objects specified by their
- *       // "friendly name".  The action when an event of type "interval"
+ *       // "friendly name". The action when an event of type "interval"
  *       // occurs depends on which object was the target of the event.
  *       "interval"  :
  *       {
