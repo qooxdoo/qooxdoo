@@ -78,7 +78,7 @@ You can do the same with CSS files, just use something like `@external(ponychart
 
 ### Using Manifest.json
 There is another, older, way to achieve the same thing, and that is to add it into your
-`Manifest.json` for your applciation or library; the disadvantage of this approach is that
+`Manifest.json` for your application or library; the disadvantage of this approach is that
 the .js and .css files are *always* loaded, regardless of which classes use them.
 
 If you want to use this approach, you need to make sure your new resource is used by your 
