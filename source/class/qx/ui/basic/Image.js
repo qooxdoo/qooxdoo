@@ -936,11 +936,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (isFont) {
         var sparts = source.split("/");
-        var fontSource = source;
-        if (sparts.length > 2) {
-          fontSource = sparts[0] + "/" + sparts[1];
-        }
-
 
         var ResourceManager = qx.util.ResourceManager.getInstance();
         var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
@@ -960,17 +955,8 @@ qx.Class.define("qx.ui.basic.Image",
           el.setStyle("fontSize", size + "px");
         }
 
-        var resource = ResourceManager.getData(fontSource);
-        if (resource) {
-          el.setValue(String.fromCharCode(resource[2]));
-        }
-        else {
-          var charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
-          if (qx.core.Environment.get("qx.debug")) {
-            this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
-          }
-          el.setValue(String.fromCharCode(charCode));
-        }
+        var charCode = ResourceManager.fromFontUriToCharCode(source);
+        el.setValue(String.fromCharCode(charCode));
 
         return;
       }
