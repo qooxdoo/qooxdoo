@@ -331,6 +331,33 @@ qx.Class.define("qx.util.ResourceManager",
     isFontUri : function (resid)
     {
       return resid ? resid.startsWith("@") : false;
+    },
+
+    /**
+     * Returns the correct char code, ignoring scale postfix.
+     * 
+     * @param source {String} resource id of the image, e.g. @FontAwesome/heart or @MaterialIcons/home/16
+     * @returns charCode of the glyph
+     */
+    fromFontUriToCharCode : function (source)
+    {
+      var sparts = source.split("/");
+      var fontSource = source;
+      if (sparts.length > 2) {
+        fontSource = sparts[0] + "/" + sparts[1];
+      }
+      var resource = this.getData(fontSource);
+      var charCode;
+      if (resource) {
+        charCode = resource[2];
+      }
+      else {
+        charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertNumber(charCode, "Font source: " + source +" needs either a glyph name or the unicode number in hex");
+        }
+      }
+      return charCode;
     }
   },
 
