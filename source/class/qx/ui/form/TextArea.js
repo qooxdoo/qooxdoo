@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.form.TextArea",
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
 
-          var scrolledHeight = this._getScrolledAreaHeight();
+          var scrolledHeight = Math.round(this._getScrolledAreaHeight());
 
           // Show scroll-bar when above maxHeight, if defined
           if (this.getMaxHeight()) {
