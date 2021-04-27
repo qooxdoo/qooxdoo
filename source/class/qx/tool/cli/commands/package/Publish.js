@@ -355,10 +355,11 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // commit and push
+      const run = qx.tool.utils.Utils.run;
       try {
-        await this.run("git", ["add", "--all"]);
-        await this.run("git", ["commit", `-m "${message}"`, "--allow-empty"]);
-        await this.run("git", ["push"]);
+        await run("git", ["add", "--all"]);
+        await run("git", ["commit", `-m "${message}"`, "--allow-empty"]);
+        await run("git", ["push"]);
         let release_data = {
           owner,
           repo,
@@ -387,7 +388,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           qx.tool.compiler.Console.info(`Added GitHub topic '${topic}'.`);
         }
       }
-      await this.run("git", ["pull"]);
+      await run("git", ["pull"]);
     },
 
     /**
