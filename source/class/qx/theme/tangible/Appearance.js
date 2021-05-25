@@ -744,62 +744,14 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         }
       },
 
-    "treevirtual-only-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-only"]};
-        }
-      },
-
-    "treevirtual-only-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-only"]};
-        }
-      },
-
-    "treevirtual-start-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-start"]};
-        }
-      },
-
-    "treevirtual-start-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-start"]};
-        }
-      },
-
-    "treevirtual-end-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-end"]};
-        }
-      },
-
-    "treevirtual-end-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-end"]};
-        }
-      },
-
-    "treevirtual-cross-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-cross"]};
-        }
-      },
-
-    "treevirtual-cross-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-cross"]};
-        }
-      },
-
+    "treevirtual-only-contract" : "treevirtual-contract",
+    "treevirtual-only-expand" : "treevirtual-expand",
+    "treevirtual-start-contract" : "treevirtual-contract",
+    "treevirtual-start-expand" : "treevirtual-expand",
+    "treevirtual-end-contract" : "treevirtual-contract",
+    "treevirtual-end-expand" : "treevirtual-expand",
+    "treevirtual-cross-contract" : "treevirtual-contract",
+    "treevirtual-cross-expand" : "treevirtual-expand",
 
     "treevirtual-end":
       {

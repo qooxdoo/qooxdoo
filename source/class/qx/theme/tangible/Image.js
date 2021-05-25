@@ -82,7 +82,7 @@ qx.Class.define("qx.theme.tangible.Image",
       "knob-horizontal" : "@MaterialIcons/drag_indicator/12",
       "knob-vertical" : "@MaterialIcons/drag_handle/12",
 
-      // tree (someone is using this without fonticon support)
+      // tree
       "tree-minus" : "@MaterialIcons/arrow_drop_down/16",
       "tree-plus" : "@MaterialIcons/arrow_right/16",
 
@@ -93,14 +93,6 @@ qx.Class.define("qx.theme.tangible.Image",
 
       // tree virtual
       "treevirtual-line" : "decoration/treevirtual/line.gif",
-      "treevirtual-minus-only" : "decoration/treevirtual/only_minus.gif",
-      "treevirtual-plus-only" : "decoration/treevirtual/only_plus.gif",
-      "treevirtual-minus-start" : "decoration/treevirtual/start_minus.gif",
-      "treevirtual-plus-start" : "decoration/treevirtual/start_plus.gif",
-      "treevirtual-minus-end" : "decoration/treevirtual/end_minus.gif",
-      "treevirtual-plus-end" : "decoration/treevirtual/end_plus.gif",
-      "treevirtual-minus-cross" : "decoration/treevirtual/cross_minus.gif",
-      "treevirtual-plus-cross" : "decoration/treevirtual/cross_plus.gif",
       "treevirtual-end" : "decoration/treevirtual/end.gif",
       "treevirtual-cross" : "decoration/treevirtual/cross.gif",
       "folder-open": "@MaterialIcons/folder_open/15",
