@@ -317,6 +317,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push('">');
       }
 
+      if(qx.lang.String.startsWith(source, "@")){
+        var content = qx.bom.element.Decoration.create(source, "no-repeat", {});
+        html.push(content);
+      }else{
       // Don't use an image tag.  They render differently in Firefox and IE7
       // even if both are enclosed in a div specified as content box.  Instead,
       // add the image as the background image of a div.
@@ -343,6 +347,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       }
 
       html.push('">&nbsp;</div>');
+      }
 
       if (imageInfo.position)
       {

@@ -703,8 +703,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         style: function(states) {
           return {
             icon: (states.opened ?
-              // the old treevirtual code can not use fonticons
-              "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
+              qx.theme.tangible.Image.URLS["folder-open"] :
+              qx.theme.tangible.Image.URLS["folder"]),
             opacity: states.drag ? 0.5 : undefined
           };
         }
@@ -717,7 +717,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
         style: function(states) {
           return {
-            icon: "icon/16/mimetypes/text-plain.png",
+            icon: qx.theme.tangible.Image.URLS["file"],
             opacity: states.drag ? 0.5 : undefined
           };
         }
