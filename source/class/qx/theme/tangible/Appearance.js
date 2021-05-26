@@ -723,10 +723,10 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         }
       },
 
-    "treevirtual-line":
+    "treevirtual-blank":
       {
         style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-line"]};
+          return {icon: qx.theme.tangible.Image.URLS["blank"]};
         }
       },
 
@@ -752,21 +752,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
     "treevirtual-end-expand" : "treevirtual-expand",
     "treevirtual-cross-contract" : "treevirtual-contract",
     "treevirtual-cross-expand" : "treevirtual-expand",
-
-    "treevirtual-end":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-end"]};
-        }
-      },
-
-    "treevirtual-cross":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-cross"]};
-        }
-      },
-
+    "treevirtual-line" : "treevirtual-blank",
+    "treevirtual-end" : "treevirtual-blank",
+    "treevirtual-cross" : "treevirtual-blank",
 
     /*
     ---------------------------------------------------------------------------

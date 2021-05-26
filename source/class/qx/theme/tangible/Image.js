@@ -92,9 +92,6 @@ qx.Class.define("qx.theme.tangible.Image",
       "table-descending" : "@MaterialIcons/keyboard_arrow_down/14",
 
       // tree virtual
-      "treevirtual-line" : "decoration/treevirtual/line.gif",
-      "treevirtual-end" : "decoration/treevirtual/end.gif",
-      "treevirtual-cross" : "decoration/treevirtual/cross.gif",
       "folder-open": "@MaterialIcons/folder_open/15",
       "folder": "@MaterialIcons/folder/15",
       "file": "@MaterialIcons/insert_drive_file/15",
