@@ -317,36 +317,39 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push('">');
       }
 
-      if(qx.lang.String.startsWith(source, "@")){
+      if (qx.lang.String.startsWith(source, "@"))
+      {
         var content = qx.bom.element.Decoration.create(source, "no-repeat", {});
         html.push(content);
-      }else{
-      // Don't use an image tag.  They render differently in Firefox and IE7
-      // even if both are enclosed in a div specified as content box.  Instead,
-      // add the image as the background image of a div.
-      html.push('<div style="');
-      html.push('background-image:url(' + source + ');');
-      html.push('background-repeat:no-repeat;');
-
-      if (imageInfo.imageWidth && imageInfo.imageHeight)
-      {
-        html.push(
-          ';width:' +
-          imageInfo.imageWidth +
-          'px' +
-          ';height:' +
-          imageInfo.imageHeight +
-          'px');
       }
-
-      var tooltip = imageInfo.tooltip;
-
-      if (tooltip != null)
+      else
       {
-        html.push('" title="' + tooltip);
-      }
+        // Don't use an image tag.  They render differently in Firefox and IE7
+        // even if both are enclosed in a div specified as content box.  Instead,
+        // add the image as the background image of a div.
+        html.push('<div style="');
+        html.push('background-image:url(' + source + ');');
+        html.push('background-repeat:no-repeat;');
 
-      html.push('">&nbsp;</div>');
+        if (imageInfo.imageWidth && imageInfo.imageHeight)
+        {
+          html.push(
+            ';width:' +
+            imageInfo.imageWidth +
+            'px' +
+            ';height:' +
+            imageInfo.imageHeight +
+            'px');
+        }
+
+        var tooltip = imageInfo.tooltip;
+
+        if (tooltip != null)
+        {
+          html.push('" title="' + tooltip);
+        }
+
+        html.push('">&nbsp;</div>');
       }
 
       if (imageInfo.position)
