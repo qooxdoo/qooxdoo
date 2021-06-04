@@ -43,16 +43,42 @@ qx.Class.define("qx.ui.form.AbstractField",
     __stylesheet : null,
 
 
+    __addedPlaceholderRules: false,
+    
     /**
      * Adds the CSS rules needed to style the native placeholder element.
      */
     __addPlaceholderRules : function() {
+      if (qx.ui.form.AbstractField.__addedPlaceholderRules) {
+        return;
+      }
+      qx.ui.form.AbstractField.__addedPlaceholderRules = true;
       var engine = qx.core.Environment.get("engine.name");
       var browser = qx.core.Environment.get("browser.name");
       var colorManager = qx.theme.manager.Color.getInstance();
-      var color = colorManager.resolve("text-placeholder");
-      var selector;
 
+      var appearanceProperties = qx.theme.manager.Appearance.getInstance().styleFrom("textfield", {
+        showingPlaceholder:true 
+      });
+      var styles = {};
+      
+      var color = null;
+      var font = null;
+      if (appearanceProperties) {
+        color = appearanceProperties["textColor"] ? colorManager.resolve(appearanceProperties["textColor"]) : null;
+        font = appearanceProperties["font"] ? qx.theme.manager.Font.getInstance().resolve(appearanceProperties["font"]) : null;
+      }
+      if (!color) {
+        color = colorManager.resolve("text-placeholder");
+      }
+      if (color) {
+        styles.color = color + " !important";
+      }
+      if (font) {
+        qx.lang.Object.mergeWith(styles, font.getStyles(), false);
+      }
+
+      var selector;
       if (engine == "gecko") {
         // see https://developer.mozilla.org/de/docs/CSS/:-moz-placeholder for details
        if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
@@ -60,10 +86,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         } else {
           selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         }
-        qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
       } else if (engine == "webkit" && browser != "edge") {
         selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
-        qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color);
       } else if (engine == "mshtml" || browser == "edge") {
         var separator = browser == "edge" ? "::" : ":";
         selector = ["input.qx-placeholder-color", "-ms-input-placeholder, textarea.qx-placeholder-color", "-ms-input-placeholder"].join(separator);
