@@ -35,6 +35,7 @@
  * * <a href="https://developer.mozilla.org/en-US/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
  */
 /* global ActiveXObject */
+/* global window */
 qx.Bootstrap.define("qx.xml.Document",
 {
   statics :
@@ -132,7 +133,7 @@ qx.Bootstrap.define("qx.xml.Document",
       }
 
       if (qx.core.Environment.get("xml.domparser")) {
-        var parser = new window.DOMParser();
+        var parser = new DOMParser();
         return parser.parseFromString(str, "text/xml");
       }
 
