@@ -287,8 +287,6 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "groupitem-start" : "#A7A7A7",
     "groupitem-end" : "#949494",
-    "groupitem-text" : "white",
-    "virtual-row-layer-background-even" : "white",
-    "virtual-row-layer-background-odd" : "white"
+    "groupitem-text" : "white"
   }
 });

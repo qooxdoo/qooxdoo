@@ -52,7 +52,6 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
   construct : function(scroller, settings)
   {
-
     if (qx.core.Environment.get("qx.debug"))
     {
       this.assertObject(settings);
@@ -209,7 +208,6 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
             this.__timer
           );
 //        }
-
       }
       else
       {

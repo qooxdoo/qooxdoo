@@ -52,21 +52,20 @@ qx.Class.define("qx.ui.virtual.layer.Column",
   {
     // overridden
     _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
+      firstRow, firstColumn
     )
     {
       var html = [];
 
-      var height = qx.lang.Array.sum(rowSizes);
+      let rowSizes = this.getPane().getRowSizes();
+      let columnSizes = this.getPane().getColumnSizes();
+      var height = qx.lang.Array.sum(rowSizes.map(s => s.outerHeight));
 
-      var left = 0;
       var column = firstColumn;
       var childIndex = 0;
 
       for (var x=0; x<columnSizes.length; x++)
       {
-
         var color = this.getColor(column);
         var backgroundColor = color ? "background-color:" + color + ";" : "";
 
@@ -77,8 +76,8 @@ qx.Class.define("qx.ui.virtual.layer.Column",
           "<div style='",
           "position: absolute;",
           "top: 0;",
-          "left:", left, "px;",
-          "width:", columnSizes[x], "px;",
+          "left:", columnSizes[x].left, "px;",
+          "width:", columnSizes[x].width, "px;",
           "height:", height, "px;",
           backgroundColor,
           styles,
@@ -87,7 +86,6 @@ qx.Class.define("qx.ui.virtual.layer.Column",
         );
         childIndex++;
 
-        left += columnSizes[x];
         column += 1;
       }
 
@@ -102,16 +100,17 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this._height = height;
     },
 
-    updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
+    updateLayerWindow : function(firstRow, firstColumn)
     {
+      let rowSizes = this.getPane().getRowSizes();
+      let columnSizes = this.getPane().getColumnSizes();
       if (
         firstColumn !== this.getFirstColumn() ||
-        columnSizes.length !== this.getColumnSizes().length ||
-        this._height < qx.lang.Array.sum(rowSizes)
+        columnSizes.length !== this.getPane().getColumnSizes().length ||
+        this._height < qx.lang.Array.sum(rowSizes.map(s => s.outerHeight))
       ) {
         this._fullUpdate(
-          firstRow, firstColumn,
-          rowSizes, columnSizes
+          firstRow, firstColumn
         );
       }
     },
@@ -123,7 +122,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this.base(arguments, index, color);
 
       var firstColumn = this.getFirstColumn();
-      var lastColumn = firstColumn + this.getColumnSizes().length - 1;
+      var lastColumn = firstColumn + this.getPane().getColumnSizes().length - 1;
       if (index >= firstColumn && index <= lastColumn) {
         this.updateLayerData();
       }

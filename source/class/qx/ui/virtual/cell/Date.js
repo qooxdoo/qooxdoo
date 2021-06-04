@@ -40,7 +40,6 @@ qx.Class.define("qx.ui.virtual.cell.Date",
     } else {
       this.initDateFormat(qx.util.format.DateFormat.getDateTimeInstance());
     }
-
   },
 
 

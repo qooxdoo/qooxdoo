@@ -133,7 +133,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindDefaultProperties : function(item, index)
     {
-      if(item.getUserData("cell.type") != "group")
+      if (item.getUserData("cell.type") != "group")
       {
         // bind model first
         this.bindProperty(
@@ -215,7 +215,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     removeBindings : function()
     {
-      while(this.__boundItems.length > 0) {
+      while (this.__boundItems.length > 0) {
         var item = this.__boundItems.pop();
         this._removeBindingsFrom(item);
       }
@@ -302,7 +302,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
         try {
           this._list.removeBinding(id);
-        } catch(e) {
+        } catch (e) {
           item.removeBinding(id);
         }
       }
