@@ -148,7 +148,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      * @return {null} The status of this operation.
      */
     setValue : function(selection) {
-      if (null === selection) {
+      if (selection === null) {
         this.resetSelection();
       } else {
         this.setSelection(selection);
@@ -202,7 +202,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         }
       };
 
-      this._manager = new qx.ui.virtual.selection.Row(
+      this._manager = new qx.ui.virtual.selection.CellRectangle(
         this.getPane(), selectionDelegate
       );
       this._manager.attachPointerEvents(this.getPane());
@@ -359,7 +359,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
         var row = this._reverseLookup(index);
 
-        if (row >= 0) {
+        if (row !== null) {
           newSelection.push(row);
         }
       }
@@ -374,7 +374,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
           this._manager.replaceSelection(newSelection);
         }
       }
-      catch(ex)
+      catch (ex)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
       }
@@ -482,7 +482,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
         }
         var row = this._reverseLookup(index);
 
-        if (row !== managerSelection[i]) {
+        if (row !== null && !qx.lang.Object.equals(row, managerSelection[i])) {
           return false;
         }
       }

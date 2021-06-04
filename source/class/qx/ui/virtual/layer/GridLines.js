@@ -156,13 +156,13 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       if (this._isHorizontal)
       {
         var firstColumn = this.getFirstColumn();
-        var lastColumn = firstColumn + this.getColumnSizes().length - 1;
+        var lastColumn = firstColumn + this.getPane().getColumnSizes().length - 1;
         return index >= firstColumn && index <= lastColumn;
       }
       else
       {
         var firstRow = this.getFirstRow();
-        var lastRow = firstRow + this.getRowSizes().length - 1;
+        var lastRow = firstRow + this.getPane().getRowSizes().length - 1;
         return index >= firstRow && index <= lastRow;
       }
     },
@@ -197,22 +197,18 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * @param firstRow {Integer} The first visible row
      * @param rowSizes {Array} An array containing the row sizes.
      */
-    __renderHorizontalLines : function(htmlArr, firstRow, rowSizes)
-    {
-      var top = 0;
+    __renderHorizontalLines : function(htmlArr, firstRow, rowSizes) {
       var color, height;
-      for (var y=0; y<rowSizes.length-1; y++)
-      {
+      for (var y = 0; y < rowSizes.length - 1; y++) {
         color = this.getLineColor(firstRow + y);
         height = this.getLineSize(firstRow + y);
 
-        top += rowSizes[y];
         htmlArr.push(
           "<div style='",
           "position: absolute;",
           "height: " + height + "px;",
           "width: 100%;",
-          "top:", top - ((height > 1) ? Math.floor(height / 2) : 1), "px;",
+          "top:", rowSizes[y].outerTop - ((height > 1) ? Math.floor(height / 2) : 1), "px;",
           "background-color:", color,
           "'>",
           "</div>"
@@ -230,21 +226,19 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      */
     __renderVerticalLines : function(htmlArr, firstColumn, columnSizes)
     {
-      var left = 0;
       var color, width;
       for (var x=0; x<columnSizes.length-1; x++)
       {
         color = this.getLineColor(firstColumn + x);
         width = this.getLineSize(firstColumn + x);
 
-        left += columnSizes[x];
         htmlArr.push(
           "<div style='",
           "position: absolute;",
           "width: " + width + "px;",
           "height: 100%;",
           "top: 0px;",
-          "left:", left - ((width > 1) ? Math.floor(width / 2) : 1), "px;",
+          "left:", columnSizes[x].outerLeft - ((width > 1) ? Math.floor(width / 2) : 1), "px;",
           "background-color:", color,
           "'>",
           "</div>"
@@ -254,34 +248,32 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
 
 
     // overridden
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
+    _fullUpdate : function(firstRow, firstColumn)
     {
       var html = [];
       if (this._isHorizontal) {
-        this.__renderHorizontalLines(html, firstRow, rowSizes);
+        this.__renderHorizontalLines(html, firstRow, this.getPane().getRowSizes());
       } else {
-        this.__renderVerticalLines(html, firstColumn, columnSizes);
+        this.__renderVerticalLines(html, firstColumn, this.getPane().getColumnSizes());
       }
       this.getContentElement().setAttribute("html", html.join(""));
     },
 
 
     // overridden
-    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
+    _updateLayerWindow : function(firstRow, firstColumn)
     {
       var rowChanged =
-        firstRow !== this.getFirstRow() ||
-        rowSizes.length !== this.getRowSizes().length;
+        firstRow !== this.getFirstRow();
 
       var columnChanged =
-        firstColumn !== this.getFirstColumn() ||
-        columnSizes.length !== this.getColumnSizes().length;
+        firstColumn !== this.getFirstColumn();
 
       if (
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
       ) {
-        this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
+        this._fullUpdate(firstRow, firstColumn);
       }
     }
   },
