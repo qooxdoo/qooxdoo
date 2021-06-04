@@ -675,6 +675,31 @@ qx.Bootstrap.define("qx.lang.Array",
         return src;
       }
       return [ src ];
+    },
+    
+    
+    /**
+     * Returns a `qx.data.Array` array from src where possible; if `clone` is true then the result will
+     * always be a new instance of `qx.data.Array` even if it is already a `qx.data.Array`
+     * 
+     * @param src {qx.data.Array|Array} the object to return as `qx.data.Array`
+     * @param clone{Boolean?} whether to make the returned array a clone, ie editable by the calling code
+     * @return {Array}
+     */
+    toDataArray: function(src, clone) {
+      if (src === undefined || src === null) {
+        return src;
+      }
+      if (src instanceof qx.data.Array) {
+        if (clone) {
+          return new qx.data.Array(src.toArray());
+        }
+        return src;
+      }
+      if (qx.lang.Type.isArray(src)) {
+        return new qx.data.Array(src);
+      }
+      return new qx.data.Array([ src ]);
     }
   }
 });
