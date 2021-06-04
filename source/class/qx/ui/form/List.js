@@ -21,8 +21,9 @@
 
 /**
  * A list of items. Displays an automatically scrolling list for all
- * added {@link qx.ui.form.ListItem} instances. Supports various
- * selection options: single, multi, ...
+ * added {@link qx.ui.form.IListItem} instances (typically this would be instances of 
+ * {@link qx.ui.form.ListItem} but can also be other Atoms, such as {@link qx.ui.form.CheckBox}). 
+ * Supports various selection options: single, multi, ...
  */
 qx.Class.define("qx.ui.form.List",
 {
