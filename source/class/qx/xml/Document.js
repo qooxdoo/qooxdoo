@@ -35,6 +35,7 @@
  * * <a href="https://developer.mozilla.org/en-US/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
  */
 /* global ActiveXObject */
+/* global window */
 qx.Bootstrap.define("qx.xml.Document",
 {
   statics :
