@@ -353,7 +353,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @ignore(Image)
      */
     getDataUrl : function(callback) {
-      var data = new window.Image();
+      var data = new Image();
       data.onload = data.onerror = function() {
         // wrap that into a timeout because IE might execute it synchronously
         window.setTimeout(function() {
