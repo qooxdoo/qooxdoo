@@ -703,8 +703,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         style: function(states) {
           return {
             icon: (states.opened ?
-              // the old treevirtual code can not use fonticons
-              "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
+              qx.theme.tangible.Image.URLS["folder-open"] :
+              qx.theme.tangible.Image.URLS["folder"]),
             opacity: states.drag ? 0.5 : undefined
           };
         }
@@ -717,16 +717,16 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
         style: function(states) {
           return {
-            icon: "icon/16/mimetypes/text-plain.png",
+            icon: qx.theme.tangible.Image.URLS["file"],
             opacity: states.drag ? 0.5 : undefined
           };
         }
       },
 
-    "treevirtual-line":
+    "treevirtual-blank":
       {
         style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-line"]};
+          return {icon: qx.theme.tangible.Image.URLS["blank"]};
         }
       },
 
@@ -744,77 +744,17 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         }
       },
 
-    "treevirtual-only-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-only"]};
-        }
-      },
-
-    "treevirtual-only-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-only"]};
-        }
-      },
-
-    "treevirtual-start-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-start"]};
-        }
-      },
-
-    "treevirtual-start-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-start"]};
-        }
-      },
-
-    "treevirtual-end-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-end"]};
-        }
-      },
-
-    "treevirtual-end-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-end"]};
-        }
-      },
-
-    "treevirtual-cross-contract":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-minus-cross"]};
-        }
-      },
-
-    "treevirtual-cross-expand":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-plus-cross"]};
-        }
-      },
-
-
-    "treevirtual-end":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-end"]};
-        }
-      },
-
-    "treevirtual-cross":
-      {
-        style: function(states) {
-          return {icon: qx.theme.tangible.Image.URLS["treevirtual-cross"]};
-        }
-      },
-
+    "treevirtual-only-contract" : "treevirtual-contract",
+    "treevirtual-only-expand" : "treevirtual-expand",
+    "treevirtual-start-contract" : "treevirtual-contract",
+    "treevirtual-start-expand" : "treevirtual-expand",
+    "treevirtual-end-contract" : "treevirtual-contract",
+    "treevirtual-end-expand" : "treevirtual-expand",
+    "treevirtual-cross-contract" : "treevirtual-contract",
+    "treevirtual-cross-expand" : "treevirtual-expand",
+    "treevirtual-line" : "treevirtual-blank",
+    "treevirtual-end" : "treevirtual-blank",
+    "treevirtual-cross" : "treevirtual-blank",
 
     /*
     ---------------------------------------------------------------------------
