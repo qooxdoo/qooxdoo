@@ -16,6 +16,11 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
+- `qx.ui.list.*` and `qx.ui.virtual.*` have undergone some changes to support
+new features such as auto-sizing of rows and columns; this has lead to some minor
+changes in the API, but this is unlikely to affect you unless you have written
+custom layers.  It's worth a review of the methods that you are overridding.
+
 ## Deprecations:
 
 - `qx package migrate` has been deprecated in favor of `qx migrate` 
