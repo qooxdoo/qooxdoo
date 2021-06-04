@@ -61,8 +61,6 @@ qx.Class.define("qx.tool.cli.commands.Command", {
           }
         });
       }
-      // check if we have to migrate files
-      await this.checkMigrations();
     },
 
     /**

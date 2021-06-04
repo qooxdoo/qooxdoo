@@ -71,6 +71,12 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "String"
     },
 
+    /** Supported application types */
+    applicationTypes: {
+      init: [ "node", "browser" ],
+      check: "Array"
+    },
+
     /** Whether to preserve line numbers */
     trackLineNumbers: {
       check: "Boolean",
