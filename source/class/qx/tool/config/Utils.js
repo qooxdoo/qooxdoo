@@ -29,6 +29,8 @@ const semver = require("semver");
 qx.Class.define("qx.tool.config.Utils", {
   type: "static",
   statics: {
+    /** @type{Promise<String} promise for cache of getQxPath() */
+    __qxPathPromise: null,
 
     /**
      * Returns data on the project in the currect working directory.
@@ -137,47 +139,61 @@ qx.Class.define("qx.tool.config.Utils", {
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<*string>}
      */
-
-     async __getQxPath(dir) {
-       let root = path.parse(dir).root;
-       while (dir !== root) {
-         // 1. Manifest.json files
-         if (await this.isQxLibrary(dir)) {
-           return dir;
-         }
-         // 2. node_modules folders
-         let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
-         if (await this.isQxLibrary(npmdir)) {
-           return npmdir;
-         }
-         // walk up the directory tree
-         dir = path.resolve(path.join(dir, ".."));
-       }
-       return null;
-     },
-
-     async getQxPath(dir=null) {
-      // 1. current dir
-      let res = await this.__getQxPath(path.resolve(dir || process.cwd()));
-      if (res) {
-        return res;
+    async getQxPath() {
+      if (this.__qxPathPromise) {
+        return await this.__qxPathPromise;
       }
 
-      // 2. try script dir
-      /* eslint-disable-next-line @qooxdoo/qx/no-illegal-private-usage */
-      res = await this.__getQxPath(__dirname);
-      if (res) {
-        return res;
-      }
+      const scanAncestors = async dir => {
+        let root = path.parse(dir).root;
+        while (dir !== root) {
+          // 1. Manifest.json files
+          if (await this.isQxLibrary(dir)) {
+            return dir;
+          }
+          // 2. node_modules folders
+          let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
+          if (await this.isQxLibrary(npmdir)) {
+            return npmdir;
+          }
+          // walk up the directory tree
+          dir = path.resolve(path.join(dir, ".."));
+        }
+        return null;
+      };
 
-      // 3. global npm package
-      let npmdir = (await qx.tool.utils.Utils.exec("npm root -g")).trim();
-      res = path.join(npmdir, "@qooxdoo", "framework");
-      if (await this.isQxLibrary(res)) {
-        return res;
-      }
+      const getQxPathImpl = async () => {
+        // 1. Look for the parent directory of the currently running command (eg `qx`)
+        let res = await scanAncestors(path.parse(require.main.filename).dir);
+        if (res) {
+          return res;
+        }
 
-      throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+        // 2. current dir
+        res = await scanAncestors(path.resolve(process.cwd()));
+        if (res) {
+          return res;
+        }
+
+        // 3. try script dir
+        /* eslint-disable-next-line @qooxdoo/qx/no-illegal-private-usage */
+        res = await scanAncestors(__dirname);
+        if (res) {
+          return res;
+        }
+
+        // 4. global npm package
+        let npmdir = (await qx.tool.utils.Utils.exec("npm root -g")).trim();
+        res = path.join(npmdir, "@qooxdoo", "framework");
+        if (await this.isQxLibrary(res)) {
+          return res;
+        }
+
+        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+      };
+  
+      this.__qxPathPromise = getQxPathImpl();
+      return await this.__qxPathPromise;
     },
 
     /**
@@ -192,45 +208,12 @@ qx.Class.define("qx.tool.config.Utils", {
     },
 
     /**
-     * Returns the absolute path to the qooxdoo framework used by the current
-     * project, If the application does not specify a path, it is taken from the
-     * environment. Throws if no path can be determined.
-     *
-     * @param {String?} dir The base directory. If not given, the current working dir is used
-     * @return {Promise<String>} Promise that resolves with the path {String}
-     */
-    async getAppQxPath(dir=null) {
-      dir = dir || process.cwd();
-      // if there is no compile.json file, throw
-      if (!await this.applicationExists(dir)) {
-        throw new qx.tool.utils.Utils.UserError(`No compilable application exists in ${dir}.`);
-      }
-      // 1. check `libraries` key of compile.json which overrides anything else
-      let compileJsonModel = await qx.tool.config.Compile.getInstance().set({baseDir: dir}).load();
-      let appPath = await this.getApplicationPath();
-      let libraries = compileJsonModel.getValue("libraries");
-      if (libraries) {
-        for (let somepath of libraries) {
-          let libraryPath = somepath;
-          if (!path.isAbsolute(somepath)) {
-            libraryPath = path.join(appPath, libraryPath);
-          }
-          if (await this.isQxLibrary(libraryPath)) {
-            return libraryPath;
-          }
-        }
-      }
-      // 2. node_modules etc.
-      return this.getQxPath(dir);
-    },
-
-    /**
      * Returns the qooxdoo version from the current environment (not the application)
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
      */
-    async getQxVersion(dir=null) {
-      let qxpath = await this.getQxPath(dir);
+    async getQxVersion() {
+      let qxpath = await this.getQxPath();
       return qx.tool.config.Utils.getLibraryVersion(qxpath);
     },
 
@@ -238,11 +221,10 @@ qx.Class.define("qx.tool.config.Utils", {
      * Returns the qooxdoo version used in the application in the current or given
      * directory. Throws if no such version can be determined
      *
-     * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
      */
-    async getAppQxVersion(baseDir=null) {
-      baseDir = baseDir || process.cwd();
+    async getAppQxVersion() {
+      let baseDir = this.getQxPath();
       let manifestRequiresKey="@qooxdoo/framework";
       let manifestModel = await qx.tool.config.Manifest.getInstance()
         .set({
