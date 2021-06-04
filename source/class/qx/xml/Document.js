@@ -132,7 +132,7 @@ qx.Bootstrap.define("qx.xml.Document",
       }
 
       if (qx.core.Environment.get("xml.domparser")) {
-        var parser = new DOMParser();
+        var parser = new window.DOMParser();
         return parser.parseFromString(str, "text/xml");
       }
 

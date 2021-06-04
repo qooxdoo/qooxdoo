@@ -25,6 +25,7 @@
  * directly. Please check its class comment for details how to use it.
  *
  * @internal
+ * @require(qx.bom.client.OperatingSystem)
  */
 qx.Bootstrap.define("qx.bom.client.Locale",
 {

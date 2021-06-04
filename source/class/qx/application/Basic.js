@@ -18,6 +18,8 @@
 
 /**
  * For a basic, out-of-browser application (running e.g. on Node.js, Rhino).
+ * 
+ * @use(qx.core.BaseInit)
  */
 qx.Class.define("qx.application.Basic",
 {
