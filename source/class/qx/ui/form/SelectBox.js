@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
-    /** @type {qx.ui.form.ListItem} instance */
+    /** @type {qx.ui.basic.Atom} instance */
     __preSelectedItem : null,
 
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     /**
      * Returns the list items for the selection.
      *
-     * @return {qx.ui.form.ListItem[]} List items to select.
+     * @return {qx.ui.basic.Atom[]} List items to select.
      */
     _getItems : function() {
       return this.getChildrenContainer().getChildren();

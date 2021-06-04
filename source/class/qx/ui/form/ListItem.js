@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.ListItem",
 {
   extend : qx.ui.basic.Atom,
-  implement : [qx.ui.form.IModel],
+  implement : [qx.ui.form.IModel, qx.ui.form.IListItem],
   include : [qx.ui.form.MModelProperty],
 
 
