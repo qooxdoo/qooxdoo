@@ -952,7 +952,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         threshold = 128;
       }
       
+      // Combine into the YIQ color space (which gives us a handy scale we can use with a threshold)
       var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      
       return yiq >= threshold ? (dark || '#000') : (light || '#fff');
     }
   }
