@@ -372,16 +372,18 @@ qx.Class.define("qx.data.Array",
       var added = arguments.length > 2;
       if (removed || added) {
         var addedItems = qx.lang.Array.fromArguments(arguments, 2);
+        let type;
+        let end;
 
         if (returnArray.length == 0) {
-          var type = "add";
-          var end = startIndex + addedItems.length;
+          type = "add";
+          end = startIndex + addedItems.length;
         } else if (addedItems.length == 0) {
-          var type = "remove";
-          var end = this.length - 1;
+          type = "remove";
+          end = this.length - 1;
         } else {
-          var type = "add/remove";
-          var end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+          type = "add/remove";
+          end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
 
         this.fireDataEvent("change",
