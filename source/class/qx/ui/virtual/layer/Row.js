@@ -20,100 +20,85 @@
 /**
  * The Row layer renders row background colors.
  */
-qx.Class.define("qx.ui.virtual.layer.Row",
-{
+qx.Class.define("qx.ui.virtual.layer.Row", {
   extend : qx.ui.virtual.layer.AbstractBackground,
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
+    appearance: {
       refine : true,
       init : "row-layer"
     }
   },
 
+  members: {
+    /*
+     * @Override
+     */
+    _fullUpdate(firstRow, firstColumn) {
+      let rowSizes = this.getPane().getRowSizes();
+      let columnSizes = this.getPane().getColumnSizes();
+      var width = qx.lang.Array.sum(columnSizes.map(s => s.outerWidth));
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    // overridden
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
-      var html = [];
-
-      var width = qx.lang.Array.sum(columnSizes);
-
-      var top = 0;
-      var row = firstRow;
-      var childIndex = 0;
-
-      for (var y=0; y<rowSizes.length; y++)
-      {
-        var color = this.getColor(row);
-        var backgroundColor = color ? "background-color:" + color + ";" : "";
-
-        var decorator = this.getBackground(row);
-        var styles = decorator ? qx.bom.element.Style.compile(decorator.getStyles()) : "";
-
-        html.push(
-          "<div style='",
-          "position: absolute;",
-          "left: 0;",
-          "top:", top, "px;",
-          "height:", rowSizes[y], "px;",
-          "width:", width, "px;",
-          backgroundColor,
-          styles,
-          "'>",
-          "</div>"
-        );
-        childIndex++;
-
-        top += rowSizes[y];
-        row += 1;
+      let children = this._getChildren();
+      while (children.length > rowSizes.length) {
+        let child = children[0];
+        this._remove(child);
+        child.dispose();
       }
 
-      var el = this.getContentElement().getDomElement();
-      // hide element before changing the child nodes to avoid
-      // premature reflow calculations
-      el.style.display = "none";
-      el.innerHTML = html.join("");
+      for (var rowSizeIndex = 0; rowSizeIndex < rowSizes.length; rowSizeIndex++) {
+        let child;
+        if (children.length <= rowSizeIndex) {
+          child = new qx.ui.virtual.layer.BackgroundSpan();
+          this._add(child);
+        } else {
+          child = children[rowSizeIndex];
+        }
+        
+        let rowIndex = firstRow + rowSizeIndex;
+        let rowAppearance = this.getSpanAppearanceFor(rowIndex) || child.$$init_appearance;
+        child.set({
+          appearance: rowAppearance,
+          layoutProperties: {
+            left: 0,
+            top: rowSizes[rowSizeIndex].outerTop
+          },
+          width: width,
+          height: rowSizes[rowSizeIndex].outerHeight
+        });
+        
+        function setState(name, state) {
+          if (state)
+            child.addState(name);
+          else
+            child.removeState(name);
+        }
+        setState("selected", this.isSelected(rowIndex));
+        setState("header", this.isHasHeader() && rowIndex == 0);
+        let dataRowIndex = this.isHasHeader() ? rowIndex - 1 : rowIndex;
+        setState("odd", (dataRowIndex % 2) == 0);
+      }
 
-      el.style.display = "block";
       this._width = width;
     },
 
-
-    // overridden
-    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    /*
+     * @Override
+     */
+    _updateLayerWindow(firstRow, firstColumn) {
       if (
         firstRow !== this.getFirstRow() ||
-        rowSizes.length !== this.getRowSizes().length ||
-        this._width < qx.lang.Array.sum(columnSizes)
+        this._width < qx.lang.Array.sum(this.getPane().getColumnSizes().map(s => s.outerWidth))
       ) {
-        this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
+        this._fullUpdate(firstRow, firstColumn);
       }
     },
 
-
-    // overridden
-    setColor : function(index, color)
-    {
+    /*
+     * @Override
+     */
+    setColor(index, color) {
       this.base(arguments, index, color);
 
       if (this.__isRowRendered(index)) {
@@ -121,16 +106,15 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       }
     },
 
-
-    // overridden
-    setBackground : function(index, decorator)
-    {
+    /*
+     * @Override
+     */
+    setIndividualRowAppearance(index, decorator) {
       this.base(arguments, index, decorator);
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }
     },
-
 
     /**
      * Whether the row with the given index is currently rendered (i.e. in the
@@ -139,10 +123,9 @@ qx.Class.define("qx.ui.virtual.layer.Row",
      * @param index {Integer} The row's index
      * @return {Boolean} Whether the row is rendered
      */
-    __isRowRendered : function(index)
-    {
+    __isRowRendered(index) {
       var firstRow = this.getFirstRow();
-      var lastRow = firstRow + this.getRowSizes().length - 1;
+      var lastRow = firstRow + this.getPane().getRowSizes().length - 1;
       return index >= firstRow && index <= lastRow;
     }
   }
