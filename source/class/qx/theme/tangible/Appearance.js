@@ -1356,6 +1356,35 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
     /*
     ---------------------------------------------------------------------------
+      CHECKED SELECT BOX
+    ---------------------------------------------------------------------------
+    */
+    "checked-selectbox": "selectbox",
+    "checked-selectbox/allNone": {
+      include: "button",
+      style: function(states) {
+        return {
+          padding: [ 2, 10 ],
+          textColor: "text-on-primary"
+        };
+      }
+    },
+    "checked-selectbox/tag": "tag",
+    "tag": {
+      alias: "button",
+      include: "button",
+      style: function(states) {
+        return {
+          padding: [ 1, 7 ],
+          margin: 0,
+          decorator: "tag"
+        };
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       COMBO BOX
     ---------------------------------------------------------------------------
     */

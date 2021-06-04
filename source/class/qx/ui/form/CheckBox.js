@@ -30,7 +30,8 @@ qx.Class.define("qx.ui.form.CheckBox",
   ],
   implement : [
     qx.ui.form.IForm,
-    qx.ui.form.IModel
+    qx.ui.form.IModel,
+    qx.ui.form.IListItem
   ],
 
   /*
