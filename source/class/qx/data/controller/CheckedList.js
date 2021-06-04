@@ -20,7 +20,7 @@
  * Extension of `qx.data.controller.List` which adds support for `qx.ui.form.CheckedList`
  * and `qx.ui.form.CheckedSelectBox`.
  *
- * The principal is thart the underlying `List` controller implementation has a model which
+ * The principal is that the underlying `List` controller implementation has a model which
  * is the complete array of items that can be selected, and that array is used to populate
  * the UI widget (ie as normal).
  *
@@ -33,8 +33,8 @@ qx.Class.define("qx.data.controller.CheckedList", {
   /**
    * Constructor
    *
-   * @param model {qx.data.Array?} the model array
-   * @param widget {qx.ui.core.Widget?} the widget target
+   * @param model {qx.data.Array?null} the model array
+   * @param widget {qx.ui.core.Widget?null} the widget target
    * @param path {String} the path in the model for the caption  
    */
   construct(model, widget, path) {
@@ -313,22 +313,26 @@ qx.Class.define("qx.data.controller.CheckedList", {
         
         target.getChildren().forEach(item => {
           let itemModel = item.getModel();
-          let hash = itemModel ? itemModel.toHashCode() : "null";
-          children[hash] = item;
-          if (item.getValue())
-            toUncheck[hash] = item;
+          if (itemModel) {
+            let hash = itemModel.toHashCode();
+            children[hash] = item;
+            if (item.getValue())
+              toUncheck[hash] = item;
+          }
         });
         
         let toRemove = [];
         let checked = this.getChecked();
         if (checked) {
           checked.forEach(itemModel => {
-            let hash = itemModel ? itemModel.toHashCode() : "null";
-            delete toUncheck[hash];
-            if (children[hash]) {
-              children[hash].setValue(true);
-            } else {
-              toRemove.push(itemModel);
+            let hash = itemModel.toHashCode();
+            if (itemModel) {
+              delete toUncheck[hash];
+              if (children[hash]) {
+                children[hash].setValue(true);
+              } else {
+                toRemove.push(itemModel);
+              }
             }
           });
           Object.values(toUncheck).forEach(item => item.setValue(false));
