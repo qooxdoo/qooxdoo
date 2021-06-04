@@ -418,7 +418,12 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       let needLibraries = qx.lang.Type.isArray(this.argv._) && this.argv._[0] !== "clean";
       // check if libraries are loaded
       if (config.libraries && needLibraries) {
-        if (!config.libraries.every(libData => fs.existsSync(libData + "/Manifest.json"))) {
+        let neededLibraries = config.libraries.filter(libData => !fs.existsSync(libData + "/Manifest.json"));
+        if (neededLibraries.length) {
+          if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) { 
+            qx.tool.compiler.Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " + neededLibraries.join("\n     "));  
+            process.exit(1);
+          }
           qx.tool.compiler.Console.info("One or more libraries not found - trying to install them from library repository...");
           const installer = new qx.tool.cli.commands.package.Install({
             quiet: true,

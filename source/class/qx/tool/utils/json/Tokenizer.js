@@ -596,4 +596,3 @@ qx.Class.define("qx.tool.utils.json.Tokenizer", {
 
   }
 });
-
