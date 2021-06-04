@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.root.Inline",
       rootEl.style.position = "relative";
 
       // Store reference to the widget in the DOM element.
-      root.connectWidget(this);
+      root.connectObject(this);
 
       // fire event asynchronously, otherwise the browser will fire the event
       // too early and no listener will be informed since they're not added
