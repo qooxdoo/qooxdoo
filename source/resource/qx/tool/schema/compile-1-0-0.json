@@ -82,7 +82,8 @@
               {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^[-_a-zA-Z0-9]+$"
                 }
               }
             ],
