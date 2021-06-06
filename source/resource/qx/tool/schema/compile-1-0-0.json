@@ -85,7 +85,7 @@
                   "type": "string"
                 }
               }
-            ],
+            ]
           },
           "title": {
             "description": "The human readable, customer facing name used to set the <title> tag of the application web page, i.e. in the application's index.html",

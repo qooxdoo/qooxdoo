@@ -221,10 +221,11 @@ qx.Class.define("qx.tool.config.Utils", {
      * Returns the qooxdoo version used in the application in the current or given
      * directory. Throws if no such version can be determined
      *
+     * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
      */
-    async getAppQxVersion() {
-      let baseDir = this.getQxPath();
+    async getAppQxVersion(baseDir=null) {
+      baseDir = baseDir || process.cwd();
       let manifestRequiresKey="@qooxdoo/framework";
       let manifestModel = await qx.tool.config.Manifest.getInstance()
         .set({
