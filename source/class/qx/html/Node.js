@@ -71,10 +71,10 @@ qx.Class.define("qx.html.Node",
      * @return {qx.ui.core.Widget} the Widget that created the DOM element
      */
     fromDomNode: function(domNode) {
-    	if (qx.core.Environment.get("qx.debug")) {
-    		qx.core.Assert.assertTrue((!domNode.$$element && !domNode.$$elementObject) ||
-    				domNode.$$element === domNode.$$elementObject.toHashCode());
-    	}
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertTrue((!domNode.$$element && !domNode.$$elementObject) ||
+            domNode.$$element === domNode.$$elementObject.toHashCode());
+      }
       return domNode.$$elementObject;
     }
 
@@ -158,20 +158,20 @@ qx.Class.define("qx.html.Node",
      * @param qxObject {qx.core.Object} the object to associate
      */
     connectObject: function(qxObject) {
-    	if (qx.core.Environment.get("qx.debug")) {
-      	qx.core.Assert.assertTrue(!this._qxObject || this._qxObject === qxObject);
-    	}
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertTrue(!this._qxObject || this._qxObject === qxObject);
+      }
 
-    	this._qxObject = qxObject;
-    	if (this._domNode) {
-      	if (qx.core.Environment.get("qx.debug")) {
+      this._qxObject = qxObject;
+      if (this._domNode) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertTrue((!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
               (this._domNode.$$qxObject === qxObject && this._domNode.$$qxObjectHash === qxObject.toHashCode()));
-      	}
+        }
 
         this._domNode.$$qxObjectHash = qxObject.toHashCode();
         this._domNode.$$qxObject = qxObject;
-    	}
+      }
 
       if (qx.core.Environment.get("module.objectid")) {
         this.updateObjectId();
@@ -186,21 +186,21 @@ qx.Class.define("qx.html.Node",
      * @param qxObject {qx.core.Object} the Widget
      */
     disconnectObject: function(qxObject) {
-    	if (qx.core.Environment.get("qx.debug")) {
-      	qx.core.Assert.assertTrue(this._qxObject === qxObject);
-    	}
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertTrue(this._qxObject === qxObject);
+      }
 
-    	delete this._qxObject;
-    	if (this._domNode) {
-      	if (qx.core.Environment.get("qx.debug")) {
+      delete this._qxObject;
+      if (this._domNode) {
+        if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertTrue((!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
               (this._domNode.$$qxObject === qxObject && this._domNode.$$qxObjectHash === qxObject.toHashCode()));
-      	}
+        }
 
         this._domNode.$$qxObjectHash = "";
         delete this._domNode.$$qxObject;
-    	}
-    	
+      }
+      
       if (qx.core.Environment.get("module.objectid")) {
         this.updateObjectId();
       }
@@ -435,19 +435,19 @@ qx.Class.define("qx.html.Node",
      * @param domNode {DOM} the DOM Node to associate
      */
     _connectDomNode: function(domNode) {
-    	if (qx.core.Environment.get("qx.debug")) {
-    		qx.core.Assert.assertTrue(!this._domNode || this._domNode === domNode);
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertTrue(!this._domNode || this._domNode === domNode);
         qx.core.Assert.assertTrue((domNode.$$elementObject === this && domNode.$$element === this.toHashCode()) ||
             (!domNode.$$elementObject && !domNode.$$element));
-    	};
+      };
 
-    	this._domNode = domNode;
-    	domNode.$$elementObject = this;
-    	domNode.$$element = this.toHashCode();
-    	if (this._qxObject) {
-      	domNode.$$qxObjectHash = this._qxObject.toHashCode();
-      	domNode.$$qxObject = this._qxObject;
-    	}
+      this._domNode = domNode;
+      domNode.$$elementObject = this;
+      domNode.$$element = this.toHashCode();
+      if (this._qxObject) {
+        domNode.$$qxObjectHash = this._qxObject.toHashCode();
+        domNode.$$qxObject = this._qxObject;
+      }
     },
     
     
