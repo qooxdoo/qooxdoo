@@ -49,8 +49,8 @@ qx.Class.define("qx.ui.list.column.DateLabelColumn", {
         converter: (data, model, source, target) => {
           if (!data)
             return "";
-					if (qx.lang.Type.isNumber(data))
-						data = new Date(data);
+          if (qx.lang.Type.isNumber(data))
+            data = new Date(data);
           let df = this.getDateFormat() || qx.util.format.DateFormat.getDateInstance();
           return df.format(data);
         }
@@ -58,4 +58,3 @@ qx.Class.define("qx.ui.list.column.DateLabelColumn", {
     } 
   }
 });
-

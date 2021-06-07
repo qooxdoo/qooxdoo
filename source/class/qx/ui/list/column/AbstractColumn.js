@@ -361,11 +361,11 @@ qx.Class.define("qx.ui.list.column.AbstractColumn", {
     /**
      * Apply for `flex` property
      */
-		_applyFlex(value) {
+    _applyFlex(value) {
       let list = this.getList();
       if (list)
         list.getPane().getColumnConfig().setItemFlex(this.getColumnIndex(), value);
-		},
+    },
     
     /**
      * Apply for `readOnly` property`

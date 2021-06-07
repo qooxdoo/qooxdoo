@@ -63,4 +63,3 @@ qx.Class.define("qx.ui.list.column.AbstractSingleSelectionColumn", {
     }
   }
 });
-

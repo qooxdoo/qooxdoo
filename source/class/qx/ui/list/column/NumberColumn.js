@@ -55,4 +55,3 @@ qx.Class.define("qx.ui.list.column.NumberColumn", {
     }
   }
 });
-

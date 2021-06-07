@@ -97,13 +97,13 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     addColumn(column) {
       if (this.__columns === null)
         this.__columns = [];
-			let columnIndex = this.__columns.length;
+      let columnIndex = this.__columns.length;
       column.setColumnIndex(columnIndex);
       column.setList(this._list);
       this.__columns.push(column);
-			let columnConfig = this._list.getPane().getColumnConfig();
-			columnConfig.setItemCount(this.__columns.length);
-			columnConfig.setItemFlex(columnIndex, column.getFlex());
+      let columnConfig = this._list.getPane().getColumnConfig();
+      columnConfig.setItemCount(this.__columns.length);
+      columnConfig.setItemFlex(columnIndex, column.getFlex());
       column.addListener("change", evt => this.__onColumnChangeEvent(column, evt));
       this._list.getChildControl("row-layer").setHasHeader(this.isShowHeaders());
     },

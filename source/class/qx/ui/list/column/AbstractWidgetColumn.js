@@ -104,4 +104,3 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
     }
   }
 });
-
