@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.list.List", {
 				throw new Error("Invalid column index");
 
 			let columnIndexes = this.__lookupTable[row];
-			if (columnIndexes === null)
+			if (!columnIndexes)
 				return -1;
 
 			if (columnIndexes.length < column)
@@ -768,6 +768,7 @@ qx.Class.define("qx.ui.list.List", {
 			if (e instanceof qx.event.type.Data) {
 				this.fireDataEvent("changeModelLength", e.getData(), e.getOldData());
 			}
+      this.getPane().fullUpdate();
 		},
 
 
@@ -782,7 +783,7 @@ qx.Class.define("qx.ui.list.List", {
 		 * Helper method to update the row & column counts.
 		 */
 		__updateRowColumnCount() {
-			this.getPane().getRowConfig().setItemCount(this.__lookupTable.length);
+			this.getPane().getRowConfig().setItemCount(this.__lookupTable.length + 1);
 			let count = this.getRepeatingColumnCount();
 			if (count !== 1) {
 				let columnConfig = this.getPane().getColumnConfig();

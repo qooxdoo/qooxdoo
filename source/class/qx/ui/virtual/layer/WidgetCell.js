@@ -116,11 +116,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       return hint;
     },
     
-    invalidateLayoutCache() {
-      this.base(arguments);
-      console.log(this.classname + " : invalidateLayoutCache");
-    },
-     
      
      /**
      * Returns the widget used to render the given cell. May return null if the
