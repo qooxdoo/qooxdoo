@@ -368,12 +368,12 @@ qx.Class.define("qx.data.Array",
         }
       }
       // fire an event for the change
-      var end = 0;
-      var type = "";
       var removed = amount > 0;
       var added = arguments.length > 2;
       if (removed || added) {
         var addedItems = qx.lang.Array.fromArguments(arguments, 2);
+        let type;
+        let end;
 
         if (returnArray.length == 0) {
           type = "add";
@@ -969,9 +969,9 @@ qx.Class.define("qx.data.Array",
      */
     forEach : function(callback, context)
     {
-      for (var i = 0; i < this.__array.length; i++) {
-        callback.call(context, this.__array[i], i, this);
-      }
+      this.__array.forEach(function(element, index) {
+        callback.call(context, element, index, this);
+      });
     },
 
 
@@ -1012,6 +1012,22 @@ qx.Class.define("qx.data.Array",
      */
     map : function(callback, self) {
       return new qx.data.Array(this.__array.map(callback, self));
+    },
+
+
+    /**
+     * Finds the first matching element in the array which passes the test implemented by the
+     * provided function.
+     * @param callback {Function} The test function, which will be executed for every
+     *   item in the array. The function will have three arguments.
+     *   <li><code>item</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param self {var?undefined} The context of the callback.
+     * @return {Boolean} <code>true</code>, if any element passed the test function.
+     */
+    find : function(callback, self) {
+      return this.__array.find(callback, self);
     },
 
 
