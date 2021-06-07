@@ -112,17 +112,17 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       init : 300
     },
      
-		/** Whether to auto size the row heights */
-		autoSizeRows: {
-		  init: false,
-		  check: "Boolean"
-		},
-		 
-		/** Whether to auto size the column widths */
-		autoSizeColumns: {
-		  init: false,
-		  check: "Boolean"
-		},
+    /** Whether to auto size the row heights */
+    autoSizeRows: {
+      init: false,
+      check: "Boolean"
+    },
+     
+    /** Whether to auto size the column widths */
+    autoSizeColumns: {
+      init: false,
+      check: "Boolean"
+    },
     
     /** Padding for each cell, top */
     cellPaddingTop: {

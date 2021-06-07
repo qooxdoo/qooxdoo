@@ -66,4 +66,3 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellLayerLayout", {
     }
   }
 });
-
