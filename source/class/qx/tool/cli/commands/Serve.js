@@ -220,4 +220,3 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
     });
   }
 });
-

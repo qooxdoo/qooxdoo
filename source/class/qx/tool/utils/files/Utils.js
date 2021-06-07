@@ -326,4 +326,3 @@ qx.Class.define("qx.tool.utils.files.Utils", {
     }
   }
 });
-

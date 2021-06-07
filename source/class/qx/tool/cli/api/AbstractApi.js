@@ -91,7 +91,7 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
         stdio: "inherit"
       });
     }
-	
+  
 
   }
 });

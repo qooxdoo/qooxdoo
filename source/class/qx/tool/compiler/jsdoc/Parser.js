@@ -145,4 +145,3 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
     }
   }
 });
-

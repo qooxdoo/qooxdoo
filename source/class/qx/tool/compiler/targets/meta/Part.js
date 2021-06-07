@@ -50,4 +50,3 @@ qx.Class.define("qx.tool.compiler.targets.meta.Part", {
     }
   }
 });
-
