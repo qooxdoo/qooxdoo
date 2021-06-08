@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.virtual.core.BoundsLayout", {
         return;
       }
 
-			if (qx.core.Environment.get("qx.debug")) {
+      if (qx.core.Environment.get("qx.debug")) {
         var msg = "Something went wrong with the layout of " + item + "!";
         this.assertInteger(left, "Wrong 'left' argument. " + msg);
         this.assertInteger(top, "Wrong 'top' argument. " + msg);
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.virtual.core.BoundsLayout", {
         this.assertInteger(height, "Wrong 'height' argument. " + msg);
       }
 
-			this.__itemBounds[item.toHashCode()] = { left, top, width, height };
+      this.__itemBounds[item.toHashCode()] = { left, top, width, height };
     },
     
     getItemBounds(item) {
@@ -75,4 +75,3 @@ qx.Class.define("qx.ui.virtual.core.BoundsLayout", {
     }
   }
 });
-

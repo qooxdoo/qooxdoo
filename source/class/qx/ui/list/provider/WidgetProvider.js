@@ -65,6 +65,11 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       apply: "_applyShowHeaders"
     }
   },
+  
+  events: {
+    /** Fired when properties of the model change */
+    "change": "qx.event.type.Data"
+  },
 
 
   members :
@@ -97,13 +102,13 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     addColumn(column) {
       if (this.__columns === null)
         this.__columns = [];
-			let columnIndex = this.__columns.length;
+      let columnIndex = this.__columns.length;
       column.setColumnIndex(columnIndex);
       column.setList(this._list);
       this.__columns.push(column);
-			let columnConfig = this._list.getPane().getColumnConfig();
-			columnConfig.setItemCount(this.__columns.length);
-			columnConfig.setItemFlex(columnIndex, column.getFlex());
+      let columnConfig = this._list.getPane().getColumnConfig();
+      columnConfig.setItemCount(this.__columns.length);
+      columnConfig.setItemFlex(columnIndex, column.getFlex());
       column.addListener("change", evt => this.__onColumnChangeEvent(column, evt));
       this._list.getChildControl("row-layer").setHasHeader(this.isShowHeaders());
     },
@@ -140,6 +145,8 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       */
     getCellSizeHint(rowIndex, columnIndex) {
       let widget = this.getCellWidget(rowIndex, columnIndex);
+      if (!widget)
+        return null;
       let hint = widget.getSizeHint();
       if (!this._list._isGroup(rowIndex)) {
         let column = null;
@@ -164,27 +171,31 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      */
     getCellWidget(rowIndex, columnIndex) {
       let id = rowIndex + "x" + columnIndex;
-      let widget = this.__cellWidgets[id] || null;
-      if (widget)
-        return widget;
+      let widget = null;
 
-      if (!this._list._isGroup(rowIndex)) {
-        if (this.__columns !== null) {
-          if (this.__columns.length <= columnIndex)
-            return null;
-          let column = this.__columns[columnIndex];
-          
-          if (rowIndex == 0) {
-            widget = column.getHeaderWidget();
-          } else {
-            rowIndex--;
-            let model = this._list.getModel();
-            if (!model || model.getLength() <= rowIndex)
-              return null;
-            widget = column.getCellWidget(rowIndex);
-          }
-          
+      if (this.__columns !== null) {
+        if (this.__columns.length <= columnIndex)
+          return null;
+        let column = this.__columns[columnIndex];
+        
+        if (rowIndex == 0) {
+          widget = column.getHeaderWidget();
         } else {
+          rowIndex--;
+          let model = this._list.getModel();
+          if (!model || model.getLength() <= rowIndex)
+            return null;
+          widget = column.getCellWidget(rowIndex);
+        }
+        
+      } else {
+        // We can cache the widget for our own, but do not do this for Columns because they have their own
+        //  caching and need to decide whether to cache or reload for the row/column model  
+        widget = this.__cellWidgets[id] || null;
+        if (widget)
+          return widget;
+        
+        if (!this._list._isGroup(rowIndex)) {
           widget = this._itemRenderer.getCellWidget();
           widget.setUserData("cell.type", "item");
           this._bindItem(widget, this._list._lookupByRowAndColumn(rowIndex, columnIndex));
@@ -194,12 +205,12 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
           } else {
             this._styleUnselectabled(widget);
           }
+          
+        } else if (columnIndex == 0) {
+          widget = this._groupRenderer.getCellWidget();
+          widget.setUserData("cell.type", "group");
+          this._bindGroupItem(widget, this._list._lookupGroup(rowIndex));
         }
-        
-      } else if (columnIndex == 0) {
-        widget = this._groupRenderer.getCellWidget();
-        widget.setUserData("cell.type", "group");
-        this._bindGroupItem(widget, this._list._lookupGroup(rowIndex));
       }
       
       this.__cellWidgets[id] = widget;

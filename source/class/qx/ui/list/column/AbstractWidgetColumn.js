@@ -42,16 +42,21 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
       let data = {
         model: model,
         widget: widget,
-        modelValueBindId: model.bind(path, widget, "value", this._getModelBindingOptions(widget, model)),
         modelChangeId: model.addListener("change" + qx.lang.String.firstUp(path), evt => {
           let value = evt.getData();
-          this.fireDataEvent("change", value);
+          this._onModelChangeValue(model, value, widget);
         })
       };
       if (this._supportsEditing) {
+        data.modelValueBindId = model.bind(path, widget, "value", this._getModelBindingOptions(widget, model));
         data.widgetBindId = widget.bind("value", model, path, this._getWidgetBindingOptions(widget, model));
       }
+      this._onModelChangeValue(model, model["get" + qx.lang.String.firstUp(path)](), widget);
       return data;
+    },
+
+    _onModelChangeValue(model, value, widget) {
+      this.fireDataEvent("change", value);
     },
     
     /**
@@ -80,8 +85,12 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
      * @Override
      */
     _unbindCellWidget(widget, bindData) {
-      bindData.model.removeBinding(bindData.modelValueBindId);
-      bindData.model.removeListenerById(bindData.modelChangeId);
+      if (bindData.modelValueBindId) {
+        bindData.model.removeBinding(bindData.modelValueBindId);
+      }
+      if (bindData.modelChangeId) {
+        bindData.model.removeListenerById(bindData.modelChangeId);
+      }
       if (bindData.widgetBindId) {
         widget.removeBinding(bindData.widgetBindId);
       }
@@ -104,4 +113,3 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
     }
   }
 });
-

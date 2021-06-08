@@ -116,11 +116,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       return hint;
     },
     
-    invalidateLayoutCache() {
-      this.base(arguments);
-      console.log(this.classname + " : invalidateLayoutCache");
-    },
-     
      
      /**
      * Returns the widget used to render the given cell. May return null if the
@@ -243,7 +238,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
                   (item.getUserData("cell.column") !== null && item.getUserData("cell.column") !== column)
                 )
                 ) {
-              debugger;
               cellProvider.getCellWidget(row, column);
               throw new Error("Changing the row and column of a widget");
             }
