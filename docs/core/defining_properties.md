@@ -1,17 +1,8 @@
 # Properties in more detail
 
-<div class="note">
 
-<div class="admonition-title">
-
-Note
-
-</div>
-
-Please take a look at `property_features` first to get an compact overview of
-the available features.
-
-</div>
+> :memo: Please take a look at `property_features` first to get an compact overview of
+> the available features.
 
 ## Declaration
 
@@ -31,21 +22,12 @@ You should define at least one of the attributes `init`, `nullable` or
 `inheritable`. Otherwise, the first call to the getter would stop with an
 exception because the computed value is not (yet) defined.
 
-<div class="note">
+> :memo: As an alternative to the `init` key you could set the init value of the property
+> by calling an initializing function `this.initMyProperty(value)` in the
+> constructor. See below for details.
 
-<div class="admonition-title">
 
-Note
-
-</div>
-
-As an alternative to the `init` key you could set the init value of the property
-by calling an initializing function `this.initMyProperty(value)` in the
-constructor. See below for details.
-
-</div>
-
-Please also have a look at the `Quick Reference <properties_quickref>` .
+Please also have a look at the [Quick Reference](properties_quickref) .
 
 ## Handling changes of property values
 
@@ -74,7 +56,7 @@ be left out.
 
 #### Example
 
-```
+```javascript
 properties : {
   width : { apply : "_applyWidth" }
 },
@@ -89,19 +71,11 @@ members :
 
 The applying method is only called when the value has changed.
 
-<div class="note">
 
-<div class="admonition-title">
+> :memo: When using reference data types like `Object` or `Array` the apply method is
+> **always** called, since these are different objects and indeed different
+> values. This is JavaScript functionality and not Qooxdoo specific.
 
-Note
-
-</div>
-
-When using reference data types like `Object` or `Array` the apply method is
-**always** called, since these are different objects and indeed different
-values. This is JavaScript functionality and not Qooxdoo specific.
-
-</div>
 
 For a more technical description, take a look at the
 [API documentation of qx.core.Property](apps://apiviewer/#qx.core.Property)
@@ -116,22 +90,14 @@ Qooxdoo fires a `qx.event.type.Data` which supports the methods `getData()` and
 `getOldData()` to allow easy access to the new and old property value,
 respectively.
 
-<div class="note">
 
-<div class="admonition-title">
+> :memo: Events are only useful for public properties. Events for protected and private
+> properties are usually not a good idea.
 
-Note
-
-</div>
-
-Events are only useful for public properties. Events for protected and private
-properties are usually not a good idea.
-
-</div>
 
 #### Example
 
-```
+```javascript
 properties : {
   label : { event : "changeLabel" }
 }
@@ -158,7 +124,7 @@ The _preferred_ way for regular init values is to simply declare them by an
 `init` key in the property configuration map. You can use this key standalone or
 in combination with `nullable` and/or `inheritable`.
 
-```
+```javascript
 properties : {
   myProperty : { init : "hello" }
 }
@@ -176,23 +142,15 @@ types" like `Array`, `Object`) that should not be shared among instances, but be
 unique on instance level.
 
 Another scenario would be to use a localizable init value when
-`internationalizing your application </pages/development/internationalization>`:
+[internationalizing your application](../development/howto/internationalization):
 Because `this.tr()` cannot be used in the property definition, you may either
 use the static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the
 call of the initializing function in the constructor.
 
-<div class="note">
 
-<div class="admonition-title">
+> :memo: You need to add a `deferredInit:true` to the property configuration to allow for
+> a deferred initialization for reference types as mentioned above.
 
-Note
-
-</div>
-
-You need to add a `deferredInit:true` to the property configuration to allow for
-a deferred initialization for reference types as mentioned above.
-
-</div>
 
 ```javascript
 qx.Class.define("qx.MyClass", {
@@ -226,7 +184,7 @@ setter and use the defined init value as parameter. This will call the apply
 method, not like in the usual cases when setting the same value which is already
 set.
 
-```
+```javascript
 construct : function()
 {
   this.base(arguments);
@@ -256,7 +214,7 @@ This example illustrates how the behavior differs from the default behavior of
 the property system due to the already mentioned inconsistency between init and
 applied value.
 
-```
+```javascript
 construct : function()
 {
   this.base(arguments);
@@ -305,19 +263,10 @@ declaration, it is possible to call the init method with one parameter, which
 represents the init value. This may be useful to apply reference types to each
 instance. Thus they would not be shared between instances.
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-Please remember that init values are not for incoming user values. Please use
-`init` only for class defined things, not for user values. Otherwise you torpedo
+> :memo: Please remember that init values are not for incoming user values. Please use
+> `init` only for class defined things, not for user values. Otherwise you torpedo
 the multi-value idea behind the dynamic properties.
 
-</div>
 
 ### Refining init values
 
@@ -331,7 +280,7 @@ Normally properties could not be overridden. This is the reason for the `refine`
 flag . The flag informs the implementation that the developer is aware of the
 feature and the modification which should be applied.
 
-```
+```javascript
 properties : {
   width : { refine : true, init : 100 }
 }
@@ -350,7 +299,7 @@ property definition. But keep in mind that these checks only apply in the
 development (source) version of the application. Due to performance
 optimization, we strip these checks for the build version. If you want a
 property validation, take a look at the
-`validation section defining_properties.md#validation_incoming_values`.
+[validation section](defining_properties#validation-of-incoming-values).
 
 ### Predefined types
 
@@ -366,7 +315,7 @@ Due to the fact that JavaScript only supports the `Number` data type, `Float`
 and `Double` are handled identically to `Number`. Both are still useful, though,
 as they are supported by the Javadoc-like comments and the API viewer.
 
-```
+```javascript
 properties : {
   width : { init : 0, check: "Integer" }
 }
@@ -376,25 +325,16 @@ properties : {
 
 One can define an explicit list of possible values:
 
-```
+```javascript
 properties : {
   color: { init : "black", check : [ "red", "blue", "orange" ] }
 }
 ```
 
-<div class="note">
+> :memo: Providing a list of possible values only works with primitive types (like
+> strings and numbers), but not with reference types (like objects, functions,
+> etc.).
 
-<div class="admonition-title">
-
-Note
-
-</div>
-
-Providing a list of possible values only works with primitive types (like
-strings and numbers), but not with reference types (like objects, functions,
-etc.).
-
-</div>
 
 ### Instance checks
 
@@ -404,7 +344,7 @@ instances of _any_ class derived from the given class will be accepted. The
 class is defined using a string, thereby to not influencing the load time
 dependencies of a class.
 
-```
+```javascript
 properties : {
   logger : { nullable : true, check : "qx.log.Logger" }
 }
@@ -417,7 +357,7 @@ The incoming value can be checked against an interface, i.e. the value
 interface is defined using a string, thereby not influencing the load time
 dependencies of a class.
 
-```
+```javascript
 properties : {
   application : { check : "qx.application.IApplication" }
 }
@@ -429,7 +369,7 @@ Custom checks are possible as well, using a custom function defined inside the
 property definition. This is useful for all complex checks which could not be
 solved with the built-in possibilities documented above.
 
-```
+```javascript
 properties :
 {
   progress :
@@ -452,7 +392,7 @@ As an alternative to the custom check _function_, you may also define a _string_
 which will directly be incorporated into the setters and used in a very
 efficient way. The above example could be coded like this:
 
-```
+```javascript
 properties :
 {
   progress :
@@ -484,7 +424,7 @@ transform method to accept a string and transform it into an integer. Note that
 we can still rely on the check method to catch any other incorrect values, such
 as if the user mistakenly assigned a Widget to the property.
 
-```
+```javascript
 properties :
 {
    width :
@@ -515,29 +455,26 @@ parameter will be undefined
 
 ## Asynchronous Properties using Promises
 
-Sometimes it may be necessary for an <span class="title-ref"> applyXxx</span>
-method to take some time to complete, in which case it is necessary to consider
-coding asynchronously to allow for a better user experience. Perhaps more
-importantly, if your apply method includes triggering a server roundtrip then
-changes to the specification (<https://xhr.spec.whatwg.org/> ) have deprecated
+Sometimes it may be necessary for an `applyXxx` method to take some time to
+complete, in which case it is necessary to consider coding asynchronously to allow
+for a better user experience. Perhaps more importantly, if your apply method
+includes triggering a server roundtrip then
+[changes to the specification](https://xhr.spec.whatwg.org/) have deprecated
 synchronous XMLHttpRequest, and some browsers (eg Safari) already have very
 short timeouts for synchronous XMLHttpRequests which cannot be overridden.
 
-Properties can be made asynchronous by using <span class="title-ref">
-qx.Promise</span>.
+Properties can be made asynchronous by using `qx.Promise`.
 
 The return value for apply methods is normally ignored, but if it returns an
-instance of <span class="title-ref">qx.Promise</span> the
-<span class="title-ref">setXxx</span> method will wait for the promise to be
-fulfilled before firing the <span class="title-ref"> changeXxx</span> event.
+instance of `qx.Promise` the `setXxx` method will wait for the promise to be
+fulfilled before firing the  `changeXxx` event.
 
-As setXxx method returns the value which has been set, it is not possible to
+As `setXxx` method returns the value which has been set, it is not possible to
 return the promise to the caller - to retrieve the promise, you must tell
-Qooxdoo that the property is asynchronous by setting the
-<span class="title-ref">async: true</span> in the property definition and then
-calling the <span class="title-ref"> setXxxAsync</span> method:
+Qooxdoo that the property is asynchronous by setting the `async: true` in the
+property definition and then calling the `setXxxAsync` method:
 
-```
+```javascript
 properties :
 {
    name :
@@ -567,15 +504,12 @@ myObject.setNameAsync("abc").then(function() {
 });
 ```
 
-Note that the <span class="title-ref">setXxxAsync</span> method is _only_
-available if you have specified <span class="title-ref"> async: true</span> in
-the property definition
+Note that the `setXxxAsync` method is _only_ available if you have specified
+`async: true` in the property definition
 
-As well as <span class="title-ref">setXxxAsync</span> there is also a matching
-<span class="title-ref">getXxxAsync</span> method and a
-<span class="title-ref">changeXxxAsync</span> event which can be fired; event
-handlers can return promises, and asynchronous properties can be bound using
-<span class="title-ref"> qx.core.Object.bind()</span>
+As well as `setXxxAsync` there is also a matching `getXxxAsync` method and a
+`changeXxxAsync` event which can be fired; event handlers can return promises, and 
+asynchronous properties can be bound using `qx.core.Object.bind()`
 
 ## Validation of incoming values
 
@@ -589,7 +523,7 @@ If you use predefined validators, they will throw a validation error for you.
 You can find a set of predefined validators in qx.util.Validate. The following
 example shows the usage of a range validator.
 
-```
+```javascript
 properties : {
   application : { validate : qx.util.Validate.range(0, 100) }
 }
@@ -600,7 +534,7 @@ properties : {
 If the predefined validators are not enough for you validation, you can specify
 your own validator.
 
-```
+```javascript
 properties : {
   application : { validate : function(value) {
       if (value > 10) {
@@ -619,7 +553,7 @@ You can define a validation method as a member of the class containing the
 property. If you have such a member validator, you can just specify the method
 name as a sting
 
-```
+```javascript
 properties : {
   application : { validate : "_validateApplication" }
 }
@@ -647,25 +581,16 @@ initProperty([value])         |           init           v        n.a.
 To enable theme support it is sufficient to add a `themeable` key to the
 property definition and set its value to `true`.
 
-```
+```javascript
 properties : {
   width : { themeable : true, init : 100, check : "Number" }
 }
 ```
 
-<div class="note">
+> :memo: `themeable` should only be enabled for truly _theme-relevant_ properties like
+> color and decorator, but not for _functional_ properties like enabled, tabIndex,
+> etc.
 
-<div class="admonition-title">
-
-Note
-
-</div>
-
-`themeable` should only be enabled for truly _theme-relevant_ properties like
-color and decorator, but not for _functional_ properties like enabled, tabIndex,
-etc.
-
-</div>
 
 ## Working with inheritance
 
@@ -694,7 +619,7 @@ and appearance values.
 To mark a property as inheritable simply add the key `inheritable` and set it to
 `true`:
 
-```
+```javascript
 properties : {
   color : { inheritable : true, nullable : true }
 }
@@ -703,7 +628,7 @@ properties : {
 Optionally, you can configure an init value of `inherit`. This is especially a
 good idea if the property should not be nullable:
 
-```
+```javascript
 properties : {
   color : { inheritable : true, init: "inherit" }
 }
@@ -722,18 +647,10 @@ support inheritance may be a good orientation:
 - `list-style`
 - `text-align`
 
-<div class="note">
 
-<div class="admonition-title">
+> :memo: This list of CSS properties is only meant for orientation and does not reflect
+> any of Qooxdoo widget properties.
 
-Note
-
-</div>
-
-This list of CSS properties is only meant for orientation and does not reflect
-any of Qooxdoo widget properties.
-
-</div>
 
 ## Internal methods
 
@@ -756,7 +673,7 @@ Property groups is a convenient feature as it automatically generates setters
 and resetters (but no getters) for a group of properties. A definition of such a
 group reads:
 
-```
+```javascript
 properties : {
   location : { group : [ "left", "top" ] }
 }
@@ -766,7 +683,7 @@ As you can see, property groups are defined in the same map as "regular"
 properties. From a user perspective the API with setters and resetters is
 equivalent to the API of regular properties:
 
-```
+```javascript
 obj.setLocation( 50, 100);
 
 // instead of
@@ -780,10 +697,10 @@ Additionally, you may also provide a mode which modifies the incoming data
 before calling the setter of each group members. Currently, the only available
 modifier is `shorthand`, which emulates the well-known CSS shorthand support for
 Qooxdoo properties. For more information regarding this feature, please have a
-look at the `user manual <understanding_properties>`. The definition of such a
+look at the [user manual](understanding_properties). The definition of such a
 property group reads:
 
-```
+```javascript
 properties :
 {
   padding :
@@ -796,7 +713,7 @@ properties :
 
 For example, this would allow to set the property in the following way:
 
-```
+```javascript
 obj.setPadding( 10, 20 );
 
 // instead of

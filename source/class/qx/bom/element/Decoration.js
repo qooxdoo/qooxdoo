@@ -151,15 +151,7 @@ qx.Class.define("qx.bom.element.Decoration",
           }
         }
 
-        var resource = ResourceManager.getData(source);
-        var charCode;
-        if (resource) {
-          charCode = resource[2];
-        }
-        else {
-          charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
-          qx.core.Assert.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
-        }
+        var charCode = ResourceManager.fromFontUriToCharCode(source);
         
         return '<div style="' + css + '">' + String.fromCharCode(charCode) + '</div>';
       }

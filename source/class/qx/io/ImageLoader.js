@@ -216,6 +216,16 @@ qx.Bootstrap.define("qx.io.ImageLoader",
           entry.callbacks.push(callback, context);
         }
 
+        var ResourceManager = qx.util.ResourceManager.getInstance();
+        if(ResourceManager.isFontUri(source))
+        {
+          var el = document.createElement('div');
+          var charCode = ResourceManager.fromFontUriToCharCode(source);
+          el.value = String.fromCharCode(charCode);
+          entry.element = el;
+          return;
+        }
+
         // Create image element
         var el = document.createElement('img');
 
