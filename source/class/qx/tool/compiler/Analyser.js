@@ -1374,4 +1374,3 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     }
   }
 });
-

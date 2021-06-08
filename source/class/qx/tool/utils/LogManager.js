@@ -184,5 +184,3 @@ qx.Class.define("qx.tool.utils.LogManager", {
     }
   }
 });
-
-

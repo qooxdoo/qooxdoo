@@ -2667,4 +2667,3 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   }
 
 });
-
