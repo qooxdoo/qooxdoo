@@ -25,6 +25,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellLayerLayout", {
       this.__lastSizeHints = {};
       let layer = this._getWidget();
       let pane = layer.getPane();
+      let firstRow = pane.getFirstRow();
+      let firstColumn = pane.getFirstColumn();
       let rowSizes = pane.getRowSizes();
       let columnSizes = pane.getColumnSizes();
       
@@ -36,12 +38,12 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellLayerLayout", {
           return;
         }
 
-        if (!columnSizes[columnIndex] || !rowSizes[rowIndex]) {
-          this.warn(`Cannot find sizes for ${rowIndex} (${rowSizes[rowIndex]}), ${columnIndex} (${columnSizes[columnIndex]})`);
+        if (!columnSizes[columnIndex - firstColumn] || !rowSizes[rowIndex - firstRow]) {
+          this.warn(`Cannot find sizes for ${rowIndex}-${firstRow} (${rowSizes[rowIndex-firstRow]}), ${columnIndex}-${firstColumn} (${columnSizes[columnIndex-firstColumn]})`);
           return;
         }
-        let { left, width } = columnSizes[columnIndex];
-        let { top, height } = rowSizes[rowIndex]; 
+        let { left, width } = columnSizes[columnIndex - firstColumn];
+        let { top, height } = rowSizes[rowIndex - firstRow]; 
         
         let hint = child.getSizeHint();
         let lastHint = lastSizeHints && lastSizeHints[child.toHashCode()] || null;

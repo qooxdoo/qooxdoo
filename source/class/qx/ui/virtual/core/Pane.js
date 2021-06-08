@@ -178,6 +178,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     __dontFireUpdate : null,
     __columnSizes : null,
     __rowSizes : null,
+    __firstRow: 0,
+    __firstColumn: 0,
     __pointerDownCoords : null,
     
     /** @type {qx.ui.virtual.core.ICellSizeProvider[]} the layers which provide cell sizes */
@@ -215,6 +217,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     getColumnSizes() {
       return this.__columnSizes;
+    },
+
+    getFirstRow() {
+      return this.__firstRow;
+    },
+
+    getFirstColumn() {
+      return this.__firstColumn;
     },
 
 
@@ -924,8 +934,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
       let rowConfig = this.__rowConfig;
       let columnConfig = this.__columnConfig;
-      var rowCellData = rowConfig.getItemAtPosition(top);
-      var columnCellData = columnConfig.getItemAtPosition(left);
+      var rowCellData = rowConfig.getItemAtPosition(this.__scrollTop);
+      var columnCellData = columnConfig.getItemAtPosition(this.__scrollLeft);
 
       var firstRow = 0;
       var rowSizes = [];
@@ -1146,24 +1156,22 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *    should be performed of if only the layer window should be updated.
      */
     _setLayerWindow(left, top, doFullUpdate) {
-      var firstRow = 0;
-      var firstColumn = 0;
       let rowConfig = this.__rowConfig;
       let columnConfig = this.__columnConfig;
       var rowCellData = rowConfig.getItemAtPosition(top);
       var columnCellData = columnConfig.getItemAtPosition(left);
       if (rowCellData && columnCellData) {
-        firstRow = rowCellData.index;
-        firstColumn = columnCellData.index;
+        this.__firstRow = rowCellData.index;
+        this.__firstColumn = columnCellData.index;
       }
 
       for (var i = 0; i < this.__layers.length; i++) {
         var layer = this.__layers[i];
 
         if (doFullUpdate) {
-          layer.fullUpdate(firstRow, firstColumn);
+          layer.fullUpdate(this.__firstRow, this.__firstColumn);
         } else {
-          layer.updateLayerWindow(firstRow, firstColumn);
+          layer.updateLayerWindow(this.__firstRow, this.__firstColumn);
         }
       }
     },
@@ -1255,50 +1263,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _updateScrollPosition : function()
     {
-      var layers = this.getVisibleLayers();
-      if (layers.length == 0)
-      {
-        this.__checkPaneResize();
-        return;
-      }
-
-      var bounds = this.getBounds();
-      if (!bounds) {
-        return; // the pane has not yet been rendered -> wait for the appear event
-      }
-
-      // the visible window of the virtual coordinate space
-      var paneWindow = {
-        top: this.__scrollTop,
-        bottom: this.__scrollTop + bounds.height,
-        left: this.__scrollLeft,
-        right: this.__scrollLeft + bounds.width
-      };
-
-      if (
-        this.__layerWindow.top <= paneWindow.top &&
-        this.__layerWindow.bottom >= paneWindow.bottom &&
-        this.__layerWindow.left <= paneWindow.left &&
-        this.__layerWindow.right >= paneWindow.right
-      )
-      {
-        // only update layer container offset
-        this._getLayout().setItemBounds(this.__layerContainer,
-          (this.getPaddingLeft() || 0) + (this.__layerWindow.left - paneWindow.left),
-          (this.getPaddingTop() || 0) + (this.__layerWindow.top - paneWindow.top),
-          this.__layerWindow.right - this.__layerWindow.left,
-          this.__layerWindow.bottom - this.__layerWindow.top
-        );
-      }
-      else
-      {
-        this._setLayerWindow(
-          this.__scrollLeft, this.__scrollTop,
-          false
-        );
-      }
-
+      this._setLayerWindow(
+        this.__scrollLeft, this.__scrollTop,
+        false
+      );
       this.__checkPaneResize();
+      qx.ui.core.queue.Layout.add(this);
     }
   },
 

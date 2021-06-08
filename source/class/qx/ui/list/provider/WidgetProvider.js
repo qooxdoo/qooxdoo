@@ -65,6 +65,11 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       apply: "_applyShowHeaders"
     }
   },
+  
+  events: {
+    /** Fired when properties of the model change */
+    "change": "qx.event.type.Data"
+  },
 
 
   members :

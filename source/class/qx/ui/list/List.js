@@ -96,7 +96,10 @@ qx.Class.define("qx.ui.list.List", {
     /**
      * Fired when the length of {@link #model} changes.
      */
-    "changeModelLength": "qx.event.type.Data"
+    "changeModelLength": "qx.event.type.Data",
+    
+    /** Fired when properties of the model change */
+    "change": "qx.event.type.Data"
   },
 
   properties: {
@@ -402,6 +405,7 @@ qx.Class.define("qx.ui.list.List", {
      */
     _init: function() {
       this._initWidgetProvider();
+      this._provider.addListener("change", evt => this.fireDataEvent("change", evt.getData()));
 
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];

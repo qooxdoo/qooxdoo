@@ -27,7 +27,7 @@ qx.Class.define("virtuallist.Application", {
           dt = new Date(dt.getTime());
           dt.setDate(dt.getDate() + 1);
           myBool = !myBool;
-          return { name: w, when: dt, trueOrFalse: myBool, number: (index + 1) + Math.random() };
+          return { name: w, when: dt, trueOrFalse: myBool, number: (index + 1) + Math.random(), height: 30 + (index * 15) };
         });
         model = qx.data.marshal.Json.createModel(model);
         
@@ -38,6 +38,7 @@ qx.Class.define("virtuallist.Application", {
         provider.addColumn(new qx.ui.list.column.DateLabelColumn().set({ caption: "When", path: "when" }));
         provider.addColumn(new qx.ui.list.column.BooleanColumn().set({ caption: "True or False?", path: "trueOrFalse" }));
         provider.addColumn(new qx.ui.list.column.NumberColumn().set({ caption: "A Number", path: "number" }));
+        provider.addColumn(new virtuallist.SetHeightColumn().set({ caption: "A Widget", path: "height" }));
         
         table.setModel(model);
         
