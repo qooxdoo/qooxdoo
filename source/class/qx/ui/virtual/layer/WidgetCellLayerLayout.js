@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellLayerLayout", {
         }
 
         if (!columnSizes[columnIndex - firstColumn] || !rowSizes[rowIndex - firstRow]) {
-          this.warn(`Cannot find sizes for ${rowIndex}-${firstRow} (${rowSizes[rowIndex-firstRow]}), ${columnIndex}-${firstColumn} (${columnSizes[columnIndex-firstColumn]})`);
+          //this.warn(`Cannot find sizes for ${rowIndex}-${firstRow} (${rowSizes[rowIndex-firstRow]}), ${columnIndex}-${firstColumn} (${columnSizes[columnIndex-firstColumn]})`);
           return;
         }
         let { left, width } = columnSizes[columnIndex - firstColumn];

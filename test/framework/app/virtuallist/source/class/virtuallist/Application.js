@@ -100,7 +100,7 @@ qx.Class.define("virtuallist.Application", {
         });
         
         root.add(container);
-      });//();      
+      })();      
 
     }
   },

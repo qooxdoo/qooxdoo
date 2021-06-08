@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       } else {
         // We can cache the widget for our own, but do not do this for Columns because they have their own
         //  caching and need to decide whether to cache or reload for the row/column model  
-        let widget = this.__cellWidgets[id] || null;
+        widget = this.__cellWidgets[id] || null;
         if (widget)
           return widget;
         
