@@ -35,4 +35,3 @@ qx.Class.define("qx.html.JsxRef", {
     
   }
 });
-
