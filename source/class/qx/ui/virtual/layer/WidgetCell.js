@@ -238,7 +238,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
                   (item.getUserData("cell.column") !== null && item.getUserData("cell.column") !== column)
                 )
                 ) {
-              debugger;
               cellProvider.getCellWidget(row, column);
               throw new Error("Changing the row and column of a widget");
             }

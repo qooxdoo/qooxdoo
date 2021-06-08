@@ -36,9 +36,7 @@ qx.Class.define("qx.ui.list.column.NumberColumn", {
      */
     _getModelBindingOptions(widget, model) {
       return {
-        converter: (data, ctlrModel, source, target) => {
-          return String(data||0);
-        }
+        converter: (data, ctlrModel, source, target) => String(data||0)
       };
     },
     

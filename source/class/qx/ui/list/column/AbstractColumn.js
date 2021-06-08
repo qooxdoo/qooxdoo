@@ -191,7 +191,6 @@ qx.Class.define("qx.ui.list.column.AbstractColumn", {
      */
     poolCellWidget(widget) {
       if (widget.$$createdHere !== this.classname) {
-        debugger;
         throw new Error("Unexpected widget in poolCellWidget");
       }
       
