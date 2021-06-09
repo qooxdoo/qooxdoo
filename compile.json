@@ -60,7 +60,8 @@
     "Promise.*",
     "require.*",
     "path.*",
-    "args.*"
+    "args.*",
+    "loadSass"
   ],
   "libraries": [
     "."
@@ -197,7 +198,10 @@
     "parserOptions": {
       "ecmaVersion": 2018
     },
-    "rules": {
+    "globals": {
+      "loadSass": "readonly"
+  },
+  "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
       "@qooxdoo/qx/no-refs-in-members": "off",
       "no-undef": "off",

@@ -29,7 +29,12 @@ const layouts = require("metalsmith-layouts");
 const markdown = require("metalsmith-markdown");
 //const filenames = require("metalsmith-filenames");
 //var permalinks = require("metalsmith-permalinks");
-const sass = require("node-sass");
+/**
+ * @external(qx/tool/loadsass.js)
+ * @ignore(loadSass)
+ */
+/* global loadSass */
+const sass = loadSass();
 const chokidar = require("chokidar");
 
 // config
@@ -76,19 +81,19 @@ qx.Class.define("qx.tool.utils.Website", {
   members: {
     /** @type {chokidar} watcher */
     __watcher: null,
-    
+
     /** @type {Boolean} whether the watcher is ready yet */
     __watcherReady: false,
-    
+
     /** @type {Integer} setTimeout timer ID for debouncing builds */
     __rebuildTimer: null,
-    
+
     /** @type {Boolean} Whether the build is currently taking place */
     __rebuilding: false,
-    
+
     /** @type {Boolean} Whether a rebuild is needed ASAP */
     __needsRebuild: false,
-    
+
     /**
      * Starts the watcher for files in the source directory and compiles as needed
      */
@@ -118,10 +123,10 @@ qx.Class.define("qx.tool.utils.Website", {
         this.__watcherReady = false;
       }
     },
-    
+
     /**
      * Whether the watcher is running
-     * 
+     *
      * @return {Boolean} true if its running
      */
     isWatching() {
@@ -136,7 +141,7 @@ qx.Class.define("qx.tool.utils.Website", {
         await this.__rebuildPromise;
       }
     },
-    
+
     /**
      * Rebuilds everything needed for the website
      */
@@ -147,7 +152,7 @@ qx.Class.define("qx.tool.utils.Website", {
 
     /**
      * Event handler for changes to the source files
-     * 
+     *
      * @param type {String} type of change, one of "change", "add", "unlink"
      * @param filename {String} the file that changed
      */
@@ -158,13 +163,13 @@ qx.Class.define("qx.tool.utils.Website", {
         }
       }
     },
-    
+
     /**
      * Triggers a rebuild of the website, asynchronously.  Unless immediate is true,
      * the rebuild will only happen after a short delay; but each time this is called,
      * the delay is restarted.  This is to allow multiple files to be changed without
      * swamping the processor with compilations.
-     * 
+     *
      * @param immediate {Boolean?} if true, rebuild starts ASAP
      */
     triggerRebuild(immediate) {
@@ -172,16 +177,16 @@ qx.Class.define("qx.tool.utils.Website", {
         this.__needsRebuild = true;
         return;
       }
-      
+
       let rebuilderImpl = async () => {
         await this.rebuildAll();
-        
+
         if (this.__needsRebuild) {
           this.__needsRebuild = false;
           await rebuilderImpl();
         }
       };
-      
+
       let rebuilder = async () => {
         this.__rebuilding = true;
         try {
@@ -192,14 +197,14 @@ qx.Class.define("qx.tool.utils.Website", {
           this.__rebuilding = false;
         }
       };
-      
+
       if (this.__rebuildTimer) {
         clearTimeout(this.__rebuildTimer);
         this.__rebuildTimer = null;
       }
       this.__rebuildTimer = setTimeout(rebuilder, immediate ? 1 : 250);
     },
-    
+
     /**
      * Metalsmith Plugin that collates a list of pages that are to be included in the site navigation
      * into the metadata, along with their URLs.

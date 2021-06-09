@@ -18,10 +18,16 @@
  *    Authors:
  *      * Henner Kollmann (henner.kollmann@gmx.de)
  *
+ *
  * *********************************************************************** */
 
-var path = require("upath");
-var sass = require("node-sass");
+const path = require("upath");
+/**
+ * @external(qx/tool/loadsass.js)
+ * @ignore(loadSass)
+ */
+/* global loadSass */
+const sass = loadSass();
 const fs = qx.tool.utils.Promisify.fs;
 
 qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
