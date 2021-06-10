@@ -446,11 +446,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       
       var assetUris = application.getAssetUris(t, rm, appMeta.getEnvironment()); // Save any changes that getAssets collected
       await rm.saveDatabase();
-      var assets = {};
-      rm.getAssetsForPaths(assetUris).forEach(asset => {
-        bootPackage.addAsset(asset);
-        assets[asset] = true;
-      });
 
       var promises = [
         analyser.getCldr("en")
@@ -459,41 +454,47 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       ];      
       
       var fontCntr = 0;
-      requiredLibs.forEach(libnamespace => {
-        var library = analyser.findLibrary(libnamespace);
-        var fonts = library.getWebFonts();
-        if (!fonts) {
-          return;
-        }
+      if (analyser.getApplicationTypes().indexOf("browser") > -1) {
+        var assets = {};
+        rm.getAssetsForPaths(assetUris).forEach(asset => {
+          bootPackage.addAsset(asset);
+          assets[asset.getFilename()] = asset.toString();
+        });
 
-        const loadFont = async font => {
-          try {
-            // check if font is asset somewhere
-            let res = font.getResources().filter(res => {
-              let s = library.getNamespace() + ":" + res;
-              return assets[s];
-            });
-            if (res.length === 0) {
-              return;
-            }
-            font.setResources(res);
-         
-            var p = await font.generateForTarget(t);
-            let resources = await font.generateForApplication(t, application);
-            for (var key in resources) {
-              appMeta.addResource(key, resources[key]);
-            }
-            var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
-            if (code) {
-              appMeta.addPreBootCode(code);
-            }
-          } catch (ex) {
-            qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
+        requiredLibs.forEach(libnamespace => {
+          var library = analyser.findLibrary(libnamespace);
+          var fonts = library.getWebFonts();
+          if (!fonts) {
+            return;
           }
-          promises.push(p);
-        };
-        fonts.forEach(font => promises.push(loadFont(font)));
-      });
+
+          const loadFont = async (library, font) => {
+            try {
+              // check if font is asset somewhere
+              let res = font.getResources().filter(res => assets[res]);
+              if (res.length === 0) {
+                qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.noResources", font.toString(), application.getName(), font.getResources().join(","));
+                return;
+              }
+              font.setResources(res);
+          
+              var p = await font.generateForTarget(t);
+              let resources = await font.generateForApplication(t, application);
+              for (var key in resources) {
+                appMeta.addResource(key, resources[key]);
+              }
+              var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
+              if (code) {
+                appMeta.addPreBootCode(code);
+              }
+            } catch (ex) {
+              qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
+            }
+            promises.push(p);
+          };
+          fonts.forEach(font => promises.push(loadFont(library, font)));
+        });
+      }
       await qx.Promise.all(promises);
       await t._writeApplication();
       this.__appMeta = null;

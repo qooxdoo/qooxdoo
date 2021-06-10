@@ -338,8 +338,8 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         }
       });
 
-      asset.setLoaders(this.__loaders.filter(loader => loader.matches(filename)));
-      asset.setConverters(this.__converters.filter(converter => converter.matches(filename)));
+      asset.setLoaders(this.__loaders.filter(loader => loader.matches(filename, library)));
+      asset.setConverters(this.__converters.filter(converter => converter.matches(filename, library)));
     },
 
     /**

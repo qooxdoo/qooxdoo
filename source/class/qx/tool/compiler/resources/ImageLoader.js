@@ -32,6 +32,9 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
   },
 
   members: {
+    /**
+     * @Override
+     */
     needsLoad(filename, fileInfo, stat) {
       if (!fileInfo || fileInfo.width === undefined || fileInfo.height === undefined) {
         return true;
@@ -39,6 +42,23 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
       return this.base(arguments, filename, fileInfo, stat);
     },
 
+    /**
+     * @Override
+     */
+    matches: function(filename, library) {
+      if (filename.endsWith("svg")) {
+        let isWebFont = library.getWebFonts().find(webFont => webFont.getResources().find(resource => resource == filename));
+        if (isWebFont)
+          return false;
+      }
+
+      return this.base(arguments, filename, library);
+    },
+
+
+    /**
+     * @Override
+     */
     async load(asset) {
       let filename = asset.getSourceFilename();
       let fileInfo = asset.getFileInfo();
