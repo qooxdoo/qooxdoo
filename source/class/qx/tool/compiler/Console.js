@@ -212,6 +212,7 @@ qx.Class.define("qx.tool.compiler.Console", {
       "qx.tool.compiler.environment.unreachable": "Environment check '%1' may be indeterminable, add to Manifest/provides/environment or use class name prefix",
 
       "qx.tool.compiler.target.missingAppLibrary": "Cannot find the application library for %1",
+      "qx.tool.compiler.webfonts.noResources": "Assets required for webfont %1 are not available in application %2, consider using @asset to include %3",
       "qx.tool.compiler.target.missingBootJs": "There is no reference to index.js script in the index.html copied from %1 (see https://git.io/fh7NI)",
       /* eslint-disable no-template-curly-in-string */
       "qx.tool.compiler.target.missingPreBootJs": "There is no reference to ${preBootJs} in the index.html copied from %1 (see https://git.io/fh7NI)",
