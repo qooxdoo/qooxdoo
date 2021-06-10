@@ -27,6 +27,7 @@
  *
  * @require(qx.event.handler.UserAction)
  * @ignore(qx.event.handler.DragDrop)
+ * @ignore(performance.now)
  */
 qx.Class.define("qx.event.handler.Mouse",
 {

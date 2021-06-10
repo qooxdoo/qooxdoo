@@ -420,6 +420,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.string.codePointAt", statics.getStringCodePointAt);
     qx.core.Environment.add("ecmascript.string.fromCodePoint", statics.getStringFromCodePoint);
 
+    // Promises
+    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
+
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
 

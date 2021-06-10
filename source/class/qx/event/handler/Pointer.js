@@ -131,11 +131,13 @@ qx.Class.define("qx.event.handler.Pointer",
       if (target && target.nodeType)
       {
         qx.event.type.dom.Pointer.normalize(domEvent);
-        // ensure compatibility with native events for IE8
-        try {
-          domEvent.srcElement = target;
-        }catch(ex) {
-          // Nothing - cannot change properties in strict mode
+        if (qx.core.Environment.get("browser.name") === "msie" && qx.core.Environment.get("browser.version") < 9) {
+          // ensure compatibility with native events for IE8
+          try {
+            domEvent.srcElement = target;
+          }catch(ex) {
+            // Nothing - cannot change properties in strict mode
+          }
         }
 
         var tracker = {};
