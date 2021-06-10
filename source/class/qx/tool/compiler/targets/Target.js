@@ -454,13 +454,13 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       ];      
       
       var fontCntr = 0;
-      if (analyser.getApplicationTypes().indexOf("browser") > -1) {
-        var assets = {};
-        rm.getAssetsForPaths(assetUris).forEach(asset => {
-          bootPackage.addAsset(asset);
-          assets[asset.getFilename()] = asset.toString();
-        });
+      var assets = {};
+      rm.getAssetsForPaths(assetUris).forEach(asset => {
+        bootPackage.addAsset(asset);
+        assets[asset.getFilename()] = asset.toString();
+      });
 
+      if (analyser.getApplicationTypes().indexOf("browser") > -1) {
         requiredLibs.forEach(libnamespace => {
           var library = analyser.findLibrary(libnamespace);
           var fonts = library.getWebFonts();
