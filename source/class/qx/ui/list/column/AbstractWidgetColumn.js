@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
         data.modelValueBindId = model.bind(path, widget, "value", this._getModelBindingOptions(widget, model));
         data.widgetBindId = widget.bind("value", model, path, this._getWidgetBindingOptions(widget, model));
       }
-      this._onModelChangeValue(model, model["get" + qx.lang.String.firstUp(path)](), widget);
+      //this._onModelChangeValue(model, model["get" + qx.lang.String.firstUp(path)](), widget);
       return data;
     },
 

@@ -1204,6 +1204,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     fullUpdate : function()
     {
+      this._fullUpdate();
+      qx.ui.core.queue.Layout.add(this);
+      qx.ui.core.queue.Widget.add(this);
+      /*
       if (!this.__fullUpdateDebounced) {
         this.__fullUpdateDebounced = qx.util.Function.throttle(() => {
           this._fullUpdate();
@@ -1212,6 +1216,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         }, 50);
       }
       this.__fullUpdateDebounced();
+      */
     },
 
     _onRowColumnChange() {
