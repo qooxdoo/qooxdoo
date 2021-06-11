@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@qooxdoo/compiler": "file:qooxdoo-compiler-1.0.0.tgz"
+    "@qooxdoo/compiler": "^1.0.0"
   }
 }
