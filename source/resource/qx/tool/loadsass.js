@@ -1,11 +1,9 @@
-debugger;
 global.require = require;
 global.loadSass = new Function (
 `
   // trick out sass
   process.versions.electron = "0.0.0";
   let remove = false;
-  debugger;
   if (typeof window === "undefined")
     return;
   if (!window.document.currentScript) {
