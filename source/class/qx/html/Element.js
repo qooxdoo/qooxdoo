@@ -548,6 +548,17 @@ qx.Class.define("qx.html.Element",
     /*
      * @Override
      */
+    serialize(writer) {
+      if (this.__childrenHaveChanged) {
+        this.importQxObjectIds();
+        this.__childrenHaveChanged = false;
+      }
+      return this.base(arguments, writer);
+    },
+
+    /*
+     * @Override
+     */
     _serializeImpl: function(writer) {
       writer("<", this._nodeName);
       
@@ -621,6 +632,116 @@ qx.Class.define("qx.html.Element",
      */
     disconnectWidget: function(widget) {
       return this.disconnectObject(widget);
+    },
+
+    /*
+     * @Override
+     */
+    _addChildImpl(child) {
+      this.base(arguments, child);
+      this.__childrenHaveChanged = true;
+    },
+
+    /*
+     * @Override
+     */
+    _removeChildImpl(child) {
+      this.base(arguments, child);
+      this.__childrenHaveChanged = true;
+    },
+
+    /*
+     * @Override
+     */
+    getQxObject(id) {
+      if (this.__childrenHaveChanged) {
+        this.importQxObjectIds();
+        this.__childrenHaveChanged = false;
+      }
+      return this.base(arguments, id);
+    },
+
+    /**
+     * When a tree of virtual dom is loaded via JSX code, the paths in the `data-qx-object-id` 
+     * attribute are relative to the JSX, and these attribuite values need to be loaded into the
+     * `qxObjectId` property - while resolving the parent parts of the path.
+     * 
+     * EG
+     *  <div data-qx-object-id="root">
+     *    <div>
+     *      <div data-qx-object-id="root/child">
+     * 
+     * The root DIV has to take on the qxObjectId of "root", and the third DIV has to have the 
+     * ID "child" and be owned by the first DIV.
+     * 
+     * This function imports and resolves those IDs
+     */
+    importQxObjectIds() {
+      let thisId = this.getQxObjectId();
+      let thisAttributeId = this.getAttribute("data-qx-object-id");
+      if (thisId)
+        this.setAttribute("data-qx-object-id", thisId, true);
+      else if (thisAttributeId)
+        this.setQxObjectId(thisAttributeId);
+
+      const resolveImpl = node => {
+        if (!(node instanceof qx.html.Element))
+          return;
+        let id = node.getQxObjectId();
+        let attributeId = node.getAttribute("data-qx-object-id");
+        if (id) {
+          if (attributeId && !attributeId.endsWith(id))
+            this.warn(`Attribute ID ${attributeId} is not compatible with the qxObjectId ${id}; the qxObjectId will take prescedence`);
+          node.setAttribute("data-qx-object-id", id, true);
+
+        } else if (attributeId) {
+          let segs = attributeId ? attributeId.split('/') : [];
+
+          // Only one segment is easy, add directly to the parent
+          if (segs.length == 1) {
+            let parentNode = this;
+            parentNode.addOwnedQxObject(node, attributeId);
+
+          // Lots of segments
+          } else if (segs.length > 1) {
+            let parentNode = null;
+
+            // If the first segment is the outer parent
+            if (segs[0] == thisAttributeId || segs[0] == thisId) {
+              // Only two segments, means that the parent is the outer and the last segment 
+              //  is the ID of the node being examined
+              if (segs.length == 2)
+                parentNode = this;
+
+              // Otherwise resolve it further
+              else {
+                // Extract the segments, exclude the first and last, and that leaves us with a relative ID path
+                let subId = qx.lang.Array.clone(segs);
+                subId.shift();
+                subId.pop();
+                subId = subId.join("/");
+                parentNode = this.getQxObject(subId);
+              }
+
+            // Not the outer node, then resolve as a global.
+            } else
+              parentNode = qx.core.Id.getQxObject(attributeId);
+              
+            if (!parentNode)
+              throw new Error(`Cannot resolve object id ancestors, id=${attributeId}`);
+
+            parentNode.addOwnedQxObject(node, segs[segs.length - 1]);
+          }
+        }
+
+        let children = node.getChildren();
+        if (children)
+          children.forEach(resolveImpl);
+      };
+
+      let children = this.getChildren();
+      if (children)
+        children.forEach(resolveImpl);
     },
 
 
@@ -1885,6 +2006,10 @@ qx.Class.define("qx.html.Element",
         delete this.__attribValues[key];
       } else {
         this.__attribValues[key] = value;
+      }
+
+      if (key == "data-qx-object-id") {
+        this.setQxObjectId(value);
       }
 
       // Uncreated elements simply copy all data
