@@ -275,6 +275,9 @@ qx.Class.define("qx.html.Node",
      * @param domNode {Node} DOM Node to reuse
      */
     useNode: function(domNode) {
+      var id = domNode.getAttribute("data-qx-object-id");
+      if (id)
+        this.setQxObjectId(id);
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
@@ -474,14 +477,10 @@ qx.Class.define("qx.html.Node",
     updateObjectId: function() {
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
-        var id = null;
-        
-        if (!this._qxObject && this.getQxObjectId()) {
-          id = qx.core.Id.getAbsoluteIdOf(this, true) || null;
-        } else if (this._qxObject && this._qxObject.getQxObjectId()) {
-          id = qx.core.Id.getAbsoluteIdOf(this._qxObject, true) || null;
-        }
-        
+        var id = this.getQxObjectId();
+        if (!id && this._qxObject)
+          id = this._qxObject.getQxObjectId();
+
         this.setAttribute("data-qx-object-id", id, true);
       }
     },
@@ -862,7 +861,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is already a child
      *     of this element
      */
-    __addChildHelper : function(child)
+    _addChildImpl : function(child)
     {
       if (child._parent === this) {
         throw new Error("Child is already in: " + child);
@@ -899,7 +898,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is not a child
      *     of this element
      */
-    __removeChildHelper : function(child)
+    _removeChildImpl : function(child)
     {
       if (child._parent !== this) {
         throw new Error("Has no child: " + child);
@@ -922,7 +921,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is not a child
      *     of this element
      */
-    __moveChildHelper : function(child)
+    _moveChildImpl : function(child)
     {
       if (child._parent !== this) {
         throw new Error("Has no child: " + child);
@@ -1024,7 +1023,7 @@ qx.Class.define("qx.html.Node",
           if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
             addImpl(child);
           } else {
-            self.__addChildHelper(child);
+            self._addChildImpl(child);
             self._children.push(child);
           }
         });
@@ -1047,7 +1046,7 @@ qx.Class.define("qx.html.Node",
      */
     addAt : function(child, index)
     {
-      this.__addChildHelper(child);
+      this._addChildImpl(child);
       qx.lang.Array.insertAt(this._children, child, index);
 
       // Chaining support
@@ -1073,7 +1072,7 @@ qx.Class.define("qx.html.Node",
           if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
             removeImpl(child);
           } else {
-            self.__removeChildHelper(child);
+            self._removeChildImpl(child);
             qx.lang.Array.remove(children, child);
           }
         });
@@ -1104,7 +1103,7 @@ qx.Class.define("qx.html.Node",
         throw new Error("Has no child at this position!");
       }
 
-      this.__removeChildHelper(child);
+      this._removeChildImpl(child);
       qx.lang.Array.removeAt(this._children, index);
 
       // Chaining support
@@ -1123,7 +1122,7 @@ qx.Class.define("qx.html.Node",
       if (children)
       {
         for (var i=0, l=children.length; i<l; i++) {
-          this.__removeChildHelper(children[i]);
+          this._removeChildImpl(children[i]);
         }
 
         // Clear array
@@ -1166,7 +1165,7 @@ qx.Class.define("qx.html.Node",
      */
     insertInto : function(parent, index)
     {
-      parent.__addChildHelper(this);
+      parent._addChildImpl(this);
 
       if (index == null) {
         parent._children.push(this);
@@ -1188,7 +1187,7 @@ qx.Class.define("qx.html.Node",
     {
       var parent = rel._parent;
 
-      parent.__addChildHelper(this);
+      parent._addChildImpl(this);
       qx.lang.Array.insertBefore(parent._children, this, rel);
 
       return this;
@@ -1205,7 +1204,7 @@ qx.Class.define("qx.html.Node",
     {
       var parent = rel._parent;
 
-      parent.__addChildHelper(this);
+      parent._addChildImpl(this);
       qx.lang.Array.insertAfter(parent._children, this, rel);
 
       return this;
@@ -1224,7 +1223,7 @@ qx.Class.define("qx.html.Node",
     {
       var parent = this._parent;
 
-      parent.__moveChildHelper(this);
+      parent._moveChildImpl(this);
 
       var oldIndex = parent._children.indexOf(this);
 
@@ -1283,7 +1282,7 @@ qx.Class.define("qx.html.Node",
         return this;
       }
 
-      parent.__removeChildHelper(this);
+      parent._removeChildImpl(this);
       qx.lang.Array.remove(parent._children, this);
 
       return this;
