@@ -41,264 +41,307 @@
  * @require(qx.module.Animation)
  */
 qx.Class.define("qx.html.Element",
+{
+  extend : qx.html.Node,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * Creates a new Element
+   *
+   * @param tagName {String?"div"} Tag name of the element to create
+   * @param styles {Map?null} optional map of CSS styles, where the key is the name
+   *    of the style and the value is the value to use.
+   * @param attributes {Map?null} optional map of element attributes, where the
+   *    key is the name of the attribute and the value is the value to use.
+   */
+  construct : function(tagName, styles, attributes)
   {
-    extend: qx.core.Object,
-    implement: [qx.core.IDisposable],
+    this.base(arguments, tagName||"div");
+
+    this.__styleValues = styles || null;
+    this.__attribValues = attributes || null;
+    if (attributes) {
+      for (var key in attributes) {
+        if (!key) {
+          throw new Error("Invalid unnamed attribute in " + this.classname);
+        }
+      }
+    }
+    this.initCssClass();
+    
+    this.registerProperty("innerHtml",
+        null, 
+        function(value) {
+          if (this._domNode) {
+            this._domNode.innerHTML = value;
+          }
+        },
+        function(writer, value) {
+          if (value) {
+            writer(value);
+          }
+        });
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      STATIC DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /** @type {Boolean} If debugging should be enabled */
+    DEBUG : false,
+    
+    /** @type {Integer} number of roots */
+    _hasRoots: 0,
+    
+    /** @type {Element} the default root to use */
+    _defaultRoot: null,
+
+    /** @type {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
+    _modified : {},
+
+    /** @type {Map} Contains the {@link qx.html.Element}s which should get hidden or visible at the next flush. The key is the hash code. */
+    _visibility : {},
+
+    /** @type {Map} Contains the {@link qx.html.Element}s which should scrolled at the next flush */
+    _scroll : {},
+
+    /** @type {Array} List of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
+    _actions : [],
+
+    /**  @type {Map} List of all selections. */
+    __selection : {},
+
+    __focusHandler : null,
+
+    __mouseCapture : null,
+
+    __SELF_CLOSING_TAGS: null,
+
 
 
 
 
     /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
+    ---------------------------------------------------------------------------
+      PUBLIC ELEMENT FLUSH
+    ---------------------------------------------------------------------------
     */
 
     /**
-     * Creates a new Element
+     * Schedule a deferred element queue flush. If the widget subsystem is used
+     * this method gets overwritten by {@link qx.ui.core.queue.Manager}.
      *
-     * @param tagName {String?"div"} Tag name of the element to create
-     * @param styles {Map?null} optional map of CSS styles, where the key is the name
-     *    of the style and the value is the value to use.
-     * @param attributes {Map?null} optional map of element attributes, where the
-     *    key is the name of the attribute and the value is the value to use.
+     * @param job {String} The job descriptor. Should always be <code>"element"</code>.
      */
-    construct: function (tagName, styles, attributes) {
-      this.base(arguments);
-
-      // {String} Set tag name
-      this.__nodeName = tagName || "div";
-
-      this.__styleValues = styles || null;
-      this.__attribValues = attributes || null;
+    _scheduleFlush : function(job) {
+      qx.html.Element.__deferredCall.schedule();
     },
 
 
-
-
-    /*
-    *****************************************************************************
-       STATICS
-    *****************************************************************************
-    */
-
-    statics:
+    /**
+     * Flush the global modified list
+     */
+    flush : function()
     {
-      /*
-      ---------------------------------------------------------------------------
-        STATIC DATA
-      ---------------------------------------------------------------------------
-      */
+      var obj;
 
-      /** @type {Boolean} If debugging should be enabled */
-      DEBUG: false,
-
-
-      /** @type {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
-      _modified: {},
-
-
-      /** @type {Map} Contains the {@link qx.html.Element}s which should get hidden or visible at the next flush. The key is the hash code. */
-      _visibility: {},
-
-
-      /** @type {Map} Contains the {@link qx.html.Element}s which should scrolled at the next flush */
-      _scroll: {},
-
-
-      /** @type {Array} List of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
-      _actions: [],
-
-
-      /**  @type {Map} List of all selections. */
-      __selection: {},
-
-
-      __focusHandler: null,
-
-
-      __mouseCapture: null,
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        PUBLIC ELEMENT FLUSH
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Schedule a deferred element queue flush. If the widget subsystem is used
-       * this method gets overwritten by {@link qx.ui.core.queue.Manager}.
-       *
-       * @param job {String} The job descriptor. Should always be <code>"element"</code>.
-       */
-      _scheduleFlush: function (job) {
-        qx.html.Element.__deferredCall.schedule();
-      },
-
-
-      /**
-       * Flush the global modified list
-       */
-      flush: function () {
-        var obj;
-
-        if (qx.core.Environment.get("qx.debug")) {
-          if (this.DEBUG) {
-            qx.log.Logger.debug(this, "Flushing elements...");
-          }
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (this.DEBUG) {
+          qx.log.Logger.debug(this, "Flushing elements...");
         }
+      }
 
 
+      if (!qx.core.Environment.get("qx.headless")) {
         // blur elements, which will be removed
         var focusHandler = this.__getFocusHandler();
         var focusedDomElement = focusHandler.getFocus();
         if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
           focusHandler.blur(focusedDomElement);
         }
-
-        // decativate elements, which will be removed
+  
+        // deactivate elements, which will be removed
         var activeDomElement = focusHandler.getActive();
         if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
           qx.bom.Element.deactivate(activeDomElement);
         }
-
+  
         // release capture for elements, which will be removed
         var captureDomElement = this.__getCaptureElement();
         if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
           qx.bom.Element.releaseCapture(captureDomElement);
         }
+      }
 
 
-        var later = [];
-        var modified = this._modified;
+      var later = [];
+      var modified = this._modified;
 
-        for (var hc in modified) {
-          obj = modified[hc];
-          // Ignore all hidden elements except iframes
-          // but keep them until they get visible (again)
-          if (obj.__willBeSeeable() || obj.classname == "qx.html.Iframe") {
-            // Separately queue rendered elements
-            if (obj.__element && qx.dom.Hierarchy.isRendered(obj.__element)) {
-              later.push(obj);
-            }
+      for (var hc in modified)
+      {
+        obj = modified[hc];
+        // Ignore all hidden elements except iframes
+        // but keep them until they get visible (again)
+        if (obj._willBeSeeable() || obj.classname == "qx.html.Iframe")
+        {
+          // Separately queue rendered elements
+          if (obj._domNode && qx.dom.Hierarchy.isRendered(obj._domNode)) {
+            later.push(obj);
+          }
 
-            // Flush invisible elements first
-            else {
-              if (qx.core.Environment.get("qx.debug")) {
-                if (this.DEBUG) {
-                  obj.debug("Flush invisible element");
-                }
+          // Flush invisible elements first
+          else
+          {
+            if (qx.core.Environment.get("qx.debug"))
+            {
+              if (this.DEBUG) {
+                obj.debug("Flush invisible element");
               }
-
-              obj.__flush();
             }
 
-            // Cleanup modification list
-            delete modified[hc];
+            obj.flush();
+          }
+
+          // Cleanup modification list
+          delete modified[hc];
+        }
+      }
+
+      for (var i=0, l=later.length; i<l; i++)
+      {
+        obj = later[i];
+
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          if (this.DEBUG) {
+            obj.debug("Flush rendered element");
           }
         }
 
-        for (var i = 0, l = later.length; i < l; i++) {
-          obj = later[i];
-
-          if (qx.core.Environment.get("qx.debug")) {
-            if (this.DEBUG) {
-              obj.debug("Flush rendered element");
-            }
-          }
-
-          obj.__flush();
-        }
+        obj.flush();
+      }
 
 
 
-        // Process visibility list
-        var visibility = this._visibility;
+      // Process visibility list
+      var visibility = this._visibility;
 
-        for (var hc in visibility) {
-          obj = visibility[hc];
+      for (var hc in visibility)
+      {
+        obj = visibility[hc];
 
-          var element = obj.__element;
-          if (!element) {
-            delete visibility[hc];
-            continue;
-          }
-
-          if (qx.core.Environment.get("qx.debug")) {
-            if (this.DEBUG) {
-              qx.log.Logger.debug(this, "Switching visibility to: " + obj.__visible);
-            }
-          }
-
-          // hiding or showing an object and deleting it right after that may
-          // cause an disposed object in the visibility queue [BUG #3607]
-          if (!obj.$$disposed) {
-            element.style.display = obj.__visible ? "" : "none";
-            // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
-            if ((qx.core.Environment.get("engine.name") == "mshtml")) {
-              if (!(document.documentMode >= 8)) {
-                element.style.visibility = obj.__visible ? "visible" : "hidden";
-              }
-            }
-          }
-
+        var element = obj._domNode;
+        if (!element)
+        {
           delete visibility[hc];
+          continue;
         }
 
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          if (this.DEBUG) {
+            qx.log.Logger.debug(this, "Switching visibility to: " + obj.isVisible());
+          }
+        }
+
+        // hiding or showing an object and deleting it right after that may
+        // cause an disposed object in the visibility queue [BUG #3607]
+        if (!obj.$$disposed) {
+          element.style.display = obj.isVisible() ? "" : "none";
+          // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
+          if ((qx.core.Environment.get("engine.name") == "mshtml"))
+          {
+            if (!(document.documentMode >= 8)) {
+              element.style.visibility = obj.isVisible() ? "visible" : "hidden";
+            }
+          }
+        }
+
+        delete visibility[hc];
+      }
+
+      if (!qx.core.Environment.get("qx.headless")) {
         // Process scroll list
         var scroll = this._scroll;
-        for (var hc in scroll) {
+        for (var hc in scroll)
+        {
           obj = scroll[hc];
-          var elem = obj.__element;
-
-          if (elem && elem.offsetWidth) {
+          var elem = obj._domNode;
+  
+          if (elem && elem.offsetWidth)
+          {
             var done = true;
-
+  
             // ScrollToX
-            if (obj.__lazyScrollX != null) {
-              obj.__element.scrollLeft = obj.__lazyScrollX;
+            if (obj.__lazyScrollX != null)
+            {
+              obj._domNode.scrollLeft = obj.__lazyScrollX;
               delete obj.__lazyScrollX;
             }
-
+  
             // ScrollToY
-            if (obj.__lazyScrollY != null) {
-              obj.__element.scrollTop = obj.__lazyScrollY;
+            if (obj.__lazyScrollY != null)
+            {
+              obj._domNode.scrollTop = obj.__lazyScrollY;
               delete obj.__lazyScrollY;
             }
-
+  
             // ScrollIntoViewX
             var intoViewX = obj.__lazyScrollIntoViewX;
-            if (intoViewX != null) {
+            if (intoViewX != null)
+            {
               var child = intoViewX.element.getDomElement();
-
-              if (child && child.offsetWidth) {
+  
+              if (child && child.offsetWidth)
+              {
                 qx.bom.element.Scroll.intoViewX(child, elem, intoViewX.align);
                 delete obj.__lazyScrollIntoViewX;
               }
-              else {
+              else
+              {
                 done = false;
               }
             }
-
+  
             // ScrollIntoViewY
             var intoViewY = obj.__lazyScrollIntoViewY;
-            if (intoViewY != null) {
+            if (intoViewY != null)
+            {
               var child = intoViewY.element.getDomElement();
-
-              if (child && child.offsetWidth) {
+  
+              if (child && child.offsetWidth)
+              {
                 qx.bom.element.Scroll.intoViewY(child, elem, intoViewY.align);
                 delete obj.__lazyScrollIntoViewY;
               }
-              else {
+              else
+              {
                 done = false;
               }
             }
-
+  
             // Clear flag if all things are done
             // Otherwise wait for the next flush
             if (done) {
@@ -306,19 +349,20 @@ qx.Class.define("qx.html.Element",
             }
           }
         }
-
-
+  
+  
         var activityEndActions = {
           "releaseCapture": 1,
           "blur": 1,
           "deactivate": 1
         };
-
+  
         // Process action list
-        for (var i = 0; i < this._actions.length; i++) {
+        for (var i=0; i<this._actions.length; i++)
+        {
           var action = this._actions[i];
-          var element = action.element.__element;
-          if (!element || !activityEndActions[action.type] && !action.element.__willBeSeeable()) {
+          var element = action.element._domNode;
+          if (!element || !activityEndActions[action.type] && !action.element._willBeSeeable()) {
             continue;
           }
           var args = action.args;
@@ -326,76 +370,636 @@ qx.Class.define("qx.html.Element",
           qx.bom.Element[action.type].apply(qx.bom.Element, args);
         }
         this._actions = [];
+      }
 
-        // Process selection
-        for (var hc in this.__selection) {
-          var selection = this.__selection[hc];
-          var elem = selection.element.__element;
-          if (elem) {
-            qx.bom.Selection.set(elem, selection.start, selection.end);
-            delete this.__selection[hc];
-          }
+      // Process selection
+      for (var hc in this.__selection)
+      {
+        var selection = this.__selection[hc];
+        var elem = selection.element._domNode;
+        if (elem)
+        {
+          qx.bom.Selection.set(elem, selection.start, selection.end);
+          delete this.__selection[hc];
         }
+      }
 
-        // Fire appear/disappear events
-        qx.event.handler.Appear.refresh();
-      },
+      // Fire appear/disappear events
+      qx.event.handler.Appear.refresh();
+    },
 
 
-      /**
-       * Get the focus handler
-       *
-       * @return {qx.event.handler.Focus} The focus handler
-       */
-      __getFocusHandler: function () {
-        if (!this.__focusHandler) {
+    /**
+     * Get the focus handler
+     *
+     * @return {qx.event.handler.Focus} The focus handler
+     */
+    __getFocusHandler : function()
+    {
+      if (!qx.core.Environment.get("qx.headless")) {
+        if (!this.__focusHandler)
+        {
           var eventManager = qx.event.Registration.getManager(window);
           this.__focusHandler = eventManager.getHandler(qx.event.handler.Focus);
         }
         return this.__focusHandler;
-      },
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__getFocusHandler in headless environment");
+      }
+    },
 
 
-      /**
-       * Get the mouse capture element
-       *
-       * @return {Element} The mouse capture DOM element
-       */
-      __getCaptureElement: function () {
-        if (!this.__mouseCapture) {
+    /**
+     * Get the mouse capture element
+     *
+     * @return {Element} The mouse capture DOM element
+     */
+    __getCaptureElement : function()
+    {
+      if (!qx.core.Environment.get("qx.headless")) {
+        if (!this.__mouseCapture)
+        {
           var eventManager = qx.event.Registration.getManager(window);
           this.__mouseCapture = eventManager.getDispatcher(qx.event.dispatch.MouseCapture);
         }
         return this.__mouseCapture.getCaptureElement();
-      },
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__getCaptureElement in headless environment");
+      }
+    },
 
 
-      /**
-       * Whether the given DOM element will become invisible after the flush
-       *
-       * @param domElement {Element} The DOM element to check
-       * @return {Boolean} Whether the element will become invisible
-       */
-      __willBecomeInvisible: function (domElement) {
-        var element = this.fromDomElement(domElement);
-        return element && !element.__willBeSeeable();
-      },
+    /**
+     * Whether the given DOM element will become invisible after the flush
+     *
+     * @param domElement {Element} The DOM element to check
+     * @return {Boolean} Whether the element will become invisible
+     */
+    __willBecomeInvisible : function(domElement)
+    {
+      var element = this.fromDomElement(domElement);
+      return element && !element._willBeSeeable();
+    },
 
 
-      /**
-       * Finds the Widget for a given DOM element
-       *
-       * @param domElement {DOM} the DOM element
-       * @return {qx.ui.core.Widget} the Widget that created the DOM element
-       */
-      fromDomElement: function (domElement) {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue((!domElement.$$element && !domElement.$$elementObject) ||
-            domElement.$$element === domElement.$$elementObject.toHashCode());
+    /**
+     * Finds the Widget for a given DOM element
+     *
+     * @param domElement {DOM} the DOM element
+     * @return {qx.ui.core.Widget} the Widget that created the DOM element
+     * @deprecated {6.1} see qx.html.Node.fromDomNode
+     */
+    fromDomElement: function(domElement) {
+      return qx.html.Node.fromDomNode(domElement);
+    },
+    
+    /**
+     * Sets the default Root element
+     * 
+     * @param root {Element} the new default root
+     */
+    setDefaultRoot: function(root) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (this._defaultRoot && root) {
+          qx.log.Logger.warn(qx.html.Element, "Changing default root, from " + this._defaultRoot + " to " + root);
         }
-        return domElement.$$elementObject;
+      }
+      this._defaultRoot = root;
+    },
+
+    /**
+     * Returns the default root
+     * 
+     * @return {Element} the default root
+     */
+    getDefaultRoot: function() {
+      return this._defaultRoot;
+    }
+
+  },
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : {
+    /** 
+     * @type{String} The primary CSS class for this element
+     * 
+     * The implementation will add and remove this class from the list of classes, 
+     * this property is provided as a means to easily set the primary class.  Because 
+     * SCSS supports inheritance, it's more useful to be able to allow the SCSS 
+     * definition to control the inheritance hierarchy of classes.  
+     * 
+     * For example, a dialog could be implemented in code as a Dialog class derived from
+     * a Window class, but the presentation may be so different that the theme author
+     * would choose to not use inheritance at all.
+     */
+    cssClass: {
+      init: null,
+      nullable: true,
+      check: "String",
+      apply: "_applyCssClass"
+    }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROTECTED HELPERS/DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /** @type {Boolean} Marker for always visible root nodes (often the body node) */
+    __root : false,
+
+    __lazyScrollIntoViewX : null,
+    __lazyScrollIntoViewY : null,
+
+    __lazyScrollX : null,
+    __lazyScrollY : null,
+
+    __styleJobs : null,
+    __attribJobs : null,
+
+    __styleValues : null,
+    __attribValues : null,
+
+    /*
+     * @Override
+     */
+    _createDomElement : function() {
+      return qx.dom.Element.create(this._nodeName);
+    },
+
+    /*
+     * @Override
+     */
+    serialize(writer) {
+      if (this.__childrenHaveChanged) {
+        this.importQxObjectIds();
+        this.__childrenHaveChanged = false;
+      }
+      return this.base(arguments, writer);
+    },
+
+    /*
+     * @Override
+     */
+    _serializeImpl: function(writer) {
+      writer("<", this._nodeName);
+      
+      // Copy attributes
+      var data = this.__attribValues;
+      if (data) {
+        var Attribute = qx.bom.element.Attribute;
+        for (var key in data) {
+          writer(" ");
+          Attribute.serialize(writer, key, data[key]);
+        }
       }
 
+      // Copy styles
+      var data = this.__styleValues||{};
+      if (!this.isVisible()) {
+        data = qx.lang.Object.clone(data);
+        data.display = "none";
+      }
+      if (Object.keys(data).length) {
+        var Style = qx.bom.element.Style;
+        var css = Style.compile(data);
+        if (css) {
+          writer(" style=\"", css, "\"");
+        }
+      }
+
+      // Copy properties
+      var data = this._properties;
+      if (data) {
+        for (var key in this._properties) {
+          if (this._properties.serialize) {
+            this._properties.serialize.call(this, data[key], key);
+          }
+        }
+      }
+      
+      // Children
+      if (!this._children || !this._children.length) {
+        if (qx.html.Element.__SELF_CLOSING_TAGS[this._nodeName]) {
+          writer(">");
+        } else {
+          writer("></", this._nodeName, ">");
+        }
+      } else {
+        writer(">");
+        for (var i = 0; i < this._children.length; i++) {
+          this._children[i]._serializeImpl(writer);
+        }
+        writer("</", this._nodeName, ">");
+      }
+    },
+    
+    /**
+     * Connects a widget to this element, and to the DOM element in this Element.  They
+     * remain associated until disposed or disconnectWidget is called
+     *
+     * @param widget {qx.ui.core.Widget} the widget to associate
+     * @deprecated {6.1} see connectObject
+     */
+    connectWidget : function(widget) {
+      return this.connectObject(widget);
+    },
+
+    /**
+     * Disconnects a widget from this element and the DOM element.  The DOM element remains
+     * untouched, except that it can no longer be used to find the Widget.
+     *
+     * @param qxObject {qx.core.Object} the Widget
+     * @deprecated {6.1} see disconnectObject
+     */
+    disconnectWidget: function(widget) {
+      return this.disconnectObject(widget);
+    },
+
+    /*
+     * @Override
+     */
+    _addChildImpl(child) {
+      this.base(arguments, child);
+      this.__childrenHaveChanged = true;
+    },
+
+    /*
+     * @Override
+     */
+    _removeChildImpl(child) {
+      this.base(arguments, child);
+      this.__childrenHaveChanged = true;
+    },
+
+    /*
+     * @Override
+     */
+    getQxObject(id) {
+      if (this.__childrenHaveChanged) {
+        this.importQxObjectIds();
+        this.__childrenHaveChanged = false;
+      }
+      return this.base(arguments, id);
+    },
+
+    /**
+     * When a tree of virtual dom is loaded via JSX code, the paths in the `data-qx-object-id` 
+     * attribute are relative to the JSX, and these attribuite values need to be loaded into the
+     * `qxObjectId` property - while resolving the parent parts of the path.
+     * 
+     * EG
+     *  <div data-qx-object-id="root">
+     *    <div>
+     *      <div data-qx-object-id="root/child">
+     * 
+     * The root DIV has to take on the qxObjectId of "root", and the third DIV has to have the 
+     * ID "child" and be owned by the first DIV.
+     * 
+     * This function imports and resolves those IDs
+     */
+    importQxObjectIds() {
+      let thisId = this.getQxObjectId();
+      let thisAttributeId = this.getAttribute("data-qx-object-id");
+      if (thisId)
+        this.setAttribute("data-qx-object-id", thisId, true);
+      else if (thisAttributeId)
+        this.setQxObjectId(thisAttributeId);
+
+      const resolveImpl = node => {
+        if (!(node instanceof qx.html.Element))
+          return;
+        let id = node.getQxObjectId();
+        let attributeId = node.getAttribute("data-qx-object-id");
+        if (id) {
+          if (attributeId && !attributeId.endsWith(id))
+            this.warn(`Attribute ID ${attributeId} is not compatible with the qxObjectId ${id}; the qxObjectId will take prescedence`);
+          node.setAttribute("data-qx-object-id", id, true);
+
+        } else if (attributeId) {
+          let segs = attributeId ? attributeId.split('/') : [];
+
+          // Only one segment is easy, add directly to the parent
+          if (segs.length == 1) {
+            let parentNode = this;
+            parentNode.addOwnedQxObject(node, attributeId);
+
+          // Lots of segments
+          } else if (segs.length > 1) {
+            let parentNode = null;
+
+            // If the first segment is the outer parent
+            if (segs[0] == thisAttributeId || segs[0] == thisId) {
+              // Only two segments, means that the parent is the outer and the last segment 
+              //  is the ID of the node being examined
+              if (segs.length == 2)
+                parentNode = this;
+
+              // Otherwise resolve it further
+              else {
+                // Extract the segments, exclude the first and last, and that leaves us with a relative ID path
+                let subId = qx.lang.Array.clone(segs);
+                subId.shift();
+                subId.pop();
+                subId = subId.join("/");
+                parentNode = this.getQxObject(subId);
+              }
+
+            // Not the outer node, then resolve as a global.
+            } else
+              parentNode = qx.core.Id.getQxObject(attributeId);
+              
+            if (!parentNode)
+              throw new Error(`Cannot resolve object id ancestors, id=${attributeId}`);
+
+            parentNode.addOwnedQxObject(node, segs[segs.length - 1]);
+          }
+        }
+
+        let children = node.getChildren();
+        if (children)
+          children.forEach(resolveImpl);
+      };
+
+      let children = this.getChildren();
+      if (children)
+        children.forEach(resolveImpl);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Copies data between the internal representation and the DOM. This
+     * simply copies all the data and only works well directly after
+     * element creation. After this the data must be synced using {@link #_syncData}
+     *
+     * @param fromMarkup {Boolean} Whether the copy should respect styles
+     *   given from markup
+     */
+    _copyData : function(fromMarkup, propertiesFromDom)
+    {
+      this.base(arguments, fromMarkup, propertiesFromDom);
+      var elem = this._domNode;
+      
+      // Copy attributes
+      var data = this.__attribValues;
+      if (data) {
+        var Attribute = qx.bom.element.Attribute;
+        if (fromMarkup) {
+          var str = Attribute.get(elem, "class");
+          if (!qx.core.Environment.get("qx.headless")) {
+            if (str instanceof window.SVGAnimatedString) {
+              str = str.baseVal;
+            }
+          }
+          var segs = str ? str.split(" ") : [];
+          if (segs.length) {
+            this.setCssClass(segs[0]);
+            this.setAttribute("class", str);
+          } else {
+            this.setCssClass(null);
+            this.setAttribute("class", null);
+          }
+        }
+        for (var key in data) {
+          Attribute.set(elem, key, data[key]);
+        }
+      }
+
+      // Copy styles
+      var data = this.__styleValues;
+      if (data) {
+        var Style = qx.bom.element.Style;
+        
+        if (fromMarkup) {
+          Style.setStyles(elem, data);
+          
+        } else {
+          // Set styles at once which is a lot faster in most browsers
+          // compared to separate modifications of many single style properties.
+          Style.setCss(elem, Style.compile(data));
+        }
+      }
+      
+      // Copy visibility
+      if (!fromMarkup) {
+        var display = elem.style.display || "";
+        if (display == "" && !this.isVisible()) {
+          elem.style.display = "none";
+        } else if (display == "none" && this.isVisible()) {
+          elem.style.display = "";
+        }
+      } else {
+        var display = elem.style.display || "";
+        this.setVisible(display != "none");
+      }
+        
+    },
+
+
+    /**
+     * Synchronizes data between the internal representation and the DOM. This
+     * is the counterpart of {@link #_copyData} and is used for further updates
+     * after the element has been created.
+     *
+     */
+    _syncData : function()
+    {
+      this.base(arguments);
+      var elem = this._domNode;
+
+      var Attribute = qx.bom.element.Attribute;
+      var Style = qx.bom.element.Style;
+
+      // Sync attributes
+      var jobs = this.__attribJobs;
+      if (jobs)
+      {
+        var data = this.__attribValues;
+        if (data)
+        {
+          var value;
+          for (var key in jobs)
+          {
+            value = data[key];
+
+            if (value !== undefined) {
+              Attribute.set(elem, key, value);
+            } else {
+              Attribute.reset(elem, key);
+            }
+          }
+        }
+
+        this.__attribJobs = null;
+      }
+
+      // Sync styles
+      var jobs = this.__styleJobs;
+      if (jobs)
+      {
+        var data = this.__styleValues;
+        if (data)
+        {
+          var styles = {};
+          for (var key in jobs) {
+            styles[key] = data[key];
+          }
+
+          Style.setStyles(elem, styles);
+        }
+
+        this.__styleJobs = null;
+      }
+    },
+    
+
+    
+
+    /*
+    ---------------------------------------------------------------------------
+      DOM ELEMENT ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the element's root flag, which indicates
+     * whether the element should be a root element or not.
+     * @param root {Boolean} The root flag.
+     */
+    setRoot : function(root) {
+      if (root && !this.__root) {
+        qx.html.Element._hasRoots++;
+      } else if (!root && this.__root) {
+        qx.html.Element._hasRoots--;
+      }
+      this.__root = root;
+    },
+    
+    /*
+     * @Override
+     */
+    isRoot : function() {
+      return this.__root;
+    },
+
+    /**
+     * Uses existing markup for this element. This is mainly used
+     * to insert pre-built markup blocks into the element hierarchy.
+     *
+     * @param html {String} HTML markup with one root element
+     *   which is used as the main element for this instance.
+     * @return {Element} The created DOM element
+     */
+    useMarkup : function(html)
+    {
+      if (this._domNode) {
+        throw new Error("Could not overwrite existing element!");
+      }
+
+      // Prepare extraction
+      // We have a IE specific issue with "Unknown error" messages
+      // when we try to use the same DOM node again. I am not sure
+      // why this happens. Would be a good performance improvement,
+      // but does not seem to work.
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
+        var helper = document.createElement("div");
+      } else {
+        var helper = qx.dom.Element.getHelperElement();
+      }
+
+      // Extract first element
+      helper.innerHTML = html;
+      this.useElement(helper.firstChild);
+
+      return this._domNode;
+    },
+
+
+    /**
+     * Uses an existing element instead of creating one. This may be interesting
+     * when the DOM element is directly needed to add content etc.
+     *
+     * @param elem {Element} Element to reuse
+     * @deprecated {6.1} see useNode
+     */
+    useElement : function(elem)
+    {
+      this.useNode(elem);
+    },
+
+
+    /**
+     * Whether the element is focusable (or will be when created)
+     *
+     * @return {Boolean} <code>true</code> when the element is focusable.
+     */
+    isFocusable : function()
+    {
+      var tabIndex = this.getAttribute("tabIndex");
+      if (tabIndex >= 1) {
+        return true;
+      }
+
+      var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
+      if (tabIndex >= 0 && focusable[this._nodeName]) {
+        return true;
+      }
+
+      return false;
+    },
+
+
+    /**
+     * Set whether the element is selectable. It uses the qooxdoo attribute
+     * qxSelectable with the values 'on' or 'off'.
+     * In webkit, a special css property will be used (-webkit-user-select).
+     *
+     * @param value {Boolean} True, if the element should be selectable.
+     */
+    setSelectable : function(value)
+    {
+      this.setAttribute("qxSelectable", value ? "on" : "off");
+      var userSelect = qx.core.Environment.get("css.userselect");
+      if (userSelect) {
+        this.setStyle(userSelect, value ? "text" :
+          qx.core.Environment.get("css.userselect.none"));
+      }
+    },
+
+
+    /**
+     * Whether the element is natively focusable (or will be when created)
+     *
+     * This ignores the configured tabIndex.
+     *
+     * @return {Boolean} <code>true</code> when the element is focusable.
+     */
+    isNativelyFocusable : function() {
+      return !!qx.event.handler.Focus.FOCUSABLE_ELEMENTS[this._nodeName];
     },
 
 
@@ -403,2358 +1007,1123 @@ qx.Class.define("qx.html.Element",
 
 
 
+
     /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
+    ---------------------------------------------------------------------------
+      ANIMATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Fades in the element.
+     * @param duration {Number} Time in ms.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
+     */
+    fadeIn : function(duration) {
+      var col = qxWeb(this._domNode);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+      // create the element right away
+      if (!this._domNode) {
+        this.flush();
+        col.push(this._domNode);
+      }
+      if (this._domNode) {
+        col.fadeIn(duration).once("animationEnd", function() {
+          this.show();
+          qx.html.Element.flush();
+        }, this);
+        return col.getAnimationHandles()[0];
+      }
+    },
+
+
+    /**
+     * Fades out the element.
+     * @param duration {Number} Time in ms.
+     * @return {qx.bom.element.AnimationHandle} The animation handle to react for
+     *   the fade animation.
+     */
+    fadeOut : function(duration) {
+      var col = qxWeb(this._domNode);
+      if (col.isPlaying()) {
+        col.stop();
+      }
+
+      if (this._domNode) {
+        col.fadeOut(duration).once("animationEnd", function() {
+          this.hide();
+          qx.html.Element.flush();
+        }, this);
+        return col.getAnimationHandles()[0];
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY SUPPORT
+    ---------------------------------------------------------------------------
     */
 
-    members:
-    {
-      /*
-      ---------------------------------------------------------------------------
-        PROTECTED HELPERS/DATA
-      ---------------------------------------------------------------------------
-      */
-
-      __nodeName: null,
-
-      /** @type {Element} DOM element of this object */
-      __element: null,
-
-      /** @type {qx.ui.core.Widget} the Widget this element is attached to */
-      __widget: null,
-
-      /** @type {Boolean} Marker for always visible root nodes (often the body node) */
-      __root: false,
-
-      /** @type {Boolean} Whether the element should be included in the render result */
-      __included: true,
-
-      /** @type {Boolean} Whether the element should be visible in the render result */
-      __visible: true,
-
-      __lazyScrollIntoViewX: null,
-      __lazyScrollIntoViewY: null,
-
-      __lazyScrollX: null,
-      __lazyScrollY: null,
-
-      __styleJobs: null,
-      __attribJobs: null,
-      __propertyJobs: null,
-
-      __styleValues: null,
-      __attribValues: null,
-      __propertyValues: null,
-      __eventValues: null,
-
-      __children: null,
-      __modifiedChildren: null,
-
-      __parent: null,
-
-      /**
-       * Add the element to the global modification list.
-       *
-       */
-      _scheduleChildrenUpdate: function () {
-        if (this.__modifiedChildren) {
-          return;
-        }
-
-        this.__modifiedChildren = true;
-
-        qx.html.Element._modified[this.toHashCode()] = this;
-        qx.html.Element._scheduleFlush("element");
-      },
-
-
-      /**
-       * Internal helper to generate the DOM element
-       *
-       * @return {Element} DOM element
-       */
-      _createDomElement: function () {
-        return qx.dom.Element.create(this.__nodeName);
-      },
-
-
-      /**
-       * Connects a widget to this element, and to the DOM element in this Element.  They
-       * remain associated until disposed or disconnectWidget is called
-       *
-       * @param widget {qx.ui.core.Widget} the widget
-       */
-      connectWidget: function (widget) {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue(!this.__widget || this.__widget === widget);
-        }
-
-        this.__widget = widget;
-        if (this.__element) {
-          if (qx.core.Environment.get("qx.debug")) {
-            qx.core.Assert.assertTrue((!this.__element.$$widget && !this.__element.$$widgetObject) ||
-              (this.__element.$$widgetObject === widget && this.__element.$$widget === widget.toHashCode()));
-          }
-
-          this.__element.$$widget = widget.toHashCode();
-          this.__element.$$widgetObject = widget;
-        }
-
-        if (qx.core.Environment.get("module.objectid")) {
-          this.updateObjectId();
-        }
-      },
-
-
-      /**
-       * Disconnects a widget from this element and the DOM element.  The DOM element remains
-       * untouched, except that it can no longer be used to find the Widget.
-       *
-       * @param widget {qx.ui.core.Widget} the Widget
-       */
-      disconnectWidget: function (widget) {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue(this.__widget === widget);
-        }
-
-        delete this.__widget;
-        if (this.__element) {
-          if (qx.core.Environment.get("qx.debug")) {
-            qx.core.Assert.assertTrue((!this.__element.$$widget && !this.__element.$$widgetObject) ||
-              (this.__element.$$widgetObject === widget && this.__element.$$widget === widget.toHashCode()));
-          }
-
-          this.__element.$$widget = "";
-          delete this.__element.$$widgetObject;
-        }
-
-        if (qx.core.Environment.get("module.objectid")) {
-          this.updateObjectId();
-        }
-      },
-
-
-      /**
-       * Connects a DOM element to this Element; if this Element is already connected to a Widget
-       * then the Widget is also connected.
-       *
-       * @param domElement {DOM} the DOM element to associate
-       */
-      __connectDomElement: function (domElement) {
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue(!this.__element || this.__element === domElement);
-          qx.core.Assert.assertTrue((domElement.$$elementObject === this && domElement.$$element === this.toHashCode()) ||
-            (!domElement.$$elementObject && !domElement.$$element));
-        }
-
-        this.__element = domElement;
-        domElement.$$elementObject = this;
-        domElement.$$element = this.toHashCode();
-        if (this.__widget) {
-          domElement.$$widget = this.__widget.toHashCode();
-          domElement.$$widgetObject = this.__widget;
-        }
-      },
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        FLUSH OBJECT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Syncs data of an HtmlElement object to the DOM.
-       *
-       */
-      __flush: function () {
-        if (qx.core.Environment.get("qx.debug")) {
-          if (this.DEBUG) {
-            this.debug("Flush: " + this.getAttribute("id"));
-          }
-        }
-
-        var length;
-        var children = this.__children;
-        if (children) {
-          length = children.length;
-          var child;
-          for (var i = 0; i < length; i++) {
-            child = children[i];
-
-            if (child.__visible && child.__included && !child.__element) {
-              child.__flush();
-            }
-          }
-        }
-
-        if (!this.__element) {
-          this.__connectDomElement(this._createDomElement());
-
-          this._copyData(false);
-
-          if (children && length > 0) {
-            this._insertChildren();
-          }
-        }
-        else {
-          this._syncData();
-
-          if (this.__modifiedChildren) {
-            this._syncChildren();
-          }
-        }
-
-        delete this.__modifiedChildren;
-      },
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        SUPPORT FOR CHILDREN FLUSH
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Append all child nodes to the DOM
-       * element. This function is used when the element is initially
-       * created. After this initial apply {@link #_syncChildren} is used
-       * instead.
-       *
-       */
-      _insertChildren: function () {
-        var children = this.__children;
-        var length = children.length;
-        var child;
-
-        if (length > 2) {
-          var domElement = document.createDocumentFragment();
-          for (var i = 0; i < length; i++) {
-            child = children[i];
-            if (child.__element && child.__included) {
-              domElement.appendChild(child.__element);
-            }
-          }
-
-          this.__element.appendChild(domElement);
-        }
-        else {
-          var domElement = this.__element;
-          for (var i = 0; i < length; i++) {
-            child = children[i];
-            if (child.__element && child.__included) {
-              domElement.appendChild(child.__element);
-            }
-          }
-        }
-      },
-
-
-      /**
-       * Synchronize internal children hierarchy to the DOM. This is used
-       * for further runtime updates after the element has been created
-       * initially.
-       *
-       */
-      _syncChildren: function () {
-        var dataChildren = this.__children;
-        var dataLength = dataChildren.length;
-        var dataChild;
-        var dataEl;
-
-        var domParent = this.__element;
-        var domChildren = domParent.childNodes;
-        var domPos = 0;
-        var domEl;
-
-        if (qx.core.Environment.get("qx.debug")) {
-          var domOperations = 0;
-        }
-
-        // Remove children from DOM which are excluded or remove first
-        for (var i = domChildren.length - 1; i >= 0; i--) {
-          domEl = domChildren[i];
-          dataEl = qx.html.Element.fromDomElement(domEl);
-
-          if (!dataEl || !dataEl.__included || dataEl.__parent !== this) {
-            domParent.removeChild(domEl);
-
-            if (qx.core.Environment.get("qx.debug")) {
-              domOperations++;
-            }
-          }
-        }
-
-        // Start from beginning and bring DOM in sync
-        // with the data structure
-        for (var i = 0; i < dataLength; i++) {
-          dataChild = dataChildren[i];
-
-          // Only process visible childs
-          if (dataChild.__included) {
-            dataEl = dataChild.__element;
-            domEl = domChildren[domPos];
-
-            if (!dataEl) {
-              continue;
-            }
-
-            // Only do something when out of sync
-            // If the data element is not there it may mean that it is still
-            // marked as visible=false
-            if (dataEl != domEl) {
-              if (domEl) {
-                domParent.insertBefore(dataEl, domEl);
-              } else {
-                domParent.appendChild(dataEl);
-              }
-
-              if (qx.core.Environment.get("qx.debug")) {
-                domOperations++;
-              }
-            }
-
-            // Increase counter
-            domPos++;
-          }
-        }
-
-        // User feedback
-        if (qx.core.Environment.get("qx.debug")) {
-          if (qx.html.Element.DEBUG) {
-            this.debug("Synced DOM with " + domOperations + " operations");
-          }
-        }
-      },
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
-      ---------------------------------------------------------------------------
-      */
-
-      updateObjectId: function () {
-        // Copy Object Id
-        if (qx.core.Environment.get("module.objectid")) {
-          var id = null;
-          if (this.__widget && this.__widget.getQxObjectId()) {
-            id = qx.core.Id.getAbsoluteIdOf(this.__widget, true) || null;
-          }
-          this.setAttribute("data-qx-object-id", id, true);
-        }
-      },
-
-      /**
-       * Copies data between the internal representation and the DOM. This
-       * simply copies all the data and only works well directly after
-       * element creation. After this the data must be synced using {@link #_syncData}
-       *
-       * @param fromMarkup {Boolean} Whether the copy should respect styles
-       *   given from markup
-       */
-      _copyData: function (fromMarkup) {
-        var elem = this.__element;
-
-        // Copy attributes
-        var data = this.__attribValues;
-        if (data) {
-          var Attribute = qx.bom.element.Attribute;
-          for (var key in data) {
-            Attribute.set(elem, key, data[key]);
-          }
-        }
-
-        // Copy styles
-        var data = this.__styleValues;
-        if (data) {
-          var Style = qx.bom.element.Style;
-          if (fromMarkup) {
-            Style.setStyles(elem, data);
-          }
-          else {
-            // Set styles at once which is a lot faster in most browsers
-            // compared to separate modifications of many single style properties.
-            Style.setCss(elem, Style.compile(data));
-          }
-        }
-
-        // Copy properties
-        var data = this.__propertyValues;
-        if (data) {
-          for (var key in data) {
-            this._applyProperty(key, data[key]);
-          }
-        }
-
-        // Attach events
-        var data = this.__eventValues;
-        if (data) {
-          // Import listeners
-          qx.event.Registration.getManager(elem).importListeners(elem, data);
-
-          // Cleanup event map
-          // Events are directly attached through event manager
-          // after initial creation. This differs from the
-          // handling of styles and attributes where queuing happens
-          // through the complete runtime of the application.
-          delete this.__eventValues;
-        }
-      },
-
-
-      /**
-       * Synchronizes data between the internal representation and the DOM. This
-       * is the counterpart of {@link #_copyData} and is used for further updates
-       * after the element has been created.
-       *
-       */
-      _syncData: function () {
-        var elem = this.__element;
-
-        var Attribute = qx.bom.element.Attribute;
-        var Style = qx.bom.element.Style;
-
-        // Sync attributes
-        var jobs = this.__attribJobs;
-        if (jobs) {
-          var data = this.__attribValues;
-          if (data) {
-            var value;
-            for (var key in jobs) {
-              value = data[key];
-
-              if (value !== undefined) {
-                Attribute.set(elem, key, value);
-              } else {
-                Attribute.reset(elem, key);
-              }
-            }
-          }
-
-          this.__attribJobs = null;
-        }
-
-        // Sync styles
-        var jobs = this.__styleJobs;
-        if (jobs) {
-          var data = this.__styleValues;
-          if (data) {
-            var styles = {};
-            for (var key in jobs) {
-              styles[key] = data[key];
-            }
-
-            Style.setStyles(elem, styles);
-          }
-
-          this.__styleJobs = null;
-        }
-
-        // Sync misc
-        var jobs = this.__propertyJobs;
-        if (jobs) {
-          var data = this.__propertyValues;
-          if (data) {
-            var value;
-            for (var key in jobs) {
-              this._applyProperty(key, data[key]);
-            }
-          }
-
-          this.__propertyJobs = null;
-        }
-
-        // Note: Events are directly kept in sync
-      },
-
-
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        PRIVATE HELPERS/DATA
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Walk up the internal children hierarchy and
-       * look if one of the children is marked as root.
-       *
-       * This method is quite performance hungry as it
-       * really walks up recursively.
-       * @return {Boolean} <code>true</code> if the element will be seeable
-       */
-      __willBeSeeable: function () {
-        var pa = this;
-
-        // Any chance to cache this information in the parents?
-        while (pa) {
-          if (pa.__root) {
-            return true;
-          }
-
-          if (!pa.__included || !pa.__visible) {
-            return false;
-          }
-
-          pa = pa.__parent;
-        }
-
-        return false;
-      },
-
-
-      /**
-       * Internal helper for all children addition needs
-       *
-       * @param child {var} the element to add
-       * @throws {Error} if the given element is already a child
-       *     of this element
-       */
-      __addChildHelper: function (child) {
-        if (child.__parent === this) {
-          throw new Error("Child is already in: " + child);
-        }
-
-        if (child.__root) {
-          throw new Error("Root elements could not be inserted into other ones.");
-        }
-
-        // Remove from previous parent
-        if (child.__parent) {
-          child.__parent.remove(child);
-        }
-
-        // Convert to child of this object
-        child.__parent = this;
-
-        // Prepare array
-        if (!this.__children) {
-          this.__children = [];
-        }
-
-        // Schedule children update
-        if (this.__element) {
-          this._scheduleChildrenUpdate();
-        }
-      },
-
-
-      /**
-       * Internal helper for all children removal needs
-       *
-       * @param child {qx.html.Element} the removed element
-       * @throws {Error} if the given element is not a child
-       *     of this element
-       */
-      __removeChildHelper: function (child) {
-        if (child.__parent !== this) {
-          throw new Error("Has no child: " + child);
-        }
-
-        // Schedule children update
-        if (this.__element) {
-          this._scheduleChildrenUpdate();
-        }
-
-        // Remove reference to old parent
-        delete child.__parent;
-      },
-
-
-      /**
-       * Internal helper for all children move needs
-       *
-       * @param child {qx.html.Element} the moved element
-       * @throws {Error} if the given element is not a child
-       *     of this element
-       */
-      __moveChildHelper: function (child) {
-        if (child.__parent !== this) {
-          throw new Error("Has no child: " + child);
-        }
-
-        // Schedule children update
-        if (this.__element) {
-          this._scheduleChildrenUpdate();
-        }
-      },
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Returns a copy of the internal children structure.
-       *
-       * Please do not modify the array in place. If you need
-       * to work with the data in such a way make yourself
-       * a copy of the data first.
-       *
-       * @return {Array} the children list
-       */
-      getChildren: function () {
-        return this.__children || null;
-      },
-
-
-      /**
-       * Get a child element at the given index
-       *
-       * @param index {Integer} child index
-       * @return {qx.html.Element|null} The child element or <code>null</code> if
-       *     no child is found at that index.
-       */
-      getChild: function (index) {
-        var children = this.__children;
-        return children && children[index] || null;
-      },
-
-
-      /**
-       * Returns whether the element has any child nodes
-       *
-       * @return {Boolean} Whether the element has any child nodes
-       */
-      hasChildren: function () {
-        var children = this.__children;
-        return children && children[0] !== undefined;
-      },
-
-
-      /**
-       * Find the position of the given child
-       *
-       * @param child {qx.html.Element} the child
-       * @return {Integer} returns the position. If the element
-       *     is not a child <code>-1</code> will be returned.
-       */
-      indexOf: function (child) {
-        var children = this.__children;
-        return children ? children.indexOf(child) : -1;
-      },
-
-
-      /**
-       * Whether the given element is a child of this element.
-       *
-       * @param child {qx.html.Element} the child
-       * @return {Boolean} Returns <code>true</code> when the given
-       *    element is a child of this element.
-       */
-      hasChild: function (child) {
-        var children = this.__children;
-        return children && children.indexOf(child) !== -1;
-      },
-
-
-      /**
-       * Append all given children at the end of this element.
-       *
-       * @param varargs {qx.html.Element} elements to insert
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      add: function (varargs) {
-        if (arguments[1]) {
-          for (var i = 0, l = arguments.length; i < l; i++) {
-            this.__addChildHelper(arguments[i]);
-          }
-
-          this.__children.push.apply(this.__children, arguments);
-        }
-        else {
-          this.__addChildHelper(varargs);
-          this.__children.push(varargs);
-        }
-
-        // Chaining support
-        return this;
-      },
-
-
-      /**
-       * Inserts a new element into this element at the given position.
-       *
-       * @param child {qx.html.Element} the element to insert
-       * @param index {Integer} the index (starts at 0 for the
-       *     first child) to insert (the index of the following
-       *     children will be increased by one)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      addAt: function (child, index) {
-        this.__addChildHelper(child);
-        qx.lang.Array.insertAt(this.__children, child, index);
-
-        // Chaining support
-        return this;
-      },
-
-
-      /**
-       * Removes all given children
-       *
-       * @param childs {qx.html.Element} children to remove
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      remove: function (childs) {
-        var children = this.__children;
-        if (!children) {
-          return this;
-        }
-
-        if (arguments[1]) {
-          var child;
-          for (var i = 0, l = arguments.length; i < l; i++) {
-            child = arguments[i];
-
-            this.__removeChildHelper(child);
-            qx.lang.Array.remove(children, child);
-          }
-        }
-        else {
-          this.__removeChildHelper(childs);
-          qx.lang.Array.remove(children, childs);
-        }
-
-        // Chaining support
-        return this;
-      },
-
-
-      /**
-       * Removes the child at the given index
-       *
-       * @param index {Integer} the position of the
-       *     child (starts at 0 for the first child)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      removeAt: function (index) {
-        var children = this.__children;
-        if (!children) {
-          throw new Error("Has no children!");
-        }
-
-        var child = children[index];
-        if (!child) {
-          throw new Error("Has no child at this position!");
-        }
-
-        this.__removeChildHelper(child);
-        qx.lang.Array.removeAt(this.__children, index);
-
-        // Chaining support
-        return this;
-      },
-
-
-      /**
-       * Remove all children from this element.
-       *
-       * @return {qx.html.Element} A reference to this.
-       */
-      removeAll: function () {
-        var children = this.__children;
-        if (children) {
-          for (var i = 0, l = children.length; i < l; i++) {
-            this.__removeChildHelper(children[i]);
-          }
-
-          // Clear array
-          children.length = 0;
-        }
-
-        // Chaining support
-        return this;
-      },
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        CHILDREN MANAGEMENT (EXECUTED ON THE CHILD)
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Returns the parent of this element.
-       *
-       * @return {qx.html.Element|null} The parent of this element
-       */
-      getParent: function () {
-        return this.__parent || null;
-      },
-
-
-      /**
-       * Insert self into the given parent. Normally appends self to the end,
-       * but optionally a position can be defined. With index <code>0</code> it
-       * will be inserted at the begin.
-       *
-       * @param parent {qx.html.Element} The new parent of this element
-       * @param index {Integer?null} Optional position
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      insertInto: function (parent, index) {
-        parent.__addChildHelper(this);
-
-        if (index == null) {
-          parent.__children.push(this);
-        } else {
-          qx.lang.Array.insertAt(this.__children, this, index);
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Insert self before the given (related) element
-       *
-       * @param rel {qx.html.Element} the related element
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      insertBefore: function (rel) {
-        var parent = rel.__parent;
-
-        parent.__addChildHelper(this);
-        qx.lang.Array.insertBefore(parent.__children, this, rel);
-
-        return this;
-      },
-
-
-      /**
-       * Insert self after the given (related) element
-       *
-       * @param rel {qx.html.Element} the related element
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      insertAfter: function (rel) {
-        var parent = rel.__parent;
-
-        parent.__addChildHelper(this);
-        qx.lang.Array.insertAfter(parent.__children, this, rel);
-
-        return this;
-      },
-
-
-      /**
-       * Move self to the given index in the current parent.
-       *
-       * @param index {Integer} the index (starts at 0 for the first child)
-       * @return {qx.html.Element} this object (for chaining support)
-       * @throws {Error} when the given element is not child
-       *      of this element.
-       */
-      moveTo: function (index) {
-        var parent = this.__parent;
-
-        parent.__moveChildHelper(this);
-
-        var oldIndex = parent.__children.indexOf(this);
-
-        if (oldIndex === index) {
-          throw new Error("Could not move to same index!");
-        } else if (oldIndex < index) {
-          index--;
-        }
-
-        qx.lang.Array.removeAt(parent.__children, oldIndex);
-        qx.lang.Array.insertAt(parent.__children, this, index);
-
-        return this;
-      },
-
-
-      /**
-       * Move self before the given (related) child.
-       *
-       * @param rel {qx.html.Element} the related child
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      moveBefore: function (rel) {
-        var parent = this.__parent;
-        return this.moveTo(parent.__children.indexOf(rel));
-      },
-
-
-      /**
-       * Move self after the given (related) child.
-       *
-       * @param rel {qx.html.Element} the related child
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      moveAfter: function (rel) {
-        var parent = this.__parent;
-        return this.moveTo(parent.__children.indexOf(rel) + 1);
-      },
-
-
-      /**
-       * Remove self from the current parent.
-       *
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      free: function () {
-        var parent = this.__parent;
-        if (!parent) {
-          throw new Error("Has no parent to remove from.");
-        }
-
-        if (!parent.__children) {
-          return this;
-        }
-
-        parent.__removeChildHelper(this);
-        qx.lang.Array.remove(parent.__children, this);
-
-        return this;
-      },
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        DOM ELEMENT ACCESS
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Returns the DOM element (if created). Please use this with caution.
-       * It is better to make all changes to the object itself using the public
-       * API rather than to the underlying DOM element.
-       *
-       * @return {Element|null} The DOM element node, if available.
-       */
-      getDomElement: function () {
-        return this.__element || null;
-      },
-
-
-      /**
-       * Returns the nodeName of the DOM element.
-       *
-       * @return {String} The node name
-       */
-      getNodeName: function () {
-        return this.__nodeName;
-      },
-
-      /**
-       * Sets the nodeName of the DOM element.
-       *
-       * @param name {String} The node name
-       */
-      setNodeName: function (name) {
-        this.__nodeName = name;
-      },
-
-      /**
-       * Sets the element's root flag, which indicates
-       * whether the element should be a root element or not.
-       * @param root {Boolean} The root flag.
-       */
-      setRoot: function (root) {
-        this.__root = root;
-      },
-
-      /**
-       * Uses existing markup for this element. This is mainly used
-       * to insert pre-built markup blocks into the element hierarchy.
-       *
-       * @param html {String} HTML markup with one root element
-       *   which is used as the main element for this instance.
-       * @return {Element} The created DOM element
-       */
-      useMarkup: function (html) {
-        if (this.__element) {
-          throw new Error("Could not overwrite existing element!");
-        }
-
-        // Prepare extraction
-        // We have a IE specific issue with "Unknown error" messages
-        // when we try to use the same DOM node again. I am not sure
-        // why this happens. Would be a good performance improvement,
-        // but does not seem to work.
-        if (qx.core.Environment.get("engine.name") == "mshtml") {
-          var helper = document.createElement("div");
-        } else {
-          var helper = qx.dom.Element.getHelperElement();
-        }
-
-        // Extract first element
-        helper.innerHTML = html;
-        this.useElement(helper.firstChild);
-
-        return this.__element;
-      },
-
-
-      /**
-       * Uses an existing element instead of creating one. This may be interesting
-       * when the DOM element is directly needed to add content etc.
-       *
-       * @param elem {Element} Element to reuse
-       */
-      useElement: function (elem) {
-        if (this.__element) {
-          throw new Error("Could not overwrite existing element!");
-        }
-
-        // Use incoming element
-        this.__connectDomElement(elem);
-
-        // Copy currently existing data over to element
-        this._copyData(true);
-      },
-
-
-      /**
-       * Whether the element is focusable (or will be when created)
-       *
-       * @return {Boolean} <code>true</code> when the element is focusable.
-       */
-      isFocusable: function () {
-        var tabIndex = this.getAttribute("tabIndex");
-        if (tabIndex >= 1) {
-          return true;
-        }
-
-        var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
-        if (tabIndex >= 0 && focusable[this.__nodeName]) {
-          return true;
-        }
-
-        return false;
-      },
-
-
-      /**
-       * Set whether the element is selectable. It uses the qooxdoo attribute
-       * qxSelectable with the values 'on' or 'off'.
-       * In webkit, a special css property will be used (-webkit-user-select).
-       *
-       * @param value {Boolean} True, if the element should be selectable.
-       */
-      setSelectable: function (value) {
-        this.setAttribute("qxSelectable", value ? "on" : "off");
-        var userSelect = qx.core.Environment.get("css.userselect");
-        if (userSelect) {
-          this.setStyle(userSelect, value ? "text" :
-            qx.core.Environment.get("css.userselect.none"));
-        }
-      },
-
-
-      /**
-       * Whether the element is natively focusable (or will be when created)
-       *
-       * This ignores the configured tabIndex.
-       *
-       * @return {Boolean} <code>true</code> when the element is focusable.
-       */
-      isNativelyFocusable: function () {
-        return !!qx.event.handler.Focus.FOCUSABLE_ELEMENTS[this.__nodeName];
-      },
-
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        EXCLUDE SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Marks the element as included which means it will be moved into
-       * the DOM again and synced with the internal data representation.
-       *
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      include: function () {
-        if (this.__included) {
-          return this;
-        }
-
-        delete this.__included;
-
-        if (this.__parent) {
-          this.__parent._scheduleChildrenUpdate();
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Marks the element as excluded which means it will be removed
-       * from the DOM and ignored for updates until it gets included again.
-       *
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      exclude: function () {
-        if (!this.__included) {
-          return this;
-        }
-
-        this.__included = false;
-
-        if (this.__parent) {
-          this.__parent._scheduleChildrenUpdate();
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Whether the element is part of the DOM
-       *
-       * @return {Boolean} Whether the element is part of the DOM.
-       */
-      isIncluded: function () {
-        return this.__included === true;
-      },
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        ANIMATION SUPPORT
-      ---------------------------------------------------------------------------
-      */
-      /**
-       * Fades in the element.
-       * @param duration {Number} Time in ms.
-       * @return {qx.bom.element.AnimationHandle} The animation handle to react for
-       *   the fade animation.
-       */
-      fadeIn: function (duration) {
-        var col = qxWeb(this.__element);
-        if (col.isPlaying()) {
-          col.stop();
-        }
-        // create the element right away
-        if (!this.__element) {
-          this.__flush();
-          col.push(this.__element);
-        }
-        if (this.__element) {
-          col.fadeIn(duration).once("animationEnd", function () {
-            this.show();
-            qx.html.Element.flush();
-          }, this);
-          return col.getAnimationHandles()[0];
-        }
-      },
-
-
-      /**
-       * Fades out the element.
-       * @param duration {Number} Time in ms.
-       * @return {qx.bom.element.AnimationHandle} The animation handle to react for
-       *   the fade animation.
-       */
-      fadeOut: function (duration) {
-        var col = qxWeb(this.__element);
-        if (col.isPlaying()) {
-          col.stop();
-        }
-
-        if (this.__element) {
-          col.fadeOut(duration).once("animationEnd", function () {
-            this.hide();
-            qx.html.Element.flush();
-          }, this);
-          return col.getAnimationHandles()[0];
-        }
-      },
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        VISIBILITY SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Marks the element as visible which means that a previously applied
-       * CSS style of display=none gets removed and the element will inserted
-       * into the DOM, when this had not already happened before.
-       *
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      show: function () {
-        if (this.__visible) {
-          return this;
-        }
-
-        if (this.__element) {
+    /*
+     * @Override
+     */
+    _applyVisible: function(value) {
+      if (value) {
+        if (this._domNode) {
           qx.html.Element._visibility[this.toHashCode()] = this;
           qx.html.Element._scheduleFlush("element");
         }
 
         // Must be sure that the element gets included into the DOM.
-        if (this.__parent) {
-          this.__parent._scheduleChildrenUpdate();
+        if (this._parent) {
+          this._parent._scheduleChildrenUpdate();
         }
-
-        delete this.__visible;
-        return this;
-      },
-
-
-      /**
-       * Marks the element as hidden which means it will kept in DOM (if it
-       * is already there, but configured hidden using a CSS style of display=none).
-       *
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      hide: function () {
-        if (!this.__visible) {
-          return this;
-        }
-
-        if (this.__element) {
+        
+      } else {
+        if (this._domNode) {
           qx.html.Element._visibility[this.toHashCode()] = this;
           qx.html.Element._scheduleFlush("element");
         }
+      }
+    },
 
-        this.__visible = false;
-        return this;
-      },
-
-
-      /**
-       * Whether the element is visible.
-       *
-       * Please note: This does not control the visibility or parent inclusion recursively.
-       *
-       * @return {Boolean} Returns <code>true</code> when the element is configured
-       *   to be visible.
-       */
-      isVisible: function () {
-        return this.__visible === true;
-      },
+    /**
+     * Marks the element as visible which means that a previously applied
+     * CSS style of display=none gets removed and the element will inserted
+     * into the DOM, when this had not already happened before.
+     *
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    show : function() {
+      this.setVisible(true);
+      return this;
+    },
 
 
+    /**
+     * Marks the element as hidden which means it will kept in DOM (if it
+     * is already there, but configured hidden using a CSS style of display=none).
+     *
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    hide : function() {
+      this.setVisible(false);
+      return this;
+    },
 
 
 
 
 
-      /*
-      ---------------------------------------------------------------------------
-        SCROLL SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Scrolls the given child element into view. Only scrolls children.
-       * Do not influence elements on top of this element.
-       *
-       * If the element is currently invisible it gets scrolled automatically
-       * at the next time it is visible again (queued).
-       *
-       * @param elem {qx.html.Element} The element to scroll into the viewport.
-       * @param align {String?null} Alignment of the element. Allowed values:
-       *   <code>left</code> or <code>right</code>. Could also be null.
-       *   Without a given alignment the method tries to scroll the widget
-       *   with the minimum effort needed.
-       * @param direct {Boolean?true} Whether the execution should be made
-       *   directly when possible
-       */
-      scrollChildIntoViewX: function (elem, align, direct) {
-        var thisEl = this.__element;
-        var childEl = elem.getDomElement();
-
-        if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth) {
-          qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
-        }
-        else {
-          this.__lazyScrollIntoViewX =
-          {
-            element: elem,
-            align: align
-          };
-
-          qx.html.Element._scroll[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        delete this.__lazyScrollX;
-      },
 
 
-      /**
-       * Scrolls the given child element into view. Only scrolls children.
-       * Do not influence elements on top of this element.
-       *
-       * If the element is currently invisible it gets scrolled automatically
-       * at the next time it is visible again (queued).
-       *
-       * @param elem {qx.html.Element} The element to scroll into the viewport.
-       * @param align {String?null} Alignment of the element. Allowed values:
-       *   <code>top</code> or <code>bottom</code>. Could also be null.
-       *   Without a given alignment the method tries to scroll the widget
-       *   with the minimum effort needed.
-       * @param direct {Boolean?true} Whether the execution should be made
-       *   directly when possible
-       */
-      scrollChildIntoViewY: function (elem, align, direct) {
-        var thisEl = this.__element;
-        var childEl = elem.getDomElement();
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
-        if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth) {
-          qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
-        }
-        else {
-          this.__lazyScrollIntoViewY =
-          {
-            element: elem,
-            align: align
-          };
+    /**
+     * Scrolls the given child element into view. Only scrolls children.
+     * Do not influence elements on top of this element.
+     *
+     * If the element is currently invisible it gets scrolled automatically
+     * at the next time it is visible again (queued).
+     *
+     * @param elem {qx.html.Element} The element to scroll into the viewport.
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
+     */
+    scrollChildIntoViewX : function(elem, align, direct)
+    {
+      var thisEl = this._domNode;
+      var childEl = elem.getDomElement();
 
-          qx.html.Element._scroll[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        delete this.__lazyScrollY;
-      },
-
-
-      /**
-       * Scrolls the element to the given left position.
-       *
-       * @param x {Integer} Horizontal scroll position
-       * @param lazy {Boolean?false} Whether the scrolling should be performed
-       *    during element flush.
-       */
-      scrollToX: function (x, lazy) {
-        var thisEl = this.__element;
-        if (lazy !== true && thisEl && thisEl.offsetWidth) {
-          thisEl.scrollLeft = x;
-          delete this.__lazyScrollX;
-        }
-        else {
-          this.__lazyScrollX = x;
-          qx.html.Element._scroll[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        delete this.__lazyScrollIntoViewX;
-      },
-
-
-      /**
-       * Get the horizontal scroll position.
-       *
-       * @return {Integer} Horizontal scroll position
-       */
-      getScrollX: function () {
-        var thisEl = this.__element;
-        if (thisEl) {
-          return thisEl.scrollLeft;
-        }
-
-        return this.__lazyScrollX || 0;
-      },
-
-
-      /**
-       * Scrolls the element to the given top position.
-       *
-       * @param y {Integer} Vertical scroll position
-       * @param lazy {Boolean?false} Whether the scrolling should be performed
-       *    during element flush.
-       */
-      scrollToY: function (y, lazy) {
-        var thisEl = this.__element;
-        if (lazy !== true && thisEl && thisEl.offsetWidth) {
-          thisEl.scrollTop = y;
-          delete this.__lazyScrollY;
-        }
-        else {
-          this.__lazyScrollY = y;
-          qx.html.Element._scroll[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        delete this.__lazyScrollIntoViewY;
-      },
-
-
-      /**
-       * Get the vertical scroll position.
-       *
-       * @return {Integer} Vertical scroll position
-       */
-      getScrollY: function () {
-        var thisEl = this.__element;
-        if (thisEl) {
-          return thisEl.scrollTop;
-        }
-
-        return this.__lazyScrollY || 0;
-      },
-
-
-      /**
-       * Disables browser-native scrolling
-       */
-      disableScrolling: function () {
-        this.enableScrolling();
-        this.scrollToX(0);
-        this.scrollToY(0);
-        this.addListener("scroll", this.__onScroll, this);
-      },
-
-
-      /**
-       * Re-enables browser-native scrolling
-       */
-      enableScrolling: function () {
-        this.removeListener("scroll", this.__onScroll, this);
-      },
-
-
-      __inScroll: null,
-
-      /**
-       * Handler for the scroll-event
-       *
-       * @param e {qx.event.type.Native} scroll-event
-       */
-      __onScroll: function (e) {
-        if (!this.__inScroll) {
-          this.__inScroll = true;
-          this.__element.scrollTop = 0;
-          this.__element.scrollLeft = 0;
-          delete this.__inScroll;
-        }
-      },
-
-
-      /*
-      ---------------------------------------------------------------------------
-        TEXT SELECTION SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Get the selection of the element.
-       *
-       * If the underlaying DOM element is not yet created, this methods returns
-       * a null value.
-       *
-       * @return {String|null}
-       */
-      getTextSelection: function () {
-        var el = this.__element;
-        if (el) {
-          return qx.bom.Selection.get(el);
-        }
-
-        return null;
-      },
-
-
-      /**
-       * Get the length of selection of the element.
-       *
-       * If the underlaying DOM element is not yet created, this methods returns
-       * a null value.
-       *
-       * @return {Integer|null}
-       */
-      getTextSelectionLength: function () {
-        var el = this.__element;
-        if (el) {
-          return qx.bom.Selection.getLength(el);
-        }
-
-        return null;
-      },
-
-
-      /**
-       * Get the start of the selection of the element.
-       *
-       * If the underlaying DOM element is not yet created, this methods returns
-       * a null value.
-       *
-       * @return {Integer|null}
-       */
-      getTextSelectionStart: function () {
-        var el = this.__element;
-        if (el) {
-          return qx.bom.Selection.getStart(el);
-        }
-
-        return null;
-      },
-
-
-      /**
-       * Get the end of the selection of the element.
-       *
-       * If the underlaying DOM element is not yet created, this methods returns
-       * a null value.
-       *
-       * @return {Integer|null}
-       */
-      getTextSelectionEnd: function () {
-        var el = this.__element;
-        if (el) {
-          return qx.bom.Selection.getEnd(el);
-        }
-
-        return null;
-      },
-
-
-      /**
-       * Set the selection of the element with the given start and end value.
-       * If no end value is passed the selection will extend to the end.
-       *
-       * This method only works if the underlying DOM element is already created.
-       *
-       * @param start {Integer} start of the selection (zero based)
-       * @param end {Integer} end of the selection
-       */
-      setTextSelection: function (start, end) {
-        var el = this.__element;
-        if (el) {
-          qx.bom.Selection.set(el, start, end);
-          return;
-        }
-
-        // if element not created, save the selection for flushing
-        qx.html.Element.__selection[this.toHashCode()] = {
-          element: this,
-          start: start,
-          end: end
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      {
+        qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
+      }
+      else
+      {
+        this.__lazyScrollIntoViewX =
+        {
+          element : elem,
+          align : align
         };
+
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
-      },
+      }
+
+      delete this.__lazyScrollX;
+    },
 
 
-      /**
-       * Clears the selection of the element.
-       *
-       * This method only works if the underlying DOM element is already created.
-       *
-       */
-      clearTextSelection: function () {
-        var el = this.__element;
-        if (el) {
-          qx.bom.Selection.clear(el);
-        }
-        delete qx.html.Element.__selection[this.toHashCode()];
-      },
+    /**
+     * Scrolls the given child element into view. Only scrolls children.
+     * Do not influence elements on top of this element.
+     *
+     * If the element is currently invisible it gets scrolled automatically
+     * at the next time it is visible again (queued).
+     *
+     * @param elem {qx.html.Element} The element to scroll into the viewport.
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
+     */
+    scrollChildIntoViewY : function(elem, align, direct)
+    {
+      var thisEl = this._domNode;
+      var childEl = elem.getDomElement();
+
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      {
+        qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
+      }
+      else
+      {
+        this.__lazyScrollIntoViewY =
+        {
+          element : elem,
+          align : align
+        };
+
+        qx.html.Element._scroll[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      delete this.__lazyScrollY;
+    },
+
+
+    /**
+     * Scrolls the element to the given left position.
+     *
+     * @param x {Integer} Horizontal scroll position
+     * @param lazy {Boolean?false} Whether the scrolling should be performed
+     *    during element flush.
+     */
+    scrollToX : function(x, lazy)
+    {
+      var thisEl = this._domNode;
+      if (lazy !== true && thisEl && thisEl.offsetWidth)
+      {
+        thisEl.scrollLeft = x;
+        delete this.__lazyScrollX;
+      }
+      else
+      {
+        this.__lazyScrollX = x;
+        qx.html.Element._scroll[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      delete this.__lazyScrollIntoViewX;
+    },
+
+
+    /**
+     * Get the horizontal scroll position.
+     *
+     * @return {Integer} Horizontal scroll position
+     */
+    getScrollX : function()
+    {
+      var thisEl = this._domNode;
+      if (thisEl) {
+        return thisEl.scrollLeft;
+      }
+
+      return this.__lazyScrollX || 0;
+    },
+
+
+    /**
+     * Scrolls the element to the given top position.
+     *
+     * @param y {Integer} Vertical scroll position
+     * @param lazy {Boolean?false} Whether the scrolling should be performed
+     *    during element flush.
+     */
+    scrollToY : function(y, lazy)
+    {
+      var thisEl = this._domNode;
+      if (lazy !== true && thisEl && thisEl.offsetWidth)
+      {
+        thisEl.scrollTop = y;
+        delete this.__lazyScrollY;
+      }
+      else
+      {
+        this.__lazyScrollY = y;
+        qx.html.Element._scroll[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      delete this.__lazyScrollIntoViewY;
+    },
+
+
+    /**
+     * Get the vertical scroll position.
+     *
+     * @return {Integer} Vertical scroll position
+     */
+    getScrollY : function()
+    {
+      var thisEl = this._domNode;
+      if (thisEl) {
+        return thisEl.scrollTop;
+      }
+
+      return this.__lazyScrollY || 0;
+    },
+
+
+    /**
+     * Disables browser-native scrolling
+     */
+    disableScrolling : function()
+    {
+      this.enableScrolling();
+      this.scrollToX(0);
+      this.scrollToY(0);
+      this.addListener("scroll", this.__onScroll, this);
+    },
+
+
+    /**
+     * Re-enables browser-native scrolling
+     */
+    enableScrolling : function() {
+      this.removeListener("scroll", this.__onScroll, this);
+    },
+
+
+    __inScroll : null,
+
+    /**
+     * Handler for the scroll-event
+     *
+     * @param e {qx.event.type.Native} scroll-event
+     */
+    __onScroll : function(e)
+    {
+      if (!this.__inScroll)
+      {
+        this.__inScroll = true;
+        this._domNode.scrollTop = 0;
+        this._domNode.scrollLeft = 0;
+        delete this.__inScroll;
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /*
+     * Sets the text value of this element; it will delete children first, except
+     * for the first node which (if it is a Text node) will have it's value updated
+     * 
+     * @param value {String} the text to set
+     */
+    setText: function(value) {
+      var self = this;
+      var children = this._children ? qx.lang.Array.clone(this._children) : [];
+      if (children[0] instanceof qx.html.Text) {
+        children[0].setText(value);
+        children.shift();
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+      } else {
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+        this.add(new qx.html.Text(value));
+      }
+    },
+
+    /**
+     * Returns the text value, accumulated from all child nodes
+     * 
+     * @return {String} the text value
+     */
+    getText: function() {
+      var result = [];
+      if (this._children) {
+        this._children.forEach(function(child) {
+          result.push(child.getText());
+        });
+      }
+      return result.join("");
+    },
+
+
+    /**
+     * Get the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {String|null}
+     */
+    getTextSelection : function()
+    {
+      var el = this._domNode;
+      if (el) {
+        return qx.bom.Selection.get(el);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Get the length of selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {Integer|null}
+     */
+    getTextSelectionLength : function()
+    {
+      var el = this._domNode;
+      if (el) {
+        return qx.bom.Selection.getLength(el);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Get the start of the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {Integer|null}
+     */
+    getTextSelectionStart : function()
+    {
+      var el = this._domNode;
+      if (el) {
+        return qx.bom.Selection.getStart(el);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Get the end of the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {Integer|null}
+     */
+    getTextSelectionEnd : function()
+    {
+      var el = this._domNode;
+      if (el) {
+        return qx.bom.Selection.getEnd(el);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Set the selection of the element with the given start and end value.
+     * If no end value is passed the selection will extend to the end.
+     *
+     * This method only works if the underlying DOM element is already created.
+     *
+     * @param start {Integer} start of the selection (zero based)
+     * @param end {Integer} end of the selection
+     */
+    setTextSelection : function(start, end)
+    {
+      var el = this._domNode;
+      if (el) {
+        qx.bom.Selection.set(el, start, end);
+        return;
+      }
+
+      // if element not created, save the selection for flushing
+      qx.html.Element.__selection[this.toHashCode()] = {
+        element : this,
+        start : start,
+        end : end
+      };
+      qx.html.Element._scheduleFlush("element");
+    },
+
+
+    /**
+     * Clears the selection of the element.
+     *
+     * This method only works if the underlying DOM element is already created.
+     *
+     */
+    clearTextSelection : function()
+    {
+      var el = this._domNode;
+      if (el) {
+        qx.bom.Selection.clear(el);
+      }
+      delete qx.html.Element.__selection[this.toHashCode()];
+    },
 
 
 
 
-      /*
-      ---------------------------------------------------------------------------
-        FOCUS/ACTIVATE SUPPORT
-      ---------------------------------------------------------------------------
-      */
+    /*
+    ---------------------------------------------------------------------------
+      FOCUS/ACTIVATE SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
-      /**
-       * Takes the action to process as argument and queues this action if the
-       * underlying DOM element is not yet created.
-       *
-       * @param action {String} action to queue
-       * @param args {Array} optional list of arguments for the action
-       */
-      __performAction: function (action, args) {
+    /**
+     * Takes the action to process as argument and queues this action if the
+     * underlying DOM element is not yet created.
+     * 
+     * Note that "actions" are functions in `qx.bom.Element` and only apply to
+     * environments with a user interface.  This will throw an error if the user 
+     * interface is headless
+     *
+     * @param action {String} action to queue
+     * @param args {Array} optional list of arguments for the action
+     */
+    __performAction : function(action, args)
+    {
+      if (!qx.core.Environment.get("qx.headless")) {
         var actions = qx.html.Element._actions;
-
+  
         actions.push({
           type: action,
           element: this,
           args: args || []
         });
         qx.html.Element._scheduleFlush("element");
-      },
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__performAction in headles environment");
+      }
+    },
 
 
-      /**
-       * Focus this element.
-       *
-       * If the underlaying DOM element is not yet created, the
-       * focus is queued for processing after the element creation.
-       *
-       */
-      focus: function () {
+    /**
+     * Focus this element.
+     *
+     * If the underlaying DOM element is not yet created, the
+     * focus is queued for processing after the element creation.
+     *
+     * Silently does nothing when in a headless environment 
+     */
+    focus : function() {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("focus");
-      },
+      }
+    },
 
 
-      /**
-       * Mark this element to get blurred on the next flush of the queue
-       *
-       */
-      blur: function () {
+    /**
+     * Mark this element to get blurred on the next flush of the queue
+     *
+     * Silently does nothing when in a headless environment 
+     *
+     */
+    blur : function() {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("blur");
-      },
+      }
+    },
 
 
-      /**
-       * Mark this element to get activated on the next flush of the queue
-       *
-       */
-      activate: function () {
+    /**
+     * Mark this element to get activated on the next flush of the queue
+     *
+     * Silently does nothing when in a headless environment 
+     *
+     */
+    activate : function() {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("activate");
-      },
+      }
+    },
 
 
-      /**
-       * Mark this element to get deactivated on the next flush of the queue
-       *
-       */
-      deactivate: function () {
+    /**
+     * Mark this element to get deactivated on the next flush of the queue
+     *
+     * Silently does nothing when in a headless environment 
+     *
+     */
+    deactivate : function() {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("deactivate");
-      },
+      }
+    },
 
 
-      /**
-       * Captures all mouse events to this element
-       *
-       * @param containerCapture {Boolean?true} If true all events originating in
-       *   the container are captured. If false events originating in the container
-       *   are not captured.
-       */
-      capture: function (containerCapture) {
+    /**
+     * Captures all mouse events to this element
+     *
+     * Silently does nothing when in a headless environment 
+     *
+     * @param containerCapture {Boolean?true} If true all events originating in
+     *   the container are captured. If false events originating in the container
+     *   are not captured.
+     */
+    capture : function(containerCapture) {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("capture", [containerCapture !== false]);
-      },
+      }
+    },
 
 
-      /**
-       * Releases this element from a previous {@link #capture} call
-       */
-      releaseCapture: function () {
+    /**
+     * Releases this element from a previous {@link #capture} call
+     *
+     * Silently does nothing when in a headless environment 
+     */
+    releaseCapture : function() {
+      if (!qx.core.Environment.get("qx.headless")) {
         this.__performAction("releaseCapture");
-      },
+      }
+    },
 
 
 
 
 
-      /*
-      ---------------------------------------------------------------------------
-        STYLE SUPPORT
-      ---------------------------------------------------------------------------
-      */
+    /*
+    ---------------------------------------------------------------------------
+      STYLE SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
-      /**
-       * Set up the given style attribute
-       *
-       * @param key {String} the name of the style attribute
-       * @param value {var} the value
-       * @param direct {Boolean?false} Whether the value should be applied
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      setStyle: function (key, value, direct) {
-        if (!this.__styleValues) {
-          this.__styleValues = {};
-        }
+    /**
+     * Set up the given style attribute
+     *
+     * @param key {String} the name of the style attribute
+     * @param value {var} the value
+     * @param direct {Boolean?false} Whether the value should be applied
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setStyle : function(key, value, direct)
+    {
+      if (!this.__styleValues) {
+        this.__styleValues = {};
+      }
 
-        if (this.__styleValues[key] == value) {
+      if (this.__styleValues[key] == value) {
+        return this;
+      }
+
+      this._applyStyle(key, value, this.__styleValues[key]);
+      if (value == null) {
+        delete this.__styleValues[key];
+      } else {
+        this.__styleValues[key] = value;
+      }
+
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
+      if (this._domNode)
+      {
+        // Omit queuing in direct mode
+        if (direct)
+        {
+          qx.bom.element.Style.set(this._domNode, key, value);
           return this;
         }
 
-        if (value == null) {
-          delete this.__styleValues[key];
-        } else {
-          this.__styleValues[key] = value;
+        // Dynamically create if needed
+        if (!this.__styleJobs) {
+          this.__styleJobs = {};
         }
 
-        // Uncreated elements simply copy all data
-        // on creation. We don't need to remember any
-        // jobs. It is a simple full list copy.
-        if (this.__element) {
-          // Omit queuing in direct mode
-          if (direct) {
-            qx.bom.element.Style.set(this.__element, key, value);
-            return this;
+        // Store job info
+        this.__styleJobs[key] = true;
+
+        // Register modification
+        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      return this;
+    },
+    
+    
+    /**
+     * Called by setStyle when a value of a style changes; this is intended to be
+     * overridden to allow the element to update properties etc according to the
+     * style
+     * 
+     * @param key {String} the style value
+     * @param value {String?} the value to set
+     * @param oldValue {String?} The previous value (not from DOM)
+     */
+    _applyStyle: function(key, value, oldValue) {
+      // Nothing
+    },
+
+
+    /**
+     * Convenience method to modify a set of styles at once.
+     *
+     * @param map {Map} a map where the key is the name of the property
+     *    and the value is the value to use.
+     * @param direct {Boolean?false} Whether the values should be applied
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setStyles : function(map, direct)
+    {
+      // inline calls to "set" because this method is very
+      // performance critical!
+
+      var Style = qx.bom.element.Style;
+
+      if (!this.__styleValues) {
+        this.__styleValues = {};
+      }
+
+      if (this._domNode)
+      {
+        // Dynamically create if needed
+        if (!this.__styleJobs) {
+          this.__styleJobs = {};
+        }
+
+        for (var key in map)
+        {
+          var value = map[key];
+          if (this.__styleValues[key] == value) {
+            continue;
           }
 
-          // Dynamically create if needed
-          if (!this.__styleJobs) {
-            this.__styleJobs = {};
+          this._applyStyle(key, value, this.__styleValues[key]);
+          if (value == null) {
+            delete this.__styleValues[key];
+          } else {
+            this.__styleValues[key] = value;
+          }
+
+          // Omit queuing in direct mode
+          if (direct)
+          {
+            Style.set(this._domNode, key, value);
+            continue;
           }
 
           // Store job info
           this.__styleJobs[key] = true;
-
-          // Register modification
-          qx.html.Element._modified[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
         }
 
-        return this;
-      },
-
-
-      /**
-       * Convenience method to modify a set of styles at once.
-       *
-       * @param map {Map} a map where the key is the name of the property
-       *    and the value is the value to use.
-       * @param direct {Boolean?false} Whether the values should be applied
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      setStyles: function (map, direct) {
-        // inline calls to "set" because this method is very
-        // performance critical!
-
-        var Style = qx.bom.element.Style;
-
-        if (!this.__styleValues) {
-          this.__styleValues = {};
-        }
-
-        if (this.__element) {
-          // Dynamically create if needed
-          if (!this.__styleJobs) {
-            this.__styleJobs = {};
-          }
-
-          for (var key in map) {
-            var value = map[key];
-            if (this.__styleValues[key] == value) {
-              continue;
-            }
-
-            if (value == null) {
-              delete this.__styleValues[key];
-            } else {
-              this.__styleValues[key] = value;
-            }
-
-            // Omit queuing in direct mode
-            if (direct) {
-              Style.set(this.__element, key, value);
-              continue;
-            }
-
-            // Store job info
-            this.__styleJobs[key] = true;
-          }
-
-          // Register modification
-          qx.html.Element._modified[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-        else {
-          for (var key in map) {
-            var value = map[key];
-            if (this.__styleValues[key] == value) {
-              continue;
-            }
-
-            if (value == null) {
-              delete this.__styleValues[key];
-            } else {
-              this.__styleValues[key] = value;
-            }
-          }
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Removes the given style attribute
-       *
-       * @param key {String} the name of the style attribute
-       * @param direct {Boolean?false} Whether the value should be removed
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      removeStyle: function (key, direct) {
-        this.setStyle(key, null, direct);
-        return this;
-      },
-
-
-      /**
-       * Get the value of the given style attribute.
-       *
-       * @param key {String} name of the style attribute
-       * @return {var} the value of the style attribute
-       */
-      getStyle: function (key) {
-        return this.__styleValues ? this.__styleValues[key] : null;
-      },
-
-
-      /**
-       * Returns a map of all styles. Do not modify the result map!
-       *
-       * @return {Map} All styles or <code>null</code> when none are configured.
-       */
-      getAllStyles: function () {
-        return this.__styleValues || null;
-      },
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        ATTRIBUTE SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Set up the given attribute
-       *
-       * @param key {String} the name of the attribute
-       * @param value {var} the value
-       * @param direct {Boolean?false} Whether the value should be applied
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      setAttribute: function (key, value, direct) {
-        if (!this.__attribValues) {
-          this.__attribValues = {};
-        }
-
-        if (this.__attribValues[key] == value) {
-          return this;
-        }
-
-        if (value == null) {
-          delete this.__attribValues[key];
-        } else {
-          this.__attribValues[key] = value;
-        }
-
-        // Uncreated elements simply copy all data
-        // on creation. We don't need to remember any
-        // jobs. It is a simple full list copy.
-        if (this.__element) {
-          // Omit queuing in direct mode
-          if (direct) {
-            qx.bom.element.Attribute.set(this.__element, key, value);
-            return this;
-          }
-
-          // Dynamically create if needed
-          if (!this.__attribJobs) {
-            this.__attribJobs = {};
-          }
-
-          // Store job info
-          this.__attribJobs[key] = true;
-
-          // Register modification
-          qx.html.Element._modified[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Convenience method to modify a set of attributes at once.
-       *
-       * @param map {Map} a map where the key is the name of the property
-       *    and the value is the value to use.
-       * @param direct {Boolean?false} Whether the values should be applied
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      setAttributes: function (map, direct) {
-        for (var key in map) {
-          this.setAttribute(key, map[key], direct);
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Removes the given attribute
-       *
-       * @param key {String} the name of the attribute
-       * @param direct {Boolean?false} Whether the value should be removed
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      removeAttribute: function (key, direct) {
-        return this.setAttribute(key, null, direct);
-      },
-
-
-      /**
-       * Get the value of the given attribute.
-       *
-       * @param key {String} name of the attribute
-       * @return {var} the value of the attribute
-       */
-      getAttribute: function (key) {
-        return this.__attribValues ? this.__attribValues[key] : null;
-      },
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        CSS CLASS SUPPORT
-      ---------------------------------------------------------------------------
-      */
-      /**
-       * Adds a css class to the element.
-       * @param name {String} Name of the CSS class.
-       */
-      addClass: function (name) {
-        var value = ((this.getAttribute("class") || "") + " " + name).trim();
-        this.setAttribute("class", value);
-      },
-
-
-      /**
-       * Removes a CSS class from the current element.
-       * @param name {String} Name of the CSS class.
-       */
-      removeClass: function (name) {
-        var currentClass = this.getAttribute("class");
-        if (currentClass) {
-          this.setAttribute("class", (currentClass.replace(name, "")).trim());
-        }
-      },
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        PROPERTY SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Applies a special property with the given value.
-       *
-       * This property apply routine can be easily overwritten and
-       * extended by sub classes to add new low level features which
-       * are not easily possible using styles and attributes.
-       *
-       * @param name {String} Unique property identifier
-       * @param value {var} Any valid value (depends on the property)
-       * @return {qx.html.Element} this object (for chaining support)
-       * @abstract
-       */
-      _applyProperty: function (name, value) {
-        // empty implementation
-      },
-
-
-      /**
-       * Set up the given property.
-       *
-       * @param key {String} the name of the property
-       * @param value {var} the value
-       * @param direct {Boolean?false} Whether the value should be applied
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      _setProperty: function (key, value, direct) {
-        if (!this.__propertyValues) {
-          this.__propertyValues = {};
-        }
-
-        if (this.__propertyValues[key] == value) {
-          return this;
-        }
-
-        if (value == null) {
-          delete this.__propertyValues[key];
-        } else {
-          this.__propertyValues[key] = value;
-        }
-
-        // Uncreated elements simply copy all data
-        // on creation. We don't need to remember any
-        // jobs. It is a simple full list copy.
-        if (this.__element) {
-          // Omit queuing in direct mode
-          if (direct) {
-            this._applyProperty(key, value);
-            return this;
-          }
-
-          // Dynamically create if needed
-          if (!this.__propertyJobs) {
-            this.__propertyJobs = {};
-          }
-
-          // Store job info
-          this.__propertyJobs[key] = true;
-
-          // Register modification
-          qx.html.Element._modified[this.toHashCode()] = this;
-          qx.html.Element._scheduleFlush("element");
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Removes the given misc
-       *
-       * @param key {String} the name of the misc
-       * @param direct {Boolean?false} Whether the value should be removed
-       *    directly (without queuing)
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      _removeProperty: function (key, direct) {
-        return this._setProperty(key, null, direct);
-      },
-
-
-      /**
-       * Get the value of the given misc.
-       *
-       * @param key {String} name of the misc
-       * @return {var} the value of the misc
-       */
-      _getProperty: function (key) {
-        var db = this.__propertyValues;
-        if (!db) {
-          return null;
-        }
-
-        var value = db[key];
-        return value == null ? null : value;
-      },
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        EVENT SUPPORT
-      ---------------------------------------------------------------------------
-      */
-
-      /**
-       * Adds an event listener to the element.
-       *
-       * @param type {String} Name of the event
-       * @param listener {Function} Function to execute on event
-       * @param self {Object ? null} Reference to the 'this' variable inside
-       *         the event listener. When not given, the corresponding dispatcher
-       *         usually falls back to a default, which is the target
-       *         by convention. Note this is not a strict requirement, i.e.
-       *         custom dispatchers can follow a different strategy.
-       * @param capture {Boolean ? false} Whether capturing should be enabled
-       * @return {var} An opaque id, which can be used to remove the event listener
-       *         using the {@link #removeListenerById} method.
-       */
-      addListener: function (type, listener, self, capture) {
-        if (this.$$disposed) {
-          return null;
-        }
-
-        if (qx.core.Environment.get("qx.debug")) {
-          var msg = "Failed to add event listener for type '" + type + "'" +
-            " to the target '" + this + "': ";
-
-          this.assertString(type, msg + "Invalid event type.");
-          this.assertFunction(listener, msg + "Invalid callback function");
-
-          if (self !== undefined) {
-            this.assertObject(self, "Invalid context for callback.");
-          }
-
-          if (capture !== undefined) {
-            this.assertBoolean(capture, "Invalid capture flag.");
-          }
-        }
-
-        if (this.__element) {
-          return qx.event.Registration.addListener(this.__element, type, listener, self, capture);
-        }
-
-        if (!this.__eventValues) {
-          this.__eventValues = {};
-        }
-
-        if (capture == null) {
-          capture = false;
-        }
-
-        var unique = qx.event.Manager.getNextUniqueId();
-        var id = type + (capture ? "|capture|" : "|bubble|") + unique;
-
-        this.__eventValues[id] =
+        // Register modification
+        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+      else
+      {
+        for (var key in map)
         {
-          type: type,
-          listener: listener,
-          self: self,
-          capture: capture,
-          unique: unique
-        };
-
-        return id;
-      },
-
-
-      /**
-       * Removes an event listener from the element.
-       *
-       * @param type {String} Name of the event
-       * @param listener {Function} Function to execute on event
-       * @param self {Object} Execution context of given function
-       * @param capture {Boolean ? false} Whether capturing should be enabled
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      removeListener: function (type, listener, self, capture) {
-        if (this.$$disposed) {
-          return null;
-        }
-
-        if (qx.core.Environment.get("qx.debug")) {
-          var msg = "Failed to remove event listener for type '" + type + "'" +
-            " from the target '" + this + "': ";
-
-          this.assertString(type, msg + "Invalid event type.");
-          this.assertFunction(listener, msg + "Invalid callback function");
-
-          if (self !== undefined) {
-            this.assertObject(self, "Invalid context for callback.");
+          var value = map[key];
+          if (this.__styleValues[key] == value) {
+            continue;
           }
 
-          if (capture !== undefined) {
-            this.assertBoolean(capture, "Invalid capture flag.");
+          this._applyStyle(key, value, this.__styleValues[key]);
+          if (value == null) {
+            delete this.__styleValues[key];
+          } else {
+            this.__styleValues[key] = value;
           }
         }
-
-        if (this.__element) {
-          if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.toHashCode()]) {
-            var callback = listener.$$wrapped_callback[type + this.toHashCode()];
-            delete listener.$$wrapped_callback[type + this.toHashCode()];
-            listener = callback;
-          }
-          qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
-        }
-        else {
-          var values = this.__eventValues;
-          var entry;
-
-          if (capture == null) {
-            capture = false;
-          }
-
-          for (var key in values) {
-            entry = values[key];
-
-            // Optimized for performance: Testing references first
-            if (entry.listener === listener && entry.self === self && entry.capture === capture && entry.type === type) {
-              delete values[key];
-              break;
-            }
-          }
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Removes an event listener from an event target by an id returned by
-       * {@link #addListener}
-       *
-       * @param id {var} The id returned by {@link #addListener}
-       * @return {qx.html.Element} this object (for chaining support)
-       */
-      removeListenerById: function (id) {
-        if (this.$$disposed) {
-          return null;
-        }
-
-        if (this.__element) {
-          qx.event.Registration.removeListenerById(this.__element, id);
-        } else {
-          delete this.__eventValues[id];
-        }
-
-        return this;
-      },
-
-
-      /**
-       * Check if there are one or more listeners for an event type.
-       *
-       * @param type {String} name of the event type
-       * @param capture {Boolean ? false} Whether to check for listeners of
-       *         the bubbling or of the capturing phase.
-       * @return {Boolean} Whether the object has a listener of the given type.
-       */
-      hasListener: function (type, capture) {
-        if (this.$$disposed) {
-          return false;
-        }
-
-        if (this.__element) {
-          return qx.event.Registration.hasListener(this.__element, type, capture);
-        }
-
-        var values = this.__eventValues;
-        var entry;
-
-        if (capture == null) {
-          capture = false;
-        }
-
-        for (var key in values) {
-          entry = values[key];
-
-          // Optimized for performance: Testing fast types first
-          if (entry.capture === capture && entry.type === type) {
-            return true;
-          }
-        }
-
-        return false;
-      },
-
-
-      /**
-       * Serializes and returns all event listeners attached to this element
-       * @return {Map[]} an Array containing a map for each listener. The maps
-       * have the following keys:
-       * <ul>
-       *   <li><code>type</code> (String): Event name</li>
-       *   <li><code>handler</code> (Function): Callback function</li>
-       *   <li><code>self</code> (Object): The callback's context</li>
-       *   <li><code>capture</code> (Boolean): If <code>true</code>, the listener is
-       * attached to the capturing phase</li>
-       * </ul>
-       */
-      getListeners: function () {
-        if (this.$$disposed) {
-          return null;
-        }
-
-        if (this.__element) {
-          return qx.event.Registration.getManager(this.__element).serializeListeners(this.__element);
-        }
-
-        var listeners = [];
-        for (var id in this.__eventValues) {
-          var listenerData = this.__eventValues[id];
-          listeners.push({
-            type: listenerData.type,
-            handler: listenerData.listener,
-            self: listenerData.self,
-            capture: listenerData.capture
-          });
-        }
-
-        return listeners;
       }
+
+      return this;
     },
 
 
-
-
-
-    /*
-    *****************************************************************************
-       DEFER
-    *****************************************************************************
-    */
-
-    defer: function (statics) {
-      statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
+    /**
+     * Removes the given style attribute
+     *
+     * @param key {String} the name of the style attribute
+     * @param direct {Boolean?false} Whether the value should be removed
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeStyle : function(key, direct) {
+      this.setStyle(key, null, direct);
+      return this;
     },
 
 
+    /**
+     * Get the value of the given style attribute.
+     *
+     * @param key {String} name of the style attribute
+     * @return {var} the value of the style attribute
+     */
+    getStyle : function(key) {
+      return this.__styleValues ? this.__styleValues[key] : null;
+    },
 
 
+    /**
+     * Returns a map of all styles. Do not modify the result map!
+     *
+     * @return {Map} All styles or <code>null</code> when none are configured.
+     */
+    getAllStyles : function() {
+      return this.__styleValues || null;
+    },
+
+
+    
 
     /*
-    *****************************************************************************
-       DESTRUCT
-    *****************************************************************************
+    ---------------------------------------------------------------------------
+      CSS CLASS SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    __breakClasses: function() {
+      var map = {};
+      (this.getAttribute("class")||"")
+        .split(" ")
+        .forEach(function(name) {
+          if (name) {
+            map[name.toLowerCase()] = name;
+          }
+        });
+      return map;
+    },
+    
+    __combineClasses: function(map) {
+      var primaryClass = this.getCssClass();
+      var arr = [];
+      if (primaryClass) {
+        arr.push(primaryClass);
+        delete map[primaryClass.toLowerCase()];
+      }
+      qx.lang.Array.append(arr, Object.values(map));
+      return arr.length ? arr.join(" ") : null;
+    },
+    
+    /**
+     * Adds a css class to the element.
+     * 
+     * @param name {String} Name of the CSS class.
+     * @return {Element} this, for chaining
+     */
+    addClass : function(name) {
+      var classes = this.__breakClasses();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      name.split(" ").forEach(function(name) {
+        var nameLower = name.toLowerCase();
+        if (nameLower == primaryClass) {
+          this.warn("Adding CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
+          this.setCssClass(null);
+        }
+        
+        classes[nameLower] = name;
+      });
+      this.setAttribute("class", this.__combineClasses(classes));
+      return this;
+    },
+
+
+    /**
+     * Removes a CSS class from the current element.
+     * 
+     * @param name {String} Name of the CSS class.
+     * @return {Element} this, for chaining
+     */
+    removeClass : function(name) {
+      var classes = this.__breakClasses();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      name.split(" ").forEach(function(name) {
+        var nameLower = name.toLowerCase();
+        if (nameLower == primaryClass) {
+          this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
+          this.setCssClass(null);
+        }
+        
+        delete classes[nameLower];
+      });
+      
+      this.setAttribute("class", this.__combineClasses(classes));
+      return this;
+    },
+
+
+    /**
+     * Removes all CSS classed from the current element.
+     */
+    removeAllClasses : function() {
+      if (this.getCssClass()) {
+        this.warn("Removing all CSS Classes including the primary CSS class \"" + this.getCssClass() + "\" (consider using .setCssClass instead)");
+      }
+      
+      this.setCssClass(null);
+      this.setAttribute("class", "");
+    },
+    
+    
+    /**
+     * Apply method for cssClass
+     */
+    _applyCssClass: function(value, oldValue) {
+      var classes = this.__breakClasses();
+      if (oldValue) {
+        value.split(" ").forEach(function(name) {
+          delete classes[name.toLowerCase()];
+        });
+      }
+      if (value) {
+        value.split(" ").forEach(function(name) {
+          classes[name.toLowerCase()] = name;
+        });
+      }
+      this.setAttribute("class", this.__combineClasses(classes));
+    },
+
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SIZE AND POSITION SUPPORT
+    ---------------------------------------------------------------------------
     */
 
-    destruct: function () {
-      if (this.toHashCode()) {
-        delete qx.html.Element._modified[this.toHashCode()];
-        delete qx.html.Element._scroll[this.toHashCode()];
-      }
-
-      var el = this.__element;
-      if (el) {
-        qx.event.Registration.getManager(el).removeAllListeners(el);
-        el.$$element = "";
-        delete el.$$elementObject;
-        el.$$widget = "";
-        delete el.$$widgetObject;
-      }
-
-      if (!qx.core.ObjectRegistry.inShutDown) {
-        var parent = this.__parent;
-        if (parent && !parent.$$disposed) {
-          parent.remove(this);
+    /**
+     * Returns the size and position of this element; this is just a helper method that wraps
+     * the calls to qx.bom.*
+     * 
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
+     * @param mode {String} the type of size required, see above
+     * @return {Object} a map, containing:
+     *  left, right, top, bottom - document co-ords
+     *  content - Object, containing:
+     *    width, height: maximum permissible content size
+     */
+    getDimensions: function(mode) {
+      if (!this._domNode) {
+        return {
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: 0,
+          height: 0,
+          content: {
+            width: 0,
+            height: 0
+          }
         }
       }
+      var loc = qx.bom.element.Location.get(this._domNode, mode);
+      loc.content = qx.bom.element.Dimension.getContentSize(this._domNode);
+      loc.width = loc.right - loc.left;
+      loc.height = loc.bottom - loc.top;
+      return loc;
+    },
+    
+    
+    /**
+     * Detects whether the DOM Node is visible
+     */
+    canBeSeen: function() {
+      if (this._domNode && this.isVisible()) {
+        var rect = this._domNode.getBoundingClientRect();
+        if (rect.top > 0 || rect.left > 0 || rect.width > 0 || rect.height > 0) {
+          return true;
+        }
+      }
+      return false;
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      ATTRIBUTE SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
-      this._disposeArray("__children");
+    /**
+     * Set up the given attribute
+     *
+     * @param key {String} the name of the attribute
+     * @param value {var} the value
+     * @param direct {Boolean?false} Whether the value should be applied
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setAttribute : function(key, value, direct)
+    {
+      if (!this.__attribValues) {
+        this.__attribValues = {};
+      }
 
-      this.__attribValues = this.__styleValues = this.__eventValues =
-        this.__propertyValues = this.__attribJobs = this.__styleJobs =
-        this.__propertyJobs = this.__element = this.__parent =
-        this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
+      if (this.__attribValues[key] == value) {
+        return this;
+      }
+
+      if (value == null) {
+        delete this.__attribValues[key];
+      } else {
+        this.__attribValues[key] = value;
+      }
+
+      if (key == "data-qx-object-id") {
+        this.setQxObjectId(value);
+      }
+
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
+      if (this._domNode)
+      {
+        // Omit queuing in direct mode
+        if (direct)
+        {
+          qx.bom.element.Attribute.set(this._domNode, key, value);
+          return this;
+        }
+
+        // Dynamically create if needed
+        if (!this.__attribJobs) {
+          this.__attribJobs = {};
+        }
+
+        // Store job info
+        this.__attribJobs[key] = true;
+
+        // Register modification
+        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Convenience method to modify a set of attributes at once.
+     *
+     * @param map {Map} a map where the key is the name of the property
+     *    and the value is the value to use.
+     * @param direct {Boolean?false} Whether the values should be applied
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setAttributes : function(map, direct)
+    {
+      for (var key in map) {
+        this.setAttribute(key, map[key], direct);
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Removes the given attribute
+     *
+     * @param key {String} the name of the attribute
+     * @param direct {Boolean?false} Whether the value should be removed
+     *    directly (without queuing)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeAttribute : function(key, direct) {
+      return this.setAttribute(key, null, direct);
+    },
+
+
+    /**
+     * Get the value of the given attribute.
+     *
+     * @param key {String} name of the attribute
+     * @return {var} the value of the attribute
+     */
+    getAttribute : function(key) {
+      return this.__attribValues ? this.__attribValues[key] : null;
     }
-  });
+  },
+
+
+
+
+
+  /*
+   *****************************************************************************
+      DEFER
+   *****************************************************************************
+   */
+
+   defer : function(statics) {
+     statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
+     statics.__SELF_CLOSING_TAGS = {};
+     ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", 
+     "meta", "param", "source", "track", "wbr"].forEach(function(tagName) {
+       statics.__SELF_CLOSING_TAGS[tagName] = true;
+     }); 
+   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var hash = this.toHashCode();
+    if (hash) {
+      delete qx.html.Element._modified[hash];
+      delete qx.html.Element._scroll[hash];
+    }
+    this.setRoot(false);
+
+    this.__attribValues = this.__styleValues =
+      this.__attribJobs = this.__styleJobs =
+      this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
+  }
+});
