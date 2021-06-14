@@ -57,6 +57,9 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
         }
       }
       await this.__removePath(path.join(process.cwd(), qx.tool.cli.commands.Package.cache_dir));
+      
+      // check if we have to migrate files
+      await this.checkMigrations();
     },
 
     __removePath: async function(pathToRemove) {

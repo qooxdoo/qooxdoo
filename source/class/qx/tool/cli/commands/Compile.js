@@ -92,6 +92,12 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         requiresArg: true,
         type: "string"
       },
+      "app-group": {
+        describe: "which application groups to compile (defaults to all)",
+        nargs: 1,
+        requiresArg: true,
+        type: "string"
+      },
       "watch": {
         describe: "enables watching for changes and continuous compilation",
         type: "boolean",
@@ -573,7 +579,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
       var argvAppNames = null;
       if (t.argv["app-name"]) {
-        argvAppNames = t.argv["app-name"].split(",");
+        argvAppNames = {};
+        t.argv["app-name"].split(",").forEach(name => argvAppNames[name] = true);
+      }
+      var argvAppGroups = null;
+      if (t.argv["app-group"]) {
+        argvAppGroups = {};
+        t.argv["app-group"].split(",").forEach(name => argvAppGroups[name] = true);
       }
 
 
@@ -608,6 +620,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             throw new qx.tool.utils.Utils.UserError(`Multiple applications with the same name '${appConfig.name}'`);
           }
           allAppNames[appConfig.name] = appConfig;
+        }
+        if (appConfig.group) {
+          if (typeof appConfig.group == "string")
+            appConfig.group = [ appConfig.group ]; 
         }
         appConfig.index = index;
         let appType = appConfig.type||"browser";
@@ -723,8 +739,18 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           qx.tool.compiler.Console.print("qx.tool.cli.compile.unusedTarget", targetConfig.type, targetConfig.index);
           return;
         }
-        let appConfigs = targetConfig.appConfigs.filter(appConfig =>
-          !appConfig.name || !argvAppNames || qx.lang.Array.contains(argvAppNames, appConfig.name));
+        let appConfigs = targetConfig.appConfigs.filter(appConfig => {
+          if (argvAppGroups) {
+            let groups = appConfig.group||[];
+            if (!groups.find(groupName => !!argvAppGroups[groupName]))
+              return false;
+          }
+          if (argvAppNames && appConfig.name) {
+            if (!argvAppNames[appConfig.name])
+              return false;
+          }
+          return true;
+        });
         if (!appConfigs.length) {
           return;
         }
@@ -820,6 +846,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
 
         maker.setTarget(target);
+        if (targetConfig["application-types"]) {
+          maker.getAnalyser().setApplicationTypes(targetConfig["application-types"]);
+        }
 
         maker.setLocales(data.locales||[ "en" ]);
         if (data.writeAllTranslations) {
@@ -1034,7 +1063,12 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (urisToInstall.length > 0 && pkg_libs.length === 0) {
           // if we don't have package data
           if (this.argv.download) {
-            // but we're instructed to download the libraries
+            if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) { 
+              Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " + 
+                urisToInstall.join("\n     ") + "\nThe library which refers to the missing libraries is " + lib.getNamespace() + " in " + lib.getRootDir());  
+              process.exit(1);
+            }
+              // but we're instructed to download the libraries
             if (this.argv.verbose) {
               Console.info(`>>> Installing latest compatible version of libraries ${urisToInstall.join(", ")}...`);
             }
@@ -1043,7 +1077,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               save: false // save to lockfile only, not to manifest
             });
             await installer.process();
-            throw new qx.tool.utils.Utils.UserError("Added missing library information from Manifest. Please restart the compilation.");
+            throw new qx.tool.utils.Utils.UserError(`Library ${lib.getNamespace()} requires ${urisToInstall.join(",")} - we have tried to download and install these additional libraries, please restart the compilation.`);
           } else {
             throw new qx.tool.utils.Utils.UserError("No library information available. Try 'qx compile --download'");
           }

@@ -61,4 +61,3 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
     }
   }
 });
-

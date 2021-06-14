@@ -53,4 +53,3 @@ qx.Class.define("qx.tool.cli.api.LibraryApi", {
     
   }
 });
-

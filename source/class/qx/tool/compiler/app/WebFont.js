@@ -184,7 +184,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
               let codePoint = parseInt(map[key], 16);
               let glyph = font.glyphForCodePoint(codePoint);
               if (!glyph.id) {
-                qx.tool.compiler.Console.log(`WARN: no glyph found for ${font} ${key}: ${codePoint}`);
+                qx.tool.compiler.Console.log(`WARN: no glyph found in ${filename} ${key}: ${codePoint}`);
                 return;
               }
               resources["@" + this.getName() + "/" + key] = [
@@ -198,6 +198,12 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
             return;
           });
 
+          return;
+        }
+
+        if (!font.GSUB) {
+          qx.tool.compiler.Console.error(`The webfont in ${filename} does not have any ligatures`);
+          resolve(resources);
           return;
         }
 
@@ -309,7 +315,10 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @return {Promise}
      */
     generateForTarget: function(target) {
-      return new Promise((resolve, reject) => {
+      if (this.__generateForTargetPromise)
+        return this.__generateForTargetPromise;
+
+      this.__generateForTargetPromise = new Promise((resolve, reject) => {
         for (let resource of this.getResources()) {
           // Search for the first supported extension
           let basename = resource.match(/^.*[/\\]([^/\\\?#]+).*$/)[1];
@@ -324,9 +333,9 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
               this.__fontData = data;
               resolve();
             })
-              .catch(err => {
-                reject(err);
-              });
+            .catch(err => {
+              reject(err);
+            });
             return;
           }
           // handle local file
@@ -334,13 +343,15 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
             this.__fontData = data;
             resolve();
           })
-            .catch(err => {
-              reject(err);
-            });
+          .catch(err => {
+            reject(err);
+          });
           return;
         }
         reject(`Failed to load/validate FontMap for webfont (expected ttf, otf, woff or woff2) ${this.getName()}`);
       });
+
+      return this.__generateForTargetPromise;
     },
 
     /**

@@ -131,4 +131,3 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
     }
   }
 });
-

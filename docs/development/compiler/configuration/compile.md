@@ -76,6 +76,10 @@ The `applications` key is an array of objects, and each object can contain:
 - `name` - this is an arbitrary, but unique, short name for your application and
   should be filename and URL friendly - IE no spaces or special characters
 
+- `group` - this is either a string or an array of strings, and is used to group
+  applications together; by using the `--app-group` command line arg when compiling,
+  you can choose to only compile those application which have a given group name
+
 - `title` - (**optional**) this is the human readable, customer facing
   description used to set the `<title>` tag of the application web page, i.e. in
   the application's index.html
