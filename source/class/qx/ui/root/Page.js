@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.root.Page",
       });
 
       // Store reference to the widget in the DOM element.
-      root.connectWidget(this);
+      root.connectObject(this);
 
       // Mark the element of this root with a special attribute to prevent
       // that qx.event.handler.Focus is performing a focus action.

@@ -73,6 +73,22 @@
             "description": "An arbitrary, but unique, short name for the application. Should be filename and URL friendly - IE no spaces or special characters",
             "type": "string"
           },
+          "group": {
+            "description": "An arbitrary, but unique, short name for grouping applications. Should be filename and URL friendly - IE no spaces or special characters",
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[-_a-zA-Z0-9]+$"
+              }, 
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[-_a-zA-Z0-9]+$"
+                }
+              }
+            ]
+          },
           "title": {
             "description": "The human readable, customer facing name used to set the <title> tag of the application web page, i.e. in the application's index.html",
             "type": "string"

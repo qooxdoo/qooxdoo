@@ -62,7 +62,7 @@ The package system works like this:
 
 1.  A Qooxdoo library is maintained as public repository on GitHub with the
     [GitHub topic](https://help.github.com/articles/about-topics/)
-    `Qooxdoo-package`
+    `qooxdoo-package` (see [other repos with that topic](https://github.com/topics/qooxdoo-package)).
 
 2.  The library author/maintainer
     [creates a release of the library](https://help.github.com/articles/creating-releases/)
@@ -398,7 +398,7 @@ strict dependency and remove the compatibility with earlier versions.
 
 - The repository **must** have a
   [GitHub topic](https://help.github.com/articles/about-topics/)
-  `Qooxdoo-package` in order to be found and listed.
+  `qooxdoo-package` in order to be found and listed.
 
 - The tool will only show
   **[releases](https://help.github.com/articles/about-releases/)** . The

@@ -929,7 +929,33 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     contrast: function(back,front){
         var bl = this.luminance(back) + .05;
         var fl = this.luminance(front) + 0.5;
-        return Math.max(bl,fl) / Math.min(bl,fl);
+        return Math.max(bl, fl) / Math.min(bl, fl);
+    },
+    
+    
+    /**
+     * Picks a contrasting color
+     *
+     * @param rgb {Number[]|String} the color, either as a string or as an RGB array of 3 numbers
+     * @param threshold {Number?} the threshold between light and dark outputs, where the range is 0-255, defaults to 128
+     * @param dark {String?} the colour to use for "dark", defaults to black
+     * @param light {String?} the colour to use for "light", defaults to white
+     * @return {String} colour string
+     */
+    chooseContrastingColor : function(rgb, threshold, dark, light) {
+      if (typeof rgb == "string")
+        rgb = qx.util.ColorUtil.stringToRgb(rgb);
+      var r = rgb[0];
+      var g = rgb[1];
+      var b = rgb[2];
+      if (!threshold) {
+        threshold = 128;
+      }
+      
+      // Combine into the YIQ color space (which gives us a handy scale we can use with a threshold)
+      var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      
+      return yiq >= threshold ? (dark || '#000') : (light || '#fff');
     }
   }
 });

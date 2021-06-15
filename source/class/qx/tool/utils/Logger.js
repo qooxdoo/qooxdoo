@@ -81,4 +81,3 @@ qx.Class.define("qx.tool.utils.Logger", {
 
   }
 });
-

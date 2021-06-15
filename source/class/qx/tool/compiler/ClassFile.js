@@ -402,7 +402,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             callback(err);
             return;
           }
-          fs.writeFile(outputPath, result.code + "\n\n//# sourceMappingURL=" + name + ".js.map?dt=" + (new Date().getTime()), {encoding: "utf-8"}, function(err) {
+          let mappingUrl = name + ".js.map";
+          if (qx.lang.Array.contains(t.__analyser.getApplicationTypes(), "browser"))
+            mappingUrl += "?dt=" + (new Date().getTime());
+          fs.writeFile(outputPath, result.code + "\n\n//# sourceMappingURL=" + mappingUrl, {encoding: "utf-8"}, function(err) {
             if (err) {
               callback(err);
               return;
@@ -1362,7 +1365,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             ForOfStatement: 1,
             TaggedTemplateExpression: 1,
             ClassExpression: 1,
-            OptionalCallExpression: 1
+            OptionalCallExpression: 1,
+            JSXExpressionContainer: 1
           };
           let root = path;
           while (root) {
@@ -2664,4 +2668,3 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   }
 
 });
-

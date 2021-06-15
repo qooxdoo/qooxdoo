@@ -61,8 +61,11 @@ qx.Class.define("qx.tool.compiler.resources.AbstractMatcher", {
     /**
      * Called to determine whether this handler is appropriate for the given filename;
      * default implementation is to check the RegEx passed to the constructor
+     * 
+     * @param filename {String} the name of the resource
+     * @param library {qx.tool.compiler.app.Library} the library its in
      */
-    matches: function(filename) {
+    matches: function(filename, library) {
       return this.__match !== null && this.__match(filename);
     }
   }

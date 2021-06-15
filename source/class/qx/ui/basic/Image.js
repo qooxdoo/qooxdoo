@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       var element = new (clazz)(tagName);
-      element.connectWidget(this);
+      element.connectObject(this);
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden",
@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.basic.Image",
 
         if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
           var wrapper = this.__wrapper = new qx.html.Element("div");
-          element.connectWidget(this);
+          element.connectObject(this);
           wrapper.setStyle("position", "absolute");
           wrapper.add(element);
           return wrapper;
@@ -823,6 +823,18 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
+    __setFontSize : function(el, width, height)
+    {
+      if (this.getScale()) {
+        el.setStyle("fontSize", (width > height ? height : width) + "px");
+      } else {
+        var source = this.getSource();
+        var sparts = source.split("/");
+        var size = parseInt(sparts[2] || qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]).getSize());
+        el.setStyle("fontSize", size + "px");
+      }
+    },
+
     _applyDimension : function()
     {
       this.base(arguments);
@@ -831,16 +843,10 @@ qx.Class.define("qx.ui.basic.Image",
       if (isFont) {
         var el = this.getContentElement();
         if (el) {
-          if (this.getScale()) {
-            var hint = this.getSizeHint();
-            var width = this.getWidth() || hint.width || 40;
-            var height = this.getHeight() || hint.height || 40;
-            el.setStyle("fontSize", (width > height ? height : width) + "px");
-          }
-          else {
-            var font = qx.theme.manager.Font.getInstance().resolve(this.getSource().match(/@([^/]+)/)[1]);
-            el.setStyle("fontSize", font.getSize() + "px");
-          }
+          var hint = this.getSizeHint();
+          var width = this.getWidth() || hint.width || 40;
+          var height = this.getHeight() || hint.height || 40;
+          this.__setFontSize(el,width,height);
         }
       } else {
         this.__updateContentHint();
@@ -935,8 +941,6 @@ qx.Class.define("qx.ui.basic.Image",
       var isFont = source && qx.lang.String.startsWith(source, "@");
 
       if (isFont) {
-        var sparts = source.split("/");
-
         var ResourceManager = qx.util.ResourceManager.getInstance();
         var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
         var fontStyles = qx.lang.Object.clone(font.getStyles());
@@ -947,13 +951,7 @@ qx.Class.define("qx.ui.basic.Image",
         el.setStyle("verticalAlign", "middle");
         el.setStyle("textAlign", "center");
 
-        if (this.getScale()) {
-          el.setStyle("fontSize", (this.__width > this.__height ? this.__height : this.__width) + "px");
-        }
-        else {
-          var size = parseInt(sparts[2] || qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]).getSize());
-          el.setStyle("fontSize", size + "px");
-        }
+        this.__setFontSize(el, this.__width, this.__height);
 
         var charCode = ResourceManager.fromFontUriToCharCode(source);
         el.setValue(String.fromCharCode(charCode));
@@ -1151,7 +1149,7 @@ qx.Class.define("qx.ui.basic.Image",
   destruct : function() {
     for (var mode in this.__contentElements) {
       if (this.__contentElements.hasOwnProperty(mode)) {
-        this.__contentElements[mode].disconnectWidget(this);
+        this.__contentElements[mode].disconnectObject(this);
       }
     }
 

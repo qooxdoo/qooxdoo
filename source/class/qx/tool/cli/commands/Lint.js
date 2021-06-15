@@ -179,4 +179,3 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
     }
   }
 });
-

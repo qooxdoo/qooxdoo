@@ -29,6 +29,16 @@ qx.Class.define("qx.html.Label",
 {
   extend : qx.html.Element,
 
+  /**
+   * Creates a new Image
+   *
+   * @see constructor for {Element}
+   */
+  construct: function(tagName, styles, attributes) {
+    this.base(arguments, tagName, styles, attributes);
+    this.registerProperty("value", null, this._setValueProperty);
+  },
+
 
 
   /*
@@ -47,19 +57,16 @@ qx.Class.define("qx.html.Label",
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-
-    // overridden
-    _applyProperty : function(name, value)
-    {
-      this.base(arguments, name, value);
-
-      if (name == "value")
-      {
-        var element = this.getDomElement();
-        qx.bom.Label.setValue(element, value);
-      }
+    
+    /**
+     * Implementation of setter for the "value" property
+     * 
+     * @param value {String?} value to set
+     */
+    _setValueProperty: function(value) {
+      var element = this.getDomElement();
+      qx.bom.Label.setValue(element, value);
     },
-
 
     // overridden
     _createDomElement : function()
@@ -73,8 +80,8 @@ qx.Class.define("qx.html.Label",
 
     // overridden
     // be sure that style attributes are merged and not overwritten
-    _copyData : function(fromMarkup) {
-      return this.base(arguments, true);
+    _copyData : function(fromMarkup, propertiesFromDom) {
+      return this.base(arguments, true, propertiesFromDom);
     },
 
 

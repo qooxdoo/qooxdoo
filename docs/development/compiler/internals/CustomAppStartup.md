@@ -57,6 +57,7 @@ The template variables supported are:
 - `appPath` - a relative path to the application's output folder
 - `preBootJs` - a code snippet to be placed in index.html immediately before the
   boot.js script is loaded
+- `timeStamp` - seconds since epoch at compile/deploy time which could be used to prevent browser caching in URLs
 
 Note that previous version of the compiler would also add a `<script>` tag which
 links to `boot.js` but this is now also done by template replacements - you MUST

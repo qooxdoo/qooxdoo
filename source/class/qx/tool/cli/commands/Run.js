@@ -189,4 +189,3 @@ qx.Class.define("qx.tool.cli.commands.Run", {
     }, "error");
   }
 });
-
