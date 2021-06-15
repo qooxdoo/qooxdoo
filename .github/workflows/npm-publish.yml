@@ -1,14 +1,14 @@
 # This workflow builds the state of the current branch and publishes it to NPM.
 #
-# It doesn't have any versioning strategy other than publishing any version in
-# package.json that contains the string "beta" to with a `beta` tag; i.e. `npm
-# install @qooxdoo/qooxdoo@beta` will get you the last beta version published,
-# anything else goes to the `latest` tag.
-#
 # **** CAUTION ***
 #
 # Every push involves incrementing the version number by hand, otherwise no
 # package will be published - the workflow won't do it for you.
+#
+# The workflow doesn't have any versioning strategy other than publishing any
+# version in package.json that contains the string "beta" to with a `beta` tag;
+# i.e. `npm install @qooxdoo/qooxdoo@beta` will get you the last beta version
+# published, anything else goes to the `latest` tag.
 #
 # This workflow rests on the highly dubious assumption that pushes to the master
 # branch will always contain a "beta" version and pushes to the "stable" branch
