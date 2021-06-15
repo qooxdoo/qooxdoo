@@ -11,7 +11,7 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@master
       - name: Publish to @qooxdoo/framework@latest
         id: publish@latest
-        if: ${{ !contains(steps.package-version.outputs.current-version, "beta") }}
+        if: ${{ !contains(steps.package-version.outputs.current-version, 'beta') }}
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
@@ -19,7 +19,7 @@ jobs:
           dry-run: true
       - name: Publish to @qooxdoo/framework@devel
         id: publish@devel
-        if: ${{ contains(steps.package-version.outputs.current-version, "beta") }}
+        if: ${{ contains(steps.package-version.outputs.current-version, 'beta') }}
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
