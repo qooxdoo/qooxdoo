@@ -7,7 +7,7 @@ jobs:
   provide_repository_names:
     name: Get repo names in ${{ github.repository_owner }}
     runs-on: ubuntu-latest
-    if: ${{ github.repository == "qooxdoo/qooxdoo" }}
+    if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     steps:
       - uses: actions/setup-node@v2
       - uses: octokit/graphql-action@v2.x

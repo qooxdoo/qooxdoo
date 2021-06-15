@@ -24,7 +24,7 @@ on: push
 jobs:
   publish:
     name: Publish the current branch to npm
-    if: ${{ github.repository == "qooxdoo/qooxdoo" }}
+    if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
