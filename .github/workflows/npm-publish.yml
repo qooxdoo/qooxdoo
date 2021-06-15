@@ -2,6 +2,7 @@ on: push
 
 jobs:
   publish:
+    name: Publish the current branch to npm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
