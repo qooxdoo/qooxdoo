@@ -1,0 +1,26 @@
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Publish to @qooxdoo/framework@latest
+        id: publish@latest
+        if: ${{ !contains(steps.package-version.outputs.current-version, "beta") }}
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: latest
+          dry-run: true
+      - name: Publish to @qooxdoo/framework@devel
+        id: publish@devel
+        if: ${{ contains(steps.package-version.outputs.current-version, "beta") }}
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: latest
+          dry-run: true
