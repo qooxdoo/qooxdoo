@@ -776,14 +776,16 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       }
 
       var resDir = this.getApplicationRoot(application);
-
+      
+      let timeStamp = (new Date()).getTime();
       let pathToTarget = path.relative(path.join(t.getOutputDir(), t.getProjectDir(application)), t.getOutputDir()) + "/";
       let TEMPLATE_VARS = {
         "resourcePath": pathToTarget + "resource/",
         "targetPath": pathToTarget,
         "appPath": "",
         "preBootJs": "",
-        "appTitle": (application.getTitle()||"Qooxdoo Application")
+        "appTitle": (application.getTitle()||"Qooxdoo Application"),
+        "timeStamp": timeStamp
       };
 
       function replaceVars(code) {
@@ -853,7 +855,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "targetPath": "",
           "appPath": t.getProjectDir(application) + "/",
           "preBootJs": "",
-          "appTitle": (application.getTitle()||"Qooxdoo Application")
+          "appTitle": (application.getTitle()||"Qooxdoo Application"),
+          "timeStamp": timeStamp
         };
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
       }
