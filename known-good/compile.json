@@ -37,7 +37,8 @@
     "Promise.*",
     "require.*",
     "path.*",
-    "args.*"
+    "args.*",
+    "loadSass"
   ],
   "libraries": [
     ".."
