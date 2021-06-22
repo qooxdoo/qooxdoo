@@ -159,7 +159,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @async
      */
     writeBase: function() {
-      return readFile(path.join(__dirname, "TypeScriptWriter-base_declaration.txt"), "UTF-8")
+      return readFile(path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.txt"), "UTF-8")
         .then(content => this.write(content));
     },
 

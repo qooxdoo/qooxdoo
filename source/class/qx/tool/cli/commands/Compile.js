@@ -733,6 +733,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       /*
        * There is still only one target per maker, so convert our list of targetConfigs into an array of makers
        */
+      let targetOutputPaths = {};
       let makers = [];
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
@@ -762,6 +763,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (!outputPath) {
           throw new qx.tool.utils.Utils.UserError("Missing output-path for target " + targetConfig.type);
         }
+        let absOutputPath = path.resolve(outputPath);
+        if (targetOutputPaths[absOutputPath]) {
+          throw new qx.tool.utils.Utils.UserError(`Multiple output targets share the same target directory ${outputPath} - each target output must be unique`);
+        }
+        targetOutputPaths[absOutputPath] = true;
 
         var maker = new qx.tool.compiler.makers.AppMaker();
         if (!this.argv["erase"]) {
