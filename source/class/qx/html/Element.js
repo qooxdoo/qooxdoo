@@ -764,8 +764,6 @@ qx.Class.define("qx.html.Element",
       this.base(arguments, fromMarkup, propertiesFromDom);
       var elem = this._domNode;
       
-      if (this.$$x)
-        debugger;
       // Copy attributes
       var data = this.__attribValues;
       if (data) {
@@ -2010,8 +2008,6 @@ qx.Class.define("qx.html.Element",
       if (!this.__attribValues) {
         this.__attribValues = {};
       }
-      if (this.$$x)
-        debugger;
 
       if (this.__attribValues[key] == value) {
         return this;
