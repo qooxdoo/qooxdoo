@@ -195,20 +195,48 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         };
       }
     },
-
-    // overridden
-    _fullUpdate : function(firstRow, firstColumn)
-    {
+    
+    renderLayout(left, top, width, height) {
+      let pane = this.getPane();
+      let firstRow = pane.getFirstRow();
+      let firstColumn = pane.getFirstColumn();
+      
       var cellProvider = this._cellProvider;
       let rowSizes = this.getPane().getRowSizes();
       let columnSizes = this.getPane().getColumnSizes();
+      
+      let spacers = {};
+      const addSpacer = spacer => {
+          let itemRow = item.getUserData("cell.row");
+          let itemColumn = item.getUserData("cell.column");
+          let id = itemRow + "x" + itemColumn;
+          spacers[id] = spacer;
+      };
+      const useSpacer = (itemRow, itemColumn) => {
+        let id = itemRow + "x" + itemColumn;
+        let spacer = spacers[id];
+        if (spacer) {
+          delete spacers[id];
+          return spacer;
+        }
+        spacer = this._getSpacer();
+        return spacer;
+      };
+      const clearSpacers = () => {
+        Object.values(spacers).forEach(spacer => {
+          this._remove(spacer);
+          this.__spacerPool.push(spacer);
+          spacer.setUserData("cell.row", null);
+          spacer.setUserData("cell.column", null);
+        });
+      };
 
       var children = this._getChildren().concat();
       for (var i=0; i<children.length; i++) {
         var child = children[i];
         
         if (child.getUserData("cell.empty")) {
-          this.__spacerPool.push(child);
+          addSpacer(child);
           
         } else {
           let rowIndex = child.getUserData("cell.row");
@@ -232,27 +260,44 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
           
           var item = cellProvider.getCellWidget(row, column);
           if (qx.core.Environment.get("qx.debug")) {
-            if (item && 
-                (
-                  (item.getUserData("cell.row") !== null && item.getUserData("cell.row") !== row) ||
-                  (item.getUserData("cell.column") !== null && item.getUserData("cell.column") !== column)
-                )
-                ) {
-              cellProvider.getCellWidget(row, column);
-              throw new Error("Changing the row and column of a widget");
+            if (item) {
+              let itemRow = item.getUserData("cell.row");
+              let itemColumn = item.getUserData("cell.column");
+              if ((itemRow !== null && itemRow !== row) || (itemColumn !== null && itemColumn !== column)) {
+                throw new Error("Changing the row and column of a widget");
+              }
             }
           }
           if (!item) {
-            item = this._getSpacer();
+            item = useSpacer(row, column);
           }
           
-          item.setUserData("cell.row", row);
-          item.setUserData("cell.column", column);
-          item.invalidateLayoutCache();
-          this._add(item);
+          let invalidate = false;
+          if (item.getLayoutParent() !== this) {
+            this._add(item);
+            invalidate = true;
+          }
+          if (item.getUserData("cell.row") === null || item.getUserData("cell.column") === null) {
+            item.setUserData("cell.row", row);
+            item.setUserData("cell.column", column);
+            invalidate = true;
+          }
+          
+          if (invalidate) {
+            item.invalidateLayoutCache();
+          }
         }
       }
+      
+      clearSpacers();
+      this.base(arguments, left, top, width, height);
+    },
 
+    // overridden
+    _fullUpdate(firstRow, firstColumn) {
+      this._getChildren().forEach(child => {
+        child.invalidateLayoutCache();
+      });
       this.fireEvent("updated");
     }
   },
