@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.Annotation", {
         return [];
       }
       var annos = group ? clazz.$$annotations[group] : clazz.$$annotations;
-      var match = annos && annos[name];
+      var match = annos && annos.hasOwnProperty(name) ? annos[name] : null;
       if (!match) {
         return [];
       }
@@ -119,7 +119,7 @@ qx.Bootstrap.define("qx.Annotation", {
       for (var tmp = clazz; tmp; tmp = tmp.superclass) {
         if (tmp.$$annotations !== undefined) {
           var annos = group ? tmp.$$annotations[group] : tmp.$$annotations;
-          var src = annos && annos[name];
+          var src = annos && annos.hasOwnProperty(name) ? annos[name] : null;
           if (src) {
             if (annoClass) {
               src = src.filter(function(anno) {
