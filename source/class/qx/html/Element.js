@@ -769,16 +769,27 @@ qx.Class.define("qx.html.Element",
       if (data) {
         var Attribute = qx.bom.element.Attribute;
         if (fromMarkup) {
-          var str = Attribute.get(elem, "class");
+          var str;
+          let classes = {};
+          str = this.getAttribute("class");
+          (str ? str.split(" ") : []).forEach(name => {
+            if (name.startsWith("qx-")) 
+              classes[name] = true
+          });
+
+          str = Attribute.get(elem, "class");
           if (!qx.core.Environment.get("qx.headless")) {
             if (str instanceof window.SVGAnimatedString) {
               str = str.baseVal;
             }
           }
-          var segs = str ? str.split(" ") : [];
+          (str ? str.split(" ") : []).forEach(name => classes[name] = true);
+          classes = Object.keys(classes);
+
+          var segs = classes;
           if (segs.length) {
             this.setCssClass(segs[0]);
-            this.setAttribute("class", str);
+            this.setAttribute("class", classes.join(" "));
           } else {
             this.setCssClass(null);
             this.setAttribute("class", null);

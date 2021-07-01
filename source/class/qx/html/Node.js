@@ -793,7 +793,14 @@ qx.Class.define("qx.html.Node",
       if (data)
       {
         // Import listeners
-        qx.event.Registration.getManager(elem).importListeners(elem, data);
+        let domEvents = {};
+        let manager = qx.event.Registration.getManager(elem);
+        for (let id in data) {
+          if (manager.findHandler(elem, data[id].type)) {
+            domEvents[id] = data[id];
+          }
+        }
+        qx.event.Registration.getManager(elem).importListeners(elem, domEvents);
 
         // Cleanup event map
         // Events are directly attached through event manager
