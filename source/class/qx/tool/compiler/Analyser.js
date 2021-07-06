@@ -25,6 +25,7 @@
 
 
 var fs = require("fs");
+const path = require("upath");
 var async = require("async");
 
 var jsonlint = require("jsonlint");
@@ -67,6 +68,13 @@ qx.Class.define("qx.tool.compiler.Analyser", {
   properties: {
     /** Output directory for the compiled application */
     outputDir: {
+      nullable: true,
+      check: "String"
+    },
+
+    /** Directory for proxy source files, if they are to be used */
+    proxySourcePath: {
+      init: null,
       nullable: true,
       check: "String"
     },
@@ -796,7 +804,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           throw new Error(" *** ERROR *** Writing " + classname + " more than once");
         }
         metaWrittenLog[classname] = true;
-        var filename = qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        var filename = t.getClassOutputPath(classname) + "on";
         return writeFile(filename, JSON.stringify(meta, null, 2), {encoding: "utf-8"});
       }
 
@@ -807,7 +815,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         if (cachedMeta[classname]) {
           return Promise.resolve(cachedMeta[classname]);
         }
-        var filename = qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        var filename = t.getClassOutputPath(classname) + "on";
         return readFile(filename, {encoding: "utf-8"})
           .then(str => jsonlint.parse(str))
           .then(meta => cachedMeta[classname] = meta)
@@ -898,6 +906,41 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     },
 
     /**
+     * Returns the absolute path to the class file
+     *
+     * @param className {String}
+     * @returns {String}
+     */
+    getClassSourcePath(className) {
+      let library = this.getLibraryFromClassname(className);
+      if (!library) {
+        let err = new Error("Cannot find class file " + className);
+        err.code = "ENOCLASSFILE";
+        throw err;
+      }
+
+      let filename = className.replace(/\./g, path.sep) + library.getSourceFileExtension(className);
+      if (this.getProxySourcePath()) {
+        let test = path.join(this.getProxySourcePath(), filename);
+        if (fs.existsSync(test))
+          return test;
+      }
+      
+      return path.join(library.getRootDir(), library.getSourcePath(), filename);
+    },
+
+    /**
+     * Returns the path to the rewritten class file
+     *
+     * @param className {String}
+     * @returns {String}
+     */
+    getClassOutputPath(className) {
+      var filename = path.join(this.getOutputDir(), "transpiled", className.replace(/\./g, path.sep) + ".js");
+      return filename;
+    },
+
+    /**
      * Loads a class
      * @param className {String} the name of the class
      * @param forceScan {Boolean?} true if the class is to be compiled whether it needs it or not (default false)
@@ -927,8 +970,14 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         return;
       }
 
-      var sourceClassFilename = qx.tool.compiler.ClassFile.getSourcePath(library, className);
-      var outputClassFilename = qx.tool.compiler.ClassFile.getOutputPath(this, className);
+      let sourceClassFilename;
+      try {
+        sourceClassFilename = this.getClassSourcePath(className);
+      }catch(ex) {
+        cb && cb(ex);
+      }
+
+      var outputClassFilename = this.getClassOutputPath(className);
 
       const scanFile = async () => {
         let sourceStat = await qx.tool.utils.files.Utils.safeStat(sourceClassFilename);
@@ -937,12 +986,19 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
 
         var dbClassInfo = db.classInfo[className];
+        if (!dbClassInfo)
+          forceScan = true;
+
+        if (!forceScan) {
+          if (dbClassInfo.filename != sourceClassFilename)
+            forceScan = true;
+        }
 
         if (!forceScan) {
           let outputStat = await qx.tool.utils.files.Utils.safeStat(outputClassFilename);
           let outputJsonStat = await qx.tool.utils.files.Utils.safeStat(outputClassFilename + "on");
 
-          if (dbClassInfo && outputStat && outputJsonStat) {
+          if (outputStat && outputJsonStat) {
             var dbMtime = null;
             try {
               dbMtime = dbClassInfo.mtime && new Date(dbClassInfo.mtime);
@@ -961,7 +1017,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         var oldDbClassInfo = db.classInfo[className] ? Object.assign({}, db.classInfo[className]) : null;
         dbClassInfo = db.classInfo[className] = {
           mtime: sourceStat.mtime,
-          libraryName: library.getNamespace()
+          libraryName: library.getNamespace(),
+          filename: sourceClassFilename
         };
 
         // Analyse it and collect unresolved symbols and dependencies

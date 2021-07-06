@@ -259,6 +259,17 @@ should be useful.
   filter which applications that this target can compile and is used in
   situations where you want to have multiple targets simultaneously (see below)
 
+- `proxySourcePath` - (**optional**) when compiling source code, the compiler
+normally looks in the library, in the directory specified by that library's
+`Manifest.json` in `provides/class` (eg usually this is `./source/class`).  The
+`proxySourcePath` setting in a target allows a global override, specific to that
+target, which says that source files can be found somewhere else, in preference
+to the files which are found in the library.  While this allows a target to completely
+and arbitrarily replace class source files, the intention is that this is for 
+computer-generated class files which act as some kind of proxy for the original 
+functionality - a good example of a use case for this would be a class which, when
+compiled for the browser, is mostly proxy method calls (or whatever) to the server.
+
 ### Multiple Applications and Targets
 
 In most applications all you will need to define is two targets, one for

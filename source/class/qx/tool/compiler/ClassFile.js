@@ -192,7 +192,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     this.__metaStack = [];
     this.__metaDefinitions = {};
     this.__library = library;
-    this.__sourceFilename =qx.tool.compiler.ClassFile.getSourcePath(library, className);
+    this.__sourceFilename = analyser.getClassSourcePath(className);
 
     this.__requiredClasses = {};
     this.__environmentChecks = {
@@ -302,7 +302,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * @returns {string}
      */
     getOutputPath: function() {
-      return qx.tool.compiler.ClassFile.getOutputPath(this.__analyser, this.__className);
+      return this.__analyser.getClassOutputPath(this.__className);
     },
 
     /**
@@ -2442,17 +2442,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   },
 
   statics: {
-    /**
-     * Returns the absolute path to the class file
-     *
-     * @param library  {qx.tool.compiler.app.Library}
-     * @param className {String}
-     * @returns {String}
-     */
-    getSourcePath: function(library, className) {
-      return pathModule.join(library.getRootDir(), library.getSourcePath(), className.replace(/\./g, pathModule.sep) + library.getSourceFileExtension(className));
-    },
-
     /**
      * Returns the path to the rewritten class file
      *
