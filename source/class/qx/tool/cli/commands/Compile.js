@@ -855,6 +855,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (targetConfig["application-types"]) {
           maker.getAnalyser().setApplicationTypes(targetConfig["application-types"]);
         }
+        if (targetConfig["proxySourcePath"]) {
+          maker.getAnalyser().setProxySourcePath(targetConfig["proxySourcePath"]);
+        }
 
         maker.setLocales(data.locales||[ "en" ]);
         if (data.writeAllTranslations) {
