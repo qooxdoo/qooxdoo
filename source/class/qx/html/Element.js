@@ -1854,10 +1854,9 @@ qx.Class.define("qx.html.Element",
     addClass : function(name) {
       var classes = this.__breakClasses();
       var primaryClass = (this.getCssClass()||"").toLowerCase();
-      name.split(" ").forEach(function(name) {
+      name.split(" ").forEach(name => {
         var nameLower = name.toLowerCase();
         if (nameLower == primaryClass) {
-          this.warn("Adding CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
           this.setCssClass(null);
         }
         
@@ -1877,10 +1876,9 @@ qx.Class.define("qx.html.Element",
     removeClass : function(name) {
       var classes = this.__breakClasses();
       var primaryClass = (this.getCssClass()||"").toLowerCase();
-      name.split(" ").forEach(function(name) {
+      name.split(" ").forEach(name => {
         var nameLower = name.toLowerCase();
         if (nameLower == primaryClass) {
-          this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
           this.setCssClass(null);
         }
         
@@ -1896,10 +1894,6 @@ qx.Class.define("qx.html.Element",
      * Removes all CSS classed from the current element.
      */
     removeAllClasses : function() {
-      if (this.getCssClass()) {
-        this.warn("Removing all CSS Classes including the primary CSS class \"" + this.getCssClass() + "\" (consider using .setCssClass instead)");
-      }
-      
       this.setCssClass(null);
       this.setAttribute("class", "");
     },
@@ -1911,14 +1905,10 @@ qx.Class.define("qx.html.Element",
     _applyCssClass: function(value, oldValue) {
       var classes = this.__breakClasses();
       if (oldValue) {
-        value.split(" ").forEach(function(name) {
-          delete classes[name.toLowerCase()];
-        });
+        oldValue.split(" ").forEach(name => delete classes[name.toLowerCase()]);
       }
       if (value) {
-        value.split(" ").forEach(function(name) {
-          classes[name.toLowerCase()] = name;
-        });
+        value.split(" ").forEach(name => classes[name.toLowerCase()] = name);
       }
       this.setAttribute("class", this.__combineClasses(classes));
     },
