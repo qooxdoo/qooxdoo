@@ -352,10 +352,16 @@ qx.Class.define("qx.util.ResourceManager",
         charCode = resource[2];
       }
       else {
+        /*
+        This code is broken and never worked - it was trying to parseInt() on the `font.toString(), having tried (and failed) to 
+        resolve the font using something that was not the name of the font.
+
         charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
         if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertNumber(charCode, "Font source: " + source +" needs either a glyph name or the unicode number in hex");
         }
+        */
+        throw new Error(`Cannot determine charCode from source: ${source}`);
       }
       return charCode;
     }

@@ -796,10 +796,7 @@ qx.Class.define("qx.ui.basic.Image",
           height = this.getHeight() || hint.height;
         }
         else {
-          var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
-          if (qx.core.Environment.get("qx.debug")) {
-            this.assertObject(font, "Virtual image source contains unkown font descriptor");
-          }
+          var font = this.__getFont(source);
           var size = parseInt(source.split("/")[2] || font.getSize(), 10);
           width = ResourceManager.getImageWidth(source) || size;
           height = ResourceManager.getImageHeight(source) || size;
@@ -830,7 +827,8 @@ qx.Class.define("qx.ui.basic.Image",
       } else {
         var source = this.getSource();
         var sparts = source.split("/");
-        var size = parseInt(sparts[2] || qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]).getSize());
+        var font = this.__getFont(source);
+        var size = parseInt(sparts[2] || font.getSize());
         el.setStyle("fontSize", size + "px");
       }
     },
@@ -930,6 +928,13 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
+    __getFont(source) {
+      var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+      if (typeof font == "string")
+        throw new Error(`Cannot find font in virtual image source: '${source}'`);
+      return font;
+    },
+
     /**
      * Combines the decorator's image styles with our own image to make sure
      * gradient and backgroundImage decorators work on Images.
@@ -942,7 +947,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (isFont) {
         var ResourceManager = qx.util.ResourceManager.getInstance();
-        var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+        var font = this.__getFont(source);
         var fontStyles = qx.lang.Object.clone(font.getStyles());
         delete fontStyles.color;
         el.setStyles(fontStyles);
