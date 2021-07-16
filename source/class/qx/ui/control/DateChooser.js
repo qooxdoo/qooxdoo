@@ -190,7 +190,26 @@ qx.Class.define("qx.ui.control.DateChooser",
       event : "changeShownYear"
     },
 
-    /** The date value of the widget. */
+    /**
+     * The date value of the widget.
+     *
+     * CAUTION: Date is a reference type. If you call `setValue` with
+     * a Date object, and then change that Date object's value, e.g.,
+     * with `date.setYear()`, and then call `setValue` with that same
+     * Date object, ** the widget will not update **. Instead, you
+     * should instantiate a new Date object with the old (modified)
+     * date object as its initiatializer, and pass that to `setValue`,
+     * e.g.,
+     *
+     * ```
+     * date = new Date();
+     * dateChooser.setValue(date);
+     * // ...some time later...
+     * date = date.setDate(date.getDate() + 1);
+     * // dateChooser.setValue(date);        // This will NOT update the widget
+     * dateChooser.setValue(new Date(date)); // This WILL update the widget
+     * ```
+     */
     value :
     {
       check : "Date",
