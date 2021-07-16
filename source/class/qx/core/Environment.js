@@ -904,6 +904,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.blankpage": "qx/static/blank.html",
       "qx.debug.databinding": false,
       "qx.debug.dispose": false,
+      "qx.debug.startupTimings": false,
       // generator optimization vectors
       "qx.optimization.basecalls": false,
       "qx.optimization.comments": false,
