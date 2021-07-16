@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     add : function(widget, flex)
     {
-      if (flex == null) {
+      if (flex === undefined) {
         this._add(widget);
       } else {
         this._add(widget, {flex : flex});
