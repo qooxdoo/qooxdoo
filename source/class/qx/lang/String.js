@@ -82,6 +82,9 @@ qx.Bootstrap.define("qx.lang.String",
      */
     __hyphenationMap : {},
 
+    /** @type{Map<char, String} character types, key is the character and the vaklue is `upper`, `lower`, or `digit` */
+    __characterTypes: null,
+
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
      *
@@ -143,6 +146,57 @@ qx.Bootstrap.define("qx.lang.String",
       return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
         return match.toUpperCase();
       });
+    },
+
+
+    /**
+     * Detects whether the string is all upper case
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isUpperCase(str) {
+      if (str.length == 0)
+        return false;
+      for (let i = 0; i < str.length; i++) {
+        let type = qx.lang.String.__characterTypes[str[i]];
+        if (type !== "upper")
+          return false;
+      }
+      return true;
+    },
+
+
+    /**
+     * Detects whether the string is all lower case
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isLowerCase(str) {
+      if (str.length == 0)
+        return false;
+      for (let i = 0; i < str.length; i++) {
+        let type = qx.lang.String.__characterTypes[str[i]];
+        if (type !== "lower")
+          return false;
+      }
+      return true;
+    },
+
+
+    /**
+     * Detects whether the string is all digits
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isDigits(str) {
+      if (str.length == 0)
+        return false;
+      for (let i = 0; i < str.length; i++) {
+        let type = qx.lang.String.__characterTypes[str[i]];
+        if (type !== "digit")
+          return false;
+      }
+      return true;
     },
 
 
@@ -396,5 +450,16 @@ qx.Bootstrap.define("qx.lang.String",
     quote : function(str) {
       return '"' + str.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
     }
-  }
+  },
+
+  defer(statics) {
+    let tmp = {};
+    for (let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", i = 0; i < str.length; i++)
+      tmp[str[i]] = "upper";
+    for (let str = "abcdefghijklmnopqrstuvwxyz", i = 0; i < str.length; i++)
+      tmp[str[i]] = "lower";
+    for (let str = "0123456789", i = 0; i < str.length; i++)
+      tmp[str[i]] = "digit";
+    statics.__characterTypes = tmp;
+  },
 });
