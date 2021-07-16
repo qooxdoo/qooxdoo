@@ -28,6 +28,30 @@ qx.Class.define("qx.test.lang.String",
     },
 
 
+    testCharacterTypes() {
+      this.assertTrue(qx.lang.String.isUpperCase("A"));
+      this.assertTrue(qx.lang.String.isUpperCase("S"));
+      this.assertTrue(qx.lang.String.isUpperCase("X"));
+      this.assertTrue(qx.lang.String.isLowerCase("b"));
+      this.assertTrue(qx.lang.String.isLowerCase("t"));
+      this.assertTrue(qx.lang.String.isLowerCase("z"));
+      this.assertTrue(qx.lang.String.isDigits("1"));
+      this.assertTrue(qx.lang.String.isDigits("4"));
+      this.assertTrue(qx.lang.String.isDigits("9"));
+      
+      this.assertTrue(!qx.lang.String.isLowerCase("A"));
+      this.assertTrue(!qx.lang.String.isLowerCase("S"));
+      this.assertTrue(!qx.lang.String.isLowerCase("X"));
+      this.assertTrue(!qx.lang.String.isLowerCase("4"));
+      this.assertTrue(!qx.lang.String.isUpperCase("b"));
+      this.assertTrue(!qx.lang.String.isUpperCase("t"));
+      this.assertTrue(!qx.lang.String.isUpperCase("z"));
+      this.assertTrue(!qx.lang.String.isUpperCase("3"));
+      this.assertTrue(!qx.lang.String.isLowerCase("2"));
+      this.assertTrue(!qx.lang.String.isUpperCase("5"));
+    },
+
+
     testFormat : function()
     {
       this.assertNotUndefined(qx.lang.String.format);
