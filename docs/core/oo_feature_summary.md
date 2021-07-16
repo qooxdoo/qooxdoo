@@ -122,11 +122,13 @@ qx.Class.define('B'), {
   extend: A,
   members: {
      e: function() {
-        this.superclass.self(arguments).f();
+        this.constructor.superclass.f();
      }
   }
 });
 ```
+
+Generally, it's easier (and more obvious to readers), to simply use the fully-qualified name: `A.f()` (instead of `this.constructor.superclass.f();`).
 
 Static functions can access other static functions directly through the `this`
 keyword.
