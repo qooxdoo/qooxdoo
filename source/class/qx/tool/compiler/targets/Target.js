@@ -344,7 +344,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         "qx.application": application.getClassName(),
         "qx.revision": "",
         "qx.theme": application.getTheme(),
-        "qx.version": analyser.getQooxdooVersion()
+        "qx.version": analyser.getQooxdooVersion(),
+        "qx.compiler.targetType": this.getType(),
+        "qx.compiler.outputDir": this.getOutputDir()
       });
       
       let externals = {};
