@@ -209,6 +209,7 @@ qx.Bootstrap.define("qx.lang.Json",
   }
 });
 
+/*eslint curly: "off"*/
 /**
  * @ignore(define.*, exports)
  * @lint ignoreUnused(JSON3)

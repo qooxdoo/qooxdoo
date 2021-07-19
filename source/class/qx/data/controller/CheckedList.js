@@ -40,8 +40,9 @@ qx.Class.define("qx.data.controller.CheckedList", {
   construct(model, widget, path) {
     this.base(arguments, null, widget, path);
     this.setChecked(new qx.data.Array());
-    if (model)
+    if (model) {
       this.setModel(model);
+    }
   },
   
   properties: {
@@ -101,10 +102,12 @@ qx.Class.define("qx.data.controller.CheckedList", {
   
   members: {
     _applyChecked(value, oldValue) {
-      if (oldValue)
+      if (oldValue) {
         oldValue.removeListener("change", this.__onCheckedChange, this);
-      if (value)
+      }
+      if (value) {
         value.addListener("change", this.__onCheckedChange, this);
+      }
       this._updateChecked();
     },
     
@@ -137,8 +140,9 @@ qx.Class.define("qx.data.controller.CheckedList", {
      */
     __onCheckedChange(evt) {
       let data = evt.getData();
-      if (data.type == "order")
+      if (data.type == "order") {
         return;
+      }
       this._updateChecked();
     },
 
@@ -176,8 +180,9 @@ qx.Class.define("qx.data.controller.CheckedList", {
     _applyModel(value, oldValue) {
       if (!value || !value.getLength()) {
         let checked = this.getChecked();
-        if (checked)
+        if (checked) {
           checked.removeAll();
+        }
       }
       this.base(arguments, value, oldValue);
       this._updateChecked();
@@ -208,18 +213,21 @@ qx.Class.define("qx.data.controller.CheckedList", {
      * Event handler for changes in the target widget's `checked` property
      */
     __onTargetCheckedChange(evt) {
-      if (this.__inUpdateChecked)
+      if (this.__inUpdateChecked) {
         return;
+      }
       let target = this.getTarget();
       let replacement = [];
       target.getChecked().forEach(item => {
         let itemModel = item.getModel();
-        if (itemModel)
+        if (itemModel) {
           replacement.push(itemModel);
+        }
       });
       let checked = this.getChecked();
-      if (checked)
+      if (checked) {
         checked.replace(replacement);
+      }
     },
     
     /**
@@ -316,8 +324,9 @@ qx.Class.define("qx.data.controller.CheckedList", {
           if (itemModel) {
             let hash = itemModel.toHashCode();
             children[hash] = item;
-            if (item.getValue())
+            if (item.getValue()) {
               toUncheck[hash] = item;
+            }
           }
         });
         

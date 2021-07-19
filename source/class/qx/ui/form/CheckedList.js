@@ -155,8 +155,9 @@ qx.Class.define("qx.ui.form.CheckedList", {
     __onItemChangeCheckedImpl(item, removing) {
       let hash = item.toHashCode();
       let checked = item.getValue();
-      if (removing)
+      if (removing) {
         checked = false;
+      }
       let changed = false;
       let oldData = this.getChecked();
       if (checked) {

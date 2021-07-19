@@ -1018,6 +1018,7 @@ qx.Class.define("qx.Promise", {
   }
 });
 
+/*eslint curly: ["off"]*/
 /**
  * @lint ignoreUnused(exports)
  * @lint ignoreUnused(module)
