@@ -432,13 +432,10 @@ qx.Bootstrap.define("qx.lang.String",
   },
 
   defer(statics) {
-    let tmp = {};
-    for (let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", i = 0; i < str.length; i++)
-      tmp[str[i]] = "upper";
-    for (let str = "abcdefghijklmnopqrstuvwxyz", i = 0; i < str.length; i++)
-      tmp[str[i]] = "lower";
-    for (let str = "0123456789", i = 0; i < str.length; i++)
-      tmp[str[i]] = "digit";
-    statics.__characterTypes = tmp;
+    statics.__characterRx = {
+      upper: RegExp(/^\p{General_Category=Uppercase_Letter}+$/u),
+      lower: RegExp(/^\p{General_Category=Lowercase_Letter}+$/u),
+      digit: RegExp(/^\p{General_Category=Decimal_Number}+$/u)
+    };
   },
 });
