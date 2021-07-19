@@ -175,14 +175,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @returns {Boolean}
      */
      isDigits(str) {
-      if (str.length == 0)
-        return false;
-      for (let i = 0; i < str.length; i++) {
-        let type = qx.lang.String.__characterTypes[str[i]];
-        if (type !== "digit")
-          return false;
-      }
-      return true;
+      return qx.lang.String.__characterRx.digit.test(str);
     },
 
 
