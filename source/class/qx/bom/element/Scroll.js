@@ -346,8 +346,7 @@ qx.Class.define("qx.bom.element.Scroll",
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
 
-          var scrollTop = Math.min(parent.outerHeight, parent.scrollTop + scrollDiff);
-          parent.scrollTop = scrollTop;
+          parent.scrollTop += scrollDiff;
 
           // Browsers that follow the CSSOM View Spec fire the "scroll"
           // event asynchronously.
