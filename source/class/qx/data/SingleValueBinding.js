@@ -1344,12 +1344,15 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get all bindings of object as target
       var targetBindings = this.__bindingsByTarget[hash];
 
-      if (!sourceBindings && !targetBindings)
+      if (!sourceBindings && !targetBindings) {
         return [];
-      if (!sourceBindings)
+      }
+      if (!sourceBindings) {
         return qx.lang.Array.clone(targetBindings);
-      if (!targetBindings)
+      }
+      if (!targetBindings) {
         return qx.lang.Array.clone(sourceBindings);
+      }
 
       return qx.lang.Array.unique(sourceBindings.concat(targetBindings));
     },

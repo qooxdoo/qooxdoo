@@ -276,8 +276,9 @@ qx.Class.define("qx.html.Node",
      */
     useNode: function(domNode) {
       var id = domNode.getAttribute("data-qx-object-id");
-      if (id)
+      if (id) {
         this.setQxObjectId(id);
+      }
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
@@ -478,8 +479,9 @@ qx.Class.define("qx.html.Node",
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
         var id = this.getQxObjectId();
-        if (!id && this._qxObject)
+        if (!id && this._qxObject) {
           id = this._qxObject.getQxObjectId();
+        }
 
         this.setAttribute("data-qx-object-id", id, true);
       }

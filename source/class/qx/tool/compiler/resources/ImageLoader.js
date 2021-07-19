@@ -48,8 +48,9 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
     matches: function(filename, library) {
       if (filename.endsWith("svg")) {
         let isWebFont = library.getWebFonts() && library.getWebFonts().find(webFont => webFont.getResources().find(resource => resource == filename));
-        if (isWebFont)
+        if (isWebFont) {
           return false;
+        }
       }
 
       return this.base(arguments, filename, library);

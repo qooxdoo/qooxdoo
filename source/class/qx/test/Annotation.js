@@ -135,8 +135,9 @@ qx.Class.define("qx.test.Annotation", {
 
         construct: function(value) {
           this.base(arguments);
-          if (value)
+          if (value) {
             this.setValue(value);
+          }
         },
 
         properties: {

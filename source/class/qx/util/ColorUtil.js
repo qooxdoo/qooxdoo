@@ -943,8 +943,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @return {String} colour string
      */
     chooseContrastingColor : function(rgb, threshold, dark, light) {
-      if (typeof rgb == "string")
+      if (typeof rgb == "string") {
         rgb = qx.util.ColorUtil.stringToRgb(rgb);
+      }
       var r = rgb[0];
       var g = rgb[1];
       var b = rgb[2];

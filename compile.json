@@ -247,7 +247,7 @@
        "no-unsafe-negation": "off",
        "new-parens": "off",
        "semi": "off",
-       "curly": "off",
+       "curly": "error",
        "no-mixed-spaces-and-tabs": "off",
        "no-extra-semi": "off",
       "indent": "off",
