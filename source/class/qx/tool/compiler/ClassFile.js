@@ -403,8 +403,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             return;
           }
           let mappingUrl = name + ".js.map";
-          if (qx.lang.Array.contains(t.__analyser.getApplicationTypes(), "browser"))
+          if (qx.lang.Array.contains(t.__analyser.getApplicationTypes(), "browser")) {
             mappingUrl += "?dt=" + (new Date().getTime());
+          }
           fs.writeFile(outputPath, result.code + "\n\n//# sourceMappingURL=" + mappingUrl, {encoding: "utf-8"}, function(err) {
             if (err) {
               callback(err);

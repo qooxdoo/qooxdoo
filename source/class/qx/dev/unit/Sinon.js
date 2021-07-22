@@ -68,7 +68,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
   }
 });
 
-
+/*eslint curly: "off"*/
 /**
  * @ignore(module, require, global, process.*, setImmediate)
  * @ignore(msSetImmediate)

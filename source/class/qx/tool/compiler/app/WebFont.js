@@ -315,8 +315,9 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @return {Promise}
      */
     generateForTarget: function(target) {
-      if (this.__generateForTargetPromise)
+      if (this.__generateForTargetPromise) {
         return this.__generateForTargetPromise;
+      }
 
       this.__generateForTargetPromise = new Promise((resolve, reject) => {
         for (let resource of this.getResources()) {

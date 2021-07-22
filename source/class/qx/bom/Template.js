@@ -155,6 +155,8 @@ qx.Bootstrap.define("qx.bom.Template", {
   }
 });
 
+/*eslint curly: "off"*/
+
 (function() {
 // prevent using CommonJS exports object,
 // by shadowing global exports object
