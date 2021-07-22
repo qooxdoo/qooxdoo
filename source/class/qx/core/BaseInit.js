@@ -65,7 +65,9 @@ qx.Class.define("qx.core.BaseInit",
         qx.log.Logger.warn("Could not detect operating system!");
       }
 
-      qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+      if (qx.core.Environment.get("qx.debug.startupTimings")) {
+        qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+      }
 
       var app = qx.core.Environment.get("qx.application");
       var clazz = qx.Class.getByName(app);
@@ -76,11 +78,15 @@ qx.Class.define("qx.core.BaseInit",
 
         var start = new Date;
         this.__application.main();
-        qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
+        if (qx.core.Environment.get("qx.debug.startupTimings")) {
+          qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
+        }
 
         var start = new Date;
         this.__application.finalize();
-        qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
+        if (qx.core.Environment.get("qx.debug.startupTimings")) {
+          qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
+        }
         
         qx.event.handler.Application.onAppInstanceInitialized();
       }
