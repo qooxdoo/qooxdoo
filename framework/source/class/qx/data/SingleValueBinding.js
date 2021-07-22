@@ -1281,6 +1281,10 @@ qx.Class.define("qx.data.SingleValueBinding",
           this.removeBindingFromObject(object, bindings[i][0]);
         }
       }
+
+      var hash = object.toHashCode();
+      delete this.__bindings[hash];
+      delete this.__bindingsByTarget[hash];
     },
 
 
@@ -1333,16 +1337,22 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     getAllBindingsForObject : function(object) {
       var hash = object.toHashCode();
-      // create an empty array if no binding exists
-      if (this.__bindings[hash] === undefined) {
-        this.__bindings[hash] = [];
-      }
 
       // get all bindings of object as source
       var sourceBindings = this.__bindings[hash];
 
       // get all bindings of object as target
-      var targetBindings = this.__bindingsByTarget[hash] ? this.__bindingsByTarget[hash] : [];
+      var targetBindings = this.__bindingsByTarget[hash];
+
+      if (!sourceBindings && !targetBindings) {
+        return [];
+      }
+      if (!sourceBindings) {
+        return qx.lang.Array.clone(targetBindings);
+      }
+      if (!targetBindings) {
+        return qx.lang.Array.clone(sourceBindings);
+      }
 
       return qx.lang.Array.unique(sourceBindings.concat(targetBindings));
     },
