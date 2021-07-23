@@ -344,13 +344,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
         return false;
       }
 
-      var widget = this._list._layer.getRenderedCellWidget(cell.row, cell.column);
-
-      if (widget != null) {
-        return widget.isEnabled();
-      } else {
-        return true;
-      }
+      return true;
     },
 
 

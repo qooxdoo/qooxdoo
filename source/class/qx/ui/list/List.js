@@ -499,7 +499,10 @@ qx.Class.define("qx.ui.list.List", {
       if (this._isGroup(cell.row)) {
         data = this.getGroups().getItem(this._lookupGroup(cell.row));
       } else {
-        data = model.getItem(this._lookupByRowAndColumn(cell.row, cell.column));
+        let row = cell.row;
+        if (this.getProvider().getShowHeaders())
+          row--;
+        data = model.getItem(this._lookupByRowAndColumn(row, cell.column));
       }
 
       if (data != null) {
