@@ -346,7 +346,18 @@ qx.Class.define("qx.bom.element.Scroll",
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
 
-          parent.scrollTop += scrollDiff;
+          let scrollMaxY = 0;
+          var paneSize = parent.clientHeight;
+          var scrollSize = parent.scrollHeight;
+  
+          if (paneSize && scrollSize) {
+            scrollMaxY = Math.max(0, scrollSize.height - paneSize.height);
+          }
+          var scrollTop = parent.scrollTop + scrollDiff;
+          if (scrollTop > scrollMaxY)
+            scrollTop = scrollMaxY;
+  
+          parent.scrollTop = scrollTop;
 
           // Browsers that follow the CSSOM View Spec fire the "scroll"
           // event asynchronously.
