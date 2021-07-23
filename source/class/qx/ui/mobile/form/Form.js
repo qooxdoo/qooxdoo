@@ -99,6 +99,10 @@ qx.Class.define("qx.ui.mobile.form.Form",
           var item = group.items[j];
           if(!item.isValid())
           {
+            let msg = item.getInvalidMessage();
+            if (qx.core.Environment.get("qx.debug")) {
+              this.assertTrue(msg !== null && msg.length > 0);
+            }
             this.__invalidItems.push(item);
 
             if(this.__renderer != null)
@@ -108,7 +112,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
             else
             {
               /* eslint-disable-next-line no-alert */
-              alert('error '+item.getInvalidMessage());
+              alert('error ' + msg);
             }
           }
         }
