@@ -129,8 +129,9 @@ qx.Class.define("qx.theme.manager.Font",
       }
       if (qx.core.Environment.get("qx.debug")) {
         if (theme) {
-          if (!this.__warnedMissingFonts)
+          if (!this.__warnedMissingFonts) {
             this.__warnedMissingFonts = {};
+          }
           if (!this.__warnedMissingFonts[value]) {
             this.__warnedMissingFonts[value] = true;
             this.debug(`Cannot resolve a font named ${value} - available fonts are ${Object.keys(theme.fonts).join(", ")}`);
