@@ -358,12 +358,14 @@ qx.Class.define("qx.util.ResourceManager",
         let hexString = source.match(/@([^/]+)\/(.*)$/)[2];
         if (hexString) {
           charCode = parseInt(hexString, 16);
-          if (isNaN(charCode))
+          if (isNaN(charCode)) {
             charCode = null;
+          }
         }
       }
-      if (!charCode)
+      if (!charCode) {
         throw new Error(`Cannot determine charCode from source: ${source}`);
+      }
       return charCode;
     }
   },
