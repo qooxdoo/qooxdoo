@@ -101,6 +101,12 @@ qx.Theme.define("qx.theme.tangible.Decoration",
           transitionDuration: "0.1s"
         }
       },
+      "material-button-hovered-invalid": {
+        include: "material-button-hovered",
+        style: {
+          color: "error"
+        }
+      },
       "material-button-pressed": {
         include: "material-button",
         style: {
