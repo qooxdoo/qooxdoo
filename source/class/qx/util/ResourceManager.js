@@ -336,7 +336,10 @@ qx.Class.define("qx.util.ResourceManager",
     /**
      * Returns the correct char code, ignoring scale postfix.
      * 
-     * @param source {String} resource id of the image, e.g. @FontAwesome/heart or @MaterialIcons/home/16
+     * The resource ID can be a ligature name (eg `@FontAwesome/heart` or `@MaterialIcons/home/16`), 
+     * or a hex character code (eg `@FontAwesome/f004` or `@FontAwesome/f004/16`)
+     * 
+     * @param source {String} resource id of the image
      * @returns charCode of the glyph
      */
     fromFontUriToCharCode : function (source)
@@ -347,15 +350,21 @@ qx.Class.define("qx.util.ResourceManager",
         fontSource = sparts[0] + "/" + sparts[1];
       }
       var resource = this.getData(fontSource);
-      var charCode;
+      var charCode = null;
       if (resource) {
         charCode = resource[2];
-      }
-      else {
-        charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
-        if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertNumber(charCode, "Font source: " + source +" needs either a glyph name or the unicode number in hex");
+
+      } else {
+        let hexString = source.match(/@([^/]+)\/(.*)$/)[2];
+        if (hexString) {
+          charCode = parseInt(hexString, 16);
+          if (isNaN(charCode)) {
+            charCode = null;
+          }
         }
+      }
+      if (!charCode) {
+        throw new Error(`Cannot determine charCode from source: ${source}`);
       }
       return charCode;
     }
