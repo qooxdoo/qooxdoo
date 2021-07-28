@@ -49,6 +49,10 @@ qx.Class.define("qx.test.lang.String",
       this.assertTrue(!qx.lang.String.isUpperCase("3"));
       this.assertTrue(!qx.lang.String.isLowerCase("2"));
       this.assertTrue(!qx.lang.String.isUpperCase("5"));
+      
+      this.assertTrue(qx.lang.String.isLetters("A"));
+      this.assertTrue(qx.lang.String.isLetters("s"));
+      this.assertTrue(!qx.lang.String.isLetters("9"));
     },
 
 
