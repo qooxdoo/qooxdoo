@@ -303,7 +303,7 @@ qx.Class.define("qx.event.Utils", {
         var tracker = {};
         for (var index = 0; index < arr.length; index++) {
           var result = fn(arr[index], index);
-          if (result instanceof qx.Promise) {
+          if (qx.Promise.isPromise(result)) {
             for (++index; index < arr.length; index++) {
               (function(item, index) {
                 result = result.then(function() {

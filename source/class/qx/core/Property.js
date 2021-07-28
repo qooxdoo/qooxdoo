@@ -1102,7 +1102,7 @@ qx.Bootstrap.define("qx.core.Property",
         if (qx.core.Environment.get("qx.promise") && (!config.check || config.check != "qx.Promise")) {
           code.push(
               'var promise;',
-              'if (value instanceof qx.Promise || value instanceof Promise) ',
+              'if (qx.Promise.isPromise(value)) ',
                 'promise = value.then(set.bind(this));',
               'else ',
                 'promise = set.apply(this, arguments);');
@@ -1894,7 +1894,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (qx.core.Environment.get("qx.promise")) {
         code.push(
-            "if(promise instanceof qx.Promise || promise instanceof Promise) " +
+            "if(qx.Promise.isPromise(promise)) " +
               "return promise.then(fire); "
           );
       }
