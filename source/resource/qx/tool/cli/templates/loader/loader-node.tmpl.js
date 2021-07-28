@@ -5,6 +5,7 @@
   if (typeof window === "undefined")
     window = this;
   window.addEventListener = function() {};
+  window.removeEventListener = function() {};
   window.dispatchEvent = function() {};
 
   if (!window.navigator) window.navigator = {};
