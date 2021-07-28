@@ -428,7 +428,7 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Returns the original format string
      * 
-     * @returns {String}
+     * @return {String}
      */
     getFormatString() {
       return this.__format;
