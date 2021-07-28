@@ -930,8 +930,9 @@ qx.Class.define("qx.ui.basic.Image",
 
     __getFont(source) {
       var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
-      if (typeof font == "string")
+      if (typeof font == "string") {
         throw new Error(`Cannot find font in virtual image source: '${source}'`);
+      }
       return font;
     },
 
