@@ -242,6 +242,16 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
+    "material-button/icon": {
+      alias: "atom/label",
+
+      style: function(states) {
+        return {
+          textColor: states.disabled ?
+            "text-disabled-on-primary" : "text-on-primary"
+        };
+      }
+    },
 
     "button-frame": {
       alias: "atom",
