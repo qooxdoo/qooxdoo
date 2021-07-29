@@ -1811,14 +1811,15 @@ qx.Bootstrap.define("qx.core.Property",
     __emitCallCallback : function(code, config, name, variant, refresh)
     {
       // Execute user configured setter
-      code.push('var promise;');
+      code.push("var self=this;",
+        'var promise;');
       if (config.apply) {
         code.push('promise = this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
       }
 
       if (config.async) {
         code.push(
-        		"function fire() {",
+            "function fire() {",
               "var promiseData = qx.Promise.resolve(computed);",
               "var promise = promiseData;"
         		);
@@ -1827,21 +1828,21 @@ qx.Bootstrap.define("qx.core.Property",
         if (config.event) {
           code.push(
               "var reg=qx.event.Registration;",
-              "if(reg.hasListener(this, '", config.event, "')) {",
-                "promise = reg.fireEventAsync(this, '", config.event, "', qx.event.type.Data, [computed, old]", ");",
+              "if(reg.hasListener(self, '", config.event, "')) {",
+                "promise = reg.fireEventAsync(self, '", config.event, "', qx.event.type.Data, [computed, old]", ");",
                 "promise = promise.then(function() { return computed; });",
               "}",
-              "if(reg.hasListener(this, '", config.event, "Async'))",
+              "if(reg.hasListener(self, '", config.event, "Async'))",
                 "promise = promise.then(function() {",
-                    "return reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [promiseData, old]", ");",
-                  "}, this);"
+                    "return reg.fireEventAsync(self, '", config.event, "Async', qx.event.type.Data, [promiseData, old]", ");",
+                  "});"
               );
         }
 
         // Emit code to update the inherited values of child objects
         if (refresh) {
           code.push(
-            'var a=this._getChildren();',
+            'var a=self._getChildren();',
             'if(a)',
               'for(var i=0,l=a.length;i<l;i++){',
                 'if(a[i].', this.$$method.refresh[name], ')',
@@ -1862,13 +1863,13 @@ qx.Bootstrap.define("qx.core.Property",
           code.push(
               "var reg=qx.event.Registration;",
 
-              "if(reg.hasListener(this, '", config.event, "'))",
-                "qx.event.Utils.track(tracker, reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", "));");
+              "if(reg.hasListener(self, '", config.event, "'))",
+                "qx.event.Utils.track(tracker, reg.fireEvent(self, '", config.event, "', qx.event.type.Data, [computed, old]", "));");
           if (qx.core.Environment.get("qx.promise")) {
             code.push(
-                "if(reg.hasListener(this, '", config.event, "Async'))",
+                "if(reg.hasListener(self, '", config.event, "Async'))",
                   "qx.event.Utils.then(tracker, function() {\n" +
-                  "  return reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");\n" +
+                  "  return reg.fireEventAsync(self, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");\n" +
                   "});"
                 );
           }
@@ -1876,7 +1877,7 @@ qx.Bootstrap.define("qx.core.Property",
         // Emit code to update the inherited values of child objects
         if (refresh) {
           code.push(
-            'var a=this._getChildren();',
+            'var a=self._getChildren();',
             'if(a)',
               'for(var i=0,l=a.length;i<l;i++){',
                 'if(a[i].', this.$$method.refresh[name], ')',
@@ -1894,11 +1895,11 @@ qx.Bootstrap.define("qx.core.Property",
       if (qx.core.Environment.get("qx.promise")) {
         code.push(
             "if(promise instanceof qx.Promise || promise instanceof Promise) " +
-              "return promise.then(fire, this); "
+              "return promise.then(fire); "
           );
       }
       code.push(
-        "return fire.call(this);"
+        "return fire();"
       );
     }
   }

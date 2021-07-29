@@ -74,7 +74,16 @@ qx.Bootstrap.define("qx.lang.String",
      * @type {Map} Cache for often used string operations [camelCasing and hyphenation]
      * e.g. marginTop => margin-top
      */
-    __stringsMap : {},
+    __camelCaseMap : {},
+
+    /**
+     * {Map} Cache for often used hyphenation operations
+     * e.g. marginTop => margin-top
+     */
+    __hyphenationMap : {},
+
+    /** @type{Map<char, String} character types, key is the character and the vaklue is `upper`, `lower`, or `digit` */
+    __characterTypes: null,
 
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
@@ -87,14 +96,12 @@ qx.Bootstrap.define("qx.lang.String",
      */
     camelCase : function(str)
     {
-      var result = this.__stringsMap[str];
+      var result = this.__camelCaseMap[str];
       if (!result) {
         result = str.replace(/\-([a-z])/g, function(match, chr) {
           return chr.toUpperCase();
         });
-        if (str.indexOf("-") >= 0) {
-          this.__stringsMap[str] = result;
-        }
+        this.__camelCaseMap[str] = result;
       }
       return result;
     },
@@ -111,14 +118,12 @@ qx.Bootstrap.define("qx.lang.String",
      */
     hyphenate: function(str)
     {
-      var result = this.__stringsMap[str];
+      var result = this.__hyphenationMap[str];
       if (!result) {
         result = str.replace(/[A-Z]/g, function(match){
           return  ('-' + match.charAt(0).toLowerCase());
         });
-        if (str.indexOf("-") == -1) {
-          this.__stringsMap[str] = result;
-        }
+        this.__hyphenationMap[str] = result;
       }
       return result;
     },
@@ -141,6 +146,36 @@ qx.Bootstrap.define("qx.lang.String",
       return str.replace(this.__unicodeFirstLetterInWordRegexp, function(match) {
         return match.toUpperCase();
       });
+    },
+
+
+    /**
+     * Detects whether the string is all upper case
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isUpperCase(str) {
+      return qx.lang.String.__characterRx.upper.test(str);
+    },
+
+
+    /**
+     * Detects whether the string is all lower case
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isLowerCase(str) {
+      return qx.lang.String.__characterRx.lower.test(str);
+    },
+
+
+    /**
+     * Detects whether the string is all digits
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+     isDigits(str) {
+      return qx.lang.String.__characterRx.digit.test(str);
     },
 
 
@@ -394,5 +429,13 @@ qx.Bootstrap.define("qx.lang.String",
     quote : function(str) {
       return '"' + str.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
     }
-  }
+  },
+
+  defer(statics) {
+    statics.__characterRx = {
+      upper: RegExp(/^\p{General_Category=Uppercase_Letter}+$/u),
+      lower: RegExp(/^\p{General_Category=Lowercase_Letter}+$/u),
+      digit: RegExp(/^\p{General_Category=Decimal_Number}+$/u)
+    };
+  },
 });
