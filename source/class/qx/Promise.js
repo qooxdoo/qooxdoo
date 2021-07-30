@@ -483,6 +483,35 @@ qx.Class.define("qx.Promise", {
      */
 
     /**
+     * Detects whether the value is a promise.
+     * 
+     * Note that this is not an `instanceof` check and while it may look odd to just test whether 
+     * there is a property called `then` which is a Function, that's the actual spec - 
+     * @see https://promisesaplus.com/
+     * 
+     * The difficulty is that it also needs to have a `.finally` and `.catch` methods in order to
+     * always be routinely useful; it's debatable what we can do about that here - if the calling code 
+     * definitely requires a promise then it can use `.resolve` to upgrade it or make sure that it is
+     * a fully featured promise.  In this function, we detect that it is thenable, and then give a warning
+     * if it is not catchable.
+     * 
+     * @param {*} value 
+     * @returns {Boolean} true if it is a promise
+     */
+    isPromise(value) {
+      if (!value || typeof value.then != "function")
+        return false;
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (typeof value.finally != "function" || typeof value.catch != "function") {
+          qx.log.Logger.warn(qx.Promise, "Calling `isPromise` on a \"thenable\" instance but the object does not also support `.catch` and/or `.finally`");
+        }
+      }
+      
+      return true;
+    },
+
+    /**
      * Returns a Promise object that is resolved with the given value. If the value is a thenable (i.e.
      * has a then method), the returned promise will "follow" that thenable, adopting its eventual
      * state; otherwise the returned promise will be fulfilled with the value. Generally, if you
@@ -540,7 +569,7 @@ qx.Class.define("qx.Promise", {
         var arr = [];
         var names = [];
         for (var name in value) {
-          if (value.hasOwnProperty(name) && value[name] instanceof qx.Promise) {
+          if (value.hasOwnProperty(name) && qx.Promise.isPromise(value[name])) {
             arr.push(value[name]);
             names.push(name);
           }
@@ -553,7 +582,7 @@ qx.Class.define("qx.Promise", {
             return value;
           });
       }
-      return value instanceof qx.Promise ? value.then(action) : action(value);
+      return qx.Promise.isPromise(value) ? value.then(action) : action(value);
     },
 
     /**

@@ -494,7 +494,7 @@ qx.Class.define("qx.event.handler.DragDrop",
             });
         } else {
           if (qx.core.Environment.get("qx.debug")) {
-            if (result instanceof qx.Promise) {
+            if (qx.Promise.isPromise(result)) {
               this.error("DragDrop event \"" + type + "\" returned a promise but a synchronous event was required, drag and drop may not work as expected (consider using getDataAsync)");
             }
           }
