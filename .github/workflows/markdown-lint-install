@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-echo "Installing markdown linter dependencies..."
-npm install \
-  glob prettier \
-  remark remark-lint-no-dead-urls remark-normalize-headings \
-  remark-parse remark-stringify remark-validate-links vfile-reporter
