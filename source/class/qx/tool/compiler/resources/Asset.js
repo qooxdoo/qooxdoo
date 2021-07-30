@@ -205,7 +205,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
           });
         }
         let rm = target.getAnalyser().getResourceManager();
-        dependsOn = dependsOn.map(filename => rm.getAsset(path.resolve(filename), true)).filter(tmp => tmp !== this);
+        dependsOn = dependsOn.map(filename => rm.getAsset(path.resolve(filename), true, this.isThemeFile())).filter(tmp => tmp !== this);
         this.setDependsOn(dependsOn);
       } else {
         await qx.tool.utils.files.Utils.copyFile(srcFilename, destFilename);

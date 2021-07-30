@@ -347,17 +347,17 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
      *
      * @param srcPath {String} the resource name, with or without a namespace prefix
      * @param create {Boolean?} if true the asset will be created if it does not exist
+     * @param isThemeFile {Boolean?} if true the asset will be expected to be in the theme folder
      * @return {Asset?} the asset, if found
      */
-    getAsset(srcPath, create) {
+    getAsset(srcPath, create, isThemeFile) {
       let library = this.findLibraryForResource(srcPath);
       if (!library) {
         qx.tool.compiler.Console.warn("Cannot find library for " + srcPath);
         return null;
       }
 
-
-      let resourceDir = path.join(library.getRootDir(), library.getResourcePath());
+      let resourceDir = path.join(library.getRootDir(), isThemeFile ? library.getThemePath() : library.getResourcePath());
       srcPath = path.relative(resourceDir, path.isAbsolute(srcPath)?srcPath:path.join(resourceDir, srcPath));
       let asset = this.__assets[library.getNamespace() + ":" + srcPath];
       if (!asset && create) {
