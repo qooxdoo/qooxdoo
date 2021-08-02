@@ -215,7 +215,8 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
           return null;
         }
         promises.push(this.loadSource(pathInfo.filename, newLibrary));
-        return "@import \"" + path.relative(process.cwd(), newLibrary.getResourceFilename(pathInfo.filename)) + "\"";
+        let filename = this.isThemeFile() ? newLibrary.getThemeFilename(pathInfo.filename) : newLibrary.getResourceFilename(pathInfo.filename);
+        return "@import \"" + path.relative(process.cwd(), filename) + "\"";
       });
 
       contents = contents.replace(/\burl\s*\(\s*([^\)]+)*\)/ig, (match, url) => {
