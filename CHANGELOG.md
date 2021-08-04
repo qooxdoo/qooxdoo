@@ -1,3 +1,10 @@
+# v6.0.2
+Bug fixed version with this fixes:
+- https://github.com/qooxdoo/qooxdoo/pull/10211
+- https://github.com/qooxdoo/qooxdoo/pull/10206
+- https://github.com/qooxdoo/qooxdoo/pull/10205
+- https://github.com/qooxdoo/qooxdoo/pull/10203
+
 # v6.0.0
 
 ## New Compiler
