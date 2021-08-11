@@ -55,6 +55,14 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       // Any object
     },
     
+    /**
+     * Whether to add timestamps to all URLs (cache busting)
+     */
+     addTimestampsToUrls: {
+      init: true,
+      check: "Boolean"
+    },
+
     appLibrary: {
       check: "qx.tool.compiler.app.Library"
     },

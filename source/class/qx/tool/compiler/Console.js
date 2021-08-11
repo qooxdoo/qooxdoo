@@ -140,6 +140,15 @@ qx.Class.define("qx.tool.compiler.Console", {
     },
     
     /**
+     * console.warn equivalent, with colorization, only operates if `verbose` is true
+     */
+    trace(...args) {
+      if (this.isVerbose()) {
+        console.warn(this.getColorOn() + args.join(" "));
+      }
+    },
+    
+    /**
      * console.warn equivalent, with colorization
      */
     warn(...args) {
@@ -280,6 +289,13 @@ qx.Class.define("qx.tool.compiler.Console", {
      */
     warn(...args) {
       return this.getInstance().warn(...args);
+    },
+
+    /**
+     * console.warn equivalent, with colorization, only operates if `verbose` is true
+     */
+    trace(...args) {
+      return this.getInstance().trace(...args);
     },
 
     /**
