@@ -267,7 +267,7 @@ qx.Class.define("qx.tool.utils.Website", {
         }
         let [unused, name, ext] = m;
         if (unused) {
-          // this is simply to avoid linting errors until https://github.com/qooxdoo/qooxdoo-compiler/issues/461 is fixed
+          // this is simply to avoid linting errors until https://github.com/qooxdoo/qooxdoo/issues/461 is fixed
         }
         let data = await fs.readFileAsync(path.join(partialsDir, filename), "utf8");
         let fn;
