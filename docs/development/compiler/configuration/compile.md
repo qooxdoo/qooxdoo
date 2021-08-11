@@ -270,6 +270,12 @@ computer-generated class files which act as some kind of proxy for the original
 functionality - a good example of a use case for this would be a class which, when
 compiled for the browser, is mostly proxy method calls (or whatever) to the server.
 
+- `addTimestampsToUrls` - (**optional**) if set to true, then all the URLs which are
+  output will have the timestamp of the file appended as a quwery parameter; this allows
+  strong caching parameters to be set by the web server, but also guarantee that
+  newer versions of the files will be detected by the cache.  This defaults to `true`
+  for build targets and `false` for source targets
+
 ### Multiple Applications and Targets
 
 In most applications all you will need to define is two targets, one for
