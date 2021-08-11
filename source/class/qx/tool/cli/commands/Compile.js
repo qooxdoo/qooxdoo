@@ -790,6 +790,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (targetConfig.uri) {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedUri", "target.uri", targetConfig.uri);
         }
+        if (targetConfig.addTimestampsToUrls !== undefined) {
+          target.setAddTimestampsToUrls(targetConfig.addTimestampsToUrls);
+        }
         if (targetConfig.writeCompileInfo || this.argv.writeCompileInfo) {
           target.setWriteCompileInfo(true);
         }
