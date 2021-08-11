@@ -275,16 +275,16 @@ qx.Class.define("qx.html.Node",
      * @param domNode {Node} DOM Node to reuse
      */
     useNode: function(domNode) {
-      var id = domNode.getAttribute("data-qx-object-id");
-      if (id) {
-        this.setQxObjectId(id);
+      var ancestorId = domNode.getAttribute("data-qx-object-id");
+      if (ancestorId) {
+        this.setQxObjectId(ancestorId);
       }
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
       }
-      var id = qx.core.Id.getAbsoluteIdOf(this, true);
-      var isIdRoot = !id;
+      var ancestorId = qx.core.Id.getAbsoluteIdOf(this, true);
+      var isIdRoot = !ancestorId;
       if (isIdRoot) {
         qx.core.Id.getInstance().register(this);
       }
@@ -315,12 +315,20 @@ qx.Class.define("qx.html.Node",
        * the qxObjectId mechanism.
        */
       
-      var self = this;
-      function convert(domNode) {
+      const convert = domNode => {
         var children = qx.lang.Array.fromCollection(domNode.childNodes);
         children = children
-          .map(function(domChild) {
+          .map(domChild => {
             var child = null;
+
+            if (domChild.$$elementObject) {
+              return {
+                htmlNode: domChild.$$elementObject,
+                domNode: domChild,
+                children: []
+              };
+            }
+
             if (domChild.nodeType == window.Node.ELEMENT_NODE) {
               var id = domChild.getAttribute("data-qx-object-id");
               if (id) {
@@ -335,14 +343,19 @@ qx.Class.define("qx.html.Node",
                   child = owningQxObject.getQxObject(qxObjectId);
                 } else {
                   qxObjectId = id;
-                  owningQxObject = self;
-                  child = self.getQxObject(id);
+                  owningQxObject = this;
+                  child = this.getQxObject(id);
+                }
+                if (!child) {
+                  this.warn(`Cannot find QxObject with id {$id} when deserializing ${ancestorId}`)
                 }
               }
             }
+
             if (!child) {
               child = qx.html.Factory.getInstance().createElement(domChild.nodeName, domChild.attributes);
             }
+
             return {
               htmlNode: child,
               domNode: domChild,
@@ -357,7 +370,8 @@ qx.Class.define("qx.html.Node",
           install(mapEntry);
           return mapEntry.htmlNode;
         });
-        map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
+        if (!map.htmlNode._domNode)
+          map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
       }
       
       var rootMap = {
