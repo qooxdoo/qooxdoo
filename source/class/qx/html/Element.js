@@ -568,7 +568,10 @@ qx.Class.define("qx.html.Element",
         var Attribute = qx.bom.element.Attribute;
         for (var key in data) {
           writer(" ");
-          Attribute.serialize(writer, key, data[key]);
+          if (key == "data-qx-object-id")
+            Attribute.serialize(writer, key, qx.core.Id.getAbsoluteIdOf(this, true));
+          else
+            Attribute.serialize(writer, key, data[key]);
         }
       }
 
@@ -803,9 +806,18 @@ qx.Class.define("qx.html.Element",
             this.setAttribute("class", null);
           }
         }
+        
         for (var key in data) {
           Attribute.set(elem, key, data[key]);
         }
+      }
+      if (fromMarkup) {
+        const SKIP = { "class": true, "data-qx-object-id": true, "style": true };
+        qx.lang.Array.fromCollection(elem.attributes).forEach(attr => {
+          let name = attr.name;
+          if (!SKIP[name] && !data[name])
+            this.setAttribute(name, attr.value);
+        });
       }
 
       // Copy styles
