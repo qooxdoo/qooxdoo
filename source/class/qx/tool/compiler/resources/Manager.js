@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -149,7 +149,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
 
         // Non-wildcards are a direct lookup
         // check for $ and *. less pos wins
-        // fix for https://github.com/qooxdoo/qooxdoo-compiler/issues/260
+        // fix for https://github.com/qooxdoo/qooxdoo/issues/260
         var pos1 = uri.indexOf("$"); // Variable references are effectively a wildcard lookup
         var pos2 = uri.indexOf("*");
         if (pos1 === -1) {
