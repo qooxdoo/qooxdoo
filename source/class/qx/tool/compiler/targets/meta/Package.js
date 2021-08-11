@@ -264,13 +264,17 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
         uris: [ ]
       };
       let appRoot = this.__appMeta.getApplicationRoot();
-      function toUri(filename) {
-        let stat = fs.statSync(filename, { throwIfNoEntry: false });
-        let uri = path.relative(appRoot, filename);
-        if (stat) {
-          uri += "?" + stat.mtimeMs;
+      const toUri = filename => {
+        if (this.__appMeta.isAddTimestampsToUrls()) {
+          let stat = fs.statSync(filename, { throwIfNoEntry: false });
+          let uri = path.relative(appRoot, filename);
+          if (stat) {
+            uri += "?" + stat.mtimeMs;
+          }
+          return uri;
+        } else {
+          return path.relative(appRoot, filename);
         }
-        return uri;
       }
       if (!this.isEmbedAllJavascript()) {
         data.uris = this.__javascriptMetas.map(js => toUri(js.getFilename()));
