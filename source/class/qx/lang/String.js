@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @param {String} str 
      * @returns {Boolean}
      */
-     isUpperCase(str) {
+    isUpperCase(str) {
       return qx.lang.String.__characterRx.upper.test(str);
     },
 
@@ -164,8 +164,18 @@ qx.Bootstrap.define("qx.lang.String",
      * @param {String} str 
      * @returns {Boolean}
      */
-     isLowerCase(str) {
+    isLowerCase(str) {
       return qx.lang.String.__characterRx.lower.test(str);
+    },
+
+
+    /**
+     * Detects whether the string is all letters
+     * @param {String} str 
+     * @returns {Boolean}
+     */
+    isLetters(str) {
+      return qx.lang.String.__characterRx.letter.test(str);
     },
 
 
@@ -174,7 +184,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @param {String} str 
      * @returns {Boolean}
      */
-     isDigits(str) {
+    isDigits(str) {
       return qx.lang.String.__characterRx.digit.test(str);
     },
 
@@ -433,6 +443,7 @@ qx.Bootstrap.define("qx.lang.String",
 
   defer(statics) {
     statics.__characterRx = {
+      letter: RegExp(/^\p{General_Category=Letter}+$/u),
       upper: RegExp(/^\p{General_Category=Uppercase_Letter}+$/u),
       lower: RegExp(/^\p{General_Category=Lowercase_Letter}+$/u),
       digit: RegExp(/^\p{General_Category=Decimal_Number}+$/u)

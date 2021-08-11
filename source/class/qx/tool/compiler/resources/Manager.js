@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -149,7 +149,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
 
         // Non-wildcards are a direct lookup
         // check for $ and *. less pos wins
-        // fix for https://github.com/qooxdoo/qooxdoo-compiler/issues/260
+        // fix for https://github.com/qooxdoo/qooxdoo/issues/260
         var pos1 = uri.indexOf("$"); // Variable references are effectively a wildcard lookup
         var pos2 = uri.indexOf("*");
         if (pos1 === -1) {
@@ -347,17 +347,17 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
      *
      * @param srcPath {String} the resource name, with or without a namespace prefix
      * @param create {Boolean?} if true the asset will be created if it does not exist
+     * @param isThemeFile {Boolean?} if true the asset will be expected to be in the theme folder
      * @return {Asset?} the asset, if found
      */
-    getAsset(srcPath, create) {
+    getAsset(srcPath, create, isThemeFile) {
       let library = this.findLibraryForResource(srcPath);
       if (!library) {
         qx.tool.compiler.Console.warn("Cannot find library for " + srcPath);
         return null;
       }
 
-
-      let resourceDir = path.join(library.getRootDir(), library.getResourcePath());
+      let resourceDir = path.join(library.getRootDir(), isThemeFile ? library.getThemePath() : library.getResourcePath());
       srcPath = path.relative(resourceDir, path.isAbsolute(srcPath)?srcPath:path.join(resourceDir, srcPath));
       let asset = this.__assets[library.getNamespace() + ":" + srcPath];
       if (!asset && create) {

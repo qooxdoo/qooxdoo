@@ -4,7 +4,7 @@
     "name": "@qooxdoo/qooxdoo-compiler",
     "summary": "The new fast JavaScript Compiler for Qooxdoo",
     "description": "The Qooxdoo-Compiler is the new compiler and command line interface for Qooxdoo applications. It is written in Node.JS Javascript and replaces the Python-based generator.",
-    "homepage": "https://github.com/qooxdoo/qooxdoo-compiler",
+    "homepage": "https://github.com/qooxdoo/qooxdoo",
     "license": "MIT license",
     "authors": [
       {
