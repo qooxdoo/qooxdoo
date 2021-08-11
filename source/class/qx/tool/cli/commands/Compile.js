@@ -792,6 +792,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
         if (targetConfig.addTimestampsToUrls !== undefined) {
           target.setAddTimestampsToUrls(targetConfig.addTimestampsToUrls);
+        } else {
+          target.setAddTimestampsToUrls(target instanceof qx.tool.compiler.targets.BuildTarget);
         }
         if (targetConfig.writeCompileInfo || this.argv.writeCompileInfo) {
           target.setWriteCompileInfo(true);
