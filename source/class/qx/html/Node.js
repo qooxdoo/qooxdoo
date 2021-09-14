@@ -105,7 +105,8 @@ qx.Class.define("qx.html.Node",
       init: true,
       nullable: true,
       check: "Boolean",
-      apply: "_applyVisible"
+      apply: "_applyVisible",
+      event: "changeVisible"
     }
   },
 

@@ -84,9 +84,9 @@ qx.Class.define("qx.html.Element",
             this._domNode.innerHTML = value;
           }
         },
-        function(writer, value) {
-          if (value) {
-            writer(value);
+        function(writer, property, name) {
+          if (property.value) {
+            writer(property.value);
           }
         });
   },
@@ -561,6 +561,8 @@ qx.Class.define("qx.html.Element",
      */
     _serializeImpl: function(writer) {
       writer("<", this._nodeName);
+      if (this.$$stop)
+        debugger;
       
       // Copy attributes
       var data = this.__attribValues;
@@ -593,8 +595,13 @@ qx.Class.define("qx.html.Element",
       var data = this._properties;
       if (data) {
         for (var key in this._properties) {
-          if (this._properties.serialize) {
-            this._properties.serialize.call(this, data[key], key);
+          let property = this._properties[key];
+          writer(" ");
+          if (property.serialize) {
+            property.serialize.call(this, writer, key, property);
+          } else if (property.value !== undefined && property.value !== null) {
+            let value = JSON.stringify(property.value);
+            writer(key, "=", value);
           }
         }
       }
