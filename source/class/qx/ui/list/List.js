@@ -610,6 +610,12 @@ qx.Class.define("qx.ui.list.List", {
      *  <code>false</code> if the row is an item element.
      */
     _isGroup: function(row) {
+      if (this.getProvider().getShowHeaders()) {
+        if (row === 0)
+          return false;
+        row--;
+      }
+
       return this._lookupByRowAndColumn(row, 0) === -1;
     },
 
