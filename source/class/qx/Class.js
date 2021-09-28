@@ -1323,8 +1323,8 @@ qx.Bootstrap.define("qx.Class",
         {
           var existingProperty = this.getPropertyDefinition(clazz, name);
 
-          if (config.refine && existingProperty.init === undefined) {
-            throw new Error("Could not refine an init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
+          if (config.refine && existingProperty.init === undefined && existingProperty["@"] === undefined) {
+            this.warn("Refine a property when there is previously no init or annotations defined. Property '" + name + "' of class '" + clazz.classname + "'.");
           }
         }
 
