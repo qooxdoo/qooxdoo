@@ -18,7 +18,7 @@
 
 const path = require("upath");
 const process = require("process");
-const psTree = require("ps-tree");
+
 /**
  * Runs a server application
  */
@@ -97,29 +97,6 @@ qx.Class.define("qx.tool.cli.commands.Run", {
       
       let target = maker.getTarget();
       
-      function kill(parentId) {
-        return new qx.Promise((resolve, reject) => {
-          psTree(parentId, function (err, children) {
-            if (err) { 
-              reject(err);
-              return;
-            }
-            children.forEach(item => {
-              try {
-                process.kill(item.PID);
-              } catch (ex) {
-                // Nothing
-              }
-            });
-            try {
-              process.kill(parentId);
-            } catch (ex) {
-              // Nothing
-            }
-            resolve();
-          });
-        });
-      }
       
       let scriptname = path.join(target.getApplicationRoot(app), "index.js");
       let args = config.run.arguments||"";
@@ -150,7 +127,7 @@ qx.Class.define("qx.tool.cli.commands.Run", {
           }
           
           try {
-            await kill(this.__process.pid);
+            await qx.tool.utils.Utils.killTree(this.__process.pid);
           } catch (ex) {
             //Nothing
           }
