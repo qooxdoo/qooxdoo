@@ -76,6 +76,23 @@ qx.Class.define("qx.html.Node",
             domNode.$$element === domNode.$$elementObject.toHashCode());
       }
       return domNode.$$elementObject;
+    },
+
+    /**
+     * Converts a DOM node into a qx.html.Node, providing the existing instance if
+     * there is one
+     * 
+     * @param {Node} domNode 
+     * @returns {qx.html.Node}
+     */
+    toVirtualNode(domNode) {
+      if (domNode.$$elementObject) {
+        return domNode.$$elementObject;
+      }
+
+      let html = qx.html.Factory.getInstance().createElement(domNode.nodeName, domNode.attributes);
+      html.useNode(domNode);
+      return html;
     }
 
   },
@@ -1355,6 +1372,9 @@ qx.Class.define("qx.html.Node",
      * @param name {String} The node name
      */
     setNodeName : function(name) {
+      if (this._domNode && name.toLowerCase() !== this._nodeName.toLowerCase()) {
+        throw new Error("Cannot change the name of the node after the DOM node has been created");
+      }
       this._nodeName = name;
     },
 
