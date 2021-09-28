@@ -20,6 +20,7 @@ const fs = require("fs");
 const async = require("async");
 const {promisify} = require("util");
 const child_process = require("child_process");
+const psTree = require("ps-tree");
 
 /**
  * Utility methods
@@ -275,7 +276,7 @@ qx.Class.define("qx.tool.utils.Utils", {
       if (!options.log) {
         options.log = console.log;
       }
-      return new Promise((resolve, reject) => {
+      return await new Promise((resolve, reject) => {
         let env = process.env;
         if (options.env) {
           env = Object.assign({}, env);
@@ -359,6 +360,117 @@ qx.Class.define("qx.tool.utils.Utils", {
             reject(new Error(stderr));
           }
           resolve(stdout);
+        });
+      });
+    },
+
+    /**
+     * Parses a command line and separates them out into an array that can be given to `child_process.spawn` etc
+     * 
+     * @param {String} cmd 
+     * @returns {String[]}
+     */
+    parseCommand(str) {
+      let inQuote = null;
+      let inArg = false;
+      let lastC = null;
+      let start = 0;
+      let args = [];
+      for (let i = 0; i < str.length; i++) {
+        let c = str[i];
+        if (inQuote) {
+          if (c == inQuote)
+            inQuote = null;
+          continue;
+        }
+        if (c == "\"" || c == "\'") {
+          inQuote = c;
+          if (!inArg) {
+            inArg = true;
+            start = i;
+          }
+          continue;
+        }
+        if (c == " " || c == "\t") {
+          if (inArg) {
+            let arg = str.substring(start, i);
+            args.push(arg);
+            inArg = false;
+          }
+        } else {
+          if (!inArg) {
+            inArg = true;
+            start = i;
+          }
+        }
+      }
+      if (inArg) {
+        let arg = str.substring(start);
+        args.push(arg);
+      }
+      return args;
+    },
+
+    /**
+     * Quotes special characters in the argument array, ensuring that they are safe to pass to the command line
+     * 
+     * @param {String[]} cmd 
+     * @returns {String[]}
+     */
+    quoteCommand(cmd) {
+      const SPECIALS = "&*?;# \"";
+      cmd = cmd.map(arg => {
+        let c = arg[0];
+        if ((c == '\'' || c == '\"') && c == arg[arg.length-1])
+          return arg;
+        if (arg.indexOf('\'') > -1) {
+          if (arg.indexOf('\"') > -1)
+            return "$'" + arg.replace(/'/g, "\\'") + "'";
+          return '\"' + arg + '\"';
+        }
+        for (let i = 0; i < SPECIALS.length; i++)
+          if (arg.indexOf(SPECIALS[i]) > -1)
+            return "'" + arg + "'";
+        return arg;
+      });
+      return cmd;      
+    },
+    
+    /**
+     * Reformats a command line
+     * 
+     * @param {String} cmd 
+     * @returns {String}
+     */
+    formatCommand(cmd) {
+      return qx.tool.utils.Utils.quoteCommand(cmd).join(" ");
+    },
+
+    /**
+     * Kills a process tree
+     * 
+     * @param {Number} parentId parent process ID to kill
+     */
+    async killTree(parentId) {
+      await new qx.Promise((resolve, reject) => {
+        psTree(parentId, function (err, children) {
+          if (err) { 
+            reject(err);
+            return;
+          }
+          children.forEach(item => {
+            try {
+              process.kill(item.PID);
+            } catch (ex) {
+              // Nothing
+            }
+          });
+          try {
+            process.kill(parentId);
+          } catch (ex) {
+            // Nothing
+          }
+          resolve();
         });
       });
     },
