@@ -154,7 +154,7 @@ qx.Class.define("qx.test.bom.Font",
       this.__font.setLetterSpacing(1);
 
       var styles = this.__font.getStyles();
-      this.assertEquals(1, styles.letterSpacing, "Wrong style value for 'letterSpacing' property!");
+      this.assertEquals("1px", styles.letterSpacing, "Wrong style value for 'letterSpacing' property!");
     },
 
 
@@ -189,7 +189,7 @@ qx.Class.define("qx.test.bom.Font",
       var keys = Object.keys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 8 key!");
+      this.assertEquals(9, qx.lang.Object.getLength(styles), "Map should contain 8 key!");
       this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");
       this.assertNotUndefined(styles.fontStyle, "Key 'fontStyle' has to be present!");
       this.assertNotUndefined(styles.fontWeight, "Key 'fontWeight' has to be present!");
