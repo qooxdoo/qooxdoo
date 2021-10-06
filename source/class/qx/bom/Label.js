@@ -38,7 +38,8 @@ qx.Bootstrap.define("qx.bom.Label",
       fontWeight : 1,
       fontStyle : 1,
       lineHeight : 1,
-      wordBreak : 1
+      wordBreak: 1,
+      letterSpacing : 1,
     },
 
 
