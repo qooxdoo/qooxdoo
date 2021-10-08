@@ -175,5 +175,10 @@
       "qx.debug.io": "qx.bom.request.Script",
       "plugin.pdfjs": "qx.bom.client.Pdfjs"
     }
+  },
+  "requires": {
+    "@qooxdoo/compiler": "^1.0.0",
+    "@qooxdoo/framework": "^6.0.0"
   }
+
 }
