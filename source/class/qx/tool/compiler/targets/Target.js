@@ -492,8 +492,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         };
         requiredLibs.forEach(libnamespace => {
           var library = analyser.findLibrary(libnamespace);
-          if (library != appLibrary)
+          if (library != appLibrary) {
             addLibraryFonts(library);
+          }
         });
         addLibraryFonts(appLibrary);
 
