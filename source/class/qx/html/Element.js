@@ -596,10 +596,11 @@ qx.Class.define("qx.html.Element",
       if (data) {
         for (var key in this._properties) {
           let property = this._properties[key];
-          writer(" ");
           if (property.serialize) {
+            writer(" ");
             property.serialize.call(this, writer, key, property);
           } else if (property.value !== undefined && property.value !== null) {
+            writer(" ");
             let value = JSON.stringify(property.value);
             writer(key, "=", value);
           }
