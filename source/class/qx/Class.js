@@ -158,8 +158,15 @@ qx.Bootstrap.define("qx.Class",
      *     </table>
      * @return {Class} The defined class
      */
-    define : function(name, config)
-    {
+    define(name, config) {
+      try {
+        return this.__defineImpl(name, config);
+      } catch(ex) {
+        qx.Class.$$brokenClassDefinitions = true;
+        throw ex;
+      }
+    },
+    __defineImpl(name, config) {
       if (!config) {
         config = {};
       }

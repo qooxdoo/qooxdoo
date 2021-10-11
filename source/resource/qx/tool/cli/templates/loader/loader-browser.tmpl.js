@@ -194,10 +194,16 @@ qx.$$loader = {
         qx.$$loader.applicationHandlerReady = true;
       }
     }
-    if (qx.$$loader.splashscreen)
+    if (qx.Class.$$brokenClassDefinitions) {
+      console.error("**************\n" + 
+        "One or more class definitions did not load properly - please see error messages above for details.\n" + 
+        "It is probable that your application will have unexpected errors.  Please fix the class problems above before continuing.\n" + 
+        "**************");
+    } else if (qx.$$loader.splashscreen) {
       qx.$$loader.splashscreen.loadComplete(done);
-    else
+    } else {
       done();
+    }
   },
 
   /*

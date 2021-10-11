@@ -538,6 +538,12 @@ qx.Bootstrap.define("qx.Interface",
         }
 
         origFunction.wrapper = wrappedFunction;
+        if (origFunction.base !== undefined) {
+          if (wrappedFunction.base !== undefined) {
+            throw new Error("base is already defined for the wrapped function");
+          }
+          wrappedFunction.base = origFunction.base;
+        }
         return wrappedFunction;
       },
 
