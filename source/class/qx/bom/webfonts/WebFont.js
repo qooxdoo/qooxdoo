@@ -57,7 +57,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     },
 
     /**
-     * Fired when the font has loaded successfully
+     * Indicates that the font has loaded successfully
      */
     valid: {
       init: false,
