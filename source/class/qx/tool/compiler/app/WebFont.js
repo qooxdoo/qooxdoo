@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2017 GONICUS GmbH, http://www.gonicus.de
