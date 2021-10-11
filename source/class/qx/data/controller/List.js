@@ -296,7 +296,7 @@ qx.Class.define("qx.data.controller.List",
     _applyIconOptions: function(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
-        this.assertTrue(!!value.converter || !!value.onSetFail || !!value.ignoreConverter);
+        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
       }
       this.__renewBindings();
     },
@@ -312,7 +312,7 @@ qx.Class.define("qx.data.controller.List",
     _applyLabelOptions: function(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
-        this.assertTrue(!!value.converter || !!value.onSetFail || !!value.ignoreConverter);
+        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
       }
       this.__renewBindings();
     },
