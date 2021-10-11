@@ -54,6 +54,15 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     {
       nullable : true,
       apply : "_applySources"
+    },
+
+    /**
+     * Indicates that the font has loaded successfully
+     */
+    valid: {
+      init: false,
+      check: "Boolean",
+      event: "changeValid"
     }
   },
 
@@ -93,6 +102,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     _onWebFontChangeStatus : function(ev)
     {
       var result = ev.getData();
+      this.setValid(!!result.valid);
       this.fireDataEvent("changeStatus", result);
       if (qx.core.Environment.get("qx.debug")) {
         if (result.valid === false) {
