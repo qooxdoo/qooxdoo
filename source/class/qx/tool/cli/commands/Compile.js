@@ -531,8 +531,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         // Continuous make
         let watch = new qx.tool.cli.Watch(maker);
         config.applications.forEach(appConfig => {
-          if (appConfig.runWhenWatching)
+          if (appConfig.runWhenWatching) {
             watch.setRunWhenWatching(appConfig.name, appConfig.runWhenWatching);
+          }
         });
         if (this.argv["watch-debug"]) {
           watch.setDebug(true);

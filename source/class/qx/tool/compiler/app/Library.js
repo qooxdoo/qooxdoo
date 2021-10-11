@@ -178,7 +178,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         }
       }
 
-      const fixLibraryPath = async function(dir) {
+      const fixLibraryPath = async dir => {
         let d = path.resolve(rootDir, dir);
         if (!fs.existsSync(d)) {
           this.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", this.getNamespace(), dir));

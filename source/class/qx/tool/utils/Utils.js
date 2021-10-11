@@ -379,8 +379,9 @@ qx.Class.define("qx.tool.utils.Utils", {
       for (let i = 0; i < str.length; i++) {
         let c = str[i];
         if (inQuote) {
-          if (c == inQuote)
+          if (c == inQuote) {
             inQuote = null;
+          }
           continue;
         }
         if (c == "\"" || c == "\'") {
@@ -421,16 +422,20 @@ qx.Class.define("qx.tool.utils.Utils", {
       const SPECIALS = "&*?;# \"";
       cmd = cmd.map(arg => {
         let c = arg[0];
-        if ((c == '\'' || c == '\"') && c == arg[arg.length-1])
+        if ((c == '\'' || c == '\"') && c == arg[arg.length-1]) {
           return arg;
+        }
         if (arg.indexOf('\'') > -1) {
-          if (arg.indexOf('\"') > -1)
+          if (arg.indexOf('\"') > -1) {
             return "$'" + arg.replace(/'/g, "\\'") + "'";
+          }
           return '\"' + arg + '\"';
         }
-        for (let i = 0; i < SPECIALS.length; i++)
-          if (arg.indexOf(SPECIALS[i]) > -1)
+        for (let i = 0; i < SPECIALS.length; i++) {
+          if (arg.indexOf(SPECIALS[i]) > -1) {
             return "'" + arg + "'";
+          }
+        }
         return arg;
       });
       return cmd;      
