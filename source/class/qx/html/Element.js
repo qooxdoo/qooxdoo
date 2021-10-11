@@ -561,8 +561,6 @@ qx.Class.define("qx.html.Element",
      */
     _serializeImpl: function(writer) {
       writer("<", this._nodeName);
-      if (this.$$stop)
-        debugger;
       
       // Copy attributes
       var data = this.__attribValues;
