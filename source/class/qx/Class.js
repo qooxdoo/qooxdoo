@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.Class",
      *     </table>
      * @return {Class} The defined class
      */
-    define(name, config) {
+    define: function(name, config) {
       try {
         return this.__defineImpl(name, config);
       } catch(ex) {
@@ -166,7 +166,16 @@ qx.Bootstrap.define("qx.Class",
         throw ex;
       }
     },
-    __defineImpl(name, config) {
+
+    /**
+     * Implementation behind `define` - this exists just for the simplicity of wrapping an exception 
+     * handler around the code
+     * 
+     * @param {String} name @see `define()`
+     * @param {*} config @see `define()`
+     * @returns  @see `define()`
+     */
+    __defineImpl: function(name, config) {
       if (!config) {
         config = {};
       }
