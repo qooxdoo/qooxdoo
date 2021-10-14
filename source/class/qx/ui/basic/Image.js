@@ -983,7 +983,8 @@ qx.Class.define("qx.ui.basic.Image",
             var combinedStyles = {
               "backgroundImage": attr.style.backgroundImage,
               "backgroundPosition": (attr.style.backgroundPosition || "0 0"),
-              "backgroundRepeat": (attr.style.backgroundRepeat || "no-repeat")
+              "backgroundRepeat": (attr.style.backgroundRepeat || "no-repeat"),
+              "position": "absolute"
             };
 
             if (hasBackground) {
@@ -1012,6 +1013,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
       if (el.setSource){
         el.setSource(source);
+        el.setStyle("position", "absolute");
       }
     },
 

@@ -31,6 +31,7 @@
  * @require(qx.event.handler.Input)
  * @require(qx.event.handler.Pointer)
  * @require(qx.event.handler.Gesture)
+ * @require(qx.event.handler.Video)
  */
 qx.Class.define("qx.bom.Element",
 {
