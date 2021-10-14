@@ -31,7 +31,7 @@ qx.Class.define("qx.html.Image",
    */
   construct: function(tagName, styles, attributes) {
     this.base(arguments, tagName, styles, attributes);
-    this.registerProperty("source", null, this._setSourceProperty);
+    this.registerProperty("source", null, this._setSourceProperty, (writer, key, property) => property.value && writer("src=" + JSON.stringify(property.value)));
     this.registerProperty("scale", null, this._setScaleProperty);
   },
 
