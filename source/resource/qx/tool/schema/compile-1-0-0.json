@@ -155,9 +155,19 @@
             "description": "The boot loader template file, usually determined automatically from the application type",
             "type": "string"
           },
-          "default": {
-            "description": "If true, this application is considered the default when serving the application; if not provided then the first browser app is the default application. When applications are generated, each application has it's own directory inside the target directory and also has it's own index.html. However, there is an index.html which is generated in the target output directory that runs the `default` application.",
-            "type": "boolean"
+          "runWhenWatching": {
+            "description": "If provided then the compiler will run this command every time this application is compiled, killing any previous instance if necessary",
+            "type": "object",
+            "additionalItems": false,
+            "required": [
+              "command"
+            ],
+            "properties": {
+              "command": {
+                "description": "The command line to run",
+                "type": "string"
+              }
+            }
           },
           "parts": {
             "$ref": "#/properties/parts"
