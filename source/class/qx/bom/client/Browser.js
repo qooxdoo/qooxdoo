@@ -53,8 +53,17 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      * @return {String} The name of the current browser.
      * @internal
      */
-    getName : function() {
-      var agent = navigator.userAgent;
+    getName() {
+      return qx.bom.client.Browser.detectName(navigator.userAgent);
+    },
+
+    /**
+     * Examines the user agent of the browser to determine the browser name
+     * 
+     * @param agent {String} the user agent string
+     * @return {String} The name of the current browser.
+     */
+    detectName(agent) {
       var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/|)?([0-9]+\.[0-9])?");
       var match = agent.match(reg);
       if (!match) {
