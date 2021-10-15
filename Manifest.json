@@ -177,7 +177,6 @@
     }
   },
   "requires": {
-    "@qooxdoo/compiler": "^1.0.3",
-    "@qooxdoo/framework": "^6.0.2"
+    "@qooxdoo/framework": "^7.0.0-beta.0"
   }
 }
