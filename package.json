@@ -90,7 +90,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.34.1",
     "semver": "^7.3.4",
-    "set-value": "^3.0.2",
+    "set-value": "^4.0.1",
     "showdown": "^1.9.1",
     "source-map": "^0.5.7",
     "tap-colorize": "^1.2.0",
