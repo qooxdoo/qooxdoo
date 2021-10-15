@@ -5,14 +5,14 @@
 .slider {
   @include border-radius($slider-border-radius);
   @include background($slider-background);
-  @include transform(translate3d(0,($slider-knob-height/2),0));
+  @include transform(translate3d(0,($slider-knob-height*0.5),0));
   @include touch-action(none);
 
   overflow: visible;
 
   margin-bottom: $slider-knob-height;
-  margin-left: ($slider-knob-width/2); 
-  margin-right: ($slider-knob-width/2);
+  margin-left: ($slider-knob-width*0.5); 
+  margin-right: ($slider-knob-width*0.5);
 
   border: rem(1) solid $slider-border-color;
 }
@@ -22,8 +22,8 @@
   content: "";
   height: $slider-knob-height;
   position: absolute;
-  top: -($slider-knob-height/2) + ($slider-height/2);
-  left:  -($slider-knob-width/2);
+  top: -($slider-knob-height*0.5) + ($slider-height*0.5);
+  left:  -($slider-knob-width*0.5);
   padding-right:  ($slider-knob-width);
   display: block;
   width: 100%;
@@ -62,8 +62,8 @@
   text-overflow: ellipsis;
   font-weight:normal;
 
-  top: -($slider-knob-height/2) + ($slider-height/2) - rem(1);
-  right: -1*$slider-knob-width/2;
+  top: -($slider-knob-height*0.5) + ($slider-height*0.5) - rem(1);
+  right: -1*$slider-knob-width*0.5;
 }
 
 .slider.percent > div:after {

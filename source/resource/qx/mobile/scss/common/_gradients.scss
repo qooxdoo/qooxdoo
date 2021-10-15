@@ -6,6 +6,8 @@
 * If the first value is a color (or "transparent"), the mixin creates a plain colored background with it.
 * If multiple values are passed, the background mixins attempts to create a linear gradient through "linear-gradient" mixin.
 */
+@use "sass:math";
+
 @mixin background($values) {
   @if (length($values) == 1)  {
     background-color: $values;
@@ -97,7 +99,7 @@
       $next: nth($values, $i + 1);
 
       // If no position is passed inside color-stop, it calculates the position in percent.
-      $pos: ($i - 1)*(1/($last - 1));
+      $pos: ($i - 1)*math.div(1, $last - 1);
 
       // Separator between color-stops.
       $separator: "";
