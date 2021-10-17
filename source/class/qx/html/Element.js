@@ -84,9 +84,9 @@ qx.Class.define("qx.html.Element",
             this._domNode.innerHTML = value;
           }
         },
-        function(writer, value) {
-          if (value) {
-            writer(value);
+        function(writer, property, name) {
+          if (property.value) {
+            writer(property.value);
           }
         });
   },
@@ -590,8 +590,14 @@ qx.Class.define("qx.html.Element",
       var data = this._properties;
       if (data) {
         for (var key in this._properties) {
-          if (this._properties.serialize) {
-            this._properties.serialize.call(this, data[key], key);
+          let property = this._properties[key];
+          if (property.serialize) {
+            writer(" ");
+            property.serialize.call(this, writer, key, property);
+          } else if (property.value !== undefined && property.value !== null) {
+            writer(" ");
+            let value = JSON.stringify(property.value);
+            writer(key, "=", value);
           }
         }
       }
@@ -679,19 +685,22 @@ qx.Class.define("qx.html.Element",
     importQxObjectIds() {
       let thisId = this.getQxObjectId();
       let thisAttributeId = this.getAttribute("data-qx-object-id");
-      if (thisId)
+      if (thisId) {
         this.setAttribute("data-qx-object-id", thisId, true);
-      else if (thisAttributeId)
+      } else if (thisAttributeId) {
         this.setQxObjectId(thisAttributeId);
+      }
 
       const resolveImpl = node => {
-        if (!(node instanceof qx.html.Element))
+        if (!(node instanceof qx.html.Element)) {
           return;
+        }
         let id = node.getQxObjectId();
         let attributeId = node.getAttribute("data-qx-object-id");
         if (id) {
-          if (attributeId && !attributeId.endsWith(id))
+          if (attributeId && !attributeId.endsWith(id)) {
             this.warn(`Attribute ID ${attributeId} is not compatible with the qxObjectId ${id}; the qxObjectId will take prescedence`);
+          }
           node.setAttribute("data-qx-object-id", id, true);
 
         } else if (attributeId) {
@@ -710,11 +719,11 @@ qx.Class.define("qx.html.Element",
             if (segs[0] == thisAttributeId || segs[0] == thisId) {
               // Only two segments, means that the parent is the outer and the last segment 
               //  is the ID of the node being examined
-              if (segs.length == 2)
+              if (segs.length == 2) {
                 parentNode = this;
 
               // Otherwise resolve it further
-              else {
+              } else {
                 // Extract the segments, exclude the first and last, and that leaves us with a relative ID path
                 let subId = qx.lang.Array.clone(segs);
                 subId.shift();
@@ -724,24 +733,28 @@ qx.Class.define("qx.html.Element",
               }
 
             // Not the outer node, then resolve as a global.
-            } else
+            } else {
               parentNode = qx.core.Id.getQxObject(attributeId);
+            }
               
-            if (!parentNode)
+            if (!parentNode) {
               throw new Error(`Cannot resolve object id ancestors, id=${attributeId}`);
+            }
 
             parentNode.addOwnedQxObject(node, segs[segs.length - 1]);
           }
         }
 
         let children = node.getChildren();
-        if (children)
+        if (children) {
           children.forEach(resolveImpl);
+        }
       };
 
       let children = this.getChildren();
-      if (children)
+      if (children) {
         children.forEach(resolveImpl);
+      }
     },
 
 
@@ -773,8 +786,9 @@ qx.Class.define("qx.html.Element",
           let classes = {};
           str = this.getAttribute("class");
           (str ? str.split(" ") : []).forEach(name => {
-            if (name.startsWith("qx-")) 
+            if (name.startsWith("qx-")) {
               classes[name] = true
+            }
           });
 
           str = Attribute.get(elem, "class");

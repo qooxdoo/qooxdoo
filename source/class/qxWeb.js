@@ -149,8 +149,9 @@ qx.Bootstrap.define("qxWeb", {
     $attachAll : function(clazz, staticsNamespace) {
       // members
       for (var name in clazz.members) {
-        if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0)
-        qxWeb.prototype[name] = clazz.members[name];
+        if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0) {
+          qxWeb.prototype[name] = clazz.members[name];
+        }
       }
 
       // statics
@@ -164,8 +165,9 @@ qx.Bootstrap.define("qxWeb", {
 
       for (var name in clazz.statics) {
         if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0 && name !== "name" && name !== "basename" &&
-            name !== "classname" && name !== "toString" && name !== name.toUpperCase())
-        destination[name] = clazz.statics[name];
+            name !== "classname" && name !== "toString" && name !== name.toUpperCase()) {
+          destination[name] = clazz.statics[name];
+        }
       }
     },
 

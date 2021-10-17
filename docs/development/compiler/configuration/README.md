@@ -29,7 +29,7 @@ files:
   registry of libraries in a package (normally not needed)
 
 `Manifest.json`, `compile.json` and `Qooxdoo.json`are validated against
-[JSON-schemas](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/resource/qx/tool/schema)
+[JSON-schemas](https://github.com/qooxdoo/qooxdoo/tree/master/source/resource/qx/tool/schema)
 . In contrast, `qx-lock.json` is not, and you should not code against the
 lockfile's structure, since it can change any time.
 
@@ -57,7 +57,7 @@ other classes are `qx.tool.config.Compile`, `qx.tool.config.Registry` (for
 
 This API is not only useful for Qooxdoo purposes. In fact, you can use it for
 your own applications by extending `qx.tool.config.Abstract` to write your
-[own config file models](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/class/qx/tool/config)
+[own config file models](https://github.com/qooxdoo/qooxdoo/tree/master/source/class/qx/tool/config)
 .
 
 ## CLI Configuration API

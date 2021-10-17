@@ -53,7 +53,8 @@ qx.Class.define("qx.bom.Font",
       textDecoration: null,
       lineHeight: null,
       color: null,
-      textShadow: null
+      textShadow: null,
+      letterSpacing: null
     };
 
     if (size !== undefined) {
@@ -152,7 +153,8 @@ qx.Class.define("qx.bom.Font",
       textDecoration: "",
       lineHeight: 1.2,
       color: "",
-      textShadow: ""
+      textShadow: "",
+      letterSpacing: "",
     },
 
 
@@ -279,12 +281,20 @@ qx.Class.define("qx.bom.Font",
       check : "String",
       apply : "_applyTextShadow"
     },
+
     /** The weight property of the font as opposed to just setting it to 'bold' by setting the bold property to true */
     weight :
     {
       nullable : true,
       check : "String",
       apply : "_applyWeight"
+    },
+    
+    /** The Letter Spacing (Unit: pixel) */
+    letterSpacing: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyLetterSpacing"
     }
   },
 
@@ -373,6 +383,11 @@ qx.Class.define("qx.bom.Font",
     // property apply
     _applyTextShadow : function(value, old) {
       this.__lookupMap.textShadow = value == null ? null : value;
+    },
+
+    // property apply
+    _applyLetterSpacing: function (value, old) {
+      this.__lookupMap.letterSpacing = value === null ? null : value + "px";
     },
 
 

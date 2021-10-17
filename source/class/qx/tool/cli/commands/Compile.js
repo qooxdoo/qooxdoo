@@ -530,6 +530,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         // Continuous make
         let watch = new qx.tool.cli.Watch(maker);
+        config.applications.forEach(appConfig => {
+          if (appConfig.runWhenWatching) {
+            watch.setRunWhenWatching(appConfig.name, appConfig.runWhenWatching);
+          }
+        });
         if (this.argv["watch-debug"]) {
           watch.setDebug(true);
         }
@@ -622,8 +627,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           allAppNames[appConfig.name] = appConfig;
         }
         if (appConfig.group) {
-          if (typeof appConfig.group == "string")
+          if (typeof appConfig.group == "string") {
             appConfig.group = [ appConfig.group ]; 
+          }
         }
         appConfig.index = index;
         let appType = appConfig.type||"browser";
@@ -743,12 +749,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let appConfigs = targetConfig.appConfigs.filter(appConfig => {
           if (argvAppGroups) {
             let groups = appConfig.group||[];
-            if (!groups.find(groupName => !!argvAppGroups[groupName]))
+            if (!groups.find(groupName => !!argvAppGroups[groupName])) {
               return false;
+            }
           }
           if (argvAppNames && appConfig.name) {
-            if (!argvAppNames[appConfig.name])
+            if (!argvAppNames[appConfig.name]) {
               return false;
+            }
           }
           return true;
         });

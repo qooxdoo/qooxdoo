@@ -294,6 +294,10 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Map|null} The old icon options.
      */
     _applyIconOptions: function(value, old) {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
+        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
+      }
       this.__renewBindings();
     },
 
@@ -306,6 +310,10 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Map|null} The old label options.
      */
     _applyLabelOptions: function(value, old) {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
+        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
+      }
       this.__renewBindings();
     },
 

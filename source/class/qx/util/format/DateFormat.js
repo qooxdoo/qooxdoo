@@ -426,6 +426,15 @@ qx.Class.define("qx.util.format.DateFormat",
     },
 
     /**
+     * Returns the original format string
+     * 
+     * @return {String}
+     */
+    getFormatString() {
+      return this.__format;
+    },
+
+    /**
      * Formats a date.
      *
      * @param date {Date} The date to format.
