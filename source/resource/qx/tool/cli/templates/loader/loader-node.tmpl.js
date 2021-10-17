@@ -176,8 +176,15 @@
         qx.Bootstrap.executePendingDefers();
         qx.$$loader.delayDefer = false;
         qx.$$loader.scriptLoaded = true;
-        qx.core.BaseInit.ready();
-        qx.$$loader.applicationHandlerReady = true;
+        if (qx.Class.$$brokenClassDefinitions) {
+          console.error("**************");
+          console.error("One or more class definitions did not load properly - please see error messages above for details.");
+          console.error("It is probable that your application will have unexpected errors.  Please fix the class problems above before continuing.");
+          console.error("**************");
+        } else {
+          qx.core.BaseInit.ready();
+          qx.$$loader.applicationHandlerReady = true;
+        }
       },
 
       importPackageData : function(dataMap, callback) {

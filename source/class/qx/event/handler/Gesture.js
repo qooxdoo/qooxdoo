@@ -229,6 +229,8 @@ qx.Class.define("qx.event.handler.Gesture",
 
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
-    qx.event.Registration.getManager(document).getHandler(statics);
+    qx.event.Registration.addListener(window, "appinitialized", () => { 
+      qx.event.Registration.getManager(document).getHandler(statics);
+    });
   }
 });

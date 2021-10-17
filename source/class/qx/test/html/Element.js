@@ -195,20 +195,20 @@ qx.Class.define("qx.test.html.Element",
         buffer += args.join("");
       }
       el1.serialize(writer);
-      this.assertEquals("<div id=\"el1\" data-qx-object-id=\"qx.html.Element\">Hello Again World</div>", buffer);
+      this.assertEquals("<div id=\"el1\" data-qx-object-id=\"qx.html.Element\" >Hello Again World</div>", buffer);
       el1.setAttribute("abc", 123);
       el1.setAttribute("def", true);
       el1.setAttribute("checked", true);
       buffer = "";
       el1.serialize(writer);
-      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked data-qx-object-id=\"qx.html.Element\">Hello Again World</div>", buffer);
+      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked data-qx-object-id=\"qx.html.Element\" >Hello Again World</div>", buffer);
       
       var el2 = new qx.html.Element();
       el2.setAttribute("id", "el2");
       el1.addAt(el2, 1);
       buffer = "";
       el1.serialize(writer);
-      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked data-qx-object-id=\"qx.html.Element\">Hello Again<div id=\"el2\"></div> World</div>", buffer);
+      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked data-qx-object-id=\"qx.html.Element\" >Hello Again<div id=\"el2\" ></div> World</div>", buffer);
       
       /*
       el2._setProperty("innerHtml", "<b>Test</b>");

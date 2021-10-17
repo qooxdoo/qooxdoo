@@ -149,6 +149,14 @@ qx.Class.define("qx.test.bom.Font",
       this.assertEquals("red 1px 1px 3px, green -1px -1px 3px, white -1px 1px 3px, white 1px -1px 3px", styles.textShadow, "Wrong style value for 'textShadow' property!");
     },
 
+    testLetterSpacing : function()
+    {
+      this.__font.setLetterSpacing(1);
+
+      var styles = this.__font.getStyles();
+      this.assertEquals("1px", styles.letterSpacing, "Wrong style value for 'letterSpacing' property!");
+    },
+
 
     testColorAtWidget : function()
     {
@@ -181,7 +189,7 @@ qx.Class.define("qx.test.bom.Font",
       var keys = Object.keys(styles);
 
       this.assertMap(styles, "Method 'getStyles' should return a map!");
-      this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 8 key!");
+      this.assertEquals(9, qx.lang.Object.getLength(styles), "Map should contain 9 keys!");
       this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");
       this.assertNotUndefined(styles.fontStyle, "Key 'fontStyle' has to be present!");
       this.assertNotUndefined(styles.fontWeight, "Key 'fontWeight' has to be present!");
@@ -190,6 +198,7 @@ qx.Class.define("qx.test.bom.Font",
       this.assertNotUndefined(styles.textDecoration, "Key 'textDecoration' has to be present!");
       this.assertNotUndefined(styles.color, "Key 'color' has to be present!");
       this.assertNotUndefined(styles.textShadow, "Key 'textShadow' has to be present!");
+      this.assertNotUndefined(styles.letterSpacing, "Key 'letterSpacing' has to be present!");
     },
 
 

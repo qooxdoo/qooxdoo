@@ -32,6 +32,9 @@ qx.Class.define("qx.tool.cli.Watch", {
     };
     this.__debounceChanges = {};
     this.__configFilenames = [];
+    this.__runWhenWatching = {};
+
+    maker.addListener("writtenApplication", this._onWrittenApplication, this);
   },
   
   properties: {
@@ -60,6 +63,10 @@ qx.Class.define("qx.tool.cli.Watch", {
     __makeTimerId: null,
     __debounceChanges: null,
     __configFilenames: null,
+    __madeApplications: null,
+
+    /** @type{Map<String,Object>} list of runWhenWatching configurations, indexed by app name */
+    __runWhenWatching: null,
     
     async setConfigFilenames(arr) {
       if (!arr) {
@@ -67,6 +74,50 @@ qx.Class.define("qx.tool.cli.Watch", {
       } else {
         this.__configFilenames = arr.map(filename => path.resolve(filename));
       }
+    },
+
+    setRunWhenWatching(appName, config) {
+      this.__runWhenWatching[appName] = config;
+      let arr = qx.tool.utils.Utils.parseCommand(config.command);
+      config._cmd = arr.shift();
+      config._args = arr;
+    },
+
+    async _onWrittenApplication(evt) {
+      let appInfo = evt.getData();
+      let name = appInfo.application.getName();
+      let config = this.__runWhenWatching[name];
+      if (!config) {
+        return;
+      }
+
+      if (config._process) {
+        try {
+          await qx.tool.utils.Utils.killTree(config._process.pid);
+        } catch (ex) {
+          //Nothing
+        }
+        if (config._processPromise) {
+          await config._processPromise;
+        }
+        config._process = null;
+      }
+
+      console.log("Starting application: " + config._cmd + " " + config._args.join(" "));
+      config._processPromise = new qx.Promise((resolve, reject) => {
+        let child = config._process = require("child_process").spawn(config._cmd, config._args);
+        child.stdout.setEncoding("utf8");
+        child.stdout.on("data", data => console.log(data));
+        child.stderr.setEncoding("utf8");
+        child.stderr.on("data", data => console.log(data));
+  
+        child.on("close", function(code) {
+          console.log("Application has terminated");
+          config._process = null;
+          resolve();
+        });        
+        child.on("error", err => console.error("Application has failed: " + err));
+      });
     },
 
     start() {
@@ -170,6 +221,7 @@ qx.Class.define("qx.tool.cli.Watch", {
 
       function make() {
         Console.print("qx.tool.cli.watch.makingApplications");
+        t.__madeApplications = null;
         var startTime = new Date().getTime();
         t.__stats.classesCompiled = 0;
         t.__outOfDate = false;

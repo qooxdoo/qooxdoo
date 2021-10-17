@@ -1,5 +1,5 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
@@ -79,7 +79,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "7.0.0-beta",
+    "version": "7.0.0-beta.1",
     "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
   "provides": {
@@ -92,7 +92,7 @@
       {
         "name": "MaterialIcons",
         "defaultSize": 32,
-        "comparisonString": "\ue1fe\uef39",
+        "comparisonString": "e1feef39",
         "resources": [
           "qx/iconfont/MaterialIcons/materialicons-v70.eot",
           "qx/iconfont/MaterialIcons/materialicons-v70.woff2",
@@ -103,7 +103,7 @@
       {
         "name": "MaterialIconsOutlined",
         "defaultSize": 32,
-        "comparisonString": "\ue1fe\uef39",
+        "comparisonString": "e1feef39",
         "resources": [
           "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.eot",
           "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff2",
@@ -114,7 +114,7 @@
       {
         "name": "MaterialIconsRound",
         "defaultSize": 32,
-        "comparisonString": "\ue1fe\uef39",
+        "comparisonString": "e1feef39",
         "resources": [
           "qx/iconfont/MaterialIcons/materialiconsround-v37.eot",
           "qx/iconfont/MaterialIcons/materialiconsround-v37.woff2",
@@ -124,7 +124,7 @@
       },
       {
         "name": "MaterialIconsSharp",
-        "comparisonString": "\ue1fe\uef39",
+        "comparisonString": "e1feef39",
         "defaultSize": 32,
         "resources": [
           "qx/iconfont/MaterialIcons/materialiconssharp-v38.eot",
@@ -136,7 +136,7 @@
       {
         "name": "MaterialIconsDuoTone",
         "defaultSize": 32,
-        "comparisonString": "\ue1fe\uef39",
+        "comparisonString": "e1feef39",
         "resources": [
           "qx/iconfont/MaterialIcons/materialiconstwotone-v36.eot",
           "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff2",
@@ -175,5 +175,10 @@
       "qx.debug.io": "qx.bom.request.Script",
       "plugin.pdfjs": "qx.bom.client.Pdfjs"
     }
-  }
+  },
+  "requires": {
+    "@qooxdoo/compiler": "^1.0.3",
+    "@qooxdoo/framework": "^6.0.2"
+  },
+  "requires.@qooxdoo/framework": "^6.0.2^7.0.0-beta.0"
 }
