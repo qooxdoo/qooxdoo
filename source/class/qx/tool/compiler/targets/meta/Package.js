@@ -1,4 +1,27 @@
+/* ************************************************************************
+ *
+ *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
+ *    toolchain
+ *
+ *    https://github.com/qooxdoo/qooxdoo-compiler
+ *
+ *    Copyright:
+ *      2011-2021 Zenesis Limited, http://www.zenesis.com
+ *
+ *    License:
+ *      MIT: https://opensource.org/licenses/MIT
+ *
+ *      This software is provided under the same licensing terms as Qooxdoo,
+ *      please see the LICENSE file in the Qooxdoo project's top-level directory
+ *      for details.
+ *
+ *    Authors:
+ *      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+ *
+ * ************************************************************************/
+
 const path = require("upath");
+const fs = require("fs");
 
 /**
  * A Package is a collection of files and resources, used by either the boot process
@@ -241,11 +264,23 @@ qx.Class.define("qx.tool.compiler.targets.meta.Package", {
         uris: [ ]
       };
       let appRoot = this.__appMeta.getApplicationRoot();
+      const toUri = filename => {
+        if (this.__appMeta.isAddTimestampsToUrls()) {
+          let stat = fs.statSync(filename, { throwIfNoEntry: false });
+          let uri = path.relative(appRoot, filename);
+          if (stat) {
+            uri += "?" + stat.mtimeMs;
+          }
+          return uri;
+        } else {
+          return path.relative(appRoot, filename);
+        }
+      }
       if (!this.isEmbedAllJavascript()) {
-        data.uris = this.__javascriptMetas.map(js => path.relative(appRoot, js.getFilename()));
+        data.uris = this.__javascriptMetas.map(js => toUri(js.getFilename()));
       }
       if (this.isNeedsWriteToDisk()) {
-        data.uris.unshift(path.relative(appRoot, this.__javascript.getFilename()));
+        data.uris.unshift(toUri(this.__javascript.getFilename()));
       }
     },
     
