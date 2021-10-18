@@ -163,6 +163,7 @@
 
       loadScriptList: function(list) {
         list.forEach(function(uri) {
+          uri = uri.replace(/\?.*$/, '');
           var f = loaderMethod(uri);
           if (typeof f === "function") {
             var s = f.name === ""?path.basename(uri, ".js"):f.name;
