@@ -24,7 +24,7 @@ your application that were referenced either directly or indirectly from your
 code.
 
 The Qooxdoo compiler is called `qx` and runs in node.js. Qooxdoo requires
-Node.js version  >= 8.x to work.
+a current version of Node.js to work.
 
 To check your version, run `node -v` in a terminal/console window.
 
