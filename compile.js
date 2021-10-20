@@ -1,4 +1,4 @@
-const path = require("upath");
+const path = require("path");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
