@@ -247,6 +247,10 @@
               "type": "string"
             }
           },
+          "addTimestampsToUrls": {
+            "description": "if true (default), the target will add the files timestamp to each URL to allow for strong caching parameters",
+            "type":"boolean"
+          },
           "writeCompileInfo": {
             "description": "if true, the target will write a compile-info.json and resources.json into the application's output directory, containing the data structures required to generate an application",
             "type":"boolean"
