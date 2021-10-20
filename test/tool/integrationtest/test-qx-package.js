@@ -1,7 +1,6 @@
 const test = require("tape");
 const fs = require("fs");
 const testUtils = require("../../../bin/tools/utils");
-const fsPromises = testUtils.fsPromises;
 const path = require("path");
 const testDir = path.join(__dirname, "test-qx-package");
 const appDir = path.join(testDir, "myapp");
@@ -34,7 +33,7 @@ test("Create app", async assert => {
 test("Install qxl.test1, latest version", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test1@latest");
     assert.ok(result.exitCode === 0);
     result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
@@ -52,7 +51,7 @@ test("Install qxl.test1, latest version", async assert => {
 test("Install qxl.test2/qxl.test2A, latest version", async assert => {
   try {
     let result;
-    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test2/qxl.test2A");
+    result = await testUtils.runCommand(appDir, qxCmdPath, "package", "install", "qooxdoo/qxl.test2/qxl.test2A@2.0.2");
     assert.ok(result.exitCode === 0);
     result = await testUtils.runCommand(appDir, qxCmdPath, "package", "list", "--short", "--noheaders", "--installed", "--all");
     assert.ok(result.exitCode === 0);
