@@ -628,7 +628,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
         if (appConfig.group) {
           if (typeof appConfig.group == "string") {
-            appConfig.group = [ appConfig.group ]; 
+            appConfig.group = [ appConfig.group ];
           }
         }
         appConfig.index = index;
@@ -1076,15 +1076,15 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let requires_uris = Object.getOwnPropertyNames(requires)
           .filter(uri => !libs.find(lib => lib.getLibraryInfo().name === uri));
 
-        let urisToInstall = requires_uris.filter(name => name !== "@qooxdoo/framework");
+        let urisToInstall = requires_uris.filter(name => (name !== "@qooxdoo/framework") && (name !== "@qooxdoo/compiler"));
 
         let pkg_libs = Object.getOwnPropertyNames(packages);
         if (urisToInstall.length > 0 && pkg_libs.length === 0) {
           // if we don't have package data
           if (this.argv.download) {
-            if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) { 
-              Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " + 
-                urisToInstall.join("\n     ") + "\nThe library which refers to the missing libraries is " + lib.getNamespace() + " in " + lib.getRootDir());  
+            if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
+              Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
+                urisToInstall.join("\n     ") + "\nThe library which refers to the missing libraries is " + lib.getNamespace() + " in " + lib.getRootDir());
               process.exit(1);
             }
               // but we're instructed to download the libraries
