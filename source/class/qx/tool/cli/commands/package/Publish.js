@@ -121,7 +121,10 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       const argv = this.argv;
 
       // qooxdoo version
-      let qxVersion = await this.getAppQxVersion();
+      let qxVersion = await this.getQxVersion();
+      if (fs.existsSync("Manifest.json")) {
+         qxVersion = await this.getAppQxVersion();
+      }
       if (argv.verbose) {
         this.info(`Using qooxdoo version:  ${qxVersion}`);
       }
@@ -306,7 +309,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         if (argv.dryrun) {
           if (!argv.quiet) {
             qx.tool.compiler.Console.info(`Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`);
-            qx.tool.compiler.Console.info(manifestModel.getData());
+            qx.tool.compiler.Console.info(JSON.stringify(manifestModel.getData(), null, 2));
           }
         } else {
           manifestModel.save();
