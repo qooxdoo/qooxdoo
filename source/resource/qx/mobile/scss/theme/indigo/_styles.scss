@@ -145,7 +145,7 @@ $menu-item-selected-background:  lighten($highlight-color, 20%), $highlight-colo
 
 $navigationbar-height:  rem(40);
 $navigationbar-background:  $color-2,$color-1;
-$navigationbar-text-size:  $navigationbar-height/2;
+$navigationbar-text-size:  $navigationbar-height*0.5;
 $navigationbar-text-color:  $background-color;
 $navigationbar-padding:  rem(4);
 $navigationbar-font-weight: bold;
