@@ -178,6 +178,5 @@
   },
   "requires": {
     "@qooxdoo/framework": "^7.0.0-beta.1"
-  },
-  "requires.@qooxdoo/framework": "^7.0.0-beta.1"
+  }
 }
