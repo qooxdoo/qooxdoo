@@ -1,5 +1,5 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
@@ -79,7 +79,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "7.0.0-beta.1",
+    "version": "7.0.0-beta.2",
     "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
   "provides": {
@@ -180,4 +180,3 @@
     "@qooxdoo/framework": "^7.0.0-beta.1"
   }
 }
-
