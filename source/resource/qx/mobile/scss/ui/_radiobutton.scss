@@ -34,13 +34,13 @@
 
   z-index: 1;
 
-  width: $radiobutton-size/2;
-  height: $radiobutton-size/2;
+  width: $radiobutton-size*0.5;
+  height: $radiobutton-size*0.5;
 
   top: 50%;
   left: 50%;
-  margin-top: -1*$radiobutton-size/4;
-  margin-left: -1*$radiobutton-size/4;
+  margin-top: -1*$radiobutton-size*0.25;
+  margin-left: -1*$radiobutton-size*0.25;
 
   background: $radiobutton-dot-color;
 }

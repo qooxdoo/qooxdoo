@@ -34,14 +34,14 @@ $carousel-pagination-font-size:  rem(1);
 
   position: relative;
   margin-top: -$carousel-pagination-size - rem(10);
-  padding-bottom: $carousel-pagination-size/2;
+  padding-bottom: $carousel-pagination-size*0.5;
   width: 100%;
   white-space: nowrap;
   @include flex-justify-content(center);
 }
 
 .qx-carousel-pagination-label + .qx-carousel-pagination-label {
-  margin-left: $carousel-pagination-size/2;
+  margin-left: $carousel-pagination-size*0.5;
 }
 
 .qx-carousel-pagination-label {

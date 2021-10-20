@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @function rem($value, $factor: 1.0) {
   @if ($value != 0 and $value != auto) {
     @if (unitless($value)) {
@@ -5,10 +7,10 @@
     }
 
     @if (unit($factor) == "%") {
-      $factor: $factor / ($factor * 0 + 1) / 100;
+      $factor: math.div($factor, $factor * 0 + 1) * 0.01;
     }
 
-    $value: $factor*($value/16px) * 1rem;
+    $value: $factor*math.div($value, 16px) * 1rem;
   }
 
   @return $value;
