@@ -218,6 +218,9 @@ qx.Class.define("qx.ui.table.Table",
       // properties.
       tableModel.init(this);
     }
+
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "grid");
   },
 
 

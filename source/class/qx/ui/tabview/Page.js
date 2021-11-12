@@ -54,6 +54,20 @@ qx.Class.define("qx.ui.tabview.Page",
       this.setIcon(icon);
     }
 
+    // ARIA attrs
+    const btn = this.getButton();
+    const pageId = "page-" + this.toHashCode();
+    const btnId = "btn-" + pageId + btn.toHashCode();
+    this.getContentElement().setAttribute("id", pageId); 
+    this.getContentElement().setAttribute("role", "tabpanel");
+    this.getContentElement().setAttribute("aria-labelledBy", btnId);
+    this.getContentElement().setAttribute("aria-expanded", false);
+    
+    btn.getContentElement().setAttribute("id", btnId); 
+    btn.getContentElement().setAttribute("role", "tab");
+    btn.getContentElement().setAttribute("aria-selected", false);
+    btn.getContentElement().setAttribute("aria-controls", pageId);
+    btn.addListener("changeValue", this._onBtnChangeValue, this);
   },
 
 
@@ -222,6 +236,16 @@ qx.Class.define("qx.ui.tabview.Page",
       }
 
       return control || this.base(arguments, id);
+    },
+
+    /**
+     * Tab Change Listener
+     * @param {*} e 
+     */
+     _onBtnChangeValue: function (e) {
+      const val = e.getData();
+      this.getContentElement().setAttribute("aria-expanded", val, true); // Set third argument to true -> direct Update
+      this.getButton().getContentElement().setAttribute("aria-selected", val);
     },
 
     /*

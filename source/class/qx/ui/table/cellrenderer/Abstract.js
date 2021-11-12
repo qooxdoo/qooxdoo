@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      */
     _getCellAttributes : function(cellInfo)
     {
-      return "";
+      return `role=gridcell aria-readonly=${!cellInfo.editable}`;
     },
 
 

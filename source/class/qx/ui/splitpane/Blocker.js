@@ -78,6 +78,9 @@ qx.Class.define("qx.ui.splitpane.Blocker",
 
     // property apply
     _applyOrientation : function(value, old) {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+
       if (value == "horizontal") {
         this.setStyle("height", "100%");
         this.setStyle("cursor", "col-resize");
