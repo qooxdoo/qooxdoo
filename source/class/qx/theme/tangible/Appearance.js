@@ -2180,11 +2180,11 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         alias: "toolbar-button",
         include: "toolbar-button",
 
-        style: function(states) {
+        style: function(states, source) {
           // set the margin
-          var margin = [7, 0,7,10];
+          var margin = [0, 0, 0, 10];
           if (states.left || states.middle || states.right) {
-            margin = [7, 0,7,3];
+            margin = [0, 0, 0, 3];
           }
           var decorator = "toolbar-button";
           if (states.hovered || states.pressed || states.focused ||states.checked) {
@@ -2207,16 +2207,15 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
         style: function(states) {
           // set the margin
-          var margin = [7, 10,7,0];
+          var margin = [0, 10, 0, 0];
           if (states.left || states.middle || states.right) {
-            margin = [7, 3,7,0];
+            margin = [0, 3, 0, 0];
           }
           var decorator = "toolbar-button";
           if (states.hovered || states.pressed || states.focused ||states.checked) {
             decorator += "-hovered";
           }
           decorator += "-right";
-
 
           return {
             icon: qx.theme.tangible.Image.URLS["arrow-down"],
