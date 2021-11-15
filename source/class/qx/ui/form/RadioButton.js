@@ -170,9 +170,7 @@ qx.Class.define("qx.ui.form.RadioButton",
       value ?
         this.addState("checked") :
         this.removeState("checked");
-      
-      // ARIA attrs
-      this.getContentElement().setAttribute("aria-checked", value);
+      this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
 
 

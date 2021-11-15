@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       switch(id)
       {
-        case "list":
+        case "list": {
           control = new qx.ui.form.List().set({
             focusable: false,
             keepFocus: true,
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
-
+        }
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
@@ -335,12 +335,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
      _onListAddItem : function(e) {
       const item = e.getData();
-      item.getContentElement().setAttribute("id", "list-item-" + item.toHashCode());
-      item.getContentElement().setAttribute("role", "option");
-      const ariaSelected = item.getContentElement().getAttribute("aria-selected");
+      const contentEl = item.getContentElement();
+      contentEl.setAttribute("id", "list-item-" + item.toHashCode());
+      contentEl.setAttribute("role", "option");
+      const ariaSelected = contentEl.getAttribute("aria-selected");
       // aria-selected may be already set from changeSelection listener
       if (ariaSelected === null || ariaSelected === undefined) {
-        item.getContentElement().setAttribute("aria-selected", false);
+        contentEl.setAttribute("aria-selected", false);
       }
     },
 

@@ -255,13 +255,16 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getCellAttributes : function(cellInfo)
     {
-      const baseAttrs = this.base(arguments, cellInfo);
+      let baseAttrs = this.base(arguments, cellInfo);
+      if (!baseAttrs) {
+        baseAttrs = "";
+      }
 
       var tooltip = this.__imageData.tooltip;
       if (tooltip) {
-        return `${baseAttrs} title='${tooltip}'`;
+        return baseAttrs + " title='" + tooltip + "'";
       } else {
-        return "";
+        return baseAttrs;
       }
     }
   },

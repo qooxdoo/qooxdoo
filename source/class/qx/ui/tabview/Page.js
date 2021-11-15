@@ -58,15 +58,17 @@ qx.Class.define("qx.ui.tabview.Page",
     const btn = this.getButton();
     const pageId = "page-" + this.toHashCode();
     const btnId = "btn-" + pageId + btn.toHashCode();
-    this.getContentElement().setAttribute("id", pageId); 
-    this.getContentElement().setAttribute("role", "tabpanel");
-    this.getContentElement().setAttribute("aria-labelledBy", btnId);
-    this.getContentElement().setAttribute("aria-expanded", false);
+    const contentEl = this.getContentElement();
+    contentEl.setAttribute("id", pageId); 
+    contentEl.setAttribute("role", "tabpanel");
+    contentEl.setAttribute("aria-labelledBy", btnId);
+    contentEl.setAttribute("aria-expanded", false);
     
-    btn.getContentElement().setAttribute("id", btnId); 
-    btn.getContentElement().setAttribute("role", "tab");
-    btn.getContentElement().setAttribute("aria-selected", false);
-    btn.getContentElement().setAttribute("aria-controls", pageId);
+    const btnContentEl = btn.getContentElement();
+    btnContentEl.setAttribute("id", btnId); 
+    btnContentEl.setAttribute("role", "tab");
+    btnContentEl.setAttribute("aria-selected", false);
+    btnContentEl.setAttribute("aria-controls", pageId);
     btn.addListener("changeValue", this._onBtnChangeValue, this);
   },
 

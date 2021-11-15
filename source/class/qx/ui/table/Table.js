@@ -1706,6 +1706,10 @@ qx.Class.define("qx.ui.table.Table",
         if (col != null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
+
+        // ARIA attrs
+        const cellId = "qooxdoo-table-cell-" + this.toHashCode() + "-" + row + "-" + col;
+        this.getContentElement().setAttribute("aria-activedescendant",  cellId);
       }
     },
 
