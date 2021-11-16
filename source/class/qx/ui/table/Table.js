@@ -756,6 +756,7 @@ qx.Class.define("qx.ui.table.Table",
 
     __additionalStatusBarText : null,
     __lastRowCount : null,
+    __lastColCount : null,
     __internalChange : null,
 
     __columnMenuButtons : null,
@@ -1402,6 +1403,19 @@ qx.Class.define("qx.ui.table.Table",
 
         this._updateScrollBarVisibility();
         this._updateStatusBar();
+        
+        // ARIA attrs
+        this.getContentElement().setAttribute("aria-rowcount", rowCount);
+      }
+
+      const colCount = this.getTableModel().getColumnCount();
+
+      if (colCount != this.__lastColCount)
+      {
+        this.__lastColCount = colCount;
+
+        // ARIA attrs
+        this.getContentElement().setAttribute("aria-colcount", colCount);
       }
     },
 
