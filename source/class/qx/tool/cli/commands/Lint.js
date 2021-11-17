@@ -16,8 +16,9 @@
 
 ************************************************************************ */
 
-const CLIEngine = require("eslint").CLIEngine;
+const {ESLint} = require("eslint");
 const fs = qx.tool.utils.Promisify.fs;
+const path = require("path");
 const replaceInFile = require("replace-in-file");
 
 qx.Class.define("qx.tool.cli.commands.Lint", {
@@ -85,12 +86,21 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
 
     process: async function() {
       await this.__applyFixes();
-      let config;
-      config = await qx.tool.cli.Cli.getInstance().getParsedArgs();
+
+      let helperFilePath = require.main.path;
+      while (true) {
+        if (await fs.existsAsync(path.join(helperFilePath, "node_modules"))) {
+          break;
+        }
+        helperFilePath = path.dirname(helperFilePath);
+      }
+
+      let config = await qx.tool.cli.Cli.getInstance().getParsedArgs();
       let lintOptions = config.eslintConfig || {};
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
       lintOptions.globals = Object.assign(lintOptions.globals || {}, await this.__addGlobals(config));
-      let linter = new CLIEngine({
+      let linter = new ESLint({
+        cwd: helperFilePath,
         cache: this.argv.cache || false,
         baseConfig: lintOptions,
         useEslintrc: this.argv.useEslintrc,
@@ -98,15 +108,24 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       });
       let files = this.argv.files || [];
       if (files.length === 0) {
-        files.push("source/class/");
+        files.push("source/class/**/*.js");
       }
-      if (this.argv.config) {
-        const fileConfig = linter.getConfigForFile(files[0]);
+      for (let i = 0; i < files.length; i++) {
+        files[i] = path.join(process.cwd(), files[i]);
+      }
+      if (this.argv.printConfig) {
+        const fileConfig = await linter.calculateConfigForFile(files[0]);
         qx.tool.compiler.Console.info(JSON.stringify(fileConfig, null, "  "));
       } else {
-        let report = linter.executeOnFiles(files);
+        let report = await linter.lintFiles(files);
+        report.errorCount = 0;
+        report.warningCount =0;
+        for (const r of report) {
+           report.errorCount += r.errorCount;
+           report.warningCount += r.warningCount;
+        }
         if (this.argv.fix) {
-          CLIEngine.outputFixes(report);
+          await ESLint.outputFixes(report);
         }
         if (report.errorCount > 0 || report.warningCount > 0) {
           let outputFormat = this.argv.format || "codeframe";
@@ -115,8 +134,8 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           if (report.errorCount + report.warningCount > 150) {
             outputFormat = "compact";
           }
-          const formatter = linter.getFormatter(outputFormat);
-          const s = formatter(report.results);
+          const formatter = await linter.loadFormatter(outputFormat);
+          const s = formatter.format(report);
           if (this.argv.outputFile) {
             if (this.argv.verbose) {
               qx.tool.compiler.Console.info(`Report to be written to ${this.argv.outputFile}`);
