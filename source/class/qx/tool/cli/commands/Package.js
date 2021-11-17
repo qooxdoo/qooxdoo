@@ -18,7 +18,6 @@
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 const process = require("process");
-const jsonlint = require("jsonlint");
 const stringify = require("json-stable-stringify");
 
 /**
@@ -213,7 +212,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
         return this.__cache;
       }
       try {
-        this.__cache = jsonlint.parse(fs.readFileSync(this.getCachePath(), "UTF-8"));
+        this.__cache = JSON.parse(fs.readFileSync(this.getCachePath(), "UTF-8"));
       } catch (e) {
         this.__cache = {
           repos : {
