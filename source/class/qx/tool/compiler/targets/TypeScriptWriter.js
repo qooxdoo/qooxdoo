@@ -24,7 +24,6 @@
 var path = require("path");
 
 var fs = require("fs");
-var jsonlint = require("jsonlint");
 const {promisify} = require("util");
 const readFile = promisify(fs.readFile);
 /**
@@ -150,7 +149,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
       var fileName = path.join(this.__target.getOutputDir(), "transpiled", classname.replace(/\./g, "/") + ".json");
       return readFile(fileName, "UTF-8")
-        .then(content => this.__apiCache[classname] = jsonlint.parse(content))
+        .then(content => this.__apiCache[classname] = JSON.parse(content))
         .catch(err => qx.tool.compiler.Console.error("Error parsing " + classname + ": " + err.stack));
     },
 
