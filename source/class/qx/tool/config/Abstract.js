@@ -332,7 +332,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      */
     setValue(prop_path, value, options) {
       let originalValue = this.getValue(prop_path, options);
-      set_value(this.getData(), prop_path, value, options);
+      set_value(this.getData(), prop_path, value, {preservePaths:false});
       try {
         this.validate();
       } catch (e) {
@@ -340,7 +340,7 @@ qx.Class.define("qx.tool.config.Abstract", {
         if (originalValue === undefined) {
           unset_value(this.getData(), prop_path);
         } else {
-          set_value(this.getData(), prop_path, originalValue, options);
+          set_value(this.getData(), prop_path, originalValue, {preservePaths:false});
         }
         // throw
         throw e;
@@ -362,7 +362,7 @@ qx.Class.define("qx.tool.config.Abstract", {
         this.validate();
       } catch (e) {
         // revert value
-        set_value(this.getData(), prop_path, originalValue, options);
+        set_value(this.getData(), prop_path, originalValue, {preservePaths:false});
         // throw
         throw e;
       }

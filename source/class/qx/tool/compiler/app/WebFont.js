@@ -23,7 +23,7 @@ const fs = require("fs");
 const path = require("path");
 const tmp = require("tmp");
 const http = require("http");
-const fontkit = require("fontkit");
+const fontkit = require("@foliojs-fork/fontkit");
 
 var log = qx.tool.utils.LogManager.createLog("font");
 

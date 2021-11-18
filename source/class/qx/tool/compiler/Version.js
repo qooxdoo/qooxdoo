@@ -15,6 +15,6 @@
 qx.Class.define("qx.tool.compiler.Version", {
   extend: qx.core.Object,
   statics: {
-    VERSION: "7.0.0-beta.1"
+    VERSION: "7.0.0-beta.2"
   }
 });
