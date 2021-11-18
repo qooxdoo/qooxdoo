@@ -99,6 +99,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
 
       //  This also breaks on MacOS runners on GitHub with webkit
       try {
+        /** @ignore(require) */
         let CI = require("process").env.CI;
         if (CI && qx.core.Environment.get("browser.name") === "webkit") {
           this.skip("Skipping for Webkit for MacOS");
