@@ -19,11 +19,31 @@
 
 /**
  * The normal toolbar button. Like a normal {@link qx.ui.form.Button}
- * but with a style matching the toolbar.
+ * but with a style matching the toolbar and without keyboard support.
  */
 qx.Class.define("qx.ui.toolbar.Button",
 {
   extend : qx.ui.form.Button,
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(label, icon, command)
+  {
+    this.base(arguments, label, icon, command);
+
+    // Toolbar buttons should not support the keyboard events
+    this.removeListener("keydown", this._onKeyDown);
+    this.removeListener("keyup", this._onKeyUp);
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -44,6 +64,12 @@ qx.Class.define("qx.ui.toolbar.Button",
       refine : true,
       init : "inherit"
     },
+
+    focusable :
+    {
+      refine : true,
+      init : false
+    }
   },
 
   members : {

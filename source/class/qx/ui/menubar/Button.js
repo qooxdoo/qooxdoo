@@ -23,6 +23,25 @@
 qx.Class.define("qx.ui.menubar.Button",
 {
   extend : qx.ui.form.MenuButton,
+  
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(label, icon, menu)
+  {
+    this.base(arguments, label, icon, menu);
+
+    this.removeListener("keydown", this._onKeyDown);
+    this.removeListener("keyup", this._onKeyUp);
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -43,6 +62,12 @@ qx.Class.define("qx.ui.menubar.Button",
       refine : true,
       init : "inherit"
     },
+
+    focusable :
+    {
+      refine : true,
+      init : false
+    }
   },
 
 

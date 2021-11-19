@@ -528,7 +528,6 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     __navigationKeys :
     {
-      "Tab" : 1,
       "Escape" : 1,
       "Up" : 1,
       "Down" : 1,
@@ -598,7 +597,6 @@ qx.Class.define("qx.ui.menu.Manager",
             this._onKeyPressRight(menu);
             break;
 
-          case "Tab":
           case "Escape":
             this.hideAll();
             break;
