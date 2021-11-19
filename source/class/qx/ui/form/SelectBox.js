@@ -327,7 +327,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onKeyPress : function(e)
     {
       var iden = e.getKeyIdentifier();
-      if(iden == "Enter" || iden == "Space")
+      if ((iden == "Down" || iden == "Up") && e.isAltPressed()) {
+        this.toggle();
+        e.stop();
+      }
+      else if (iden == "Enter" || iden == "Space")
       {
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)
@@ -337,6 +341,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
 
         this.toggle();
+        e.stop();
       }
       else
       {
