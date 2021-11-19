@@ -36,6 +36,9 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     layout.setColumnFlex(1, 1);
     layout.setColumnFlex(2, 1);
     this.setLayout(layout);
+
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "columnheader");
   },
 
   properties :
