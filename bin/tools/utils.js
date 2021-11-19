@@ -91,8 +91,8 @@ async function runCommand(dir, ...args) {
 
 async function deleteRecursive(name) {
   return new Promise((resolve, reject) => {
-    fs.exists(name, function (exists) {
-      if (!exists) {
+    fs.access(name, err => {
+      if (err) {
         return resolve();
       }
       deleteRecursiveImpl(name, err => {
@@ -149,16 +149,30 @@ async function safeDelete(filename) {
   }
 }
 
-async function bootstrapCompiler(options) {
-  if (!options)
-    options = {};
-  let result;
+function defaultOptions() {
+  return {
+    clean: true,
+    version: null,
+    target: "build",
+    incVersion: false
+  }
+}
 
-  let target = options.target || "build";
+async function handleVersion(options) {
 
-  if (options.clean === undefined || options.clean) {
-    console.log("Deleting previous bootstrap compiler");
-    await deleteRecursive("bootstrap");
+  let packageName = path.join(process.cwd(), "package.json");
+  let package = require(packageName);
+  if (!options.version) {
+    options.version = package.version;
+  }
+  if (options.incVersion) {
+     let arr = options.version.split(".");
+     let v = parseInt(arr[arr.length - 1]);
+     v++;
+     arr[arr.length - 1] = v.toString();
+     options.version = arr.join(".");
+     package.version = options.version;
+     fs.writeFileSync(packageName, JSON.stringify(package, null, 2), "utf8");
   }
 
   let cls =
@@ -183,12 +197,30 @@ qx.Class.define("qx.tool.compiler.Version", {
   }
 });
 `;
-
   fs.writeFileSync("./source/class/qx/tool/compiler/Version.js", cls);
+
+  let fileName = path.join(process.cwd(), "Manifest.json");
+  let manifest = require(fileName);
+  manifest.info.version = options.version;
+  fs.writeFileSync(fileName, JSON.stringify(manifest, null, 2), "utf8");
+
+}
+
+
+async function bootstrapCompiler(options) {
+  if (!options)
+    options = defaultOptions();
+  let result;
+
+  if (options.clean) {
+    console.log("Deleting previous bootstrap compiler");
+    await deleteRecursive("bootstrap");
+  }
+  await handleVersion(options);
 
   // Use the compiler in node_modules to compile a temporary version
   console.log("Creating temporary compiler with known-good one");
-  result = await runCommand("known-good", "node", "../bin/known-good/qx", "compile", "--target=" + target);
+  result = await runCommand("known-good", "node", "../bin/known-good/qx", "compile", "--target=" + options.target);
   if (result.exitCode) {
     process.exit(result.exitCode);
   }
@@ -198,7 +230,7 @@ qx.Class.define("qx.tool.compiler.Version", {
 `#!/usr/bin/env node
 const path=require("path");
 require("../source/resource/qx/tool/loadsass.js");
-require(path.join(__dirname, "compiled", "node", "${target}", "compiler"));
+require(path.join(__dirname, "compiled", "node", "${options.target}", "compiler"));
 `, "utf8");
 fs.chmodSync("bootstrap/qx", "777");
 fs.copyFileSync("bin/build/qx.cmd", "bootstrap/qx.cmd");
@@ -385,23 +417,6 @@ moreUtils = {
   },
 
   /**
-   * Deletes a file or directory; directories are recursively removed
-   * @param name {String} file or dir to delete
-   * @async
-   */
-  deleteRecursive: function(name) {
-    return new Promise((resolve, reject) => {
-      rimraf(name, err => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
-  },
-
-  /**
    * Normalises the path and corrects the case of the path to match what is actually on the filing system
    *
    * @param dir {String} the filename to normalise
@@ -579,6 +594,7 @@ module.exports = {
   getCompiler,
   runCompiler,
   runCommand,
+  defaultOptions,
   bootstrapCompiler,
   deleteRecursive,
   safeDelete,
