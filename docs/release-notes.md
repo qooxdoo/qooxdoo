@@ -97,6 +97,24 @@ simply executing `qx test`, using pluggable test runners.
 
 [Documentation](https://qooxdoo.org/documentation/#/development/testing/)
 
+## Component behaviour changes
+
+In hindsight of better keyboard accessibility support some components received changes regarding their behaviour:
+
+| Component | Changes |
+| --- | --- |
+| qx.ui.form.AbstractSelectBox | `Tab` Key is now equally treated as `Escape` and closes the menu |
+| qx.ui.form.ComboBox | - `Down` Key now opens the menu without pressing `Alt` <br /> - Textfield text is not fully selected anymore when the menu closes <br /> - Pressing input specific keys while the menu is open will close the menu|
+| qx.ui.form.MenuButton | - `Space` Key is now equally treated as `Enter` and opens the menu <br /> - Opening the menu focuses the button |
+| qx.ui.form.RadioGroup | Changing selection now moves focus too |
+| qx.ui.menu.Manager | Pressing tab while a menu is open will close the menu |
+| qx.ui.menubar.Button | Is now focusable and listens to keyboard events |
+| qx.ui.table.Table | The first focusable cell gets focused if no cell is focused and a keyboard event tries to move the focus |
+| qx.ui.table.pane.Scroller | Does not focus first focusable cell anymore if the model data changes and no row was focused. Instead no cell gets focused |
+| qx.ui.toolbar.Button | Is now focusable and listens to keyboard events |
+| qx.ui.toolbar.CheckBox | Is now focusable and listens to keyboard events |
+| qx.ui.toolbar.SplitButton | Is now focusable and listens to keyboard events |
+
 ## Licensing and Open Source Ownership
 The first big change, chronologically speaking, was that 1&1, the company which originally 
 developed Qooxdoo donated the project completely into the public domain; the project is now 
