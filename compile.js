@@ -74,6 +74,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
       }
       let env = process.env;
       env.NPM_ACCESS_TOKEN = token;
+      if (cmd.argv.verbose) {
+        this.info(`run npm with ${args}`);
+      }
       await qx.tool.utils.Utils.runCommand({
         cwd: ".",
         cmd: "npm",
