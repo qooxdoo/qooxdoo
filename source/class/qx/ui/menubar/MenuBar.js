@@ -22,8 +22,20 @@
 qx.Class.define("qx.ui.menubar.MenuBar",
 {
   extend : qx.ui.toolbar.ToolBar,
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
+  construct : function()
+  {
+    this.base(arguments);
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "menubar");
+  },
 
   /*
   *****************************************************************************

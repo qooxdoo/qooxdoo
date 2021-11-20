@@ -277,6 +277,9 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+
       var content = this.__content;
 
       // save old layout for disposal
