@@ -127,6 +127,13 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      */
     getQxPath: qx.tool.config.Utils.getQxPath.bind(qx.tool.config.Utils),
 
+    /**
+     *
+     * @returns @see {@link qx.tool.config.Utils#getCompilerVersion}
+     */
+    getCompilerVersion() {
+      return qx.tool.config.Utils.getCompilerVersion();
+    },
 
     /**
      * Returns the qooxdoo version, either from the `--qx-version` command line

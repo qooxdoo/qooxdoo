@@ -191,7 +191,7 @@ qx.Class.define("qx.tool.config.Utils", {
 
         throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
       };
-  
+
       this.__qxPathPromise = getQxPathImpl();
       return await this.__qxPathPromise;
     },
@@ -215,6 +215,15 @@ qx.Class.define("qx.tool.config.Utils", {
     async getQxVersion() {
       let qxpath = await this.getQxPath();
       return qx.tool.config.Utils.getLibraryVersion(qxpath);
+    },
+
+    /**
+     * returns the compiler version.
+     * The version is written during compiler compile into the enviroment
+     * @return {String}
+     */
+     getCompilerVersion() {
+      return qx.core.Environment.get("qx.compiler.version");
     },
 
     /**
