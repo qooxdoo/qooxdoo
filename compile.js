@@ -67,7 +67,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         , " --access public"
       ];
       if (cmd.argv.dryrun) {
-        args.add("--dry-run");
+        args.append("--dry-run");
       }
       let env = process.env;
       env.NPM_ACCESS_TOKEN = token;
