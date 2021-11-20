@@ -23,7 +23,7 @@
 qx.Class.define("qx.ui.menubar.Button",
 {
   extend : qx.ui.form.MenuButton,
-
+  
 
 
   /*
@@ -69,8 +69,6 @@ qx.Class.define("qx.ui.menubar.Button",
       init : false
     }
   },
-
-
 
 
   /*

@@ -97,6 +97,24 @@ simply executing `qx test`, using pluggable test runners.
 
 [Documentation](https://qooxdoo.org/documentation/#/development/testing/)
 
+## Accessibility
+
+Accessibility is an important topic in nowadays webdevelopment in order to allow assistive technologies to better help persons with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility for the following components:
+
+- Button
+- Checkbox
+- Combobox
+- Menu
+- RadioButton
+- SelectBox
+- Slider
+- Table
+- Tabview
+- ToggleButton
+- Toolbar
+
+Other components will follow.
+
 ## Licensing and Open Source Ownership
 The first big change, chronologically speaking, was that 1&1, the company which originally 
 developed Qooxdoo donated the project completely into the public domain; the project is now 
