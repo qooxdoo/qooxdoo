@@ -66,7 +66,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         "publish"
         , " --access public"
       ];
-      if (argv.dryrun) {
+      if (cmd.argv.dryrun) {
         args.add("--dry-run");
       }
       let env = process.env;
