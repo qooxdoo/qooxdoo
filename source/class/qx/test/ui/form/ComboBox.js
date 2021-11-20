@@ -87,48 +87,6 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.flush();
     },
 
-    testFocusTextOnClose: function() {
-      var combobox = this.__createComboBox();
-      this.getRoot().add(combobox);
-      this.flush();
-
-      // Open list popup
-      combobox.open();
-      this.flush();
-
-      // Select item
-      var list = combobox.getChildControl("list");
-      var item = list.findItem("Item 0");
-      list.setSelection([item]);
-      this.flush();
-
-      // Asssert focus on close
-      this.spy(combobox, "tabFocus");
-      combobox.close();
-      this.assertCalled(combobox.tabFocus);
-
-      this.getRoot().removeAll();
-      combobox.dispose();
-    },
-
-    testNotFocusTextOnCloseWhenInvisibleBefore: function() {
-      var combobox = this.__createComboBox();
-      this.getRoot().add(combobox);
-      this.flush();
-
-      // Enter value
-      combobox.setValue("Item 0");
-      this.flush();
-
-      // Assert not focus on close
-      this.spy(combobox, "tabFocus");
-      combobox.close();
-      this.assertNotCalled(combobox.tabFocus);
-
-      this.getRoot().removeAll();
-      combobox.dispose();
-    },
-
     __createComboBox : function(initValue)
     {
       var comboBox = new qx.ui.form.ComboBox();
