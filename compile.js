@@ -36,11 +36,8 @@ qx.Class.define("qx.compiler.CompilerApi", {
     async afterProcessFinished(cmd, res) {
       if (res)
          return;
-      if (cmd.getClassName() !== "qx.tool.cli.commands.package.Publish")
+      if (cmd.classname !== "qx.tool.cli.commands.package.Publish")
          return;
-      if (cmd.argv.dryrun)
-         return;
-
       // token
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let npm = cfg.db("npm", {});
