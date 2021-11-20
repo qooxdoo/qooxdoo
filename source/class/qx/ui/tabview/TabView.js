@@ -75,6 +75,9 @@ qx.Class.define("qx.ui.tabview.TabView",
     } else {
       this.initBarPosition();
     }
+    
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "tablist");
   },
 
 

@@ -29,7 +29,23 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
   include : [qx.ui.form.MModelProperty],
   implement : [qx.ui.form.IModel, qx.ui.form.IRadioItem],
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
+  construct : function(label, icon)
+  {
+    this.base(arguments, label, icon);
+
+    // ARIA attrs
+    // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
+    const contentEl = this.getContentElement();
+    contentEl.setAttribute("role", "radio");
+    contentEl.setAttribute("aria-checked", false);
+    contentEl.removeAttribute("aria-pressed");
+  },
 
 
   /*
@@ -50,6 +66,11 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     _applyValue : function(value, old)
     {
       this.base(arguments, value, old);
+
+      // ARIA attrs
+      const contentEl = this.getContentElement();
+      contentEl.removeAttribute("aria-pressed");
+      contentEl.setAttribute("aria-checked", Boolean(value));
 
       if (value)
       {

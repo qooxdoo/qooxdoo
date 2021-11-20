@@ -234,6 +234,9 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     // property apply
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+      
       var isHorizontal = this.__isHorizontal = value === "horizontal";
 
       this.set({

@@ -50,6 +50,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     var textField = this._createChildControl("textfield");
     this._createChildControl("button");
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "combobox");
+
     this.addListener("tap", this._onTap);
 
     // forward the focusin and focusout events to the textfield. The textfield
@@ -242,25 +245,24 @@ qx.Class.define("qx.ui.form.ComboBox",
       var popup = this.getChildControl("popup");
       var iden = e.getKeyIdentifier();
 
-      if (iden == "Down" && e.isAltPressed())
-      {
-        this.getChildControl("button").addState("selected");
-        this.toggle();
-        e.stopPropagation();
-      }
-      else if (iden == "Enter")
-      {
-        if (popup.isVisible())
-        {
+      if (popup.isVisible()) {
+        const listIdentifier = ["Up", "Down", "PageUp", "PageDown", "Escape", "Tab"];
+        if (iden == "Enter") {
           this._setPreselectedItem();
           this.resetAllTextSelection();
           this.close();
           e.stop();
+        } else if (listIdentifier.includes(iden)) {
+          this.base(arguments, e);
+        } else {
+          this.close();
         }
-      }
-      else if (popup.isVisible())
-      {
-        this.base(arguments, e);
+      } else {
+        if (iden == "Down") {
+          this.getChildControl("button").addState("selected");
+          this.open();
+          e.stop();
+        }
       }
     },
 
@@ -333,6 +335,13 @@ qx.Class.define("qx.ui.form.ComboBox",
           this.__preSelectedItem = null;
         }
       }
+
+      // Set aria-activedescendant
+      if (current && current[0]) {
+        this.getChildControl("textfield").getContentElement().setAttribute("aria-activedescendant", current[0].getContentElement().getAttribute("id"));
+      } else {
+        this.getChildControl("textfield").getContentElement().removeAttribute("aria-activedescendant");
+      }
     },
 
 
@@ -363,16 +372,6 @@ qx.Class.define("qx.ui.form.ComboBox",
           list.resetSelection();
         }
       }
-      else
-      {
-        // When closing the popup text should selected and field should
-        // have the focus. Identical to when reaching the field using the TAB key.
-        //
-        // Only focus if popup was visible before. Fixes [BUG #4453].
-        if (e.getOldData() == "visible") {
-          this.tabFocus();
-        }
-      }
 
       // In all cases: Remove focused state from button
       this.getChildControl("button").removeState("selected");
@@ -390,16 +389,26 @@ qx.Class.define("qx.ui.form.ComboBox",
       var value = e.getData();
 
       var list = this.getChildControl("list");
+      let current = null;
       if (value != null) {
         // Select item when possible
-        var item = list.findItem(value, false);
-        if (item) {
-          list.setSelection([item]);
+        current = list.findItem(value, false);
+        if (current) {
+          list.setSelection([current]);
         } else {
           list.resetSelection();
         }
       } else {
         list.resetSelection();
+      }
+
+      // ARIA attrs
+      const old = e.getOldData() ? list.findItem(e.getOldData(), false) : null;
+      if (old && old !== current) {
+        old.getContentElement().setAttribute("aria-selected", false);
+      }
+      if (current) {
+        current.getContentElement().setAttribute("aria-selected", true);
       }
 
       // Fire event

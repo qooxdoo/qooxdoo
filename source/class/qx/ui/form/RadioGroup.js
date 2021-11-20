@@ -522,7 +522,26 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
       if (value) {
         value.set(groupedProperty, true);
+
+        // If Group is focused, the selection was changed by keyboard. Switch focus to new value
+        if (this.__isGroupFocused() && value.isFocusable()) {
+          value.focus();
+        }
       }
+    },
+
+    /**
+     * Checks if this group is focused by checking focused state of each item
+     * @returns {Boolean} result
+     */
+    __isGroupFocused: function () {
+      const focusHandler = qx.ui.core.FocusHandler.getInstance();
+      for (const item of this._getItems()) {
+        if (focusHandler.isFocused(item)) {
+          return true;
+        }
+      }
+      return false;
     }
   },
 
