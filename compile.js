@@ -1,4 +1,5 @@
 const path = require("path");
+const inquirer = require("inquirer");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
@@ -26,6 +27,65 @@ qx.Class.define("qx.compiler.CompilerApi", {
       }
       return this.base(arguments);
     },
+
+    /**
+     * runs after the whole process is finished
+     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param res {boolean} result of the just finished process
+     */
+    async afterProcessFinished(cmd, res) {
+      if (res)
+         return;
+      if (cmd.getClassName() !== "qx.tool.cli.commands.package.Publish")
+         return;
+      if (cmd.argv.dryrun)
+         return;
+
+      // token
+      let cfg = await qx.tool.cli.ConfigDb.getInstance();
+      let npm = cfg.db("npm", {});
+      if (!npm.token) {
+        let response = await inquirer.prompt([
+          {
+            type: "input",
+            name: "token",
+            message: "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens to obtain one " +
+                "(you must assign permission to publish);\nWhat is your npm acess Token ? "
+          }
+        ]
+        );
+        if (!response.token) {
+          qx.tool.compiler.Console.error("You have not provided a npm token.");
+          return;
+        }
+        npm.token = response.token;
+        cfg.save();
+      }
+      let token = npm.token;
+      if (!token) {
+        throw new qx.tool.utils.Utils.UserError(`npm access token required.`);
+      }
+      let args = [
+        "publish"
+        , " --access public"
+      ];
+      if (argv.dryrun) {
+        args.add("--dry-run");
+      }
+      let env = process.env;
+      env.NPM_ACCESS_TOKEN = token;
+      await qx.tool.utils.Utils.runCommand({
+        cwd: ".",
+        cmd: "npm",
+        args: args,
+        shell: true,
+        env: env,
+        log: console.log,
+        error: console.log
+      });
+
+    },
+
     /**
      * Register compiler tests
      * @param {qx.tool.cli.commands.Command} command

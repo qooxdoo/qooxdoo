@@ -333,7 +333,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
 
       if (argv.dryrun) {
         qx.tool.compiler.Console.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
-        process.exit(0);
+        return;
       }
 
       // commit message
@@ -391,7 +391,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           qx.tool.compiler.Console.info(`Added GitHub topic '${topic}'.`);
         }
       }
-      await run("git", ["pull"]);
+      run("git", ["pull"]);
     },
 
     /**
