@@ -56,7 +56,7 @@
     "@qooxdoo/eslint-config-jsdoc-disable": "^1.0.3",
     "@qooxdoo/eslint-config-qx": "^2.0.1",
     "@qooxdoo/eslint-plugin-qx": "^1.2.21",
-    "ajv": "^6.12.6",
+    "ajv": "^8.8.1",
     "app-module-path": "^2.2.0",
     "async": "^2.6.3",
     "better-ajv-errors": "^1.1.1",
