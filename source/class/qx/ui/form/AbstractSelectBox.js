@@ -304,8 +304,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         e.stopPropagation();
       }
 
-      // hide the list always on escape
-      else if (!listPopup.isHidden() && identifier == "Escape")
+      // hide the list always on escape and tab
+      else if (!listPopup.isHidden() && (identifier == "Escape" || identifier == "Tab"))
       {
         this.close();
         e.stop();
