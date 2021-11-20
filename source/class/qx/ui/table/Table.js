@@ -218,6 +218,9 @@ qx.Class.define("qx.ui.table.Table",
       // properties.
       tableModel.init(this);
     }
+
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "grid");
   },
 
 
@@ -753,6 +756,7 @@ qx.Class.define("qx.ui.table.Table",
 
     __additionalStatusBarText : null,
     __lastRowCount : null,
+    __lastColCount : null,
     __internalChange : null,
 
     __columnMenuButtons : null,
@@ -1399,6 +1403,19 @@ qx.Class.define("qx.ui.table.Table",
 
         this._updateScrollBarVisibility();
         this._updateStatusBar();
+        
+        // ARIA attrs
+        this.getContentElement().setAttribute("aria-rowcount", rowCount);
+      }
+
+      const colCount = this.getTableModel().getColumnCount();
+
+      if (colCount != this.__lastColCount)
+      {
+        this.__lastColCount = colCount;
+
+        // ARIA attrs
+        this.getContentElement().setAttribute("aria-colcount", colCount);
       }
     },
 
@@ -1703,6 +1720,10 @@ qx.Class.define("qx.ui.table.Table",
         if (col != null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
+
+        // ARIA attrs
+        const cellId = "qooxdoo-table-cell-" + this.toHashCode() + "-" + row + "-" + col;
+        this.getContentElement().setAttribute("aria-activedescendant",  cellId);
       }
     },
 

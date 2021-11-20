@@ -50,6 +50,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     var textField = this._createChildControl("textfield");
     this._createChildControl("button");
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "combobox");
+
     this.addListener("tap", this._onTap);
 
     // forward the focusin and focusout events to the textfield. The textfield
@@ -332,6 +335,13 @@ qx.Class.define("qx.ui.form.ComboBox",
           this.__preSelectedItem = null;
         }
       }
+
+      // Set aria-activedescendant
+      if (current && current[0]) {
+        this.getChildControl("textfield").getContentElement().setAttribute("aria-activedescendant", current[0].getContentElement().getAttribute("id"));
+      } else {
+        this.getChildControl("textfield").getContentElement().removeAttribute("aria-activedescendant");
+      }
     },
 
 
@@ -379,16 +389,26 @@ qx.Class.define("qx.ui.form.ComboBox",
       var value = e.getData();
 
       var list = this.getChildControl("list");
+      let current = null;
       if (value != null) {
         // Select item when possible
-        var item = list.findItem(value, false);
-        if (item) {
-          list.setSelection([item]);
+        current = list.findItem(value, false);
+        if (current) {
+          list.setSelection([current]);
         } else {
           list.resetSelection();
         }
       } else {
         list.resetSelection();
+      }
+
+      // ARIA attrs
+      const old = e.getOldData() ? list.findItem(e.getOldData(), false) : null;
+      if (old && old !== current) {
+        old.getContentElement().setAttribute("aria-selected", false);
+      }
+      if (current) {
+        current.getContentElement().setAttribute("aria-selected", true);
       }
 
       // Fire event
