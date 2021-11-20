@@ -371,7 +371,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           name: tag,
           body: message,
           draft: false,
-          prerelease: Boolean(argv.prerelease) || (type === "prerelease") || (type === "prepatch")
+          prerelease: Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch")
         };
         await octokit.repos.createRelease(release_data);
         if (!argv.quiet) {
