@@ -358,6 +358,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // commit and push
+      argv.prerelease = Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch");
       const run = qx.tool.utils.Utils.run;
       try {
         await run("git", ["add", "--all"]);
@@ -371,7 +372,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           name: tag,
           body: message,
           draft: false,
-          prerelease: Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch")
+          prerelease: argv.prerelease
         };
         await octokit.repos.createRelease(release_data);
         if (!argv.quiet) {

@@ -69,6 +69,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
       if (cmd.argv.dryrun) {
         args.push("--dry-run");
       }
+      if (cmd.argv.prerelease) {
+        args.push("--tag beta");
+      }
       let env = process.env;
       env.NPM_ACCESS_TOKEN = token;
       await qx.tool.utils.Utils.runCommand({
