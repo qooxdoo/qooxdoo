@@ -73,7 +73,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
         args.push("--tag beta");
       }
       let env = process.env;
-      env.NPM_ACCESS_TOKEN = token;
+      // https://github.com/JS-DevTools/npm-publish/blob/master/src/npm.ts
+      // https://github.com/JS-DevTools/npm-publish/blob/0f451a94170d1699fd50710966d48fb26194d939/src/npm-env.ts#L6
+      env.INPUT_TOKEN = token;
       if (cmd.argv.verbose) {
         this.info(`run npm with ${args}`);
       }
