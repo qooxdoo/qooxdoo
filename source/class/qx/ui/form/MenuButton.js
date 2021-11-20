@@ -156,6 +156,10 @@ qx.Class.define("qx.ui.form.MenuButton",
 
       if (menu)
       {
+        // Focus this button when the menu opens
+        if (this.isFocusable() && !qx.ui.core.FocusHandler.getInstance().isFocused(this)) {
+          this.focus();
+        }
         // Hide all menus first
         qx.ui.menu.Manager.getInstance().hideAll();
 
@@ -258,6 +262,7 @@ qx.Class.define("qx.ui.form.MenuButton",
     {
       switch(e.getKeyIdentifier())
       {
+        case "Space":
         case "Enter":
           this.removeState("abandoned");
           this.addState("pressed");

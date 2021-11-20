@@ -245,25 +245,24 @@ qx.Class.define("qx.ui.form.ComboBox",
       var popup = this.getChildControl("popup");
       var iden = e.getKeyIdentifier();
 
-      if (iden == "Down" && e.isAltPressed())
-      {
-        this.getChildControl("button").addState("selected");
-        this.toggle();
-        e.stopPropagation();
-      }
-      else if (iden == "Enter")
-      {
-        if (popup.isVisible())
-        {
+      if (popup.isVisible()) {
+        const listIdentifier = ["Up", "Down", "PageUp", "PageDown", "Escape", "Tab"];
+        if (iden == "Enter") {
           this._setPreselectedItem();
           this.resetAllTextSelection();
           this.close();
           e.stop();
+        } else if (listIdentifier.includes(iden)) {
+          this.base(arguments, e);
+        } else {
+          this.close();
         }
-      }
-      else if (popup.isVisible())
-      {
-        this.base(arguments, e);
+      } else {
+        if (iden == "Down") {
+          this.getChildControl("button").addState("selected");
+          this.open();
+          e.stop();
+        }
       }
     },
 
@@ -371,16 +370,6 @@ qx.Class.define("qx.ui.form.ComboBox",
           list.setSelection([item]);
         } else {
           list.resetSelection();
-        }
-      }
-      else
-      {
-        // When closing the popup text should selected and field should
-        // have the focus. Identical to when reaching the field using the TAB key.
-        //
-        // Only focus if popup was visible before. Fixes [BUG #4453].
-        if (e.getOldData() == "visible") {
-          this.tabFocus();
         }
       }
 

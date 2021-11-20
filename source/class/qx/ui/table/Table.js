@@ -1826,8 +1826,9 @@ qx.Class.define("qx.ui.table.Table",
       var col = this.__focusedCol;
       var row = this.__focusedRow;
 
-      // could also be undefined [BUG #4676]
-      if (col == null || row == null) {
+      // could also be undefined [BUG #4676]. In that case default to first cell focus
+      if (col === null || col === undefined || row === null || row === undefined) {
+        this.setFocusedCell(0, 0, true);
         return;
       }
 
