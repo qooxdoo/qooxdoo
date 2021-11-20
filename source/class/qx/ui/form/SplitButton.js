@@ -48,6 +48,9 @@ qx.Class.define("qx.ui.form.SplitButton",
   {
     this.base(arguments);
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "button");
+
     this._setLayout(new qx.ui.layout.HBox);
 
     // Force arrow creation

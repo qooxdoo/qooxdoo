@@ -54,6 +54,12 @@ qx.Class.define("qx.ui.form.CheckBox",
     // Initialize the checkbox to a valid value (the default is null which
     // is invalid)
     this.setValue(false);
+
+    // ARIA attrs
+    const contentEl = this.getContentElement();
+    contentEl.setAttribute("role", "checkbox");
+    contentEl.removeAttribute("aria-pressed");
+    contentEl.setAttribute("aria-checked", false);
   },
 
 
@@ -107,6 +113,24 @@ qx.Class.define("qx.ui.form.CheckBox",
       "toolTipText",
       "value",
       "menu"
-    ]
+    ],
+    
+    // overridden
+    _applyValue : function(value, old) {
+      value ? this.addState("checked") : this.removeState("checked");
+
+      let ariaChecked = Boolean(value);
+      if (this.isTriState()) {
+        if (value === null) {
+          ariaChecked = "mixed";
+          this.addState("undetermined");
+        } else if (old === null) {
+          this.removeState("undetermined");
+        }
+      }
+
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-checked", ariaChecked);
+    },
   }
 });

@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     getRowAttributes : function(rowInfo)
     {
-      return "";
+      return "role=row "; // Space important!
     }
   },
 
