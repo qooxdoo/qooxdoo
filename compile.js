@@ -64,7 +64,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       }
       let args = [
         "publish"
-        , " --access public"
+        , "--access public"
       ];
       if (cmd.argv.dryrun) {
         args.push("--dry-run");
@@ -86,7 +86,6 @@ qx.Class.define("qx.compiler.CompilerApi", {
         log: console.log,
         error: console.log
       });
-
     },
 
     /**
