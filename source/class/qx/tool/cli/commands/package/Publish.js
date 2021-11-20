@@ -119,6 +119,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       await this.base(arguments);
       // init
       const argv = this.argv;
+      argv.prerelease = Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch");
 
       // qooxdoo version
       let qxVersion = await this.getQxVersion();
@@ -358,7 +359,6 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // commit and push
-      argv.prerelease = Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch");
       const run = qx.tool.utils.Utils.run;
       try {
         await run("git", ["add", "--all"]);
