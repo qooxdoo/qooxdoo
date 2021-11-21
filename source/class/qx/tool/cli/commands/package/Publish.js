@@ -39,10 +39,8 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
             alias : "t",
             describe: "Set the release type",
             nargs: 1,
-            requiresArg: false,
             choices: "major,premajor,minor,preminor,patch,prepatch,prerelease".split(/,/),
-            type: "string",
-            default : null
+            type: "string"
           },
           "noninteractive":{
             alias: "I",
