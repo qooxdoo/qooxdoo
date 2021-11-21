@@ -211,6 +211,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // version
+      let old_version = mainManifestModel.getValue("info.version");
       let new_version;
       if (argv.useVersion) {
         // use user-supplied value
@@ -221,7 +222,6 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         new_version = new_version.toString();
       } else {
         // use version number from manifest and increment it
-        let old_version = mainManifestModel.getValue("info.version");
         if (!semver.valid(old_version)) {
           throw new qx.tool.utils.Utils.UserError("Invalid version number in Manifest. Must be a valid semver version (x.y.z).");
         }
@@ -295,7 +295,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         let question = {
           type: "confirm",
           name: "doRelease",
-          message: `This will ${argv.version?"set":"increment"} the version to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
+          message: `This will ${argv.version?"set":"increment"} the version from ${old_version} to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
           default: "y"
         };
         let answer = await inquirer.prompt(question);
