@@ -39,10 +39,10 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
             alias : "t",
             describe: "Set the release type",
             nargs: 1,
-            requiresArg: true,
+            requiresArg: false,
             choices: "major,premajor,minor,preminor,patch,prepatch,prerelease".split(/,/),
             type: "string",
-            default : "patch"
+            default : null
           },
           "noninteractive":{
             alias: "I",
@@ -119,7 +119,6 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       await this.base(arguments);
       // init
       const argv = this.argv;
-      argv.prerelease = Boolean(argv.prerelease) || (argv.type === "prerelease") || (argv.type === "prepatch");
 
       // qooxdoo version
       let qxVersion = await this.getQxVersion();
@@ -228,6 +227,14 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         if (!semver.valid(old_version)) {
           throw new qx.tool.utils.Utils.UserError("Invalid version number in Manifest. Must be a valid semver version (x.y.z).");
         }
+        if (!argv.type) {
+          argv.type = (semver.prerelease(old_version)) ? "prerelease" : "patch";
+        }
+        argv.prerelease = Boolean(argv.prerelease)
+                          || (argv.type === "prerelease")
+                          || (argv.type === "prepatch")
+                          || (argv.type === "preminor")
+                          || (argv.type === "premajor");
         new_version = semver.inc(old_version, argv.type);
       }
 
