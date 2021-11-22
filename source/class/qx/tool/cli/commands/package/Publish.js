@@ -39,10 +39,8 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
             alias : "t",
             describe: "Set the release type",
             nargs: 1,
-            requiresArg: true,
             choices: "major,premajor,minor,preminor,patch,prepatch,prerelease".split(/,/),
-            type: "string",
-            default : "patch"
+            type: "string"
           },
           "noninteractive":{
             alias: "I",
@@ -213,6 +211,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       }
 
       // version
+      let old_version = mainManifestModel.getValue("info.version");
       let new_version;
       if (argv.useVersion) {
         // use user-supplied value
@@ -223,10 +222,17 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         new_version = new_version.toString();
       } else {
         // use version number from manifest and increment it
-        let old_version = mainManifestModel.getValue("info.version");
         if (!semver.valid(old_version)) {
           throw new qx.tool.utils.Utils.UserError("Invalid version number in Manifest. Must be a valid semver version (x.y.z).");
         }
+        if (!argv.type) {
+          argv.type = (semver.prerelease(old_version)) ? "prerelease" : "patch";
+        }
+        argv.prerelease = Boolean(argv.prerelease)
+                          || (argv.type === "prerelease")
+                          || (argv.type === "prepatch")
+                          || (argv.type === "preminor")
+                          || (argv.type === "premajor");
         new_version = semver.inc(old_version, argv.type);
       }
 
@@ -289,7 +295,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         let question = {
           type: "confirm",
           name: "doRelease",
-          message: `This will ${argv.version?"set":"increment"} the version to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
+          message: `This will ${argv.version?"set":"increment"} the version from ${old_version} to ${new_version}, having a dependency on qooxdoo ${semver_range}, and create a release of the current master on GitHub. Do you want to proceed?`,
           default: "y"
         };
         let answer = await inquirer.prompt(question);
@@ -333,7 +339,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
 
       if (argv.dryrun) {
         qx.tool.compiler.Console.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
-        process.exit(0);
+        return;
       }
 
       // commit message
@@ -371,7 +377,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           name: tag,
           body: message,
           draft: false,
-          prerelease: Boolean(argv.prerelease)
+          prerelease: argv.prerelease
         };
         await octokit.repos.createRelease(release_data);
         if (!argv.quiet) {
@@ -391,7 +397,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           qx.tool.compiler.Console.info(`Added GitHub topic '${topic}'.`);
         }
       }
-      await run("git", ["pull"]);
+      run("git", ["pull"]);
     },
 
     /**
