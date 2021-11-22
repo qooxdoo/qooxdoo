@@ -41,6 +41,9 @@ qx.Class.define("qx.compiler.CompilerApi", {
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let npm = cfg.db("npm", {});
       if (!npm.token) {
+        // call require("inquirer") here - not in the head.
+        // otherwise it will be called during initialization.
+        // that do not work if you use qooxdoo as package
         const inquirer = require("inquirer");
         let response = await inquirer.prompt([
           {
@@ -54,7 +57,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         if (!response.token) {
           qx.tool.compiler.Console.error("You have not provided a npm token.");
           return;
-        }
+        }e
         npm.token = response.token;
         cfg.save();
       }
