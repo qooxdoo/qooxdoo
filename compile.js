@@ -57,7 +57,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
         if (!response.token) {
           qx.tool.compiler.Console.error("You have not provided a npm token.");
           return;
-        }e
+        }
         npm.token = response.token;
         cfg.save();
       }
