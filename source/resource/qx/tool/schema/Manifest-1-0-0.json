@@ -94,8 +94,7 @@
         },
         "version": {
           "type": "string",
-          "description": "a semver compatible version string",
-          "//pattern": "^(\\d|[1-9]\\d*)\\.(\\d|[1-9]\\d*)\\.(\\d|[1-9]\\d*)(?:-([-\\dA-Za-z]+(?:\\.[\\dA-Za-z-]+)*))?(?:\\+([-\\dA-Za-z]+(?:\\.[-\\d0-9A-Za-z]+)*))?$"
+          "description": "a semver compatible version string"
         },
         "qooxdoo-versions": {
           "type": "array",

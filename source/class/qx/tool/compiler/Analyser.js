@@ -1344,7 +1344,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       }
 
       // then check if compiler version is the same
-      if (db.compilerVersion !== qx.tool.compiler.Version.VERSION) {
+      if (db.compilerVersion !== qx.tool.config.Utils.getCompilerVersion()) {
         return true;
       }
 
@@ -1369,7 +1369,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
       db.libraries = libraries;
       db.environmentHash = this.__environmentHash;
-      db.compilerVersion = qx.tool.compiler.Version.VERSION;
+      db.compilerVersion = qx.tool.config.Utils.getCompilerVersion();
     }
   }
 });

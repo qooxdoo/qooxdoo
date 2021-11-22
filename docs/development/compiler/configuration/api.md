@@ -180,11 +180,11 @@ hook methods which are triggered by these events:
 `qx.tool.cli.api.CompilerApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.CompilerApi)
 - `afterDeploy()`: called after deployment happens
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
-- `load()`: Called to update the compilerConfig 
+- `load()`: Called to update the compilerConfig
 - `beforeTests()`: Register compiler test or run your own tests in compile.js.
 - `afterCommandLoaded()`: Called after the command is known to the CompilerApi. Can be used to register listeners to the command. Instead of overload this function you can add a listener to the `changeCommand` event.
-                    
-
+- `afterLibrariesLoaded` Called after all libraries have been loaded and added to the compilation data.
+- `afterProcessFinished` runs after the whole process is finished.
 
 `qx.tool.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.LibraryApi)
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data

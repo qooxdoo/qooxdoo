@@ -43,10 +43,9 @@ jobs:
 
   dispatch:
     name: Send repository_dispatch
-    if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
+    if: ${{ (github.repository == 'qooxdoo/qooxdoo') && (github.event.base_ref == 'refs/heads/master') }}
     needs:
       - provide_repository_names
-    if: github.event.base_ref == 'refs/heads/master'
     strategy:
       matrix:
         repo: ${{ fromJson(needs.provide_repository_names.outputs.repos) }}
