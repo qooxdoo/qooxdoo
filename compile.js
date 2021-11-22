@@ -1,5 +1,4 @@
 const path = require("path");
-const inquirer = require("inquirer");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
@@ -42,6 +41,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let npm = cfg.db("npm", {});
       if (!npm.token) {
+        const inquirer = require("inquirer");
         let response = await inquirer.prompt([
           {
             type: "input",
