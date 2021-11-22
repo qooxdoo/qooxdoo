@@ -326,7 +326,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
       if (this.argv.verbose) {
         console.log(`
-Compiler:  v${qx.tool.compiler.Version.VERSION} in ${require.main.filename}
+Compiler:  v${this.getCompilerVersion()} in ${require.main.filename}
 Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
