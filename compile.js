@@ -43,7 +43,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
       if (!npm.token) {
         // call require("inquirer") here - not in the head.
         // otherwise it will be called during initialization.
-        // that do not work if you use qooxdoo as package
+        // that does not work if you use qooxdoo as package
         const inquirer = require("inquirer");
         let response = await inquirer.prompt([
           {
