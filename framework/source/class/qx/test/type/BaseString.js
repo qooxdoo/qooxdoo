@@ -157,6 +157,12 @@ qx.Class.define("qx.test.type.BaseString",
 
       var s = new qx.String("Juhu");
       this.assertEquals("<b>Juhu</b>", s.bold());
+    },
+
+    testCodePointAt : function()
+    {
+      var s = new qx.type.BaseString("*");
+      this.assertEquals(42, s.codePointAt(0));
     }
   }
 });
