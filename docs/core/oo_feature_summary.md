@@ -118,7 +118,7 @@ qx.Class.define('A', {
   }
 });
 
-qx.Class.define('B'), {
+qx.Class.define('B', {
   extend: A,
   members: {
      e: function() {
