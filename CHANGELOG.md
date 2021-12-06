@@ -1,3 +1,34 @@
+# Upcoming
+
+## Breaking changes
+
+- The `qx.library` config setting is no longer used by the
+compiler. If you want to override the path to the framework
+source, add the path to `compile.json`'s `libraries` array.
+
+- `qx.ui.form.Slider` now works correctly in vertical orientation.
+The maximum value is at the top of the slider and the minimal value
+at the bottom. Before that, the 2 values were reversed 
+
+- all flash supporting classes are removed - flash is dead since January 2020.
+
+- `qx.ui.command.Group` fixed a bug where new `qx.ui.command.Command` added was
+not set the `active` status of the group, thus staying active even if the group
+was inactive.
+
+- through the change to eslint 8 the old parser `babel-eslint` is removed. You have to use
+  `@babel/eslint-parser` instead. This needs an new attribute:
+  ```json
+  "parserOptions": {
+      "requireConfigFile": false
+    }
+  ```
+
+
+## Deprecations:
+
+- `qx package migrate` has been deprecated in favor of `qx migrate` 
+
 # v6.0.0
 
 ## New Compiler
@@ -41,3 +72,13 @@ visibility of the whole splitte widget (no change from v5.0.x).
 
 - `qx.ui.basic.Image` adds a new scaling feature to preserve the size ratio of the image (ie scaling without stretching); if you enable scaling, the ratio is now preserved by default - if you actually want to stretch an image, you will have to set the image's `forceRatio` setting to `disabled`
 
+- `qxWeb` is now build through the compiler with `qx deploy`. The old bootstrap code 
+```
+    q.ready(function() {
+    });
+```
+will not work any longer. The q.ready function is not called. You need to change your bootstrap code to listen to the `qx.$$loader` ready event:
+```
+    qx.$$loader.on("ready", function() {
+    });
+```

@@ -1,7 +1,0 @@
-\bqx\.util\.format\.NumberFormat\.getInstance\b=Singleton behavior of NumberFormat is deprecated. Please create an instance to use it.
-\bqx\.util\.format\.NumberFormat\.getIntegerInstance\b=Singleton behavior of NumberFormat is deprecated. Please create an instance to use it.
-
-\bqx\.ui\.tree\.AbstractTreeItem\b=qx.ui.tree.AbstractTreeItem is deprecated; use qx.ui.tree.core.AbstractTreeItem instead.
-\bqx\.ui\.tree\.FolderOpenButton\b=qx.ui.tree.FolderOpenButton is deprecated; use qx.ui.tree.core.FolderOpenButton instead.
-
-\.isClippedImage\b=qx.util.ResourceManager.isClippedImage is deprecated; use qx.util.ResourceManager.getCombinedFormat instead.

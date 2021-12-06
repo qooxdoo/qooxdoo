@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+  <head>
+    <title>${appTitle}</title>
+    ${preBootJs}
+    <style type="text/css" media="screen">
+      .popup {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 150px;
+        background-color: #aaa;
+        color: white;
+        padding: 10px;
+        font-family: "Lucida Grande", "DejaVu Sans", "Verdana", sans-serif;
+        font-size: 14px;
+        border: solid 1px #000000;
+      }
+    </style>
+    <script type="text/javascript" src="${appPath}index.js"></script>
+    <script type="text/javascript">
+      qx.$$loader.on("ready", function () {
+        // put your own code here
+        // create the notification popup
+        var popup = q.create("<div>").appendTo(document.body).addClass("popup");
+        popup.setStyle("border-radius", "5px");
+
+        // create the notification API
+        var notify = function (message, delay, callback) {
+          popup.setHtml(message);
+          popup.fadeIn().once("animationEnd", function () {
+            window.setTimeout(function () {
+              popup.fadeOut().once("animationEnd", function () {
+                callback && callback.call();
+              });
+            }, delay);
+          });
+        }
+
+        // DEMO
+        notify("This is ...", 1000, function () {
+          notify("... a qx.website notification demo.", 2000);
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

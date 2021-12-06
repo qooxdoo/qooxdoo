@@ -1,5 +1,0 @@
-\bqx\.util\.ResourceManager\.(\w+)=qx.util.ResourceManager.getInstance().\1
-\bqx\.ui\.embed\.StyledIframe\b=qx.ui.embed.ThemedIframe
-\.jsonToClass\(=.toClass(
-\.jsonToModel\(=.toModel(
-\.onSetOk\(=.onUpdate(

@@ -1,0 +1,226 @@
+{
+  "title": "Manifest.json Schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "description": "qooxdoo's Manifest files serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed info), which is more interesting for human readers, a technical part (named provides) that is used in the processing of generator configurations, and a part named externalResources to include CSS and Javascript files.",
+  "type": "object",
+  "required": [
+    "provides",
+    "$schema"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "the json schema of the version of Manifest.json",
+      "enum": [
+        "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json"
+      ]
+    },
+    "info": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "General Information about the project",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the library"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Short summary of its purpose"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descriptive text"
+        },
+        "keywords": {
+          "type": "array",
+          "description": "Lost of keywords, tags.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "homepage": {
+          "type": "string",
+          "description": "Homepage URL of the library."
+        },
+        "license": {
+          "type": "string",
+          "description": "License(s) of the library"
+        },
+        "authors": {
+          "description": "List of Authors",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name", "email"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "examples": [
+                  "First Author"
+                ]
+              },
+              "email": {
+                "type": "string",
+                "examples": [
+                  "first.author@site.domain"
+                ]
+              },
+              "githubUser": {
+                "type": "string",
+                "pattern": "[^\\s]+"
+              },
+              "gitlabUser": {
+                "type": "string",
+                "pattern": "[^\\s]+"
+              },
+              "facebookUser": {
+                "type": "string",
+                "pattern": "[^\\s]+"
+              },
+              "twitterHandle": {
+                "type": "string",
+                "pattern": "^@[^\\s]+"
+              }
+            }
+          }
+        },
+        "version": {
+          "type": "string",
+          "description": "a semver compatible version string"
+        },
+        "qooxdoo-versions": {
+          "type": "array",
+          "description": "(deprecated) An array of qooxdoo versions that this library is compatible with. This property is deprecated and will be removed in version 7."
+        },
+        "sourceViewUri": {
+          "type": "string",
+          "description": "URL to view the library's class code online. This URL will be used in generated API documentation. It has a special syntax and allows for placeholders (e.g. for the class name and the source line number)."
+        }
+      }
+    },
+    "provides": {
+      "required": [
+        "namespace",
+        "class"
+      ],
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Library namespace (i.e. the namespace elements all class names in this library are prefixed with, e.g. foo for a main application class with name foo.Application)."
+        },
+        "encoding": {
+          "type": "string",
+          "default": "utf-8",
+          "description": "File encoding of source code files"
+        },
+        "class": {
+          "type": "string",
+          "default": "source/class",
+          "description": "Path to the library's class code relative to the Manifest.json file, up to but not including the root namespace folder"
+        },
+        "resource": {
+          "type": "string",
+          "default": "source/resource",
+          "description": "Path to the library's resources relative to the Manifest.json file, up to but not including the root namespace folder"
+        },
+        "translation": {
+          "type": "string",
+          "default": "source/translation",
+          "description": "Path to the library's translation files relative to the Manifest.json file"
+        },
+        "environmentChecks": {
+          "type": "object",
+          "description": "Maps environment check IDs to classes"
+        },
+        "webfonts": {
+          "type":"array",
+          "description": "A list of webfont definitions",
+          "items": {
+            "type": "object",
+            "required": [
+              "name", "resources"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Font name"
+              },
+              "defaultSize": {
+                "type":"number",
+                "description": "Default font size"
+              },
+              "mapping": {
+                "type": "string",
+                "description": "Path to a json font map relative to the resource folder"
+              },
+              "comparisonString": {
+                "type": "string",
+                "description": "String to test of font is loaded."
+              },
+              "resources": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type":"string",
+                  "description": "Path to the webfont file relative to the resource folder"
+                }
+              }
+            }
+          }
+        },
+        "application": {
+          "type":"object"
+        }
+      }
+    },
+    "requires": {
+      "description": "a list of of needed libraries and contribs. the keys `@qooxdoo/framework` is recognized to descript the respective versions of these components",
+      "type": "object",
+      "required": ["@qooxdoo/framework"],
+      "patternProperties": {
+        "^.*$": {
+          "description": "semver compatible range pattern",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "externalResources": {
+      "type":"object",
+      "description": "Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the 'provides' section.",
+      "properties": {
+        "css": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "[.]s?css$"
+          }
+        },
+        "script": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "[.]js$"
+          }
+        }
+      }
+    },
+    "setup": {
+      "description": "Setup Section - used in Qooxdoo SDK Manifest.json ... do we need this still?",
+      "type": "object"
+    }
+  }
+}

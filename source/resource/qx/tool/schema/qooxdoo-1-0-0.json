@@ -1,0 +1,36 @@
+{
+  "title": "qooxdoo.json Schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://qooxdoo.org/schema/qooxdoo-1-0-0.json",
+  "description": "qooxdo.json is a registry for qooxdoo libraries in a repository/package.",
+  "type": "object",
+  "required": [
+    "libraries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "the json schema of the version of qooxdoo.json",
+      "enum": [
+        "https://qooxdoo.org/schema/qooxdoo-1-0-0.json",
+        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/qooxdoo-1-0-0.json"
+      ]
+    },
+    "libraries": {
+      "description": "An array of objects with at least a 'path' property, containing the path to the library",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "main": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "info": {
+    "name": "qooxdoo framework",
+    "summary": "The qooxdoo framework library",
+    "description": "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
+    "keywords": [
+      "qooxdoo",
+      "framework",
+      "widget",
+      "cross-browser",
+      "ajax"
+    ],
+    "homepage": "http://qooxdoo.org",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Alexander Steitz (asteitz)",
+        "email": "alexander DOT steitz AT 1und1 DOT de"
+      },
+      {
+        "name": "Christopher Zündorf (czuendorf)",
+        "email": "christopher DOT zuendorf AT 1und1 DOT de"
+      },
+      {
+        "name": "Daniel Wagner (danielwagner)",
+        "email": "daniel DOT wagner AT 1und1 DOT de"
+      },
+      {
+        "name": "Derrell Lipman (derrell)",
+        "email": "derrell DOT lipman AT unwireduniverse DOT com"
+      },
+      {
+        "name": "Andreas Ecker (ecker)",
+        "email": "andreas DOT ecker AT 1und1 DOT de"
+      },
+      {
+        "name": "Christian Hagendorn (Hagendorn)",
+        "email": "christian DOT hagendorn AT 1und1 DOT de"
+      },
+      {
+        "name": "Mustafa Sak (msak)",
+        "email": "Mustafa DOT Sak AT 1und1 DOT de"
+      },
+      {
+        "name": "Thomas Herchenröder (thron7)",
+        "email": "thron7 AT users DOT sourceforge DOT net"
+      },
+      {
+        "name": "Tino Butz (tjbutz)",
+        "email": "tino DOT butz AT 1und1 DOT de"
+      },
+      {
+        "name": "Tristan Koch (trkoch)",
+        "email": "tristan DOT koch AT 1und1 DOT de"
+      },
+      {
+        "name": "Martin Wittemann (wittemann)",
+        "email": "martin DOT wittemann AT 1und1 DOT de"
+      },
+      {
+        "name": "John Spackman (johnspackman)",
+        "email": "john.spackman@zenesis.com"
+      },
+      {
+        "name": "Christian Boulanger (cboulanger)",
+        "email": "info@bibliograph.org"
+      },
+      {
+        "name": "Henner Kollmann (hkollmann)",
+        "email": "Henner.Kollmann.gmx.de"
+      },
+      {
+        "name": "Tobias Oetiker (oetiker)",
+        "email": "tobi@oetiker.ch"
+      },
+      {
+        "name": "Dietrich Streifert (level420)",
+        "email": "dietrich.streifert@visionet.de"
+      }
+    ],
+    "version": "7.0.0-beta",
+    "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
+  },
+  "provides": {
+    "namespace": "qx",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation",
+    "webfonts": [
+      {
+        "name": "MaterialIcons",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialicons-v70.eot",
+          "qx/iconfont/MaterialIcons/materialicons-v70.woff2",
+          "qx/iconfont/MaterialIcons/materialicons-v70.woff",
+          "qx/iconfont/MaterialIcons/materialicons-v70.ttf"
+        ]
+      },
+      {
+        "name": "MaterialIconsOutlined",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.eot",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsRound",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.eot",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsSharp",
+        "comparisonString": "\ue1fe\uef39",
+        "defaultSize": 32,
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.eot",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff2",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsDuoTone",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.eot",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff2",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.otf"
+        ]
+      }
+    ],
+    "environmentChecks": {
+      "browser.*": "qx.bom.client.Browser",
+      "css.*": "qx.bom.client.Css",
+      "css.animation": "qx.bom.client.CssAnimation",
+      "css.animation.requestframe": "qx.bom.client.CssAnimation",
+      "css.transform": "qx.bom.client.CssTransform",
+      "css.transform.3d": "qx.bom.client.CssTransform",
+      "css.transition": "qx.bom.client.CssTransition",
+      "device.*": "qx.bom.client.Device",
+      "ecmascript.*": "qx.bom.client.EcmaScript",
+      "engine.*": "qx.bom.client.Engine",
+      "event.*": "qx.bom.client.Event",
+      "html.stylesheet.*": "qx.bom.client.Stylesheet",
+      "html.*": "qx.bom.client.Html",
+      "io.*": "qx.bom.client.Transport",
+      "locale": "qx.bom.client.Locale",
+      "locale.*": "qx.bom.client.Locale",
+      "os.*": "qx.bom.client.OperatingSystem",
+      "os.scrollBarOverlayed": "qx.bom.client.Scroll",
+      "phonegap*": "qx.bom.client.PhoneGap",
+      "plugin.*": "qx.bom.client.Plugin",
+      "qx.globalErrorHandling": "qx.event.GlobalError",
+      "qx.mobile.nativescroll": "qx.bom.client.Scroll",
+      "qx.promise.*": "qx.Promise",
+      "runtime.name": "qx.bom.client.Runtime",
+      "xml.*": "qx.bom.client.Xml",
+      "client.idle": "qx.bom.client.Idle",
+      "qx.debug.io": "qx.bom.request.Script"
+    }
+  }
+}

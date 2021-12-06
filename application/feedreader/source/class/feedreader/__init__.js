@@ -1,3 +1,0 @@
-/**
- * Feed reader demo application
- */

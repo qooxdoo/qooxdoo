@@ -1,9 +1,0 @@
-#load\(qx\.theme\.icon\.Nuvola\)=#use(qx.theme.icon.Nuvola)
-#load\(qx\.theme\.icon\.NuoveXT\)=#use(qx.theme.icon.NuoveXT)
-#load\(qx\.theme\.icon\.CrystalClear\)=#use(qx.theme.icon.CrystalClear)
-#load\(qx\.theme\.icon\.VistaInspirate\)=#use(qx.theme.icon.VistaInspirate)
-#load\(qx\.theme\.color\.System\)=
-#load\(qx\.theme\.color\.WindowsClassic\)=#use(qx.theme.color.WindowsClassic)
-#load\(qx\.theme\.color\.WindowsLunaBlue\)=#use(qx.theme.color.WindowsLunaBlue)
-#load\(qx\.theme\.color\.WindowsLunaGreen\)=#use(qx.theme.color.WindowsLunaGreen)
-#load\(qx\.theme\.color\.WindowsLunaSilver\)=#use(qx.theme.color.WindowsLunaSilver)

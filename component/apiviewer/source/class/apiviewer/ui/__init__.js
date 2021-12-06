@@ -1,4 +1,0 @@
-/**
- * apiviewer.ui package
- *
- */

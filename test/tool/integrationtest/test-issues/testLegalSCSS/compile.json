@@ -1,0 +1,36 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "environment": {
+      "qx.icontheme": "Tango"
+  },
+  "libraries": [
+    ".",
+    "../../../../.."
+  ],
+  "applications": [
+    {
+      "class": "testLegalSCSS.Application",
+      "theme": "qx.theme.Indigo",
+      "name": "testLegalSCSS"
+    }
+  ],
+  "sass": {
+    "compiler": "legacy",
+    "copyOriginal": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "testlib",
+    "summary": "Custom Library",
+    "description": "This is part of unit tests for the compiler",
+    "homepage": "http://some.homepage.url/",
+    "license": "SomeLicense",
+    "authors": [],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "testlib",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^7.0.0-beta"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "../bootstrap/compiled/node/source",
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "../bootstrap/compiled/node/build",
+      "writeCompileInfo": true,
+      "minify": "off",
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "ignores": [
+    "manifest_path",
+    "setImmediate",
+    "__dirname",
+    "module.*",
+    "process.*",
+    "Promise.*",
+    "require.*",
+    "path.*",
+    "args.*",
+    "loadSass"
+  ],
+  "libraries": [
+    ".."
+  ],
+  "applications": [
+    {
+      "class": "qx.tool.cli.Application",
+      "name": "compiler",
+      "title": "Qooxdoo Compiler",
+      "type": "node",
+      "deploy": true,
+      "include": [
+        "qx.core.BaseInit",
+        "qx.tool.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    }
+  ],
+  "sass": {
+    "compiler": "legacy"
+  }
+}

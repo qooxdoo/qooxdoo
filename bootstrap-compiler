@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+const utils = require("./bin/tools/utils");
+(async function() {
+  let options = utils.defaultOptions();
+  for (let i = 2; i < process.argv.length; i++) {
+    let arg = process.argv[i];
+    if (arg == "--no-clean")
+      options.clean = false;
+    else if (arg == "--target")
+      options.target = process.argv[++i];
+    else if (arg == "--incVersion")
+      options.incVersion = true;
+    else if (arg.startsWith("--"))
+      console.error("Invalid argument " + arg);
+    else
+      version = arg;
+  }
+
+  if (!options.version) {
+     options.version = require("./package.json").version;
+  }
+  await utils.bootstrapCompiler(options);
+  process.exit(0);
+})();
+
+
+

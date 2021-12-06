@@ -1,0 +1,37 @@
+@import "common/all";
+@import "styles";
+@import "ui/all";
+
+/* table */
+.grid {
+    width: 100%;
+   table-layout: fixed;
+   background-color:#FFFFFF;
+   color:#000000;
+   font-size:.8em;
+   overflow:hidden;
+   border-collapse:collapse;
+   empty-cells: show;
+}
+
+/* tr */
+grid-row {
+}
+
+/* td */
+.grid-cell {
+   border-bottom-width: thin;
+   border-bottom-style:solid;
+   border-bottom-color:lightgray;
+}
+
+/* grid, div header */
+.cell-header {
+   font-weight:bold;
+}
+
+/* grid, div  */
+.cell {
+}
+
+

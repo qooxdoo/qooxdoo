@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <!-- Setup the viewport for mobile and desktop environments -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <!-- Configure linking of this application to the home screen of mobile devices -->
+  <meta name="apple-mobile-web-app-title" content="${name}"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="msapplication-tap-highlight" content="no"/>
+  <link rel="apple-touch-icon" href="${resourcePath}${namespace_as_path}/app.png"/>
+  <link rel="icon" sizes="192x192" href="${resourcePath}${namespace_as_path}/app.png">
+
+  <!-- Disable chrome translation requests and automatic phone number linking -->
+  <meta name="google" value="notranslate"/>
+  <meta name="format-detection" content="telephone=no"/>
+
+  <!-- Shortcut icon setup -->
+  <link rel="shortcut icon" type="image/png" href="${resourcePath}${namespace_as_path}/favicon.png"/>
+  <link rel="mask-icon" href="${resourcePath}${namespace_as_path}/favicon.png"/>
+
+  <style>
+    body {
+      padding: 0px;
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      -webkit-touch-callout: none !important;
+      overflow: hidden;
+    }
+  </style>
+
+  <title>${name}</title>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=nojs.html"/>
+  </noscript>
+  ${preBootJs}
+  <script type="text/javascript" src="${appPath}index.js"></script>
+
+ </head>
+<body>
+</body>
+</html>

@@ -1,1 +1,0 @@
-window.qTest = "loaded";

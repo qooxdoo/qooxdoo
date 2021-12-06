@@ -1,23 +1,8 @@
 {
-  "environment": {
-    "qx.compiler": "",
-    "qx.serve.appspath": "/apps/",
-    "qx.serve.docspath": "/"
-  },
   "targets": [
     {
       "type": "source",
       "outputPath": "compiled/source",
-      "bundle": {
-        "include": [
-          "qx.*",
-          "qxWeb",
-          "qxl.*"
-        ],
-        "exclude": [
-          "qx.test.*"
-        ]
-      },
       "babelOptions": {
         "targets": "edge >=18, chrome >= 73, firefox >= 66"
       }
@@ -29,10 +14,24 @@
   ],
   "defaultTarget": "source",
   "locales": [
-    "en"
+    "cs",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "nb",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "sl",
+    "sv"
   ],
+  "writeAllTranslations": true,
   "libraries": [
-    "../../framework"
+    "../.."
   ],
   "applications": [
     {
@@ -42,12 +41,16 @@
       "title": "Qooxdoo TestTAPper",
       "environment": {
         "qx.icontheme": "Tango",
-        "testtapper.testNameSpace": "qx.test"
+        "qxl.testtapper.testNameSpace": "qx.test",
+        "qxl.testtapper.browsers": ["chromium"]
       },
       "include": [
         "qx.test.*"
       ],
       "exclude": [
+        "qx.tool.*",
+        "qx.test.tool.*",
+        "qx.test.compiler.*"
       ]
     }
   ],

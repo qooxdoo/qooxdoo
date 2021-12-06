@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+require("../../../../../index");
+
+const website = new qx.tool.utils.Website();
+
+(async () => {
+  try {
+    console.log(">>> Building local website...");
+    await website.generateSite();
+    await website.compileScss();
+    console.log(">>> Done.");
+  } catch (e) {
+    console.error(e);
+  }
+})();

@@ -1,0 +1,463 @@
+{
+  "title": "compile.json Schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "description": "compile.json controls the qx compile command, and while you can use command line parameters to compile an application, most applications will require one.",
+  "type": "object",
+  "required": [
+    "applications",
+    "targets",
+    "$schema"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "the json schema of the version of compile.json",
+      "enum": [
+        "https://qooxdoo.org/schema/compile-1-0-0.json",
+        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
+      ]
+    },
+    "run": {
+      "type": "object",
+      "required": [ "application" ],
+      "properties": {
+        "application": {
+          "description": "The name of the application, as specified in the applications[] array",
+          "type": "string"
+        },
+        "arguments": {
+          "description": "Optional command line arguments",
+          "type": "string"
+        }
+      }
+    },
+    "sass": {
+      "type": "object",
+      "properties": {
+        "compiler": {
+          "description": "Which SASS compiler to use (default is deprecated \"legacy\" during v6, will default to \"latest\" in v7)",
+          "type": "string",
+          "pattern": "^(legacy|latest)$"
+        },
+        "copyOriginal": {
+          "description": "Whether to copy the original .scss files into the resources output",
+          "type": "boolean"
+        }
+      }
+    },
+    "applications": {
+      "type":"array",
+      "description": "Each entry describes an application to be compiled.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalItems": false,
+        "required": [
+          "class",
+          "name"
+        ],
+        "properties": {
+          "class" : {
+            "description": "The class name of the main application class (it typically inherits from `qx.application.Standalone` for web applications)",
+            "type": "string"
+          },
+          "theme": {
+            "description": "The theme class for the application",
+            "type": "string"
+          },
+          "name": {
+            "description": "An arbitrary, but unique, short name for the application. Should be filename and URL friendly - IE no spaces or special characters",
+            "type": "string"
+          },
+          "group": {
+            "description": "An arbitrary, but unique, short name for grouping applications. Should be filename and URL friendly - IE no spaces or special characters",
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[-_a-zA-Z0-9]+$"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[-_a-zA-Z0-9]+$"
+                }
+              }
+            ]
+          },
+          "title": {
+            "description": "The human readable, customer facing name used to set the <title> tag of the application web page, i.e. in the application's index.html",
+            "type": "string"
+          },
+          "description": {
+            "description": "A description of what the application does. This information is displayed in the package browser.",
+            "type": "string"
+          },
+          "publish": {
+            "description": "Whether this application is to be shown in viewers like qooxdoo's package browser or not (if, e.g., it doesn't work as a standalone demo or is an internal test app which is not for general consumption). Defaults to true.",
+            "type": "boolean",
+            "default": true
+          },
+          "deploy": {
+            "description": "Whether this application is to be deployed. Defaults to true.",
+            "type": "boolean",
+            "default": true
+          },
+          "standalone": {
+            "description": "Whether this application can be opened in a browser on its own (true) or is part of a different application (false)",
+            "type": "boolean",
+            "default": true
+          },
+          "environment": {
+            "$ref": "#/properties/environment"
+           },
+          "outputPath": {
+            "description": "The directory to place the application files (e.g. index.js and resource.js), relative to the target output directory",
+            "type": "string"
+          },
+          "bootPath": {
+            "description": "The URI used to access the application directory, i.e. the directory containing index.js and resource.js",
+            "type": "string",
+            "default": "."
+          },
+          "include": {
+            "description": "An array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly). Wildcards are supported by adding a *.",
+            "type": "array",
+            "uniqueItems": true,
+            "examples": [
+              "qx.util.format.*"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "exclude": {
+            "description": "An array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed. Wildcards are supported by adding a *. Note that exclude takes priority over include",
+            "type": "array",
+            "uniqueItems": true,
+            "examples": [
+              "qx.util.format.NumberFormat"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "description": "The type of application",
+            "pattern": "^(browser|node|rhino)$",
+            "default": "browser"
+          },
+          "loaderTemplate": {
+            "description": "The boot loader template file, usually determined automatically from the application type",
+            "type": "string"
+          },
+          "runWhenWatching": {
+            "description": "If provided then the compiler will run this command every time this application is compiled, killing any previous instance if necessary",
+            "type": "object",
+            "required": [
+              "command"
+            ],
+            "properties": {
+              "command": {
+                "description": "The command line to run",
+                "type": "string"
+              }
+            }
+          },
+          "parts": {
+            "$ref": "#/properties/parts"
+          },
+          "minify": {
+            "$ref": "#/properties/targets"
+          },
+          "save-source-in-map": {
+            "$ref": "#/properties/targets"
+          },
+          "save-unminified": {
+            "$ref": "#/properties/targets"
+          }
+        }
+      }
+    },
+    "targets" : {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "outputPath"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "Either `source`, `build`, or a class name in qooxdoo-compiler; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway (`source` is `qx.tool.compiler.targets.SourceTarget`, etc)",
+            "type": "string"
+          },
+          "description": {
+            "description": "A description of the target's function.",
+            "type": "string"
+          },
+          "application-types": {
+            "description": "The application types which this target supports",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(browser|node|rhino)$"
+            }
+          },
+          "application-names": {
+            "description": "The application names which this target supports",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputPath": {
+            "description": "The folder where the compilation outputs to, and will be created if it does not already exist",
+            "type": "string"
+          },
+          "deployPath": {
+            "description": "The folder where the deploy outputs to.",
+            "type": "string"
+          },
+          "targetClass": {
+            "description": "If you want to use more than the two default target types and/or use custom target classes, you can use the targetClass key to supply the name of the class as a string.",
+            "type": "string"
+          },
+          "bundle": {
+            "$ref": "#/properties/bundle"
+          },
+          "uri": {
+            "description": "this sets the URI used to access the target output directory, i.e. the directory which will contain resources/ and transpiled/",
+            "type":"string"
+          },
+          "environment": {
+            "$ref": "#/properties/environment"
+          },
+          "preserveEnvironment": {
+            "description": "a list of environment settings that will be ignored for code elimination, ie settings which *must* be configured at runtime",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "addTimestampsToUrls": {
+            "description": "if true (default), the target will add the files timestamp to each URL to allow for strong caching parameters",
+            "type":"boolean"
+          },
+          "writeCompileInfo": {
+            "description": "if true, the target will write a compile-info.json and resources.json into the application's output directory, containing the data structures required to generate an application",
+            "type":"boolean"
+          },
+          "typescript": {
+            "type": ["boolean","string"],
+            "description": "When true, output the typescript definition into ``./compiled/source/qooxdoo.d.ts`. If you use a string instead of true, the string is the name of the file which is generated inside the target output directory"
+          },
+          "minify": {
+            "description": "Determines the minification to be used for applications, if the target supports it. Can be off, minify, mangle, or beautify. Can be overridden on a per application basis.",
+            "type": "string",
+            "pattern": "^(off|minify|mangle|beautify)$"
+          },
+		      "deploy-source-maps": {
+            "description": "If true, the source maps will be deployed.",
+            "type": "boolean"
+		      },
+          "save-source-in-map": {
+            "description": "If true, the source file will be saved in the map file if the target supports it. Can be overridden on a per application basis.",
+            "type": "boolean"
+          },
+          "save-unminified": {
+            "description": "If true, the unminified files will be saved if the target supports it. Can be overridden on a per application basis.",
+            "type": "boolean"
+          },
+          "inline-external-scripts": {
+            "description": "If true, external resources which are Javascript will be inlined before loading the boot code",
+            "type": "boolean"
+          },
+          "addCreatedAt": {
+            "description": "If true, this will cause every object to have a hidden property called $$createdAt which points to an object containing filename, lineNumber, and column properties.",
+            "type": "boolean"
+          },
+          "babelOptions": {
+            "type": "object",
+            "description": "Options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: <https://babeljs.io/docs/en/babel-preset-env#options>. They can be overridden per target."
+          },
+          "parts": {
+            "$ref": "#/properties/parts"
+          }
+        }
+      }
+    },
+    "defaultTarget": {
+      "type": "string",
+      "pattern": "^(build|source)$"
+    },
+    "libraries": {
+      "description": "If you don't specify a libraries key, then by default the current directory will be used (provided that there is a Manifest.json file) as a library; this makes sense for most applications.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "include": {
+      "description": "An array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly). Wildcards are supported by adding a *.",
+      "type": "array",
+      "uniqueItems": true,
+      "examples": [
+        "qx.util.format.*"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclude": {
+      "description": "An array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed. Wildcards are supported by adding a *. Note that exclude takes priority over include",
+      "type": "array",
+      "uniqueItems": true,
+      "examples": [
+        "qx.util.format.NumberFormat"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "parts": {
+      "description": "Each part has an include array which is a list of classes (including wildcards) that are to be included.",
+      "type": "object",
+      "patternProperties": {
+        "^\\S+$": {
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "description": "A list of class glob patterns to include in this part.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude": {
+              "description": "A list of class glob patterns to exclude from this part.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "path-mappings": {
+      "description": " generic means to locate files on disk inside the URI address space of the application",
+      "type":"object",
+      "patternProperties": {
+        "^\\S+$": {
+          "description": "virtual path as seen from the browser",
+          "type": "string"
+        }
+      },
+      "examples": [
+        { "../qooxdoo": "/some/virtual/uri/path/qooxdoo"}
+      ]
+    },
+    "locales": {
+      "description": "Include other translations than 'en'",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minItems": 1
+      }
+    },
+    "i18nAsParts": {
+      "description": "Whether to store locales and translations as individual parts, which are manually loaded on demand by the application",
+      "type": "boolean"
+    },
+    "writeAllTranslations": {
+      "description": "By default, only translation strings which are used by the classes are included into the application.",
+      "type": "boolean"
+    },
+    "serve": {
+      "type": "object",
+      "description": "Configure the qx compilers built-in webserver",
+      "additionalProperties": false,
+      "properties": {
+        "listenPort": {
+          "type": "integer"
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "patternProperties": {
+        "^\\S+$": {
+          "description": "This will show up in `qx.core.Environment`"
+        }
+      }
+    },
+    "ignores": {
+      "description": "An array of names which the compiler should ignore. Same as @ignore in source code",
+      "type": "array",
+      "uniqueItems": true,
+      "examples": [
+        "modules.*"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "babel": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "object",
+          "description": "Options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: <https://babeljs.io/docs/en/babel-preset-env#options>. They can be overridden per target."
+        },
+        "plugins": {
+          "type": "object",
+          "description": "List of additional babel plugins to enable, eg TC39 proposals; note that some proposals will work out of the box and some will require upgrades to QxCompiler before they work properly - your mileage may vary.  Each key in this object is the NPM name of the plugin, and the value is either true (enabled), false (ignore), or an object which is options to pass to the preset",
+          "additionalProperties": {
+            "type": [ "boolean", "object" ]
+          }
+        }
+      }
+    },
+    "babelOptions": {
+      "type": "object",
+      "description": "** DEPRECATED - See babel.options instead",
+      "deprecated": true
+    },
+    "jsx": {
+      "type": "object",
+      "description": "Options given to @babel/preset-react to change how JSX HTML is transpiled"
+    },
+    "eslintConfig": {
+      "type": "object",
+      "description": "The syntax is the same as in in package.json. Explanation can be found here: <https://eslint.org/docs/user-guide/configuring>"
+    },
+    "bundle": {
+      "description": "Allows you to use wildcards to select classes which are to be bundled together into as few files as possible",
+      "type": "object",
+      "properties": {
+        "include": {
+          "description": "An array of namespaces to include in the bundle. Can contain wildcards.",
+          "type": ["array","string"],
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude": {
+          "description": "An array of namespaces to exclude from the bundle. Can contain wildcards.",
+          "type": ["array","string"],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

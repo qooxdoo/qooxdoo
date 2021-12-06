@@ -1,0 +1,13 @@
+{
+  "libraries": [
+    {
+      "library_name": "qxl.testnode",
+      "library_version": "1.0.16",
+      "path": "qx_packages/qooxdoo_qxl_testnode_v1_0_16",
+      "uri": "qooxdoo/qxl.testnode",
+      "repo_name": "qooxdoo/qxl.testnode",
+      "repo_tag": "v1.0.16"
+    }
+  ],
+  "version": "2.1.0"
+}

@@ -1,7 +1,4 @@
 [![NPM Version][npm-image]][npm-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
-[![Travis Build][travis-image]][travis-url]
-[![SauceLab Build][saucelab-image]][saucelab-url]
 [![Gitter][gitter-image]][gitter-url]
 
 # Qooxdoo JavaScript Framework 
@@ -30,9 +27,18 @@ For more information please see http://qooxdoo.org/LICENCSE .
 ## Quick start
 
 It is easy to get started with qooxdoo. For detailed information please
-see [our Get Started Guide](https://qooxdoo.org/documentation/#/?id=getting-started).
+see [our Get Started Guide](docs/README.md).
 
+## Development
 
+If you develop *with* qooxdoo, you would normally use a stable
+[NPM release](https://www.npmjs.com/package/@qooxdoo/framework), which,
+since v6.0.0, contains the compiler and the CLI called with with 
+`npx qx <command>`. 
+
+In contrast, if you want to be hacking qooxdoo itself, please 
+refer to our [documentation](docs/development/contribute.md).
+ 
 ## Contributing
 
 There are many ways you can contribute to qooxdoo, ranging from providing
@@ -54,8 +60,9 @@ other developers who use Qooxdoo.
 
 ## Learn more
 
-* Documentation (v6)
-  http://qooxdoo.org/documentation
+* Documentation
+  - http://qooxdoo.org/documentation (latest stable)
+  - http://qooxdoo.org/qooxdoo (current master)
 
 * Online Demos
   http://qooxdoo.org/demos
@@ -70,7 +77,5 @@ other developers who use Qooxdoo.
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
 [coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
 [coveralls-url]: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
-[saucelab-image]: https://saucelabs.com/buildstatus/qx-core
-[saucelab-url]: https://saucelabs.com/open_sauce/user/qx-core
 [gitter-image]: https://badges.gitter.im/qooxdoo/qooxdoo.svg
 [gitter-url]: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge

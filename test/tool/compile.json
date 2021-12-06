@@ -1,0 +1,114 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "compiled/node/source",
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "application-types": [
+        "node"
+      ],
+      "outputPath": "compiled/node/build",
+      "deployPath": "lib",
+      "minify": "off",
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "libraries": [
+    "../.."
+  ],
+  "ignores": [
+    "manifest_path",
+    "setImmediate",
+    "__dirname",
+    "module.*",
+    "process.*",
+    "Promise.*",
+    "require.*",
+    "path.*",
+    "args.*"
+  ],
+  "applications": [
+    {
+      "class": "qx.tool.cli.LibraryApplication",
+      "name": "compilerLibrary",
+      "title": "Qooxdoo Compiler as Library",
+      "type": "node",
+      "deploy": false,
+      "include": [
+        "qx.core.BaseInit",
+        "qx.tool.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    },
+    {
+      "class": "qxl.testnode.Application",
+      "name": "testnode",
+      "title": "Node Test",
+      "type": "node",
+      "deploy": false,
+      "environment": {
+        "qxl.testnode.testNameSpace": "qx.test"
+      },
+      "include": [
+        "qx.core.BaseInit",
+        "qx.test.tool.*",
+        "qx.test.compiler.*",
+        "qx.tool.*",
+        "qx.dev.*"
+      ],
+      "exclude": [
+        "q",
+        "qxWeb",
+        "qx.module.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    }
+  ],
+  "sass": {
+    "compiler": "legacy"
+  }
+}

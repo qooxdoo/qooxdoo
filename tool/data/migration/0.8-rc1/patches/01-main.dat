@@ -1,9 +1,0 @@
-\b_postLoad\s*:\s*function\b=finalize : function
-^#resource.*$=
-^#embed\((\w+)\.(\w+)/(.*)\)=#asset(\1/\2/\3)
-
-
-\bqx\.legacy\.theme\.Ext\b=qx.legacy.theme.ClassicRoyale
-\bqx\.legacy\.theme\.ClassicLunaBlue\b=qx.legacy.theme.ClassicRoyale
-\bqx\.legacy\.theme\.ClassicLunaGreen\b=qx.legacy.theme.ClassicRoyale
-\bqx\.legacy\.theme\.ClassicLunaSilver\b=qx.legacy.theme.ClassicRoyale

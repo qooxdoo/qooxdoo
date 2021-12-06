@@ -1,0 +1,35 @@
+{
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info": {
+    "name": "@qooxdoo/qooxdoo-compiler",
+    "summary": "The new fast JavaScript Compiler for Qooxdoo",
+    "description": "The Qooxdoo-Compiler is the new compiler and command line interface for Qooxdoo applications. It is written in Node.JS Javascript and replaces the Python-based generator.",
+    "homepage": "https://github.com/qooxdoo/qooxdoo",
+    "license": "MIT license",
+    "authors": [
+      {
+        "name": "John Spackman (johnspackman)",
+        "email": "john.spackman@zenesis.com"
+      },
+      {
+        "name": "Christian Boulanger (cboulanger)",
+        "email": "info@bibliograph.org"
+      },
+      {
+        "name": "Henner Kollmann (hkollmann)",
+        "email": "Henner.Kollmann.gmx.de"
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "provides": {
+    "namespace": "qxcompiler",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
+  },
+  "requires": {
+    "@qooxdoo/framework": "^6.0.0 || ^7.0.0-beta"
+  }
+}
