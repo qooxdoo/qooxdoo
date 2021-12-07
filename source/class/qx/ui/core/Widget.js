@@ -3836,7 +3836,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Sets the string which labels this widget. This will be read out by screenreaders. Needed if there is no
      * readable text/label in this widget which would automatically act as aria-label.
-     * @param {String} label Labelling Text
+     * @param label {String} Labelling Text
      */
     setAriaLabel: function(label) {
       this.getContentElement().setAttribute("aria-label", label);
@@ -3847,7 +3847,7 @@ qx.Class.define("qx.ui.core.Widget",
      * information.
      * Similiar to aria-label, difference being that the labelling widget is an different widget and multiple
      * widgets can be added.
-     * @param {Array} labelWidgets Indefinite Number of labelling Widgets
+     * @param labelWidgets {qx.ui.core.Widget[]} Indefinite Number of labelling Widgets
      */
     addAriaLabelledBy: function(...labelWidgets) {
       this.__addAriaXBy(labelWidgets, "aria-labelledby");
@@ -3856,7 +3856,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Marks that this widget gets described by another widget. This will be read out by screenreaders as last
      * information. Multiple Widgets possible.
-     * @param {Array} describingWidgets Indefinite Number of describing Widgets
+     * @param describingWidgets {qx.ui.core.Widget[]} Indefinite Number of describing Widgets
      */
     addAriaDescribedBy: function(...describingWidgets) {
       this.__addAriaXBy(describingWidgets, "aria-describedby");
@@ -3864,8 +3864,8 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Sets either aria-labelledby or aria-describedby
-     * @param {Array} widgets Indefinite Number of widgets
-     * @param {String} ariaAttr aria-labelledby | aria-describedby
+     * @param widgets {qx.ui.core.Widget[]} Indefinite Number of widgets
+     * @param ariaAttr {String} aria-labelledby | aria-describedby
      */
     __addAriaXBy: function(widgets, ariaAttr) {
       if (!["aria-labelledby", "aria-describedby"].includes(ariaAttr)) {
@@ -3873,6 +3873,9 @@ qx.Class.define("qx.ui.core.Widget",
       }
       let idArr = [];
       for (const widget of widgets) {
+        if (!(widget instanceof qx.ui.core.Widget)) {
+          throw new Error("Given widget " + widget + " is not an instance of qx.ui.core.Widget!");
+        }
         const contentEl = widget.getContentElement();
         let widgetId = contentEl.getAttribute("id");
         if (!widgetId) {
@@ -3894,7 +3897,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       ENHANCED DISPOSE SUPPORT
