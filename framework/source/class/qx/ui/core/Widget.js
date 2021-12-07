@@ -3827,6 +3827,67 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ARIA attrs support
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Marks that this widget gets labelled by another widget. This will be read out by screenreaders as first
+     * information.
+     * Similiar to aria-label, difference being that the labelling widget is an different widget and multiple
+     * widgets can be added.
+     * @param labelWidgets {qx.ui.core.Widget[]} Indefinite Number of labelling Widgets
+     */
+    addAriaLabelledBy: function() {
+      this.__addAriaXBy(qx.lang.Array.fromArguments(arguments), "aria-labelledby");
+    },
+
+    /**
+     * Marks that this widget gets described by another widget. This will be read out by screenreaders as last
+     * information. Multiple Widgets possible.
+     * @param describingWidgets {qx.ui.core.Widget[]} Indefinite Number of describing Widgets
+     */
+    addAriaDescribedBy: function() {
+      this.__addAriaXBy(qx.lang.Array.fromArguments(arguments), "aria-describedby");
+    },
+
+    /**
+     * Sets either aria-labelledby or aria-describedby
+     * @param widgets {qx.ui.core.Widget[]} Indefinite Number of widgets
+     * @param ariaAttr {String} aria-labelledby | aria-describedby
+     */
+    __addAriaXBy: function(widgets, ariaAttr) {
+      if (!["aria-labelledby", "aria-describedby"].includes(ariaAttr)) {
+        throw new Error("Only aria-labelledby or aria-describedby allowed!");
+      }
+      var idArr = [];
+      widgets.forEach(function(widget) {
+        if (!(widget instanceof qx.ui.core.Widget)) {
+          throw new Error("Given widget " + widget + " is not an instance of qx.ui.core.Widget!");
+        }
+        var contentEl = widget.getContentElement();
+        var widgetId = contentEl.getAttribute("id");
+        if (!widgetId) {
+          widgetId = "label-" + widget.toHashCode();
+          contentEl.setAttribute("id", widgetId);
+        }
+        if (!idArr.includes(widgetId)) {
+          idArr.push(widgetId);
+        }
+      });
+      if (idArr.length === 0) {
+        return;
+      }
+      var idStr = idArr.join(" ");
+      var contentEl = this.getContentElement();
+      var res = contentEl.getAttribute(ariaAttr);
+      res = res ? res + " " + idStr : idStr;
+      contentEl.setAttribute(ariaAttr, res);
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
