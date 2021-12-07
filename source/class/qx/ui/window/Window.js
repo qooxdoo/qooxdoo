@@ -106,6 +106,7 @@ qx.Class.define("qx.ui.window.Window",
     // ARIA attrs
     this.getContentElement().setAttribute("role", "dialog");
     this.addAriaLabelledBy(this.getChildControl("title"));
+    this.addAriaDescribedBy(this.getChildControl("statusbar-text"));
   },
 
 
