@@ -130,6 +130,7 @@ Accessibility is an important topic in nowadays webdevelopment in order to allow
 - Tabview
 - ToggleButton
 - Toolbar
+- Window
 
 Other components will follow.
 

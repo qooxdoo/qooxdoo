@@ -3827,7 +3827,74 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ARIA attrs support
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Sets the string which labels this widget. This will be read out by screenreaders. Needed if there is no
+     * readable text/label in this widget which would automatically act as aria-label.
+     * @param {String} label Labelling Text
+     */
+    setAriaLabel: function(label) {
+      this.getContentElement().setAttribute("aria-label", label);
+    },
 
+    /**
+     * Marks that this widget gets labelled by another widget. This will be read out by screenreaders as first
+     * information.
+     * Similiar to aria-label, difference being that the labelling widget is an different widget and multiple
+     * widgets can be added.
+     * @param {Array} labelWidgets Indefinite Number of labelling Widgets
+     */
+    addAriaLabelledBy: function(...labelWidgets) {
+      this.__addAriaXBy(labelWidgets, "aria-labelledby");
+    },
+
+    /**
+     * Marks that this widget gets described by another widget. This will be read out by screenreaders as last
+     * information. Multiple Widgets possible.
+     * @param {Array} describingWidgets Indefinite Number of describing Widgets
+     */
+    addAriaDescribedBy: function(...describingWidgets) {
+      this.__addAriaXBy(describingWidgets, "aria-describedby");
+    },
+
+    /**
+     * Sets either aria-labelledby or aria-describedby
+     * @param {Array} widgets Indefinite Number of widgets
+     * @param {String} ariaAttr aria-labelledby | aria-describedby
+     */
+    __addAriaXBy: function(widgets, ariaAttr) {
+      if (!["aria-labelledby", "aria-describedby"].includes(ariaAttr)) {
+        throw new Error("Only aria-labelledby or aria-describedby allowed!");
+      }
+      let idArr = [];
+      for (const widget of widgets) {
+        const contentEl = widget.getContentElement();
+        let widgetId = contentEl.getAttribute("id");
+        if (!widgetId) {
+          widgetId = `label-${widget.toHashCode()}`;
+          contentEl.setAttribute("id", widgetId);
+        }
+        if (!idArr.includes(widgetId)) {
+          idArr.push(widgetId);
+        }
+      }
+      if (idArr.length === 0) {
+        return;
+      }
+      const idStr = idArr.join(" ");
+      const contentEl = this.getContentElement();
+      let res = contentEl.getAttribute(ariaAttr);
+      res = res ? `${res} ${idStr}` : idStr;
+      contentEl.setAttribute(ariaAttr, res);
+    },
+
+
+    
     /*
     ---------------------------------------------------------------------------
       ENHANCED DISPOSE SUPPORT

@@ -102,6 +102,10 @@ qx.Class.define("qx.ui.window.Window",
 
     // Change the resize frames appearance
     this._getResizeFrame().setAppearance("window-resize-frame");
+    
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "dialog");
+    this.addAriaLabelledBy(this.getChildControl("title"));
   },
 
 
@@ -961,6 +965,9 @@ qx.Class.define("qx.ui.window.Window",
       } else {
         this.addState("modal");
       }
+      
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-modal", value);
     },
 
 

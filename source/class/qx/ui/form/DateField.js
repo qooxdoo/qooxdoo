@@ -602,7 +602,22 @@ qx.Class.define("qx.ui.form.DateField",
 
       field.getFocusElement().focus();
       field.selectAllText();
-    }
+    },
+
+    // overridden
+    setAriaLabel: function(label) {
+      this.getChildControl("textfield").setAriaLabel(label);
+    },
+
+    // overridden
+    addAriaLabelledBy: function(...labelWidgets) {
+      this.getChildControl("textfield").addAriaLabelledBy(...labelWidgets);
+    },
+
+    // overridden
+    addAriaDescribedBy: function(...labelWidgets) {
+      this.getChildControl("textfield").addAriaLabelledBy(labelWidgets);
+    },
   },
 
 
