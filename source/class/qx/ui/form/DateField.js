@@ -616,7 +616,7 @@ qx.Class.define("qx.ui.form.DateField",
 
     // overridden
     addAriaDescribedBy: function(...describingWidgets) {
-      this.getChildControl("textfield").addAriaLabelledBy(describingWidgets);
+      this.getChildControl("textfield").addAriaDescribedBy(...describingWidgets);
     },
   },
 
