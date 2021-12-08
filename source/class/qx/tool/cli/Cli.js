@@ -179,6 +179,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           "Compile",
           "Config",
           "Deploy",
+          "Es6ify",
           "Package",
           "Pkg", // alias for Package
           "Create",
