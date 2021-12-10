@@ -120,7 +120,7 @@ test("Checks dependencies and environment settings", assert => {
   var db;
   var meta;
   deleteRecursive("test-deps")
-      .then(() => createMaker()
+      .then(() => createMaker())
       .then(_maker => {
         maker = _maker;
         app = maker.getApplications()[0];
