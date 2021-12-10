@@ -120,7 +120,7 @@ test("Checks dependencies and environment settings", assert => {
   var db;
   var meta;
   deleteRecursive("test-deps")
-      .then(() => createMaker())
+      .then(() => createMaker()
       .then(_maker => {
         maker = _maker;
         app = maker.getApplications()[0];
@@ -320,7 +320,7 @@ test("Checks dependencies and environment settings", assert => {
        */
       .then(async () => {
         let src = await readFile("test-deps/index.html", "utf8");
-        assert.ok(src.match(/src="appone\/index.js\$\{indexJsTimestamp\}"/), "Default application");
+        assert.ok(src.match(/src="appone\/index.js"/), "Default application");
       })
 
       /*
