@@ -103,6 +103,7 @@ In hindsight of better keyboard accessibility support some components received c
 
 | Component | Changes |
 | --- | --- |
+| qx.ui.core.scroll.AbstractScrollArea | The width and height are now fix. To reenable dynamic growing, the width or height can be set to null. |
 | qx.ui.form.AbstractSelectBox | `Tab` Key is now equally treated as `Escape` and closes the menu |
 | qx.ui.form.ComboBox | - `Down` Key now opens the menu without pressing `Alt` <br /> - Textfield text is not fully selected anymore when the menu closes <br /> - Pressing input specific keys while the menu is open will close the menu|
 | qx.ui.form.MenuButton | - `Space` Key is now equally treated as `Enter` and opens the menu <br /> - Opening the menu focuses the button |
