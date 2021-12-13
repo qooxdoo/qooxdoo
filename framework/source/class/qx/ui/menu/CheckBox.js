@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
     this.base(arguments);
 
     // ARIA attrs
-    const contenEl = this.getContentElement();
+    var contenEl = this.getContentElement();
     contenEl.setAttribute("role", "checkbox");
     contenEl.setAttribute("aria-checked", false);
 

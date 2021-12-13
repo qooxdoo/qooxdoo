@@ -1408,7 +1408,7 @@ qx.Class.define("qx.ui.table.Table",
         this.getContentElement().setAttribute("aria-rowcount", rowCount);
       }
 
-      const colCount = this.getTableModel().getColumnCount();
+      var colCount = this.getTableModel().getColumnCount();
 
       if (colCount != this.__lastColCount)
       {
@@ -1722,7 +1722,7 @@ qx.Class.define("qx.ui.table.Table",
         }
 
         // ARIA attrs
-        const cellId = "qooxdoo-table-cell-" + this.toHashCode() + "-" + row + "-" + col;
+        var cellId = "qooxdoo-table-cell-" + this.toHashCode() + "-" + row + "-" + col;
         this.getContentElement().setAttribute("aria-activedescendant",  cellId);
       }
     },

@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     this.setValue(false);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
+    var contentEl = this.getContentElement();
     contentEl.setAttribute("role", "checkbox");
     contentEl.removeAttribute("aria-pressed");
     contentEl.setAttribute("aria-checked", false);
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     _applyValue : function(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
 
-      let ariaChecked = Boolean(value);
+      var ariaChecked = Boolean(value);
       if (this.isTriState()) {
         if (value === null) {
           ariaChecked = "mixed";

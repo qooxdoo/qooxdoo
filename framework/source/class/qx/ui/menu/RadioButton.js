@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
     // ARIA attrs
     // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
-    const contentEl = this.getContentElement();
+    var contentEl = this.getContentElement();
     contentEl.setAttribute("role", "radio");
     contentEl.setAttribute("aria-checked", false);
 

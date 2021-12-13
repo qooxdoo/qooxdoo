@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.form.MenuButton",
         old.resetOpener();
       }
 
-      const contentEl = this.getContentElement();
+      var contentEl = this.getContentElement();
       if (value)
       {
         value.addListener("changeVisibility", this._onMenuChange, this);
@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.form.MenuButton",
     _onMenuChange : function(e)
     {
       var menu = this.getMenu();
-      const menuVisible = menu.isVisible()
+      var menuVisible = menu.isVisible()
       if (menuVisible) {
         this.addState("pressed");
       } else {

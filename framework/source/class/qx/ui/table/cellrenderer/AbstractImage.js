@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getCellAttributes : function(cellInfo)
     {
-      let baseAttrs = this.base(arguments, cellInfo);
+      var baseAttrs = this.base(arguments, cellInfo);
       if (!baseAttrs) {
         baseAttrs = "";
       }

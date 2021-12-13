@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     this.addListener("execute", this._onExecute, this);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
+    var contentEl = this.getContentElement();
     contentEl.setAttribute("role", "button");
     contentEl.setAttribute("aria-pressed", false);
   },
@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     _applyValue : function(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
 
-      let ariaPressed = Boolean(value);
+      var ariaPressed = Boolean(value);
       if (this.isTriState()) {
         if (value === null) {
           ariaPressed = "mixed";

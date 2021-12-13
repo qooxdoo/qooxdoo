@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         old.removeState("submenu");
       }
 
-      const contentEl = this.getContentElement();
+      var contentEl = this.getContentElement();
       if (value)
       {
         this._showChildControl("arrow");

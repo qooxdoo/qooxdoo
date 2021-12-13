@@ -224,8 +224,8 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.__updateLabel();
 
       // ARIA attrs
-      const old = e.getOldData() ? e.getOldData()[0] : null;
-      const current = this.getSelection()[0];
+      var old = e.getOldData() ? e.getOldData()[0] : null;
+      var current = this.getSelection()[0];
       if (old && old !== current) {
         old.getContentElement().setAttribute("aria-selected", false);
       }

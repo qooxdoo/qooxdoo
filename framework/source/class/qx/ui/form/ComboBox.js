@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var value = e.getData();
 
       var list = this.getChildControl("list");
-      let current = null;
+      var current = null;
       if (value != null) {
         // Select item when possible
         current = list.findItem(value, false);
@@ -414,7 +414,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       // ARIA attrs
-      const old = e.getOldData() ? list.findItem(e.getOldData(), false) : null;
+      var old = e.getOldData() ? list.findItem(e.getOldData(), false) : null;
       if (old && old !== current) {
         old.getContentElement().setAttribute("aria-selected", false);
       }

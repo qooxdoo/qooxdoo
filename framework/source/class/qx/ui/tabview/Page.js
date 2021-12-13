@@ -55,16 +55,16 @@ qx.Class.define("qx.ui.tabview.Page",
     }
 
     // ARIA attrs
-    const btn = this.getButton();
-    const pageId = "page-" + this.toHashCode();
-    const btnId = "btn-" + pageId + btn.toHashCode();
-    const contentEl = this.getContentElement();
+    var btn = this.getButton();
+    var pageId = "page-" + this.toHashCode();
+    var btnId = "btn-" + pageId + btn.toHashCode();
+    var contentEl = this.getContentElement();
     contentEl.setAttribute("id", pageId); 
     contentEl.setAttribute("role", "tabpanel");
     contentEl.setAttribute("aria-labelledBy", btnId);
     contentEl.setAttribute("aria-expanded", false);
     
-    const btnContentEl = btn.getContentElement();
+    var btnContentEl = btn.getContentElement();
     btnContentEl.setAttribute("id", btnId); 
     btnContentEl.setAttribute("role", "tab");
     btnContentEl.setAttribute("aria-selected", false);
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.tabview.Page",
      * @param {*} e 
      */
      _onBtnChangeValue: function (e) {
-      const val = e.getData();
+      var val = e.getData();
       this.getContentElement().setAttribute("aria-expanded", val, true); // Set third argument to true -> direct Update
       this.getButton().getContentElement().setAttribute("aria-selected", val);
     },

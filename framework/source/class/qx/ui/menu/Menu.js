@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.menu.Menu",
     root.add(this);
 
     // ARIA attrs
-    const contentEl = this.getContentElement();
+    var contentEl = this.getContentElement();
     contentEl.setAttribute("role", "menu");
     contentEl.setAttribute("id", "menu-" + this.toHashCode());
 
@@ -494,8 +494,8 @@ qx.Class.define("qx.ui.menu.Menu",
         old.removeState("selected");
       }
 
-      const opener = this.__getRootOpener();
-      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
+      var opener = this.__getRootOpener();
+      var contentEl = opener ? opener.getContentElement() : this.getContentElement();
       if (value) {
         value.addState("selected");
 
@@ -713,7 +713,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _afterAddChild: function (child) {
       // Some childs, e.g. Seperators, are no meaningful menu items
       if (child instanceof qx.ui.menu.AbstractButton) {
-        const contentEl = child.getContentElement();
+        var contentEl = child.getContentElement();
         contentEl.setAttribute("id", "menu-item-" + child.toHashCode());
         contentEl.setAttribute("role", "menuitem");
       }
@@ -842,11 +842,11 @@ qx.Class.define("qx.ui.menu.Menu",
      * @return {qx.ui.core.Widget|null} The opener.
      */
     __getRootOpener: function () {
-      let parentMenu = this.getParentMenu();
+      var parentMenu = this.getParentMenu();
       if (!parentMenu) {
         return this.getOpener();
       }
-      let opener;
+      var opener;
       while (parentMenu) {
         opener = parentMenu.getOpener();
         parentMenu = parentMenu.getParentMenu();
