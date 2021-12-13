@@ -272,6 +272,9 @@ qx.Class.define("qx.ui.container.SlideBar",
     // property apply
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+      
       var oldLayouts = [this.getLayout(), this._getLayout()];
       var buttonForward = this.getChildControl("button-forward");
       var buttonBackward = this.getChildControl("button-backward");

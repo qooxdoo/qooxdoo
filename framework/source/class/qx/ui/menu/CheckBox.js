@@ -44,6 +44,11 @@ qx.Class.define("qx.ui.menu.CheckBox",
   {
     this.base(arguments);
 
+    // ARIA attrs
+    const contenEl = this.getContentElement();
+    contenEl.setAttribute("role", "checkbox");
+    contenEl.setAttribute("aria-checked", false);
+
     // Initialize with incoming arguments
     if (label != null) {
       // try to translate every time you create a checkbox [BUG #2699]
@@ -120,6 +125,9 @@ qx.Class.define("qx.ui.menu.CheckBox",
       value ?
         this.addState("checked") :
         this.removeState("checked");
+      
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
 
 

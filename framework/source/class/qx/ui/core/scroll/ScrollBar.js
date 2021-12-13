@@ -301,6 +301,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     // property apply
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+
       // Dispose old layout
       var oldLayout = this._getLayout();
       if (oldLayout) {

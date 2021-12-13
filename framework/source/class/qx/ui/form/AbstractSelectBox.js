@@ -55,6 +55,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     this._setLayout(layout);
     layout.setAlignY("middle");
 
+    // ARIA attrs
+    const contentEl = this.getContentElement();
+    contentEl.setAttribute("role", "button");
+    contentEl.setAttribute("aria-haspopup", "listbox");
+    contentEl.setAttribute("aria-expanded", false);
+
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._onBlur, this);
@@ -130,7 +136,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       switch(id)
       {
-        case "list":
+        case "list": {
           control = new qx.ui.form.List().set({
             focusable: false,
             keepFocus: true,
@@ -140,12 +146,18 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one",
             quickSelection: true
           });
+          const listId = "list-" + control.toHashCode();
+          const childrenContainerEl = control.getChildrenContainer().getContentElement();
+          childrenContainerEl.setAttribute("id", listId);
+          childrenContainerEl.setAttribute("role", "listbox");
+          this.getContentElement().setAttribute("aria-owns", listId);
 
+          control.addListener("addItem", this._onListAddItem, this);
           control.addListener("changeSelection", this._onListChangeSelection, this);
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
-
+        }
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
@@ -315,7 +327,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _onResize : function(e){
       this.getChildControl("popup").setMinWidth(e.getData().width);
     },
-
+     
+    /**
+     * Sets ARIA attributes on the item
+     *
+     * @param e {qx.event.type.Data} Data Event
+     */
+     _onListAddItem : function(e) {
+      const item = e.getData();
+      const contentEl = item.getContentElement();
+      contentEl.setAttribute("id", "list-item-" + item.toHashCode());
+      contentEl.setAttribute("role", "option");
+      const ariaSelected = contentEl.getAttribute("aria-selected");
+      // aria-selected may be already set from changeSelection listener
+      if (ariaSelected === null || ariaSelected === undefined) {
+        contentEl.setAttribute("aria-selected", false);
+      }
+    },
 
     /**
      * Syncs the own property from the list change
@@ -343,7 +371,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {qx.event.type.Data} Property change event
      */
     _onPopupChangeVisibility : function(e) {
-      e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
+      const visible = e.getData() == "visible";
+      visible ? this.addState("popupOpen") : this.removeState("popupOpen");
+
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-expanded", visible);
     }
   }
 });
