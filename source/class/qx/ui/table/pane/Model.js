@@ -44,6 +44,10 @@ qx.Class.define("qx.ui.table.pane.Model",
     this.base(arguments);
 
     this.setTableColumnModel(tableColumnModel);
+    
+    this.__defferedEventDispatcher = new qx.util.DeferredCall(function() {
+      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+    }, this);
   },
 
 
@@ -122,20 +126,21 @@ qx.Class.define("qx.ui.table.pane.Model",
   {
     __columnCount : null,
     __tableColumnModel : null,
+    __defferedEventDispatcher : null,
 
 
     // property modifier
     _applyFirstColumnX : function(value, old)
     {
       this.__columnCount = null;
-      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.__defferedEventDispatcher.schedule();
     },
 
     // property modifier
     _applyMaxColumnCount : function(value, old)
     {
       this.__columnCount = null;
-      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.__defferedEventDispatcher.schedule();
     },
 
 
@@ -166,7 +171,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     {
       this.__columnCount = null;
 
-      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.__defferedEventDispatcher.schedule();
     },
 
 
@@ -177,7 +182,7 @@ qx.Class.define("qx.ui.table.pane.Model",
      */
     _onHeaderCellRendererChanged : function(evt)
     {
-      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.__defferedEventDispatcher.schedule();
     },
 
 
@@ -305,5 +310,6 @@ qx.Class.define("qx.ui.table.pane.Model",
       this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
     }
     this.__tableColumnModel = null;
+    this._disposeObjects("__defferedEventDispatcher");
   }
 });
