@@ -894,7 +894,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "appPath": t.getProjectDir(application) + "/",
           "preBootJs": "",
           "appTitle": (application.getTitle()||"Qooxdoo Application"),
-          "timeStamp": timeStamp
+          "timeStamp": timeStamp,
+          "indexJsTimestamp": indexJsTimestamp        
         };
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
       }
