@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       switch(id)
       {
-        case "list": {
+        case "list":
           control = new qx.ui.form.List().set({
             focusable: false,
             keepFocus: true,
@@ -157,7 +157,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
-        }
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
