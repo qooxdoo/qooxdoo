@@ -805,13 +805,31 @@ qx.Class.define("qx.test.util.DateFormat",
         this._testIsoMasks(date, 'isoDate', 'yyyy-MM-dd');
         this._testIsoMasks(date, 'isoTime', 'HH:mm:ss');
         this._testIsoMasks(date, 'isoDateTime', "yyyy-MM-dd'T'HH:mm:ss");
-
-//        var isodf = new qx.util.format.DateFormat('isoUtcDateTime');
-//        var df = new qx.util.format.DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-//        var isoDateFormatted = isodf.format(date);
-//        var dateFormatted = df.format(date);
-//        this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
+        this._testIsoMasks(date, 'isoDateTimeTz', "yyyy-MM-dd'T'HH:mm:ssZ");
+        //this._testIsoMasks(date, 'isoUtcDateTime', "yyyy-MM-dd'T'HH:mm:ss'Z'");
       }
+  },
+
+  testUtc : function () {
+    var isodf = new qx.util.format.DateFormat('isoUtcDateTime');
+    var parsedDate = isodf.parse("2013-01-01T00:00:00Z");
+    this.assertEquals(parsedDate.getUTCFullYear(), 2013);
+    this.assertEquals(parsedDate.getUTCMonth(), 0);
+    this.assertEquals(parsedDate.getUTCDate(), 1);
+    this.assertEquals(parsedDate.getUTCHours(), 0);
+    this.assertEquals(parsedDate.getUTCMinutes(), 0);
+    this.assertEquals(parsedDate.getUTCSeconds(), 0);
+    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+
+    // checks that UTC hours are calculated correctly
+    parsedDate = isodf.parse("2004-04-04T04:04:04Z");
+    this.assertEquals(parsedDate.getUTCHours(), 4);
+
+    // checks that UTC format does not parse a date with a timezone
+    this.assertException(function() {
+      isodf.parse("2004-04-04T04:04:04+05:00");
+    }, Error);
+
   },
 
   testChangingLocales : function()
