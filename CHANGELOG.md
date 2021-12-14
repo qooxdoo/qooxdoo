@@ -42,8 +42,8 @@ https://qooxdoo.org/documentation/#/development/compiler/migration .
 
 ## Breaking changes
 
-- `qx.ui.core.scroll.AbstractScrollArea`: The width and height are now fix. 
-    To reenable dynamic growing, the width or height can be set to null. |
+- `qx.ui.core.scroll.AbstractScrollArea`: The width and height are now fixed. 
+    To reenable dynamic growing, the width or height can be set to null. 
 
 - `qx.bom.Cookie`: Previous versions of qooxoo use `escape()` and `unescape()`
 functions. Since those functions are deprecated, then now qooxdoo use
