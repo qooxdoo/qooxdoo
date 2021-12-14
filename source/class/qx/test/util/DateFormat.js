@@ -810,6 +810,27 @@ qx.Class.define("qx.test.util.DateFormat",
       }
   },
 
+  testIsoTz : function() {
+    var isodf = new qx.util.format.DateFormat('isoDateTimeTz');
+    var parsedDate = isodf.parse("2013-01-01T00:00:00+0000");
+    this.assertEquals(parsedDate.getUTCFullYear(), 2013);
+    this.assertEquals(parsedDate.getUTCMonth(), 0);
+    this.assertEquals(parsedDate.getUTCDate(), 1);
+    this.assertEquals(parsedDate.getUTCHours(), 0);
+    this.assertEquals(parsedDate.getUTCMinutes(), 0);
+    this.assertEquals(parsedDate.getUTCSeconds(), 0);
+    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+
+    parsedDate = isodf.parse("2004-04-04T04:04:04-0500")
+    this.assertEquals(parsedDate.getUTCFullYear(), 2004);
+    this.assertEquals(parsedDate.getUTCMonth(), 3);
+    this.assertEquals(parsedDate.getUTCDate(), 3);
+    this.assertEquals(parsedDate.getUTCHours(), 23);
+    this.assertEquals(parsedDate.getUTCMinutes(), 4);
+    this.assertEquals(parsedDate.getUTCSeconds(), 4);
+    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+  },
+
   testUtc : function () {
     var isodf = new qx.util.format.DateFormat('isoUtcDateTime');
     var parsedDate = isodf.parse("2013-01-01T00:00:00Z");

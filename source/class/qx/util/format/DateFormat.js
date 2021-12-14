@@ -763,7 +763,7 @@ qx.Class.define("qx.util.format.DateFormat",
         min         : 0,
         sec         : 0,
         ms          : 0,
-        tzOffsetMins: 0
+        tzOffsetMins: null
       };
 
       var currGroup = 1;
@@ -828,7 +828,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var date;
-      if (this.__UTC || dateValues.tzOffsetMins !== 0) {
+      if (this.__UTC || dateValues.tzOffsetMins !== null) {
         var utcMs = Date.UTC(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
         if (dateValues.tzOffsetMins !== 0) {
           utcMs += (dateValues.tzOffsetMins * 60000);
