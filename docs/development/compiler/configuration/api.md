@@ -178,6 +178,7 @@ directly to the [Compiler API](../compiler/API.md). In addition, both APIs provi
 hook methods which are triggered by these events:
 
 `qx.tool.cli.api.CompilerApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.CompilerApi)
+- `afterProcessFinished()`: runs after the whole process is finished
 - `afterDeploy()`: called after deployment happens
 - `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
 - `load()`: Called to update the compilerConfig
