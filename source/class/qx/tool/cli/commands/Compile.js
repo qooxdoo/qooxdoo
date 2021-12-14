@@ -571,10 +571,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     createMakersFromConfig: async function(data) {
       const Console = qx.tool.compiler.Console.getInstance();
       var t = this;
-
       if (data.babelOptions) {
-        if (!data.babelConfig) {
-          data.babelConfig = { options: data.babelOptions };
+        if (!data?.babel?.options) {
+          data.babel = data.babel || {};
+          data.babel.options = data.babelOptions;
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptions");
         } else {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptionsConflicting");

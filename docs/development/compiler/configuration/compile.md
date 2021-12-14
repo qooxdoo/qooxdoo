@@ -223,13 +223,17 @@ be compiled. Each object can contain:
     ],
 ```
 
-You can also add plugins to babel (at the top level only), for example:
+You can also add plugins and global options to babel (at the top level only), for example:
 
 ```json5
   "babel": {
     "plugins": {
       "@babel/plugin-proposal-optional-chaining": true
+    },
+    "options": {
+        "targets": "node >= 12"
     }
+
   },
   "targets": [
 ```
