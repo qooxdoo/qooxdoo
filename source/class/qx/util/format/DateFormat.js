@@ -1217,7 +1217,7 @@ qx.Class.define("qx.util.format.DateFormat",
       };
 
       var timezoneManipulator = function(dateValues, value) {
-        var regEx = new RegExp("([+-]*)(\\d\\d)[:]*(\\d\\d)*$");
+        var regEx = new RegExp("([+-]?)(\\d\\d)(?::?(\\d\\d))?$");
         var tzResults = regEx.exec(value);
         var offsetHours = parseInt(tzResults[2], 10);
         var offsetMins = parseInt(tzResults[3], 10);
