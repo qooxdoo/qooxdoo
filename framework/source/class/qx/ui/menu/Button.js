@@ -43,6 +43,9 @@ qx.Class.define("qx.ui.menu.Button",
   {
     this.base(arguments);
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "button");
+
     // Initialize with incoming arguments
     if (label != null) {
       this.setLabel(label);
