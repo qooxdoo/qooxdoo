@@ -207,8 +207,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       
       let spacers = {};
       const addSpacer = spacer => {
-          let itemRow = item.getUserData("cell.row");
-          let itemColumn = item.getUserData("cell.column");
+          let itemRow = spacer.getUserData("cell.row");
+          let itemColumn = spacer.getUserData("cell.column");
           let id = itemRow + "x" + itemColumn;
           spacers[id] = spacer;
       };

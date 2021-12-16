@@ -178,6 +178,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     __dontFireUpdate : null,
     __columnSizes : null,
     __rowSizes : null,
+    __lastRenderSize: null,
     __firstRow: 0,
     __firstColumn: 0,
     __pointerDownCoords : null,
@@ -929,6 +930,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     renderLayout(left, top, width, height) {
       this.__autoSizing = true;
 
+      let lrs = this.__lastRenderSize;
+      if (lrs != null && lrs.left == left && lrs.top == top && lrs.width == width && lrs.height == height) {
+        this.base(arguments, left, top, width, height);
+        this.__autoSizing = false;
+        return;
+      }
+      this.__lastRenderSize = { left, top, width, height };
+
       let bounds = this.getBounds();
       let resizing = bounds && (bounds.width != width || bounds.height != height);
 
@@ -1256,6 +1265,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _deferredUpdateScrollPosition : function()
     {
+      this.__lastRenderSize = null;
       this.__jobs._updateScrollPosition = 1;
       qx.ui.core.queue.Widget.add(this);
       qx.ui.core.queue.Layout.add(this);
