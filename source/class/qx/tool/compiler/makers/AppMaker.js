@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -70,7 +70,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
     async make() {
       var analyser = this.getAnalyser();
       let target = this.getTarget();
-      
+
       await this.fireEventAsync("making");
       this.setSuccess(null);
       this.setHasWarnings(null);
@@ -82,12 +82,12 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         qx.tool.compiler.ClassFile.ENVIRONMENT_CONSTANTS,
         {
           "qx.compiler": true,
-          "qx.compiler.version": qx.tool.compiler.Version.VERSION
+          "qx.compiler.version": qx.tool.config.Utils.getCompilerVersion()
         },
         this.getEnvironment(),
         target.getDefaultEnvironment(),
         target.getEnvironment());
-        
+
       let preserve = target.getPreserveEnvironment();
       if (preserve) {
         let tmp = {};
@@ -101,7 +101,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       this.getApplications().forEach(app => {
         appEnvironments[app.toHashCode()] = qx.tool.utils.Values.merge({}, compileEnv, app.getCalculatedEnvironment());
       });
-      
+
       // Analyze the list of environment variables, detect which are shared between all apps
       let allAppEnv = {};
       this.getApplications().forEach(app => {
@@ -117,7 +117,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           }
         });
       });
-      
+
       // If an env setting is the same for all apps, move it to the target for code elimination; similarly,
       //  if it varies between apps, then remove it from the target and make each app specify it individually
       this.getApplications().forEach(app => {
@@ -132,8 +132,8 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           }
         });
       });
-      
-      // Cleanup to remove env that have been moved to the app 
+
+      // Cleanup to remove env that have been moved to the app
       Object.keys(allAppEnv).forEach(key => {
         if (!preserve[key] && allAppEnv[key].same) {
           compileEnv[key] = allAppEnv[key].value;
@@ -150,14 +150,14 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         await qx.tool.utils.Utils.makeParentDir(this.getOutputDir());
         await analyser.resetDatabase();
       }
-      
+
       await qx.tool.utils.Utils.promisifyThis(analyser.initialScan, analyser);
       await analyser.updateEnvironmentData();
 
       target.setAnalyser(analyser);
       this.__applications.forEach(app => app.setAnalyser(analyser));
       await target.open();
-      
+
       if (this.isOutputTypescript()) {
         analyser.getLibraries().forEach(library => {
           var symbols = library.getKnownSymbols();
@@ -179,7 +179,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         }
       });
       await analyser.analyseClasses();
-      
+
       await analyser.saveDatabase();
       await this.fireEventAsync("writingApplications");
 
@@ -191,11 +191,11 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       var appsThisTime = this.__applications.filter(app => {
         let loadDeps = app.getDependencies();
         if (!loadDeps || !loadDeps.length) {
-          return true; 
+          return true;
         }
         return loadDeps.some(name => Boolean(compiledClasses[name]));
       });
-      
+
       let allAppInfos = [];
 
       let db = analyser.getDatabase();
@@ -244,7 +244,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
             .run()
         );
       }
-      
+
       await analyser.saveDatabase();
       await this.fireEventAsync("made");
       this.setSuccess(success);

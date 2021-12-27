@@ -147,6 +147,15 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       }
       var config = this._getConfig();
       const app = express();
+      app.use((req, res, next) => {
+          res.set({
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+              "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
+              "Content-Security-Policy": "default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval'; script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src * data: blob: 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src * data: blob: ; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';"
+          })
+          next();
+      });
       const website = new qx.tool.utils.Website();
       if (!this.__showStartpage) {
         app.use("/", express.static(defaultMaker.getTarget().getOutputDir()));

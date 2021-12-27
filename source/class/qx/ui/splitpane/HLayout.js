@@ -94,11 +94,11 @@ qx.Class.define("qx.ui.splitpane.HLayout",
         var beginFlex = begin.getLayoutProperties().flex;
         var endFlex = end.getLayoutProperties().flex;
 
-        if (beginFlex == null) {
+        if (beginFlex === undefined || beginFlex === null) {
           beginFlex = 1;
         }
 
-        if (endFlex == null) {
+        if (endFlex === undefined || endFlex === null) {
           endFlex = 1;
         }
 

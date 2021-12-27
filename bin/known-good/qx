@@ -8,8 +8,8 @@ async function main() {
   let qx = path.join(knownGood, "node_modules", ".bin", "qx");
   if (!fs.existsSync(qx)) {
     console.log("Loading working compiler with npm");
-    await utils.runCommand(knownGood, "npm", "ci");
-    await utils.runCommand(knownGood, "npm", "upgrade", "@qooxdoo/compiler");
+    await utils.runCommand(knownGood, "npm", "ci", "--no-audit");
+    await utils.runCommand(knownGood, "npm", "upgrade", "--no-audit", "--no-package-lock", "@qooxdoo/compiler");
     if (!fs.existsSync(qx)) {
       console.error("Failed to discover known-good version of the compiler!");
       process.exit(1);

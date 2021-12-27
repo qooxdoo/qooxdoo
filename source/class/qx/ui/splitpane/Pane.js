@@ -226,6 +226,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+
       var slider = this.getChildControl("slider");
       var splitter = this.getChildControl("splitter");
 
@@ -347,7 +350,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     add : function(widget, flex)
     {
-      if (flex == null) {
+      if (flex === undefined) {
         this._add(widget);
       } else {
         this._add(widget, {flex : flex});

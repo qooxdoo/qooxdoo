@@ -76,6 +76,23 @@ qx.Class.define("qx.html.Node",
             domNode.$$element === domNode.$$elementObject.toHashCode());
       }
       return domNode.$$elementObject;
+    },
+
+    /**
+     * Converts a DOM node into a qx.html.Node, providing the existing instance if
+     * there is one
+     * 
+     * @param {Node} domNode 
+     * @returns {qx.html.Node}
+     */
+    toVirtualNode(domNode) {
+      if (domNode.$$elementObject) {
+        return domNode.$$elementObject;
+      }
+
+      let html = qx.html.Factory.getInstance().createElement(domNode.nodeName, domNode.attributes);
+      html.useNode(domNode);
+      return html;
     }
 
   },
@@ -105,7 +122,8 @@ qx.Class.define("qx.html.Node",
       init: true,
       nullable: true,
       check: "Boolean",
-      apply: "_applyVisible"
+      apply: "_applyVisible",
+      event: "changeVisible"
     }
   },
 
@@ -276,8 +294,9 @@ qx.Class.define("qx.html.Node",
      */
     useNode: function(domNode) {
       var id = domNode.getAttribute("data-qx-object-id");
-      if (id)
+      if (id) {
         this.setQxObjectId(id);
+      }
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
@@ -478,8 +497,9 @@ qx.Class.define("qx.html.Node",
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
         var id = this.getQxObjectId();
-        if (!id && this._qxObject)
+        if (!id && this._qxObject) {
           id = this._qxObject.getQxObjectId();
+        }
 
         this.setAttribute("data-qx-object-id", id, true);
       }
@@ -793,7 +813,14 @@ qx.Class.define("qx.html.Node",
       if (data)
       {
         // Import listeners
-        qx.event.Registration.getManager(elem).importListeners(elem, data);
+        let domEvents = {};
+        let manager = qx.event.Registration.getManager(elem);
+        for (let id in data) {
+          if (manager.findHandler(elem, data[id].type)) {
+            domEvents[id] = data[id];
+          }
+        }
+        qx.event.Registration.getManager(elem).importListeners(elem, domEvents);
 
         // Cleanup event map
         // Events are directly attached through event manager
@@ -1331,6 +1358,9 @@ qx.Class.define("qx.html.Node",
      * @param name {String} The node name
      */
     setNodeName : function(name) {
+      if (this._domNode && name.toLowerCase() !== this._nodeName.toLowerCase()) {
+        throw new Error("Cannot change the name of the node after the DOM node has been created");
+      }
       this._nodeName = name;
     },
 

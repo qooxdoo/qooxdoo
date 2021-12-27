@@ -56,6 +56,7 @@ qx.Class.define("qx.event.handler.Mouse",
     this.__manager = manager;
     this.__window = manager.getWindow();
     this.__root = this.__window.document;
+    this.__onNativeListener = qx.lang.Function.listener(this._onNative, this);
 
     // Initialize observers
     this._initButtonObserver();
@@ -80,16 +81,25 @@ qx.Class.define("qx.event.handler.Mouse",
     /** @type {Map} Supported event types */
     SUPPORTED_TYPES :
     {
-      mousemove : 1,
-      mouseover : 1,
-      mouseout : 1,
-      mousedown : 1,
-      mouseup : 1,
-      click : 1,
       auxclick : 1,
-      dblclick : 1,
+      click : 1,
       contextmenu : 1,
+      dblclick : 1,
+      mousedown : 1,
+      mouseenter : 1,
+      mouseleave : 1,
+      mousemove : 1,
+      mouseout : 1,
+      mouseover : 1,
+      mouseup : 1,
       mousewheel : 1
+    },
+
+    /** @type{Map} these event types cannot be attached to the root (the document), they must be attached to the element itself */
+    NON_BUBBLING_EVENTS: 
+    {
+      mouseenter: true,
+      mouseleave: true
     },
 
     /** @type {Integer} Which target check to use */
@@ -121,6 +131,9 @@ qx.Class.define("qx.event.handler.Mouse",
     __root : null,
     __preventNextClick: null,
 
+    /** @type{Function} wrapper for `_onNative`, bound as a native listener */
+    __onNativeListener: null,
+
 
 
     /*
@@ -133,24 +146,51 @@ qx.Class.define("qx.event.handler.Mouse",
     canHandleEvent : function(target, type) {},
 
 
-    // interface implementation
-    // The iPhone requires for attaching mouse events natively to every element which
-    // should react on mouse events. As of version 3.0 it also requires to keep the
-    // listeners as long as the event should work. In 2.0 it was enough to attach the
-    // listener once.
-    registerEvent : qx.core.Environment.get("os.name") === "ios" ?
-      function(target, type, capture) {
+    /**
+     * @Override
+     */
+    registerEvent(target, type, capture) {
+      if (qx.event.handler.Mouse.NON_BUBBLING_EVENTS[type]) {
+        qx.bom.Event.addNativeListener(target, type, this.__onNativeListener);
+  
+      } else if (qx.core.Environment.get("os.name") === "ios") {
+        // The iPhone requires for attaching mouse events natively to every element which
+        // should react on mouse events. As of version 3.0 it also requires to keep the
+        // listeners as long as the event should work. In 2.0 it was enough to attach the
+        // listener once.
         target["on" + type] = (function() {return null;});
-      } : (function() {return null;}),
+      }
+    },
 
-
-    // interface implementation
-    unregisterEvent : qx.core.Environment.get("os.name") === "ios" ?
-      function(target, type, capture) {
+    /**
+     * @Override
+     */
+    unregisterEvent(target, type, capture) {
+      if (qx.event.handler.Mouse.NON_BUBBLING_EVENTS[type]) {
+        qx.bom.Event.removeNativeListener(target, type, this.__onNativeListener);
+  
+      } else if (qx.core.Environment.get("os.name") === "ios") {
         target["on" + type] = undefined;
-      } : (function() {return null;}),
+      }
+    },
 
-
+    /**
+     * Default event handler for events that do not bubble
+     *
+     * @signature function(domEvent, eventId)
+     * @param domEvent {Event} Native event
+     */
+    _onNative: qx.event.GlobalError.observeMethod(function(domEvent) {
+      let target = qx.bom.Event.getTarget(domEvent);
+ 
+      qx.event.Registration.fireNonBubblingEvent(
+        target, 
+        domEvent.type,
+        qx.event.type.Mouse, 
+        [domEvent, target, undefined, undefined, domEvent.cancelable]
+      );
+    }),
+ 
 
 
     /*
@@ -237,10 +277,9 @@ qx.Class.define("qx.event.handler.Mouse",
       this.__onMoveEventWrapper = qx.lang.Function.listener(this._onMoveEvent, this);
 
       var Event = qx.bom.Event;
-
       Event.addNativeListener(this.__root, "mousemove", this.__onMoveEventWrapper);
-      Event.addNativeListener(this.__root, "mouseover", this.__onMoveEventWrapper);
       Event.addNativeListener(this.__root, "mouseout", this.__onMoveEventWrapper);
+      Event.addNativeListener(this.__root, "mouseover", this.__onMoveEventWrapper);
     },
 
 

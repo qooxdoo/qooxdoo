@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2019 Zenesis Limited, http://www.zenesis.com
@@ -19,16 +19,16 @@
  *      * John Spackman (john.spackman@zenesis.com, @johnspackman)
  *
  * *********************************************************************** */
-
-/**
- * @ignore(require)
- */
-
 /* eslint-disable @qooxdoo/qx/no-illegal-private-usage */
 
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
-const nodeSass = require("node-sass");
+/**
+ * @external(qx/tool/loadsass.js)
+ * @ignore(loadSass)
+ */
+/* global loadSass */
+const sass = loadSass();
 
 /**
  * @ignore(process)
@@ -79,7 +79,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
       let inputFileData = await this.loadSource(this.__filename, this.__library);
 
       await new qx.Promise((resolve, reject) => {
-        nodeSass.render({
+        sass.render({
           // Always have file so that the source map knows the name of the original
           file: this.__filename,
 
@@ -215,7 +215,8 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
           return null;
         }
         promises.push(this.loadSource(pathInfo.filename, newLibrary));
-        return "@import \"" + path.relative(process.cwd(), newLibrary.getResourceFilename(pathInfo.filename)) + "\"";
+        let filename = this.isThemeFile() ? newLibrary.getThemeFilename(pathInfo.filename) : newLibrary.getResourceFilename(pathInfo.filename);
+        return "@import \"" + path.relative(process.cwd(), filename) + "\"";
       });
 
       contents = contents.replace(/\burl\s*\(\s*([^\)]+)*\)/ig, (match, url) => {
@@ -264,17 +265,17 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
 
       if (pathInfo) {
         if (pathInfo.externalUrl) {
-          return nodeSass.types.String("url(" + pathInfo.externalUrl + ")");
+          return sass.types.String("url(" + pathInfo.externalUrl + ")");
         }
 
         if (pathInfo.namespace) {
           let targetFile = path.relative(process.cwd(), path.join(this.__target.getOutputDir(), "resource", pathInfo.filename));
           let relative = path.relative(this.__outputDir, targetFile);
-          return nodeSass.types.String("url(" + relative + ")");
+          return sass.types.String("url(" + relative + ")");
         }
       }
 
-      return nodeSass.types.String("url(" + url + ")");
+      return sass.types.String("url(" + url + ")");
     }
   }
 });

@@ -23,6 +23,7 @@
  * directly. Please check its class comment for details how to use it.
  *
  * @internal
+ * @ignore(process.*)
  */
 qx.Bootstrap.define("qx.bom.client.OperatingSystem",
 {
@@ -32,8 +33,23 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      * Checks for the name of the operating system.
      * @return {String} The name of the operating system.
      * @internal
+     * @ignore(process.*)
+     * 
      */
     getName : function() {
+      if (typeof process != "undefined" && process.platform) {
+        const MAP = {
+          "win32": "win",
+          "darwin": "osx",
+          "linux": "linux",
+          "aix": "unix",
+          "freebsd": "unix",
+          "openbsd": "unix",
+          "sunos": "unix",
+          "android": "android"
+        }
+        return MAP[process.platform]||"";
+      }
       if (!navigator) {
         return "";
       }

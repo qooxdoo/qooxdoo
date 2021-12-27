@@ -21,7 +21,6 @@
     },
     "run": {
       "type": "object",
-      "additionalItems": false,
       "required": [ "application" ],
       "properties": {
         "application": {
@@ -36,7 +35,6 @@
     },
     "sass": {
       "type": "object",
-      "additionalItems": false,
       "properties": {
         "compiler": {
           "description": "Which SASS compiler to use (default is deprecated \"legacy\" during v6, will default to \"latest\" in v7)",
@@ -79,7 +77,7 @@
               {
                 "type": "string",
                 "pattern": "^[-_a-zA-Z0-9]+$"
-              }, 
+              },
               {
                 "type": "array",
                 "items": {
@@ -155,9 +153,18 @@
             "description": "The boot loader template file, usually determined automatically from the application type",
             "type": "string"
           },
-          "default": {
-            "description": "If true, this application is considered the default when serving the application; if not provided then the first browser app is the default application. When applications are generated, each application has it's own directory inside the target directory and also has it's own index.html. However, there is an index.html which is generated in the target output directory that runs the `default` application.",
-            "type": "boolean"
+          "runWhenWatching": {
+            "description": "If provided then the compiler will run this command every time this application is compiled, killing any previous instance if necessary",
+            "type": "object",
+            "required": [
+              "command"
+            ],
+            "properties": {
+              "command": {
+                "description": "The command line to run",
+                "type": "string"
+              }
+            }
           },
           "parts": {
             "$ref": "#/properties/parts"
@@ -232,10 +239,14 @@
           },
           "preserveEnvironment": {
             "description": "a list of environment settings that will be ignored for code elimination, ie settings which *must* be configured at runtime",
-            "type": "array", 
+            "type": "array",
             "items": {
               "type": "string"
             }
+          },
+          "addTimestampsToUrls": {
+            "description": "if true (default), the target will add the files timestamp to each URL to allow for strong caching parameters",
+            "type":"boolean"
           },
           "writeCompileInfo": {
             "description": "if true, the target will write a compile-info.json and resources.json into the application's output directory, containing the data structures required to generate an application",
@@ -359,8 +370,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "minItems": 1,
-        "//pattern": "^\\S+$"
+        "minItems": 1
       }
     },
     "i18nAsParts": {

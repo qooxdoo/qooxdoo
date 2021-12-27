@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -104,6 +104,14 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
      */
     inlineExternalScripts: {
       init: false,
+      check: "Boolean"
+    },
+
+    /**
+     * Whether to add timestamps to all URLs (cache busting)
+     */
+    addTimestampsToUrls: {
+      init: true,
       check: "Boolean"
     },
 
@@ -322,6 +330,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       var rm = analyser.getResourceManager();
 
       let appMeta = this.__appMeta = new qx.tool.compiler.targets.meta.ApplicationMeta(this, application);
+      appMeta.setAddTimestampsToUrls(this.getAddTimestampsToUrls());
       /*      
       if (!appMeta.getAppLibrary()) {
         qx.tool.compiler.Console.print("qx.tool.compiler.target.missingAppLibrary", application.getClassName());
@@ -344,7 +353,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         "qx.application": application.getClassName(),
         "qx.revision": "",
         "qx.theme": application.getTheme(),
-        "qx.version": analyser.getQooxdooVersion()
+        "qx.version": analyser.getQooxdooVersion(),
+        "qx.compiler.targetType": this.getType(),
+        "qx.compiler.outputDir": this.getOutputDir()
       });
       
       let externals = {};
@@ -461,38 +472,59 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       });
 
       if (analyser.getApplicationTypes().indexOf("browser") > -1) {
-        requiredLibs.forEach(libnamespace => {
-          var library = analyser.findLibrary(libnamespace);
+        // Get a list of all fonts to load; use the font name as a unique identifier, and
+        //  prioritise the application's library's definitions - this allows the application
+        //  the opportunity to override the font definitions.  This is important when the
+        //  library uses the open source/free versions of a font but the application 
+        //  developer has purchased the commercial/full version of the font (eg FontAwesome)
+        let appLibrary = appMeta.getAppLibrary();
+        let fontsToLoad = { };
+        const addLibraryFonts = library => {
           var fonts = library.getWebFonts();
           if (!fonts) {
             return;
           }
+          fonts.forEach(font => {
+            fontsToLoad[font.getName()] = {
+              font, library
+            };
+          });
+        };
+        requiredLibs.forEach(libnamespace => {
+          var library = analyser.findLibrary(libnamespace);
+          if (library != appLibrary) {
+            addLibraryFonts(library);
+          }
+        });
+        addLibraryFonts(appLibrary);
 
-          const loadFont = async (library, font) => {
-            try {
-              // check if font is asset somewhere
-              let res = font.getResources().filter(res => assets[res]);
-              if (res.length === 0) {
-                qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.noResources", font.toString(), application.getName(), font.getResources().join(","));
-                return;
-              }
-              font.setResources(res);
-          
-              var p = await font.generateForTarget(t);
-              let resources = await font.generateForApplication(t, application);
-              for (var key in resources) {
-                appMeta.addResource(key, resources[key]);
-              }
-              var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
-              if (code) {
-                appMeta.addPreBootCode(code);
-              }
-            } catch (ex) {
-              qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
+        const loadFont = async (library, font) => {
+          try {
+            // check if font is asset somewhere
+            let res = font.getResources().filter(res => assets[res]);
+            if (res.length === 0) {
+              qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.noResources", font.toString(), application.getName(), font.getResources().join(","));
+              return;
             }
-            promises.push(p);
-          };
-          fonts.forEach(font => promises.push(loadFont(library, font)));
+            font.setResources(res);
+        
+            await font.generateForTarget(t);
+            let resources = await font.generateForApplication(t, application);
+            for (var key in resources) {
+              appMeta.addResource(key, resources[key]);
+            }
+            var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
+            if (code) {
+              appMeta.addPreBootCode(code);
+            }
+          } catch (ex) {
+            qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
+          }
+        };
+
+        Object.keys(fontsToLoad).forEach(fontName => {
+          let { font, library } = fontsToLoad[fontName];
+          promises.push(loadFont(library, font));
         });
       }
       await qx.Promise.all(promises);
@@ -779,13 +811,19 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       
       let timeStamp = (new Date()).getTime();
       let pathToTarget = path.relative(path.join(t.getOutputDir(), t.getProjectDir(application)), t.getOutputDir()) + "/";
+      let indexJsTimestamp = "";
+      if (this.isAddTimestampsToUrls()) {
+        let indexJsFilename = path.join(appMeta.getApplicationRoot(), "index.js");
+        indexJsTimestamp = "?" + fs.statSync(indexJsFilename).mtimeMs;
+      }
       let TEMPLATE_VARS = {
         "resourcePath": pathToTarget + "resource/",
         "targetPath": pathToTarget,
         "appPath": "",
         "preBootJs": "",
         "appTitle": (application.getTitle()||"Qooxdoo Application"),
-        "timeStamp": timeStamp
+        "timeStamp": timeStamp,
+        "indexJsTimestamp": indexJsTimestamp
       };
 
       function replaceVars(code) {
@@ -807,7 +845,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "       the one below because they will be added automatically)\n" +
           "    -->\n" +
           "${preBootJs}\n" +
-          "  <script type=\"text/javascript\" src=\"${appPath}index.js\"></script>\n" +
+          "  <script type=\"text/javascript\" src=\"${appPath}index.js${indexJsTimestamp}\"></script>\n" +
           "</body>\n" +
           "</html>\n";
       /* eslint-enable no-template-curly-in-string */
@@ -831,7 +869,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
               }
               if (!data.match(/\s*index.js\s*/)) {
               /* eslint-disable no-template-curly-in-string */
-                data = data.replace("</body>", "\n  <script type=\"text/javascript\" src=\"${appPath}index.js\"></script>\n</body>");
+                data = data.replace("</body>", "\n  <script type=\"text/javascript\" src=\"${appPath}index.js${indexJsTimestamp}\"></script>\n</body>");
                 /* eslint-enable no-template-curly-in-string */
                 qx.tool.compiler.Console.print("qx.tool.compiler.target.missingBootJs", from);
               }
@@ -856,7 +894,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "appPath": t.getProjectDir(application) + "/",
           "preBootJs": "",
           "appTitle": (application.getTitle()||"Qooxdoo Application"),
-          "timeStamp": timeStamp
+          "timeStamp": timeStamp,
+          "indexJsTimestamp": indexJsTimestamp        
         };
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
       }

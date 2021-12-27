@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -147,100 +147,94 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       return this.__promiseLoadManifest = this.__loadManifestImpl(loadFromDir);
     },
 
-    __loadManifestImpl(loadFromDir) {
+    async __loadManifestImpl(loadFromDir) {
       var Console = qx.tool.compiler.Console.getInstance();
-      var t = this;
       let rootDir = loadFromDir;
 
-      return qx.tool.utils.files.Utils.correctCase(path.resolve(loadFromDir))
-        .then(tmp => this.setRootDir(rootDir = tmp))
-        .then(() => qx.tool.utils.Json.loadJsonAsync(rootDir + "/Manifest.json"))
-        .then(data => {
-          if (!data) {
-            throw new Error(Console.decode("qx.tool.compiler.library.emptyManifest", rootDir));
+      rootDir = await qx.tool.utils.files.Utils.correctCase(path.resolve(loadFromDir));
+      this.setRootDir(rootDir);
+      let data = await qx.tool.utils.Json.loadJsonAsync(rootDir + "/Manifest.json");
+      if (!data) {
+        throw new Error(Console.decode("qx.tool.compiler.library.emptyManifest", rootDir));
+      }
+      this.setNamespace(data.provides.namespace);
+      this.setVersion(data.info.version);
+      if (data.provides.environmentChecks) {
+        for (var key in data.provides.environmentChecks) {
+          let check = data.provides.environmentChecks[key];
+          let pos = key.indexOf("*");
+          if (pos > -1) {
+            this.__environmentChecks[key] = {
+              matchString: key.substring(0, pos),
+              startsWith: true,
+              className: check
+            };
+          } else {
+            this.__environmentChecks[key] = {
+              matchString: key,
+              className: check
+            };
           }
-          t.setNamespace(data.provides.namespace);
-          t.setVersion(data.info.version);
-          if (data.provides.environmentChecks) {
-            for (var key in data.provides.environmentChecks) {
-              let check = data.provides.environmentChecks[key];
-              let pos = key.indexOf("*");
-              if (pos > -1) {
-                this.__environmentChecks[key] = {
-                  matchString: key.substring(0, pos),
-                  startsWith: true,
-                  className: check
-                };
-              } else {
-                this.__environmentChecks[key] = {
-                  matchString: key,
-                  className: check
-                };
-              }
-            }
-          }
+        }
+      }
 
-          function fixLibraryPath(dir) {
-            let d = path.resolve(rootDir, dir);
-            if (!fs.existsSync(d)) {
-              t.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", t.getNamespace(), dir));
-              return qx.Promise.resolve(dir);
-            }
-            return qx.tool.utils.files.Utils.correctCase(d)
-              .then(correctedDir => {
-                if (correctedDir.substring(0, rootDir.length + 1) != rootDir + path.sep) {
-                  t.warn(Console.decode("qx.tool.compiler.library.cannotCorrectCase", rootDir));
-                  return dir;
-                }
-                correctedDir = correctedDir.substring(rootDir.length + 1);
-                return correctedDir;
-              });
-          }
+      const fixLibraryPath = async dir => {
+        let d = path.resolve(rootDir, dir);
+        if (!fs.existsSync(d)) {
+          this.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", this.getNamespace(), dir));
+          return dir;
+        }
+        let correctedDir = await qx.tool.utils.files.Utils.correctCase(d);
+        if (correctedDir.substring(0, rootDir.length + 1) != rootDir + path.sep) {
+          this.warn(Console.decode("qx.tool.compiler.library.cannotCorrectCase", rootDir));
+          return dir;
+        }
+        correctedDir = correctedDir.substring(rootDir.length + 1);
+        return correctedDir;
+      }
 
-          return fixLibraryPath(data.provides["class"])
-            .then(sourcePath => t.setSourcePath(sourcePath))
-            .then(() => fixLibraryPath(data.provides.resource))
-            .then(resourcePath => t.setResourcePath(data.provides.resource))
-            .then(() => {
-              t.setLibraryInfo(data.info);
-              if (data.provides.transpiled) {
-                t.setTranspiledPath(data.provides.transpiled);
-              } else {
-                let sourcePath = t.getSourcePath();
-                var m = sourcePath.match(/^(.*)\/([^/]+)$/);
-                if (m && m.length == 3) {
-                  t.setTranspiledPath(m[1] + "/transpiled");
-                } else {
-                  t.setTranspiledPath("transpiled");
-                }
-              }
-              if (data.provides.translation) {
-                t.setTranslationPath(data.provides.translation);
-              }
-              if (data.provides.webfonts) {
-                var fonts = [];
-                data.provides.webfonts.forEach(wf => {
-                  var font = new qx.tool.compiler.app.WebFont(t).set(wf);
-                  fonts.push(font);
-                });
-                t.setWebFonts(fonts);
-              }
-              if (data.externalResources) {
-                if (data.externalResources.script) {
-                  t.setAddScript(data.externalResources.script);
-                }
-                if (data.externalResources.css) {
-                  t.setAddCss(data.externalResources.css);
-                }
-              }
-              if (data.requires) {
-                t.setRequires(data.requires);
-              }
-              if (data.provides && data.provides.boot) {
-                qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedProvidesBoot", rootDir);
-              }
-            });
+      let sourcePath = await fixLibraryPath(data.provides["class"]);
+      this.setSourcePath(sourcePath);
+      if (data.provides.resource) {
+        let resourcePath = await fixLibraryPath(data.provides.resource);
+        this.setResourcePath(resourcePath);
+      }
+      this.setLibraryInfo(data.info);
+      if (data.provides.transpiled) {
+        this.setTranspiledPath(data.provides.transpiled);
+      } else {
+        var m = sourcePath.match(/^(.*)\/([^/]+)$/);
+        if (m && m.length == 3) {
+          this.setTranspiledPath(m[1] + "/transpiled");
+        } else {
+          this.setTranspiledPath("transpiled");
+        }
+      }
+      if (data.provides.translation) {
+        this.setTranslationPath(data.provides.translation);
+      }
+      if (data.provides.webfonts) {
+        var fonts = [];
+        data.provides.webfonts.forEach(wf => {
+          var font = new qx.tool.compiler.app.WebFont(this).set(wf);
+          fonts.push(font);
         });
+        this.setWebFonts(fonts);
+      }
+      if (data.externalResources) {
+        if (data.externalResources.script) {
+          this.setAddScript(data.externalResources.script);
+        }
+        if (data.externalResources.css) {
+          this.setAddCss(data.externalResources.css);
+        }
+      }
+      if (data.requires) {
+        this.setRequires(data.requires);
+      }
+      if (data.provides && data.provides.boot) {
+        qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedProvidesBoot", rootDir);
+      }
     },
 
     /**

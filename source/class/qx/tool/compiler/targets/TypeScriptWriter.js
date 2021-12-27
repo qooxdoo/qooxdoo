@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -24,7 +24,6 @@
 var path = require("path");
 
 var fs = require("fs");
-var jsonlint = require("jsonlint");
 const {promisify} = require("util");
 const readFile = promisify(fs.readFile);
 /**
@@ -150,7 +149,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
       var fileName = path.join(this.__target.getOutputDir(), "transpiled", classname.replace(/\./g, "/") + ".json");
       return readFile(fileName, "UTF-8")
-        .then(content => this.__apiCache[classname] = jsonlint.parse(content))
+        .then(content => this.__apiCache[classname] = JSON.parse(content))
         .catch(err => qx.tool.compiler.Console.error("Error parsing " + classname + ": " + err.stack));
     },
 
@@ -159,7 +158,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * @async
      */
     writeBase: function() {
-      return readFile(path.join(__dirname, "TypeScriptWriter-base_declaration.txt"), "UTF-8")
+      return readFile(path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.txt"), "UTF-8")
         .then(content => this.write(content));
     },
 

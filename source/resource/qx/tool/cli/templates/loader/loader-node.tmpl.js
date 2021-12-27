@@ -1,9 +1,11 @@
-(function(){ 
+(function(){
 
   var path = require("path");
-  
-  if (typeof window === "undefined") 
+
+  if (typeof window === "undefined")
     window = this;
+  window.addEventListener = function() {};
+  window.removeEventListener = function() {};
   window.dispatchEvent = function() {};
 
   if (!window.navigator) window.navigator = {};
@@ -14,12 +16,12 @@
   if (!window.navigator.cpuClass) window.navigator.cpuClass = "";
 
   // Node suppresses output to the "real" console when calling console.debug, it's only shown
-  //  in the debugger 
+  //  in the debugger
   console.debug = function() {
     var args = [].slice.apply(arguments);
     console.log.apply(this, args);
   };
-  
+
   var JSDOM = null;
   try {
     JSDOM = require("jsdom").JSDOM;
@@ -36,6 +38,9 @@
   } else {
     window.document = document = {
         readyState: "ready",
+        currentScript: {
+          src: new (require('url').URL)('file:' + __filename).href
+        },
         createEvent: function() {
           return {
             initCustomEvent: function() {}
@@ -55,14 +60,14 @@
   if (!this.qxloadPrefixUrl)
     qxloadPrefixUrl = "";
 
-  if (!window.qx) 
+  if (!window.qx)
     window.qx = {};
-  
+
   if (!qx.$$appRoot) {
     qx.$$appRoot = __dirname + path.sep;
   }
 
-  if (!window.qxvariants) 
+  if (!window.qxvariants)
     qxvariants = {};
 
   qx.$$start = new Date();
@@ -146,7 +151,7 @@
 
         var allScripts = l.decodeUris(l.urisBefore, "resourceUri");
         t.loadScriptList(allScripts);
-    
+
         l.parts[l.boot].forEach(function(pkg) {
           t.loadScriptList(l.decodeUris(l.packages[pkg].uris));
         });
@@ -160,6 +165,7 @@
 
       loadScriptList: function(list) {
         list.forEach(function(uri) {
+          uri = uri.replace(/\?.*$/, '');
           var f = loaderMethod(uri);
           if (typeof f === "function") {
             var s = f.name === ""?path.basename(uri, ".js"):f.name;
@@ -172,8 +178,15 @@
         qx.Bootstrap.executePendingDefers();
         qx.$$loader.delayDefer = false;
         qx.$$loader.scriptLoaded = true;
-        qx.core.BaseInit.ready();
-        qx.$$loader.applicationHandlerReady = true;
+        if (qx.Class.$$brokenClassDefinitions) {
+          console.error("**************");
+          console.error("One or more class definitions did not load properly - please see error messages above for details.");
+          console.error("It is probable that your application will have unexpected errors.  Please fix the class problems above before continuing.");
+          console.error("**************");
+        } else {
+          qx.core.BaseInit.ready();
+          qx.$$loader.applicationHandlerReady = true;
+        }
       },
 
       importPackageData : function(dataMap, callback) {

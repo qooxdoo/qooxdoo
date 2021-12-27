@@ -326,7 +326,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
 
       if (this.argv.verbose) {
         console.log(`
-Compiler:  v${qx.tool.compiler.Version.VERSION} in ${require.main.filename}
+Compiler:  v${this.getCompilerVersion()} in ${require.main.filename}
 Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
 
@@ -530,6 +530,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         // Continuous make
         let watch = new qx.tool.cli.Watch(maker);
+        config.applications.forEach(appConfig => {
+          if (appConfig.runWhenWatching) {
+            watch.setRunWhenWatching(appConfig.name, appConfig.runWhenWatching);
+          }
+        });
         if (this.argv["watch-debug"]) {
           watch.setDebug(true);
         }
@@ -566,10 +571,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     createMakersFromConfig: async function(data) {
       const Console = qx.tool.compiler.Console.getInstance();
       var t = this;
-
       if (data.babelOptions) {
-        if (!data.babelConfig) {
-          data.babelConfig = { options: data.babelOptions };
+        if (!data?.babel?.options) {
+          data.babel = data.babel || {};
+          data.babel.options = data.babelOptions;
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptions");
         } else {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedBabelOptionsConflicting");
@@ -622,8 +627,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           allAppNames[appConfig.name] = appConfig;
         }
         if (appConfig.group) {
-          if (typeof appConfig.group == "string")
-            appConfig.group = [ appConfig.group ]; 
+          if (typeof appConfig.group == "string") {
+            appConfig.group = [ appConfig.group ];
+          }
         }
         appConfig.index = index;
         let appType = appConfig.type||"browser";
@@ -733,6 +739,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       /*
        * There is still only one target per maker, so convert our list of targetConfigs into an array of makers
        */
+      let targetOutputPaths = {};
       let makers = [];
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
@@ -742,12 +749,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let appConfigs = targetConfig.appConfigs.filter(appConfig => {
           if (argvAppGroups) {
             let groups = appConfig.group||[];
-            if (!groups.find(groupName => !!argvAppGroups[groupName]))
+            if (!groups.find(groupName => !!argvAppGroups[groupName])) {
               return false;
+            }
           }
           if (argvAppNames && appConfig.name) {
-            if (!argvAppNames[appConfig.name])
+            if (!argvAppNames[appConfig.name]) {
               return false;
+            }
           }
           return true;
         });
@@ -762,6 +771,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         if (!outputPath) {
           throw new qx.tool.utils.Utils.UserError("Missing output-path for target " + targetConfig.type);
         }
+        let absOutputPath = path.resolve(outputPath);
+        if (targetOutputPaths[absOutputPath]) {
+          throw new qx.tool.utils.Utils.UserError(`Multiple output targets share the same target directory ${outputPath} - each target output must be unique`);
+        }
+        targetOutputPaths[absOutputPath] = true;
 
         var maker = new qx.tool.compiler.makers.AppMaker();
         if (!this.argv["erase"]) {
@@ -780,6 +794,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         /* eslint-enable new-cap */
         if (targetConfig.uri) {
           qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedUri", "target.uri", targetConfig.uri);
+        }
+        if (targetConfig.addTimestampsToUrls !== undefined) {
+          target.setAddTimestampsToUrls(targetConfig.addTimestampsToUrls);
+        } else {
+          target.setAddTimestampsToUrls(target instanceof qx.tool.compiler.targets.BuildTarget);
         }
         if (targetConfig.writeCompileInfo || this.argv.writeCompileInfo) {
           target.setWriteCompileInfo(true);
@@ -1057,15 +1076,15 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let requires_uris = Object.getOwnPropertyNames(requires)
           .filter(uri => !libs.find(lib => lib.getLibraryInfo().name === uri));
 
-        let urisToInstall = requires_uris.filter(name => name !== "@qooxdoo/framework");
+        let urisToInstall = requires_uris.filter(name => (name !== "@qooxdoo/framework") && (name !== "@qooxdoo/compiler"));
 
         let pkg_libs = Object.getOwnPropertyNames(packages);
         if (urisToInstall.length > 0 && pkg_libs.length === 0) {
           // if we don't have package data
           if (this.argv.download) {
-            if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) { 
-              Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " + 
-                urisToInstall.join("\n     ") + "\nThe library which refers to the missing libraries is " + lib.getNamespace() + " in " + lib.getRootDir());  
+            if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
+              Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
+                urisToInstall.join("\n     ") + "\nThe library which refers to the missing libraries is " + lib.getNamespace() + " in " + lib.getRootDir());
               process.exit(1);
             }
               // but we're instructed to download the libraries

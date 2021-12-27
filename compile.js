@@ -1,4 +1,4 @@
-const path = require("upath");
+const path = require("path");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
@@ -26,6 +26,74 @@ qx.Class.define("qx.compiler.CompilerApi", {
       }
       return this.base(arguments);
     },
+
+    /**
+     * runs after the whole process is finished
+     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param res {boolean} result of the just finished process
+     */
+    async afterProcessFinished(cmd, res) {
+      if (res)
+         return;
+      if (cmd.classname !== "qx.tool.cli.commands.package.Publish")
+         return;
+      // token
+      let cfg = await qx.tool.cli.ConfigDb.getInstance();
+      let npm = cfg.db("npm", {});
+      if (!npm.token) {
+        // call require("inquirer") here - not in the head.
+        // otherwise it will be called during initialization.
+        // that does not work if you use qooxdoo as package
+        const inquirer = require("inquirer");
+        let response = await inquirer.prompt([
+          {
+            type: "input",
+            name: "token",
+            message: "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens to obtain one " +
+                "(you must assign permission to publish);\nWhat is your npm acess Token ? "
+          }
+        ]
+        );
+        if (!response.token) {
+          qx.tool.compiler.Console.error("You have not provided a npm token.");
+          return;
+        }
+        npm.token = response.token;
+        cfg.save();
+      }
+      let token = npm.token;
+      if (!token) {
+        throw new qx.tool.utils.Utils.UserError(`npm access token required.`);
+      }
+      let args = [
+        "publish"
+        , "--access public"
+      ];
+      if (cmd.argv.dryrun) {
+        args.push("--dry-run");
+      }
+      if (cmd.argv.prerelease) {
+        args.push("--tag beta");
+      }
+      let env = process.env;
+      // for use of INPUT_TOKEN see:
+      // https://github.com/JS-DevTools/npm-publish/blob/master/src/npm.ts
+      // https://github.com/JS-DevTools/npm-publish/blob/0f451a94170d1699fd50710966d48fb26194d939/src/npm-env.ts#L6
+      env.INPUT_TOKEN = token;
+      if (cmd.argv.verbose) {
+        this.info(`run npm with ${args}`);
+      }
+      await qx.tool.utils.Utils.runCommand({
+        cwd: ".",
+        cmd: "npm",
+        args: args,
+        shell: true,
+        env: env,
+        log: console.log,
+        error: console.log
+      });
+    },
+
     /**
      * Register compiler tests
      * @param {qx.tool.cli.commands.Command} command

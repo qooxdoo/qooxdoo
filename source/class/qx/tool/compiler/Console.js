@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -137,6 +137,15 @@ qx.Class.define("qx.tool.compiler.Console", {
      */
     info(...args) {
       console.info(this.getColorOn() + args.join(" "));
+    },
+    
+    /**
+     * console.warn equivalent, with colorization, only operates if `verbose` is true
+     */
+    trace(...args) {
+      if (this.isVerbose()) {
+        console.warn(this.getColorOn() + args.join(" "));
+      }
     },
     
     /**
@@ -280,6 +289,13 @@ qx.Class.define("qx.tool.compiler.Console", {
      */
     warn(...args) {
       return this.getInstance().warn(...args);
+    },
+
+    /**
+     * console.warn equivalent, with colorization, only operates if `verbose` is true
+     */
+    trace(...args) {
+      return this.getInstance().trace(...args);
     },
 
     /**

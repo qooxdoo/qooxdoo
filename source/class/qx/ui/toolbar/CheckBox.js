@@ -24,27 +24,6 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
 {
   extend : qx.ui.form.ToggleButton,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(label, icon)
-  {
-    this.base(arguments, label, icon);
-
-    // Toolbar buttons should not support the keyboard events
-    this.removeListener("keydown", this._onKeyDown);
-    this.removeListener("keyup", this._onKeyUp);
-  },
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -64,12 +43,6 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
       refine : true,
       init : "inherit"
     },
-
-    focusable :
-    {
-      refine : true,
-      init : false
-    }
   },
 
   members : {

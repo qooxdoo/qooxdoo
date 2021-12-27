@@ -83,6 +83,52 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
       };
     },
 
+    /**
+     * Returns the outer height of the given element, including height, vertical padding, and vertical borders
+     *
+     * @param element {Element} element to query
+     * @param includeMargins {Boolean?} whether to include margins in teh
+     * @return {Integer} the height of the element
+     */
+     getOuterHeight(element, includeMargins) {
+      if (includeMargins) {
+        let marginTop = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-top'), 10);
+        let marginBottom = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-bottom'), 10);
+        return element.offsetHeight + marginTop + marginBottom;
+      }
+      return element.offsetHeight;
+    },
+
+    /**
+     * Returns the outer width of the given element, including height, vertical padding, and vertical borders
+     *
+     * @param element {Element} element to query
+     * @param includeMargins {Boolean?} whether to include margins in teh
+     * @return {Integer} the width of the element
+     */
+     getOuterWidth(element, includeMargins) {
+      if (includeMargins) {
+        let marginLeft = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-left'), 10);
+        let marginRight = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-right'), 10);
+        return element.offsetWidth + marginLeft + marginRight;
+      }
+      return element.offsetWidth;
+    },
+
+    /**
+     * Returns the outer size of the given element, including height, vertical padding, and vertical borders
+     *
+     * @param element {Element} element to query
+     * @param includeMargins {Boolean?} whether to include margins in teh
+     * @return {Map} map containing the width and height of the element
+     */
+     getOuterSize(element, includeMargins) {
+      return {
+        width: this.getOuterWidth(element, includeMargins),
+        height: this.getOuterHeight(element, includeMargins)
+      };
+    },
+
 
     /** @type {Map} Contains all overflow values where scrollbars are invisible */
     __hiddenScrollbars :

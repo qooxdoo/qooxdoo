@@ -60,7 +60,8 @@
     "Promise.*",
     "require.*",
     "path.*",
-    "args.*"
+    "args.*",
+    "loadSass"
   ],
   "libraries": [
     "."
@@ -195,9 +196,12 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "parserOptions": {
-      "ecmaVersion": 2018
+      "ecmaVersion": "2020"
     },
-    "rules": {
+    "globals": {
+      "loadSass": "readonly"
+  },
+  "rules": {
       "@qooxdoo/qx/no-illegal-private-usage": "off",
       "@qooxdoo/qx/no-refs-in-members": "off",
       "no-undef": "off",
@@ -243,7 +247,7 @@
        "no-unsafe-negation": "off",
        "new-parens": "off",
        "semi": "off",
-       "curly": "off",
+       "curly": "error",
        "no-mixed-spaces-and-tabs": "off",
        "no-extra-semi": "off",
       "indent": "off",

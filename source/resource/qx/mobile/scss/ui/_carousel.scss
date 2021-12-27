@@ -30,7 +30,7 @@
   transition: transform 2s;
 
   position:absolute;
-  bottom: $carousel-pagination-size/2;
+  bottom: $carousel-pagination-size*0.5;
   height: $carousel-pagination-size;
   line-height: 0;
   width: auto;
@@ -38,7 +38,7 @@
 }
 
 .carousel-pagination-label + .carousel-pagination-label {
-  margin-left: $carousel-pagination-size/2;
+  margin-left: $carousel-pagination-size*0.5;
 }
 
 .carousel-pagination-label {

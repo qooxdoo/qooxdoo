@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2017 GONICUS GmbH, http://www.gonicus.de
@@ -23,7 +23,7 @@ const fs = require("fs");
 const path = require("path");
 const tmp = require("tmp");
 const http = require("http");
-const fontkit = require("fontkit");
+const fontkit = require("@foliojs-fork/fontkit");
 
 var log = qx.tool.utils.LogManager.createLog("font");
 
@@ -184,7 +184,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
               let codePoint = parseInt(map[key], 16);
               let glyph = font.glyphForCodePoint(codePoint);
               if (!glyph.id) {
-                qx.tool.compiler.Console.log(`WARN: no glyph found in ${filename} ${key}: ${codePoint}`);
+                qx.tool.compiler.Console.trace(`WARN: no glyph found in ${filename} ${key}: ${codePoint}`);
                 return;
               }
               resources["@" + this.getName() + "/" + key] = [
@@ -315,8 +315,9 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @return {Promise}
      */
     generateForTarget: function(target) {
-      if (this.__generateForTargetPromise)
+      if (this.__generateForTargetPromise) {
         return this.__generateForTargetPromise;
+      }
 
       this.__generateForTargetPromise = new Promise((resolve, reject) => {
         for (let resource of this.getResources()) {

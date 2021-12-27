@@ -930,12 +930,14 @@ qx.Class.define("qx.test.core.Property",
         },
         members : {
           __transform : function (value, oldValue) {
-            if (oldValue === undefined)
+            if (oldValue === undefined) {
               return value;
-            if (!value)
+            }
+            if (!value) {
               oldValue.removeAll();
-            else
+            } else {
               oldValue.replace(value)
+            }
             return oldValue;
           }
         }

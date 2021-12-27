@@ -456,8 +456,9 @@ qx.Class.define("qx.test.Promise", {
 	      	var p = new qx.Promise(function(resolve) {
             console.log(name + ": changeAlphaAsync 1 in qx.Promise, value=" + value);
 	      		setTimeout(function() {
-	      			if (str.length)
+	      			if (str.length) {
 	      				str += ",";
+              }
 	      			str += name;
               console.log(name + ": changeAlphaAsync 1 resolving qx.Promise, value=" + value);
 	      			resolve();
@@ -550,9 +551,10 @@ qx.Class.define("qx.test.Promise", {
 
         		return new qx.Promise(function(resolve) {
         			setTimeout(function() {
-        				if (str.length)
+        				if (str.length) {
         					str += ",";
-            		str += obj.getValue() + ":" + data;
+                }
+                str += obj.getValue() + ":" + data;
             		console.log("changeAlpha " + obj.getValue() + " = " + data + " after " + delay);
             		resolve();
         			}, delay);

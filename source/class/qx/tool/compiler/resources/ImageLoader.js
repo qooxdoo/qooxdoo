@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2017 Zenesis Limited, http://www.zenesis.com
@@ -48,8 +48,9 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
     matches: function(filename, library) {
       if (filename.endsWith("svg")) {
         let isWebFont = library.getWebFonts() && library.getWebFonts().find(webFont => webFont.getResources().find(resource => resource == filename));
-        if (isWebFont)
+        if (isWebFont) {
           return false;
+        }
       }
 
       return this.base(arguments, filename, library);

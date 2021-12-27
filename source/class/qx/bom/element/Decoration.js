@@ -83,7 +83,14 @@ qx.Class.define("qx.bom.element.Decoration",
     {
       var tag = this.getTagName(repeat, source);
       if (tag != element.tagName.toLowerCase()) {
-        throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
+
+        // The "no-repeat" means that `getTagName` will suggest a `div` as opposed to an `img` tag, preferring to use
+        //  `img` only for things that need scaling.  The Desktop `qx.ui.*` will always follow this rule, but it
+        //  is valid for virtual DOM (`qx.html.*`) to be used to create a no-repeat `img` tag.  Ignore the validation
+        //  for `no-repeat` `img`.
+        if (repeat != "no-repeat" || element.tagName.toLowerCase() != "img") {
+          throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
+        }
       }
 
       var ret = this.getAttributes(source, repeat, style);
@@ -201,10 +208,6 @@ qx.Class.define("qx.bom.element.Decoration",
     {
       if (!style) {
         style = {};
-      }
-
-      if (!style.position) {
-        style.position = "absolute";
       }
 
       if ((qx.core.Environment.get("engine.name") == "mshtml"))

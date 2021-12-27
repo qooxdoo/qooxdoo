@@ -127,6 +127,17 @@ qx.Class.define("qx.theme.manager.Font",
 
         return cache[value] = fo.set(theme.fonts[value]);
       }
+      if (qx.core.Environment.get("qx.debug")) {
+        if (theme) {
+          if (!this.__warnedMissingFonts) {
+            this.__warnedMissingFonts = {};
+          }
+          if (!this.__warnedMissingFonts[value]) {
+            this.__warnedMissingFonts[value] = true;
+            this.debug(`Cannot resolve a font named ${value} - available fonts are ${Object.keys(theme.fonts).join(", ")}`);
+          }
+        }
+      }
 
       return value;
     },

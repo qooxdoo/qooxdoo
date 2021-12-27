@@ -39,7 +39,6 @@ qx.Class.define("qx.bom.Iframe",
      */
     DEFAULT_ATTRIBUTES :
     {
-      onload : "qx.event.handler.Iframe.onevent(this)",
       frameBorder: 0,
       frameSpacing: 0,
       marginWidth: 0,
@@ -66,14 +65,20 @@ qx.Class.define("qx.bom.Iframe",
       var attributes = attributes ? qx.lang.Object.clone(attributes) : {};
       var initValues = qx.bom.Iframe.DEFAULT_ATTRIBUTES;
 
-      for (var key in initValues)
-      {
-        if (attributes[key] == null) {
+      for (var key in initValues) {
+        if (!(key in attributes)) {
           attributes[key] = initValues[key];
         }
       }
 
-      return qx.dom.Element.create("iframe", attributes, win);
+      var elem = qx.dom.Element.create("iframe", attributes, win);
+      if (!("onload" in attributes)) {
+        elem.onload = function() {
+          qx.event.handler.Iframe.onevent(elem);
+        };
+      }
+      return elem;
+
     },
 
 

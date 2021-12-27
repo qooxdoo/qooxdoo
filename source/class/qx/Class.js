@@ -158,8 +158,24 @@ qx.Bootstrap.define("qx.Class",
      *     </table>
      * @return {Class} The defined class
      */
-    define : function(name, config)
-    {
+    define: function(name, config) {
+      try {
+        return this.__defineImpl(name, config);
+      } catch(ex) {
+        qx.Class.$$brokenClassDefinitions = true;
+        throw ex;
+      }
+    },
+
+    /**
+     * Implementation behind `define` - this exists just for the simplicity of wrapping an exception 
+     * handler around the code
+     * 
+     * @param {String} name @see `define()`
+     * @param {*} config @see `define()`
+     * @returns  @see `define()`
+     */
+    __defineImpl: function(name, config) {
       if (!config) {
         config = {};
       }
@@ -1323,8 +1339,8 @@ qx.Bootstrap.define("qx.Class",
         {
           var existingProperty = this.getPropertyDefinition(clazz, name);
 
-          if (config.refine && existingProperty.init === undefined) {
-            throw new Error("Could not refine an init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
+          if (config.refine && existingProperty.init === undefined && existingProperty["@"] === undefined) {
+            this.warn("Refine a property when there is previously no init or annotations defined. Property '" + name + "' of class '" + clazz.classname + "'.");
           }
         }
 

@@ -55,6 +55,9 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       this.setLayout(layout);
     }
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "radiogroup");
+
     // create the radio group
     this.__radioGroup = new qx.ui.form.RadioGroup();
 

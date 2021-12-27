@@ -3,7 +3,7 @@
  *    qooxdoo-compiler - node.js based replacement for the Qooxdoo python
  *    toolchain
  *
- *    https://github.com/qooxdoo/qooxdoo-compiler
+ *    https://github.com/qooxdoo/qooxdoo
  *
  *    Copyright:
  *      2011-2018 Zenesis Limited, http://www.zenesis.com
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.utils.Json", {
     validate(json, schema, warnOnly=false) {
       let ajv = new Ajv({
         allErrors: true,
-        jsonPointers: true
+        strict: false
       });
       if (qx.lang.Type.isArray(schema)) {
         ajv.addSchema(schema);
