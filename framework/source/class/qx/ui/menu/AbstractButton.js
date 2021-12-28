@@ -358,10 +358,12 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       {
         this._excludeChildControl("arrow");
         
-         // ARIA attrs
-        contentEl.removeAttribute("aria-haspopup");
-        contentEl.removeAttribute("aria-expanded");
-        contentEl.removeAttribute("aria-controls");
+        // ARIA attrs
+        if (contentEl) {
+          contentEl.removeAttribute("aria-haspopup");
+          contentEl.removeAttribute("aria-expanded");
+          contentEl.removeAttribute("aria-controls");
+        }
       }
     },
 

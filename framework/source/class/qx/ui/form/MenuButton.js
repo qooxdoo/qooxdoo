@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.form.MenuButton",
         contentEl.setAttribute("aria-haspopup", "menu");
         contentEl.setAttribute("aria-expanded", value.isVisible());
         contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
-      } else {
+      } else if (contentEl) {
          // ARIA attrs
         contentEl.removeAttribute("aria-haspopup");
         contentEl.removeAttribute("aria-expanded");
