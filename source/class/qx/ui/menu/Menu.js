@@ -523,10 +523,12 @@ qx.Class.define("qx.ui.menu.Menu",
     _applyOpener : function(value, old)
     {
       // ARIA attrs
-      if (value) {
-        this.getContentElement().setAttribute("aria-labelledby", value);
-      } else {
-        this.getContentElement().removeAttribute("aria-labelledby");
+      if (this.getContentElement()) {
+        if (value) {
+          this.getContentElement().setAttribute("aria-labelledby", value);
+        } else {
+          this.getContentElement().removeAttribute("aria-labelledby");
+        }
       }
     },
 
