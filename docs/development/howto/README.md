@@ -16,4 +16,4 @@
 - use
   [non-Qooxdoo libraries in your application](/development/howto/using_non_qx_libs.md)
 
-- achieve more [Accessibillity](/development/howto/accessibillity.md)
+- achieve more [Accessibility](/development/howto/accessibility.md)
