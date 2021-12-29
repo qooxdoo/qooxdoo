@@ -18,6 +18,7 @@
 
 /**
  * @require(qx.io.transport.Xhr)
+ * @ignore(fetch)
  */
 qx.Class.define("qx.test.io.graphql.Client",
   {
@@ -149,7 +150,9 @@ qx.Class.define("qx.test.io.graphql.Client",
       },
 
       async "test: expect transport error"() {
-        if (!this.__hasEndpoint) return this.skip(this.__skipMsg);
+        if (!this.__hasEndpoint) {
+          return this.skip(this.__skipMsg);
+        }
         try {
           const client = new qx.io.graphql.Client("https://doesnotexist.org/"+Math.random());
           const query = "query { doesnotmatter }";

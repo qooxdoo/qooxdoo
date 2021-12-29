@@ -253,7 +253,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
       this.setUpFakeServer(qx.lang.Json.stringify(response));
       var client = new qx.io.jsonrpc.Client("http://jsonrpc");
       var spy = this.spy();
-      client.addListener("incomingRequest", (evt) => {
+      client.addListener("incomingRequest", evt => {
         let message = evt.getData().toObject();
         this.assertDeepEquals(response.shift(), message);
         spy(message);

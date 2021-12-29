@@ -64,7 +64,7 @@ qx.Class.define("qx.io.transport.Websocket", {
       ws.addEventListener("message", msgevt => {
         this.fireDataEvent("message", msgevt.data)
       });
-      ws.addEventListener("close", event =>{
+      ws.addEventListener("close", event => {
         let error_message;
         let error_code;
         switch(event.code) {
