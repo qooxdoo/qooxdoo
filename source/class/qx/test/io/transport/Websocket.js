@@ -38,9 +38,7 @@ qx.Class.define("qx.test.io.transport.Websocket", {
 
     async "test: check endpoint"() {
       try {
-        let response = await fetch("http://" + this.constructor.TEST_ENDPOINT);
-        let result = await response.text();
-        this.assertContains("Host: echo.websocket.events", result);
+        await this.transport.send("test");
         this.__hasEndpoint = true;
       } catch(e) {
         console.error(`Endpoint ${this.constructor.TEST_ENDPOINT} is not accessible: ${e.message}`);
@@ -48,7 +46,9 @@ qx.Class.define("qx.test.io.transport.Websocket", {
     },
 
     async "test: send message to public websocket echo server and check response"() {
-      if (!this.__hasEndpoint) return this.skip(this.__skipMsg);
+      if (!this.__hasEndpoint) {
+        return this.skip(this.__skipMsg);
+      }
       let message = "Hello World!";
       await new qx.Promise((resolve, reject) => {
         this.transport.addListenerOnce("message", evt => {

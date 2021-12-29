@@ -70,7 +70,9 @@ qx.Class.define("qx.test.io.graphql.Client",
       },
 
       async "test: execute query"() {
-        if (!this.__hasEndpoint) return this.skip(this.__skipMsg);
+        if (!this.__hasEndpoint) {
+          return this.skip(this.__skipMsg);
+        }
         await this.runQuery(`{
           country(code: "BR") {
             name
@@ -99,7 +101,9 @@ qx.Class.define("qx.test.io.graphql.Client",
       },
 
       async "test: execute query with variables"() {
-        if (!this.__hasEndpoint) return this.skip(this.__skipMsg);
+        if (!this.__hasEndpoint) {
+          return this.skip(this.__skipMsg);
+        }
         await this.runQueryWithVariables(`query ($countryCode:ID!){
           country(code: $countryCode) {
             name
@@ -132,7 +136,9 @@ qx.Class.define("qx.test.io.graphql.Client",
       },
 
       async "test: expect error after invalid query"() {
-        if (!this.__hasEndpoint) return this.skip(this.__skipMsg);
+        if (!this.__hasEndpoint) {
+          return this.skip(this.__skipMsg);
+        }
         try {
           await this.runQuery(`query { invalidSyntax }`);
         } catch (e) {
