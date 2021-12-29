@@ -84,6 +84,16 @@ $ npm ci
 $ ./bootstrap-compiler
 ```
 
+> Note that this process creates an environment that is specific to the node
+> version. If you upgrade your node version, you need to recompile the compiler
+> after deleting downloaded dependencies with 
+> ```
+> $ rm -rf ./node_modules
+> $ rm -rf ./known-good/node_modules
+> $ npm ci
+> $ ./bootstrap-compiler
+> ```
+
 Once that's completed, you will have a bootstrap compiler in
 `./bootstrap/qx` and two versions of the compiler that were compiled
 using the bootstrap compiler - one compiled as a `source` target (in
