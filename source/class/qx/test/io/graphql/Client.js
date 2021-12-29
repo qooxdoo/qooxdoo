@@ -143,6 +143,7 @@ qx.Class.define("qx.test.io.graphql.Client",
         try {
           await this.runQuery(`query { invalidSyntax }`);
         } catch (e) {
+          this.assertInstance(e, qx.io.exception.Protocol);
           this.assertContains("invalidSyntax", JSON.stringify(e.data));
           return;
         }

@@ -79,6 +79,11 @@ qx.Class.define("qx.io.transport.Xhr", {
                 {message}
               );
             case "statusError":
+              if (req.getStatus() === 400) {
+                  // "400 Bad Request" is a really a protocol error (syntax error)
+                  break;
+              }
+              // fallthrough
             case "error":
               throw new qx.io.exception.Transport(
                 e.toString(),
@@ -88,13 +93,14 @@ qx.Class.define("qx.io.transport.Xhr", {
                   response: req.getResponse()
                 }
               );
+            default:
+              // unknown error
+              throw new qx.io.exception.Exception(
+                e.toString(),
+                undefined,
+                {message, error:e}
+              );
           }
-          // unknown error
-          throw new qx.io.exception.Exception(
-            e.toString(),
-            undefined,
-            {message, error:e}
-          );
         }
       }
       // notify listeners
