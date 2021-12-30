@@ -501,7 +501,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // ARIA attrs
         contentEl.setAttribute("aria-activedescendant", value.getContentElement().getAttribute("id"));
-      } else {
+      } else if (contentEl) {
         contentEl.removeAttribute("aria-activedescendant");
       }
     },
@@ -522,11 +522,12 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpener : function(value, old)
     {
+      var contentEl = this.getContentElement();
       // ARIA attrs
       if (value) {
-        this.getContentElement().setAttribute("aria-labelledby", value);
-      } else {
-        this.getContentElement().removeAttribute("aria-labelledby");
+        contentEl.setAttribute("aria-labelledby", value);
+      } else if (contentEl) {
+        contentEl.removeAttribute("aria-labelledby");
       }
     },
 
