@@ -1,6 +1,6 @@
 # Transport layer
 
-The transport layer supports any transport that can send and receive a UTF-8
+The transport layer supports any transport that can send and receive UTF-8
 encoded strings over the network. Typically, this will be transports with a
 request/response model such as HTTP, for which we supply two implementations:
 `qx.io.transport.Xhr` is based on `qx.io.request`; `qx.io.tranport.Fetch` on the
@@ -54,7 +54,7 @@ client.addListener("outgoingRequest", () => {
 client.sendRequest("method-needing-authentication", [1,2,3]);
 ```
 
-Instead, you can also to create a class that inherits from `qx.io.transport.Xhr`
+Instead, you can also create a class that inherits from `qx.io.transport.Xhr`
 and overrides `qx.io.transport.Xhr#_createTransportImpl`. To make
 the client use this transport, provide a `defer` section which registers the
 behavior for your particular class of URIs:
