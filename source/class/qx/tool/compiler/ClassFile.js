@@ -921,8 +921,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           let nextJsonPath = jsonPath ? jsonPath + "." : "";
           node.properties.forEach(function(prop) {
             var key = prop.key.name;
-            var value = collectJson(prop.value, isProperties, nextJsonPath + key);
-            result[key] = value;
+            if (prop.type == "ObjectMethod") {
+              result[key] = "[[ ObjectMethod Function ]]";
+            } else {
+              var value = collectJson(prop.value, isProperties, nextJsonPath + key);
+              result[key] = value;
+            }
           });
         } else if (node.type == "Literal" ||
             node.type == "StringLiteral" ||
@@ -1727,25 +1731,24 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ObjectMethod(path) {
-          if (t.__classMeta) {
-            // Methods within a top level object (ie "members" or "statics"), record the method name and meta data
-            if (t.__classMeta._topLevel &&
-                t.__classMeta._topLevel.path == path.parentPath.parentPath) {
-              t.__classMeta.functionName = getKeyName(path.node.key);
-              makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
-              path.skip();
-              enterFunction(path);
-              path.traverse(VISITOR);
-              exitFunction(path);
-              t.__classMeta.functionName = null;
+          // Methods within a top level object (ie "members" or "statics"), record the method name and meta data
+          if (t.__classMeta &&
+              t.__classMeta._topLevel &&
+              t.__classMeta._topLevel.path == path.parentPath.parentPath) {
+            t.__classMeta.functionName = getKeyName(path.node.key);
+            makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
+            path.skip();
+            enterFunction(path);
+            path.traverse(VISITOR);
+            exitFunction(path);
+            t.__classMeta.functionName = null;
 
-            // Otherwise traverse method as normal
-            } else {
-              path.skip();
-              enterFunction(path);
-              path.traverse(VISITOR);
-              exitFunction(path);
-            }
+          // Otherwise traverse method as normal
+          } else {
+            path.skip();
+            enterFunction(path);
+            path.traverse(VISITOR);
+            exitFunction(path);
           }
         },
 

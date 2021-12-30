@@ -45,8 +45,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
   members: {
     async process() {
       await this.base(arguments);
-      let ify = new qx.tool.compiler.Es6ify(this.argv.file);
-      ify.transform();
+      await qx.tool.compiler.Es6ify.scan(this.argv.file);
     },
   },
 });

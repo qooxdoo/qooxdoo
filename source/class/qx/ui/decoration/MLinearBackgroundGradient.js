@@ -240,7 +240,8 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
      */
-    __styleLinearBackgroundGradientWithCanvas: function me(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
+    __styleLinearBackgroundGradientWithCanvas: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
+      const me = qx.ui.decoration.MLinearBackgroundGradient.__styleLinearBackgroundGradientWithCanvas;
       if (!me.__canvas) {
         me.__canvas = document.createElement("canvas");
       }
