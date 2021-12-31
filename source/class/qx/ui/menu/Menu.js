@@ -493,15 +493,20 @@ qx.Class.define("qx.ui.menu.Menu",
       if (old) {
         old.removeState("selected");
       }
-
-      const opener = this.__getRootOpener();
-      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
       if (value) {
         value.addState("selected");
+      }
 
-        // ARIA attrs
-        contentEl.setAttribute("aria-activedescendant", value.getContentElement().getAttribute("id"));
-      } else if (contentEl) {
+      // ARIA attrs
+      const opener = this.__getRootOpener();
+      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      const valueContentEl = value ? value.getContentElement() : null;
+      if (valueContentEl) {
+        contentEl.setAttribute("aria-activedescendant", valueContentEl.getAttribute("id"));
+      } else {
         contentEl.removeAttribute("aria-activedescendant");
       }
     },
