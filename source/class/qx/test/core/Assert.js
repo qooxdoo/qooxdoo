@@ -150,7 +150,7 @@ qx.Class.define("qx.test.core.Assert",
 
       this.assertException(function() {
         qx.core.Assert.assertEventFired(obj, "xyz", function() {
-          this.fireEvent("xyz1");
+          this.fireEvent("xyz1"); 
         });
       }, qx.core.AssertionError);
     },

@@ -5,15 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2017 Christian Boulanger and others
+     2021 Zenesis Ltd
 
    License:
      MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Christian Boulanger (info@bibliograph.org, @cboulanger)
-     * Henner Kollmann (hkollmann)
+     * John Spackman (john.spackman@zenesis.com, @johnspackman)
 
 ************************************************************************ */
 
@@ -37,15 +36,53 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
             alias: "v",
             describe: "Verbose logging",
           },
-        },
+          exclude: {
+            type: "array",
+            describe: "Paths to exclude"
+          },
+          arrowFunctions: {
+            choices: [ "never", "always", "careful", "aggressive" ],
+            default: "careful"
+          }
+        }
       };
-    },
+    }
   },
 
   members: {
     async process() {
       await this.base(arguments);
-      await qx.tool.compiler.Es6ify.scan(this.argv.file);
-    },
-  },
+      let exclude = this.argv.exclude;
+
+      const processFile = async filename => {
+        if (exclude && filename.startsWith(exclude))
+          return;
+
+        console.log(`Processing ${filename}...`);
+        let ify = new qx.tool.compiler.Es6ify(filename);
+        ify.set({
+          arrowFunctions: this.argv.arrowFunctions
+        });
+        await ify.transform();
+      };
+
+      const scanImpl = async filename => {
+        let basename = path.basename(filename);
+        let stat = await fs.promises.stat(filename);
+
+        if (stat.isFile() && basename.match(/\.js$/)) {
+          await processFile(filename);
+
+        } else if (stat.isDirectory() && (basename == "." || basename[0] != '.')) {
+          let files = await fs.promises.readdir(filename);
+          for (let i = 0; i < files.length; i++) {
+            let subname = path.join(filename, files[i]);
+            await scanImpl(subname);
+          }
+        }
+      };
+
+      await scanImpl(this.argv.file);
+    }
+  }
 });

@@ -1,3 +1,21 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2021 Zenesis Ltd
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (john.spackman@zenesis.com, @johnspackman)
+
+************************************************************************ */
+
 const fs = require("fs");
 const path = require("path");
 const babelCore = require("@babel/core");
@@ -60,13 +78,46 @@ const prettier = require("prettier");
   return doCollapse(node);
 }
 
-
+/**
+ * Processes a .js source file and tries to upgrade to ES6 syntax
+ * 
+ * This is a reliable but fairly unintrusive upgrade, provided that `arrowFunctions` property is
+ * `careful`.  The issue is that this code: `setTimeout(function() { something(); })` can be 
+ * changed to `setTimeout(() => something())` and that is often desirable, but it also means that
+ * the `this` will be different because an arrow function always has the `this` from where the 
+ * code is written.
+ * 
+ * However, if you use an API which changes `this` then the switch to arrow functions will break 
+ * your code.  Mostly, in Qooxdoo, changes to `this` are done via an explicit API (eg 
+ * `obj.addListener("changeXyx", function() {}, this)`) and so those known APIs can be translated,
+ * but there are places which do not work this way (eg the unit tests `qx.dev.unit.TestCase.resume()`).
+ * Third party integrations are of course completely unknown.
+ * 
+ * If `arrowFunctions` is set to aggressive, then all functions are switched to arrow functions except
+ * where there is a known API that does not support it (eg any call to `.resume` in a test class); this
+ * could break your code.
+ * 
+ * If `arrowFunctions is set to `careful` (the default), then functions are only switched to arrow 
+ * functions where the API is known  (eg `.addListener`).
+ * 
+ * The final step is that the ES6ify will use https://prettier.io/ to reformat the code, and will use
+ * the nearest `prettierrc.json` for configuration
+ */
 qx.Class.define("qx.tool.compiler.Es6ify", {
   extend: qx.core.Object,
 
   construct(filename) {
     this.base(arguments);
     this.__filename = filename;
+  },
+
+  properties: {
+    /** Whether to convert functions to arrow functions; careful means only on things like addListener callbacks */
+    arrowFunctions: {
+      init: "careful",
+      check: [ "never", "always", "careful", "aggressive" ],
+      nullable: true
+    }
   },
 
   members: {
@@ -78,6 +129,13 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       let babelConfig = {};
       let options = qx.lang.Object.clone(babelConfig.options || {}, true);
       options.modules = false;
+      let plugins = [
+        require("@babel/plugin-syntax-jsx"),
+        this.__pluginFunctionExpressions()
+      ];
+      if (this.getArrowFunctions() != "never")
+        plugins.push(this.__pluginArrowFunctions());
+      plugins.push(this.__pluginRemoveUnnecessaryThis());
       var config = {
         ast: true,
         babelrc: false,
@@ -87,23 +145,21 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         presets: [
           [
             {
-              plugins: [
-                require("@babel/plugin-syntax-jsx"),
-                this.__pluginFunctionExpressions(),
-                this.__pluginArrowFunctions(),
-                this.__pluginRemoveUnnecessaryThis()
-              ],
-            },
+              plugins: plugins
+            }
           ]
         ],
         parserOpts: { sourceType: "script" },
         generatorOpts: {
           retainLines: true
         },
-        passPerPreset: true,
+        passPerPreset: true
       };
       let result = babelCore.transform(src, config);
-      let prettyCode = prettier.format(result.code, { parser: "babel" });
+
+      let prettierConfig = await prettier.resolveConfig(this.__filename, { editorConfig: true })||{};
+      prettierConfig.parser = "babel";
+      let prettyCode = prettier.format(result.code, prettierConfig);
       
       await fs.promises.writeFile(this.__filename, prettyCode, "utf8");
     },
@@ -139,39 +195,60 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       };
     },
 
+    __toArrowExpression(argNode) {
+      let body = argNode.body;
+      if (body.body.length == 1 && body.body[0].type == "ReturnStatement") {
+        body = body.body[0].argument;
+      }
+      let replacement = types.arrowFunctionExpression(
+        argNode.params,
+        body,
+        argNode.async
+      );
+      replacement.loc = argNode.loc;
+      replacement.start = argNode.start;
+      replacement.end = argNode.end;
+      replacement.leadingComments = argNode.leadingComments;
+      return replacement;
+    },
+
     __pluginArrowFunctions() {
-      const toArrowExpression = (argNode) => {
-        let body = argNode.body;
-        if (body.body.length == 1 && body.body[0].type == "ReturnStatement") {
-          body = body.body[0].argument;
-        }
-        let replacement = types.arrowFunctionExpression(
-          argNode.params,
-          body,
-          argNode.async
-        );
-        replacement.loc = argNode.loc;
-        replacement.start = argNode.start;
-        replacement.end = argNode.end;
-        replacement.leadingComments = argNode.leadingComments;
-        return replacement;
-      };
+      let t = this;
+      const isTest = this.__filename.indexOf("/test/") > -1;
+      let arrowFunctions = this.getArrowFunctions();
 
       return {
         visitor: {
           CallExpression(path) {
             if (path.node.callee.type == "MemberExpression") {
               let callee = collapseMemberExpression(path.node.callee);
-              if (callee == "qx.event.GlobalError.observeMethod" || 
-                  callee == "this.assertException" || 
-                  callee == "this.assertEventFired" || 
-                  callee == "qx.core.Assert.assertEventFired")
-                return;
+              if (arrowFunctions == "careful") {
+                if (!callee.endsWith(".addListener")) {
+                  return;
+                }
+                if (
+                  path.node.arguments.length != 3 ||
+                  path.node.arguments[0].type != "StringLiteral" ||
+                  path.node.arguments[1].type != "ArrowFunctionExpression" ||
+                  path.node.arguments[2].type != "ThisExpression"
+                ) {
+                  return;
+                }
+    
+              } else if (arrowFunctions == "aggressive") {
+                if (callee == "qx.event.GlobalError.observeMethod" || 
+                    callee == "this.assertException" || 
+                    callee == "this.assertEventFired" || 
+                    callee == "qx.core.Assert.assertEventFired" ||
+                    (isTest && callee.endsWith(".resume"))) {
+                  return;
+                }
+              }
             }
             for (let i = 0; i < path.node.arguments.length; i++){
               let argNode = path.node.arguments[i];
               if (argNode.type == "FunctionExpression") {
-                path.node.arguments[i] = toArrowExpression(argNode);
+                path.node.arguments[i] = t.__toArrowExpression(argNode);
               }
             }
           }
@@ -198,35 +275,6 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
           }
         }
       }
-    }
-  },
-
-  statics: {
-    async scan(filename) {
-
-      async function processFile(filename) {
-        console.log(`Processing ${filename}...`);
-        let ify = new qx.tool.compiler.Es6ify(filename);
-        await ify.transform();
-      }
-
-      async function scanImpl(filename) {
-        let basename = path.basename(filename);
-        let stat = await fs.promises.stat(filename);
-
-        if (stat.isFile() && basename.match(/\.js$/)) {
-          await processFile(filename);
-
-        } else if (stat.isDirectory() && basename[0] != '.') {
-          let files = await fs.promises.readdir(filename);
-          for (let i = 0; i < files.length; i++) {
-            let subname = path.join(filename, files[i]);
-            await scanImpl(subname);
-          }
-        }
-      }
-
-      await scanImpl(filename);
     }
   }
 });
