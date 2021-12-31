@@ -532,8 +532,9 @@ qx.Class.define("qx.ui.menu.Menu",
       if (!contentEl) {
         return;
       }
-      if (value) {
-        contentEl.setAttribute("aria-labelledby", value);
+      if (value && value.getContentElement()) {
+        contentEl.setAttribute("aria-labelledby", "");
+        this.addAriaLabelledBy(value);
       } else {
         contentEl.removeAttribute("aria-labelledby");
       }
