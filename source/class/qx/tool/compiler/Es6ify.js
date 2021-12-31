@@ -245,6 +245,8 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                   return;
                 }
               }
+            } else if (arrowFunctions == "careful") {
+              return;
             }
             for (let i = 0; i < path.node.arguments.length; i++){
               let argNode = path.node.arguments[i];
