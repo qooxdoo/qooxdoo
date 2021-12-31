@@ -430,10 +430,15 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
 
       // Set aria-activedescendant
-      if (current && current[0]) {
-        this.getContentElement().setAttribute("aria-activedescendant", current[0].getContentElement().getAttribute("id"));
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      const currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      if (currentContentEl) {
+        contentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
       } else {
-        this.getContentElement().removeAttribute("aria-activedescendant");
+        contentEl.removeAttribute("aria-activedescendant");
       }
     },
 
