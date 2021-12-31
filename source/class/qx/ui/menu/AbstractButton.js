@@ -340,7 +340,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         old.removeState("submenu");
       }
 
-      const contentEl = this.getContentElement();
       if (value)
       {
         this._showChildControl("arrow");
@@ -348,22 +347,25 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         value.addListener("changeVisibility", this._onMenuChange, this);
         value.setOpener(this);
         value.addState("submenu");
-
-        // ARIA attrs
-        contentEl.setAttribute("aria-haspopup", "menu");
-        contentEl.setAttribute("aria-expanded", value.isVisible());
-        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
       }
       else
       {
         this._excludeChildControl("arrow");
-        
-        // ARIA attrs
-        if (contentEl) {
-          contentEl.removeAttribute("aria-haspopup");
-          contentEl.removeAttribute("aria-expanded");
-          contentEl.removeAttribute("aria-controls");
-        }
+      }
+      
+      // ARIA attrs
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value) {
+        contentEl.setAttribute("aria-haspopup", "menu");
+        contentEl.setAttribute("aria-expanded", value.isVisible());
+        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-haspopup");
+        contentEl.removeAttribute("aria-expanded");
+        contentEl.removeAttribute("aria-controls");
       }
     },
 

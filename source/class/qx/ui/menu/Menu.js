@@ -522,11 +522,14 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpener : function(value, old)
     {
-      const contentEl = this.getContentElement();
       // ARIA attrs
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
       if (value) {
         contentEl.setAttribute("aria-labelledby", value);
-      } else if (contentEl) {
+      } else {
         contentEl.removeAttribute("aria-labelledby");
       }
     },
