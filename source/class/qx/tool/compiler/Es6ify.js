@@ -133,8 +133,9 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         require("@babel/plugin-syntax-jsx"),
         this.__pluginFunctionExpressions()
       ];
-      if (this.getArrowFunctions() != "never")
+      if (this.getArrowFunctions() != "never") {
         plugins.push(this.__pluginArrowFunctions());
+      }
       plugins.push(this.__pluginRemoveUnnecessaryThis());
       var config = {
         ast: true,

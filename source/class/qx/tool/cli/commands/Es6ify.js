@@ -55,8 +55,9 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
       let exclude = this.argv.exclude;
 
       const processFile = async filename => {
-        if (exclude && filename.startsWith(exclude))
+        if (exclude && filename.startsWith(exclude)) {
           return;
+        }
 
         console.log(`Processing ${filename}...`);
         let ify = new qx.tool.compiler.Es6ify(filename);
