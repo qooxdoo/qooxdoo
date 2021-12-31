@@ -427,9 +427,13 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       // Set aria-activedescendant
       var contentEl = this.getContentElement();
-      if (current && current[0]) {
-        contentEl.setAttribute("aria-activedescendant", current[0].getContentElement().getAttribute("id"));
-      } else if (contentEl) {
+      if (!contentEl) {
+        return;
+      }
+      var currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      if (currentContentEl) {
+        contentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
+      } else {
         contentEl.removeAttribute("aria-activedescendant");
       }
     },
