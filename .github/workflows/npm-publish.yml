@@ -1,0 +1,53 @@
+# This workflow builds the state of the current branch and publishes it to NPM.
+#
+# **** CAUTION ***
+#
+# The workflow doesn't have any versioning strategy other than publishing any
+# version in package.json that contains the string "beta" to with a `beta` tag;
+# i.e. `npm install @qooxdoo/qooxdoo@beta` will get you the last beta version
+# published, anything else goes to the `latest` tag.
+#
+# This workflow rests on the highly dubious assumption that pushes to the master
+# branch will always contain a "beta" version and pushes to the "stable" branch
+# (currently 6.0), such as for bug fix releases or backports will not.
+#
+# Every push involves incrementing the version number by hand, otherwise no
+# package will be published - the workflow won't do it for you. A beta version
+# will need some kind of secondary versioning such as 7.0.0-beta.202106152115
+#
+# In sum, this is a temporary hack to reenable NPM deployment and not a
+# replacement for an sound end-to-end versioning and publishing policy &
+# workflow.
+
+on: push
+
+jobs:
+  publish:
+    name: Publish the current branch to npm
+    if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: |
+          npm ci
+          ./bootstrap-compiler
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Publish to @qooxdoo/framework@latest
+        id: publish_latest
+        if: ${{ !contains(steps.package-version.outputs.current-version, 'beta') }}
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: latest
+      - name: Publish to @qooxdoo/framework@beta
+        id: publish_beta
+        if: ${{ contains(steps.package-version.outputs.current-version, 'beta') }}
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          tag: beta

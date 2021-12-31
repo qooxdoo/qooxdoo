@@ -337,10 +337,15 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       // Set aria-activedescendant
-      if (current && current[0]) {
-        this.getChildControl("textfield").getContentElement().setAttribute("aria-activedescendant", current[0].getContentElement().getAttribute("id"));
+      const textFieldContentEl = this.getChildControl("textfield").getContentElement();
+      if (!textFieldContentEl) {
+        return;
+      }
+      const currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      if (currentContentEl) {
+        textFieldContentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
       } else {
-        this.getChildControl("textfield").getContentElement().removeAttribute("aria-activedescendant");
+        textFieldContentEl.removeAttribute("aria-activedescendant");
       }
     },
 
