@@ -48,6 +48,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   {
     this.base(arguments);
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "toolbar");
+
     // add needed layout
     this._setLayout(new qx.ui.layout.HBox());
 

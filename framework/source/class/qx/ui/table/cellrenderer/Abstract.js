@@ -168,7 +168,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      */
     _getCellAttributes : function(cellInfo)
     {
-      return "";
+      var cellId = "qooxdoo-table-cell-" + cellInfo.table.toHashCode() + "-" + cellInfo.row + "-" + cellInfo.col;
+      var readOnly = cellInfo.editable !== null && cellInfo.editable !== undefined ? !cellInfo.editable : true;
+      return "id=" + cellId + " role=gridcell aria-readonly=" + readOnly;
     },
 
 

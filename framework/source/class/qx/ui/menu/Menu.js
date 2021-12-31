@@ -48,6 +48,11 @@ qx.Class.define("qx.ui.menu.Menu",
     var root = this.getApplicationRoot();
     root.add(this);
 
+    // ARIA attrs
+    var contentEl = this.getContentElement();
+    contentEl.setAttribute("role", "menu");
+    contentEl.setAttribute("id", "menu-" + this.toHashCode());
+
     // Register pointer listeners
     this.addListener("pointerover", this._onPointerOver);
     this.addListener("pointerout", this._onPointerOut);
@@ -212,7 +217,8 @@ qx.Class.define("qx.ui.menu.Menu",
     opener :
     {
       check : "qx.ui.core.Widget",
-      nullable : true
+      nullable: true,
+      apply : "_applyOpener"
     },
 
 
@@ -487,9 +493,21 @@ qx.Class.define("qx.ui.menu.Menu",
       if (old) {
         old.removeState("selected");
       }
-
       if (value) {
         value.addState("selected");
+      }
+
+      // ARIA attrs
+      var opener = this.__getRootOpener();
+      var contentEl = opener ? opener.getContentElement() : this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      var valueContentEl = value ? value.getContentElement() : null;
+      if (valueContentEl) {
+        contentEl.setAttribute("aria-activedescendant", valueContentEl.getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-activedescendant");
       }
     },
 
@@ -503,6 +521,22 @@ qx.Class.define("qx.ui.menu.Menu",
 
       if (value) {
         value.getMenu().open();
+      }
+    },
+
+    // property apply
+    _applyOpener : function(value, old)
+    {
+      // ARIA attrs
+      var contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value && value.getContentElement()) {
+        contentEl.setAttribute("aria-labelledby", "");
+        this.addAriaLabelledBy(value);
+      } else {
+        contentEl.removeAttribute("aria-labelledby");
       }
     },
 
@@ -681,6 +715,19 @@ qx.Class.define("qx.ui.menu.Menu",
       EVENT HANDLING
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Gets called when a child is added. Sets ARIA attrs
+     * @param {*} child 
+     */
+    _afterAddChild: function (child) {
+      // Some childs, e.g. Seperators, are no meaningful menu items
+      if (child instanceof qx.ui.menu.AbstractButton) {
+        var contentEl = child.getContentElement();
+        contentEl.setAttribute("id", "menu-item-" + child.toHashCode());
+        contentEl.setAttribute("role", "menuitem");
+      }
+    },
 
     /**
      * Update position if the menu or the root is resized
@@ -790,6 +837,31 @@ qx.Class.define("qx.ui.menu.Menu",
           mgr.cancelOpen(this.__scheduledOpen);
         }
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER FUNCTIONS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Get the opener of the root/the first parent menu.
+     * parent menu.
+     *
+     * @return {qx.ui.core.Widget|null} The opener.
+     */
+    __getRootOpener: function () {
+      var parentMenu = this.getParentMenu();
+      if (!parentMenu) {
+        return this.getOpener();
+      }
+      var opener;
+      while (parentMenu) {
+        opener = parentMenu.getOpener();
+        parentMenu = parentMenu.getParentMenu();
+      }
+      return opener;
     }
   },
 

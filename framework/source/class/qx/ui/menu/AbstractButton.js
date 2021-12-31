@@ -335,6 +335,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       if (old)
       {
+        old.removeListener("changeVisibility", this._onMenuChange, this);
         old.resetOpener();
         old.removeState("submenu");
       }
@@ -343,6 +344,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       {
         this._showChildControl("arrow");
 
+        value.addListener("changeVisibility", this._onMenuChange, this);
         value.setOpener(this);
         value.addState("submenu");
       }
@@ -350,6 +352,32 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       {
         this._excludeChildControl("arrow");
       }
+      
+      // ARIA attrs
+      var contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value) {
+        contentEl.setAttribute("aria-haspopup", "menu");
+        contentEl.setAttribute("aria-expanded", value.isVisible());
+        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-haspopup");
+        contentEl.removeAttribute("aria-expanded");
+        contentEl.removeAttribute("aria-controls");
+      }
+    },
+
+    /**
+     * Listener for visibility property changes of the attached menu
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
+    _onMenuChange : function(e)
+    {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-expanded", this.getMenu().isVisible());
     },
 
     // property apply

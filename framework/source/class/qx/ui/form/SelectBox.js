@@ -222,6 +222,16 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       this.__updateIcon();
       this.__updateLabel();
+
+      // ARIA attrs
+      var old = e.getOldData() ? e.getOldData()[0] : null;
+      var current = this.getSelection()[0];
+      if (old && old !== current) {
+        old.getContentElement().setAttribute("aria-selected", false);
+      }
+      if (current) {
+        current.getContentElement().setAttribute("aria-selected", true);
+      }
     },
 
 
@@ -413,6 +423,18 @@ qx.Class.define("qx.ui.form.SelectBox",
       else
       {
         this.resetSelection();
+      }
+
+      // Set aria-activedescendant
+      var contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      var currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      if (currentContentEl) {
+        contentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-activedescendant");
       }
     },
 

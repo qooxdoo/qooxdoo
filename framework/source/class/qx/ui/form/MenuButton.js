@@ -45,6 +45,9 @@ qx.Class.define("qx.ui.form.MenuButton",
     if (menu != null) {
       this.setMenu(menu);
     }
+
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "button");
   },
 
 
@@ -120,6 +123,21 @@ qx.Class.define("qx.ui.form.MenuButton",
         value.removeState("submenu");
         value.removeState("contextmenu");
       }
+      
+      // ARIA attrs
+      var contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value) {
+        contentEl.setAttribute("aria-haspopup", "menu");
+        contentEl.setAttribute("aria-expanded", value.isVisible());
+        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-haspopup");
+        contentEl.removeAttribute("aria-expanded");
+        contentEl.removeAttribute("aria-controls");
+      }
     },
 
 
@@ -177,12 +195,15 @@ qx.Class.define("qx.ui.form.MenuButton",
     _onMenuChange : function(e)
     {
       var menu = this.getMenu();
-
-      if (menu.isVisible()) {
+      var menuVisible = menu.isVisible()
+      if (menuVisible) {
         this.addState("pressed");
       } else {
         this.removeState("pressed");
       }
+
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-expanded", menuVisible);
     },
 
 
