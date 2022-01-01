@@ -1,0 +1,297 @@
+# Croatian
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-19 10:11+0200\n"
+"PO-Revision-Date: 2021-12-28 14:40+0100\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
+"Language-Team: Croatian <https://hosted.weblate.org/projects/qooxdoo/"
+"framework/hr/>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0\n"
+
+msgid "%1 does not fit %2."
+msgstr "%1 ne poklapa se s %2."
+
+msgid "%1 is not a color! %2"
+msgstr "%1 nije boja! %2"
+
+msgid "%1 is not a number."
+msgstr "%1 nije broj."
+
+msgid "%1 is not a string."
+msgstr "%1 nije znakovni niz."
+
+msgid "%1 is not an url."
+msgstr "%1 nije url."
+
+msgid "%1 is not in %2"
+msgstr "%1 nije u %2"
+
+msgid "%1 is not in the range from [%2, %3]."
+msgstr "%1 nije u rasponu od [%2, %3]."
+
+msgid "'%1' is not an email address."
+msgstr "„%1” nije e-mail adresa."
+
+msgid "Automatic"
+msgstr "Automatski"
+
+msgid "Basic Colors"
+msgstr "Osnovne boje"
+
+msgid "Cancel"
+msgstr "Odustani"
+
+msgid "Color Selector"
+msgstr "Birač boja"
+
+msgid "Details"
+msgstr "Detalji"
+
+msgid "HSB"
+msgstr "HSB"
+
+msgid "Hex"
+msgstr "Heksadecimalne"
+
+msgid "Last month"
+msgstr "Prošli mjesec"
+
+msgid "Last year"
+msgstr "Prošla godina"
+
+msgid "Next month"
+msgstr "Sljedeći mjesec"
+
+msgid "Next year"
+msgstr "Sljedeća godina"
+
+msgid "OK"
+msgstr "U redu"
+
+msgid "Open ColorSelector"
+msgstr "Otvori birač boja"
+
+msgid "Presets"
+msgstr "Predodređene postavke"
+
+msgid "Preview (Old/New)"
+msgstr "Pregled (stari/novi)"
+
+msgid "RGB"
+msgstr "RBG"
+
+msgid "Recent Colors"
+msgstr "Nedavne boje"
+
+msgid "Reset column widths"
+msgstr "Obnovi širine stupaca"
+
+msgid "This field is required"
+msgstr "Ovo je obavezno polje"
+
+msgid "Visual"
+msgstr "Vizualni"
+
+msgid "key_full_Alt"
+msgstr "Alt"
+
+msgid "key_full_Apps"
+msgstr "Aplikacije"
+
+msgid "key_full_Backspace"
+msgstr "Backspace"
+
+msgid "key_full_CapsLock"
+msgstr "CapsLock"
+
+msgid "key_full_Control"
+msgstr "Control"
+
+msgid "key_full_Control_Mac"
+msgstr "Control_Mac"
+
+msgid "key_full_Delete"
+msgstr "Izbriši"
+
+msgid "key_full_Down"
+msgstr "Dolje"
+
+msgid "key_full_End"
+msgstr "Kraj"
+
+msgid "key_full_Enter"
+msgstr "Enter"
+
+msgid "key_full_Escape"
+msgstr "Escape"
+
+msgid "key_full_Home"
+msgstr "Početak"
+
+msgid "key_full_Insert"
+msgstr "Umetni"
+
+msgid "key_full_Left"
+msgstr "LIjevo"
+
+msgid "key_full_Meta"
+msgstr "Meta"
+
+msgid "key_full_NumLock"
+msgstr "Brojčani blok"
+
+msgid "key_full_PageDown"
+msgstr "Stranica dolje"
+
+msgid "key_full_PageUp"
+msgstr "Stranica gore"
+
+msgid "key_full_Pause"
+msgstr "Pauza"
+
+msgid "key_full_PrintScreen"
+msgstr "Ispis ekrana"
+
+msgid "key_full_Right"
+msgstr "Desno"
+
+msgid "key_full_Scroll"
+msgstr "Listanje"
+
+msgid "key_full_Shift"
+msgstr "Shift"
+
+msgid "key_full_Space"
+msgstr "Razmaknica"
+
+msgid "key_full_Tab"
+msgstr "Tabulator"
+
+msgid "key_full_Up"
+msgstr "Gore"
+
+msgid "key_full_Win"
+msgstr "Win"
+
+msgid "key_short_Alt"
+msgstr "Alt"
+
+msgid "key_short_Apps"
+msgstr "Aplikacije"
+
+msgid "key_short_Backspace"
+msgstr "Backspace"
+
+msgid "key_short_CapsLock"
+msgstr "CapsLock"
+
+msgid "key_short_Control"
+msgstr "Control"
+
+msgid "key_short_Control_Mac"
+msgstr "Control_Mac"
+
+msgid "key_short_Delete"
+msgstr "Izbriši"
+
+msgid "key_short_Down"
+msgstr "Dolje"
+
+msgid "key_short_End"
+msgstr "Kraj"
+
+msgid "key_short_Enter"
+msgstr "Enter"
+
+msgid "key_short_Escape"
+msgstr "Escape"
+
+msgid "key_short_Home"
+msgstr "Početna"
+
+msgid "key_short_Insert"
+msgstr "Umetni"
+
+msgid "key_short_Left"
+msgstr "Lijevo"
+
+msgid "key_short_Meta"
+msgstr "Meta"
+
+msgid "key_short_NumLock"
+msgstr "Brojčani blok"
+
+msgid "key_short_PageDown"
+msgstr "Stranica dolje"
+
+msgid "key_short_PageUp"
+msgstr "Stranica gore"
+
+msgid "key_short_Pause"
+msgstr "Pauza"
+
+msgid "key_short_PrintScreen"
+msgstr "Ispis ekrana"
+
+msgid "key_short_Right"
+msgstr "Desno"
+
+msgid "key_short_Scroll"
+msgstr "Listanje"
+
+msgid "key_short_Shift"
+msgstr "Shift"
+
+msgid "key_short_Space"
+msgstr "Razmaknica"
+
+msgid "key_short_Tab"
+msgstr "Tabulator"
+
+msgid "key_short_Up"
+msgstr "Gore"
+
+msgid "key_short_Win"
+msgstr "Win"
+
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] "jedan od jednog retka"
+msgstr[1] "%1 od %2 retka"
+msgstr[2] "%1 od %2 retka"
+
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "%1 redak"
+msgstr[1] "%1 retka"
+msgstr[2] "%1 redaka"
+
+msgid "test Hello %1!"
+msgstr "test Hello %1!"
+
+msgid "test Jonny"
+msgstr "test Jonny"
+
+msgid "test One car"
+msgid_plural "test %1 cars"
+msgstr[0] "test %1 auto"
+msgstr[1] "test %1 auta"
+msgstr[2] "test %1 auta"
+
+msgid "test affe"
+msgstr "test affe"
+
+msgid "test one"
+msgstr "test jedan"
+
+msgid "test two"
+msgstr "test dva"
