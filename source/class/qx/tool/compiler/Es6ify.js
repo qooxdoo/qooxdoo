@@ -165,6 +165,21 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       await fs.promises.writeFile(this.__filename, prettyCode, "utf8");
     },
 
+    /**
+     * Plugin that converts object properties which are functions into object methods, eg
+     * ```
+     * {
+     *   myMethod: function() {}
+     * }
+     * ```
+     * becomes
+     * ```
+     * {
+     *   myMethod() {}
+     * }
+     * ```
+     * @returns 
+     */
     __pluginFunctionExpressions() {
       return {
         visitor: {
@@ -213,6 +228,10 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       return replacement;
     },
 
+    /**
+     * Tries to convert functions into arrow functions
+     * @returns 
+     */
     __pluginArrowFunctions() {
       let t = this;
       const isTest = this.__filename.indexOf("/test/") > -1;
@@ -259,6 +278,11 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       }
     },
 
+    /**
+     * Where a function has been translated into an arrow function, the this binding is not needed
+     * and can be removed
+     * @returns 
+     */
     __pluginRemoveUnnecessaryThis() {
       return {
         visitor: {

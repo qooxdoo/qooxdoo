@@ -17,9 +17,7 @@
 ************************************************************************ */
 
 const fs = require("fs");
-const process = require("process");
 const path = require("upath");
-const rimraf = require("rimraf");
 
 /**
  * Migrates code to ES6 (partially)
