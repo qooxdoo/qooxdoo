@@ -1,6 +1,6 @@
 /**
  * An implementation of a PostMessage transport
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
  * The transport is special isasmuch it is not used with an URI, but with the
  * target Window or Worker object with acts as the endpoint of the message.
  */
