@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
