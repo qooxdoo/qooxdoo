@@ -1,5 +1,6 @@
 /**
- * An experimental implementation of a WebSocket Transport
+ * An implementation of a WebSocket transport
+ * @see https://developer.mozilla.org/de/docs/Web/API/WebSocket
  * @ignore(WebSocket)
  */
 qx.Class.define("qx.io.transport.Websocket", {
