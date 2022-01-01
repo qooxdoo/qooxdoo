@@ -1,6 +1,6 @@
 /**
  * The implementation of a HTTP Transport using the Fetch API,
- * See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
  */
 qx.Class.define("qx.io.transport.Fetch", {
   extend: qx.io.transport.AbstractTransport,

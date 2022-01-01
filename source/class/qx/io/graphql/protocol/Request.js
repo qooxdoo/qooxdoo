@@ -17,10 +17,10 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL. The API might change.
  * An Object modelling a GraphQL request based on the GraphQL language
  * (see http://spec.graphql.org/draft/#sec-Language) usually sent as JSON via
  * a HTTP request (https://graphql.org/learn/serving-over-http)
+ * @experimental The API might change. Feedback is appreciated.
  */
 qx.Class.define("qx.io.graphql.protocol.Request",{
   extend: qx.io.graphql.protocol.Message,

@@ -17,10 +17,10 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL. The API might change.
  * Abstract parent class for GraphQL messages and responses
+ * @experimental The API might change. Feedback is appreciated.
  */
-qx.Class.define("qx.io.graphql.protocol.Message",{
+qx.Class.define("qx.io.graphql.protocol.Message", {
   extend: qx.core.Object,
 
   /**
@@ -32,8 +32,8 @@ qx.Class.define("qx.io.graphql.protocol.Message",{
     qx.core.Assert.assertObject(data);
     this.set(data);
   },
-  members : {
 
+  members : {
     /**
      * Return the message data in a spec-conformant native object
      */

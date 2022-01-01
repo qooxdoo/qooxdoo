@@ -17,14 +17,12 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL. The API might change.
- *
  * This class provides a simple GraphQl client (https://graphql.org/).
  * For transport, it is based on internally on the fetch API
  * (https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)
  * which, if needed, must be directly configured via the `init` parameter of the
  * constructor, until a more generalized qx.io API has been developed.
- *
+ * @experimental The API might change. Feedback is appreciated.
  */
 qx.Class.define("qx.io.graphql.Client", {
 

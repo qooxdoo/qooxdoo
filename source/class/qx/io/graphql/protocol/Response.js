@@ -17,8 +17,8 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL. The API might change.
  * An Object modelling a GraphQL response (see http://spec.graphql.org/draft/#sec-Response-Format)
+ * @experimental The API might change. Feedback is appreciated.
  */
 qx.Class.define("qx.io.graphql.protocol.Response",{
   extend: qx.io.graphql.protocol.Message,
