@@ -29,6 +29,12 @@ For more information please see http://qooxdoo.org/LICENCSE .
 It is easy to get started with qooxdoo. For detailed information please
 see [our Get Started Guide](docs/README.md).
 
+## Documentation
+   - released version: https://qooxdoo.org/documentation/6.0/#/
+   - development version: https://qooxdoo.org/documentation/v7.0/#/
+   
+
+
 ## Development
 
 If you develop *with* qooxdoo, you would normally use a stable

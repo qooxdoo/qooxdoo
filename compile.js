@@ -24,7 +24,30 @@ qx.Class.define("qx.compiler.CompilerApi", {
         };
         return args;
       }
+      this.addListener("changeCommand", function () {
+        let command = this.getCommand();
+        if (command instanceof qx.tool.cli.commands.package.Publish) {
+          command.addListener("beforeCommit", this.__fixVersion, this);
+        }
+      }, this);
       return this.base(arguments);
+    },
+
+    async __fixVersion(evt) {
+      const data = evt.getData();
+      const vars = path.join(process.cwd(), "docs", "_variables.json");
+      if (await fs.existsAsync(vars)) {
+        let var_data = await qx.tool.utils.Json.loadJsonAsync(vars);
+        var_data.qooxdoo.version = new_version;
+        if (data.argv.dryrun) {
+          qx.tool.compiler.Console.info("Dry run: Not changing _variables.json version...");
+        } else {
+          await qx.tool.utils.Json.saveJsonAsync(vars, var_data);
+          if (!data.argv.quiet) {
+            qx.tool.compiler.Console.info(`Updated version in _variables.json.`);
+          }
+        }
+      }
     },
 
     /**
