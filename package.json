@@ -6,7 +6,18 @@
   "keywords": [
     "qooxdoo",
     "compiler",
-    "cli"
+    "cli",
+    "framework",
+    "front-end",
+    "mobile",
+    "back-end",
+    "widgets",
+    "gui",
+    "databinding",
+    "classes",
+    "interfaces",
+    "mixins",
+    "transpiler"
   ],
   "license": "MIT",
   "homepage": "http://qooxdoo.org",
