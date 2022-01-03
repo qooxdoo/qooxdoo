@@ -493,14 +493,19 @@ qx.Class.define("qx.ui.menu.Menu",
       if (old) {
         old.removeState("selected");
       }
-
-      const opener = this.__getRootOpener();
-      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
       if (value) {
         value.addState("selected");
+      }
 
-        // ARIA attrs
-        contentEl.setAttribute("aria-activedescendant", value.getContentElement().getAttribute("id"));
+      // ARIA attrs
+      const opener = this.__getRootOpener();
+      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      const valueContentEl = value ? value.getContentElement() : null;
+      if (valueContentEl) {
+        contentEl.setAttribute("aria-activedescendant", valueContentEl.getAttribute("id"));
       } else {
         contentEl.removeAttribute("aria-activedescendant");
       }
@@ -523,10 +528,15 @@ qx.Class.define("qx.ui.menu.Menu",
     _applyOpener : function(value, old)
     {
       // ARIA attrs
-      if (value) {
-        this.getContentElement().setAttribute("aria-labelledby", value);
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value && value.getContentElement()) {
+        contentEl.setAttribute("aria-labelledby", "");
+        this.addAriaLabelledBy(value);
       } else {
-        this.getContentElement().removeAttribute("aria-labelledby");
+        contentEl.removeAttribute("aria-labelledby");
       }
     },
 
