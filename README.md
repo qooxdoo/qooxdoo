@@ -20,9 +20,7 @@ For more information please see http://qooxdoo.org .
 
 ## License
 
-qooxdoo may be used under the terms of the MIT License.
-
-For more information please see http://qooxdoo.org/LICENCSE .
+qooxdoo may be used under the terms of the [MIT License](LICENSE).
 
 ## Quick start
 
