@@ -82,7 +82,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         qx.tool.compiler.ClassFile.ENVIRONMENT_CONSTANTS,
         {
           "qx.compiler": true,
-          "qx.compiler.version": await qx.tool.config.Utils.getQxVersion()
+          "qx.compiler.version": qx.tool.config.Utils.getCompilerVersion()
         },
         this.getEnvironment(),
         target.getDefaultEnvironment(),
