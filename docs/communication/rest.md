@@ -196,9 +196,10 @@ Helpers make it easy to accomplish common tasks when working with requests.
 
 ## Data binding
 
-A `qx.data.store.Rest` store can be attached to an action. Whenever a response
-is received, the model property of the store is updated with the marshaled
-response.
+The REST interface has a special [data store
+object](../core/data_binding/stores.md): a `qx.data.store.Rest` store can be
+attached to an action. Whenever a response is received, the model property of
+the store is updated with the marshaled response.
 
 ```javascript
 var store = new qx.data.store.Rest(photos, "get");
