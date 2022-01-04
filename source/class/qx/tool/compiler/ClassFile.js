@@ -43,6 +43,9 @@ function collapseMemberExpression(node) {
     if (node.type == "ThisExpression") {
       return "this";
     }
+    if (node.type == "Super") {
+      return "super";
+    }
     if (node.type == "Identifier") {
       return node.name;
     }
@@ -362,7 +365,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               [ require.resolve("@babel/preset-typescript") ],
               [ require.resolve("@babel/preset-react"), qx.tool.compiler.ClassFile.JSX_OPTIONS ]
             ],
-            parserOpts: { sourceType: "script" },
+            parserOpts: { 
+              allowSuperOutsideMethod: true,
+              sourceType: "script" 
+            },
             passPerPreset: true
           };
           if (extraPreset[0].plugins.length) {
@@ -1424,7 +1430,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
-            if (types.isMemberExpression(path.node.callee)) {
+            if (types.isMemberExpression(path.node.callee) || path.node.callee.object?.type == "Super" || path.node.callee.type == "Super") {
               let name = collapseMemberExpression(path.node.callee);
               let thisAlias = null;
 
@@ -1435,7 +1441,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               //    var that = this, args = arguments;
               //    (function() { that.base(args); })();
               //    ```
-              if (path.node.callee.object.type == "Identifier") {
+              if (path.node.callee.object?.type == "Identifier") {
                 let originalAlias = path.node.callee.object.name;
                 let alias = originalAlias;
                 let aliasIsThis = false;
@@ -1540,7 +1546,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 path.skip();
                 path.traverse(VISITOR);
 
-              } else if (name == "this.base") {
+              } else if (name == "this.base" || name == "super" || name.startsWith("super.")) {
                 let expr;
 
                 // For mixins, there is never a valid time to call this.base() in the constructor; but it is
