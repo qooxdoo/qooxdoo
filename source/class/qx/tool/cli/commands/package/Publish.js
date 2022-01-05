@@ -99,6 +99,14 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       };
     }
   },
+  events: {
+    /**
+     * Fired before commit happens. Data is an object with
+     *   version: new_version,
+     *   argv: this.argv
+    */
+    "beforeCommit": "qx.event.type.Data"
+  },
 
   members: {
 
@@ -336,6 +344,12 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           }
         }
       }
+
+      await this.fireDataEventAsync("beforeCommit", {
+        version: new_version,
+        argv: this.argv
+      });
+
 
       if (argv.dryrun) {
         qx.tool.compiler.Console.info(`Dry run: not creating tag and release '${tag}' of ${repo_name}...`);
