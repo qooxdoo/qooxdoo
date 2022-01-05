@@ -5,7 +5,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
 
   members: {
-    load() {
+    async load() {
       let yargs = qx.tool.cli.commands.Test.getYargsCommand;
       qx.tool.cli.commands.Test.getYargsCommand = () => {
         let args = yargs();
@@ -31,7 +31,13 @@ qx.Class.define("qx.compiler.CompilerApi", {
           command.addListener("beforeCommit", this.__fixDocVersion, this);
         }
       }, this);
-      return this.base(arguments);
+      let data = await this.base(arguments);
+      if (!data.environment)
+        data.environment = {};
+      let manifestConfig = await qx.tool.config.Manifest.getInstance().load();
+      let manifestData = manifestConfig.getData();
+      data.environment["qx.compiler.version"] = manifestData.info.version;
+      return data;
     },
 
     async __fixDocVersion(evt) {
