@@ -48,6 +48,10 @@ events:
 - `beforeStart`: Fired before server start
 - `afterStart`: Fired when server is started
 
+Instances of `qx.tool.cli.commands.Publish` and its subclasses fire the following events:
+events:
+- `beforeCommit`:  Fired before commit happens.
+
 Here is an example how to add some stuff to the express server when you run qx start:
 ```javascript
 qx.Class.define("myApp.CompilerApi", {

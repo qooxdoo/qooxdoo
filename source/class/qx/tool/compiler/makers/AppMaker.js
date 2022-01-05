@@ -86,7 +86,8 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         },
         this.getEnvironment(),
         target.getDefaultEnvironment(),
-        target.getEnvironment());
+        target.getEnvironment()
+      );
 
       let preserve = target.getPreserveEnvironment();
       if (preserve) {
