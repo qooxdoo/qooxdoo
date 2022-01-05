@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
@@ -24,6 +25,12 @@ qx.Class.define("qx.compiler.CompilerApi", {
         };
         return args;
       }
+      this.addListener("changeCommand", function () {
+        let command = this.getCommand();
+        if (command instanceof qx.tool.cli.commands.package.Publish) {
+          command.addListener("beforeCommit", this.__fixDocVersion, this);
+        }
+      }, this);
       let data = await this.base(arguments);
       if (!data.environment)
         data.environment = {};
@@ -31,6 +38,23 @@ qx.Class.define("qx.compiler.CompilerApi", {
       let manifestData = manifestConfig.getData();
       data.environment["qx.compiler.version"] = manifestData.info.version;
       return data;
+    },
+
+    async __fixDocVersion(evt) {
+      const data = evt.getData();
+      const vars = path.join(process.cwd(), "docs", "_variables.json");
+      if (await fs.existsAsync(vars)) {
+        let var_data = await qx.tool.utils.Json.loadJsonAsync(vars);
+        var_data.qooxdoo.version = data.version;
+        if (data.argv.dryrun) {
+          qx.tool.compiler.Console.info("Dry run: Not changing _variables.json version...");
+        } else {
+          await qx.tool.utils.Json.saveJsonAsync(vars, var_data);
+          if (!data.argv.quiet) {
+            qx.tool.compiler.Console.info(`Updated version in _variables.json.`);
+          }
+        }
+      }
     },
 
     /**
