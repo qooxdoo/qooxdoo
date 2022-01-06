@@ -38,7 +38,7 @@
  * rebuild you application and let the compiler include the necessary files.
  *
  * When you define a new environment check, the compiler needs to know which class
- * implements the check; to do this, you can either prefix the name of your check 
+ * implements the check; to do this, you can either prefix the name of your check
  * with your class name (eg `my.package.MyClass.someEnvCheck`) or you can create
  * short names like the ones below and then add an entry to your library's
  * Manifest.json (under `provides.environmentChecks`).
@@ -742,15 +742,6 @@
  *     </tr>
  *     <tr>
  *     <tr>
- *       <td>qx.debug.io.remote</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
- *     <tr>
- *       <td>qx.debug.io.remote.data</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.debug.property.level</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
@@ -772,10 +763,10 @@
  *     </tr>
  *     <tr>
  *       <td>qx.headless</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code> Whether the environment is headless (ie rhino/nodejs); note that 
+ *       <td><i>default:</i> <code>false</code> Whether the environment is headless (ie rhino/nodejs); note that
  *        headless will still have some kind of DOM emulation - normally that would be quite basic, unless
  *        <a href="https://www.npmjs.com/package/jsdom">https://www.npmjs.com/package/jsdom</a> has been installed.
- *        The <code>qx.headless</code> allows code to detect whether there is an user interface, most typically 
+ *        The <code>qx.headless</code> allows code to detect whether there is an user interface, most typically
  *        whether to cater for input events.  This is set automatically by the compiler but would have to be
  *        manually configured if you use the generator.</td>
  *     </tr>

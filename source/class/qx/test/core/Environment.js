@@ -17,7 +17,6 @@
 ************************************************************************ */
 
 /**
- * @require(qx.io.remote.Request)
  * @require(qx.ui.core.scroll.MScrollBarFactory)
  */
 
@@ -478,8 +477,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(qx.core.Environment.get("qx.application"), "3");
       this.assertNumber(qx.core.Environment.get("qx.debug.dispose.level"), "5");
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
-      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote"), "7");
-      this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote.data"), "8");
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
       this.assertNumber(qx.core.Environment.get("qx.debug.property.level"), "10");
       this.assertBoolean(qx.core.Environment.get("qx.debug"), "11");
