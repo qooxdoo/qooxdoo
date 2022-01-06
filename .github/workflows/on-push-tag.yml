@@ -3,6 +3,9 @@ on:
   push:
     tags:
       - "*"
+    branches:
+      - "latest"
+
 jobs:
   provide_repository_names:
     name: Get repo names in ${{ github.repository_owner }}

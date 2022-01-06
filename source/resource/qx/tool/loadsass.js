@@ -1,7 +1,8 @@
-global.require = require;
-global.__filename__ = __filename;
-/* global loadSass */
-global.loadSass = new Function (
+if ((typeof global !== 'undefined')) {
+  global.require = require;
+  global.__filename__ = __filename;
+  /* global loadSass */
+  global.loadSass = new Function (
 `
   // trick out sass
   process.versions.electron = "0.0.0";
@@ -11,3 +12,4 @@ global.loadSass = new Function (
   delete process.versions.electron;
   return sass;
 `);
+}
