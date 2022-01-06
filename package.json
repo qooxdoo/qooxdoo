@@ -1,12 +1,25 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.0.0-beta.5",
+  "version": "7.0.0-beta.6",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "keywords": [
     "qooxdoo",
     "compiler",
-    "cli"
+    "cli",
+    "framework",
+    "front-end",
+    "fontend",
+    "mobile",
+    "back-end",
+    "backend",
+    "widgets",
+    "gui",
+    "databinding",
+    "classes",
+    "interfaces",
+    "mixins",
+    "transpiler"
   ],
   "license": "MIT",
   "homepage": "http://qooxdoo.org",
