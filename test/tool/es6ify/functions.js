@@ -20,6 +20,18 @@ qx.Class.define("qx.tool.compiler.MyClass", {
     );
   },
 
+  properties: {
+    progress: {
+      check: function(value) {
+        return qx.lang.Type.isNumber(value) && value >= 0 && value <= 100;
+      },
+      init: 0,
+      nullable: false,
+      event: "changeProgress",
+      apply: "_applyProgress",
+    }
+  }, 
+
   members: {
     /**
      * Some doc

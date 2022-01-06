@@ -786,7 +786,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         return meta;
       }
 
+      var es6ClassDeclarations = 0;
       var needsQxCoreEnvironment = false;
+
       var COLLECT_CLASS_NAMES_VISITOR = {
         MemberExpression(path) {
           var self = this;
@@ -800,6 +802,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       };
 
       const CODE_ELIMINATION_VISITOR = {
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         CallExpression(path) {
           const name = collapseMemberExpression(path.node.callee);
 
@@ -1090,6 +1101,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
 
       var CLASS_DEF_VISITOR = {
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         ObjectMethod(path) {
           if (path.parentPath.parentPath != this.classDefPath) {
             path.skip();
@@ -1314,6 +1334,16 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           }
         },
 
+        // Babel seems to be suppressing ClassDeclarations...
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         Literal(path) {
           if (typeof path.node.value == "string") {
             path.node.value = t.encodePrivate(path.node.value, false, path.loc);
@@ -1430,7 +1460,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
-            if (types.isMemberExpression(path.node.callee) || path.node.callee.object?.type == "Super" || path.node.callee.type == "Super") {
+            if (types.isMemberExpression(path.node.callee) || (es6ClassDeclarations == 0 && (path.node.callee.object?.type == "Super" || path.node.callee.type == "Super"))) {
               let name = collapseMemberExpression(path.node.callee);
               let thisAlias = null;
 
@@ -1546,7 +1576,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 path.skip();
                 path.traverse(VISITOR);
 
-              } else if (name == "this.base" || name == "super" || name.startsWith("super.")) {
+              } else if (name == "this.base" || (es6ClassDeclarations == 0 && (name == "super" || name.startsWith("super.")))) {
                 let expr;
 
                 // For mixins, there is never a valid time to call this.base() in the constructor; but it is

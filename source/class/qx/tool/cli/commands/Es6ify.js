@@ -34,6 +34,11 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
             alias: "v",
             describe: "Verbose logging",
           },
+          overwrite: {
+            type: "boolean",
+            default: true,
+            describe: "Overwrite source files"
+          },
           exclude: {
             type: "array",
             describe: "Paths to exclude"
@@ -60,7 +65,8 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
         console.log(`Processing ${filename}...`);
         let ify = new qx.tool.compiler.Es6ify(filename);
         ify.set({
-          arrowFunctions: this.argv.arrowFunctions
+          arrowFunctions: this.argv.arrowFunctions,
+          overwrite: this.argv.overwrite
         });
         await ify.transform();
       };

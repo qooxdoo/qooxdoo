@@ -117,6 +117,12 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       init: "careful",
       check: [ "never", "always", "careful", "aggressive" ],
       nullable: true
+    },
+
+    /** Whether to overwrite the original file */
+    overwrite: {
+      init: false,
+      check: "Boolean"
     }
   },
 
@@ -151,7 +157,10 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             }
           ]
         ],
-        parserOpts: { sourceType: "script" },
+        parserOpts: { 
+          allowSuperOutsideMethod: true,
+          sourceType: "script" 
+        },
         generatorOpts: {
           retainLines: true
         },
@@ -163,7 +172,8 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       prettierConfig.parser = "babel";
       let prettyCode = prettier.format(result.code, prettierConfig);
       
-      await fs.promises.writeFile(this.__filename, prettyCode, "utf8");
+      let outname = this.__filename + (this.isOverwrite() ? "" : ".es6ify");
+      await fs.promises.writeFile(outname, prettyCode, "utf8");
     },
 
     /**
