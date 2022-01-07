@@ -221,6 +221,16 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       this.__updateIcon();
       this.__updateLabel();
+
+      // ARIA attrs
+      const old = e.getOldData() ? e.getOldData()[0] : null;
+      const current = this.getSelection()[0];
+      if (old && old !== current) {
+        old.getContentElement().setAttribute("aria-selected", false);
+      }
+      if (current) {
+        current.getContentElement().setAttribute("aria-selected", true);
+      }
     },
 
 
@@ -327,7 +337,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onKeyPress : function(e)
     {
       var iden = e.getKeyIdentifier();
-      if(iden == "Enter" || iden == "Space")
+      if ((iden == "Down" || iden == "Up") && e.isAltPressed()) {
+        this.toggle();
+        e.stop();
+      }
+      else if (iden == "Enter" || iden == "Space")
       {
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)
@@ -337,6 +351,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
 
         this.toggle();
+        e.stop();
       }
       else
       {
@@ -412,6 +427,18 @@ qx.Class.define("qx.ui.form.SelectBox",
       else
       {
         this.resetSelection();
+      }
+
+      // Set aria-activedescendant
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      const currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      if (currentContentEl) {
+        contentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-activedescendant");
       }
     },
 

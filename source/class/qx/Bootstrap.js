@@ -30,6 +30,21 @@ if (!window.qx) {
 }
 
 /**
+ * This wraps a function with a plain `function`; JavaScript does not allow methods which are defined
+ * using object method shorthand (eg `{ construct() { this.base(arguments); }}`) to be used as constructors,
+ * the constructor must be a plain old `function`.
+ * 
+ * @param {Function} construct 
+ * @returns {Function}
+ */
+ function createPlainFunction(construct) {
+  return function() {
+    return construct.apply(this, [].slice.call(arguments));
+  };
+}
+
+
+/**
  * Bootstrap qx.Bootstrap to create myself later
  * This is needed for the API browser etc. to let them detect me
  */
@@ -118,7 +133,13 @@ qx.Bootstrap = {
     {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
-      clazz = config.construct || new Function;
+      let construct = config.construct;
+      // Object methods include the method name as part of the signature (eg `construct() {}`), 
+      //  whereas plain functions just have `function() {}`
+      if (construct && !construct.toString().match(/^function\s*\(/)) {
+        construct = createPlainFunction(construct);
+      }
+      clazz = construct || new Function();
 
       this.extendClass(clazz, clazz, config.extend, name, basename);
 

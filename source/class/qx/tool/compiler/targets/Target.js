@@ -471,63 +471,62 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         assets[asset.getFilename()] = asset.toString();
       });
 
-
-    // Get a list of all fonts to load; use the font name as a unique identifier, and
-      //  prioritise the application's library's definitions - this allows the application
-      //  the opportunity to override the font definitions.  This is important when the
-      //  library uses the open source/free versions of a font but the application 
-      //  developer has purchased the commercial/full version of the font (eg FontAwesome)
-      let appLibrary = appMeta.getAppLibrary();
-      let fontsToLoad = { };
-      const addLibraryFonts = library => {
-        var fonts = library.getWebFonts();
-        if (!fonts) {
-          return;
-        }
-        fonts.forEach(font => {
-          fontsToLoad[font.getName()] = {
-            font, library
-          };
-        });
-      };
-      requiredLibs.forEach(libnamespace => {
-        var library = analyser.findLibrary(libnamespace);
-        if (library != appLibrary)
-          addLibraryFonts(library);
-      });
-      addLibraryFonts(appLibrary);
-
-      const loadFont = async (library, font) => {
-        try {
-          // check if font is asset somewhere
-          let res = font.getResources().filter(res => assets[res]);
-          if (res.length === 0) {
-            if (analyser.getApplicationTypes().indexOf("browser") > -1) {
-              qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.noResources", font.toString(), application.getName(), font.getResources().join(","));
-            }
+      if (analyser.getApplicationTypes().indexOf("browser") > -1) {
+        // Get a list of all fonts to load; use the font name as a unique identifier, and
+        //  prioritise the application's library's definitions - this allows the application
+        //  the opportunity to override the font definitions.  This is important when the
+        //  library uses the open source/free versions of a font but the application 
+        //  developer has purchased the commercial/full version of the font (eg FontAwesome)
+        let appLibrary = appMeta.getAppLibrary();
+        let fontsToLoad = { };
+        const addLibraryFonts = library => {
+          var fonts = library.getWebFonts();
+          if (!fonts) {
             return;
           }
-          font.setResources(res);
-      
-          await font.generateForTarget(t);
-          let resources = await font.generateForApplication(t, application);
-          for (var key in resources) {
-            appMeta.addResource(key, resources[key]);
+          fonts.forEach(font => {
+            fontsToLoad[font.getName()] = {
+              font, library
+            };
+          });
+        };
+        requiredLibs.forEach(libnamespace => {
+          var library = analyser.findLibrary(libnamespace);
+          if (library != appLibrary) {
+            addLibraryFonts(library);
           }
-          var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
-          if (code) {
-            appMeta.addPreBootCode(code);
-          }
-        } catch (ex) {
-          qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
-        }
-      };
+        });
+        addLibraryFonts(appLibrary);
 
-      Object.keys(fontsToLoad).forEach(fontName => {
-        let { font, library } = fontsToLoad[fontName];
-        promises.push(loadFont(library, font));
-      });
-      
+        const loadFont = async (library, font) => {
+          try {
+            // check if font is asset somewhere
+            let res = font.getResources().filter(res => assets[res]);
+            if (res.length === 0) {
+              qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.noResources", font.toString(), application.getName(), font.getResources().join(","));
+              return;
+            }
+            font.setResources(res);
+        
+            await font.generateForTarget(t);
+            let resources = await font.generateForApplication(t, application);
+            for (var key in resources) {
+              appMeta.addResource(key, resources[key]);
+            }
+            var code = font.getBootstrapCode(t, application, fontCntr++ == 0);
+            if (code) {
+              appMeta.addPreBootCode(code);
+            }
+          } catch (ex) {
+            qx.tool.compiler.Console.print("qx.tool.compiler.webfonts.error", font.toString(), ex.toString());
+          }
+        };
+
+        Object.keys(fontsToLoad).forEach(fontName => {
+          let { font, library } = fontsToLoad[fontName];
+          promises.push(loadFont(library, font));
+        });
+      }
       await qx.Promise.all(promises);
       await t._writeApplication();
       this.__appMeta = null;
@@ -895,7 +894,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "appPath": t.getProjectDir(application) + "/",
           "preBootJs": "",
           "appTitle": (application.getTitle()||"Qooxdoo Application"),
-          "timeStamp": timeStamp
+          "timeStamp": timeStamp,
+          "indexJsTimestamp": indexJsTimestamp        
         };
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
       }

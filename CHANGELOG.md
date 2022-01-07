@@ -16,10 +16,14 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
-- `qx.ui.list.*` and `qx.ui.virtual.*` have undergone some changes to support
-new features such as auto-sizing of rows and columns; this has lead to some minor
-changes in the API, but this is unlikely to affect you unless you have written
-custom layers.  It's worth a review of the methods that you are overridding.
+- through the change to eslint 8 the old parser `babel-eslint` is removed. You have to use
+  `@babel/eslint-parser` instead. This needs an new attribute:
+  ```json
+  "parserOptions": {
+      "requireConfigFile": false
+    }
+  ```
+
 
 ## Deprecations:
 
@@ -37,6 +41,9 @@ be found here: https://archive.qooxdoo.org/5.0.2/ . To migrate, see
 https://qooxdoo.org/documentation/#/development/compiler/migration .
 
 ## Breaking changes
+
+- `qx.ui.core.scroll.AbstractScrollArea`: The width and height are now fixed. 
+    To reenable dynamic growing, the width or height can be set to null. 
 
 - `qx.bom.Cookie`: Previous versions of qooxoo use `escape()` and `unescape()`
 functions. Since those functions are deprecated, then now qooxdoo use

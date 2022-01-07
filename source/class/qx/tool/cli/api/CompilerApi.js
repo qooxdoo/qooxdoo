@@ -25,7 +25,7 @@ const fs = qx.tool.utils.Promisify.fs;
 
 /**
  * Provides an API for the compiler
- * 
+ *
  */
 qx.Class.define("qx.tool.cli.api.CompilerApi", {
   extend: qx.tool.cli.api.AbstractApi,
@@ -75,7 +75,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * called after deployment happens
-     * 
+     *
      * @param data {Object}  contains deployment infos with the following properties:
      *           targetDir  : {String}  The target dir of the build
      *           deployDir  : {String}  The output dir for the deployment
@@ -89,7 +89,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * Loads the configuration data
-     * 
+     *
      * @overridden
      */
     async load() {
@@ -103,6 +103,16 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
     },
 
     /**
+     * runs after the whole process is finished
+     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param res {boolean} result of the just finished process
+     */
+    async afterProcessFinished(cmd, res) {
+      // Nothing
+    },
+
+
+    /**
      * Called after all libraries have been loaded and added to the compilation data
      */
     async afterLibrariesLoaded() {
@@ -113,7 +123,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * Adds a library configuration
-     * 
+     *
      * @param libraryApi {LibraryApi} the configuration for the library
      */
     addLibraryApi(libraryApi) {
@@ -123,7 +133,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * Returns an array of library configurations
-     * 
+     *
      * @return {LibraryApi[]}
      */
     getLibraryApis() {

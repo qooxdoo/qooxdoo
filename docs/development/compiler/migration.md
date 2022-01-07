@@ -45,3 +45,11 @@ Hopefully all needed libraries are converted.
 - run `qx compile` and fix errors
 - run `qx serve` to run build in webserver and test it in your browser
   `http://localhost:8080/`
+
+## ES6 Upgrades
+The `qx es6ify` command is a tool that aims to help you upgrade your ES5 syntax to ES6 - it 
+can't do it as perfectly as you could do it by hand, but it can make a few simple changes to
+your code base that can make a big difference to readability.  
+
+Please [check out the documentation](../cli/commands.md#ES6Ify)
+

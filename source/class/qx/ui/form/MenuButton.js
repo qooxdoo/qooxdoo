@@ -45,6 +45,9 @@ qx.Class.define("qx.ui.form.MenuButton",
     if (menu != null) {
       this.setMenu(menu);
     }
+
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "button");
   },
 
 
@@ -120,6 +123,21 @@ qx.Class.define("qx.ui.form.MenuButton",
         value.removeState("submenu");
         value.removeState("contextmenu");
       }
+      
+      // ARIA attrs
+      const contentEl = this.getContentElement();
+      if (!contentEl) {
+        return;
+      }
+      if (value) {
+        contentEl.setAttribute("aria-haspopup", "menu");
+        contentEl.setAttribute("aria-expanded", value.isVisible());
+        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+      } else {
+        contentEl.removeAttribute("aria-haspopup");
+        contentEl.removeAttribute("aria-expanded");
+        contentEl.removeAttribute("aria-controls");
+      }
     },
 
 
@@ -142,6 +160,10 @@ qx.Class.define("qx.ui.form.MenuButton",
 
       if (menu)
       {
+        // Focus this button when the menu opens
+        if (this.isFocusable() && !qx.ui.core.FocusHandler.getInstance().isFocused(this)) {
+          this.focus();
+        }
         // Hide all menus first
         qx.ui.menu.Manager.getInstance().hideAll();
 
@@ -177,12 +199,15 @@ qx.Class.define("qx.ui.form.MenuButton",
     _onMenuChange : function(e)
     {
       var menu = this.getMenu();
-
-      if (menu.isVisible()) {
+      const menuVisible = menu.isVisible()
+      if (menuVisible) {
         this.addState("pressed");
       } else {
         this.removeState("pressed");
       }
+
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-expanded", menuVisible);
     },
 
 
@@ -241,6 +266,7 @@ qx.Class.define("qx.ui.form.MenuButton",
     {
       switch(e.getKeyIdentifier())
       {
+        case "Space":
         case "Enter":
           this.removeState("abandoned");
           this.addState("pressed");

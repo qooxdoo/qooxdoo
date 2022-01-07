@@ -44,6 +44,12 @@ qx.Class.define("qx.ui.menu.RadioButton",
   {
     this.base(arguments);
 
+    // ARIA attrs
+    // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
+    const contentEl = this.getContentElement();
+    contentEl.setAttribute("role", "radio");
+    contentEl.setAttribute("aria-checked", false);
+
     // Initialize with incoming arguments
     if (label != null) {
       this.setLabel(label);
@@ -120,8 +126,11 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
 
     // property apply
-    _applyValue : function(value, old) {
+    _applyValue: function (value, old) {
       value ? this.addState("checked") : this.removeState("checked");
+
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
 
 

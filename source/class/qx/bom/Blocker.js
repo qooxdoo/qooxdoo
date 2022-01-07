@@ -242,8 +242,9 @@ qx.Class.define("qx.bom.Blocker",
       this.__iframeElement = qx.bom.Iframe.create();
 
       qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
-      /* eslint-disable-next-line no-script-url */
+      /* eslint-disable no-script-url */
       qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
+      /* eslint-enable no-script-url */
       qx.bom.element.Style.setStyles(this.__iframeElement,
       {
         display: "block",

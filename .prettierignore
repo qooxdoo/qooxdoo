@@ -1,0 +1,5 @@
+/bin/
+/compiled/
+/known-good/
+/node_modules/
+/test/

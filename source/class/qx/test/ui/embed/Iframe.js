@@ -88,6 +88,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       this.wait(10000);
     },
 
+    /** @ignore(require) */
     testSyncSourceAfterDOMMove : function ()
     {
       // This breaks (very) frequently when run under headless chrome on Travis; we can't

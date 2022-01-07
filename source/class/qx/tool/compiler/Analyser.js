@@ -28,7 +28,6 @@ var fs = require("fs");
 const path = require("upath");
 var async = require("async");
 
-var jsonlint = require("jsonlint");
 var hash = require("object-hash");
 
 const {promisify} = require("util");
@@ -112,7 +111,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "Map",
       apply: "_applyEnvironment"
     },
-    
+
     /** configuration of babel */
     babelConfig: {
       init: null,
@@ -133,7 +132,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       nullable: false,
       check: "Array"
     },
-    
+
     /** Whether and how to mangle private identifiers */
     manglePrivates: {
       init: "readable",
@@ -361,11 +360,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
         compiledClasses[data.classFile.getClassName()] = data;
       });
-      
+
       // Note that it is important to pre-load the classes in all libraries - this is because
       //  Babel plugins MUST be synchronous (ie cannot afford an async lookup of files on disk
       //  in mid parse)
-      await qx.tool.utils.Promisify.map(this.__libraries, async library => 
+      await qx.tool.utils.Promisify.map(this.__libraries, async library =>
         qx.tool.utils.Promisify.call(cb => library.scanForClasses(cb))
       );
 
@@ -398,7 +397,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
         return deps;
       }
-      
+
       for (var classIndex = 0; classIndex < classes.length; classIndex++) {
         try {
           let dbClassInfo = await qx.tool.utils.Promisify.call(cb => t.getClassInfo(classes[classIndex], cb));
@@ -687,7 +686,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               eventMeta.overriddenFrom = eventInfo.overriddenFrom;
             }
           }
-        }  
+        }
 
         if (meta.properties) {
           for (let propertyName in meta.properties) {
@@ -703,7 +702,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               }
             }
           }
-  
+
           for (let propertyName in classEntities.properties) {
             let propertyInfo = classEntities.properties[propertyName];
             if ((propertyInfo.abstract || propertyInfo.mixin) && !meta.properties[propertyName]) {
@@ -817,7 +816,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
         var filename = t.getClassOutputPath(classname) + "on";
         return readFile(filename, {encoding: "utf-8"})
-          .then(str => jsonlint.parse(str))
+          .then(str => JSON.parse(str))
           .then(meta => cachedMeta[classname] = meta)
           .catch(err => {
             qx.tool.compiler.Console.error("Failed to load meta for " + classname + ": " + err);
@@ -865,7 +864,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
         await Promise.all(Object.keys(toSave).map(classname => saveMetaData(classname, toSave[classname])));
       }
-      
+
       return await analyzeMeta();
     },
 
@@ -1082,24 +1081,24 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         libraries = [];
       }
       libraries = libraries.filter(lib => lib != appLibrary);
-      
+
       await qx.Promise.all(locales.map(async locale => {
         let libTranslations = {};
         await qx.Promise.all(libraries.map(async lib => {
           var translation = new qx.tool.compiler.app.Translation(lib, locale);
           await translation.read();
-          libTranslations[lib.toHashCode()] = translation; 
+          libTranslations[lib.toHashCode()] = translation;
         }));
-        
+
         var translation = new qx.tool.compiler.app.Translation(appLibrary, locale);
         translation.setWriteLineNumbers(this.isWritePoLineNumbers());
         await translation.read();
-        
+
         let unusedEntries = {};
         for (let msgid in translation.getEntries()) {
           unusedEntries[msgid] = true;
         }
-        
+
         await qx.Promise.all(this.__classes.map(async classname => {
           let isAppClass = appLibrary.isClass(classname);
           let classLibrary = !isAppClass && libraries.find(lib => lib.isClass(classname)) || null;
@@ -1111,7 +1110,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           if (!dbClassInfo.translations) {
             return;
           }
-          
+
           function isEmpty(entry) {
             if (!entry) {
               return true;
@@ -1124,7 +1123,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
           dbClassInfo.translations.forEach(function(src) {
             delete unusedEntries[src.msgid];
-            
+
             if (classLibrary) {
               let entry = translation.getEntry(src.msgid);
               if (!isEmpty(entry)) {
@@ -1142,7 +1141,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               }
               return;
             }
-            
+
             let entry = translation.getOrCreateEntry(src.msgid);
             if (src.msgid_plural) {
               entry.msgid_plural = src.msgid_plural;
@@ -1171,7 +1170,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             }
           });
         }));
-        
+
         Object.keys(unusedEntries).forEach(msgid => {
           var entry = translation.getEntry(msgid);
           if (entry) {
@@ -1186,7 +1185,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             }
           }
         });
-        
+
         await translation.write();
       }));
     },
@@ -1402,7 +1401,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       }
 
       // then check if compiler version is the same
-      if (db.compilerVersion !== qx.tool.compiler.Version.VERSION) {
+      if (db.compilerVersion !== qx.tool.config.Utils.getCompilerVersion()) {
         return true;
       }
 
@@ -1427,7 +1426,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
       db.libraries = libraries;
       db.environmentHash = this.__environmentHash;
-      db.compilerVersion = qx.tool.compiler.Version.VERSION;
+      db.compilerVersion = qx.tool.config.Utils.getCompilerVersion();
     }
   }
 });

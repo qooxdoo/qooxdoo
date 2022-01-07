@@ -43,6 +43,9 @@ function collapseMemberExpression(node) {
     if (node.type == "ThisExpression") {
       return "this";
     }
+    if (node.type == "Super") {
+      return "super";
+    }
     if (node.type == "Identifier") {
       return node.name;
     }
@@ -362,7 +365,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               [ require.resolve("@babel/preset-typescript") ],
               [ require.resolve("@babel/preset-react"), qx.tool.compiler.ClassFile.JSX_OPTIONS ]
             ],
-            parserOpts: { sourceType: "script" },
+            parserOpts: { 
+              allowSuperOutsideMethod: true,
+              sourceType: "script" 
+            },
             passPerPreset: true
           };
           if (extraPreset[0].plugins.length) {
@@ -780,7 +786,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         return meta;
       }
 
+      var es6ClassDeclarations = 0;
       var needsQxCoreEnvironment = false;
+
       var COLLECT_CLASS_NAMES_VISITOR = {
         MemberExpression(path) {
           var self = this;
@@ -794,6 +802,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       };
 
       const CODE_ELIMINATION_VISITOR = {
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         CallExpression(path) {
           const name = collapseMemberExpression(path.node.callee);
 
@@ -921,8 +938,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           let nextJsonPath = jsonPath ? jsonPath + "." : "";
           node.properties.forEach(function(prop) {
             var key = prop.key.name;
-            var value = collectJson(prop.value, isProperties, nextJsonPath + key);
-            result[key] = value;
+            if (prop.type == "ObjectMethod") {
+              result[key] = "[[ ObjectMethod Function ]]";
+            } else {
+              var value = collectJson(prop.value, isProperties, nextJsonPath + key);
+              result[key] = value;
+            }
           });
         } else if (node.type == "Literal" ||
             node.type == "StringLiteral" ||
@@ -1080,6 +1101,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
 
       var CLASS_DEF_VISITOR = {
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         ObjectMethod(path) {
           if (path.parentPath.parentPath != this.classDefPath) {
             path.skip();
@@ -1304,6 +1334,16 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           }
         },
 
+        // Babel seems to be suppressing ClassDeclarations...
+        ClassBody: {
+          enter(path) {
+            es6ClassDeclarations++;
+          },
+          exit(path) {
+            es6ClassDeclarations--;
+          }
+        },
+
         Literal(path) {
           if (typeof path.node.value == "string") {
             path.node.value = t.encodePrivate(path.node.value, false, path.loc);
@@ -1420,7 +1460,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
-            if (types.isMemberExpression(path.node.callee)) {
+            if (types.isMemberExpression(path.node.callee) || (es6ClassDeclarations == 0 && (path.node.callee.object?.type == "Super" || path.node.callee.type == "Super"))) {
               let name = collapseMemberExpression(path.node.callee);
               let thisAlias = null;
 
@@ -1431,7 +1471,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               //    var that = this, args = arguments;
               //    (function() { that.base(args); })();
               //    ```
-              if (path.node.callee.object.type == "Identifier") {
+              if (path.node.callee.object?.type == "Identifier") {
                 let originalAlias = path.node.callee.object.name;
                 let alias = originalAlias;
                 let aliasIsThis = false;
@@ -1536,7 +1576,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 path.skip();
                 path.traverse(VISITOR);
 
-              } else if (name == "this.base") {
+              } else if (name == "this.base" || (es6ClassDeclarations == 0 && (name == "super" || name.startsWith("super.")))) {
                 let expr;
 
                 // For mixins, there is never a valid time to call this.base() in the constructor; but it is
@@ -1558,10 +1598,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else {
                   expr = expandMemberExpression(t.__classMeta.superClass + ".prototype." + t.__classMeta.functionName + ".call");
                 }
-                if (thisAlias) {
-                  path.node.arguments[0] = types.identifier(thisAlias);
+                let thisArgument = thisAlias ? types.identifier(thisAlias) : types.thisExpression();
+                if (name.startsWith("super")) {
+                  path.node.arguments.unshift(thisArgument);
                 } else {
-                  path.node.arguments[0] = types.thisExpression();
+                  path.node.arguments[0] = thisArgument;
                 }
                 let callExpr = types.callExpression(expr, path.node.arguments);
                 path.replaceWith(callExpr);
@@ -1727,25 +1768,24 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         },
 
         ObjectMethod(path) {
-          if (t.__classMeta) {
-            // Methods within a top level object (ie "members" or "statics"), record the method name and meta data
-            if (t.__classMeta._topLevel &&
-                t.__classMeta._topLevel.path == path.parentPath.parentPath) {
-              t.__classMeta.functionName = getKeyName(path.node.key);
-              makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
-              path.skip();
-              enterFunction(path);
-              path.traverse(VISITOR);
-              exitFunction(path);
-              t.__classMeta.functionName = null;
+          // Methods within a top level object (ie "members" or "statics"), record the method name and meta data
+          if (t.__classMeta &&
+              t.__classMeta._topLevel &&
+              t.__classMeta._topLevel.path == path.parentPath.parentPath) {
+            t.__classMeta.functionName = getKeyName(path.node.key);
+            makeMeta(t.__classMeta._topLevel.keyName, t.__classMeta.functionName, path.node);
+            path.skip();
+            enterFunction(path);
+            path.traverse(VISITOR);
+            exitFunction(path);
+            t.__classMeta.functionName = null;
 
-            // Otherwise traverse method as normal
-            } else {
-              path.skip();
-              enterFunction(path);
-              path.traverse(VISITOR);
-              exitFunction(path);
-            }
+          // Otherwise traverse method as normal
+          } else {
+            path.skip();
+            enterFunction(path);
+            path.traverse(VISITOR);
+            exitFunction(path);
           }
         },
 

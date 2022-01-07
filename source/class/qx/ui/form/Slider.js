@@ -82,6 +82,9 @@ qx.Class.define("qx.ui.form.Slider",
     // Force canvas layout
     this._setLayout(new qx.ui.layout.Canvas());
 
+    // ARIA attrs
+    this.getContentElement().setAttribute("role", "slider");
+
     // Add listeners
     this.addListener("keypress", this._onKeyPress, this);
     this.addListener("roll", this._onRoll, this);
@@ -1024,6 +1027,9 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyOrientation : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-orientation", value);
+      
       var knob = this.getChildControl("knob");
 
       // Update private flag for faster access
@@ -1077,6 +1083,9 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyValue : function(value, old) {
       if (value != null) {
+        // ARIA attrs
+        this.getContentElement().setAttribute("aria-valuenow", value);
+
         this._updateKnobPosition();
         if (this.__dragMode) {
           this.__dragValue = [value,old];
@@ -1105,6 +1114,9 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyMinimum : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-valuemin", value);
+
       if (this.getValue() < value) {
         this.setValue(value);
       }
@@ -1116,6 +1128,9 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyMaximum : function(value, old)
     {
+      // ARIA attrs
+      this.getContentElement().setAttribute("aria-valuemax", value);
+
       if (this.getValue() > value) {
         this.setValue(value);
       }

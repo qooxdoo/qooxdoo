@@ -33,14 +33,14 @@
   position: absolute;
   left:50%;
   top:50%;
-  margin-left: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
-  margin-top: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
+  margin-left: -1*($checkbox-tick-size*0.5) - ($checkbox-tick-width*0.5);
+  margin-top: -1*($checkbox-tick-size*0.5) - ($checkbox-tick-width*0.5);
 
   display:block;
   opacity: 0;
   content:"";
   width: $checkbox-tick-size;
-  height: $checkbox-tick-size/2;
+  height: $checkbox-tick-size*0.5;
   background: transparent;
 
   border: $checkbox-tick-width solid $checkbox-tick-color;

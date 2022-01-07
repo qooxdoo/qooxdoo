@@ -24,29 +24,36 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
 /**
- * Represents a "polyfill.js" that is generated as part of a compile 
+ * Represents a "polyfill.js" that is generated as part of a compile
  */
 qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
-  
+
   construct(appMeta) {
     this.base(arguments, appMeta, `${appMeta.getApplicationRoot()}polyfill.js`);
   },
-  
+
   properties: {
     needsWriteToDisk: {
       init: true,
       refine: true
     }
   },
-  
+
   members: {
-    
-    /*
+
+    /**
      * @Override
      */
     async writeSourceCodeToStream(ws) {
-      const srcFilename = path.join(require.resolve("@babel/polyfill"), "../../dist/polyfill.js");
+      await this.__write(path.join(require.resolve("core-js-bundle"), "../minified.js"), ws);
+      await new Promise(resolve => {
+        ws.write("\n", resolve);
+      });
+      await this.__write(path.join(require.resolve("regenerator-runtime"), "../runtime.js"), ws);
+    },
+
+    async __write(srcFilename, ws) {
       let rs = fs.createReadStream(srcFilename, "utf8");
       await new Promise((resolve, reject) => {
         rs.on("end", resolve);
@@ -54,8 +61,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
         rs.pipe(ws, { end: false });
       });
     },
-    
-    /*
+
+
+    /**
      * @Override
      */
     async getSourceMap() {

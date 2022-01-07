@@ -64,7 +64,7 @@
  * single-quoted.
  *
  * The same format patterns will be used for both parsing and output formatting.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -181,6 +181,7 @@ qx.Class.define("qx.util.format.DateFormat",
       isoDate :        "yyyy-MM-dd",
       isoTime :        "HH:mm:ss",
       isoDateTime :    "yyyy-MM-dd'T'HH:mm:ss",
+      isoDateTimeTz :  "yyyy-MM-dd'T'HH:mm:ssZ",
       isoUtcDateTime : "yyyy-MM-dd'T'HH:mm:ss'Z'"
     },
 
@@ -406,14 +407,14 @@ qx.Class.define("qx.util.format.DateFormat",
       }
       this.__locale = value === null ? this.__initialLocale : value;
     },
-    
+
     /**
      * Resets the Locale
      */
     resetLocale : function() {
       this.setLocale(null);
     },
-    
+
     /**
      * Returns the locale
      */
@@ -427,7 +428,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /**
      * Returns the original format string
-     * 
+     *
      * @return {String}
      */
     getFormatString() {
@@ -761,7 +762,8 @@ qx.Class.define("qx.util.format.DateFormat",
         weekOfYear  : 1,
         min         : 0,
         sec         : 0,
-        ms          : 0
+        ms          : 0,
+        tzOffsetMins: null
       };
 
       var currGroup = 1;
@@ -825,14 +827,21 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.year = dateValues.year * dateValues.era;
       }
 
-      var date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
-
-      if(this.__UTC) {
-        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
-      }
-
-      if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear()) {
-        throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
+      var date;
+      if (this.__UTC || dateValues.tzOffsetMins !== null) {
+        var utcMs = Date.UTC(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
+        if (dateValues.tzOffsetMins !== 0) {
+          utcMs += (dateValues.tzOffsetMins * 60000);
+        }
+        date = new Date(utcMs);
+        if (this.__UTC && (dateValues.month !== date.getUTCMonth() || dateValues.year !== date.getUTCFullYear())) {
+          throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
+        }
+      } else {
+        date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
+        if (dateValues.month !== date.getMonth() || dateValues.year !== date.getFullYear()) {
+          throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
+        }
       }
 
       return date;
@@ -1207,9 +1216,27 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.hour = parseInt(value, 10) % 12;
       };
 
-      var ignoreManipulator = function(dateValues, value) {
-        return;
+      var timezoneManipulator = function(dateValues, value) {
+        var regEx = new RegExp("([+-]?)(\\d\\d)(?::?(\\d\\d))?$");
+        var tzResults = regEx.exec(value);
+        var offsetHours = parseInt(tzResults[2], 10);
+        var offsetMins = parseInt(tzResults[3], 10);
+        // basic check, hours range is -12 to +14 https://en.wikipedia.org/wiki/Category:UTC_offsets
+        if (offsetHours > 14) {
+          throw new Error("Invalid hours in time zone offset.");
+        }
+        if (offsetMins > 59) {
+          throw new Error("Invalid minutes in time zone offset.");
+        }
+        dateValues.tzOffsetMins = (offsetHours * 60) + offsetMins;
+        if (tzResults[1] === "-") {
+          dateValues.tzOffsetMins = -dateValues.tzOffsetMins;
+        }
       };
+
+      // var ignoreManipulator = function(dateValues, value) {
+      //   return;
+      // };
 
       var narrowEraNames = ['A', 'B'];
       var narrowEraNameManipulator = function(dateValues, value) {
@@ -1755,14 +1782,14 @@ qx.Class.define("qx.util.format.DateFormat",
       {
         pattern     : "Z",
         regex       : "([\\+\\-]\\d\\d\\d\\d)",
-        manipulator : ignoreManipulator
+        manipulator : timezoneManipulator
       });
 
       rules.push(
       {
         pattern     : "z",
         regex       : "(GMT[\\+\\-]\\d\\d:\\d\\d)",
-        manipulator : ignoreManipulator
+        manipulator : timezoneManipulator
       });
     }
   }
