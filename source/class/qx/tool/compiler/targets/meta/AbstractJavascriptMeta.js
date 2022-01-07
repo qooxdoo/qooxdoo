@@ -21,6 +21,7 @@
  * ************************************************************************/
 
 const fs = qx.tool.utils.Promisify.fs;
+const path = require("upath");
 const sourceMap = require("source-map");
 
 /**
@@ -165,6 +166,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
         }
       }
       let res = JSON.parse(generator.toString());
+      if (this._appMeta.getTarget().getSourceMapRelativePaths && this._appMeta.getTarget().getSourceMapRelativePaths()) {
+        for (let i = 0; i < res.sources.length; i++) {
+          res.sources[i] = path.relative("", res.sources[i]);
+        }
+      }
       return res;
     }
   }
