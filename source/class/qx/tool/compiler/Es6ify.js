@@ -320,20 +320,46 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
      * @returns 
      */
     __pluginSwitchToSuper() {
+      let methodNameStack = [];
+      function peekMethodName() {
+        for (let i = methodNameStack.length - 1; i >= 0; i--) {
+          let methodName = methodNameStack[i];
+          if (methodName)
+            return methodName;
+        }
+        return null;
+      }
       return {
         visitor: {
+          ObjectMethod: {
+            enter(path) {
+              methodNameStack.push(path.node.key.name||null);
+            },
+            exit(path) {
+              methodNameStack.pop();
+            }
+          },
           CallExpression(path) {
             if (
               path.node.callee.type == "MemberExpression" &&
               path.node.callee.object.type == "ThisExpression" &&
               path.node.callee.property.type == "Identifier" &&
-              path.node.callee.property.name == "addListener" &&
-              path.node.arguments.length == 3 &&
-              path.node.arguments[0].type == "StringLiteral" &&
-              path.node.arguments[1].type == "ArrowFunctionExpression" &&
-              path.node.arguments[2].type == "ThisExpression"
+              path.node.callee.property.name == "base" &&
+              path.node.arguments.length >= 1
             ) {
-              qx.lang.Array.removeAt(path.node.arguments, 2);
+              let args = qx.lang.Array.clone(path.node.arguments);
+              args.shift();
+              let methodName = peekMethodName();
+              if (methodName == "construct") {
+                path.node.callee = types.super();
+                path.node.arguments = args;
+              } else if (methodName) {
+                let replacement = types.memberExpression(types.super(), types.identifier(methodName), false, false);
+                path.node.callee = replacement;
+                path.node.arguments = args;
+              } else {
+                debugger;
+              }
             }
           }
         }
