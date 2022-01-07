@@ -1599,10 +1599,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   expr = expandMemberExpression(t.__classMeta.superClass + ".prototype." + t.__classMeta.functionName + ".call");
                 }
                 let thisArgument = thisAlias ? types.identifier(thisAlias) : types.thisExpression();
-                if (name.startsWith("super"))
+                if (name.startsWith("super")) {
                   path.node.arguments.unshift(thisArgument);
-                else
+                } else {
                   path.node.arguments[0] = thisArgument;
+                }
                 let callExpr = types.callExpression(expr, path.node.arguments);
                 path.replaceWith(callExpr);
 

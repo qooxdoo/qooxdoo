@@ -324,8 +324,9 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       function peekMethodName() {
         for (let i = methodNameStack.length - 1; i >= 0; i--) {
           let methodName = methodNameStack[i];
-          if (methodName)
+          if (methodName) {
             return methodName;
+          }
         }
         return null;
       }
@@ -357,8 +358,6 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                 let replacement = types.memberExpression(types.super(), types.identifier(methodName), false, false);
                 path.node.callee = replacement;
                 path.node.arguments = args;
-              } else {
-                debugger;
               }
             }
           }
