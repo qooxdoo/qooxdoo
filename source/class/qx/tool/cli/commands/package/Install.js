@@ -64,7 +64,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
           },
           "save": {
             alias: "s",
-            default: true,
+            default: false,
             describe: "Save the libraries as permanent dependencies"
           },
           "from-path": {

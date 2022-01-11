@@ -81,7 +81,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       inheritable: true,
       nullable: true
     },
-    
+
     /**
      * List of environment keys to preserve in code, ie reserve for runtime detection
      * and exclude from code elimination
@@ -98,7 +98,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
     analyser: {
       nullable: false
     },
-    
+
     /**
      * Whether to inline external scripts
      */
@@ -121,7 +121,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       init: [ "en" ],
       transform: "_transformLocales"
     },
-    
+
     /** Whether to break locale & translation data out into separate parts */
     i18nAsParts: {
       init: false,
@@ -142,7 +142,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       nullable: false,
       check: "Boolean"
     },
-    
+
     /** What to do with library transation strings */
     libraryPoPolicy: {
       init: "ignore",
@@ -166,6 +166,15 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       init: true,
       nullable: false,
       check: "Boolean"
+    },
+
+    /**
+     * Whether to use relative paths in source maps
+     */
+     sourceMapRelativePaths: {
+      init: false,
+      nullable: false,
+      check: "Boolean"
     }
 
   },
@@ -178,15 +187,15 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
      *  enviroment: {Object} enviroment data
      */
     "checkEnvironment": "qx.event.type.Data",
-    
-    /** 
+
+    /**
      * Fired when an application is about to be serialized to disk; the appMeta is fully
      * populated, and this is an opportunity to amend the meta data before it is serialized
-     * into files on disk 
+     * into files on disk
      */
     "writingApplication": "qx.event.type.Event",
-    
-    /** 
+
+    /**
      * Fired when an application has been serialized to disk
      */
     "writtenApplication": "qx.event.type.Event"
@@ -196,10 +205,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
   members: {
     /** @type {Map} maps filenames to uris */
     __pathMappings: null,
-    
+
     /** @type {qx.tool.compiler.targets.meta.ApplicationMeta} for the current application */
     __appMeta: null,
-    
+
     /**
      * Initialises the target, creating directories etc
      */
@@ -221,7 +230,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       }
       return value;
     },
-    
+
     /**
      * Returns the root for applications
      */
@@ -237,7 +246,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
     getProjectDir: function (application) {
       return application.getOutputPath() || application.getName();
     },
-    
+
     /**
      * Returns the URI for the root of the output, relative to the application
      */
@@ -331,22 +340,22 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
       let appMeta = this.__appMeta = new qx.tool.compiler.targets.meta.ApplicationMeta(this, application);
       appMeta.setAddTimestampsToUrls(this.getAddTimestampsToUrls());
-      /*      
+      /*
       if (!appMeta.getAppLibrary()) {
         qx.tool.compiler.Console.print("qx.tool.compiler.target.missingAppLibrary", application.getClassName());
         return;
       }
-*/      
+*/
       let targetUri = t._getOutputRootUri(application);
       var appRootDir = this.getApplicationRoot(application);
-      
+
       let mapTo = this.getPathMapping(path.join(appRootDir, this.getOutputDir(), "transpiled/"));
       appMeta.setSourceUri(mapTo ? mapTo : targetUri + "transpiled/");
       mapTo = this.getPathMapping(path.join(appRootDir, this.getOutputDir(), "resource"));
       appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource");
-      
+
       const requiredLibs = application.getRequiredLibraries();
-      
+
       await qx.tool.utils.Utils.makeDirs(appRootDir);
 
       appMeta.setEnvironment({
@@ -357,7 +366,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         "qx.compiler.targetType": this.getType(),
         "qx.compiler.outputDir": this.getOutputDir()
       });
-      
+
       let externals = {};
       const addExternal = (arr, type) => {
         if (arr) {
@@ -380,7 +389,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           });
         }
       };
-      
+
       requiredLibs.forEach(libnamespace => {
         var library = analyser.findLibrary(libnamespace);
         appMeta.addLibrary(library);
@@ -400,7 +409,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       }
       await t.fireDataEventAsync("checkEnvironment", { application: application, environment: appMeta.getEnvironment() });
 
-      
+
       /*
        * Boot files
        */
@@ -408,7 +417,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       let bootPackage = appMeta.createPackage();
       appMeta.setBootMetaJs(bootJs);
       bootPackage.addJavascriptMeta(new qx.tool.compiler.targets.meta.PolyfillJs(appMeta));
-      
+
 
       /*
        * Assemble the Parts
@@ -425,7 +434,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         if (index == 0) {
           partMeta.addPackage(bootPackage);
         }
-        
+
         partData.classes.forEach(classname => {
           let classFilename = classname.replace(/\./g, "/") + ".js";
 
@@ -435,10 +444,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           let library = analyser.findLibrary(dbClassInfo.libraryName);
           let sourcePath = library.getFilename(classFilename);
           let jsMeta = new qx.tool.compiler.targets.meta.Javascript(appMeta, transpiledClassFilename, sourcePath);
-          
+
           let packageName = matchBundle(classname) ? "__bundle" : partData.name;
           let pkg = packages[packageName];
-          
+
           if (!pkg || pkg !== lastPackage) {
             pkg = packages[packageName] = appMeta.createPackage();
             if (packageName == "__bundle") {
@@ -454,7 +463,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           lastPackage = pkg;
         });
       });
-      
+
       var assetUris = application.getAssetUris(t, rm, appMeta.getEnvironment()); // Save any changes that getAssets collected
       await rm.saveDatabase();
 
@@ -462,8 +471,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         analyser.getCldr("en")
           .then(cldr => bootPackage.addLocale("C", cldr)),
         t._writeTranslations()
-      ];      
-      
+      ];
+
       var fontCntr = 0;
       var assets = {};
       rm.getAssetsForPaths(assetUris).forEach(asset => {
@@ -475,7 +484,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         // Get a list of all fonts to load; use the font name as a unique identifier, and
         //  prioritise the application's library's definitions - this allows the application
         //  the opportunity to override the font definitions.  This is important when the
-        //  library uses the open source/free versions of a font but the application 
+        //  library uses the open source/free versions of a font but the application
         //  developer has purchased the commercial/full version of the font (eg FontAwesome)
         let appLibrary = appMeta.getAppLibrary();
         let fontsToLoad = { };
@@ -507,7 +516,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
               return;
             }
             font.setResources(res);
-        
+
             await font.generateForTarget(t);
             let resources = await font.generateForApplication(t, application);
             for (var key in resources) {
@@ -617,10 +626,10 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         return accumulateCldr(localeId);
       }
 
-      var promises = t.getLocales().map(async localeId => { 
+      var promises = t.getLocales().map(async localeId => {
         let cldr = await loadLocaleData(localeId);
         let pkg = this.isI18nAsParts() ? appMeta.getLocalePackage(localeId) : bootPackage;
-        pkg.addLocale(localeId, cldr); 
+        pkg.addLocale(localeId, cldr);
       });
 
       await qx.Promise.all(promises);
@@ -656,8 +665,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           promises.push(
             addTrans(library, localeId)
           );
-        });  
-        // translation from main app should overwrite package translations 
+        });
+        // translation from main app should overwrite package translations
         promises.push(
           addTrans(appMeta.getAppLibrary(), localeId)
         );
@@ -726,24 +735,24 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         });
       });
     },
-    
+
     /**
      * Writes the application
      */
     async _writeApplication() {
       var t = this;
-      
+
       await this.fireEventAsync("writingApplication");
-      
+
       let appMeta = this.getAppMeta();
       var application = appMeta.getApplication();
       var appRootDir = appMeta.getApplicationRoot();
-      
+
       if (!appMeta.getAppLibrary()) {
         qx.tool.compiler.Console.print("qx.tool.compiler.target.missingAppLibrary", application.getName());
         return;
       }
-        
+
       let bootMeta = appMeta.getBootMetaJs();
       for (let arr = appMeta.getPackages(), i = 0; i < arr.length; i++) {
         let pkg = arr[i];
@@ -753,16 +762,16 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         }
         await pkg.getJavascript().unwrap().writeToDisk();
       }
-      
+
       await appMeta.getBootMetaJs().unwrap().writeToDisk();
-      
+
       await this._writeIndexHtml();
 
       if (!t.isWriteCompileInfo()) {
         await this.fireEventAsync("writtenApplication");
         return;
       }
-      
+
       let bootPackage = appMeta.getPackages()[0];
       let appSummary = {
         appClass: application.getClassName(),
@@ -783,11 +792,11 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           name: partData.name
         });
       });
-        
+
       await fs.writeFileAsync(appRootDir + "/compile-info.json",
         JSON.stringify(appSummary, null, 2) + "\n",
         { encoding: "utf8" });
-        
+
       await this.fireEventAsync("writtenApplication");
     },
 
@@ -808,7 +817,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       }
 
       var resDir = this.getApplicationRoot(application);
-      
+
       let timeStamp = (new Date()).getTime();
       let pathToTarget = path.relative(path.join(t.getOutputDir(), t.getProjectDir(application)), t.getOutputDir()) + "/";
       let indexJsTimestamp = "";
@@ -895,12 +904,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "preBootJs": "",
           "appTitle": (application.getTitle()||"Qooxdoo Application"),
           "timeStamp": timeStamp,
-          "indexJsTimestamp": indexJsTimestamp        
+          "indexJsTimestamp": indexJsTimestamp
         };
         await fs.writeFileAsync(t.getOutputDir() + "index.html", replaceVars(indexHtml), { encoding: "utf8" });
       }
     },
-    
+
     getAppMeta() {
       return this.__appMeta;
     }

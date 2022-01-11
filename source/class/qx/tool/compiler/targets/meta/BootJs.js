@@ -25,24 +25,24 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
 /**
- * Represents a "index.js" that is generated as part of a compile 
+ * Represents a "index.js" that is generated as part of a compile
  */
 qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
-  
+
   construct(appMeta) {
     this.base(arguments, appMeta, `${appMeta.getApplicationRoot()}index.js`);
     this.__embeddedJs = [];
     this.__embeddedJsLookup = {};
   },
-  
+
   properties: {
     needsWriteToDisk: {
       init: true,
       refine: true
     }
   },
-  
+
   members: {
     __embeddedJs: null,
     __sourceMapOffsets: null,
@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
     /**
      * Adds Javascript which is to be added to the end of the index.js, just before the app
      * is finalised
-     * 
+     *
      * @param jsMeta {AbstractJavascriptMeta} the jaavscript to add
      */
     addEmbeddedJs(jsMeta) {
@@ -59,7 +59,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
         this.__embeddedJsLookup[jsMeta.toHashCode()] = jsMeta;
       }
     },
-    
+
     /*
      * @Override
      */
@@ -78,13 +78,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
           if (uri.startsWith("__external__:")) {
             return true;
           }
-          
+
           inlines.push(uri);
           return false;
         });
         for (let i = 0; i < inlines.length; i++) {
           let uri = inlines[i];
-          
+
           let filename = path.join(target.getOutputDir(), "resources", uri);
           try {
             var data = await fs.readFileAsync(filename, { encoding: "utf-8" });
@@ -92,12 +92,12 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
             ws.write("\n");
           } catch (ex) {
             if (ex.code != "ENOENT") {
-              throw ex; 
+              throw ex;
             }
           }
         }
       }
-      
+
       var MAP = {
         EnvSettings: appMeta.getEnvironment(),
         Libraries: appMeta.getLibraries().map(library => library.getNamespace()),
@@ -140,7 +140,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
         while ((match = line.match(/\%\{([^}]+)\}/))) {
           var keyword = match[1];
           var replace = "";
-          
+
           if (keyword == "BootPart") {
             for (let j = 0; j < this.__embeddedJs.length; j++) {
               this.__sourceMapOffsets.push(ws.getLineNumber());
@@ -154,7 +154,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
               replace = JSON.stringify(MAP[keyword], null, 2);
             }
           }
-          
+
           var newLine = line.substring(0, match.index) + replace + line.substring(match.index + keyword.length + 3);
           line = newLine;
         }
@@ -164,19 +164,19 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
         ws.write(line + "\n");
       }
     },
-    
+
     /*
      * @Override
      */
     async getSourceMap() {
       if (this.__sourceMapOffsets === null) {
-        throw new Error(`Cannot get the source map for ${this} until the stream has been written`); 
+        throw new Error(`Cannot get the source map for ${this} until the stream has been written`);
       }
       let res = await this._copySourceMap(this.__embeddedJs, this.__sourceMapOffsets);
       let target = this._appMeta.getTarget();
       for (let i = 0; i < res.sources.length; i++) {
-        res.sources[i] = path.relative("", res.sources[i]);
-        let mapTo = target.getPathMapping(res.sources[i]);
+        let s = path.relative("", res.sources[i]);
+        let mapTo = target.getPathMapping(s);
         res.sources[i] = mapTo ? mapTo : res.sources[i];
       }
       return res;

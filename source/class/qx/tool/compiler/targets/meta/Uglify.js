@@ -22,14 +22,14 @@
 
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
-const UglifyJS = require("uglify-js");
+const UglifyJS = require("terser");
 
 qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
-  
+
   /**
    * Constructor
-   * 
+   *
    * @param appMeta {qx.tool.compiler.targets.meta.ApplicationMeta}
    * @param jsMeta {AbstractJavascriptMeta} the source
    */
@@ -37,17 +37,17 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
     this.base(arguments, appMeta, jsMeta.getFilename());
     this.__jsMeta = jsMeta;
   },
-  
+
   properties: {
     needsWriteToDisk: {
       init: true,
       refine: true
     }
   },
-  
+
   members: {
     __jsMeta: null,
-    
+
     /*
      * @Override
      */
@@ -79,10 +79,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       }
 
       var application = this._appMeta.getApplication();
-      
+
       var outJsFilename = this.__jsMeta.getFilename();
       let baseJsFilename = path.basename(outJsFilename);
-      
+
       let inSourceCode = await (async () => {
         let ss = new qx.tool.utils.Utils.ToStringWriteStream();
         let ws = new qx.tool.utils.Utils.LineCountingTransform();
@@ -96,7 +96,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       })();
       await qx.tool.utils.files.Utils.safeUnlink(outJsFilename + ".unminified");
       await qx.tool.utils.files.Utils.safeRename(outJsFilename, outJsFilename + ".unminified");
-      
+
       let inSourceMap = await this.__jsMeta.getSourceMap();
       await qx.tool.utils.files.Utils.safeUnlink(outJsFilename + ".unminified.map");
       await qx.tool.utils.files.Utils.safeRename(outJsFilename + ".map", outJsFilename + ".unminified.map");
@@ -107,7 +107,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
         url: baseJsFilename + ".map",
         includeSources: true
       };
-      var result = UglifyJS.minify(inSourceCode, uglifyOpts);
+      var result = await UglifyJS.minify(inSourceCode, uglifyOpts);
       var err = result.error;
       if (err) {
         if (err.name == "SyntaxError") {
