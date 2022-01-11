@@ -28,7 +28,6 @@
  * @asset(testapp/*)
  * @asset(qx/test/script.js)
  * @asset(abc/def/myicon.gif)
- * @require(qx.io.remote.Rpc)
  * @require(testapp.WrongClassName)
  * @require(testapp.Issue153)
  */
@@ -62,7 +61,7 @@ qx.Class.define("testapp.Application", {
       }catch(ex) {
         console.log("Found intentionally uindefined value");
       }
-      
+
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug")) {
         // support native logging capabilities, e.g. Firebug for Firefox
@@ -143,7 +142,7 @@ qx.Class.define("testapp.Application", {
       if (qx.core.Environment.get("qx.promise")) {
         console.log("Promises are enabled");
       }
-      
+
       qx.core.Assert.assertTrue(this.tr("translatedString") == "en: translatedString");
       qx.core.Assert.assertTrue(this.tr("Call \"me\"") == "en: Call \"me\"");
       qx.core.Assert.assertTrue(this.tr("This has\nsome\nnewlines") == "en: This has\nsome\nnewlines");
@@ -164,12 +163,12 @@ qx.Class.define("testapp.Application", {
         var plugin = new testapp.plugins.PluginTwo();
         console.log(plugin.sayHello());
       }, this);
-      
+
       new testapp.test.TestInnerClasses().testInnerClasses();
-      
+
       console.log("TestThat1.toHashCode() = " + (new testapp.TestThat1()).toHashCode());
       console.log("TestThat2.toHashCode() = " + (new testapp.TestThat2()).toHashCode());
-      
+
       new testapp.Issue309();
       new testapp.Issue206();
       new testapp.Issue240();
@@ -183,17 +182,17 @@ qx.Class.define("testapp.Application", {
       new testapp.Issue503();
       new testapp.InnerEs6Classes();
       new testapp.Warnings1();
-      
+
       qx.core.Assert.assertTrue(TEST_EXTERNAL === "loaded");
       qx.core.Assert.assertTrue(SCRIPT_LOADED === true);
       qx.core.Assert.assertTrue(typeof jQuery == "function");
       qx.core.Assert.assertTrue(qx.locale.Number.getDecimalSeparator("nl").toString() === ",");
-      
+
       qx.core.Assert.assertTrue(qx.core.Environment.get("testappCompilerApi") === "two");
       qx.core.Assert.assertTrue(qx.core.Environment.get("testappLibraryApi") === "one");
       qx.core.Assert.assertTrue(qx.core.Environment.get("testlibCompilerApi") === undefined);
       qx.core.Assert.assertTrue(qx.core.Environment.get("testlibLibraryApi") === "one");
-      
+
       const obj = {
           foo: {
             bar: {
@@ -204,7 +203,7 @@ qx.Class.define("testapp.Application", {
 
       qx.core.Assert.assertTrue(obj?.foo?.bar?.baz === 42);
       qx.core.Assert.assertTrue(obj?.qux?.baz === undefined);
-      
+
       var abc = (<div>Hello World</div>);
     },
 
