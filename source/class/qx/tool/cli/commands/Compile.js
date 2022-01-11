@@ -128,6 +128,11 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         type: "boolean",
         default: false
       },
+      "source-map-relative-paths": {
+        "describe": "If true, the source file will be saved in the map file if the target supports it. Can be overridden on a per application basis.",
+        "type": "boolean",
+        default: false
+      },
       "save-unminified": {
         alias: "u",
         describe: "Saves a copy of the unminified version of output files (build target only)",
@@ -839,6 +844,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         var saveSourceInMap = chooseValue(targetConfig["save-source-in-map"], t.argv["saveSourceInMap"]);
         if ((typeof saveSourceInMap == "boolean") && (typeof target.setSaveSourceInMap == "function")) {
           target.setSaveSourceInMap(saveSourceInMap);
+        }
+
+        var sourceMapRelativePaths = chooseValue(targetConfig["source-map-relative-paths"], t.argv["sourceMapRelativePaths"]);
+        if ((typeof sourceMapRelativePaths == "boolean") && (typeof target.setSourceMapRelativePaths == "function")) {
+          target.setSourceMapRelativePaths(sourceMapRelativePaths);
         }
 
         var saveUnminified = chooseValue(targetConfig["save-unminified"], t.argv["save-unminified"]);
