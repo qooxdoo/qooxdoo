@@ -885,7 +885,7 @@ var sinon = (function (formatio) {
             for (prop in a) {
                 aLength += 1;
 
-                if (!deepEqual(a[prop], b[prop])) {
+                if (!sinon.deepEqual(a[prop], b[prop])) {
                     return false;
                 }
             }
