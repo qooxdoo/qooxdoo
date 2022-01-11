@@ -257,15 +257,15 @@
             "type": "boolean"
 		      },
           "save-source-in-map": {
-            "description": "If true, the source file will be saved in the map file if the target supports it. Can be overridden on a per application basis.",
+            "description": "If true, the source file will be saved in the map file if the target supports it.",
             "type": "boolean"
           },
           "source-map-relative-paths": {
-            "description": "If true, the source map files will be saved with relative paths in the map file if the target supports it. Can be overridden on a per application basis.",
+            "description": "If true, the source map files will be saved with relative paths in the map file if the target supports it.",
             "type": "boolean"
           },
           "save-unminified": {
-            "description": "If true, the unminified files will be saved if the target supports it. Can be overridden on a per application basis.",
+            "description": "If true, the unminified files will be saved if the target supports it.",
             "type": "boolean"
           },
           "inline-external-scripts": {
