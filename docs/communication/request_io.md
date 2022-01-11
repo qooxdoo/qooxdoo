@@ -1,9 +1,6 @@
 # qx.io.request
 
-This API is an improvement over the original [`qx.io.remote.*`
-API](remote_io.md) , but does not offer the same feature-set
-yet. It is recommended to use the classes in this API for your
-development. The [REST abstraction API](rest.md) is based on this API.
+The [REST abstraction API](rest.md) is based on this API.
 
 ## Choosing an appropriate transport
 
