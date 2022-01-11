@@ -4,17 +4,15 @@ Qooxdoo provides different communication APIs with a rich feature set.
 
 ## HTTP Requests
 
-The HTTP Request API comes in two flavours:
+[`qx.io.request.*`](request_io.md) ([ApiViewer](apps://apiviewer/#qx.io.request)) 
+is qooxdoo's standard low-level API aimed at providing the basic building block 
+of other APIs, such as the REST interface.
 
-- [`qx.io.request.*`](request_io.md)
-  ([ApiViewer](apps://apiviewer/#qx.io.request)) is qooxdoo's standard low-level
-  API aimed at providing the basic building block of other APIs.
-
-- [`qx.io.remote.*`](remote_io.md) ([ApiViewer](apps://apiviewer/#qx.io.remote))
-  is an older, now deprecated implementation that supports HTTP requests over
-  different transports (Iframe, Script and XHR), and provides a [JSONRPC v2
-  client](rpc.md). It will be removed from the framework and put into the package
-  `deprecated.qx.io.remote` shortly.
+Before version 7, qooxdoo contained an older, now deprecated implementation which 
+supports HTTP requests over different transports (Iframe, Script and XHR), and 
+provides a JSONRPC v2 client. It has be removed from the framework and put into 
+the package [`deprecated.qx.io.remote`](https://github.com/qooxdoo/deprecated.qx.io.remote).
+You can reinstall it by executing `npx qx pkg install qooxdoo/deprecated.qx.io.remote`.
 
 ## REST interface
 
