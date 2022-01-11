@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.storage.Local",
-{
-  extend : qx.test.bom.storage.WebStorageTestCase,
+qx.Class.define("qx.test.bom.storage.Local", {
+  extend: qx.test.bom.storage.WebStorageTestCase,
   include: [qx.dev.unit.MRequirements],
 
   members: {
-    _getStorage: function() {
+    _getStorage() {
       return qx.bom.Storage.getLocal();
     }
   }

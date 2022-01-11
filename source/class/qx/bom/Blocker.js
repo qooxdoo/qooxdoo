@@ -46,24 +46,20 @@
  * @require(qx.bom.Element)
  * @require(qx.bom.Iframe)
  */
-qx.Class.define("qx.bom.Blocker",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.bom.Blocker", {
+  extend: qx.core.Object,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__init();
   },
 
-
-  members :
-  {
-    __iframeElement : null,
-    __blockerElement : null,
-    __blockedElement : null,
-    __isActive : false,
+  members: {
+    __iframeElement: null,
+    __blockerElement: null,
+    __blockedElement: null,
+    __isActive: false,
     __defaultZIndex: 10000,
     __defaultBlockerOpacity: 0,
     __defaultBlockerColor: "transparent",
@@ -80,11 +76,14 @@ qx.Class.define("qx.bom.Blocker",
      *
      * @param element {element?null} If no element is given the whole document is blocked.
      */
-    block : function(element)
-    {
-      if (!this.__isActive)
-      {
-        qx.event.Registration.addListener(window, "resize", this.__onResize, this);
+    block(element) {
+      if (!this.__isActive) {
+        qx.event.Registration.addListener(
+          window,
+          "resize",
+          this.__onResize,
+          this
+        );
 
         this.__blockedElement = element;
 
@@ -94,40 +93,39 @@ qx.Class.define("qx.bom.Blocker",
       }
     },
 
-
     /**
      * Releases the blocking
      */
-    unblock : function()
-    {
-      if (this.__isActive)
-      {
+    unblock() {
+      if (this.__isActive) {
         this.__removeBlocker();
-        qx.event.Registration.removeListener(window, "resize", this.__onResize, this);
+        qx.event.Registration.removeListener(
+          window,
+          "resize",
+          this.__onResize,
+          this
+        );
         this.__isActive = false;
       }
     },
-
 
     /**
      * Whether the blocker is already active.
      *
      * @return {Boolean} Blocker active
      */
-    isBlocked : function() {
+    isBlocked() {
       return this.__isActive;
     },
-
 
     /**
      * Returns the blocker element. Useful if the element should be animated.
      *
      * @return {Element} DOM element
      */
-    getBlockerElement : function() {
+    getBlockerElement() {
       return this.__blockerElement;
     },
-
 
     /**
      * Sets the color of the blocker element. Be sure to set also a suitable
@@ -136,20 +134,18 @@ qx.Class.define("qx.bom.Blocker",
      * @param color {String} CSS color value
      * @see #setBlockerOpacity
      */
-    setBlockerColor : function(color) {
+    setBlockerColor(color) {
       qx.bom.element.Style.set(this.__blockerElement, "backgroundColor", color);
     },
-
 
     /**
      * Returns the current blocker color.
      *
      * @return {String} CSS color value
      */
-    getBlockerColor : function() {
+    getBlockerColor() {
       return qx.bom.element.Style.get(this.__blockerElement, "backgroundColor");
     },
-
 
     /**
      * Sets the blocker opacity. Be sure to set also a suitable blocker color
@@ -158,20 +154,18 @@ qx.Class.define("qx.bom.Blocker",
      * @param opacity {String} CSS opacity value
      * @see #setBlockerColor
      */
-    setBlockerOpacity : function(opacity) {
+    setBlockerOpacity(opacity) {
       qx.bom.element.Opacity.set(this.__blockerElement, opacity);
     },
-
 
     /**
      * Returns the blocker opacity value.
      *
      * @return {Integer} CSS opacity value
      */
-    getBlockerOpacity : function() {
+    getBlockerOpacity() {
       return qx.bom.element.Opacity.get(this.__blockerElement);
     },
-
 
     /**
      * Set the zIndex of the blocker element. For most use cases you do not need
@@ -179,22 +173,18 @@ qx.Class.define("qx.bom.Blocker",
      *
      * @param zIndex {Integer} CSS zIndex value
      */
-    setBlockerZIndex : function(zIndex) {
+    setBlockerZIndex(zIndex) {
       qx.bom.element.Style.set(this.__blockerElement, "zIndex", zIndex);
     },
-
 
     /**
      * Returns the blocker zIndex value
      *
      * @return {Integer} CSS zIndex value
      */
-    getBlockerZIndex : function() {
+    getBlockerZIndex() {
       return qx.bom.element.Style.get(this.__blockerElement, "zIndex");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -205,31 +195,27 @@ qx.Class.define("qx.bom.Blocker",
     /**
      * Setups the elements and registers a "resize" event.
      */
-    __init : function()
-    {
+    __init() {
       this.__setupBlockerElement();
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         this.__setupIframeElement();
       }
     },
 
-
     /**
      * Create blocker element and set initial styles.
      */
-    __setupBlockerElement : function()
-    {
+    __setupBlockerElement() {
       this.__blockerElement = qx.dom.Element.create("div");
-      qx.bom.element.Style.setStyles(this.__blockerElement,
-      {
+      qx.bom.element.Style.setStyles(this.__blockerElement, {
         display: "block",
         opacity: this.__defaultBlockerOpacity,
         backgroundColor: this.__defaultBlockerColor
       });
+
       this.setBlockerZIndex(this.__defaultZIndex);
     },
-
 
     /**
      * Create iframe blocker element and set initial styles.
@@ -237,21 +223,26 @@ qx.Class.define("qx.bom.Blocker",
      * Needed to block native form elements
      * // see: http://www.macridesweb.com/oltest/IframeShim.html
      */
-    __setupIframeElement : function()
-    {
+    __setupIframeElement() {
       this.__iframeElement = qx.bom.Iframe.create();
 
-      qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
+      qx.bom.element.Attribute.set(
+        this.__iframeElement,
+        "allowTransparency",
+        false
+      );
       /* eslint-disable no-script-url */
-      qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
+      qx.bom.element.Attribute.set(
+        this.__iframeElement,
+        "src",
+        "javascript:false;"
+      );
       /* eslint-enable no-script-url */
-      qx.bom.element.Style.setStyles(this.__iframeElement,
-      {
+      qx.bom.element.Style.setStyles(this.__iframeElement, {
         display: "block",
         opacity: this.__defaultBlockerOpacity
       });
     },
-
 
     /**
      * Calculates the necessary styles for the blocker element.
@@ -259,45 +250,42 @@ qx.Class.define("qx.bom.Blocker",
      *
      * @return {Map} Object with necessary style infos
      */
-    __calculateStyles : function()
-    {
+    __calculateStyles() {
       var styles = { position: "absolute" };
 
-      if (this.__isWholeDocumentBlockTarget())
-      {
+      if (this.__isWholeDocumentBlockTarget()) {
         styles.left = "0px";
         styles.top = "0px";
         styles.right = null;
         styles.bottom = null;
         styles.width = qx.bom.Document.getWidth() + "px";
         styles.height = qx.bom.Document.getHeight() + "px";
-      }
-      else
-      {
-        styles.width = qx.bom.element.Dimension.getWidth(this.__blockedElement) + "px";
-        styles.height = qx.bom.element.Dimension.getHeight(this.__blockedElement) + "px";
-        styles.left = qx.bom.element.Location.getLeft(this.__blockedElement) + "px";
-        styles.top = qx.bom.element.Location.getTop(this.__blockedElement) + "px";
+      } else {
+        styles.width =
+          qx.bom.element.Dimension.getWidth(this.__blockedElement) + "px";
+        styles.height =
+          qx.bom.element.Dimension.getHeight(this.__blockedElement) + "px";
+        styles.left =
+          qx.bom.element.Location.getLeft(this.__blockedElement) + "px";
+        styles.top =
+          qx.bom.element.Location.getTop(this.__blockedElement) + "px";
       }
 
       return styles;
     },
-
 
     /**
      * Apply the given styles and inserts the blocker.
      *
      * @param styles {Object} styles to apply
      */
-    __styleAndInsertBlocker : function(styles)
-    {
+    __styleAndInsertBlocker(styles) {
       var target = document.body;
 
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
       qx.dom.Element.insertEnd(this.__blockerElement, target);
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         styles.zIndex = this.getBlockerZIndex() - 1;
 
         qx.bom.element.Style.setStyles(this.__iframeElement, styles);
@@ -305,19 +293,16 @@ qx.Class.define("qx.bom.Blocker",
       }
     },
 
-
     /**
      * Remove the blocker elements.
      */
-    __removeBlocker: function()
-    {
+    __removeBlocker() {
       qx.dom.Element.remove(this.__blockerElement);
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         qx.dom.Element.remove(this.__iframeElement);
       }
     },
-
 
     /**
      * Reacts on window resize and adapts the new size for the blocker element
@@ -325,49 +310,51 @@ qx.Class.define("qx.bom.Blocker",
      *
      * @param e {qx.event.type.Event} event instance
      */
-    __onResize : function(e)
-    {
-      if (this.__isWholeDocumentBlockTarget())
-      {
+    __onResize(e) {
+      if (this.__isWholeDocumentBlockTarget()) {
         // reset the blocker to get the right calculated document dimension
         this.__resizeBlocker({ width: "0px", height: "0px" });
 
         // If the HTML document is very large, the getWidth() and getHeight()
         // returns the old size (it seems that the rendering engine is to slow).
-        qx.event.Timer.once(function()
-        {
-          var dimension = { width: qx.bom.Document.getWidth() + "px",
-                          height: qx.bom.Document.getHeight() + "px" };
-          this.__resizeBlocker(dimension);
-        }, this, 0);
+        qx.event.Timer.once(
+          function () {
+            var dimension = {
+              width: qx.bom.Document.getWidth() + "px",
+              height: qx.bom.Document.getHeight() + "px"
+            };
+            this.__resizeBlocker(dimension);
+          },
+          this,
+          0
+        );
       }
     },
-
 
     /**
      * Does the resizing for blocker element and blocker iframe element (IE)
      *
      * @param dimension {Object} Map with width and height as keys
      */
-    __resizeBlocker : function(dimension)
-    {
+    __resizeBlocker(dimension) {
       qx.bom.element.Style.setStyles(this.__blockerElement, dimension);
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
       }
     },
-
 
     /**
      * Checks whether the whole document is be blocked.
      *
      * @return {Boolean} block mode
      */
-    __isWholeDocumentBlockTarget : function() {
-      return (this.__blockedElement == null ||
-              qx.dom.Node.isWindow(this.__blockedElement) ||
-              qx.dom.Node.isDocument(this.__blockedElement));
+    __isWholeDocumentBlockTarget() {
+      return (
+        this.__blockedElement == null ||
+        qx.dom.Node.isWindow(this.__blockedElement) ||
+        qx.dom.Node.isDocument(this.__blockedElement)
+      );
     }
   }
 });

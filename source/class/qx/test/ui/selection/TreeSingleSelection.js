@@ -16,24 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
+qx.Class.define("qx.test.ui.selection.TreeSingleSelection", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var length = 10;
       this._notInSelection = [];
       this._mode = "single";
 
-      this._widget = new qx.ui.tree.Tree().set(
-      {
+      this._widget = new qx.ui.tree.Tree().set({
         selectionMode: this._mode,
-        width : 200,
-        height : 400
+        width: 200,
+        height: 400
       });
+
       this.getRoot().add(this._widget);
 
       var root = new qx.ui.tree.TreeFolder("Root");
@@ -48,8 +45,11 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
         root.add(folder);
 
         if (i == 5) {
-          this.assertIdentical(0, this._widget.getSelection().length,
-            "Couldn't setup test, because selection isn't empty");
+          this.assertIdentical(
+            0,
+            this._widget.getSelection().length,
+            "Couldn't setup test, because selection isn't empty"
+          );
 
           this._widget.setSelection([file]);
           this._selection = [file];
@@ -61,9 +61,8 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -71,8 +70,7 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getItems();
       } else {
@@ -80,13 +78,11 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.tree.TreeFile(name);
     },
 
-
-    testFolderOpen : function()
-    {
+    testFolderOpen() {
       var tree = new qx.ui.tree.Tree();
       this.getRoot().add(tree);
 

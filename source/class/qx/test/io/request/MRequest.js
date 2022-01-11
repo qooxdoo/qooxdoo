@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
-************************************************************************ */
+ ************************************************************************ */
 
 /**
  * @ignore(Klass)
@@ -32,18 +32,13 @@
  * It should be noted that tests defined here fake an ideal transport. The
  * transport itself is tested elsewhere (see {@link qx.test.bom.request}).
  */
-qx.Mixin.define("qx.test.io.request.MRequest",
-{
-
-  members :
-  {
-
-    setUpKlass: function() {
+qx.Mixin.define("qx.test.io.request.MRequest", {
+  members: {
+    setUpKlass() {
       qx.Class.define("Klass", {
-        extend : qx.core.Object,
+        extend: qx.core.Object,
 
-        properties :
-        {
+        properties: {
           affe: {
             init: true
           }
@@ -55,16 +50,19 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // General
     //
 
-    "test: dispose transport on destruct": function()
-    {
+    "test: dispose transport on destruct"() {
       this.req.dispose();
 
-      this.wait(100, function() {
-        this.assertCalled(this.transport.dispose);
-      }, this);
+      this.wait(
+        100,
+        function () {
+          this.assertCalled(this.transport.dispose);
+        },
+        this
+      );
     },
 
-    "test: getTransport()": function() {
+    "test: getTransport()"() {
       this.assertEquals(this.transport, this.req.getTransport());
     },
 
@@ -72,14 +70,14 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Send
     //
 
-    "test: send() GET": function() {
+    "test: send() GET"() {
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url");
       this.assertCalled(this.transport.send);
     },
 
-    "test: drop fragment from URL": function() {
+    "test: drop fragment from URL"() {
       this.req.setUrl("example.com#fragment");
       this.req.send();
 
@@ -90,7 +88,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Abort
     //
 
-    "test: abort request": function() {
+    "test: abort request"() {
       this.req.abort();
 
       this.assertCalled(this.transport.abort);
@@ -100,28 +98,28 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Data
     //
 
-    "test: not send data with GET request": function() {
+    "test: not send data with GET request"() {
       this.req.setRequestData("str");
       this.req.send();
 
       this.assertCalledWith(this.transport.send, undefined);
     },
 
-    "test: append string data to URL with GET request": function() {
+    "test: append string data to URL with GET request"() {
       this.req.setRequestData("str");
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?str");
     },
 
-    "test: append obj data to URL with GET request": function() {
-      this.req.setRequestData({affe: true});
+    "test: append obj data to URL with GET request"() {
+      this.req.setRequestData({ affe: true });
       this.req.send();
 
       this.assertCalledWith(this.transport.open, "GET", "url?affe=true");
     },
 
-    "test: append qooxdoo obj data to URL with GET request": function() {
+    "test: append qooxdoo obj data to URL with GET request"() {
       this.setUpKlass();
       var obj = new Klass();
       this.req.setRequestData(obj);
@@ -131,7 +129,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       obj.dispose();
     },
 
-    "test: append FormData to URL with POST request": function() {
+    "test: append FormData to URL with POST request"() {
       if (!window.FormData) {
         this.skip("FormData API not supported");
       }
@@ -155,14 +153,14 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // Header and Params
     //
 
-    "test: set request header": function() {
+    "test: set request header"() {
       this.req.setRequestHeader("key", "value");
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader, "key", "value");
     },
 
-    "test: set request header does not append": function() {
+    "test: set request header does not append"() {
       var stub = this.transport.setRequestHeader.withArgs("key", "value");
 
       this.req.setRequestHeader("key", "value");
@@ -172,13 +170,13 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(stub.withArgs("key", "value"));
     },
 
-    "test: get request header": function() {
+    "test: get request header"() {
       this.req.setRequestHeader("key", "value");
 
       this.assertEquals("value", this.req.getRequestHeader("key"));
     },
 
-    "test: remove request header": function() {
+    "test: remove request header"() {
       var stub;
 
       this.req.setRequestHeader("key", "value");
@@ -190,7 +188,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertNotCalled(stub);
     },
 
-    "test: get all request headers": function() {
+    "test: get all request headers"() {
       this.req.setRequestHeader("key", "value");
       this.req.setRequestHeader("otherkey", "value");
 
@@ -198,36 +196,41 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
     },
 
-    "test: get all request headers includes configuration dependent headers": function() {
+    "test: get all request headers includes configuration dependent headers"() {
       this.req.setRequestHeader("key", "value");
-      this.req._getConfiguredRequestHeaders = function() { return {"otherkey": "value"}; };
+      this.req._getConfiguredRequestHeaders = function () {
+        return { otherkey: "value" };
+      };
 
       this.assertEquals("value", this.req._getAllRequestHeaders()["key"]);
       this.assertEquals("value", this.req._getAllRequestHeaders()["otherkey"]);
     },
 
-    "test: not append cache parameter to URL": function() {
+    "test: not append cache parameter to URL"() {
       this.req.send();
 
       var msg = "nocache parameter must not be set";
       this.assertFalse(/\?nocache/.test(this.transport.open.args[0][1]), msg);
     },
 
-    "test: append nocache parameter to URL": function() {
+    "test: append nocache parameter to URL"() {
       this.req.setCache(false);
       this.req.send();
 
       var msg = "nocache parameter must be set to number";
-      this.assertTrue(/\?nocache=\d{13,}/.test(this.transport.open.args[0][1]), msg);
+      this.assertTrue(
+        /\?nocache=\d{13,}/.test(this.transport.open.args[0][1]),
+        msg
+      );
     },
 
     //
     // Events
     //
 
-    "test: fire readyStateChange": function() {
+    "test: fire readyStateChange"() {
       var req = this.req,
-          readystatechange = this.spy();
+        readystatechange = this.spy();
 
       req.addListener("readyStateChange", readystatechange);
       this.respond();
@@ -235,9 +238,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(readystatechange);
     },
 
-    "test: fire success": function() {
+    "test: fire success"() {
       var req = this.req,
-          success = this.spy();
+        success = this.spy();
 
       req.addListener("success", success);
       this.respond();
@@ -245,9 +248,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(success);
     },
 
-    "test: not fire success on erroneous status": function() {
+    "test: not fire success on erroneous status"() {
       var req = this.req,
-          success = this.spy();
+        success = this.spy();
 
       req.addListener("success", success);
       this.respond(500);
@@ -255,9 +258,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertNotCalled(success);
     },
 
-    "test: fire load": function() {
+    "test: fire load"() {
       var req = this.req,
-          load = this.spy();
+        load = this.spy();
 
       req.addListener("load", load);
       this.respond();
@@ -265,9 +268,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(load);
     },
 
-    "test: fire loadEnd": function() {
+    "test: fire loadEnd"() {
       var req = this.req,
-          loadEnd = this.spy();
+        loadEnd = this.spy();
 
       req.addListener("loadEnd", loadEnd);
       this.respond();
@@ -275,9 +278,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(loadEnd);
     },
 
-    "test: fire abort": function() {
+    "test: fire abort"() {
       var req = this.req,
-          abort = this.spy();
+        abort = this.spy();
 
       req.addListener("abort", abort);
       this.transport.onabort();
@@ -285,10 +288,10 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(abort);
     },
 
-    "test: fire timeout": function() {
+    "test: fire timeout"() {
       var req = this.req,
-          transport = this.transport,
-          timeout = this.spy();
+        transport = this.transport,
+        timeout = this.spy();
 
       req.setTimeout(100);
       req.send();
@@ -300,9 +303,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(timeout);
     },
 
-    "test: fire error": function() {
+    "test: fire error"() {
       var req = this.req,
-          error = this.spy();
+        error = this.spy();
 
       req.addListener("error", error);
       this.respondError();
@@ -310,9 +313,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(error);
     },
 
-    "test: fire statusError": function() {
+    "test: fire statusError"() {
       var req = this.req,
-          statusError = this.spy();
+        statusError = this.spy();
 
       req.addListener("statusError", statusError);
       this.respond(500);
@@ -320,9 +323,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(statusError);
     },
 
-    "test: fire fail on erroneous status": function() {
+    "test: fire fail on erroneous status"() {
       var req = this.req,
-          fail = this.spy();
+        fail = this.spy();
 
       req.addListener("fail", fail);
       this.respond(500);
@@ -330,9 +333,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(fail);
     },
 
-    "test: fire fail on network error": function() {
+    "test: fire fail on network error"() {
       var req = this.req,
-          fail = this.spy();
+        fail = this.spy();
 
       req.addListener("fail", fail);
       this.respondError();
@@ -340,9 +343,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(fail);
     },
 
-    "test: fire fail on timeout": function() {
+    "test: fire fail on timeout"() {
       var req = this.req,
-          fail = this.spy();
+        fail = this.spy();
 
       req.addListener("fail", fail);
       this.timeout();
@@ -350,30 +353,35 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertCalledOnce(fail);
     },
 
-    "test: fire changePhase": function() {
+    "test: fire changePhase"() {
       var req = this.req,
-          that = this;
+        that = this;
 
-      this.assertEventFired(req, "changePhase", function() {
-        that.respond();
-      }, function(evt) {
-        that.assertMatch(evt.getData(), "load|success");
-      });
+      this.assertEventFired(
+        req,
+        "changePhase",
+        function () {
+          that.respond();
+        },
+        function (evt) {
+          that.assertMatch(evt.getData(), "load|success");
+        }
+      );
     },
 
     //
     // Phase
     //
 
-    "test: phase is unsent": function() {
+    "test: phase is unsent"() {
       this.assertEquals("unsent", this.req.getPhase());
     },
 
-    "test: phase was open before send": function() {
+    "test: phase was open before send"() {
       var req = this.req,
-          phases = [];
+        phases = [];
 
-      req.addListener("changePhase", function() {
+      req.addListener("changePhase", function () {
         phases.push(req.getPhase());
       });
 
@@ -383,7 +391,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertArrayEquals(["opened", "sent"], phases);
     },
 
-    "test: phase is sent": function() {
+    "test: phase is sent"() {
       var req = this.req;
 
       req.setUrl("/url");
@@ -392,9 +400,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("sent", req.getPhase());
     },
 
-    "test: phase is loading": function() {
+    "test: phase is loading"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
       transport.readyState = 3;
       transport.onreadystatechange();
@@ -402,12 +410,12 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("loading", req.getPhase());
     },
 
-    "test: phase is load intermediately": function() {
+    "test: phase is load intermediately"() {
       var req = this.req,
-          transport = this.transport,
-          phases = [];
+        transport = this.transport,
+        phases = [];
 
-      req.addListener("changePhase", function() {
+      req.addListener("changePhase", function () {
         phases.push(req.getPhase());
       });
 
@@ -418,7 +426,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("load", phases[0]);
     },
 
-    "test: phase is success": function() {
+    "test: phase is success"() {
       var req = this.req;
 
       this.respond();
@@ -427,16 +435,16 @@ qx.Mixin.define("qx.test.io.request.MRequest",
 
     // Error handling
 
-    "test: phase is statusError": function() {
+    "test: phase is statusError"() {
       var req = this.req;
 
       this.respond(500);
       this.assertEquals("statusError", req.getPhase());
     },
 
-    "test: phase is abort": function() {
+    "test: phase is abort"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
       req.abort();
       transport.onabort();
@@ -448,9 +456,9 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("abort", req.getPhase());
     },
 
-    "test: phase is abort when from cache": function() {
+    "test: phase is abort when from cache"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
       req.abort();
       transport.onabort();
@@ -465,15 +473,19 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.assertEquals("abort", req.getPhase());
     },
 
-    "test: phase is abort on readyState DONE when aborted before": function() {
+    "test: phase is abort on readyState DONE when aborted before"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
-      req.addListener("readyStateChange", function() {
-        if (req.getReadyState() == 4) {
-          this.assertEquals("abort", req.getPhase());
-        }
-      }, this);
+      req.addListener(
+        "readyStateChange",
+        function () {
+          if (req.getReadyState() == 4) {
+            this.assertEquals("abort", req.getPhase());
+          }
+        },
+        this
+      );
 
       req.send();
       req.abort();
@@ -485,15 +497,19 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       transport.onabort();
     },
 
-    "test: phase is abort on readyState DONE when aborting loading": function() {
+    "test: phase is abort on readyState DONE when aborting loading"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
-      req.addListener("readyStateChange", function() {
-        if (req.getReadyState() == 4) {
-          this.assertEquals("abort", req.getPhase());
-        }
-      }, this);
+      req.addListener(
+        "readyStateChange",
+        function () {
+          if (req.getReadyState() == 4) {
+            this.assertEquals("abort", req.getPhase());
+          }
+        },
+        this
+      );
 
       req.send();
 
@@ -510,13 +526,17 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       transport.onabort();
     },
 
-    "test: phase is abort on loadEnd when aborted before": function() {
+    "test: phase is abort on loadEnd when aborted before"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
-      req.addListener("loadEnd", function() {
-        this.assertEquals("abort", req.getPhase());
-      }, this);
+      req.addListener(
+        "loadEnd",
+        function () {
+          this.assertEquals("abort", req.getPhase());
+        },
+        this
+      );
 
       req.send();
       req.abort();
@@ -528,29 +548,32 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       transport.onabort();
     },
 
-    "test: phase is timeout": function() {
+    "test: phase is timeout"() {
       var req = this.req;
 
       this.timeout();
       this.assertEquals("timeout", req.getPhase());
     },
 
-    getFakeReq: function() {
+    getFakeReq() {
       return this.getRequests().slice(-1)[0];
     },
 
-    noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+    noCache(url) {
+      return qx.util.Uri.appendParamsToUrl(
+        url,
+        "nocache=" + new Date().valueOf()
+      );
     },
 
-    respond: function(status, error) {
+    respond(status, error) {
       var transport = this.transport;
 
       transport.status = typeof status === "undefined" ? 200 : status;
       transport.readyState = 4;
       transport.onreadystatechange();
 
-      (function() {
+      (function () {
         if (error === "timeout") {
           transport.ontimeout();
           return;
@@ -567,11 +590,11 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       transport.onloadend();
     },
 
-    respondError: function() {
+    respondError() {
       this.respond(0, "network");
     },
 
-    timeout: function() {
+    timeout() {
       this.respond(0, "timeout");
     }
   }

@@ -26,12 +26,9 @@
  *
  * The zIndex order is also managed by this class.
  */
-qx.Class.define("qx.ui.menu.Manager",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.ui.menu.Manager", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -39,9 +36,8 @@ qx.Class.define("qx.ui.menu.Manager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Create data structure
     this.__objects = [];
@@ -50,7 +46,13 @@ qx.Class.define("qx.ui.menu.Manager",
     var Registration = qx.event.Registration;
 
     // React on pointer/mouse events, but on native, to support inline applications
-    Registration.addListener(window.document.documentElement, "pointerdown", this._onPointerDown, this, true);
+    Registration.addListener(
+      window.document.documentElement,
+      "pointerdown",
+      this._onPointerDown,
+      this,
+      true
+    );
     Registration.addListener(el, "roll", this._onRoll, this, true);
 
     // React on keypress events
@@ -74,9 +76,6 @@ qx.Class.define("qx.ui.menu.Manager",
     this.__closeTimer.addListener("interval", this._onCloseInterval, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -84,16 +83,12 @@ qx.Class.define("qx.ui.menu.Manager",
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
 
-  members :
-  {
-    __scheduleOpen : null,
-    __scheduleClose : null,
-    __openTimer : null,
-    __closeTimer : null,
-    __objects : null,
-
-
-
+  members: {
+    __scheduleOpen: null,
+    __scheduleClose: null,
+    __openTimer: null,
+    __closeTimer: null,
+    __objects: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -110,25 +105,21 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param loop {Boolean?false} Whether to wrap when reaching the begin/end of the list
      * @return {qx.ui.menu.Button} Any menu button or <code>null</code>
      */
-    _getChild : function(menu, start, iter, loop)
-    {
+    _getChild(menu, start, iter, loop) {
       var children = menu.getChildren();
       var length = children.length;
       var child;
 
-      for (var i=start; i<length && i>=0; i+=iter)
-      {
+      for (var i = start; i < length && i >= 0; i += iter) {
         child = children[i];
         if (child.isEnabled() && !child.isAnonymous() && child.isVisible()) {
           return child;
         }
       }
 
-      if (loop)
-      {
-        i = i == length ? 0 : length-1;
-        for (; i!=start; i+=iter)
-        {
+      if (loop) {
+        i = i == length ? 0 : length - 1;
+        for (; i != start; i += iter) {
           child = children[i];
           if (child.isEnabled() && !child.isAnonymous() && child.isVisible()) {
             return child;
@@ -139,17 +130,14 @@ qx.Class.define("qx.ui.menu.Manager",
       return null;
     },
 
-
     /**
      * Whether the given widget is inside any Menu instance.
      *
      * @param widget {qx.ui.core.Widget} Any widget
      * @return {Boolean} <code>true</code> when the widget is part of any menu
      */
-    _isInMenu : function(widget)
-    {
-      while(widget)
-      {
+    _isInMenu(widget) {
+      while (widget) {
         if (widget instanceof qx.ui.menu.Menu) {
           return true;
         }
@@ -160,15 +148,13 @@ qx.Class.define("qx.ui.menu.Manager",
       return false;
     },
 
-
     /**
      * Whether the given widget is one of the menu openers.
      *
      * @param widget {qx.ui.core.Widget} Any widget
      * @return {Boolean} <code>true</code> if the widget is a menu opener
      */
-    _isMenuOpener : function(widget)
-    {
+    _isMenuOpener(widget) {
       var menus = this.__objects;
 
       for (var i = 0; i < menus.length; i++) {
@@ -180,17 +166,14 @@ qx.Class.define("qx.ui.menu.Manager",
       return false;
     },
 
-
     /**
      * Returns an instance of a menu button if the given widget is a child
      *
      * @param widget {qx.ui.core.Widget} any widget
      * @return {qx.ui.menu.Button} Any menu button instance or <code>null</code>
      */
-    _getMenuButton : function(widget)
-    {
-      while(widget)
-      {
+    _getMenuButton(widget) {
+      while (widget) {
         if (widget instanceof qx.ui.menu.AbstractButton) {
           return widget;
         }
@@ -200,7 +183,6 @@ qx.Class.define("qx.ui.menu.Manager",
 
       return null;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -213,10 +195,8 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param obj {qx.ui.menu.Menu} Any menu instance.
      */
-    add : function(obj)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    add(obj) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!(obj instanceof qx.ui.menu.Menu)) {
           throw new Error("Object is no menu: " + obj);
         }
@@ -224,19 +204,16 @@ qx.Class.define("qx.ui.menu.Manager",
 
       var reg = this.__objects;
       reg.push(obj);
-      obj.setZIndex(1e6+reg.length);
+      obj.setZIndex(1e6 + reg.length);
     },
-
 
     /**
      * Remove a menu from the list of visible menus.
      *
      * @param obj {qx.ui.menu.Menu} Any menu instance.
      */
-    remove : function(obj)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    remove(obj) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!(obj instanceof qx.ui.menu.Menu)) {
           throw new Error("Object is no menu: " + obj);
         }
@@ -248,21 +225,17 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Hides all currently opened menus.
      */
-    hideAll : function()
-    {
+    hideAll() {
       var reg = this.__objects;
-      if (reg)
-      {
-        for (var i=reg.length-1; i>=0; i--) {
+      if (reg) {
+        for (var i = reg.length - 1; i >= 0; i--) {
           reg[i].exclude();
         }
       }
     },
-
 
     /**
      * Returns the menu which was opened at last (which
@@ -270,14 +243,10 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @return {qx.ui.menu.Menu} The current active menu or <code>null</code>
      */
-    getActiveMenu : function()
-    {
+    getActiveMenu() {
       var reg = this.__objects;
-      return reg.length > 0 ? reg[reg.length-1] : null;
+      return reg.length > 0 ? reg[reg.length - 1] : null;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -292,14 +261,12 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param menu {qx.ui.menu.Menu} The menu to schedule for open
      */
-    scheduleOpen : function(menu)
-    {
+    scheduleOpen(menu) {
       // Cancel close of given menu first
       this.cancelClose(menu);
 
       // When the menu is already visible
-      if (menu.isVisible())
-      {
+      if (menu.isVisible()) {
         // Cancel all other open requests
         if (this.__scheduleOpen) {
           this.cancelOpen(this.__scheduleOpen);
@@ -308,14 +275,12 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // When the menu is not visible and not scheduled already
       // then schedule it for opening
-      else if (this.__scheduleOpen != menu)
-      {
+      else if (this.__scheduleOpen != menu) {
         // menu.debug("Schedule open");
         this.__scheduleOpen = menu;
         this.__openTimer.restartWith(menu.getOpenInterval());
       }
     },
-
 
     /**
      * Schedules the given menu to be closed after the
@@ -324,14 +289,12 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param menu {qx.ui.menu.Menu} The menu to schedule for close
      */
-    scheduleClose : function(menu)
-    {
+    scheduleClose(menu) {
       // Cancel open of the menu first
       this.cancelOpen(menu);
 
       // When the menu is already invisible
-      if (!menu.isVisible())
-      {
+      if (!menu.isVisible()) {
         // Cancel all other close requests
         if (this.__scheduleClose) {
           this.cancelClose(this.__scheduleClose);
@@ -340,14 +303,12 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // When the menu is visible and not scheduled already
       // then schedule it for closing
-      else if (this.__scheduleClose != menu)
-      {
+      else if (this.__scheduleClose != menu) {
         // menu.debug("Schedule close");
         this.__scheduleClose = menu;
         this.__closeTimer.restartWith(menu.getCloseInterval());
       }
     },
-
 
     /**
      * When the given menu is scheduled for open this pending
@@ -355,16 +316,13 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param menu {qx.ui.menu.Menu} The menu to cancel for open
      */
-    cancelOpen : function(menu)
-    {
-      if (this.__scheduleOpen == menu)
-      {
+    cancelOpen(menu) {
+      if (this.__scheduleOpen == menu) {
         // menu.debug("Cancel open");
         this.__openTimer.stop();
         this.__scheduleOpen = null;
       }
     },
-
 
     /**
      * When the given menu is scheduled for close this pending
@@ -372,16 +330,13 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param menu {qx.ui.menu.Menu} The menu to cancel for close
      */
-    cancelClose : function(menu)
-    {
-      if (this.__scheduleClose == menu)
-      {
+    cancelClose(menu) {
+      if (this.__scheduleClose == menu) {
         // menu.debug("Cancel close");
         this.__closeTimer.stop();
         this.__scheduleClose = null;
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -395,8 +350,7 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param e {qx.event.type.Event} Interval event
      */
-    _onOpenInterval : function(e)
-    {
+    _onOpenInterval(e) {
       // Stop timer
       this.__openTimer.stop();
 
@@ -405,15 +359,13 @@ qx.Class.define("qx.ui.menu.Manager",
       this.__scheduleOpen = null;
     },
 
-
     /**
      * Event listener for a pending close request. Configured to the interval
      * of the current menu to close.
      *
      * @param e {qx.event.type.Event} Interval event
      */
-    _onCloseInterval : function(e)
-    {
+    _onCloseInterval(e) {
       // Stop timer, reset scheduling flag
       this.__closeTimer.stop();
 
@@ -422,13 +374,11 @@ qx.Class.define("qx.ui.menu.Manager",
       this.__scheduleClose = null;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       CONTEXTMENU EVENT HANDLING
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Internal function registers a handler to stop next
@@ -438,11 +388,15 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @internal
      */
-    preventContextMenuOnce : function()
-    {
-      qx.event.Registration.addListener(document.body, "contextmenu", this.__onPreventContextMenu, this, true);
+    preventContextMenuOnce() {
+      qx.event.Registration.addListener(
+        document.body,
+        "contextmenu",
+        this.__onPreventContextMenu,
+        this,
+        true
+      );
     },
-
 
     /**
      * Internal event handler to stop <code>contextmenu</code> event bubbling,
@@ -452,8 +406,7 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @internal
      */
-    __onPreventContextMenu : function(e)
-    {
+    __onPreventContextMenu(e) {
       var target = e.getTarget();
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
       if (this._isInMenu(target)) {
@@ -462,9 +415,14 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // stop only once
-      qx.event.Registration.removeListener(document.body, "contextmenu", this.__onPreventContextMenu, this, true);
+      qx.event.Registration.removeListener(
+        document.body,
+        "contextmenu",
+        this.__onPreventContextMenu,
+        this,
+        true
+      );
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -477,8 +435,7 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param e {qx.event.type.Pointer} pointerdown event
      */
-    _onPointerDown : function(e)
-    {
+    _onPointerDown(e) {
       var target = e.getTarget();
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
@@ -504,7 +461,6 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       KEY EVENT HANDLING
@@ -515,27 +471,23 @@ qx.Class.define("qx.ui.menu.Manager",
      * @type {Map} Map of all keys working on an active menu selection
      * @lint ignoreReferenceField(__selectionKeys)
      */
-    __selectionKeys :
-    {
-      "Enter" : 1,
-      "Space" : 1
+    __selectionKeys: {
+      Enter: 1,
+      Space: 1
     },
-
 
     /**
      * @type {Map} Map of all keys working without a selection
      * @lint ignoreReferenceField(__navigationKeys)
      */
-    __navigationKeys :
-    {
-      "Tab" : 1,
-      "Escape" : 1,
-      "Up" : 1,
-      "Down" : 1,
-      "Left" : 1,
-      "Right" : 1
+    __navigationKeys: {
+      Tab: 1,
+      Escape: 1,
+      Up: 1,
+      Down: 1,
+      Left: 1,
+      Right: 1
     },
-
 
     /**
      * Event handler for all keyup/keydown events. Stops all events
@@ -543,8 +495,7 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param e {qx.event.type.KeySequence} Keyboard event
      */
-    _onKeyUpDown : function(e)
-    {
+    _onKeyUpDown(e) {
       var menu = this.getActiveMenu();
       if (!menu) {
         return;
@@ -552,11 +503,13 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // Stop for all supported key combos
       var iden = e.getKeyIdentifier();
-      if (this.__navigationKeys[iden] || (this.__selectionKeys[iden] && menu.getSelectedButton())) {
+      if (
+        this.__navigationKeys[iden] ||
+        (this.__selectionKeys[iden] && menu.getSelectedButton())
+      ) {
         e.stopPropagation();
       }
     },
-
 
     /**
      * Event handler for all keypress events. Delegates the event to the more
@@ -567,8 +520,7 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @param e {qx.event.type.KeySequence} Keyboard event
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var menu = this.getActiveMenu();
       if (!menu) {
         return;
@@ -578,10 +530,8 @@ qx.Class.define("qx.ui.menu.Manager",
       var navigation = this.__navigationKeys[iden];
       var selection = this.__selectionKeys[iden];
 
-      if (navigation)
-      {
-        switch(iden)
-        {
+      if (navigation) {
+        switch (iden) {
           case "Up":
             this._onKeyPressUp(menu);
             break;
@@ -606,15 +556,11 @@ qx.Class.define("qx.ui.menu.Manager",
 
         e.stopPropagation();
         e.preventDefault();
-      }
-      else if (selection)
-      {
+      } else if (selection) {
         // Do not process these events when no item is hovered
         var button = menu.getSelectedButton();
-        if (button)
-        {
-          switch(iden)
-          {
+        if (button) {
+          switch (iden) {
             case "Enter":
               this._onKeyPressEnter(menu, button, e);
               break;
@@ -630,18 +576,18 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for <code>Up</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
      */
-    _onKeyPressUp : function(menu)
-    {
+    _onKeyPressUp(menu) {
       // Query for previous child
       var selectedButton = menu.getSelectedButton();
       var children = menu.getChildren();
-      var start = selectedButton ? menu.indexOf(selectedButton)-1 : children.length-1;
+      var start = selectedButton
+        ? menu.indexOf(selectedButton) - 1
+        : children.length - 1;
       var nextItem = this._getChild(menu, start, -1, true);
 
       // Reconfigure property
@@ -652,17 +598,15 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for <code>Down</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
      */
-    _onKeyPressDown : function(menu)
-    {
+    _onKeyPressDown(menu) {
       // Query for next child
       var selectedButton = menu.getSelectedButton();
-      var start = selectedButton ? menu.indexOf(selectedButton)+1 : 0;
+      var start = selectedButton ? menu.indexOf(selectedButton) + 1 : 0;
       var nextItem = this._getChild(menu, start, 1, true);
 
       // Reconfigure property
@@ -673,22 +617,19 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for <code>Left</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
      */
-    _onKeyPressLeft : function(menu)
-    {
+    _onKeyPressLeft(menu) {
       var menuOpener = menu.getOpener();
       if (!menuOpener) {
         return;
       }
 
       // Back to the "parent" menu
-      if (menuOpener instanceof qx.ui.menu.AbstractButton)
-      {
+      if (menuOpener instanceof qx.ui.menu.AbstractButton) {
         var parentMenu = menuOpener.getLayoutParent();
 
         parentMenu.resetOpenedButton();
@@ -696,8 +637,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Goto the previous toolbar button
-      else if (menuOpener instanceof qx.ui.menubar.Button)
-      {
+      else if (menuOpener instanceof qx.ui.menubar.Button) {
         var buttons = menuOpener.getMenuBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);
 
@@ -708,11 +648,10 @@ qx.Class.define("qx.ui.menu.Manager",
 
         // Get previous button, fallback to end if first arrived
         var prevButton = null;
-        var length =  buttons.length;
-        for (var i = 1; i <= length; i++)
-        {
+        var length = buttons.length;
+        for (var i = 1; i <= length; i++) {
           var button = buttons[(index - i + length) % length];
-          if(button.isEnabled() && button.isVisible()) {
+          if (button.isEnabled() && button.isVisible()) {
             prevButton = button;
             break;
           }
@@ -724,23 +663,19 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for <code>Right</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
      */
-    _onKeyPressRight : function(menu)
-    {
+    _onKeyPressRight(menu) {
       var selectedButton = menu.getSelectedButton();
 
       // Open sub-menu of hovered item and select first child
-      if (selectedButton)
-      {
+      if (selectedButton) {
         var subMenu = selectedButton.getMenu();
 
-        if (subMenu)
-        {
+        if (subMenu) {
           // Open previously hovered item
           menu.setOpenedButton(selectedButton);
 
@@ -756,12 +691,10 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // No hover and no open item
       // When first button has a menu, open it, otherwise only hover it
-      else if (!menu.getOpenedButton())
-      {
+      else if (!menu.getOpenedButton()) {
         var first = this._getChild(menu, 0, 1);
 
-        if (first)
-        {
+        if (first) {
           menu.setSelectedButton(first);
 
           if (first.getMenu()) {
@@ -776,22 +709,17 @@ qx.Class.define("qx.ui.menu.Manager",
       var menuOpener = menu.getOpener();
 
       // Look up opener hierarchy for menu button
-      if (menuOpener instanceof qx.ui.menu.Button && selectedButton)
-      {
+      if (menuOpener instanceof qx.ui.menu.Button && selectedButton) {
         // From one inner selected button try to find the top level
         // menu button which has opened the whole menu chain.
-        while (menuOpener)
-        {
+        while (menuOpener) {
           menuOpener = menuOpener.getLayoutParent();
-          if (menuOpener instanceof qx.ui.menu.Menu)
-          {
+          if (menuOpener instanceof qx.ui.menu.Menu) {
             menuOpener = menuOpener.getOpener();
             if (menuOpener instanceof qx.ui.menubar.Button) {
               break;
             }
-          }
-          else
-          {
+          } else {
             break;
           }
         }
@@ -802,8 +730,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Ask the toolbar for the next menu button
-      if (menuOpener instanceof qx.ui.menubar.Button)
-      {
+      if (menuOpener instanceof qx.ui.menubar.Button) {
         var buttons = menuOpener.getMenuBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);
 
@@ -814,11 +741,10 @@ qx.Class.define("qx.ui.menu.Manager",
 
         // Get next button, fallback to first if end arrived
         var nextButton = null;
-        var length =  buttons.length;
-        for (var i = 1; i <= length; i++)
-        {
+        var length = buttons.length;
+        for (var i = 1; i <= length; i++) {
           var button = buttons[(index + i) % length];
-          if(button.isEnabled() && button.isVisible()) {
+          if (button.isEnabled() && button.isVisible()) {
             nextButton = button;
             break;
           }
@@ -830,7 +756,6 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for <code>Enter</code> key
      *
@@ -838,11 +763,9 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param button {qx.ui.menu.AbstractButton} The selected button
      * @param e {qx.event.type.KeySequence} The keypress event
      */
-    _onKeyPressEnter : function(menu, button, e)
-    {
+    _onKeyPressEnter(menu, button, e) {
       // Route keypress event to the selected button
-      if (button.hasListener("keypress"))
-      {
+      if (button.hasListener("keypress")) {
         // Clone and reconfigure event
         var clone = e.clone();
         clone.setBubbles(false);
@@ -856,7 +779,6 @@ qx.Class.define("qx.ui.menu.Manager",
       this.hideAll();
     },
 
-
     /**
      * Event handler for <code>Space</code> key
      *
@@ -864,11 +786,9 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param button {qx.ui.menu.AbstractButton} The selected button
      * @param e {qx.event.type.KeySequence} The keypress event
      */
-    _onKeyPressSpace : function(menu, button, e)
-    {
+    _onKeyPressSpace(menu, button, e) {
       // Route keypress event to the selected button
-      if (button.hasListener("keypress"))
-      {
+      if (button.hasListener("keypress")) {
         // Clone and reconfigure event
         var clone = e.clone();
         clone.setBubbles(false);
@@ -879,29 +799,25 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
-
     /**
      * Event handler for roll which hides all windows on scroll.
      *
      * @param e {qx.event.type.Roll} The roll event.
      */
-    _onRoll : function(e) {
+    _onRoll(e) {
       var target = e.getTarget();
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
       if (
-        this.__objects.length > 0
-        && !this._isInMenu(target)
-        && !this._isMenuOpener(target)
-        && !e.getMomentum()
+        this.__objects.length > 0 &&
+        !this._isInMenu(target) &&
+        !this._isMenuOpener(target) &&
+        !e.getMomentum()
       ) {
         this.hideAll();
       }
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -909,13 +825,18 @@ qx.Class.define("qx.ui.menu.Manager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     var Registration = qx.event.Registration;
     var el = document.body;
 
     // React on pointerdown events
-    Registration.removeListener(window.document.documentElement, "pointerdown", this._onPointerDown, this, true);
+    Registration.removeListener(
+      window.document.documentElement,
+      "pointerdown",
+      this._onPointerDown,
+      this,
+      true
+    );
 
     // React on keypress events
     Registration.removeListener(el, "keydown", this._onKeyUpDown, this, true);

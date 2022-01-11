@@ -20,10 +20,8 @@
 /**
  * Static helpers for handling HTTP requests.
  */
-qx.Bootstrap.define("qx.util.Request",
-{
-  statics:
-  {
+qx.Bootstrap.define("qx.util.Request", {
+  statics: {
     /**
      * Whether URL given points to resource that is cross-domain,
      * i.e. not of same origin.
@@ -31,9 +29,9 @@ qx.Bootstrap.define("qx.util.Request",
      * @param url {String} URL.
      * @return {Boolean} Whether URL is cross domain.
      */
-    isCrossDomain: function(url) {
+    isCrossDomain(url) {
       var result = qx.util.Uri.parseUri(url),
-          location = window.location;
+        location = window.location;
 
       if (!location) {
         return false;
@@ -46,9 +44,11 @@ qx.Bootstrap.define("qx.util.Request",
         return false;
       }
 
-      if (protocol.substr(0, protocol.length-1) == result.protocol &&
-          location.host === result.authority &&
-          location.port === result.port) {
+      if (
+        protocol.substr(0, protocol.length - 1) == result.protocol &&
+        location.host === result.authority &&
+        location.port === result.port
+      ) {
         return false;
       }
 
@@ -61,8 +61,8 @@ qx.Bootstrap.define("qx.util.Request",
      * @param status {Number} HTTP status.
      * @return {Boolean} Whether status is considered successful.
      */
-    isSuccessful: function(status) {
-      return (status >= 200 && status < 300 || status === 304);
+    isSuccessful(status) {
+      return (status >= 200 && status < 300) || status === 304;
     },
 
     /**
@@ -71,9 +71,19 @@ qx.Bootstrap.define("qx.util.Request",
      * @param method {String} HTTP method.
      * @return {Boolean} Whether method is a valid HTTP method.
      */
-    isMethod: function(method) {
-      var knownMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "CONNECT", "PATCH"];
-      return (knownMethods.indexOf(method) !== -1) ? true : false;
+    isMethod(method) {
+      var knownMethods = [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+        "TRACE",
+        "CONNECT",
+        "PATCH"
+      ];
+      return knownMethods.indexOf(method) !== -1 ? true : false;
     },
 
     /**
@@ -84,8 +94,8 @@ qx.Bootstrap.define("qx.util.Request",
      * @param method {String} The HTTP method.
      * @return {Boolean} Whether request may contain body.
      */
-    methodAllowsRequestBody: function(method) {
-      return !((/^(GET|HEAD)$/).test(method));
+    methodAllowsRequestBody(method) {
+      return !/^(GET|HEAD)$/.test(method);
     }
   }
 });

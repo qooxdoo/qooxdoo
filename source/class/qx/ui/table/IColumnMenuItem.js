@@ -19,24 +19,21 @@
 /**
  * Interface for a column menu item corresponding to a table column.
  */
-qx.Interface.define("qx.ui.table.IColumnMenuItem",
-{
-  properties :
-  {
+qx.Interface.define("qx.ui.table.IColumnMenuItem", {
+  properties: {
     /**
      * Whether the table column associated with this menu item is visible
      * Should be of type {Boolean}!
      */
-    columnVisible : { }
+    columnVisible: {}
   },
 
-  events :
-  {
+  events: {
     /**
      * Dispatched when a column changes visibility state. The event data is a
      * boolean indicating whether the table column associated with this menu
      * item is now visible.
      */
-    changeColumnVisible : "qx.event.type.Data"
+    changeColumnVisible: "qx.event.type.Data"
   }
 });

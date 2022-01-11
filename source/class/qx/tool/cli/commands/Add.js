@@ -22,23 +22,20 @@ qx.Class.define("qx.tool.cli.commands.Add", {
   extend: qx.tool.cli.commands.Command,
 
   statics: {
-
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
-        command : "add <command> [options]",
-        desc : "adds new elements to an existing qooxdoo application/library",
-        builder : function(yargs) {
-          qx.tool.cli.Cli.addYargsCommands(yargs, [
-            "Class", "Script"
-          ], "qx.tool.cli.commands.add");
+        command: "add <command> [options]",
+        desc: "adds new elements to an existing qooxdoo application/library",
+        builder(yargs) {
+          qx.tool.cli.Cli.addYargsCommands(
+            yargs,
+            ["Class", "Script"],
+            "qx.tool.cli.commands.add"
+          );
 
-          return yargs
-            .demandCommand()
-            .showHelpOnFail()
-            .help();
+          return yargs.demandCommand().showHelpOnFail().help();
         },
-        handler : function(argv) {
-        }
+        handler(argv) {}
       };
     }
   },

@@ -22,12 +22,8 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.Class.define("qx.ui.table.pane.Pane",
-{
-  extend : qx.ui.core.Widget,
-
-
-
+qx.Class.define("qx.ui.table.pane.Pane", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -38,9 +34,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
   /**
    * @param paneScroller {qx.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
    */
-  construct : function(paneScroller)
-  {
-    this.base(arguments);
+  construct(paneScroller) {
+    super();
 
     this.__paneScroller = paneScroller;
 
@@ -50,32 +45,28 @@ qx.Class.define("qx.ui.table.pane.Pane",
     this.__rowCache = [];
   },
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-
-  events :
-  {
+  events: {
     /**
      * Whether the current view port of the pane has not loaded data.
      * The data object of the event indicates if the table pane has to reload
      * data or not. Can be used to give the user feedback of the loading state
      * of the rows.
      */
-    "paneReloadsData" : "qx.event.type.Data",
+    paneReloadsData: "qx.event.type.Data",
 
     /**
      * Whenever the content of the table pane has been updated (rendered)
      * trigger a paneUpdated event. This allows the canvas cellrenderer to act
      * once the new cells have been integrated in the dom.
      */
-    "paneUpdated" : "qx.event.type.Event"
+    paneUpdated: "qx.event.type.Event"
   },
-
 
   /*
   *****************************************************************************
@@ -83,47 +74,37 @@ qx.Class.define("qx.ui.table.pane.Pane",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The index of the first row to show. */
-    firstVisibleRow :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyFirstVisibleRow"
+    firstVisibleRow: {
+      check: "Number",
+      init: 0,
+      apply: "_applyFirstVisibleRow"
     },
-
 
     /** The number of rows to show. */
-    visibleRowCount :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyVisibleRowCount"
+    visibleRowCount: {
+      check: "Number",
+      init: 0,
+      apply: "_applyVisibleRowCount"
     },
-
 
     /**
      * Maximum number of cached rows. If the value is <code>-1</code> the cache
      * size is unlimited
      */
-    maxCacheLines :
-    {
-      check : "Number",
-      init : 1000,
-      apply : "_applyMaxCacheLines"
+    maxCacheLines: {
+      check: "Number",
+      init: 1000,
+      apply: "_applyMaxCacheLines"
     },
 
     // overridden
-    allowShrinkX :
-    {
-      refine : true,
-      init : false
+    allowShrinkX: {
+      refine: true,
+      init: false
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -131,37 +112,32 @@ qx.Class.define("qx.ui.table.pane.Pane",
   *****************************************************************************
   */
 
-  members :
-  {
-    __lastRowCount : null,
-    __lastColCount : null,
+  members: {
+    __lastRowCount: null,
+    __lastColCount: null,
 
-    __paneScroller : null,
-    __tableContainer : null,
+    __paneScroller: null,
+    __tableContainer: null,
 
-    __focusedRow : null,
-    __focusedCol : null,
+    __focusedRow: null,
+    __focusedCol: null,
 
     // sparse array to cache rendered rows
-    __rowCache : null,
-    __rowCacheCount : 0,
-
+    __rowCache: null,
+    __rowCacheCount: 0,
 
     // property modifier
-    _applyFirstVisibleRow : function(value, old) {
-      this.updateContent(false, value-old);
+    _applyFirstVisibleRow(value, old) {
+      this.updateContent(false, value - old);
     },
 
-
     // property modifier
-    _applyVisibleRowCount : function(value, old) {
+    _applyVisibleRowCount(value, old) {
       this.updateContent(true);
     },
 
-
     // overridden
-    _getContentHint : function()
-    {
+    _getContentHint() {
       // the preferred height is 400 pixel. We don't use rowCount * rowHeight
       // because this is typically too large.
       return {
@@ -170,26 +146,23 @@ qx.Class.define("qx.ui.table.pane.Pane",
       };
     },
 
-
     /**
      * Returns the TablePaneScroller this pane belongs to.
      *
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
-    getPaneScroller : function() {
+    getPaneScroller() {
       return this.__paneScroller;
     },
-
 
     /**
      * Returns the table this pane belongs to.
      *
      * @return {qx.ui.table.Table} the table.
      */
-    getTable : function() {
+    getTable() {
       return this.__paneScroller.getTable();
     },
-
 
     /**
      * Sets the currently focused cell.
@@ -199,17 +172,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
      *          If true, no repaint will be done.
      */
-    setFocusedCell : function(col, row, massUpdate)
-    {
-      if (col != this.__focusedCol || row != this.__focusedRow)
-      {
+    setFocusedCell(col, row, massUpdate) {
+      if (col != this.__focusedCol || row != this.__focusedRow) {
         var oldRow = this.__focusedRow;
         this.__focusedCol = col;
         this.__focusedRow = row;
 
         // Update the focused row background
-        if (row != oldRow && !massUpdate)
-        {
+        if (row != oldRow && !massUpdate) {
           if (oldRow !== null) {
             this.updateContent(false, null, oldRow, true);
           }
@@ -220,22 +190,19 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
     },
 
-
     /**
      * Event handler. Called when the selection has changed.
      */
-    onSelectionChanged : function() {
+    onSelectionChanged() {
       this.updateContent(false, null, null, true);
     },
-
 
     /**
      * Event handler. Called when the table gets or looses the focus.
      */
-    onFocusChanged : function() {
+    onFocusChanged() {
       this.updateContent(false, null, null, true);
     },
-
 
     /**
      * Sets the column width.
@@ -243,27 +210,24 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param col {Integer} the column to change the width for.
      * @param width {Integer} the new width.
      */
-    setColumnWidth : function(col, width) {
+    setColumnWidth(col, width) {
       this.updateContent(true);
     },
-
 
     /**
      * Event handler. Called the column order has changed.
      *
      */
-    onColOrderChanged : function() {
+    onColOrderChanged() {
       this.updateContent(true);
     },
-
 
     /**
      * Event handler. Called when the pane model has changed.
      */
-    onPaneModelChanged : function() {
+    onPaneModelChanged() {
       this.updateContent(true);
     },
-
 
     /**
      * Event handler. Called when the table model data has changed.
@@ -273,17 +237,21 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param firstColumn {Integer} The model index of the first column that has changed.
      * @param lastColumn {Integer} The model index of the last column that has changed.
      */
-    onTableModelDataChanged : function(firstRow, lastRow, firstColumn, lastColumn)
-    {
+    onTableModelDataChanged(firstRow, lastRow, firstColumn, lastColumn) {
       this.__rowCacheClear();
 
       var paneFirstRow = this.getFirstVisibleRow();
       var rowCount = this.getVisibleRowCount();
 
-      if (lastRow == -1 || lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
-      {
+      if (
+        lastRow == -1 ||
+        (lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
+      ) {
         // The change intersects this pane, check if a full or partial update is required
-        if (firstRow === lastRow && this.getTable().getTableModel().getRowCount() > 1) {
+        if (
+          firstRow === lastRow &&
+          this.getTable().getTableModel().getRowCount() > 1
+        ) {
           this.updateContent(false, null, firstRow, false);
         } else {
           this.updateContent();
@@ -291,34 +259,28 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
     },
 
-
     /**
      * Event handler. Called when the table model meta data has changed.
      *
      */
-    onTableModelMetaDataChanged : function() {
+    onTableModelMetaDataChanged() {
       this.updateContent(true);
     },
 
-
     // property apply method
-    _applyMaxCacheLines : function(value, old)
-    {
+    _applyMaxCacheLines(value, old) {
       if (this.__rowCacheCount >= value && value !== -1) {
         this.__rowCacheClear();
       }
     },
 
-
     /**
      * Clear the row cache
      */
-    __rowCacheClear : function()
-    {
+    __rowCacheClear() {
       this.__rowCache = [];
       this.__rowCacheCount = 0;
     },
-
 
     /**
      * Get a line from the row cache.
@@ -329,15 +291,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {String|null} The cached row or null if a row with the given
      *     index is not cached.
      */
-    __rowCacheGet : function(row, selected, focused)
-    {
+    __rowCacheGet(row, selected, focused) {
       if (!selected && !focused && this.__rowCache[row]) {
         return this.__rowCache[row];
       } else {
         return null;
       }
     },
-
 
     /**
      * Add a line to the row cache.
@@ -347,21 +307,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param selected {Boolean} Whether the row is currently selected
      * @param focused {Boolean} Whether the row is currently focused
      */
-    __rowCacheSet : function(row, rowString, selected, focused)
-    {
+    __rowCacheSet(row, rowString, selected, focused) {
       var maxCacheLines = this.getMaxCacheLines();
-      if (
-        !selected &&
-        !focused &&
-        !this.__rowCache[row] &&
-        maxCacheLines > 0
-      ) {
+      if (!selected && !focused && !this.__rowCache[row] && maxCacheLines > 0) {
         this._applyMaxCacheLines(maxCacheLines);
         this.__rowCache[row] = rowString;
         this.__rowCacheCount += 1;
       }
     },
-
 
     /**
      * Updates the content of the pane.
@@ -373,15 +326,25 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
      */
-    updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
-    {
+    updateContent(
+      completeUpdate,
+      scrollOffset,
+      onlyRow,
+      onlySelectionOrFocusChanged
+    ) {
       if (completeUpdate) {
         this.__rowCacheClear();
       }
 
-      if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount())) {
+      if (
+        scrollOffset &&
+        Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount())
+      ) {
         this._scrollContent(scrollOffset);
-      } else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells()) {
+      } else if (
+        onlySelectionOrFocusChanged &&
+        !this.getTable().getAlwaysUpdateCells()
+      ) {
         this._updateRowStyles(onlyRow);
       } else if (typeof onlyRow == "number" && onlyRow >= 0) {
         this._updateSingleRow(onlyRow);
@@ -389,7 +352,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._updateAllRows();
       }
     },
-
 
     /**
      * If only focus or selection changes it is sufficient to only update the
@@ -399,8 +361,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param onlyRow {Integer|null ? null} If this parameter is set only the row
      *     with this index is updated.
      */
-    _updateRowStyles : function(onlyRow)
-    {
+    _updateRowStyles(onlyRow) {
       var elem = this.getContentElement().getDomElement();
 
       if (!elem || !elem.firstChild) {
@@ -413,7 +374,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var tableModel = table.getTableModel();
       var rowRenderer = table.getDataRowRenderer();
       var rowNodes = elem.firstChild.childNodes;
-      var cellInfo = { table : table };
+      var cellInfo = { table: table };
 
       // We don't want to execute the row loop below more than necessary. If
       // onlyRow is not null, we want to do the loop only for that row.
@@ -425,32 +386,27 @@ qx.Class.define("qx.ui.table.pane.Pane",
       // How many rows do we need to update?
       var end = rowNodes.length;
 
-      if (onlyRow != null)
-      {
+      if (onlyRow != null) {
         // How many rows are we skipping?
         var offset = onlyRow - row;
-        if (offset >= 0 && offset < end)
-        {
+        if (offset >= 0 && offset < end) {
           row = onlyRow;
           y = offset;
           end = offset + 1;
-        } else
-        {
+        } else {
           return;
         }
       }
 
-      for (; y<end; y++, row++)
-      {
+      for (; y < end; y++, row++) {
         cellInfo.row = row;
         cellInfo.selected = selectionModel.isSelectedIndex(row);
-        cellInfo.focusedRow = (this.__focusedRow == row);
+        cellInfo.focusedRow = this.__focusedRow == row;
         cellInfo.rowData = tableModel.getRowData(row);
 
         rowRenderer.updateDataRowElement(cellInfo, rowNodes[y]);
       }
     },
-
 
     /**
      * Get the HTML table fragment for the given row range.
@@ -459,8 +415,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param rowCount {Integer} Number of rows
      * @return {String} The HTML table fragment for the given row range.
      */
-    _getRowsHtml : function(firstRow, rowCount)
-    {
+    _getRowsHtml(firstRow, rowCount) {
       var table = this.getTable();
 
       var selectionModel = table.getSelectionModel();
@@ -477,8 +432,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var cols = [];
 
       // precompute column properties
-      for (var x=0; x<colCount; x++)
-      {
+      for (var x = 0; x < colCount; x++) {
         var col = paneModel.getColumnAtX(x);
         var cellWidth = columnModel.getColumnWidth(col);
         cols.push({
@@ -495,10 +449,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       var rowsArr = [];
       var paneReloadsData = false;
-      for (var row=firstRow; row < firstRow + rowCount; row++)
-      {
+      for (var row = firstRow; row < firstRow + rowCount; row++) {
         var selected = selectionModel.isSelectedIndex(row);
-        var focusedRow = (this.__focusedRow == row);
+        var focusedRow = this.__focusedRow == row;
 
         var cachedRow = this.__rowCacheGet(row, selected, focusedRow);
         if (cachedRow) {
@@ -508,7 +461,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
         var rowHtml = [];
 
-        var cellInfo = { table : table };
+        var cellInfo = { table: table };
         cellInfo.styleHeight = rowHeight;
 
         cellInfo.row = row;
@@ -520,7 +473,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
           paneReloadsData = true;
         }
 
-        rowHtml.push('<div ');
+        rowHtml.push("<div ");
 
         var rowAttributes = rowRenderer.getRowAttributes(cellInfo);
         if (rowAttributes) {
@@ -533,15 +486,17 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
 
         var rowStyle = rowRenderer.createRowStyle(cellInfo);
-        rowStyle += ";position:relative;" + rowRenderer.getRowHeightStyle(rowHeight)+ "width:100%;";
+        rowStyle +=
+          ";position:relative;" +
+          rowRenderer.getRowHeightStyle(rowHeight) +
+          "width:100%;";
         if (rowStyle) {
           rowHtml.push('style="', rowStyle, '" ');
         }
-        rowHtml.push('>');
+        rowHtml.push(">");
 
         var stopLoop = false;
-        for (x=0; x<colCount && !stopLoop; x++)
-        {
+        for (x = 0; x < colCount && !stopLoop; x++) {
           var col_def = cols[x];
           for (var attr in col_def) {
             cellInfo[attr] = col_def[attr];
@@ -568,7 +523,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
           stopLoop =
             cellRenderer.createDataCellHtml(cellInfo, rowHtml) || false;
         }
-        rowHtml.push('</div>');
+        rowHtml.push("</div>");
 
         var rowString = rowHtml.join("");
 
@@ -579,15 +534,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
       return rowsArr.join("");
     },
 
-
     /**
      * Scrolls the pane's contents by the given offset.
      *
      * @param rowOffset {Integer} Number of lines to scroll. Scrolling up is
      *     represented by a negative offset.
      */
-    _scrollContent : function(rowOffset)
-    {
+    _scrollContent(rowOffset) {
       var el = this.getContentElement().getDomElement();
       if (!(el && el.firstChild)) {
         this._updateAllRows();
@@ -612,14 +565,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       // remove old lines
       var removeRowBase = rowOffset < 0 ? rowCount + rowOffset : 0;
-      var addRowBase = rowOffset < 0 ? 0: rowCount - rowOffset;
+      var addRowBase = rowOffset < 0 ? 0 : rowCount - rowOffset;
 
-      for (var i=Math.abs(rowOffset)-1; i>=0; i--)
-      {
+      for (var i = Math.abs(rowOffset) - 1; i >= 0; i--) {
         var rowElem = tableChildNodes[removeRowBase];
         try {
           tableBody.removeChild(rowElem);
-        } catch(exp) {
+        } catch (exp) {
           break;
         }
       }
@@ -628,40 +580,37 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (!this.__tableContainer) {
         this.__tableContainer = document.createElement("div");
       }
-      var tableDummy = '<div>';
-      tableDummy += this._getRowsHtml(firstRow + addRowBase, Math.abs(rowOffset));
-      tableDummy += '</div>';
+      var tableDummy = "<div>";
+      tableDummy += this._getRowsHtml(
+        firstRow + addRowBase,
+        Math.abs(rowOffset)
+      );
+      tableDummy += "</div>";
       this.__tableContainer.innerHTML = tableDummy;
       var newTableRows = this.__tableContainer.firstChild.childNodes;
 
       // append new lines
-      if (rowOffset > 0)
-      {
-        for (var i=newTableRows.length-1; i>=0; i--)
-        {
+      if (rowOffset > 0) {
+        for (var i = newTableRows.length - 1; i >= 0; i--) {
           var rowElem = newTableRows[0];
           tableBody.appendChild(rowElem);
         }
-      }
-      else
-      {
-        for (var i=newTableRows.length-1; i>=0; i--)
-        {
-          var rowElem = newTableRows[newTableRows.length-1];
+      } else {
+        for (var i = newTableRows.length - 1; i >= 0; i--) {
+          var rowElem = newTableRows[newTableRows.length - 1];
           tableBody.insertBefore(rowElem, tableBody.firstChild);
         }
       }
 
       // update focus indicator
-      if (this.__focusedRow !== null)
-      {
+      if (this.__focusedRow !== null) {
         this._updateRowStyles(this.__focusedRow - rowOffset);
         this._updateRowStyles(this.__focusedRow);
       }
       this.fireEvent("paneUpdated");
     },
 
-    _updateSingleRow: function(row) {
+    _updateSingleRow(row) {
       var elem = this.getContentElement().getDomElement();
       if (!elem || !elem.firstChild) {
         // pane has not yet been rendered, just exit
@@ -670,7 +619,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var visibleRowCount = this.getVisibleRowCount();
       var firstRow = this.getFirstVisibleRow();
 
-      if (row < firstRow || row > firstRow+visibleRowCount) {
+      if (row < firstRow || row > firstRow + visibleRowCount) {
         // No need to redraw it
         return;
       }
@@ -691,7 +640,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (!this.__tableContainer) {
         this.__tableContainer = document.createElement("div");
       }
-      this.__tableContainer.innerHTML = "<div>" + this._getRowsHtml(row, 1) + "</div>";
+      this.__tableContainer.innerHTML =
+        "<div>" + this._getRowsHtml(row, 1) + "</div>";
       var newTableRows = this.__tableContainer.firstChild.childNodes;
 
       tableBody.replaceChild(newTableRows[0], rowElem);
@@ -705,8 +655,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Updates the content of the pane (implemented using array joins).
      */
-    _updateAllRows : function()
-    {
+    _updateAllRows() {
       var elem = this.getContentElement().getDomElement();
       if (!elem) {
         // pane has not yet been rendered
@@ -734,24 +683,18 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var htmlArr;
 
       // If there are any rows...
-      if (rowCount > 0)
-      {
+      if (rowCount > 0) {
         // ... then create a div for them and add the rows to it.
-        htmlArr =
-          [
-            "<div style='",
-            "width: 100%;",
-            (table.getForceLineHeight()
-             ? "line-height: " + rowHeight + "px;"
-             : ""),
-            "overflow: hidden;",
-            "'>",
-            this._getRowsHtml(firstRow, rowCount),
-            "</div>"
-          ];
-      }
-      else
-      {
+        htmlArr = [
+          "<div style='",
+          "width: 100%;",
+          table.getForceLineHeight() ? "line-height: " + rowHeight + "px;" : "",
+          "overflow: hidden;",
+          "'>",
+          this._getRowsHtml(firstRow, rowCount),
+          "</div>"
+        ];
+      } else {
         // Otherwise, don't create the div, as even an empty div creates a
         // white row in IE.
         htmlArr = [];
@@ -765,11 +708,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this.__lastRowCount = rowCount;
       this.fireEvent("paneUpdated");
     }
-
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -777,7 +716,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__tableContainer = this.__paneScroller = this.__rowCache = null;
     this.removeListener("track", this._onTrack, this);
   }

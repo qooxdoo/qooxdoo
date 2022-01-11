@@ -21,10 +21,8 @@
  * by masking them by *s
  *
  */
-qx.Class.define("qx.ui.table.cellrenderer.Password",
-{
-  extend : qx.ui.table.cellrenderer.Default,
-
+qx.Class.define("qx.ui.table.cellrenderer.Password", {
+  extend: qx.ui.table.cellrenderer.Default,
 
   /*
   *****************************************************************************
@@ -32,9 +30,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     /**
      * Overridden; called whenever the cell updates.
      *
@@ -42,11 +38,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
      *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {String}
      */
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml(cellInfo) {
       var value = cellInfo.value;
-      if ( value === null ){value = "";}
-      cellInfo.value = value.replace(/./g,"*");
+      if (value === null) {
+        value = "";
+      }
+      cellInfo.value = value.replace(/./g, "*");
       return qx.bom.String.escape(this._formatValue(cellInfo));
     }
   }

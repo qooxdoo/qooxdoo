@@ -20,14 +20,9 @@
 /**
  * This handler provides a "load" event for iframes
  */
-qx.Class.define("qx.event.handler.Iframe",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
-
+qx.Class.define("qx.event.handler.Iframe", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -35,22 +30,21 @@ qx.Class.define("qx.event.handler.Iframe",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : {
+    SUPPORTED_TYPES: {
       load: 1,
       navigate: 1
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false,
+    IGNORE_CAN_HANDLE: false,
 
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
@@ -59,13 +53,17 @@ qx.Class.define("qx.event.handler.Iframe",
      * @internal
      * @param target {Element} DOM element which is the target of this event
      */
-    onevent : qx.event.GlobalError.observeMethod(function(target) {
-
+    onevent: qx.event.GlobalError.observeMethod(function (target) {
       // Fire navigate event when actual URL diverges from stored URL
       var currentUrl = qx.bom.Iframe.queryCurrentUrl(target);
 
       if (currentUrl !== target.$$url) {
-        qx.event.Registration.fireEvent(target, "navigate", qx.event.type.Data, [currentUrl]);
+        qx.event.Registration.fireEvent(
+          target,
+          "navigate",
+          qx.event.type.Data,
+          [currentUrl]
+        );
         target.$$url = currentUrl;
       }
 
@@ -74,18 +72,13 @@ qx.Class.define("qx.event.handler.Iframe",
     })
   },
 
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -93,28 +86,20 @@ qx.Class.define("qx.event.handler.Iframe",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return target.tagName.toLowerCase() === "iframe";
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     }
-
-
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -122,7 +107,7 @@ qx.Class.define("qx.event.handler.Iframe",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

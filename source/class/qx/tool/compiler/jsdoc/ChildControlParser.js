@@ -26,12 +26,12 @@ qx.Class.define("qx.tool.compiler.jsdoc.ChildControlParser", {
   extend: qx.tool.compiler.jsdoc.CommandParser,
 
   members: {
-    parseCommand: function(pdoc, classname, analyser) {
+    parseCommand(pdoc, classname, analyser) {
       var m = pdoc.body.match(/^([\S]+)(\s+\{([^}]+)\}([\s\S]+))??$/);
       if (m) {
         pdoc.controlName = m[1].trim();
-        var type = this.resolveType((m[3]||"").trim(), classname, analyser);
-        pdoc.description = (m[4]||"").trim();
+        var type = this.resolveType((m[3] || "").trim(), classname, analyser);
+        pdoc.description = (m[4] || "").trim();
         pdoc.type = type;
       } else {
         delete pdoc.controlName;

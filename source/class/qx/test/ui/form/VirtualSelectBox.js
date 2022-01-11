@@ -15,76 +15,85 @@
      * Martijn Evers (mever)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.VirtualSelectBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.VirtualSelectBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__selectBox = new qx.ui.form.VirtualSelectBox();
       this.getRoot().add(this.__selectBox);
 
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__selectBox.destroy();
       this.__selectBox = null;
     },
 
-    __simulateUiInteraction : function() {
+    __simulateUiInteraction() {
       // focus -> array key down -> array key down -> enter
-      this.__selectBox.getSelection().setItem(0, this.__selectBox.getModel().getItem(1));
+      this.__selectBox
+        .getSelection()
+        .setItem(0, this.__selectBox.getModel().getItem(1));
     },
 
-    testChangeValueEvent : function()
-    {
+    testChangeValueEvent() {
       var m = qx.data.marshal.Json.createModel(["a", "b"]);
 
-      this.__selectBox.addListenerOnce("changeValue", function(e) {
-        this.assertIdentical("a", e.getData());
-        this.assertNull(e.getOldData());
-      }.bind(this));
+      this.__selectBox.addListenerOnce(
+        "changeValue",
+        function (e) {
+          this.assertIdentical("a", e.getData());
+          this.assertNull(e.getOldData());
+        }.bind(this)
+      );
 
       this.__selectBox.setModel(m);
 
-      this.__selectBox.addListenerOnce("changeValue", function(e) {
-        this.assertIdentical("b", e.getData());
-        this.assertIdentical("a", e.getOldData());
-      }.bind(this));
+      this.__selectBox.addListenerOnce(
+        "changeValue",
+        function (e) {
+          this.assertIdentical("b", e.getData());
+          this.assertIdentical("a", e.getOldData());
+        }.bind(this)
+      );
 
       this.__simulateUiInteraction();
     },
 
-    testChangeModelWhileNotVisible : function()
-    {
+    testChangeModelWhileNotVisible() {
       "use strict";
       var selectBox = new qx.ui.form.VirtualSelectBox(); // We don't want to use a selectbox that has been added to a layout item.
-      selectBox.setLabelPath('b');
-      var items = qx.data.marshal.Json.createModel([{
-        a: 123,
-        b: 'item 1'
-      }, {
-        a: 456,
-        b: 'item 2'
-      }]);
+      selectBox.setLabelPath("b");
+      var items = qx.data.marshal.Json.createModel([
+        {
+          a: 123,
+          b: "item 1"
+        },
+        {
+          a: 456,
+          b: "item 2"
+        }
+      ]);
+
       items.setAutoDisposeItems(true);
 
       selectBox.setModel(items);
       try {
         items.pop();
       } catch (e) {
-        this.assertTrue(false, "Changing the model should not cause an exception in VirtualDropDownList#_getAvailableHeight");
+        this.assertTrue(
+          false,
+          "Changing the model should not cause an exception in VirtualDropDownList#_getAvailableHeight"
+        );
       }
 
       items.dispose();
     },
 
-    "test dropdown list same width as selectbox" : function () {
+    "test dropdown list same width as selectbox"() {
       "use strict";
       var test = this;
       var m = qx.data.marshal.Json.createModel([
@@ -100,15 +109,21 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       this.flush();
 
       setTimeout(function () {
-        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);
-        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getChildControl('dropdown').getBounds().width);
+        test.assertIdentical(
+          test.__selectBox.getWidth(),
+          test.__selectBox.getBounds().width
+        );
+        test.assertIdentical(
+          test.__selectBox.getWidth(),
+          test.__selectBox.getChildControl("dropdown").getBounds().width
+        );
         test.resume();
       }, 10);
 
       this.wait();
     },
 
-    "test dropdown list wider than selectbox" : function () {
+    "test dropdown list wider than selectbox"() {
       "use strict";
       var test = this;
       var m = qx.data.marshal.Json.createModel([
@@ -124,8 +139,14 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       this.flush();
 
       setTimeout(function () {
-        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);
-        test.assertTrue(test.__selectBox.getChildControl('dropdown').getBounds().width > 666, "dropdown could not fit the whole item");
+        test.assertIdentical(
+          test.__selectBox.getWidth(),
+          test.__selectBox.getBounds().width
+        );
+        test.assertTrue(
+          test.__selectBox.getChildControl("dropdown").getBounds().width > 666,
+          "dropdown could not fit the whole item"
+        );
         test.resume();
       }, 10);
 

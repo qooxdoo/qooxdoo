@@ -16,16 +16,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.DomPoolCell",
-{
-  extend : qx.test.ui.virtual.performance.AbstractLayerTest,
-  type : "abstract", // disabled
+qx.Class.define("qx.test.ui.virtual.performance.DomPoolCell", {
+  extend: qx.test.ui.virtual.performance.AbstractLayerTest,
+  type: "abstract", // disabled
 
-  members :
-  {
-    getLayer : function() {
+  members: {
+    getLayer() {
       return new qx.test.ui.virtual.performance.layer.DomPoolCell();
     }
   }
-
 });

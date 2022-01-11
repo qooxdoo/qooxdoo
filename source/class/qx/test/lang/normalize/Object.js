@@ -19,16 +19,12 @@
 /**
  * @require(qx.lang.normalize.Object)
  */
-qx.Class.define("qx.test.lang.normalize.Object",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MMock],
+qx.Class.define("qx.test.lang.normalize.Object", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MMock],
 
-
-  members :
-  {
-    testKeysWithExtendObject : function()
-    {
+  members: {
+    testKeysWithExtendObject() {
       function ObjectA() {
         this.A = 10;
       }
@@ -49,16 +45,15 @@ qx.Class.define("qx.test.lang.normalize.Object",
       this.assertTrue(keys.includes("B"), "Test property B!");
     },
 
-
-    testKeys : function() {
+    testKeys() {
       var obj = {};
-      obj.isPrototypeOf = function() {};
-      obj.hasOwnProperty = function() {};
-      obj.toLocaleString = function() {};
-      obj.toString = function() {};
-      obj.valueOf = function() {};
-      obj.constructor = function() {};
-      obj.prototype = function() {};
+      obj.isPrototypeOf = function () {};
+      obj.hasOwnProperty = function () {};
+      obj.toLocaleString = function () {};
+      obj.toString = function () {};
+      obj.valueOf = function () {};
+      obj.constructor = function () {};
+      obj.prototype = function () {};
 
       var keys = Object.keys(obj);
       this.assertTrue(keys.includes("isPrototypeOf"), "Test isPrototypeOf");
@@ -70,31 +65,29 @@ qx.Class.define("qx.test.lang.normalize.Object",
       this.assertTrue(keys.includes("prototype"), "Test prototype");
     },
 
-    testGetValues : function()
-    {
+    testGetValues() {
       var object = {
         a: undefined,
         b: null,
         c: 1
       };
+
       this.assertArrayEquals(
         [undefined, null, 1].sort(),
         Object.values(object).sort()
       );
 
       var object = {};
-      this.assertArrayEquals(
-        [],
-        Object.values(object)
-      );
+      this.assertArrayEquals([], Object.values(object));
 
       var object = {
-        "isPrototypeOf": 1,
-        "hasOwnProperty": 2,
-        "toLocaleString": 3,
-        "toString": 4,
-        "valueOf": 5
+        isPrototypeOf: 1,
+        hasOwnProperty: 2,
+        toLocaleString: 3,
+        toString: 4,
+        valueOf: 5
       };
+
       this.assertArrayEquals(
         [1, 2, 3, 4, 5].sort(),
         Object.values(object).sort()

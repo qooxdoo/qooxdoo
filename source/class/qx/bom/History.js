@@ -94,13 +94,9 @@
  *
  * @asset(qx/static/blank.html)
  */
-qx.Class.define("qx.bom.History",
-{
-  extend : qx.core.Object,
-  type : "abstract",
-
-
-
+qx.Class.define("qx.bom.History", {
+  extend: qx.core.Object,
+  type: "abstract",
 
   /*
   *****************************************************************************
@@ -108,16 +104,14 @@ qx.Class.define("qx.bom.History",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
-    this._baseUrl = window.location.href.split('#')[0] + '#';
+    this._baseUrl = window.location.href.split("#")[0] + "#";
 
     this._titles = {};
     this._setInitialState();
   },
-
 
   /*
   *****************************************************************************
@@ -130,9 +124,8 @@ qx.Class.define("qx.bom.History",
      * Fired when the user moved in the history. The data property of the event
      * holds the state, which was passed to {@link #addToHistory}.
      */
-    "request" : "qx.event.type.Data"
+    request: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -140,37 +133,34 @@ qx.Class.define("qx.bom.History",
   *****************************************************************************
   */
 
-
-  statics :
-  {
+  statics: {
     /**
      * @type {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
-    SUPPORTS_HASH_CHANGE_EVENT : qx.core.Environment.get("event.hashchange"),
-
+    SUPPORTS_HASH_CHANGE_EVENT: qx.core.Environment.get("event.hashchange"),
 
     /**
      * Get the singleton instance of the history manager.
      *
      * @return {History}
      */
-    getInstance : function()
-    {
+    getInstance() {
       var runsInIframe = !(window == window.top);
 
-      if (!this.$$instance)
-      {
+      if (!this.$$instance) {
         // in iframe + IE9
-        if (runsInIframe
-          && qx.core.Environment.get("browser.documentmode") == 9
+        if (
+          runsInIframe &&
+          qx.core.Environment.get("browser.documentmode") == 9
         ) {
           this.$$instance = new qx.bom.HashHistory();
         }
 
         // in iframe + IE<9
-        else if (runsInIframe
-          && qx.core.Environment.get("engine.name") == "mshtml"
-          && qx.core.Environment.get("browser.documentmode") < 9
+        else if (
+          runsInIframe &&
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9
         ) {
           this.$$instance = new qx.bom.IframeHistory();
         }
@@ -181,7 +171,7 @@ qx.Class.define("qx.bom.History",
         }
 
         // IE without hashChange event
-        else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+        else if (qx.core.Environment.get("engine.name") == "mshtml") {
           this.$$instance = new qx.bom.IframeHistory();
         }
 
@@ -194,40 +184,33 @@ qx.Class.define("qx.bom.History",
     }
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Property holding the current title
      */
-    title :
-    {
-      check : "String",
-      event : "changeTitle",
-      nullable : true,
-      apply    : "_applyTitle"
+    title: {
+      check: "String",
+      event: "changeTitle",
+      nullable: true,
+      apply: "_applyTitle"
     },
 
     /**
      * Property holding the current state of the history.
      */
-    state :
-    {
-      check : "String",
-      event : "changeState",
-      nullable : true,
+    state: {
+      check: "String",
+      event: "changeState",
+      nullable: true,
       apply: "_applyState"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -235,25 +218,20 @@ qx.Class.define("qx.bom.History",
   *****************************************************************************
   */
 
-  members :
-  {
-    _titles : null,
-
+  members: {
+    _titles: null,
 
     // property apply
-    _applyState : function(value, old)
-    {
+    _applyState(value, old) {
       this._writeState(value);
     },
-
 
     /**
      * Populates the 'state' property with the initial state value
      */
-    _setInitialState : function() {
+    _setInitialState() {
       this.setState(this._readState());
     },
-
 
     /**
      * Encodes the state value into a format suitable as fragment identifier.
@@ -261,8 +239,7 @@ qx.Class.define("qx.bom.History",
      * @param value {String} The string to encode
      * @return {String} The encoded string
      */
-    _encode : function (value)
-    {
+    _encode(value) {
       if (qx.lang.Type.isString(value)) {
         return encodeURIComponent(value);
       }
@@ -270,15 +247,13 @@ qx.Class.define("qx.bom.History",
       return "";
     },
 
-
     /**
      * Decodes a fragment identifier into a string
      *
      * @param value {String} The fragment identifier
      * @return {String} The decoded fragment identifier
      */
-    _decode : function (value)
-    {
+    _decode(value) {
       if (qx.lang.Type.isString(value)) {
         return decodeURIComponent(value);
       }
@@ -286,15 +261,12 @@ qx.Class.define("qx.bom.History",
       return "";
     },
 
-
     // property apply
-    _applyTitle : function (title)
-    {
+    _applyTitle(title) {
       if (title != null) {
         document.title = title || "";
       }
     },
-
 
     /**
      * Adds an entry to the browser history.
@@ -305,14 +277,12 @@ qx.Class.define("qx.bom.History",
      * @param newTitle {String ? null} the page title to set after the history entry
      *          is done. This title should represent the new state of the application.
      */
-    addToHistory : function(state, newTitle)
-    {
+    addToHistory(state, newTitle) {
       if (!qx.lang.Type.isString(state)) {
         state = state + "";
       }
 
-      if (qx.lang.Type.isString(newTitle))
-      {
+      if (qx.lang.Type.isString(newTitle)) {
         this.setTitle(newTitle);
         this._titles[state] = newTitle;
       }
@@ -322,32 +292,40 @@ qx.Class.define("qx.bom.History",
       }
     },
 
-
     /**
      * Navigates back in the browser history.
      * Simulates a back button click.
      */
-     navigateBack : function() {
-       qx.event.Timer.once(function() {window.history.back();}, this, 100);
-     },
-
+    navigateBack() {
+      qx.event.Timer.once(
+        function () {
+          window.history.back();
+        },
+        this,
+        100
+      );
+    },
 
     /**
      * Navigates forward in the browser history.
      * Simulates a forward button click.
      */
-     navigateForward : function() {
-       qx.event.Timer.once(function() {window.history.forward();}, this, 100);
-     },
-
+    navigateForward() {
+      qx.event.Timer.once(
+        function () {
+          window.history.forward();
+        },
+        this,
+        100
+      );
+    },
 
     /**
      * Called on changes to the history using the browser buttons.
      *
      * @param state {String} new state of the history
      */
-    _onHistoryLoad : function(state)
-    {
+    _onHistoryLoad(state) {
       this.setState(state);
       this.fireDataEvent("request", state);
       if (this._titles[state] != null) {
@@ -355,34 +333,30 @@ qx.Class.define("qx.bom.History",
       }
     },
 
-
     /**
      * Browser dependent function to read the current state of the history
      *
      * @return {String} current state of the browser history
      */
-    _readState : function() {
+    _readState() {
       throw new Error("Abstract method call");
     },
-
 
     /**
      * Save a state into the browser history.
      *
      * @param state {String} state to save
      */
-    _writeState : function(state) {
+    _writeState(state) {
       throw new Error("Abstract method call");
     },
-
 
     /**
      * Sets the fragment identifier of the window URL
      *
      * @param value {String} the fragment identifier
      */
-    _setHash : function (value)
-    {
+    _setHash(value) {
       var url = this._baseUrl + (value || "");
       var loc = window.location;
 
@@ -391,15 +365,13 @@ qx.Class.define("qx.bom.History",
       }
     },
 
-
     /**
      * Returns the fragment identifier of the top window URL. For gecko browsers we
      * have to use a regular expression to avoid encoding problems.
      *
      * @return {String} the fragment identifier
      */
-    _getHash : function()
-    {
+    _getHash() {
       var hash = /#(.*)$/.exec(window.location.href);
       return hash && hash[1] ? hash[1] : "";
     }

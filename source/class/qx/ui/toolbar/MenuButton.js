@@ -21,12 +21,8 @@
  *
  * @childControl arrow {qx.ui.basic.Image} arrow widget to show a submenu is available
  */
-qx.Class.define("qx.ui.toolbar.MenuButton",
-{
-  extend : qx.ui.menubar.Button,
-
-
-
+qx.Class.define("qx.ui.toolbar.MenuButton", {
+  extend: qx.ui.menubar.Button,
 
   /*
   *****************************************************************************
@@ -34,27 +30,21 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Appearance of the widget */
-    appearance :
-    {
-      refine : true,
-      init : "toolbar-menubutton"
+    appearance: {
+      refine: true,
+      init: "toolbar-menubutton"
     },
 
     /** Whether the button should show an arrow to indicate the menu behind it */
-    showArrow :
-    {
-      check : "Boolean",
-      init : false,
-      themeable : true,
-      apply : "_applyShowArrow"
+    showArrow: {
+      check: "Boolean",
+      init: false,
+      themeable: true,
+      apply: "_applyShowArrow"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -62,11 +52,10 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _applyVisibility : function(value, old) {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
 
       // hide the menu too
       var menu = this.getMenu();
@@ -81,14 +70,11 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       }
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "arrow":
           control = new qx.ui.basic.Image();
           control.setAnonymous(true);
@@ -96,13 +82,11 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
-
     // property apply routine
-    _applyShowArrow : function(value, old)
-    {
+    _applyShowArrow(value, old) {
       if (value) {
         this._showChildControl("arrow");
       } else {

@@ -21,10 +21,9 @@
 /**
  * Abstract base class for image cell renderer.
  */
-qx.Class.define("qx.ui.virtual.cell.AbstractImage",
-{
-  extend : qx.ui.virtual.cell.Cell,
-  type : "abstract",
+qx.Class.define("qx.ui.virtual.cell.AbstractImage", {
+  extend: qx.ui.virtual.cell.Cell,
+  type: "abstract",
 
   /*
   *****************************************************************************
@@ -32,12 +31,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this._aliasManager = qx.util.AliasManager.getInstance();
   },
-
 
   /*
   *****************************************************************************
@@ -45,12 +42,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
   *****************************************************************************
   */
 
-  members :
-  {
-    __defaultWidth : 16,
-    __defaultHeight : 16,
-    _aliasManager : null,
-
+  members: {
+    __defaultWidth: 16,
+    __defaultHeight: 16,
+    _aliasManager: null,
 
     /**
      * Compute the size of the given image
@@ -59,32 +54,25 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      * @return {Map} A map containing the image's <code>width</code> and
      *    <code>height</code>
      */
-    __getImageSize : function(source)
-    {
+    __getImageSize(source) {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var ImageLoader = qx.io.ImageLoader;
       var width, height;
 
       // Detect if the image registry knows this image
-      if (ResourceManager.has(source))
-      {
+      if (ResourceManager.has(source)) {
         width = ResourceManager.getImageWidth(source);
         height = ResourceManager.getImageHeight(source);
-      }
-      else if (ImageLoader.isLoaded(source))
-      {
+      } else if (ImageLoader.isLoaded(source)) {
         width = ImageLoader.getWidth(source);
         height = ImageLoader.getHeight(source);
-      }
-      else
-      {
+      } else {
         width = this.__defaultWidth;
         height = this.__defaultHeight;
       }
 
-      return {width : width, height : height};
+      return { width: width, height: height };
     },
-
 
     /**
      * Compute image meta data
@@ -105,29 +93,27 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      *     <li>tooltip (optional)</li>
      *   </ul>
      */
-    __createImage : function(imageData)
-    {
-      if (typeof(imageData) == "string") {
-        imageData = {url: imageData};
+    __createImage(imageData) {
+      if (typeof imageData == "string") {
+        imageData = { url: imageData };
       }
 
       var url = this._aliasManager.resolve(imageData.url || null);
       var sizes;
 
       if (imageData.width && imageData.height) {
-        sizes = {width : imageData.width, height : imageData.height};
+        sizes = { width: imageData.width, height: imageData.height };
       } else {
         sizes = this.__getImageSize(url);
       }
 
       return {
-        width : sizes.width,
-        height : sizes.height,
-        url : url,
-        tooltip : imageData.tooltip
+        width: sizes.width,
+        height: sizes.height,
+        url: url,
+        tooltip: imageData.tooltip
       };
     },
-
 
     /**
      * Identifies the Image to show. This is a template method, which must be
@@ -143,21 +129,21 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      *           <li>"tooltip": (type string) must be the image tooltip text.</li>
      *           </ul>
      */
-    _identifyImage : function(value) {
+    _identifyImage(value) {
       throw new Error("_identifyImage is abstract");
     },
 
-
     // overridden
-    getContent : function(value, states)
-    {
+    getContent(value, states) {
       if (value === null) {
         return "";
       }
 
       var content = "";
       var imageData = this.__createImage(this._identifyImage(value));
-      var tooltip = imageData.tooltip ? 'title="' + imageData.tooltip + '"' : "";
+      var tooltip = imageData.tooltip
+        ? 'title="' + imageData.tooltip + '"'
+        : "";
 
       var styles = {
         width: imageData.width + "px",
@@ -167,22 +153,25 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
         position: "static"
       };
 
-      var tag = qx.bom.element.Decoration.getTagName("no-repeat", imageData.url);
-      var ret = qx.bom.element.Decoration.getAttributes(imageData.url, "no-repeat", styles);
+      var tag = qx.bom.element.Decoration.getTagName(
+        "no-repeat",
+        imageData.url
+      );
+      var ret = qx.bom.element.Decoration.getAttributes(
+        imageData.url,
+        "no-repeat",
+        styles
+      );
       var css = qx.bom.element.Style.compile(ret.style);
 
-      if (tag === "img")
-      {
+      if (tag === "img") {
         content = '<img src="' + ret.src + '" style="' + css + '" ';
-        content += tooltip + '/>';
-      }
-      else
-      {
+        content += tooltip + "/>";
+      } else {
         content = '<div style="' + css + '" ';
-        content += tooltip + '></div>';
+        content += tooltip + "></div>";
       }
       return content;
     }
-
   }
 });

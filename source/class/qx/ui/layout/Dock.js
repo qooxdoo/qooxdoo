@@ -87,11 +87,8 @@
  * <a href='https://qooxdoo.org/documentation/#/desktop/layout/dock.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Dock",
-{
-  extend : qx.ui.layout.Abstract,
-
-
+qx.Class.define("qx.ui.layout.Dock", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -105,9 +102,8 @@ qx.Class.define("qx.ui.layout.Dock",
    * @param separatorX {String|qx.ui.decoration.IDecorator} Separator to render between columns
    * @param separatorY {String|qx.ui.decoration.IDecorator} Separator to render between rows
    */
-  construct : function(spacingX, spacingY, separatorX, separatorY)
-  {
-    this.base(arguments);
+  construct(spacingX, spacingY, separatorX, separatorY) {
+    super();
 
     if (spacingX) {
       this.setSpacingX(spacingX);
@@ -126,82 +122,61 @@ qx.Class.define("qx.ui.layout.Dock",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * The way the widgets should be displayed (in conjunction with their
      * position in the childrens array).
      */
-    sort :
-    {
-      check : [ "auto", "y", "x" ],
-      init : "auto",
-      apply : "_applySort"
+    sort: {
+      check: ["auto", "y", "x"],
+      init: "auto",
+      apply: "_applySort"
     },
-
 
     /** Separator lines to use between the horizontal objects */
-    separatorX :
-    {
-      check : "Decorator",
-      nullable : true,
-      apply : "_applyLayoutChange"
+    separatorX: {
+      check: "Decorator",
+      nullable: true,
+      apply: "_applyLayoutChange"
     },
-
 
     /** Separator lines to use between the vertical objects */
-    separatorY :
-    {
-      check : "Decorator",
-      nullable : true,
-      apply : "_applyLayoutChange"
+    separatorY: {
+      check: "Decorator",
+      nullable: true,
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Whether separators should be collapsed so when a spacing is
      * configured the line go over into each other
      */
-    connectSeparators :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyLayoutChange"
+    connectSeparators: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyLayoutChange"
     },
-
 
     /** Horizontal spacing between two children */
-    spacingX :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingX: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
 
-
     /** Vertical spacing between two children */
-    spacingY :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingY: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     }
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -209,25 +184,28 @@ qx.Class.define("qx.ui.layout.Dock",
   *****************************************************************************
   */
 
-  members :
-  {
-    __children : null,
-    __edges : null,
-
+  members: {
+    __children: null,
+    __edges: null,
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value)
-      {
-        this.assertInArray(name, ["flex", "edge", "height", "width"], "The property '"+name+"' is not supported by the Dock layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assertInArray(
+          name,
+          ["flex", "edge", "height", "width"],
+          "The property '" + name + "' is not supported by the Dock layout!"
+        );
 
-        if (name === "edge")
-        {
-          this.assertInArray(value, ["north", "south", "west", "east", "center"]);
-        }
-        else if (name === "flex")
-        {
+        if (name === "edge") {
+          this.assertInArray(value, [
+            "north",
+            "south",
+            "west",
+            "east",
+            "center"
+          ]);
+        } else if (name === "flex") {
           this.assertNumber(value);
           this.assert(value >= 0);
         } else {
@@ -235,13 +213,11 @@ qx.Class.define("qx.ui.layout.Dock",
         }
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // property apply
-    _applySort : function()
-    {
+    _applySort() {
       // easiest way is to invalidate the cache
       this._invalidChildrenCache = true;
 
@@ -249,42 +225,36 @@ qx.Class.define("qx.ui.layout.Dock",
       this._applyLayoutChange();
     },
 
-
     /**
      * @type {Map} Maps edge IDs to numeric values
      *
      * @lint ignoreReferenceField(__edgeMap)
      */
-    __edgeMap :
-    {
-      north : 1,
-      south : 2,
-      west : 3,
-      east : 4,
-      center : 5
+    __edgeMap: {
+      north: 1,
+      south: 2,
+      west: 3,
+      east: 4,
+      center: 5
     },
-
 
     /**
      * @type {Map} Maps edges to align values
      *
      * @lint ignoreReferenceField(__alignMap)
      */
-    __alignMap :
-    {
-      1 : "top",
-      2 : "bottom",
-      3 : "left",
-      4 : "right"
+    __alignMap: {
+      1: "top",
+      2: "bottom",
+      3: "left",
+      4: "right"
     },
-
 
     /**
      * Rebuilds cache for sorted children list.
      *
      */
-    __rebuildCache : function()
-    {
+    __rebuildCache() {
       var all = this._getLayoutChildren();
       var child, center;
       var length = all.length;
@@ -296,29 +266,25 @@ qx.Class.define("qx.ui.layout.Dock",
       var yfirst = this.getSort() === "y";
       var xfirst = this.getSort() === "x";
 
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         child = all[i];
         edge = child.getLayoutProperties().edge;
 
-        if (edge === "center")
-        {
+        if (edge === "center") {
           if (center) {
-            throw new Error("It is not allowed to have more than one child aligned to 'center'!");
+            throw new Error(
+              "It is not allowed to have more than one child aligned to 'center'!"
+            );
           }
 
           center = child;
-        }
-        else if (xfirst || yfirst)
-        {
+        } else if (xfirst || yfirst) {
           if (edge === "north" || edge === "south") {
             yfirst ? high.push(child) : low.push(child);
           } else if (edge === "west" || edge === "east") {
             yfirst ? low.push(child) : high.push(child);
           }
-        }
-        else
-        {
+        } else {
           high.push(child);
         }
       }
@@ -332,9 +298,8 @@ qx.Class.define("qx.ui.layout.Dock",
       this.__children = result;
 
       // Cache edges for faster access
-      var edges=[];
-      for (var i=0; i<length; i++)
-      {
+      var edges = [];
+      for (var i = 0; i < length; i++) {
         edge = result[i].getLayoutProperties().edge;
         edges[i] = this.__edgeMap[edge] || 5;
       }
@@ -345,9 +310,6 @@ qx.Class.define("qx.ui.layout.Dock",
       delete this._invalidChildrenCache;
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -355,8 +317,7 @@ qx.Class.define("qx.ui.layout.Dock",
     */
 
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       // Rebuild flex/width caches
       if (this._invalidChildrenCache) {
         this.__rebuildCache();
@@ -375,9 +336,6 @@ qx.Class.define("qx.ui.layout.Dock",
       var spacingX = this.getSpacingX();
       var spacingY = this.getSpacingY();
 
-
-
-
       // **************************************
       //   Caching children data
       // **************************************
@@ -393,8 +351,7 @@ qx.Class.define("qx.ui.layout.Dock",
         allocatedHeight -= separatorWidths.y + spacingY;
       }
 
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         child = children[i];
         props = child.getLayoutProperties();
         hint = child.getSizeHint();
@@ -402,9 +359,8 @@ qx.Class.define("qx.ui.layout.Dock",
         width = hint.width;
         height = hint.height;
 
-        if (props.width != null)
-        {
-          width = Math.floor(availWidth * parseFloat(props.width) / 100);
+        if (props.width != null) {
+          width = Math.floor((availWidth * parseFloat(props.width)) / 100);
           if (width < hint.minWidth) {
             width = hint.minWidth;
           } else if (width > hint.maxWidth) {
@@ -412,9 +368,8 @@ qx.Class.define("qx.ui.layout.Dock",
           }
         }
 
-        if (props.height != null)
-        {
-          height = Math.floor(availHeight * parseFloat(props.height) / 100);
+        if (props.height != null) {
+          height = Math.floor((availHeight * parseFloat(props.height)) / 100);
           if (height < hint.minHeight) {
             height = hint.minHeight;
           } else if (height > hint.maxHeight) {
@@ -426,12 +381,15 @@ qx.Class.define("qx.ui.layout.Dock",
         heights[i] = height;
 
         // Update allocated width
-        switch(edges[i])
-        {
+        switch (edges[i]) {
           // north+south
           case 1:
           case 2:
-            allocatedHeight += height + child.getMarginTop() + child.getMarginBottom() + spacingY;
+            allocatedHeight +=
+              height +
+              child.getMarginTop() +
+              child.getMarginBottom() +
+              spacingY;
             if (separatorWidths.y) {
               allocatedHeight += separatorWidths.y + spacingY;
             }
@@ -440,7 +398,8 @@ qx.Class.define("qx.ui.layout.Dock",
           // west+east
           case 3:
           case 4:
-            allocatedWidth += width + child.getMarginLeft() + child.getMarginRight() + spacingX;
+            allocatedWidth +=
+              width + child.getMarginLeft() + child.getMarginRight() + spacingX;
             if (separatorWidths.x) {
               allocatedWidth += separatorWidths.x + spacingX;
             }
@@ -448,8 +407,13 @@ qx.Class.define("qx.ui.layout.Dock",
 
           // center
           default:
-            allocatedWidth += width + child.getMarginLeft() + child.getMarginRight() + spacingX;
-            allocatedHeight += height + child.getMarginTop() + child.getMarginBottom() + spacingY;
+            allocatedWidth +=
+              width + child.getMarginLeft() + child.getMarginRight() + spacingX;
+            allocatedHeight +=
+              height +
+              child.getMarginTop() +
+              child.getMarginBottom() +
+              spacingY;
 
             if (separatorWidths.x) {
               allocatedWidth += separatorWidths.x + spacingX;
@@ -461,25 +425,18 @@ qx.Class.define("qx.ui.layout.Dock",
         }
       }
 
-
-
-
-
       // **************************************
       //   Horizontal flex support
       // **************************************
 
-      if (allocatedWidth != availWidth)
-      {
+      if (allocatedWidth != availWidth) {
         flexibles = {};
         grow = allocatedWidth < availWidth;
 
-        for (var i=0; i<length; i++)
-        {
+        for (var i = 0; i < length; i++) {
           child = children[i];
 
-          switch(edges[i])
-          {
+          switch (edges[i]) {
             case 3:
             case 4:
             case 5:
@@ -490,24 +447,25 @@ qx.Class.define("qx.ui.layout.Dock",
                 flex = 1;
               }
 
-              if (flex > 0)
-              {
+              if (flex > 0) {
                 hint = child.getSizeHint();
 
-                flexibles[i] =
-                {
-                  min : hint.minWidth,
-                  value : widths[i],
-                  max : hint.maxWidth,
-                  flex : flex
+                flexibles[i] = {
+                  min: hint.minWidth,
+                  value: widths[i],
+                  max: hint.maxWidth,
+                  flex: flex
                 };
               }
           }
         }
 
-        var result = util.computeFlexOffsets(flexibles, availWidth, allocatedWidth);
-        for (var i in result)
-        {
+        var result = util.computeFlexOffsets(
+          flexibles,
+          availWidth,
+          allocatedWidth
+        );
+        for (var i in result) {
           offset = result[i].offset;
 
           widths[i] += offset;
@@ -515,25 +473,19 @@ qx.Class.define("qx.ui.layout.Dock",
         }
       }
 
-
-
-
       // **************************************
       //   Vertical flex support
       // **************************************
 
       // Process height for flex stretching/shrinking
-      if (allocatedHeight != availHeight)
-      {
+      if (allocatedHeight != availHeight) {
         flexibles = {};
         grow = allocatedHeight < availHeight;
 
-        for (var i=0; i<length; i++)
-        {
+        for (var i = 0; i < length; i++) {
           child = children[i];
 
-          switch(edges[i])
-          {
+          switch (edges[i]) {
             case 1:
             case 2:
             case 5:
@@ -544,34 +496,31 @@ qx.Class.define("qx.ui.layout.Dock",
                 flex = 1;
               }
 
-              if (flex > 0)
-              {
+              if (flex > 0) {
                 hint = child.getSizeHint();
 
-                flexibles[i] =
-                {
-                  min : hint.minHeight,
-                  value : heights[i],
-                  max : hint.maxHeight,
-                  flex : flex
+                flexibles[i] = {
+                  min: hint.minHeight,
+                  value: heights[i],
+                  max: hint.maxHeight,
+                  flex: flex
                 };
               }
           }
         }
 
-        var result = util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
-        for (var i in result)
-        {
+        var result = util.computeFlexOffsets(
+          flexibles,
+          availHeight,
+          allocatedHeight
+        );
+        for (var i in result) {
           offset = result[i].offset;
 
           heights[i] += offset;
           allocatedHeight += offset;
         }
       }
-
-
-
-
 
       // **************************************
       //   Layout children
@@ -581,16 +530,17 @@ qx.Class.define("qx.ui.layout.Dock",
       this._clearSeparators();
 
       // Prepare loop
-      var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
-      var connectSeparators=this.getConnectSeparators();
-      var nextTop=0, nextLeft=0;
+      var separatorX = this.getSeparatorX(),
+        separatorY = this.getSeparatorY();
+      var connectSeparators = this.getConnectSeparators();
+      var nextTop = 0,
+        nextLeft = 0;
       var left, top, width, height, used, edge;
       var separatorLeft, separatorTop, separatorWidth, separatorHeight;
       var marginTop, marginBottom, marginLeft, marginRight;
       var alignMap = this.__alignMap;
 
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         // Cache child data
         child = children[i];
         edge = edges[i];
@@ -603,8 +553,7 @@ qx.Class.define("qx.ui.layout.Dock",
         marginRight = child.getMarginRight();
 
         // Calculate child layout
-        switch(edge)
-        {
+        switch (edge) {
           // north + south
           case 1:
           case 2:
@@ -622,36 +571,56 @@ qx.Class.define("qx.ui.layout.Dock",
             height = heights[i];
 
             // Compute position
-            top = nextTop + util.computeVerticalAlignOffset(alignMap[edge], height, availHeight, marginTop, marginBottom);
-            left = nextLeft + util.computeHorizontalAlignOffset(child.getAlignX()||"left", width, availWidth, marginLeft, marginRight);
+            top =
+              nextTop +
+              util.computeVerticalAlignOffset(
+                alignMap[edge],
+                height,
+                availHeight,
+                marginTop,
+                marginBottom
+              );
+            left =
+              nextLeft +
+              util.computeHorizontalAlignOffset(
+                child.getAlignX() || "left",
+                width,
+                availWidth,
+                marginLeft,
+                marginRight
+              );
 
             // Render the separator
-            if (separatorWidths.y)
-            {
+            if (separatorWidths.y) {
               if (edge == 1) {
-                separatorTop = nextTop + height + marginTop + spacingY + marginBottom;
+                separatorTop =
+                  nextTop + height + marginTop + spacingY + marginBottom;
               } else {
-                separatorTop = nextTop + availHeight - height - marginTop - spacingY - marginBottom - separatorWidths.y;
+                separatorTop =
+                  nextTop +
+                  availHeight -
+                  height -
+                  marginTop -
+                  spacingY -
+                  marginBottom -
+                  separatorWidths.y;
               }
 
               separatorLeft = left;
               separatorWidth = availWidth;
 
-              if (connectSeparators && separatorLeft > 0)
-              {
+              if (connectSeparators && separatorLeft > 0) {
                 separatorLeft -= spacingX + marginLeft;
-                separatorWidth += (spacingX) * 2;
-              }
-              else
-              {
+                separatorWidth += spacingX * 2;
+              } else {
                 separatorLeft -= marginLeft;
               }
 
               this._renderSeparator(separatorY, {
-                left : separatorLeft + padding.left,
-                top : separatorTop + padding.top,
-                width : separatorWidth,
-                height : separatorWidths.y
+                left: separatorLeft + padding.left,
+                top: separatorTop + padding.top,
+                width: separatorWidth,
+                height: separatorWidths.y
               });
             }
 
@@ -670,7 +639,6 @@ qx.Class.define("qx.ui.layout.Dock",
 
             break;
 
-
           // west + east
           case 3:
           case 4:
@@ -688,36 +656,56 @@ qx.Class.define("qx.ui.layout.Dock",
             width = widths[i];
 
             // Compute position
-            left = nextLeft + util.computeHorizontalAlignOffset(alignMap[edge], width, availWidth, marginLeft, marginRight);
-            top = nextTop + util.computeVerticalAlignOffset(child.getAlignY()||"top", height, availHeight, marginTop, marginBottom);
+            left =
+              nextLeft +
+              util.computeHorizontalAlignOffset(
+                alignMap[edge],
+                width,
+                availWidth,
+                marginLeft,
+                marginRight
+              );
+            top =
+              nextTop +
+              util.computeVerticalAlignOffset(
+                child.getAlignY() || "top",
+                height,
+                availHeight,
+                marginTop,
+                marginBottom
+              );
 
             // Render the separator
-            if (separatorWidths.x)
-            {
+            if (separatorWidths.x) {
               if (edge == 3) {
-                separatorLeft = nextLeft + width + marginLeft + spacingX + marginRight;
+                separatorLeft =
+                  nextLeft + width + marginLeft + spacingX + marginRight;
               } else {
-                separatorLeft = nextLeft + availWidth - width - marginLeft - spacingX - marginRight - separatorWidths.x;
+                separatorLeft =
+                  nextLeft +
+                  availWidth -
+                  width -
+                  marginLeft -
+                  spacingX -
+                  marginRight -
+                  separatorWidths.x;
               }
 
               separatorTop = top;
               separatorHeight = availHeight;
 
-              if (connectSeparators && separatorTop > 0)
-              {
+              if (connectSeparators && separatorTop > 0) {
                 separatorTop -= spacingY + marginTop;
-                separatorHeight += (spacingY) * 2;
-              }
-              else
-              {
+                separatorHeight += spacingY * 2;
+              } else {
                 separatorTop -= marginTop;
               }
 
               this._renderSeparator(separatorX, {
-                left : separatorLeft + padding.left,
-                top : separatorTop + padding.top,
-                width : separatorWidths.x,
-                height : separatorHeight
+                left: separatorLeft + padding.left,
+                top: separatorTop + padding.top,
+                width: separatorWidths.x,
+                height: separatorHeight
               });
             }
 
@@ -734,7 +722,6 @@ qx.Class.define("qx.ui.layout.Dock",
             }
 
             break;
-
 
           // center
           default:
@@ -757,15 +744,35 @@ qx.Class.define("qx.ui.layout.Dock",
             }
 
             // Compute coordinates (respect margins and alignments for both axis)
-            left = nextLeft + util.computeHorizontalAlignOffset(child.getAlignX()||"left", width, availWidth, marginLeft, marginRight);
-            top = nextTop + util.computeVerticalAlignOffset(child.getAlignY()||"top", height, availHeight, marginTop, marginBottom);
+            left =
+              nextLeft +
+              util.computeHorizontalAlignOffset(
+                child.getAlignX() || "left",
+                width,
+                availWidth,
+                marginLeft,
+                marginRight
+              );
+            top =
+              nextTop +
+              util.computeVerticalAlignOffset(
+                child.getAlignY() || "top",
+                height,
+                availHeight,
+                marginTop,
+                marginBottom
+              );
         }
 
         // Apply layout
-        child.renderLayout(left + padding.left, top + padding.top, width, height);
+        child.renderLayout(
+          left + padding.left,
+          top + padding.top,
+          width,
+          height
+        );
       }
     },
-
 
     /**
      * Computes the dimensions each separator on both the <code>x</code> and
@@ -774,37 +781,33 @@ qx.Class.define("qx.ui.layout.Dock",
      * @return {Map} Map with the keys <code>x</code> and
      *   <code>y</code>
      */
-    _getSeparatorWidths : function()
-    {
-      var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
+    _getSeparatorWidths() {
+      var separatorX = this.getSeparatorX(),
+        separatorY = this.getSeparatorY();
       if (separatorX || separatorY) {
         var decorationManager = qx.theme.manager.Decoration.getInstance();
       }
 
-      if (separatorX)
-      {
+      if (separatorX) {
         var separatorInstanceX = decorationManager.resolve(separatorX);
         var separatorInsetsX = separatorInstanceX.getInsets();
         var separatorWidthX = separatorInsetsX.left + separatorInsetsX.right;
       }
 
-      if (separatorY)
-      {
+      if (separatorY) {
         var separatorInstanceY = decorationManager.resolve(separatorY);
         var separatorInsetsY = separatorInstanceY.getInsets();
         var separatorWidthY = separatorInsetsY.top + separatorInsetsY.bottom;
       }
 
       return {
-        x : separatorWidthX || 0,
-        y : separatorWidthY || 0
+        x: separatorWidthX || 0,
+        y: separatorWidthY || 0
       };
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       // Rebuild flex/width caches
       if (this._invalidChildrenCache) {
         this.__rebuildCache();
@@ -817,14 +820,20 @@ qx.Class.define("qx.ui.layout.Dock",
       var hint, child;
       var marginX, marginY;
 
-      var widthX=0, minWidthX=0;
-      var heightX=0, minHeightX=0;
-      var widthY=0, minWidthY=0;
-      var heightY=0, minHeightY=0;
+      var widthX = 0,
+        minWidthX = 0;
+      var heightX = 0,
+        minHeightX = 0;
+      var widthY = 0,
+        minWidthY = 0;
+      var heightY = 0,
+        minHeightY = 0;
 
       var separatorWidths = this._getSeparatorWidths();
-      var spacingX=this.getSpacingX(), spacingY=this.getSpacingY();
-      var spacingSumX=-spacingX, spacingSumY=-spacingY;
+      var spacingX = this.getSpacingX(),
+        spacingY = this.getSpacingY();
+      var spacingSumX = -spacingX,
+        spacingSumY = -spacingY;
 
       if (separatorWidths.x) {
         spacingSumX -= separatorWidths.x + spacingX;
@@ -835,8 +844,7 @@ qx.Class.define("qx.ui.layout.Dock",
       }
 
       // Detect children sizes
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         child = children[i];
         hint = child.getSizeHint();
 
@@ -845,15 +853,17 @@ qx.Class.define("qx.ui.layout.Dock",
         marginY = child.getMarginTop() + child.getMarginBottom();
 
         // Ok, this part is a bit complicated :)
-        switch(edges[i])
-        {
+        switch (edges[i]) {
           case 1:
           case 2:
             // Find the maximum width used by these fully stretched items
             // The recommended width used by these must add the currently
             // occupied width by the orthogonal ordered children.
             widthY = Math.max(widthY, hint.width + widthX + marginX);
-            minWidthY = Math.max(minWidthY, hint.minWidth + minWidthX + marginX);
+            minWidthY = Math.max(
+              minWidthY,
+              hint.minWidth + minWidthX + marginX
+            );
 
             // Add the needed heights of this widget
             heightY += hint.height + marginY;
@@ -873,7 +883,10 @@ qx.Class.define("qx.ui.layout.Dock",
             // The recommended height used by these must add the currently
             // occupied height by the orthogonal ordered children.
             heightX = Math.max(heightX, hint.height + heightY + marginY);
-            minHeightX = Math.max(minHeightX, hint.minHeight + minHeightY + marginY);
+            minHeightX = Math.max(
+              minHeightX,
+              hint.minHeight + minHeightY + marginY
+            );
 
             // Add the needed widths of this widget
             widthX += hint.width + marginX;
@@ -916,15 +929,13 @@ qx.Class.define("qx.ui.layout.Dock",
 
       // Return hint
       return {
-        minWidth : minWidth,
-        width : width,
-        minHeight : minHeight,
-        height : height
+        minWidth: minWidth,
+        width: width,
+        minHeight: minHeight,
+        height: height
       };
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -932,7 +943,7 @@ qx.Class.define("qx.ui.layout.Dock",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__edges = this.__children = null;
   }
 });

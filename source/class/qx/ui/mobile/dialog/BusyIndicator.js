@@ -30,113 +30,98 @@
  *
  * This example create a widget to display the busy indicator.
  */
-qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
-{
-  extend : qx.ui.mobile.basic.Atom,
-
+qx.Class.define("qx.ui.mobile.dialog.BusyIndicator", {
+  extend: qx.ui.mobile.basic.Atom,
 
   /**
    * @param label {String} Label to use
    */
-  construct : function(label)
-  {
+  construct(label) {
     // the image passed as second argument is a blank 1px transparent png
-    this.base(arguments, label, qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
+    super(label, qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
 
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
   },
 
-
-  properties :
-  {
-
+  properties: {
     /**
      * The spinner css class to use.
      */
-    spinnerClass :
-    {
-      apply : "_applySpinnerClass",
-      nullable : false,
-      check : "String",
-      init : "spinner"
+    spinnerClass: {
+      apply: "_applySpinnerClass",
+      nullable: false,
+      check: "String",
+      init: "spinner"
     }
   },
 
-
-  statics : {
-    SPINNER_ANIMATION : null
+  statics: {
+    SPINNER_ANIMATION: null
   },
 
-
-  members :
-  {
-    __animationHandle : null,
-
+  members: {
+    __animationHandle: null,
 
     /**
      * Listener for appear event.
      */
-    _onAppear : function() {
-      this.__animationHandle = qx.bom.element.Animation.animate(this.getIconWidget().getContainerElement(), qx.ui.mobile.dialog.BusyIndicator.SPINNER_ANIMATION);
+    _onAppear() {
+      this.__animationHandle = qx.bom.element.Animation.animate(
+        this.getIconWidget().getContainerElement(),
+        qx.ui.mobile.dialog.BusyIndicator.SPINNER_ANIMATION
+      );
     },
-
 
     /**
      * Handler for disappear event.
      */
-    _onDisappear : function() {
+    _onDisappear() {
       this.__animationHandle.stop();
     },
 
-
     // overridden
-    _createIconWidget : function(iconUrl)
-    {
-      var iconWidget = this.base(arguments,iconUrl);
+    _createIconWidget(iconUrl) {
+      var iconWidget = super._createIconWidget(iconUrl);
       iconWidget.addCssClass(this.getSpinnerClass());
       return iconWidget;
     },
 
-
     // property apply
-    _applySpinnerClass : function(value, old)
-    {
+    _applySpinnerClass(value, old) {
       if (old) {
         this.getIconWidget().removeCssClass(old);
       }
-      if(value) {
+      if (value) {
         this.getIconWidget().addCssClass(value);
       }
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("disappear", this._onDisappear, this);
 
-    if(this.__animationHandle) {
+    if (this.__animationHandle) {
       this.__animationHandle.stop();
     }
 
     this.__animationHandle = null;
   },
 
-
-  defer : function() {
+  defer() {
     qx.ui.mobile.dialog.BusyIndicator.SPINNER_ANIMATION = {
       duration: 750,
       timing: "linear",
       origin: "center center",
       repeat: "infinite",
-      keyFrames : {
+      keyFrames: {
         0: {
-          rotate : "0deg"
+          rotate: "0deg"
         },
+
         100: {
-          rotate : "359deg"
+          rotate: "359deg"
         }
       }
     };

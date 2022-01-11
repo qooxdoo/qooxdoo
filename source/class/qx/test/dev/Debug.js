@@ -13,25 +13,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dev.Debug",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MRequirements],
+qx.Class.define("qx.test.dev.Debug", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    hasDisposeDebug : function()
-    {
+  members: {
+    hasDisposeDebug() {
       return qx.core.Environment.get("qx.debug.dispose");
     },
 
-    testDisposeProfilingCheckFunction : function()
-    {
+    testDisposeProfilingCheckFunction() {
       this.require(["disposeDebug"]);
 
       var n = new qx.core.Object();
       var ignoreHash = n.toHashCode();
-      var checkFunction = function(object) {
+      var checkFunction = function (object) {
         if (object.toHashCode() == ignoreHash) {
           return false;
         }

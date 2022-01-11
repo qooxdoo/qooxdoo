@@ -19,24 +19,20 @@
 /**
  * A navigation bar back button widget.
  */
-qx.Class.define("qx.ui.mobile.navigationbar.BackButton",
-{
-  extend : qx.ui.mobile.navigationbar.Button,
+qx.Class.define("qx.ui.mobile.navigationbar.BackButton", {
+  extend: qx.ui.mobile.navigationbar.Button,
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "navigationbar-backbutton"
+    defaultCssClass: {
+      refine: true,
+      init: "navigationbar-backbutton"
     }
   }
 });

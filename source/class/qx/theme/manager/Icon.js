@@ -20,14 +20,9 @@
 /**
  * Manager for icon themes
  */
-qx.Class.define("qx.theme.manager.Icon",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
-
-
+qx.Class.define("qx.theme.manager.Icon", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -35,20 +30,15 @@ qx.Class.define("qx.theme.manager.Icon",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** currently used icon theme */
-    theme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+    theme: {
+      check: "Theme",
+      nullable: true,
+      apply: "_applyTheme",
+      event: "changeTheme"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -56,22 +46,18 @@ qx.Class.define("qx.theme.manager.Icon",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyTheme : function(value, old)
-    {
+    _applyTheme(value, old) {
       var aliasManager = qx.util.AliasManager.getInstance();
 
-      if (old)
-      {
+      if (old) {
         for (var alias in old.aliases) {
           aliasManager.remove(alias);
         }
       }
 
-      if (value)
-      {
+      if (value) {
         for (var alias in value.aliases) {
           aliasManager.add(alias, value.aliases[alias]);
         }

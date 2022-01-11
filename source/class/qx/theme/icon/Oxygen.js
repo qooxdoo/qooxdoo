@@ -19,10 +19,9 @@
 /**
  * KDE Oxygen icons
  */
-qx.Theme.define("qx.theme.icon.Oxygen",
-{
-  title : "Oxygen",
-  aliases : {
-    "icon" : "qx/icon/Oxygen"
+qx.Theme.define("qx.theme.icon.Oxygen", {
+  title: "Oxygen",
+  aliases: {
+    icon: "qx/icon/Oxygen"
   }
 });

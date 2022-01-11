@@ -23,11 +23,8 @@
  *
  * @childControl button {qx.ui.tabview.TabButton} tab button connected to the page
  */
-qx.Class.define("qx.ui.tabview.Page",
-{
-  extend : qx.ui.container.Composite,
-
-
+qx.Class.define("qx.ui.tabview.Page", {
+  extend: qx.ui.container.Composite,
 
   /*
   *****************************************************************************
@@ -39,9 +36,8 @@ qx.Class.define("qx.ui.tabview.Page",
    * @param label {String} Initial label of the tab
    * @param icon {String} Initial icon of the tab
    */
-  construct : function(label, icon)
-  {
-    this.base(arguments);
+  construct(label, icon) {
+    super();
 
     this._createChildControl("button");
 
@@ -59,19 +55,18 @@ qx.Class.define("qx.ui.tabview.Page",
     const pageId = "page-" + this.toHashCode();
     const btnId = "btn-" + pageId + btn.toHashCode();
     const contentEl = this.getContentElement();
-    contentEl.setAttribute("id", pageId); 
+    contentEl.setAttribute("id", pageId);
     contentEl.setAttribute("role", "tabpanel");
     contentEl.setAttribute("aria-labelledBy", btnId);
     contentEl.setAttribute("aria-expanded", false);
-    
+
     const btnContentEl = btn.getContentElement();
-    btnContentEl.setAttribute("id", btnId); 
+    btnContentEl.setAttribute("id", btnId);
     btnContentEl.setAttribute("role", "tab");
     btnContentEl.setAttribute("aria-selected", false);
     btnContentEl.setAttribute("aria-controls", pageId);
     btn.addListener("changeValue", this._onBtnChangeValue, this);
   },
-
 
   /*
   *****************************************************************************
@@ -79,14 +74,12 @@ qx.Class.define("qx.ui.tabview.Page",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired by {@link qx.ui.tabview.TabButton} if the close button is tapped.
      */
-    "close" : "qx.event.type.Event"
+    close: "qx.event.type.Event"
   },
-
 
   /*
   *****************************************************************************
@@ -94,42 +87,35 @@ qx.Class.define("qx.ui.tabview.Page",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "tabview-page"
+    appearance: {
+      refine: true,
+      init: "tabview-page"
     },
-
 
     /** The label/caption/text of the Page's button. */
-    label :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyLabel"
+    label: {
+      check: "String",
+      init: "",
+      apply: "_applyLabel"
     },
 
-
     /** Any URI String supported by qx.ui.basic.Image to display an icon in Page's button. */
-    icon :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyIcon",
+    icon: {
+      check: "String",
+      init: "",
+      apply: "_applyIcon",
       nullable: true
     },
 
     /** Indicates if the close button of a TabButton should be shown. */
-    showCloseButton :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyShowCloseButton"
+    showCloseButton: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyShowCloseButton"
     },
-    
+
     /** Allows the tab to be excluded from the display */
     tabVisibility: {
       init: "visible",
@@ -138,11 +124,7 @@ qx.Class.define("qx.ui.tabview.Page",
       apply: "_applyTabVisibility",
       event: "changeTabVisibility"
     }
-
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -151,8 +133,7 @@ qx.Class.define("qx.ui.tabview.Page",
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -163,17 +144,14 @@ qx.Class.define("qx.ui.tabview.Page",
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      barTop : 1,
-      barRight : 1,
-      barBottom : 1,
-      barLeft : 1,
-      firstTab : 1,
-      lastTab : 1
+    _forwardStates: {
+      barTop: 1,
+      barRight: 1,
+      barBottom: 1,
+      barLeft: 1,
+      firstTab: 1,
+      lastTab: 1
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -182,7 +160,7 @@ qx.Class.define("qx.ui.tabview.Page",
     */
 
     // property apply
-    _applyIcon : function(value, old) {
+    _applyIcon(value, old) {
       var btn = this.getChildControl("button");
       if (value) {
         btn.setIcon(value);
@@ -192,26 +170,20 @@ qx.Class.define("qx.ui.tabview.Page",
       }
     },
 
-
     // property apply
-    _applyLabel : function(value, old) {
+    _applyLabel(value, old) {
       this.getChildControl("button").setLabel(value);
     },
 
-
     // overridden
-    _applyEnabled: function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyEnabled(value, old) {
+      super._applyEnabled(value, old);
 
       // delegate to non-child widget button
       // since enabled is inheritable value may be null
       var btn = this.getChildControl("button");
       value == null ? btn.resetEnabled() : btn.setEnabled(value);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -220,14 +192,12 @@ qx.Class.define("qx.ui.tabview.Page",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "button":
-          control = new qx.ui.tabview.TabButton;
+          control = new qx.ui.tabview.TabButton();
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
 
@@ -237,14 +207,14 @@ qx.Class.define("qx.ui.tabview.Page",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     /**
      * Tab Change Listener
-     * @param {*} e 
+     * @param {*} e
      */
-     _onBtnChangeValue: function (e) {
+    _onBtnChangeValue(e) {
       const val = e.getData();
       this.getContentElement().setAttribute("aria-expanded", val, true); // Set third argument to true -> direct Update
       this.getButton().getContentElement().setAttribute("aria-selected", val);
@@ -257,12 +227,12 @@ qx.Class.define("qx.ui.tabview.Page",
     */
 
     // property apply
-    _applyShowCloseButton : function(value, old) {
+    _applyShowCloseButton(value, old) {
       this.getChildControl("button").setShowCloseButton(value);
     },
 
     // property apply
-    _applyTabVisibility: function(newValue, oldValue) {
+    _applyTabVisibility(newValue, oldValue) {
       this.getButton().setVisibility(newValue);
     },
 
@@ -276,10 +246,9 @@ qx.Class.define("qx.ui.tabview.Page",
      * Fires an "close" event when the close button of the TabButton of the page
      * is tapped.
      */
-    _onButtonClose : function() {
+    _onButtonClose() {
       this.fireEvent("close");
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -293,7 +262,7 @@ qx.Class.define("qx.ui.tabview.Page",
      *
      * @return {qx.ui.form.RadioButton} The button associated with this page.
      */
-    getButton: function() {
+    getButton() {
       return this.getChildControl("button");
     }
   }

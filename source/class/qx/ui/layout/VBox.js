@@ -79,12 +79,8 @@
  * and links to demos for this layout.
  *
  */
-qx.Class.define("qx.ui.layout.VBox",
-{
-  extend : qx.ui.layout.Abstract,
-
-
-
+qx.Class.define("qx.ui.layout.VBox", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -98,9 +94,8 @@ qx.Class.define("qx.ui.layout.VBox",
    *     block {@link #alignY}.
    * @param separator {String|qx.ui.decoration.IDecorator?} A separator to be rendered between the items
    */
-  construct : function(spacing, alignY, separator)
-  {
-    this.base(arguments);
+  construct(spacing, alignY, separator) {
+    super();
 
     if (spacing) {
       this.setSpacing(spacing);
@@ -115,73 +110,55 @@ qx.Class.define("qx.ui.layout.VBox",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Vertical alignment of the whole children block. The vertical
      * alignment of the child is completely ignored in VBoxes (
      * {@link qx.ui.core.LayoutItem#alignY}).
      */
-    alignY :
-    {
-      check : [ "top", "middle", "bottom" ],
-      init : "top",
-      apply : "_applyLayoutChange"
+    alignY: {
+      check: ["top", "middle", "bottom"],
+      init: "top",
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Horizontal alignment of each child. Can be overridden through
      * {@link qx.ui.core.LayoutItem#alignX}.
      */
-    alignX :
-    {
-      check : [ "left", "center", "right" ],
-      init : "left",
-      apply : "_applyLayoutChange"
+    alignX: {
+      check: ["left", "center", "right"],
+      init: "left",
+      apply: "_applyLayoutChange"
     },
-
 
     /** Vertical spacing between two children */
-    spacing :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacing: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
-
 
     /** Separator lines to use between the objects */
-    separator :
-    {
-      check : "Decorator",
-      nullable : true,
-      apply : "_applyLayoutChange"
+    separator: {
+      check: "Decorator",
+      nullable: true,
+      apply: "_applyLayoutChange"
     },
 
-
     /** Whether the actual children list should be laid out in reversed order. */
-    reversed :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyReversed"
+    reversed: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyReversed"
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -189,13 +166,11 @@ qx.Class.define("qx.ui.layout.VBox",
   *****************************************************************************
   */
 
-  members :
-  {
-    __heights : null,
-    __flexs : null,
-    __enableFlex : null,
-    __children : null,
-
+  members: {
+    __heights: null,
+    __flexs: null,
+    __enableFlex: null,
+    __children: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -204,8 +179,7 @@ qx.Class.define("qx.ui.layout.VBox",
     */
 
     // property apply
-    _applyReversed : function()
-    {
+    _applyReversed() {
       // easiest way is to invalidate the cache
       this._invalidChildrenCache = true;
 
@@ -213,16 +187,18 @@ qx.Class.define("qx.ui.layout.VBox",
       this._applyLayoutChange();
     },
 
-
     /**
      * Rebuilds caches for flex and percent layout properties
      */
-    __rebuildCache : function()
-    {
+    __rebuildCache() {
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse = this.__heights && this.__heights.length != length && this.__flexs && this.__heights;
+      var reuse =
+        this.__heights &&
+        this.__heights.length != length &&
+        this.__flexs &&
+        this.__heights;
       var props;
 
       // Sparse array (keep old one if lengths has not been modified)
@@ -235,16 +211,14 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       // Loop through children to preparse values
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         props = children[i].getLayoutProperties();
 
         if (props.height != null) {
           heights[i] = parseFloat(props.height) / 100;
         }
 
-        if (props.flex != null)
-        {
+        if (props.flex != null) {
           flexs[i] = props.flex;
           enableFlex = true;
         } else {
@@ -254,8 +228,7 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       // Store data
-      if (!reuse)
-      {
+      if (!reuse) {
         this.__heights = heights;
         this.__flexs = flexs;
       }
@@ -267,10 +240,6 @@ qx.Class.define("qx.ui.layout.VBox",
       delete this._invalidChildrenCache;
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -278,11 +247,9 @@ qx.Class.define("qx.ui.layout.VBox",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value)
-      {
-        if (name =="height") {
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        if (name == "height") {
           this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
         } else if (name == "flex") {
           // flex
@@ -291,17 +258,18 @@ qx.Class.define("qx.ui.layout.VBox",
         } else if (name == "flexShrink") {
           this.assertBoolean(value);
         } else {
-          this.assert(false, "The property '"+name+"' is not supported by the VBox layout!");
+          this.assert(
+            false,
+            "The property '" + name + "' is not supported by the VBox layout!"
+          );
         }
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       // Rebuild flex/height caches
       if (this._invalidChildrenCache) {
         this.__rebuildCache();
@@ -312,31 +280,30 @@ qx.Class.define("qx.ui.layout.VBox",
       var length = children.length;
       var util = qx.ui.layout.Util;
 
-
       // Compute gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
-      var gaps;      
+      var gaps;
       if (separator) {
         gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
       } else {
         gaps = util.computeVerticalGaps(children, spacing, true);
       }
 
-
       // First run to cache children data and compute allocated height
       var i, child, height, percent;
-      var heights = [], hint;
+      var heights = [],
+        hint;
       var allocatedHeight = gaps;
 
-      for (i=0; i<length; i+=1)
-      {
+      for (i = 0; i < length; i += 1) {
         percent = this.__heights[i];
         hint = children[i].getSizeHint();
 
-        height = percent != null ?
-          Math.floor((availHeight - gaps) * percent) :
-          hint.height;
+        height =
+          percent != null
+            ? Math.floor((availHeight - gaps) * percent)
+            : hint.height;
 
         // Limit computed value
         if (height < hint.minHeight) {
@@ -349,29 +316,25 @@ qx.Class.define("qx.ui.layout.VBox",
         allocatedHeight += height;
       }
 
-
       // Flex support (growing/shrinking)
-      if (this.__enableFlex && allocatedHeight != availHeight)
-      {
+      if (this.__enableFlex && allocatedHeight != availHeight) {
         var flexibles = {};
         var flex, offset;
         var notEnoughSpace = allocatedHeight > availHeight;
 
-        for (i=0; i<length; i+=1)
-        {
+        for (i = 0; i < length; i += 1) {
           flex = this.__flexs[i];
 
-          if (flex > 0)
-          {
+          if (flex > 0) {
             hint = children[i].getSizeHint();
 
-            flexibles[i]=
-            {
-              min : hint.minHeight,
-              value : heights[i],
-              max : hint.maxHeight,
-              flex : flex
+            flexibles[i] = {
+              min: hint.minHeight,
+              value: heights[i],
+              max: hint.maxHeight,
+              flex: flex
             };
+
             if (notEnoughSpace) {
               var props = children[i].getLayoutProperties();
               if (props && props.flexShrink) {
@@ -381,10 +344,13 @@ qx.Class.define("qx.ui.layout.VBox",
           }
         }
 
-        var result = util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
+        var result = util.computeFlexOffsets(
+          flexibles,
+          availHeight,
+          allocatedHeight
+        );
 
-        for (i in result)
-        {
+        for (i in result) {
           offset = result[i].offset;
 
           heights[i] += offset;
@@ -392,20 +358,17 @@ qx.Class.define("qx.ui.layout.VBox",
         }
       }
 
-
       // Start with top coordinate
       var top = children[0].getMarginTop();
 
       // Alignment support
-      if (allocatedHeight < availHeight && this.getAlignY() != "top")
-      {
+      if (allocatedHeight < availHeight && this.getAlignY() != "top") {
         top = availHeight - allocatedHeight;
 
         if (this.getAlignY() === "middle") {
           top = Math.round(top / 2);
         }
       }
-
 
       // Layouting children
       var hint, left, width, height, marginBottom, marginLeft, marginRight;
@@ -414,15 +377,15 @@ qx.Class.define("qx.ui.layout.VBox",
       this._clearSeparators();
 
       // Compute separator height
-      if (separator)
-      {
-        var separatorInsets = qx.theme.manager.Decoration.getInstance().resolve(separator).getInsets();
+      if (separator) {
+        var separatorInsets = qx.theme.manager.Decoration.getInstance()
+          .resolve(separator)
+          .getInsets();
         var separatorHeight = separatorInsets.top + separatorInsets.bottom;
       }
 
       // Render children and separators
-      for (i=0; i<length; i+=1)
-      {
+      for (i = 0; i < length; i += 1) {
         child = children[i];
         height = heights[i];
         hint = child.getSizeHint();
@@ -431,40 +394,54 @@ qx.Class.define("qx.ui.layout.VBox",
         marginRight = child.getMarginRight();
 
         // Find usable width
-        width = Math.max(hint.minWidth, Math.min(availWidth-marginLeft-marginRight, hint.maxWidth));
+        width = Math.max(
+          hint.minWidth,
+          Math.min(availWidth - marginLeft - marginRight, hint.maxWidth)
+        );
 
         // Respect horizontal alignment
-        left = util.computeHorizontalAlignOffset(child.getAlignX()||this.getAlignX(), width, availWidth, marginLeft, marginRight);
+        left = util.computeHorizontalAlignOffset(
+          child.getAlignX() || this.getAlignX(),
+          width,
+          availWidth,
+          marginLeft,
+          marginRight
+        );
 
         // Add collapsed margin
-        if (i > 0)
-        {
+        if (i > 0) {
           // Whether a separator has been configured
-          if (separator)
-          {
+          if (separator) {
             // add margin of last child and spacing
             top += marginBottom + spacing;
 
             // then render the separator at this position
             this._renderSeparator(separator, {
-              top : top + padding.top,
-              left : padding.left,
-              height : separatorHeight,
-              width : availWidth
+              top: top + padding.top,
+              left: padding.left,
+              height: separatorHeight,
+              width: availWidth
             });
 
             // and finally add the size of the separator, the spacing (again) and the top margin
             top += separatorHeight + spacing + child.getMarginTop();
-          }
-          else
-          {
+          } else {
             // Support margin collapsing when no separator is defined
-            top += util.collapseMargins(spacing, marginBottom, child.getMarginTop());
+            top += util.collapseMargins(
+              spacing,
+              marginBottom,
+              child.getMarginTop()
+            );
           }
         }
 
         // Layout child
-        child.renderLayout(left + padding.left, top + padding.top, width, height);
+        child.renderLayout(
+          left + padding.left,
+          top + padding.top,
+          width,
+          height
+        );
 
         // Add height
         top += height;
@@ -474,10 +451,8 @@ qx.Class.define("qx.ui.layout.VBox",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       // Rebuild flex/height caches
       if (this._invalidChildrenCache) {
         this.__rebuildCache();
@@ -487,13 +462,15 @@ qx.Class.define("qx.ui.layout.VBox",
       var children = this.__children;
 
       // Initialize
-      var minHeight=0, height=0, percentMinHeight=0;
-      var minWidth=0, width=0;
+      var minHeight = 0,
+        height = 0,
+        percentMinHeight = 0;
+      var minWidth = 0,
+        width = 0;
       var child, hint, margin;
 
       // Iterate over children
-      for (var i=0, l=children.length; i<l; i+=1)
-      {
+      for (var i = 0, l = children.length; i < l; i += 1) {
         child = children[i];
         hint = child.getSizeHint();
 
@@ -506,7 +483,10 @@ qx.Class.define("qx.ui.layout.VBox",
         if (flex) {
           minHeight += hint.minHeight;
         } else if (percent) {
-          percentMinHeight = Math.max(percentMinHeight, Math.round(hint.minHeight/percent));
+          percentMinHeight = Math.max(
+            percentMinHeight,
+            Math.round(hint.minHeight / percent)
+          );
         } else {
           minHeight += hint.height;
         }
@@ -515,12 +495,12 @@ qx.Class.define("qx.ui.layout.VBox",
         margin = child.getMarginLeft() + child.getMarginRight();
 
         // Find biggest width
-        if ((hint.width+margin) > width) {
+        if (hint.width + margin > width) {
           width = hint.width + margin;
         }
 
         // Find biggest minWidth
-        if ((hint.minWidth+margin) > minWidth) {
+        if (hint.minWidth + margin > minWidth) {
           minWidth = hint.minWidth + margin;
         }
       }
@@ -539,15 +519,13 @@ qx.Class.define("qx.ui.layout.VBox",
 
       // Return hint
       return {
-        minHeight : minHeight + gaps,
-        height : height + gaps,
-        minWidth : minWidth,
-        width : width
+        minHeight: minHeight + gaps,
+        height: height + gaps,
+        minWidth: minWidth,
+        width: width
       };
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -555,7 +533,7 @@ qx.Class.define("qx.ui.layout.VBox",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__heights = this.__flexs = this.__children = null;
   }
 });

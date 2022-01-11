@@ -41,11 +41,9 @@
  *
  * This example displays a confirm dialog and defines a button click handler.
  */
-qx.Class.define("qx.ui.mobile.dialog.Manager",
-{
-  extend : qx.core.Object,
-  type : "singleton",
-
+qx.Class.define("qx.ui.mobile.dialog.Manager", {
+  extend: qx.core.Object,
+  type: "singleton",
 
   /*
   *****************************************************************************
@@ -53,8 +51,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
   *****************************************************************************
   */
 
-  statics:
-  {
+  statics: {
     INPUT_DIALOG: 1,
     MESSAGE_DIALOG: 2,
     WARNING_DIALOG: 3,
@@ -68,8 +65,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Displays an alert box. When the application is running in a PhoneGap
      * environment, a native alert box is shown. When debugging in a browser, a
@@ -87,24 +83,30 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *          if not.
      * @lint ignoreDeprecated(alert)
      */
-    alert : function(title, text, handler, scope, button)
-    {
+    alert(title, text, handler, scope, button) {
       // TOOD : MOVE THIS TO PHONEGAP CLASS
-      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
-        var callback = function() {
+      if (
+        qx.core.Environment.get("phonegap") &&
+        qx.core.Environment.get("phonegap.notification")
+      ) {
+        var callback = function () {
           if (handler) {
             handler.call(scope);
           }
         };
         var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
-      }
-      else
-      {
-        return this.__showNonNativeDialog(title, text, handler, scope, [button], qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
+      } else {
+        return this.__showNonNativeDialog(
+          title,
+          text,
+          handler,
+          scope,
+          [button],
+          qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG
+        );
       }
     },
-
 
     /**
      * Displays a confirm box. When the application is running in a PhoneGap
@@ -122,20 +124,25 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
-    confirm : function(title, text, handler, scope, buttons)
-    {
-      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification"))
-      {
-        var callback = function(index)
-        {
-          handler.call(scope, index-1);
+    confirm(title, text, handler, scope, buttons) {
+      if (
+        qx.core.Environment.get("phonegap") &&
+        qx.core.Environment.get("phonegap.notification")
+      ) {
+        var callback = function (index) {
+          handler.call(scope, index - 1);
         };
         var buttons = this.__processDialogButtons(buttons);
         return navigator.notification.confirm(text, callback, title, buttons);
-      }
-      else
-      {
-        return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG);
+      } else {
+        return this.__showNonNativeDialog(
+          title,
+          text,
+          handler,
+          scope,
+          buttons,
+          qx.ui.mobile.dialog.Manager.MESSAGE_DIALOG
+        );
       }
     },
 
@@ -153,9 +160,15 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
-    input : function(title, text, handler, scope, buttons)
-    {
-      return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.INPUT_DIALOG);
+    input(title, text, handler, scope, buttons) {
+      return this.__showNonNativeDialog(
+        title,
+        text,
+        handler,
+        scope,
+        buttons,
+        qx.ui.mobile.dialog.Manager.INPUT_DIALOG
+      );
     },
 
     /**
@@ -173,23 +186,29 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
-    error : function(title, text, handler, scope, button)
-    {
-      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
-        var callback = function() {
+    error(title, text, handler, scope, button) {
+      if (
+        qx.core.Environment.get("phonegap") &&
+        qx.core.Environment.get("phonegap.notification")
+      ) {
+        var callback = function () {
           if (handler) {
             handler.call(scope);
           }
         };
         var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
-      }
-      else
-      {
-        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.ERROR_DIALOG);
+      } else {
+        return this.__showNonNativeDialog(
+          title,
+          text,
+          handler,
+          scope,
+          button,
+          qx.ui.mobile.dialog.Manager.ERROR_DIALOG
+        );
       }
     },
-
 
     /**
      * Displays a warning dialog. When the application is running in an PhoneGap
@@ -206,23 +225,29 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
-    warning : function(title, text, handler, scope, button)
-    {
-      if (qx.core.Environment.get("phonegap") && qx.core.Environment.get("phonegap.notification")) {
-        var callback = function() {
+    warning(title, text, handler, scope, button) {
+      if (
+        qx.core.Environment.get("phonegap") &&
+        qx.core.Environment.get("phonegap.notification")
+      ) {
+        var callback = function () {
           if (handler) {
             handler.call(scope);
           }
         };
         var button = this.__processDialogButtons(button);
         return navigator.notification.alert(text, callback, title, button);
-      }
-      else
-      {
-        return this.__showNonNativeDialog(title, text, handler, scope, button, qx.ui.mobile.dialog.Manager.WARNING_DIALOG);
+      } else {
+        return this.__showNonNativeDialog(
+          title,
+          text,
+          handler,
+          scope,
+          button,
+          qx.ui.mobile.dialog.Manager.WARNING_DIALOG
+        );
       }
     },
-
 
     /**
      * Displays a waiting dialog.
@@ -238,11 +263,16 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @lint ignoreDeprecated(confirm)
      */
-    wait : function(title, text, handler, scope, buttons)
-    {
-      return this.__showNonNativeDialog(title, text, handler, scope, buttons, qx.ui.mobile.dialog.Manager.WAITING_DIALOG);
+    wait(title, text, handler, scope, buttons) {
+      return this.__showNonNativeDialog(
+        title,
+        text,
+        handler,
+        scope,
+        buttons,
+        qx.ui.mobile.dialog.Manager.WAITING_DIALOG
+      );
     },
-
 
     /**
      * Processes the dialog buttons. Converts them to PhoneGap compatible strings.
@@ -251,18 +281,16 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      *     its title
      * @return {String} The concatenated, PhoneGap compatible, button string
      */
-    __processDialogButtons: function(buttons)
-    {
-      if(buttons) {
-        if(buttons instanceof Array) {
+    __processDialogButtons(buttons) {
+      if (buttons) {
+        if (buttons instanceof Array) {
           buttons = buttons.join(",");
         } else {
-          buttons = ""+buttons;
+          buttons = "" + buttons;
         }
       }
       return buttons;
     },
-
 
     /**
      * Shows a dialog widget.
@@ -278,23 +306,22 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @return {qx.ui.mobile.dialog.Popup} The dialog widget
      * @param dialogType {Integer} One of the static dialog types.
      */
-    __showNonNativeDialog: function(title, text, handler, scope, buttons, dialogType)
-    {
-      var widget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
+    __showNonNativeDialog(title, text, handler, scope, buttons, dialogType) {
+      var widget = new qx.ui.mobile.container.Composite(
+        new qx.ui.mobile.layout.VBox().set({ alignY: "middle" })
+      );
       var dialog = new qx.ui.mobile.dialog.Popup(widget);
 
       dialog.setModal(true);
       dialog.setTitle(title);
 
       // prevent the back action until the dialog is visible
-      var onBackButton = function(evt)
-      {
-        if(dialog.isVisible() && !!evt.getData()) {
+      var onBackButton = function (evt) {
+        if (dialog.isVisible() && !!evt.getData()) {
           evt.preventDefault();
         }
       };
-      dialog.addListener("changeVisibility", function(evt)
-      {
+      dialog.addListener("changeVisibility", function (evt) {
         var application = qx.core.Init.getApplication();
         if (evt.getData() === "visible") {
           application.addListener("back", onBackButton, this);
@@ -303,41 +330,47 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         }
       });
 
-      if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
-      {
-        var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+      if (dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG) {
+        var waitingWidget = new qx.ui.mobile.container.Composite(
+          new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
+        );
         widget.add(waitingWidget);
         waitingWidget.add(new qx.ui.mobile.dialog.BusyIndicator(text));
-      }
-      else
-      {
-        var labelWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+      } else {
+        var labelWidget = new qx.ui.mobile.container.Composite(
+          new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
+        );
         labelWidget.add(new qx.ui.mobile.basic.Label(text));
         labelWidget.addCssClass("gap");
         widget.add(labelWidget);
-        if(dialogType == qx.ui.mobile.dialog.Manager.INPUT_DIALOG)
-        {
-          var inputWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        if (dialogType == qx.ui.mobile.dialog.Manager.INPUT_DIALOG) {
+          var inputWidget = new qx.ui.mobile.container.Composite(
+            new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
+          );
           inputWidget.addCssClass("gap");
           var inputText = new qx.ui.mobile.form.TextField();
           inputWidget.add(inputText);
           widget.add(inputWidget);
         }
 
-        var buttonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
+        var buttonContainer = new qx.ui.mobile.container.Composite(
+          new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
+        );
         buttonContainer.addCssClass("gap");
-        for(var i=0, l=buttons.length; i<l; i++)
-        {
+        for (var i = 0, l = buttons.length; i < l; i++) {
           var button = new qx.ui.mobile.form.Button(buttons[i]);
           /* see the comment in android.css for width: 0 for toolbar-button class*/
-          button.addCssClass('dialog-button');
-          buttonContainer.add(button, {flex:1});
-          var callback = (function(index){
-            return function()
-            {
+          button.addCssClass("dialog-button");
+          buttonContainer.add(button, { flex: 1 });
+          var callback = (function (index) {
+            return function () {
               dialog.hide();
-              if(handler) {
-                handler.call(scope, index, inputText ? inputText.getValue() : null);
+              if (handler) {
+                handler.call(
+                  scope,
+                  index,
+                  inputText ? inputText.getValue() : null
+                );
               }
               dialog.destroy();
             };
@@ -349,7 +382,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
 
       dialog.show();
 
-      if(inputText) {
+      if (inputText) {
         inputText.getContainerElement().focus();
       }
 

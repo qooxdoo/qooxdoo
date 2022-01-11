@@ -24,11 +24,9 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.celleditor.Dynamic",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
-
+qx.Class.define("qx.ui.table.celleditor.Dynamic", {
+  extend: qx.core.Object,
+  implement: qx.ui.table.ICellEditorFactory,
 
   /*
   *****************************************************************************
@@ -40,17 +38,14 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
    * @param cellEditorFactoryFunction {Function?null} the factory function
    *    {@link #cellEditorFactoryFunction}.
    */
-  construct : function(cellEditorFactoryFunction)
-  {
-    this.base(arguments);
-    if (cellEditorFactoryFunction)
-    {
+  construct(cellEditorFactoryFunction) {
+    super();
+    if (cellEditorFactoryFunction) {
       this.setCellEditorFactoryFunction(cellEditorFactoryFunction);
     }
 
     this.__infos = {};
   },
-
 
   /*
   *****************************************************************************
@@ -58,9 +53,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   *****************************************************************************
   */
 
-  properties :
-  {
-
+  properties: {
     /**
      * Function that returns a cellEditorFactory instance which will be
      * used for the row that is currently being edited. The function is
@@ -76,11 +69,10 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      * });
      * </pre>
      **/
-    cellEditorFactoryFunction :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
+    cellEditorFactoryFunction: {
+      check: "Function",
+      nullable: true,
+      init: null
     }
   },
 
@@ -90,11 +82,9 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   *****************************************************************************
   */
 
-  members :
-  {
-    __cellEditorFactory : null,
-    __infos : null,
-
+  members: {
+    __cellEditorFactory: null,
+    __infos: null,
 
     /**
      * Creates the cell editor based on the cellEditorFactory instance
@@ -105,12 +95,14 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      *      create.
      * @return {qx.ui.core.Widget}
      */
-    createCellEditor : function(cellInfo)
-    {
+    createCellEditor(cellInfo) {
       var cellEditorFactoryFunction = this.getCellEditorFactoryFunction();
 
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertFunction(cellEditorFactoryFunction, "No function provided! Aborting.");
+        this.assertFunction(
+          cellEditorFactoryFunction,
+          "No function provided! Aborting."
+        );
       }
 
       this.__cellEditorFactory = cellEditorFactoryFunction(cellInfo);
@@ -122,14 +114,15 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       return cellEditor;
     },
 
-
     // interface implementation
-    getCellEditorValue : function(cellEditor)
-    {
+    getCellEditorValue(cellEditor) {
       var cellEditorFactoryFunction = this.getCellEditorFactoryFunction();
 
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertFunction(cellEditorFactoryFunction, "No function provided! Aborting.");
+        this.assertFunction(
+          cellEditorFactoryFunction,
+          "No function provided! Aborting."
+        );
       }
 
       var cellInfo = this.__infos[cellEditor.toHashCode()];
@@ -146,7 +139,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__cellEditorFactory = null;
   }
 });

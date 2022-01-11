@@ -18,9 +18,8 @@
 /**
  * A header for a standard table.
  */
-qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
-{
-  extend     : qx.ui.progressive.headfoot.Abstract,
+qx.Class.define("qx.ui.progressive.headfoot.TableHeading", {
+  extend: qx.ui.progressive.headfoot.Abstract,
 
   /**
    * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
@@ -31,9 +30,8 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
    *   Array of labels, one for each of the columns.
    *
    */
-  construct : function(columnWidths, labelArr)
-  {
-    this.base(arguments);
+  construct(columnWidths, labelArr) {
+    super();
 
     // Save the Widths object containing all of our column widths
     this.__columnWidths = columnWidths;
@@ -42,11 +40,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     var columnData = columnWidths.getData();
 
     // Create a place to put labels
-    this.__labels = [ ];
+    this.__labels = [];
 
     // For each label...
-    for (var i = 0; i < columnData.length; i++)
-    {
+    for (var i = 0; i < columnData.length; i++) {
       // ... create an atom to hold the label
       var label = new qx.ui.basic.Atom(labelArr[i]);
       label.setAppearance("progressive-table-header-cell");
@@ -60,14 +57,14 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     // Add a spacer to take up the scroll-bar width
     var spacer = new qx.ui.core.Widget();
-    spacer.set(
-    {
-      height : 16,
-      appearance : "progressive-table-header-cell",
-      minWidth : 0,
-      width : 0
+    spacer.set({
+      height: 16,
+      appearance: "progressive-table-header-cell",
+      minWidth: 0,
+      width: 0
     });
-    this.add(spacer, { flex : 1 });
+
+    this.add(spacer, { flex: 1 });
 
     // Arrange to be called when the window appears or is resized, so we
     // can set each style sheet's left and width field appropriately.
@@ -84,28 +81,23 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     this.__layout.connectToWidget(this);
   },
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "progressive-table-header"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "progressive-table-header"
     }
   },
 
-  members :
-  {
-
-    __columnWidths     : null,
-    __bCalculateWidths : null,
-    __labels           : null,
-    __layout           : null,
+  members: {
+    __columnWidths: null,
+    __bCalculateWidths: null,
+    __labels: null,
+    __layout: null,
 
     // overridden
-    join : function(progressive)
-    {
+    join(progressive) {
       // Save the progressive handle
-      this.base(arguments, progressive);
+      super.join(progressive);
     },
 
     /**
@@ -113,18 +105,13 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      * to relayout.
      * @return {Array} List of child items
      */
-    getLayoutChildren : function()
-    {
-      if (this.__bCalculateWidths)
-      {
+    getLayoutChildren() {
+      if (this.__bCalculateWidths) {
         return this.__columnWidths.getData();
-      }
-      else
-      {
-        return this.base(arguments);
+      } else {
+        return super.getLayoutChildren();
       }
     },
-
 
     /**
      * Event handler for the "resize" event.  We recalculate and set the
@@ -134,19 +121,23 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      *   Ignored.
      *
      */
-    _resizeColumns : function(e)
-    {
+    _resizeColumns(e) {
       var insets = this.getInsets();
-      var width = this.getBounds().width - qx.bom.element.Scroll.getScrollbarWidth() - insets.left - insets.right;
+      var width =
+        this.getBounds().width -
+        qx.bom.element.Scroll.getScrollbarWidth() -
+        insets.left -
+        insets.right;
 
       // Compute the column widths
       this.__bCalculateWidths = true;
       var padding = {
-        top : this.getPaddingTop(),
-        right : this.getPaddingRight(),
-        bottom : this.getPaddingBottom(),
-        left : this.getPaddingLeft()
+        top: this.getPaddingTop(),
+        right: this.getPaddingRight(),
+        bottom: this.getPaddingBottom(),
+        left: this.getPaddingLeft()
       };
+
       this.__layout.renderLayout(width, 100, padding);
       this.__bCalculateWidths = false;
 
@@ -154,19 +145,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       var columnData = this.__columnWidths.getData();
 
       // Get the column width data.  For each label...
-      for (var i = 0; i < columnData.length; i++)
-      {
+      for (var i = 0; i < columnData.length; i++) {
         // ... reset the width of the corresponding column (label)
         this.__labels[i].setWidth(columnData[i].getComputedWidth());
       }
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     this.__columnWidths = this.__labels = null;
 
-    this._disposeObjects(
-      "_layout");
+    this._disposeObjects("_layout");
   }
 });

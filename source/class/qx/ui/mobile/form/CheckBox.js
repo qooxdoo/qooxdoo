@@ -41,11 +41,10 @@
  * When the user taps on the checkbox, its model changes and it is reflected in the Title's value.
  *
  */
-qx.Class.define("qx.ui.mobile.form.CheckBox",
-{
-  extend : qx.ui.mobile.form.Input,
-  include : [qx.ui.mobile.form.MValue],
-  implement : [qx.ui.form.IField],
+qx.Class.define("qx.ui.mobile.form.CheckBox", {
+  extend: qx.ui.mobile.form.Input,
+  include: [qx.ui.mobile.form.MValue],
+  implement: [qx.ui.form.IField],
 
   /*
   *****************************************************************************
@@ -56,11 +55,10 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   /**
    * @param value {Boolean?false} The value of the checkbox.
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
 
-    if(typeof value != undefined) {
+    if (typeof value != undefined) {
       this._state = value;
     }
 
@@ -73,52 +71,42 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "checkbox"
+    defaultCssClass: {
+      refine: true,
+      init: "checkbox"
     }
-
   },
 
-  members :
-  {
-    _state : null,
-
+  members: {
+    _state: null,
 
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "span";
     },
 
-
     // overridden
-    _getType : function()
-    {
+    _getType() {
       return null;
     },
-
 
     /**
      * Handler for tap events.
      */
-    _onTap : function() {
+    _onTap() {
       // Toggle State.
       this.setValue(!this.getValue());
     },
-
 
     /**
      * Sets the value [true/false] of this checkbox.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
      * @param value {Boolean} the new value of the checkbox
      */
-    _setValue : function(value) {
-      if(value == true) {
+    _setValue(value) {
+      if (value == true) {
         this.addCssClass("checked");
       } else {
         this.removeCssClass("checked");
@@ -129,25 +117,22 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       this._state = value;
     },
 
-
     /**
      * Gets the value [true/false] of this checkbox.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
      * @return {Boolean} the value of the checkbox
      */
-    _getValue : function() {
+    _getValue() {
       return this._state;
     }
   },
-
 
   /*
   *****************************************************************************
       DESTRUCTOR
   *****************************************************************************
   */
-  destruct : function()
-  {
+  destruct() {
     this.removeListener("tap", this._onTap, this);
   }
 });

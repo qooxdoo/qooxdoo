@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-
 /**
  * The Row layer renders row background colors.
  */
-qx.Class.define("qx.ui.virtual.layer.Column",
-{
-  extend : qx.ui.virtual.layer.AbstractBackground,
-
+qx.Class.define("qx.ui.virtual.layer.Column", {
+  extend: qx.ui.virtual.layer.AbstractBackground,
 
   /*
   *****************************************************************************
@@ -31,16 +28,13 @@ qx.Class.define("qx.ui.virtual.layer.Column",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "column-layer"
+    appearance: {
+      refine: true,
+      init: "column-layer"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -48,14 +42,9 @@ qx.Class.define("qx.ui.virtual.layer.Column",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
 
       var height = qx.lang.Array.sum(rowSizes);
@@ -64,27 +53,34 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       var column = firstColumn;
       var childIndex = 0;
 
-      for (var x=0; x<columnSizes.length; x++)
-      {
-
+      for (var x = 0; x < columnSizes.length; x++) {
         var color = this.getColor(column);
         var backgroundColor = color ? "background-color:" + color + ";" : "";
 
         var decorator = this.getBackground(column);
-        var styles = decorator ? qx.bom.element.Style.compile(decorator.getStyles()) : "";
+        var styles = decorator
+          ? qx.bom.element.Style.compile(decorator.getStyles())
+          : "";
 
         html.push(
           "<div style='",
           "position: absolute;",
           "top: 0;",
-          "left:", left, "px;",
-          "width:", columnSizes[x], "px;",
-          "height:", height, "px;",
+          "left:",
+          left,
+          "px;",
+          "width:",
+          columnSizes[x],
+          "px;",
+          "height:",
+          height,
+          "px;",
           backgroundColor,
           styles,
           "'>",
           "</div>"
         );
+
         childIndex++;
 
         left += columnSizes[x];
@@ -102,25 +98,19 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this._height = height;
     },
 
-    updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
       if (
         firstColumn !== this.getFirstColumn() ||
         columnSizes.length !== this.getColumnSizes().length ||
         this._height < qx.lang.Array.sum(rowSizes)
       ) {
-        this._fullUpdate(
-          firstRow, firstColumn,
-          rowSizes, columnSizes
-        );
+        this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
       }
     },
 
-
     // overridden
-    setColor : function(index, color)
-    {
-      this.base(arguments, index, color);
+    setColor(index, color) {
+      super.setColor(index, color);
 
       var firstColumn = this.getFirstColumn();
       var lastColumn = firstColumn + this.getColumnSizes().length - 1;

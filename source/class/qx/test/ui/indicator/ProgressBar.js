@@ -15,24 +15,20 @@
      * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.indicator.ProgressBar",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.indicator.ProgressBar", {
+  extend: qx.dev.unit.TestCase,
 
+  members: {
+    __pb: null,
 
-  members :
-  {
-    __pb : null,
-
-
-    tearDown : function() {
+    tearDown() {
       this.__pb.destroy();
     },
 
-
-    testConstructor: function() {
+    testConstructor() {
       //defaults
-      var val = 0, max = 100;
+      var val = 0,
+        max = 100;
 
       this.__pb = new qx.ui.indicator.ProgressBar();
       this.assertIdentical(val, this.__pb.getValue());
@@ -59,8 +55,7 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
       this.assertIdentical(1000, this.__pb.getMaximum());
     },
 
-
-    testValue: function() {
+    testValue() {
       var val = 20;
 
       this.__pb = new qx.ui.indicator.ProgressBar();
@@ -71,20 +66,19 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
       this.assertIdentical(val, this.__pb.getValue());
     },
 
-    testLimitValueToZero: function() {
+    testLimitValueToZero() {
       this.__pb = new qx.ui.indicator.ProgressBar();
       this.__pb.setValue(-20);
       this.assertIdentical(0, this.__pb.getValue());
     },
 
-    testLimitValueToMaximum: function() {
+    testLimitValueToMaximum() {
       this.__pb = new qx.ui.indicator.ProgressBar();
       this.__pb.setValue(this.__pb.getMaximum() + 1);
       this.assertIdentical(this.__pb.getMaximum(), this.__pb.getValue());
     },
 
-
-    testMaximum: function() {
+    testMaximum() {
       var max = 200;
       this.__pb = new qx.ui.indicator.ProgressBar();
 
@@ -94,7 +88,7 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
       this.assertIdentical(max, this.__pb.getMaximum());
     },
 
-    testDoNothingIfMaximumIsSetToZero: function() {
+    testDoNothingIfMaximumIsSetToZero() {
       this.__pb = new qx.ui.indicator.ProgressBar();
       this.__pb.setMaximum(0);
 
@@ -102,56 +96,87 @@ qx.Class.define("qx.test.ui.indicator.ProgressBar",
       this.assertIdentical(100, this.__pb.getMaximum());
     },
 
-    testLimitMaximumToValue: function() {
+    testLimitMaximumToValue() {
       var val = 20;
       this.__pb = new qx.ui.indicator.ProgressBar();
       this.__pb.setValue(val);
-      this.__pb.setMaximum(val-1);
+      this.__pb.setMaximum(val - 1);
       this.assertIdentical(val, this.__pb.getMaximum());
     },
 
-    testChangeEvent : function() {
-      var that = this, val = 10;
+    testChangeEvent() {
+      var that = this,
+        val = 10;
 
       this.__pb = new qx.ui.indicator.ProgressBar();
-      this.assertEventFired(this.__pb, "change", function() {
-        that.__pb.setValue(val);
-      }, function(e){
-        that.assertIdentical(0, e.getOldData());
-        that.assertIdentical(val, e.getData());
-      }, "event not fired.");
+      this.assertEventFired(
+        this.__pb,
+        "change",
+        function () {
+          that.__pb.setValue(val);
+        },
+        function (e) {
+          that.assertIdentical(0, e.getOldData());
+          that.assertIdentical(val, e.getData());
+        },
+        "event not fired."
+      );
     },
 
-
-    testCompleteEvent : function() {
-      var that = this, max = this.__pb.getMaximum();
+    testCompleteEvent() {
+      var that = this,
+        max = this.__pb.getMaximum();
 
       this.__pb = new qx.ui.indicator.ProgressBar();
-      this.assertEventFired(this.__pb, "complete", function() {
-        that.__pb.setValue(max);
-      }, null, "event not fired.");
+      this.assertEventFired(
+        this.__pb,
+        "complete",
+        function () {
+          that.__pb.setValue(max);
+        },
+        null,
+        "event not fired."
+      );
 
       max = 200;
       this.__pb.dispose();
       this.__pb = new qx.ui.indicator.ProgressBar(0, max);
-      this.assertEventFired(this.__pb, "complete", function() {
-        that.__pb.setValue(max);
-      }, null, "event not fired.");
+      this.assertEventFired(
+        this.__pb,
+        "complete",
+        function () {
+          that.__pb.setValue(max);
+        },
+        null,
+        "event not fired."
+      );
     },
 
-    testCompleteEventFiresOnTime: function() {
-      var that = this, max = 200;
+    testCompleteEventFiresOnTime() {
+      var that = this,
+        max = 200;
 
       this.__pb = new qx.ui.indicator.ProgressBar(0, max);
 
-      this.assertEventNotFired(this.__pb, "complete", function() {
-        that.__pb.setValue(max-1);
-      }, null, "event fired.");
+      this.assertEventNotFired(
+        this.__pb,
+        "complete",
+        function () {
+          that.__pb.setValue(max - 1);
+        },
+        null,
+        "event fired."
+      );
 
-      this.assertEventFired(this.__pb, "complete", function() {
-        that.__pb.setValue(max);
-      }, null, "event not fired.");
+      this.assertEventFired(
+        this.__pb,
+        "complete",
+        function () {
+          that.__pb.setValue(max);
+        },
+        null,
+        "event not fired."
+      );
     }
   }
 });
-

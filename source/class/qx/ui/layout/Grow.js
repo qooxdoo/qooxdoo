@@ -53,11 +53,8 @@
  * <a href='https://qooxdoo.org/documentation/#/desktop/layout/grow.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Grow",
-{
-  extend : qx.ui.layout.Abstract,
-
-
+qx.Class.define("qx.ui.layout.Grow", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -65,8 +62,7 @@ qx.Class.define("qx.ui.layout.Grow",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -74,25 +70,24 @@ qx.Class.define("qx.ui.layout.Grow",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value) {
-        this.assert(false, "The property '"+name+"' is not supported by the Grow layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assert(
+          false,
+          "The property '" + name + "' is not supported by the Grow layout!"
+        );
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var children = this._getLayoutChildren();
       var child, size, width, height;
 
       // Render children
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         size = child.getSizeHint();
 
@@ -114,19 +109,19 @@ qx.Class.define("qx.ui.layout.Grow",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var child, size;
-      var neededWidth=0, neededHeight=0;
-      var minWidth=0, minHeight=0;
-      var maxWidth=Infinity, maxHeight=Infinity;
+      var neededWidth = 0,
+        neededHeight = 0;
+      var minWidth = 0,
+        minHeight = 0;
+      var maxWidth = Infinity,
+        maxHeight = Infinity;
 
       // Iterate over children
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         size = child.getSizeHint();
 
@@ -140,17 +135,16 @@ qx.Class.define("qx.ui.layout.Grow",
         maxHeight = Math.min(maxHeight, size.maxHeight);
       }
 
-
       // Return hint
       return {
-        width : neededWidth,
-        height : neededHeight,
+        width: neededWidth,
+        height: neededHeight,
 
-        minWidth : minWidth,
-        minHeight : minHeight,
+        minWidth: minWidth,
+        minHeight: minHeight,
 
-        maxWidth : maxWidth,
-        maxHeight : maxHeight
+        maxWidth: maxWidth,
+        maxHeight: maxHeight
       };
     }
   }

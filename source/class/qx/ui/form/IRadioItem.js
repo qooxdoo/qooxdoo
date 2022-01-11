@@ -21,22 +21,17 @@
  * Each object, which should be managed by a {@link RadioGroup} have to
  * implement this interface.
  */
-qx.Interface.define("qx.ui.form.IRadioItem",
-{
-
+qx.Interface.define("qx.ui.form.IRadioItem", {
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the item was checked or unchecked */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -44,23 +39,20 @@ qx.Interface.define("qx.ui.form.IRadioItem",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Set whether the item is checked
      *
      * @param value {Boolean} whether the item should be checked
      */
-    setValue : function(value) {},
-
+    setValue(value) {},
 
     /**
      * Get whether the item is checked
      *
      * @return {Boolean} whether the item it checked
      */
-    getValue : function() {},
-
+    getValue() {},
 
     /**
      * Set the radiogroup, which manages this item
@@ -68,16 +60,15 @@ qx.Interface.define("qx.ui.form.IRadioItem",
      * @param value {qx.ui.form.RadioGroup} The radiogroup, which should
      *     manage the item.
      */
-    setGroup : function(value) {
+    setGroup(value) {
       this.assertInstance(value, qx.ui.form.RadioGroup);
     },
-
 
     /**
      * Get the radiogroup, which manages this item
      *
      * @return {qx.ui.form.RadioGroup} The radiogroup, which manages the item.
      */
-    getGroup : function() {}
+    getGroup() {}
   }
 });

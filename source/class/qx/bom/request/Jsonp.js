@@ -49,20 +49,17 @@
  *
  * @group (IO)
  */
-qx.Bootstrap.define("qx.bom.request.Jsonp",
-{
-  extend : qx.bom.request.Script,
+qx.Bootstrap.define("qx.bom.request.Jsonp", {
+  extend: qx.bom.request.Script,
 
-  construct : function()
-  {
+  construct() {
     // Borrow super-class constructor
     qx.bom.request.Script.apply(this);
 
     this.__generateId();
   },
 
-  members :
-  {
+  members: {
     /**
      * @type {Object} Parsed JSON response.
      */
@@ -104,7 +101,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __disposed: null,
 
     /** Prefix used for the internal callback name. */
-    __prefix : "",
+    __prefix: "",
 
     /**
      * Initializes (prepares) request.
@@ -116,53 +113,55 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @param url {String}
      *   The URL to which to send the request.
      */
-    open: function(method, url) {
+    open(method, url) {
       if (this.__disposed) {
         return;
       }
 
       var query = {},
-          callbackParam,
-          callbackName,
-          that = this;
+        callbackParam,
+        callbackName,
+        that = this;
 
       // Reset properties that may have been set by previous request
       this.responseJson = null;
       this.__callbackCalled = false;
 
       callbackParam = this.__callbackParam || "callback";
-      callbackName = this.__callbackName || this.__prefix +
-        "qx.bom.request.Jsonp." + this.__id + ".callback";
+      callbackName =
+        this.__callbackName ||
+        this.__prefix + "qx.bom.request.Jsonp." + this.__id + ".callback";
 
       // Default callback
       if (!this.__callbackName) {
-
         // Store globally available reference to this object
         this.constructor[this.__id] = this;
 
-      // Custom callback
+        // Custom callback
       } else {
-
         // Dynamically create globally available callback (if it does not
         // exist yet) with user defined name. Delegate to this object’s
         // callback method.
         if (!window[this.__callbackName]) {
           this.__customCallbackCreated = true;
-          window[this.__callbackName] = function(data) {
+          window[this.__callbackName] = function (data) {
             that.callback(data);
           };
         } else {
           if (qx.core.Environment.get("qx.debug.io")) {
-            qx.Bootstrap.debug(qx.bom.request.Jsonp, "Callback " +
-              this.__callbackName + " already exists");
+            qx.Bootstrap.debug(
+              qx.bom.request.Jsonp,
+              "Callback " + this.__callbackName + " already exists"
+            );
           }
         }
-
       }
 
       if (qx.core.Environment.get("qx.debug.io")) {
-        qx.Bootstrap.debug(qx.bom.request.Jsonp,
-          "Expecting JavaScript response to call: " + callbackName);
+        qx.Bootstrap.debug(
+          qx.bom.request.Jsonp,
+          "Expecting JavaScript response to call: " + callbackName
+        );
       }
 
       query[callbackParam] = callbackName;
@@ -184,7 +183,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      *
      * @param data {Object} JSON
      */
-    callback: function(data) {
+    callback(data) {
       if (this.__disposed) {
         return;
       }
@@ -217,11 +216,10 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @param param {String} Name of the callback parameter.
      * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
-    setCallbackParam: function(param) {
+    setCallbackParam(param) {
       this.__callbackParam = param;
       return this;
     },
-
 
     /**
      * Set callback name.
@@ -242,11 +240,10 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @param name {String} Name of the callback function.
      * @return {qx.bom.request.Jsonp} Self reference for chaining.
      */
-    setCallbackName: function(name) {
+    setCallbackName(name) {
       this.__callbackName = name;
       return this;
     },
-
 
     /**
      * Set the prefix used in front of 'qx.' in case 'qx' is not available
@@ -254,10 +251,9 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @internal
      * @param prefix {String} The prefix to put in front of 'qx'
      */
-    setPrefix : function(prefix) {
+    setPrefix(prefix) {
       this.__prefix = prefix;
     },
-
 
     /**
      * Returns the generated URL for the current / last request
@@ -265,12 +261,11 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @internal
      * @return {String} The current generated URL for the request
      */
-    getGeneratedUrl : function() {
+    getGeneratedUrl() {
       return this.__generatedUrl;
     },
 
-
-    dispose: function() {
+    dispose() {
       // In case callback was not called
       this.__deleteCustomCallback();
 
@@ -280,8 +275,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     /**
      * Handle native load.
      */
-    _onNativeLoad: function() {
-
+    _onNativeLoad() {
       // Indicate erroneous status (500) if callback was not called.
       //
       // Why 500? 5xx belongs to the range of server errors. If the callback was
@@ -296,7 +290,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     /**
      *  Delete custom callback if dynamically created before.
      */
-    __deleteCustomCallback: function() {
+    __deleteCustomCallback() {
       if (this.__customCallbackCreated && window[this.__callbackName]) {
         window[this.__callbackName] = undefined;
         this.__customCallbackCreated = false;
@@ -309,17 +303,18 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * @param method {String} Name of the overridden method.
      * @param args {Array} Arguments.
      */
-    __callBase: function(method, args) {
+    __callBase(method, args) {
       qx.bom.request.Script.prototype[method].apply(this, args || []);
     },
 
     /**
      * Generate ID.
      */
-    __generateId: function() {
+    __generateId() {
       // Add random digits to date to allow immediately following requests
       // that may be send at the same time
-      this.__id = "qx" + (new Date().valueOf()) + ("" + Math.random()).substring(2,5);
+      this.__id =
+        "qx" + new Date().valueOf() + ("" + Math.random()).substring(2, 5);
     }
   }
 });

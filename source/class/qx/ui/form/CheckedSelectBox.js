@@ -25,98 +25,109 @@
  */
 qx.Class.define("qx.ui.form.CheckedSelectBox", {
   extend: qx.ui.form.AbstractSelectBox,
-  implement : [
+  implement: [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IModelSelection,
     qx.ui.form.IField
   ],
-  
+
   construct() {
-    this.base(arguments);
+    super();
     this.__modelSelection = new qx.data.Array();
-    this.__modelSelection.addListener("change", this.__onModelSelectionChange, this);
+    this.__modelSelection.addListener(
+      "change",
+      this.__onModelSelectionChange,
+      this
+    );
     this.__atomsOnDisplay = [];
-    
+
     this._add(this._createChildControl("tags"), { flex: 1, flexShrink: true });
     this._add(this._createChildControl("spacer"));
     this._add(this._createChildControl("arrow"));
-    
+
     // Register listener
     this.addListener("pointerover", this._onPointerOver, this);
     this.addListener("pointerout", this._onPointerOut, this);
     this.addListener("tap", this._onTap, this);
   },
-  
+
   properties: {
     appearance: {
       refine: true,
       init: "checked-selectbox"
     }
   },
-  
+
   events: {
     /** Event for psuedo property selection */
-    "changeSelection" : "qx.event.type.Data",
-    
+    changeSelection: "qx.event.type.Data",
+
     /** Event for psuedo property checked */
-    "changeChecked" : "qx.event.type.Data",
-    
+    changeChecked: "qx.event.type.Data",
+
     /** Event for psuedo property value */
-    "changeValue" : "qx.event.type.Data",
-    
+    changeValue: "qx.event.type.Data",
+
     /** Event for psuedo property modelSelection */
-    "changeModelSelection": "qx.event.type.Data",
-    
+    changeModelSelection: "qx.event.type.Data",
+
     /** Fired when a tag widget is added to the results; data is a map containing:
      * `tagWidget` - the tag widget being added
      * `item` - the item in the list that is checked
      * `itemModel` - the model item that backs the item
      */
-    "attachResultsTag": "qx.event.type.Data",
-    
+    attachResultsTag: "qx.event.type.Data",
+
     /** Fired when a tag widget is removed from the results; data is a map containing:
      * `tagWidget` - the tag widget being added
      * `item` - the item in the list that is checked
-     * `itemModel` - the model item that backs the item 
+     * `itemModel` - the model item that backs the item
      */
-    "detachResultsTag": "qx.event.type.Data"
+    detachResultsTag: "qx.event.type.Data"
   },
-  
+
   members: {
     /** @type {qx.data.Array} the modelSelection psuedo property */
     __modelSelection: null,
-    
+
     /** @type {qx.ui.basic.Atom[]} atoms used to show the selection */
     __atomsOnDisplay: null,
-    
+
     /**
      * @Override
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true
+    _forwardStates: {
+      focused: true
     },
-    
+
     /**
      * @Override
      */
     _createChildControlImpl(id, hash) {
-      switch(id) {
+      switch (id) {
         case "popup":
           var control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
             autoHide: false,
             keepActive: false
           });
-          control.add(this.getChildControl("allNone"))
+
+          control.add(this.getChildControl("allNone"));
           control.add(this.getChildControl("list"));
-          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
+          control.addListener(
+            "changeVisibility",
+            this._onPopupChangeVisibility,
+            this
+          );
           return control;
-          
+
         case "allNone":
-          var control = new qx.ui.form.Button("All / None").set({ allowGrowX: false });
+          var control = new qx.ui.form.Button("All / None").set({
+            allowGrowX: false
+          });
           control.addListener("execute", this._onAllNoneExecute, this);
           return control;
-          
+
         case "list":
           var control = new qx.ui.form.CheckedList().set({
             focusable: false,
@@ -128,12 +139,14 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
 
           control.addListener("changeChecked", this._onListChangeChecked, this);
           return control;
-        
+
         case "spacer":
           return new qx.ui.core.Spacer();
-          
+
         case "tags":
-          return new qx.ui.container.Composite(new qx.ui.layout.HBox()).set({ allowGrowX: false });
+          return new qx.ui.container.Composite(new qx.ui.layout.HBox()).set({
+            allowGrowX: false
+          });
 
         case "tag":
           return new qx.ui.form.Tag();
@@ -142,9 +155,9 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
           return new qx.ui.basic.Image().set({ anonymous: true });
       }
 
-      return this.base(arguments, id);
+      return super._createChildControlImpl(id);
     },
-    
+
     /**
      * @Override
      * @see qx.ui.form.IField
@@ -168,7 +181,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     resetValue() {
       this.setSelection([]);
     },
-    
+
     /**
      * Getter for psuedo property "checked"
      *
@@ -177,7 +190,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     getChecked() {
       return this.getChildControl("list").getChecked();
     },
-    
+
     /**
      * Setter for psuedo property "checked"
      *
@@ -186,7 +199,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     setChecked(checked) {
       this.getChildControl("list").setChecked(checked);
     },
-    
+
     /**
      * Reset for psuedo property "checked"
      */
@@ -223,7 +236,10 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
      * @see qx.ui.core.ISingleSelection
      */
     isSelected(item) {
-      return qx.lang.Array.contains(this.getChildControl("list").getChecked(), item);
+      return qx.lang.Array.contains(
+        this.getChildControl("list").getChecked(),
+        item
+      );
     },
 
     /**
@@ -241,7 +257,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     getSelectables() {
       return this.getChildControl("list").getChildren();
     },
-    
+
     /**
      * @Override
      * @see qx.ui.core.IMultiSelection
@@ -268,14 +284,14 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
      * @Override
      * @see qx.ui.core.IMultiSelection
      */
-    removeFromSelection : function(item) {
+    removeFromSelection(item) {
       let lst = this.getChildControl("list");
       let checked = lst.getChecked();
       if (qx.lang.Array.remove(checked, item)) {
         lst.setChecked(checked);
       }
     },
-    
+
     /**
      * @Override
      * @see qx.ui.form.IModelSelection
@@ -291,14 +307,16 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     getModelSelection() {
       return this.__modelSelection;
     },
-    
+
     /**
      * Event handler for changes to the modelSelection array
      */
     __onModelSelectionChange(evt) {
       let checked = [];
       let selected = {};
-      this.getModelSelection().forEach(itemModel => selected[itemModel.toHashCode()] = itemModel);
+      this.getModelSelection().forEach(
+        itemModel => (selected[itemModel.toHashCode()] = itemModel)
+      );
       this.getChildren().forEach(item => {
         let itemModel = item.getModel();
         if (selected[itemModel.toHashCode()]) {
@@ -310,9 +328,9 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
         lst.setChecked(checked);
       }
     },
-    
+
     /**
-     * Event handler for the All/None button 
+     * Event handler for the All/None button
      */
     _onAllNoneExecute() {
       let lst = this.getChildControl("list");
@@ -323,16 +341,21 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
         lst.setChecked([]);
       }
     },
-    
+
     /**
      * Event handler for changes to the list's checked array
      */
     _onListChangeChecked(evt) {
       let lst = this.getChildControl("list");
       let modelSelection = lst.getChecked().map(item => item.getModel());
-      if (!qx.lang.Array.equals(modelSelection, this.getModelSelection().toArray())) {
+      if (
+        !qx.lang.Array.equals(
+          modelSelection,
+          this.getModelSelection().toArray()
+        )
+      ) {
         this.__modelSelection.replace(modelSelection);
-        this.fireDataEvent("changeValue", this.getValue())
+        this.fireDataEvent("changeValue", this.getValue());
 
         let children = {};
         this.getChildren().forEach(item => {
@@ -348,19 +371,24 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
             model: itemModel,
             label: item.getLabel()
           });
-          this.fireDataEvent("attachResultsTag", { tagWidget: tag, item: item, itemModel: itemModel });
+
+          this.fireDataEvent("attachResultsTag", {
+            tagWidget: tag,
+            item: item,
+            itemModel: itemModel
+          });
         };
         const detachTag = tag => {
           let itemModel = tag.getModel();
           tag.setModel(null);
           tags.remove(tag);
-          this.fireDataEvent("detachResultsTag", { 
-            tagWidget: tag, 
-            item: children[itemModel.toHashCode()], 
+          this.fireDataEvent("detachResultsTag", {
+            tagWidget: tag,
+            item: children[itemModel.toHashCode()],
             itemModel: itemModel
           });
         };
-        
+
         while (this.__atomsOnDisplay.length > modelSelection.length) {
           let tag = this.__atomsOnDisplay.pop();
           detachTag(tag);
@@ -376,7 +404,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
         });
       }
     },
-    
+
     /**
      * Listener method for "pointerover" event
      * <ul>
@@ -429,21 +457,24 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
     _onTap(e) {
       this.open();
     },
-    
+
     /**
      * @Override
      */
     _onBlur(evt) {
       let popup = this.getChildControl("popup");
-      for (let widget = evt.getRelatedTarget(); widget; widget = widget.getLayoutParent()) {
+      for (
+        let widget = evt.getRelatedTarget();
+        widget;
+        widget = widget.getLayoutParent()
+      ) {
         if (widget == popup) {
-          evt.getRelatedTarget().addListenerOnce("blur", this._onBlur, this); 
-          return; 
+          evt.getRelatedTarget().addListenerOnce("blur", this._onBlur, this);
+          return;
         }
       }
 
       this.close();
     }
-    
   }
 });

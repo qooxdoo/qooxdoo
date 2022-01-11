@@ -16,15 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Scroller",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.virtual.Scroller", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.base(arguments);
+  members: {
+    setUp() {
+      super.setUp();
 
       var scroller = new qx.ui.virtual.core.Scroller(1, 1, 10, 10);
       this.getRoot().add(scroller);
@@ -33,20 +30,19 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.flush();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       this.scroller.destroy();
-      this.base(arguments);
+      super.tearDown();
       this.flush();
     },
 
-    assertScrollbars : function(hasScrollX, hasScrollY, msg)
-    {
+    assertScrollbars(hasScrollX, hasScrollY, msg) {
       this.assertEquals(
         hasScrollX,
         this.scroller.getChildControl("scrollbar-x").isVisible(),
         msg
       );
+
       this.assertEquals(
         hasScrollY,
         this.scroller.getChildControl("scrollbar-y").isVisible(),
@@ -54,12 +50,12 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       );
     },
 
-    configureScroller : function(scrollWidth, scrollHeight, width, height)
-    {
+    configureScroller(scrollWidth, scrollHeight, width, height) {
       this.scroller.set({
         width: width,
         height: height
       });
+
       this.scroller.getPane().getRowConfig().setItemSize(0, scrollHeight);
       this.scroller.getPane().getColumnConfig().setItemSize(0, scrollWidth);
 
@@ -68,12 +64,11 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.flush();
     },
 
-    testConstructor : function() {
+    testConstructor() {
       this.assertNotUndefined(this.scroller);
     },
 
-    testScrollX : function()
-    {
+    testScrollX() {
       this.scroller.setScrollbarY("off");
 
       this.configureScroller(3000, 2000, 300, 200);
@@ -88,8 +83,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
 
       this.scroller.scrollToX(3000);
 
-      this.assertEquals(3000-300, this.scroller.getScrollX());
-      this.assertEquals(3000-300, this.scroller.getPane().getScrollX());
+      this.assertEquals(3000 - 300, this.scroller.getScrollX());
+      this.assertEquals(3000 - 300, this.scroller.getPane().getScrollX());
 
       this.configureScroller(3000, 2000, 3000, 2000);
       this.assertScrollbars(false, false);
@@ -97,8 +92,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.assertEquals(0, this.scroller.getPane().getScrollX());
     },
 
-    testScrollY : function()
-    {
+    testScrollY() {
       this.scroller.setScrollbarX("off");
 
       this.configureScroller(3000, 2000, 300, 200);
@@ -112,8 +106,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.assertEquals(100, this.scroller.getPane().getScrollY());
 
       this.scroller.scrollToY(2000);
-      this.assertEquals(2000-200, this.scroller.getScrollY());
-      this.assertEquals(2000-200, this.scroller.getPane().getScrollY());
+      this.assertEquals(2000 - 200, this.scroller.getScrollY());
+      this.assertEquals(2000 - 200, this.scroller.getPane().getScrollY());
 
       this.configureScroller(3000, 2000, 3000, 2000);
       this.assertScrollbars(false, false);
@@ -121,8 +115,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.assertEquals(0, this.scroller.getPane().getScrollY());
     },
 
-    testMaxScrollPosition : function()
-    {
+    testMaxScrollPosition() {
       this.scroller.setScrollbarX("off");
 
       this.configureScroller(3000, 2000, 300, 200);
@@ -130,23 +123,24 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
 
       // scroll to end
       this.scroller.scrollToY(10000);
-      this.assertEquals(2000-200, this.scroller.getScrollY());
+      this.assertEquals(2000 - 200, this.scroller.getScrollY());
 
       // increase scroller size
       this.configureScroller(3000, 2000, 300, 400);
       this.assertEquals(
-        2000-400, this.scroller.getScrollY(),
-        "the scroll position must be limited to the max scroll position"
-      );
-      this.assertEquals(
-        2000-400, this.scroller.getPane().getScrollY(),
+        2000 - 400,
+        this.scroller.getScrollY(),
         "the scroll position must be limited to the max scroll position"
       );
 
+      this.assertEquals(
+        2000 - 400,
+        this.scroller.getPane().getScrollY(),
+        "the scroll position must be limited to the max scroll position"
+      );
     },
 
-    testScrollbarYAuto : function()
-    {
+    testScrollbarYAuto() {
       this.scroller.setScrollbarX("off");
       this.scroller.setScrollbarY("auto");
 
@@ -162,14 +156,12 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.configureScroller(300, 201, 300, 202);
       this.assertScrollbars(false, false);
 
-
       // scroll y must be hidden all the time
       this.configureScroller(301, 200, 300, 200);
       this.assertScrollbars(false, false);
     },
 
-    testScrollbarXAuto : function()
-    {
+    testScrollbarXAuto() {
       this.scroller.setScrollbarX("auto");
       this.scroller.setScrollbarY("off");
 
@@ -185,14 +177,12 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.configureScroller(301, 200, 302, 200);
       this.assertScrollbars(false, false);
 
-
       // scroll x must be hidden all the time
       this.configureScroller(300, 201, 300, 200);
       this.assertScrollbars(false, false);
     },
 
-    testScrollbarXYAuto : function()
-    {
+    testScrollbarXYAuto() {
       // pane and widget have equal size
       this.configureScroller(300, 200, 300, 200);
       this.assertScrollbars(false, false);
@@ -218,7 +208,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.scroller = null;
   }
 });

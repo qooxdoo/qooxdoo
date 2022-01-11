@@ -22,19 +22,15 @@
  *
  * @see qx.ui.table.ITableModel
  */
-qx.Class.define("qx.ui.table.columnmodel.Basic",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.table.columnmodel.Basic", {
+  extend: qx.core.Object,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__overallColumnArr = [];
     this.__visibleColumnArr = [];
   },
-
 
   /*
   *****************************************************************************
@@ -42,8 +38,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   *****************************************************************************
   */
 
-  events : {
-
+  events: {
     /**
      * Fired when the width of a column has changed. The data property of the event is
      * a map having the following attributes:
@@ -53,13 +48,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>oldWidth: The old width of the column in pixels.</li>
      * </ul>
      */
-    "widthChanged" : "qx.event.type.Data",
+    widthChanged: "qx.event.type.Data",
 
     /**
      * Fired when the visibility of a column has changed. This event is equal to
-      * "visibilityChanged", but is fired right before.
+     * "visibilityChanged", but is fired right before.
      */
-    "visibilityChangedPre" : "qx.event.type.Data",
+    visibilityChangedPre: "qx.event.type.Data",
 
     /**
      * Fired when the visibility of a column has changed. The data property of the
@@ -69,7 +64,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>visible: Whether the column is now visible.</li>
      * </ul>
      */
-    "visibilityChanged" : "qx.event.type.Data",
+    visibilityChanged: "qx.event.type.Data",
 
     /**
      * Fired when the column order has changed. The data property of the
@@ -80,7 +75,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>toOverXPos: The new overall x position of the column.</li>
      * </ul>
      */
-    "orderChanged" : "qx.event.type.Data",
+    orderChanged: "qx.event.type.Data",
 
     /**
      * Fired when the cell renderer of a column has changed.
@@ -89,11 +84,8 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>col: The model index of the column that was moved.</li>
      * </ul>
      */
-    "headerCellRendererChanged" : "qx.event.type.Data"
+    headerCellRendererChanged: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -101,24 +93,19 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   *****************************************************************************
   */
 
-  statics :
-  {
-
+  statics: {
     /** @type {Integer} the default width of a column in pixels. */
-    DEFAULT_WIDTH           : 100,
+    DEFAULT_WIDTH: 100,
 
     /** @type {qx.ui.table.headerrenderer.Default} the default header cell renderer. */
-    DEFAULT_HEADER_RENDERER : qx.ui.table.headerrenderer.Default,
+    DEFAULT_HEADER_RENDERER: qx.ui.table.headerrenderer.Default,
 
     /** @type {qx.ui.table.cellrenderer.Default} the default data cell renderer. */
-    DEFAULT_DATA_RENDERER   : qx.ui.table.cellrenderer.Default,
+    DEFAULT_DATA_RENDERER: qx.ui.table.cellrenderer.Default,
 
     /** @type {qx.ui.table.celleditor.TextField} the default editor factory. */
-    DEFAULT_EDITOR_FACTORY  : qx.ui.table.celleditor.TextField
+    DEFAULT_EDITOR_FACTORY: qx.ui.table.celleditor.TextField
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -126,18 +113,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   *****************************************************************************
   */
 
-  members :
-  {
-    __internalChange : null,
-    __colToXPosMap : null,
-    __visibleColumnArr : null,
-    __overallColumnArr : null,
-    __columnDataArr : null,
+  members: {
+    __internalChange: null,
+    __colToXPosMap: null,
+    __visibleColumnArr: null,
+    __overallColumnArr: null,
+    __columnDataArr: null,
 
-    __headerRenderer : null,
-    __dataRenderer : null,
-    __editorFactory : null,
-
+    __headerRenderer: null,
+    __dataRenderer: null,
+    __editorFactory: null,
 
     /**
      * Initializes the column model.
@@ -148,8 +133,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param table {qx.ui.table.Table}
      *   The table to which this column model is attached.
      */
-    init : function(colCount, table)
-    {
+    init(colCount, table) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(colCount, "Invalid argument 'colCount'.");
       }
@@ -157,9 +141,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr = [];
 
       var width = qx.ui.table.columnmodel.Basic.DEFAULT_WIDTH;
-      var headerRenderer = this.__headerRenderer ||  (this.__headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER());
-      var dataRenderer = this.__dataRenderer || (this.__dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER());
-      var editorFactory = this.__editorFactory || (this.__editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY());
+      var headerRenderer =
+        this.__headerRenderer ||
+        (this.__headerRenderer =
+          new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER());
+      var dataRenderer =
+        this.__dataRenderer ||
+        (this.__dataRenderer =
+          new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER());
+      var editorFactory =
+        this.__editorFactory ||
+        (this.__editorFactory =
+          new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY());
       this.__overallColumnArr = [];
       this.__visibleColumnArr = [];
 
@@ -169,8 +162,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       var initiallyHiddenColumns;
 
       // Was a table provided to us?
-      if (table)
-      {
+      if (table) {
         // Yup. Get its list of initially hidden columns, if the user provided
         // such a list.
         initiallyHiddenColumns = table.getInitiallyHiddenColumns();
@@ -180,15 +172,12 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       // initially hidden columns, use an empty list.
       initiallyHiddenColumns = initiallyHiddenColumns || [];
 
-
-      for (var col=0; col<colCount; col++)
-      {
-        this.__columnDataArr[col] =
-        {
-          width          : width,
-          headerRenderer : headerRenderer,
-          dataRenderer   : dataRenderer,
-          editorFactory  : editorFactory
+      for (var col = 0; col < colCount; col++) {
+        this.__columnDataArr[col] = {
+          width: width,
+          headerRenderer: headerRenderer,
+          dataRenderer: dataRenderer,
+          editorFactory: editorFactory
         };
 
         this.__overallColumnArr[col] = col;
@@ -200,18 +189,15 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       // If any columns are initially hidden, hide them now. Make it an
       // internal change so that events are not generated.
       this.__internalChange = true;
-      for (var hidden=0; hidden<initiallyHiddenColumns.length; hidden++)
-      {
+      for (var hidden = 0; hidden < initiallyHiddenColumns.length; hidden++) {
         this.setColumnVisible(initiallyHiddenColumns[hidden], false);
       }
       this.__internalChange = false;
 
-      for (col=0; col<colCount; col++)
-      {
-        var data =
-        {
-          col     : col,
-          visible : this.isColumnVisible(col)
+      for (col = 0; col < colCount; col++) {
+        var data = {
+          col: col,
+          visible: this.isColumnVisible(col)
         };
 
         this.fireDataEvent("visibilityChangedPre", data);
@@ -219,16 +205,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
     },
 
-
     /**
      * Return the array of visible columns
      *
      * @return {Array} List of all visible columns
      */
-    getVisibleColumns : function() {
+    getVisibleColumns() {
       return this.__visibleColumnArr != null ? this.__visibleColumnArr : [];
     },
-
 
     /**
      * Sets the width of a column.
@@ -244,33 +228,31 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   pointer drag in the header; false or undefined otherwise.
      *
      */
-    setColumnWidth : function(col, width, isPointerAction)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setColumnWidth(col, width, isPointerAction) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertInteger(width, "Invalid argument 'width'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       var oldWidth = this.__columnDataArr[col].width;
 
-      if (oldWidth != width)
-      {
+      if (oldWidth != width) {
         this.__columnDataArr[col].width = width;
 
-        var data =
-        {
-          col           : col,
-          newWidth      : width,
-          oldWidth      : oldWidth,
-          isPointerAction : isPointerAction || false
+        var data = {
+          col: col,
+          newWidth: width,
+          oldWidth: oldWidth,
+          isPointerAction: isPointerAction || false
         };
 
         this.fireDataEvent("widthChanged", data);
       }
     },
-
 
     /**
      * Returns the width of a column.
@@ -278,16 +260,17 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {Integer} the width of the column in pixels.
      */
-    getColumnWidth : function(col)
-    {
+    getColumnWidth(col) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       return this.__columnDataArr[col].width;
     },
-
 
     /**
      * Sets the header renderer of a column. Use setHeaderCellRenderers
@@ -298,13 +281,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param renderer {qx.ui.table.IHeaderRenderer} the new header renderer the column
      *      should get.
      */
-    setHeaderCellRenderer : function(col, renderer)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setHeaderCellRenderer(col, renderer) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertInterface(renderer, qx.ui.table.IHeaderRenderer, "Invalid argument 'renderer'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertInterface(
+          renderer,
+          qx.ui.table.IHeaderRenderer,
+          "Invalid argument 'renderer'."
+        );
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       var oldRenderer = this.__columnDataArr[col].headerRenderer;
@@ -313,11 +301,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__columnDataArr[col].headerRenderer = renderer;
-      if (! this.__internalChange) {
-        this.fireDataEvent("headerCellRendererChanged", {col:col});
+      if (!this.__internalChange) {
+        this.fireDataEvent("headerCellRendererChanged", { col: col });
       }
     },
-
 
     /**
      * Sets the header renderer of one or more columns. Use this method, in
@@ -332,8 +319,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   implementing qx.ui.table.IHeaderRenderer, of the the new header
      *   renderers for that column
      */
-    setHeaderCellRenderers : function(renderers)
-    {
+    setHeaderCellRenderers(renderers) {
       var col;
 
       // Prevent firing "headerCellRendererChanged" for each column. Instead,
@@ -341,8 +327,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__internalChange = true;
 
       // For each listed column...
-      for (col in renderers)
-      {
+      for (col in renderers) {
         // ... set that column's renderer
         this.setHeaderCellRenderer(+col, renderers[col]);
       }
@@ -352,7 +337,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
       // Now we can fire the event once. The data indicates which columns
       // changed. Internally to qooxdoo, nothing cares about the event data.
-      this.fireDataEvent("headerCellRendererChanged", { cols: Object.keys(renderers) });
+      this.fireDataEvent("headerCellRendererChanged", {
+        cols: Object.keys(renderers)
+      });
     },
 
     /**
@@ -361,17 +348,17 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.IHeaderRenderer} the header renderer of the column.
      */
-    getHeaderCellRenderer : function(col)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    getHeaderCellRenderer(col) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       return this.__columnDataArr[col].headerRenderer;
     },
-
 
     /**
      * Sets the data renderer of a column.
@@ -383,13 +370,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   it was not the default renderer, the old renderer is returned for
      *   pooling or disposing.
      */
-    setDataCellRenderer : function(col, renderer)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setDataCellRenderer(col, renderer) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertInterface(renderer, qx.ui.table.ICellRenderer, "Invalid argument 'renderer'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertInterface(
+          renderer,
+          qx.ui.table.ICellRenderer,
+          "Invalid argument 'renderer'."
+        );
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       var oldRenderer = this.__columnDataArr[col].dataRenderer;
@@ -401,24 +393,23 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return null;
     },
 
-
     /**
      * Returns the data renderer of a column.
      *
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.ICellRenderer} the data renderer of the column.
      */
-    getDataCellRenderer : function(col)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    getDataCellRenderer(col) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       return this.__columnDataArr[col].dataRenderer;
     },
-
 
     /**
      * Sets the cell editor factory of a column.
@@ -426,13 +417,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @param factory {qx.ui.table.ICellEditorFactory} the new cell editor factory the column should get.
      */
-    setCellEditorFactory : function(col, factory)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setCellEditorFactory(col, factory) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertInterface(factory, qx.ui.table.ICellEditorFactory, "Invalid argument 'factory'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertInterface(
+          factory,
+          qx.ui.table.ICellEditorFactory,
+          "Invalid argument 'factory'."
+        );
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       var oldFactory = this.__columnDataArr[col].editorFactory;
@@ -446,24 +442,23 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr[col].editorFactory = factory;
     },
 
-
     /**
      * Returns the cell editor factory of a column.
      *
      * @param col {Integer} the model index of the column.
      * @return {qx.ui.table.ICellEditorFactory} the cell editor factory of the column.
      */
-    getCellEditorFactory : function(col)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    getCellEditorFactory(col) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
-        this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
+        this.assertNotUndefined(
+          this.__columnDataArr[col],
+          "Column not found in table model"
+        );
       }
 
       return this.__columnDataArr[col].editorFactory;
     },
-
 
     /**
      * Returns the map that translates model indexes to x positions.
@@ -475,20 +470,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *
      * @return {Map} the "column to x position" map.
      */
-    _getColToXPosMap : function()
-    {
-      if (this.__colToXPosMap == null)
-      {
+    _getColToXPosMap() {
+      if (this.__colToXPosMap == null) {
         this.__colToXPosMap = {};
 
-        for (var overX=0; overX<this.__overallColumnArr.length; overX++)
-        {
+        for (var overX = 0; overX < this.__overallColumnArr.length; overX++) {
           var col = this.__overallColumnArr[overX];
-          this.__colToXPosMap[col] = { overX : overX };
+          this.__colToXPosMap[col] = { overX: overX };
         }
 
-        for (var visX=0; visX<this.__visibleColumnArr.length; visX++)
-        {
+        for (var visX = 0; visX < this.__visibleColumnArr.length; visX++) {
           var col = this.__visibleColumnArr[visX];
           this.__colToXPosMap[col].visX = visX;
         }
@@ -497,16 +488,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return this.__colToXPosMap;
     },
 
-
     /**
      * Returns the number of visible columns.
      *
      * @return {Integer} the number of visible columns.
      */
-    getVisibleColumnCount : function() {
-      return this.__visibleColumnArr != null ? this.__visibleColumnArr.length : 0;
+    getVisibleColumnCount() {
+      return this.__visibleColumnArr != null
+        ? this.__visibleColumnArr.length
+        : 0;
     },
-
 
     /**
      * Returns the model index of a column at a certain visible x position.
@@ -514,8 +505,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param visXPos {Integer} the visible x position of the column.
      * @return {Integer} the model index of the column.
      */
-    getVisibleColumnAtX : function(visXPos)
-    {
+    getVisibleColumnAtX(visXPos) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(visXPos, "Invalid argument 'visXPos'.");
       }
@@ -523,15 +513,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return this.__visibleColumnArr[visXPos];
     },
 
-
     /**
      * Returns the visible x position of a column.
      *
      * @param col {Integer} the model index of the column.
      * @return {Integer} the visible x position of the column.
      */
-    getVisibleX : function(col)
-    {
+    getVisibleX(col) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
@@ -539,16 +527,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return this._getColToXPosMap()[col].visX;
     },
 
-
     /**
      * Returns the overall number of columns (including hidden columns).
      *
      * @return {Integer} the overall number of columns.
      */
-    getOverallColumnCount : function() {
+    getOverallColumnCount() {
       return this.__overallColumnArr.length;
     },
-
 
     /**
      * Returns the model index of a column at a certain overall x position.
@@ -556,8 +542,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param overXPos {Integer} the overall x position of the column.
      * @return {Integer} the model index of the column.
      */
-    getOverallColumnAtX : function(overXPos)
-    {
+    getOverallColumnAtX(overXPos) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(overXPos, "Invalid argument 'overXPos'.");
       }
@@ -565,15 +550,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return this.__overallColumnArr[overXPos];
     },
 
-
     /**
      * Returns the overall x position of a column.
      *
      * @param col {Integer} the model index of the column.
      * @return {Integer} the overall x position of the column.
      */
-    getOverallX : function(col)
-    {
+    getOverallX(col) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
@@ -581,22 +564,19 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       return this._getColToXPosMap()[col].overX;
     },
 
-
     /**
      * Returns whether a certain column is visible.
      *
      * @param col {Integer} the model index of the column.
      * @return {Boolean} whether the column is visible.
      */
-    isColumnVisible : function(col)
-    {
+    isColumnVisible(col) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
       }
 
-      return (this._getColToXPosMap()[col].visX != null);
+      return this._getColToXPosMap()[col].visX != null;
     },
-
 
     /**
      * Sets whether a certain column is visible.
@@ -604,36 +584,34 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @param visible {Boolean} whether the column should be visible.
      */
-    setColumnVisible : function(col, visible)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setColumnVisible(col, visible) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(col, "Invalid argument 'col'.");
         this.assertBoolean(visible, "Invalid argument 'visible'.");
       }
 
-      if (visible != this.isColumnVisible(col))
-      {
-        if (visible)
-        {
+      if (visible != this.isColumnVisible(col)) {
+        if (visible) {
           var colToXPosMap = this._getColToXPosMap();
 
           var overX = colToXPosMap[col].overX;
 
           if (overX == null) {
-            throw new Error("Showing column failed: " + col + ". The column is not added to this TablePaneModel.");
+            throw new Error(
+              "Showing column failed: " +
+                col +
+                ". The column is not added to this TablePaneModel."
+            );
           }
 
           // get the visX of the next visible column after the column to show
           var nextVisX;
 
-          for (var x=overX+1; x<this.__overallColumnArr.length; x++)
-          {
+          for (var x = overX + 1; x < this.__overallColumnArr.length; x++) {
             var currCol = this.__overallColumnArr[x];
             var currVisX = colToXPosMap[currCol].visX;
 
-            if (currVisX != null)
-            {
+            if (currVisX != null) {
               nextVisX = currVisX;
               break;
             }
@@ -647,9 +625,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
           // Add the column to the visible columns
           this.__visibleColumnArr.splice(nextVisX, 0, col);
-        }
-        else
-        {
+        } else {
           var visX = this.getVisibleX(col);
           this.__visibleColumnArr.splice(visX, 1);
         }
@@ -658,12 +634,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.__colToXPosMap = null;
 
         // Inform the listeners
-        if (!this.__internalChange)
-        {
-          var data =
-          {
-            col     : col,
-            visible : visible
+        if (!this.__internalChange) {
+          var data = {
+            col: col,
+            visible: visible
           };
 
           this.fireDataEvent("visibilityChangedPre", data);
@@ -672,7 +646,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
     },
 
-
     /**
      * Moves a column.
      *
@@ -680,10 +653,8 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param toOverXPos {Integer} the overall x position of where the column should be
      *      moved to.
      */
-    moveColumn : function(fromOverXPos, toOverXPos)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    moveColumn(fromOverXPos, toOverXPos) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(fromOverXPos, "Invalid argument 'fromOverXPos'.");
         this.assertInteger(toOverXPos, "Invalid argument 'toOverXPos'.");
       }
@@ -709,16 +680,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__internalChange = false;
 
       // Inform the listeners
-      var data =
-      {
-        col          : col,
-        fromOverXPos : fromOverXPos,
-        toOverXPos   : toOverXPos
+      var data = {
+        col: col,
+        fromOverXPos: fromOverXPos,
+        toOverXPos: toOverXPos
       };
 
       this.fireDataEvent("orderChanged", data);
     },
-
 
     /**
      * Reorders all columns to new overall positions. Will fire one "orderChanged" event
@@ -729,25 +698,26 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *                            col0, col1, col2 and col3 and you give [1,3,2,0], the new column order
      *                            will be col1, col3, col2, col0
      */
-    setColumnsOrder : function(newPositions)
-    {
+    setColumnsOrder(newPositions) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertArray(newPositions, "Invalid argument 'newPositions'.");
       }
 
-      if (newPositions.length == this.__overallColumnArr.length)
-      {
+      if (newPositions.length == this.__overallColumnArr.length) {
         this.__internalChange = true;
 
         // Go through each column an switch visible ones to invisible. Reason is unknown,
         // this just mimicks the behaviour of moveColumn. Possibly useful because setting
         // a column visible later updates a map with its screen coords.
         var isVisible = new Array(newPositions.length);
-        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++)
-        {
+        for (
+          var colIdx = 0;
+          colIdx < this.__overallColumnArr.length;
+          colIdx++
+        ) {
           var visible = this.isColumnVisible(colIdx);
           isVisible[colIdx] = visible; //Remember, as this relies on this.__colToXPosMap which is cleared below
-          if (visible){
+          if (visible) {
             this.setColumnVisible(colIdx, false);
           }
         }
@@ -759,7 +729,11 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.__colToXPosMap = null;
 
         // Go through each column an switch invisible ones back to visible
-        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
+        for (
+          var colIdx = 0;
+          colIdx < this.__overallColumnArr.length;
+          colIdx++
+        ) {
           if (isVisible[colIdx]) {
             this.setColumnVisible(colIdx, true);
           }
@@ -770,16 +744,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         // only take this event to mean "total repaint necesscary". Fabian will look
         // after deprecating the data part of the orderChanged - event
         this.fireDataEvent("orderChanged");
-
       } else {
-        throw new Error("setColumnsOrder: Invalid number of column positions given, expected "
-                        + this.__overallColumnArr.length + ", got " + newPositions.length);
+        throw new Error(
+          "setColumnsOrder: Invalid number of column positions given, expected " +
+            this.__overallColumnArr.length +
+            ", got " +
+            newPositions.length
+        );
       }
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -787,17 +761,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    for (var i=0; i< this.__columnDataArr.length; i++)
-    {
+  destruct() {
+    for (var i = 0; i < this.__columnDataArr.length; i++) {
       this.__columnDataArr[i].headerRenderer.dispose();
       this.__columnDataArr[i].dataRenderer.dispose();
       this.__columnDataArr[i].editorFactory.dispose();
     }
 
-    this.__overallColumnArr = this.__visibleColumnArr =
-      this.__columnDataArr = this.__colToXPosMap = null;
+    this.__overallColumnArr =
+      this.__visibleColumnArr =
+      this.__columnDataArr =
+      this.__colToXPosMap =
+        null;
 
     this._disposeObjects(
       "__headerRenderer",

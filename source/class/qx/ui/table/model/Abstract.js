@@ -20,15 +20,12 @@
  * An abstract table model that performs the column handling, so subclasses only
  * need to care for row handling.
  */
-qx.Class.define("qx.ui.table.model.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-  implement : qx.ui.table.ITableModel,
+qx.Class.define("qx.ui.table.model.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
+  implement: qx.ui.table.ITableModel,
 
-
-  events :
-  {
+  events: {
     /**
      * Fired when the table data changed (the stuff shown in the table body).
      * The data property of the event will be a map having the following
@@ -48,37 +45,32 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *   <li>removeCount: The number of rows that were removed.</li>
      * </ul>
      */
-    "dataChanged" : "qx.event.type.Data",
+    dataChanged: "qx.event.type.Data",
 
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.Event",
+    metaDataChanged: "qx.event.type.Event",
 
     /**
      * Fired after the table is sorted (but before the metaDataChanged event)
      */
-    "sorted" : "qx.event.type.Data"
+    sorted: "qx.event.type.Data"
   },
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__columnIdArr = [];
     this.__columnNameArr = [];
     this.__columnIndexMap = {};
   },
 
-
-  members :
-  {
-    __columnIdArr : null,
-    __columnNameArr : null,
-    __columnIndexMap : null,
-    __internalChange : null,
-
+  members: {
+    __columnIdArr: null,
+    __columnNameArr: null,
+    __columnIndexMap: null,
+    __internalChange: null,
 
     /**
      * Initialize the table model <--> table interaction. The table model is
@@ -91,7 +83,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * @param table {qx.ui.table.Table}
      *   The table to which this model is attached
      */
-    init : function(table) {
+    init(table) {
       // default implementation has nothing to do
     },
 
@@ -99,35 +91,33 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * Abstract method
      * @throws {Error} An error if this method is called.
      */
-    getRowCount : function() {
+    getRowCount() {
       throw new Error("getRowCount is abstract");
     },
 
-    getRowData : function(rowIndex) {
+    getRowData(rowIndex) {
       return null;
     },
 
-    isColumnEditable : function(columnIndex) {
+    isColumnEditable(columnIndex) {
       return false;
     },
 
-    isColumnSortable : function(columnIndex) {
+    isColumnSortable(columnIndex) {
       return false;
     },
 
-    sortByColumn : function(columnIndex, ascending) {
-    },
+    sortByColumn(columnIndex, ascending) {},
 
-    getSortColumnIndex : function() {
+    getSortColumnIndex() {
       return -1;
     },
 
-    isSortAscending : function() {
+    isSortAscending() {
       return true;
     },
 
-    prefetchRows : function(firstRowIndex, lastRowIndex) {
-    },
+    prefetchRows(firstRowIndex, lastRowIndex) {},
 
     /**
      * Abstract method
@@ -137,11 +127,11 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @throws {Error} An error if this method is called.
      */
-    getValue : function(columnIndex, rowIndex) {
+    getValue(columnIndex, rowIndex) {
       throw new Error("getValue is abstract");
     },
 
-    getValueById : function(columnId, rowIndex) {
+    getValueById(columnId, rowIndex) {
       return this.getValue(this.getColumnIndexById(columnId), rowIndex);
     },
 
@@ -154,34 +144,33 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *
      * @throws {Error} An error if this method is called.
      */
-    setValue : function(columnIndex, rowIndex, value) {
+    setValue(columnIndex, rowIndex, value) {
       throw new Error("setValue is abstract");
     },
 
-    setValueById : function(columnId, rowIndex, value) {
+    setValueById(columnId, rowIndex, value) {
       this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
     },
 
     // overridden
-    getColumnCount : function() {
+    getColumnCount() {
       return this.__columnIdArr.length;
     },
 
     // overridden
-    getColumnIndexById : function(columnId) {
+    getColumnIndexById(columnId) {
       return this.__columnIndexMap[columnId];
     },
 
     // overridden
-    getColumnId : function(columnIndex) {
+    getColumnId(columnIndex) {
       return this.__columnIdArr[columnIndex];
     },
 
     // overridden
-    getColumnName : function(columnIndex) {
+    getColumnName(columnIndex) {
       return this.__columnNameArr[columnIndex];
     },
-
 
     /**
      * Sets the column IDs. These IDs may be used internally to identify a
@@ -193,14 +182,13 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * @param columnIdArr {String[]} the IDs of the columns.
      * @see #setColumns
      */
-    setColumnIds : function(columnIdArr)
-    {
+    setColumnIds(columnIdArr) {
       this.__columnIdArr = columnIdArr;
 
       // Create the reverse map
       this.__columnIndexMap = {};
 
-      for (var i=0; i<columnIdArr.length; i++) {
+      for (var i = 0; i < columnIdArr.length; i++) {
         this.__columnIndexMap[columnIdArr[i]] = i;
       }
 
@@ -212,7 +200,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
       }
     },
 
-
     /**
      * Sets the column names. These names will be shown to the user.
      *
@@ -223,10 +210,14 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * @throws {Error} If the amount of given columns is different from the table.
      * @see #setColumnIds
      */
-    setColumnNamesByIndex : function(columnNameArr)
-    {
+    setColumnNamesByIndex(columnNameArr) {
       if (this.__columnIdArr.length != columnNameArr.length) {
-        throw new Error("this.__columnIdArr and columnNameArr have different length: " + this.__columnIdArr.length + " != " + columnNameArr.length);
+        throw new Error(
+          "this.__columnIdArr and columnNameArr have different length: " +
+            this.__columnIdArr.length +
+            " != " +
+            columnNameArr.length
+        );
       }
 
       this.__columnNameArr = columnNameArr;
@@ -234,7 +225,6 @@ qx.Class.define("qx.ui.table.model.Abstract",
       // Inform the listeners
       this.fireEvent("metaDataChanged");
     },
-
 
     /**
      * Sets the column names. These names will be shown to the user.
@@ -246,15 +236,13 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *          column name as values.
      * @see #setColumnIds
      */
-    setColumnNamesById : function(columnNameMap)
-    {
+    setColumnNamesById(columnNameMap) {
       this.__columnNameArr = new Array(this.__columnIdArr.length);
 
-      for (var i=0; i<this.__columnIdArr.length; ++i) {
+      for (var i = 0; i < this.__columnIdArr.length; ++i) {
         this.__columnNameArr[i] = columnNameMap[this.__columnIdArr[i]];
       }
     },
-
 
     /**
      * Sets the column names (and optionally IDs)
@@ -277,8 +265,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * @throws {Error} If the amount of given columns is different from the table.
      *
      */
-    setColumns : function(columnNameArr, columnIdArr)
-    {
+    setColumns(columnNameArr, columnIdArr) {
       var bSetIds = this.__columnIdArr.length == 0 || columnIdArr;
 
       if (columnIdArr == null) {
@@ -290,11 +277,15 @@ qx.Class.define("qx.ui.table.model.Abstract",
       }
 
       if (columnIdArr.length != columnNameArr.length) {
-        throw new Error("columnIdArr and columnNameArr have different length: " + columnIdArr.length + " != " + columnNameArr.length);
+        throw new Error(
+          "columnIdArr and columnNameArr have different length: " +
+            columnIdArr.length +
+            " != " +
+            columnNameArr.length
+        );
       }
 
-      if (bSetIds)
-      {
+      if (bSetIds) {
         this.__internalChange = true;
         this.setColumnIds(columnIdArr);
         this.__internalChange = false;
@@ -304,8 +295,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.__columnIdArr = this.__columnNameArr = this.__columnIndexMap = null;
   }
 });

@@ -1,13 +1,9 @@
-qx.Class.define("qx.test.performance.element.Element",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMeasure,
+qx.Class.define("qx.test.performance.element.Element", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMeasure,
 
-  members :
-  {
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var helper = document.createElement("div");
       document.body.appendChild(helper);
 
@@ -15,9 +11,7 @@ qx.Class.define("qx.test.performance.element.Element",
       this._doc.setAttribute("id", "doc");
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       qx.html.Element.flush();
       var div = document.getElementById("doc");
       document.body.removeChild(div);
@@ -28,27 +22,24 @@ qx.Class.define("qx.test.performance.element.Element",
       this._doc.dispose();
     },
 
+    CREATE_ITERATIONS: 1000,
+    RESIZE_ITERATIONS: 500,
+    DISPOSE_ITERATIONS: 1000,
 
-    CREATE_ITERATIONS : 1000,
-    RESIZE_ITERATIONS : 500,
-    DISPOSE_ITERATIONS : 1000,
-
-    _createElement : function() {
+    _createElement() {
       return new qx.html.Element("div");
     },
 
-
-    testCreate : function()
-    {
+    testCreate() {
       var elements = [];
       var that = this;
       this.measureRepeated(
         "create element instance",
-        function() {
+        function () {
           elements.push(that._createElement());
         },
-        function() {
-          for (var i=0; i<elements.length; i++) {
+        function () {
+          for (var i = 0; i < elements.length; i++) {
             elements[i].dispose();
           }
           this.flush();
@@ -57,35 +48,30 @@ qx.Class.define("qx.test.performance.element.Element",
       );
     },
 
-
-    flush : function() {
+    flush() {
       qx.html.Element.flush();
     },
 
-
-    testRender : function()
-    {
-      for (var i=0; i<this.CREATE_ITERATIONS; i++) {
+    testRender() {
+      for (var i = 0; i < this.CREATE_ITERATIONS; i++) {
         this._doc.add(this._createElement());
       }
 
       var that = this;
       this.measureRepeated(
         "render/flush elements",
-        function() {
+        function () {
           that.flush();
         },
-        function() {},
-        1, this.CREATE_ITERATIONS
+        function () {},
+        1,
+        this.CREATE_ITERATIONS
       );
     },
 
-
-    testResizeAndFlush : function()
-    {
+    testResizeAndFlush() {
       var elements = [];
-      for (var i=0; i<this.DISPOSE_ITERATIONS; i++)
-      {
+      for (var i = 0; i < this.DISPOSE_ITERATIONS; i++) {
         var element = this._createElement();
         this._doc.add(element);
         elements.push(element);
@@ -96,8 +82,8 @@ qx.Class.define("qx.test.performance.element.Element",
       var that = this;
       this.measureRepeated(
         "resize/flush elements",
-        function() {
-          for (i=0; i<l; i++) {
+        function () {
+          for (i = 0; i < l; i++) {
             elements[i].setStyles({
               width: "300px",
               height: "100px"
@@ -105,7 +91,7 @@ qx.Class.define("qx.test.performance.element.Element",
           }
           that.flush();
 
-          for (i=0; i<l; i++) {
+          for (i = 0; i < l; i++) {
             elements[i].setStyles({
               width: "100px",
               height: "30px"
@@ -113,15 +99,14 @@ qx.Class.define("qx.test.performance.element.Element",
           }
           that.flush();
         },
-        function() {},
-        1, this.RESIZE_ITERATIONS
+        function () {},
+        1,
+        this.RESIZE_ITERATIONS
       );
     },
 
-
-    testRemove : function()
-    {
-      for (var i=0; i<this.CREATE_ITERATIONS; i++) {
+    testRemove() {
+      for (var i = 0; i < this.CREATE_ITERATIONS; i++) {
         this._doc.add(this._createElement());
       }
       this.elements = qx.lang.Array.clone(this._doc.getChildren());
@@ -129,45 +114,42 @@ qx.Class.define("qx.test.performance.element.Element",
       var that = this;
       this.measureRepeated(
         "remove/flush elements",
-        function() {
+        function () {
           that._doc.removeAll();
           that.flush();
         },
-        function() {
+        function () {
           qx.util.DisposeUtil.disposeArray(this, "elements");
         },
-        1, this.CREATE_ITERATIONS
+        1,
+        this.CREATE_ITERATIONS
       );
     },
 
-
-    testDisposeNonRendered : function()
-    {
+    testDisposeNonRendered() {
       var elements = [];
-      for (var i=0; i<this.DISPOSE_ITERATIONS; i++) {
+      for (var i = 0; i < this.DISPOSE_ITERATIONS; i++) {
         elements.push(this._createElement());
       }
 
       this.measureRepeated(
         "dispose not rendered elements",
-        function() {
-          for (var i=0; i<elements.length; i++) {
+        function () {
+          for (var i = 0; i < elements.length; i++) {
             elements[i].dispose();
           }
         },
-        function() {
+        function () {
           this.flush();
         },
-        1, this.DISPOSE_ITERATIONS
+        1,
+        this.DISPOSE_ITERATIONS
       );
     },
 
-
-    testDisposeRendered : function()
-    {
+    testDisposeRendered() {
       var elements = [];
-      for (var i=0; i<this.DISPOSE_ITERATIONS; i++)
-      {
+      for (var i = 0; i < this.DISPOSE_ITERATIONS; i++) {
         elements.push(this._createElement());
         this._doc.add(elements[i]);
       }
@@ -176,16 +158,17 @@ qx.Class.define("qx.test.performance.element.Element",
       var that = this;
       this.measureRepeated(
         "dispose rendered elements",
-        function() {
-          for (var i=0; i<elements.length; i++) {
+        function () {
+          for (var i = 0; i < elements.length; i++) {
             elements[i].dispose();
           }
           that.flush();
         },
-        function() {
+        function () {
           this.flush();
         },
-        1, this.DISPOSE_ITERATIONS
+        1,
+        this.DISPOSE_ITERATIONS
       );
     }
   }

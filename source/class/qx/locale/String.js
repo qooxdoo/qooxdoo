@@ -25,20 +25,21 @@
  * @cldr()
  */
 
-qx.Class.define("qx.locale.String",
-{
-  statics :
-  {
+qx.Class.define("qx.locale.String", {
+  statics: {
     /**
      * Get quotation start sign
      *
      * @param locale {String} optional locale to be used
      * @return {String} quotation start sign
      */
-    getQuotationStart : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_quotationStart", [], locale);
+    getQuotationStart(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_quotationStart",
+        [],
+        locale
+      );
     },
-
 
     /**
      * Get quotation end sign
@@ -46,10 +47,13 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {String} quotation end sign
      */
-    getQuotationEnd : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_quotationEnd", [], locale);
+    getQuotationEnd(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_quotationEnd",
+        [],
+        locale
+      );
     },
-
 
     /**
      * Get quotation alternative start sign
@@ -57,10 +61,13 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {String} alternative quotation start sign
      */
-    getAlternateQuotationStart : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationStart", [], locale);
+    getAlternateQuotationStart(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_alternateQuotationStart",
+        [],
+        locale
+      );
     },
-
 
     /**
      * Get quotation alternative end sign
@@ -68,8 +75,12 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {String} alternative quotation end sign
      */
-    getAlternateQuotationEnd : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationEnd", [], locale);
+    getAlternateQuotationEnd(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_alternateQuotationEnd",
+        [],
+        locale
+      );
     }
   }
 });

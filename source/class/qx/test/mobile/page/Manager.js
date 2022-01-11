@@ -16,20 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.page.Manager",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.page.Manager", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testCreate : function()
-    {
+  members: {
+    testCreate() {
       var manager = new qx.ui.mobile.page.Manager();
       manager.dispose();
     },
 
-
-    testAddTablet : function() {
+    testAddTablet() {
       var manager = new qx.ui.mobile.page.Manager(true);
       var page = new qx.ui.mobile.page.NavigationPage();
       manager.addMaster([page]);
@@ -37,8 +33,7 @@ qx.Class.define("qx.test.mobile.page.Manager",
       manager.dispose();
     },
 
-
-    testAddMobile : function() {
+    testAddMobile() {
       var manager = new qx.ui.mobile.page.Manager(false);
       var page1 = new qx.ui.mobile.page.NavigationPage();
       var page2 = new qx.ui.mobile.page.NavigationPage();
@@ -47,5 +42,4 @@ qx.Class.define("qx.test.mobile.page.Manager",
       manager.dispose();
     }
   }
-
 });

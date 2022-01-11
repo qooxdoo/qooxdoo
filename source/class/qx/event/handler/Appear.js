@@ -19,17 +19,13 @@
 /**
  * This class supports <code>appear</code> and <code>disappear</code> events
  * on DOM level.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.Appear",
-{
-  extend : qx.core.Object,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.event.handler.Appear", {
+  extend: qx.core.Object,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -42,9 +38,8 @@ qx.Class.define("qx.event.handler.Appear",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     this.__manager = manager;
     this.__targets = {};
@@ -53,58 +48,43 @@ qx.Class.define("qx.event.handler.Appear",
     qx.event.handler.Appear.__instances[this.toHashCode()] = this;
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      appear : true,
-      disappear : true
+    SUPPORTED_TYPES: {
+      appear: true,
+      disappear: true
     },
 
-
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
-
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true,
-
+    IGNORE_CAN_HANDLE: true,
 
     /** @type {Map} Stores all appear manager instances */
-    __instances : {},
-
+    __instances: {},
 
     /**
      * Refreshes all appear handlers. Useful after massive DOM manipulations e.g.
      * through qx.html.Element.
      *
      */
-     refresh : function()
-     {
-       var all = this.__instances;
-       for (var hash in all) {
-         all[hash].refresh();
-       }
-     }
+    refresh() {
+      var all = this.__instances;
+      for (var hash in all) {
+        all[hash].refresh();
+      }
+    }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -112,10 +92,9 @@ qx.Class.define("qx.event.handler.Appear",
   *****************************************************************************
   */
 
-  members :
-  {
-    __manager : null,
-    __targets : null,
+  members: {
+    __manager: null,
+    __targets: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -124,26 +103,21 @@ qx.Class.define("qx.event.handler.Appear",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
       var targets = this.__targets;
 
-      if (targets && !targets[hash])
-      {
+      if (targets && !targets[hash]) {
         targets[hash] = target;
         target.$$displayed = target.offsetWidth > 0;
       }
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
+    unregisterEvent(target, type, capture) {
       var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
       var targets = this.__targets;
       if (!targets) {
@@ -155,9 +129,6 @@ qx.Class.define("qx.event.handler.Appear",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       USER ACCESS
@@ -168,34 +139,35 @@ qx.Class.define("qx.event.handler.Appear",
      * This method should be called by all DOM tree modifying routines
      * to check the registered nodes for changes.
      *
-     * @return {qx.Promise?} a promise, if one or more of the event handlers returned one 
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned one
      */
-    refresh : function()
-    {
+    refresh() {
       var targets = this.__targets;
 
-      var legacyIe = qx.core.Environment.get("engine.name") == "mshtml" &&
+      var legacyIe =
+        qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9;
 
       var tracker = {};
       var self = this;
-      Object.keys(targets).forEach(function(hash) {
+      Object.keys(targets).forEach(function (hash) {
         var elem = targets[hash];
         if (elem === undefined) {
           return;
         }
 
-        qx.event.Utils.then(tracker, function() {
+        qx.event.Utils.then(tracker, function () {
           var displayed = elem.offsetWidth > 0;
           if (!displayed && legacyIe) {
             // force recalculation in IE 8. See bug #7872
             displayed = elem.offsetWidth > 0;
           }
-          if ((!!elem.$$displayed) !== displayed)
-          {
+          if (!!elem.$$displayed !== displayed) {
             elem.$$displayed = displayed;
 
-            var evt = qx.event.Registration.createEvent(displayed ? "appear" : "disappear");
+            var evt = qx.event.Registration.createEvent(
+              displayed ? "appear" : "disappear"
+            );
             return self.__manager.dispatchEvent(elem, evt);
           }
         });
@@ -204,28 +176,18 @@ qx.Class.define("qx.event.handler.Appear",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__manager = this.__targets = null;
 
     // Deregister
     delete qx.event.handler.Appear.__instances[this.toHashCode()];
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -233,7 +195,7 @@ qx.Class.define("qx.event.handler.Appear",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

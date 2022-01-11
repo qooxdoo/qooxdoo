@@ -20,7 +20,6 @@ const fs = require("fs");
 const path = require("upath");
 const inquirer = require("inquirer");
 
-
 /**
  * Create a new qooxdoo project. This will assemble the information needed to create the
  * new project by the following ways, in order of precedence:
@@ -35,44 +34,53 @@ const inquirer = require("inquirer");
 qx.Class.define("qx.tool.cli.commands.Create", {
   extend: qx.tool.cli.commands.Command,
   statics: {
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "create <application namespace> [options]",
         describe: "create a new qooxdoo project",
         builder: {
-          "type": {
-            alias : "t",
-            describe : "Type of the application to create. Must be one of " + this.getSkeletonNames().join(", "),
+          type: {
+            alias: "t",
+            describe:
+              "Type of the application to create. Must be one of " +
+              this.getSkeletonNames().join(", "),
             nargs: 1,
             requiresArg: true,
             type: "string"
           },
-          "out":{
+
+          out: {
             alias: "o",
             describe: "Output directory for the application content."
           },
-          "namespace":{
+
+          namespace: {
             alias: "s",
             describe: "Top-level namespace."
           },
-          "name":{
+
+          name: {
             alias: "n",
             describe: "Name of application/library (defaults to namespace)."
           },
-          "theme":{
+
+          theme: {
             describe: "The name of the theme to be used.",
-            default : "indigo"
+            default: "indigo"
           },
-          "icontheme":{
+
+          icontheme: {
             describe: "The name of the icon theme to be used.",
-            default : "Tango"
+            default: "Tango"
           },
-          "noninteractive":{
-            alias : "I",
+
+          noninteractive: {
+            alias: "I",
             describe: "Do not prompt for missing values"
           },
-          "verbose":{
-            alias : "v",
+
+          verbose: {
+            alias: "v",
             describe: "Verbose logging"
           }
         }
@@ -82,28 +90,25 @@ qx.Class.define("qx.tool.cli.commands.Create", {
      * Returns the names of the skeleton directories in the template folder
      * @returns {string[]}
      */
-    getSkeletonNames: function() {
+    getSkeletonNames() {
       // need access to an non static method...
       let dir = path.join(qx.tool.utils.Utils.getTemplateDir(), "skeleton");
-      let res = fs
-        .readdirSync(dir)
-        .filter(entry => {
-          try {
-            return fs.existsSync(`${dir}/${entry}/Manifest.tmpl.json`);
-          } catch (e) {
-            return false;
-          }
-        });
+      let res = fs.readdirSync(dir).filter(entry => {
+        try {
+          return fs.existsSync(`${dir}/${entry}/Manifest.tmpl.json`);
+        } catch (e) {
+          return false;
+        }
+      });
       return res;
     }
   },
 
   members: {
-
     /**
      * Creates a new qooxdoo application
      */
-    process: async function() {
+    async process() {
       // init
       let argv = this.argv;
       let data = {};
@@ -115,18 +120,27 @@ qx.Class.define("qx.tool.cli.commands.Create", {
 
       // qooxdoo version
       try {
-        data.qooxdoo_version = await qx.tool.config.Utils.getLibraryVersion(data.qooxdoo_path);
+        data.qooxdoo_version = await qx.tool.config.Utils.getLibraryVersion(
+          data.qooxdoo_path
+        );
       } catch (e) {
         qx.tool.compiler.Console.error(e.message);
-        throw new qx.tool.utils.Utils.UserError("Cannot find qooxdoo framework folder.");
+        throw new qx.tool.utils.Utils.UserError(
+          "Cannot find qooxdoo framework folder."
+        );
       }
 
       // get map of metdata on variables that need to be inserted in the templates
       data.template_dir = qx.tool.utils.Utils.getTemplateDir();
-      data.getLibraryVersion = qx.tool.config.Utils.getLibraryVersion.bind(qx.tool.config.Utils);
+      data.getLibraryVersion = qx.tool.config.Utils.getLibraryVersion.bind(
+        qx.tool.config.Utils
+      );
       let template_vars;
 
-      const template_vars_path = path.join(qx.tool.utils.Utils.getTemplateDir(), "template_vars");
+      const template_vars_path = path.join(
+        qx.tool.utils.Utils.getTemplateDir(),
+        "template_vars"
+      );
       template_vars = require(template_vars_path)(argv, data);
 
       // prepare inquirer question data
@@ -136,7 +150,8 @@ qx.Class.define("qx.tool.cli.commands.Create", {
 
         // we have a final value that doesn't need to be asked for / confirmed.
         if (v.value !== undefined) {
-          values[var_name] = typeof v.value === "function" ? v.value.call(values) : v.value;
+          values[var_name] =
+            typeof v.value === "function" ? v.value.call(values) : v.value;
           continue;
         }
         // do not ask for optional values in non-interactive mode
@@ -145,19 +160,25 @@ qx.Class.define("qx.tool.cli.commands.Create", {
             values[var_name] = deflt;
             continue;
           }
-          throw new qx.tool.utils.Utils.UserError(`Cannot skip required value for '${var_name}'.`);
+          throw new qx.tool.utils.Utils.UserError(
+            `Cannot skip required value for '${var_name}'.`
+          );
         }
         // ask user
-        let message = `Please enter ${v.description} ${v.optional?"(optional)":""}:`;
+        let message = `Please enter ${v.description} ${
+          v.optional ? "(optional)" : ""
+        }:`;
         questions.push({
           type: v.type || "input",
           choices: v.choices,
           name: var_name,
           message,
-          default : v.default,
-          validate : (v.validate || function(answer, hash) {
-            return true;
-          })
+          default: v.default,
+          validate:
+            v.validate ||
+            function (answer, hash) {
+              return true;
+            }
         });
       }
 
@@ -181,14 +202,18 @@ qx.Class.define("qx.tool.cli.commands.Create", {
         // handle special cases
         switch (var_name) {
           case "namespace":
-          // match valid javascript object accessor TODO: allow unicode characters
+            // match valid javascript object accessor TODO: allow unicode characters
             if (!value.match(/^([a-zA-Z_$][0-9a-zA-Z_$]*\.?)+$/)) {
-              throw new qx.tool.utils.Utils.UserError(`Illegal characters in namespace "${value}."`);
+              throw new qx.tool.utils.Utils.UserError(
+                `Illegal characters in namespace "${value}."`
+              );
             }
             break;
 
           case "locales":
-            value = JSON.stringify(value.split(/,/).map(locale => locale.trim()));
+            value = JSON.stringify(
+              value.split(/,/).map(locale => locale.trim())
+            );
             break;
 
           // this sets 'authors' and 'authors_map'
@@ -198,15 +223,19 @@ qx.Class.define("qx.tool.cli.commands.Create", {
               break;
             }
             let authors = value.split(/,/).map(a => a.trim());
-            values.author_map = JSON.stringify(authors.map(author => {
-              let parts = author.split(/ /);
-              let email = parts.pop();
-              return {
-                name : parts.join(" "),
-                email
-              };
-            }), null, 2);
-            value = authors.join("\n"+(" ".repeat(12)));
+            values.author_map = JSON.stringify(
+              authors.map(author => {
+                let parts = author.split(/ /);
+                let email = parts.pop();
+                return {
+                  name: parts.join(" "),
+                  email
+                };
+              }),
+              null,
+              2
+            );
+            value = authors.join("\n" + " ".repeat(12));
             break;
           }
         }
@@ -220,12 +249,16 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       if (!fs.existsSync(appdir)) {
         let parentDir = path.dirname(appdir);
         if (!fs.existsSync(parentDir)) {
-          throw new qx.tool.utils.Utils.UserError(`Invalid directory ${appdir}`);
+          throw new qx.tool.utils.Utils.UserError(
+            `Invalid directory ${appdir}`
+          );
         }
         try {
           fs.accessSync(parentDir, fs.constants.W_OK);
         } catch (e) {
-          throw new qx.tool.utils.Utils.UserError(`Directory ${parentDir} is not writable.`);
+          throw new qx.tool.utils.Utils.UserError(
+            `Directory ${parentDir} is not writable.`
+          );
         }
         fs.mkdirSync(appdir);
       }
@@ -234,7 +267,9 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       let app_type = argv.type || values.type;
       let skeleton_dir = path.join(data.template_dir, "skeleton", app_type);
       if (argv.type && !fs.existsSync(skeleton_dir)) {
-        throw new qx.tool.utils.Utils.UserError(`Application type '${argv.type}' does not exist or has not been implemented yet.`);
+        throw new qx.tool.utils.Utils.UserError(
+          `Application type '${argv.type}' does not exist or has not been implemented yet.`
+        );
       }
 
       // copy template, replacing template vars
@@ -250,27 +285,37 @@ qx.Class.define("qx.tool.cli.commands.Create", {
               // template file
               let template = fs.readFileSync(sourceFile, "utf-8");
               for (let var_name in values) {
-                template = template.replace(new RegExp(`\\$\{${var_name}\}`, "g"), values[var_name]);
+                template = template.replace(
+                  new RegExp(`\\$\{${var_name}\}`, "g"),
+                  values[var_name]
+                );
               }
               if (argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> Creating ${targetFile} from template ${sourceFile}...`);
+                qx.tool.compiler.Console.info(
+                  `>>> Creating ${targetFile} from template ${sourceFile}...`
+                );
               }
               // that.log(template);
               if (fs.existsSync(targetFile)) {
-                throw new qx.tool.utils.Utils.UserError(`${targetFile} already exists.`);
+                throw new qx.tool.utils.Utils.UserError(
+                  `${targetFile} already exists.`
+                );
               }
               fs.writeFileSync(targetFile, template, "utf-8");
             } else {
               // normal file
               if (argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> Copying ${sourceFile} to ${targetFile}...`);
+                qx.tool.compiler.Console.info(
+                  `>>> Copying ${sourceFile} to ${targetFile}...`
+                );
               }
               fs.copyFileSync(sourceFile, targetFile);
             }
           } else if (stats.isDirectory()) {
             let newTargetDir = targetDir;
             // replace "custon" with namespace, creating namespaced folders in the "class" dir, but not anywhere else
-            let parts = (part === "custom") ? values.namespace.split(/\./) : [part];
+            let parts =
+              part === "custom" ? values.namespace.split(/\./) : [part];
             for (let part of parts) {
               newTargetDir = path.join(newTargetDir, part);
               fs.mkdirSync(newTargetDir);

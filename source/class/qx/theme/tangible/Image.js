@@ -31,79 +31,75 @@
  * @asset(qx/static/blank.png)
  */
 
-qx.Class.define("qx.theme.tangible.Image",
-  {
-    extend : qx.core.Object,
+qx.Class.define("qx.theme.tangible.Image", {
+  extend: qx.core.Object,
 
-    statics :
-  {
+  statics: {
     /**
      * Holds a map containing all the URL to the images.
      * @internal
      */
-    URLS :
-    {
-      "blank" : "qx/static/blank.png",
+    URLS: {
+      blank: "qx/static/blank.png",
 
       // checkbox
-      "checkbox-checked" : "@MaterialIcons/check_box/15",
-      "checkbox-blank" : "@MaterialIcons/check_box_outline_blank/15",
-      "checkbox-undetermined" : "@MaterialIcons/indeterminate_check_box/15",
-      "radiobutton-checked" : "@MaterialIcons/radio_button_on/15",
-      "radiobutton-unchecked" : "@MaterialIcons/radio_button_off/15",
+      "checkbox-checked": "@MaterialIcons/check_box/15",
+      "checkbox-blank": "@MaterialIcons/check_box_outline_blank/15",
+      "checkbox-undetermined": "@MaterialIcons/indeterminate_check_box/15",
+      "radiobutton-checked": "@MaterialIcons/radio_button_on/15",
+      "radiobutton-unchecked": "@MaterialIcons/radio_button_off/15",
 
       // window
-      "window-minimize" : "@MaterialIcons/keyboard_arrow_down",
-      "window-maximize" : "@MaterialIcons/fullscreen",
-      "window-restore" : "@MaterialIcons/fullscreen_exit",
-      "window-close" : "@MaterialIcons/close",
+      "window-minimize": "@MaterialIcons/keyboard_arrow_down",
+      "window-maximize": "@MaterialIcons/fullscreen",
+      "window-restore": "@MaterialIcons/fullscreen_exit",
+      "window-close": "@MaterialIcons/close",
 
       // cursor
-      "cursor-copy" : "decoration/cursors/copy.gif",
-      "cursor-move" : "decoration/cursors/move.gif",
-      "cursor-alias" : "decoration/cursors/alias.gif",
-      "cursor-nodrop" : "decoration/cursors/nodrop.gif",
-
+      "cursor-copy": "decoration/cursors/copy.gif",
+      "cursor-move": "decoration/cursors/move.gif",
+      "cursor-alias": "decoration/cursors/alias.gif",
+      "cursor-nodrop": "decoration/cursors/nodrop.gif",
 
       // arrows
-      "arrow-right" : "@MaterialIcons/keyboard_arrow_right/18",
-      "arrow-left" : "@MaterialIcons/keyboard_arrow_left/18",
-      "arrow-up" : "@MaterialIcons/keyboard_arrow_up/18",
-      "arrow-down" : "@MaterialIcons/keyboard_arrow_down/18",
-      "arrow-forward" : "@MaterialIcons/fast_forward/18",
-      "arrow-rewind" : "@MaterialIcons/fast_rewind/18",
-      "arrow-down-small" : "@MaterialIcons/keyboard_arrow_down/13",
-      "arrow-up-small" : "@MaterialIcons/keyboard_arrow_up/13",
-      "arrow-up-invert" : "@MaterialIcons/keyboard_arrow_up/18",
-      "arrow-down-invert" : "@MaterialIcons/keyboard_arrow_down/18",
-      "arrow-right-invert" : "@MaterialIcons/keyboard_arrow_right/18",
+      "arrow-right": "@MaterialIcons/keyboard_arrow_right/18",
+      "arrow-left": "@MaterialIcons/keyboard_arrow_left/18",
+      "arrow-up": "@MaterialIcons/keyboard_arrow_up/18",
+      "arrow-down": "@MaterialIcons/keyboard_arrow_down/18",
+      "arrow-forward": "@MaterialIcons/fast_forward/18",
+      "arrow-rewind": "@MaterialIcons/fast_rewind/18",
+      "arrow-down-small": "@MaterialIcons/keyboard_arrow_down/13",
+      "arrow-up-small": "@MaterialIcons/keyboard_arrow_up/13",
+      "arrow-up-invert": "@MaterialIcons/keyboard_arrow_up/18",
+      "arrow-down-invert": "@MaterialIcons/keyboard_arrow_down/18",
+      "arrow-right-invert": "@MaterialIcons/keyboard_arrow_right/18",
 
       // split pane
-      "knob-horizontal" : "@MaterialIcons/drag_indicator/12",
-      "knob-vertical" : "@MaterialIcons/drag_handle/12",
+      "knob-horizontal": "@MaterialIcons/drag_indicator/12",
+      "knob-vertical": "@MaterialIcons/drag_handle/12",
 
       // tree
-      "tree-minus" : "@MaterialIcons/arrow_drop_down/16",
-      "tree-plus" : "@MaterialIcons/arrow_right/16",
+      "tree-minus": "@MaterialIcons/arrow_drop_down/16",
+      "tree-plus": "@MaterialIcons/arrow_right/16",
 
       // table
-      "select-column-order" : "@MaterialIcons/reorder/15",
-      "table-ascending" : "@MaterialIcons/keyboard_arrow_up/14",
-      "table-descending" : "@MaterialIcons/keyboard_arrow_down/14",
+      "select-column-order": "@MaterialIcons/reorder/15",
+      "table-ascending": "@MaterialIcons/keyboard_arrow_up/14",
+      "table-descending": "@MaterialIcons/keyboard_arrow_down/14",
 
       // tree virtual
       "folder-open": "@MaterialIcons/folder_open/15",
-      "folder": "@MaterialIcons/folder/15",
-      "file": "@MaterialIcons/insert_drive_file/15",
+      folder: "@MaterialIcons/folder/15",
+      file: "@MaterialIcons/insert_drive_file/15",
 
       // menu
-      "menu-checkbox" : "@MaterialIcons/check_box_outline_blank/15",
-      "menu-checkbox-checked" : "@MaterialIcons/check_box/15",
-      "menu-radiobutton-checked" : "@MaterialIcons/radio_button_checked/15",
-      "menu-radiobutton" : "@MaterialIcons/radio_button_unchecked/15",
+      "menu-checkbox": "@MaterialIcons/check_box_outline_blank/15",
+      "menu-checkbox-checked": "@MaterialIcons/check_box/15",
+      "menu-radiobutton-checked": "@MaterialIcons/radio_button_checked/15",
+      "menu-radiobutton": "@MaterialIcons/radio_button_unchecked/15",
 
       // tabview
-      "tabview-close" : "decoration/tabview/close.gif"
+      "tabview-close": "decoration/tabview/close.gif"
     }
   }
-  });
+});

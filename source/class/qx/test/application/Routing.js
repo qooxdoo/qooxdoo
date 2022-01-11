@@ -16,36 +16,32 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.application.Routing",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.application.Routing", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMock,
 
-  members : {
-    __r : null,
-    __initialState : null,
+  members: {
+    __r: null,
+    __initialState: null,
 
-    setUp : function() {
+    setUp() {
       this.__initialState = qx.bom.History.getInstance().getState();
       this.__r = new qx.application.Routing();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       qx.bom.History.getInstance().setState(this.__initialState);
       this.__r.dispose();
     },
 
-
-    testGet : function() {
+    testGet() {
       var handler = this.spy();
       this.__r.onGet("/abc", handler);
       this.__r.executeGet("/abc");
       this.assertCalledOnce(handler);
     },
 
-
-    testBack : function() {
+    testBack() {
       var aHandler = this.spy();
       var bHandler = this.spy();
       this.__r.onGet("/a", aHandler);
@@ -58,10 +54,10 @@ qx.Class.define("qx.test.application.Routing",
     },
 
     /**
-    * Tests the ability of app routing to detect and remove route cycles.
-    * After A >> B >> C >> B >> routing.back(), the routing should display A and not C.
-    */
-    testBackCycle : function() {
+     * Tests the ability of app routing to detect and remove route cycles.
+     * After A >> B >> C >> B >> routing.back(), the routing should display A and not C.
+     */
+    testBackCycle() {
       var aHandler = this.spy();
       var bHandler = this.spy();
       var cHandler = this.spy();
@@ -78,71 +74,66 @@ qx.Class.define("qx.test.application.Routing",
       this.assertCalledOnce(cHandler);
     },
 
-    testGetCustomData : function() {
+    testGetCustomData() {
       var handler = this.spy();
       this.__r.onGet("/abc", handler);
-      this.__r.executeGet("/abc", {a: true});
+      this.__r.executeGet("/abc", { a: true });
       this.assertCalledOnce(handler);
       this.assertTrue(handler.args[0][0].customData.a);
     },
 
-
-    testGetCustomDataTwoInstances : function() {
+    testGetCustomDataTwoInstances() {
       var r2 = new qx.application.Routing();
       var handler = this.spy();
       this.__r.onGet("/abc", handler);
-      r2.executeGet("/abc", {a: true});
+      r2.executeGet("/abc", { a: true });
       this.assertCalledOnce(handler);
       this.assertTrue(handler.args[0][0].customData.a);
       r2.dispose();
     },
 
-
-    testOn : function() {
+    testOn() {
       var handler = this.spy();
       this.__r.on("/", handler);
       this.__r.execute("/");
       this.assertCalledOnce(handler);
     },
 
-
-    testPost : function() {
+    testPost() {
       var handler = this.spy();
       this.__r.onPost("/abc", handler);
       this.__r.executePost("/abc");
       this.assertCalledOnce(handler);
     },
 
-
-    testPostParam : function() {
+    testPostParam() {
       var handler = this.spy();
-      var data = {data: "test"};
+      var data = { data: "test" };
       this.__r.onPost("/{id}/affe", handler);
       this.__r.executePost("/123456/affe", data, "custom data");
       this.assertCalledOnce(handler);
-      this.assertCalledWith(handler,
-        {customData: "custom data", params: {id: "123456", data: "test"}, path: "/123456/affe"}
-      );
+      this.assertCalledWith(handler, {
+        customData: "custom data",
+        params: { id: "123456", data: "test" },
+        path: "/123456/affe"
+      });
     },
 
-
-    testDelete : function() {
+    testDelete() {
       var handler = this.spy();
       this.__r.onDelete("/abc", handler);
       this.__r.executeDelete("/abc");
       this.assertCalledOnce(handler);
     },
 
-
-    testPut : function() {
+    testPut() {
       var handler = this.spy();
       this.__r.onPut("/abc", handler);
       this.__r.executePut("/abc");
       this.assertCalledOnce(handler);
     },
 
-
-    testAny : function() {
+    testAny() {
       var handler = this.spy();
       this.__r.onAny("/abc", handler);
       this.__r.executePost("/abc");
@@ -150,7 +141,7 @@ qx.Class.define("qx.test.application.Routing",
       this.assertCalledTwice(handler);
     },
 
-    testInit : function() {
+    testInit() {
       var handler = this.spy();
       var defaultHandler = this.spy();
 
@@ -170,14 +161,23 @@ qx.Class.define("qx.test.application.Routing",
       this.assertCalledOnce(handler);
     },
 
-    testGetPathOrFallback : function() {
-      this.__r.on("/registered", function(){});
+    testGetPathOrFallback() {
+      this.__r.on("/registered", function () {});
 
       this.assertEquals("/", this.__r._getPathOrFallback(""));
       this.assertEquals("/", this.__r._getPathOrFallback(null));
       this.assertEquals("/", this.__r._getPathOrFallback("/not/registered"));
-      this.assertEquals("/given/default", this.__r._getPathOrFallback("use_default_instead_of_this", "/given/default"));
-      this.assertEquals("/registered", this.__r._getPathOrFallback("/registered"));
+      this.assertEquals(
+        "/given/default",
+        this.__r._getPathOrFallback(
+          "use_default_instead_of_this",
+          "/given/default"
+        )
+      );
+      this.assertEquals(
+        "/registered",
+        this.__r._getPathOrFallback("/registered")
+      );
     }
   }
 });

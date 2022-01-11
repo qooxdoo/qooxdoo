@@ -16,28 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.core.SizeHintX",
-{
-  extend : qx.test.ui.core.SizeHint,
+qx.Class.define("qx.test.ui.core.SizeHintX", {
+  extend: qx.test.ui.core.SizeHint,
 
-  members :
-  {
-    assertHint : function(min, size, max)
-    {
+  members: {
+    assertHint(min, size, max) {
       var hint = this.getHint();
       this.assertEquals(min, hint.minWidth, "min width");
       this.assertEquals(size, hint.width, "width");
       this.assertEquals(max, hint.maxWidth, "max width");
     },
 
-
-    getDefaultSize : function() {
+    getDefaultSize() {
       return 100;
     },
 
-
-    setSize : function(min, size, max)
-    {
+    setSize(min, size, max) {
       this.widget.set({
         minWidth: min,
         width: size,
@@ -45,8 +39,7 @@ qx.Class.define("qx.test.ui.core.SizeHintX",
       });
     },
 
-
-    setStretching : function(allowShrink, allowGrow) {
+    setStretching(allowShrink, allowGrow) {
       this.widget.setAllowStretchX(allowGrow, allowShrink);
     }
   }

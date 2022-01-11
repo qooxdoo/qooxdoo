@@ -13,37 +13,30 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
-{
+qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  extend : qx.test.ui.LayoutTestCase,
+  members: {
+    __comboBox: null,
+    __model: null,
 
-  members :
-  {
-    __comboBox : null,
-    __model : null,
-
-
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
       this.__comboBox = new qx.ui.form.VirtualComboBox();
       this.getRoot().add(this.__comboBox);
 
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__comboBox.destroy();
       this.__comboBox = null;
       this.__model.dispose();
       this.flush();
     },
 
-    __createSimpleModel : function()
-    {
+    __createSimpleModel() {
       var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
@@ -53,8 +46,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       return model;
     },
 
-    __createRichModel : function()
-    {
+    __createRichModel() {
       var model = new qx.data.Array();
 
       for (var i = 0; i < 100; i++) {
@@ -64,28 +56,29 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       return model;
     },
 
-    __createNestedModel : function()
-    {
+    __createNestedModel() {
       var rawData = [
         {
-          firstname : "James",
-          lastname : "Kirk"
+          firstname: "James",
+          lastname: "Kirk"
         },
+
         {
-          firstname : "Jean-Luc",
-          lastname : "Picard"
+          firstname: "Jean-Luc",
+          lastname: "Picard"
         },
+
         {
-          firstname : "Benjamin",
-          lastname : "Sisko"
+          firstname: "Benjamin",
+          lastname: "Sisko"
         }
       ];
+
       var model = qx.data.marshal.Json.createModel(rawData);
       return model;
     },
 
-    testPreselectOnOpen : function()
-    {
+    testPreselectOnOpen() {
       this.__model = this.__createSimpleModel();
       this.__comboBox.setModel(this.__model);
       this.__comboBox.setValue("i");
@@ -99,35 +92,36 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.assertEquals("i", this.__comboBox.getValue());
     },
 
-    testSelectFirstMatch : function()
-    {
+    testSelectFirstMatch() {
       this.__model = this.__createSimpleModel();
       this.__comboBox.setModel(this.__model);
       this.__comboBox.setValue("item 4");
       this.flush();
       this.__comboBox.open();
       this.flush();
-      var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
+      var preselected =
+        this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 4", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
     },
 
-    testSelectFirstMatchWithSortedModel : function()
-    {
+    testSelectFirstMatchWithSortedModel() {
       this.__model = this.__createSimpleModel();
       this.__comboBox.setModel(this.__model);
       var delegate = {
         // invert sort order
-        sorter : function(a, b) {
+        sorter(a, b) {
           return a < b ? 1 : a > b ? -1 : 0;
         }
       };
+
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 4");
       this.flush();
       this.__comboBox.open();
       this.flush();
-      var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
+      var preselected =
+        this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("item 49", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
 
@@ -137,46 +131,46 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       // disposed widget which causes an exception. To get around this, we use
       // a timeout to delay the tearDown call.
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.resume();
       }, 100);
       this.wait(200);
     },
 
-    testSelectFirstMatchWithFilteredModel : function()
-    {
+    testSelectFirstMatchWithFilteredModel() {
       this.__model = this.__createSimpleModel();
       this.__comboBox.setModel(this.__model);
       var delegate = {
         // remove even-numbered items
-        filter : function(item) {
+        filter(item) {
           var num = parseInt(/([0-9]+)/.exec(item)[1], 10);
           return num % 2 ? true : false;
         }
       };
+
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 22");
       this.flush();
       this.__comboBox.open();
       this.flush();
       // item 22 is not in the list, nothing should be preselected
-      var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
+      var preselected =
+        this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertNull(preselected);
       this.assertEquals("item 22", this.__comboBox.getValue());
     },
 
-    testSelectFirstMatchWithFormatter : function()
-    {
+    testSelectFirstMatchWithFormatter() {
       this.__model = this.__createRichModel();
       this.__comboBox.setModel(this.__model);
       var delegate = {
-        configureItem : function(item)
-        {
+        configureItem(item) {
           item.setRich(true);
         }
       };
+
       this.__comboBox.setDelegate(delegate);
-      this.__comboBox.setDefaultFormat(function(data) {
+      this.__comboBox.setDefaultFormat(function (data) {
         if (data) {
           data = qx.lang.String.stripTags(data);
           data = qx.bom.String.unescape(data);
@@ -187,13 +181,13 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       this.__comboBox.open();
       this.flush();
-      var preselected = this.__comboBox.getChildControl("dropdown")._preselected;
+      var preselected =
+        this.__comboBox.getChildControl("dropdown")._preselected;
       this.assertEquals("<b>item 4</b>", preselected);
       this.assertEquals("item 4", this.__comboBox.getValue());
     },
 
-    testSelectFirstMatchByLabelPath : function()
-    {
+    testSelectFirstMatchByLabelPath() {
       this.__model = this.__createNestedModel();
       this.__comboBox.setLabelPath("lastname");
       this.__comboBox.setModel(this.__model);
@@ -201,30 +195,34 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       this.flush();
       this.__comboBox.open();
       this.flush();
-      var preselected = this.__comboBox.getChildControl("dropdown")._preselected.getLastname();
+      var preselected = this.__comboBox
+        .getChildControl("dropdown")
+        ._preselected.getLastname();
       this.assertEquals("Sisko", preselected);
       this.assertEquals("Si", this.__comboBox.getValue());
     },
 
-    testEmptySelection : function()
-    {
+    testEmptySelection() {
       this.__comboBox.setLabelPath("label");
-      var rawData = [{
-        label : "foo"
-      }];
-      var model = this.__model = qx.data.marshal.Json.createModel(rawData);
+      var rawData = [
+        {
+          label: "foo"
+        }
+      ];
+
+      var model = (this.__model = qx.data.marshal.Json.createModel(rawData));
       this.__comboBox.setModel(model);
-      var selection = this.__comboBox.getChildControl("dropdown").getSelection();
+      var selection = this.__comboBox
+        .getChildControl("dropdown")
+        .getSelection();
       selection.push(this.__comboBox.getModel().getItem(0));
       selection.removeAll();
     },
 
-    testOpenWithUnrenderedWidget : function()
-    {
+    testOpenWithUnrenderedWidget() {
       var cb = new qx.ui.form.VirtualComboBox();
       cb.open();
       this.getRoot().add(cb);
     }
   }
-
 });

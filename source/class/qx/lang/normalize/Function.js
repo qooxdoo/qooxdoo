@@ -67,8 +67,7 @@
  */
 /* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.Function", {
-
-  statics : {
+  statics: {
     /**
      * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind">MDN documentation</a> |
      * <a href="http://es5.github.com/#x15.3.4.5">Annotated ES5 Spec</a>
@@ -76,14 +75,16 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
      * @param that {var?} Context for the bound function
      * @return {Function} The bound function
      */
-    bind : function (that) {
+    bind(that) {
       var slice = Array.prototype.slice;
       // .length is 1
       // 1. Let Target be the this value.
       var target = this;
       // 2. If IsCallable(Target) is false, throw a TypeError exception.
       if (typeof target != "function") {
-        throw new TypeError("Function.prototype.bind called on incompatible " + target);
+        throw new TypeError(
+          "Function.prototype.bind called on incompatible " + target
+        );
       }
       // 3. Let A be a new (possibly empty) internal list of all of the
       //   argument values provided after thisArg (arg1, arg2 etc), in order.
@@ -99,7 +100,6 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
       // 14. Set the [[HasInstance]] internal property of F as described in
       //   15.3.4.5.3.
       var bound = function () {
-
         if (this instanceof bound) {
           // 15.3.4.5.2 [[Construct]]
           // When the [[Construct]] internal method of a function object,
@@ -117,19 +117,16 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
           // 5. Return the result of calling the [[Construct]] internal
           //   method of target providing args as the arguments.
 
-          var F = function(){};
+          var F = function () {};
           F.prototype = target.prototype;
-          var self = new F;
+          var self = new F();
 
-          var result = target.apply(
-            self,
-            args.concat(slice.call(arguments))
-          );
+          var result = target.apply(self, args.concat(slice.call(arguments)));
+
           if (Object(result) === result) {
             return result;
           }
           return self;
-
         } else {
           // 15.3.4.5.1 [[Call]]
           // When the [[Call]] internal method of a function object, F,
@@ -150,13 +147,8 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
           //   providing args as the arguments.
 
           // equiv: target.call(this, ...boundArgs, ...args)
-          return target.apply(
-              that,
-              args.concat(slice.call(arguments))
-          );
-
+          return target.apply(that, args.concat(slice.call(arguments)));
         }
-
       };
       // XXX bound.length is never writable, so don't even try
       //
@@ -192,7 +184,7 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     if (!qx.core.Environment.get("ecmascript.function.bind")) {
       Function.prototype.bind = statics.bind;
     }

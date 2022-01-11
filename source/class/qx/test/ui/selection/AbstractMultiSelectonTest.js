@@ -16,22 +16,18 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
-  type : "abstract",
+qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
+  type: "abstract",
 
-  members :
-  {
-    testSetSelectionWithTooMuchElements : function()
-    {
+  members: {
+    testSetSelectionWithTooMuchElements() {
       // Do nothing
     },
 
     // overridden
-    testSetSelection : function()
-    {
-      this.base(arguments);
+    testSetSelection() {
+      super.testSetSelection();
 
       // Sets up the new selection
       var selection = [];
@@ -45,8 +41,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       this.flush();
     },
 
-    testSetSelectionOverrideWithLess : function()
-    {
+    testSetSelectionOverrideWithLess() {
       // Sets up the new selection
       this._selection = [];
       this._selection[0] = this._notInSelection[0];
@@ -58,8 +53,11 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       this.flush();
 
       // Test setSelection() with the same elements, but less
-      var expected = [this._selection[0], this._selection[2],
-        this._selection[4]];
+      var expected = [
+        this._selection[0],
+        this._selection[2],
+        this._selection[4]
+      ];
       this._widget.setSelection(expected);
 
       // Tests the result from "getSelection"
@@ -75,36 +73,52 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       this.flush();
     },
 
-    testSelectAll : function()
-    {
+    testSelectAll() {
       // Resets the selection to compare the results.
       this._widget.resetSelection();
 
       // Tests event and select all items
       var widget = this._widget;
       var that = this;
-      this.assertEventFired(widget, "changeSelection", function () {
-        widget.selectAll();
-        that.flush();
-      }, function(event) {
-        // Tests the result from the event
-        that._assertArrayEquals(that._getChildren(), event.getData(),
-          "Selection is wrong!");
-      }, "'changeSelection' event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.selectAll();
+          that.flush();
+        },
+        function (event) {
+          // Tests the result from the event
+          that._assertArrayEquals(
+            that._getChildren(),
+            event.getData(),
+            "Selection is wrong!"
+          );
+        },
+        "'changeSelection' event not fired!"
+      );
 
       // A second selectAll() shouldn't fire an event
-      this.assertEventNotFired(widget, "changeSelection", function () {
-        widget.selectAll();
-      }, function(event) {}, "'changeSelection' event fired!");
+      this.assertEventNotFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.selectAll();
+        },
+        function (event) {},
+        "'changeSelection' event fired!"
+      );
 
       // Tests the result from "getSelection"
       this._selection = this._widget.getSelection();
-      this._assertArrayEquals(this._getChildren(), this._selection,
-        "Selection is wrong!");
+      this._assertArrayEquals(
+        this._getChildren(),
+        this._selection,
+        "Selection is wrong!"
+      );
     },
 
-    testAddToSelection : function()
-    {
+    testAddToSelection() {
       // Sets up a new item for selection
       var newValue = this._notInSelection[0];
       this._selection[this._selection.length] = newValue;
@@ -112,40 +126,61 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       // Tests event and adds item to the selection
       var widget = this._widget;
       var that = this;
-      this.assertEventFired(widget, "changeSelection", function () {
-        widget.addToSelection(newValue);
-        that.flush();
-      }, function(event) {
-        // Tests the result from the event
-        that._assertArrayEquals(that._selection, event.getData(),
-          "The result of the selection is wrong");
-      }, "'changeSelection' event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.addToSelection(newValue);
+          that.flush();
+        },
+        function (event) {
+          // Tests the result from the event
+          that._assertArrayEquals(
+            that._selection,
+            event.getData(),
+            "The result of the selection is wrong"
+          );
+        },
+        "'changeSelection' event not fired!"
+      );
 
       // A second selection shouldn't fire an event
-      this.assertEventNotFired(widget, "changeSelection", function () {
-        widget.addToSelection(newValue);
-      }, function(event) {}, "'changeSelection' event fired!");
+      this.assertEventNotFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.addToSelection(newValue);
+        },
+        function (event) {},
+        "'changeSelection' event fired!"
+      );
 
       // Tests the result from "getSelection"
-      this._assertArrayEquals(this._selection, this._widget.getSelection(),
-        "Selection is wrong");
+      this._assertArrayEquals(
+        this._selection,
+        this._widget.getSelection(),
+        "Selection is wrong"
+      );
     },
 
-    testAddToSelectionWithNotChildElement : function()
-    {
+    testAddToSelectionWithNotChildElement() {
       var that = this;
       var testElement = this._createTestElement("Test Element");
 
-      this.assertException(function() {
-        that._widget.addToSelection(testElement);
-      }, Error, null, "No error occurs by trying to add an element" +
-        " to the selection which isn't a child element!");
+      this.assertException(
+        function () {
+          that._widget.addToSelection(testElement);
+        },
+        Error,
+        null,
+        "No error occurs by trying to add an element" +
+          " to the selection which isn't a child element!"
+      );
 
       testElement.destroy();
     },
 
-    testRemoveFromSelection : function()
-    {
+    testRemoveFromSelection() {
       // Sets up the item to remove and update the selection array
       var selection = this._selection;
       var itemToRemove = selection[selection.length - 1];
@@ -155,74 +190,109 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       // Tests event and removes the item
       var widget = this._widget;
       var that = this;
-      this.assertEventFired(widget, "changeSelection", function () {
-        widget.removeFromSelection(itemToRemove);
-        that.flush();
-      }, function(event) {
-        // Tests the result from the event
-        that._assertArrayEquals(that._selection, event.getData(),
-          "The result of the selection is wrong");
-      }, "'changeSelection' event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.removeFromSelection(itemToRemove);
+          that.flush();
+        },
+        function (event) {
+          // Tests the result from the event
+          that._assertArrayEquals(
+            that._selection,
+            event.getData(),
+            "The result of the selection is wrong"
+          );
+        },
+        "'changeSelection' event not fired!"
+      );
 
       // Tests the result from "getSelection"
-      this._assertArrayEquals(this._selection, this._widget.getSelection(),
-        "Selection is wrong");
+      this._assertArrayEquals(
+        this._selection,
+        this._widget.getSelection(),
+        "Selection is wrong"
+      );
     },
 
-    testRemoveFromSelectionWithNotChildElement : function()
-    {
+    testRemoveFromSelectionWithNotChildElement() {
       var that = this;
       var testElement = this._createTestElement("Test Element");
 
-      this.assertException(function() {
-        that._widget.removeFromSelection(testElement);
-      }, Error, null, "No error occurs by trying to remove an element" +
-        " which isn't a child element!");
+      this.assertException(
+        function () {
+          that._widget.removeFromSelection(testElement);
+        },
+        Error,
+        null,
+        "No error occurs by trying to remove an element" +
+          " which isn't a child element!"
+      );
 
       testElement.destroy();
     },
 
-    testRemoveFromSelectionWithNotSelectedElement : function()
-    {
+    testRemoveFromSelectionWithNotSelectedElement() {
       var itemToRemove = this._notInSelection[0];
 
       var widget = this._widget;
-      this.assertEventNotFired(widget, "changeSelection", function () {
-        widget.removeFromSelection(itemToRemove);
-      }, function(event) {}, "'changeSelection' event fired!");
+      this.assertEventNotFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.removeFromSelection(itemToRemove);
+        },
+        function (event) {},
+        "'changeSelection' event fired!"
+      );
     },
 
-    testInvertSelection : function()
-    {
+    testInvertSelection() {
       var that = this;
       var widget = this._widget;
-      this.assertEventFired(widget, "changeSelection", function () {
-        widget.invertSelection();
-        that.flush();
-      }, function(event) {
-        // Tests the result from the event
-        that._assertArrayEquals(that._notInSelection, event.getData(),
-          "The result of the selection is wrong");
-      }, "'changeSelection' event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.invertSelection();
+          that.flush();
+        },
+        function (event) {
+          // Tests the result from the event
+          that._assertArrayEquals(
+            that._notInSelection,
+            event.getData(),
+            "The result of the selection is wrong"
+          );
+        },
+        "'changeSelection' event not fired!"
+      );
 
       // Tests the result from "getSelection"
-      this._assertArrayEquals(this._notInSelection, this._widget.getSelection(),
-        "Selection is wrong");
+      this._assertArrayEquals(
+        this._notInSelection,
+        this._widget.getSelection(),
+        "Selection is wrong"
+      );
     },
 
-    testInvertSelectionWithErrors : function()
-    {
+    testInvertSelectionWithErrors() {
       var widget = this._widget;
       widget.setSelectionMode("single");
 
-      this.assertException(function() {
-        widget.invertSelection();
-      }, Error, null, "No error occurs by trying to invert elements" +
-        " in 'single' selection mode!");
+      this.assertException(
+        function () {
+          widget.invertSelection();
+        },
+        Error,
+        null,
+        "No error occurs by trying to invert elements" +
+          " in 'single' selection mode!"
+      );
     },
 
-    testInvertSelectionWithDisabledChildElements : function()
-    {
+    testInvertSelectionWithDisabledChildElements() {
       // test setup
       var tempNotInSelection = [];
       for (var i = 0; i < this._notInSelection.length; i++) {
@@ -232,18 +302,30 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
 
       var that = this;
       var widget = this._widget;
-      this.assertEventFired(widget, "changeSelection", function () {
-        widget.invertSelection();
-        that.flush();
-      }, function(event) {
-        // Tests the result from the event
-        that._assertArrayEquals(that._notInSelection, event.getData(),
-          "The result of the selection is wrong");
-      }, "'changeSelection' event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeSelection",
+        function () {
+          widget.invertSelection();
+          that.flush();
+        },
+        function (event) {
+          // Tests the result from the event
+          that._assertArrayEquals(
+            that._notInSelection,
+            event.getData(),
+            "The result of the selection is wrong"
+          );
+        },
+        "'changeSelection' event not fired!"
+      );
 
       // Tests the result from "getSelection"
-      this._assertArrayEquals(this._notInSelection, this._widget.getSelection(),
-        "Selection is wrong");
+      this._assertArrayEquals(
+        this._notInSelection,
+        this._widget.getSelection(),
+        "Selection is wrong"
+      );
     }
   }
 });

@@ -16,56 +16,64 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.basic.Atom",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.basic.Atom", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  include : [qx.dev.unit.MMock],
+  include: [qx.dev.unit.MMock],
 
-  members :
-  {
-    tearDown : function()
-    {
+  members: {
+    tearDown() {
       this.getSandbox().restore();
     },
 
-    testSelectableSetOnCreation : function() {
-      var a = new qx.ui.basic.Atom('test').set({selectable: true});
+    testSelectableSetOnCreation() {
+      var a = new qx.ui.basic.Atom("test").set({ selectable: true });
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
-      this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      var l = a.getChildControl("label");
+      this.assertEquals(
+        "on",
+        l.getContentElement().getDomElement().getAttribute("qxselectable")
+      );
       a.destroy();
     },
 
-    testSelectableUnSetOnCreation : function() {
-      var a = new qx.ui.basic.Atom('test').set({selectable: false});
+    testSelectableUnSetOnCreation() {
+      var a = new qx.ui.basic.Atom("test").set({ selectable: false });
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
-      this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      var l = a.getChildControl("label");
+      this.assertEquals(
+        "off",
+        l.getContentElement().getDomElement().getAttribute("qxselectable")
+      );
       a.destroy();
     },
 
-    testSelectableSet : function() {
-      var a = new qx.ui.basic.Atom('test');
+    testSelectableSet() {
+      var a = new qx.ui.basic.Atom("test");
       a.setSelectable(true);
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
-      this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      var l = a.getChildControl("label");
+      this.assertEquals(
+        "on",
+        l.getContentElement().getDomElement().getAttribute("qxselectable")
+      );
       a.destroy();
     },
 
-    testSelectableUnset : function() {
-      var a = new qx.ui.basic.Atom('test');
+    testSelectableUnset() {
+      var a = new qx.ui.basic.Atom("test");
       a.setSelectable(false);
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
-      this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      var l = a.getChildControl("label");
+      this.assertEquals(
+        "off",
+        l.getContentElement().getDomElement().getAttribute("qxselectable")
+      );
       a.destroy();
     }
-
   }
 });

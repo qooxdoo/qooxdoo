@@ -20,10 +20,8 @@
  * This mixin offers the basic property features which include generic
  * setter, getter and resetter.
  */
-qx.Mixin.define("qx.core.MProperty",
-{
-  members :
-  {
+qx.Mixin.define("qx.core.MProperty", {
+  members: {
     /**
      * Sets either multiple properties at once by using a property list or
      * sets one property and its value by the first and second argument.
@@ -36,14 +34,11 @@ qx.Mixin.define("qx.core.MProperty",
      *   or a non-generated setter is called; otherwise returns <code>value</code>.
      * @throws {Error} if a property defined does not exist
      */
-    set : function(data, value)
-    {
+    set(data, value) {
       var setter = qx.core.Property.$$method.set;
 
-      if (qx.Bootstrap.isString(data))
-      {
-        if (!this[setter[data]])
-        {
+      if (qx.Bootstrap.isString(data)) {
+        if (!this[setter[data]]) {
           if (this["set" + qx.Bootstrap.firstUp(data)] != undefined) {
             this["set" + qx.Bootstrap.firstUp(data)](value);
             return this;
@@ -53,13 +48,9 @@ qx.Mixin.define("qx.core.MProperty",
         }
 
         return this[setter[data]](value);
-      }
-      else
-      {
-        for (var prop in data)
-        {
-          if (!this[setter[prop]])
-          {
+      } else {
+        for (var prop in data) {
+          if (!this[setter[prop]]) {
             if (this["set" + qx.Bootstrap.firstUp(prop)] != undefined) {
               this["set" + qx.Bootstrap.firstUp(prop)](data[prop]);
               continue;
@@ -75,7 +66,6 @@ qx.Mixin.define("qx.core.MProperty",
       }
     },
 
-
     /**
      * Returns the value of the given property. If no generated getter could be
      * found, a fallback tries to access a handwritten getter.
@@ -84,12 +74,10 @@ qx.Mixin.define("qx.core.MProperty",
      * @return {var} The value of the value
      * @throws {Error} if a property defined does not exist
      */
-    get : function(prop)
-    {
+    get(prop) {
       var getter = qx.core.Property.$$method.get;
 
-      if (!this[getter[prop]])
-      {
+      if (!this[getter[prop]]) {
         if (this["get" + qx.Bootstrap.firstUp(prop)] != undefined) {
           return this["get" + qx.Bootstrap.firstUp(prop)]();
         }
@@ -97,10 +85,8 @@ qx.Mixin.define("qx.core.MProperty",
         throw new Error("No such property: " + prop);
       }
 
-
       return this[getter[prop]]();
     },
-
 
     /**
      * Resets the value of the given property. If no generated resetter could be
@@ -109,12 +95,10 @@ qx.Mixin.define("qx.core.MProperty",
      * @param prop {String} Name of the property.
      * @throws {Error} if a property defined does not exist
      */
-    reset : function(prop)
-    {
+    reset(prop) {
       var resetter = qx.core.Property.$$method.reset;
 
-      if (!this[resetter[prop]])
-      {
+      if (!this[resetter[prop]]) {
         if (this["reset" + qx.Bootstrap.firstUp(prop)] != undefined) {
           this["reset" + qx.Bootstrap.firstUp(prop)]();
           return;
@@ -122,7 +106,6 @@ qx.Mixin.define("qx.core.MProperty",
 
         throw new Error("No such property: " + prop);
       }
-
 
       this[resetter[prop]]();
     },
@@ -135,8 +118,7 @@ qx.Mixin.define("qx.core.MProperty",
      * @return {Boolean} If the property is initialized
      * @throws {Error} If the property defined does not exist
      */
-    isPropertyInitialized : function(prop)
-    {
+    isPropertyInitialized(prop) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertString(prop);
 
@@ -145,8 +127,10 @@ qx.Mixin.define("qx.core.MProperty",
         }
       }
 
-      return this["$$user_" + prop] !== undefined ||
-        this["$$init_" + prop] !== undefined;
+      return (
+        this["$$user_" + prop] !== undefined ||
+        this["$$init_" + prop] !== undefined
+      );
     }
   }
 });

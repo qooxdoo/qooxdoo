@@ -18,12 +18,8 @@
 /**
  * The image cell renderer renders image into table cells.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Image",
-{
-  extend : qx.ui.table.cellrenderer.AbstractImage,
-
-
-
+qx.Class.define("qx.ui.table.cellrenderer.Image", {
+  extend: qx.ui.table.cellrenderer.AbstractImage,
 
   /*
   *****************************************************************************
@@ -31,14 +27,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
   *****************************************************************************
   */
 
-
   /**
    * @param height {Integer?16} The height of the image. The default is 16.
    * @param width {Integer?16} The width of the image. The default is 16.
    */
-  construct : function(width, height)
-  {
-    this.base(arguments);
+  construct(width, height) {
+    super();
 
     if (width) {
       this.__imageWidth = width;
@@ -51,29 +45,22 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
     this.__am = qx.util.AliasManager.getInstance();
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    __am : null,
-    __imageHeight : 16,
-    __imageWidth : 16,
-
+  members: {
+    __am: null,
+    __imageHeight: 16,
+    __imageWidth: 16,
 
     // overridden
-    _identifyImage : function(cellInfo)
-    {
-      var imageHints =
-      {
-        imageWidth  : this.__imageWidth,
-        imageHeight : this.__imageHeight
+    _identifyImage(cellInfo) {
+      var imageHints = {
+        imageWidth: this.__imageWidth,
+        imageHeight: this.__imageHeight
       };
 
       if (cellInfo.value == "") {
@@ -94,7 +81,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__am = null;
   }
 });

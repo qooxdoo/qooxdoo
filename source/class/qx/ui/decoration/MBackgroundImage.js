@@ -47,25 +47,19 @@
  *   }
  * </pre>
  */
-qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
-{
-  properties :
-  {
+qx.Mixin.define("qx.ui.decoration.MBackgroundImage", {
+  properties: {
     /** The URL of the background image */
-    backgroundImage :
-    {
-      nullable : true,
-      apply : "_applyBackgroundImage"
+    backgroundImage: {
+      nullable: true,
+      apply: "_applyBackgroundImage"
     },
-
 
     /** How the background image should be repeated */
-    backgroundRepeat :
-    {
-      init : "repeat",
-      apply : "_applyBackgroundImage"
+    backgroundRepeat: {
+      init: "repeat",
+      apply: "_applyBackgroundImage"
     },
-
 
     /**
      * Either a string or a number, which defines the horizontal position
@@ -75,12 +69,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * the value is taken to be a CSS value. For CSS, the values are "center",
      * "left" and "right".
      */
-    backgroundPositionX :
-    {
-      nullable : true,
-      apply : "_applyBackgroundPosition"
+    backgroundPositionX: {
+      nullable: true,
+      apply: "_applyBackgroundPosition"
     },
-
 
     /**
      * Either a string or a number, which defines the vertical position
@@ -90,75 +82,70 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * the value is taken to be a CSS value. For CSS, the values are "top",
      * "center" and "bottom".
      */
-    backgroundPositionY :
-    {
-      nullable : true,
-      apply : "_applyBackgroundPosition"
+    backgroundPositionY: {
+      nullable: true,
+      apply: "_applyBackgroundPosition"
     },
-
 
     /**
      * Specifies where the background image is positioned.
      */
-    backgroundOrigin :
-    {
+    backgroundOrigin: {
       nullable: true,
       apply: "_applyBackgroundImage"
     },
 
-
     /**
      * Property group to define the background position
      */
-    backgroundPosition :
-    {
-      group : ["backgroundPositionY", "backgroundPositionX"]
+    backgroundPosition: {
+      group: ["backgroundPositionY", "backgroundPositionX"]
     },
-
 
     /**
      * Whether to order gradients before Image-URL-based background declarations
      * if both qx.ui.decoration.MBackgroundImage and
      * qx.ui.decoration.MLinearBackgroundGradient decorations are used.
      */
-    orderGradientsFront :
-    {
-      check: 'Boolean',
+    orderGradientsFront: {
+      check: "Boolean",
       init: false
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Adds the background-image styles to the given map
      * @param styles {Map} CSS style map
      */
-    _styleBackgroundImage : function(styles)
-    {
-      if(! this.getBackgroundImage()) {
+    _styleBackgroundImage(styles) {
+      if (!this.getBackgroundImage()) {
         return;
       }
 
-      if("background" in styles) {
-        if(!qx.lang.Type.isArray(styles['background'])) {
-          styles['background'] = [styles['background']];
+      if ("background" in styles) {
+        if (!qx.lang.Type.isArray(styles["background"])) {
+          styles["background"] = [styles["background"]];
         }
       } else {
-        styles['background'] = [];
+        styles["background"] = [];
       }
 
-      var backgroundImageProperties = ['backgroundImage', 'backgroundRepeat', 'backgroundPositionY',
-        'backgroundPositionX', 'backgroundOrigin'];
+      var backgroundImageProperties = [
+        "backgroundImage",
+        "backgroundRepeat",
+        "backgroundPositionY",
+        "backgroundPositionX",
+        "backgroundOrigin"
+      ];
 
       (function (images, repeats, tops, lefts, origins) {
-        for(var i=0;i<images.length;i++) {
+        for (var i = 0; i < images.length; i++) {
           var image = images[i];
           var repeat = repeats[i];
           var top = tops[i] || 0;
           var left = lefts[i] || 0;
-          var origin = origins[i] || '';
+          var origin = origins[i] || "";
 
           if (top == null) {
             top = 0;
@@ -177,58 +164,76 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
           var source = qx.util.ResourceManager.getInstance().toUri(id);
 
           var attrs = {
-            image: 'url(' + source + ')',
+            image: "url(" + source + ")",
             position: left + " " + top,
-            repeat: 'repeat',
+            repeat: "repeat",
             origin: origin
           };
+
           if (repeat === "scale") {
             attrs.size = "100% 100%";
           } else {
             attrs.repeat = repeat;
           }
-          var imageMarkup = [attrs.image, attrs.position + ('size' in attrs ? ' / ' + attrs.size : ''), attrs.repeat, attrs.origin];
+          var imageMarkup = [
+            attrs.image,
+            attrs.position + ("size" in attrs ? " / " + attrs.size : ""),
+            attrs.repeat,
+            attrs.origin
+          ];
 
-          styles["background"][this.getOrderGradientsFront() ? 'push' : 'unshift'](imageMarkup.join(' '));
+          styles["background"][
+            this.getOrderGradientsFront() ? "push" : "unshift"
+          ](imageMarkup.join(" "));
 
-          if (qx.core.Environment.get("qx.debug") &&
-            source &&  source.endsWith(".png") &&
+          if (
+            qx.core.Environment.get("qx.debug") &&
+            source &&
+            source.endsWith(".png") &&
             (repeat == "scale" || repeat == "no-repeat") &&
             qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("browser.documentmode") < 9)
-          {
-            this.warn("Background PNGs with repeat == 'scale' or repeat == 'no-repeat'" +
-              " are not supported in this client! The image's resource id is '" + id + "'");
+            qx.core.Environment.get("browser.documentmode") < 9
+          ) {
+            this.warn(
+              "Background PNGs with repeat == 'scale' or repeat == 'no-repeat'" +
+                " are not supported in this client! The image's resource id is '" +
+                id +
+                "'"
+            );
           }
         }
-      }).apply(this, this._getExtendedPropertyValueArrays(backgroundImageProperties));
+      }.apply(
+        this,
+        this._getExtendedPropertyValueArrays(backgroundImageProperties)
+      ));
     },
 
-
     // property apply
-    _applyBackgroundImage : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyBackgroundImage() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     },
 
-
     // property apply
-    _applyBackgroundPosition : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyBackgroundPosition() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
-        if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") < 9)
-        {
-          this.warn("The backgroundPosition property is not supported by this client!");
+        if (
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9
+        ) {
+          this.warn(
+            "The backgroundPosition property is not supported by this client!"
+          );
         }
       }
     }

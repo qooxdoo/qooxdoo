@@ -25,16 +25,14 @@
  * sizes which are available via {@link #getContentWidth} and
  * {@link #getContentHeight}.
  */
-qx.Bootstrap.define("qx.bom.element.Dimension",
-{
+qx.Bootstrap.define("qx.bom.element.Dimension", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Returns the rendered width of the given element.
      *
@@ -46,11 +44,10 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} width of the element
      */
-    getWidth: function(element) {
+    getWidth(element) {
       var rect = element.getBoundingClientRect();
       return Math.round(rect.right - rect.left);
     },
-
 
     /**
      * Returns the rendered height of the given element.
@@ -63,11 +60,10 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} height of the element
      */
-    getHeight: function(element) {
+    getHeight(element) {
       var rect = element.getBoundingClientRect();
       return Math.round(rect.bottom - rect.top);
     },
-
 
     /**
      * Returns the rendered size of the given element.
@@ -75,8 +71,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Map} map containing the width and height of the element
      */
-    getSize : function(element)
-    {
+    getSize(element) {
       return {
         width: this.getWidth(element),
         height: this.getHeight(element)
@@ -90,10 +85,20 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param includeMargins {Boolean?} whether to include margins in teh
      * @return {Integer} the height of the element
      */
-     getOuterHeight(element, includeMargins) {
+    getOuterHeight(element, includeMargins) {
       if (includeMargins) {
-        let marginTop = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-top'), 10);
-        let marginBottom = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-bottom'), 10);
+        let marginTop = parseInt(
+          document.defaultView
+            .getComputedStyle(element, "")
+            .getPropertyValue("margin-top"),
+          10
+        );
+        let marginBottom = parseInt(
+          document.defaultView
+            .getComputedStyle(element, "")
+            .getPropertyValue("margin-bottom"),
+          10
+        );
         return element.offsetHeight + marginTop + marginBottom;
       }
       return element.offsetHeight;
@@ -106,10 +111,20 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param includeMargins {Boolean?} whether to include margins in teh
      * @return {Integer} the width of the element
      */
-     getOuterWidth(element, includeMargins) {
+    getOuterWidth(element, includeMargins) {
       if (includeMargins) {
-        let marginLeft = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-left'), 10);
-        let marginRight = parseInt(document.defaultView.getComputedStyle(element, '').getPropertyValue('margin-right'), 10);
+        let marginLeft = parseInt(
+          document.defaultView
+            .getComputedStyle(element, "")
+            .getPropertyValue("margin-left"),
+          10
+        );
+        let marginRight = parseInt(
+          document.defaultView
+            .getComputedStyle(element, "")
+            .getPropertyValue("margin-right"),
+          10
+        );
         return element.offsetWidth + marginLeft + marginRight;
       }
       return element.offsetWidth;
@@ -122,21 +137,18 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param includeMargins {Boolean?} whether to include margins in teh
      * @return {Map} map containing the width and height of the element
      */
-     getOuterSize(element, includeMargins) {
+    getOuterSize(element, includeMargins) {
       return {
         width: this.getOuterWidth(element, includeMargins),
         height: this.getOuterHeight(element, includeMargins)
       };
     },
 
-
     /** @type {Map} Contains all overflow values where scrollbars are invisible */
-    __hiddenScrollbars :
-    {
-      visible : true,
-      hidden : true
+    __hiddenScrollbars: {
+      visible: true,
+      hidden: true
     },
-
 
     /**
      * Returns the content width.
@@ -152,21 +164,26 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} Computed content width
      */
-    getContentWidth : function(element)
-    {
+    getContentWidth(element) {
       var Style = qx.bom.element.Style;
 
       var overflowX = qx.bom.element.Style.get(element, "overflowX");
-      var paddingLeft = parseInt(Style.get(element, "paddingLeft")||"0px", 10);
-      var paddingRight = parseInt(Style.get(element, "paddingRight")||"0px", 10);
+      var paddingLeft = parseInt(
+        Style.get(element, "paddingLeft") || "0px",
+        10
+      );
+      var paddingRight = parseInt(
+        Style.get(element, "paddingRight") || "0px",
+        10
+      );
 
-      if (this.__hiddenScrollbars[overflowX])
-      {
+      if (this.__hiddenScrollbars[overflowX]) {
         var contentWidth = element.clientWidth;
 
-        if ((qx.core.Environment.get("engine.name") == "opera") ||
-          qx.dom.Node.isBlockNode(element))
-        {
+        if (
+          qx.core.Environment.get("engine.name") == "opera" ||
+          qx.dom.Node.isBlockNode(element)
+        ) {
           contentWidth = contentWidth - paddingLeft - paddingRight;
         }
 
@@ -179,16 +196,15 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
         }
 
         return contentWidth;
-      }
-      else
-      {
-        if (element.clientWidth >= element.scrollWidth)
-        {
+      } else {
+        if (element.clientWidth >= element.scrollWidth) {
           // Scrollbars visible, but not needed? We need to substract both paddings
-          return Math.max(element.clientWidth, element.scrollWidth) - paddingLeft - paddingRight;
-        }
-        else
-        {
+          return (
+            Math.max(element.clientWidth, element.scrollWidth) -
+            paddingLeft -
+            paddingRight
+          );
+        } else {
           // Scrollbars visible and needed. We just remove the left padding,
           // as the right padding is not respected in rendering.
           var width = element.scrollWidth - paddingLeft;
@@ -202,7 +218,6 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
         }
       }
     },
-
 
     /**
      * Returns the content height.
@@ -218,27 +233,27 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} Computed content height
      */
-    getContentHeight : function(element)
-    {
+    getContentHeight(element) {
       var Style = qx.bom.element.Style;
 
       var overflowY = qx.bom.element.Style.get(element, "overflowY");
-      var paddingTop = parseInt(Style.get(element, "paddingTop")||"0px", 10);
-      var paddingBottom = parseInt(Style.get(element, "paddingBottom")||"0px", 10);
+      var paddingTop = parseInt(Style.get(element, "paddingTop") || "0px", 10);
+      var paddingBottom = parseInt(
+        Style.get(element, "paddingBottom") || "0px",
+        10
+      );
 
-      if (this.__hiddenScrollbars[overflowY])
-      {
+      if (this.__hiddenScrollbars[overflowY]) {
         return element.clientHeight - paddingTop - paddingBottom;
-      }
-      else
-      {
-        if (element.clientHeight >= element.scrollHeight)
-        {
+      } else {
+        if (element.clientHeight >= element.scrollHeight) {
           // Scrollbars visible, but not needed? We need to substract both paddings
-          return Math.max(element.clientHeight, element.scrollHeight) - paddingTop - paddingBottom;
-        }
-        else
-        {
+          return (
+            Math.max(element.clientHeight, element.scrollHeight) -
+            paddingTop -
+            paddingBottom
+          );
+        } else {
           // Scrollbars visible and needed. We just remove the top padding,
           // as the bottom padding is not respected in rendering.
           return element.scrollHeight - paddingTop;
@@ -246,15 +261,13 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
       }
     },
 
-
     /**
      * Returns the rendered content size of the given element.
      *
      * @param element {Element} element to query
      * @return {Map} map containing the content width and height of the element
      */
-    getContentSize : function(element)
-    {
+    getContentSize(element) {
       return {
         width: this.getContentWidth(element),
         height: this.getContentHeight(element)

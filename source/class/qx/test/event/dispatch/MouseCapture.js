@@ -16,15 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.MouseCapture",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.event.dispatch.MouseCapture", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      var root = qx.dom.Element.create("div", {id: "root"});
+  members: {
+    setUp() {
+      var root = qx.dom.Element.create("div", { id: "root" });
       document.body.appendChild(root);
 
       // root
@@ -43,18 +40,18 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.c_2 = document.getElementById("c_2");
 
       var registration = {
-        removeManager : function() {},
-        getHandlers : function() {
+        removeManager() {},
+        getHandlers() {
           return [qx.test.event.dispatch.TestingHandler];
         },
-        getDispatchers : function() {
+        getDispatchers() {
           return [
             qx.event.dispatch.MouseCapture,
             qx.event.dispatch.DomBubbling,
             qx.event.dispatch.Direct
           ];
         },
-        fireEvent : function(target, type, clazz, args) {
+        fireEvent(target, type, clazz, args) {
           var event = qx.event.Registration.createEvent(type, clazz, args);
           return manager.dispatchEvent(target, event);
         }
@@ -62,7 +59,10 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
 
       this.window = new qx.test.event.dispatch.TestingWindow();
 
-      var manager = this.manager = new qx.event.Manager(this.window, registration);
+      var manager = (this.manager = new qx.event.Manager(
+        this.window,
+        registration
+      ));
       this.capture = this.manager.getDispatcher(qx.event.dispatch.MouseCapture);
 
       this.called = [];
@@ -71,9 +71,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.manager.addListener(this.c_2, "mousemove", this.logEvent, this);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       var Reg = qx.event.Registration;
 
       Reg.removeAllListeners(this.c_1);
@@ -86,33 +84,27 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.window.dispose();
     },
 
-
-    logEvent : function(e) {
+    logEvent(e) {
       this.called.push(e.getCurrentTarget().id);
     },
 
-
-    onLoseCapture : function() {
+    onLoseCapture() {
       this.called.push("losecapture");
     },
 
-
-    fire : function(target, type, bubble)
-    {
-      var event = qx.event.Registration.createEvent(type, qx.event.type.Event, [bubble !== false]);
+    fire(target, type, bubble) {
+      var event = qx.event.Registration.createEvent(type, qx.event.type.Event, [
+        bubble !== false
+      ]);
       this.manager.dispatchEvent(target, event);
     },
 
-
-    testNoCapture : function()
-    {
+    testNoCapture() {
       this.fire(this.c_1_1, "mousemove");
       this.assertEquals("c_1_1,c_1", this.called.join(","));
     },
 
-
-    testContainerCapture : function()
-    {
+    testContainerCapture() {
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -128,9 +120,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1", this.called.join(","));
     },
 
-
-    testNoContainerCapture : function()
-    {
+    testNoContainerCapture() {
       this.capture.activateCapture(this.c_1, false);
 
       this.called = [];
@@ -146,9 +136,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1", this.called.join(","));
     },
 
-
-    testCaptureBubbling : function()
-    {
+    testCaptureBubbling() {
       this.capture.activateCapture(this.c_1_1, true);
 
       this.called = [];
@@ -156,10 +144,13 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1_1,c_1", this.called.join(","));
     },
 
-
-    testLoseCaptureOnClick : function()
-    {
-      this.manager.addListener(this.c_1, "losecapture", this.onLoseCapture, this);
+    testLoseCaptureOnClick() {
+      this.manager.addListener(
+        this.c_1,
+        "losecapture",
+        this.onLoseCapture,
+        this
+      );
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -168,10 +159,13 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1,losecapture", this.called.join(","));
     },
 
-
-    testLoseCaptureOnWindowBlur : function()
-    {
-      this.manager.addListener(this.c_1, "losecapture", this.onLoseCapture, this);
+    testLoseCaptureOnWindowBlur() {
+      this.manager.addListener(
+        this.c_1,
+        "losecapture",
+        this.onLoseCapture,
+        this
+      );
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -180,10 +174,13 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1,losecapture", this.called.join(","));
     },
 
-
-    testLoseCaptureOnWindowFocus : function()
-    {
-      this.manager.addListener(this.c_1, "losecapture", this.onLoseCapture, this);
+    testLoseCaptureOnWindowFocus() {
+      this.manager.addListener(
+        this.c_1,
+        "losecapture",
+        this.onLoseCapture,
+        this
+      );
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -192,10 +189,13 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1,losecapture", this.called.join(","));
     },
 
-
-    testLoseCaptureOnWindowScroll : function()
-    {
-      this.manager.addListener(this.c_1, "losecapture", this.onLoseCapture, this);
+    testLoseCaptureOnWindowScroll() {
+      this.manager.addListener(
+        this.c_1,
+        "losecapture",
+        this.onLoseCapture,
+        this
+      );
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -204,10 +204,13 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
       this.assertEquals("c_1,losecapture", this.called.join(","));
     },
 
-
-    testLoseCaptureOnCaptureChange : function()
-    {
-      this.manager.addListener(this.c_1, "losecapture", this.onLoseCapture, this);
+    testLoseCaptureOnCaptureChange() {
+      this.manager.addListener(
+        this.c_1,
+        "losecapture",
+        this.onLoseCapture,
+        this
+      );
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];

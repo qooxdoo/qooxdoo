@@ -19,11 +19,8 @@
 /**
  * A cell renderer for data cells.
  */
-qx.Interface.define("qx.ui.table.ICellRenderer",
-{
-
-  members :
-  {
+qx.Interface.define("qx.ui.table.ICellRenderer", {
+  members: {
     /**
      * Creates the HTML for a data cell.
      *
@@ -62,9 +59,8 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      *   rendering continues with the next cell in the row, which the normal
      *   mode of operation.
      */
-    createDataCellHtml : function(cellInfo, htmlArr) {
+    createDataCellHtml(cellInfo, htmlArr) {
       return true;
     }
-
   }
 });

@@ -16,38 +16,33 @@
 
 ************************************************************************ */
 
-
 /**
  * Track is a single pointer gesture and contains of a three vent types:
  * <code>trackstart</code>, <code>track</code> and <code>trackend</code>. These
  * events will be fired when a pointer grabs an item and moves the pointer on it.
  */
-qx.Class.define("qx.event.type.Track",
-{
-    extend : qx.event.type.Pointer,
+qx.Class.define("qx.event.type.Track", {
+  extend: qx.event.type.Pointer,
 
+  members: {
+    // overridden
+    _cloneNativeEvent(nativeEvent, clone) {
+      var clone = super._cloneNativeEvent(nativeEvent, clone);
 
-    members : {
-      // overridden
-      _cloneNativeEvent : function(nativeEvent, clone)
-      {
-        var clone = this.base(arguments, nativeEvent, clone);
+      clone.delta = nativeEvent.delta;
 
-        clone.delta = nativeEvent.delta;
+      return clone;
+    },
 
-        return clone;
-      },
-
-
-      /**
-       * Returns a map with the calculated delta coordinates and axis,
-       * relative to the position on <code>trackstart</code> event.
-       *
-       * @return {Map} a map with contains the delta as <code>x</code> and
-       * <code>y</code> and the movement axis as <code>axis</code>.
-       */
-      getDelta : function() {
-        return this._native.delta;
-      }
+    /**
+     * Returns a map with the calculated delta coordinates and axis,
+     * relative to the position on <code>trackstart</code> event.
+     *
+     * @return {Map} a map with contains the delta as <code>x</code> and
+     * <code>y</code> and the movement axis as <code>axis</code>.
+     */
+    getDelta() {
+      return this._native.delta;
     }
+  }
 });

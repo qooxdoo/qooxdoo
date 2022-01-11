@@ -16,18 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.TestingHandler",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+qx.Class.define("qx.test.event.dispatch.TestingHandler", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
-  members :
-  {
-    canHandleEvent : function() {
+  members: {
+    canHandleEvent() {
       return true;
     },
 
-    registerEvent : function() {},
-    unregisterEvent : function() {}
+    registerEvent() {},
+    unregisterEvent() {}
   }
 });

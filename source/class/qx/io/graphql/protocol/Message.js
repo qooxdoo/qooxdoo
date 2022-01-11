@@ -27,13 +27,13 @@ qx.Class.define("qx.io.graphql.protocol.Message", {
    * Constructor
    * @param {Object} data
    */
-  construct: function(data) {
-    this.base(arguments);
+  construct(data) {
+    super();
     qx.core.Assert.assertObject(data);
     this.set(data);
   },
 
-  members : {
+  members: {
     /**
      * Return the message data in a spec-conformant native object
      */

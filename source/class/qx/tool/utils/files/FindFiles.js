@@ -23,12 +23,11 @@
 var fs = require("fs");
 var async = require("async");
 
-
 qx.Class.define("qx.tool.utils.files.FindFiles", {
   extend: qx.core.Object,
 
-  construct: function(root) {
-    this.base(arguments);
+  construct(root) {
+    super();
     this.__root = root;
   },
 
@@ -43,45 +42,50 @@ qx.Class.define("qx.tool.utils.files.FindFiles", {
   members: {
     __root: null,
 
-    scan: function(notify, cb) {
-      cb = cb||function() {};
+    scan(notify, cb) {
+      cb = cb || function () {};
 
       var t = this;
 
       function scanImpl(path, cb) {
-        async.waterfall([
-          function(cb) {
-            fs.readdir(path, cb);
-          },
+        async.waterfall(
+          [
+            function (cb) {
+              fs.readdir(path, cb);
+            },
 
-          function(files, cb) {
-            async.forEach(files,
-              function(file, cb) {
-                fs.stat(path + "/" + file, function(err, stat) {
-                  if (err) {
-                    cb(err);
-                    return;
-                  }
-                  if (stat.isDirectory()) {
-                    scanImpl(path + "/" + file, cb);
-                    return;
-                  }
-                  if (stat.isFile()) {
-                    t._onFindFile(path + "/" + file, notify, cb);
-                    return;
-                  }
-                  cb();
-                });
-              },
-              cb);
-          }],
-        cb);
+            function (files, cb) {
+              async.forEach(
+                files,
+                function (file, cb) {
+                  fs.stat(path + "/" + file, function (err, stat) {
+                    if (err) {
+                      cb(err);
+                      return;
+                    }
+                    if (stat.isDirectory()) {
+                      scanImpl(path + "/" + file, cb);
+                      return;
+                    }
+                    if (stat.isFile()) {
+                      t._onFindFile(path + "/" + file, notify, cb);
+                      return;
+                    }
+                    cb();
+                  });
+                },
+                cb
+              );
+            }
+          ],
+          cb
+        );
       }
 
       scanImpl(this.__root, cb);
     },
 
-    _onFindFile: function(file, notify, cb) {
+    _onFindFile(file, notify, cb) {
       var re = this.getMatchFiles();
       if (re && !re.test(file)) {
         return;
@@ -89,5 +93,4 @@ qx.Class.define("qx.tool.utils.files.FindFiles", {
       notify(file, cb);
     }
   }
-
 });

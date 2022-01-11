@@ -39,8 +39,8 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
    * Constructor
    * @param outputFilename {String} the destination file for combined output
    */
-  construct: function(outputFilename) {
-    this.base(arguments);
+  construct(outputFilename) {
+    super();
 
     let pos = outputFilename.lastIndexOf(".");
     let basename = outputFilename.substring(0, pos);
@@ -56,6 +56,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
     this.__generator = new sourceMap.SourceMapGenerator({
       file: this.__mapFilename
     });
+
     this.__lineOffset = 0;
   },
 
@@ -77,10 +78,10 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
 
     /** {String} hash value for existing combined javascript */
     __existingHashValue: null,
-    
+
     __generator: null,
     __lineOffset: null,
-        
+
     /**
      * Returns the file the code is copied to
      */
@@ -92,7 +93,9 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
      * Opens the output
      */
     async open() {
-      let stat = await qx.tool.utils.files.Utils.safeStat(this.__outputFilename);
+      let stat = await qx.tool.utils.files.Utils.safeStat(
+        this.__outputFilename
+      );
       if (stat) {
         let hash = crypto.createHash("sha256");
         hash.setEncoding("hex");
@@ -141,15 +144,23 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
               line: mapping.generatedLine + this.__lineOffset,
               column: mapping.generatedColumn
             },
+
             original: {
               line: mapping.originalLine || 1,
               column: mapping.originalColumn || 1
             },
+
             source: source
           };
+
           this.__generator.addMapping(mapping);
         });
-        map.sources.forEach(origSource => this.__generator.setSourceContent(source, map.sourceContentFor(origSource)));
+        map.sources.forEach(origSource =>
+          this.__generator.setSourceContent(
+            source,
+            map.sourceContentFor(origSource)
+          )
+        );
       }
 
       this.__lineOffset += numLines;
@@ -159,15 +170,21 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
      * Closes the output
      */
     async close() {
-      this.__write("\n//# sourceMappingURL=" + path.basename(this.__mapFilename) + "\n");
+      this.__write(
+        "\n//# sourceMappingURL=" + path.basename(this.__mapFilename) + "\n"
+      );
       this.__ws.end();
       this.__hash.end();
       var hashValue = this.__hash.read();
       if (!this.__existingHashValue || hashValue !== this.__existingHashValue) {
         await fs.renameAsync(this.__tmpFilename, this.__outputFilename);
-        await fs.writeFileAsync(this.__mapFilename, JSON.stringify(JSON.parse(this.__generator.toString()), null, 2), "utf8");
+        await fs.writeFileAsync(
+          this.__mapFilename,
+          JSON.stringify(JSON.parse(this.__generator.toString()), null, 2),
+          "utf8"
+        );
         return true;
-      } 
+      }
       await fs.unlinkAsync(this.__tmpFilename);
       return false;
     }

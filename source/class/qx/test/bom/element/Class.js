@@ -16,15 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.element.Class",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.element.Class", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var div = document.createElement("div");
       div.id = "el";
 
@@ -32,20 +28,16 @@ qx.Class.define("qx.test.bom.element.Class",
       document.body.appendChild(div);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       document.body.removeChild(this._el);
       this._el = null;
     },
 
-
-    "test: get should return the className for svg element" : function()
-    {
-      if(document.createElementNS){
-        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('id','svgEl');
-        svg.setAttribute('class','svgclassname');
+    "test: get should return the className for svg element"() {
+      if (document.createElementNS) {
+        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("id", "svgEl");
+        svg.setAttribute("class", "svgclassname");
         document.body.appendChild(svg);
         var Class = qx.bom.element.Class;
         this.assertEquals("svgclassname", Class.get(svg));
@@ -53,48 +45,40 @@ qx.Class.define("qx.test.bom.element.Class",
       }
     },
 
-    "test: get on new element should return empty string" : function()
-    {
+    "test: get on new element should return empty string"() {
       var Class = qx.bom.element.Class;
       this.assertEquals("", Class.get(this._el));
     },
 
-
-    "test: get should return the className" : function()
-    {
+    "test: get should return the className"() {
       var Class = qx.bom.element.Class;
       this._el.className = "juhu kinners";
       this.assertEquals("juhu kinners", Class.get(this._el));
     },
 
-
-    "test: add() on new element should set the class name" : function()
-    {
+    "test: add() on new element should set the class name"() {
       var Class = qx.bom.element.Class;
       this.assertEquals("juhu", Class.add(this._el, "juhu"));
       this.assertEquals("juhu", Class.get(this._el));
     },
 
-
-    "test: add() on element with class should not set it again" : function()
-    {
+    "test: add() on element with class should not set it again"() {
       var Class = qx.bom.element.Class;
       Class.add(this._el, "juhu");
       Class.add(this._el, "juhu");
       this.assertEquals("juhu", Class.get(this._el));
     },
 
-
-    "test: addClasses() on new element should set multiple classes" : function()
-    {
+    "test: addClasses() on new element should set multiple classes"() {
       var Class = qx.bom.element.Class;
-      this.assertEquals("juhu kinners", Class.addClasses(this._el, ["juhu", "kinners"]));
+      this.assertEquals(
+        "juhu kinners",
+        Class.addClasses(this._el, ["juhu", "kinners"])
+      );
       this.assertEquals("juhu kinners", Class.get(this._el));
     },
 
-
-    "test: addClasses() should ignore class names, which are already set" : function()
-    {
+    "test: addClasses() should ignore class names, which are already set"() {
       var Class = qx.bom.element.Class;
       Class.addClasses(this._el, ["juhu", "kinners"]);
       Class.addClasses(this._el, ["juhu"]);
@@ -102,9 +86,7 @@ qx.Class.define("qx.test.bom.element.Class",
       this.assertEquals("juhu kinners", Class.get(this._el));
     },
 
-
-    "test: has()" : function()
-    {
+    "test: has()"() {
       var Class = qx.bom.element.Class;
 
       this.assertFalse(Class.has(this._el, "juhu"));
@@ -115,18 +97,14 @@ qx.Class.define("qx.test.bom.element.Class",
       this.assertFalse(Class.has(this._el, "foo"));
     },
 
-
-    "test: remove() non existing class should be ignored" : function()
-    {
+    "test: remove() non existing class should be ignored"() {
       var Class = qx.bom.element.Class;
       this.assertEquals("", Class.get(this._el));
       this.assertEquals("juhu", Class.remove(this._el, "juhu"));
       this.assertEquals("", Class.get(this._el));
     },
 
-
-    "test: remove() existing classes" : function()
-    {
+    "test: remove() existing classes"() {
       var Class = qx.bom.element.Class;
       Class.addClasses(this._el, ["juhu", "kinners"]);
       this.assertEquals("juhu", Class.remove(this._el, "juhu"));
@@ -135,18 +113,17 @@ qx.Class.define("qx.test.bom.element.Class",
       this.assertEquals("", Class.get(this._el));
     },
 
-
-    "test: removeClasses() to remove several classes at once" : function()
-    {
+    "test: removeClasses() to remove several classes at once"() {
       var Class = qx.bom.element.Class;
       Class.addClasses(this._el, ["a", "juhu", "b", "kinners", "c"]);
-      this.assertEquals("a b c", Class.removeClasses(this._el, ["kinners", "juhu"]));
+      this.assertEquals(
+        "a b c",
+        Class.removeClasses(this._el, ["kinners", "juhu"])
+      );
       this.assertEquals("a b c", Class.get(this._el));
     },
 
-
-    "test: replace()" : function()
-    {
+    "test: replace()"() {
       var Class = qx.bom.element.Class;
       Class.addClasses(this._el, ["juhu", "kinners"]);
       this.assertEquals("foo", Class.replace(this._el, "juhu", "foo"));
@@ -168,17 +145,13 @@ qx.Class.define("qx.test.bom.element.Class",
       this.assertFalse(Class.has(this._el, "baz"));
     },
 
-
-    "test: toggle() non existing class should add it" : function()
-    {
+    "test: toggle() non existing class should add it"() {
       var Class = qx.bom.element.Class;
       this.assertEquals("juhu", Class.toggle(this._el, "juhu"));
       this.assertEquals("juhu", Class.get(this._el));
     },
 
-
-    "test: toggle() existing class name should remove it" : function()
-    {
+    "test: toggle() existing class name should remove it"() {
       var Class = qx.bom.element.Class;
       Class.addClasses(this._el, ["juhu", "kinners"]);
       this.assertEquals("juhu", Class.toggle(this._el, "juhu"));

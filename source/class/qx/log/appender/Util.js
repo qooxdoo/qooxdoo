@@ -18,23 +18,25 @@
 
 /**
  * Contains some common methods available to all log appenders.
- * 
+ *
  * @deprecated {6.0} See qx.util.appender.Formatter instead
  */
-qx.Bootstrap.define("qx.log.appender.Util",
-{
+qx.Bootstrap.define("qx.log.appender.Util", {
   statics: {
     toHtml: null,
     toText: null,
     toTextArray: null,
     escapeHTML: qx.log.appender.Formatter.escapeHTML
   },
-  
-  defer: function(statics) {
+
+  defer(statics) {
     var formatter = qx.log.appender.Formatter.getFormatter();
-    [ "toHtml", "toText", "toTextArray", "escapeHTML" ].forEach(function(name) {
-      statics[name] = function() {
-        return formatter[name].apply(formatter, qx.lang.Array.fromArguments(arguments));
+    ["toHtml", "toText", "toTextArray", "escapeHTML"].forEach(function (name) {
+      statics[name] = function () {
+        return formatter[name].apply(
+          formatter,
+          qx.lang.Array.fromArguments(arguments)
+        );
       };
     });
   }

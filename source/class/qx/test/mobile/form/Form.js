@@ -16,53 +16,65 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Form",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.form.Form", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
+  members: {
+    __username: null,
 
-    __username : null,
-
-    testValidation : function()
-    {
+    testValidation() {
       var form = this.__createForm();
       var renderer = new qx.ui.mobile.form.renderer.Single(form);
       this.getRoot().add(renderer);
       this.assertFalse(form.validate());
 
       this.assertEquals(2, renderer._getChildren()[1].getChildren().length);
-      this.assertTrue(qx.bom.element.Class.has(renderer._getChildren()[1].getChildren()[1].getContainerElement(), 'invalid'));
+      this.assertTrue(
+        qx.bom.element.Class.has(
+          renderer._getChildren()[1].getChildren()[1].getContainerElement(),
+          "invalid"
+        )
+      );
 
-      this.__username.setValue('myusername');
+      this.__username.setValue("myusername");
       this.assertTrue(form.validate());
       this.assertEquals(2, renderer._getChildren()[1].getChildren().length);
-      this.assertFalse(qx.bom.element.Class.has(renderer._getChildren()[1]._getChildren()[1].getContainerElement(), 'invalid'));
+      this.assertFalse(
+        qx.bom.element.Class.has(
+          renderer._getChildren()[1]._getChildren()[1].getContainerElement(),
+          "invalid"
+        )
+      );
 
       this.__username.dispose();
       renderer.dispose();
       form.dispose();
     },
 
-    __createForm : function()
-    {
+    __createForm() {
       var form = new qx.ui.mobile.form.Form();
       var validationManager = form.getValidationManager();
 
-      var username = this.__username = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
+      var username = (this.__username = new qx.ui.mobile.form.TextField().set({
+        placeholder: "Username"
+      }));
       username.setRequired(true);
       form.add(username, "Username: ");
-      validationManager.add(username, function(value, item){
-        var valid = value != null && value.length>3;
-        if(!valid) {
-          item.setInvalidMessage("username should have more than 3 characters!");
-        }
-        return valid;
-      }, this);
+      validationManager.add(
+        username,
+        function (value, item) {
+          var valid = value != null && value.length > 3;
+          if (!valid) {
+            item.setInvalidMessage(
+              "username should have more than 3 characters!"
+            );
+          }
+          return valid;
+        },
+        this
+      );
 
       return form;
     }
-
   }
 });

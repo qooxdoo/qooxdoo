@@ -19,10 +19,8 @@
 /**
  * The default data cell renderer.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Default",
-{
-  extend : qx.ui.table.cellrenderer.Abstract,
-
+qx.Class.define("qx.ui.table.cellrenderer.Default", {
+  extend: qx.ui.table.cellrenderer.Abstract,
 
   /*
   *****************************************************************************
@@ -30,16 +28,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
   *****************************************************************************
   */
 
-  statics :
-  {
-    STYLEFLAG_ALIGN_RIGHT : 1,
-    STYLEFLAG_BOLD : 2,
-    STYLEFLAG_ITALIC : 4,
-    _numberFormat : null
+  statics: {
+    STYLEFLAG_ALIGN_RIGHT: 1,
+    STYLEFLAG_BOLD: 2,
+    STYLEFLAG_ITALIC: 4,
+    _numberFormat: null
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -47,21 +41,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Whether the alignment should automatically be set according to the cell value.
      * If true numbers will be right-aligned.
      */
-    useAutoAlign :
-    {
-      check : "Boolean",
-      init : true
+    useAutoAlign: {
+      check: "Boolean",
+      init: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -69,8 +58,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Determines the styles to apply to the cell
      *
@@ -78,10 +66,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      *     See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {Integer} the sum of any of the STYLEFLAGS defined below
      */
-    _getStyleFlags : function(cellInfo)
-    {
-      if (this.getUseAutoAlign())
-      {
+    _getStyleFlags(cellInfo) {
+      if (this.getUseAutoAlign()) {
         if (typeof cellInfo.value == "number") {
           return qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT;
         }
@@ -89,18 +75,18 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       return 0;
     },
 
-
     // overridden
-    _getCellClass : function(cellInfo)
-    {
-      var cellClass = this.base(arguments, cellInfo);
+    _getCellClass(cellInfo) {
+      var cellClass = super._getCellClass(cellInfo);
       if (!cellClass) {
         return "";
       }
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
+      if (
+        stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT
+      ) {
         cellClass += " qooxdoo-table-cell-right";
       }
 
@@ -115,12 +101,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       return cellClass;
     },
 
-
     // overridden
-    _getContentHtml : function(cellInfo) {
+    _getContentHtml(cellInfo) {
       return qx.bom.String.escape(this._formatValue(cellInfo));
     },
-
 
     /**
      * Formats a value.
@@ -130,8 +114,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      *          {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
      * @return {String} the formatted value.
      */
-    _formatValue : function(cellInfo)
-    {
+    _formatValue(cellInfo) {
       var value = cellInfo.value;
       var res;
 
@@ -141,28 +124,23 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
 
       if (typeof value == "string") {
         return value;
-      }
-      else if (typeof value == "number")
-      {
-        if (!qx.ui.table.cellrenderer.Default._numberFormat)
-        {
-          qx.ui.table.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
-          qx.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
+      } else if (typeof value == "number") {
+        if (!qx.ui.table.cellrenderer.Default._numberFormat) {
+          qx.ui.table.cellrenderer.Default._numberFormat =
+            new qx.util.format.NumberFormat();
+          qx.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(
+            2
+          );
         }
 
         res = qx.ui.table.cellrenderer.Default._numberFormat.format(value);
-      }
-      else if (value instanceof Date)
-      {
+      } else if (value instanceof Date) {
         res = qx.util.format.DateFormat.getDateInstance().format(value);
-      }
-      else
-      {
+      } else {
         res = value.toString();
       }
 
       return res;
     }
-
   }
 });

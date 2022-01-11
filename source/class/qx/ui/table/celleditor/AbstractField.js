@@ -20,44 +20,36 @@
 /**
  * An abstract cell editor factory creating text/password/spinner/... fields.
  */
-qx.Class.define("qx.ui.table.celleditor.AbstractField",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
-  type : "abstract",
+qx.Class.define("qx.ui.table.celleditor.AbstractField", {
+  extend: qx.core.Object,
+  implement: qx.ui.table.ICellEditorFactory,
+  type: "abstract",
 
-
-  properties :
-  {
+  properties: {
     /**
      * function that validates the result
      * the function will be called with the new value and the old value and is
      * supposed to return the value that is set as the table value.
      **/
-    validationFunction :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
+    validationFunction: {
+      check: "Function",
+      nullable: true,
+      init: null
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Factory to create the editor widget
      *
      * @return {qx.ui.core.Widget} The editor widget
      */
-    _createEditor : function() {
+    _createEditor() {
       throw new Error("Abstract method call!");
     },
 
-
     // interface implementation
-    createCellEditor : function(cellInfo)
-    {
+    createCellEditor(cellInfo) {
       var cellEditor = this._createEditor();
 
       cellEditor.originalValue = cellInfo.value;
@@ -66,23 +58,21 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
       }
       cellEditor.setValue("" + cellInfo.value);
 
-      cellEditor.addListener("appear", function() {
+      cellEditor.addListener("appear", function () {
         cellEditor.selectAllText();
       });
 
       return cellEditor;
     },
 
-
     // interface implementation
-    getCellEditorValue : function(cellEditor)
-    {
+    getCellEditorValue(cellEditor) {
       var value = cellEditor.getValue();
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if (validationFunc ) {
-        value = validationFunc( value, cellEditor.originalValue );
+      if (validationFunc) {
+        value = validationFunc(value, cellEditor.originalValue);
       }
 
       if (typeof cellEditor.originalValue == "number") {

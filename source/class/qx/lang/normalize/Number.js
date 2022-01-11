@@ -25,13 +25,11 @@
  */
 /* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.Number", {
-
-  statics : {
-    EPSILON : 2e-52
+  statics: {
+    EPSILON: 2e-52
   },
 
-  defer : function(statics)
-  {
+  defer(statics) {
     if (!qx.core.Environment.get("ecmascript.number.EPSILON")) {
       Number.prototype.EPSILON = statics.EPSILON;
     }

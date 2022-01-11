@@ -21,12 +21,9 @@
  * This singleton is used to manager multiple instances of popups and their
  * state.
  */
-qx.Class.define("qx.ui.popup.Manager",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.ui.popup.Manager", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -34,31 +31,32 @@ qx.Class.define("qx.ui.popup.Manager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Create data structure, use an array because order matters [BUG #4323]
     this.__objects = [];
 
     // Register pointerdown handler
-    qx.event.Registration.addListener(document.documentElement, "pointerdown",
-                                      this.__onPointerDown, this, true);
+    qx.event.Registration.addListener(
+      document.documentElement,
+      "pointerdown",
+      this.__onPointerDown,
+      this,
+      true
+    );
 
     // Hide all popups on window blur
     qx.bom.Element.addListener(window, "blur", this.hideAll, this);
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Function that is used to determine if a widget is contained within another one.
      **/
-    containsFunction :
-    {
-      check : "Function",
-      init : qx.ui.core.Widget.contains
+    containsFunction: {
+      check: "Function",
+      init: qx.ui.core.Widget.contains
     }
   },
 
@@ -68,19 +66,16 @@ qx.Class.define("qx.ui.popup.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
-    __objects : null,
+  members: {
+    __objects: null,
 
     /**
      * Registers a visible popup.
      *
      * @param obj {qx.ui.popup.Popup} The popup to register
      */
-    add : function(obj)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    add(obj) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!(obj instanceof qx.ui.popup.Popup)) {
           throw new Error("Object is no popup: " + obj);
         }
@@ -90,16 +85,13 @@ qx.Class.define("qx.ui.popup.Manager",
       this.__updateIndexes();
     },
 
-
     /**
      * Removes a popup from the registry
      *
      * @param obj {qx.ui.popup.Popup} The popup which was excluded
      */
-    remove : function(obj)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    remove(obj) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!(obj instanceof qx.ui.popup.Popup)) {
           throw new Error("Object is no popup: " + obj);
         }
@@ -109,14 +101,13 @@ qx.Class.define("qx.ui.popup.Manager",
       this.__updateIndexes();
     },
 
-
     /**
      * Excludes all currently open popups,
      * except those with {@link qx.ui.popup.Popup#autoHide} set to false.
      */
-    hideAll : function()
-    {
-      var l = this.__objects.length, current = {};
+    hideAll() {
+      var l = this.__objects.length,
+        current = {};
 
       while (l--) {
         current = this.__objects[l];
@@ -125,9 +116,6 @@ qx.Class.define("qx.ui.popup.Manager",
         }
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -140,16 +128,12 @@ qx.Class.define("qx.ui.popup.Manager",
      * newly added ones on top of existing ones
      *
      */
-    __updateIndexes : function()
-    {
+    __updateIndexes() {
       var min = 1e7;
       for (var i = 0; i < this.__objects.length; i++) {
         this.__objects[i].setZIndex(min++);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -162,8 +146,7 @@ qx.Class.define("qx.ui.popup.Manager",
      *
      * @param e {qx.event.type.Pointer} Pointer event object
      */
-    __onPointerDown : function(e)
-    {
+    __onPointerDown(e) {
       // Get the corresponding widget of the target since we are dealing with
       // DOM elements here. This is necessary because we have to be aware of
       // Inline applications which are not covering the whole document and
@@ -172,11 +155,14 @@ qx.Class.define("qx.ui.popup.Manager",
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
 
       var reg = this.__objects;
-      for (var i = 0; i < reg.length; i++)
-      {
+      for (var i = 0; i < reg.length; i++) {
         var obj = reg[i];
 
-        if (!obj.getAutoHide() || target == obj || this.getContainsFunction()(obj, target)) {
+        if (
+          !obj.getAutoHide() ||
+          target == obj ||
+          this.getContainsFunction()(obj, target)
+        ) {
           continue;
         }
 
@@ -185,18 +171,20 @@ qx.Class.define("qx.ui.popup.Manager",
     }
   },
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    qx.event.Registration.removeListener(document.documentElement, "pointerdown",
-                                         this.__onPointerDown, this, true);
+  destruct() {
+    qx.event.Registration.removeListener(
+      document.documentElement,
+      "pointerdown",
+      this.__onPointerDown,
+      this,
+      true
+    );
 
     this._disposeArray("__objects");
   }

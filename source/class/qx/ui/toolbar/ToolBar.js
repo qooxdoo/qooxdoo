@@ -31,12 +31,9 @@
  * For more details on the documentation of the toolbar widget, take a look at the
  * documentation of the {@link qx.ui.toolbar}-Package.
  */
-qx.Class.define("qx.ui.toolbar.ToolBar",
-{
-  extend : qx.ui.core.Widget,
-  include : qx.ui.core.MChildrenHandling,
-
-
+qx.Class.define("qx.ui.toolbar.ToolBar", {
+  extend: qx.ui.core.Widget,
+  include: qx.ui.core.MChildrenHandling,
 
   /*
   *****************************************************************************
@@ -44,9 +41,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // ARIA attrs
     this.getContentElement().setAttribute("role", "toolbar");
@@ -59,49 +55,41 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     this.__removePriority = [];
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Appearance of the widget */
-    appearance :
-    {
-      refine : true,
-      init : "toolbar"
+    appearance: {
+      refine: true,
+      init: "toolbar"
     },
 
     /** Holds the currently open menu (when the toolbar is used for menus) */
-    openMenu :
-    {
-      check : "qx.ui.menu.Menu",
-      event : "changeOpenMenu",
-      nullable : true
+    openMenu: {
+      check: "qx.ui.menu.Menu",
+      event: "changeOpenMenu",
+      nullable: true
     },
 
     /** Whether icons, labels, both or none should be shown. */
-    show :
-    {
-      init : "both",
-      check : [ "both", "label", "icon" ],
-      inheritable : true,
-      apply : "_applyShow",
-      event : "changeShow"
+    show: {
+      init: "both",
+      check: ["both", "label", "icon"],
+      inheritable: true,
+      apply: "_applyShow",
+      event: "changeShow"
     },
 
     /** The spacing between every child of the toolbar */
-    spacing :
-    {
-      nullable : true,
-      check : "Integer",
-      themeable : true,
-      apply : "_applySpacing"
+    spacing: {
+      nullable: true,
+      check: "Integer",
+      themeable: true,
+      apply: "_applySpacing"
     },
 
     /**
@@ -109,23 +97,19 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * Keep in mind to add this widget to the toolbar before you set it as
      * indicator!
      */
-    overflowIndicator :
-    {
-      check : "qx.ui.core.Widget",
-      nullable : true,
-      apply : "_applyOverflowIndicator"
+    overflowIndicator: {
+      check: "qx.ui.core.Widget",
+      nullable: true,
+      apply: "_applyOverflowIndicator"
     },
 
     /** Enables the overflow handling which automatically removes items.*/
-    overflowHandling :
-    {
-      init : false,
-      check : "Boolean",
-      apply : "_applyOverflowHandling"
+    overflowHandling: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyOverflowHandling"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -133,15 +117,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired if an item will be hidden by the {@link #overflowHandling}.*/
-    "hideItem" : "qx.event.type.Data",
+    hideItem: "qx.event.type.Data",
 
     /** Fired if an item will be shown by the {@link #overflowHandling}.*/
-    "showItem" : "qx.event.type.Data"
+    showItem: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -149,23 +131,20 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       OVERFLOW HANDLING
     ---------------------------------------------------------------------------
     */
 
-    __removedItems : null,
-    __removePriority : null,
-
+    __removedItems: null,
+    __removePriority: null,
 
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       // get the original hint
-      var hint = this.base(arguments);
+      var hint = super._computeSizeHint();
       if (true && this.getOverflowHandling()) {
         var minWidth = 0;
         // if an overflow widget is given, use its width + spacing as min width
@@ -179,16 +158,14 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       return hint;
     },
 
-
     /**
      * Resize event handler.
      *
      * @param e {qx.event.type.Data} The resize event.
      */
-    _onResize : function(e) {
+    _onResize(e) {
       this._recalculateOverflow(e.getData().width);
     },
-
 
     /**
      * Responsible for calculation the overflow based on the available width.
@@ -197,136 +174,130 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param requiredWidth {Integer?null} The required width for the widget
      *   if available.
      */
-    _recalculateOverflow : function(width, requiredWidth)
-    {
-     // do nothing if overflow handling is not enabled
-     if (!this.getOverflowHandling()) {
-       return;
-     }
+    _recalculateOverflow(width, requiredWidth) {
+      // do nothing if overflow handling is not enabled
+      if (!this.getOverflowHandling()) {
+        return;
+      }
 
-     // get all required sizes
-     requiredWidth = requiredWidth || this.getSizeHint().width;
-     var overflowWidget = this.getOverflowIndicator();
-     var overflowWidgetWidth = 0;
-     if (overflowWidget) {
-       overflowWidgetWidth = overflowWidget.getSizeHint().width;
-     }
+      // get all required sizes
+      requiredWidth = requiredWidth || this.getSizeHint().width;
+      var overflowWidget = this.getOverflowIndicator();
+      var overflowWidgetWidth = 0;
+      if (overflowWidget) {
+        overflowWidgetWidth = overflowWidget.getSizeHint().width;
+      }
 
-     if (width == undefined && this.getBounds() != null) {
-       width = this.getBounds().width;
-     }
+      if (width == undefined && this.getBounds() != null) {
+        width = this.getBounds().width;
+      }
 
-     // if we still don't have a width, than we are not added to a parent
-     if (width == undefined) {
-       // we should ignore it in that case
-       return;
-     }
+      // if we still don't have a width, than we are not added to a parent
+      if (width == undefined) {
+        // we should ignore it in that case
+        return;
+      }
 
-     // if we have not enough space
-     if (width < requiredWidth) {
-       do {
-         // get the next child
-         var childToHide = this._getNextToHide();
-         // if there is no child to hide, just do nothing
-         if (!childToHide) {
-           return;
-         }
-         // get margins or spacing
-         var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
-         margins = Math.max(margins, this.getSpacing());
-         var childWidth = childToHide.getSizeHint().width + margins;
-         this.__hideChild(childToHide);
+      // if we have not enough space
+      if (width < requiredWidth) {
+        do {
+          // get the next child
+          var childToHide = this._getNextToHide();
+          // if there is no child to hide, just do nothing
+          if (!childToHide) {
+            return;
+          }
+          // get margins or spacing
+          var margins =
+            childToHide.getMarginLeft() + childToHide.getMarginRight();
+          margins = Math.max(margins, this.getSpacing());
+          var childWidth = childToHide.getSizeHint().width + margins;
+          this.__hideChild(childToHide);
 
-         // new width is the requiredWidth - the removed childs width
-         requiredWidth -= childWidth;
+          // new width is the requiredWidth - the removed childs width
+          requiredWidth -= childWidth;
 
-         // show the overflowWidgetWidth
-         if (overflowWidget && overflowWidget.getVisibility() != "visible") {
-           overflowWidget.setVisibility("visible");
-           // if we need to add the overflow indicator, we need to add its width
-           requiredWidth += overflowWidgetWidth;
-           // add spacing or margins
-           var overflowWidgetMargins =
-             overflowWidget.getMarginLeft() +
-             overflowWidget.getMarginRight();
-           requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
-         }
-       } while (requiredWidth > width);
+          // show the overflowWidgetWidth
+          if (overflowWidget && overflowWidget.getVisibility() != "visible") {
+            overflowWidget.setVisibility("visible");
+            // if we need to add the overflow indicator, we need to add its width
+            requiredWidth += overflowWidgetWidth;
+            // add spacing or margins
+            var overflowWidgetMargins =
+              overflowWidget.getMarginLeft() + overflowWidget.getMarginRight();
+            requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
+          }
+        } while (requiredWidth > width);
 
-       // if we can possibly show something
-     } else if (this.__removedItems.length > 0) {
+        // if we can possibly show something
+      } else if (this.__removedItems.length > 0) {
+        do {
+          var removedChild = this.__removedItems[0];
+          // if we have something we can show
+          if (removedChild) {
+            // get the margins or spacing
+            var margins =
+              removedChild.getMarginLeft() + removedChild.getMarginRight();
+            margins = Math.max(margins, this.getSpacing());
 
-       do {
-         var removedChild = this.__removedItems[0];
-         // if we have something we can show
-         if (removedChild) {
-           // get the margins or spacing
-           var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
-           margins = Math.max(margins, this.getSpacing());
+            // check if the element has been rendered before [BUG #4542]
+            if (removedChild.getContentElement().getDomElement() == null) {
+              // if not, apply the decorator element because it can change the
+              // width of the child with padding e.g.
+              removedChild.syncAppearance();
+              // also invalidate the layout cache to trigger size hint
+              // recalculation
+              removedChild.invalidateLayoutCache();
+            }
+            var removedChildWidth = removedChild.getSizeHint().width;
 
-           // check if the element has been rendered before [BUG #4542]
-           if (removedChild.getContentElement().getDomElement() == null) {
-             // if not, apply the decorator element because it can change the
-             // width of the child with padding e.g.
-             removedChild.syncAppearance();
-             // also invalidate the layout cache to trigger size hint
-             // recalculation
-             removedChild.invalidateLayoutCache();
-           }
-           var removedChildWidth = removedChild.getSizeHint().width;
+            // check if it fits in in case its the last child to replace
+            var fits = false;
+            // if we can remove the overflow widget if its available
 
-           // check if it fits in in case its the last child to replace
-           var fits = false;
-           // if we can remove the overflow widget if its available
+            if (this.__removedItems.length == 1 && overflowWidgetWidth > 0) {
+              var addedMargin = margins - this.getSpacing();
+              var wouldRequiredWidth =
+                requiredWidth -
+                overflowWidgetWidth +
+                removedChildWidth +
+                addedMargin;
+              fits = width > wouldRequiredWidth;
+            }
 
-           if (this.__removedItems.length == 1 && overflowWidgetWidth > 0) {
-             var addedMargin = margins - this.getSpacing();
-             var wouldRequiredWidth =
-               requiredWidth -
-               overflowWidgetWidth +
-               removedChildWidth +
-               addedMargin;
-             fits = width > wouldRequiredWidth;
-           }
-
-           // if it just fits in || it fits in when we remove the overflow widget
-           if (width > requiredWidth + removedChildWidth + margins || fits) {
-             this.__showChild(removedChild);
-             requiredWidth += removedChildWidth;
-             // check if we need to remove the overflow widget
-             if (overflowWidget && this.__removedItems.length == 0) {
-
-               overflowWidget.setVisibility("excluded");
-             }
-           } else {
-             return;
-           }
-         }
-       } while (width >= requiredWidth && this.__removedItems.length > 0);
-     }
+            // if it just fits in || it fits in when we remove the overflow widget
+            if (width > requiredWidth + removedChildWidth + margins || fits) {
+              this.__showChild(removedChild);
+              requiredWidth += removedChildWidth;
+              // check if we need to remove the overflow widget
+              if (overflowWidget && this.__removedItems.length == 0) {
+                overflowWidget.setVisibility("excluded");
+              }
+            } else {
+              return;
+            }
+          }
+        } while (width >= requiredWidth && this.__removedItems.length > 0);
+      }
     },
-
 
     /**
      * Helper to show a toolbar item.
      *
      * @param child {qx.ui.core.Widget} The widget to show.
      */
-    __showChild : function(child)
-    {
+    __showChild(child) {
       child.setVisibility("visible");
       this.__removedItems.shift();
       this.fireDataEvent("showItem", child);
     },
-
 
     /**
      * Helper to exclude a toolbar item.
      *
      * @param child {qx.ui.core.Widget} The widget to exclude.
      */
-    __hideChild : function(child)
-    {
+    __hideChild(child) {
       // ignore the call if no child is given
       if (!child) {
         return;
@@ -336,7 +307,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       this.fireDataEvent("hideItem", child);
     },
 
-
     /**
      * Responsible for returning the next item to remove. In It checks the
      * priorities added by {@link #setRemovePriority}. If all priorized widgets
@@ -345,8 +315,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @return {qx.ui.core.Widget|null} The widget which should be removed next.
      *   If null is returned, no widget is available to remove.
      */
-    _getNextToHide : function()
-    {
+    _getNextToHide() {
       // get the elements by priority
       for (var i = this.__removePriority.length - 1; i >= 0; i--) {
         var item = this.__removePriority[i];
@@ -358,7 +327,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
       // if there is non found by priority, check all available widgets
       var children = this._getChildren();
-      for (var i = children.length -1; i >= 0; i--) {
+      for (var i = children.length - 1; i >= 0; i--) {
         var child = children[i];
         // ignore the overflow widget
         if (child == this.getOverflowIndicator()) {
@@ -371,7 +340,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
     },
 
-
     /**
      * The removal of the toolbar items is priority based. You can change these
      * priorities with this method. The higher a priority, the earlier it will
@@ -383,8 +351,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param priority {Integer} The priority, higher means removed earlier.
      * @param override {Boolean} true, if the priority should be overridden.
      */
-    setRemovePriority : function(item, priority, override)
-    {
+    setRemovePriority(item, priority, override) {
       // security check for overriding priorities
       if (!override && this.__removePriority[priority] != undefined) {
         throw new Error("Priority already in use!");
@@ -392,10 +359,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       this.__removePriority[priority] = item;
     },
 
-
     // property apply
-    _applyOverflowHandling : function(value, old)
-    {
+    _applyOverflowHandling(value, old) {
       // invalidate the own and the parents layout cache because the size hint changes
       this.invalidateLayoutCache();
       var parent = this.getLayoutParent();
@@ -414,7 +379,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // add the resize listener
         this.addListener("resize", this._onResize, this);
 
-      // if the handles has been disabled
+        // if the handles has been disabled
       } else {
         this.removeListener("resize", this._onResize, this);
 
@@ -433,10 +398,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
     },
 
-
     // property apply
-    _applyOverflowIndicator : function(value, old)
-    {
+    _applyOverflowIndicator(value, old) {
       if (old) {
         this._remove(old);
       }
@@ -451,14 +414,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       MENU OPEN
     ---------------------------------------------------------------------------
     */
 
-    __allowMenuOpenHover : false,
+    __allowMenuOpenHover: false,
 
     /**
      * Indicate if a menu could be opened on hover or not.
@@ -467,7 +429,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param value {Boolean} <code>true</code> if a menu could be opened,
      *    <code>false</code> otherwise.
      */
-    _setAllowMenuOpenHover : function(value) {
+    _setAllowMenuOpenHover(value) {
       this.__allowMenuOpenHover = value;
     },
 
@@ -478,10 +440,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @return {Boolean} <code>true</code> if a menu could be opened,
      *    <code>false</code> otherwise.
      */
-    _isAllowMenuOpenHover : function () {
+    _isAllowMenuOpenHover() {
       return this.__allowMenuOpenHover;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -490,23 +451,20 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     */
 
     // property apply
-    _applySpacing : function(value, old)
-    {
+    _applySpacing(value, old) {
       var layout = this._getLayout();
       value == null ? layout.resetSpacing() : layout.setSpacing(value);
     },
 
-
     // property apply
-    _applyShow : function(value) {
+    _applyShow(value) {
       var children = this._getChildren();
-      for (var i=0; i < children.length; i++) {
+      for (var i = 0; i < children.length; i++) {
         if (children[i].setShow) {
           children[i].setShow(value);
         }
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -514,8 +472,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     ---------------------------------------------------------------------------
     */
     // overridden
-    _add : function(child, options) {
-      this.base(arguments, child, options);
+    _add(child, options) {
+      super._add(child, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
       if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
@@ -529,8 +487,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _addAt : function(child, index, options) {
-      this.base(arguments, child, index, options);
+    _addAt(child, index, options) {
+      super._addAt(child, index, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
       if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
@@ -544,8 +502,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _addBefore : function(child, before, options) {
-      this.base(arguments, child, before, options);
+    _addBefore(child, before, options) {
+      super._addBefore(child, before, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
       if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
@@ -559,8 +517,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _addAfter : function(child, after, options) {
-      this.base(arguments, child, after, options);
+    _addAfter(child, after, options) {
+      super._addAfter(child, after, options);
       // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
       if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
@@ -574,8 +532,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _remove : function(child) {
-      this.base(arguments, child);
+    _remove(child) {
+      super._remove(child);
       var newWidth =
         this.getSizeHint().width -
         child.getSizeHint().width -
@@ -584,9 +542,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _removeAt : function(index) {
+    _removeAt(index) {
       var child = this._getChildren()[index];
-      this.base(arguments, index);
+      super._removeAt(index);
       var newWidth =
         this.getSizeHint().width -
         child.getSizeHint().width -
@@ -596,12 +554,11 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
     // overridden
-    _removeAll : function() {
-      var children = this.base(arguments);
+    _removeAll() {
+      var children = super._removeAll();
       this._recalculateOverflow(null, 0);
       return children;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -616,21 +573,18 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
      *   to the spacer is needed to remove this spacer from the layout.
      */
-    addSpacer : function()
-    {
-      var spacer = new qx.ui.core.Spacer;
-      this._add(spacer, {flex:1});
+    addSpacer() {
+      var spacer = new qx.ui.core.Spacer();
+      this._add(spacer, { flex: 1 });
       return spacer;
     },
-
 
     /**
      * Adds a separator to the toolbar.
      */
-    addSeparator : function() {
-      this.add(new qx.ui.toolbar.Separator);
+    addSeparator() {
+      this.add(new qx.ui.toolbar.Separator());
     },
-
 
     /**
      * Returns all nested buttons which contains a menu to show. This is mainly
@@ -638,14 +592,12 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      *
      * @return {Array} List of all menu buttons
      */
-    getMenuButtons : function()
-    {
+    getMenuButtons() {
       var children = this.getChildren();
       var buttons = [];
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         if (child instanceof qx.ui.menubar.Button) {
@@ -659,11 +611,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     if (this.hasListener("resize")) {
       this.removeListener("resize", this._onResize, this);
     }
-
   }
 });

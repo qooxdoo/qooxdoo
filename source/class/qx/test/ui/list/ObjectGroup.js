@@ -16,31 +16,42 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.ObjectGroup",
-{
-  extend : qx.test.ui.list.AbstractListTest,
+qx.Class.define("qx.test.ui.list.ObjectGroup", {
+  extend: qx.test.ui.list.AbstractListTest,
 
-  members :
-  {
-    __names : ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
-       "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
-       "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
-       "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
+  members: {
+    __names: [
+      "Luise Siemer",
+      "Trauhard Franke",
+      "Sarina Wilde",
+      "Florine Bähr",
+      "Sigurd Adolph",
+      "Sigmund Kurz",
+      "Pankratius Hill",
+      "Gerlinda Seel",
+      "Trixi Clauß",
+      "Cecilia Hemmer",
+      "Rosely Fröhlich",
+      "Annemargret Hunger",
+      "Dietgar Münster",
+      "Bertwin Joseph",
+      "Edwina Schwarz",
+      "Riana Dirks"
+    ],
 
-    __groups : null,
+    __groups: null,
 
-    createModelData : function() {
+    createModelData() {
       var model = new qx.data.Array();
       model.setAutoDisposeItems(true);
-      var groups = this.__groups = {};
+      var groups = (this.__groups = {});
 
       for (var i = 0; i < this.__names.length; i++) {
         var name = this.__names[i];
         var groupName = name.charAt(0);
         var group = groups[groupName];
 
-        if (group == null)
-        {
+        if (group == null) {
           group = groups[groupName] = new qx.test.ui.list.fixture.GroupMock();
           group.setName(groupName);
         }
@@ -54,17 +65,14 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       return model;
     },
 
-
-    configureList : function() {
+    configureList() {
       this._list.setLabelPath("name");
       this._list.setGroupLabelPath("name");
     },
 
-
-    tearDown : function() {
-      this.base(arguments);
-      for (var key in this.__groups)
-      {
+    tearDown() {
+      super.tearDown();
+      for (var key in this.__groups) {
         if (this.__groups.hasOwnProperty(key)) {
           this.__groups[key].dispose();
         }
@@ -73,9 +81,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       this.__groups = null;
     },
 
-
-    testGroup : function()
-    {
+    testGroup() {
       // Expected result
       // "L", "Luise Siemer",
       // "T", "Trauhard Franke", "Trixi Clauß",
@@ -91,104 +97,116 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       // "E", "Edwina Schwarz"
 
       var delegate = {
-        group : function(item) {
+        group(item) {
           return item.getGroup();
         }
       };
+
       this._list.setDelegate(delegate);
       this.flush();
 
       var groupedModel = this.__convertModel(this._model);
       this.assertModelEqualsRowData(groupedModel, this._list);
-      this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
+      this.assertEquals(
+        groupedModel.getLength(),
+        this._list.getPane().getRowConfig().getItemCount(),
+        "On Layer"
+      );
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
       groupedModel.dispose();
     },
 
-    testMixWithObjectsAndDefaultGroup : function()
-    {
+    testMixWithObjectsAndDefaultGroup() {
       var that = this;
-      this.assertException(function()
-      {
-        var delegate = {
-          group : function(item) {
-            var group = item.getGroup();
-            if (group.getName() == "A") {
-              return null;
+      this.assertException(
+        function () {
+          var delegate = {
+            group(item) {
+              var group = item.getGroup();
+              if (group.getName() == "A") {
+                return null;
+              }
+              return group;
             }
-            return group;
-          }
-        };
-        that._list.setDelegate(delegate);
-        that.flush();
-      }, Error, /GroupingTypeError:/);
+          };
+
+          that._list.setDelegate(delegate);
+          that.flush();
+        },
+        Error,
+        /GroupingTypeError:/
+      );
     },
 
-
-    testMixWithObjectsAndDefaultGroupAsFirstItem : function()
-    {
+    testMixWithObjectsAndDefaultGroupAsFirstItem() {
       var that = this;
-      this.assertException(function()
-      {
-        var delegate = {
-          group : function(item) {
-            if (that._model.indexOf(item) == 0) {
-              return null;
+      this.assertException(
+        function () {
+          var delegate = {
+            group(item) {
+              if (that._model.indexOf(item) == 0) {
+                return null;
+              }
+              return item.getGroup();
             }
-            return item.getGroup();
-          }
-        };
-        that._list.setDelegate(delegate);
-        that.flush();
-      }, Error, /GroupingTypeError:/);
+          };
+
+          that._list.setDelegate(delegate);
+          that.flush();
+        },
+        Error,
+        /GroupingTypeError:/
+      );
     },
 
-
-    testMixWithObjectsAndStrings : function()
-    {
+    testMixWithObjectsAndStrings() {
       var that = this;
-      this.assertException(function()
-      {
-        var delegate = {
-          group : function(item) {
-            var group = item.getGroup();
-            if (group.getName() == "A") {
-              return group.getName();
+      this.assertException(
+        function () {
+          var delegate = {
+            group(item) {
+              var group = item.getGroup();
+              if (group.getName() == "A") {
+                return group.getName();
+              }
+              return group;
             }
-            return group;
-          }
-        };
-        that._list.setDelegate(delegate);
-        that.flush();
-      }, Error, /GroupingTypeError:/);
+          };
+
+          that._list.setDelegate(delegate);
+          that.flush();
+        },
+        Error,
+        /GroupingTypeError:/
+      );
     },
 
-
-    testMixWithObjectsStringsAndDefaultGroup : function()
-    {
+    testMixWithObjectsStringsAndDefaultGroup() {
       var that = this;
-      this.assertException(function()
-      {
-        var delegate = {
-          group : function(item) {
-            var group = item.getGroup();
-            if (that._model.indexOf(item) == 0) {
-              return null;
+      this.assertException(
+        function () {
+          var delegate = {
+            group(item) {
+              var group = item.getGroup();
+              if (that._model.indexOf(item) == 0) {
+                return null;
+              }
+              if (group.getName() == "A") {
+                return group.getName();
+              }
+              return group;
             }
-            if (group.getName() == "A") {
-              return group.getName();
-            }
-            return group;
-          }
-        };
-        that._list.setDelegate(delegate);
-        that.flush();
-      }, Error, /GroupingTypeError:/);
+          };
+
+          that._list.setDelegate(delegate);
+          that.flush();
+        },
+        Error,
+        /GroupingTypeError:/
+      );
     },
 
-
-    testGroupWithSorter : function()
-    {
+    testGroupWithSorter() {
       // Expected result
       // "T", "Trixi Clauß", "Trauhard Franke",
       // "S", "Sigurd Adolph", "Sigmund Kurz", "Sarina Wilde",
@@ -204,7 +222,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       // "A", "Annemargret Hunger"
 
       var sortedModel = new qx.data.Array();
-      var sorter = function(a, b) {
+      var sorter = function (a, b) {
         a = a.getName();
         b = b.getName();
         return a < b ? 1 : a > b ? -1 : 0;
@@ -216,29 +234,33 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       sortedModel.sort(sorter);
 
       var delegate = {
-        sorter : sorter,
-        group : function(item) {
+        sorter: sorter,
+        group(item) {
           return item.getGroup();
         }
       };
+
       this._list.setDelegate(delegate);
       this.flush();
 
       var groupedModel = this.__convertModel(sortedModel);
       this.assertModelEqualsRowData(groupedModel, this._list);
-      this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
+      this.assertEquals(
+        groupedModel.getLength(),
+        this._list.getPane().getRowConfig().getItemCount(),
+        "On Layer"
+      );
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
       groupedModel.dispose();
       sortedModel.dispose();
     },
 
-    __convertModel : function(model) {
+    __convertModel(model) {
       var result = new qx.data.Array();
 
       // get all groups
       var groups = [];
-      for (var i = 0; i < model.getLength(); i++)
-      {
+      for (var i = 0; i < model.getLength(); i++) {
         var group = model.getItem(i).getGroup();
 
         if (groups.indexOf(group) == -1) {
@@ -247,12 +269,10 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       }
 
       // build results
-      for (var i = 0; i < groups.length; i++)
-      {
+      for (var i = 0; i < groups.length; i++) {
         result.push(groups[i]);
 
-        for (var k = 0; k < model.getLength(); k++)
-        {
+        for (var k = 0; k < model.getLength(); k++) {
           var item = model.getItem(k);
           var group = item.getGroup();
 

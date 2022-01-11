@@ -16,9 +16,8 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-qx.Class.define("qx.ui.virtual.cell.Html",
-{
-  extend : qx.ui.virtual.cell.Cell,
+qx.Class.define("qx.ui.virtual.cell.Html", {
+  extend: qx.ui.virtual.cell.Cell,
 
   /*
   *****************************************************************************
@@ -26,17 +25,12 @@ qx.Class.define("qx.ui.virtual.cell.Html",
   *****************************************************************************
   */
 
-  properties :
-  {
-
-    appearance:
-    {
-      refine : true,
-      init : "cell-html"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "cell-html"
     }
-
   },
-
 
   /*
   *****************************************************************************
@@ -44,20 +38,15 @@ qx.Class.define("qx.ui.virtual.cell.Html",
   *****************************************************************************
   */
 
-
-  members :
-  {
-
+  members: {
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
     */
 
-    getContent : function(value, states) {
+    getContent(value, states) {
       return value;
     }
-
   }
-
 });

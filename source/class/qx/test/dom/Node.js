@@ -16,31 +16,52 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dom.Node",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.dom.Node", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
+    setUp() {},
 
-    setUp : function() {},
+    tearDown() {},
 
-
-    tearDown : function() {},
-
-
-    testBlockNodes : function()
-    {
-      var blockNodeList = [ "body", "h1", "h2", "h3", "h4", "h5", "div", "blockquote",
-                            "hr", "form", "textarea", "fieldset", "iframe",
-                            "ul", "ol", "li", "dl", "dt", "dd", "p", "quote",
-                            "pre", "table", "thead", "tbody", "tfoot", "tr",
-                            "td", "th", "iframe", "address" ];
+    testBlockNodes() {
+      var blockNodeList = [
+        "body",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "div",
+        "blockquote",
+        "hr",
+        "form",
+        "textarea",
+        "fieldset",
+        "iframe",
+        "ul",
+        "ol",
+        "li",
+        "dl",
+        "dt",
+        "dd",
+        "p",
+        "quote",
+        "pre",
+        "table",
+        "thead",
+        "tbody",
+        "tfoot",
+        "tr",
+        "td",
+        "th",
+        "iframe",
+        "address"
+      ];
 
       var blockElement;
       var blockElements = [];
-      for (var i=0, j=blockNodeList.length; i<j; i++)
-      {
+      for (var i = 0, j = blockNodeList.length; i < j; i++) {
         blockElement = document.createElement(blockNodeList[i]);
         document.body.appendChild(blockElement);
 
@@ -50,23 +71,46 @@ qx.Class.define("qx.test.dom.Node",
         this.assertTrue(qx.dom.Node.isBlockNode(blockElement));
       }
 
-      for (var i=0, j=blockElements.length; i<j; i++) {
+      for (var i = 0, j = blockElements.length; i < j; i++) {
         document.body.removeChild(blockElements[i]);
       }
     },
 
-
-    testInlineNodes : function()
-    {
-      var inlineNodeList = [ "a", "span", "abbr", "acronym", "dfn", "object", "param",
-                             "em", "strong", "code", "b", "i", "tt", "samp",
-                             "kbd", "var", "big", "small", "br", "bdo", "cite",
-                             "del", "ins", "q", "sub", "sup", "img", "map" ];
+    testInlineNodes() {
+      var inlineNodeList = [
+        "a",
+        "span",
+        "abbr",
+        "acronym",
+        "dfn",
+        "object",
+        "param",
+        "em",
+        "strong",
+        "code",
+        "b",
+        "i",
+        "tt",
+        "samp",
+        "kbd",
+        "var",
+        "big",
+        "small",
+        "br",
+        "bdo",
+        "cite",
+        "del",
+        "ins",
+        "q",
+        "sub",
+        "sup",
+        "img",
+        "map"
+      ];
 
       var inlineElement;
       var inlineElements = [];
-      for (var i=0, j=inlineNodeList.length; i<j; i++)
-      {
+      for (var i = 0, j = inlineNodeList.length; i < j; i++) {
         inlineElement = document.createElement(inlineNodeList[i]);
         document.body.appendChild(inlineElement);
 
@@ -76,14 +120,12 @@ qx.Class.define("qx.test.dom.Node",
         this.assertFalse(qx.dom.Node.isBlockNode(inlineElement));
       }
 
-      for (var i=0, j=inlineElements.length; i<j; i++) {
+      for (var i = 0, j = inlineElements.length; i < j; i++) {
         document.body.removeChild(inlineElements[i]);
       }
     },
 
-
-    testTextNodes : function()
-    {
+    testTextNodes() {
       var blockElement = document.createElement("div");
       var blockElementText = document.createTextNode("schokobaer");
       blockElement.appendChild(blockElementText);
@@ -102,14 +144,24 @@ qx.Class.define("qx.test.dom.Node",
       var cdataElement = xml.createCDATASection("karamelbaer");
       xml.getElementsByTagName("foo")[0].appendChild(cdataElement);
 
-      this.assertEquals("vanillebaer", qx.dom.Node.getText(innerTextNode), "Failed to get the right value for one text node.");
-      this.assertEquals("schokobaervanillebaer", qx.dom.Node.getText(blockElement), "Failed to get the right value for text of an element.");
-      this.assertEquals("karamelbaer", qx.dom.Node.getText(xml.getElementsByTagName("foo")[0].firstChild), "Failed to get the text of a CData text node.");
+      this.assertEquals(
+        "vanillebaer",
+        qx.dom.Node.getText(innerTextNode),
+        "Failed to get the right value for one text node."
+      );
+      this.assertEquals(
+        "schokobaervanillebaer",
+        qx.dom.Node.getText(blockElement),
+        "Failed to get the right value for text of an element."
+      );
+      this.assertEquals(
+        "karamelbaer",
+        qx.dom.Node.getText(xml.getElementsByTagName("foo")[0].firstChild),
+        "Failed to get the text of a CData text node."
+      );
     },
 
-
-    testGetWindow : function()
-    {
+    testGetWindow() {
       var rendered = document.createElement("div");
       document.body.appendChild(rendered);
       var unrendered = document.createElement("div");

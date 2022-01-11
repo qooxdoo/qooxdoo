@@ -18,11 +18,10 @@ qx.Class.define("qx.io.transport.PostMessage", {
     windowOrWorker.addEventListener("message", evt => {
       this.fireDataEvent("message", evt.data);
     });
-    this.base(arguments, windowOrWorker);
+    super(windowOrWorker);
   },
 
   members: {
-
     /**
      * PostMessage is a very simple protocol without configuration options.
      * No transport implementation is needed.

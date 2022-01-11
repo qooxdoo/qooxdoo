@@ -16,21 +16,17 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.request.SimpleXhr",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.request.SimpleXhr", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.dev.unit.MMock],
+  include: [qx.dev.unit.MMock],
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.req = new qx.bom.request.SimpleXhr();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       this.req = null;
       this.getSandbox().restore();
     },
@@ -40,11 +36,14 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getRequestHeader()
     //
 
-    "test: set/get request header": function() {
+    "test: set/get request header"() {
       var key = "Accept",
-          value = "application/json";
+        value = "application/json";
 
-      this.assertEquals(value, this.req.setRequestHeader(key, value).getRequestHeader(key));
+      this.assertEquals(
+        value,
+        this.req.setRequestHeader(key, value).getRequestHeader(key)
+      );
     },
 
     //
@@ -52,7 +51,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getUrl()
     //
 
-    "test: set/get url": function() {
+    "test: set/get url"() {
       var url = "http://example.org";
 
       this.assertEquals(url, this.req.setUrl(url).getUrl());
@@ -63,7 +62,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getMethod()
     //
 
-    "test: set/get method": function() {
+    "test: set/get method"() {
       var method = "GET";
 
       this.assertEquals(method, this.req.setMethod(method).getMethod());
@@ -74,8 +73,8 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getRequestData()
     //
 
-    "test: set/get request data": function() {
-      var data = {"abc": "def", "uvw": "xyz"};
+    "test: set/get request data"() {
+      var data = { abc: "def", uvw: "xyz" };
 
       this.assertEquals(data, this.req.setRequestData(data).getRequestData());
     },
@@ -85,11 +84,11 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getResponse()
     //
 
-    "test: set/get response": function() {
+    "test: set/get response"() {
       var req = this.req,
-          json = '{"animals": ["monkey", "mouse"]}',
-          xml = "<animals><monkey/><mouse/></animals>",
-          obj = {a:"b"};
+        json = '{"animals": ["monkey", "mouse"]}',
+        xml = "<animals><monkey/><mouse/></animals>",
+        obj = { a: "b" };
 
       req._transport.responseText = json;
       this.assertEquals(json, req.getResponse());
@@ -106,7 +105,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // getTimeout()
     //
 
-    "test: set/get timeout in millis": function() {
+    "test: set/get timeout in millis"() {
       this.assertEquals(150, this.req.setTimeout(150).getTimeout());
     },
 
@@ -115,7 +114,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     //  isCaching
     //
 
-    "test: use/is caching": function() {
+    "test: use/is caching"() {
       this.assertTrue(this.req.useCaching(true).isCaching());
       this.assertFalse(this.req.useCaching(false).isCaching());
     },
@@ -124,10 +123,10 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // setParser()
     //
 
-    "test: set (custom) parser": function() {
+    "test: set (custom) parser"() {
       var req = this.req,
-          acceptedParser = null,
-          customParser = function() {};
+        acceptedParser = null,
+        customParser = function () {};
 
       acceptedParser = req.setParser(customParser);
       this.assertEquals(customParser, acceptedParser);
@@ -137,25 +136,37 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // _serializeData()
     //
 
-    "test: serialize data": function() {
-      var data = {"abc": "def", "uvw": "xyz"},
-          contentType = "application/json";
+    "test: serialize data"() {
+      var data = { abc: "def", uvw: "xyz" },
+        contentType = "application/json";
 
       this.assertNull(this.req._serializeData(null));
-      this.assertEquals("leaveMeIntact", this.req._serializeData("leaveMeIntact"));
+      this.assertEquals(
+        "leaveMeIntact",
+        this.req._serializeData("leaveMeIntact")
+      );
       this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data));
-      this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data, "arbitrary/contentType"));
-      this.assertEquals('{"abc":"def","uvw":"xyz"}', this.req._serializeData(data, contentType));
-      this.assertEquals('[1,2,3]', this.req._serializeData([1,2,3], contentType));
+      this.assertEquals(
+        "abc=def&uvw=xyz",
+        this.req._serializeData(data, "arbitrary/contentType")
+      );
+      this.assertEquals(
+        '{"abc":"def","uvw":"xyz"}',
+        this.req._serializeData(data, contentType)
+      );
+      this.assertEquals(
+        "[1,2,3]",
+        this.req._serializeData([1, 2, 3], contentType)
+      );
     },
 
     //
     // send()
     //
 
-    stubTransportMethods : function(methods) {
+    stubTransportMethods(methods) {
       var stubbedTransport = this.req._createTransport(),
-          l = methods.length;
+        l = methods.length;
 
       while (l--) {
         this.stub(stubbedTransport, methods[l]);
@@ -164,11 +175,11 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       return stubbedTransport;
     },
 
-    "test: send() w/ timeout": function() {
+    "test: send() w/ timeout"() {
       var req = this.req,
-          method = "GET",
-          url = "http://example.org",
-          stubbedTransport = {};
+        method = "GET",
+        url = "http://example.org",
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.setTimeout(150);
@@ -180,11 +191,11 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertEquals(stubbedTransport.timeout, req.getTimeout());
     },
 
-    "test: send() w/o data and w/o headers": function() {
+    "test: send() w/o data and w/o headers"() {
       var req = this.req,
-          method = "GET",
-          url = "http://example.org",
-          stubbedTransport = {};
+        method = "GET",
+        url = "http://example.org",
+        stubbedTransport = {};
 
       req.setUrl(url);
       stubbedTransport = this.stubTransportMethods(["open", "send"]);
@@ -194,93 +205,126 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertCalledWith(stubbedTransport.send);
     },
 
-    "test: send() GET w/ data and w/ headers": function() {
+    "test: send() GET w/ data and w/ headers"() {
       var req = this.req,
-          method = "GET",
-          url = "http://example.org",
-          obj = {a:"b"},
-          stubbedTransport = {};
+        method = "GET",
+        url = "http://example.org",
+        obj = { a: "b" },
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.setRequestHeader("Accept", "application/json");
       req.setRequestData(obj);
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
-      this.assertCalledWith(stubbedTransport.open, method, url+"?a=b", true);
-      this.assertCalledWith(stubbedTransport.setRequestHeader, "Accept", "application/json");
+      this.assertCalledWith(stubbedTransport.open, method, url + "?a=b", true);
+      this.assertCalledWith(
+        stubbedTransport.setRequestHeader,
+        "Accept",
+        "application/json"
+      );
       this.assertCalledWith(stubbedTransport.send);
     },
 
-    "test: send() GET w/ enabled caching sets nocache param": function() {
+    "test: send() GET w/ enabled caching sets nocache param"() {
       var req = this.req,
-          method = "GET",
-          url = "http://example.org",
-          expectedUrl = new RegExp(url+"\\?nocache=[0-9]{13,}"),
-          stubbedTransport = {};
+        method = "GET",
+        url = "http://example.org",
+        expectedUrl = new RegExp(url + "\\?nocache=[0-9]{13,}"),
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.useCaching(false);
       stubbedTransport = this.stubTransportMethods(["open", "send"]);
       req.send();
 
-      this.assertCalledWithMatch(stubbedTransport.open, method, expectedUrl, true);
+      this.assertCalledWithMatch(
+        stubbedTransport.open,
+        method,
+        expectedUrl,
+        true
+      );
       this.assertCalledWith(stubbedTransport.send);
     },
 
-    "test: send() GET w/ caching header overrides cache prevention": function() {
+    "test: send() GET w/ caching header overrides cache prevention"() {
       var req = this.req,
-          method = "GET",
-          url = "http://example.org",
-          stubbedTransport = {};
+        method = "GET",
+        url = "http://example.org",
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.setRequestHeader("Cache-Control", "no-cache");
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
-      this.assertCalledWith(stubbedTransport.setRequestHeader, "Cache-Control", "no-cache");
+      this.assertCalledWith(
+        stubbedTransport.setRequestHeader,
+        "Cache-Control",
+        "no-cache"
+      );
       this.assertCalledWith(stubbedTransport.send);
     },
 
-    "test: send() POST w/ data (default content-type)": function() {
+    "test: send() POST w/ data (default content-type)"() {
       var req = this.req,
-          method = "POST",
-          url = "http://example.org",
-          obj = {a:"b"},
-          stubbedTransport = {};
+        method = "POST",
+        url = "http://example.org",
+        obj = { a: "b" },
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(obj);
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
-      this.assertCalledWith(stubbedTransport.setRequestHeader, "Content-Type", "application/x-www-form-urlencoded");
+      this.assertCalledWith(
+        stubbedTransport.setRequestHeader,
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      );
       this.assertCalledWith(stubbedTransport.send, "a=b");
     },
 
-    "test: send() POST w/ data (application/json)": function() {
+    "test: send() POST w/ data (application/json)"() {
       var req = this.req,
-          method = "POST",
-          url = "http://example.org",
-          obj = {a:"b"},
-          stubbedTransport = {};
+        method = "POST",
+        url = "http://example.org",
+        obj = { a: "b" },
+        stubbedTransport = {};
 
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(obj);
       req.setRequestHeader("Content-Type", "application/json");
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
       this.assertCalledWith(stubbedTransport.send, qx.lang.Json.stringify(obj));
     },
 
-    "test: send() POST w/ FormData": function() {
+    "test: send() POST w/ FormData"() {
       var req = this.req,
         method = "POST",
         url = "http://example.org",
@@ -301,14 +345,17 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(formData);
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, formData);
     },
 
-
-    "test: send() POST w/ Blob": function() {
+    "test: send() POST w/ Blob"() {
       var req = this.req,
         method = "POST",
         url = "http://example.org",
@@ -322,18 +369,22 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
         this.skip("POST requests not supported by this transport");
       }
 
-      var blob = new window.Blob(['abc123'], {type: 'text/plain'});
+      var blob = new window.Blob(["abc123"], { type: "text/plain" });
 
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(blob);
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, blob);
     },
 
-    "test: send() POST w/ ArrayBuffer": function() {
+    "test: send() POST w/ ArrayBuffer"() {
       var req = this.req,
         method = "POST",
         url = "http://example.org",
@@ -352,7 +403,11 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(arrayBuffer);
-      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      stubbedTransport = this.stubTransportMethods([
+        "open",
+        "setRequestHeader",
+        "send"
+      ]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, arrayBuffer);
@@ -362,7 +417,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // abort()
     //
 
-    "test: abort() aborts transport": function() {
+    "test: abort() aborts transport"() {
       var stubbedTransport = this.stubTransportMethods(["abort"]);
       this.req.abort();
 
@@ -373,21 +428,20 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // dispose()
     //
 
-    "test: dispose() disposes transport": function() {
+    "test: dispose() disposes transport"() {
       this.assertTrue(this.req.dispose());
     },
-
 
     //
     // addListenerOnce()
     //
 
-    "test: addListenerOnce() event handler": function() {
+    "test: addListenerOnce() event handler"() {
       var req = this.req,
-          stubbedTransport = this.req._createTransport(),
-          name = "test-success",
-          listener = function() {},
-          ctx = this;
+        stubbedTransport = this.req._createTransport(),
+        name = "test-success",
+        listener = function () {},
+        ctx = this;
 
       this.stub(req, "once");
       req._transport = stubbedTransport;
@@ -401,12 +455,12 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // __onReadyStateDone()
     //
 
-    "test: _onReadyStateDone() success": function() {
+    "test: _onReadyStateDone() success"() {
       var req = this.req,
-          json = '{"animals": ["monkey", "mouse"]}',
-          obj = {animals: ["monkey", "mouse"]},
-          contentType = "application/json",
-          stubbedTransport = req._createTransport();
+        json = '{"animals": ["monkey", "mouse"]}',
+        obj = { animals: ["monkey", "mouse"] },
+        contentType = "application/json",
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -422,12 +476,12 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertCalledWith(req.emit, "success");
     },
 
-    "test: _onReadyStateDone() fail w/ response": function() {
+    "test: _onReadyStateDone() fail w/ response"() {
       var req = this.req,
-          json = '{"animals": ["monkey", "mouse"]}',
-          obj = {animals: ["monkey", "mouse"]},
-          contentType = "application/json",
-          stubbedTransport = req._createTransport();
+        json = '{"animals": ["monkey", "mouse"]}',
+        obj = { animals: ["monkey", "mouse"] },
+        contentType = "application/json",
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -443,10 +497,10 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertCalledWith(req.emit, "fail");
     },
 
-    "test: _onReadyStateDone() fail w/o response": function() {
+    "test: _onReadyStateDone() fail w/o response"() {
       var req = this.req,
-          contentType = "hasToExist/ButContentDoesntMatter",
-          stubbedTransport = req._createTransport();
+        contentType = "hasToExist/ButContentDoesntMatter",
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -465,9 +519,9 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // onLoadEnd()
     //
 
-    "test: onLoadEnd()": function() {
+    "test: onLoadEnd()"() {
       var req = this.req,
-          stubbedTransport = req._createTransport();
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -482,9 +536,9 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // onAbort()
     //
 
-    "test: onAbort()": function() {
+    "test: onAbort()"() {
       var req = this.req,
-          stubbedTransport = req._createTransport();
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -499,9 +553,9 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // onTimeout()
     //
 
-    "test: onTimeout()": function() {
+    "test: onTimeout()"() {
       var req = this.req,
-          stubbedTransport = req._createTransport();
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -517,9 +571,9 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     // onError()
     //
 
-    "test: onError()": function() {
+    "test: onError()"() {
       var req = this.req,
-          stubbedTransport = req._createTransport();
+        stubbedTransport = req._createTransport();
 
       // prep transport
       this.stub(req, "emit");
@@ -531,29 +585,33 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertEquals(2, req.emit.callCount); // + emit("fail")
     },
 
-
-    testGetResponseHeaders: function() {
+    testGetResponseHeaders() {
       this.useFakeServer();
       this.getServer().autoRespond = true;
-      this.getServer().respondWith("GET", "/foo",
-        [
-          200,
-          {
-            "x-affe": "AFFE"
-          },
-          "Response Body"
-        ]);
+      this.getServer().respondWith("GET", "/foo", [
+        200,
+        {
+          "x-affe": "AFFE"
+        },
 
-      var req = new qx.bom.request.SimpleXhr('/foo', 'GET');
-      req.on("success", function() {
-        this.resume(function() {
-          this.assertEquals("AFFE", req.getResponseHeader("x-affe"));
-          var headers = req.getAllResponseHeaders();
-          this.assertMatch(headers, /x-affe.*?AFFE/);
-        }.bind(this));
-      }.bind(this));
+        "Response Body"
+      ]);
 
-      window.setTimeout(function() {
+      var req = new qx.bom.request.SimpleXhr("/foo", "GET");
+      req.on(
+        "success",
+        function () {
+          this.resume(
+            function () {
+              this.assertEquals("AFFE", req.getResponseHeader("x-affe"));
+              var headers = req.getAllResponseHeaders();
+              this.assertMatch(headers, /x-affe.*?AFFE/);
+            }.bind(this)
+          );
+        }.bind(this)
+      );
+
+      window.setTimeout(function () {
         req.send();
       }, 100);
 

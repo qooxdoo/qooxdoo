@@ -20,16 +20,17 @@
  *
  * *********************************************************************** */
 
-const {promisify} = require("util");
+const { promisify } = require("util");
 const nodePromisify = promisify;
 const PromisePool = require("es6-promise-pool");
 
 qx.Class.define("qx.tool.utils.Promisify", {
   statics: {
     MAGIC_KEY: "__isPromisified__",
-    IGNORED_PROPS: /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__)$/,
+    IGNORED_PROPS:
+      /^(?:promises|length|name|arguments|caller|callee|prototype|__isPromisified__)$/,
 
-    promisifyAll: function(target, fn) {
+    promisifyAll(target, fn) {
       Object.getOwnPropertyNames(target).forEach(key => {
         if (this.IGNORED_PROPS.test(key) || (fn && fn(key, target) === false)) {
           return;
@@ -58,7 +59,7 @@ qx.Class.define("qx.tool.utils.Promisify", {
       return target;
     },
 
-    isPromisified: function(fn) {
+    isPromisified(fn) {
       try {
         return fn[this.MAGIC_KEY] === true;
       } catch (e) {
@@ -66,14 +67,14 @@ qx.Class.define("qx.tool.utils.Promisify", {
       }
     },
 
-    promisify: function(fn, context) {
+    promisify(fn, context) {
       fn = nodePromisify(fn);
       if (context) {
         fn = fn.bind(context);
       }
       return fn;
     },
-    
+
     async poolEachOf(arr, size, fn) {
       let index = 0;
       let pool = new PromisePool(() => {
@@ -85,31 +86,30 @@ qx.Class.define("qx.tool.utils.Promisify", {
       }, 10);
       await pool.start();
     },
-    
+
     async map(arr, fn) {
       return await qx.Promise.all(arr.map(fn));
     },
-    
+
     async some(arr, fn) {
       return await new qx.Promise((resolve, reject) => {
         let count = 0;
         arr.forEach((...args) => {
-          qx.Promise.resolve(fn(...args))
-            .then(result => {
-              count++;
-              if (result && resolve) {
-                resolve(true);
-                resolve = null;
-              }
-              if (count == arr.length && resolve) {
-                resolve(false);
-              }
-              return null;
-            });
+          qx.Promise.resolve(fn(...args)).then(result => {
+            count++;
+            if (result && resolve) {
+              resolve(true);
+              resolve = null;
+            }
+            if (count == arr.length && resolve) {
+              resolve(false);
+            }
+            return null;
+          });
         });
       });
     },
-    
+
     async someEach(arr, fn) {
       let index = 0;
       const next = () => {
@@ -117,13 +117,12 @@ qx.Class.define("qx.tool.utils.Promisify", {
           return qx.Promise.resolve(false);
         }
         let item = arr[index++];
-        return qx.Promise.resolve(fn(item))
-          .then(result => {
-            if (result) {
-              return true;
-            }
-            return next();
-          });
+        return qx.Promise.resolve(fn(item)).then(result => {
+          if (result) {
+            return true;
+          }
+          return next();
+        });
       };
       return await next();
     },
@@ -140,19 +139,18 @@ qx.Class.define("qx.tool.utils.Promisify", {
             return null;
           }
           let item = arr[index++];
-          return fn(item)
-            .then(result => {
-              if (result && resolve) {
-                resolve(true);
-                resolve = null;
-              }
-            });
+          return fn(item).then(result => {
+            if (result && resolve) {
+              resolve(true);
+              resolve = null;
+            }
+          });
         }, 10);
         pool.start();
       });
     },
 
-    call: function(fn) {
+    call(fn) {
       return new Promise((resolve, reject) => {
         fn((err, ...args) => {
           if (err) {
@@ -163,8 +161,8 @@ qx.Class.define("qx.tool.utils.Promisify", {
         });
       });
     },
-    
-    callback: function(promise, cb) {
+
+    callback(promise, cb) {
       if (cb) {
         promise = promise
           .then((...args) => cb(null, ...args))
@@ -175,28 +173,28 @@ qx.Class.define("qx.tool.utils.Promisify", {
 
     fs: null,
 
-    each: function(coll, fn) {
+    each(coll, fn) {
       return qx.tool.utils.Promisify.eachOf(coll, fn);
     },
 
-    forEachOf: function(coll, fn) {
+    forEachOf(coll, fn) {
       return qx.tool.utils.Promisify.eachOf(coll, fn);
     },
 
-    eachOf: function(coll, fn) {
+    eachOf(coll, fn) {
       let promises = Object.keys(coll).map(key => fn(coll[key], key));
       return qx.Promise.all(promises);
     },
 
-    eachSeries: function(coll, fn) {
+    eachSeries(coll, fn) {
       return qx.tool.utils.Promisify.eachOfSeries(coll, fn);
     },
 
-    forEachOfSeries: function(coll, fn) {
+    forEachOfSeries(coll, fn) {
       return qx.tool.utils.Promisify.eachOfSeries(coll, fn);
     },
 
-    eachOfSeries: function(coll, fn) {
+    eachOfSeries(coll, fn) {
       let keys = Object.keys(coll);
       let index = 0;
       function next() {
@@ -206,16 +204,14 @@ qx.Class.define("qx.tool.utils.Promisify", {
         let key = keys[index];
         index++;
         var result = fn(coll[key], key);
-        return qx.Promise.resolve(result)
-          .then(next);
+        return qx.Promise.resolve(result).then(next);
       }
       return next();
     }
-
   },
 
-  defer: function(statics) {
-    statics.fs = statics.promisifyAll(require("fs"), function(key, fs) {
+  defer(statics) {
+    statics.fs = statics.promisifyAll(require("fs"), function (key, fs) {
       return key !== "SyncWriteStream";
     });
   }

@@ -22,16 +22,14 @@
  * Window manager handle the z-order and modality blocking of windows managed
  * by the connected desktop {@link qx.ui.window.IDesktop}.
  */
-qx.Interface.define("qx.ui.window.IWindowManager",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.window.IWindowManager", {
+  members: {
     /**
      * Connect the window manager to the window desktop
      *
      * @param desktop {qx.ui.window.IDesktop|null} The connected desktop or null
      */
-    setDesktop : function(desktop) {
+    setDesktop(desktop) {
       if (desktop !== null) {
         this.assertInterface(desktop, qx.ui.window.IDesktop);
       }
@@ -43,19 +41,19 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      * @param active {qx.ui.window.Window} new active window
      * @param oldActive {qx.ui.window.Window} old active window
      */
-    changeActiveWindow : function(active, oldActive) {},
+    changeActiveWindow(active, oldActive) {},
 
     /**
      * Update the window order and modality blocker
      */
-    updateStack : function() {},
+    updateStack() {},
 
     /**
      * Ask the manager to bring a window to the front.
      *
      * @param win {qx.ui.window.Window} window to bring to front
      */
-    bringToFront : function(win) {
+    bringToFront(win) {
       this.assertInstance(win, qx.ui.window.Window);
     },
 
@@ -64,7 +62,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      *
      * @param win {qx.ui.window.Window} window to sent to back
      */
-    sendToBack : function(win) {
+    sendToBack(win) {
       this.assertInstance(win, qx.ui.window.Window);
     }
   }

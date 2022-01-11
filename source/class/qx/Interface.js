@@ -25,10 +25,8 @@
  *
  * @require(qx.lang.normalize.Array)
  */
-qx.Bootstrap.define("qx.Interface",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.Interface", {
+  statics: {
     /*
     ---------------------------------------------------------------------------
        PUBLIC API
@@ -92,12 +90,13 @@ qx.Bootstrap.define("qx.Interface",
      *
      * @return {qx.Interface} The configured interface
      */
-    define : function(name, config)
-    {
-      if (config)
-      {
+    define(name, config) {
+      if (config) {
         // Normalize include
-        if (config.extend && !(qx.Bootstrap.getClass(config.extend) === "Array")) {
+        if (
+          config.extend &&
+          !(qx.Bootstrap.getClass(config.extend) === "Array")
+        ) {
           config.extend = [config.extend];
         }
 
@@ -125,9 +124,7 @@ qx.Bootstrap.define("qx.Interface",
         if (config.events) {
           iface.$$events = config.events;
         }
-      }
-      else
-      {
+      } else {
         // Create empty interface
         var iface = {};
       }
@@ -149,17 +146,15 @@ qx.Bootstrap.define("qx.Interface",
       return iface;
     },
 
-
     /**
      * Returns an interface by name
      *
      * @param name {String} class name to resolve
      * @return {Class} the class
      */
-    getByName : function(name) {
+    getByName(name) {
       return this.$$registry[name];
     },
-
 
     /**
      * Determine if interface exists
@@ -167,20 +162,18 @@ qx.Bootstrap.define("qx.Interface",
      * @param name {String} Interface name to check
      * @return {Boolean} true if interface exists
      */
-    isDefined : function(name) {
+    isDefined(name) {
       return this.getByName(name) !== undefined;
     },
-
 
     /**
      * Determine the number of interfaces which are defined
      *
      * @return {Number} the number of interfaces
      */
-    getTotalNumber : function() {
+    getTotalNumber() {
       return qx.Bootstrap.objectGetLength(this.$$registry);
     },
-
 
     /**
      * Generates a list of all interfaces including their super interfaces
@@ -189,8 +182,7 @@ qx.Bootstrap.define("qx.Interface",
      * @param ifaces {Interface[] ? []} List of interfaces to be resolved
      * @return {Array} List of all interfaces
      */
-    flatten : function(ifaces)
-    {
+    flatten(ifaces) {
       if (!ifaces) {
         return [];
       }
@@ -198,8 +190,7 @@ qx.Bootstrap.define("qx.Interface",
       // we need to create a copy and not to modify the existing array
       var list = ifaces.concat();
 
-      for (var i=0, l=ifaces.length; i<l; i++)
-      {
+      for (var i = 0, l = ifaces.length; i < l; i++) {
         if (ifaces[i].$$extends) {
           list.push.apply(list, this.flatten(ifaces[i].$$extends));
         }
@@ -207,7 +198,6 @@ qx.Bootstrap.define("qx.Interface",
 
       return list;
     },
-
 
     /**
      * Assert members
@@ -221,22 +211,26 @@ qx.Bootstrap.define("qx.Interface",
      *   will return a boolean instead of throwing an exception
      * @return {Boolean} <code>true</code> if all members are supported
      */
-    __checkMembers : function(object, clazz, iface, wrap, shouldThrow)
-    {
+    __checkMembers(object, clazz, iface, wrap, shouldThrow) {
       // Validate members
       var members = iface.$$members;
       if (members) {
         for (var key in members) {
           if (qx.Bootstrap.isFunction(members[key])) {
             var isPropertyMethod = this.__isPropertyMethod(clazz, key);
-            var hasMemberFunction = isPropertyMethod || qx.Bootstrap.isFunction(object[key]);
+            var hasMemberFunction =
+              isPropertyMethod || qx.Bootstrap.isFunction(object[key]);
 
             if (!hasMemberFunction) {
               if (shouldThrow) {
                 throw new Error(
-                    'Implementation of method "' + key +
-                    '" is missing in class "' + clazz.classname +
-                    '" required by interface "' + iface.name + '"'
+                  'Implementation of method "' +
+                    key +
+                    '" is missing in class "' +
+                    clazz.classname +
+                    '" required by interface "' +
+                    iface.name +
+                    '"'
                 );
               } else {
                 return false;
@@ -252,7 +246,10 @@ qx.Bootstrap.define("qx.Interface",
 
             if (shouldWrapFunction) {
               object[key] = this.__wrapInterfaceMember(
-                iface, object[key], key, members[key]
+                iface,
+                object[key],
+                key,
+                members[key]
               );
             }
           } else {
@@ -262,9 +259,13 @@ qx.Bootstrap.define("qx.Interface",
               if (typeof object[key] !== "function") {
                 if (shouldThrow) {
                   throw new Error(
-                    'Implementation of member "' + key +
-                    '" is missing in class "' + clazz.classname +
-                    '" required by interface "' + iface.name + '"'
+                    'Implementation of member "' +
+                      key +
+                      '" is missing in class "' +
+                      clazz.classname +
+                      '" required by interface "' +
+                      iface.name +
+                      '"'
                   );
                 } else {
                   return false;
@@ -279,7 +280,6 @@ qx.Bootstrap.define("qx.Interface",
       }
     },
 
-
     /**
      * Internal helper to detect if the method will be generated by the
      * property system.
@@ -290,8 +290,7 @@ qx.Bootstrap.define("qx.Interface",
      * @return {Boolean} true, if the method will be generated by the property
      *   system.
      */
-    __isPropertyMethod: function(clazz, methodName)
-    {
+    __isPropertyMethod(clazz, methodName) {
       var match = methodName.match(/^(is|toggle|get|set|reset)(.*)$/);
 
       if (!match) {
@@ -299,19 +298,24 @@ qx.Bootstrap.define("qx.Interface",
       }
 
       var propertyName = qx.Bootstrap.firstLow(match[2]);
-      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(clazz, propertyName);
+      var isPropertyMethod = qx.util.OOUtil.getPropertyDefinition(
+        clazz,
+        propertyName
+      );
       if (!isPropertyMethod) {
         return false;
       }
 
       var isBoolean = match[0] === "is" || match[0] === "toggle";
       if (isBoolean) {
-        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check === "Boolean";
+        return (
+          qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check ===
+          "Boolean"
+        );
       }
 
       return true;
     },
-
 
     /**
      * Assert properties
@@ -322,15 +326,17 @@ qx.Bootstrap.define("qx.Interface",
      *   will return a boolean instead of throwing an exception
      * @return {Boolean} <code>true</code> if all properties are supported
      */
-    __checkProperties : function(clazz, iface, shouldThrow)
-    {
+    __checkProperties(clazz, iface, shouldThrow) {
       if (iface.$$properties) {
         for (var key in iface.$$properties) {
           if (!qx.util.OOUtil.getPropertyDefinition(clazz, key)) {
             if (shouldThrow) {
               throw new Error(
-                'The property "' + key + '" is not supported by Class "' +
-                clazz.classname + '"!'
+                'The property "' +
+                  key +
+                  '" is not supported by Class "' +
+                  clazz.classname +
+                  '"!'
               );
             } else {
               return false;
@@ -342,7 +348,6 @@ qx.Bootstrap.define("qx.Interface",
         return true;
       }
     },
-
 
     /**
      * Assert events
@@ -353,15 +358,17 @@ qx.Bootstrap.define("qx.Interface",
      *   will return a boolean instead of throwing an exception
      * @return {Boolean} <code>true</code> if all events are supported
      */
-    __checkEvents : function(clazz, iface, shouldThrow)
-    {
+    __checkEvents(clazz, iface, shouldThrow) {
       if (iface.$$events) {
         for (var key in iface.$$events) {
           if (!qx.util.OOUtil.supportsEvent(clazz, key)) {
             if (shouldThrow) {
               throw new Error(
-                'The event "' + key + '" is not supported by Class "' +
-                clazz.classname + '"!'
+                'The event "' +
+                  key +
+                  '" is not supported by Class "' +
+                  clazz.classname +
+                  '"!'
               );
             } else {
               return false;
@@ -374,7 +381,6 @@ qx.Bootstrap.define("qx.Interface",
       }
     },
 
-
     /**
      * Asserts that the given object implements all the methods defined in the
      * interface. This method throws an exception if the object does not
@@ -383,8 +389,7 @@ qx.Bootstrap.define("qx.Interface",
      *  @param object {qx.core.Object} Object to check interface for
      *  @param iface {Interface} The interface to verify
      */
-    assertObject : function(object, iface)
-    {
+    assertObject(object, iface) {
       var clazz = object.constructor;
       this.__checkMembers(object, clazz, iface, false, true);
       this.__checkProperties(clazz, iface, true);
@@ -392,14 +397,12 @@ qx.Bootstrap.define("qx.Interface",
 
       // Validate extends, recursive
       var extend = iface.$$extends;
-      if (extend)
-      {
-        for (var i=0, l=extend.length; i<l; i++) {
+      if (extend) {
+        for (var i = 0, l = extend.length; i < l; i++) {
           this.assertObject(object, extend[i]);
         }
       }
     },
-
 
     /**
      * Checks if an interface is implemented by a class
@@ -409,22 +412,19 @@ qx.Bootstrap.define("qx.Interface",
      * @param wrap {Boolean ? false} wrap functions required by interface to
      *     check parameters etc.
      */
-    assert : function(clazz, iface, wrap)
-    {
+    assert(clazz, iface, wrap) {
       this.__checkMembers(clazz.prototype, clazz, iface, wrap, true);
       this.__checkProperties(clazz, iface, true);
       this.__checkEvents(clazz, iface, true);
 
       // Validate extends, recursive
       var extend = iface.$$extends;
-      if (extend)
-      {
-        for (var i=0, l=extend.length; i<l; i++) {
+      if (extend) {
+        for (var i = 0, l = extend.length; i < l; i++) {
           this.assert(clazz, extend[i], wrap);
         }
       }
     },
-
 
     /**
      * Asserts that the given object implements all the methods defined in the
@@ -434,20 +434,20 @@ qx.Bootstrap.define("qx.Interface",
      *  @param iface {Interface} The interface to verify
      * @return {Boolean} <code>true</code> if the objects implements the interface
      */
-    objectImplements : function(object, iface) {
+    objectImplements(object, iface) {
       var clazz = object.constructor;
-      if (!this.__checkMembers(object, clazz, iface) ||
+      if (
+        !this.__checkMembers(object, clazz, iface) ||
         !this.__checkProperties(clazz, iface) ||
-        !this.__checkEvents(clazz, iface))
-      {
+        !this.__checkEvents(clazz, iface)
+      ) {
         return false;
       }
 
       // Validate extends, recursive
       var extend = iface.$$extends;
-      if (extend)
-      {
-        for (var i=0, l=extend.length; i<l; i++) {
+      if (extend) {
+        for (var i = 0, l = extend.length; i < l; i++) {
           if (!this.objectImplements(object, extend[i])) {
             return false;
           }
@@ -457,7 +457,6 @@ qx.Bootstrap.define("qx.Interface",
       return true;
     },
 
-
     /**
      * Tests whether an interface is implemented by a class, without throwing an
      * exception when it doesn't.
@@ -466,18 +465,19 @@ qx.Bootstrap.define("qx.Interface",
      * @param iface {Interface} the interface to verify
      * @return {Boolean} <code>true</code> if interface is implemented
      */
-    classImplements : function(clazz, iface) {
-      if (!this.__checkMembers(clazz.prototype, clazz, iface) ||
+    classImplements(clazz, iface) {
+      if (
+        !this.__checkMembers(clazz.prototype, clazz, iface) ||
         !this.__checkProperties(clazz, iface) ||
-        !this.__checkEvents(clazz, iface))
-      {
+        !this.__checkEvents(clazz, iface)
+      ) {
         return false;
       }
 
       // Validate extends, recursive
       var extend = iface.$$extends;
       if (extend) {
-        for (var i=0, l=extend.length; i<l; i++) {
+        for (var i = 0, l = extend.length; i < l; i++) {
           if (!this.has(clazz, extend[i])) {
             return false;
           }
@@ -486,8 +486,6 @@ qx.Bootstrap.define("qx.Interface",
 
       return true;
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -502,14 +500,12 @@ qx.Bootstrap.define("qx.Interface",
      * @internal
      * @return {String} The interface identifier
      */
-    genericToString : function() {
+    genericToString() {
       return "[Interface " + this.name + "]";
     },
 
-
     /** Registry of all defined interfaces */
-    $$registry : {},
-
+    $$registry: {},
 
     /**
      * Wrap a method with a precondition check.
@@ -524,12 +520,9 @@ qx.Bootstrap.define("qx.Interface",
      *   Otherwise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapInterfaceMember : qx.core.Environment.select("qx.debug",
-    {
-      "true": function(iface, origFunction, functionName, preCondition)
-      {
-        function wrappedFunction()
-        {
+    __wrapInterfaceMember: qx.core.Environment.select("qx.debug", {
+      true(iface, origFunction, functionName, preCondition) {
+        function wrappedFunction() {
           // call precondition
           preCondition.apply(this, arguments);
 
@@ -547,25 +540,21 @@ qx.Bootstrap.define("qx.Interface",
         return wrappedFunction;
       },
 
-      "default" : function(iface, origFunction, functionName, preCondition) {}
+      default(iface, origFunction, functionName, preCondition) {}
     }),
-
 
     /** @type {Map} allowed keys in interface definition */
-    __allowedKeys : qx.core.Environment.select("qx.debug",
-    {
-      "true":
-      {
-        "extend"     : "object", // Interface | Interface[]
-        "statics"    : "object", // Map
-        "members"    : "object", // Map
-        "properties" : "object", // Map
-        "events"     : "object"  // Map
+    __allowedKeys: qx.core.Environment.select("qx.debug", {
+      true: {
+        extend: "object", // Interface | Interface[]
+        statics: "object", // Map
+        members: "object", // Map
+        properties: "object", // Map
+        events: "object" // Map
       },
 
-      "default" : null
+      default: null
     }),
-
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -574,87 +563,129 @@ qx.Bootstrap.define("qx.Interface",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
-    __validateConfig : qx.core.Environment.select("qx.debug",
-    {
-      "true": function(name, config)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
+    __validateConfig: qx.core.Environment.select("qx.debug", {
+      true(name, config) {
+        if (qx.core.Environment.get("qx.debug")) {
           // Validate keys
           var allowed = this.__allowedKeys;
 
-          for (var key in config)
-          {
+          for (var key in config) {
             if (allowed[key] === undefined) {
-              throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+              throw new Error(
+                'The configuration key "' +
+                  key +
+                  '" in class "' +
+                  name +
+                  '" is not allowed!'
+              );
             }
 
             if (config[key] == null) {
-              throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
+              throw new Error(
+                "Invalid key '" +
+                  key +
+                  "' in interface '" +
+                  name +
+                  "'! The value is undefined/null!"
+              );
             }
 
             if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
-              throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
+              throw new Error(
+                'Invalid type of key "' +
+                  key +
+                  '" in interface "' +
+                  name +
+                  '"! The type of the key must be "' +
+                  allowed[key] +
+                  '"!'
+              );
             }
           }
 
           // Validate maps
-          var maps = [ "statics", "members", "properties", "events" ];
-          for (var i=0, l=maps.length; i<l; i++)
-          {
+          var maps = ["statics", "members", "properties", "events"];
+          for (var i = 0, l = maps.length; i < l; i++) {
             var key = maps[i];
 
-            if (config[key] !== undefined &&
-                ([
-                   "Array",
-                   "RegExp",
-                   "Date"
-                 ].indexOf(qx.Bootstrap.getClass(config[key])) != -1 ||
-                 config[key].classname !== undefined)) {
-              throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
+            if (
+              config[key] !== undefined &&
+              (["Array", "RegExp", "Date"].indexOf(
+                qx.Bootstrap.getClass(config[key])
+              ) != -1 ||
+                config[key].classname !== undefined)
+            ) {
+              throw new Error(
+                'Invalid key "' +
+                  key +
+                  '" in interface "' +
+                  name +
+                  '"! The value needs to be a map!'
+              );
             }
           }
 
           // Validate extends
-          if (config.extend)
-          {
-            for (var i=0, a=config.extend, l=a.length; i<l; i++)
-            {
+          if (config.extend) {
+            for (var i = 0, a = config.extend, l = a.length; i < l; i++) {
               if (a[i] == null) {
-                throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
+                throw new Error(
+                  "Extends of interfaces must be interfaces. The extend number '" +
+                    i +
+                    1 +
+                    "' in interface '" +
+                    name +
+                    "' is undefined/null!"
+                );
               }
 
               if (a[i].$$type !== "Interface") {
-                throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
+                throw new Error(
+                  "Extends of interfaces must be interfaces. The extend number '" +
+                    i +
+                    1 +
+                    "' in interface '" +
+                    name +
+                    "' is not an interface!"
+                );
               }
             }
           }
 
           // Validate statics
-          if (config.statics)
-          {
-            for (var key in config.statics)
-            {
+          if (config.statics) {
+            for (var key in config.statics) {
               if (key.toUpperCase() !== key) {
-                throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
+                throw new Error(
+                  'Invalid key "' +
+                    key +
+                    '" in interface "' +
+                    name +
+                    '"! Static constants must be all uppercase.'
+                );
               }
 
-              switch(typeof config.statics[key])
-              {
+              switch (typeof config.statics[key]) {
                 case "boolean":
                 case "string":
                 case "number":
                   break;
 
                 default:
-                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.');
+                  throw new Error(
+                    'Invalid key "' +
+                      key +
+                      '" in interface "' +
+                      name +
+                      '"! Static constants must be all of a primitive type.'
+                  );
               }
             }
           }
         }
       },
 
-      "default" : function(name, config) {}
+      default(name, config) {}
     })
   }
 });

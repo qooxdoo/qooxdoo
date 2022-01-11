@@ -20,19 +20,15 @@
 /**
  * Shared implementation for all root widgets.
  */
-qx.Class.define("qx.ui.root.Abstract",
-{
-  type : "abstract",
-  extend : qx.ui.core.Widget,
+qx.Class.define("qx.ui.root.Abstract", {
+  type: "abstract",
+  extend: qx.ui.core.Widget,
 
-  include :
-  [
+  include: [
     qx.ui.core.MChildrenHandling,
     qx.ui.core.MBlocker,
     qx.ui.window.MDesktop
   ],
-
-
 
   /*
   *****************************************************************************
@@ -40,9 +36,8 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
@@ -55,36 +50,29 @@ qx.Class.define("qx.ui.root.Abstract",
     this.addListener("keypress", this.__preventScrollWhenFocused, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "root"
+    appearance: {
+      refine: true,
+      init: "root"
     },
 
     // overridden
-    enabled :
-    {
-      refine : true,
-      init : true
+    enabled: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     /**
@@ -114,43 +102,35 @@ qx.Class.define("qx.ui.root.Abstract",
      *
      * Please note that in the current implementation this has no effect in IE.
      */
-    globalCursor :
-    {
-      check : "String",
-      nullable : true,
-      themeable : true,
-      apply : "_applyGlobalCursor",
-      event : "changeGlobalCursor"
+    globalCursor: {
+      check: "String",
+      nullable: true,
+      themeable: true,
+      apply: "_applyGlobalCursor",
+      event: "changeGlobalCursor"
     },
-
 
     /**
      * Whether the native context menu should be globally enabled. Setting this
      * property to <code>true</code> will allow native context menus in all
      * child widgets of this root.
      */
-    nativeContextMenu :
-    {
-      refine : true,
-      init : false
+    nativeContextMenu: {
+      refine: true,
+      init: false
     },
-
 
     /**
      * If the user presses F1 in IE by default the onhelp event is fired and
      * IE’s help window is opened. Setting this property to <code>false</code>
      * prevents this behavior.
      */
-    nativeHelp :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyNativeHelp"
+    nativeHelp: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyNativeHelp"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -158,38 +138,32 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __globalCursorStyleSheet : null,
+  members: {
+    __globalCursorStyleSheet: null,
 
     // overridden
-    isRootWidget : function() {
+    isRootWidget() {
       return true;
     },
-
 
     /**
      * Get the widget's layout manager.
      *
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    getLayout : function() {
+    getLayout() {
       return this._getLayout();
     },
 
-
     // property apply
-    _applyGlobalCursor : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(value, old) {
+    _applyGlobalCursor: qx.core.Environment.select("engine.name", {
+      mshtml(value, old) {
         // empty implementation
       },
 
       // This would be the optimal solution.
       // For performance reasons this is impractical in IE
-      "default" : function(value, old)
-      {
+      default(value, old) {
         var Stylesheet = qx.bom.Stylesheet;
 
         var sheet = this.__globalCursorStyleSheet;
@@ -200,43 +174,48 @@ qx.Class.define("qx.ui.root.Abstract",
         Stylesheet.removeAllRules(sheet);
 
         if (value) {
-          Stylesheet.addRule(sheet, "*", qx.bom.element.Cursor.compile(value).replace(";", "") + " !important");
+          Stylesheet.addRule(
+            sheet,
+            "*",
+            qx.bom.element.Cursor.compile(value).replace(";", "") +
+              " !important"
+          );
         }
       }
     }),
 
-
     // property apply
-    _applyNativeContextMenu : function(value, old)
-    {
+    _applyNativeContextMenu(value, old) {
       if (value) {
-        this.removeListener("contextmenu", this._onNativeContextMenu, this, true);
+        this.removeListener(
+          "contextmenu",
+          this._onNativeContextMenu,
+          this,
+          true
+        );
       } else {
         this.addListener("contextmenu", this._onNativeContextMenu, this, true);
       }
     },
-
 
     /**
      * Stops the <code>contextmenu</code> event from showing the native context menu
      *
      * @param e {qx.event.type.Mouse} The event object
      */
-    _onNativeContextMenu : function(e)
-    {
+    _onNativeContextMenu(e) {
       if (e.getTarget().getNativeContextMenu()) {
         return;
       }
       e.preventDefault();
     },
 
-
     /**
-    * Fix unexpected scrolling when pressing "Space" while a widget is focused.
-    *
-    * @param e {qx.event.type.KeySequence} The KeySequence event
-    */
-    __preventScrollWhenFocused: function(e) {
+     * Fix unexpected scrolling when pressing "Space" while a widget is focused.
+     *
+     * @param e {qx.event.type.KeySequence} The KeySequence event
+     */
+    __preventScrollWhenFocused(e) {
       // Require space pressed
       if (e.getKeyIdentifier() !== "Space") {
         return;
@@ -254,13 +233,20 @@ qx.Class.define("qx.ui.root.Abstract",
       var el = target.getContentElement();
       var nodeName = el.getNodeName();
       var domEl = el.getDomElement();
-      if (nodeName === "input" || nodeName === "textarea" || (domEl && domEl.contentEditable === "true")) {
+      if (
+        nodeName === "input" ||
+        nodeName === "textarea" ||
+        (domEl && domEl.contentEditable === "true")
+      ) {
         return;
       }
 
       // do not prevent "space" key for natively focusable elements
       nodeName = qx.dom.Node.getName(e.getOriginalTarget());
-      if (nodeName && ["input", "textarea", "select", "a"].indexOf(nodeName) > -1) {
+      if (
+        nodeName &&
+        ["input", "textarea", "select", "a"].indexOf(nodeName) > -1
+      ) {
         return;
       }
 
@@ -268,23 +254,23 @@ qx.Class.define("qx.ui.root.Abstract",
       e.preventDefault();
     },
 
-
     // property apply
-    _applyNativeHelp : function(value, old)
-    {
+    _applyNativeHelp(value, old) {
       if (qx.core.Environment.get("event.help")) {
         if (old === false) {
-          qx.bom.Event.removeNativeListener(document, "help", (function() {return false;}));
+          qx.bom.Event.removeNativeListener(document, "help", function () {
+            return false;
+          });
         }
 
         if (value === false) {
-          qx.bom.Event.addNativeListener(document, "help", (function() {return false;}));
+          qx.bom.Event.addNativeListener(document, "help", function () {
+            return false;
+          });
         }
       }
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -292,12 +278,9 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__globalCursorStyleSheet = null;
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -305,7 +288,7 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  defer : function(statics, members) {
+  defer(statics, members) {
     qx.ui.core.MChildrenHandling.remap(members);
   }
 });

@@ -26,19 +26,13 @@
  * @childControl popup {qx.ui.popup.Popup} popup which shows the list
  *
  */
-qx.Class.define("qx.ui.form.AbstractSelectBox",
-{
-  extend  : qx.ui.core.Widget,
-  include : [
-    qx.ui.core.MRemoteChildrenHandling,
-    qx.ui.form.MForm
-  ],
-  implement : [
-    qx.ui.form.IForm
-  ],
-  type : "abstract",
+qx.Class.define("qx.ui.form.AbstractSelectBox", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MRemoteChildrenHandling, qx.ui.form.MForm],
 
+  implement: [qx.ui.form.IForm],
 
+  type: "abstract",
 
   /*
   *****************************************************************************
@@ -46,9 +40,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // set the layout
     var layout = new qx.ui.layout.HBox();
@@ -69,57 +62,48 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     this.addListener("resize", this._onResize, this);
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    width :
-    {
-      refine : true,
-      init : 120
+    width: {
+      refine: true,
+      init: 120
     },
 
     /**
      * The maximum height of the list popup. Setting this value to
      * <code>null</code> will set cause the list to be auto-sized.
      */
-    maxListHeight :
-    {
-      check : "Number",
-      apply : "_applyMaxListHeight",
+    maxListHeight: {
+      check: "Number",
+      apply: "_applyMaxListHeight",
       nullable: true,
-      init : 200
+      init: 200
     },
 
     /**
      * Formatter which format the value from the selected <code>ListItem</code>.
      * Uses the default formatter {@link #_defaultFormat}.
      */
-    format :
-    {
-      check : "Function",
-      init : function(item) {
+    format: {
+      check: "Function",
+      init(item) {
         return this._defaultFormat(item);
       },
-      nullable : true
+      nullable: true
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -127,15 +111,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "list": {
           control = new qx.ui.form.List().set({
             focusable: false,
@@ -146,14 +127,21 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one",
             quickSelection: true
           });
+
           const listId = "list-" + control.toHashCode();
-          const childrenContainerEl = control.getChildrenContainer().getContentElement();
+          const childrenContainerEl = control
+            .getChildrenContainer()
+            .getContentElement();
           childrenContainerEl.setAttribute("id", listId);
           childrenContainerEl.setAttribute("role", "listbox");
           this.getContentElement().setAttribute("aria-owns", listId);
 
           control.addListener("addItem", this._onListAddItem, this);
-          control.addListener("changeSelection", this._onListChangeSelection, this);
+          control.addListener(
+            "changeSelection",
+            this._onListChangeSelection,
+            this
+          );
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
@@ -164,14 +152,16 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.setKeepActive(true);
           control.add(this.getChildControl("list"));
 
-          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
+          control.addListener(
+            "changeVisibility",
+            this._onPopupChangeVisibility,
+            this
+          );
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -180,11 +170,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     */
 
     // property apply
-    _applyMaxListHeight : function(value, old) {
+    _applyMaxListHeight(value, old) {
       this.getChildControl("list").setMaxHeight(value);
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -196,11 +184,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * Returns the list widget.
      * @return {qx.ui.form.List} the list
      */
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("list");
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -211,28 +197,24 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * Shows the list popup.
      */
-    open : function()
-    {
+    open() {
       var popup = this.getChildControl("popup");
 
       popup.placeToWidget(this, true);
       popup.show();
     },
 
-
     /**
      * Hides the list popup.
      */
-    close : function() {
+    close() {
       this.getChildControl("popup").hide();
     },
-
 
     /**
      * Toggles the popup's visibility.
      */
-    toggle : function()
-    {
+    toggle() {
       var isListOpen = this.getChildControl("popup").isVisible();
       if (isListOpen) {
         this.close();
@@ -241,13 +223,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       FORMAT HANDLING
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Return the formatted label text from the <code>ListItem</code>.
@@ -257,8 +237,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param item {qx.ui.form.IListItem} The list item to format.
      * @return {String} The formatted text.
      */
-    _defaultFormat : function(item)
-    {
+    _defaultFormat(item) {
       var valueLabel = item ? item.getLabel() : "";
       var rich = item ? item.getRich() : false;
 
@@ -269,7 +248,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       return valueLabel;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -282,58 +260,58 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      *
      * @param e {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(e)
-    {
+    _onBlur(e) {
       this.close();
     },
-
 
     /**
      * Reacts on special keys and forwards other key events to the list widget.
      *
      * @param e {qx.event.type.KeySequence} Keypress event
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       // get the key identifier
       var identifier = e.getKeyIdentifier();
       var listPopup = this.getChildControl("popup");
 
       // disabled pageUp and pageDown keys
-      if (listPopup.isHidden() && (identifier == "PageDown" || identifier == "PageUp")) {
+      if (
+        listPopup.isHidden() &&
+        (identifier == "PageDown" || identifier == "PageUp")
+      ) {
         e.stopPropagation();
       }
 
       // hide the list always on escape and tab
-      else if (!listPopup.isHidden() && (identifier == "Escape" || identifier == "Tab"))
-      {
+      else if (
+        !listPopup.isHidden() &&
+        (identifier == "Escape" || identifier == "Tab")
+      ) {
         this.close();
         e.stop();
       }
 
       // forward the rest of the events to the list
-      else
-      {
+      else {
         this.getChildControl("list").handleKeyPress(e);
       }
     },
-
 
     /**
      * Updates list minimum size.
      *
      * @param e {qx.event.type.Data} Data event
      */
-    _onResize : function(e){
+    _onResize(e) {
       this.getChildControl("popup").setMinWidth(e.getData().width);
     },
-     
+
     /**
      * Sets ARIA attributes on the item
      *
      * @param e {qx.event.type.Data} Data Event
      */
-     _onListAddItem : function(e) {
+    _onListAddItem(e) {
       const item = e.getData();
       const contentEl = item.getContentElement();
       contentEl.setAttribute("id", "list-item-" + item.toHashCode());
@@ -350,27 +328,25 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      *
      * @param e {qx.event.type.Data} Data Event
      */
-    _onListChangeSelection : function(e) {
+    _onListChangeSelection(e) {
       throw new Error("Abstract method: _onListChangeSelection()");
     },
-
 
     /**
      * Redirects pointerdown event from the list to this widget.
      *
      * @param e {qx.event.type.Pointer} Pointer Event
      */
-    _onListPointerDown : function(e) {
+    _onListPointerDown(e) {
       throw new Error("Abstract method: _onListPointerDown()");
     },
-
 
     /**
      * Redirects changeVisibility event from the list to this widget.
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onPopupChangeVisibility : function(e) {
+    _onPopupChangeVisibility(e) {
       const visible = e.getData() == "visible";
       visible ? this.addState("popupOpen") : this.removeState("popupOpen");
 

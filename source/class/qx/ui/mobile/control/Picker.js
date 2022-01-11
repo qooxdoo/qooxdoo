@@ -41,14 +41,11 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.control.Picker",
-{
-  extend : qx.ui.mobile.container.Composite,
+qx.Class.define("qx.ui.mobile.control.Picker", {
+  extend: qx.ui.mobile.container.Composite,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this._pickerModel = new qx.data.Array();
     this._slots = new qx.data.Array();
@@ -57,9 +54,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     this.initVisibleItems();
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Fired when the selection of a slot has changed.
      * Example:
@@ -69,73 +64,62 @@ qx.Class.define("qx.ui.mobile.control.Picker",
      *   slot: 0
      * }</code>
      */
-    changeSelection : "qx.event.type.Data"
+    changeSelection: "qx.event.type.Data"
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "picker"
+    defaultCssClass: {
+      refine: true,
+      init: "picker"
     },
 
-
     /**
-    * Controls how much visible items are shown inside the picker.
-    */
-    visibleItems : {
-      init : 5,
-      check : [3,5,7,9],
-      apply : "_applyVisibleItems"
+     * Controls how much visible items are shown inside the picker.
+     */
+    visibleItems: {
+      init: 5,
+      check: [3, 5, 7, 9],
+      apply: "_applyVisibleItems"
     },
 
-
     /**
-    * Controls the picker height.
-    */
-    height : {
-      init : 200,
-      check : "Number"
+     * Controls the picker height.
+     */
+    height: {
+      init: 200,
+      check: "Number"
     }
   },
 
-
-  members :
-  {
-    _slots : null,
-    _pickerModel : null,
-
+  members: {
+    _slots: null,
+    _pickerModel: null,
 
     /**
-    * Handler for <code>appear</code> event of this widget.
-    */
-    _onAppear: function() {
+     * Handler for <code>appear</code> event of this widget.
+     */
+    _onAppear() {
       var itemHeight = this._calcItemHeight();
-      this._slots.forEach(function(slot, index) {
-        qx.bom.AnimationFrame.request(function() {
+      this._slots.forEach(function (slot, index) {
+        qx.bom.AnimationFrame.request(function () {
           slot.container.scrollTo(0, slot.selectedIndex * itemHeight);
         });
       }, this);
     },
 
-
     // property apply
-    _applyVisibleItems : function(value) {
-      this._setAttribute("data-items",value);
+    _applyVisibleItems(value) {
+      this._setAttribute("data-items", value);
     },
-
 
     /**
-    * Returns the internal used picker model which contains one or more picker slot models.
-    * @return {qx.data.Array} the picker model.
-    */
-    getModel : function() {
+     * Returns the internal used picker model which contains one or more picker slot models.
+     * @return {qx.data.Array} the picker model.
+     */
+    getModel() {
       return this._pickerModel;
     },
-
 
     /**
      * Creates a picker slot.
@@ -144,14 +128,19 @@ qx.Class.define("qx.ui.mobile.control.Picker",
      * @param delegate {qx.ui.mobile.list.IListDelegate?null} the list delegate object for this slot list.
      * @return {qx.ui.mobile.container.Scroll} the picker slot as a scroll container.
      */
-    _createPickerSlot : function(slotModel, slotIndex, delegate) {
+    _createPickerSlot(slotModel, slotIndex, delegate) {
       var scrollContainer = new qx.ui.mobile.container.Scroll({
-        "snap": ".list-item",
-        "vScrollbar" : false
+        snap: ".list-item",
+        vScrollbar: false
       });
+
       scrollContainer.setWaypointsY([".list-item"]);
 
-      qx.bom.element.Style.set(scrollContainer.getContentElement(), "height", this.getHeight() + "px");
+      qx.bom.element.Style.set(
+        scrollContainer.getContentElement(),
+        "height",
+        this.getHeight() + "px"
+      );
 
       var slot = {
         container: scrollContainer,
@@ -162,9 +151,9 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 
       scrollContainer.addListener("waypoint", this._onWaypoint, {
         self: this,
-        slot : slot,
-        slotIndex : slotIndex,
-        slotModel : slotModel
+        slot: slot,
+        slotIndex: slotIndex,
+        slotModel: slotModel
       });
 
       var list = new qx.ui.mobile.list.List(delegate);
@@ -173,6 +162,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
         self: this,
         slotIndex: slotIndex
       });
+
       list.setModel(slotModel);
 
       var slotWrapper = new qx.ui.mobile.container.Composite();
@@ -196,43 +186,48 @@ qx.Class.define("qx.ui.mobile.control.Picker",
       return scrollContainer;
     },
 
-
     /**
-    * Creates a placeholder list item, for making sure the selected item is vertically centered.
-    * @return {qx.ui.mobile.container.Composite} the placeholder list item.
-    */
-    _createPlaceholderItem : function() {
+     * Creates a placeholder list item, for making sure the selected item is vertically centered.
+     * @return {qx.ui.mobile.container.Composite} the placeholder list item.
+     */
+    _createPlaceholderItem() {
       var placeholderItem = new qx.ui.mobile.container.Composite();
-      qx.bom.element.Style.set(placeholderItem.getContentElement(), "minHeight", this._calcItemHeight() + "px");
+      qx.bom.element.Style.set(
+        placeholderItem.getContentElement(),
+        "minHeight",
+        this._calcItemHeight() + "px"
+      );
       placeholderItem.addCssClass("list-item");
       placeholderItem.addCssClass("placeholder-item");
       return placeholderItem;
     },
 
-
     /**
-    * Calculates the item height of a picker item.
-    * @return {Number} height of the picker item.
-    */
-    _calcItemHeight : function() {
+     * Calculates the item height of a picker item.
+     * @return {Number} height of the picker item.
+     */
+    _calcItemHeight() {
       return this.getHeight() / this.getVisibleItems();
     },
 
-
     /**
-    * Handler for <code>changeSelection</code> event on picker list.
-    * @param evt {qx.event.type.Data} the events data.
-    */
-    _onChangeSelection: function(evt) {
-      qx.Bootstrap.bind(this.self.setSelectedIndex, this.self, this.slotIndex, evt.getData()).call();
+     * Handler for <code>changeSelection</code> event on picker list.
+     * @param evt {qx.event.type.Data} the events data.
+     */
+    _onChangeSelection(evt) {
+      qx.Bootstrap.bind(
+        this.self.setSelectedIndex,
+        this.self,
+        this.slotIndex,
+        evt.getData()
+      ).call();
     },
 
-
     /**
-    * Handler for <code>waypoint</code> event on scroll container.
-    * @param evt {qx.event.type.Data} the waypoint data.
-    */
-    _onWaypoint: function(evt) {
+     * Handler for <code>waypoint</code> event on scroll container.
+     * @param evt {qx.event.type.Data} the waypoint data.
+     */
+    _onWaypoint(evt) {
       var elementIndex = evt.getData().element;
       this.slot.selectedIndex = elementIndex;
 
@@ -243,23 +238,21 @@ qx.Class.define("qx.ui.mobile.control.Picker",
       });
     },
 
-
     /**
-    * Getter for the selectedIndex of a picker slot, identified by its index.
-    * @param slotIndex {Integer} the index of the target picker slot.
-    * @return {Integer} the index of the target picker slot, or null if slotIndex is unknown.
-    */
-    getSelectedIndex : function(slotIndex) {
+     * Getter for the selectedIndex of a picker slot, identified by its index.
+     * @param slotIndex {Integer} the index of the target picker slot.
+     * @return {Integer} the index of the target picker slot, or null if slotIndex is unknown.
+     */
+    getSelectedIndex(slotIndex) {
       return this._slots.getItem(slotIndex).selectedIndex;
     },
-
 
     /**
      * Setter for the selectedIndex of a picker slot, identified by its index.
      * @param slotIndex {Integer} the index of the target picker slot.
      * @param selectedIndex {Integer} the selectedIndex of the slot.
      */
-    setSelectedIndex: function(slotIndex, selectedIndex) {
+    setSelectedIndex(slotIndex, selectedIndex) {
       var slot = this._slots.getItem(slotIndex);
       slot.selectedIndex = selectedIndex;
       if (this.isVisible()) {
@@ -267,45 +260,62 @@ qx.Class.define("qx.ui.mobile.control.Picker",
       }
     },
 
-
     /**
      * Returns the picker slot count, added to this picker.
      * @return {Integer} count of picker slots.
      */
-    getSlotCount : function() {
+    getSlotCount() {
       return this._pickerModel.getLength();
     },
-
 
     /**
      * Adds an picker slot to the end of the array.
      * @param slotModel {qx.data.Array} the picker slot model to display.
      * @param delegate {qx.ui.mobile.list.IListDelegate?null} the list delegate object for this slot.
      */
-    addSlot : function(slotModel, delegate) {
-      if(slotModel !== null && slotModel instanceof qx.data.Array) {
+    addSlot(slotModel, delegate) {
+      if (slotModel !== null && slotModel instanceof qx.data.Array) {
         this._pickerModel.push(slotModel);
         var slotIndex = this._pickerModel.length - 1;
 
-        var scrollContainer = this._createPickerSlot(slotModel, slotIndex, delegate);
+        var scrollContainer = this._createPickerSlot(
+          slotModel,
+          slotIndex,
+          delegate
+        );
 
-        slotModel.addListener("changeBubble", this._onSlotDataChange, scrollContainer);
-        slotModel.addListener("change", this._onSlotDataChange, scrollContainer);
+        slotModel.addListener(
+          "changeBubble",
+          this._onSlotDataChange,
+          scrollContainer
+        );
+        slotModel.addListener(
+          "change",
+          this._onSlotDataChange,
+          scrollContainer
+        );
       }
     },
-
 
     /**
      * Removes the picker slot at the given slotIndex.
      * @param slotIndex {Integer} the index of the target picker slot.
      */
-    removeSlot : function(slotIndex) {
-      if(this._pickerModel.length > slotIndex && slotIndex > -1) {
+    removeSlot(slotIndex) {
+      if (this._pickerModel.length > slotIndex && slotIndex > -1) {
         var slotModel = this._pickerModel.getItem(slotIndex);
         var scrollContainer = this._slots.getItem(slotIndex).container;
 
-        slotModel.removeListener("changeBubble", this._onSlotDataChange, scrollContainer);
-        slotModel.removeListener("change", this._onSlotDataChange, scrollContainer);
+        slotModel.removeListener(
+          "changeBubble",
+          this._onSlotDataChange,
+          scrollContainer
+        );
+        slotModel.removeListener(
+          "change",
+          this._onSlotDataChange,
+          scrollContainer
+        );
 
         qx.util.DisposeUtil.destroyContainer(scrollContainer);
 
@@ -314,20 +324,20 @@ qx.Class.define("qx.ui.mobile.control.Picker",
       }
     },
 
-
     /**
-    * Handles the <code>changeBubble</code> and <codechange></code> event on a picker slot model.
-    */
-    _onSlotDataChange : function() {
-      window.setTimeout(function() {
-        this.refresh();
-      }.bind(this), 0);
+     * Handles the <code>changeBubble</code> and <codechange></code> event on a picker slot model.
+     */
+    _onSlotDataChange() {
+      window.setTimeout(
+        function () {
+          this.refresh();
+        }.bind(this),
+        0
+      );
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this._pickerModel.dispose();
     this._slots.dispose();
     qx.util.DisposeUtil.destroyContainer(this);

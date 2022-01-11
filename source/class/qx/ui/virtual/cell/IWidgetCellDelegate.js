@@ -26,15 +26,13 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.ui.virtual.cell.IWidgetCellDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.virtual.cell.IWidgetCellDelegate", {
+  members: {
     /**
      * Creates a <code>Widget</code> which will be used for rendering.
      *
      * @return {qx.ui.core.LayoutItem} A new created <code>Widget</code>.
      */
-    createWidget : function() {}
+    createWidget() {}
   }
 });

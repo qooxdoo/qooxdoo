@@ -20,20 +20,20 @@
  * Defines the event handlers for Video tags - also Audio because they are identical
  */
 qx.Class.define("qx.event.handler.Video", {
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   construct() {
-    this.base(arguments);
+    super();
     this.__onNativeListener = qx.lang.Function.listener(this._onNative, this);
   },
 
   statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : {
+    SUPPORTED_TYPES: {
       abort: 1,
       canplay: 1,
       canplaythrough: 1,
@@ -59,13 +59,13 @@ qx.Class.define("qx.event.handler.Video", {
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
 
-  members : {
+  members: {
     // interface implementation
     canHandleEvent(target, type) {
       var lower = target.tagName.toLowerCase();
@@ -88,13 +88,13 @@ qx.Class.define("qx.event.handler.Video", {
      * @signature function(domEvent, eventId)
      * @param domEvent {Event} Native event
      */
-    _onNative: qx.event.GlobalError.observeMethod(function(domEvent) {
+    _onNative: qx.event.GlobalError.observeMethod(function (domEvent) {
       let target = qx.bom.Event.getTarget(domEvent);
- 
+
       qx.event.Registration.fireNonBubblingEvent(
-        target, 
+        target,
         domEvent.type,
-        qx.event.type.Dom, 
+        qx.event.type.Dom,
         [domEvent, target, undefined, undefined, domEvent.cancelable]
       );
     }),

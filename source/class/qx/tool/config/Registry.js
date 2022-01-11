@@ -24,12 +24,13 @@ qx.Class.define("qx.tool.config.Registry", {
   type: "singleton",
   statics: {
     config: {
-      fileName:  "qooxdoo.json",
+      fileName: "qooxdoo.json",
       version: "1.0.0"
     }
   },
-  construct: function() {
-    this.base(arguments, this.self(arguments).config);
+
+  construct() {
+    super(this.self(arguments).config);
   },
 
   members: {

@@ -20,20 +20,16 @@
  * The abstract class for a header or footer for use with Progressive's Table
  * renderer.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Abstract",
-{
-  type       : "abstract",
-  extend     : qx.ui.container.Composite,
+qx.Class.define("qx.ui.progressive.headfoot.Abstract", {
+  type: "abstract",
+  extend: qx.ui.container.Composite,
 
-  construct : function()
-  {
-    this.base(arguments, new qx.ui.layout.HBox());
+  construct() {
+    super(new qx.ui.layout.HBox());
   },
 
-  members    :
-  {
-
-    __progressive : null,
+  members: {
+    __progressive: null,
 
     /**
      * Join this header/footer to a Progressive.  This makes the Progressive
@@ -43,13 +39,12 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
      *   Progressive object to which we're being joined.
      *
      */
-    join : function(progressive)
-    {
+    join(progressive) {
       this.__progressive = progressive;
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__progressive = null;
   }
 });

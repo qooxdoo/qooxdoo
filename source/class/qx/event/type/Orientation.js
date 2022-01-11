@@ -31,26 +31,21 @@
 
 ************************************************************************ */
 
-
 /**
  * Orientation event object.
  */
-qx.Class.define("qx.event.type.Orientation",
-{
-    extend : qx.event.type.Event,
+qx.Class.define("qx.event.type.Orientation", {
+  extend: qx.event.type.Event,
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
-    /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
-    */
-
-    members :
-    {
-    __orientation : null,
-    __mode : null,
-
+  members: {
+    __orientation: null,
+    __mode: null,
 
     /**
      * Initialize the fields of the event. The event must be initialized before
@@ -60,16 +55,14 @@ qx.Class.define("qx.event.type.Orientation",
      * @param mode {String} <code>landscape</code> or <code>portrait</code>
      * @return {qx.event.type.Orientation} The initialized event instance
      */
-    init : function(orientation, mode)
-    {
-      this.base(arguments, false, false);
+    init(orientation, mode) {
+      super.init(false, false);
 
       this.__orientation = orientation;
       this.__mode = mode;
 
       return this;
     },
-
 
     /**
      * Get a copy of this object
@@ -81,16 +74,14 @@ qx.Class.define("qx.event.type.Orientation",
      *
      * @return {qx.event.type.Orientation} a copy of this object
      */
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
 
       clone.__orientation = this.__orientation;
       clone.__mode = this.__mode;
 
       return clone;
     },
-
 
     /**
      * Returns the current orientation of the viewport in degree.
@@ -104,10 +95,9 @@ qx.Class.define("qx.event.type.Orientation",
      *
      * @return {Integer} The current orientation in degree
      */
-    getOrientation: function() {
+    getOrientation() {
       return this.__orientation;
     },
-
 
     /**
      * Whether the viewport orientation is currently in landscape mode.
@@ -115,10 +105,9 @@ qx.Class.define("qx.event.type.Orientation",
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in landscape mode.
      */
-    isLandscape : function() {
+    isLandscape() {
       return this.__mode == "landscape";
     },
-
 
     /**
      * Whether the viewport orientation is currently in portrait mode.
@@ -126,8 +115,7 @@ qx.Class.define("qx.event.type.Orientation",
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in portrait mode.
      */
-    isPortrait : function()
-    {
+    isPortrait() {
       return this.__mode == "portrait";
     }
   }

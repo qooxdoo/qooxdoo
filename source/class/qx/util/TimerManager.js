@@ -70,27 +70,24 @@
  *             });
  * </pre>
  */
-qx.Class.define("qx.util.TimerManager",
-{
-  extend : qx.core.Object,
-  type   : "singleton",
+qx.Class.define("qx.util.TimerManager", {
+  extend: qx.core.Object,
+  type: "singleton",
 
-  statics :
-  {
+  statics: {
     /** Time-ordered queue of timers */
-    __timerQueue : [],
+    __timerQueue: [],
 
     /** Saved data for each timer */
-    __timerData  : {},
+    __timerData: {},
 
     /** Next timer id value is determined by incrementing this */
-    __timerId    : 0
+    __timerId: 0
   },
 
-  members :
-  {
+  members: {
     /** Whether we're currently listening on the interval timer event */
-    __timerListenerActive : false,
+    __timerListenerActive: false,
 
     /**
      * Start a new timer
@@ -128,26 +125,23 @@ qx.Class.define("qx.util.TimerManager",
      *   The timer id of this unique timer.  It may be provided to the stop()
      *   method to cancel a timer before expiration.
      */
-    start : function(callback, recurTime, context, userData, initialTime)
-    {
+    start(callback, recurTime, context, userData, initialTime) {
       // Get the expiration time for this timer
-      if (typeof initialTime != "number")
-      {
+      if (typeof initialTime != "number") {
         initialTime = recurTime || 0;
       }
 
-      var expireAt = (new Date()).getTime() + initialTime;
+      var expireAt = new Date().getTime() + initialTime;
 
       // Save the callback, user data, and requested recurrency time as well
       // as the current expiry time
-      this.self(arguments).__timerData[++this.self(arguments).__timerId] =
-        {
-          callback  : callback,
-          userData  : userData || null,
-          expireAt  : expireAt,
-          recurTime : recurTime,
-          context   : context || this
-        };
+      this.self(arguments).__timerData[++this.self(arguments).__timerId] = {
+        callback: callback,
+        userData: userData || null,
+        expireAt: expireAt,
+        recurTime: recurTime,
+        context: context || this
+      };
 
       // Insert this new timer on the time-ordered timer queue
       this.__insertNewTimer(expireAt, this.self(arguments).__timerId);
@@ -162,16 +156,13 @@ qx.Class.define("qx.util.TimerManager",
      * @param timerId {Integer}
      *   A timer id previously returned by start()
      */
-    stop : function(timerId)
-    {
+    stop(timerId) {
       // Find this timer id in the time-ordered list
       var timerQueue = this.self(arguments).__timerQueue;
       var length = timerQueue.length;
-      for (var i = 0; i < length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         // Is this the one we're looking for?
-        if (timerQueue[i] == timerId)
-        {
+        if (timerQueue[i] == timerId) {
           // Yup.  Remove it.
           timerQueue.splice(i, 1);
 
@@ -184,12 +175,13 @@ qx.Class.define("qx.util.TimerManager",
       delete this.self(arguments).__timerData[timerId];
 
       // If there are no more timers pending...
-      if (timerQueue.length == 0 && this.__timerListenerActive)
-      {
+      if (timerQueue.length == 0 && this.__timerListenerActive) {
         // ... then stop listening for the periodic timer
-        qx.event.Idle.getInstance().removeListener("interval",
-                                                   this.__processQueue,
-                                                   this);
+        qx.event.Idle.getInstance().removeListener(
+          "interval",
+          this.__processQueue,
+          this
+        );
         this.__timerListenerActive = false;
       }
     },
@@ -204,8 +196,7 @@ qx.Class.define("qx.util.TimerManager",
      *   Id of the timer to be time-ordered
      *
      */
-    __insertNewTimer : function(expireAt, timerId)
-    {
+    __insertNewTimer(expireAt, timerId) {
       // The timer queue is time-ordered so that processing timers need not
       // search the queue; rather, it can simply look at the first element
       // and if not yet ready to fire, be done.  Search the queue for the
@@ -213,11 +204,9 @@ qx.Class.define("qx.util.TimerManager",
       var timerQueue = this.self(arguments).__timerQueue;
       var timerData = this.self(arguments).__timerData;
       var length = timerQueue.length;
-      for (var i = 0; i < length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         // Have we reached a later time?
-        if (timerData[timerQueue[i]].expireAt > expireAt)
-        {
+        if (timerData[timerQueue[i]].expireAt > expireAt) {
           // Yup.  Insert our new timer id before this element.
           timerQueue.splice(i, 0, timerId);
 
@@ -227,22 +216,21 @@ qx.Class.define("qx.util.TimerManager",
       }
 
       // Did we find someplace in the middle of the queue for it?
-      if (timerQueue.length == length)
-      {
+      if (timerQueue.length == length) {
         // Nope.  Insert it at the end.
         timerQueue.push(timerId);
       }
 
       // If this is the first element on the queue...
-      if (! this.__timerListenerActive)
-      {
+      if (!this.__timerListenerActive) {
         // ... then start listening for the periodic timer.
-        qx.event.Idle.getInstance().addListener("interval",
-                                                this.__processQueue,
-                                                this);
+        qx.event.Idle.getInstance().addListener(
+          "interval",
+          this.__processQueue,
+          this
+        );
         this.__timerListenerActive = true;
       }
-
     },
 
     /**
@@ -252,52 +240,52 @@ qx.Class.define("qx.util.TimerManager",
      * the callback function.
      *
      */
-    __processQueue : function()
-    {
+    __processQueue() {
       // Get the current time
-      var timeNow = (new Date()).getTime();
+      var timeNow = new Date().getTime();
 
       // While there are timer elements that need processing...
       var timerQueue = this.self(arguments).__timerQueue;
       var timerData = this.self(arguments).__timerData;
 
       // Is it time to process the first timer element yet?
-      while (timerQueue.length > 0 &&
-             timerData[timerQueue[0]].expireAt <= timeNow)
-      {
+      while (
+        timerQueue.length > 0 &&
+        timerData[timerQueue[0]].expireAt <= timeNow
+      ) {
         // Yup.  Do it.  First, remove element from the queue.
         var expiredTimerId = timerQueue.shift();
 
         // Call the handler function for this timer
         var expiredTimerData = timerData[expiredTimerId];
-        expiredTimerData.callback.call(expiredTimerData.context,
-                                       expiredTimerData.userData,
-                                       expiredTimerId);
+        expiredTimerData.callback.call(
+          expiredTimerData.context,
+          expiredTimerData.userData,
+          expiredTimerId
+        );
 
         // If this is a recurrent timer which wasn't stopped by the callback...
-        if (expiredTimerData.recurTime && timerData[expiredTimerId])
-        {
+        if (expiredTimerData.recurTime && timerData[expiredTimerId]) {
           // ... then restart it.
-          var now = (new Date()).getTime();
+          var now = new Date().getTime();
           expiredTimerData.expireAt = now + expiredTimerData.recurTime;
 
           // Insert this timer back on the time-ordered timer queue
           this.__insertNewTimer(expiredTimerData.expireAt, expiredTimerId);
-        }
-        else
-        {
+        } else {
           // If it's not a recurrent timer, we can purge its data too.
           delete timerData[expiredTimerId];
         }
       }
 
       // If there are no more timers pending...
-      if (timerQueue.length == 0 && this.__timerListenerActive)
-      {
+      if (timerQueue.length == 0 && this.__timerListenerActive) {
         // ... then stop listening for the periodic timer
-        qx.event.Idle.getInstance().removeListener("interval",
-                                                   this.__processQueue,
-                                                   this);
+        qx.event.Idle.getInstance().removeListener(
+          "interval",
+          this.__processQueue,
+          this
+        );
         this.__timerListenerActive = false;
       }
     }

@@ -22,20 +22,18 @@
  *
  * *********************************************************************** */
 
-
 const Ajv = require("ajv");
 const betterAjvErrors = require("better-ajv-errors");
 const fs = qx.tool.utils.Promisify.fs;
 
 qx.Class.define("qx.tool.utils.Json", {
-
   statics: {
     /**
      * Parses JSON string into an object
      * @param str {String} the data to parse
      * @return {Object}
      */
-    parseJson: function(str) {
+    parseJson(str) {
       if (str === null || !str.trim()) {
         return null;
       }
@@ -56,11 +54,12 @@ qx.Class.define("qx.tool.utils.Json", {
      *    Returns true if successful and false on failure if the
      *    'warnOnly' parameter is true
      */
-    validate(json, schema, warnOnly=false) {
+    validate(json, schema, warnOnly = false) {
       let ajv = new Ajv({
         allErrors: true,
         strict: false
       });
+
       if (qx.lang.Type.isArray(schema)) {
         ajv.addSchema(schema);
         schema = schema[0].$id;
@@ -70,17 +69,33 @@ qx.Class.define("qx.tool.utils.Json", {
         return true;
       }
       if (warnOnly) {
-        const message = betterAjvErrors(schema.$id, json, ajv.errors, {format: "cli", indent: 2});
-        qx.tool.compiler.Console.warn("JSON data does not validate against "+ schema.$id + ":\n" + message);
+        const message = betterAjvErrors(schema.$id, json, ajv.errors, {
+          format: "cli",
+          indent: 2
+        });
+        qx.tool.compiler.Console.warn(
+          "JSON data does not validate against " + schema.$id + ":\n" + message
+        );
         return false;
       }
       // throw fatal error
-      let err = betterAjvErrors(schema.$id, json, ajv.errors, {format: "js"});
+      let err = betterAjvErrors(schema.$id, json, ajv.errors, { format: "js" });
       let msg;
       if (Array.isArray(err) && err.length) {
-        msg = err.reduce((prev, curr, index) => `${prev} ${index+1}) ${curr.error}`, "").trim();
+        msg = err
+          .reduce(
+            (prev, curr, index) => `${prev} ${index + 1}) ${curr.error}`,
+            ""
+          )
+          .trim();
       } else if (Array.isArray(ajv.errors)) {
-        msg = ajv.errors.reduce((prev, curr, index) => `${prev} ${index+1}) ${curr.dataPath} ${curr.message}`, "").trim();
+        msg = ajv.errors
+          .reduce(
+            (prev, curr, index) =>
+              `${prev} ${index + 1}) ${curr.dataPath} ${curr.message}`,
+            ""
+          )
+          .trim();
       } else {
         msg = "Unknown error during validation.";
       }
@@ -95,7 +110,7 @@ qx.Class.define("qx.tool.utils.Json", {
      * @param data {Object} JSON data
      * @return {{type,version}|null}
      */
-    getSchemaInfo: function(data) {
+    getSchemaInfo(data) {
       let schemaInfo = {};
       if (data.$schema) {
         let match = data.$schema.match(/\/([^-]+)-([^.]+)\.json$/);
@@ -135,8 +150,8 @@ qx.Class.define("qx.tool.utils.Json", {
      * @param filename {String} the filename to load
      * @return {Object|null} the parsed contents, or null if the file does not exist
      */
-    loadJsonAsync: async function(filename) {
-      if (!await fs.existsAsync(filename)) {
+    async loadJsonAsync(filename) {
+      if (!(await fs.existsAsync(filename))) {
         return null;
       }
       let data = await fs.readFileAsync(filename, "utf8");
@@ -153,9 +168,13 @@ qx.Class.define("qx.tool.utils.Json", {
      * @param filename {String} filename to write to
      * @param data {Object|null} the data to write. If null, remove the file
      */
-    saveJsonAsync: async function(filename, data) {
+    async saveJsonAsync(filename, data) {
       if (data !== null) {
-        await fs.writeFileAsync(filename, JSON.stringify(data, null, 2), "utf8");
+        await fs.writeFileAsync(
+          filename,
+          JSON.stringify(data, null, 2),
+          "utf8"
+        );
       } else if (await fs.existsAsync(filename)) {
         fs.unlinkAsync(filename);
       }

@@ -20,10 +20,8 @@
  * An extended HtmlCell layer, which adds the possibility to specify row and
  * column spans for specific cells.
  */
-qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
-{
-  extend : qx.ui.virtual.layer.HtmlCell,
-
+qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan", {
+  extend: qx.ui.virtual.layer.HtmlCell,
 
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
@@ -33,14 +31,13 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
    * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of
    *    the pane in which the cells will be rendered
    */
-  construct : function(htmlCellProvider, rowConfig, columnConfig)
-  {
-    this.base(arguments, htmlCellProvider);
+  construct(htmlCellProvider, rowConfig, columnConfig) {
+    super(htmlCellProvider);
     this._spanManager = new qx.ui.virtual.layer.CellSpanManager(
-      rowConfig, columnConfig
+      rowConfig,
+      columnConfig
     );
   },
-
 
   /*
   *****************************************************************************
@@ -48,8 +45,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Set the row and column span for a specific cell
      *
@@ -58,8 +54,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
      * @param rowSpan {PositiveInteger} The number of rows the cells spans
      * @param columnSpan {PositiveInteger} The number of columns the cells spans
      */
-    setCellSpan : function(row, column, rowSpan, columnSpan)
-    {
+    setCellSpan(row, column, rowSpan, columnSpan) {
       var id = row + "x" + column;
       this._spanManager.removeCell(id);
       if (rowSpan > 1 || columnSpan > 1) {
@@ -67,7 +62,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       }
       qx.ui.core.queue.Widget.add(this);
     },
-
 
     /**
      * Renders a cell
@@ -80,64 +74,76 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
      * @param width {Integer} The cell's width
      * @param height {Integer} The cell's height
      */
-    __renderCell : function(htmlArr, row, column, left, top, width, height)
-    {
+    __renderCell(htmlArr, row, column, left, top, width, height) {
       var cellProperties = this._cellProvider.getCellProperties(row, column);
       var insets = cellProperties.insets || [0, 0];
 
       htmlArr.push(
         "<div ",
         "style='",
-        "left:", left, "px;",
-        "top:", top, "px;",
+        "left:",
+        left,
+        "px;",
+        "top:",
+        top,
+        "px;",
         this._getCellSizeStyle(width, height, insets[0], insets[1]),
-        cellProperties.style || "", "' ",
-        "class='", cellProperties.classes || "", "' ",
-        cellProperties.attributes || "", ">",
+        cellProperties.style || "",
+        "' ",
+        "class='",
+        cellProperties.classes || "",
+        "' ",
+        cellProperties.attributes || "",
+        ">",
         cellProperties.content || "",
         "</div>"
       );
     },
 
-
     // overridden
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
 
       var cells = this._spanManager.findCellsInWindow(
-        firstRow, firstColumn,
-        rowSizes.length, columnSizes.length
+        firstRow,
+        firstColumn,
+        rowSizes.length,
+        columnSizes.length
       );
 
-      if (cells.length > 0)
-      {
-        var bounds = this._spanManager.getCellBounds(cells, firstRow, firstColumn);
+      if (cells.length > 0) {
+        var bounds = this._spanManager.getCellBounds(
+          cells,
+          firstRow,
+          firstColumn
+        );
         var spanMap = this._spanManager.computeCellSpanMap(
           cells,
-          firstRow, firstColumn,
-          rowSizes.length, columnSizes.length
+          firstRow,
+          firstColumn,
+          rowSizes.length,
+          columnSizes.length
         );
 
         // render spanning cells
-        for (var i=0, l=cells.length; i<l; i++)
-        {
+        for (var i = 0, l = cells.length; i < l; i++) {
           var cell = cells[i];
           var cellBounds = bounds[i];
           this.__renderCell(
             html,
-            cell.firstRow, cell.firstColumn,
-            cellBounds.left, cellBounds.top,
-            cellBounds.width, cellBounds.height
+            cell.firstRow,
+            cell.firstColumn,
+            cellBounds.left,
+            cellBounds.top,
+            cellBounds.width,
+            cellBounds.height
           );
         }
-      }
-      else
-      {
+      } else {
         // create empty dummy map
         spanMap = [];
-        for (var i=0; i<rowSizes.length; i++) {
-          spanMap[firstRow+i] = [];
+        for (var i = 0; i < rowSizes.length; i++) {
+          spanMap[firstRow + i] = [];
         }
       }
 
@@ -146,23 +152,15 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       var top = 0;
       var row = firstRow;
       var column = firstColumn;
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[x];
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        for (var y = 0; y < columnSizes.length; y++) {
           var width = columnSizes[y];
 
-          if (!spanMap[row][column])
-          {
-            this.__renderCell(
-              html,
-              row, column,
-              left, top,
-              width, height
-            );
+          if (!spanMap[row][column]) {
+            this.__renderCell(html, row, column, left, top, width, height);
           }
 
           column++;
@@ -182,8 +180,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this._disposeObjects("_spanManager");
   }
 });

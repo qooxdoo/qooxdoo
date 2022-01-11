@@ -16,60 +16,50 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.core.InheritanceDummy",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.test.core.InheritanceDummy", {
+  extend: qx.core.Object,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.children = [];
   },
 
+  properties: {
+    enabled: { inheritable: true },
 
-  properties :
-  {
-    enabled : { inheritable : true },
-
-    width_ :
-    {
-      inheritable : true,
-      themeable   : true
+    width_: {
+      inheritable: true,
+      themeable: true
     },
 
-    height_ :
-    {
-      inheritable : true,
-      themeable   : true
+    height_: {
+      inheritable: true,
+      themeable: true
     },
 
-    left_ :
-    {
-      inheritable : true,
-      themeable   : true
+    left_: {
+      inheritable: true,
+      themeable: true
     },
 
-    top_ :
-    {
-      inheritable : true,
-      themeable   : true
+    top_: {
+      inheritable: true,
+      themeable: true
     }
   },
 
-  members :
-  {
-    add : function(child)
-    {
+  members: {
+    add(child) {
       this.children.push(child);
       child.parent = this;
       child.$$refreshInheritables();
     },
 
-    _getChildren : function() {
+    _getChildren() {
       return this.children;
     },
 
-    getLayoutParent : function() {
+    getLayoutParent() {
       return this.parent;
     }
   }

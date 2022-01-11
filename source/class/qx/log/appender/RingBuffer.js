@@ -29,21 +29,17 @@
  * and f. i. sent to a logging system. Whenever this happens, a mark() call
  * can be used so that the next extraction will only get new data.
  */
-qx.Bootstrap.define("qx.log.appender.RingBuffer",
-{
-  extend : qx.util.RingBuffer,
+qx.Bootstrap.define("qx.log.appender.RingBuffer", {
+  extend: qx.util.RingBuffer,
 
   /**
    * @param maxMessages {Integer?50} Maximum number of messages in the buffer
    */
-  construct : function(maxMessages) {
+  construct(maxMessages) {
     this.setMaxMessages(maxMessages || 50);
   },
 
-
-  members :
-  {
-
+  members: {
     /**
      * Set the maximum number of messages to hold. If null the number of
      * messages is not limited.
@@ -52,40 +48,36 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
      *
      * @param maxMessages {Integer} the maximum number of messages to hold
      */
-    setMaxMessages : function(maxMessages) {
+    setMaxMessages(maxMessages) {
       this.setMaxEntries(maxMessages);
     },
-
 
     /**
      * Get the maximum number of messages to hold
      *
      * @return {Integer} the maximum number of messages
      */
-    getMaxMessages : function() {
+    getMaxMessages() {
       return this.getMaxEntries();
     },
-
 
     /**
      * Processes a single log entry
      *
      * @param entry {Map} The entry to process
      */
-    process : function(entry) {
+    process(entry) {
       this.addEntry(entry);
     },
-
 
     /**
      * Returns all stored log events
      *
      * @return {Array} array of stored log events
      */
-    getAllLogEvents : function() {
+    getAllLogEvents() {
       return this.getAllEntries();
     },
-
 
     /**
      * Returns log events which have been logged previously.
@@ -97,15 +89,14 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
      *                                           will be returned
      * @return {Array} array of stored log events
      */
-    retrieveLogEvents : function(count, startingFromMark) {
+    retrieveLogEvents(count, startingFromMark) {
       return this.getEntries(count, startingFromMark);
     },
-
 
     /**
      * Clears the log history
      */
-    clearHistory : function() {
+    clearHistory() {
       this.clear();
     }
   }

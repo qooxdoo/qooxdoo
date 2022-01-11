@@ -15,35 +15,33 @@
      * Henner Kollmann
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.TextField",
-{
+qx.Class.define("qx.test.ui.form.TextField", {
   extend: qx.test.ui.LayoutTestCase,
 
-  members:
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.__field = new qx.ui.form.TextField();
       this.getRoot().add(this.__field);
     },
 
-    tearDown: function() {
+    tearDown() {
       this.__field.destroy();
-	  this.__field = null;
-      this.base(arguments);
+      this.__field = null;
+      super.tearDown();
     },
 
-    "test: get default length": function() {
+    "test: get default length"() {
       var l = this.__field.getMaxLength();
       this.assertEquals(Infinity, l);
     },
 
-    "test: set max length": function() {
+    "test: set max length"() {
       this.__field.setMaxLength(4);
       var l = this.__field.getMaxLength();
       this.assertEquals(4, l);
     },
-	
-    "test: reset max length": function() {
+
+    "test: reset max length"() {
       this.__field.setMaxLength(4);
       var l = this.__field.getMaxLength();
       this.assertEquals(4, l);
@@ -51,15 +49,15 @@ qx.Class.define("qx.test.ui.form.TextField",
       var l = this.__field.getMaxLength();
       this.assertEquals(Infinity, l);
     },
-	
-    "test: validate input with filter": function() {
+
+    "test: validate input with filter"() {
       this.__field.setFilter(/[0-9]/);
       var s = this.__field._validateInput("a");
       this.assertEquals("", s);
       var s = this.__field._validateInput("111");
       this.assertEquals("111", s);
     },
-    "test: validate input with complex filter": function() {
+    "test: validate input with complex filter"() {
       this.__field.setFilter(/^(\+|-)?\d*$/);
       var s = this.__field._validateInput("a");
       this.assertEquals("", s);
@@ -74,7 +72,7 @@ qx.Class.define("qx.test.ui.form.TextField",
       var s = this.__field._validateInput("-11-1");
       this.assertEquals("", s);
     },
-  "test: validate input with complex filter 2": function() {
+    "test: validate input with complex filter 2"() {
       this.__field.setFilter(/^xy$/);
       var s = this.__field._validateInput("x? y?");
       this.assertEquals("", s);

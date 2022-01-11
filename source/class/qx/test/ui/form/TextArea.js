@@ -16,33 +16,31 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.TextArea",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.TextArea", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  include : qx.dev.unit.MRequirements,
+  include: qx.dev.unit.MRequirements,
 
-  members :
-  {
+  members: {
     __textArea: null,
 
-    setUp : function()
-    {
-      var textArea = this.__textArea = new qx.ui.form.TextArea();
+    setUp() {
+      var textArea = (this.__textArea = new qx.ui.form.TextArea());
       this.getRoot().add(textArea);
     },
 
-    hasNoBuggyIe : function()
-    {
-      return (qx.core.Environment.get("engine.name") != "mshtml" ||
-        qx.core.Environment.get("browser.documentmode") > 10);
+    hasNoBuggyIe() {
+      return (
+        qx.core.Environment.get("engine.name") != "mshtml" ||
+        qx.core.Environment.get("browser.documentmode") > 10
+      );
     },
 
     //
     // "Plain" textarea
     //
 
-    "test: textarea set value": function() {
+    "test: textarea set value"() {
       var textArea = this.__textArea;
       textArea.setValue("Affe");
       this.flush();
@@ -50,7 +48,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("Affe", textArea.getValue());
     },
 
-    "test: textarea set minimal line-height": function() {
+    "test: textarea set minimal line-height"() {
       var textArea = this.__textArea;
       this.flush();
       var heightInitial = textArea.getSizeHint().height;
@@ -59,8 +57,12 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
       var heightSmall = textArea.getSizeHint().height;
 
-      var msg =  "Widget height must decrease (was: " + heightInitial +
-                 " is: " + heightSmall + ")";
+      var msg =
+        "Widget height must decrease (was: " +
+        heightInitial +
+        " is: " +
+        heightSmall +
+        ")";
       this.assert(heightSmall < heightInitial, msg);
     },
 
@@ -68,7 +70,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
     // Auto-Size
     //
 
-    "test: textarea with autoSize grows when input would trigger scrollbar": function() {
+    "test: textarea with autoSize grows when input would trigger scrollbar"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
@@ -83,12 +85,16 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
       var heightTall = textArea.getSizeHint().height;
 
-      var msg =  "Widget height must increase (was: " + heightSmall +
-                 " is: " + heightTall + ")";
+      var msg =
+        "Widget height must increase (was: " +
+        heightSmall +
+        " is: " +
+        heightTall +
+        ")";
       this.assert(heightTall > heightSmall, msg);
     },
 
-    "test: textarea with autoSize shrinks when removal would hide scrollbar": function() {
+    "test: textarea with autoSize shrinks when removal would hide scrollbar"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
@@ -107,12 +113,16 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.flush();
       var heightShrink = textArea.getSizeHint().height;
 
-      var msg =  "Widget height must decrease (was: " + heightTall +
-                 " is: " + heightShrink + ")";
+      var msg =
+        "Widget height must decrease (was: " +
+        heightTall +
+        " is: " +
+        heightShrink +
+        ")";
       this.assert(heightShrink < heightTall, msg);
     },
 
-    "test: textarea with autoSize does not shrink below original height": function() {
+    "test: textarea with autoSize does not shrink below original height"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.setAutoSize(true);
@@ -128,12 +138,16 @@ qx.Class.define("qx.test.ui.form.TextArea",
       var heightShrink = textArea.getSizeHint().height;
       this.flush();
 
-      var msg =  "Widget height must not shrink below original height (is: " + heightShrink +
-                 " original: " + originalHeight + ")";
+      var msg =
+        "Widget height must not shrink below original height (is: " +
+        heightShrink +
+        " original: " +
+        originalHeight +
+        ")";
       this.assert(!(heightShrink < originalHeight), msg);
     },
 
-    "test: textarea with autoSize shows scroll-bar when above maxHeight": function() {
+    "test: textarea with autoSize shows scroll-bar when above maxHeight"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.set({
@@ -141,6 +155,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
         maxHeight: 50,
         value: "Affe\nMaus\nElefant"
       });
+
       this.flush();
 
       // Grow
@@ -151,13 +166,14 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("auto", overflow);
     },
 
-    "test: textarea with autoSize shows scroll-bar when finally above maxHeight": function() {
+    "test: textarea with autoSize shows scroll-bar when finally above maxHeight"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.set({
         autoSize: true,
         value: "Affe\nMaus\nElefant"
       });
+
       this.flush();
 
       // Grow
@@ -172,13 +188,14 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("auto", overflow);
     },
 
-    "test: textarea with autoSize hides scroll-bar when finally below maxHeight": function() {
+    "test: textarea with autoSize hides scroll-bar when finally below maxHeight"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.set({
         autoSize: true,
         maxHeight: 50
       });
+
       this.flush();
 
       // Grow
@@ -193,7 +210,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals("hidden", overflow);
     },
 
-    "test: textarea with autoSize respects initial value": function() {
+    "test: textarea with autoSize respects initial value"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.set({
@@ -206,7 +223,8 @@ qx.Class.define("qx.test.ui.form.TextArea",
         autoSize: true,
         value: ""
       });
-      this.getRoot().add(textAreaNoValue, {left: 100});
+
+      this.getRoot().add(textAreaNoValue, { left: 100 });
 
       this.flush();
       var heightValue = textArea.getBounds().height;
@@ -218,7 +236,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       textAreaNoValue.destroy();
     },
 
-    "test: textarea with autoSize respects initial wrap": function() {
+    "test: textarea with autoSize respects initial wrap"() {
       this.require(["noBuggyIe"]);
       var textArea = this.__textArea;
       textArea.set({
@@ -244,7 +262,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals(heightInitial, heightFinal);
     },
 
-    "test: textarea with autoSize shrinks when long line is unwrapped": function() {
+    "test: textarea with autoSize shrinks when long line is unwrapped"() {
       this.require(["noBuggyIe"]);
       if (!this.__supportsLiveWrap()) {
         this.skip();
@@ -270,7 +288,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assert(noWrapHeight < wrapHeight, msg);
     },
 
-    "test: textarea with autoSize grows when long line is wrapped": function() {
+    "test: textarea with autoSize grows when long line is wrapped"() {
       this.require(["noBuggyIe"]);
       if (!this.__supportsLiveWrap()) {
         this.skip();
@@ -281,6 +299,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
         autoSize: true,
         wrap: true
       });
+
       this.flush();
 
       // Does not work unfortunately
@@ -314,27 +333,26 @@ qx.Class.define("qx.test.ui.form.TextArea",
       this.assertEquals(initialWrapHeight, wrapHeight, msg);
     },
 
-    __getLongValue: function() {
+    __getLongValue() {
       var val = new qx.type.Array(50);
-      for(var i=0; i < val.length; i++) {
+      for (var i = 0; i < val.length; i++) {
         val[i] = "AAAAA ";
       }
       return val.join("");
     },
 
-    __supportsLiveWrap: function() {
+    __supportsLiveWrap() {
       // Opera ignores changes to wrap settings
       // once the textarea is in the DOM
       return qx.core.Environment.get("engine.name") != "opera";
     },
 
-    skip: function(msg) {
+    skip(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__textArea.destroy();
       qx.ui.core.queue.Dispose.flush();
     }

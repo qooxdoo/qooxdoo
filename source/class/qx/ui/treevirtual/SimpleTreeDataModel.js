@@ -85,12 +85,10 @@
  * }
  * </pre>
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
-{
-  extend : qx.ui.table.model.Abstract,
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
+  extend: qx.ui.table.model.Abstract,
 
-  include : qx.ui.treevirtual.MTreePrimitive,
-
+  include: qx.ui.treevirtual.MTreePrimitive,
 
   /*
   *****************************************************************************
@@ -98,17 +96,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this._rowArr = []; // rows, resorted into tree order as necessary
     this._nodeArr = []; // tree nodes, organized with hierarchy
 
     this._nodeRowMap = []; // map nodeArr index to rowArr index.  The
-                           // index of this array is the index of
-                           // _nodeArr, and the values in this array are
-                           // the indexes into _rowArr.
+    // index of this array is the index of
+    // _nodeArr, and the values in this array are
+    // the indexes into _rowArr.
 
     this._treeColumn = 0; // default column for tree nodes
 
@@ -121,9 +118,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     this.__editableColArr = null;
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Gives the user the opportunity to filter the model. The filter
      * function is called for every node in the model. It gets as an argument the
@@ -131,15 +126,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * <code>true</code> if the given data should be shown and
      * <code>false</code> if the given data should be ignored.
      */
-    filter :
-    {
-      check : "Function",
-      nullable : true,
-      apply : "_applyFilter"
+    filter: {
+      check: "Function",
+      nullable: true,
+      apply: "_applyFilter"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -147,31 +139,30 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   *****************************************************************************
   */
 
-  members :
-  {
-    __tree           : null,
-    __editableColArr : null,
-    __tempTreeData : null,
-    __recalculateLastChildFlags : null,
+  members: {
+    __tree: null,
+    __editableColArr: null,
+    __tempTreeData: null,
+    __recalculateLastChildFlags: null,
 
     /** Rows, resorted into tree order as necessary */
-    _rowArr : null,
+    _rowArr: null,
 
     /** Tree nodes, organized with hierarchy */
-    _nodeArr : null,
+    _nodeArr: null,
 
     /**
      * Map nodeArr index to rowArr index.  The index of this array is the
      * index of _nodeArr, and the values in this array are the indexes into
      * _rowArr.
      */
-    _nodeRowMap : null,
+    _nodeRowMap: null,
 
     /** Column for tree nodes */
-    _treeColumn : null,
+    _treeColumn: null,
 
     /** list of indexes of selected nodes */
-    _selections : null,
+    _selections: null,
 
     /**
      * Set the tree object for which this data model is used.
@@ -180,8 +171,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *    The tree used to render the data in this model.
      *
      */
-    setTree : function(tree)
-    {
+    setTree(tree) {
       this.__tree = tree;
     },
 
@@ -190,8 +180,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {qx.ui.treevirtual.TreeVirtual}
      */
-    getTree : function()
-    {
+    getTree() {
       return this.__tree;
     },
 
@@ -202,18 +191,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   Whether all columns are editable.
      *
      */
-    setEditable : function(editable)
-    {
+    setEditable(editable) {
       this.__editableColArr = [];
 
-      for (var col=0; col<this.getColumnCount(); col++)
-      {
+      for (var col = 0; col < this.getColumnCount(); col++) {
         this.__editableColArr[col] = editable;
       }
 
       this.fireEvent("metaDataChanged");
     },
-
 
     /**
      * Sets whether a column is editable.
@@ -225,12 +211,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   Whether the column should be editable.
      *
      */
-    setColumnEditable : function(columnIndex, editable)
-    {
-      if (editable != this.isColumnEditable(columnIndex))
-      {
-        if (this.__editableColArr == null)
-        {
+    setColumnEditable(columnIndex, editable) {
+      if (editable != this.isColumnEditable(columnIndex)) {
+        if (this.__editableColArr == null) {
           this.__editableColArr = [];
         }
 
@@ -241,25 +224,20 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     },
 
     // overridden
-    isColumnEditable : function(columnIndex)
-    {
-      if (columnIndex == this._treeColumn)
-      {
+    isColumnEditable(columnIndex) {
+      if (columnIndex == this._treeColumn) {
         return this.__tree.getAllowNodeEdit();
       }
 
-      return(this.__editableColArr
-             ? this.__editableColArr[columnIndex] == true
-             : false);
+      return this.__editableColArr
+        ? this.__editableColArr[columnIndex] == true
+        : false;
     },
-
 
     // overridden
-    isColumnSortable : function(columnIndex)
-    {
+    isColumnSortable(columnIndex) {
       return false;
     },
-
 
     /**
      * Sorts the model by a column.
@@ -268,11 +246,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param ascending {Boolean} whether to sort ascending.
      * @throws {Error} If one tries to sort the tree by column
      */
-    sortByColumn : function(columnIndex, ascending)
-    {
+    sortByColumn(columnIndex, ascending) {
       throw new Error("Trees can not be sorted by column");
     },
-
 
     /**
      * Returns the column index the model is sorted by. This model is never
@@ -281,11 +257,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Integer}
      *   -1, to indicate that the model is not sorted.
      */
-    getSortColumnIndex : function()
-    {
+    getSortColumnIndex() {
       return -1;
     },
-
 
     /**
      * Specifies which column the tree is to be displayed in.  The tree is
@@ -308,11 +282,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   The index of the column in which the tree should be displayed.
      *
      */
-    setTreeColumn : function(columnIndex)
-    {
+    setTreeColumn(columnIndex) {
       this._treeColumn = columnIndex;
     },
-
 
     /**
      * Get the column in which the tree is to be displayed.
@@ -320,23 +292,19 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Integer}
      *   The column in which the tree is to be displayed
      */
-    getTreeColumn : function()
-    {
+    getTreeColumn() {
       return this._treeColumn;
     },
 
     // overridden
-    getRowCount : function()
-    {
+    getRowCount() {
       return this._rowArr.length;
     },
 
     // overridden
-    getRowData : function(rowIndex)
-    {
+    getRowData(rowIndex) {
       return this._rowArr[rowIndex];
     },
-
 
     /**
      * Returns a cell value by column index.
@@ -347,36 +315,42 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {var} The value of the cell.
      * @see #getValueById
      */
-    getValue : function(columnIndex, rowIndex)
-    {
-      if (rowIndex < 0 || rowIndex >= this._rowArr.length)
-      {
-        throw new Error("this._rowArr row " +
-                        "(" + rowIndex + ") out of bounds: " +
-                        this._rowArr +
-                        " (0.." + (this._rowArr.length - 1) + ")");
+    getValue(columnIndex, rowIndex) {
+      if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
+        throw new Error(
+          "this._rowArr row " +
+            "(" +
+            rowIndex +
+            ") out of bounds: " +
+            this._rowArr +
+            " (0.." +
+            (this._rowArr.length - 1) +
+            ")"
+        );
       }
 
-      if (columnIndex < 0 || columnIndex >= this._rowArr[rowIndex].length)
-      {
-        throw new Error("this._rowArr column " +
-                        "(" + columnIndex + ") out of bounds: " +
-                        this._rowArr[rowIndex] +
-                        " (0.." + (this._rowArr[rowIndex].length - 1) + ")");
+      if (columnIndex < 0 || columnIndex >= this._rowArr[rowIndex].length) {
+        throw new Error(
+          "this._rowArr column " +
+            "(" +
+            columnIndex +
+            ") out of bounds: " +
+            this._rowArr[rowIndex] +
+            " (0.." +
+            (this._rowArr[rowIndex].length - 1) +
+            ")"
+        );
       }
 
       return this._rowArr[rowIndex][columnIndex];
     },
 
-
     // overridden
-    setValue : function(columnIndex, rowIndex, value)
-    {
+    setValue(columnIndex, rowIndex, value) {
       // convert from rowArr to nodeArr, and get the requested node
       var node = this.getNodeFromRow(rowIndex);
 
-      if (columnIndex === this._treeColumn)
-      {
+      if (columnIndex === this._treeColumn) {
         if (!this.__tree.getAllowNodeEdit() || value["label"] === undefined) {
           return;
         }
@@ -392,18 +366,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         this._rowArr[rowIndex][columnIndex] = value;
       }
       // Inform the listeners
-      if (this.hasListener("dataChanged"))
-      {
+      if (this.hasListener("dataChanged")) {
         var data = {
           firstRow: rowIndex,
           lastRow: rowIndex,
           firstColumn: columnIndex,
           lastColumn: columnIndex
         };
+
         this.fireDataEvent("dataChanged", data);
       }
     },
-
 
     /**
      * Returns the node object specific to a currently visible row. In this
@@ -419,19 +392,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Object}
      *   The node object associated with the specified row.
      */
-    getNode : function(rowIndex)
-    {
-      if (rowIndex < 0 || rowIndex >= this._rowArr.length)
-      {
-        throw new Error("this._rowArr row " +
-                        "(" + rowIndex + ") out of bounds: " +
-                        this._rowArr +
-                        " (0.." + (this._rowArr.length - 1) + ")");
+    getNode(rowIndex) {
+      if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
+        throw new Error(
+          "this._rowArr row " +
+            "(" +
+            rowIndex +
+            ") out of bounds: " +
+            this._rowArr +
+            " (0.." +
+            (this._rowArr.length - 1) +
+            ")"
+        );
       }
 
       return this._rowArr[rowIndex][this._treeColumn];
     },
-
 
     /**
      * Add a branch to the tree.
@@ -461,13 +437,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Integer}
      *   The node id of the newly-added branch.
      */
-    addBranch : function(parentNodeId,
-                         label,
-                         bOpened,
-                         bHideOpenCloseButton,
-                         icon,
-                         iconSelected)
-    {
+    addBranch(
+      parentNodeId,
+      label,
+      bOpened,
+      bHideOpenCloseButton,
+      icon,
+      iconSelected
+    ) {
       return qx.ui.treevirtual.MTreePrimitive._addNode(
         this._nodeArr,
         parentNodeId,
@@ -476,9 +453,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         bHideOpenCloseButton,
         qx.ui.treevirtual.MTreePrimitive.Type.BRANCH,
         icon,
-        iconSelected);
+        iconSelected
+      );
     },
-
 
     /**
      * Add a leaf to the tree.
@@ -499,11 +476,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {Integer} The node id of the newly-added leaf.
      */
-    addLeaf : function(parentNodeId,
-                       label,
-                       icon,
-                       iconSelected)
-    {
+    addLeaf(parentNodeId, label, icon, iconSelected) {
       return qx.ui.treevirtual.MTreePrimitive._addNode(
         this._nodeArr,
         parentNodeId,
@@ -512,9 +485,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         false,
         qx.ui.treevirtual.MTreePrimitive.Type.LEAF,
         icon,
-        iconSelected);
+        iconSelected
+      );
     },
-
 
     /**
      * Prune the tree by removing, recursively, all of a node's children.  If
@@ -532,42 +505,32 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @throws {Error} If the node object or id is not valid.
      *
      */
-    prune : function(nodeReference, bSelfAlso)
-    {
+    prune(nodeReference, bSelfAlso) {
       var node;
       var nodeId;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
         nodeId = node.nodeId;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
       // First, recursively remove all children
-      for (var i=this._nodeArr[nodeId].children.length-1; i>=0; i--)
-      {
+      for (var i = this._nodeArr[nodeId].children.length - 1; i >= 0; i--) {
         this.prune(this._nodeArr[nodeId].children[i], true);
       }
 
       // Now remove ourself, if requested. (Don't try to remove the root node)
-      if (bSelfAlso && nodeId != 0)
-      {
+      if (bSelfAlso && nodeId != 0) {
         // Delete ourself from our parent's children list
         node = this._nodeArr[nodeId];
-        qx.lang.Array.remove(this._nodeArr[node.parentNodeId].children,
-                             nodeId);
+        qx.lang.Array.remove(this._nodeArr[node.parentNodeId].children, nodeId);
 
         // Delete ourself from the selections list, if we're in it.
-        if (this._selections[nodeId])
-        {
+        if (this._selections[nodeId]) {
           delete this._selections[nodeId];
         }
 
@@ -577,7 +540,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         this._nodeArr[nodeId] = null;
       }
     },
-
 
     /**
      * Move a node in the tree.
@@ -596,9 +558,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @throws {Error} If one tries to add a child to a non-existent parent.
      * @throws {Error} If one tries to add a node to a leaf.
      */
-    move : function(moveNodeReference,
-                    parentNodeReference)
-    {
+    move(moveNodeReference, parentNodeReference) {
       var moveNode;
       var moveNodeId;
       var parentNode;
@@ -607,39 +567,28 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // Replace null parent with node id 0
       parentNodeReference = parentNodeReference || 0;
 
-      if (typeof(moveNodeReference) == "object")
-      {
+      if (typeof moveNodeReference == "object") {
         moveNode = moveNodeReference;
         moveNodeId = moveNode.nodeId;
-      }
-      else if (typeof(moveNodeReference) == "number")
-      {
+      } else if (typeof moveNodeReference == "number") {
         moveNodeId = moveNodeReference;
         moveNode = this._nodeArr[moveNodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected move node object or node id");
       }
 
-      if (typeof(parentNodeReference) == "object")
-      {
+      if (typeof parentNodeReference == "object") {
         parentNode = parentNodeReference;
         parentNodeId = parentNode.nodeId;
-      }
-      else if (typeof(parentNodeReference) == "number")
-      {
+      } else if (typeof parentNodeReference == "number") {
         parentNodeId = parentNodeReference;
         parentNode = this._nodeArr[parentNodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected parent node object or node id");
       }
 
       // Ensure parent isn't a leaf
-      if (parentNode.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF)
-      {
+      if (parentNode.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
         throw new Error("Sorry, a LEAF may not have children.");
       }
 
@@ -654,7 +603,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       this._nodeArr[moveNodeId].parentNodeId = parentNodeId;
     },
 
-
     /**
      * Orders the node and creates all data needed to render the tree.
      *
@@ -663,8 +611,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   {@link #addLeaf}.
      * @param level {Integer} the level in the hierarchy
      */
-    __inorder : function(nodeId, level)
-    {
+    __inorder(nodeId, level) {
       var filter = this.getFilter();
       var child = null;
       var childNodeId;
@@ -672,9 +619,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // For each child of the specified node...
       var numChildren = this._nodeArr[nodeId].children.length;
       var index = 0;
-      var children = this.__tempTreeData[nodeId] = [];
-      for (var i=0; i<numChildren; i++)
-      {
+      var children = (this.__tempTreeData[nodeId] = []);
+      for (var i = 0; i < numChildren; i++) {
         // Determine the node id of this child
         childNodeId = this._nodeArr[nodeId].children[i];
 
@@ -694,7 +640,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         child.level = level;
 
         // Determine if we're the first child of our parent
-        child.bFirstChild = (index == 0);
+        child.bFirstChild = index == 0;
 
         // Set the last child flag of the node only when no node was skipped.
         // Otherwise we will have to recalculate the last child flags, as
@@ -704,40 +650,31 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         }
 
         // Ensure there's an entry in the columnData array for each column
-        if (!child.columnData)
-        {
-          child.columnData = [ ];
+        if (!child.columnData) {
+          child.columnData = [];
         }
 
-        if (child.columnData.length < this.getColumnCount())
-        {
+        if (child.columnData.length < this.getColumnCount()) {
           child.columnData[this.getColumnCount() - 1] = null;
         }
 
         // Add this node to the row array.  Initialize a row data array.
-        var rowData = [ ];
+        var rowData = [];
 
         // If additional column data is provided...
-        if (child.columnData)
-        {
+        if (child.columnData) {
           // ... then add each column data.
-          for (var j=0; j<child.columnData.length; j++)
-          {
+          for (var j = 0; j < child.columnData.length; j++) {
             // Is this the tree column?
-            if (j == this._treeColumn)
-            {
+            if (j == this._treeColumn) {
               // Yup.  Add the tree node data
               rowData.push(child);
-            }
-            else
-            {
+            } else {
               // Otherwise, add the column data verbatim.
               rowData.push(child.columnData[j]);
             }
           }
-        }
-        else
-        {
+        } else {
           // No column data.  Just add the tree node.
           rowData.push(child);
         }
@@ -750,23 +687,20 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         this._rowArr.push(rowData);
 
         // If this node is selected, ...
-        if (child.bSelected)
-        {
+        if (child.bSelected) {
           // ... indicate so for the row.
           rowData.selected = true;
           this._selections[child.nodeId] = true;
         }
 
         // If this child is opened, ...
-        if (child.bOpened)
-        {
+        if (child.bOpened) {
           // ... then add its children too.
           this.__inorder(childNodeId, level + 1);
         }
         index++;
       }
     },
-
 
     /**
      * Calculates the lastChild flags to the nodes, so that the tree can render the
@@ -776,24 +710,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   A node identifier, as previously returned by {@link #addBranch} or
      *   {@link #addLeaf}.
      */
-    __calculateLastChildFlags : function(nodeId)
-    {
+    __calculateLastChildFlags(nodeId) {
       var tempTreeData = this.__tempTreeData;
-      var children =  tempTreeData[nodeId];
+      var children = tempTreeData[nodeId];
       var numChildren = children.length;
-      for (var i = 0; i < numChildren; i++)
-      {
+      for (var i = 0; i < numChildren; i++) {
         var child = children[i];
 
         this.__setLastChildFlag(child, i == numChildren - 1);
 
-        var hasChildren = tempTreeData[child.nodeId] && tempTreeData[child.nodeId].length > 0;
+        var hasChildren =
+          tempTreeData[child.nodeId] && tempTreeData[child.nodeId].length > 0;
         if (hasChildren) {
           this.__calculateLastChildFlags(child.nodeId);
         }
       }
     },
-
 
     /**
      * Sets the last child flag for a node and all it's parents.
@@ -801,29 +733,25 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param node {Object} the node object
      * @param isLastChild {Boolean} whether the node is the last child
      */
-    __setLastChildFlag : function(node, isLastChild)
-    {
+    __setLastChildFlag(node, isLastChild) {
       // Determine if we're the last child of our parent
-      node.lastChild = [ isLastChild ];
+      node.lastChild = [isLastChild];
 
       // Get our parent.
-      var parent =  this._nodeArr[node.parentNodeId];
+      var parent = this._nodeArr[node.parentNodeId];
 
       // For each parent node, determine if it is a last child
-      while (parent.nodeId)
-      {
+      while (parent.nodeId) {
         var bLast = parent.lastChild[parent.lastChild.length - 1];
         node.lastChild.unshift(bLast);
         parent = this._nodeArr[parent.parentNodeId];
       }
     },
 
-
     /**
      * Renders the tree data.
      */
-    __render : function()
-    {
+    __render() {
       // Reset the __tempTreeData
       this.__tempTreeData = [];
       this.__recalculateLastChildFlags = false;
@@ -851,20 +779,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       this.__tempTreeData = null;
 
       // Inform the listeners
-      if (this.hasListener("dataChanged"))
-      {
-        var data =
-        {
-          firstRow    : 0,
-          lastRow     : this._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : this.getColumnCount() - 1
+      if (this.hasListener("dataChanged")) {
+        var data = {
+          firstRow: 0,
+          lastRow: this._rowArr.length - 1,
+          firstColumn: 0,
+          lastColumn: this.getColumnCount() - 1
         };
 
         this.fireDataEvent("dataChanged", data);
       }
     },
-
 
     /**
      * Sets the whole data en bulk, or notifies the data model that node
@@ -887,17 +812,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @throws {Error} If the parameter has the wrong type.
      */
-    setData : function(nodeArr)
-    {
-      if (nodeArr instanceof Array)
-      {
+    setData(nodeArr) {
+      if (nodeArr instanceof Array) {
         // Save the user-supplied data.
         this._nodeArr = nodeArr;
-      }
-      else if (nodeArr !== null && nodeArr !== undefined)
-      {
-        throw new Error("Expected array of node objects or null/undefined; " +
-                        "got " + typeof (nodeArr));
+      } else if (nodeArr !== null && nodeArr !== undefined) {
+        throw new Error(
+          "Expected array of node objects or null/undefined; " +
+            "got " +
+            typeof nodeArr
+        );
       }
 
       // Re-render the row array
@@ -906,13 +830,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // Set selections in the selection model now
       var selectionModel = this.getTree().getSelectionModel();
       var selections = this._selections;
-      for (var nodeId in selections)
-      {
+      for (var nodeId in selections) {
         var nRowIndex = this.getRowFromNodeId(nodeId);
         selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
       }
     },
-
 
     /**
      * Return the array of node data.
@@ -922,22 +844,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *  See {@link qx.ui.treevirtual.SimpleTreeDataModel} for a description
      *  nodes in this array.
      */
-    getData : function()
-    {
+    getData() {
       return this._nodeArr;
     },
-
 
     /**
      * Clears the tree of all nodes
      *
      */
-    clearData : function ()
-    {
+    clearData() {
       this._clearSelections();
-      this.setData([ qx.ui.treevirtual.MTreePrimitive._getEmptyTree() ]);
+      this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()]);
     },
-
 
     /**
      * Add data to an additional column (a column other than the tree column)
@@ -954,11 +872,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   The cell data for the specified column
      *
      */
-    setColumnData : function(nodeId, columnIndex, data)
-    {
+    setColumnData(nodeId, columnIndex, data) {
       this._nodeArr[nodeId].columnData[columnIndex] = data;
     },
-
 
     /**
      * Retrieve the data from an additional column (a column other than the
@@ -973,11 +889,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {var} The cell data for the specified column
      */
-    getColumnData : function(nodeId, columnIndex)
-    {
+    getColumnData(nodeId, columnIndex) {
       return this._nodeArr[nodeId].columnData[columnIndex];
     },
-
 
     /**
      * Set state attributes of a node.
@@ -995,130 +909,112 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @throws {Error} If the node object or id is not valid.
      */
-    setState : function(nodeReference, attributes)
-    {
+    setState(nodeReference, attributes) {
       var node;
       var nodeId;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
         nodeId = node.nodeId;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
         node = this._nodeArr[nodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
-      for (var attribute in attributes)
-      {
+      for (var attribute in attributes) {
         // Do any attribute-specific processing
-        switch(attribute)
-        {
-        case "bSelected":
-          var nRowIndex = this.getRowFromNodeId(nodeId);
-          var selectionModel = this.getTree().getSelectionModel();
-          var TV = qx.ui.treevirtual.TreeVirtual;
-          var bChangeSelection =
-            (typeof(nRowIndex) === "number" &&
-             this.getTree().getSelectionMode() != TV.SelectionMode.NONE);
+        switch (attribute) {
+          case "bSelected":
+            var nRowIndex = this.getRowFromNodeId(nodeId);
+            var selectionModel = this.getTree().getSelectionModel();
+            var TV = qx.ui.treevirtual.TreeVirtual;
+            var bChangeSelection =
+              typeof nRowIndex === "number" &&
+              this.getTree().getSelectionMode() != TV.SelectionMode.NONE;
 
-          // The selected state is changing. Keep track of what is selected
-          if (attributes[attribute])
-          {
-            this._selections[nodeId] = true;
+            // The selected state is changing. Keep track of what is selected
+            if (attributes[attribute]) {
+              this._selections[nodeId] = true;
 
-            // Add selection range for node
-            if (bChangeSelection &&
-                ! selectionModel.isSelectedIndex(nRowIndex))
-            {
-              selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
+              // Add selection range for node
+              if (
+                bChangeSelection &&
+                !selectionModel.isSelectedIndex(nRowIndex)
+              ) {
+                selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
+              }
+            } else {
+              delete this._selections[nodeId];
+
+              // Delete selection range for node
+              if (
+                bChangeSelection &&
+                selectionModel.isSelectedIndex(nRowIndex)
+              ) {
+                selectionModel.removeSelectionInterval(nRowIndex, nRowIndex);
+              }
             }
-          }
-          else
-          {
-            delete this._selections[nodeId];
+            break;
 
-            // Delete selection range for node
-            if (bChangeSelection &&
-                selectionModel.isSelectedIndex(nRowIndex))
-            {
-              selectionModel.removeSelectionInterval(nRowIndex, nRowIndex);
+          case "bOpened":
+            // Don't do anything if this is a leaf, leaf has no opened/closed
+            if (node.type === qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
+              break;
             }
-          }
-          break;
 
-        case "bOpened":
-          // Don't do anything if this is a leaf, leaf has no opened/closed
-          if (node.type === qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
-            break;
-          }
+            // Don't do anything if the requested state is the same as the
+            // current state.
+            if (attributes[attribute] == node.bOpened) {
+              break;
+            }
 
-          // Don't do anything if the requested state is the same as the
-          // current state.
-          if (attributes[attribute] == node.bOpened)
-          {
-            break;
-          }
+            // Get the tree to which this data model is attached
+            var tree = this.__tree;
 
-          // Get the tree to which this data model is attached
-          var tree = this.__tree;
-
-          // Are we opening or closing?
-          if (node.bOpened)
-          {
-            // We're closing.  If there are listeners, generate a treeClose
-            // event.
-            tree.fireDataEvent("treeClose", node);
-          }
-          else
-          {
-            // We're opening.  Are there any children?
-            if (node.children.length > 0)
-            {
-              // Yup.  If there any listeners, generate a "treeOpenWithContent"
+            // Are we opening or closing?
+            if (node.bOpened) {
+              // We're closing.  If there are listeners, generate a treeClose
               // event.
-              tree.fireDataEvent("treeOpenWithContent", node);
+              tree.fireDataEvent("treeClose", node);
+            } else {
+              // We're opening.  Are there any children?
+              if (node.children.length > 0) {
+                // Yup.  If there any listeners, generate a "treeOpenWithContent"
+                // event.
+                tree.fireDataEvent("treeOpenWithContent", node);
+              } else {
+                // No children.  If there are listeners, generate a
+                // "treeOpenWhileEmpty" event.
+                tree.fireDataEvent("treeOpenWhileEmpty", node);
+              }
             }
-            else
-            {
-              // No children.  If there are listeners, generate a
-              // "treeOpenWhileEmpty" event.
-              tree.fireDataEvent("treeOpenWhileEmpty", node);
+
+            // Event handler may have modified the opened state.  Check before
+            // toggling.
+            if (!node.bHideOpenClose) {
+              // It's still boolean.  Toggle the state
+              node.bOpened = !node.bOpened;
+
+              // Clear the old selections in the tree
+              tree.getSelectionModel()._resetSelection();
             }
-          }
 
-          // Event handler may have modified the opened state.  Check before
-          // toggling.
-          if (!node.bHideOpenClose)
-          {
-            // It's still boolean.  Toggle the state
-            node.bOpened = !node.bOpened;
+            // Re-render the row data since formerly visible rows may now be
+            // invisible, or vice versa.
+            this.setData();
+            break;
 
-            // Clear the old selections in the tree
-            tree.getSelectionModel()._resetSelection();
-          }
-
-          // Re-render the row data since formerly visible rows may now be
-          // invisible, or vice versa.
-          this.setData();
-          break;
-
-        default:
-          // no attribute-specific processing required
-          break;
+          default:
+            // no attribute-specific processing required
+            break;
         }
 
         // Set the new attribute value
         node[attribute] = attributes[attribute];
       }
     },
-
 
     /**
      * Return the mapping of nodes to rendered rows.  This function is intended
@@ -1128,8 +1024,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Array}
      *   The array containing mappings of nodes to rendered rows.
      */
-    getNodeRowMap : function()
-    {
+    getNodeRowMap() {
       return this._nodeRowMap;
     },
 
@@ -1141,8 +1036,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   addLeaf(), etc.) to get the row index for.
      * @return {Integer} row index for the given node ID
      */
-    getRowFromNodeId : function(nodeId)
-    {
+    getRowFromNodeId(nodeId) {
       return this._nodeRowMap[nodeId];
     },
 
@@ -1153,11 +1047,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param rowIndex {Integer} zero-based row index.
      * @return {Object} node associated to <tt>rowIndex</tt>.
      */
-    getNodeFromRow : function(rowIndex)
-    {
+    getNodeFromRow(rowIndex) {
       return this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
     },
-
 
     /**
      * Clear all selections in the data model.  This method does not clear
@@ -1165,18 +1057,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * not by users of this class.
      *
      */
-    _clearSelections : function()
-    {
+    _clearSelections() {
       // Clear selected state for any selected nodes.
-      for (var selection in this._selections)
-      {
+      for (var selection in this._selections) {
         this._nodeArr[selection].bSelected = false;
       }
 
       // Reinitialize selections array.
-      this._selections = { };
+      this._selections = {};
     },
-
 
     /**
      * Return the nodes that are currently selected.
@@ -1184,22 +1073,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @return {Array}
      *   An array containing the nodes that are currently selected.
      */
-    getSelectedNodes : function()
-    {
-      var nodes = [ ];
+    getSelectedNodes() {
+      var nodes = [];
 
-      for (var nodeId in this._selections)
-      {
+      for (var nodeId in this._selections) {
         nodes.push(this._nodeArr[nodeId]);
       }
 
       return nodes;
     },
 
-
     // property apply
-    _applyFilter : function(value, old)
-    {
+    _applyFilter(value, old) {
       this.setData();
     },
 
@@ -1210,20 +1095,24 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param rowIndex {Integer} zero-based row index.
      * @return {Boolean} If the node has edit permitted
      */
-    isNodeEditable : function(rowIndex)
-    {
-      return this.__tree.getAllowNodeEdit() && this.getNodeFromRow(rowIndex).bCanEdit;
+    isNodeEditable(rowIndex) {
+      return (
+        this.__tree.getAllowNodeEdit() && this.getNodeFromRow(rowIndex).bCanEdit
+      );
     }
   },
 
-  destruct : function()
-  {
-    this._rowArr = this._nodeArr = this._nodeRowMap = this._selections =
-      this.__tree = this.__tempTreeData = null;
+  destruct() {
+    this._rowArr =
+      this._nodeArr =
+      this._nodeRowMap =
+      this._selections =
+      this.__tree =
+      this.__tempTreeData =
+        null;
   },
 
-  defer : function(statics)
-  {
+  defer(statics) {
     // For backward compatibility, ensure the Type values are available from
     // this class as well as from the mixin.
     statics.Type = qx.ui.treevirtual.MTreePrimitive.Type;

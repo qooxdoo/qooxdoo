@@ -21,12 +21,8 @@
  * {@link qx.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in
  * a {@link Pane}.
  */
-qx.Class.define("qx.ui.table.pane.Model",
-{
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.ui.table.pane.Model", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -39,19 +35,15 @@ qx.Class.define("qx.ui.table.pane.Model",
    * @param tableColumnModel {qx.ui.table.columnmodel.Basic} The TableColumnModel of which this
    *    model is the proxy.
    */
-  construct : function(tableColumnModel)
-  {
-    this.base(arguments);
+  construct(tableColumnModel) {
+    super();
 
     this.setTableColumnModel(tableColumnModel);
-    
-    this.__defferedEventDispatcher = new qx.util.DeferredCall(function() {
+
+    this.__defferedEventDispatcher = new qx.util.DeferredCall(function () {
       this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     }, this);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -59,13 +51,10 @@ qx.Class.define("qx.ui.table.pane.Model",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the model changed. */
-    "modelChanged" : "qx.event.type.Event"
+    modelChanged: "qx.event.type.Event"
   },
-
-
 
   /*
   *****************************************************************************
@@ -73,15 +62,10 @@ qx.Class.define("qx.ui.table.pane.Model",
   *****************************************************************************
   */
 
-  statics :
-  {
-
+  statics: {
     /** @type {string} The type of the event fired when the model changed. */
-    EVENT_TYPE_MODEL_CHANGED : "modelChanged"
+    EVENT_TYPE_MODEL_CHANGED: "modelChanged"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -89,32 +73,24 @@ qx.Class.define("qx.ui.table.pane.Model",
   *****************************************************************************
   */
 
-  properties :
-  {
-
+  properties: {
     /** The visible x position of the first column this model should contain. */
-    firstColumnX :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyFirstColumnX"
+    firstColumnX: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyFirstColumnX"
     },
-
 
     /**
      * The maximum number of columns this model should contain. If -1 this model will
      * contain all remaining columns.
      */
-    maxColumnCount :
-    {
-      check : "Number",
-      init : -1,
-      apply : "_applyMaxColumnCount"
+    maxColumnCount: {
+      check: "Number",
+      init: -1,
+      apply: "_applyMaxColumnCount"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -122,84 +98,87 @@ qx.Class.define("qx.ui.table.pane.Model",
   *****************************************************************************
   */
 
-  members :
-  {
-    __columnCount : null,
-    __tableColumnModel : null,
-    __defferedEventDispatcher : null,
-
+  members: {
+    __columnCount: null,
+    __tableColumnModel: null,
+    __defferedEventDispatcher: null,
 
     // property modifier
-    _applyFirstColumnX : function(value, old)
-    {
+    _applyFirstColumnX(value, old) {
       this.__columnCount = null;
       this.__defferedEventDispatcher.schedule();
     },
 
     // property modifier
-    _applyMaxColumnCount : function(value, old)
-    {
+    _applyMaxColumnCount(value, old) {
       this.__columnCount = null;
       this.__defferedEventDispatcher.schedule();
     },
-
 
     /**
      * Connects the table model to the column model
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Basic} the column model
      */
-    setTableColumnModel : function(tableColumnModel)
-    {
+    setTableColumnModel(tableColumnModel) {
       if (this.__tableColumnModel) {
-        this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-        this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
+        this.__tableColumnModel.removeListener(
+          "visibilityChangedPre",
+          this._onColVisibilityChanged,
+          this
+        );
+        this.__tableColumnModel.removeListener(
+          "headerCellRendererChanged",
+          this._onHeaderCellRendererChanged,
+          this
+        );
       }
       this.__tableColumnModel = tableColumnModel;
-      this.__tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-      this.__tableColumnModel.addListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
+      this.__tableColumnModel.addListener(
+        "visibilityChangedPre",
+        this._onColVisibilityChanged,
+        this
+      );
+      this.__tableColumnModel.addListener(
+        "headerCellRendererChanged",
+        this._onHeaderCellRendererChanged,
+        this
+      );
       this.__columnCount = null;
     },
-
 
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
      * @param evt {Map} the event.
      */
-    _onColVisibilityChanged : function(evt)
-    {
+    _onColVisibilityChanged(evt) {
       this.__columnCount = null;
 
       this.__defferedEventDispatcher.schedule();
     },
-
 
     /**
      * Event handler. Called when the cell renderer of a column has changed.
      *
      * @param evt {Map} the event.
      */
-    _onHeaderCellRendererChanged : function(evt)
-    {
+    _onHeaderCellRendererChanged(evt) {
       this.__defferedEventDispatcher.schedule();
     },
-
 
     /**
      * Returns the number of columns in this model.
      *
      * @return {Integer} the number of columns in this model.
      */
-    getColumnCount : function()
-    {
-      if (this.__columnCount == null)
-      {
+    getColumnCount() {
+      if (this.__columnCount == null) {
         var firstX = this.getFirstColumnX();
         var maxColCount = this.getMaxColumnCount();
         var totalColCount = this.__tableColumnModel.getVisibleColumnCount();
 
-        if (maxColCount == -1 || (firstX + maxColCount) > totalColCount) {
+        if (maxColCount == -1 || firstX + maxColCount > totalColCount) {
           this.__columnCount = totalColCount - firstX;
         } else {
           this.__columnCount = maxColCount;
@@ -209,19 +188,16 @@ qx.Class.define("qx.ui.table.pane.Model",
       return this.__columnCount;
     },
 
-
     /**
      * Returns the model index of the column at the position <code>xPos</code>.
      *
      * @param xPos {Integer} the x position in the table pane of the column.
      * @return {Integer} the model index of the column.
      */
-    getColumnAtX : function(xPos)
-    {
+    getColumnAtX(xPos) {
       var firstX = this.getFirstColumnX();
       return this.__tableColumnModel.getVisibleColumnAtX(firstX + xPos);
     },
-
 
     /**
      * Returns the x position of the column <code>col</code>.
@@ -229,8 +205,7 @@ qx.Class.define("qx.ui.table.pane.Model",
      * @param col {Integer} the model index of the column.
      * @return {Integer} the x position in the table pane of the column.
      */
-    getX : function(col)
-    {
+    getX(col) {
       var firstX = this.getFirstColumnX();
       var maxColCount = this.getMaxColumnCount();
 
@@ -243,7 +218,6 @@ qx.Class.define("qx.ui.table.pane.Model",
       }
     },
 
-
     /**
      * Gets the position of the left side of a column (in pixels, relative to the
      * left side of the table pane).
@@ -254,13 +228,11 @@ qx.Class.define("qx.ui.table.pane.Model",
      * @param col {Integer} the model index of the column.
      * @return {var} the position of the left side of the column.
      */
-    getColumnLeft : function(col)
-    {
+    getColumnLeft(col) {
       var left = 0;
       var colCount = this.getColumnCount();
 
-      for (var x=0; x<colCount; x++)
-      {
+      for (var x = 0; x < colCount; x++) {
         var currCol = this.getColumnAtX(x);
 
         if (currCol == col) {
@@ -273,19 +245,16 @@ qx.Class.define("qx.ui.table.pane.Model",
       return -1;
     },
 
-
     /**
      * Returns the total width of all columns in the model.
      *
      * @return {Integer} the total width of all columns in the model.
      */
-    getTotalWidth : function()
-    {
+    getTotalWidth() {
       var totalWidth = 0;
       var colCount = this.getColumnCount();
 
-      for (var x=0; x<colCount; x++)
-      {
+      for (var x = 0; x < colCount; x++) {
         var col = this.getColumnAtX(x);
         totalWidth += this.__tableColumnModel.getColumnWidth(col);
       }
@@ -294,20 +263,24 @@ qx.Class.define("qx.ui.table.pane.Model",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
-    if (this.__tableColumnModel)
-    {
-      this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-      this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
+  destruct() {
+    if (this.__tableColumnModel) {
+      this.__tableColumnModel.removeListener(
+        "visibilityChangedPre",
+        this._onColVisibilityChanged,
+        this
+      );
+      this.__tableColumnModel.removeListener(
+        "headerCellRendererChanged",
+        this._onHeaderCellRendererChanged,
+        this
+      );
     }
     this.__tableColumnModel = null;
     this._disposeObjects("__defferedEventDispatcher");

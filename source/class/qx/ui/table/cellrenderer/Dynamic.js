@@ -24,10 +24,8 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
-{
-  extend : qx.ui.table.cellrenderer.Default,
-
+qx.Class.define("qx.ui.table.cellrenderer.Dynamic", {
+  extend: qx.ui.table.cellrenderer.Default,
 
   /*
   *****************************************************************************
@@ -39,15 +37,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
    * @param cellRendererFactoryFunction {Function?null} The initial value for
    *    the property {@link #cellRendererFactoryFunction}.
    */
-  construct : function(cellRendererFactoryFunction)
-  {
-    this.base(arguments);
-    if (cellRendererFactoryFunction)
-    {
+  construct(cellRendererFactoryFunction) {
+    super();
+    if (cellRendererFactoryFunction) {
       this.setCellRendererFactoryFunction(cellRendererFactoryFunction);
     }
   },
-
 
   /*
   *****************************************************************************
@@ -55,9 +50,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
   *****************************************************************************
   */
 
-  properties :
-  {
-
+  properties: {
     /**
      * Function that returns a cellRenderer instance which will be
      * used for the row that is currently being edited. The function is
@@ -76,14 +69,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      *
      * the function MUST return at least a qx.ui.table.cellrenderer.Default
      **/
-    cellRendererFactoryFunction :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
+    cellRendererFactoryFunction: {
+      check: "Function",
+      nullable: true,
+      init: null
     }
   },
-
 
   /*
   *****************************************************************************
@@ -91,8 +82,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Overridden; called whenever the cell updates. The cell will call the
      * function stored in the cellRendererFactoryFunction to retrieve the
@@ -104,10 +94,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      *     cell should be appended to this array.
      * @return {String} Data cell HTML
      */
-    createDataCellHtml : function(cellInfo, htmlArr)
-    {
+    createDataCellHtml(cellInfo, htmlArr) {
       var cellRendererFactoryFunction = this.getCellRendererFactoryFunction();
-      if ( ! cellRendererFactoryFunction ) {
+      if (!cellRendererFactoryFunction) {
         throw new Error("No function provided! Aborting.");
       }
       var cellRenderer = cellRendererFactoryFunction(cellInfo);

@@ -32,13 +32,9 @@
  * @cldr()
  */
 
-qx.Class.define("qx.locale.Manager",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.locale.Manager", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -46,17 +42,15 @@ qx.Class.define("qx.locale.Manager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__translations = qx.$$translations || {};
-    this.__locales      = qx.$$locales || {};
+    this.__locales = qx.$$locales || {};
 
     this.initLocale();
     this.__clientLocale = this.getLocale();
   },
-
 
   /*
   *****************************************************************************
@@ -64,8 +58,7 @@ qx.Class.define("qx.locale.Manager",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Translate a message
      *
@@ -74,13 +67,11 @@ qx.Class.define("qx.locale.Manager",
      * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
-    tr : function(messageId, varargs)
-    {
+    tr(messageId, varargs) {
       var args = qx.lang.Array.fromArguments(arguments, 1);
 
       return qx.locale.Manager.getInstance().translate(messageId, args);
     },
-
 
     /**
      * Translate a plural message
@@ -94,8 +85,7 @@ qx.Class.define("qx.locale.Manager",
      * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
-    trn : function(singularMessageId, pluralMessageId, count, varargs)
-    {
+    trn(singularMessageId, pluralMessageId, count, varargs) {
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 3);
 
@@ -105,10 +95,12 @@ qx.Class.define("qx.locale.Manager",
       if (count != 1) {
         return qx.locale.Manager.getInstance().translate(pluralMessageId, args);
       } else {
-        return qx.locale.Manager.getInstance().translate(singularMessageId, args);
+        return qx.locale.Manager.getInstance().translate(
+          singularMessageId,
+          args
+        );
       }
     },
-
 
     /**
      * Translate a message with translation hint (from developer addressed to translator).
@@ -119,8 +111,7 @@ qx.Class.define("qx.locale.Manager",
      * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
-    trc : function(hint, messageId, varargs)
-    {
+    trc(hint, messageId, varargs) {
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 2);
 
@@ -140,8 +131,7 @@ qx.Class.define("qx.locale.Manager",
      * @return {String | LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
-    trnc : function(hint, singularMessageId, pluralMessageId, count, varargs)
-    {
+    trnc(hint, singularMessageId, pluralMessageId, count, varargs) {
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 4);
 
@@ -149,7 +139,10 @@ qx.Class.define("qx.locale.Manager",
       if (count != 1) {
         return qx.locale.Manager.getInstance().translate(pluralMessageId, args);
       } else {
-        return qx.locale.Manager.getInstance().translate(singularMessageId, args);
+        return qx.locale.Manager.getInstance().translate(
+          singularMessageId,
+          args
+        );
       }
     },
 
@@ -159,13 +152,10 @@ qx.Class.define("qx.locale.Manager",
      * @param messageId {String} the message ID
      * @return {String} messageId
      */
-    marktr : function(messageId) {
+    marktr(messageId) {
       return messageId;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -173,29 +163,25 @@ qx.Class.define("qx.locale.Manager",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
-    locale :
-    {
-      check : "String",
-      apply : "_applyLocale",
-      event : "changeLocale",
-      init : (function() { 
+    locale: {
+      check: "String",
+      apply: "_applyLocale",
+      event: "changeLocale",
+      init: (function () {
         var locale = qx.core.Environment.get("locale");
-        if(!locale || locale === "") {
+        if (!locale || locale === "") {
           return qx.core.Environment.get("locale.default");
         }
         var variant = qx.core.Environment.get("locale.variant");
         if (variant !== "") {
           locale += "_" + variant;
         }
-        return locale; })()
+        return locale;
+      })()
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -203,15 +189,13 @@ qx.Class.define("qx.locale.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __defaultLocale : qx.core.Environment.get("locale.default"),
-    __locale : null,
-    __language : null,
-    __translations : null,
-    __locales : null,
-    __clientLocale : null,
+  members: {
+    __defaultLocale: qx.core.Environment.get("locale.default"),
+    __locale: null,
+    __language: null,
+    __translations: null,
+    __locales: null,
+    __clientLocale: null,
 
     /**
      * Get the language code of the current locale
@@ -220,10 +204,9 @@ qx.Class.define("qx.locale.Manager",
      *
      * @return {String} language code
      */
-    getLanguage : function() {
+    getLanguage() {
       return this.__language;
     },
-
 
     /**
      * Get the territory code of the current locale
@@ -232,10 +215,9 @@ qx.Class.define("qx.locale.Manager",
      *
      * @return {String} territory code
      */
-    getTerritory : function() {
+    getTerritory() {
       return this.getLocale().split("_")[1] || "";
     },
-
 
     /**
      * Return the available application locales
@@ -249,15 +231,13 @@ qx.Class.define("qx.locale.Manager",
      * @param includeNonloaded {Boolean?null} include locales not yet loaded
      * @return {String[]} array of available locales
      */
-    getAvailableLocales : function(includeNonloaded)
-    {
+    getAvailableLocales(includeNonloaded) {
       var locales = [];
 
-      for (var locale in this.__locales)
-      {
+      for (var locale in this.__locales) {
         if (locale != this.__defaultLocale) {
           if (this.__locales[locale] === null && !includeNonloaded) {
-            continue;  // skip not yet loaded locales
+            continue; // skip not yet loaded locales
           }
           locales.push(locale);
         }
@@ -266,15 +246,13 @@ qx.Class.define("qx.locale.Manager",
       return locales;
     },
 
-
     /**
      * Extract the language part from a locale.
      *
      * @param locale {String} locale to be used
      * @return {String} language
      */
-    __extractLanguage : function(locale)
-    {
+    __extractLanguage(locale) {
       var language;
       if (locale == null) {
         return null;
@@ -290,20 +268,17 @@ qx.Class.define("qx.locale.Manager",
       return language;
     },
 
-
     // property apply
-    _applyLocale : function(value, old)
-    {
+    _applyLocale(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
         if (!(value in this.__locales || value == this.__clientLocale)) {
-          qx.log.Logger.warn("Locale: " + value+" not available.");
+          qx.log.Logger.warn("Locale: " + value + " not available.");
         }
       }
 
       this.__locale = value;
       this.__language = this.__extractLanguage(value);
     },
-
 
     /**
      * Add a translation to the translation manager.
@@ -317,21 +292,16 @@ qx.Class.define("qx.locale.Manager",
      *                             language, e.g. <i>{"greeting_short" : "Hello"}</i>. Plural forms
      *                             are separate keys.
      */
-    addTranslation : function(languageCode, translationMap)
-    {
+    addTranslation(languageCode, translationMap) {
       var catalog = this.__translations;
-      if (catalog[languageCode])
-      {
+      if (catalog[languageCode]) {
         for (var key in translationMap) {
           catalog[languageCode][key] = translationMap[key];
         }
-      }
-      else
-      {
+      } else {
         catalog[languageCode] = translationMap;
       }
     },
-
 
     /**
      * Add a localization to the localization manager.
@@ -343,21 +313,16 @@ qx.Class.define("qx.locale.Manager",
      * @param localeMap {Map} mapping of locale keys to the target locale values, e.g.
      *                        <i>{"cldr_date_format_short" : "M/d/yy"}</i>.
      */
-    addLocale : function(localeCode, localeMap)
-    {
+    addLocale(localeCode, localeMap) {
       var catalog = this.__locales;
-      if (catalog[localeCode])
-      {
+      if (catalog[localeCode]) {
         for (var key in localeMap) {
           catalog[localeCode][key] = localeMap[key];
         }
-      }
-      else
-      {
+      } else {
         catalog[localeCode] = localeMap;
       }
     },
-
 
     /**
      * Translate a message using the current locale and apply format string to the arguments.
@@ -372,8 +337,7 @@ qx.Class.define("qx.locale.Manager",
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
      * @return {String | LocalizedString} translated message or localized string
      */
-    translate : function(messageId, args, locale)
-    {
+    translate(messageId, args, locale) {
       var catalog = this.__translations;
       return this.__lookupAndExpand(catalog, messageId, args, locale);
     },
@@ -391,12 +355,10 @@ qx.Class.define("qx.locale.Manager",
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
      * @return {String | LocalizedString} translated message or localized string
      */
-    localize : function(messageId, args, locale)
-    {
+    localize(messageId, args, locale) {
       var catalog = this.__locales;
       return this.__lookupAndExpand(catalog, messageId, args, locale);
     },
-
 
     /**
      * Look up an I18N key in a catalog and expand format strings.
@@ -412,8 +374,7 @@ qx.Class.define("qx.locale.Manager",
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
      * @return {String | LocalizedString} translated message or localized string
      */
-    __lookupAndExpand : function(catalog, messageId, args, locale)
-    {
+    __lookupAndExpand(catalog, messageId, args, locale) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertObject(catalog);
         this.assertString(messageId);
@@ -427,9 +388,7 @@ qx.Class.define("qx.locale.Manager",
 
       if (locale) {
         var language = this.__extractLanguage(locale);
-      }
-      else
-      {
+      } else {
         locale = this.__locale;
         language = this.__language;
       }
@@ -453,11 +412,9 @@ qx.Class.define("qx.locale.Manager",
         txt = messageId;
       }
 
-      if (args.length > 0)
-      {
+      if (args.length > 0) {
         var translatedArgs = [];
-        for ( var i = 0; i < args.length; i++)
-        {
+        for (var i = 0; i < args.length; i++) {
           var arg = args[i];
           if (arg && arg.translate) {
             translatedArgs[i] = arg.translate();
@@ -469,7 +426,12 @@ qx.Class.define("qx.locale.Manager",
       }
 
       if (qx.core.Environment.get("qx.dynlocale")) {
-        txt = new qx.locale.LocalizedString(txt, messageId, args, catalog === this.__locales);
+        txt = new qx.locale.LocalizedString(
+          txt,
+          messageId,
+          args,
+          catalog === this.__locales
+        );
       }
 
       return txt;

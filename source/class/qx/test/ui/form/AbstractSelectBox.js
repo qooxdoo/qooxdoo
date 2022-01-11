@@ -15,26 +15,22 @@
      * Alexander Steitz (aback)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.AbstractSelectBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.AbstractSelectBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.__selectBox = new qx.ui.form.SelectBox;
+  members: {
+    setUp() {
+      this.__selectBox = new qx.ui.form.SelectBox();
       this.getRoot().add(this.__selectBox);
 
-      this.__comboBox = new qx.ui.form.ComboBox;
+      this.__comboBox = new qx.ui.form.ComboBox();
       this.getRoot().add(this.__comboBox);
 
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       this.__selectBox.dispose();
       this.__selectBox = null;
@@ -43,8 +39,7 @@ qx.Class.define("qx.test.ui.form.AbstractSelectBox",
       this.__comboBox = null;
     },
 
-    testStatePopupOpen : function()
-    {
+    testStatePopupOpen() {
       this.__selectBox.open();
       this.flush();
       this.assertTrue(this.__selectBox.hasState("popupOpen"));

@@ -21,38 +21,37 @@
  * *********************************************************************** */
 
 /**
- * Instances of Handler are used by the resource manager to handle different types of resources that 
+ * Instances of Handler are used by the resource manager to handle different types of resources that
  *  need compilation.
  */
 qx.Class.define("qx.tool.compiler.resources.ResourceLoader", {
   extend: qx.tool.compiler.resources.AbstractMatcher,
   type: "abstract",
-  
+
   members: {
     /**
      * Detects whether the file needs to be recompiled/coverted/analysed/ etc; this should
-     * not take any time or be asynchronous, if you need to do any real work it should be 
+     * not take any time or be asynchronous, if you need to do any real work it should be
      * in `compile` because that is throttled.
-     * 
+     *
      * @param filename {String} absolute path to the file
      * @param fileInfo {Map?} this is the object in the resource database, contains info about the resource;
      *  this will be null if not yet in the resource database
      * @param stat {fs.Stats} Stats object from fs.stat
-     * 
+     *
      * @return {Boolean}
      */
     needsLoad(filename, fileInfo, stat) {
       var mtime = null;
       try {
         mtime = fileInfo.mtime && new Date(fileInfo.mtime);
-      } catch (e) {
-      }
+      } catch (e) {}
       return !mtime || mtime.getTime() != stat.mtime.getTime();
     },
-    
+
     /**
      * Allows a file to be loadeddata can be stored in the resource database by modifying the fileInfo
-     * 
+     *
      * @param asset {Asset} the asset to load
      */
     async load(asset) {

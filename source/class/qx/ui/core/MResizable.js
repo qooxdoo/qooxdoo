@@ -23,16 +23,14 @@
 /**
  * Provides resizing behavior to any widget.
  */
-qx.Mixin.define("qx.ui.core.MResizable",
-{
+qx.Mixin.define("qx.ui.core.MResizable", {
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  construct : function()
-  {
+  construct() {
     // Register listeners to the content
     var content = this.getContentElement();
     content.addListener("pointerdown", this.__onResizePointerDown, this, true);
@@ -47,12 +45,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
       domElement = window;
     }
 
-    this.__dragDropHandler = qx.event.Registration.getManager(domElement).getHandler(qx.event.handler.DragDrop);
+    this.__dragDropHandler = qx.event.Registration.getManager(
+      domElement
+    ).getHandler(qx.event.handler.DragDrop);
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -60,63 +56,56 @@ qx.Mixin.define("qx.ui.core.MResizable",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Whether the top edge is resizable */
-    resizableTop :
-    {
-      check : "Boolean",
-      init : true
+    resizableTop: {
+      check: "Boolean",
+      init: true
     },
 
     /** Whether the right edge is resizable */
-    resizableRight :
-    {
-      check : "Boolean",
-      init : true
+    resizableRight: {
+      check: "Boolean",
+      init: true
     },
 
     /** Whether the bottom edge is resizable */
-    resizableBottom :
-    {
-      check : "Boolean",
-      init : true
+    resizableBottom: {
+      check: "Boolean",
+      init: true
     },
 
     /** Whether the left edge is resizable */
-    resizableLeft :
-    {
-      check : "Boolean",
-      init : true
+    resizableLeft: {
+      check: "Boolean",
+      init: true
     },
 
     /**
      * Property group to configure the resize behaviour for all edges at once
      */
-    resizable :
-    {
-      group : [ "resizableTop", "resizableRight", "resizableBottom", "resizableLeft" ],
-      mode  : "shorthand"
+    resizable: {
+      group: [
+        "resizableTop",
+        "resizableRight",
+        "resizableBottom",
+        "resizableLeft"
+      ],
+      mode: "shorthand"
     },
 
     /** The tolerance to activate resizing */
-    resizeSensitivity :
-    {
-      check : "Integer",
-      init : 5
+    resizeSensitivity: {
+      check: "Integer",
+      init: 5
     },
 
     /** Whether a frame replacement should be used during the resize sequence */
-    useResizeFrame :
-    {
-      check : "Boolean",
-      init : true
+    useResizeFrame: {
+      check: "Boolean",
+      init: true
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -124,22 +113,19 @@ qx.Mixin.define("qx.ui.core.MResizable",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __dragDropHandler : null,
-    __resizeFrame : null,
-    __resizeActive : null,
-    __resizeLeft : null,
-    __resizeTop : null,
-    __resizeStart : null,
-    __resizeRange : null,
+  members: {
+    __dragDropHandler: null,
+    __resizeFrame: null,
+    __resizeActive: null,
+    __resizeLeft: null,
+    __resizeTop: null,
+    __resizeStart: null,
+    __resizeRange: null,
 
-
-    RESIZE_TOP : 1,
-    RESIZE_BOTTOM : 2,
-    RESIZE_LEFT : 4,
-    RESIZE_RIGHT : 8,
-
+    RESIZE_TOP: 1,
+    RESIZE_BOTTOM: 2,
+    RESIZE_LEFT: 4,
+    RESIZE_RIGHT: 8,
 
     /*
     ---------------------------------------------------------------------------
@@ -153,11 +139,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
      *
      * @return {qx.ui.core.Widget} The resize frame
      */
-    _getResizeFrame : function()
-    {
+    _getResizeFrame() {
       var frame = this.__resizeFrame;
-      if (!frame)
-      {
+      if (!frame) {
         frame = this.__resizeFrame = new qx.ui.core.Widget();
         frame.setAppearance("resize-frame");
         frame.exclude();
@@ -168,12 +152,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
       return frame;
     },
 
-
     /**
      * Creates, shows and syncs the frame with the widget.
      */
-    __showResizeFrame : function()
-    {
+    __showResizeFrame() {
       var location = this.getContentLocation();
       var frame = this._getResizeFrame();
       frame.setUserBounds(
@@ -182,12 +164,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
         location.right - location.left,
         location.bottom - location.top
       );
+
       frame.show();
-      frame.setZIndex(this.getZIndex()+1);
+      frame.setZIndex(this.getZIndex() + 1);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -202,8 +182,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * @param e {qx.event.type.Pointer} Last pointer event
      * @return {Map} A map with the computed boundaries
      */
-    __computeResizeResult : function(e)
-    {
+    __computeResizeResult(e) {
       // Detect mode
       var resizeActive = this.__resizeActive;
 
@@ -219,12 +198,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var top = start.top;
       var diff;
 
-      if (
-        (resizeActive & this.RESIZE_TOP) ||
-        (resizeActive & this.RESIZE_BOTTOM)
-      )
-      {
-        diff = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop())) - this.__resizeTop;
+      if (resizeActive & this.RESIZE_TOP || resizeActive & this.RESIZE_BOTTOM) {
+        diff =
+          Math.max(range.top, Math.min(range.bottom, e.getDocumentTop())) -
+          this.__resizeTop;
 
         if (resizeActive & this.RESIZE_TOP) {
           height -= diff;
@@ -243,12 +220,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
         }
       }
 
-      if (
-        (resizeActive & this.RESIZE_LEFT) ||
-        (resizeActive & this.RESIZE_RIGHT)
-      )
-      {
-        diff = Math.max(range.left, Math.min(range.right, e.getDocumentLeft())) - this.__resizeLeft;
+      if (resizeActive & this.RESIZE_LEFT || resizeActive & this.RESIZE_RIGHT) {
+        diff =
+          Math.max(range.left, Math.min(range.right, e.getDocumentLeft())) -
+          this.__resizeLeft;
 
         if (resizeActive & this.RESIZE_LEFT) {
           width -= diff;
@@ -269,45 +244,41 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       return {
         // left and top of the visible widget
-        viewportLeft : left,
-        viewportTop : top,
+        viewportLeft: left,
+        viewportTop: top,
 
-        parentLeft : start.bounds.left + left - start.left,
-        parentTop : start.bounds.top + top - start.top,
+        parentLeft: start.bounds.left + left - start.left,
+        parentTop: start.bounds.top + top - start.top,
 
         // dimensions of the visible widget
-        width : width,
-        height : height
+        width: width,
+        height: height
       };
     },
-
 
     /**
      * @type {Map} Maps internal states to cursor symbols to use
      *
      * @lint ignoreReferenceField(__resizeCursors)
      */
-    __resizeCursors :
-    {
-      1  : "n-resize",
-      2  : "s-resize",
-      4  : "w-resize",
-      8  : "e-resize",
+    __resizeCursors: {
+      1: "n-resize",
+      2: "s-resize",
+      4: "w-resize",
+      8: "e-resize",
 
-      5  : "nw-resize",
-      6  : "sw-resize",
-      9  : "ne-resize",
-      10 : "se-resize"
+      5: "nw-resize",
+      6: "sw-resize",
+      9: "ne-resize",
+      10: "se-resize"
     },
-
 
     /**
      * Updates the internally stored resize mode
      *
      * @param e {qx.event.type.Pointer} Last pointer event
      */
-    __computeResizeMode : function(e)
-    {
+    __computeResizeMode(e) {
       var location = this.getContentLocation();
       var pointerTolerance = this.getResizeSensitivity();
 
@@ -315,20 +286,27 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var pointerTop = e.getDocumentTop();
 
       var resizeActive = this.__computeResizeActive(
-        location, pointerLeft, pointerTop, pointerTolerance
+        location,
+        pointerLeft,
+        pointerTop,
+        pointerTolerance
       );
 
       // check again in case we have a corner [BUG #1200]
       if (resizeActive > 0) {
         // this is really a | (or)!
-        resizeActive = resizeActive | this.__computeResizeActive(
-          location, pointerLeft, pointerTop, pointerTolerance * 2
-        );
+        resizeActive =
+          resizeActive |
+          this.__computeResizeActive(
+            location,
+            pointerLeft,
+            pointerTop,
+            pointerTolerance * 2
+          );
       }
 
       this.__resizeActive = resizeActive;
     },
-
 
     /**
      * Internal helper for computing the proper resize action based on the
@@ -340,7 +318,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * @param pointerTolerance {Integer} The desired distance to the edge.
      * @return {Integer} The resize active number.
      */
-    __computeResizeActive : function(location, pointerLeft, pointerTop, pointerTolerance) {
+    __computeResizeActive(location, pointerLeft, pointerTop, pointerTolerance) {
       var resizeActive = 0;
 
       // TOP
@@ -352,7 +330,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       ) {
         resizeActive += this.RESIZE_TOP;
 
-      // BOTTOM
+        // BOTTOM
       } else if (
         this.getResizableBottom() &&
         Math.abs(location.bottom - pointerTop) < pointerTolerance &&
@@ -371,7 +349,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       ) {
         resizeActive += this.RESIZE_LEFT;
 
-      // RIGHT
+        // RIGHT
       } else if (
         this.getResizableRight() &&
         Math.abs(location.right - pointerLeft) < pointerTolerance &&
@@ -382,7 +360,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
       }
       return resizeActive;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -395,10 +372,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
      *
      * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizePointerDown : function(e)
-    {
+    __onResizePointerDown(e) {
       // Check for active resize
-      if (!this.__resizeActive || !this.getEnabled() || e.getPointerType() == "touch") {
+      if (
+        !this.__resizeActive ||
+        !this.getEnabled() ||
+        e.getPointerType() == "touch"
+      ) {
         return;
       }
 
@@ -411,14 +391,14 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Cache bounds
       var location = this.getContentLocation();
-      var bounds   = this.getBounds();
+      var bounds = this.getBounds();
 
       this.__resizeStart = {
-        top : location.top,
-        left : location.left,
-        width : location.right - location.left,
-        height : location.bottom - location.top,
-        bounds : qx.lang.Object.clone(bounds)
+        top: location.top,
+        left: location.left,
+        width: location.right - location.left,
+        height: location.bottom - location.top,
+        bounds: qx.lang.Object.clone(bounds)
       };
 
       // Compute range
@@ -427,10 +407,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var parentBounds = parent.getBounds();
 
       this.__resizeRange = {
-        left : parentLocation.left,
-        top : parentLocation.top,
-        right : parentLocation.left + parentBounds.width,
-        bottom : parentLocation.top + parentBounds.height
+        left: parentLocation.left,
+        top: parentLocation.top,
+        right: parentLocation.left + parentBounds.width,
+        bottom: parentLocation.top + parentBounds.height
       };
 
       // Show frame if configured this way
@@ -445,16 +425,18 @@ qx.Mixin.define("qx.ui.core.MResizable",
       e.stop();
     },
 
-
     /**
      * Event handler for the pointer up event
      *
      * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizePointerUp : function(e)
-    {
+    __onResizePointerUp(e) {
       // Check for active resize
-      if (!this.hasState("resize") || !this.getEnabled() || e.getPointerType() == "touch") {
+      if (
+        !this.hasState("resize") ||
+        !this.getEnabled() ||
+        e.getPointerType() == "touch"
+      ) {
         return;
       }
 
@@ -471,11 +453,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.setHeight(bounds.height);
 
       // Update coordinate in canvas
-      if (this.getResizableLeft() || this.getResizableTop())
-      {
+      if (this.getResizableLeft() || this.getResizableTop()) {
         this.setLayoutProperties({
-          left : bounds.parentLeft,
-          top : bounds.parentTop
+          left: bounds.parentLeft,
+          top: bounds.parentTop
         });
       }
 
@@ -495,14 +476,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
       e.stopPropagation();
     },
 
-
     /**
      * Event listener for <code>losecapture</code> event.
      *
      * @param e {qx.event.type.Event} Lose capture event
      */
-    __onResizeLoseCapture : function(e)
-    {
+    __onResizeLoseCapture(e) {
       // Check for active resize
       if (!this.__resizeActive) {
         return;
@@ -521,94 +500,83 @@ qx.Mixin.define("qx.ui.core.MResizable",
       }
     },
 
-
     /**
      * Event handler for the pointer move event
      *
      * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizePointerMove : function(e)
-    {
+    __onResizePointerMove(e) {
       if (!this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
-      if (this.hasState("resize"))
-      {
+      if (this.hasState("resize")) {
         var bounds = this.__computeResizeResult(e);
 
         // Update widget
-        if (this.getUseResizeFrame())
-        {
+        if (this.getUseResizeFrame()) {
           // Sync new bounds to frame
           var frame = this._getResizeFrame();
-          frame.setUserBounds(bounds.viewportLeft, bounds.viewportTop, bounds.width, bounds.height);
-        }
-        else
-        {
+          frame.setUserBounds(
+            bounds.viewportLeft,
+            bounds.viewportTop,
+            bounds.width,
+            bounds.height
+          );
+        } else {
           // Update size
           this.setWidth(bounds.width);
           this.setHeight(bounds.height);
 
           // Update coordinate in canvas
-          if (this.getResizableLeft() || this.getResizableTop())
-          {
+          if (this.getResizableLeft() || this.getResizableTop()) {
             this.setLayoutProperties({
-              left : bounds.parentLeft,
-              top : bounds.parentTop
+              left: bounds.parentLeft,
+              top: bounds.parentTop
             });
           }
         }
 
         // Full stop for event
         e.stopPropagation();
-      }
-      else if (!this.hasState("maximized") && !this.__dragDropHandler.isSessionActive())
-      {
+      } else if (
+        !this.hasState("maximized") &&
+        !this.__dragDropHandler.isSessionActive()
+      ) {
         this.__computeResizeMode(e);
 
         var resizeActive = this.__resizeActive;
         var root = this.getApplicationRoot();
 
-        if (resizeActive)
-        {
+        if (resizeActive) {
           var cursor = this.__resizeCursors[resizeActive];
           this.setCursor(cursor);
           root.setGlobalCursor(cursor);
-        }
-        else if (this.getCursor())
-        {
+        } else if (this.getCursor()) {
           this.resetCursor();
           root.resetGlobalCursor();
         }
       }
     },
 
-
     /**
      * Event handler for the pointer out event
      *
      * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizePointerOut : function(e)
-    {
+    __onResizePointerOut(e) {
       if (e.getPointerType() == "touch") {
         return;
       }
       // When the pointer left the window and resizing is not yet
       // active we must be sure to (especially) reset the global
       // cursor.
-      if (this.getCursor() && !this.hasState("resize"))
-      {
+      if (this.getCursor() && !this.hasState("resize")) {
         this.resetCursor();
         this.getApplicationRoot().resetGlobalCursor();
       }
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -616,14 +584,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    if(this.getCursor()) {
+  destruct() {
+    if (this.getCursor()) {
       this.getApplicationRoot().resetGlobalCursor();
     }
 
-    if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown)
-    {
+    if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown) {
       this.__resizeFrame.destroy();
       this.__resizeFrame = null;
     }

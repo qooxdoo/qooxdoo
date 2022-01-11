@@ -16,20 +16,17 @@
      * Mustafa Sak (msak)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.command.Command",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.command.Command", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    __cmd : null,
-    __button : null,
-    __toolbarButton : null,
-    __menuButton : null,
+  members: {
+    __cmd: null,
+    __button: null,
+    __toolbarButton: null,
+    __menuButton: null,
 
-    setUp : function()
-    {
+    setUp() {
       this.__cmd = new qx.ui.command.Command();
 
       this.__button = new qx.ui.form.Button("a");
@@ -44,9 +41,7 @@ qx.Class.define("qx.test.ui.command.Command",
       qx.locale.Manager.getInstance().setLocale("en");
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.__cmd.dispose();
       this.__button.destroy();
       this.__toolbarButton.destroy();
@@ -55,9 +50,7 @@ qx.Class.define("qx.test.ui.command.Command",
       qx.locale.Manager.getInstance().resetLocale();
     },
 
-
-    testLabel : function()
-    {
+    testLabel() {
       // set a label
       this.__cmd.setLabel("a");
       this.assertEquals(this.__cmd.getLabel(), this.__button.getLabel());
@@ -83,29 +76,39 @@ qx.Class.define("qx.test.ui.command.Command",
       this.assertEquals(this.__cmd.getLabel(), this.__menuButton.getLabel());
     },
 
-
-    testEnabled : function()
-    {
+    testEnabled() {
       if (qx.core.Environment.get("qx.command.bindEnabled")) {
         // set disabled
         this.__cmd.setEnabled(false);
         this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
-        this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
-        this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
+        this.assertEquals(
+          this.__cmd.getEnabled(),
+          this.__toolbarButton.getEnabled()
+        );
+        this.assertEquals(
+          this.__cmd.getEnabled(),
+          this.__menuButton.getEnabled()
+        );
 
         // set enabled
         this.__cmd.setEnabled(true);
         this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
-        this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
-        this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
+        this.assertEquals(
+          this.__cmd.getEnabled(),
+          this.__toolbarButton.getEnabled()
+        );
+        this.assertEquals(
+          this.__cmd.getEnabled(),
+          this.__menuButton.getEnabled()
+        );
       } else {
-        this.skip("Skipped because binding the Enabled property has been deprecated");
+        this.skip(
+          "Skipped because binding the Enabled property has been deprecated"
+        );
       }
     },
 
-
-    testIcon : function()
-    {
+    testIcon() {
       // set a string
       this.__cmd.setIcon("a");
       this.assertEquals(this.__cmd.getIcon(), this.__button.getIcon());
@@ -131,37 +134,69 @@ qx.Class.define("qx.test.ui.command.Command",
       this.assertEquals(this.__cmd.getIcon(), this.__menuButton.getIcon());
     },
 
-
-    testToolTipText : function()
-    {
+    testToolTipText() {
       // set a string
       this.__cmd.setToolTipText("a");
-      this.assertEquals(this.__cmd.getToolTipText(), this.__button.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__toolbarButton.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__menuButton.getToolTipText());
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__button.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__toolbarButton.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__menuButton.getToolTipText()
+      );
 
       // set null
       this.__cmd.setIcon(null);
-      this.assertEquals(this.__cmd.getToolTipText(), this.__button.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__toolbarButton.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__menuButton.getToolTipText());
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__button.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__toolbarButton.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__menuButton.getToolTipText()
+      );
 
       // set a second string
       this.__cmd.setIcon("b");
-      this.assertEquals(this.__cmd.getToolTipText(), this.__button.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__toolbarButton.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__menuButton.getToolTipText());
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__button.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__toolbarButton.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__menuButton.getToolTipText()
+      );
 
       // reset
       this.__cmd.resetIcon();
-      this.assertEquals(this.__cmd.getToolTipText(), this.__button.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__toolbarButton.getToolTipText());
-      this.assertEquals(this.__cmd.getToolTipText(), this.__menuButton.getToolTipText());
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__button.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__toolbarButton.getToolTipText()
+      );
+      this.assertEquals(
+        this.__cmd.getToolTipText(),
+        this.__menuButton.getToolTipText()
+      );
     },
 
-
-    testRemoveCommand : function()
-    {
+    testRemoveCommand() {
       // remove the command (has been set in the setUp method)
       this.__button.setCommand(null);
       this.__toolbarButton.setCommand(null);
@@ -175,9 +210,7 @@ qx.Class.define("qx.test.ui.command.Command",
       this.assertEquals("c", this.__menuButton.getLabel());
     },
 
-
-    testValue : function()
-    {
+    testValue() {
       var menuCheckBox = new qx.ui.menu.CheckBox();
       var menuRadioButton = new qx.ui.menu.RadioButton();
       var toggleButton = new qx.ui.form.ToggleButton();
@@ -204,9 +237,7 @@ qx.Class.define("qx.test.ui.command.Command",
       menuRadioButton.dispose();
     },
 
-
-    testMenu : function()
-    {
+    testMenu() {
       var splitButton = new qx.ui.form.SplitButton();
       splitButton.setCommand(this.__cmd);
 
@@ -226,9 +257,7 @@ qx.Class.define("qx.test.ui.command.Command",
       menu.destroy();
     },
 
-
-    testInit : function()
-    {
+    testInit() {
       // check if the init values after setting the command was added
       this.assertEquals("a", this.__button.getLabel());
       this.assertEquals("b", this.__toolbarButton.getLabel());
@@ -249,7 +278,7 @@ qx.Class.define("qx.test.ui.command.Command",
       cmd.dispose();
     },
 
-    testIconAsToolTipText : function() {
+    testIconAsToolTipText() {
       // for [BUG #4534]
       var cmd = new qx.ui.command.Command("Control+D");
       cmd.setToolTipText("affe");
@@ -263,13 +292,12 @@ qx.Class.define("qx.test.ui.command.Command",
       cmd.dispose();
     },
 
-
-    testDestructExecutable : function() {
+    testDestructExecutable() {
       // Create the command
       var cmd = new qx.ui.command.Command("Meta+T");
 
       // Create a button linked to cmd
-      var button = new qx.ui.form.Button("Command button", null,cmd);
+      var button = new qx.ui.form.Button("Command button", null, cmd);
 
       cmd.setEnabled(false);
       button.destroy();
@@ -282,8 +310,7 @@ qx.Class.define("qx.test.ui.command.Command",
       // test makes sure that code is running, no assert needed
     },
 
-    testFireExecuteCount : function()
-    {
+    testFireExecuteCount() {
       var handler = this.spy();
 
       // Create the command
@@ -300,7 +327,6 @@ qx.Class.define("qx.test.ui.command.Command",
       cmd.execute();
       this.assertCallCount(handler, 0);
 
-
       cmd.setEnabled(true);
       cmd.setActive(true);
       cmd.execute();
@@ -309,19 +335,19 @@ qx.Class.define("qx.test.ui.command.Command",
       cmd.dispose();
     },
 
-    testGetShortcut : function() {
+    testGetShortcut() {
       // for bug #7036
       var cmd = new qx.ui.command.Command("Control+X");
-      this.assertEquals('Control+X', cmd.getShortcut());
+      this.assertEquals("Control+X", cmd.getShortcut());
       cmd.dispose();
     },
 
-    testShortCutToString : function() {
+    testShortCutToString() {
       // for bug #8465
       var cmd = new qx.ui.command.Command("Ctrl+X");
       this.assertEquals("Ctrl+X", cmd.toString());
       cmd.dispose();
-      this.assertEquals("qx.ui.command.Command[undefined]",cmd.toString());
+      this.assertEquals("qx.ui.command.Command[undefined]", cmd.toString());
     }
   }
 });

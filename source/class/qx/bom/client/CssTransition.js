@@ -23,20 +23,17 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssTransition",
-{
-  statics : {
+qx.Bootstrap.define("qx.bom.client.CssTransition", {
+  statics: {
     /**
      * Returns the (possibly vendor-prefixed) name of the CSS transition property
      * @return {String|null} transition property name or <code>null</code> if
      * not supported
      * @internal
      */
-    getTransitionName : function()
-    {
+    getTransitionName() {
       return qx.bom.Style.getPropertyName("transition");
     },
-
 
     /**
      * Main check method which returns an object if CSS transitions are
@@ -50,14 +47,15 @@ qx.Bootstrap.define("qx.bom.client.CssTransition",
      * @return {Object|null} The described object or <code>null</code> if
      * transitions are not supported.
      */
-    getSupport : function() {
+    getSupport() {
       var name = qx.bom.client.CssTransition.getTransitionName();
       if (!name) {
         return null;
       }
 
       var eventName = qx.bom.Event.getEventName(window, "transitionEnd");
-      eventName = eventName == "transitionEnd" ? eventName.toLowerCase() : eventName;
+      eventName =
+        eventName == "transitionEnd" ? eventName.toLowerCase() : eventName;
 
       // Detecting the end event's name is not possible in some browsers,
       // so we deduce it from the property name instead.
@@ -66,14 +64,13 @@ qx.Bootstrap.define("qx.bom.client.CssTransition",
       }
 
       return {
-        name : name,
-        "end-event" : eventName
+        name: name,
+        "end-event": eventName
       };
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("css.transition", statics.getSupport);
   }
 });

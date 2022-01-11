@@ -45,10 +45,8 @@
  * @childControl label {qx.ui.basic.Label} label part of the atom
  * @childControl icon {qx.ui.basic.Image} icon part of the atom
  */
-qx.Class.define("qx.ui.basic.Atom",
-{
-  extend : qx.ui.core.Widget,
-
+qx.Class.define("qx.ui.basic.Atom", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -60,13 +58,12 @@ qx.Class.define("qx.ui.basic.Atom",
    * @param label {String} Label to use
    * @param icon {String?null} Icon to use
    */
-  construct : function(label, icon)
-  {
+  construct(label, icon) {
     if (qx.core.Environment.get("qx.debug")) {
       this.assertArgumentsCount(arguments, 0, 2);
     }
 
-    this.base(arguments);
+    super();
 
     this._setLayout(new qx.ui.layout.Atom());
 
@@ -79,33 +76,26 @@ qx.Class.define("qx.ui.basic.Atom",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "atom"
+    appearance: {
+      refine: true,
+      init: "atom"
     },
-
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
-    label :
-    {
-      apply : "_applyLabel",
-      nullable : true,
-      check : "String",
-      event : "changeLabel"
+    label: {
+      apply: "_applyLabel",
+      nullable: true,
+      check: "String",
+      event: "changeLabel"
     },
-
 
     /**
      * Switches between rich HTML and text content. The text mode (<code>false</code>) supports
@@ -113,66 +103,65 @@ qx.Class.define("qx.ui.basic.Atom",
      * enough. HTML mode (<code>true</code>) supports multi-line content and all the
      * markup features of HTML content.
      */
-    rich :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyRich"
+    rich: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyRich"
     },
-
 
     /** Any URI String supported by qx.ui.basic.Image to display an icon */
-    icon :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      nullable : true,
-      themeable : true,
-      event : "changeIcon"
+    icon: {
+      check: "String",
+      apply: "_applyIcon",
+      nullable: true,
+      themeable: true,
+      event: "changeIcon"
     },
-
 
     /**
      * The space between the icon and the label
      */
-    gap :
-    {
-      check : "Integer",
-      nullable : false,
-      event : "changeGap",
-      apply : "_applyGap",
-      themeable : true,
-      init : 4
+    gap: {
+      check: "Integer",
+      nullable: false,
+      event: "changeGap",
+      apply: "_applyGap",
+      themeable: true,
+      init: 4
     },
-
 
     /**
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, label, icon
      */
-    show :
-    {
-      init : "both",
-      check : [ "both", "label", "icon" ],
-      themeable : true,
-      inheritable : true,
-      apply : "_applyShow",
-      event : "changeShow"
+    show: {
+      init: "both",
+      check: ["both", "label", "icon"],
+      themeable: true,
+      inheritable: true,
+      apply: "_applyShow",
+      event: "changeShow"
     },
-
 
     /**
      * The position of the icon in relation to the text.
      * Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
      */
-    iconPosition :
-    {
-      init   : "left",
-      check : ["top", "right", "bottom", "left", "top-left", "bottom-left" , "top-right", "bottom-right"],
-      themeable : true,
-      apply : "_applyIconPosition"
+    iconPosition: {
+      init: "left",
+      check: [
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "top-left",
+        "bottom-left",
+        "top-right",
+        "bottom-right"
+      ],
+      themeable: true,
+      apply: "_applyIconPosition"
     },
-
 
     /**
      * Whether the content should be rendered centrally when to much space
@@ -183,16 +172,13 @@ qx.Class.define("qx.ui.basic.Atom",
      * or <code>bottom</code>, the Y axis is not centered. In case of e.g. an
      * icon position of <code>top-left</code> no axis is centered.
      */
-    center :
-    {
-      init : false,
-      check : "Boolean",
-      themeable : true,
-      apply : "_applyCenter"
+    center: {
+      init: false,
+      check: "Boolean",
+      themeable: true,
+      apply: "_applyCenter"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -200,15 +186,12 @@ qx.Class.define("qx.ui.basic.Atom",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "label":
           control = new qx.ui.basic.Label(this.getLabel());
           control.setAnonymous(true);
@@ -230,26 +213,22 @@ qx.Class.define("qx.ui.basic.Atom",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      focused : true,
-      hovered : true
+    _forwardStates: {
+      focused: true,
+      hovered: true
     },
-
 
     /**
      * Updates the visibility of the label
      */
-    _handleLabel : function()
-    {
+    _handleLabel() {
       if (this.getLabel() == null || this.getShow() === "icon") {
         this._excludeChildControl("label");
       } else {
@@ -257,12 +236,10 @@ qx.Class.define("qx.ui.basic.Atom",
       }
     },
 
-
     /**
      * Updates the visibility of the icon
      */
-    _handleIcon : function()
-    {
+    _handleIcon() {
       if (this.getIcon() == null || this.getShow() === "label") {
         this._excludeChildControl("icon");
       } else {
@@ -270,10 +247,8 @@ qx.Class.define("qx.ui.basic.Atom",
       }
     },
 
-
     // property apply
-    _applyLabel : function(value, old)
-    {
+    _applyLabel(value, old) {
       var label = this.getChildControl("label", true);
       if (label) {
         label.setValue(value);
@@ -282,20 +257,16 @@ qx.Class.define("qx.ui.basic.Atom",
       this._handleLabel();
     },
 
-
     // property apply
-    _applyRich : function(value, old)
-    {
+    _applyRich(value, old) {
       var label = this.getChildControl("label", true);
       if (label) {
         label.setRich(value);
       }
     },
 
-
     // property apply
-    _applyIcon : function(value, old)
-    {
+    _applyIcon(value, old) {
       var icon = this.getChildControl("icon", true);
       if (icon) {
         icon.setSource(value);
@@ -304,36 +275,30 @@ qx.Class.define("qx.ui.basic.Atom",
       this._handleIcon();
     },
 
-
     // property apply
-    _applyGap : function(value, old) {
+    _applyGap(value, old) {
       this._getLayout().setGap(value);
     },
 
-
     // property apply
-    _applyShow : function(value, old)
-    {
+    _applyShow(value, old) {
       this._handleLabel();
       this._handleIcon();
     },
 
-
     // property apply
-    _applyIconPosition : function(value, old) {
+    _applyIconPosition(value, old) {
       this._getLayout().setIconPosition(value);
     },
 
-
     // property apply
-    _applyCenter : function(value, old) {
+    _applyCenter(value, old) {
       this._getLayout().setCenter(value);
     },
 
-
     // overridden
-    _applySelectable : function(value, old) {
-      this.base(arguments, value, old);
+    _applySelectable(value, old) {
+      super._applySelectable(value, old);
 
       var label = this.getChildControl("label", true);
       if (label) {

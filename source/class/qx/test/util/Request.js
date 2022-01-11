@@ -16,35 +16,42 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Request",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.Request", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    "test: isCrossDomain() returns true with cross-domain URL": function() {
+  members: {
+    "test: isCrossDomain() returns true with cross-domain URL"() {
       var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.util.Request.isCrossDomain;
+        origin = location.protocol + "//" + location.host,
+        isCrossDomain = qx.util.Request.isCrossDomain;
 
       this.assertTrue(isCrossDomain("http://cross.domain"), "cross");
-      this.assertTrue(isCrossDomain(location.protocol + "//" + location.hostname + ":123456"), "port");
-      this.assertTrue(isCrossDomain("foobar" + "://" + location.host), "protocol");
+      this.assertTrue(
+        isCrossDomain(location.protocol + "//" + location.hostname + ":123456"),
+        "port"
+      );
+      this.assertTrue(
+        isCrossDomain("foobar" + "://" + location.host),
+        "protocol"
+      );
     },
 
-    "test: isCrossDomain() returns false with same-origin URL": function() {
+    "test: isCrossDomain() returns false with same-origin URL"() {
       var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.util.Request.isCrossDomain;
+        origin = location.protocol + "//" + location.host,
+        isCrossDomain = qx.util.Request.isCrossDomain;
 
       this.assertFalse(isCrossDomain(origin));
       this.assertFalse(isCrossDomain("data.json"), "simple url");
       this.assertFalse(isCrossDomain("/data.json"), "absolute url");
       this.assertFalse(isCrossDomain("../data.json"), "relative url");
-      this.assertFalse(isCrossDomain("../foo-bar/meep.in/data.json"), "strange url");
+      this.assertFalse(
+        isCrossDomain("../foo-bar/meep.in/data.json"),
+        "strange url"
+      );
     },
 
-    "test: isSuccessful() returns true with successful HTTP status": function() {
+    "test: isSuccessful() returns true with successful HTTP status"() {
       var isSuccessful = qx.util.Request.isSuccessful;
 
       this.assertTrue(isSuccessful(200));
@@ -54,7 +61,7 @@ qx.Class.define("qx.test.util.Request",
       this.assertFalse(isSuccessful(500));
     },
 
-    "test: isMethod() returns true if HTTP method is known": function() {
+    "test: isMethod() returns true if HTTP method is known"() {
       var isMethod = qx.util.Request.isMethod;
 
       this.assertTrue(isMethod("GET"));
@@ -67,11 +74,11 @@ qx.Class.define("qx.test.util.Request",
       this.assertFalse(isMethod({}));
     },
 
-    "test: methodAllowsRequestBody() returns false when GET": function() {
+    "test: methodAllowsRequestBody() returns false when GET"() {
       this.assertFalse(qx.util.Request.methodAllowsRequestBody("GET"));
     },
 
-    "test: methodAllowsRequestBody() returns true when POST": function() {
+    "test: methodAllowsRequestBody() returns true when POST"() {
       this.assertTrue(qx.util.Request.methodAllowsRequestBody("POST"));
     }
   }

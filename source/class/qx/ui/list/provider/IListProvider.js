@@ -21,49 +21,42 @@
  *
  * @internal
  */
-qx.Interface.define("qx.ui.list.provider.IListProvider",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.list.provider.IListProvider", {
+  members: {
     /**
      * Creates a layer for item and group rendering.
      *
      * @return {qx.ui.virtual.layer.Abstract} new layer.
      */
-    createLayer : function() {},
-
+    createLayer() {},
 
     /**
      * Creates a renderer for item rendering.
      *
      * @return {var} new item renderer.
      */
-    createItemRenderer : function() {},
-
+    createItemRenderer() {},
 
     /**
      * Creates a renderer for group rendering.
      *
      * @return {var} new group renderer.
      */
-    createGroupRenderer : function() {},
-
+    createGroupRenderer() {},
 
     /**
      * Styles a selected item.
      *
      * @param row {Integer} row to style.
      */
-    styleSelectabled : function(row) {},
-
+    styleSelectabled(row) {},
 
     /**
      * Styles a not selected item.
      *
      * @param row {Integer} row to style.
      */
-    styleUnselectabled : function(row) {},
-
+    styleUnselectabled(row) {},
 
     /**
      * Returns if the passed row can be selected or not.
@@ -72,8 +65,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      * @return {Boolean} <code>true</code> when the row can be selected,
      *    <code>false</code> otherwise.
      */
-    isSelectable : function(row) {},
-
+    isSelectable(row) {},
 
     /**
      * The path to the property which holds the information that should be
@@ -81,8 +73,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param path {String} path to the property.
      */
-    setLabelPath : function(path) {},
-
+    setLabelPath(path) {},
 
     /**
      * The path to the property which holds the information that should be
@@ -91,8 +82,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param path {String} path to the property.
      */
-    setIconPath : function(path) {},
-
+    setIconPath(path) {},
 
     /**
      * A map containing the options for the label binding. The possible keys
@@ -100,8 +90,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param options {Map} options for the label binding.
      */
-    setLabelOptions : function(options) {},
-
+    setLabelOptions(options) {},
 
     /**
      * A map containing the options for the icon binding. The possible keys
@@ -109,8 +98,7 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param options {Map} options for the icon binding.
      */
-    setIconOptions : function(options) {},
-
+    setIconOptions(options) {},
 
     /**
      * Delegation object, which can have one or more functions defined by the
@@ -118,12 +106,11 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param delegate {Object} delegation object.
      */
-    setDelegate : function(delegate) {},
-
+    setDelegate(delegate) {},
 
     /**
      * Remove all bindings from all bounded items.
      */
-    removeBindings : function() {}
+    removeBindings() {}
   }
 });

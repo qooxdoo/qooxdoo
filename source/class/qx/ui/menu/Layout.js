@@ -22,10 +22,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.menu.Layout",
-{
-  extend : qx.ui.layout.VBox,
-
+qx.Class.define("qx.ui.menu.Layout", {
+  extend: qx.ui.layout.VBox,
 
   /*
   *****************************************************************************
@@ -33,14 +31,12 @@ qx.Class.define("qx.ui.menu.Layout",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Spacing between each cell on the menu buttons */
-    columnSpacing :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    columnSpacing: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
 
     /**
@@ -48,34 +44,29 @@ qx.Class.define("qx.ui.menu.Layout",
      * when the following cell is empty. Spanning may be disabled
      * through setting this property to <code>null</code>.
      */
-    spanColumn :
-    {
-      check : "Integer",
-      init : 1,
-      nullable : true,
-      apply : "_applyLayoutChange"
+    spanColumn: {
+      check: "Integer",
+      init: 1,
+      nullable: true,
+      apply: "_applyLayoutChange"
     },
 
     /** Default icon column width if no icons are rendered */
-    iconColumnWidth :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true,
-      apply : "_applyLayoutChange"
+    iconColumnWidth: {
+      check: "Integer",
+      init: 0,
+      themeable: true,
+      apply: "_applyLayoutChange"
     },
 
     /** Default arrow column width if no sub menus are rendered */
-    arrowColumnWidth :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true,
-      apply : "_applyLayoutChange"
+    arrowColumnWidth: {
+      check: "Integer",
+      init: 0,
+      themeable: true,
+      apply: "_applyLayoutChange"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -83,9 +74,8 @@ qx.Class.define("qx.ui.menu.Layout",
   *****************************************************************************
   */
 
-  members :
-  {
-    __columnSizes : null,
+  members: {
+    __columnSizes: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -94,20 +84,18 @@ qx.Class.define("qx.ui.menu.Layout",
     */
 
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var child, sizes, spacing;
 
       var spanColumn = this.getSpanColumn();
-      var columnSizes = this.__columnSizes = [0, 0, 0, 0];
+      var columnSizes = (this.__columnSizes = [0, 0, 0, 0]);
       var columnSpacing = this.getColumnSpacing();
       var spanColumnWidth = 0;
       var maxInset = 0;
 
       // Compute column sizes and insets
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         if (child.isAnonymous()) {
@@ -116,9 +104,12 @@ qx.Class.define("qx.ui.menu.Layout",
 
         sizes = child.getChildrenSizes();
 
-        for (var column=0; column<sizes.length; column++)
-        {
-          if (spanColumn != null && column == spanColumn && sizes[spanColumn+1] == 0) {
+        for (var column = 0; column < sizes.length; column++) {
+          if (
+            spanColumn != null &&
+            column == spanColumn &&
+            sizes[spanColumn + 1] == 0
+          ) {
             spanColumnWidth = Math.max(spanColumnWidth, sizes[column]);
           } else {
             columnSizes[column] = Math.max(columnSizes[column], sizes[column]);
@@ -131,8 +122,13 @@ qx.Class.define("qx.ui.menu.Layout",
 
       // Fix label column width is cases where the maximum button with no shortcut
       // is larger than the maximum button with a shortcut
-      if (spanColumn != null && columnSizes[spanColumn] + columnSpacing + columnSizes[spanColumn+1] < spanColumnWidth) {
-        columnSizes[spanColumn] = spanColumnWidth - columnSizes[spanColumn+1] - columnSpacing;
+      if (
+        spanColumn != null &&
+        columnSizes[spanColumn] + columnSpacing + columnSizes[spanColumn + 1] <
+          spanColumnWidth
+      ) {
+        columnSizes[spanColumn] =
+          spanColumnWidth - columnSizes[spanColumn + 1] - columnSpacing;
       }
 
       // When merging the cells for label and shortcut
@@ -153,17 +149,15 @@ qx.Class.define("qx.ui.menu.Layout",
         columnSizes[3] = this.getArrowColumnWidth();
       }
 
-      var height = this.base(arguments).height;
+      var height = super._computeSizeHint().height;
 
       // Build hint
       return {
         minHeight: height,
-        height : height,
-        width : qx.lang.Array.sum(columnSizes) + maxInset + spacing
+        height: height,
+        width: qx.lang.Array.sum(columnSizes) + maxInset + spacing
       };
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -176,7 +170,7 @@ qx.Class.define("qx.ui.menu.Layout",
      *
      * @return {Array} List of all column widths
      */
-    getColumnSizes : function() {
+    getColumnSizes() {
       return this.__columnSizes || null;
     }
   },
@@ -187,7 +181,7 @@ qx.Class.define("qx.ui.menu.Layout",
    *****************************************************************************
    */
 
-  destruct : function() {
+  destruct() {
     this.__columnSizes = null;
   }
 });

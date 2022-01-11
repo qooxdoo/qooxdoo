@@ -16,7 +16,7 @@
 
 ************************************************************************ */
 
-const {ESLint} = require("eslint");
+const { ESLint } = require("eslint");
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("path");
 const replaceInFile = require("replace-in-file");
@@ -25,55 +25,66 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
   extend: qx.tool.cli.commands.Command,
 
   statics: {
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
-        "command"   : "lint [files...]",
-        "describe": "runs eslint on the current application or as set of single files.",
-        "builder": {
-          "fix": {
+        command: "lint [files...]",
+        describe:
+          "runs eslint on the current application or as set of single files.",
+        builder: {
+          fix: {
             describe: "runs eslint with --fix"
           },
+
           "fix-jsdoc-params": {
-            describe: "changes the order or @param name and {Type} to make it compatible for the generator ('name-first') or with JSDoc linting ('type-first').",
+            describe:
+              "changes the order or @param name and {Type} to make it compatible for the generator ('name-first') or with JSDoc linting ('type-first').",
             choices: ["off", "name-first", "type-first"],
             default: "off"
           },
+
           "use-eslintrc": {
             describe: "Use the .eslintrc file for configuration, if it exists",
             type: "boolean",
             default: true
           },
-          "cache": {
+
+          cache: {
             describe: "operate only on changed files",
             type: "boolean",
             default: false
           },
-          "warnAsError": {
+
+          warnAsError: {
             alias: "w",
             describe: "handle warnings as error"
           },
+
           "print-config": {
-            alias : "p",
+            alias: "p",
             describe: "print the eslint configuration"
           },
-          "format": {
-            alias : "f",
+
+          format: {
+            alias: "f",
             describe: "use a specific output format",
             default: "codeframe"
           },
-          "outputFile": {
+
+          outputFile: {
             alias: "o",
             describe: "specify file to which the report will be written",
             nargs: 1,
             requiresArg: true,
             type: "string"
           },
-          "verbose": {
+
+          verbose: {
             alias: "v",
             describe: "enables additional progress output to console",
             type: "boolean"
           },
-          "quiet": {
+
+          quiet: {
             alias: "q",
             describe: "No output"
           }
@@ -83,8 +94,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
   },
 
   members: {
-
-    process: async function() {
+    async process() {
       await this.__applyFixes();
 
       let helperFilePath = require.main.path;
@@ -98,7 +108,10 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       let config = await qx.tool.cli.Cli.getInstance().getParsedArgs();
       let lintOptions = config.eslintConfig || {};
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
-      lintOptions.globals = Object.assign(lintOptions.globals || {}, await this.__addGlobals(config));
+      lintOptions.globals = Object.assign(
+        lintOptions.globals || {},
+        await this.__addGlobals(config)
+      );
       let linter = new ESLint({
         cwd: helperFilePath,
         cache: this.argv.cache || false,
@@ -106,6 +119,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         useEslintrc: this.argv.useEslintrc,
         fix: this.argv.fix
       });
+
       let files = this.argv.files || [];
       if (files.length === 0) {
         files.push("source/class/**/*.js");
@@ -119,10 +133,10 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       } else {
         let report = await linter.lintFiles(files);
         report.errorCount = 0;
-        report.warningCount =0;
+        report.warningCount = 0;
         for (const r of report) {
-           report.errorCount += r.errorCount;
-           report.warningCount += r.warningCount;
+          report.errorCount += r.errorCount;
+          report.warningCount += r.warningCount;
         }
         if (this.argv.fix) {
           await ESLint.outputFixes(report);
@@ -138,15 +152,24 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           const s = formatter.format(report);
           if (this.argv.outputFile) {
             if (this.argv.verbose) {
-              qx.tool.compiler.Console.info(`Report to be written to ${this.argv.outputFile}`);
+              qx.tool.compiler.Console.info(
+                `Report to be written to ${this.argv.outputFile}`
+              );
             }
-            await fs.writeFileAsync(this.argv.outputFile, s, "UTF-8")
+            await fs
+              .writeFileAsync(this.argv.outputFile, s, "UTF-8")
               .then(() => {
                 if (this.argv.verbose) {
-                  qx.tool.compiler.Console.info(`Report written to ${this.argv.outputFile}`);
+                  qx.tool.compiler.Console.info(
+                    `Report written to ${this.argv.outputFile}`
+                  );
                 }
               })
-              .catch(e => qx.tool.compiler.Console.error(`Error writing report to ${this.argv.outputFile}:` + e.message));
+              .catch(e =>
+                qx.tool.compiler.Console.error(
+                  `Error writing report to ${this.argv.outputFile}:` + e.message
+                )
+              );
           } else if (report.errorCount > 0 || this.argv.warnAsError) {
             throw new qx.tool.utils.Utils.UserError(s);
           } else {
@@ -166,12 +189,14 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
     async __addGlobals(data) {
       let result = {};
       if (data.libraries) {
-        await qx.Promise.all(data.libraries.map(async dir => {
-          let lib = await qx.tool.compiler.app.Library.createLibrary(dir);
-          let s = lib.getNamespace();
-          let libs = s.split(".");
-          result[libs[0]] = false;
-        }));
+        await qx.Promise.all(
+          data.libraries.map(async dir => {
+            let lib = await qx.tool.compiler.app.Library.createLibrary(dir);
+            let s = lib.getNamespace();
+            let libs = s.split(".");
+            result[libs[0]] = false;
+          })
+        );
       }
       return result;
     },
@@ -185,14 +210,16 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       const fixParams = this.argv.fixJsdocParams;
       if (fixParams && fixParams !== "off") {
         let replaceInFiles = [];
-        const regex = fixParams === "type-first" ?
-          /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g :
-          /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
+        const regex =
+          fixParams === "type-first"
+            ? /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g
+            : /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
         replaceInFiles.push({
           files: "source/class/**/*.js",
           from: regex,
           to: "@param $2 $1"
         });
+
         await replaceInFile(replaceInFiles);
       }
     }

@@ -16,34 +16,25 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.GlobalEventMonitors",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MRequirements,
+qx.Class.define("qx.test.event.GlobalEventMonitors", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MRequirements,
 
-  events : {
-    "test" : "qx.event.type.Event"
+  events: {
+    test: "qx.event.type.Event"
   },
 
-  members :
-  {
-
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.called = false;
     },
 
-
-    tearDown : function ()
-    {
+    tearDown() {
       qx.event.Manager.resetGlobalEventMonitors();
     },
 
-
-    "test: add and call global event monitors" : function()
-    {
-      qx.event.Manager.addGlobalEventMonitor(function(target, event){
+    "test: add and call global event monitors"() {
+      qx.event.Manager.addGlobalEventMonitor(function (target, event) {
         this.assertEquals(this, target);
         this.assertEquals("test", event.getType());
         this.called = true;
@@ -52,11 +43,14 @@ qx.Class.define("qx.test.event.GlobalEventMonitors",
       this.assertTrue(this.called, "Monitor function was not called");
     },
 
-    "test: remove global event monitor" : function()
-    {
+    "test: remove global event monitor"() {
       this.value = false;
-      var fn1 = function(){ this.value = true};
-      var fn2 = function(){ this.value = false};
+      var fn1 = function () {
+        this.value = true;
+      };
+      var fn2 = function () {
+        this.value = false;
+      };
       qx.event.Manager.addGlobalEventMonitor(fn1, this);
       this.fireEvent("test");
       this.assertTrue(this.value, "Value should be true after adding fn1");
@@ -68,7 +62,7 @@ qx.Class.define("qx.test.event.GlobalEventMonitors",
       this.assertTrue(this.value, "Value should be true after removing fn2");
     },
 
-    "test: disallow event manipulation" : function() {
+    "test: disallow event manipulation"() {
       var errorWasThrown = false;
       qx.event.Manager.addGlobalEventMonitor(function (target, event) {
         event.preventDefault();
@@ -78,7 +72,10 @@ qx.Class.define("qx.test.event.GlobalEventMonitors",
       } catch (e) {
         errorWasThrown = true;
       }
-      this.assertTrue(errorWasThrown, "No error was thrown after manipulating event object");
+      this.assertTrue(
+        errorWasThrown,
+        "No error was thrown after manipulating event object"
+      );
     }
   }
 });

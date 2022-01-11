@@ -23,12 +23,8 @@
  * A wrapper for CSS font styles. Fond objects can be applied to instances
  * of {@link qx.html.Element}.
  */
-qx.Class.define("qx.bom.Font",
-{
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.bom.Font", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -40,12 +36,10 @@ qx.Class.define("qx.bom.Font",
    * @param size {String?} The font size (Unit: pixel)
    * @param family {String[]?} A sorted list of font families
    */
-  construct : function(size, family)
-  {
-    this.base(arguments);
+  construct(size, family) {
+    super();
 
-    this.__lookupMap =
-    {
+    this.__lookupMap = {
       fontFamily: "",
       fontSize: null,
       fontWeight: null,
@@ -66,17 +60,13 @@ qx.Class.define("qx.bom.Font",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Converts a typical CSS font definition string to an font object
      *
@@ -85,17 +75,14 @@ qx.Class.define("qx.bom.Font",
      * @param str {String} the CSS string
      * @return {qx.bom.Font} the created instance
      */
-    fromString : function(str)
-    {
+    fromString(str) {
       var font = new qx.bom.Font();
       var parts = str.split(/\s+/);
       var name = [];
       var part;
 
-      for (var i=0; i<parts.length; i++)
-      {
-        switch(part = parts[i])
-        {
+      for (var i = 0; i < parts.length; i++) {
+        switch ((part = parts[i])) {
           case "bold":
             font.setBold(true);
             break;
@@ -128,24 +115,20 @@ qx.Class.define("qx.bom.Font",
       return font;
     },
 
-
     /**
      * Converts a map property definition into a font object.
      *
      * @param config {Map} map of property values
      * @return {qx.bom.Font} the created instance
      */
-    fromConfig : function(config)
-    {
-      var font = new qx.bom.Font;
+    fromConfig(config) {
+      var font = new qx.bom.Font();
       font.set(config);
       return font;
     },
 
-
     /** @type {Map} Default (empty) CSS styles */
-    __defaultStyles :
-    {
+    __defaultStyles: {
       fontFamily: "",
       fontSize: "",
       fontWeight: "",
@@ -154,9 +137,8 @@ qx.Class.define("qx.bom.Font",
       lineHeight: 1.2,
       color: "",
       textShadow: "",
-      letterSpacing: "",
+      letterSpacing: ""
     },
-
 
     /**
      * Returns a map of all properties in empty state.
@@ -166,13 +148,10 @@ qx.Class.define("qx.bom.Font",
      *
      * @return {Map} Default styles
      */
-    getDefaultStyles : function() {
+    getDefaultStyles() {
       return this.__defaultStyles;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -180,25 +159,22 @@ qx.Class.define("qx.bom.Font",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The font size (Unit: pixel) */
-    size :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applySize"
+    size: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applySize"
     },
 
     /**
      * The line height as scaling factor of the default line height. A value
      * of 1 corresponds to the default line height
      */
-    lineHeight :
-    {
-      check : "Number",
+    lineHeight: {
+      check: "Number",
       nullable: true,
-      apply : "_applyLineHeight"
+      apply: "_applyLineHeight"
     },
 
     /**
@@ -207,11 +183,10 @@ qx.Class.define("qx.bom.Font",
      * for certain cases like icon fonts that do not provide the predefined
      * characters.
      */
-    comparisonString :
-    {
-      check : "String",
-      init : null,
-      nullable : true
+    comparisonString: {
+      check: "String",
+      init: null,
+      nullable: true
     },
 
     /**
@@ -225,71 +200,66 @@ qx.Class.define("qx.bom.Font",
      * The version needs to be URL friendly, so only characters, numbers,
      * dash and dots are allowed here.
      */
-    version :
-    {
-      check : function(value) {
-        return value === null || (typeof value === "string" && /^[a-zA-Z0-9.-]+$/.test(value));
+    version: {
+      check(value) {
+        return (
+          value === null ||
+          (typeof value === "string" && /^[a-zA-Z0-9.-]+$/.test(value))
+        );
       },
-      init : null,
-      nullable : true
+      init: null,
+      nullable: true
     },
 
     /** A sorted list of font families */
-    family :
-    {
-      check : "Array",
-      nullable : true,
-      apply : "_applyFamily"
+    family: {
+      check: "Array",
+      nullable: true,
+      apply: "_applyFamily"
     },
 
     /** Whether the font is bold */
-    bold :
-    {
-      check : "Boolean",
-      nullable : true,
-      apply : "_applyBold"
+    bold: {
+      check: "Boolean",
+      nullable: true,
+      apply: "_applyBold"
     },
 
     /** Whether the font is italic */
-    italic :
-    {
-      check : "Boolean",
-      nullable : true,
-      apply : "_applyItalic"
+    italic: {
+      check: "Boolean",
+      nullable: true,
+      apply: "_applyItalic"
     },
 
     /** The text decoration for this font */
-    decoration :
-    {
-      check : [ "underline", "line-through", "overline" ],
-      nullable : true,
-      apply : "_applyDecoration"
+    decoration: {
+      check: ["underline", "line-through", "overline"],
+      nullable: true,
+      apply: "_applyDecoration"
     },
 
     /** The text color for this font */
-    color :
-    {
-      check : "Color",
+    color: {
+      check: "Color",
       nullable: true,
       apply: "_applyColor"
     },
 
     /** The text shadow for this font */
-    textShadow :
-    {
-      nullable : true,
-      check : "String",
-      apply : "_applyTextShadow"
+    textShadow: {
+      nullable: true,
+      check: "String",
+      apply: "_applyTextShadow"
     },
 
     /** The weight property of the font as opposed to just setting it to 'bold' by setting the bold property to true */
-    weight :
-    {
-      nullable : true,
-      check : "String",
-      apply : "_applyWeight"
+    weight: {
+      nullable: true,
+      check: "String",
+      apply: "_applyWeight"
     },
-    
+
     /** The Letter Spacing (Unit: pixel) */
     letterSpacing: {
       check: "Integer",
@@ -298,38 +268,29 @@ qx.Class.define("qx.bom.Font",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    __lookupMap : null,
-
+  members: {
+    __lookupMap: null,
 
     // property apply
-    _applySize : function(value, old) {
+    _applySize(value, old) {
       this.__lookupMap.fontSize = value === null ? null : value + "px";
     },
 
-
-    _applyLineHeight : function(value, old) {
+    _applyLineHeight(value, old) {
       this.__lookupMap.lineHeight = value === null ? null : value;
     },
 
-
     // property apply
-    _applyFamily : function(value, old)
-    {
+    _applyFamily(value, old) {
       var family = "";
 
-      for (var i=0, l=value.length; i<l; i++)
-      {
+      for (var i = 0, l = value.length; i < l; i++) {
         // in FireFox 2 and WebKit fonts like 'serif' or 'sans-serif' must
         // not be quoted!
         if (value[i].indexOf(" ") > 0) {
@@ -338,7 +299,7 @@ qx.Class.define("qx.bom.Font",
           family += value[i];
         }
 
-        if (i !== l-1) {
+        if (i !== l - 1) {
           family += ",";
         }
       }
@@ -349,47 +310,46 @@ qx.Class.define("qx.bom.Font",
       this.__lookupMap.fontFamily = family;
     },
 
-
     // property apply
-    _applyBold : function(value, old) {
-      this.__lookupMap.fontWeight = value == null ? null : value ? "bold" : "normal";
+    _applyBold(value, old) {
+      this.__lookupMap.fontWeight =
+        value == null ? null : value ? "bold" : "normal";
     },
 
-
     // property apply
-    _applyItalic : function(value, old) {
-      this.__lookupMap.fontStyle = value == null ? null : value ? "italic" : "normal";
+    _applyItalic(value, old) {
+      this.__lookupMap.fontStyle =
+        value == null ? null : value ? "italic" : "normal";
     },
 
-
     // property apply
-    _applyDecoration : function(value, old) {
+    _applyDecoration(value, old) {
       this.__lookupMap.textDecoration = value == null ? null : value;
     },
 
     // property apply
-    _applyColor : function(value, old) {
+    _applyColor(value, old) {
       this.__lookupMap.color = null;
       if (value) {
-        this.__lookupMap.color = qx.theme.manager.Color.getInstance().resolve(value);
+        this.__lookupMap.color =
+          qx.theme.manager.Color.getInstance().resolve(value);
       }
     },
 
     // property apply
-    _applyWeight : function(value, old) {
+    _applyWeight(value, old) {
       this.__lookupMap.fontWeight = value;
     },
 
     // property apply
-    _applyTextShadow : function(value, old) {
+    _applyTextShadow(value, old) {
       this.__lookupMap.textShadow = value == null ? null : value;
     },
 
     // property apply
-    _applyLetterSpacing: function (value, old) {
+    _applyLetterSpacing(value, old) {
       this.__lookupMap.letterSpacing = value === null ? null : value + "px";
     },
-
 
     /**
      * Get a map of all CSS styles, which will be applied to the widget. Only
@@ -399,7 +359,7 @@ qx.Class.define("qx.bom.Font",
      * names which can directly be used with the <code>set</code> method of each
      * widget.
      */
-    getStyles : function() {
+    getStyles() {
       return this.__lookupMap;
     }
   }

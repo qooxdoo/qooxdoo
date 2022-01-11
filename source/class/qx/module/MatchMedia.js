@@ -22,7 +22,6 @@
  * that implements a polyfill for window.matchMedia when it's not supported natively.
  */
 qx.Bootstrap.define("qx.module.MatchMedia", {
-
   statics: {
     /**
      * Evaluates the specified mediaquery list
@@ -31,10 +30,9 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * @return {qx.bom.MediaQuery}  The media query
      * @attachStatic {qxWeb, matchMedia}
      */
-    matchMedia: function (query) {
+    matchMedia(query) {
       return new qx.bom.MediaQuery(query);
     },
-
 
     /**
      * Adds screen size classes (e.g. small-only or medium-up) by pre-defined media queries using em.
@@ -51,22 +49,45 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      *
      * @attachStatic {qxWeb}
      */
-    addSizeClasses: function () {
+    addSizeClasses() {
       qxWeb("html").mediaQueryToClass("only screen", "small-up");
-      qxWeb("html").mediaQueryToClass("only screen and (max-width: 40em)", "small-only");
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (max-width: 40em)",
+        "small-only"
+      );
 
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 40.063em)", "medium-up");
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 40.063em) and (max-width: 64em)", "medium-only");
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 40.063em)",
+        "medium-up"
+      );
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 40.063em) and (max-width: 64em)",
+        "medium-only"
+      );
 
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 64.063em)", "large-up");
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 64.063em) and (max-width: 90em)", "large-only");
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 64.063em)",
+        "large-up"
+      );
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 64.063em) and (max-width: 90em)",
+        "large-only"
+      );
 
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 90.063em)", "xlarge-up");
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 90.063em) and (max-width: 120em)", "xlarge-only");
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 90.063em)",
+        "xlarge-up"
+      );
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 90.063em) and (max-width: 120em)",
+        "xlarge-only"
+      );
 
-      qxWeb("html").mediaQueryToClass("only screen and (min-width: 120.063em)", "xxlarge-up");
+      qxWeb("html").mediaQueryToClass(
+        "only screen and (min-width: 120.063em)",
+        "xxlarge-up"
+      );
     },
-
 
     /**
      * Adds or removes a class depending on matching a given media query
@@ -74,7 +95,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * @param query {String} the media query to evaluate
      * @param className {String} css class name that gets bind to an element
      */
-    __applyClass: function (query, className) {
+    __applyClass(query, className) {
       if (query.isMatching()) {
         this.addClass(className);
       } else {
@@ -83,8 +104,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     }
   },
 
-  members :
-  {
+  members: {
     /**
      * Listens for media query updates and applies/removes the css class.
      *
@@ -94,9 +114,13 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * @attach {qxWeb}
      * @return {qxWeb} Self instance for chaining
      */
-    mediaQueryToClass: function (queryString, className) {
+    mediaQueryToClass(queryString, className) {
       var query = qx.module.MatchMedia.matchMedia(queryString);
-      var callback = qx.module.MatchMedia.__applyClass.bind(this, query, className);
+      var callback = qx.module.MatchMedia.__applyClass.bind(
+        this,
+        query,
+        className
+      );
 
       // apply classes initially
       callback(query, className);
@@ -107,8 +131,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     }
   },
 
-
-  defer: function (statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

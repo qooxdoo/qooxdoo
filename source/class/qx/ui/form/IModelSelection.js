@@ -20,25 +20,21 @@
  * This interface should be used in all objects managing a set of items
  * implementing {@link qx.ui.form.IModel}.
  */
-qx.Interface.define("qx.ui.form.IModelSelection",
-{
-
+qx.Interface.define("qx.ui.form.IModelSelection", {
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Tries to set the selection using the given array containing the
      * representative models for the selectables.
      *
      * @param value {Array} An array of models.
      */
-    setModelSelection : function(value) {},
-
+    setModelSelection(value) {},
 
     /**
      * Returns an array of the selected models.
@@ -46,6 +42,6 @@ qx.Interface.define("qx.ui.form.IModelSelection",
      * @return {Array} An array containing the models of the currently selected
      *   items.
      */
-    getModelSelection : function() {}
+    getModelSelection() {}
   }
 });

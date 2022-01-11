@@ -15,30 +15,27 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Blocker",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.core.Blocker", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __blocker : null,
+  members: {
+    __blocker: null,
 
-    setUp : function() {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this.__blocker = new qx.ui.core.Blocker(this.getRoot());
       this.__blocker.setColor("green");
       this.__blocker.setOpacity(0.5);
     },
 
-    tearDown : function() {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       this.__blocker.dispose();
     },
 
-    testBlocker : function()
-    {
+    testBlocker() {
       var blockerElement = this.__blocker.getBlockerElement();
 
       this.__blocker.block();
@@ -52,8 +49,7 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
-    testBlockerThrice : function()
-    {
+    testBlockerThrice() {
       var blockerElement = this.__blocker.getBlockerElement();
 
       this.__blocker.block();
@@ -87,8 +83,7 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
-    testForceUnblock : function()
-    {
+    testForceUnblock() {
       var blockerElement = this.__blocker.getBlockerElement();
 
       this.__blocker.block();
@@ -107,35 +102,53 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
     },
 
-    testBlockedEvent : function()
-    {
+    testBlockedEvent() {
       this.__blockedEventFired = false;
       this.__unblockedEventFired = false;
 
-      this.__blocker.addListenerOnce("blocked", function(e){
-        this.__blockedEventFired = true;
-      }, this);
+      this.__blocker.addListenerOnce(
+        "blocked",
+        function (e) {
+          this.__blockedEventFired = true;
+        },
+        this
+      );
 
-      this.__blocker.addListenerOnce("unblocked", function(e){
-        this.__unblockedEventFired = true;
-      }, this);
+      this.__blocker.addListenerOnce(
+        "unblocked",
+        function (e) {
+          this.__unblockedEventFired = true;
+        },
+        this
+      );
 
       this.__blocker.block();
       this.__blocker.unblock();
 
-      this.wait(100, function() {
-        this.assertTrue(this.__blockedEventFired, "'blocked' event was not fired, after block() was executed!");
-        this.assertTrue(this.__unblockedEventFired, "'unblocked' event was not fired, after unblock() was executed!");
-      }, this);
+      this.wait(
+        100,
+        function () {
+          this.assertTrue(
+            this.__blockedEventFired,
+            "'blocked' event was not fired, after block() was executed!"
+          );
+          this.assertTrue(
+            this.__unblockedEventFired,
+            "'unblocked' event was not fired, after unblock() was executed!"
+          );
+        },
+        this
+      );
     },
 
-    testRestoreActiveAndFocusedWidgets : function()
-    {
+    testRestoreActiveAndFocusedWidgets() {
       var activeWidget, focusedWidget;
-      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(
+        qx.event.handler.Focus
+      );
 
       var txt2 = new qx.ui.form.TextField();
-      this.getRoot().add(txt2, {left: 100, top:0});
+      this.getRoot().add(txt2, { left: 100, top: 0 });
       txt2.focus();
 
       var txt1 = new qx.ui.form.TextField();
@@ -152,21 +165,35 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
       this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
 
-      activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
-      this.assertFalse(activeWidget === txt1, "text field 1 must not be active");
+      activeWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getActive()
+      );
+      this.assertFalse(
+        activeWidget === txt1,
+        "text field 1 must not be active"
+      );
 
-      focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
-      this.assertFalse(focusedWidget === txt2, "text field 2 must not be focused");
+      focusedWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getFocus()
+      );
+      this.assertFalse(
+        focusedWidget === txt2,
+        "text field 2 must not be focused"
+      );
 
       this.__blocker.unblock();
       this.flush();
       this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
       this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
 
-      activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
+      activeWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getActive()
+      );
       this.assertTrue(activeWidget === txt1, "text field 1 must be active");
 
-      focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      focusedWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getFocus()
+      );
       this.assertTrue(focusedWidget === txt2, "text field 2 must be focused");
 
       // clear
@@ -175,11 +202,11 @@ qx.Class.define("qx.test.ui.core.Blocker",
       this.flush();
     },
 
-
-    testRestoreDisposedWidget : function()
-    {
+    testRestoreDisposedWidget() {
       var widget;
-      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(
+        qx.event.handler.Focus
+      );
       var txt = new qx.ui.form.TextField();
       this.getRoot().add(txt);
       txt.focus();
@@ -203,7 +230,10 @@ qx.Class.define("qx.test.ui.core.Blocker",
 
       // text field must not be focused
       widget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
-      this.assertFalse(widget === txt, "text field must be focused, because it is destroyed");
+      this.assertFalse(
+        widget === txt,
+        "text field must be focused, because it is destroyed"
+      );
 
       txt.destroy();
       this.flush();

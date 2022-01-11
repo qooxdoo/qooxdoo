@@ -20,8 +20,7 @@
  * Cookie handling module
  */
 qx.Bootstrap.define("qx.module.Cookie", {
-  statics :
-  {
+  statics: {
     /**
      * Returns the string value of a cookie.
      *
@@ -31,8 +30,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
      *    contains a value for the key, otherwise <code>null</code>
      * @signature function(key)
      */
-    get : qx.bom.Cookie.get,
-
+    get: qx.bom.Cookie.get,
 
     /**
      * Sets the string value of a cookie.
@@ -48,8 +46,7 @@ qx.Bootstrap.define("qx.module.Cookie", {
      * @param secure {Boolean?null} Secure flag.
      * @signature function(key, value, expires, path, domain, secure)
      */
-    set : qx.bom.Cookie.set,
-
+    set: qx.bom.Cookie.set,
 
     /**
      * Deletes the string value of a cookie.
@@ -60,11 +57,10 @@ qx.Bootstrap.define("qx.module.Cookie", {
      * @param domain {String?null} Domain value.
      * @signature function(key, path, domain)
      */
-    del : qx.bom.Cookie.del
+    del: qx.bom.Cookie.del
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "cookie");
   }
 });

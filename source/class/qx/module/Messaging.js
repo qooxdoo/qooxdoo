@@ -42,8 +42,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * @return {String} The id of the route used to remove the route.
      * @signature function(channel, type, handler, scope)
      */
-    on : null,
-
+    on: null,
 
     /**
      * Adds a handler for the "any" channel. The "any" channel is called
@@ -56,8 +55,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * @return {String} The id of the route used to remove the route.
      * @signature function(type, handler, scope)
      */
-    onAny : null,
-
+    onAny: null,
 
     /**
      * Removes a registered listener by the given id.
@@ -66,8 +64,7 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * @param id {String} The id of the registered listener.
      * @signature function(id)
      */
-    remove : null,
-
+    remove: null,
 
     /**
      * Sends a message on the given channel and informs all matching route handlers.
@@ -79,13 +76,12 @@ qx.Bootstrap.define("qx.module.Messaging", {
      * @param customData {var} The given custom data that should be propagated
      * @signature function(channel, path, params, customData)
      */
-    emit : null
+    emit: null
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachStatic({
-      "messaging" : new qx.event.Messaging()
+      messaging: new qx.event.Messaging()
     });
   }
 });

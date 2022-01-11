@@ -15,15 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.NumberFormat",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.NumberFormat", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget) {
+  members: {
+    __test(widget) {
       // check if the interface is implemented
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.INumberForm), "Interface not implemented");
+      this.assertTrue(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.INumberForm),
+        "Interface not implemented"
+      );
 
       // check for the init value
       this.assertEquals(0, widget.getValue(), "Wrong init value set.");
@@ -36,12 +37,22 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
       this.assertEquals(10, widget.getValue(), "Set or get does not work.");
 
       var self = this;
-      this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue(11);
-      }, function(e) {
-        self.assertEquals(11, e.getData(), "Not the right number in the event.");
-        self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeValue",
+        function () {
+          widget.setValue(11);
+        },
+        function (e) {
+          self.assertEquals(
+            11,
+            e.getData(),
+            "Not the right number in the event."
+          );
+          self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
+        },
+        "Event is wrong!"
+      );
 
       // test for null values
       widget.setValue(null);
@@ -50,13 +61,12 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
       widget.destroy();
     },
 
-    testSpinner: function() {
-     this.__test(new qx.ui.form.Spinner());
+    testSpinner() {
+      this.__test(new qx.ui.form.Spinner());
     },
 
-    testSlider: function() {
-     this.__test(new qx.ui.form.Slider());
+    testSlider() {
+      this.__test(new qx.ui.form.Slider());
     }
-
   }
 });

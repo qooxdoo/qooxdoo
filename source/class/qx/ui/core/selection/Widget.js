@@ -19,11 +19,8 @@
 /**
  * A selection manager, which handles the selection in widgets.
  */
-qx.Class.define("qx.ui.core.selection.Widget",
-{
-  extend : qx.ui.core.selection.Abstract,
-
-
+qx.Class.define("qx.ui.core.selection.Widget", {
+  extend: qx.ui.core.selection.Abstract,
 
   /*
   *****************************************************************************
@@ -34,16 +31,11 @@ qx.Class.define("qx.ui.core.selection.Widget",
   /**
    * @param widget {qx.ui.core.Widget} The widget to connect to
    */
-  construct : function(widget)
-  {
-    this.base(arguments);
+  construct(widget) {
+    super();
 
     this.__widget = widget;
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -51,10 +43,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __widget : null,
+  members: {
+    __widget: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -63,34 +53,31 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    _isSelectable : function(item) {
-      return this._isItemSelectable(item) && item.getLayoutParent() === this.__widget;
+    _isSelectable(item) {
+      return (
+        this._isItemSelectable(item) && item.getLayoutParent() === this.__widget
+      );
     },
 
-
     // overridden
-    _selectableToHashCode : function(item) {
+    _selectableToHashCode(item) {
       return item.toHashCode();
     },
 
-
     // overridden
-    _styleSelectable : function(item, type, enabled) {
+    _styleSelectable(item, type, enabled) {
       enabled ? item.addState(type) : item.removeState(type);
     },
 
-
     // overridden
-    _capture : function() {
+    _capture() {
       this.__widget.capture();
     },
 
-
     // overridden
-    _releaseCapture : function() {
+    _releaseCapture() {
       this.__widget.releaseCapture();
     },
-
 
     /**
      * Helper to return the selectability of the item concerning the
@@ -99,7 +86,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
      * @param item {qx.ui.core.Widget} The item to check.
      * @return {Boolean} true, if the item is selectable.
      */
-    _isItemSelectable : function(item) {
+    _isItemSelectable(item) {
       if (this._userInteraction) {
         return item.isVisible() && item.isEnabled();
       } else {
@@ -107,17 +94,13 @@ qx.Class.define("qx.ui.core.selection.Widget",
       }
     },
 
-
     /**
      * Returns the connected widget.
      * @return {qx.ui.core.Widget} The widget
      */
-    _getWidget : function() {
+    _getWidget() {
       return this.__widget;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -126,50 +109,37 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    _getLocation : function()
-    {
+    _getLocation() {
       var elem = this.__widget.getContentElement().getDomElement();
       return elem ? qx.bom.element.Location.get(elem) : null;
     },
 
-
     // overridden
-    _getDimension : function() {
+    _getDimension() {
       return this.__widget.getInnerSize();
     },
 
-
     // overridden
-    _getSelectableLocationX : function(item)
-    {
+    _getSelectableLocationX(item) {
       var computed = item.getBounds();
-      if (computed)
-      {
+      if (computed) {
         return {
-          left : computed.left,
-          right : computed.left + computed.width
+          left: computed.left,
+          right: computed.left + computed.width
         };
       }
     },
 
-
     // overridden
-    _getSelectableLocationY : function(item)
-    {
+    _getSelectableLocationY(item) {
       var computed = item.getBounds();
-      if (computed)
-      {
+      if (computed) {
         return {
-          top : computed.top,
-          bottom : computed.top + computed.height
+          top: computed.top,
+          bottom: computed.top + computed.height
         };
       }
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -178,30 +148,22 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    _getScroll : function()
-    {
+    _getScroll() {
       return {
-        left : 0,
-        top : 0
+        left: 0,
+        top: 0
       };
     },
 
-
     // overridden
-    _scrollBy : function(xoff, yoff) {
+    _scrollBy(xoff, yoff) {
       // empty implementation
     },
 
-
     // overridden
-    _scrollItemIntoView : function(item) {
+    _scrollItemIntoView(item) {
       this.__widget.scrollChildIntoView(item);
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -210,8 +172,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    getSelectables : function(all)
-    {
+    getSelectables(all) {
       // if only the user selectables should be returned
       var oldUserInteraction = false;
       if (!all) {
@@ -222,8 +183,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var result = [];
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         if (this._isItemSelectable(child)) {
@@ -236,10 +196,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
       return result;
     },
 
-
     // overridden
-    _getSelectableRange : function(item1, item2)
-    {
+    _getSelectableRange(item1, item2) {
       // Fast path for identical items
       if (item1 === item2) {
         return [item1];
@@ -252,19 +210,14 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var active = false;
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
-        if (child === item1 || child === item2)
-        {
-          if (active)
-          {
+        if (child === item1 || child === item2) {
+          if (active) {
             result.push(child);
             break;
-          }
-          else
-          {
+          } else {
             active = true;
           }
         }
@@ -277,13 +230,10 @@ qx.Class.define("qx.ui.core.selection.Widget",
       return result;
     },
 
-
     // overridden
-    _getFirstSelectable : function()
-    {
+    _getFirstSelectable() {
       var children = this.__widget.getChildren();
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         if (this._isItemSelectable(children[i])) {
           return children[i];
         }
@@ -292,13 +242,10 @@ qx.Class.define("qx.ui.core.selection.Widget",
       return null;
     },
 
-
     // overridden
-    _getLastSelectable : function()
-    {
+    _getLastSelectable() {
       var children = this.__widget.getChildren();
-      for (var i=children.length-1; i>0; i--)
-      {
+      for (var i = children.length - 1; i > 0; i--) {
         if (this._isItemSelectable(children[i])) {
           return children[i];
         }
@@ -307,43 +254,38 @@ qx.Class.define("qx.ui.core.selection.Widget",
       return null;
     },
 
-
     // overridden
-    _getFirstVisibleSelectable : function()
-    {
+    _getFirstVisibleSelectable() {
       return this._getFirstSelectable();
     },
 
-
     // overridden
-    _getLastVisibleSelectable : function()
-    {
+    _getLastVisibleSelectable() {
       return this._getLastSelectable();
     },
 
-
     // overridden
-    _getRelatedSelectable : function(item, relation)
-    {
+    _getRelatedSelectable(item, relation) {
       var vertical = this.__widget.getOrientation() === "vertical";
       var children = this.__widget.getChildren();
       var index = children.indexOf(item);
       var sibling;
 
-      if ((vertical && relation === "above") || (!vertical && relation === "left"))
-      {
-        for (var i=index-1; i>=0; i--)
-        {
+      if (
+        (vertical && relation === "above") ||
+        (!vertical && relation === "left")
+      ) {
+        for (var i = index - 1; i >= 0; i--) {
           sibling = children[i];
           if (this._isItemSelectable(sibling)) {
             return sibling;
           }
         }
-      }
-      else if ((vertical && relation === "under") || (!vertical && relation === "right"))
-      {
-        for (var i=index+1; i<children.length; i++)
-        {
+      } else if (
+        (vertical && relation === "under") ||
+        (!vertical && relation === "right")
+      ) {
+        for (var i = index + 1; i < children.length; i++) {
           sibling = children[i];
           if (this._isItemSelectable(sibling)) {
             return sibling;
@@ -354,10 +296,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
       return null;
     },
 
-
     // overridden
-    _getPage : function(lead, up)
-    {
+    _getPage(lead, up) {
       if (up) {
         return this._getFirstSelectable();
       } else {
@@ -366,16 +306,13 @@ qx.Class.define("qx.ui.core.selection.Widget",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__widget = null;
   }
 });

@@ -27,18 +27,15 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.data.controller.IControllerDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.data.controller.IControllerDelegate", {
+  members: {
     /**
      * Gives the user the opportunity to set individual styles and properties
      * on the by the controller created widgets.
      *
      * @param item {var} Item to modify.
      */
-    configureItem : function(item) {},
-
+    configureItem(item) {},
 
     /**
      * Filter checks the current data and returns a boolean if the data should
@@ -50,8 +47,7 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {},
-
+    filter(data) {},
 
     /**
      * Creates an item which will be added to the target as child. Be sure to
@@ -60,8 +56,7 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      *
      * @return {qx.ui.core.Widget} A new created widget.
      */
-    createItem : function() {},
-
+    createItem() {},
 
     /**
      * Sets up the binding for the given item and index.
@@ -76,6 +71,6 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {var} The id for the binding.
      */
-    bindItem : function(controller, item, id) {}
+    bindItem(controller, item, id) {}
   }
 });

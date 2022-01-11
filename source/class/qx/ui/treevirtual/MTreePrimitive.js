@@ -23,15 +23,12 @@
  * but are also useful for other types of trees (not TreeVirtual) that need
  * similar tree and node creation.
  */
-qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
-{
-  statics :
-  {
+qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive", {
+  statics: {
     /** Primitive types of tree nodes */
-    Type :
-    {
-      LEAF   : 1,
-      BRANCH : 2
+    Type: {
+      LEAF: 1,
+      BRANCH: 2
     },
 
     /**
@@ -106,70 +103,63 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
      * @throws {Error} If one tries to add a child to a non-existent parent.
      * @throws {Error} If one tries to add a node to a leaf.
      */
-    _addNode : function(nodeArr,
-                        parentNodeId,
-                        label,
-                        bOpened,
-                        bHideOpenCloseButton,
-                        type,
-                        icon,
-                        iconSelected,
-                        nodeId)
-    {
+    _addNode(
+      nodeArr,
+      parentNodeId,
+      label,
+      bOpened,
+      bHideOpenCloseButton,
+      type,
+      icon,
+      iconSelected,
+      nodeId
+    ) {
       var parentNode;
 
       // Ensure that if parent was specified, it exists
-      if (parentNodeId)
-      {
+      if (parentNodeId) {
         parentNode = nodeArr[parentNodeId];
 
-        if (!parentNode)
-        {
+        if (!parentNode) {
           throw new Error("Request to add a child to a non-existent parent");
         }
 
         // Ensure parent isn't a leaf
-        if (parentNode.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF)
-        {
+        if (parentNode.type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
           throw new Error("Sorry, a LEAF may not have children.");
         }
-      }
-      else
-      {
+      } else {
         // This is a child of the root
         parentNode = nodeArr[0];
         parentNodeId = 0;
       }
 
       // If this is a leaf, we don't present open/close icon
-      if (type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF)
-      {
+      if (type == qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
         // mask off the opened bit but retain the hide open/close button bit
         bOpened = false;
         bHideOpenCloseButton = false;
       }
 
       // Determine the node id of this new node
-      if (nodeId === undefined)
-      {
+      if (nodeId === undefined) {
         nodeId = nodeArr.length;
       }
 
       // Set the data for this node.
-      var node =
-      {
-        type           : type,
-        nodeId         : nodeId,
-        parentNodeId   : parentNodeId,
-        label          : label,
-        bSelected      : false,
-        bOpened        : bOpened,
-        bHideOpenClose : bHideOpenCloseButton,
-        bCanEdit       : true,
-        icon           : icon,
-        iconSelected   : iconSelected,
-        children       : [ ],
-        columnData     : [ ]
+      var node = {
+        type: type,
+        nodeId: nodeId,
+        parentNodeId: parentNodeId,
+        label: label,
+        bSelected: false,
+        bOpened: bOpened,
+        bHideOpenClose: bHideOpenCloseButton,
+        bCanEdit: true,
+        icon: icon,
+        iconSelected: iconSelected,
+        children: [],
+        columnData: []
       };
 
       // Add this node to the array
@@ -188,14 +178,13 @@ qx.Mixin.define("qx.ui.treevirtual.MTreePrimitive",
      * @return {Map}
      *   Returns a root node with all relevant fields filled.
      */
-    _getEmptyTree : function()
-    {
+    _getEmptyTree() {
       return {
-               label    : "<virtual root>",
-               nodeId   : 0,
-               bOpened  : true,
-               children : []
-             };
+        label: "<virtual root>",
+        nodeId: 0,
+        bOpened: true,
+        children: []
+      };
     }
   }
 });

@@ -22,19 +22,15 @@
  * If the user presses the button by tapping on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
  */
-qx.Class.define("qx.ui.form.ToggleButton",
-{
-  extend : qx.ui.basic.Atom,
-  include : [
-    qx.ui.core.MExecutable
-  ],
-  implement : [
+qx.Class.define("qx.ui.form.ToggleButton", {
+  extend: qx.ui.basic.Atom,
+  include: [qx.ui.core.MExecutable],
+
+  implement: [
     qx.ui.form.IBooleanForm,
     qx.ui.form.IExecutable,
     qx.ui.form.IRadioItem
   ],
-
-
 
   /*
   *****************************************************************************
@@ -48,9 +44,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
    * @param label {String} The text on the button.
    * @param icon {String} An URI to the icon of the button.
    */
-  construct : function(label, icon)
-  {
-    this.base(arguments, label, icon);
+  construct(label, icon) {
+    super(label, icon);
 
     // register pointer events
     this.addListener("pointerover", this._onPointerOver);
@@ -71,67 +66,56 @@ qx.Class.define("qx.ui.form.ToggleButton",
     contentEl.setAttribute("aria-pressed", false);
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties:
-  {
+  properties: {
     // overridden
-    appearance:
-    {
+    appearance: {
       refine: true,
       init: "toggle-button"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     /** The value of the widget. True, if the widget is checked. */
-    value :
-    {
-      check : "Boolean",
-      nullable : true,
-      event : "changeValue",
-      apply : "_applyValue",
-      init : false
+    value: {
+      check: "Boolean",
+      nullable: true,
+      event: "changeValue",
+      apply: "_applyValue",
+      init: false
     },
 
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons. */
-    group :
-    {
-      check  : "qx.ui.form.RadioGroup",
-      nullable : true,
-      apply : "_applyGroup"
+    group: {
+      check: "qx.ui.form.RadioGroup",
+      nullable: true,
+      apply: "_applyGroup"
     },
 
     /**
-    * Whether the button has a third state. Use this for tri-state checkboxes.
-    *
-    * When enabled, the value null of the property value stands for "undetermined",
-    * while true is mapped to "enabled" and false to "disabled" as usual. Note
-    * that the value property is set to false initially.
-    *
-    */
-    triState :
-    {
-      check : "Boolean",
-      apply : "_applyTriState",
-      nullable : true,
-      init : null
+     * Whether the button has a third state. Use this for tri-state checkboxes.
+     *
+     * When enabled, the value null of the property value stands for "undetermined",
+     * while true is mapped to "enabled" and false to "disabled" as usual. Note
+     * that the value property is set to false initially.
+     *
+     */
+    triState: {
+      check: "Boolean",
+      apply: "_applyTriState",
+      nullable: true,
+      init: null
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -139,11 +123,9 @@ qx.Class.define("qx.ui.form.ToggleButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
-    _applyGroup : function(value, old)
-    {
+    _applyGroup(value, old) {
       if (old) {
         old.remove(this);
       }
@@ -153,14 +135,13 @@ qx.Class.define("qx.ui.form.ToggleButton",
       }
     },
 
-
     /**
      * Changes the state of the button dependent on the checked value.
      *
      * @param value {Boolean} Current value
      * @param old {Boolean} Previous value
      */
-    _applyValue : function(value, old) {
+    _applyValue(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
 
       let ariaPressed = Boolean(value);
@@ -177,25 +158,23 @@ qx.Class.define("qx.ui.form.ToggleButton",
     },
 
     /**
-    * Apply value property when triState property is modified.
-    *
-    * @param value {Boolean} Current value
-    * @param old {Boolean} Previous value
-    */
-    _applyTriState : function(value, old) {
+     * Apply value property when triState property is modified.
+     *
+     * @param value {Boolean} Current value
+     * @param old {Boolean} Previous value
+     */
+    _applyTriState(value, old) {
       this._applyValue(this.getValue());
     },
-
 
     /**
      * Handler for the execute event.
      *
      * @param e {qx.event.type.Event} The execute event.
      */
-    _onExecute : function(e) {
+    _onExecute(e) {
       this.toggleValue();
     },
-
 
     /**
      * Listener method for "pointerover" event.
@@ -206,21 +185,18 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       if (e.getTarget() !== this) {
         return;
       }
 
       this.addState("hovered");
 
-      if (this.hasState("abandoned"))
-      {
+      if (this.hasState("abandoned")) {
         this.removeState("abandoned");
         this.addState("pressed");
       }
     },
-
 
     /**
      * Listener method for "pointerout" event.
@@ -232,16 +208,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {qx.event.type.Pointer} pointer event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       if (e.getTarget() !== this) {
         return;
       }
 
       this.removeState("hovered");
 
-      if (this.hasState("pressed"))
-      {
+      if (this.hasState("pressed")) {
         if (!this.getValue()) {
           this.removeState("pressed");
         }
@@ -249,7 +223,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
         this.addState("abandoned");
       }
     },
-
 
     /**
      * Listener method for "pointerdown" event.
@@ -261,8 +234,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {qx.event.type.Pointer} pointer event
      */
-    _onPointerDown : function(e)
-    {
+    _onPointerDown(e) {
       if (!e.isLeftPressed()) {
         return;
       }
@@ -276,7 +248,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       e.stopPropagation();
     },
 
-
     /**
      * Listener method for "pointerup" event.
      * <ul>
@@ -288,8 +259,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {qx.event.type.Pointer} pointer event
      */
-    _onPointerUp : function(e)
-    {
+    _onPointerUp(e) {
       this.releaseCapture();
 
       if (this.hasState("abandoned")) {
@@ -302,7 +272,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       e.stopPropagation();
     },
 
-
     /**
      * Listener method for "keydown" event.<br/>
      * Removes "abandoned" and adds "pressed" state
@@ -310,10 +279,8 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {Event} Key event
      */
-    _onKeyDown : function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyDown(e) {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
           this.removeState("abandoned");
@@ -323,7 +290,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       }
     },
 
-
     /**
      * Listener method for "keyup" event.<br/>
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
@@ -331,14 +297,12 @@ qx.Class.define("qx.ui.form.ToggleButton",
      *
      * @param e {Event} Key event
      */
-    _onKeyUp : function(e)
-    {
+    _onKeyUp(e) {
       if (!this.hasState("pressed")) {
         return;
       }
 
-      switch(e.getKeyIdentifier())
-      {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
           this.removeState("abandoned");

@@ -1,14 +1,14 @@
 qx.Class.define("qx.test.testclasses.DerivedClassPatched", {
   extend: qx.test.testclasses.BaseClassPatched,
-  
-  construct: function() {
-    this.base(arguments);
+
+  construct() {
+    super();
     this.state.push("derived");
   },
-  
+
   members: {
-    getSomething: function() {
-      return this.base(arguments) + ":derived";
+    getSomething() {
+      return super.getSomething() + ":derived";
     }
   }
 });

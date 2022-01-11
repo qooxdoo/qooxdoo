@@ -19,12 +19,8 @@
 /**
  * A message to be dispatched on the message bus.
  */
-qx.Class.define("qx.event.message.Message",
-{
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.event.message.Message", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -36,9 +32,8 @@ qx.Class.define("qx.event.message.Message",
    * @param name {String} The name of the message
    * @param data {var} Any type of data to attach
    */
-  construct : function(name, data)
-  {
-    this.base(arguments);
+  construct(name, data) {
+    super();
 
     if (name != null) {
       this.setName(name);
@@ -49,50 +44,40 @@ qx.Class.define("qx.event.message.Message",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Event name of the message. Based on this name the message is dispatched
      * to the event listeners.
      */
-    name :
-    {
-      check       : "String"
+    name: {
+      check: "String"
     },
 
     /**
      * Any data the sender wants to pass with the event.
      */
-    data :
-    {
-      init        : null,
-      nullable    : true
+    data: {
+      init: null,
+      nullable: true
     },
 
     /**
      * A reference to the sending object.
      */
-    sender :
-    {
-      check       : "Object",
-      nullable    : true
+    sender: {
+      check: "Object",
+      nullable: true
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     this.setData(null);
     this.setSender(null);
   }
 });
-
-

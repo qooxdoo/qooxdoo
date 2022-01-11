@@ -20,13 +20,11 @@
 /**
  * Base class for all unit tests.
  */
-qx.Class.define("qx.dev.unit.TestCase",
-{
-  extend  : qx.core.Object,
-  include : [qx.core.MAssert],
+qx.Class.define("qx.dev.unit.TestCase", {
+  extend: qx.core.Object,
+  include: [qx.core.MAssert],
 
-  events :
-  {
+  events: {
     /**
      * This event can be fired by assertion functions instead of throwing a
      * {@link qx.core.AssertionError}, ensuring that any code defined after the
@@ -34,26 +32,23 @@ qx.Class.define("qx.dev.unit.TestCase",
      *
      * Event data: The {@link qx.core.AssertionError}
      */
-    assertionFailed : "qx.event.type.Data"
+    assertionFailed: "qx.event.type.Data"
   },
 
-  properties :
-  {
+  properties: {
     /** The TestResult instance that runs the test */
-    testResult :
-    {
-      init : null
+    testResult: {
+      init: null
     },
+
     /** The test currently running */
-    testFunc :
-    {
-      init : null
+    testFunc: {
+      init: null
     }
   },
 
-  members :
-  {
-    __autoDispose : null,
+  members: {
+    __autoDispose: null,
 
     /**
      * Whether If debugging code is enabled. (i.e. the setting
@@ -61,19 +56,17 @@ qx.Class.define("qx.dev.unit.TestCase",
      *
      * @return {Boolean} Whether debugging is enabled
      */
-    isDebugOn : function() {
-      return (qx.core.Environment.get("qx.debug")) ? true : false;
+    isDebugOn() {
+      return qx.core.Environment.get("qx.debug") ? true : false;
     },
 
     /**
      * Checks if qx.debug set
      * used by this.require["debug"]
-    */
-   hasDebug: function() {
-     return qx.core.Environment.get("qx.debug");
-   },
-
-
+     */
+    hasDebug() {
+      return qx.core.Environment.get("qx.debug");
+    },
 
     /**
      * Instruct the test to wait. Used for asynchronous tests.
@@ -84,7 +77,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * @param context {Object?window} Optional execution context for
      * deferredFunction
      */
-    wait : function(delay, deferredFunction, context) {
+    wait(delay, deferredFunction, context) {
       throw new qx.dev.unit.AsyncWrapper(delay, deferredFunction, context);
     },
 
@@ -105,11 +98,10 @@ qx.Class.define("qx.dev.unit.TestCase",
      *
      * @return {var} The return value of the deferred function
      */
-    resume : function(deferredFunction, self)
-    {
+    resume(deferredFunction, self) {
       return this.getTestResult().run(
         this.getTestFunc(),
-        deferredFunction || (function() {}),
+        deferredFunction || function () {},
         self || this,
         true
       );
@@ -121,15 +113,14 @@ qx.Class.define("qx.dev.unit.TestCase",
      *
      * @return {var} The return value of the testRun
      */
-    resumeSetUp : function() {
+    resumeSetUp() {
       var func = this.getTestFunc();
       var inst = this;
       var method = func.getName();
 
       return this.getTestResult().run(
         func,
-        function()
-        {
+        function () {
           try {
             inst[method]();
           } catch (ex) {
@@ -140,7 +131,6 @@ qx.Class.define("qx.dev.unit.TestCase",
         true
       );
     },
-
 
     /**
      * Cancel a timeout started with <code>wait()</code> and return a function,
@@ -160,34 +150,36 @@ qx.Class.define("qx.dev.unit.TestCase",
      *        callback. By default the test instance is used.
      * @return {Function} Wrapper function which runs resume with deferred function
      */
-    resumeHandler : function(deferredFunction, self)
-    {
-      if(qx.core.Environment.get("qx.debug")) {
-        this.assertFunction(deferredFunction, "First parameter of resumeHandler() must be a function!");
+    resumeHandler(deferredFunction, self) {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertFunction(
+          deferredFunction,
+          "First parameter of resumeHandler() must be a function!"
+        );
       }
 
       var func = deferredFunction;
       var that = this;
 
-      return function(){
+      return function () {
         // bind arguments to deferŕedFunction
         var args = qx.lang.Array.fromArguments(arguments);
 
-        return that.resume(func.bind.apply(func, [self || this].concat(args)), self);
+        return that.resume(
+          func.bind.apply(func, [self || this].concat(args)),
+          self
+        );
       };
     },
-
 
     /**
      * Skip this test. Any code after a call to this method will not be executed.
      *
      * @param message {String|null} Optional message (reason why the test was skipped)
      */
-    skip : function(message)
-    {
+    skip(message) {
       throw new qx.dev.unit.RequirementError(null, message || "Called skip()");
     },
-
 
     /**
      * Add an object to the auto dispose list. This can be cleared manually or will
@@ -195,8 +187,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      *
      * @param obj {qx.core.Object} Object to be automatically disposed.
      */
-    addAutoDispose : function(obj)
-    {
+    addAutoDispose(obj) {
       if (!this.__autoDispose) {
         this.__autoDispose = [];
       }
@@ -206,15 +197,13 @@ qx.Class.define("qx.dev.unit.TestCase",
     /**
      * Dispose all objects that got registered for auto disposal.
      */
-    doAutoDispose : function()
-    {
+    doAutoDispose() {
       if (this.__autoDispose) {
-        this.__autoDispose.forEach(function(obj) {
+        this.__autoDispose.forEach(function (obj) {
           if (!obj.isDisposed()) {
             if (obj instanceof qx.ui.core.Widget) {
               obj.destroy();
-            }
-            else if (obj instanceof qx.core.Object) {
+            } else if (obj instanceof qx.core.Object) {
               obj.dispose();
             }
           }

@@ -36,97 +36,104 @@
  * @require(qx.module.Traversing)
  */
 qx.Bootstrap.define("qx.module.Placeholder", {
-  statics :
-  {
+  statics: {
     /**
      * String holding the property name which holds the placeholder
      * element for each input.
      */
-    PLACEHOLDER_NAME : "$qx_placeholder",
-
+    PLACEHOLDER_NAME: "$qx_placeholder",
 
     /**
      * Queries for all input and textarea elements on the page and updates
      * their placeholder.
      * @attachStatic{qxWeb, placeholder.update}
      */
-    update : function() {
+    update() {
       // ignore if native placeholder are supported
       if (!qxWeb.env.get("css.placeholder")) {
         qxWeb("input[placeholder], textarea[placeholder]").updatePlaceholder();
       }
     },
 
-
     /**
      * Internal helper method to update the styles for a given input element.
      * @param item {qxWeb} The input element to update.
      */
-    __syncStyles : function(item) {
+    __syncStyles(item) {
       var placeholder = item.getAttribute("placeholder");
-      var placeholderEl = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
+      var placeholderEl = item.getProperty(
+        qx.module.Placeholder.PLACEHOLDER_NAME
+      );
 
-      var zIndex= item.getStyle("z-index");
+      var zIndex = item.getStyle("z-index");
 
-      var paddingHor = parseInt(item.getStyle("padding-left")) + 2 * parseInt(item.getStyle("padding-right"));
-      var paddingVer = parseInt(item.getStyle("padding-top")) + 2 * parseInt(item.getStyle("padding-bottom"));
+      var paddingHor =
+        parseInt(item.getStyle("padding-left")) +
+        2 * parseInt(item.getStyle("padding-right"));
+      var paddingVer =
+        parseInt(item.getStyle("padding-top")) +
+        2 * parseInt(item.getStyle("padding-bottom"));
 
       placeholderEl.setHtml(placeholder).setStyles({
-        display : item.getValue() == "" ? "inline" : "none",
-        zIndex : zIndex == "auto" ? 1 : zIndex + 1,
+        display: item.getValue() == "" ? "inline" : "none",
+        zIndex: zIndex == "auto" ? 1 : zIndex + 1,
         textAlign: item.getStyle("text-align"),
-        width: (item.getWidth() - paddingHor - 4) + "px",
-        height: (item.getHeight() - paddingVer - 4) + "px",
+        width: item.getWidth() - paddingHor - 4 + "px",
+        height: item.getHeight() - paddingVer - 4 + "px",
         left: item.getPosition().left + "px",
         top: item.getPosition().top + "px",
-        fontFamily : item.getStyle("font-family"),
-        fontStyle : item.getStyle("font-style"),
-        fontVariant : item.getStyle("font-variant"),
-        fontWeight : item.getStyle("font-weight"),
-        fontSize : item.getStyle("font-size"),
-        paddingTop : (parseInt(item.getStyle("padding-top")) + 2) + "px",
-        paddingRight : (parseInt(item.getStyle("padding-right")) + 2) + "px",
-        paddingBottom : (parseInt(item.getStyle("padding-bottom")) + 2) + "px",
-        paddingLeft : (parseInt(item.getStyle("padding-left")) + 2) + "px"
+        fontFamily: item.getStyle("font-family"),
+        fontStyle: item.getStyle("font-style"),
+        fontVariant: item.getStyle("font-variant"),
+        fontWeight: item.getStyle("font-weight"),
+        fontSize: item.getStyle("font-size"),
+        paddingTop: parseInt(item.getStyle("padding-top")) + 2 + "px",
+        paddingRight: parseInt(item.getStyle("padding-right")) + 2 + "px",
+        paddingBottom: parseInt(item.getStyle("padding-bottom")) + 2 + "px",
+        paddingLeft: parseInt(item.getStyle("padding-left")) + 2 + "px"
       });
     },
-
 
     /**
      * Creates a placeholder element based on the given input element.
      * @param item {qxWeb} The input element.
      * @return {qxWeb} The placeholder element.
      */
-    __createPlaceholderElement : function(item) {
+    __createPlaceholderElement(item) {
       // create the label with initial styles
       var placeholderEl = qxWeb.create("<label>").setStyles({
         position: "absolute",
         color: "#989898",
         overflow: "hidden",
-        pointerEvents : "none"
+        pointerEvents: "none"
       });
+
       // store the label at the input field
       item.setProperty(qx.module.Placeholder.PLACEHOLDER_NAME, placeholderEl);
 
       // update the placeholders visibility on keyUp
-      item.on("keyup", function(item) {
-        var el = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
-        el.setStyle("display", item.getValue() == "" ? "inline" : "none");
-      }.bind(this, item));
+      item.on(
+        "keyup",
+        function (item) {
+          var el = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
+          el.setStyle("display", item.getValue() == "" ? "inline" : "none");
+        }.bind(this, item)
+      );
 
       // for browsers not supporting pointer events
       if (!qxWeb.env.get("css.pointerevents")) {
-        placeholderEl.setStyle("cursor", "text").on("tap", function(item) {
-          item.focus();
-        }.bind(this, item));
+        placeholderEl.setStyle("cursor", "text").on(
+          "tap",
+          function (item) {
+            item.focus();
+          }.bind(this, item)
+        );
       }
       return placeholderEl;
     }
   },
 
-  members :
-  {
-
+  members: {
     /**
      * Updates the placeholders for input's and textarea's in the collection.
      * This includes positioning, styles and DOM positioning.
@@ -136,23 +143,26 @@ qx.Bootstrap.define("qx.module.Placeholder", {
      * @attach {qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    updatePlaceholder : function() {
+    updatePlaceholder() {
       // ignore everything if native placeholder are supported
       if (!qxWeb.env.get("css.placeholder")) {
-        for (var i=0; i < this.length; i++) {
+        for (var i = 0; i < this.length; i++) {
           var item = qxWeb(this[i]);
 
           // ignore all not fitting items in the collection
           var placeholder = item.getAttribute("placeholder");
           var tagName = item.getProperty("tagName");
-          if (!placeholder || (tagName != "TEXTAREA"&& tagName != "INPUT")) {
+          if (!placeholder || (tagName != "TEXTAREA" && tagName != "INPUT")) {
             continue;
           }
 
           // create the element if necessary
-          var placeholderEl = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
+          var placeholderEl = item.getProperty(
+            qx.module.Placeholder.PLACEHOLDER_NAME
+          );
           if (!placeholderEl) {
-            placeholderEl = qx.module.Placeholder.__createPlaceholderElement(item);
+            placeholderEl =
+              qx.module.Placeholder.__createPlaceholderElement(item);
           }
 
           // remove and add handling
@@ -172,8 +182,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "placeholder");
   }
 });

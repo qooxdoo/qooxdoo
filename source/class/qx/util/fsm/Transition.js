@@ -19,10 +19,8 @@
 /**
  * Create a new possible transition from one state to another.
  */
-qx.Class.define("qx.util.fsm.Transition",
-{
-  extend : qx.core.Object,
-
+qx.Class.define("qx.util.fsm.Transition", {
+  extend: qx.core.Object,
 
   /**
    * @param transitionName {String}
@@ -127,12 +125,11 @@ qx.Class.define("qx.util.fsm.Transition",
    *     and ontransition functions.
    *   </pre>
    */
-  construct : function(transitionName, transitionInfo)
-  {
+  construct(transitionName, transitionInfo) {
     var context;
 
     // Call our superclass' constructor
-    this.base(arguments);
+    super();
 
     // Save the state name
     this.setName(transitionName);
@@ -144,64 +141,67 @@ qx.Class.define("qx.util.fsm.Transition",
     this.setUserData("context", context);
 
     // Save data from the transitionInfo object
-    for (var field in transitionInfo)
-    {
+    for (var field in transitionInfo) {
       // If we find one of our properties, call its setter.
-      switch(field)
-      {
-      case "predicate":
-        this.setPredicate(
-          this.__bindIfFunction(transitionInfo[field], context));
-        break;
+      switch (field) {
+        case "predicate":
+          this.setPredicate(
+            this.__bindIfFunction(transitionInfo[field], context)
+          );
+          break;
 
-      case "nextState":
-        this.setNextState(transitionInfo[field]);
-        break;
+        case "nextState":
+          this.setNextState(transitionInfo[field]);
+          break;
 
-      case "autoActionsBeforeOntransition":
-        this.setAutoActionsBeforeOntransition(
-          this.__bindIfFunction(transitionInfo[field], context));
-        break;
+        case "autoActionsBeforeOntransition":
+          this.setAutoActionsBeforeOntransition(
+            this.__bindIfFunction(transitionInfo[field], context)
+          );
+          break;
 
-      case "autoActionsAfterOntransition":
-        this.setAutoActionsAfterOntransition(
-          this.__bindIfFunction(transitionInfo[field], context));
-        break;
+        case "autoActionsAfterOntransition":
+          this.setAutoActionsAfterOntransition(
+            this.__bindIfFunction(transitionInfo[field], context)
+          );
+          break;
 
-      case "ontransition":
-        this.setOntransition(
-          this.__bindIfFunction(transitionInfo[field], context));
-        break;
+        case "ontransition":
+          this.setOntransition(
+            this.__bindIfFunction(transitionInfo[field], context)
+          );
+          break;
 
-      case "context":
-        // already handled
-        break;
+        case "context":
+          // already handled
+          break;
 
-      default:
-        // Anything else is user-provided data for their own use.  Save it.
-        this.setUserData(field, transitionInfo[field]);
+        default:
+          // Anything else is user-provided data for their own use.  Save it.
+          this.setUserData(field, transitionInfo[field]);
 
-        // Log it in case it was a typo and they intended a built-in field
-        this.debug("Transition " + transitionName + ": " +
-                   "Adding user-provided field to transition: " + field);
+          // Log it in case it was a typo and they intended a built-in field
+          this.debug(
+            "Transition " +
+              transitionName +
+              ": " +
+              "Adding user-provided field to transition: " +
+              field
+          );
 
-        break;
+          break;
       }
     }
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The name of this transition
      */
-    name :
-    {
-      check : "String",
-      nullable : true
+    name: {
+      check: "String",
+      nullable: true
     },
-
 
     /**
      * The predicate function for this transition.  This is documented in the
@@ -209,16 +209,13 @@ qx.Class.define("qx.util.fsm.Transition",
      * transitionInfo object, but it is also possible (but highly NOT
      * recommended) to change this dynamically.
      */
-    predicate :
-    {
-      init : function(fsm, event)
-      {
+    predicate: {
+      init(fsm, event) {
         return true;
       },
 
-      transform : "__transformPredicate"
+      transform: "__transformPredicate"
     },
-
 
     /**
      * The state to transition to, if the predicate determines that this
@@ -227,12 +224,10 @@ qx.Class.define("qx.util.fsm.Transition",
      * but it is also possible (but highly NOT recommended) to change this
      * dynamically.
      */
-    nextState :
-    {
-      init : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
-      transform : "__transformNextState"
+    nextState: {
+      init: qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
+      transform: "__transformNextState"
     },
-
 
     /**
      * Automatic actions to take prior to calling the transition's
@@ -241,12 +236,10 @@ qx.Class.define("qx.util.fsm.Transition",
      * it is also possible (but highly NOT recommended) to change this
      * dynamically.
      */
-    autoActionsBeforeOntransition :
-    {
-      init : function(fsm, event) {},
-      transform : "__transformAutoActionsBeforeOntransition"
+    autoActionsBeforeOntransition: {
+      init(fsm, event) {},
+      transform: "__transformAutoActionsBeforeOntransition"
     },
-
 
     /**
      * Automatic actions to take immediately after calling the transition's
@@ -255,12 +248,10 @@ qx.Class.define("qx.util.fsm.Transition",
      * it is also possible (but highly NOT recommended) to change this
      * dynamically.
      */
-    autoActionsAfterOntransition :
-    {
-      init : function(fsm, event) {},
-      transform : "__transformAutoActionsAfterOntransition"
+    autoActionsAfterOntransition: {
+      init(fsm, event) {},
+      transform: "__transformAutoActionsAfterOntransition"
     },
-
 
     /**
      * The function run when the transition is accepted.  This is documented
@@ -268,88 +259,42 @@ qx.Class.define("qx.util.fsm.Transition",
      * transitionInfo object, but it is also possible (but highly NOT
      * recommended) to change this dynamically.
      */
-    ontransition :
-    {
-      init : function(fsm, event) {},
-      transform : "__transformOntransition"
+    ontransition: {
+      init(fsm, event) {},
+      transform: "__transformOntransition"
     }
   },
 
-
-  members:
-  {
+  members: {
     /**
      * Validate the predicate. Converts all incoming values to functions.
      *
      * @param value {var} incoming value
      * @return {Function} predicate function
      */
-    __transformPredicate : function(value)
-    {
+    __transformPredicate(value) {
       // Validate the predicate.  Convert all valid types to function.
-      switch(typeof (value))
-      {
-      case "undefined":
-        // No predicate means predicate passes
-        return function(fsm, event)
-        {
-          return true;
-        };
+      switch (typeof value) {
+        case "undefined":
+          // No predicate means predicate passes
+          return function (fsm, event) {
+            return true;
+          };
 
-      case "boolean":
-        // Convert boolean predicate to a function which returns that value
-        return function(fsm, event)
-        {
-          return value;
-        };
+        case "boolean":
+          // Convert boolean predicate to a function which returns that value
+          return function (fsm, event) {
+            return value;
+          };
 
-      case "function":
-        // Use user-provided function.
-        return qx.lang.Function.bind(value, this.getUserData("context"));
-
-      default:
-        throw new Error("Invalid transition predicate type: " +
-                        typeof (value));
-      }
-    },
-
-
-    /**
-     * Internal transform method
-     *
-     * @param value {var} Current value
-     * @return {Function} the final value
-     */
-    __transformNextState : function(value)
-    {
-      // Validate nextState.  It must be a string or a number.
-      switch(typeof (value))
-      {
-      case "string":
-        return value;
-
-      case "number":
-        // Ensure that it's one of the possible state-change constants
-        switch(value)
-        {
-        case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
-        case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
-        case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
-          return value;
+        case "function":
+          // Use user-provided function.
+          return qx.lang.Function.bind(value, this.getUserData("context"));
 
         default:
-          throw new Error("Invalid transition nextState value: " +
-                          value + ": " +
-                          "nextState must be an explicit state name, " +
-                          "or one of the Fsm.StateChange constants");
-        }
-
-      default:
-        throw new Error("Invalid transition nextState type: " +
-                        typeof (value));
+          throw new Error("Invalid transition predicate type: " + typeof value);
       }
     },
-
 
     /**
      * Internal transform method
@@ -357,13 +302,47 @@ qx.Class.define("qx.util.fsm.Transition",
      * @param value {var} Current value
      * @return {Function} the final value
      */
-    __transformAutoActionsBeforeOntransition : function(value)
-    {
+    __transformNextState(value) {
+      // Validate nextState.  It must be a string or a number.
+      switch (typeof value) {
+        case "string":
+          return value;
+
+        case "number":
+          // Ensure that it's one of the possible state-change constants
+          switch (value) {
+            case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+            case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+            case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
+              return value;
+
+            default:
+              throw new Error(
+                "Invalid transition nextState value: " +
+                  value +
+                  ": " +
+                  "nextState must be an explicit state name, " +
+                  "or one of the Fsm.StateChange constants"
+              );
+          }
+
+        default:
+          throw new Error("Invalid transition nextState type: " + typeof value);
+      }
+    },
+
+    /**
+     * Internal transform method
+     *
+     * @param value {var} Current value
+     * @return {Function} the final value
+     */
+    __transformAutoActionsBeforeOntransition(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOntransition",
         value,
-        this.getUserData("context"));
-
+        this.getUserData("context")
+      );
     },
 
     /**
@@ -372,13 +351,12 @@ qx.Class.define("qx.util.fsm.Transition",
      * @param value {var} Current value
      * @return {Function} the final value
      */
-    __transformAutoActionsAfterOntransition : function(value)
-    {
+    __transformAutoActionsAfterOntransition(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOntransition",
         value,
-        this.getUserData("context"));
-
+        this.getUserData("context")
+      );
     },
 
     /**
@@ -387,22 +365,20 @@ qx.Class.define("qx.util.fsm.Transition",
      * @param value {var} Current value
      * @return {Function} the final value
      */
-    __transformOntransition : function(value)
-    {
+    __transformOntransition(value) {
       // Validate the ontransition function.  Convert undefined to function.
-      switch(typeof (value))
-      {
-      case "undefined":
-        // No provided function just means do nothing.  Use a null
-        // function.
-        return function(fsm, event) {};
+      switch (typeof value) {
+        case "undefined":
+          // No provided function just means do nothing.  Use a null
+          // function.
+          return function (fsm, event) {};
 
-      case "function":
-        // Use user-provided function.
-        return qx.lang.Function.bind(value, this.getUserData("context"));
+        case "function":
+          // Use user-provided function.
+          return qx.lang.Function.bind(value, this.getUserData("context"));
 
-      default:
-        throw new Error("Invalid ontransition type: " + typeof (value));
+        default:
+          throw new Error("Invalid ontransition type: " + typeof value);
       }
     },
 
@@ -420,11 +396,9 @@ qx.Class.define("qx.util.fsm.Transition",
      *   be called in the specified context. Otherwise, f is returned
      *   unaltered.
      */
-    __bindIfFunction : function(f, context)
-    {
+    __bindIfFunction(f, context) {
       // Is the first parameter a function?
-      if (typeof(f) == "function")
-      {
+      if (typeof f == "function") {
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);
       }

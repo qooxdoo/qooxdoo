@@ -16,50 +16,37 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.Dom",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.Dom", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var div = document.createElement("div");
       div.id = "html_basics";
 
       div.innerHTML =
         '<div id="test1">' +
-
         '<div id="test2"></div>' +
-
         '<div id="test3">' +
-          '<div id="test4"></div>' +
-        '</div>' +
-
-        '</div>';
+        '<div id="test4"></div>' +
+        "</div>" +
+        "</div>";
 
       document.body.appendChild(div);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       var div = document.getElementById("html_basics");
       document.body.removeChild(div);
     },
 
-
-    testIsDocument : function()
-    {
+    testIsDocument() {
       this.assertTrue(qx.dom.Node.isDocument(document));
       this.assertFalse(qx.dom.Node.isDocument(document.body));
       this.assertFalse(qx.dom.Node.isDocument(window));
     },
 
-
-    testContains : function()
-    {
+    testContains() {
       var test1 = document.getElementById("test1");
       var test2 = document.getElementById("test2");
       var test3 = document.getElementById("test3");
@@ -79,13 +66,8 @@ qx.Class.define("qx.test.Dom",
       this.assertFalse(qx.dom.Hierarchy.contains(test2, document));
       this.assertFalse(qx.dom.Hierarchy.contains(test2, document.body));
 
-
       this.assertFalse(qx.dom.Hierarchy.contains(test2, test3));
       this.assertFalse(qx.dom.Hierarchy.contains(test2, test4));
     }
-
-
-
   }
-
 });

@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.Type",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.Type", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testIsString : function()
-    {
+  members: {
+    testIsString() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isString(""));
@@ -34,7 +31,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isString(new qx.type.BaseString("juhu")));
 
       this.assertFalse(Type.isString());
-      this.assertFalse(Type.isString(function() {}));
+      this.assertFalse(Type.isString(function () {}));
       this.assertFalse(Type.isString(null));
       this.assertFalse(Type.isString(2));
       this.assertFalse(Type.isString({}));
@@ -45,9 +42,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isString(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsArray : function()
-    {
+    testIsArray() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isArray([]));
@@ -56,7 +51,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isArray(new qx.type.BaseArray()));
 
       this.assertFalse(Type.isArray());
-      this.assertFalse(Type.isArray(function() {}));
+      this.assertFalse(Type.isArray(function () {}));
       this.assertFalse(Type.isArray(""));
       this.assertFalse(Type.isArray(null));
       this.assertFalse(Type.isArray(2));
@@ -68,9 +63,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isArray(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsObject : function()
-    {
+    testIsObject() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isObject({}));
@@ -81,7 +74,10 @@ qx.Class.define("qx.test.lang.Type",
       qxObj.dispose();
 
       this.assertFalse(Type.isObject(), "undefined is not an object");
-      this.assertFalse(Type.isObject(function() {}), "function is not an object");
+      this.assertFalse(
+        Type.isObject(function () {}),
+        "function is not an object"
+      );
       this.assertFalse(Type.isObject(""), "string is not an object");
       this.assertFalse(Type.isObject(null), "null is not an object");
       this.assertFalse(Type.isObject(undefined), "undefined is not an object");
@@ -94,16 +90,14 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isObject(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsRegExp : function()
-    {
+    testIsRegExp() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isRegExp(/juhu/));
       this.assertTrue(Type.isRegExp(new RegExp()));
 
       this.assertFalse(Type.isRegExp());
-      this.assertFalse(Type.isRegExp(function() {}));
+      this.assertFalse(Type.isRegExp(function () {}));
       this.assertFalse(Type.isRegExp(""));
       this.assertFalse(Type.isRegExp(null));
       this.assertFalse(Type.isRegExp(2));
@@ -115,9 +109,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isRegExp(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsNumber : function()
-    {
+    testIsNumber() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isNumber(1));
@@ -127,7 +119,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isNumber(0));
 
       this.assertFalse(Type.isNumber());
-      this.assertFalse(Type.isNumber(function() {}));
+      this.assertFalse(Type.isNumber(function () {}));
       this.assertFalse(Type.isNumber(""));
       this.assertFalse(Type.isNumber(null));
       this.assertFalse(Type.isNumber(/g/));
@@ -139,9 +131,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isNumber(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsBoolean : function()
-    {
+    testIsBoolean() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isBoolean(true));
@@ -150,7 +140,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isBoolean(new Boolean()));
 
       this.assertFalse(Type.isBoolean());
-      this.assertFalse(Type.isBoolean(function() {}));
+      this.assertFalse(Type.isBoolean(function () {}));
       this.assertFalse(Type.isBoolean(""));
       this.assertFalse(Type.isBoolean(null));
       this.assertFalse(Type.isBoolean(/g/));
@@ -159,15 +149,15 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isBoolean({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isBoolean(document.getElementById("ReturenedNull")));
+      this.assertFalse(
+        Type.isBoolean(document.getElementById("ReturenedNull"))
+      );
     },
 
-
-    testIsFunction : function()
-    {
+    testIsFunction() {
       var Type = qx.lang.Type;
 
-      this.assertTrue(Type.isFunction(function() {}));
+      this.assertTrue(Type.isFunction(function () {}));
       this.assertTrue(Type.isFunction(Object));
 
       this.assertFalse(Type.isFunction());
@@ -180,11 +170,12 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isFunction({}));
 
       // test IE issue with a null returned from DOM
-      this.assertFalse(Type.isFunction(document.getElementById("ReturenedNull")));
+      this.assertFalse(
+        Type.isFunction(document.getElementById("ReturenedNull"))
+      );
     },
 
-
-    testIsDate: function() {
+    testIsDate() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isDate(new Date()));
@@ -207,8 +198,7 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isDate(document.getElementById("ReturenedNull")));
     },
 
-
-    testIsError: function() {
+    testIsError() {
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isError(new Error()));
@@ -235,11 +225,11 @@ qx.Class.define("qx.test.lang.Type",
     /**
      * @ignore(Promise)
      */
-    testIsPromise: function() {
+    testIsPromise() {
       var Type = qx.lang.Type;
 
-      this.assertTrue(Type.isPromise(new Promise(function() {})));
-      this.assertTrue(Type.isPromise(new qx.Promise(function() {})));
+      this.assertTrue(Type.isPromise(new Promise(function () {})));
+      this.assertTrue(Type.isPromise(new qx.Promise(function () {})));
 
       this.assertFalse(Type.isPromise());
       this.assertFalse(Type.isPromise(true));
@@ -253,6 +243,5 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isPromise({}));
       this.assertFalse(Type.isPromise(new Error()));
     }
-}
-
+  }
 });

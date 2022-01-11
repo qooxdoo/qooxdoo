@@ -22,21 +22,17 @@
  * This mixin is included by all widgets, which support an 'execute' like
  * buttons or menu entries.
  */
-qx.Mixin.define("qx.ui.core.MExecutable",
-{
+qx.Mixin.define("qx.ui.core.MExecutable", {
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired if the {@link #execute} method is invoked.*/
-    "execute" : "qx.event.type.Event"
+    execute: "qx.event.type.Event"
   },
-
-
 
   /*
   *****************************************************************************
@@ -44,22 +40,18 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * A command called if the {@link #execute} method is called, e.g. on a
      * button tap.
      */
-    command :
-    {
-      check : "qx.ui.command.Command",
-      apply : "_applyCommand",
-      event : "changeCommand",
-      nullable : true
+    command: {
+      check: "qx.ui.command.Command",
+      apply: "_applyCommand",
+      event: "changeCommand",
+      nullable: true
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -67,12 +59,10 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   *****************************************************************************
   */
 
-  members :
-  {
-    __executableBindingIds : null,
-    __semaphore : false,
-    __executeListenerId : null,
-
+  members: {
+    __executableBindingIds: null,
+    __semaphore: false,
+    __executeListenerId: null,
 
     /**
      * @type {Map} Set of properties, which will by synced from the command to the
@@ -80,29 +70,16 @@ qx.Mixin.define("qx.ui.core.MExecutable",
      *
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties : qx.core.Environment.select("qx.command.bindEnabled", {
-      "true": [
-          "enabled",
-          "label",
-          "icon",
-          "toolTipText",
-          "value",
-          "menu"
-        ],
-      "false": [
-          "label",
-          "icon",
-          "toolTipText",
-          "value",
-          "menu"
-        ]
+    _bindableProperties: qx.core.Environment.select("qx.command.bindEnabled", {
+      true: ["enabled", "label", "icon", "toolTipText", "value", "menu"],
+
+      false: ["label", "icon", "toolTipText", "value", "menu"]
     }),
 
     /**
      * Initiate the execute action.
      */
-    execute : function()
-    {
+    execute() {
       var cmd = this.getCommand();
 
       if (cmd) {
@@ -117,13 +94,12 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       this.fireEvent("execute");
     },
 
-
     /**
      * Handler for the execute event of the command.
      *
      * @param e {qx.event.type.Event} The execute event of the command.
      */
-    __onCommandExecute : function(e) {
+    __onCommandExecute(e) {
       if (this.isEnabled()) {
         if (this.__semaphore) {
           this.__semaphore = false;
@@ -136,17 +112,17 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       }
     },
 
-
     // property apply
-    _applyCommand : function(value, old)
-    {
+    _applyCommand(value, old) {
       // execute forwarding
       if (old != null) {
         old.removeListenerById(this.__executeListenerId);
       }
       if (value != null) {
         this.__executeListenerId = value.addListener(
-          "execute", this.__onCommandExecute, this
+          "execute",
+          this.__onCommandExecute,
+          this
         );
       }
 
@@ -161,8 +137,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         var property = this._bindableProperties[i];
 
         // remove the old binding
-        if (old != null && !old.isDisposed() && ids[property] != null)
-        {
+        if (old != null && !old.isDisposed() && ids[property] != null) {
           old.removeBinding(ids[property]);
           ids[property] = null;
         }
@@ -179,7 +154,8 @@ qx.Mixin.define("qx.ui.core.MExecutable",
               this.$$resyncNeeded = true;
               this.syncAppearance();
               selfPropertyValue = qx.util.PropertyUtil.getThemeValue(
-                this, property
+                this,
+                property
               );
             }
           } else {
@@ -197,8 +173,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this._applyCommand(null, this.getCommand());
     this.__executableBindingIds = null;
   }

@@ -1,9 +1,8 @@
-qx.Class.define("qx.test.performance.widget.WidgetWithDecorator",
-{
-  extend : qx.test.performance.widget.AbstractWidget,
+qx.Class.define("qx.test.performance.widget.WidgetWithDecorator", {
+  extend: qx.test.performance.widget.AbstractWidget,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.__decorator = new qx.ui.decoration.Decorator().set({
       width: 1,
       style: "solid",
@@ -11,10 +10,9 @@ qx.Class.define("qx.test.performance.widget.WidgetWithDecorator",
     });
   },
 
-  members :
-  {
-    _createWidget : function() {
-      return new qx.ui.core.Widget().set({decorator: this.__decorator});
+  members: {
+    _createWidget() {
+      return new qx.ui.core.Widget().set({ decorator: this.__decorator });
     }
   }
 });

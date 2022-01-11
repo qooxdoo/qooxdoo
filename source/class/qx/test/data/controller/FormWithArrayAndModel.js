@@ -20,45 +20,41 @@
  * @ignore(qx.test.data.controller.fixture.ArrayField, qx.test.data.controller.fixture.ModelField)
  */
 
-qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.data.controller.FormWithArrayAndModel", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     /** @type {qx.test.data.controller.fixture.ArrayField} */
-    __arrayField : null,
+    __arrayField: null,
 
     /** @type {qx.test.data.controller.fixture.ModelField} */
-    __modelField : null,
+    __modelField: null,
 
     /** @type {qx.ui.form.Form} */
-    __form : null,
+    __form: null,
 
     /** @type {qx.core.Object} */
-    __model : null,
+    __model: null,
 
-
-    setUp : function() {
-
+    setUp() {
       // imagine me being a table like widget containing two columns (e.g. an miniature todo-list)
       qx.Class.define("qx.test.data.controller.fixture.ArrayField", {
-        extend : qx.ui.core.Widget,
-        implement : [ qx.ui.form.IArrayForm, qx.ui.form.IForm ],
-        include : [ qx.ui.form.MForm ],
+        extend: qx.ui.core.Widget,
+        implement: [qx.ui.form.IArrayForm, qx.ui.form.IForm],
+        include: [qx.ui.form.MForm],
 
-        events : {
-          changeValue : "qx.event.type.Data"
+        events: {
+          changeValue: "qx.event.type.Data"
         },
 
-        members : {
+        members: {
           /** @type {qx.data.Array|null} */
-          __value : null,
+          __value: null,
 
           /**
            * @param value {qx.data.Array|null}
            */
-          setValue : function(value) {
+          setValue(value) {
             var oldValue = this.__value;
             this.__value = value;
             this.fireDataEvent("changeValue", value, oldValue);
@@ -67,47 +63,57 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
           /**
            * @return {qx.data.Array|null}
            */
-          getValue : function() {return this.__value;},
+          getValue() {
+            return this.__value;
+          },
 
-          resetValue : function() {this.__value = null;}
+          resetValue() {
+            this.__value = null;
+          }
         }
       });
 
       // imagine me being a multi-field widget (e.g. address form embedded in user form)
       qx.Class.define("qx.test.data.controller.fixture.ModelField", {
-        extend : qx.data.controller.Form,
-        implement : [ qx.ui.form.IArrayForm, qx.ui.form.IForm ],
-        include : [ qx.ui.form.MForm ],
+        extend: qx.data.controller.Form,
+        implement: [qx.ui.form.IArrayForm, qx.ui.form.IForm],
+        include: [qx.ui.form.MForm],
 
-        events : {
-          changeValue : "qx.event.type.Data",
+        events: {
+          changeValue: "qx.event.type.Data",
 
           // implement IForm interface
-          changeEnabled : "qx.event.type.Data"
+          changeEnabled: "qx.event.type.Data"
         },
 
-        members : {
+        members: {
           // implement IForm interface
-          setEnabled : function() {},
-          getEnabled : function() {return true;},
+          setEnabled() {},
+          getEnabled() {
+            return true;
+          },
 
           /**
            * @param value {qx.core.Object|null}
            */
-          setValue : function(value) {
+          setValue(value) {
             this.setModel(value);
           },
 
           /**
            * @return {qx.core.Object|null}
            */
-          getValue : function() {return this.getModel();},
+          getValue() {
+            return this.getModel();
+          },
 
-          resetValue : function() { this.resetModel(); },
+          resetValue() {
+            this.resetModel();
+          },
 
           // overwritten
-          _applyModel : function(value, old) {
-            this.base(arguments, value, old);
+          _applyModel(value, old) {
+            super._applyModel(value, old);
             this.fireDataEvent("changeValue", value, old);
           }
         }
@@ -120,23 +126,25 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       this.__form.add(this.__arrayField, "One", null, "f1");
       this.__form.add(this.__modelField, "Two", null, "f2");
 
-      this.__model = qx.data.marshal.Json.createModel({f1: null, f2: null, f3: null});
+      this.__model = qx.data.marshal.Json.createModel({
+        f1: null,
+        f2: null,
+        f3: null
+      });
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this._disposeObjects("__arrayField", "__modelField", "__form", "__model");
       qx.Class.undefine("qx.test.data.controller.fixture.ArrayField");
       qx.Class.undefine("qx.test.data.controller.fixture.ModelField");
     },
-
 
     /**
      * Reusable address form.
      *
      * @return {qx.ui.form.Form} Address form.
      */
-    __makeAddressForm : function() {
+    __makeAddressForm() {
       var houseNr = new qx.ui.form.TextField();
       var streetName = new qx.ui.form.TextField();
       var addressForm = new qx.ui.form.Form();
@@ -147,9 +155,11 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       return addressForm;
     },
 
-
-    "test self update: array" : function() {
-      var arr = qx.data.marshal.Json.createModel([{c1: "1a1", c2: "1a2"}, {c1: "1b1", c2: "1b2"}]);
+    "test self update: array"() {
+      var arr = qx.data.marshal.Json.createModel([
+        { c1: "1a1", c2: "1a2" },
+        { c1: "1b1", c2: "1b2" }
+      ]);
       arr.setAutoDisposeItems(true);
       this.__arrayField.setValue(arr);
 
@@ -167,8 +177,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       arr.dispose();
     },
 
-
-    "test self update: model" : function() {
+    "test self update: model"() {
       var addressForm = this.__makeAddressForm();
       this.__modelField.setTarget(addressForm);
 
@@ -189,9 +198,11 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       addressForm.dispose();
     },
 
-
-    "test updating view" : function() {
-      var arr = qx.data.marshal.Json.createModel([{c1: "2a1", c2: "2a2"}, {c1: "2b1", c2: "2b2"}]);
+    "test updating view"() {
+      var arr = qx.data.marshal.Json.createModel([
+        { c1: "2a1", c2: "2a2" },
+        { c1: "2b1", c2: "2b2" }
+      ]);
       arr.setAutoDisposeItems(true);
       this.__arrayField.setValue(arr);
 
@@ -208,9 +219,11 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       arr.dispose();
     },
 
-
-    "test updating model: array field" : function() {
-      var arr = qx.data.marshal.Json.createModel([{c1: "2a1", c2: "2a2"}, {c1: "2b1", c2: "2b2"}]);
+    "test updating model: array field"() {
+      var arr = qx.data.marshal.Json.createModel([
+        { c1: "2a1", c2: "2a2" },
+        { c1: "2b1", c2: "2b2" }
+      ]);
       arr.setAutoDisposeItems(true);
 
       var ctrl = new qx.data.controller.Form(this.__model, this.__form);
@@ -223,8 +236,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
       arr.dispose();
     },
 
-
-    "test updating model: model field" : function() {
+    "test updating model: model field"() {
       var addressForm = this.__makeAddressForm();
       this.__modelField.setTarget(addressForm);
 

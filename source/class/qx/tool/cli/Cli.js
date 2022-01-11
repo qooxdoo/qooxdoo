@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 const path = require("upath");
 const fs = qx.tool.utils.Promisify.fs;
 const semver = require("semver");
@@ -28,7 +27,7 @@ qx.Class.define("qx.tool.cli.Cli", {
   extend: qx.core.Object,
 
   construct() {
-    this.base(arguments);
+    super();
     if (qx.tool.cli.Cli.__instance) {
       throw new Error("qx.tool.cli.Cli has already been initialized!");
     }
@@ -68,7 +67,7 @@ qx.Class.define("qx.tool.cli.Cli", {
      * @return {yargs}
      */
     __createYargs() {
-      return this.yargs = require("yargs")
+      return (this.yargs = require("yargs")
         .locale("en")
         .version()
         .strict(false)
@@ -105,7 +104,7 @@ qx.Class.define("qx.tool.cli.Cli", {
           describe: "colorize log output to the console using ANSI color codes",
           default: true,
           type: "boolean"
-        })
+        }));
     },
 
     /**
@@ -120,13 +119,11 @@ qx.Class.define("qx.tool.cli.Cli", {
 Version: v${await qx.tool.config.Utils.getQxVersion()}
 `;
       title += "\n";
-      title +=
-      `Typical usage:
+      title += `Typical usage:
         qx <commands> [options]
 
       Type qx <command> --help for options and subcommands.`;
-      let yargs = this.__createYargs()
-        .usage(title);
+      let yargs = this.__createYargs().usage(title);
       this.argv = yargs.argv;
       // Logging - needs to be unified..
       if (this.argv.debug) {
@@ -166,13 +163,18 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           const regexp = /^[^=\s]+=.+$/;
           const setEnv = argv["set-env"];
 
-          if (!(setEnv === undefined || !setEnv.some(item => !regexp.test(item)))) {
-            throw (new Error("Argument check failed: --set-env must be a key=value pair."));
+          if (
+            !(setEnv === undefined || !setEnv.some(item => !regexp.test(item)))
+          ) {
+            throw new Error(
+              "Argument check failed: --set-env must be a key=value pair."
+            );
           }
           return true;
         });
 
-      qx.tool.cli.Cli.addYargsCommands(yargs,
+      qx.tool.cli.Cli.addYargsCommands(
+        yargs,
         [
           "Add",
           "Clean",
@@ -189,12 +191,11 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           "Serve",
           "Migrate"
         ],
-        "qx.tool.cli.commands");
 
-      this.argv = await yargs
-        .demandCommand()
-        .strict()
-        .argv;
+        "qx.tool.cli.commands"
+      );
+
+      this.argv = await yargs.demandCommand().strict().argv;
       await this.__notifyLibraries();
     },
 
@@ -203,7 +204,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
      * The commands can overload special arg arguments here.
      * e.g. Deploy will will overload the target.
      */
-    __notifyCommand: function() {
+    __notifyCommand() {
       let cmd = this._compilerApi.getCommand();
       if (cmd) {
         this._compilerApi.getCommand().processArgs(this.argv);
@@ -220,7 +221,11 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         return;
       }
       this.__librariesNotified = true;
-      for (let i = 0, arr = this._compilerApi.getLibraryApis(); i < arr.length; i++) {
+      for (
+        let i = 0, arr = this._compilerApi.getLibraryApis();
+        i < arr.length;
+        i++
+      ) {
         let libraryApi = arr[i];
         await libraryApi.load();
       }
@@ -316,7 +321,6 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         this._compileJsonFilename = compileJsonFilename;
       }
 
-
       /*
        * Create a CompilerAPI
        */
@@ -329,14 +333,13 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           CompilerApi = compileJs.CompilerApi;
         }
       }
-      let compilerApi = this._compilerApi = new CompilerApi(this).set({
+      let compilerApi = (this._compilerApi = new CompilerApi(this).set({
         rootDir: ".",
         configFilename: compileJsonFilename
-      });
+      }));
 
       await compilerApi.load();
       let config = compilerApi.getConfiguration();
-
 
       /*
        * Open the lockfile and check versions
@@ -345,13 +348,20 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         let lockfile = qx.tool.config.Lockfile.config.fileName;
         try {
           var name = path.join(path.dirname(defaultConfigFilename), lockfile);
-          lockfileContent = await qx.tool.utils.Json.loadJsonAsync(name) || lockfileContent;
+          lockfileContent =
+            (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
         } catch (ex) {
           // Nothing
         }
         // check semver-type compatibility (i.e. compatible as long as major version stays the same)
-        let schemaVersion = semver.coerce(qx.tool.config.Lockfile.getInstance().getVersion(), true).raw;
-        let fileVersion = lockfileContent && lockfileContent.version ? semver.coerce(lockfileContent.version, true).raw : "1.0.0";
+        let schemaVersion = semver.coerce(
+          qx.tool.config.Lockfile.getInstance().getVersion(),
+          true
+        ).raw;
+        let fileVersion =
+          lockfileContent && lockfileContent.version
+            ? semver.coerce(lockfileContent.version, true).raw
+            : "1.0.0";
         if (semver.major(schemaVersion) > semver.major(fileVersion)) {
           if (this.argv.force) {
             let config = {
@@ -359,36 +369,40 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
               quiet: this.argv.quiet,
               save: false
             };
+
             const installer = new qx.tool.cli.commands.package.Install(config);
             let filepath = installer.getLockfilePath();
             let backup = filepath + ".old";
             await fs.copyFileAsync(filepath, backup);
             if (!this.argv.quiet) {
-              qx.tool.compiler.Console.warn(`*** A backup of ${lockfile} has been saved to ${backup}, in case you need to revert to it. ***`);
+              qx.tool.compiler.Console.warn(
+                `*** A backup of ${lockfile} has been saved to ${backup}, in case you need to revert to it. ***`
+              );
             }
             await installer.deleteLockfile();
             for (let lib of lockfileContent.libraries) {
-              if (!await installer.isInstalled(lib.uri, lib.repo_tag)) {
+              if (!(await installer.isInstalled(lib.uri, lib.repo_tag))) {
                 if (lib.repo_tag) {
                   await installer.install(lib.uri, lib.repo_tag);
                 } else if (lib.path && fs.existsSync(lib.path)) {
                   await installer.installFromLocaPath(lib.path, lib.uri);
                 }
               } else if (this.argv.verbose) {
-                qx.tool.compiler.Console.info(`>>> ${lib.uri}@${lib.repo_tag} is already installed.`);
+                qx.tool.compiler.Console.info(
+                  `>>> ${lib.uri}@${lib.repo_tag} is already installed.`
+                );
               }
             }
             lockfileContent = await installer.getLockfileData();
           } else {
             throw new qx.tool.utils.Utils.UserError(
               `*** Warning ***\n` +
-              `The schema of '${lockfile}' has changed. Execute 'qx clean && qx compile --force' to delete and regenerate it.\n` +
-              `You might have to re-apply manual modifications to '${lockfile}'.`
+                `The schema of '${lockfile}' has changed. Execute 'qx clean && qx compile --force' to delete and regenerate it.\n` +
+                `You might have to re-apply manual modifications to '${lockfile}'.`
             );
           }
         }
       }
-
 
       /*
        * Locate and load libraries
@@ -396,20 +410,22 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
 
       if (!config.libraries) {
         if (fs.existsSync("Manifest.json")) {
-          config.libraries = [ "." ];
+          config.libraries = ["."];
         }
       }
 
       if (lockfileContent.libraries) {
         config.packages = {};
-        lockfileContent.libraries.forEach(function(library) {
+        lockfileContent.libraries.forEach(function (library) {
           if (library.uri == "qooxdoo/qxl.apiviewer") {
             let m = library.repo_tag.match(/^v([0-9]+)\.([0-9]+)\.([0-9]+)$/);
             if (m) {
               m.shift();
               m = m.map(v => parseInt(v, 10));
               if (m[0] <= 1 && m[1] == 0 && m[2] < 15) {
-                qx.tool.compiler.Console.warn("***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********");
+                qx.tool.compiler.Console.warn(
+                  "***********\n*********** API Viewer is out of date and must be upgraded - please run 'qx package update' and then 'qx package upgrade'\n***********"
+                );
               }
             }
           }
@@ -418,25 +434,37 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         });
       }
       // check if we need to load libraries, needs more robust test
-      let needLibraries = qx.lang.Type.isArray(this.argv._) && this.argv._[0] !== "clean";
+      let needLibraries =
+        qx.lang.Type.isArray(this.argv._) && this.argv._[0] !== "clean";
       // check if libraries are loaded
       if (config.libraries && needLibraries) {
-        let neededLibraries = config.libraries.filter(libData => !fs.existsSync(libData + "/Manifest.json"));
+        let neededLibraries = config.libraries.filter(
+          libData => !fs.existsSync(libData + "/Manifest.json")
+        );
         if (neededLibraries.length) {
           if (!fs.existsSync(qx.tool.config.Manifest.config.fileName)) {
-            qx.tool.compiler.Console.error("Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " + neededLibraries.join("\n     "));
+            qx.tool.compiler.Console.error(
+              "Libraries are missing and there is no Manifest.json in the current directory so we cannot attempt to install them; the missing libraries are: \n     " +
+                neededLibraries.join("\n     ")
+            );
             process.exit(1);
           }
-          qx.tool.compiler.Console.info("One or more libraries not found - trying to install them from library repository...");
+          qx.tool.compiler.Console.info(
+            "One or more libraries not found - trying to install them from library repository..."
+          );
           const installer = new qx.tool.cli.commands.package.Install({
             quiet: true,
             save: false
           });
+
           await installer.process();
         }
 
         for (const aPath of config.libraries) {
-          let libCompileJsFilename = path.join(aPath, qx.tool.cli.Cli.compileJsFilename);
+          let libCompileJsFilename = path.join(
+            aPath,
+            qx.tool.cli.Cli.compileJsFilename
+          );
           let LibraryApi = qx.tool.cli.api.LibraryApi;
           if (await fs.existsAsync(libCompileJsFilename)) {
             let compileJs = await this.__loadJs(libCompileJsFilename);
@@ -449,11 +477,11 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
             rootDir: aPath,
             compilerApi: compilerApi
           });
+
           compilerApi.addLibraryApi(libraryApi);
           await libraryApi.initialize();
         }
       }
-
 
       /*
        * Now everything is loaded, we can process the command line properly
@@ -475,14 +503,14 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       }
 
       if (this.argv["set-env"]) {
-        this.argv["set-env"].forEach(function(kv) {
+        this.argv["set-env"].forEach(function (kv) {
           var m = kv.match(/^([^=\s]+)(=(.+))?$/);
           var key = m[1];
           var value = m[3];
           parsedArgs.environment[key] = value;
         });
       }
-      config.targetType = parsedArgs.target||config.defaultTarget||"source";
+      config.targetType = parsedArgs.target || config.defaultTarget || "source";
 
       if (!config.locales) {
         config.locales = [];
@@ -499,14 +527,20 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       // in target's environment object. If that object doesn't exist create
       // one and assign it to the target.
       if (config.targets) {
-        const target = config.targets.find(target =>
-          target.type === config.targetType);
+        const target = config.targets.find(
+          target => target.type === config.targetType
+        );
         target.environment = target.environment || {};
-        qx.lang.Object.mergeWith(target.environment, parsedArgs.environment, true);
+        qx.lang.Object.mergeWith(
+          target.environment,
+          parsedArgs.environment,
+          true
+        );
       }
 
       if (config.sass && config.sass.compiler !== undefined) {
-        qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER = config.sass.compiler == "latest";
+        qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER =
+          config.sass.compiler == "latest";
       } else {
         qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER = null;
       }
@@ -521,7 +555,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       if (this.isExplicitArg("listen-port")) {
         config.serve.listenPort = this.argv.listenPort;
       } else {
-        config.serve.listenPort = config.serve.listenPort || this.argv.listenPort;
+        config.serve.listenPort =
+          config.serve.listenPort || this.argv.listenPort;
       }
 
       this._parsedArgs = await compilerApi.getConfiguration();
@@ -534,7 +569,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
      * @param aPath {String} the file to load
      * @return {Object} the module
      */
-    __loadJs: async function(aPath) {
+    async __loadJs(aPath) {
       try {
         let module = require(path.resolve(aPath));
         return module;
@@ -548,9 +583,18 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         let lineNumber = lines[0].split("evalmachine.<anonymous>:")[1];
         if (lineNumber !== undefined) {
           lines.shift();
-          throw new Error("Error while reading " + aPath + " at line " + lineNumber + "\n" + lines.join("\n"));
+          throw new Error(
+            "Error while reading " +
+              aPath +
+              " at line " +
+              lineNumber +
+              "\n" +
+              lines.join("\n")
+          );
         } else {
-          throw new Error("Error while reading " + aPath + "\n" + lines.join("\n"));
+          throw new Error(
+            "Error while reading " + aPath + "\n" + lines.join("\n")
+          );
         }
       }
     },
@@ -623,7 +667,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
      * @param classNames {String[]} array of class names, each of which is in the `packageName` package
      * @param packageName {String} the name of the package to find each command class
      */
-    addYargsCommands: function(yargs, classNames, packageName) {
+    addYargsCommands(yargs, classNames, packageName) {
       let pkg = null;
       packageName.split(".").forEach(seg => {
         if (pkg === null) {
@@ -637,7 +681,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         let data = Clazz.getYargsCommand();
         if (data) {
           if (data.handler === undefined) {
-            data.handler = argv => qx.tool.cli.Cli.getInstance().processCommand(new Clazz(argv));
+            data.handler = argv =>
+              qx.tool.cli.Cli.getInstance().processCommand(new Clazz(argv));
           }
           yargs.command(data);
         }

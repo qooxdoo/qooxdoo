@@ -17,21 +17,18 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.GridLinesHorizontal",
-{
-  extend : qx.test.ui.virtual.layer.LayerTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.GridLinesHorizontal", {
+  extend: qx.test.ui.virtual.layer.LayerTestCase,
 
-  members :
-  {
-    _createLayer : function() {
+  members: {
+    _createLayer() {
       return new qx.ui.virtual.layer.GridLines("horizontal");
     },
 
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
-    {
+    _assertCells(firstRow, firstColumn, rowCount, columnCount, msg) {
       var children = this.layer.getContentElement().getDomElement().childNodes;
 
-      this.assertEquals(rowCount-1, children.length);
+      this.assertEquals(rowCount - 1, children.length);
     }
   }
 });

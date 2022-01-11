@@ -1,4 +1,4 @@
 /**
- * New infrastructure for virtual widgets. 
- * 
+ * New infrastructure for virtual widgets.
+ *
  */

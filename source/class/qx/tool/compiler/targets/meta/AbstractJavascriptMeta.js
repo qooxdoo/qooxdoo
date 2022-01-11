@@ -43,7 +43,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
    * @param originalSourceFile {String?} the URI to give to the source map
    */
   construct(appMeta, filename, originalSourceFile) {
-    this.base(arguments);
+    super();
     this._appMeta = appMeta;
     this.__filename = filename;
     this.__originalSourceFile = originalSourceFile;
@@ -111,7 +111,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
 
         let map = await this.getSourceMap();
         if (map) {
-          await fs.writeFileAsync(this.__filename + ".map", JSON.stringify(map, null, 2), "utf8");
+          await fs.writeFileAsync(
+            this.__filename + ".map",
+            JSON.stringify(map, null, 2),
+            "utf8"
+          );
         }
       }
     },
@@ -123,7 +127,9 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
      * @param ws {WriteStream} the stream to write to
      */
     async writeSourceCodeToStream(ws) {
-      throw new Error(`No implementation for ${this.classname}.writeSourceCodeToStream`);
+      throw new Error(
+        `No implementation for ${this.classname}.writeSourceCodeToStream`
+      );
     },
 
     /**
@@ -140,6 +146,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
       let generator = new sourceMap.SourceMapGenerator({
         file: this.getFilename() + ".map"
       });
+
       for (let i = 0; i < jsMetas.length; i++) {
         let js = jsMetas[i];
         let lineOffset = lineOffsets[i];
@@ -152,21 +159,32 @@ qx.Class.define("qx.tool.compiler.targets.meta.AbstractJavascriptMeta", {
                 line: mapping.generatedLine + lineOffset,
                 column: mapping.generatedColumn
               },
+
               original: {
                 line: mapping.originalLine || 1,
                 column: mapping.originalColumn || 1
               },
+
               source: mapping.source || js.getFilename()
             };
+
             generator.addMapping(mapping);
           });
-          if (this._appMeta.getTarget().getSaveSourceInMap && this._appMeta.getTarget().getSaveSourceInMap()) {
-            map.sources.forEach(source => generator.setSourceContent(source, map.sourceContentFor(source)));
+          if (
+            this._appMeta.getTarget().getSaveSourceInMap &&
+            this._appMeta.getTarget().getSaveSourceInMap()
+          ) {
+            map.sources.forEach(source =>
+              generator.setSourceContent(source, map.sourceContentFor(source))
+            );
           }
         }
       }
       let res = JSON.parse(generator.toString());
-      if (this._appMeta.getTarget().getSourceMapRelativePaths && this._appMeta.getTarget().getSourceMapRelativePaths()) {
+      if (
+        this._appMeta.getTarget().getSourceMapRelativePaths &&
+        this._appMeta.getTarget().getSourceMapRelativePaths()
+      ) {
         for (let i = 0; i < res.sources.length; i++) {
           res.sources[i] = path.relative("", res.sources[i]);
         }

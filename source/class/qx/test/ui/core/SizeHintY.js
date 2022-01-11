@@ -16,28 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.core.SizeHintY",
-{
-  extend : qx.test.ui.core.SizeHint,
+qx.Class.define("qx.test.ui.core.SizeHintY", {
+  extend: qx.test.ui.core.SizeHint,
 
-  members :
-  {
-    assertHint : function(min, size, max)
-    {
+  members: {
+    assertHint(min, size, max) {
       var hint = this.getHint();
       this.assertEquals(min, hint.minHeight, "min height");
       this.assertEquals(size, hint.height, "height");
       this.assertEquals(max, hint.maxHeight, "max height");
     },
 
-
-    getDefaultSize : function() {
+    getDefaultSize() {
       return 50;
     },
 
-
-    setSize : function(min, size, max)
-    {
+    setSize(min, size, max) {
       this.widget.set({
         minHeight: min,
         height: size,
@@ -45,8 +39,7 @@ qx.Class.define("qx.test.ui.core.SizeHintY",
       });
     },
 
-
-    setStretching : function(allowShrink, allowGrow) {
+    setStretching(allowShrink, allowGrow) {
       this.widget.setAllowStretchY(allowGrow, allowShrink);
     }
   }

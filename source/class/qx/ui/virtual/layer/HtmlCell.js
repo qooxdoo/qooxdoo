@@ -17,31 +17,29 @@
 
 ************************************************************************ */
 
-
 /**
  * The HtmlCell layer renders each cell with custom HTML markup. The concrete
  * markup for each cell is provided by a cell provider.
  */
-qx.Class.define("qx.ui.virtual.layer.HtmlCell",
-{
-  extend : qx.ui.virtual.layer.Abstract,
-
+qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
+  extend: qx.ui.virtual.layer.Abstract,
 
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
    *    provides the HTML markup for each cell.
    */
-  construct : function(htmlCellProvider)
-  {
-    this.base(arguments);
+  construct(htmlCellProvider) {
+    super();
     this.setZIndex(12);
 
     if (qx.core.Environment.get("qx.debug")) {
-      this.assertInterface(htmlCellProvider, qx.ui.virtual.core.IHtmlCellProvider);
+      this.assertInterface(
+        htmlCellProvider,
+        qx.ui.virtual.core.IHtmlCellProvider
+      );
     }
     this._cellProvider = htmlCellProvider;
   },
-
 
   /*
   *****************************************************************************
@@ -49,9 +47,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     /**
      * Get the cell size taking the box model into account
      *
@@ -63,50 +59,55 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
      *    vertical paddings and borders
      * @return {String} The CSS style string for the cell size
      */
-    _getCellSizeStyle : function(width, height, insetX, insetY)
-    {
+    _getCellSizeStyle(width, height, insetX, insetY) {
       var style = "";
-      if (qx.core.Environment.get("css.boxmodel") == "content")
-      {
+      if (qx.core.Environment.get("css.boxmodel") == "content") {
         width -= insetX;
         height -= insetY;
       }
 
-      style += "width:" +  width + "px;";
+      style += "width:" + width + "px;";
       style += "height:" + height + "px;";
 
       return style;
     },
 
-
     // overridden
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
       var left = 0;
       var top = 0;
       var row = firstRow;
       var column = firstColumn;
-      for (var y=0; y<rowSizes.length; y++)
-      {
+      for (var y = 0; y < rowSizes.length; y++) {
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[y];
-        for(var x=0; x<columnSizes.length; x++)
-        {
+        for (var x = 0; x < columnSizes.length; x++) {
           var width = columnSizes[x];
-          var cellProperties = this._cellProvider.getCellProperties(row, column);
+          var cellProperties = this._cellProvider.getCellProperties(
+            row,
+            column
+          );
           var insets = cellProperties.insets || [0, 0];
 
           html.push(
             "<div ",
             "style='",
-            "left:", left, "px;",
-            "top:", top, "px;",
+            "left:",
+            left,
+            "px;",
+            "top:",
+            top,
+            "px;",
             this._getCellSizeStyle(width, height, insets[0], insets[1]),
-            cellProperties.style || "", "' ",
-            "class='", cellProperties.classes || "", "' ",
-            cellProperties.attributes || "", ">",
+            cellProperties.style || "",
+            "' ",
+            "class='",
+            cellProperties.classes || "",
+            "' ",
+            cellProperties.attributes || "",
+            ">",
             cellProperties.content || "",
             "</div>"
           );
@@ -128,7 +129,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._cellProvider = null;
   }
 });

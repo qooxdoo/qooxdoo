@@ -19,11 +19,8 @@
 /**
  * Interface of an authentication delegate.
  */
-qx.Interface.define("qx.io.request.authentication.IAuthentication",
-{
-
-  members :
-  {
+qx.Interface.define("qx.io.request.authentication.IAuthentication", {
+  members: {
     /**
      * Headers to include in request for authentication purposes.
      *
@@ -31,6 +28,6 @@ qx.Interface.define("qx.io.request.authentication.IAuthentication",
      *          must have the properties <code>key</code> and <code>value</code>
      *         with a value of type string.
      */
-    getAuthHeaders: function() {}
+    getAuthHeaders() {}
   }
 });

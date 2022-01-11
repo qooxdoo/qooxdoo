@@ -25,20 +25,17 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Plugin",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.Plugin", {
+  statics: {
     /**
      * Checks for the availability of google gears plugin.
      *
      * @internal
      * @return {Boolean} <code>true</code> if gears is available
      */
-    getGears : function() {
+    getGears() {
       return !!(window.google && window.google.gears);
     },
-
 
     /**
      * Checks for ActiveX availability.
@@ -48,19 +45,20 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *
      * @ignore(window.ActiveXObject)
      */
-    getActiveX : function()
-    {
+    getActiveX() {
       if (typeof window.ActiveXObject === "function") {
         return true;
       }
       try {
         // in IE11 Preview, ActiveXObject is undefined but instances can
         // still be created
-        return window.ActiveXObject !== undefined && 
-          (typeof (new window.ActiveXObject("Microsoft.XMLHTTP")) === "object" ||
-           typeof (new window.ActiveXObject("MSXML2.DOMDocument.6.0")) === "object"
-          );
-      } catch(ex) {
+        return (
+          window.ActiveXObject !== undefined &&
+          (typeof new window.ActiveXObject("Microsoft.XMLHTTP") === "object" ||
+            typeof new window.ActiveXObject("MSXML2.DOMDocument.6.0") ===
+              "object")
+        );
+      } catch (ex) {
         return false;
       }
     },
@@ -71,14 +69,13 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * @internal
      * @return {Boolean} <code>true</code> if the plugin is available.
      */
-    getSkype : function()
-    {
+    getSkype() {
       // IE Support
       if (qx.bom.client.Plugin.getActiveX()) {
-       try {
-         new window.ActiveXObject("Skype.Detection");
-         return true;
-       } catch (e) {}
+        try {
+          new window.ActiveXObject("Skype.Detection");
+          return true;
+        } catch (e) {}
       }
 
       var mimeTypes = navigator.mimeTypes;
@@ -88,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
           return true;
         }
         // webkit support
-        for (var i=0; i < mimeTypes.length; i++) {
+        for (var i = 0; i < mimeTypes.length; i++) {
           var desc = mimeTypes[i];
           if (desc.type.indexOf("skype.click2call") != -1) {
             return true;
@@ -99,50 +96,42 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       return false;
     },
 
-
     /**
      * Database of supported features.
      * Filled with additional data at initialization
      */
-    __db :
-    {
-      quicktime :
-      {
-        plugin : [ "QuickTime" ],
-        control : "QuickTimeCheckObject.QuickTimeCheck.1"
+    __db: {
+      quicktime: {
+        plugin: ["QuickTime"],
+        control: "QuickTimeCheckObject.QuickTimeCheck.1"
         // call returns boolean: instance.IsQuickTimeAvailable(0)
       },
 
-      wmv :
-      {
-        plugin : [ "Windows Media" ],
-        control : "WMPlayer.OCX.7"
+      wmv: {
+        plugin: ["Windows Media"],
+        control: "WMPlayer.OCX.7"
         // version string in: instance.versionInfo
       },
 
-      divx :
-      {
-        plugin : [ "DivX Web Player" ],
-        control : "npdivx.DivXBrowserPlugin.1"
+      divx: {
+        plugin: ["DivX Web Player"],
+        control: "npdivx.DivXBrowserPlugin.1"
       },
 
-      silverlight :
-      {
-        plugin : [ "Silverlight" ],
-        control : "AgControl.AgControl"
+      silverlight: {
+        plugin: ["Silverlight"],
+        control: "AgControl.AgControl"
         // version string in: instance.version (Silverlight 1.0)
         // version string in: instance.settings.version (Silverlight 1.1)
         // version check possible using instance.IsVersionSupported
       },
 
-      pdf :
-      {
-        plugin : [ "Chrome PDF Viewer", "Adobe Acrobat" ],
-        control : "AcroPDF.PDF"
+      pdf: {
+        plugin: ["Chrome PDF Viewer", "Adobe Acrobat"],
+        control: "AcroPDF.PDF"
         // this is detecting Acrobat PDF version > 7 and Chrome PDF Viewer
       }
     },
-
 
     /**
      * Fetches the version of the quicktime plugin.
@@ -150,11 +139,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   an empty string otherwise
      * @internal
      */
-    getQuicktimeVersion : function() {
+    getQuicktimeVersion() {
       var entry = qx.bom.client.Plugin.__db["quicktime"];
       return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
     },
-
 
     /**
      * Fetches the version of the windows media plugin.
@@ -162,11 +150,14 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   an empty string otherwise
      * @internal
      */
-    getWindowsMediaVersion : function() {
+    getWindowsMediaVersion() {
       var entry = qx.bom.client.Plugin.__db["wmv"];
-      return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin, true);
+      return qx.bom.client.Plugin.__getVersion(
+        entry.control,
+        entry.plugin,
+        true
+      );
     },
-
 
     /**
      * Fetches the version of the divx plugin.
@@ -174,11 +165,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   an empty string otherwise
      * @internal
      */
-    getDivXVersion : function() {
+    getDivXVersion() {
       var entry = qx.bom.client.Plugin.__db["divx"];
       return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
     },
-
 
     /**
      * Fetches the version of the silverlight plugin.
@@ -186,11 +176,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   an empty string otherwise
      * @internal
      */
-    getSilverlightVersion : function() {
+    getSilverlightVersion() {
       var entry = qx.bom.client.Plugin.__db["silverlight"];
       return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
     },
-
 
     /**
      * Fetches the version of the pdf plugin.
@@ -212,55 +201,54 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *  an empty string otherwise
      * @internal
      */
-    getPdfVersion : function() {
+    getPdfVersion() {
       var entry = qx.bom.client.Plugin.__db["pdf"];
       return qx.bom.client.Plugin.__getVersion(entry.control, entry.plugin);
     },
-
 
     /**
      * Checks if the quicktime plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */
-    getQuicktime : function() {
+    getQuicktime() {
       var entry = qx.bom.client.Plugin.__db["quicktime"];
       return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
     },
-
 
     /**
      * Checks if the windows media plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */
-    getWindowsMedia : function() {
+    getWindowsMedia() {
       var entry = qx.bom.client.Plugin.__db["wmv"];
-      return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin, true);
+      return qx.bom.client.Plugin.__isAvailable(
+        entry.control,
+        entry.plugin,
+        true
+      );
     },
-
 
     /**
      * Checks if the divx plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */
-    getDivX : function() {
+    getDivX() {
       var entry = qx.bom.client.Plugin.__db["divx"];
       return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
     },
-
 
     /**
      * Checks if the silverlight plugin is available.
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */
-    getSilverlight : function() {
+    getSilverlight() {
       var entry = qx.bom.client.Plugin.__db["silverlight"];
       return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
     },
-
 
     /**
      * Checks if the pdf plugin is available.
@@ -281,11 +269,10 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */
-    getPdf : function() {
+    getPdf() {
       var entry = qx.bom.client.Plugin.__db["pdf"];
       return qx.bom.client.Plugin.__isAvailable(entry.control, entry.plugin);
     },
-
 
     /**
      * Internal helper for getting the version of a given plugin.
@@ -298,28 +285,32 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   for IE11 plugins that aren't listed in navigator.plugins
      * @return {String} The version of the plugin as string.
      */
-    __getVersion : function(activeXName, pluginNames, forceActiveX) {
+    __getVersion(activeXName, pluginNames, forceActiveX) {
       var available = qx.bom.client.Plugin.__isAvailable(
-        activeXName, pluginNames, forceActiveX
+        activeXName,
+        pluginNames,
+        forceActiveX
       );
+
       // don't check if the plugin is not available
       if (!available) {
         return "";
       }
 
       // IE checks
-      if (qx.bom.client.Engine.getName() == "mshtml" &&
-        (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX))
-      {
+      if (
+        qx.bom.client.Engine.getName() == "mshtml" &&
+        (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX)
+      ) {
         try {
           var obj = new window.ActiveXObject(activeXName);
           var version;
 
           // pdf version detection
           if (obj.GetVersions && obj.GetVersions()) {
-            version = obj.GetVersions().split(',');
+            version = obj.GetVersions().split(",");
             if (version.length > 1) {
-              version = version[0].split('=');
+              version = version[0].split("=");
               if (version.length === 2) {
                 return version[1];
               }
@@ -346,19 +337,16 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
         return "";
 
-      // all other browsers
+        // all other browsers
       } else {
         var plugins = navigator.plugins;
 
         var verreg = /([0-9]\.[0-9])/g;
-        for (var i = 0; i < plugins.length; i++)
-        {
+        for (var i = 0; i < plugins.length; i++) {
           var plugin = plugins[i];
 
-          for (var j = 0; j < pluginNames.length; j++)
-          {
-            if (plugin.name.indexOf(pluginNames[j]) !== -1)
-            {
+          for (var j = 0; j < pluginNames.length; j++) {
+            if (plugin.name.indexOf(pluginNames[j]) !== -1) {
               if (verreg.test(plugin.name) || verreg.test(plugin.description)) {
                 return RegExp.$1;
               }
@@ -369,7 +357,6 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         return "";
       }
     },
-
 
     /**
      * Internal helper for getting the availability of a given plugin.
@@ -382,38 +369,35 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *   for IE11 plugins that aren't listed in navigator.plugins
      * @return {Boolean} <code>true</code>, if the plugin available
      */
-    __isAvailable : function(activeXName, pluginNames, forceActiveX) {
+    __isAvailable(activeXName, pluginNames, forceActiveX) {
       // IE checks
-      if (qx.bom.client.Engine.getName() == "mshtml" &&
-        (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX))
-      {
-
+      if (
+        qx.bom.client.Engine.getName() == "mshtml" &&
+        (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX)
+      ) {
         if (!this.getActiveX()) {
           return false;
         }
 
         try {
           new window.ActiveXObject(activeXName);
-        } catch(ex) {
+        } catch (ex) {
           return false;
         }
 
         return true;
-      // all other
+        // all other
       } else {
-
         var plugins = navigator.plugins;
         if (!plugins) {
           return false;
         }
 
         var name;
-        for (var i = 0; i < plugins.length; i++)
-        {
+        for (var i = 0; i < plugins.length; i++) {
           name = plugins[i].name;
 
-          for (var j = 0; j < pluginNames.length; j++)
-          {
+          for (var j = 0; j < pluginNames.length; j++) {
             if (name.indexOf(pluginNames[j]) !== -1) {
               return true;
             }
@@ -425,16 +409,25 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("plugin.gears", statics.getGears);
     qx.core.Environment.add("plugin.quicktime", statics.getQuicktime);
-    qx.core.Environment.add("plugin.quicktime.version", statics.getQuicktimeVersion);
+    qx.core.Environment.add(
+      "plugin.quicktime.version",
+      statics.getQuicktimeVersion
+    );
     qx.core.Environment.add("plugin.windowsmedia", statics.getWindowsMedia);
-    qx.core.Environment.add("plugin.windowsmedia.version", statics.getWindowsMediaVersion);
+    qx.core.Environment.add(
+      "plugin.windowsmedia.version",
+      statics.getWindowsMediaVersion
+    );
     qx.core.Environment.add("plugin.divx", statics.getDivX);
     qx.core.Environment.add("plugin.divx.version", statics.getDivXVersion);
     qx.core.Environment.add("plugin.silverlight", statics.getSilverlight);
-    qx.core.Environment.add("plugin.silverlight.version", statics.getSilverlightVersion);
+    qx.core.Environment.add(
+      "plugin.silverlight.version",
+      statics.getSilverlightVersion
+    );
     qx.core.Environment.add("plugin.pdf", statics.getPdf);
     qx.core.Environment.add("plugin.pdf.version", statics.getPdfVersion);
     qx.core.Environment.add("plugin.activex", statics.getActiveX);

@@ -21,21 +21,17 @@
  * Each object, which should support single selection have to
  * implement this interface.
  */
-qx.Interface.define("qx.ui.core.ISingleSelection",
-{
+qx.Interface.define("qx.ui.core.ISingleSelection", {
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-
-  events :
-  {
+  events: {
     /** Fires after the selection was modified */
-    "changeSelection" : "qx.event.type.Data"
+    changeSelection: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -43,9 +39,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     /**
      * Returns an array of currently selected items.
      *
@@ -54,7 +48,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *
      * @return {qx.ui.core.Widget[]} List of items.
      */
-    getSelection : function() {
+    getSelection() {
       return true;
     },
 
@@ -64,14 +58,14 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * @param items {qx.ui.core.Widget[]} Items to select.
      * @throws {Error} if the item is not a child element.
      */
-    setSelection : function(items) {
+    setSelection(items) {
       return arguments.length == 1;
     },
 
     /**
      * Clears the whole selection at once.
      */
-    resetSelection : function() {
+    resetSelection() {
       return true;
     },
 
@@ -82,7 +76,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * @return {Boolean} Whether the item is selected.
      * @throws {Error} if the item is not a child element.
      */
-    isSelected : function(item) {
+    isSelected(item) {
       return arguments.length == 1;
     },
 
@@ -91,7 +85,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *
      * @return {Boolean} Whether the selection is empty.
      */
-    isSelectionEmpty : function() {
+    isSelectionEmpty() {
       return true;
     },
 
@@ -102,7 +96,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */
-    getSelectables: function(all) {
+    getSelectables(all) {
       return arguments.length == 1;
     }
   }

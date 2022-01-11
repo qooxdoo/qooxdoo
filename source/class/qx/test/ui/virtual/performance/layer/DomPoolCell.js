@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
-{
-  extend : qx.ui.virtual.layer.Abstract,
+qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell", {
+  extend: qx.ui.virtual.layer.Abstract,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this._nodePool = [];
   },
 
@@ -32,15 +30,10 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     _nodePool: null,
 
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       qx.ui.core.queue.Manager.flush();
       var start = new Date();
       var el = this.getContentElement().getDomElement();
@@ -48,7 +41,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
         return;
       }
       var childNodes = el.childNodes;
-      var i=0;
+      var i = 0;
       el.innerHTML = "";
 
       var Style = qx.bom.element.Style;
@@ -58,12 +51,10 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
       var top = 0;
       var row = firstRow;
       var col = firstColumn;
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var col = firstColumn;
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        for (var y = 0; y < columnSizes.length; y++) {
           var content = col + " / " + row;
 
           var cell = childNodes[i++];
@@ -72,13 +63,24 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
             var doAppend = true;
           }
 
-          Style.setCss(cell, [
-            "position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", columnSizes[y], "px;",
-            "height:", rowSizes[x], "px;"
-          ].join(""));
+          Style.setCss(
+            cell,
+            [
+              "position:absolute;",
+              "left:",
+              left,
+              "px;",
+              "top:",
+              top,
+              "px;",
+              "width:",
+              columnSizes[y],
+              "px;",
+              "height:",
+              rowSizes[x],
+              "px;"
+            ].join("")
+          );
 
           Attribute.set(cell, "text", content);
           left += columnSizes[y];
@@ -91,7 +93,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
         row++;
       }
 
-      for (var j=i; j<childNodes.length; i++) {
+      for (var j = i; j < childNodes.length; i++) {
         el.removeChild(childNodes[i]);
       }
     }

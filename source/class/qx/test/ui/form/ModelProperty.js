@@ -15,16 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ModelProperty",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.ModelProperty", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test : function(widget)
-    {
+  members: {
+    __test(widget) {
       // check for the interface
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IModel), "Interface not implemented");
+      this.assertTrue(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IModel),
+        "Interface not implemented"
+      );
 
       // test the init value (null)
       this.assertNull(widget.getModel());
@@ -43,58 +43,62 @@ qx.Class.define("qx.test.ui.form.ModelProperty",
 
       // check the event
       var self = this;
-      this.assertEventFired(widget, "changeModel", function() {
-        widget.setModel(true);
-      }, function(e) {
-        self.assertEquals(true, e.getData());
-        self.assertEquals(null, e.getOldData());
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeModel",
+        function () {
+          widget.setModel(true);
+        },
+        function (e) {
+          self.assertEquals(true, e.getData());
+          self.assertEquals(null, e.getOldData());
+        },
+        "Event is wrong!"
+      );
 
       // check the event again with data in the event
       var self = this;
-      this.assertEventFired(widget, "changeModel", function() {
-        widget.setModel("abc");
-      }, function(e) {
-        self.assertEquals("abc", e.getData());
-        self.assertEquals(true, e.getOldData());
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeModel",
+        function () {
+          widget.setModel("abc");
+        },
+        function (e) {
+          self.assertEquals("abc", e.getData());
+          self.assertEquals(true, e.getOldData());
+        },
+        "Event is wrong!"
+      );
 
       widget.dispose();
     },
 
-
-    testListItem : function()
-    {
+    testListItem() {
       this.__test(new qx.ui.form.ListItem());
     },
 
-    testRadioButton : function()
-    {
+    testRadioButton() {
       this.__test(new qx.ui.form.RadioButton());
     },
 
-    testRadioGroupBox : function()
-    {
+    testRadioGroupBox() {
       this.__test(new qx.ui.groupbox.RadioGroupBox());
     },
 
-    testCheckBox : function()
-    {
+    testCheckBox() {
       this.__test(new qx.ui.form.CheckBox());
     },
 
-    testCheckGroupBox : function()
-    {
+    testCheckGroupBox() {
       this.__test(new qx.ui.groupbox.CheckGroupBox());
     },
 
-    testTreeFolder : function()
-    {
+    testTreeFolder() {
       this.__test(new qx.ui.tree.TreeFolder());
     },
 
-    testTreeFile : function()
-    {
+    testTreeFile() {
       this.__test(new qx.ui.tree.TreeFile());
     }
   }

@@ -18,35 +18,31 @@
 
 /**
  * This mixin must be included into themes appearance if you want to use that
- * theme with the testrunner 
+ * theme with the testrunner
  */
 qx.Theme.define("qx.test.MAppearance", {
-  
-  appearances : {
-    "test-slider":{},
+  appearances: {
+    "test-slider": {},
 
-    "test-slider/knob" :
-    {
-      include : "button-frame",
+    "test-slider/knob": {
+      include: "button-frame",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          height : 14,
-          width : 14,
+          height: 14,
+          width: 14,
           padding: 0,
           margin: 0
         };
       }
     },
-    
+
     "test-font-label": {
-      style: function(states) {
+      style(states) {
         return {
           textColor: "blue"
         };
       }
     }
-
   }
 });

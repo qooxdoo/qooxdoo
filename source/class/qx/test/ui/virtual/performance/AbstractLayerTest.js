@@ -16,14 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  type : "abstract",
+qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", {
+  extend: qx.test.ui.LayoutTestCase,
+  type: "abstract",
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.rowCount = 30;
     this.rowHeight = 20;
@@ -31,12 +29,10 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     this.colWidth = 40;
   },
 
-  members :
-  {
-    ITERATIONS : 2, // was 24
+  members: {
+    ITERATIONS: 2, // was 24
 
-    setUp : function()
-    {
+    setUp() {
       this.layer = this.getLayer().set({
         width: 1000,
         height: 1000
@@ -46,97 +42,111 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       this.flush();
 
       this.rowSizes = [];
-      for (var i=0; i<this.rowCount; i++) {
+      for (var i = 0; i < this.rowCount; i++) {
         this.rowSizes.push(this.rowHeight);
       }
 
       this.colSizes = [];
-      for (var i=0; i<this.colCount; i++) {
+      for (var i = 0; i < this.colCount; i++) {
         this.colSizes.push(this.colWidth);
       }
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.layer.destroy();
     },
 
-
-    getLayer : function()
-    {
+    getLayer() {
       // throw an exception if the method is called on the abstract class
-      throw new Error("Abstract method call (getLayer) in 'AbstractLayerTest'!");
+      throw new Error(
+        "Abstract method call (getLayer) in 'AbstractLayerTest'!"
+      );
     },
 
-
-    testFullUpdateSameWindow : function()
-    {
-      this.profile("fullUpdate (same window)", function()
-      {
-        this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
-      }, this, this.ITERATIONS);
+    testFullUpdateSameWindow() {
+      this.profile(
+        "fullUpdate (same window)",
+        function () {
+          this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
+        },
+        this,
+        this.ITERATIONS
+      );
     },
 
-
-    testFullUpdateScrollDown : function()
-    {
+    testFullUpdateScrollDown() {
       var startRow = 0;
 
-      this.profile("fullUpdate (scroll)", function()
-      {
-        this.layer.fullUpdate(startRow, 0, this.rowSizes, this.colSizes);
-        startRow ++;
-      }, this, this.ITERATIONS);
+      this.profile(
+        "fullUpdate (scroll)",
+        function () {
+          this.layer.fullUpdate(startRow, 0, this.rowSizes, this.colSizes);
+          startRow++;
+        },
+        this,
+        this.ITERATIONS
+      );
     },
 
-
-    testUpdateLayerWindowScrollDown : function()
-    {
+    testUpdateLayerWindowScrollDown() {
       var startRow = 0;
 
-      this.profile("scroll down 10 lines", function()
-      {
-        this.layer.updateLayerWindow(startRow, 0, this.rowSizes, this.colSizes);
-        startRow += 10;
-      }, this, this.ITERATIONS);
+      this.profile(
+        "scroll down 10 lines",
+        function () {
+          this.layer.updateLayerWindow(
+            startRow,
+            0,
+            this.rowSizes,
+            this.colSizes
+          );
+          startRow += 10;
+        },
+        this,
+        this.ITERATIONS
+      );
     },
 
-
-    testUpdateLayerWindowScrollRight : function()
-    {
+    testUpdateLayerWindowScrollRight() {
       var startCol = 0;
 
-      this.profile("scroll right 10 columns", function()
-      {
-        this.layer.updateLayerWindow(0, startCol, this.rowSizes, this.colSizes);
-        startCol += 10;
-      }, this, this.ITERATIONS);
+      this.profile(
+        "scroll right 10 columns",
+        function () {
+          this.layer.updateLayerWindow(
+            0,
+            startCol,
+            this.rowSizes,
+            this.colSizes
+          );
+          startCol += 10;
+        },
+        this,
+        this.ITERATIONS
+      );
     },
 
-
-
-    testUpdateLayerData : function()
-    {
+    testUpdateLayerData() {
       this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
       this.flush();
 
-      this.profile("update layer data", function()
-      {
-        this.layer.updateLayerData();
-      }, this, this.ITERATIONS);
+      this.profile(
+        "update layer data",
+        function () {
+          this.layer.updateLayerData();
+        },
+        this,
+        this.ITERATIONS
+      );
     },
 
-
-    profile : function(name, fcn, context, count)
-    {
+    profile(name, fcn, context, count) {
       if (window.console && window.console.profile) {
         console.profile(name + "; " + this.classname);
       }
 
       var times = [];
-      for (var i=0,l=count; i<l; i++)
-      {
+      for (var i = 0, l = count; i < l; i++) {
         var start = new Date();
 
         fcn.call(context);
@@ -145,8 +155,12 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
         var duration = new Date() - start;
         times.push(duration);
       }
-      times.sort(function(a, b) { return a < b ? -1 : 1;});
-      var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2));
+      times.sort(function (a, b) {
+        return a < b ? -1 : 1;
+      });
+      var avg = Math.round(
+        qx.lang.Array.sum(times.slice(1, -1)) / (times.length - 2)
+      );
       //this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
       this.warn(";" + name + ";avg:" + avg + ";" + times.join(";"));
 
@@ -155,5 +169,4 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       }
     }
   }
-
 });

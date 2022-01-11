@@ -37,14 +37,16 @@ qx.Class.define("qx.tool.config.Abstract", {
     schemaBaseUrl: "https://qooxdoo.org/schema"
   },
 
-  construct: function(config) {
-    this.base(arguments);
+  construct(config) {
+    super();
     if (qx.lang.Type.isObject(config)) {
       this.set(config);
     }
     for (let prop of ["fileName", "version"]) {
       if (!this.get(prop)) {
-        throw new Error(`Property ${prop} must be set when instantiating ${this.classname}`);
+        throw new Error(
+          `Property ${prop} must be set when instantiating ${this.classname}`
+        );
       }
     }
     if (!config.baseDir) {
@@ -53,7 +55,6 @@ qx.Class.define("qx.tool.config.Abstract", {
   },
 
   properties: {
-
     /**
      * Name of the config file
      */
@@ -147,7 +148,6 @@ qx.Class.define("qx.tool.config.Abstract", {
   },
 
   members: {
-
     /**
      * The json-schema object
      */
@@ -164,12 +164,16 @@ qx.Class.define("qx.tool.config.Abstract", {
         return;
       }
       if (!this.__schema) {
-        throw new Error(`Cannot validate - no schema available! Please load the model first.`);
+        throw new Error(
+          `Cannot validate - no schema available! Please load the model first.`
+        );
       }
       try {
         qx.tool.utils.Json.validate(data, this.__schema);
       } catch (e) {
-        let msg = `Error validating data for ${this.getRelativeDataPath()}: ${e.message}`;
+        let msg = `Error validating data for ${this.getRelativeDataPath()}: ${
+          e.message
+        }`;
         if (this.isWarnOnly()) {
           qx.tool.compiler.Console.warn(msg);
         } else {
@@ -199,7 +203,10 @@ qx.Class.define("qx.tool.config.Abstract", {
      */
     _getSchemaFileName() {
       let [name, ext] = this.getFileName().split(/\./);
-      let version = String(semver.coerce(this.getVersion())).replace(/\./g, "-");
+      let version = String(semver.coerce(this.getVersion())).replace(
+        /\./g,
+        "-"
+      );
       return `${name}-${version}.${ext}`;
     },
 
@@ -208,7 +215,9 @@ qx.Class.define("qx.tool.config.Abstract", {
      * @return {String}
      */
     getSchemaPath() {
-      return qx.util.ResourceManager.getInstance().toUri(`qx/tool/schema/${this._getSchemaFileName()}`);
+      return qx.util.ResourceManager.getInstance().toUri(
+        `qx/tool/schema/${this._getSchemaFileName()}`
+      );
     },
 
     /**
@@ -216,7 +225,9 @@ qx.Class.define("qx.tool.config.Abstract", {
      * @return {String}
      */
     getSchemaUri() {
-      return qx.tool.config.Abstract.schemaBaseUrl + "/" + this._getSchemaFileName();
+      return (
+        qx.tool.config.Abstract.schemaBaseUrl + "/" + this._getSchemaFileName()
+      );
     },
 
     /**
@@ -248,7 +259,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      * @param {Object|undefined} data The json data
      * @return {qx.tool.config.Abstract} Returns the instance for chaining
      */
-    async load(data=undefined) {
+    async load(data = undefined) {
       if (data === undefined) {
         if (this.isLoaded()) {
           // don't load again
@@ -256,7 +267,9 @@ qx.Class.define("qx.tool.config.Abstract", {
         }
         if (await fs.existsAsync(this.getDataPath())) {
           // load data from file
-          data = qx.tool.utils.Json.parseJson(await fs.readFileAsync(this.getDataPath(), "utf8"));
+          data = qx.tool.utils.Json.parseJson(
+            await fs.readFileAsync(this.getDataPath(), "utf8")
+          );
         } else if (this.isCreateIfNotExists()) {
           // we're supposed to create it, make sure we're in the library root
           if (await qx.tool.config.Manifest.getInstance().exists()) {
@@ -265,31 +278,42 @@ qx.Class.define("qx.tool.config.Abstract", {
             if (templateFunction) {
               data = templateFunction.bind(this)();
               if (!qx.lang.Type.isObject(data)) {
-                throw new Error(`Template for config file ${this.getRelativeDataPath()} is invalid. Must be an object.`);
+                throw new Error(
+                  `Template for config file ${this.getRelativeDataPath()} is invalid. Must be an object.`
+                );
               }
             } else {
-              throw new Error(`Cannot create config file ${this.getRelativeDataPath()} without a template.`);
+              throw new Error(
+                `Cannot create config file ${this.getRelativeDataPath()} without a template.`
+              );
             }
           } else {
-            throw new Error(`Cannot create config file ${this.getRelativeDataPath()} since no Manifest exists. Are you in the library root?`);
+            throw new Error(
+              `Cannot create config file ${this.getRelativeDataPath()} since no Manifest exists. Are you in the library root?`
+            );
           }
         } else {
-          throw new Error(`Cannot load config file: ${this.getRelativeDataPath()} does not exist. Are you in the library root?`);
+          throw new Error(
+            `Cannot load config file: ${this.getRelativeDataPath()} does not exist. Are you in the library root?`
+          );
         }
       }
       // load schema if validation is enabled
       if (this.isValidate() && this.getVersion() !== null) {
-
         // check initial data
         let dataSchemaInfo = qx.tool.utils.Json.getSchemaInfo(data);
         if (!dataSchemaInfo) {
-          throw new Error(`Invalid data: no schema found, must be of schema ${this.getSchemaUri()}!`);
+          throw new Error(
+            `Invalid data: no schema found, must be of schema ${this.getSchemaUri()}!`
+          );
         }
         let dataVersion = semver.major(semver.coerce(dataSchemaInfo.version));
         let schemaVersion = semver.major(semver.coerce(this.getVersion()));
         // use version given in the config file, but warn if we expect a different one
         if (dataVersion !== schemaVersion) {
-          this.warn(`Possible schema version mismatch in ${this.getDataPath()}: expected v${schemaVersion}, found v${dataVersion}.`)
+          this.warn(
+            `Possible schema version mismatch in ${this.getDataPath()}: expected v${schemaVersion}, found v${dataVersion}.`
+          );
           if (dataVersion) {
             this.setVersion(dataSchemaInfo.version);
           } else {
@@ -300,7 +324,7 @@ qx.Class.define("qx.tool.config.Abstract", {
         // load schema
         if (!this.__schema) {
           let s = this.getSchemaPath();
-          if (! await fs.existsAsync(s)) {
+          if (!(await fs.existsAsync(s))) {
             throw new Error(`No schema file exists at ${this.getSchemaPath()}`);
           }
           this.__schema = await qx.tool.utils.Json.loadJsonAsync(s);
@@ -332,7 +356,7 @@ qx.Class.define("qx.tool.config.Abstract", {
      */
     setValue(prop_path, value, options) {
       let originalValue = this.getValue(prop_path, options);
-      set_value(this.getData(), prop_path, value, {preservePaths:false});
+      set_value(this.getData(), prop_path, value, { preservePaths: false });
       try {
         this.validate();
       } catch (e) {
@@ -340,7 +364,9 @@ qx.Class.define("qx.tool.config.Abstract", {
         if (originalValue === undefined) {
           unset_value(this.getData(), prop_path);
         } else {
-          set_value(this.getData(), prop_path, originalValue, {preservePaths:false});
+          set_value(this.getData(), prop_path, originalValue, {
+            preservePaths: false
+          });
         }
         // throw
         throw e;
@@ -362,7 +388,9 @@ qx.Class.define("qx.tool.config.Abstract", {
         this.validate();
       } catch (e) {
         // revert value
-        set_value(this.getData(), prop_path, originalValue, {preservePaths:false});
+        set_value(this.getData(), prop_path, originalValue, {
+          preservePaths: false
+        });
         // throw
         throw e;
       }
@@ -383,7 +411,9 @@ qx.Class.define("qx.tool.config.Abstract", {
     transform(prop_path, transformFunc, options) {
       let transformedValue = transformFunc(this.getValue(prop_path, options));
       if (transformedValue === undefined) {
-        throw new Error("Return value of transformation fuction must not be undefined.");
+        throw new Error(
+          "Return value of transformation fuction must not be undefined."
+        );
       }
       this.setValue(prop_path, transformedValue, options);
       return this;
@@ -424,7 +454,10 @@ qx.Class.define("qx.tool.config.Abstract", {
      */
     async save() {
       this.validate();
-      await qx.tool.utils.Json.saveJsonAsync(this.getDataPath(), this.getData());
+      await qx.tool.utils.Json.saveJsonAsync(
+        this.getDataPath(),
+        this.getData()
+      );
     }
   }
 });

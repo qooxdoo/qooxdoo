@@ -72,51 +72,48 @@
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Accordion", {
-    extend: qx.ui.website.Tabs,
+  extend: qx.ui.website.Tabs,
 
-    statics: {
-        /**
-         * *button*
-         *
-         * Template used by {@link qx.ui.website.Tabs#addButton} to create a new button.
-         *
-         * Default value: <pre><li><button>{{{content}}}</button></li></pre>
-         */
-        _templates: {
-          button: "<li><button>{{{content}}}</button></li>"
-        },
-
-
-        /**
-         * Factory method which converts the current collection into a collection of
-         * accordion widgets.
-         *
-         * @param preselected {Integer?} The (zero-based) index of the panel that
-         * should initially be opened
-         * @return {qx.ui.website.Accordion} A new Accordion collection.
-         * @attach {qxWeb}
-         */
-        accordion: function(preselected) {
-            var accordion = new qx.ui.website.Accordion(this);
-            accordion.setConfig("orientation", "vertical");
-            if (preselected) {
-                accordion.setConfig("preselected", preselected);
-            }
-            accordion.init();
-
-            return accordion;
-        }
+  statics: {
+    /**
+     * *button*
+     *
+     * Template used by {@link qx.ui.website.Tabs#addButton} to create a new button.
+     *
+     * Default value: <pre><li><button>{{{content}}}</button></li></pre>
+     */
+    _templates: {
+      button: "<li><button>{{{content}}}</button></li>"
     },
 
+    /**
+     * Factory method which converts the current collection into a collection of
+     * accordion widgets.
+     *
+     * @param preselected {Integer?} The (zero-based) index of the panel that
+     * should initially be opened
+     * @return {qx.ui.website.Accordion} A new Accordion collection.
+     * @attach {qxWeb}
+     */
+    accordion(preselected) {
+      var accordion = new qx.ui.website.Accordion(this);
+      accordion.setConfig("orientation", "vertical");
+      if (preselected) {
+        accordion.setConfig("preselected", preselected);
+      }
+      accordion.init();
 
-    construct: function(selector, context) {
-        this.base(arguments, selector, context);
-    },
-
-
-    defer: function(statics) {
-        qxWeb.$attach({
-            accordion: statics.accordion
-        });
+      return accordion;
     }
+  },
+
+  construct(selector, context) {
+    super(selector, context);
+  },
+
+  defer(statics) {
+    qxWeb.$attach({
+      accordion: statics.accordion
+    });
+  }
 });

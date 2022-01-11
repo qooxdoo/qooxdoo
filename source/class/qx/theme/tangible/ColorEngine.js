@@ -21,18 +21,16 @@
  */
 
 var helper = {
-  tone: function (color) {
+  tone(color) {
     if (color == "dark" || color == "light") {
       return color;
     }
     var minimumContrast = 3.1;
     var lightContrast = qx.util.ColorUtil.contrast(color, "#fff");
     var darkContrast = qx.util.ColorUtil.contrast(color, "rgba(0,0,0,0.87)");
-    if ((lightContrast < minimumContrast)
-      && (darkContrast > lightContrast)) {
+    if (lightContrast < minimumContrast && darkContrast > lightContrast) {
       return "light";
-    }
-    else {
+    } else {
       return "dark";
     }
   },
@@ -45,7 +43,7 @@ var helper = {
    * @param color {String} a valid qooxdoo/CSS rgb color string
    * @return {String} "dark" if color is light and vise versa
    */
-  contrastTone: function (color) {
+  contrastTone(color) {
     return helper.tone(color) === "dark" ? "light" : "dark";
   },
   /**
@@ -55,7 +53,7 @@ var helper = {
    * @param fillColor {String} a valid qooxdoo/CSS rgb color string
    * @return {String} a CSS rgba color string
    */
-  inkColorForFill: function (textStyle, fillColor) {
+  inkColorForFill(textStyle, fillColor) {
     var textColor = {
       dark: {
         primary: "rgba(0,0,0,0.87)",
@@ -64,6 +62,7 @@ var helper = {
         disabled: "rgba(0,0,0,0.38)",
         icon: "rgba(0,0,0,0.38)"
       },
+
       light: {
         primary: "#fff",
         secondary: "rgba(255,255,255,0.7)",
@@ -72,58 +71,64 @@ var helper = {
         icon: "rgba(255,255,255,0.5)"
       }
     };
+
     var contrastTone = helper.contrastTone(fillColor);
     return textColor[contrastTone][textStyle];
   },
 
   // helpers
-  onX: function (key) {
-    var baseColor = key.split('-')[2];
-    return helper.contrastTone(baseColor) === "dark" ? "#000000" : "#ffffff"
+  onX(key) {
+    var baseColor = key.split("-")[2];
+    return helper.contrastTone(baseColor) === "dark" ? "#000000" : "#ffffff";
   },
   // helpers
-  xState: function (key) {
-    var d = key.split('-');
+  xState(key) {
+    var d = key.split("-");
     var color = d[0];
     var state = d[1];
     switch (state) {
-      case 'focussed':
+      case "focussed":
         return qx.util.ColorUtil.scale(color, {
           lightness: 10,
           saturation: 10
         });
-      case 'hovered':
+
+      case "hovered":
         return qx.util.ColorUtil.scale(color, {
           lightness: 10
         });
-      case 'disabled':
+
+      case "disabled":
         return qx.util.ColorUtil.scale(color, {
           lightness: -10,
-          saturation: - 70
+          saturation: -70
         });
-      case 'selected':
-          return qx.util.ColorUtil.scale(color, {
-            lightness: 30
-          });
-      case 'selected_disabled':
-          return qx.util.ColorUtil.scale(color, {
-            lightness: 30,
-            saturation: - 70
-          });
+
+      case "selected":
+        return qx.util.ColorUtil.scale(color, {
+          lightness: 30
+        });
+
+      case "selected_disabled":
+        return qx.util.ColorUtil.scale(color, {
+          lightness: 30,
+          saturation: -70
+        });
+
       default:
         return color;
     }
   },
 
-  textXonY: function (key) {
-    var splitKey = key.split('-');
+  textXonY(key) {
+    var splitKey = key.split("-");
     var textStyle = splitKey[1];
     var fillColor = splitKey[3];
-    return helper.inkColorForFill(textStyle, fillColor)
+    return helper.inkColorForFill(textStyle, fillColor);
   },
 
-  setAlpha: function(key) {
-    var splitKey = key.split('-');
+  setAlpha(key) {
+    var splitKey = key.split("-");
     if (splitKey.length == 4) {
       splitKey[1] = splitKey[0] + "-" + splitKey[1];
       splitKey.shift();
@@ -132,7 +137,7 @@ var helper = {
     var alphaPercent = splitKey[2];
     var actualColor = qx.theme.manager.Color.getInstance().resolve(baseColor);
     var rgba = qx.util.ColorUtil.stringToRgb(actualColor);
-    rgba[3] = alphaPercent/100;
+    rgba[3] = alphaPercent / 100;
     return qx.util.ColorUtil.rgbToRgbString(rgba);
   }
 };
@@ -141,14 +146,13 @@ qx.Theme.define("qx.theme.tangible.ColorEngine", {
   colors: {
     // actual implementations must supply these 4 colors
     // at least
-    
+
     //"primary": "#6200ee",
     //"secondary": "#018786",
     //"surface": "#ffffff",
     //"error": "#b00020",
     // automatic colors
-    
-    
+
     "text-on-primary": helper.onX,
     "text-on-secondary": helper.onX,
     "text-on-surface": helper.onX,
@@ -166,7 +170,6 @@ qx.Theme.define("qx.theme.tangible.ColorEngine", {
     "primary-alpha-30": helper.setAlpha,
     "secondary-alpha-5": helper.setAlpha,
     "primary-disabled-alpha-20": helper.setAlpha,
-
 
     // Text-primary on "surface" background
     "text-primary-on-surface": helper.textXonY,

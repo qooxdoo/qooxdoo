@@ -16,25 +16,25 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.locale.LocalizedString",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.locale.MTranslation, qx.dev.unit.MRequirements],
+qx.Class.define("qx.test.locale.LocalizedString", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.locale.MTranslation, qx.dev.unit.MRequirements],
 
-  members :
-  {
-    testTranslation : function() {
+  members: {
+    testTranslation() {
       this.require(["qx.debug"]);
-      this.assertException(function() {
-        var ls  = new qx.locale.LocalizedString("foo", "id", "xyz");
+      this.assertException(function () {
+        var ls = new qx.locale.LocalizedString("foo", "id", "xyz");
         ls.translate();
       });
     },
 
-    testLocalizeVsTranslate : function() {
+    testLocalizeVsTranslate() {
       this.assertEquals(
         qx.locale.Date.getMonthName("wide", new Date().getMonth()).toString(),
-        qx.locale.Date.getMonthName("wide", new Date().getMonth()).translate().toString()
+        qx.locale.Date.getMonthName("wide", new Date().getMonth())
+          .translate()
+          .toString()
       );
     }
   }

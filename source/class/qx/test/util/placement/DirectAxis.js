@@ -17,25 +17,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.placement.DirectAxis",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.placement.DirectAxis", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.axis = qx.util.placement.DirectAxis;
     },
 
-    tearDown : function() {
+    tearDown() {
       delete this.axis;
     },
 
-    testEnoughSpace : function()
-    {
+    testEnoughSpace() {
       var size = 50;
-      var target = {start: 500, end: 600};
-      var offsets = {start: 10, end: 20};
+      var target = { start: 500, end: 600 };
+      var offsets = { start: 10, end: 20 };
       var areaSize = 1000;
 
       this.assertEquals(

@@ -23,9 +23,8 @@
 qx.Bootstrap.define("qx.event.type.dom.Pointer", {
   extend: qx.event.type.dom.Custom,
 
-  statics : {
-
-    MOUSE_PROPERTIES : [
+  statics: {
+    MOUSE_PROPERTIES: [
       "bubbles",
       "cancelable",
       "view",
@@ -48,7 +47,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       "toElement"
     ],
 
-    POINTER_PROPERTIES : {
+    POINTER_PROPERTIES: {
       pointerId: 1,
       width: 0,
       height: 0,
@@ -59,10 +58,17 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       isPrimary: false
     },
 
-    READONLY_PROPERTIES : [],
+    READONLY_PROPERTIES: [],
 
-    BIND_METHODS : ["getPointerType", "getViewportLeft", "getViewportTop",
-      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
+    BIND_METHODS: [
+      "getPointerType",
+      "getViewportLeft",
+      "getViewportTop",
+      "getDocumentLeft",
+      "getDocumentTop",
+      "getScreenLeft",
+      "getScreenTop"
+    ],
 
     /**
      * Returns the device type which the event triggered. This can be one
@@ -71,7 +77,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @return {String} The type of the pointer.
      */
-    getPointerType : function() {
+    getPointerType() {
       if (typeof this.pointerType == "string") {
         return this.pointerType;
       }
@@ -91,17 +97,15 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       return "";
     },
 
-
     /**
      * Get the horizontal coordinate at which the event occurred relative
      * to the viewport.
      *
      * @return {Number} The horizontal mouse position
      */
-    getViewportLeft : function() {
+    getViewportLeft() {
       return this.clientX;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative
@@ -110,10 +114,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      * @return {Number} The vertical mouse position
      * @signature function()
      */
-    getViewportTop : function() {
+    getViewportTop() {
       return this.clientY;
     },
-
 
     /**
      * Get the horizontal position at which the event occurred relative to the
@@ -122,8 +125,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @return {Number} The horizontal mouse position in the document.
      */
-    getDocumentLeft : function()
-    {
+    getDocumentLeft() {
       if (this.pageX !== undefined) {
         return this.pageX;
       } else {
@@ -132,7 +134,6 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       }
     },
 
-
     /**
      * Get the vertical position at which the event occurred relative to the
      * top of the document. This property takes into account any scrolling of
@@ -140,8 +141,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @return {Number} The vertical mouse position in the document.
      */
-    getDocumentTop : function()
-    {
+    getDocumentTop() {
       if (this.pageY !== undefined) {
         return this.pageY;
       } else {
@@ -149,7 +149,6 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         return this.clientY + qx.bom.Viewport.getScrollTop(win);
       }
     },
-
 
     /**
      * Get the horizontal coordinate at which the event occurred relative to
@@ -160,10 +159,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @return {Number} The horizontal mouse position on the screen.
      */
-    getScreenLeft : function() {
+    getScreenLeft() {
       return this.screenX;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative to
@@ -174,10 +172,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @return {Number} The vertical mouse position on the screen.
      */
-    getScreenTop : function() {
+    getScreenTop() {
       return this.screenY;
     },
-
 
     /**
      * Manipulates the event object, adding methods if they're not
@@ -185,24 +182,23 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      *
      * @param event {Event} Native event object
      */
-    normalize : function(event) {
+    normalize(event) {
       var bindMethods = qx.event.type.dom.Pointer.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.event.type.dom.Pointer[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.event.type.dom.Pointer[bindMethods[i]].bind(event);
         }
       }
     }
-
   },
 
-  construct : function(type, domEvent, customProps) {
-    return this.base(arguments, type, domEvent, customProps);
+  construct(type, domEvent, customProps) {
+    return super(type, domEvent, customProps);
   },
 
-  members : {
-
-    _createEvent : function() {
+  members: {
+    _createEvent() {
       var evt;
       if (qx.core.Environment.get("event.mouseevent")) {
         evt = new window.MouseEvent(this._type);
@@ -210,7 +206,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         /* In IE9, the pageX property of synthetic MouseEvents is always 0
         and cannot be overridden, so we create a plain UIEvent and add
         the mouse event properties ourselves. */
-        evt = document.createEvent(qx.core.Environment.get("event.mousecreateevent"));
+        evt = document.createEvent(
+          qx.core.Environment.get("event.mousecreateevent")
+        );
       } else if (typeof document.createEventObject == "object") {
         // IE8 doesn't support custom event types
         evt = {};
@@ -219,24 +217,28 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       return evt;
     },
 
-
-    _initEvent : function(domEvent, customProps) {
+    _initEvent(domEvent, customProps) {
       customProps = customProps || {};
       var evt = this._event;
       var properties = {};
 
       qx.event.type.dom.Pointer.normalize(domEvent);
 
-      Object.keys(qx.event.type.dom.Pointer.POINTER_PROPERTIES).concat(qx.event.type.dom.Pointer.MOUSE_PROPERTIES)
-      .forEach(function(propName) {
-        if (typeof customProps[propName] !== "undefined") {
-          properties[propName] = customProps[propName];
-        } else if (typeof domEvent[propName] !== "undefined") {
-          properties[propName] = domEvent[propName];
-        } else if (typeof qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName] !== "undefined") {
-          properties[propName] = qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName];
-        }
-      });
+      Object.keys(qx.event.type.dom.Pointer.POINTER_PROPERTIES)
+        .concat(qx.event.type.dom.Pointer.MOUSE_PROPERTIES)
+        .forEach(function (propName) {
+          if (typeof customProps[propName] !== "undefined") {
+            properties[propName] = customProps[propName];
+          } else if (typeof domEvent[propName] !== "undefined") {
+            properties[propName] = domEvent[propName];
+          } else if (
+            typeof qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName] !==
+            "undefined"
+          ) {
+            properties[propName] =
+              qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName];
+          }
+        });
 
       var buttons;
       switch (domEvent.which) {
@@ -259,27 +261,48 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       }
 
       if (evt.initMouseEvent) {
-        evt.initMouseEvent(this._type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
-          properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
-          properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
-      }
-      else if (evt.initUIEvent) {
-        evt.initUIEvent(this._type,
-          properties.bubbles, properties.cancelable, properties.view, properties.detail);
+        evt.initMouseEvent(
+          this._type,
+          properties.bubbles,
+          properties.cancelable,
+          properties.view,
+          properties.detail,
+          properties.screenX,
+          properties.screenY,
+          properties.clientX,
+          properties.clientY,
+          properties.ctrlKey,
+          properties.altKey,
+          properties.shiftKey,
+          properties.metaKey,
+          properties.button,
+          properties.relatedTarget
+        );
+      } else if (evt.initUIEvent) {
+        evt.initUIEvent(
+          this._type,
+          properties.bubbles,
+          properties.cancelable,
+          properties.view,
+          properties.detail
+        );
       }
 
       for (var prop in properties) {
-        if (evt[prop] !== properties[prop] && qx.event.type.dom.Pointer.READONLY_PROPERTIES.indexOf(prop) === -1) {
+        if (
+          evt[prop] !== properties[prop] &&
+          qx.event.type.dom.Pointer.READONLY_PROPERTIES.indexOf(prop) === -1
+        ) {
           try {
             evt[prop] = properties[prop];
-          }catch(ex) {
+          } catch (ex) {
             // Nothing - cannot override properties in strict mode
           }
         }
       }
 
       // normalize Windows 8 pointer types
-      switch(evt.pointerType) {
+      switch (evt.pointerType) {
         case domEvent.MSPOINTER_TYPE_MOUSE:
           evt.pointerType = "mouse";
           break;
@@ -297,13 +320,16 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
     }
   },
 
-
-  defer: function(statics) {
+  defer(statics) {
     if (qx.core.Environment.get("engine.name") == "gecko") {
       statics.READONLY_PROPERTIES.push("buttons");
-    }
-    else if (qx.core.Environment.get("os.name") == "ios" && parseFloat(qx.core.Environment.get("os.version")) >= 8) {
-      statics.READONLY_PROPERTIES = statics.READONLY_PROPERTIES.concat(statics.MOUSE_PROPERTIES);
+    } else if (
+      qx.core.Environment.get("os.name") == "ios" &&
+      parseFloat(qx.core.Environment.get("os.version")) >= 8
+    ) {
+      statics.READONLY_PROPERTIES = statics.READONLY_PROPERTIES.concat(
+        statics.MOUSE_PROPERTIES
+      );
     }
   }
 });

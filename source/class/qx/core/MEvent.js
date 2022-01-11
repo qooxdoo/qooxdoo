@@ -23,13 +23,10 @@
  * @use(qx.event.dispatch.Direct)
  * @use(qx.event.handler.Object)
  */
-qx.Mixin.define("qx.core.MEvent",
-{
-  members :
-  {
+qx.Mixin.define("qx.core.MEvent", {
+  members: {
     /** @type {Class} Pointer to the regular event registration class */
-    __Registration : qx.event.Registration,
-
+    __Registration: qx.event.Registration,
 
     /**
      * Add event listener to this object.
@@ -47,15 +44,19 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {String} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
-    addListener : function(type, listener, self, capture)
-    {
+    addListener(type, listener, self, capture) {
       if (!this.$$disposed) {
-        return this.__Registration.addListener(this, type, listener, self, capture);
+        return this.__Registration.addListener(
+          this,
+          type,
+          listener,
+          self,
+          capture
+        );
       }
 
       return null;
     },
-
 
     /**
      * Add event listener to this object, which is only called once. After the
@@ -70,15 +71,13 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {String} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
-    addListenerOnce : function(type, listener, context, capture)
-    {
+    addListenerOnce(type, listener, context, capture) {
       var self = this; // self is needed to remove the listener inside the callback
       if (!context) {
         context = this;
       }
-      var id;         // store id in closure context
-      var callback = function(e)
-      {
+      var id; // store id in closure context
+      var callback = function (e) {
         self.removeListenerById(id);
         listener.call(context, e);
       };
@@ -93,7 +92,6 @@ qx.Mixin.define("qx.core.MEvent",
       return id;
     },
 
-
     /**
      * Remove event listener from this object
      *
@@ -104,20 +102,27 @@ qx.Mixin.define("qx.core.MEvent",
      *   the bubbling or of the capturing phase.
      * @return {Boolean} Whether the event was removed successfully (has existed)
      */
-    removeListener : function(type, listener, self, capture)
-    {
+    removeListener(type, listener, self, capture) {
       if (!this.$$disposed) {
         // special handling for wrapped once listener
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
+        if (
+          listener.$$wrapped_callback &&
+          listener.$$wrapped_callback[type + this.$$hash]
+        ) {
           var callback = listener.$$wrapped_callback[type + this.$$hash];
           delete listener.$$wrapped_callback[type + this.$$hash];
           listener = callback;
         }
-        return this.__Registration.removeListener(this, type, listener, self, capture);
+        return this.__Registration.removeListener(
+          this,
+          type,
+          listener,
+          self,
+          capture
+        );
       }
       return false;
     },
-
 
     /**
      * Removes an event listener from an event target by an id returned by
@@ -126,15 +131,13 @@ qx.Mixin.define("qx.core.MEvent",
      * @param id {String} The id returned by {@link #addListener}
      * @return {Boolean} Whether the event was removed successfully (has existed)
      */
-    removeListenerById : function(id)
-    {
+    removeListenerById(id) {
       if (!this.$$disposed) {
         return this.__Registration.removeListenerById(this, id);
       }
 
       return false;
     },
-
 
     /**
      * Check if there are one or more listeners for an event type.
@@ -144,10 +147,9 @@ qx.Mixin.define("qx.core.MEvent",
      *         the bubbling or of the capturing phase.
      * @return {Boolean} Whether the object has a listener of the given type.
      */
-    hasListener : function(type, capture) {
+    hasListener(type, capture) {
       return this.__Registration.hasListener(this, type, capture);
     },
-
 
     /**
      * Dispatch an event on this object
@@ -156,15 +158,13 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {Boolean} Whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    dispatchEvent : function(evt)
-    {
+    dispatchEvent(evt) {
       if (!this.$$disposed) {
         return this.__Registration.dispatchEvent(this, evt);
       }
 
       return true;
     },
-
 
     /**
      * Creates and dispatches an event on this object.
@@ -176,15 +176,13 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    fireEvent : function(type, clazz, args)
-    {
+    fireEvent(type, clazz, args) {
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, clazz, args);
       }
 
       return true;
     },
-
 
     /**
      * Creates and dispatches an event on this object; equivalent to fireEvent, except that it
@@ -197,19 +195,20 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {qx.Promise} a promise aggregated from the event handlers;
      *  if the default was prevented, the promise is rejected
      */
-    fireEventAsync : function(type, clazz, args)
-    {
+    fireEventAsync(type, clazz, args) {
       if (!qx.core.Environment.get("qx.promise")) {
-        throw new Error(this.classname + ".fireEventAsync not supported because qx.promise==false");
+        throw new Error(
+          this.classname +
+            ".fireEventAsync not supported because qx.promise==false"
+        );
       }
-      
+
       if (!this.$$disposed) {
         return this.__Registration.fireEventAsync(this, type, clazz, args);
       }
 
       return qx.Promise.resolve(true);
     },
-
 
     /**
      * Create an event object and dispatch it on this object.
@@ -223,20 +222,23 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {Boolean} Whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    fireNonBubblingEvent : function(type, clazz, args)
-    {
+    fireNonBubblingEvent(type, clazz, args) {
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEvent(this, type, clazz, args);
+        return this.__Registration.fireNonBubblingEvent(
+          this,
+          type,
+          clazz,
+          args
+        );
       }
 
       return true;
     },
 
-
     /**
-     * Create an event object and dispatch it on this object; equivalent to fireNonBubblingEvent, 
+     * Create an event object and dispatch it on this object; equivalent to fireNonBubblingEvent,
      * except that it always returns a promise.
-     * 
+     *
      * The event dispatched with this method does never bubble! Use only if you
      * are sure that bubbling is not required.
      *
@@ -247,19 +249,25 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {qx.Promise} a promise aggregated from the event handlers;
      *  if the default was prevented, the promise is rejected
      */
-    fireNonBubblingEventAsync : function(type, clazz, args)
-    {
+    fireNonBubblingEventAsync(type, clazz, args) {
       if (!qx.core.Environment.get("qx.promise")) {
-        throw new Error(this.classname + ".fireNonBubblingEventAsync not supported because qx.promise==false");
+        throw new Error(
+          this.classname +
+            ".fireNonBubblingEventAsync not supported because qx.promise==false"
+        );
       }
-      
+
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEventAsync(this, type, clazz, args);
+        return this.__Registration.fireNonBubblingEventAsync(
+          this,
+          type,
+          clazz,
+          args
+        );
       }
 
       return qx.Promise.resolve(true);
     },
-
 
     /**
      * Creates and dispatches an non-bubbling data event on this object.
@@ -276,24 +284,23 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    fireDataEvent : function(type, data, oldData, cancelable)
-    {
-      if (!this.$$disposed)
-      {
+    fireDataEvent(type, data, oldData, cancelable) {
+      if (!this.$$disposed) {
         if (oldData === undefined) {
           oldData = null;
         }
-        return this.__Registration.fireEvent(
-          this, type, qx.event.type.Data, [data, oldData, !!cancelable]
-        );
+        return this.__Registration.fireEvent(this, type, qx.event.type.Data, [
+          data,
+          oldData,
+          !!cancelable
+        ]);
       }
 
       return true;
     },
 
-
     /**
-     * Creates and dispatches an non-bubbling data event on this object; equivalent to 
+     * Creates and dispatches an non-bubbling data event on this object; equivalent to
      * fireEvent, except that it always returns a promise.
      *
      * @param type {String} Event type to fire
@@ -308,19 +315,23 @@ qx.Mixin.define("qx.core.MEvent",
      * @return {qx.Promise} a promise aggregated from the event handlers;
      *  if the default was prevented, the promise is rejected
      */
-    fireDataEventAsync : function(type, data, oldData, cancelable)
-    {
+    fireDataEventAsync(type, data, oldData, cancelable) {
       if (!qx.core.Environment.get("qx.promise")) {
-        throw new Error(this.classname + ".fireDataEventAsync not supported because qx.promise==false");
+        throw new Error(
+          this.classname +
+            ".fireDataEventAsync not supported because qx.promise==false"
+        );
       }
-      
-      if (!this.$$disposed)
-      {
+
+      if (!this.$$disposed) {
         if (oldData === undefined) {
           oldData = null;
         }
         return this.__Registration.fireEventAsync(
-          this, type, qx.event.type.Data, [data, oldData, !!cancelable]
+          this,
+          type,
+          qx.event.type.Data,
+          [data, oldData, !!cancelable]
         );
       }
 

@@ -26,10 +26,8 @@
  * @require(qx.event.Registration)
  * @require(qx.event.handler.Application)
  */
-qx.Class.define("qx.bom.Lifecycle",
-{
-  statics :
-  {
+qx.Class.define("qx.bom.Lifecycle", {
+  statics: {
     /**
      * Register a callback function, which is called in the optionally provided
      * context, when the application is ready.
@@ -37,10 +35,11 @@ qx.Class.define("qx.bom.Lifecycle",
      * @param callback {Function} callback function
      * @param context {Object?window} context in which the callback is called
      */
-    onReady : function(callback, context)
-    {
+    onReady(callback, context) {
       var Registration = qx.event.Registration;
-      var appHandler = Registration.getManager(window).getHandler(qx.event.handler.Application);
+      var appHandler = Registration.getManager(window).getHandler(
+        qx.event.handler.Application
+      );
 
       // If the application is already available, execute the callback
       // immediately. Otherwise listen to the "ready" event to call it later.
@@ -50,7 +49,6 @@ qx.Class.define("qx.bom.Lifecycle",
         Registration.addListener(window, "ready", callback, context);
       }
     },
-
 
     /**
      * Register a callback function, which is called in the optionally provided
@@ -62,7 +60,7 @@ qx.Class.define("qx.bom.Lifecycle",
      * @param callback {Function} callback function
      * @param context {Object?window} context in which the callback is called
      */
-    onShutdown : function(callback, context) {
+    onShutdown(callback, context) {
       qx.event.Registration.addListener(window, "shutdown", callback, context);
     }
   }

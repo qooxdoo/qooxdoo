@@ -16,15 +16,11 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.mobile.page.NavigationPage", {
+  extend: qx.test.mobile.MobileTestCase,
 
-qx.Class.define("qx.test.mobile.page.NavigationPage",
-{
-  extend : qx.test.mobile.MobileTestCase,
-
-  members :
-  {
-    testNavigationInterface : function()
-    {
+  members: {
+    testNavigationInterface() {
       var page = new qx.ui.mobile.page.NavigationPage();
 
       this.assertNotNull(page.getTitleWidget());
@@ -34,9 +30,7 @@ qx.Class.define("qx.test.mobile.page.NavigationPage",
       page.destroy();
     },
 
-
-    testTitle : function()
-    {
+    testTitle() {
       var page = new qx.ui.mobile.page.NavigationPage();
 
       page.setTitle("Affe");
@@ -45,9 +39,7 @@ qx.Class.define("qx.test.mobile.page.NavigationPage",
       page.destroy();
     },
 
-
-    testBackButton : function()
-    {
+    testBackButton() {
       var page = new qx.ui.mobile.page.NavigationPage();
 
       page.getLeftContainer();
@@ -62,9 +54,7 @@ qx.Class.define("qx.test.mobile.page.NavigationPage",
       page.destroy();
     },
 
-
-    testButton : function()
-    {
+    testButton() {
       var page = new qx.ui.mobile.page.NavigationPage();
 
       page.getRightContainer();

@@ -16,31 +16,35 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.container.Scroll",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.container.Scroll", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testCreate : function()
-    {
+  members: {
+    testCreate() {
       var container = new qx.ui.mobile.container.Scroll();
       this.getRoot().add(container);
       container.destroy();
     },
 
-    testHorizontalWayPoint: function () {
+    testHorizontalWayPoint() {
       var scrollContainer = new qx.ui.mobile.container.Scroll();
       scrollContainer.setWaypointsX([200]);
-      qxWeb(scrollContainer.getContainerElement()).setStyle("overflow", "hidden");
-      scrollContainer.addListener("waypoint", function (wayPoint) {
-        var wayPointData = wayPoint.getData();
-        this.resume(function () {
-          this.assertEquals("x", wayPointData.axis);
-          this.assertEquals(0, wayPointData.index);
-          this.assertEquals("left", wayPointData.direction);
-        }, this);
-      }, this);
+      qxWeb(scrollContainer.getContainerElement()).setStyle(
+        "overflow",
+        "hidden"
+      );
+      scrollContainer.addListener(
+        "waypoint",
+        function (wayPoint) {
+          var wayPointData = wayPoint.getData();
+          this.resume(function () {
+            this.assertEquals("x", wayPointData.axis);
+            this.assertEquals(0, wayPointData.index);
+            this.assertEquals("left", wayPointData.direction);
+          }, this);
+        },
+        this
+      );
 
       var content = new qx.ui.mobile.core.Widget();
       qxWeb(content.getContainerElement()).setStyles({
@@ -59,5 +63,4 @@ qx.Class.define("qx.test.mobile.container.Scroll",
       this.wait();
     }
   }
-
 });

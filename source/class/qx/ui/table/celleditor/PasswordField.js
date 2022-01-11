@@ -19,15 +19,11 @@
 /**
  * A cell editor factory creating password fields fields.
  */
-qx.Class.define("qx.ui.table.celleditor.PasswordField",
-{
-  extend : qx.ui.table.celleditor.AbstractField,
+qx.Class.define("qx.ui.table.celleditor.PasswordField", {
+  extend: qx.ui.table.celleditor.AbstractField,
 
-
-  members :
-  {
-    _createEditor : function()
-    {
+  members: {
+    _createEditor() {
       var cellEditor = new qx.ui.form.PasswordField();
       cellEditor.setAppearance("table-editor-textfield");
       return cellEditor;

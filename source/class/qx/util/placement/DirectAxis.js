@@ -21,10 +21,8 @@
  * Places the object directly at the specified position. It is not moved if
  * parts of the object are outside of the axis' range.
  */
-qx.Bootstrap.define("qx.util.placement.DirectAxis",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.util.placement.DirectAxis", {
+  statics: {
     /**
      * Computes the start of the object by taking only the attachment and
      * alignment into account. The object by be not fully visible.
@@ -38,7 +36,7 @@ qx.Bootstrap.define("qx.util.placement.DirectAxis",
      *   argument of {@link #computeStart}.
      * @return {Integer} The computed start position of the object.
      */
-    _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
+    _moveToEdgeAndAlign: qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
 
     /**
      * Computes the start of the object on the axis
@@ -59,7 +57,7 @@ qx.Bootstrap.define("qx.util.placement.DirectAxis",
      *   </ul>
      * @return {Integer} The computed start position of the object.
      */
-    computeStart : function(size, target, offsets, areaSize, position) {
+    computeStart(size, target, offsets, areaSize, position) {
       return this._moveToEdgeAndAlign(size, target, offsets, position);
     }
   }

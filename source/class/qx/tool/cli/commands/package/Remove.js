@@ -26,16 +26,17 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
   extend: qx.tool.cli.commands.Package,
 
   statics: {
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "remove [uri]",
         describe: "removes a package from the configuration.",
         builder: {
-          "verbose": {
+          verbose: {
             alias: "v",
             describe: "Verbose logging"
           },
-          "quiet": {
+
+          quiet: {
             alias: "q",
             describe: "No output"
           }
@@ -45,12 +46,11 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
   },
 
   members: {
-
     /**
      * Removes packages
      */
-    process: async function() {
-      await this.base(arguments);
+    async process() {
+      await super.process();
       if (!this.argv.uri) {
         throw new qx.tool.utils.Utils.UserError("No repository name given.");
       }
@@ -58,7 +58,7 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
       let data = await this.getLockfileData();
       // currently, the uri is github_username/repo_name[/path/to/repo].
       let parts = this.argv.uri.split(/\//);
-      let tag = (parts.length > 2)?"uri":"repo_name";
+      let tag = parts.length > 2 ? "uri" : "repo_name";
 
       let found = [];
       let libraries = [];
@@ -83,24 +83,35 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
           rimraf.sync(p);
         }
         if (!this.argv.quiet) {
-          qx.tool.compiler.Console.info(`Deleted ${found.length} entries for ${this.argv.uri}`);
+          qx.tool.compiler.Console.info(
+            `Deleted ${found.length} entries for ${this.argv.uri}`
+          );
         }
       } else if (this.argv.verbose) {
         qx.tool.compiler.Console.warn(`No entry for ${this.argv.uri}`);
       }
       data.libraries = libraries;
-      fs.writeFileSync(this.getLockfilePath(), JSON.stringify(data, null, 2), "utf-8");
+      fs.writeFileSync(
+        this.getLockfilePath(),
+        JSON.stringify(data, null, 2),
+        "utf-8"
+      );
 
       if (this.argv.verbose) {
         qx.tool.compiler.Console.info(">>> Done.");
       }
     },
 
-    __deleteRequiredFromManifest: async function(uri) {
-      let manifest = await qx.tool.utils.Json.loadJsonAsync(qx.tool.config.Manifest.config.fileName);
+    async __deleteRequiredFromManifest(uri) {
+      let manifest = await qx.tool.utils.Json.loadJsonAsync(
+        qx.tool.config.Manifest.config.fileName
+      );
       if (manifest.requires && manifest.requires[uri]) {
         delete manifest.requires[uri];
-        await qx.tool.utils.Json.saveJsonAsync(qx.tool.config.Manifest.config.fileName, manifest);
+        await qx.tool.utils.Json.saveJsonAsync(
+          qx.tool.config.Manifest.config.fileName,
+          manifest
+        );
       }
     },
 
@@ -110,14 +121,16 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
      * @return {Promise<void>}
      * @private
      */
-    __removeApplication: async function(uri) {
+    async __removeApplication(uri) {
       let pkgData = await this.getLockfileData();
       let libraryData = pkgData.libraries.find(data => data.uri === uri);
       if (!libraryData) {
         throw new Error("Repo for " + uri + " is not an installed package");
       }
 
-      let manifest = await qx.tool.utils.Json.loadJsonAsync(path.join(libraryData.path, qx.tool.config.Manifest.config.fileName));
+      let manifest = await qx.tool.utils.Json.loadJsonAsync(
+        path.join(libraryData.path, qx.tool.config.Manifest.config.fileName)
+      );
       if (!manifest || !manifest.provides || !manifest.provides.application) {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(">>> No application to remove.");
@@ -125,7 +138,9 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
         return;
       }
 
-      let compileData = await qx.tool.utils.Json.loadJsonAsync(qx.tool.config.Compile.config.fileName);
+      let compileData = await qx.tool.utils.Json.loadJsonAsync(
+        qx.tool.config.Compile.config.fileName
+      );
       let manifestApp = manifest.provides.application;
       let app = compileData.applications.find(app => {
         if (manifestApp.name && app.name) {
@@ -138,9 +153,14 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
         compileData.applications.splice(idx, 1);
 
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(">>> Removed application " + (app.name||app["class"]));
+          qx.tool.compiler.Console.info(
+            ">>> Removed application " + (app.name || app["class"])
+          );
         }
-        await qx.tool.utils.Json.saveJsonAsync(qx.tool.config.Compile.config.fileName, compileData);
+        await qx.tool.utils.Json.saveJsonAsync(
+          qx.tool.config.Compile.config.fileName,
+          compileData
+        );
       }
     }
   }

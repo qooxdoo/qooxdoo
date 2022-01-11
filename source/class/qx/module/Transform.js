@@ -24,10 +24,8 @@
  *
  * http://www.w3.org/TR/css3-3d-transforms/
  */
-qx.Bootstrap.define("qx.module.Transform",
-{
-  members :
-  {
+qx.Bootstrap.define("qx.module.Transform", {
+  members: {
     /**
      * Method to apply multiple transforms at once to the given element. It
      * takes a map containing the transforms you want to apply plus the values
@@ -43,13 +41,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param transforms {Map} The map containing the transforms and value.
      * @return {qxWeb} This reference for chaining.
      */
-    transform : function(transforms) {
-      this._forEachElement(function(el) {
+    transform(transforms) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.transform(el, transforms);
       });
       return this;
     },
-
 
     /**
      * Translates by the given value. For further details, take
@@ -59,10 +56,9 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {String|Array} The value to translate e.g. <code>"10px"</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    translate : function(value) {
-      return this.transform({translate: value});
+    translate(value) {
+      return this.transform({ translate: value });
     },
-
 
     /**
      * Scales by the given value. For further details, take
@@ -72,10 +68,9 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {Number|Array} The value to scale.
      * @return {qxWeb} This reference for chaining.
      */
-    scale : function(value) {
-      return this.transform({scale: value});
+    scale(value) {
+      return this.transform({ scale: value });
     },
-
 
     /**
      * Rotates by the given value. For further details, take
@@ -85,10 +80,9 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {String|Array} The value to rotate e.g. <code>"90deg"</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    rotate : function(value) {
-      return this.transform({rotate: value});
+    rotate(value) {
+      return this.transform({ rotate: value });
     },
-
 
     /**
      * Skews by the given value. For further details, take
@@ -98,10 +92,9 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {String|Array} The value to skew e.g. <code>"90deg"</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    skew : function(value) {
-      return this.transform({skew: value});
+    skew(value) {
+      return this.transform({ skew: value });
     },
-
 
     /**
      * Sets the transform-origin property.
@@ -113,13 +106,12 @@ qx.Bootstrap.define("qx.module.Transform",
      *   <code>left top</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    setTransformOrigin : function(value) {
-      this._forEachElement(function(el) {
+    setTransformOrigin(value) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.setOrigin(el, value);
       });
       return this;
     },
-
 
     /**
      * Returns the transform-origin property of the first element.
@@ -130,13 +122,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {String} The set property, e.g. <code>50% 50%</code> or null,
      *   of the collection is empty.
      */
-    getTransformOrigin : function() {
+    getTransformOrigin() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getOrigin(this[0]);
       }
       return "";
     },
-
 
     /**
      * Sets the transform-style property.
@@ -147,13 +138,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {String} Either <code>flat</code> or <code>preserve-3d</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    setTransformStyle : function(value) {
-      this._forEachElement(function(el) {
+    setTransformStyle(value) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.setStyle(el, value);
       });
       return this;
     },
-
 
     /**
      * Returns the transform-style property of the first element.
@@ -164,13 +154,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {String} The set property, either <code>flat</code> or
      *   <code>preserve-3d</code>.
      */
-    getTransformStyle : function() {
+    getTransformStyle() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getStyle(this[0]);
       }
       return "";
     },
-
 
     /**
      * Sets the perspective property.
@@ -182,13 +171,12 @@ qx.Bootstrap.define("qx.module.Transform",
      *   and 5000 give the best results.
      * @return {qxWeb} This reference for chaining.
      */
-    setTransformPerspective : function(value) {
-      this._forEachElement(function(el) {
+    setTransformPerspective(value) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.setPerspective(el, value);
       });
       return this;
     },
-
 
     /**
      * Returns the perspective property of the first element.
@@ -198,13 +186,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @attach {qxWeb}
      * @return {String} The set property, e.g. <code>500</code>
      */
-    getTransformPerspective : function() {
+    getTransformPerspective() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getPerspective(this[0]);
       }
       return "";
     },
-
 
     /**
      * Sets the perspective-origin property.
@@ -216,13 +203,12 @@ qx.Bootstrap.define("qx.module.Transform",
      *   <code>left top</code>.
      * @return {qxWeb} This reference for chaining.
      */
-    setTransformPerspectiveOrigin : function(value) {
-      this._forEachElement(function(el) {
+    setTransformPerspectiveOrigin(value) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.setPerspectiveOrigin(el, value);
       });
       return this;
     },
-
 
     /**
      * Returns the perspective-origin property of the first element.
@@ -232,13 +218,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @attach {qxWeb}
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
-    getTransformPerspectiveOrigin : function() {
+    getTransformPerspectiveOrigin() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getPerspectiveOrigin(this[0]);
       }
       return "";
     },
-
 
     /**
      * Sets the backface-visibility property.
@@ -249,13 +234,12 @@ qx.Bootstrap.define("qx.module.Transform",
      * @param value {Boolean} <code>true</code> if the backface should be visible.
      * @return {qxWeb} This reference for chaining.
      */
-    setTransformBackfaceVisibility : function(value) {
-      this._forEachElement(function(el) {
+    setTransformBackfaceVisibility(value) {
+      this._forEachElement(function (el) {
         qx.bom.element.Transform.setBackfaceVisibility(el, value);
       });
       return this;
     },
-
 
     /**
      * Returns the backface-visibility property of the first element.
@@ -265,7 +249,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @attach {qxWeb}
      * @return {Boolean} <code>true</code>, if the backface is visible.
      */
-    getTransformBackfaceVisibility : function() {
+    getTransformBackfaceVisibility() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getBackfaceVisibility(this[0]);
       }
@@ -273,8 +257,7 @@ qx.Bootstrap.define("qx.module.Transform",
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

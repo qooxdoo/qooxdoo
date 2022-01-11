@@ -56,25 +56,26 @@
  * </pre>
  */
 qx.Bootstrap.define("qx.dev.FakeServer", {
+  extend: Object,
 
-  extend : Object,
-
-  construct : function() {
+  construct() {
     var clazz = qx.dev.FakeServer;
 
     if (!clazz.$$allowconstruct) {
-        var msg = clazz+" is a singleton! It is not possible to instantiate it directly." +
-                  "Use the static getInstance() method instead.";
-        throw new Error(msg);
+      var msg =
+        clazz +
+        " is a singleton! It is not possible to instantiate it directly." +
+        "Use the static getInstance() method instead.";
+      throw new Error(msg);
     }
 
     this.getFakeServer();
     this.__responses = [];
   },
 
-  statics : {
-    $$instance : null,
-    $$allowconstruct : false,
+  statics: {
+    $$instance: null,
+    $$allowconstruct: false,
 
     /**
      * Helper method to handle singletons
@@ -82,10 +83,8 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * @internal
      * @return {Object} The singleton instance
      */
-    getInstance : function()
-    {
-      if (!this.$$instance)
-      {
+    getInstance() {
+      if (!this.$$instance) {
         this.$$allowconstruct = true;
         this.$$instance = new this();
         delete this.$$allowconstruct;
@@ -95,12 +94,11 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     }
   },
 
-  members :
-  {
-    __sinon : null,
-    __fakeServer : null,
-    __responses : null,
-    __filter : null,
+  members: {
+    __sinon: null,
+    __fakeServer: null,
+    __responses: null,
+    __filter: null,
 
     /**
      * Configures a set of fake HTTP responses. Each response is defined as a map
@@ -127,25 +125,27 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      *
      * @param responseData {Map[]} An array of response description maps.
      */
-    configure : function(responseData) {
-      responseData.forEach(function(item) {
-        var urlRegExp = item.url instanceof RegExp ? item.url : this._getRegExp(item.url);
-        var response = [item.method, urlRegExp];
-        var hasResponse = false;
-        for (var i=0, l=this.__responses.length; i<l; i++) {
-          var old = this.__responses[i];
-          hasResponse = (old[0] == response[0] && old[1] == response[1]);
-        }
-        if (!hasResponse) {
-          this.__responses.push(response);
-        }
-        this.respondWith(item.method, urlRegExp, item.response);
-      }.bind(this));
+    configure(responseData) {
+      responseData.forEach(
+        function (item) {
+          var urlRegExp =
+            item.url instanceof RegExp ? item.url : this._getRegExp(item.url);
+          var response = [item.method, urlRegExp];
+          var hasResponse = false;
+          for (var i = 0, l = this.__responses.length; i < l; i++) {
+            var old = this.__responses[i];
+            hasResponse = old[0] == response[0] && old[1] == response[1];
+          }
+          if (!hasResponse) {
+            this.__responses.push(response);
+          }
+          this.respondWith(item.method, urlRegExp, item.response);
+        }.bind(this)
+      );
 
-      var filter = this.__filter = this.__getCombinedFilter();
+      var filter = (this.__filter = this.__getCombinedFilter());
       this.addFilter(filter);
     },
-
 
     /**
      * Adds a URL filtering function to decide whether a request should be handled
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * <code>username</code>, <code>password</code>. Must return <code>true</code>
      * if the request should not be faked.
      */
-    addFilter : function(filter) {
+    addFilter(filter) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertFunction(filter);
       }
@@ -166,37 +166,43 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
       this.__sinon.FakeXMLHttpRequest.addFilter(filter);
     },
 
-
     /**
      * Remove a filter that was added with {@link #addFilter}
      * @param filter {Function} filter function to remove
      */
-    removeFilter : function(filter) {
-     qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, filter);
+    removeFilter(filter) {
+      qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, filter);
     },
-
 
     /**
      * Removes a response that was configured with {@link #configure}
      * @param method {String} HTTP method of the response
      * @param url {String|RegExp} URL of the response
      */
-    removeResponse : function(method, url) {
-      qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, this.__filter);
+    removeResponse(method, url) {
+      qx.lang.Array.remove(
+        this.__sinon.FakeXMLHttpRequest.filters,
+        this.__filter
+      );
       var urlRegExp = url instanceof RegExp ? url : this._getRegExp(url);
-      this.__responses = this.__responses.filter(function(response) {
-        return (response[0] != method ||
-                response[1].toString() != urlRegExp.toString());
+      this.__responses = this.__responses.filter(function (response) {
+        return (
+          response[0] != method ||
+          response[1].toString() != urlRegExp.toString()
+        );
       });
-      this.__fakeServer.responses = this.__fakeServer.responses.filter(function(response) {
-        return (response.method != method ||
-                response.url.toString() != urlRegExp.toString());
-      });
+      this.__fakeServer.responses = this.__fakeServer.responses.filter(
+        function (response) {
+          return (
+            response.method != method ||
+            response.url.toString() != urlRegExp.toString()
+          );
+        }
+      );
       this.removeFilter(this.__filter);
       this.__filter = this.__getCombinedFilter();
       this.addFilter(this.__filter);
     },
-
 
     /**
      * Defines a fake XHR response to a matching request.
@@ -206,19 +212,18 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * @param response {Function|Array|String} Response to send. See
      * <a href="http://sinonjs.org/docs/#fakeServer">Sinon.JS: Fake Server</a> for details.
      */
-    respondWith : function(method, urlRegExp, response) {
+    respondWith(method, urlRegExp, response) {
       this.getFakeServer().respondWith(method, urlRegExp, response);
     },
 
-
     /**
      * Creates and configures a FakeServer if necessary and returns it.
-
      * @return {Object} FakeServer object
      */
-    getFakeServer : function() {
+
+    getFakeServer() {
       if (!this.__fakeServer) {
-        var sinon = this.__sinon = qx.dev.unit.Sinon.getSinon();
+        var sinon = (this.__sinon = qx.dev.unit.Sinon.getSinon());
         sinon.FakeXMLHttpRequest.useFilters = true;
         this.__fakeServer = sinon.sandbox.useFakeServer();
         this.__fakeServer.autoRespond = true;
@@ -226,18 +231,16 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
       return this.__fakeServer;
     },
 
-
     /**
      * Stops the FakeServer and removes all configured responses and/or filters.
      */
-    restore : function() {
+    restore() {
       this.__responses = [];
       this.removeFilter(this.__filter);
       this.__filter = null;
       this.__fakeServer.restore();
       this.__fakeServer = null;
     },
-
 
     /**
      * Returns a RegExp using the given pattern. Curly brackets and anything
@@ -246,21 +249,20 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * @param pattern {String} RegExp pattern
      * @return {RegExp} Regular Expression
      */
-    _getRegExp : function(pattern) {
+    _getRegExp(pattern) {
       pattern = pattern.replace(/\{[^\/]*?\}/g, ".*?");
       return new RegExp(pattern);
     },
-
 
     /**
      * Returns a filter function that ensures only requests matching configured
      * fake responses will be intercepted.
      * @return {Function} filter function
      */
-    __getCombinedFilter : function() {
+    __getCombinedFilter() {
       var responses = this.__responses;
-      return function(method, url, async, username, password) {
-        for (var i=0, l=responses.length; i<l; i++) {
+      return function (method, url, async, username, password) {
+        for (var i = 0, l = responses.length; i < l; i++) {
           var filterMethod = responses[i][0];
           var regExp = responses[i][1];
           if (method == filterMethod && regExp.test(url)) {
@@ -272,9 +274,8 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     }
   },
 
-  destruct: function() {
+  destruct() {
     this.restore();
     this.__fakeServer = this.__sinon = null;
   }
-
 });

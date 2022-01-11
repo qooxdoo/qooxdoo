@@ -16,15 +16,12 @@
      * Mustafa Sak (msak)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.command.GroupManager",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.command.GroupManager", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    testGroupManager : function()
-    {
+  members: {
+    testGroupManager() {
       var handler = this.spy();
 
       var manager = new qx.ui.command.GroupManager();
@@ -65,9 +62,7 @@ qx.Class.define("qx.test.ui.command.GroupManager",
       this.assertCallCount(handler, 3);
     },
 
-
-    "test: add and remove group" : function()
-    {
+    "test: add and remove group"() {
       var manager = new qx.ui.command.GroupManager();
 
       var group = new qx.ui.command.Group();

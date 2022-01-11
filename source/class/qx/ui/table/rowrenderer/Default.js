@@ -21,13 +21,9 @@
 /**
  * The default data row renderer.
  */
-qx.Class.define("qx.ui.table.rowrenderer.Default",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.table.IRowRenderer,
-
-
-
+qx.Class.define("qx.ui.table.rowrenderer.Default", {
+  extend: qx.core.Object,
+  implement: qx.ui.table.IRowRenderer,
 
   /*
   *****************************************************************************
@@ -35,22 +31,20 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.initThemeValues();
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().addListener(
-        "changeTheme", this.initThemeValues, this
+        "changeTheme",
+        this.initThemeValues,
+        this
       );
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -58,17 +52,13 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Whether the focused row should be highlighted. */
-    highlightFocusRow :
-    {
-      check : "Boolean",
-      init : true
+    highlightFocusRow: {
+      check: "Boolean",
+      init: true
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -76,17 +66,16 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  members :
-  {
-    _colors : null,
-    _fontStyle : null,
-    _fontStyleString : null,
+  members: {
+    _colors: null,
+    _fontStyle: null,
+    _fontStyleString: null,
 
     /**
      * Initializes the colors from the color theme.
      * @internal
      */
-    initThemeValues : function() {
+    initThemeValues() {
       this._fontStyleString = "";
       this._fontStyle = {};
 
@@ -97,9 +86,15 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       // link to color theme
       var colorMgr = qx.theme.manager.Color.getInstance();
-      this._colors.bgcolFocusedSelected = colorMgr.resolve("table-row-background-focused-selected");
-      this._colors.bgcolFocused = colorMgr.resolve("table-row-background-focused");
-      this._colors.bgcolSelected = colorMgr.resolve("table-row-background-selected");
+      this._colors.bgcolFocusedSelected = colorMgr.resolve(
+        "table-row-background-focused-selected"
+      );
+      this._colors.bgcolFocused = colorMgr.resolve(
+        "table-row-background-focused"
+      );
+      this._colors.bgcolSelected = colorMgr.resolve(
+        "table-row-background-selected"
+      );
       this._colors.bgcolEven = colorMgr.resolve("table-row-background-even");
       this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
       this._colors.colSelected = colorMgr.resolve("table-row-selected");
@@ -107,12 +102,11 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       this._colors.horLine = colorMgr.resolve("table-row-line");
     },
 
-
     /**
      * the sum of the vertical insets. This is needed to compute the box model
      * independent size
      */
-    _insetY : 1, // borderBottom
+    _insetY: 1, // borderBottom
 
     /**
      * Render the new font and update the table pane content
@@ -120,51 +114,45 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      *
      * @param font {qx.bom.Font} The font to use for the table row
      */
-    _renderFont : function(font)
-    {
-      if (font)
-      {
+    _renderFont(font) {
+      if (font) {
         this._fontStyle = font.getStyles();
         this._fontStyleString = qx.bom.element.Style.compile(this._fontStyle);
         this._fontStyleString = this._fontStyleString.replace(/"/g, "'");
-      }
-      else
-      {
+      } else {
         this._fontStyleString = "";
         this._fontStyle = qx.bom.Font.getDefaultStyles();
       }
     },
 
-
     // interface implementation
-    updateDataRowElement : function(rowInfo, rowElem)
-    {
+    updateDataRowElement(rowInfo, rowElem) {
       var fontStyle = this._fontStyle;
       var style = rowElem.style;
 
       // set font styles
       qx.bom.element.Style.setStyles(rowElem, fontStyle);
 
-      if (rowInfo.focusedRow && this.getHighlightFocusRow())
-      {
-        style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
-      }
-      else
-      {
-        if (rowInfo.selected)
-        {
+      if (rowInfo.focusedRow && this.getHighlightFocusRow()) {
+        style.backgroundColor = rowInfo.selected
+          ? this._colors.bgcolFocusedSelected
+          : this._colors.bgcolFocused;
+      } else {
+        if (rowInfo.selected) {
           style.backgroundColor = this._colors.bgcolSelected;
-        }
-        else
-        {
-          style.backgroundColor = (rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd;
+        } else {
+          style.backgroundColor =
+            rowInfo.row % 2 == 0
+              ? this._colors.bgcolEven
+              : this._colors.bgcolOdd;
         }
       }
 
-      style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
+      style.color = rowInfo.selected
+        ? this._colors.colSelected
+        : this._colors.colNormal;
       style.borderBottom = "1px solid " + this._colors.horLine;
     },
-
 
     /**
      * Get the row's height CSS style taking the box model into account
@@ -172,8 +160,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * @param height {Integer} The row's (border-box) height in pixel
      * @return {String} CSS rule for the row height
      */
-    getRowHeightStyle : function(height)
-    {
+    getRowHeightStyle(height) {
       if (qx.core.Environment.get("css.boxmodel") == "content") {
         height -= this._insetY;
       }
@@ -181,41 +168,42 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       return "height:" + height + "px;";
     },
 
-
     // interface implementation
-    createRowStyle : function(rowInfo)
-    {
+    createRowStyle(rowInfo) {
       var rowStyle = [];
       rowStyle.push(";");
       rowStyle.push(this._fontStyleString);
       rowStyle.push("background-color:");
 
-      if (rowInfo.focusedRow && this.getHighlightFocusRow())
-      {
-        rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
-      }
-      else
-      {
-        if (rowInfo.selected)
-        {
+      if (rowInfo.focusedRow && this.getHighlightFocusRow()) {
+        rowStyle.push(
+          rowInfo.selected
+            ? this._colors.bgcolFocusedSelected
+            : this._colors.bgcolFocused
+        );
+      } else {
+        if (rowInfo.selected) {
           rowStyle.push(this._colors.bgcolSelected);
-        }
-        else
-        {
-          rowStyle.push((rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd);
+        } else {
+          rowStyle.push(
+            rowInfo.row % 2 == 0
+              ? this._colors.bgcolEven
+              : this._colors.bgcolOdd
+          );
         }
       }
 
-      rowStyle.push(';color:');
-      rowStyle.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
+      rowStyle.push(";color:");
+      rowStyle.push(
+        rowInfo.selected ? this._colors.colSelected : this._colors.colNormal
+      );
 
-      rowStyle.push(';border-bottom: 1px solid ', this._colors.horLine);
+      rowStyle.push(";border-bottom: 1px solid ", this._colors.horLine);
 
       return rowStyle.join("");
     },
 
-
-    getRowClass : function(rowInfo) {
+    getRowClass(rowInfo) {
       return "";
     },
 
@@ -248,14 +236,10 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      *   Any additional attributes and their values that should be added to the
      *   div tag for the row.
      */
-    getRowAttributes : function(rowInfo)
-    {
+    getRowAttributes(rowInfo) {
       return "role=row "; // Space important!
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -263,13 +247,15 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._colors = this._fontStyle = this._fontStyleString = null;
 
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme", this.initThemeValues, this
+        "changeTheme",
+        this.initThemeValues,
+        this
       );
     }
   }

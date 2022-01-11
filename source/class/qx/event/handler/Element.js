@@ -19,17 +19,13 @@
 /**
  * This class supports typical DOM element inline events like scroll,
  * change, select, ...
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.Element",
-{
-  extend : qx.core.Object,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.event.handler.Element", {
+  extend: qx.core.Object,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -42,16 +38,12 @@ qx.Class.define("qx.event.handler.Element",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     this._manager = manager;
     this._registeredEvents = {};
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -59,39 +51,31 @@ qx.Class.define("qx.event.handler.Element",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      abort : true,    // Image elements
-      load : true, // Image elements
-      scroll : true,
-      select : true,
-      reset : true,    // Form Elements
-      submit : true   // Form Elements
+    SUPPORTED_TYPES: {
+      abort: true, // Image elements
+      load: true, // Image elements
+      scroll: true,
+      select: true,
+      reset: true, // Form Elements
+      submit: true // Form Elements
     },
 
     /** @type {MAP} Whether the event is cancelable */
-    CANCELABLE :
-    {
+    CANCELABLE: {
       selectstart: true
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -99,8 +83,7 @@ qx.Class.define("qx.event.handler.Element",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -108,8 +91,7 @@ qx.Class.define("qx.event.handler.Element",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
+    canHandleEvent(target, type) {
       // Don't handle "load" event of Iframe. Unfortunately, both Element and
       // Iframe handler support "load" event. Should be handled by
       // qx.event.handler.Iframe only. Fixes [#BUG 4587].
@@ -120,28 +102,23 @@ qx.Class.define("qx.event.handler.Element",
       }
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       var elementId = qx.core.ObjectRegistry.toHashCode(target);
       var eventId = elementId + "-" + type;
 
       var listener = qx.lang.Function.listener(this._onNative, this, eventId);
       qx.bom.Event.addNativeListener(target, type, listener);
 
-      this._registeredEvents[eventId] =
-      {
-        element : target,
-        type : type,
-        listener : listener
+      this._registeredEvents[eventId] = {
+        element: target,
+        type: type,
+        listener: listener
       };
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
+    unregisterEvent(target, type, capture) {
       var events = this._registeredEvents;
       if (!events) {
         return;
@@ -151,14 +128,12 @@ qx.Class.define("qx.event.handler.Element",
       var eventId = elementId + "-" + type;
 
       var eventData = this._registeredEvents[eventId];
-      if(eventData) {
+      if (eventData) {
         qx.bom.Event.removeNativeListener(target, type, eventData.listener);
       }
 
       delete this._registeredEvents[eventId];
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -173,26 +148,27 @@ qx.Class.define("qx.event.handler.Element",
      * @param nativeEvent {Event} Native event
      * @param eventId {Integer} ID of the event (as stored internally)
      */
-    _onNative : qx.event.GlobalError.observeMethod(function(nativeEvent, eventId)
-    {
+    _onNative: qx.event.GlobalError.observeMethod(function (
+      nativeEvent,
+      eventId
+    ) {
       var events = this._registeredEvents;
       if (!events) {
         return;
       }
 
       var eventData = events[eventId];
-      var isCancelable = nativeEvent.cancelable || this.constructor.CANCELABLE[eventData.type];
+      var isCancelable =
+        nativeEvent.cancelable || this.constructor.CANCELABLE[eventData.type];
 
       qx.event.Registration.fireNonBubblingEvent(
-        eventData.element, eventData.type,
-        qx.event.type.Native, [nativeEvent, undefined, undefined, undefined, isCancelable]
+        eventData.element,
+        eventData.type,
+        qx.event.type.Native,
+        [nativeEvent, undefined, undefined, undefined, isCancelable]
       );
     })
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -200,24 +176,21 @@ qx.Class.define("qx.event.handler.Element",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     var entry;
     var events = this._registeredEvents;
 
-    for (var id in events)
-    {
+    for (var id in events) {
       entry = events[id];
-      qx.bom.Event.removeNativeListener(entry.element, entry.type, entry.listener);
+      qx.bom.Event.removeNativeListener(
+        entry.element,
+        entry.type,
+        entry.listener
+      );
     }
 
     this._manager = this._registeredEvents = null;
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -225,7 +198,7 @@ qx.Class.define("qx.event.handler.Element",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

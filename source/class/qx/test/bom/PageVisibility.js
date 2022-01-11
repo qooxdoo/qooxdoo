@@ -16,33 +16,30 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.bom.PageVisibility", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MMock],
 
-qx.Class.define("qx.test.bom.PageVisibility",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MMock],
-
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.__visibility = new qx.bom.PageVisibility();
     },
 
-
-    testVisibilityState : function() {
+    testVisibilityState() {
       var possible = ["hidden", "visible", "prerender", "unloaded"];
       var value = this.__visibility.getVisibilityState();
       this.assertInArray(value, possible);
     },
 
-
-    testHidden : function() {
+    testHidden() {
       this.assertBoolean(this.__visibility.isHidden());
     },
 
-
-    testGetInstance : function() {
-      this.assertEquals(qx.bom.PageVisibility.getInstance(), qx.bom.PageVisibility.getInstance());
+    testGetInstance() {
+      this.assertEquals(
+        qx.bom.PageVisibility.getInstance(),
+        qx.bom.PageVisibility.getInstance()
+      );
     }
   }
 });

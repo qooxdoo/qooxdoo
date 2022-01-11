@@ -25,33 +25,34 @@
  * @asset(qx/test/jsonp_primitive.php)
  */
 
-qx.Class.define("qx.test.io.request.JsonpWithRemote",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.io.request.JsonpWithRemote", {
+  extend: qx.dev.unit.TestCase,
 
-  include: [qx.test.io.MRemoteTest,
-            qx.dev.unit.MRequirements],
+  include: [qx.test.io.MRemoteTest, qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.require(["http", "php"]);
     },
 
-    tearDown: function() {
+    tearDown() {
       this.req.dispose();
     },
 
-    "test: fetch json": function() {
-      var req = this.req = new qx.io.request.Jsonp(),
-          url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
+    "test: fetch json"() {
+      var req = (this.req = new qx.io.request.Jsonp()),
+        url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
 
-      req.addListener("load", function(e) {
-        this.resume(function() {
-          this.assertObject(req.getResponse());
-          this.assertTrue(req.getResponse()["boolean"]);
-        }, this);
-      }, this);
+      req.addListener(
+        "load",
+        function (e) {
+          this.resume(function () {
+            this.assertObject(req.getResponse());
+            this.assertTrue(req.getResponse()["boolean"]);
+          }, this);
+        },
+        this
+      );
 
       req.setUrl(url);
       req.send();
@@ -59,9 +60,11 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote",
       this.wait();
     },
 
-    noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+    noCache(url) {
+      return qx.util.Uri.appendParamsToUrl(
+        url,
+        "nocache=" + new Date().valueOf()
+      );
     }
-
   }
 });

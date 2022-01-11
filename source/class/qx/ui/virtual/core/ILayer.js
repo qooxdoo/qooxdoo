@@ -20,10 +20,8 @@
  * A layer is responsible to render one aspect of a virtual pane. The pane tells
  * each layer to render/update a specific window of the virtual grid.
  */
-qx.Interface.define("qx.ui.virtual.core.ILayer",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.virtual.core.ILayer", {
+  members: {
     /**
      * Do a complete update of the layer. All cached data should be discarded.
      * This method is called e.g. after changes to the grid geometry
@@ -37,17 +35,13 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * @param rowSizes {Integer[]} Array of heights for each row to display.
      * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
-    fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    ) {
+    fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       this.assertArgumentsCount(arguments, 6, 6);
       this.assertPositiveInteger(firstRow);
       this.assertPositiveInteger(firstColumn);
       this.assertArray(rowSizes);
       this.assertArray(columnSizes);
     },
-
 
     /**
      * Update the layer to display a different window of the virtual grid.
@@ -64,10 +58,7 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * @param rowSizes {Integer[]} Array of heights for each row to display.
      * @param columnSizes {Integer[]} Array of widths for each column to display.
      */
-    updateLayerWindow : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    ) {
+    updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
       this.assertArgumentsCount(arguments, 6, 6);
       this.assertPositiveInteger(firstRow);
       this.assertPositiveInteger(firstColumn);
@@ -75,10 +66,9 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
       this.assertArray(columnSizes);
     },
 
-
     /**
      * Update the layer to reflect changes in the data the layer displays.
      */
-    updateLayerData : function() {}
+    updateLayerData() {}
   }
 });

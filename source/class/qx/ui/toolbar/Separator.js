@@ -21,13 +21,8 @@
  * A widget used for decoration proposes to structure a toolbar. Each
  * Separator renders a line between the buttons around.
  */
-qx.Class.define("qx.ui.toolbar.Separator",
-{
-  extend : qx.ui.core.Widget,
-
-
-
-
+qx.Class.define("qx.ui.toolbar.Separator", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -35,34 +30,29 @@ qx.Class.define("qx.ui.toolbar.Separator",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "toolbar-separator"
+    appearance: {
+      refine: true,
+      init: "toolbar-separator"
     },
 
     // overridden
-    anonymous :
-    {
-      refine : true,
-      init : true
+    anonymous: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    width :
-    {
-      refine : true,
-      init : 0
+    width: {
+      refine: true,
+      init: 0
     },
 
     // overridden
-    height :
-    {
-      refine : true,
-      init : 0
+    height: {
+      refine: true,
+      init: 0
     }
   }
 });
