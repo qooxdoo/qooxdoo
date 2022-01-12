@@ -16,25 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.tabbar.TabBar",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.tabbar.TabBar", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    __createTabBar : function() {
+  members: {
+    __createTabBar() {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
       this.getRoot().add(tabBar);
       return tabBar;
     },
 
-    __assertChildNodesLength : function(tabBar, tabNumber) {
+    __assertChildNodesLength(tabBar, tabNumber) {
       var childrenLength = tabBar.getContentElement().childNodes.length;
       this.assertEquals(tabNumber, childrenLength);
     },
 
-    testAdd : function()
-    {
+    testAdd() {
       var tabBar = this.__createTabBar();
 
       var button1 = new qx.ui.mobile.tabbar.TabButton("Button 1");
@@ -55,9 +52,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.destroy();
     },
 
-
-    testRemove : function()
-    {
+    testRemove() {
       var tabBar = this.__createTabBar();
 
       var button1 = new qx.ui.mobile.tabbar.TabButton("Button 1");
@@ -82,9 +77,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.destroy();
     },
 
-
-    testSelection : function()
-    {
+    testSelection() {
       var tabBar = this.__createTabBar();
 
       var button1 = new qx.ui.mobile.tabbar.TabButton();
@@ -105,7 +98,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.remove(button2);
       this.assertEquals(tabBar.getSelection(), null);
 
-      this.assertEventFired(tabBar, "changeSelection", function() {
+      this.assertEventFired(tabBar, "changeSelection", function () {
         tabBar.setSelection(button1);
       });
 
@@ -115,9 +108,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.destroy();
     },
 
-
-    testView : function()
-    {
+    testView() {
       var tabBar = this.__createTabBar();
 
       var button1 = new qx.ui.mobile.tabbar.TabButton("Button 1");
@@ -138,7 +129,7 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.setSelection(button3);
       var view3 = new qx.ui.mobile.basic.Label("3");
 
-      this.assertEventFired(button3, "changeView", function() {
+      this.assertEventFired(button3, "changeView", function () {
         button3.setView(view3);
       });
 
@@ -159,5 +150,4 @@ qx.Class.define("qx.test.mobile.tabbar.TabBar",
       tabBar.destroy();
     }
   }
-
 });

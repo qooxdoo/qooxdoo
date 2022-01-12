@@ -28,12 +28,9 @@
  * @childControl handle {qx.ui.basic.Image} prat handle to visualize the separation
  * @childControl container {qx.ui.toolbar.PartContainer} holds the content of the toolbar part
  */
-qx.Class.define("qx.ui.toolbar.Part",
-{
-  extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MRemoteChildrenHandling],
-
-
+qx.Class.define("qx.ui.toolbar.Part", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MRemoteChildrenHandling],
 
   /*
   *****************************************************************************
@@ -41,18 +38,15 @@ qx.Class.define("qx.ui.toolbar.Part",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Hard coded HBox layout
-    this._setLayout(new qx.ui.layout.HBox);
+    this._setLayout(new qx.ui.layout.HBox());
 
     // Force creation of the handle
     this._createChildControl("handle");
   },
-
-
 
   /*
   *****************************************************************************
@@ -60,35 +54,28 @@ qx.Class.define("qx.ui.toolbar.Part",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "toolbar/part"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "toolbar/part"
     },
 
     /** Whether icons, labels, both or none should be shown. */
-    show :
-    {
-      init : "both",
-      check : [ "both", "label", "icon" ],
-      inheritable : true,
-      event : "changeShow"
+    show: {
+      init: "both",
+      check: ["both", "label", "icon"],
+      inheritable: true,
+      event: "changeShow"
     },
 
     /** The spacing between every child of the toolbar */
-    spacing :
-    {
-      nullable : true,
-      check : "Integer",
-      themeable : true,
-      apply : "_applySpacing"
+    spacing: {
+      nullable: true,
+      check: "Integer",
+      themeable: true,
+      apply: "_applySpacing"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -96,8 +83,7 @@ qx.Class.define("qx.ui.toolbar.Part",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -105,12 +91,10 @@ qx.Class.define("qx.ui.toolbar.Part",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "handle":
           control = new qx.ui.basic.Image();
           control.setAlignY("middle");
@@ -121,22 +105,23 @@ qx.Class.define("qx.ui.toolbar.Part",
           control = new qx.ui.toolbar.PartContainer();
           control.addListener("syncAppearance", this.__onSyncAppearance, this);
           this._add(control);
-          control.addListener("changeChildren", function() {
-            this.__onSyncAppearance();
-          }, this);
+          control.addListener(
+            "changeChildren",
+            function () {
+              this.__onSyncAppearance();
+            },
+            this
+          );
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     // overridden
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("container");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -144,14 +129,10 @@ qx.Class.define("qx.ui.toolbar.Part",
     ---------------------------------------------------------------------------
     */
 
-    _applySpacing : function(value, old)
-    {
+    _applySpacing(value, old) {
       var layout = this.getChildControl("container").getLayout();
       value == null ? layout.resetSpacing() : layout.setSpacing(value);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -161,10 +142,10 @@ qx.Class.define("qx.ui.toolbar.Part",
     /**
      * Helper which applies the left, right and middle states.
      */
-    __onSyncAppearance : function() {
+    __onSyncAppearance() {
       // check every child
       var children = this.getChildrenContainer().getChildren();
-      children = children.filter(function(child) {
+      children = children.filter(function (child) {
         return child.getVisibility() == "visible";
       });
       for (var i = 0; i < children.length; i++) {
@@ -173,12 +154,12 @@ qx.Class.define("qx.ui.toolbar.Part",
           children[i].addState("left");
           children[i].removeState("right");
           children[i].removeState("middle");
-        // if its the last child
+          // if its the last child
         } else if (i == children.length - 1 && i != 0) {
           children[i].addState("right");
           children[i].removeState("left");
           children[i].removeState("middle");
-        // if there is only one child
+          // if there is only one child
         } else if (i == 0 && i == children.length - 1) {
           children[i].removeState("left");
           children[i].removeState("middle");
@@ -191,14 +172,12 @@ qx.Class.define("qx.ui.toolbar.Part",
       }
     },
 
-
     /**
      * Adds a separator to the toolbar part.
      */
-    addSeparator : function() {
-      this.add(new qx.ui.toolbar.Separator);
+    addSeparator() {
+      this.add(new qx.ui.toolbar.Separator());
     },
-
 
     /**
      * Returns all nested buttons which contains a menu to show. This is mainly
@@ -206,14 +185,12 @@ qx.Class.define("qx.ui.toolbar.Part",
      *
      * @return {Array} List of all menu buttons
      */
-    getMenuButtons : function()
-    {
+    getMenuButtons() {
       var children = this.getChildren();
       var buttons = [];
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         if (child instanceof qx.ui.menubar.Button) {

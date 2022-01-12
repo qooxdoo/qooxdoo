@@ -21,26 +21,20 @@
  * A decorator is responsible for computing a widget's decoration styles.
  *
  */
-qx.Interface.define("qx.ui.decoration.IDecorator",
-{
-  members :
-  {
-
+qx.Interface.define("qx.ui.decoration.IDecorator", {
+  members: {
     /**
      * Returns the decorator's styles.
      *
      * @return {Map} Map of decoration styles
      */
-    getStyles : function() {},
-
-
+    getStyles() {},
 
     /**
      * Returns the configured padding minus the border width.
      * @return {Map} Map of top, right, bottom and left padding values
      */
-    getPadding : function() {},
-
+    getPadding() {},
 
     /**
      * Get the amount of space the decoration needs for its border and padding
@@ -49,6 +43,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @return {Map} the desired inset as a map with the keys <code>top</code>,
      *     <code>right</code>, <code>bottom</code>, <code>left</code>.
      */
-    getInsets : function() {}
+    getInsets() {}
   }
 });

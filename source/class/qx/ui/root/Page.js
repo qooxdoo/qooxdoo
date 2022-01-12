@@ -32,13 +32,8 @@
  * If you want to place widgets inside existing DOM elements
  * use {@link qx.ui.root.Inline}.
  */
-qx.Class.define("qx.ui.root.Page",
-{
-  extend : qx.ui.root.Abstract,
-
-
-
-
+qx.Class.define("qx.ui.root.Page", {
+  extend: qx.ui.root.Abstract,
 
   /*
   *****************************************************************************
@@ -49,12 +44,11 @@ qx.Class.define("qx.ui.root.Page",
   /**
    * @param doc {Document} Document to use
    */
-  construct : function(doc)
-  {
+  construct(doc) {
     // Temporary storage of element to use
     this.__doc = doc;
 
-    this.base(arguments);
+    super();
 
     // Use a hard-coded basic layout
     this._setLayout(new qx.ui.layout.Basic());
@@ -73,14 +67,10 @@ qx.Class.define("qx.ui.root.Page",
 
     // Avoid the automatically scroll in to view.
     // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3236 for details.
-    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
       this.setKeepFocus(true);
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -88,15 +78,12 @@ qx.Class.define("qx.ui.root.Page",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __timer : null,
-    __doc : null,
+  members: {
+    __timer: null,
+    __doc: null,
 
     // overridden
-    _createContentElement : function()
-    {
+    _createContentElement() {
       var elem = this.__doc.createElement("div");
       this.__doc.body.appendChild(elem);
 
@@ -114,38 +101,34 @@ qx.Class.define("qx.ui.root.Page",
       // This would end up in a scrolling to the top which is not wanted in
       // an inline scenario
       // see Bug #2740
-      if ((qx.core.Environment.get("engine.name") == "gecko")) {
+      if (qx.core.Environment.get("engine.name") == "gecko") {
         root.setAttribute("qxIsRootPage", 1);
       }
 
       return root;
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var width = qx.bom.Document.getWidth(this._window);
       var height = qx.bom.Document.getHeight(this._window);
 
       return {
-        minWidth : width,
-        width : width,
-        maxWidth : width,
-        minHeight : height,
-        height : height,
-        maxHeight : height
+        minWidth: width,
+        width: width,
+        maxWidth: width,
+        minHeight: height,
+        height: height,
+        maxHeight: height
       };
     },
-
 
     /**
      * Adjust html element size on layout resizes.
      *
      * @param e {qx.event.type.Data} event object
      */
-    __onResize : function(e)
-    {
+    __onResize(e) {
       // set the size to 0 so make the content element invisible
       // this works because the content element has overflow "show"
       this.getContentElement().setStyles({
@@ -154,30 +137,26 @@ qx.Class.define("qx.ui.root.Page",
       });
     },
 
-
     /**
      * Whether the configured layout supports a maximized window
      * e.g. is a Canvas.
      *
      * @return {Boolean} Whether the layout supports maximized windows
      */
-    supportsMaximize : function() {
+    supportsMaximize() {
       return false;
     },
 
-
     // overridden
-    _applyPadding : function(value, old, name)
-    {
+    _applyPadding(value, old, name) {
       if (value && (name == "paddingTop" || name == "paddingLeft")) {
-        throw new Error("The root widget does not support 'left', or 'top' paddings!");
+        throw new Error(
+          "The root widget does not support 'left', or 'top' paddings!"
+        );
       }
-      this.base(arguments, value, old, name);
+      super._applyPadding(value, old, name);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -185,7 +164,7 @@ qx.Class.define("qx.ui.root.Page",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__doc = null;
   }
 });

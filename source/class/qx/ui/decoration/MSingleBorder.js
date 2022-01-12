@@ -19,10 +19,8 @@
  * A basic decorator featuring simple borders based on CSS styles.
  * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
-qx.Mixin.define("qx.ui.decoration.MSingleBorder",
-{
-  properties :
-  {
+qx.Mixin.define("qx.ui.decoration.MSingleBorder", {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PROPERTY: WIDTH
@@ -30,37 +28,32 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     /** top width of border */
-    widthTop :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
+    widthTop: {
+      check: "Number",
+      init: 0,
+      apply: "_applyWidth"
     },
 
     /** right width of border */
-    widthRight :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
+    widthRight: {
+      check: "Number",
+      init: 0,
+      apply: "_applyWidth"
     },
 
     /** bottom width of border */
-    widthBottom :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
+    widthBottom: {
+      check: "Number",
+      init: 0,
+      apply: "_applyWidth"
     },
 
     /** left width of border */
-    widthLeft :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyWidth"
+    widthLeft: {
+      check: "Number",
+      init: 0,
+      apply: "_applyWidth"
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -69,41 +62,72 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     /** top style of border */
-    styleTop :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
-      init : "solid",
-      apply : "_applyStyle"
+    styleTop: {
+      nullable: true,
+      check: [
+        "solid",
+        "dotted",
+        "dashed",
+        "double",
+        "inset",
+        "outset",
+        "ridge",
+        "groove"
+      ],
+      init: "solid",
+      apply: "_applyStyle"
     },
 
     /** right style of border */
-    styleRight :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
-      init : "solid",
-      apply : "_applyStyle"
+    styleRight: {
+      nullable: true,
+      check: [
+        "solid",
+        "dotted",
+        "dashed",
+        "double",
+        "inset",
+        "outset",
+        "ridge",
+        "groove"
+      ],
+      init: "solid",
+      apply: "_applyStyle"
     },
 
     /** bottom style of border */
-    styleBottom :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
-      init : "solid",
-      apply : "_applyStyle"
+    styleBottom: {
+      nullable: true,
+      check: [
+        "solid",
+        "dotted",
+        "dashed",
+        "double",
+        "inset",
+        "outset",
+        "ridge",
+        "groove"
+      ],
+      init: "solid",
+      apply: "_applyStyle"
     },
 
     /** left style of border */
-    styleLeft :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
-      init : "solid",
-      apply : "_applyStyle"
+    styleLeft: {
+      nullable: true,
+      check: [
+        "solid",
+        "dotted",
+        "dashed",
+        "double",
+        "inset",
+        "outset",
+        "ridge",
+        "groove"
+      ],
+      init: "solid",
+      apply: "_applyStyle"
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -112,35 +136,31 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     /** top color of border */
-    colorTop :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
+    colorTop: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyStyle"
     },
 
     /** right color of border */
-    colorRight :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
+    colorRight: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyStyle"
     },
 
     /** bottom color of border */
-    colorBottom :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
+    colorBottom: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyStyle"
     },
 
     /** left color of border */
-    colorLeft :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
+    colorLeft: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyStyle"
     },
 
     /*
@@ -150,25 +170,24 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     /** Property group to configure the left border */
-    left : {
-      group : [ "widthLeft", "styleLeft", "colorLeft" ]
+    left: {
+      group: ["widthLeft", "styleLeft", "colorLeft"]
     },
 
     /** Property group to configure the right border */
-    right : {
-      group : [ "widthRight", "styleRight", "colorRight" ]
+    right: {
+      group: ["widthRight", "styleRight", "colorRight"]
     },
 
     /** Property group to configure the top border */
-    top : {
-      group : [ "widthTop", "styleTop", "colorTop" ]
+    top: {
+      group: ["widthTop", "styleTop", "colorTop"]
     },
 
     /** Property group to configure the bottom border */
-    bottom : {
-      group : [ "widthBottom", "styleBottom", "colorBottom" ]
+    bottom: {
+      group: ["widthBottom", "styleBottom", "colorBottom"]
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -177,30 +196,25 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     /** Property group to set the border width of all sides */
-    width :
-    {
-      group : [ "widthTop", "widthRight", "widthBottom", "widthLeft" ],
-      mode : "shorthand"
+    width: {
+      group: ["widthTop", "widthRight", "widthBottom", "widthLeft"],
+      mode: "shorthand"
     },
 
     /** Property group to set the border style of all sides */
-    style :
-    {
-      group : [ "styleTop", "styleRight", "styleBottom", "styleLeft" ],
-      mode : "shorthand"
+    style: {
+      group: ["styleTop", "styleRight", "styleBottom", "styleLeft"],
+      mode: "shorthand"
     },
 
     /** Property group to set the border color of all sides */
-    color :
-    {
-      group : [ "colorTop", "colorRight", "colorBottom", "colorLeft" ],
-      mode : "shorthand"
+    color: {
+      group: ["colorTop", "colorRight", "colorBottom", "colorLeft"],
+      mode: "shorthand"
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Takes a styles map and adds the border styles styles in place
      * to the given map. This is the needed behavior for
@@ -208,19 +222,15 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
      *
      * @param styles {Map} A map to add the styles.
      */
-    _styleBorder : function(styles)
-    {
-      if (qx.core.Environment.get("qx.theme"))
-      {
+    _styleBorder(styles) {
+      if (qx.core.Environment.get("qx.theme")) {
         var Color = qx.theme.manager.Color.getInstance();
 
         var colorTop = Color.resolve(this.getColorTop());
         var colorRight = Color.resolve(this.getColorRight());
         var colorBottom = Color.resolve(this.getColorBottom());
         var colorLeft = Color.resolve(this.getColorLeft());
-      }
-      else
-      {
+      } else {
         var colorTop = this.getColorTop();
         var colorRight = this.getColorRight();
         var colorBottom = this.getColorBottom();
@@ -230,29 +240,34 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       // Add borders
       var width = this.getWidthTop();
       if (width > 0) {
-        styles["border-top"] = width + "px " + this.getStyleTop() + " " + (colorTop || "");
+        styles["border-top"] =
+          width + "px " + this.getStyleTop() + " " + (colorTop || "");
       }
 
       var width = this.getWidthRight();
       if (width > 0) {
-        styles["border-right"] = width + "px " + this.getStyleRight() + " " + (colorRight || "");
+        styles["border-right"] =
+          width + "px " + this.getStyleRight() + " " + (colorRight || "");
       }
 
       var width = this.getWidthBottom();
       if (width > 0) {
-        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + (colorBottom || "");
+        styles["border-bottom"] =
+          width + "px " + this.getStyleBottom() + " " + (colorBottom || "");
       }
 
       var width = this.getWidthLeft();
       if (width > 0) {
-        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + (colorLeft || "");
+        styles["border-left"] =
+          width + "px " + this.getStyleLeft() + " " + (colorLeft || "");
       }
 
       // Check if valid
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (styles.length === 0) {
-          throw new Error("Invalid Single decorator (zero border width). Use qx.ui.decorator.Background instead!");
+          throw new Error(
+            "Invalid Single decorator (zero border width). Use qx.ui.decorator.Background instead!"
+          );
         }
       }
 
@@ -260,23 +275,20 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
       styles.position = "absolute";
     },
 
-
     /**
      * Implementation of the interface for the single border.
      *
      * @return {Map} A map containing the default insets.
      *   (top, right, bottom, left)
      */
-    _getDefaultInsetsForBorder : function()
-    {
+    _getDefaultInsetsForBorder() {
       return {
-        top : this.getWidthTop(),
-        right : this.getWidthRight(),
-        bottom : this.getWidthBottom(),
-        left : this.getWidthLeft()
+        top: this.getWidthTop(),
+        right: this.getWidthRight(),
+        bottom: this.getWidthBottom(),
+        left: this.getWidthLeft()
       };
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -285,21 +297,19 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     */
 
     // property apply
-    _applyWidth : function()
-    {
+    _applyWidth() {
       this._applyStyle();
 
       this._resetInsets();
     },
 
-
     // property apply
-    _applyStyle : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyStyle() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     }

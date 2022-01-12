@@ -50,13 +50,9 @@
  * @childControl preview-content-old {qx.ui.core.Widget} preview of the old color
  * @childControl preview-content-new {qx.ui.core.Widget} preview of the new color
  */
-qx.Class.define("qx.ui.control.ColorSelector",
-{
-  extend : qx.ui.core.Widget,
-  implement : [qx.ui.form.IColorForm],
-
-
-
+qx.Class.define("qx.ui.control.ColorSelector", {
+  extend: qx.ui.core.Widget,
+  implement: [qx.ui.form.IColorForm],
 
   /*
   *****************************************************************************
@@ -67,9 +63,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
   /**
    * Creates a ColorSelector.
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // add the basic layout
     this._setLayout(new qx.ui.layout.VBox());
@@ -79,29 +74,22 @@ qx.Class.define("qx.ui.control.ColorSelector",
     this.addListener("appear", this._onAppear, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events:
-  {
+  events: {
     /** Fired when the "OK" button is tapped. */
-    "dialogok"     : "qx.event.type.Event",
+    dialogok: "qx.event.type.Event",
 
     /** Fired when the "Cancel" button is tapped. */
-    "dialogcancel" : "qx.event.type.Event",
+    dialogcancel: "qx.event.type.Event",
 
     /** Fired when the value changes */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -109,66 +97,55 @@ qx.Class.define("qx.ui.control.ColorSelector",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "colorselector"
+    appearance: {
+      refine: true,
+      init: "colorselector"
     },
 
     /** The numeric red value of the selected color. */
-    red :
-    {
-      check : "Integer",
-      init : 255,
-      apply : "_applyRed"
+    red: {
+      check: "Integer",
+      init: 255,
+      apply: "_applyRed"
     },
 
     /** The numeric green value of the selected color. */
-    green :
-    {
-      check : "Integer",
-      init : 255,
-      apply : "_applyGreen"
+    green: {
+      check: "Integer",
+      init: 255,
+      apply: "_applyGreen"
     },
 
     /** The numeric blue value of the selected color. */
-    blue :
-    {
-      check : "Integer",
-      init :  255,
-      apply : "_applyBlue"
+    blue: {
+      check: "Integer",
+      init: 255,
+      apply: "_applyBlue"
     },
 
     /** The numeric hue value. */
-    hue :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyHue"
+    hue: {
+      check: "Number",
+      init: 0,
+      apply: "_applyHue"
     },
 
     /** The numeric saturation value. */
-    saturation :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applySaturation"
+    saturation: {
+      check: "Number",
+      init: 0,
+      apply: "_applySaturation"
     },
 
     /** The numeric brightness value. */
-    brightness :
-    {
-      check : "Number",
-      init : 100,
-      apply : "_applyBrightness"
+    brightness: {
+      check: "Number",
+      init: 100,
+      apply: "_applyBrightness"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -176,8 +153,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       CONTEXT HANDLING
@@ -187,50 +163,66 @@ members :
     /**
      * @type {String} The context in which an update has occurred.
      */
-    __updateContext : null,
+    __updateContext: null,
 
     /**
      * @type {Array} Map containing the preset colors.
      * @lint ignoreReferenceField(__presetTable)
      */
-    __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple",
-      "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black",
-      "#333", "#666", "#999", "#BBB", "#EEE", "white" ],
+    __presetTable: [
+      "maroon",
+      "red",
+      "orange",
+      "yellow",
+      "olive",
+      "purple",
+      "fuchsia",
+      "lime",
+      "green",
+      "navy",
+      "blue",
+      "aqua",
+      "teal",
+      "black",
+      "#333",
+      "#666",
+      "#999",
+      "#BBB",
+      "#EEE",
+      "white"
+    ],
 
     /**
      * @type {String} Name of child control which is captured.
      */
-    __capture : "",
+    __capture: "",
 
     /**
      * @type {Number} Numeric brightness value
      */
-    __brightnessSubtract : 0,
+    __brightnessSubtract: 0,
 
     /**
      * @type {Integer} HueSaturation's X coordinate
      */
-    __hueSaturationSubtractTop : 0,
+    __hueSaturationSubtractTop: 0,
 
     /**
      * @type {Integer} HueSaturation's Y coordinate
      */
-    __hueSaturationSubtractLeft : 0,
+    __hueSaturationSubtractLeft: 0,
 
     // internal boolean flag to signal, that the value is set to null
-    __nullValue : true,
+    __nullValue: true,
 
     // internal mutex to prevent the changeValue event to be fired too often
-    __preventChangeValueEvent : false,
-
+    __preventChangeValueEvent: false,
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         /*
         ---------------------------------------------------------------------------
           CREATE #1: BASE STRUCTURE
@@ -262,7 +254,7 @@ members :
           control = new qx.ui.container.Composite(new qx.ui.layout.VBox(0));
           control.add(this.getChildControl("preset-field-set"));
           control.add(this.getChildControl("input-field-set"));
-          control.add(this.getChildControl("preview-field-set"), {flex: 1});
+          control.add(this.getChildControl("preview-field-set"), { flex: 1 });
           break;
 
         case "hue-saturation-pane":
@@ -270,19 +262,42 @@ members :
           control.setAllowGrowY(false);
           control.addListener("roll", this._onHueSaturationPaneRoll, this);
           control.add(this.getChildControl("hue-saturation-field"));
-          control.add(this.getChildControl("hue-saturation-handle"), {left: 0, top: 256});
+          control.add(this.getChildControl("hue-saturation-handle"), {
+            left: 0,
+            top: 256
+          });
           break;
 
         case "hue-saturation-field":
-          control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-field.jpg");
-          control.addListener("pointerdown", this._onHueSaturationFieldPointerDown, this);
+          control = new qx.ui.basic.Image(
+            "decoration/colorselector/huesaturation-field.jpg"
+          );
+          control.addListener(
+            "pointerdown",
+            this._onHueSaturationFieldPointerDown,
+            this
+          );
           break;
 
         case "hue-saturation-handle":
-          control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-handle.gif");
-          control.addListener("pointerdown", this._onHueSaturationFieldPointerDown, this);
-          control.addListener("pointerup", this._onHueSaturationHandlePointerUp, this);
-          control.addListener("pointermove", this._onHueSaturationHandlePointerMove, this);
+          control = new qx.ui.basic.Image(
+            "decoration/colorselector/huesaturation-handle.gif"
+          );
+          control.addListener(
+            "pointerdown",
+            this._onHueSaturationFieldPointerDown,
+            this
+          );
+          control.addListener(
+            "pointerup",
+            this._onHueSaturationHandlePointerUp,
+            this
+          );
+          control.addListener(
+            "pointermove",
+            this._onHueSaturationHandlePointerMove,
+            this
+          );
           break;
 
         case "brightness-pane":
@@ -294,17 +309,36 @@ members :
           break;
 
         case "brightness-field":
-          control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.png");
-          control.addListener("pointerdown", this._onBrightnessFieldPointerDown, this);
+          control = new qx.ui.basic.Image(
+            "decoration/colorselector/brightness-field.png"
+          );
+          control.addListener(
+            "pointerdown",
+            this._onBrightnessFieldPointerDown,
+            this
+          );
           break;
 
         case "brightness-handle":
-          control = new qx.ui.basic.Image("decoration/colorselector/brightness-handle.gif");
-          control.addListener("pointerdown", this._onBrightnessHandlePointerDown, this);
-          control.addListener("pointerup", this._onBrightnessHandlePointerUp, this);
-          control.addListener("pointermove", this._onBrightnessHandlePointerMove, this);
+          control = new qx.ui.basic.Image(
+            "decoration/colorselector/brightness-handle.gif"
+          );
+          control.addListener(
+            "pointerdown",
+            this._onBrightnessHandlePointerDown,
+            this
+          );
+          control.addListener(
+            "pointerup",
+            this._onBrightnessHandlePointerUp,
+            this
+          );
+          control.addListener(
+            "pointermove",
+            this._onBrightnessHandlePointerMove,
+            this
+          );
           break;
-
 
         /*
         ---------------------------------------------------------------------------
@@ -329,15 +363,13 @@ members :
           var colorField;
           var colorPos;
 
-          for (var i=0; i<2; i++)
-          {
-            for (var j=0; j<10; j++)
-            {
+          for (var i = 0; i < 2; i++) {
+            for (var j = 0; j < 10; j++) {
               colorPos = i * 10 + j;
               colorField = this.getChildControl("colorbucket#" + colorPos);
               colorField.setBackgroundColor(this.__presetTable[colorPos]);
 
-              control.add(colorField, {column: j, row: i});
+              control.add(colorField, { column: j, row: i });
             }
           }
           break;
@@ -358,8 +390,8 @@ members :
           var controlLayout = new qx.ui.layout.HBox(10);
           control.setLayout(controlLayout);
 
-          control.add(this.getChildControl("preview-content-old"), {flex: 1});
-          control.add(this.getChildControl("preview-content-new"), {flex: 1});
+          control.add(this.getChildControl("preview-content-old"), { flex: 1 });
+          control.add(this.getChildControl("preview-content-new"), { flex: 1 });
           break;
 
         /*
@@ -445,15 +477,22 @@ members :
         case "hsb-spinner-saturation":
           control = new qx.ui.form.Spinner(0, 0, 100);
           control.setWidth(50);
-          control.addListener("changeValue", this._setSaturationFromSpinner, this);
+          control.addListener(
+            "changeValue",
+            this._setSaturationFromSpinner,
+            this
+          );
           break;
 
         case "hsb-spinner-brightness":
           control = new qx.ui.form.Spinner(0, 100, 100);
           control.setWidth(50);
-          control.addListener("changeValue", this._setBrightnessFromSpinner, this);
+          control.addListener(
+            "changeValue",
+            this._setBrightnessFromSpinner,
+            this
+          );
           break;
-
 
         /*
         ---------------------------------------------------------------------------
@@ -469,9 +508,8 @@ members :
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * The value of the ColorSelector is a string containing the HEX value of
@@ -481,17 +519,13 @@ members :
      *
      * @param value {String} The value of a color.
      */
-    setValue: function(value)
-    {
+    setValue(value) {
       var rgb;
 
-      if (value == null)
-      {
+      if (value == null) {
         this.__nullValue = true;
         rgb = [255, 255, 255];
-      }
-      else
-      {
+      } else {
         rgb = qx.util.ColorUtil.stringToRgb(value);
         this.__nullValue = false;
       }
@@ -505,25 +539,26 @@ members :
       this.setBlue(rgb[2]);
     },
 
-
     /**
      * Returns the currently selected color.
      *
      * @return {String | null} The HEX value of the color of if not color
      *   is set, null.
      */
-    getValue: function()
-    {
-      return this.__nullValue ? null : qx.util.ColorUtil.rgbToHexString(
-        [this.getRed(), this.getGreen(), this.getBlue()]
-      );
+    getValue() {
+      return this.__nullValue
+        ? null
+        : qx.util.ColorUtil.rgbToHexString([
+            this.getRed(),
+            this.getGreen(),
+            this.getBlue()
+          ]);
     },
 
     /**
      * Resets the color to null.
      */
-    resetValue: function()
-    {
+    resetValue() {
       this.__nullValue = true;
       this.__preventChangeValueEvent = true;
       this.setRed(255);
@@ -532,19 +567,15 @@ members :
       this.setBlue(255);
     },
 
-
     /**
      * Helper for firing the changeValue event and checking for the mutex.
      */
-    __fireChangeValueEvent: function()
-    {
-      if (!this.__preventChangeValueEvent)
-      {
+    __fireChangeValueEvent() {
+      if (!this.__preventChangeValueEvent) {
         this.__nullValue = false;
         this.fireDataEvent("changeValue", this.getValue());
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -552,10 +583,8 @@ members :
     ---------------------------------------------------------------------------
     */
 
-
     // property apply
-    _applyRed : function(value, old)
-    {
+    _applyRed(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "redModifier";
       }
@@ -568,8 +597,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "rgbSpinner":
         case "hexField":
         case "redModifier":
@@ -584,10 +612,8 @@ members :
       }
     },
 
-
     // property apply
-    _applyGreen : function(value, old)
-    {
+    _applyGreen(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "greenModifier";
       }
@@ -600,8 +626,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "rgbSpinner":
         case "hexField":
         case "greenModifier":
@@ -616,10 +641,8 @@ members :
       }
     },
 
-
     // property apply
-    _applyBlue : function(value, old)
-    {
+    _applyBlue(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "blueModifier";
       }
@@ -632,8 +655,7 @@ members :
         this._setHexFromRgb();
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "rgbSpinner":
         case "hexField":
         case "blueModifier":
@@ -648,9 +670,6 @@ members :
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       HSB MODIFIER
@@ -658,8 +677,7 @@ members :
     */
 
     // property apply
-    _applyHue : function(value, old)
-    {
+    _applyHue(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "hueModifier";
       }
@@ -668,32 +686,34 @@ members :
         this.getChildControl("hsb-spinner-hue").setValue(value);
       }
 
-      if (this.__updateContext !== "hueSaturationField")
-      {
+      if (this.__updateContext !== "hueSaturationField") {
         if (this.getChildControl("hue-saturation-handle").getBounds()) {
-          this.getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this.getChildControl("hue-saturation-pane").getPaddingLeft());
+          this.getChildControl("hue-saturation-handle").setDomLeft(
+            Math.round(value / 1.40625) +
+              this.getChildControl("hue-saturation-pane").getPaddingLeft()
+          );
         } else {
-          this.getChildControl("hue-saturation-handle").setLayoutProperties({ left : Math.round(value / 1.40625) });
+          this.getChildControl("hue-saturation-handle").setLayoutProperties({
+            left: Math.round(value / 1.40625)
+          });
         }
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "hsbSpinner":
         case "hueSaturationField":
         case "hueModifier":
           this._setRgbFromHue();
       }
+
       this._setBrightnessGradiant();
       if (this.__updateContext === "hueModifier") {
         this.__updateContext = null;
       }
     },
 
-
     // property apply
-    _applySaturation : function(value, old)
-    {
+    _applySaturation(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "saturationModifier";
       }
@@ -702,18 +722,22 @@ members :
         this.getChildControl("hsb-spinner-saturation").setValue(value);
       }
 
-      if (this.__updateContext !== "hueSaturationField")
-      {
+      if (this.__updateContext !== "hueSaturationField") {
         this._setBrightnessGradiant();
         if (this.getChildControl("hue-saturation-handle").getBounds()) {
-          this.getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this.getChildControl("hue-saturation-pane").getPaddingTop());
+          this.getChildControl("hue-saturation-handle").setDomTop(
+            256 -
+              Math.round(value * 2.56) +
+              this.getChildControl("hue-saturation-pane").getPaddingTop()
+          );
         } else {
-          this.getChildControl("hue-saturation-handle").setLayoutProperties({ top : 256 - Math.round(value * 2.56)});
+          this.getChildControl("hue-saturation-handle").setLayoutProperties({
+            top: 256 - Math.round(value * 2.56)
+          });
         }
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "hsbSpinner":
         case "hueSaturationField":
         case "saturationModifier":
@@ -725,10 +749,8 @@ members :
       }
     },
 
-
     // property apply
-    _applyBrightness : function(value, old)
-    {
+    _applyBrightness(value, old) {
       if (this.__updateContext === null) {
         this.__updateContext = "brightnessModifier";
       }
@@ -737,19 +759,21 @@ members :
         this.getChildControl("hsb-spinner-brightness").setValue(value);
       }
 
-      if (this.__updateContext !== "brightnessField")
-      {
+      if (this.__updateContext !== "brightnessField") {
         var topValue = 256 - Math.round(value * 2.56);
 
         if (this.getChildControl("brightness-handle").getBounds()) {
-          this.getChildControl("brightness-handle").setDomTop(topValue + this.getChildControl("brightness-pane").getPaddingTop());
+          this.getChildControl("brightness-handle").setDomTop(
+            topValue + this.getChildControl("brightness-pane").getPaddingTop()
+          );
         } else {
-          this.getChildControl("brightness-handle").setLayoutProperties({ top : topValue });
+          this.getChildControl("brightness-handle").setLayoutProperties({
+            top: topValue
+          });
         }
       }
 
-      switch(this.__updateContext)
-      {
+      switch (this.__updateContext) {
         case "hsbSpinner":
         case "brightnessField":
         case "brightnessModifier":
@@ -760,9 +784,6 @@ members :
         this.__updateContext = null;
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -776,24 +797,26 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onBrightnessHandlePointerDown : function(e)
-    {
+    _onBrightnessHandlePointerDown(e) {
       // Activate Capturing
       this.getChildControl("brightness-handle").capture();
       this.__capture = "brightness-handle";
 
       // Calculate subtract: Position of Brightness Field - Current Pointer Offset
-      var locationBrightnessField = this.getChildControl("brightness-field").getContentLocation();
-      var locationBrightnessHandle = this.getChildControl("brightness-handle").getContentLocation();
+      var locationBrightnessField =
+        this.getChildControl("brightness-field").getContentLocation();
+      var locationBrightnessHandle =
+        this.getChildControl("brightness-handle").getContentLocation();
       var fieldBounds = this.getChildControl("brightness-field").getBounds();
 
-      this.__brightnessSubtract = locationBrightnessField.top +
-        (e.getDocumentTop() - locationBrightnessHandle.top) - fieldBounds.top;
+      this.__brightnessSubtract =
+        locationBrightnessField.top +
+        (e.getDocumentTop() - locationBrightnessHandle.top) -
+        fieldBounds.top;
 
       // Block field event handling
       e.stopPropagation();
     },
-
 
     /**
      * Listener of pointerup event on the brightness handle.
@@ -801,13 +824,11 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onBrightnessHandlePointerUp : function(e)
-    {
+    _onBrightnessHandlePointerUp(e) {
       // Disabling capturing
       this.getChildControl("brightness-handle").releaseCapture();
       this.__capture = null;
     },
-
 
     /**
      * Listener of pointermove event on the brightness handle.
@@ -815,8 +836,7 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onBrightnessHandlePointerMove : function(e)
-    {
+    _onBrightnessHandlePointerMove(e) {
       // Update if captured currently (through previous pointerdown)
       if (this.__capture === "brightness-handle") {
         this._setBrightnessOnFieldEvent(e);
@@ -824,19 +844,18 @@ members :
       }
     },
 
-
     /**
      * Listener of pointerdown event on the brightness field.
      * Adjusts the color by changing the brightness.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onBrightnessFieldPointerDown : function(e)
-    {
+    _onBrightnessFieldPointerDown(e) {
       // Calculate substract: Half height of handler
-      var location  = this.getChildControl("brightness-field").getContentLocation();
+      var location =
+        this.getChildControl("brightness-field").getContentLocation();
       var bounds = this.getChildControl("brightness-handle").getBounds();
-      this.__brightnessSubtract = location.top + (bounds.height / 2);
+      this.__brightnessSubtract = location.top + bounds.height / 2;
 
       // Update
       this._setBrightnessOnFieldEvent(e);
@@ -846,15 +865,13 @@ members :
       this.__capture = "brightness-handle";
     },
 
-
     /**
      * Listener of roll event on the brightness pane.
      * Adjusts the color by changing the brightness.
      *
      * @param e {qx.event.type.Roll} Incoming event object
      */
-    _onBrightnessPaneRoll : function(e)
-    {
+    _onBrightnessPaneRoll(e) {
       e.stop();
 
       // only wheel
@@ -862,25 +879,31 @@ members :
         return;
       }
 
-      this.setBrightness(qx.lang.Number.limit((this.getBrightness() - (e.getDelta().y / 10)), 0, 100));
+      this.setBrightness(
+        qx.lang.Number.limit(this.getBrightness() - e.getDelta().y / 10, 0, 100)
+      );
     },
-
 
     /**
      * Sets the brightness and moves the brightness handle.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _setBrightnessOnFieldEvent : function(e)
-    {
-      var value = qx.lang.Number.limit(e.getDocumentTop() - this.__brightnessSubtract, 0, 256);
+    _setBrightnessOnFieldEvent(e) {
+      var value = qx.lang.Number.limit(
+        e.getDocumentTop() - this.__brightnessSubtract,
+        0,
+        256
+      );
 
       this.__updateContext = "brightnessField";
 
       if (this.getChildControl("brightness-handle").getBounds()) {
         this.getChildControl("brightness-handle").setDomTop(value);
       } else {
-        this.getChildControl("brightness-handle").setLayoutProperties({ top : value });
+        this.getChildControl("brightness-handle").setLayoutProperties({
+          top: value
+        });
       }
 
       this.setBrightness(100 - Math.round(value / 2.56));
@@ -894,24 +917,20 @@ members :
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Listener of pointerup event on the saturation handle.
      * Releases pointer capture.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onHueSaturationHandlePointerUp : function(e)
-    {
+    _onHueSaturationHandlePointerUp(e) {
       // Disabling capturing
-      if (this.__capture)
-      {
+      if (this.__capture) {
         e.stopPropagation();
         this.getChildControl("hue-saturation-handle").releaseCapture();
         this.__capture = null;
       }
     },
-
 
     /**
      * Listener of pointermove event on the saturation handle.
@@ -919,17 +938,13 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onHueSaturationHandlePointerMove : function(e)
-    {
-
+    _onHueSaturationHandlePointerMove(e) {
       // Update if captured currently (through previous pointerdown)
-      if (this.__capture === "hue-saturation-handle")
-      {
+      if (this.__capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
         e.stopPropagation();
       }
     },
-
 
     /**
      * Listener of pointerdown event on the saturation field.
@@ -938,15 +953,22 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onHueSaturationFieldPointerDown : function(e)
-    {
+    _onHueSaturationFieldPointerDown(e) {
       // Calculate substract: Half width/height of handler
-      var location = this.getChildControl("hue-saturation-field").getContentLocation();
-      var handleBounds = this.getChildControl("hue-saturation-handle").getBounds();
-      var fieldBounds = this.getChildControl("hue-saturation-field").getBounds();
+      var location = this.getChildControl(
+        "hue-saturation-field"
+      ).getContentLocation();
+      var handleBounds = this.getChildControl(
+        "hue-saturation-handle"
+      ).getBounds();
+      var fieldBounds = this.getChildControl(
+        "hue-saturation-field"
+      ).getBounds();
 
-      this.__hueSaturationSubtractTop = location.top + (handleBounds.height / 2) - fieldBounds.top;
-      this.__hueSaturationSubtractLeft = location.left + (handleBounds.width / 2) - fieldBounds.left;
+      this.__hueSaturationSubtractTop =
+        location.top + handleBounds.height / 2 - fieldBounds.top;
+      this.__hueSaturationSubtractLeft =
+        location.left + handleBounds.width / 2 - fieldBounds.left;
 
       // Update
       this._setHueSaturationOnFieldEvent(e);
@@ -956,15 +978,13 @@ members :
       this.__capture = "hue-saturation-handle";
     },
 
-
     /**
      * Listener of roll event on the saturation pane.
      * Adjusts the color by changing the saturation.
      *
      * @param e {qx.event.type.Roll} Incoming event object
      */
-    _onHueSaturationPaneRoll : function(e)
-    {
+    _onHueSaturationPaneRoll(e) {
       e.stop();
 
       // only wheel
@@ -973,20 +993,28 @@ members :
       }
 
       var delta = e.getDelta();
-      this.setSaturation(qx.lang.Number.limit(this.getSaturation() - delta.y / 10, 0, 100));
+      this.setSaturation(
+        qx.lang.Number.limit(this.getSaturation() - delta.y / 10, 0, 100)
+      );
       this.setHue(qx.lang.Number.limit(this.getHue() + delta.x / 10, 0, 360));
     },
-
 
     /**
      * Sets the saturation and moves the saturation handle.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _setHueSaturationOnFieldEvent : function(e)
-    {
-      var vTop = qx.lang.Number.limit(e.getDocumentTop() - this.__hueSaturationSubtractTop, 0, 256);
-      var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this.__hueSaturationSubtractLeft, 0, 256);
+    _setHueSaturationOnFieldEvent(e) {
+      var vTop = qx.lang.Number.limit(
+        e.getDocumentTop() - this.__hueSaturationSubtractTop,
+        0,
+        256
+      );
+      var vLeft = qx.lang.Number.limit(
+        e.getDocumentLeft() - this.__hueSaturationSubtractLeft,
+        0,
+        256
+      );
 
       this.getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
 
@@ -998,9 +1026,6 @@ members :
       this.__updateContext = null;
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       RGB SPINNER
@@ -1010,8 +1035,7 @@ members :
     /**
      * Sets widget's red value to spinner's value.
      */
-    _setRedFromSpinner : function()
-    {
+    _setRedFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
@@ -1021,12 +1045,10 @@ members :
       this.__updateContext = null;
     },
 
-
     /**
      * Sets widget's green value to spinner's value.
      */
-    _setGreenFromSpinner : function()
-    {
+    _setGreenFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
@@ -1036,12 +1058,10 @@ members :
       this.__updateContext = null;
     },
 
-
     /**
      * Sets widget's blue value to spinner's value.
      */
-    _setBlueFromSpinner : function()
-    {
+    _setBlueFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
@@ -1050,9 +1070,6 @@ members :
       this.setBlue(this.getChildControl("rgb-spinner-blue").getValue());
       this.__updateContext = null;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1063,8 +1080,7 @@ members :
     /**
      * Sets widget's hue value to spinner's value.
      */
-    _setHueFromSpinner : function()
-    {
+    _setHueFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
@@ -1074,38 +1090,35 @@ members :
       this.__updateContext = null;
     },
 
-
     /**
      * Sets widget's saturation value to spinner's value.
      */
-    _setSaturationFromSpinner : function()
-    {
+    _setSaturationFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
 
       this.__updateContext = "hsbSpinner";
-      this.setSaturation(this.getChildControl("hsb-spinner-saturation").getValue());
+      this.setSaturation(
+        this.getChildControl("hsb-spinner-saturation").getValue()
+      );
       this.__updateContext = null;
     },
-
 
     /**
      * Sets widget's brightness value to spinner's value.
      */
-    _setBrightnessFromSpinner : function()
-    {
+    _setBrightnessFromSpinner() {
       if (this.__updateContext !== null) {
         return;
       }
 
       this.__updateContext = "hsbSpinner";
-      this.setBrightness(this.getChildControl("hsb-spinner-brightness").getValue());
+      this.setBrightness(
+        this.getChildControl("hsb-spinner-brightness").getValue()
+      );
       this.__updateContext = null;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1117,17 +1130,15 @@ members :
      * Changes red, green and blue value to the corresponding hexfield value.
      * @param e {qx.event.type.Data} Incoming event object
      */
-    _onHexFieldChange : function(e)
-    {
+    _onHexFieldChange(e) {
       if (this.__updateContext !== null) {
         return;
       }
 
-      try
-      {
+      try {
         var hexField = this.getChildControl("hex-field");
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
-      } catch(ex) {
+      } catch (ex) {
         return;
       }
 
@@ -1138,24 +1149,21 @@ members :
       this.__updateContext = null;
     },
 
-
     /**
      * Sets hexfield value to it's corresponding red, green and blue value.
      */
-    _setHexFromRgb : function()
-    {
-      var value = qx.util.ColorUtil.rgbToHexString(
-        [this.getRed(),this.getGreen(),this.getBlue()]
-      );
+    _setHexFromRgb() {
+      var value = qx.util.ColorUtil.rgbToHexString([
+        this.getRed(),
+        this.getGreen(),
+        this.getBlue()
+      ]);
 
       // get rid of the starting '#'
       value = value.substring(1, value.length);
 
       this.getChildControl("hex-field").setValue(value);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1169,8 +1177,7 @@ members :
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onColorFieldTap : function(e)
-    {
+    _onColorFieldTap(e) {
       var vColor = e.getTarget().getBackgroundColor();
 
       if (!vColor) {
@@ -1185,9 +1192,6 @@ members :
       this.setBlue(rgb[2]);
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       RGB/HSB SYNC
@@ -1197,17 +1201,19 @@ members :
     /**
      * Sets hue value to it's corresponding red, green and blue value.
      */
-    _setHueFromRgb : function()
-    {
-      switch(this.__updateContext)
-      {
+    _setHueFromRgb() {
+      switch (this.__updateContext) {
         case "hsbSpinner":
         case "hueSaturationField":
         case "brightnessField":
           break;
 
         default:
-          var hsb = qx.util.ColorUtil.rgbToHsb([this.getRed(), this.getGreen(), this.getBlue()]);
+          var hsb = qx.util.ColorUtil.rgbToHsb([
+            this.getRed(),
+            this.getGreen(),
+            this.getBlue()
+          ]);
 
           this.setHue(hsb[0]);
           this.setSaturation(hsb[1]);
@@ -1215,29 +1221,27 @@ members :
       }
     },
 
-
     /**
      * Sets red, green and blue value to corresponding hue value.
      */
-    _setRgbFromHue : function()
-    {
-      switch(this.__updateContext)
-      {
+    _setRgbFromHue() {
+      switch (this.__updateContext) {
         case "rgbSpinner":
         case "hexField":
           break;
 
         default:
-          var vRgb = qx.util.ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), this.getBrightness()]);
+          var vRgb = qx.util.ColorUtil.hsbToRgb([
+            this.getHue(),
+            this.getSaturation(),
+            this.getBrightness()
+          ]);
 
           this.setRed(vRgb[0]);
           this.setGreen(vRgb[1]);
           this.setBlue(vRgb[2]);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1248,12 +1252,14 @@ members :
     /**
      * Sets preview pane's background color to corresponding red, green and blue color values.
      */
-    _setPreviewFromRgb : function()
-    {
-      var rgbString = qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]);
+    _setPreviewFromRgb() {
+      var rgbString = qx.util.ColorUtil.rgbToRgbString([
+        this.getRed(),
+        this.getGreen(),
+        this.getBlue()
+      ]);
       this.getChildControl("preview-content-new").setBackgroundColor(rgbString);
     },
-
 
     /**
      * Sets previous color's to given values.
@@ -1262,8 +1268,7 @@ members :
      * @param green {Number} Green color value.
      * @param blue {Number} Blue color value.
      */
-    setPreviousColor : function(red, green, blue)
-    {
+    setPreviousColor(red, green, blue) {
       var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
       this.getChildControl("preview-content-old").setBackgroundColor(color);
 
@@ -1275,12 +1280,17 @@ members :
     /**
      * Updates the background of the brightness field to give a nicer gradient
      */
-    _setBrightnessGradiant : function()
-    {
+    _setBrightnessGradiant() {
       var ColorUtil = qx.util.ColorUtil;
-      var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
+      var helpRgb = ColorUtil.hsbToRgb([
+        this.getHue(),
+        this.getSaturation(),
+        255
+      ]);
       var helpRgbString = ColorUtil.rgbToRgbString(helpRgb);
-      this.getChildControl("brightness-field").setBackgroundColor(helpRgbString);
+      this.getChildControl("brightness-field").setBackgroundColor(
+        helpRgbString
+      );
     },
 
     /**
@@ -1289,10 +1299,12 @@ members :
      *
      * @param e {qx.event.type.Data} Incoming event object
      */
-    _onAppear : function(e)
-    {
-      var color = qx.util.ColorUtil.rgbToRgbString([this.getRed(),
-      this.getGreen(), this.getBlue()]);
+    _onAppear(e) {
+      var color = qx.util.ColorUtil.rgbToRgbString([
+        this.getRed(),
+        this.getGreen(),
+        this.getBlue()
+      ]);
 
       this.getChildControl("preview-content-old").setBackgroundColor(color);
       this.getChildControl("preview-content-new").setBackgroundColor(color);

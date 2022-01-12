@@ -24,21 +24,29 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
-  statics :
-  {
+  statics: {
     /** Default animation descriptions for animated scrolling **/
     _animationDescription: {
-      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollLeft: 1}
-      }},
+      scrollLeft: {
+        duration: 700,
+        timing: "ease-in",
+        keep: 100,
+        keyFrames: {
+          0: {},
+          100: { scrollLeft: 1 }
+        }
+      },
 
-      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollTop: 1}
-      }}
+      scrollTop: {
+        duration: 700,
+        timing: "ease-in",
+        keep: 100,
+        keyFrames: {
+          0: {},
+          100: { scrollTop: 1 }
+        }
+      }
     },
-
 
     /**
      * Performs animated scrolling
@@ -49,13 +57,14 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param duration {Number} The animation's duration in ms
      * @return {q} The collection for chaining.
      */
-    __animateScroll : function(property, value, duration)
-    {
-      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property], true);
+    __animateScroll(property, value, duration) {
+      var desc = qx.lang.Object.clone(
+        qx.module.Manipulating._animationDescription[property],
+        true
+      );
       desc.keyFrames[100][property] = value;
       return this.animate(desc, duration);
     },
-
 
     /**
      * Creates a new collection from the given argument
@@ -64,7 +73,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} Collection
      * @internal
      */
-    __getCollectionFromArgument : function(arg) {
+    __getCollectionFromArgument(arg) {
       var coll;
       // Collection/array of DOM elements
       if (qx.lang.Type.isArray(arg)) {
@@ -85,7 +94,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return coll;
     },
 
-
     /**
      * Returns the innermost element of a DOM tree as determined by a simple
      * depth-first search.
@@ -94,19 +102,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {Element} innermost element
      * @internal
      */
-    __getInnermostElement : function(element)
-    {
+    __getInnermostElement(element) {
       if (element.childNodes.length == 0) {
         return element;
       }
-      for (var i=0,l=element.childNodes.length; i<l; i++) {
+      for (var i = 0, l = element.childNodes.length; i < l; i++) {
         if (element.childNodes[i].nodeType === 1) {
           return this.__getInnermostElement(element.childNodes[i]);
         }
       }
       return element;
     },
-
 
     /**
      * Returns an array from a selector expression or a single element
@@ -116,18 +122,16 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {Element[]} Array of elements
      * @internal
      */
-    __getElementArray : function(arg)
-    {
+    __getElementArray(arg) {
       if (!qx.lang.Type.isArray(arg)) {
         var fromSelector = qxWeb(arg);
         arg = fromSelector.length > 0 ? fromSelector : [arg];
       }
 
-      return arg.filter(function(item) {
-        return (item && (item.nodeType === 1 || item.nodeType === 11));
+      return arg.filter(function (item) {
+        return item && (item.nodeType === 1 || item.nodeType === 11);
       });
     },
-
 
     /**
      * Creates a new collection from the given argument. This can either be an
@@ -146,14 +150,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param context {Document?document} Context in which the elements should be created
      * @return {qxWeb} Collection of elements
      */
-    create : function(html, context) {
+    create(html, context) {
       return qxWeb.$init(qx.bom.Html.clean([html], context), qxWeb);
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Clones the items in the current collection and returns them in a new set.
      * Event listeners can also be cloned.
@@ -162,9 +164,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param events {Boolean} clone event listeners. Default: <code>false</code>
      * @return {qxWeb} New collection with clones
      */
-    clone : function(events) {
+    clone(events) {
       var clones = [];
-      for (var i=0; i < this.length; i++) {
+      for (var i = 0; i < this.length; i++) {
         if (this[i] && this[i].nodeType === 1) {
           clones[i] = this[i].cloneNode(true);
         }
@@ -177,8 +179,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return qxWeb(clones);
     },
 
-
-
     /**
      * Appends content to each element in the current set. Accepts an HTML string,
      * a single DOM element or an array of elements
@@ -187,17 +187,16 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param html {String|Element[]|qxWeb} HTML string or DOM element(s) to append
      * @return {qxWeb} The collection for chaining
      */
-    append : function(html) {
+    append(html) {
       var arr = qx.bom.Html.clean([html]);
       var children = qxWeb.$init(arr, qxWeb);
 
-      this._forEachElement(function(item, index) {
-        for (var j=0, m=children.length; j < m; j++) {
+      this._forEachElement(function (item, index) {
+        for (var j = 0, m = children.length; j < m; j++) {
           if (index == 0) {
             // first parent: move the target node(s)
             qx.dom.Element.insertEnd(children[j], item);
-          }
-          else {
+          } else {
             qx.dom.Element.insertEnd(children.eq(j).clone(true)[0], item);
           }
         }
@@ -205,7 +204,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
       return this;
     },
-
 
     /**
      * Appends all items in the collection to the specified parents. If multiple
@@ -217,15 +215,14 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * parent elements
      * @return {qxWeb} The collection for chaining
      */
-    appendTo : function(parent) {
+    appendTo(parent) {
       parent = qx.module.Manipulating.__getElementArray(parent);
-      for (var i=0, l=parent.length; i < l; i++) {
-        this._forEachElement(function(item, j) {
+      for (var i = 0, l = parent.length; i < l; i++) {
+        this._forEachElement(function (item, j) {
           if (i == 0) {
             // first parent: move the target node(s)
             qx.dom.Element.insertEnd(this[j], parent[i]);
-          }
-          else {
+          } else {
             // further parents: clone the target node(s)
             qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
           }
@@ -234,7 +231,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
       return this;
     },
-
 
     /**
      * Inserts the current collection before each target item. The collection
@@ -246,26 +242,25 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Array of DOM elements or collection
      * @return {qxWeb} The collection for chaining
      */
-    insertBefore : function(target)
-    {
+    insertBefore(target) {
       target = qx.module.Manipulating.__getElementArray(target);
-      for (var i=0, l=target.length; i < l; i++) {
-        this._forEachElement(function(item, index) {
+      for (var i = 0, l = target.length; i < l; i++) {
+        this._forEachElement(function (item, index) {
           if (i == 0) {
             // first target: move the target node(s)
             qx.dom.Element.insertBefore(item, target[i]);
-          }
-          else {
+          } else {
             // further targets: clone the target node(s)
-            qx.dom.Element.insertBefore(this.eq(index).clone(true)[0], target[i]);
+            qx.dom.Element.insertBefore(
+              this.eq(index).clone(true)[0],
+              target[i]
+            );
           }
         });
       }
 
       return this;
     },
-
-
 
     /**
      * Inserts the current collection after each target item. The collection
@@ -277,19 +272,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Array of DOM elements or collection
      * @return {qxWeb} The collection for chaining
      */
-    insertAfter : function(target)
-    {
+    insertAfter(target) {
       target = qx.module.Manipulating.__getElementArray(target);
-      for (var i=0, l=target.length; i < l; i++) {
-        for (var j=this.length - 1; j >= 0; j--) {
+      for (var i = 0, l = target.length; i < l; i++) {
+        for (var j = this.length - 1; j >= 0; j--) {
           if (!this[j] || this[j].nodeType !== 1) {
             continue;
           }
           if (i == 0) {
             // first target: move the target node(s)
             qx.dom.Element.insertAfter(this[j], target[i]);
-          }
-          else {
+          } else {
             // further targets: clone the target node(s)
             qx.dom.Element.insertAfter(this.eq(j).clone(true)[0], target[i]);
           }
@@ -298,7 +291,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
       return this;
     },
-
 
     /**
      * Wraps each element in the collection in a copy of an HTML structure.
@@ -310,23 +302,24 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * list of DOM elements
      * @return {qxWeb} The collection for chaining
      */
-    wrap : function(wrapper) {
+    wrap(wrapper) {
       wrapper = qx.module.Manipulating.__getCollectionFromArgument(wrapper);
 
       if (wrapper.length == 0) {
         return this;
       }
 
-      this._forEachElement(function(item) {
+      this._forEachElement(function (item) {
         var clonedwrapper = wrapper.eq(0).clone(true);
         qx.dom.Element.insertAfter(clonedwrapper[0], item);
-        var innermost = qx.module.Manipulating.__getInnermostElement(clonedwrapper[0]);
+        var innermost = qx.module.Manipulating.__getInnermostElement(
+          clonedwrapper[0]
+        );
         qx.dom.Element.insertEnd(item, innermost);
       });
 
       return this;
     },
-
 
     /**
      * Removes each element in the current collection from the DOM
@@ -334,13 +327,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @attach{qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    remove : function() {
-      this._forEachElement(function(item) {
+    remove() {
+      this._forEachElement(function (item) {
         qx.dom.Element.remove(item);
       });
       return this;
     },
-
 
     /**
      * Removes all content from the elements in the collection
@@ -348,8 +340,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @attach{qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    empty : function() {
-      this._forEachElement(function(item) {
+    empty() {
+      this._forEachElement(function (item) {
         // don't use innerHTML="" because of [BUG #7323]
         // and don't use textContent="" because of missing IE8 support
         while (item.firstChild) {
@@ -358,7 +350,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       });
       return this;
     },
-
 
     /**
      * Inserts content before each element in the collection. This can either
@@ -370,20 +361,19 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * DOM element(s) or collection to insert
      * @return {qxWeb} The collection for chaining
      */
-    before : function(content) {
+    before(content) {
       if (!qx.lang.Type.isArray(content)) {
         content = [content];
       }
       var fragment = document.createDocumentFragment();
       qx.bom.Html.clean(content, document, fragment);
-      this._forEachElement(function(item, index) {
+      this._forEachElement(function (item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
-        for (var i=0,l=kids.length; i<l; i++) {
+        for (var i = 0, l = kids.length; i < l; i++) {
           var child;
           if (index < this.length - 1) {
             child = kids[i].cloneNode(true);
-          }
-          else {
+          } else {
             child = kids[i];
           }
           item.parentNode.insertBefore(child, item);
@@ -392,7 +382,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
       return this;
     },
-
 
     /**
      * Inserts content after each element in the collection. This can either
@@ -404,20 +393,19 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * DOM element(s) or collection to insert
      * @return {qxWeb} The collection for chaining
      */
-    after : function(content) {
+    after(content) {
       if (!qx.lang.Type.isArray(content)) {
         content = [content];
       }
       var fragment = document.createDocumentFragment();
       qx.bom.Html.clean(content, document, fragment);
-      this._forEachElement(function(item, index) {
+      this._forEachElement(function (item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
-        for (var i=kids.length-1; i>=0; i--) {
+        for (var i = kids.length - 1; i >= 0; i--) {
           var child;
           if (index < this.length - 1) {
             child = kids[i].cloneNode(true);
-          }
-          else {
+          } else {
             child = kids[i];
           }
           item.parentNode.insertBefore(child, item.nextSibling);
@@ -427,15 +415,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return this;
     },
 
-
     /**
      * Returns the left scroll position of the first element in the collection.
      *
      * @attach{qxWeb}
      * @return {Number} Current left scroll position
      */
-    getScrollLeft : function()
-    {
+    getScrollLeft() {
       var obj = this[0];
       if (!obj) {
         return null;
@@ -449,15 +435,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return obj.scrollLeft;
     },
 
-
     /**
      * Returns the top scroll position of the first element in the collection.
      *
      * @attach{qxWeb}
      * @return {Number} Current top scroll position
      */
-    getScrollTop : function()
-    {
+    getScrollTop() {
       var obj = this[0];
       if (!obj) {
         return null;
@@ -471,7 +455,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return obj.scrollTop;
     },
 
-
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
@@ -480,17 +463,19 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {qxWeb} The collection for chaining
      */
-    setScrollLeft : function(value, duration)
-    {
+    setScrollLeft(value, duration) {
       var Node = qx.dom.Node;
 
       if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
-        qx.module.Manipulating.__animateScroll.bind(this, "scrollLeft",
-          value, duration)();
+        qx.module.Manipulating.__animateScroll.bind(
+          this,
+          "scrollLeft",
+          value,
+          duration
+        )();
       }
 
-      for (var i=0, l=this.length, obj; i<l; i++)
-      {
+      for (var i = 0, l = this.length, obj; i < l; i++) {
         obj = this[i];
 
         if (Node.isElement(obj)) {
@@ -507,7 +492,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return this;
     },
 
-
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
@@ -516,17 +500,19 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @param duration {Number?} Optional: Duration in ms for animated scrolling
      * @return {qxWeb} The collection for chaining
      */
-    setScrollTop : function(value, duration)
-    {
+    setScrollTop(value, duration) {
       var Node = qx.dom.Node;
 
       if (duration && qx.bom.element && qx.bom.element.AnimationJs) {
-        qx.module.Manipulating.__animateScroll.bind(this, "scrollTop",
-           value, duration)();
+        qx.module.Manipulating.__animateScroll.bind(
+          this,
+          "scrollTop",
+          value,
+          duration
+        )();
       }
 
-      for (var i=0, l=this.length, obj; i<l; i++)
-      {
+      for (var i = 0, l = this.length, obj; i < l; i++) {
         obj = this[i];
 
         if (Node.isElement(obj)) {
@@ -543,23 +529,19 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       return this;
     },
 
-
     /**
      * Focuses the first element in the collection
      *
      * @attach{qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    focus : function()
-    {
+    focus() {
       try {
         this[0].focus();
-      }
-      catch(ex) {}
+      } catch (ex) {}
 
       return this;
     },
-
 
     /**
      * Blurs each element in the collection
@@ -567,21 +549,18 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @attach{qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    blur : function()
-    {
-      this.forEach(function(item, index) {
+    blur() {
+      this.forEach(function (item, index) {
         try {
           item.blur();
-        }
-        catch(ex) {}
+        } catch (ex) {}
       });
 
       return this;
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

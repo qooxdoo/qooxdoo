@@ -22,37 +22,33 @@
  * Contains methods to compute a position for any object which should
  * be positioned relative to another object.
  */
-qx.Class.define("qx.util.placement.Placement",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.util.placement.Placement", {
+  extend: qx.core.Object,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__defaultAxis = qx.util.placement.DirectAxis;
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The axis object to use for the horizontal placement
      */
-    axisX : {
+    axisX: {
       check: "Class"
     },
 
     /**
      * The axis object to use for the vertical placement
      */
-    axisY : {
+    axisY: {
       check: "Class"
     },
 
     /**
      * Specify to which edge of the target object, the object should be attached
      */
-    edge : {
+    edge: {
       check: ["top", "right", "bottom", "left"],
       init: "top"
     },
@@ -60,16 +56,14 @@ qx.Class.define("qx.util.placement.Placement",
     /**
      * Specify with which edge of the target object, the object should be aligned
      */
-    align : {
+    align: {
       check: ["top", "right", "bottom", "left", "center", "middle"],
       init: "right"
     }
   },
 
-
-  statics :
-  {
-    __instance : null,
+  statics: {
+    __instance: null,
 
     /**
      * DOM and widget independent method to compute the location
@@ -106,23 +100,24 @@ qx.Class.define("qx.util.placement.Placement",
      * @return {Map} A map with the final location stored in the keys
      *   <code>left</code> and <code>top</code>.
      */
-    compute: function(size, area, target, offsets, position, modeX, modeY)
-    {
+    compute(size, area, target, offsets, position, modeX, modeY) {
       this.__instance = this.__instance || new qx.util.placement.Placement();
 
       var splitted = position.split("-");
       var edge = splitted[0];
       var align = splitted[1];
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (align === "center" || align === "middle")
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (align === "center" || align === "middle") {
           var expected = "middle";
           if (edge === "top" || edge === "bottom") {
             expected = "center";
           }
-          qx.core.Assert.assertEquals(expected, align, "Please use '" + edge + "-" + expected + "' instead!");
+          qx.core.Assert.assertEquals(
+            expected,
+            align,
+            "Please use '" + edge + "-" + expected + "' instead!"
+          );
         }
       }
 
@@ -136,10 +131,9 @@ qx.Class.define("qx.util.placement.Placement",
       return this.__instance.compute(size, area, target, offsets);
     },
 
-
-    __direct : null,
-    __keepAlign : null,
-    __bestFit : null,
+    __direct: null,
+    __keepAlign: null,
+    __bestFit: null,
 
     /**
      * Get the axis implementation for the given mode
@@ -148,16 +142,15 @@ qx.Class.define("qx.util.placement.Placement",
      *   <code>best-fit</code>
      * @return {qx.util.placement.AbstractAxis}
      */
-    __getAxis : function(mode)
-    {
-      switch(mode)
-      {
+    __getAxis(mode) {
+      switch (mode) {
         case "direct":
           this.__direct = this.__direct || qx.util.placement.DirectAxis;
           return this.__direct;
 
         case "keep-align":
-          this.__keepAlign = this.__keepAlign || qx.util.placement.KeepAlignAxis;
+          this.__keepAlign =
+            this.__keepAlign || qx.util.placement.KeepAlignAxis;
           return this.__keepAlign;
 
         case "best-fit":
@@ -170,10 +163,8 @@ qx.Class.define("qx.util.placement.Placement",
     }
   },
 
-
-  members :
-  {
-    __defaultAxis : null,
+  members: {
+    __defaultAxis: null,
 
     /**
      * DOM and widget independent method to compute the location
@@ -193,10 +184,8 @@ qx.Class.define("qx.util.placement.Placement",
      * @return {Map} A map with the final location stored in the keys
      *   <code>left</code> and <code>top</code>.
      */
-    compute : function(size, area, target, offsets)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    compute(size, area, target, offsets) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertObject(size, "size");
         this.assertNumber(size.width, "size.width");
         this.assertNumber(size.height, "size.height");
@@ -221,8 +210,8 @@ qx.Class.define("qx.util.placement.Placement",
       var axisX = this.getAxisX() || this.__defaultAxis;
       var left = axisX.computeStart(
         size.width,
-        {start: target.left, end: target.right},
-        {start: offsets.left, end: offsets.right},
+        { start: target.left, end: target.right },
+        { start: offsets.left, end: offsets.right },
         area.width,
         this.__getPositionX()
       );
@@ -230,8 +219,8 @@ qx.Class.define("qx.util.placement.Placement",
       var axisY = this.getAxisY() || this.__defaultAxis;
       var top = axisY.computeStart(
         size.height,
-        {start: target.top, end: target.bottom},
-        {start: offsets.top, end: offsets.bottom},
+        { start: target.top, end: target.bottom },
+        { start: offsets.top, end: offsets.bottom },
         area.height,
         this.__getPositionY()
       );
@@ -242,14 +231,12 @@ qx.Class.define("qx.util.placement.Placement",
       };
     },
 
-
     /**
      * Get the position value for the horizontal axis
      *
      * @return {String} the position
      */
-    __getPositionX : function()
-    {
+    __getPositionX() {
       var edge = this.getEdge();
       var align = this.getAlign();
 
@@ -266,14 +253,12 @@ qx.Class.define("qx.util.placement.Placement",
       }
     },
 
-
     /**
      * Get the position value for the vertical axis
      *
      * @return {String} the position
      */
-    __getPositionY : function()
-    {
+    __getPositionY() {
       var edge = this.getEdge();
       var align = this.getAlign();
 
@@ -291,9 +276,7 @@ qx.Class.define("qx.util.placement.Placement",
     }
   },
 
-
-  destruct : function()
-  {
-    this._disposeObjects('__defaultAxis');
+  destruct() {
+    this._disposeObjects("__defaultAxis");
   }
 });

@@ -24,11 +24,8 @@
  *
  * @childControl knob {qx.ui.basic.Image} knob to resize the splitpane
  */
-qx.Class.define("qx.ui.splitpane.Splitter",
-{
-  extend : qx.ui.core.Widget,
-
-
+qx.Class.define("qx.ui.splitpane.Splitter", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -39,18 +36,14 @@ qx.Class.define("qx.ui.splitpane.Splitter",
   /**
    * @param parentWidget {qx.ui.splitpane.Pane} The underlaying split pane.
    */
-  construct : function(parentWidget)
-  {
-    this.base(arguments);
+  construct(parentWidget) {
+    super();
 
     // set layout
-    if (parentWidget.getOrientation() == "vertical")
-    {
+    if (parentWidget.getOrientation() == "vertical") {
       this._setLayout(new qx.ui.layout.HBox(0, "center"));
       this._getLayout().setAlignY("middle");
-    }
-    else
-    {
+    } else {
       this._setLayout(new qx.ui.layout.VBox(0, "middle"));
       this._getLayout().setAlignX("center");
     }
@@ -61,47 +54,37 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    allowShrinkX :
-    {
-      refine : true,
-      init : false
+    allowShrinkX: {
+      refine: true,
+      init: false
     },
 
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowShrinkY: {
+      refine: true,
+      init: false
     },
-
 
     /**
      * The visibility of the splitter button.
      * Allows to remove the splitter button in favor of other visual separation
      * means like background color differences.
      */
-    knobVisible :
-    {
-      check     : "Boolean",
-      init      : true,
-      themeable : true,
-      apply     : "_applyKnobVisible"
+    knobVisible: {
+      check: "Boolean",
+      init: true,
+      themeable: true,
+      apply: "_applyKnobVisible"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -109,29 +92,27 @@ qx.Class.define("qx.ui.splitpane.Splitter",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         // Create splitter knob
         case "knob":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           this._add(control);
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
-
     // property apply
-    _applyKnobVisible : function (value, old) {
-      this.getChildControl("knob").setVisibility(value ? "visible" : "excluded");
+    _applyKnobVisible(value, old) {
+      this.getChildControl("knob").setVisibility(
+        value ? "visible" : "excluded"
+      );
     }
   }
 });

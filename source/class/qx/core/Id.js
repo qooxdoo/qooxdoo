@@ -24,14 +24,13 @@ qx.Class.define("qx.core.Id", {
   type: "singleton",
 
   members: {
-
     __registeredObjects: null,
     __registeredIdHashes: null,
 
     /*
      * @Override
      */
-    _createQxObject: function(id) {
+    _createQxObject(id) {
       // Create the object, but don't add it to the list of owned objects
       var result = this._createQxObjectImpl(id);
       return result;
@@ -40,7 +39,7 @@ qx.Class.define("qx.core.Id", {
     /*
      * @Override
      */
-    _createQxObjectImpl: function(id) {
+    _createQxObjectImpl(id) {
       if (this.__registeredObjects) {
         var obj = this.__registeredObjects[id];
         if (obj !== undefined) {
@@ -48,7 +47,7 @@ qx.Class.define("qx.core.Id", {
         }
       }
 
-      switch(id) {
+      switch (id) {
         case "application":
           return qx.core.Init.getApplication() || undefined;
       }
@@ -72,8 +71,11 @@ qx.Class.define("qx.core.Id", {
      * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created
      * @return {String} full path to the object
      */
-    getAbsoluteIdOf: function(obj, suppressWarnings) {
-      if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()]) {
+    getAbsoluteIdOf(obj, suppressWarnings) {
+      if (
+        this.__registeredIdHashes &&
+        this.__registeredIdHashes[obj.toHashCode()]
+      ) {
         return obj.getQxObjectId();
       }
       var segs = [];
@@ -82,7 +84,11 @@ qx.Class.define("qx.core.Id", {
         var id = obj.getQxObjectId();
         if (!id) {
           if (!suppressWarnings) {
-            this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
+            this.error(
+              "Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " +
+                segs.join("/") +
+                ")"
+            );
           }
           return null;
         }
@@ -94,7 +100,10 @@ qx.Class.define("qx.core.Id", {
           if (owner === application) {
             ownerId = "application";
           } else {
-            ownerId = this.__registeredIdHashes && this.__registeredIdHashes[owner.toHashCode()] || null;
+            ownerId =
+              (this.__registeredIdHashes &&
+                this.__registeredIdHashes[owner.toHashCode()]) ||
+              null;
           }
 
           // When we have found the ID of a top level object, add it to the path and stop
@@ -104,7 +113,9 @@ qx.Class.define("qx.core.Id", {
           }
         } else {
           if (!suppressWarnings) {
-            this.error("Cannot determine a global absolute Object ID because the topmost object is not registered");
+            this.error(
+              "Cannot determine a global absolute Object ID because the topmost object is not registered"
+            );
           }
           return null;
         }
@@ -123,7 +134,7 @@ qx.Class.define("qx.core.Id", {
      * @param obj {qx.core.Object} the object to register
      * @param id {String?} the ID to register the object under, otherwise the object's own Object Id is used
      */
-    register: function(obj, id) {
+    register(obj, id) {
       if (!this.__registeredObjects) {
         this.__registeredObjects = {};
         this.__registeredIdHashes = {};
@@ -142,7 +153,7 @@ qx.Class.define("qx.core.Id", {
      * @param data {Object|String} the object to unregister, or the ID of the object
      * @return {Boolean} whether there was an object to unregister
      */
-    unregister: function(data) {
+    unregister(data) {
       if (!this.__registeredObjects) {
         return false;
       }
@@ -174,20 +185,19 @@ qx.Class.define("qx.core.Id", {
      * the topmost part of the ID as key.
      * @return {Object}
      */
-    getRegisteredObjects: function() {
+    getRegisteredObjects() {
       return this.__registeredObjects;
     }
   },
 
   statics: {
-
     /**
      * Returns a top level instance
      *
      * @param id {String} the ID to look for
      * @return {qx.core.Object?} the object
      */
-    getQxObject: function(id) {
+    getQxObject(id) {
       return this.getInstance().getQxObject(id);
     },
 
@@ -198,7 +208,7 @@ qx.Class.define("qx.core.Id", {
      * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created
      * @return {String} full path to the object
      */
-    getAbsoluteIdOf: function(obj, suppressWarnings) {
+    getAbsoluteIdOf(obj, suppressWarnings) {
       return this.getInstance().getAbsoluteIdOf(obj, suppressWarnings);
     }
   }

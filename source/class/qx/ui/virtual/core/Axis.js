@@ -21,18 +21,16 @@
  * items have the same size but it is also possible to give specific items
  * a different size.
  */
-qx.Class.define("qx.ui.virtual.core.Axis",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.virtual.core.Axis", {
+  extend: qx.core.Object,
 
   /**
    * @param defaultItemSize {Integer} The default size of the items.
    * @param itemCount {Integer} The number of item on the axis.
    */
-  construct(defaultItemSize, itemCount)
-  {
-    this.base(arguments);
-    
+  construct(defaultItemSize, itemCount) {
+    super();
+
     if (qx.core.Environment.get("qx.debug")) {
       this.assertInteger(defaultItemSize, "Wrong 'defaultItemSize' argument");
       this.assertInteger(itemCount, "Wrong 'itemCount' argument");
@@ -48,79 +46,66 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     this.__flexes = {};
   },
 
-
-  events :
-  {
+  events: {
     /** Every change to the axis configuration triggers this event. */
-    "change" : "qx.event.type.Event"
+    change: "qx.event.type.Event"
   },
 
+  members: {
+    __ranges: null,
 
-  members :
-  {
-    __ranges : null,
-    
     /** @type {Integer[]} sparse array of min sizes */
     __minSizes: null,
-    
+
     /** @type {Integer[]} sparse array of max sizes */
     __maxSizes: null,
-    
+
     /** @type {Integer[]} sparse array of flex sizes */
     __flexes: null,
-
 
     /**
      * Get the default size of the items.
      *
      * @return {Integer} The default item size.
      */
-    getDefaultItemSize : function() {
+    getDefaultItemSize() {
       return this.defaultItemSize;
     },
-
 
     /**
      * Set the default size the items.
      *
      * @param defaultItemSize {Integer} The default size of the items.
      */
-    setDefaultItemSize : function(defaultItemSize)
-    {
-      if (this.defaultItemSize !== defaultItemSize)
-      {
+    setDefaultItemSize(defaultItemSize) {
+      if (this.defaultItemSize !== defaultItemSize) {
         this.defaultItemSize = defaultItemSize;
         this.__ranges = null;
         this.fireNonBubblingEvent("change");
       }
     },
 
-
     /**
      * Get the number of items in the axis.
      *
      * @return {Integer} The number of items.
      */
-    getItemCount : function() {
+    getItemCount() {
       return this.itemCount;
     },
-
 
     /**
      * Set the number of items in the axis.
      *
      * @param itemCount {Integer} The new item count.
      */
-    setItemCount : function(itemCount)
-    {
-      if (this.itemCount !== itemCount)
-      {
+    setItemCount(itemCount) {
+      if (this.itemCount !== itemCount) {
         this.itemCount = itemCount;
         this.__ranges = null;
         this.fireNonBubblingEvent("change");
       }
     },
-
 
     /**
      * Sets the size of a specific item. This allow item, which have a size
@@ -129,48 +114,54 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * @param index {Integer} Index of the item to change.
      * @param size {Integer} New size of the item.
      */
-    setItemSize : function(index, size) {
+    setItemSize(index, size) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(size >= 0 || size === null, "'size' must be 'null' or an integer larger than 0.");
+        this.assert(
+          size >= 0 || size === null,
+          "'size' must be 'null' or an integer larger than 0."
+        );
       }
-      
+
       if (this.__setSparseValue(this.customSizes, index, size)) {
         this.__ranges = null;
         this.fireNonBubblingEvent("change");
       }
     },
 
-    
     /**
      * Sets the minimum size of a specific item
      *
      * @param index {Integer} Index of the item to change.
      * @param size {Integer} New minimum size of the item, or null if no minimum
      */
-    setItemMinSize: function(index, size) {
+    setItemMinSize(index, size) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(size >= 0 || size === null, "'size' must be 'null' or an integer larger than 0.");
+        this.assert(
+          size >= 0 || size === null,
+          "'size' must be 'null' or an integer larger than 0."
+        );
       }
-      
+
       this.__setSparseValue(this.__minSizes, index, size);
     },
 
-    
     /**
      * Sets the maximum size of a specific item
      *
      * @param index {Integer} Index of the item to change.
      * @param size {Integer} New maximum size of the item, or null if no maximum
      */
-    setItemMaxSize: function(index, size) {
+    setItemMaxSize(index, size) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(size >= 0 || size === null, "'size' must be 'null' or an integer larger than 0.");
+        this.assert(
+          size >= 0 || size === null,
+          "'size' must be 'null' or an integer larger than 0."
+        );
       }
-      
+
       this.__setSparseValue(this.__maxSizes, index, size);
     },
 
-    
     /**
      * Sets the flex value of a specific item
      *
@@ -179,27 +170,32 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     setItemFlex(index, value) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(value >= 0 || value === null, "'size' must be 'null' or an integer larger than 0.");
+        this.assert(
+          value >= 0 || value === null,
+          "'size' must be 'null' or an integer larger than 0."
+        );
       }
-      
+
       this.__setSparseValue(this.__flexes, index, value);
     },
 
-    
     /**
-     * Sets a value in a sparse array 
+     * Sets a value in a sparse array
      *
      * @param sparseArray {Array} the array to change
      * @param index {Integer} Index of the item to change.
      * @param value New value of the item, or null if it should be deleted
      * @return {Boolean} true if the value changed
      */
-    __setSparseValue: function(sparseArray, index, value) {
+    __setSparseValue(sparseArray, index, value) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(index, "'index' must be an integer");
       }
-      
-      if (sparseArray[index] === value || (sparseArray[index] === undefined && value === null)) {
+
+      if (
+        sparseArray[index] === value ||
+        (sparseArray[index] === undefined && value === null)
+      ) {
         return false;
       }
 
@@ -211,67 +207,58 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       return true;
     },
 
-
     /**
      * Get the size of the item at the given index.
-     * 
+     *
      * @param index
      *          {Integer} Index of the item to get the size for.
      * @return {Integer} Size of the item.
      */
-    getItemSize : function(index) {
+    getItemSize(index) {
       // custom size of 0 is not allowed
       return this.customSizes[index] || this.defaultItemSize;
     },
 
-
     /**
      * Get the minimum size of the item at the given index.
-     * 
+     *
      * @param index {Integer} Index of the item to get the size for.
      * @return {Integer} Size of the item, or null
      */
     getItemMinSize(index) {
       let value = this.__minSizes[index];
-      if (value === undefined)
-        value = null;
+      if (value === undefined) value = null;
       return value;
     },
 
-
     /**
      * Get the maximum size of the item at the given index.
-     * 
+     *
      * @param index {Integer} Index of the item to get the size for.
      * @return {Integer} Size of the item, or null
      */
     getItemMaxSize(index) {
       let value = this.__maxSizes[index];
-      if (value === undefined)
-        value = null;
+      if (value === undefined) value = null;
       return value;
     },
 
-
     /**
      * Get the flex value of the item at the given index.
-     * 
+     *
      * @param index {Integer} Index of the item to get the size for.
      * @return {Integer} Flex value of the item, or null
      */
     getItemFlex(index) {
       let value = this.__flexes[index];
-      if (value === undefined)
-        value = null;
+      if (value === undefined) value = null;
       return value;
     },
-
 
     /**
      * Reset all custom sizes set with {@link #setItemSize}.
      */
-    resetItemSizes : function()
-    {
+    resetItemSizes() {
       this.customSizes = {};
       this.__minSizes = {};
       this.__maxSizes = {};
@@ -279,7 +266,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       this.__ranges = null;
       this.fireNonBubblingEvent("change");
     },
-
 
     /**
      * Split the position range into disjunct intervals. Each interval starts
@@ -290,8 +276,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      *
      * @return {Map[]} The sorted list of ranges.
      */
-    __getRanges : function()
-    {
+    __getRanges() {
       if (this.__ranges) {
         return this.__ranges;
       }
@@ -300,33 +285,35 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var itemCount = this.itemCount;
 
       var indexes = [];
-      for (var key in this.customSizes)
-      {
+      for (var key in this.customSizes) {
         var index = parseInt(key, 10);
         if (index < itemCount) {
           indexes.push(index);
         }
       }
-      if (indexes.length == 0)
-      {
-        var ranges = [{
-          startIndex: 0,
-          endIndex: itemCount - 1,
-          firstItemSize: defaultSize,
-          rangeStart: 0,
-          rangeEnd: itemCount * defaultSize - 1
-        }];
+      if (indexes.length == 0) {
+        var ranges = [
+          {
+            startIndex: 0,
+            endIndex: itemCount - 1,
+            firstItemSize: defaultSize,
+            rangeStart: 0,
+            rangeEnd: itemCount * defaultSize - 1
+          }
+        ];
+
         this.__ranges = ranges;
         return ranges;
       }
 
-      indexes.sort(function(a,b) { return a > b ? 1 : -1;});
+      indexes.sort(function (a, b) {
+        return a > b ? 1 : -1;
+      });
 
       var ranges = [];
       var correctionSum = 0;
 
-      for (var i=0; i<indexes.length; i++)
-      {
+      for (var i = 0; i < indexes.length; i++) {
         var index = indexes[i];
         if (index >= itemCount) {
           break;
@@ -342,34 +329,35 @@ qx.Class.define("qx.ui.virtual.core.Axis",
           firstItemSize: cellSize,
           rangeStart: rangeStart
         };
+
         if (i > 0) {
-          ranges[i-1].rangeEnd = rangeStart-1;
-          ranges[i-1].endIndex = index-1;
+          ranges[i - 1].rangeEnd = rangeStart - 1;
+          ranges[i - 1].endIndex = index - 1;
         }
       }
 
       // fix first range
-      if (ranges[0].rangeStart > 0)
-      {
+      if (ranges[0].rangeStart > 0) {
         ranges.unshift({
           startIndex: 0,
-          endIndex: ranges[0].startIndex-1,
+          endIndex: ranges[0].startIndex - 1,
           firstItemSize: defaultSize,
           rangeStart: 0,
-          rangeEnd: ranges[0].rangeStart-1
+          rangeEnd: ranges[0].rangeStart - 1
         });
       }
 
       // fix last range
-      var lastRange = ranges[ranges.length-1];
-      var remainingItemsSize = (itemCount - lastRange.startIndex - 1) * defaultSize;
-      lastRange.rangeEnd = lastRange.rangeStart + lastRange.firstItemSize + remainingItemsSize - 1;
+      var lastRange = ranges[ranges.length - 1];
+      var remainingItemsSize =
+        (itemCount - lastRange.startIndex - 1) * defaultSize;
+      lastRange.rangeEnd =
+        lastRange.rangeStart + lastRange.firstItemSize + remainingItemsSize - 1;
       lastRange.endIndex = itemCount - 1;
 
       this.__ranges = ranges;
       return ranges;
     },
-
 
     /**
      * Returns the range, which contains the position
@@ -379,16 +367,14 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * @param position {Integer} The position.
      * @return {Map} The range, which contains the given position.
      */
-    __findRangeByPosition : function(position)
-    {
+    __findRangeByPosition(position) {
       var ranges = this.__ranges || this.__getRanges();
 
       var start = 0;
-      var end = ranges.length-1;
+      var end = ranges.length - 1;
 
       // binary search in the sorted ranges list
-      while (true)
-      {
+      while (true) {
         var pivot = start + ((end - start) >> 1);
         var range = ranges[pivot];
 
@@ -402,7 +388,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
     },
 
-
     /**
      * Get the item and the offset into the item at the given position.
      *
@@ -412,8 +397,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      *    position and offsets specifies offset into this item. If the position
      *    is outside of the range, <code>null</code> is returned.
      */
-    getItemAtPosition : function(position)
-    {
+    getItemAtPosition(position) {
       if (position < 0 || position >= this.getTotalSize()) {
         return null;
       }
@@ -424,23 +408,22 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var index = range.startIndex;
       var firstItemSize = range.firstItemSize;
 
-      if (startPos + firstItemSize > position)
-      {
+      if (startPos + firstItemSize > position) {
         return {
           index: index,
           offset: position - startPos
         };
-      }
-      else
-      {
+      } else {
         var defaultSize = this.defaultItemSize;
         return {
-          index: index + 1 + Math.floor((position - startPos - firstItemSize) / defaultSize),
+          index:
+            index +
+            1 +
+            Math.floor((position - startPos - firstItemSize) / defaultSize),
           offset: (position - startPos - firstItemSize) % defaultSize
         };
       }
     },
-
 
     /**
      * Returns the range, which contains the position.
@@ -450,16 +433,14 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * @param index {Integer} The index of the item to get the range for.
      * @return {Map} The range for the index.
      */
-    __findRangeByIndex : function(index)
-    {
+    __findRangeByIndex(index) {
       var ranges = this.__ranges || this.__getRanges();
 
       var start = 0;
-      var end = ranges.length-1;
+      var end = ranges.length - 1;
 
       // binary search in the sorted ranges list
-      while (true)
-      {
+      while (true) {
         var pivot = start + ((end - start) >> 1);
         var range = ranges[pivot];
 
@@ -473,7 +454,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
     },
 
-
     /**
      * Get the start position of the item with the given index.
      *
@@ -481,8 +461,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * @return {Integer|null} The start position of the item. If the index is outside
      *    of the axis range <code>null</code> is returned.
      */
-    getItemPosition : function(index)
-    {
+    getItemPosition(index) {
       if (index < 0 || index >= this.itemCount) {
         return null;
       }
@@ -491,22 +470,23 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       if (range.startIndex == index) {
         return range.rangeStart;
       } else {
-        return range.rangeStart + range.firstItemSize + (index-range.startIndex-1) * this.defaultItemSize;
+        return (
+          range.rangeStart +
+          range.firstItemSize +
+          (index - range.startIndex - 1) * this.defaultItemSize
+        );
       }
     },
-
 
     /**
      * Returns the sum of all cell sizes.
      *
      * @return {Integer} The sum of all item sizes.
      */
-    getTotalSize : function()
-    {
+    getTotalSize() {
       var ranges = this.__ranges || this.__getRanges();
-      return ranges[ranges.length-1].rangeEnd + 1;
+      return ranges[ranges.length - 1].rangeEnd + 1;
     },
-
 
     /**
      * Get an array of item sizes starting with the item at "startIndex". The
@@ -518,8 +498,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      *    at index <code>startIndex</code>. The sum of the item sizes is at least
      *    <code>minSizeSum</code>.
      */
-    getItemSizes : function(startIndex, minSizeSum)
-    {
+    getItemSizes(startIndex, minSizeSum) {
       var customSizes = this.customSizes;
       var defaultSize = this.defaultItemSize;
 
@@ -527,7 +506,10 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var sizes = [];
       var i = 0;
       do {
-        var itemSize = customSizes[startIndex] != null ? customSizes[startIndex] : defaultSize;
+        var itemSize =
+          customSizes[startIndex] != null
+            ? customSizes[startIndex]
+            : defaultSize;
         startIndex++;
 
         sum += itemSize;
@@ -540,8 +522,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.customSizes = this.__ranges = null;
   }
 });

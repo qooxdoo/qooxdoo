@@ -21,12 +21,8 @@
  * A header cell renderer which renders an icon (only). The icon cannot be combined
  * with text.
  */
-qx.Class.define("qx.ui.table.headerrenderer.Icon",
-{
-  extend : qx.ui.table.headerrenderer.Default,
-
-
-
+qx.Class.define("qx.ui.table.headerrenderer.Icon", {
+  extend: qx.ui.table.headerrenderer.Default,
 
   /*
   *****************************************************************************
@@ -34,15 +30,13 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
   *****************************************************************************
   */
 
-
   /**
    * @param iconUrl {String} URL to the icon to show
    * @param tooltip {String ? ""} Text of the tooltip to show if the pointer hovers over the
    *                             icon
    */
-  construct : function(iconUrl, tooltip)
-  {
-    this.base(arguments);
+  construct(iconUrl, tooltip) {
+    super();
 
     if (iconUrl == null) {
       iconUrl = "";
@@ -54,29 +48,21 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * URL of the icon to show
      */
-    iconUrl :
-    {
-      check : "String",
-      init : ""
+    iconUrl: {
+      check: "String",
+      init: ""
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -84,12 +70,10 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    updateHeaderCell : function(cellInfo, cellWidget)
-    {
-      this.base(arguments, cellInfo, cellWidget);
+    updateHeaderCell(cellInfo, cellWidget) {
+      super.updateHeaderCell(cellInfo, cellWidget);
       cellWidget.setIcon(this.getIconUrl());
     }
   }

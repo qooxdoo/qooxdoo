@@ -31,18 +31,16 @@
  *
  * @require(qx.core.ObjectRegistry)
  */
-qx.Class.define("qx.core.Object",
-{
-  extend : Object,
-  include : qx.core.Environment.filter({
-    "module.databinding" : qx.data.MBinding,
-    "module.logger" : qx.core.MLogging,
-    "module.events" : qx.core.MEvent,
-    "module.property" : qx.core.MProperty,
-    "module.objectid" : qx.core.MObjectId,
-    "qx.debug" : qx.core.MAssert
+qx.Class.define("qx.core.Object", {
+  extend: Object,
+  include: qx.core.Environment.filter({
+    "module.databinding": qx.data.MBinding,
+    "module.logger": qx.core.MLogging,
+    "module.events": qx.core.MEvent,
+    "module.property": qx.core.MProperty,
+    "module.objectid": qx.core.MObjectId,
+    "qx.debug": qx.core.MAssert
   }),
-
 
   /*
   *****************************************************************************
@@ -53,11 +51,7 @@ qx.Class.define("qx.core.Object",
   /**
    * Create a new instance
    */
-  construct : function() {
-  },
-
-
-
+  construct() {},
 
   /*
   *****************************************************************************
@@ -65,16 +59,10 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** Internal type */
-    $$type : "Object"
+    $$type: "Object"
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -82,10 +70,10 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  members :
-  {
-    __Property : qx.core.Environment.get("module.property") ? qx.core.Property : null,
-
+  members: {
+    __Property: qx.core.Environment.get("module.property")
+      ? qx.core.Property
+      : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -98,9 +86,12 @@ qx.Class.define("qx.core.Object",
      *
      * @return {String} unique hash code of the object
      */
-    toHashCode : function() {
+    toHashCode() {
       if (!this.$$hash && !this.$$disposed) {
-        if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
+        if (
+          !qx.core.Environment.get("qx.automaticMemoryManagement") ||
+          qx.Class.hasInterface(this.constructor, qx.core.IDisposable)
+        ) {
           qx.core.ObjectRegistry.register(this);
         } else {
           qx.core.ObjectRegistry.toHashCode(this);
@@ -108,54 +99,50 @@ qx.Class.define("qx.core.Object",
       }
       return this.$$hash;
     },
-    
-    
+
     /**
      * Returns a UUID for this object
-     * 
+     *
      * @return {String} a UUID
      */
-    toUuid : function() {
+    toUuid() {
       if (!this.$$uuid) {
         this.$$uuid = qx.util.Uuid.createUuidV4();
       }
-      
+
       return this.$$uuid;
     },
-    
-    
+
     /**
      * Sets a UUID; normally set automatically, you would only set this manually
      * if you have a very special reason to do so - for example, you are using UUIDs which are
      * synchronized from a special source, eg remote server.
-     * 
+     *
      * This can only be called once, and only if it has not been automatically allocated.  If
      * you really do need to call this, call it as soon after construction as possible to avoid
-     * an exception.  
-     * 
+     * an exception.
+     *
      * @param uuid {String} an ID which is unique across the whole application
      */
-    setExplicitUuid : function(uuid) {
+    setExplicitUuid(uuid) {
       if (Boolean(this.$$uuid)) {
         throw new Error("Cannot change the UUID of an object once set");
       }
       this.$$uuid = uuid;
     },
 
-
     /**
      * Returns a string representation of the qooxdoo object.
      *
      * @return {String} string representation of the object
      */
-    toString : function() {
+    toString() {
       return this.classname + "[" + this.toHashCode() + "]";
     },
 
-
     /**
      * Call the same method of the super class.
-     * 
+     *
      * Either the compiler translate all calls to this.base
      * into mypkg.MyBaseClass.prototype.myMethod.call(this, 123);
      * this method is still needed for use in compile.js or playground
@@ -165,19 +152,17 @@ qx.Class.define("qx.core.Object",
      * @param varargs {var?} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
-    base : function(args, varargs)
-    {
+    base(args, varargs) {
       var func = args.callee.base;
       if (!func) {
-         func = this[args.callee.name].base;
+        func = this[args.callee.name].base;
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!qx.Bootstrap.isFunctionOrAsyncFunction(func)) {
           throw new Error(
             "Cannot call super class. Method is not derived: " +
-            args.callee.displayName
+              args.callee.displayName
           );
         }
       }
@@ -189,20 +174,15 @@ qx.Class.define("qx.core.Object",
       }
     },
 
-
     /**
      * Returns the static class (to access static members of this class)
      *
      * @param args {arguments} the arguments variable of the calling method
      * @return {var} the return value of the method of the base class.
      */
-    self : function(args) {
+    self(args) {
       return args.callee.self;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -218,22 +198,20 @@ qx.Class.define("qx.core.Object",
      *
      * @return {qx.core.Object} The clone
      */
-    clone : function()
-    {
+    clone() {
       if (!qx.core.Environment.get("module.property")) {
         throw new Error("Cloning only possible with properties.");
       }
 
       var clazz = this.constructor;
-      var clone = new clazz;
+      var clone = new clazz();
       var props = qx.Class.getProperties(clazz);
       var user = this.__Property.$$store.user;
       var setter = this.__Property.$$method.set;
       var name;
 
       // Iterate through properties
-      for (var i=0, l=props.length; i<l; i++)
-      {
+      for (var i = 0, l = props.length; i < l; i++) {
         name = props[i];
         if (this.hasOwnProperty(user[name])) {
           clone[setter[name]](this[user[name]]);
@@ -244,7 +222,6 @@ qx.Class.define("qx.core.Object",
       return clone;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       USER DATA
@@ -252,8 +229,7 @@ qx.Class.define("qx.core.Object",
     */
 
     /** @type {Map} stored user data */
-    __userData : null,
-
+    __userData: null,
 
     /**
      * Store user defined data inside the object.
@@ -261,8 +237,7 @@ qx.Class.define("qx.core.Object",
      * @param key {String} the key
      * @param value {Object} the value of the user data
      */
-    setUserData : function(key, value)
-    {
+    setUserData(key, value) {
       if (!this.__userData) {
         this.__userData = {};
       }
@@ -270,15 +245,13 @@ qx.Class.define("qx.core.Object",
       this.__userData[key] = value;
     },
 
-
     /**
      * Load user defined data from the object
      *
      * @param key {String} the key
      * @return {Object} the user data
      */
-    getUserData : function(key)
-    {
+    getUserData(key) {
       if (!this.__userData) {
         return null;
       }
@@ -289,7 +262,7 @@ qx.Class.define("qx.core.Object",
     /**
      * Clears all user defined data from the object.
      */
-    resetUserData : function() {
+    resetUserData() {
       this.__userData = null;
     },
 
@@ -304,28 +277,25 @@ qx.Class.define("qx.core.Object",
      *
      * @return {Boolean} Whether the object has been disposed
      */
-    isDisposed : function() {
+    isDisposed() {
       return this.$$disposed || false;
     },
 
-
     /**
-     * Returns true if the object is being disposed, ie this.dispose() has started but 
+     * Returns true if the object is being disposed, ie this.dispose() has started but
      * not finished
      *
      * @return {Boolean} Whether the object is being disposed
      */
-    isDisposing : function() {
+    isDisposing() {
       return this.$$disposing || false;
     },
-
 
     /**
      * Dispose this object
      *
      */
-    dispose : function()
-    {
+    dispose() {
       // Check first
       if (this.$$disposed) {
         return;
@@ -338,10 +308,12 @@ qx.Class.define("qx.core.Object",
       this.$$allowconstruct = null;
 
       // Debug output
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
-          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.Bootstrap.debug(
+            this,
+            "Disposing " + this.classname + "[" + this.toHashCode() + "]"
+          );
         }
       }
 
@@ -356,20 +328,17 @@ qx.Class.define("qx.core.Object",
       var clazz = this.constructor;
       var mixins;
 
-      while (clazz.superclass)
-      {
+      while (clazz.superclass) {
         // Processing this class...
         if (clazz.$$destructor) {
           clazz.$$destructor.call(this);
         }
 
         // Destructor support for mixins
-        if (clazz.$$includes)
-        {
+        if (clazz.$$includes) {
           mixins = clazz.$$flatIncludes;
 
-          for (var i=0, l=mixins.length; i<l; i++)
-          {
+          for (var i = 0, l = mixins.length; i < l; i++) {
             if (mixins[i].$$destructor) {
               mixins[i].$$destructor.call(this);
             }
@@ -381,20 +350,20 @@ qx.Class.define("qx.core.Object",
       }
 
       this.$$disposing = false;
-      
+
       // Additional checks
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.debug.dispose.level") > 0)
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0) {
           var key, value;
-          for (key in this)
-          {
+          for (key in this) {
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (value !== null && typeof value === "object" && !(qx.Bootstrap.isString(value)))
-            {
+            if (
+              value !== null &&
+              typeof value === "object" &&
+              !qx.Bootstrap.isString(value)
+            ) {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
               // private variables (hint: checks in qx.Class.define). We accept both.
@@ -403,7 +372,17 @@ qx.Class.define("qx.core.Object",
               }
 
               if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
-                qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                qx.Bootstrap.warn(
+                  this,
+                  "Missing destruct definition for '" +
+                    key +
+                    "' in " +
+                    this.classname +
+                    "[" +
+                    this.toHashCode() +
+                    "]: " +
+                    value
+                );
                 delete this[key];
               }
             }
@@ -412,13 +391,11 @@ qx.Class.define("qx.core.Object",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       DISPOSER UTILITIES
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Disconnects and disposes given objects from instance.
@@ -426,10 +403,9 @@ qx.Class.define("qx.core.Object",
      *
      * @param varargs {arguments} Names of fields (which store objects) to dispose
      */
-    _disposeObjects : function(varargs) {
+    _disposeObjects(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, arguments);
     },
-
 
     /**
      * Disconnects and disposes given singleton objects from instance.
@@ -437,10 +413,9 @@ qx.Class.define("qx.core.Object",
      *
      * @param varargs {arguments} Names of fields (which store objects) to dispose
      */
-    _disposeSingletonObjects : function(varargs) {
+    _disposeSingletonObjects(varargs) {
       qx.util.DisposeUtil.disposeObjects(this, arguments, true);
     },
-
 
     /**
      * Disposes all members of the given array and deletes
@@ -448,10 +423,9 @@ qx.Class.define("qx.core.Object",
      *
      * @param field {String} Name of the field which refers to the array
      */
-    _disposeArray : function(field) {
+    _disposeArray(field) {
       qx.util.DisposeUtil.disposeArray(this, field);
     },
-
 
     /**
      * Disposes all members of the given map and deletes
@@ -459,13 +433,10 @@ qx.Class.define("qx.core.Object",
      *
      * @param field {String} Name of the field which refers to the map
      */
-    _disposeMap : function(field) {
+    _disposeMap(field) {
       qx.util.DisposeUtil.disposeMap(this, field);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -473,11 +444,9 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  environment : {
-    "qx.debug.dispose.level" : 0
+  environment: {
+    "qx.debug.dispose.level": 0
   },
-
-
 
   /*
   *****************************************************************************
@@ -485,8 +454,7 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (qx.core.Environment.get("module.events")) {
       if (!qx.core.ObjectRegistry.inShutDown) {
         // Cleanup event listeners
@@ -515,15 +483,17 @@ qx.Class.define("qx.core.Object",
       var storeUseinit = store.useinit;
       var storeInit = store.init;
 
-      while(clazz)
-      {
+      while (clazz) {
         properties = clazz.$$properties;
-        if (properties)
-        {
-          for (var name in properties)
-          {
+        if (properties) {
+          for (var name in properties) {
             if (properties[name].dereference) {
-              this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
+              this[storeUser[name]] =
+                this[storeTheme[name]] =
+                this[storeInherit[name]] =
+                this[storeUseinit[name]] =
+                this[storeInit[name]] =
+                  undefined;
             }
           }
         }

@@ -16,17 +16,14 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.ToggleButton",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.ToggleButton", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __button : null,
+  members: {
+    __button: null,
 
-    setUp : function()
-    {
-      var button = this.__button = new qx.ui.form.ToggleButton;
+    setUp() {
+      var button = (this.__button = new qx.ui.form.ToggleButton());
       this.getRoot().add(button);
       this.flush();
     },
@@ -35,20 +32,20 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     // 2-state button
     //
 
-    testInitial: function(){
+    testInitial() {
       var button = this.__button;
 
       this.assertNotState(button, "checked");
     },
 
-    testCheck: function(){
+    testCheck() {
       var button = this.__button;
       button.setValue(true);
 
       this.assertState(button, "checked");
     },
 
-    testUncheck: function() {
+    testUncheck() {
       var button = this.__button;
       button.setValue(false);
 
@@ -59,7 +56,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     // 3-state button
     //
 
-    testImplicitCheckTri: function() {
+    testImplicitCheckTri() {
       var button = this.__button;
       button.setTriState(true);
       button.setValue(null);
@@ -70,7 +67,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.assertState(button, "undetermined");
     },
 
-    testImplicitCheckTriLater: function() {
+    testImplicitCheckTriLater() {
       var button = this.__button;
       button.setValue(null);
       button.setTriState(true);
@@ -81,7 +78,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.assertState(button, "undetermined");
     },
 
-    testCheckTri: function(){
+    testCheckTri() {
       var button = this.__button;
       button.setTriState(true);
       button.setValue(null);
@@ -93,7 +90,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.assertNotState(button, "undetermined");
     },
 
-    testUncheckTri: function(){
+    testUncheckTri() {
       var button = this.__button;
       button.setTriState(true);
       button.setValue(null);
@@ -109,28 +106,27 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     // Helper methods
     //
 
-    assertState: function(widget, state) {
+    assertState(widget, state) {
       this.assertTrue(widget.hasState(state), "State " + state + " not set");
     },
 
-    assertNotState: function(widget, state) {
+    assertNotState(widget, state) {
       this.assertFalse(widget.hasState(state), "State " + state + " is set");
     },
 
-    executeOn: function(widget) {
+    executeOn(widget) {
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.immediateExecuteOn(widget);
       });
     },
 
-    immediateExecuteOn : function(widget) {
+    immediateExecuteOn(widget) {
       widget.fireEvent("execute", qx.event.type.Event, [false, true]);
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__button.destroy();
     }
   }

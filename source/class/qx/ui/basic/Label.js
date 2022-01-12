@@ -58,12 +58,9 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.ui.basic.Label",
-{
-  extend : qx.ui.core.Widget,
-  implement : [qx.ui.form.IStringForm],
-
-
+qx.Class.define("qx.ui.basic.Label", {
+  extend: qx.ui.core.Widget,
+  implement: [qx.ui.form.IStringForm],
 
   /*
   *****************************************************************************
@@ -74,19 +71,21 @@ qx.Class.define("qx.ui.basic.Label",
   /**
    * @param value {String} Text or HTML content to use
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
 
     if (value != null) {
       this.setValue(value);
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   },
-
 
   /*
   *****************************************************************************
@@ -94,22 +93,19 @@ qx.Class.define("qx.ui.basic.Label",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Switches between rich HTML and text content. The text mode (<code>false</code>) supports
      * advanced features like ellipsis when the available space is not
      * enough. HTML mode (<code>true</code>) supports multi-line content and all the
      * markup features of HTML content.
      */
-    rich :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeRich",
-      apply : "_applyRich"
+    rich: {
+      check: "Boolean",
+      init: false,
+      event: "changeRich",
+      apply: "_applyRich"
     },
-
 
     /**
      * Controls whether text wrap is activated or not. But please note, that
@@ -117,13 +113,11 @@ qx.Class.define("qx.ui.basic.Label",
      * The {@link #wrap} has only an effect if the {@link #rich} property is
      * set to <code>true</code>, otherwise {@link #wrap} has no effect.
      */
-    wrap :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyWrap"
+    wrap: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyWrap"
     },
-
 
     /**
      * Controls whether line wrapping can occur in the middle of a word; this is
@@ -132,13 +126,11 @@ qx.Class.define("qx.ui.basic.Label",
      * are typically considered as separated by spaces, so "abc/def/ghi" is a 11
      * character word that would not be split without `breakWithWords` set to true.
      */
-    breakWithinWords :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyBreakWithinWords"
+    breakWithinWords: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyBreakWithinWords"
     },
-
 
     /**
      * Contains the HTML or text content. Interpretation depends on the value
@@ -146,14 +138,12 @@ qx.Class.define("qx.ui.basic.Label",
      * is not supported. But it is possible to use unicode escape sequences
      * to insert symbols and other non ASCII characters.
      */
-    value :
-    {
-      check : "String",
-      apply : "_applyValue",
-      event : "changeValue",
-      nullable : true
+    value: {
+      check: "String",
+      apply: "_applyValue",
+      event: "changeValue",
+      nullable: true
     },
-
 
     /**
      * The buddy property can be used to connect the label to another widget.
@@ -167,69 +157,53 @@ qx.Class.define("qx.ui.basic.Label",
      * This is the behavior of the for attribute of HTML:
      * http://www.w3.org/TR/html401/interact/forms.html#adef-for
      */
-    buddy :
-    {
-      check : "qx.ui.core.Widget",
-      apply : "_applyBuddy",
-      nullable : true,
-      init : null,
-      dereference : true
+    buddy: {
+      check: "qx.ui.core.Widget",
+      apply: "_applyBuddy",
+      nullable: true,
+      init: null,
+      dereference: true
     },
-
 
     /** Control the text alignment */
-    textAlign :
-    {
-      check : ["left", "center", "right", "justify"],
-      nullable : true,
-      themeable : true,
-      apply : "_applyTextAlign",
-      event : "changeTextAlign"
+    textAlign: {
+      check: ["left", "center", "right", "justify"],
+      nullable: true,
+      themeable: true,
+      apply: "_applyTextAlign",
+      event: "changeTextAlign"
     },
 
-
     // overridden
-    appearance :
-    {
+    appearance: {
       refine: true,
       init: "label"
     },
 
-
     // overridden
-    selectable :
-    {
-      refine : true,
-      init : false
-    },
-
-
-    // overridden
-    allowGrowX :
-    {
-      refine : true,
-      init : false
-    },
-
-
-    // overridden
-    allowGrowY :
-    {
-      refine : true,
-      init : false
+    selectable: {
+      refine: true,
+      init: false
     },
 
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowGrowX: {
+      refine: true,
+      init: false
+    },
+
+    // overridden
+    allowGrowY: {
+      refine: true,
+      init: false
+    },
+
+    // overridden
+    allowShrinkY: {
+      refine: true,
+      init: false
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -237,14 +211,11 @@ qx.Class.define("qx.ui.basic.Label",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __font : null,
-    __invalidContentSize : null,
-    __tapListenerId : null,
-    __webfontListenerId : null,
-
-
+  members: {
+    __font: null,
+    __invalidContentSize: null,
+    __tapListenerId: null,
+    __webfontListenerId: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -253,84 +224,74 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     // overridden
-    _getContentHint : function()
-    {
-      if (this.__invalidContentSize)
-      {
+    _getContentHint() {
+      if (this.__invalidContentSize) {
         this.__contentSize = this.__computeContentSize();
         delete this.__invalidContentSize;
       }
 
       return {
-        width : this.__contentSize.width,
-        height : this.__contentSize.height
+        width: this.__contentSize.width,
+        height: this.__contentSize.height
       };
     },
 
-
     // overridden
-    _hasHeightForWidth : function() {
+    _hasHeightForWidth() {
       return this.getRich() && this.getWrap();
     },
 
-
     // overridden
-    _applySelectable : function(value)
-    {
-
+    _applySelectable(value) {
       // This is needed for all browsers not having text-overflow:ellipsis
       // but supporting XUL (firefox < 4)
       // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
-      if (!qx.core.Environment.get("css.textoverflow") &&
-        qx.core.Environment.get("html.xul"))
-      {
-        if (value && !this.isRich())
-        {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul")
+      ) {
+        if (value && !this.isRich()) {
           if (qx.core.Environment.get("qx.debug")) {
-            this.warn("Only rich labels are selectable in browsers with Gecko engine!");
+            this.warn(
+              "Only rich labels are selectable in browsers with Gecko engine!"
+            );
           }
           return;
         }
       }
 
-      this.base(arguments, value);
+      super._applySelectable(value);
     },
 
-
     // overridden
-    _getContentHeightForWidth : function(width)
-    {
+    _getContentHeightForWidth(width) {
       if (!this.getRich() && !this.getWrap()) {
         return null;
       }
       return this.__computeContentSize(width).height;
     },
 
-
     // overridden
-    _createContentElement : function() {
-      return new qx.html.Label;
+    _createContentElement() {
+      return new qx.html.Label();
     },
 
-
     // property apply
-    _applyTextAlign : function(value, old) {
+    _applyTextAlign(value, old) {
       this.getContentElement().setStyle("textAlign", value);
     },
 
-
     // overridden
-    _applyTextColor : function(value, old)
-    {
+    _applyTextColor(value, old) {
       if (value) {
-        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
+        this.getContentElement().setStyle(
+          "color",
+          qx.theme.manager.Color.getInstance().resolve(value)
+        );
       } else {
         this.getContentElement().removeStyle("color");
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -343,34 +304,32 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @lint ignoreReferenceField(__contentSize)
      */
-    __contentSize :
-    {
-      width : 0,
-      height : 0
+    __contentSize: {
+      width: 0,
+      height: 0
     },
 
-
     // property apply
-    _applyFont : function(value, old)
-    {
+    _applyFont(value, old) {
       if (old && this.__font && this.__webfontListenerId) {
         this.__font.removeListenerById(this.__webfontListenerId);
         this.__webfontListenerId = null;
       }
       // Apply
       var styles;
-      if (value)
-      {
+      if (value) {
         this.__font = qx.theme.manager.Font.getInstance().resolve(value);
         if (this.__font instanceof qx.bom.webfonts.WebFont) {
           if (!this.__font.isValid()) {
-            this.__webfontListenerId = this.__font.addListener("changeStatus", this._onWebFontStatusChange, this);
+            this.__webfontListenerId = this.__font.addListener(
+              "changeStatus",
+              this._onWebFontStatusChange,
+              this
+            );
           }
         }
         styles = this.__font.getStyles();
-      }
-      else
-      {
+      } else {
         this.__font = null;
         styles = qx.bom.Font.getDefaultStyles();
       }
@@ -389,19 +348,19 @@ qx.Class.define("qx.ui.basic.Label",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     /**
      * Internal utility to compute the content dimensions.
      *
      * @param width {Integer?null} Optional width constraint
      * @return {Map} Map with <code>width</code> and <code>height</code> keys
      */
-    __computeContentSize : function(width)
-    {
+    __computeContentSize(width) {
       var Label = qx.bom.Label;
       var font = this.getFont();
 
-      var styles = font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = font
+        ? this.__font.getStyles()
+        : qx.bom.Font.getDefaultStyles();
       var content = this.getValue() || "A";
       var rich = this.getRich();
 
@@ -412,28 +371,26 @@ qx.Class.define("qx.ui.basic.Label",
         styles.wordBreak = "break-all";
       }
 
-      return rich ?
-        Label.getHtmlSize(content, styles, width) :
-        Label.getTextSize(content, styles);
+      return rich
+        ? Label.getHtmlSize(content, styles, width)
+        : Label.getTextSize(content, styles);
     },
 
-
-
     /**
-    * Firefox > 9 on OS X will draw an ellipsis on top of the label content even
-    * though there is enough space for the text. Re-applying the content forces
-    * a recalculation and fixes the problem. See qx bug #6293
-    */
-    __fixEllipsis : function()
-    {
+     * Firefox > 9 on OS X will draw an ellipsis on top of the label content even
+     * though there is enough space for the text. Re-applying the content forces
+     * a recalculation and fixes the problem. See qx bug #6293
+     */
+    __fixEllipsis() {
       if (!this.getContentElement()) {
         return;
       }
-      if (qx.core.Environment.get("os.name") == "osx" &&
+      if (
+        qx.core.Environment.get("os.name") == "osx" &&
         qx.core.Environment.get("engine.name") == "gecko" &&
         parseInt(qx.core.Environment.get("engine.version"), 10) < 16 &&
-        parseInt(qx.core.Environment.get("engine.version"), 10) > 9)
-      {
+        parseInt(qx.core.Environment.get("engine.version"), 10) > 9
+      ) {
         var domEl = this.getContentElement().getDomElement();
         if (domEl) {
           /* eslint-disable-next-line no-self-assign */
@@ -442,8 +399,6 @@ qx.Class.define("qx.ui.basic.Label",
       }
     },
 
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLIER
@@ -451,35 +406,37 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     // property apply
-    _applyBuddy : function(value, old)
-    {
-      if (old != null)
-      {
+    _applyBuddy(value, old) {
+      if (old != null) {
         this.removeRelatedBindings(old);
         this.removeListenerById(this.__tapListenerId);
         this.__tapListenerId = null;
       }
 
-      if (value != null)
-      {
+      if (value != null) {
         value.bind("enabled", this, "enabled");
-        this.__tapListenerId = this.addListener("tap", function() {
-          // only focus focusable elements [BUG #3555]
-          if (value.isFocusable()) {
-            value.focus.apply(value);
-          }
-          // furthermore toggle if possible [BUG #6881]
-          if ("toggleValue" in value && typeof value.toggleValue === "function") {
-            value.toggleValue();
-          }
-        }, this);
+        this.__tapListenerId = this.addListener(
+          "tap",
+          function () {
+            // only focus focusable elements [BUG #3555]
+            if (value.isFocusable()) {
+              value.focus.apply(value);
+            }
+            // furthermore toggle if possible [BUG #6881]
+            if (
+              "toggleValue" in value &&
+              typeof value.toggleValue === "function"
+            ) {
+              value.toggleValue();
+            }
+          },
+          this
+        );
       }
     },
 
-
     // property apply
-    _applyRich : function(value)
-    {
+    _applyRich(value) {
       // Sync with content element
       this.getContentElement().setRich(value);
 
@@ -490,12 +447,9 @@ qx.Class.define("qx.ui.basic.Label",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     // property apply
-     _applyWrap : function(value, old)
-    {
-      if (value && !this.isRich())
-      {
+    _applyWrap(value, old) {
+      if (value && !this.isRich()) {
         if (qx.core.Environment.get("qx.debug")) {
           this.warn("Only rich labels support wrap.");
         }
@@ -510,12 +464,14 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
     // property apply
-    _applyBreakWithinWords : function(value, old) {
+    _applyBreakWithinWords(value, old) {
       if (this.isRich()) {
-        this.getContentElement().setStyle("wordBreak", value ? "break-all" : "normal");
+        this.getContentElement().setStyle(
+          "wordBreak",
+          value ? "break-all" : "normal"
+        );
       }
     },
-
 
     /**
      * Locale change event handler
@@ -523,36 +479,36 @@ qx.Class.define("qx.ui.basic.Label",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e)
-      {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         var content = this.getValue();
         if (content && content.translate) {
           this.setValue(content.translate());
         }
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Triggers layout recalculation after a web font was loaded
      *
      * @param ev {qx.event.type.Data} "changeStatus" event
      */
-    _onWebFontStatusChange : function(ev)
-    {
+    _onWebFontStatusChange(ev) {
       if (ev.getData().valid === true) {
-
         // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
-        if (qx.core.Environment.get("browser.name") == "safari" &&
-          parseFloat(qx.core.Environment.get("browser.version")) >= 8) {
-            window.setTimeout(function() {
+        if (
+          qx.core.Environment.get("browser.name") == "safari" &&
+          parseFloat(qx.core.Environment.get("browser.version")) >= 8
+        ) {
+          window.setTimeout(
+            function () {
               this.__invalidContentSize = true;
               qx.ui.core.queue.Layout.add(this);
-            }.bind(this), 0);
+            }.bind(this),
+            0
+          );
         }
 
         this.__invalidContentSize = true;
@@ -560,16 +516,13 @@ qx.Class.define("qx.ui.basic.Label",
       }
     },
 
-
     // property apply
-    _applyValue : qx.core.Environment.select("qx.dynlocale", {
-      "true" : function(value, old)
-      {
+    _applyValue: qx.core.Environment.select("qx.dynlocale", {
+      true(value, old) {
         // Sync with content element
         if (value && value.translate) {
           this.getContentElement().setValue(value.translate());
-        }
-        else {
+        } else {
           this.getContentElement().setValue(value);
         }
 
@@ -580,8 +533,7 @@ qx.Class.define("qx.ui.basic.Label",
         qx.ui.core.queue.Layout.add(this);
       },
 
-      "false" : function(value, old)
-      {
+      false(value, old) {
         this.getContentElement().setValue(value);
 
         // Mark text size cache as invalid
@@ -593,18 +545,19 @@ qx.Class.define("qx.ui.basic.Label",
     })
   },
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
 
     if (this.__font && this.__webfontListenerId) {

@@ -81,10 +81,8 @@
  * Includes library functions to work with the client's viewport (window).
  * Orientation related functions are point to window.top as default.
  */
-qx.Bootstrap.define("qx.bom.Viewport",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.Viewport", {
+  statics: {
     /**
      * Returns the current width of the viewport (excluding the vertical scrollbar
      * if present).
@@ -92,13 +90,13 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the viewable area of the page (excluding scrollbars).
      */
-    getWidth : function(win)
-    {
+    getWidth(win) {
       var win = win || window;
       var doc = win.document;
-      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
+      return qx.bom.Document.isStandardMode(win)
+        ? doc.documentElement.clientWidth
+        : doc.body.clientWidth;
     },
-
 
     /**
      * Returns the current height of the viewport (excluding the horizontal scrollbar
@@ -107,19 +105,22 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} The Height of the viewable area of the page (excluding scrollbars).
      */
-    getHeight : function(win)
-    {
+    getHeight(win) {
       var win = win || window;
       var doc = win.document;
 
       // [BUG #7785] Document element's clientHeight is calculated wrong on iPad iOS7
-      if(qx.core.Environment.get("os.name") == "ios" && window.innerHeight != doc.documentElement.clientHeight) {
+      if (
+        qx.core.Environment.get("os.name") == "ios" &&
+        window.innerHeight != doc.documentElement.clientHeight
+      ) {
         return window.innerHeight;
       }
 
-      return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
+      return qx.bom.Document.isStandardMode(win)
+        ? doc.documentElement.clientHeight
+        : doc.body.clientHeight;
     },
-
 
     /**
      * Returns the scroll position of the viewport
@@ -132,8 +133,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position in pixels from left edge, always a positive integer or zero
      */
-    getScrollLeft : function(win)
-    {
+    getScrollLeft(win) {
       var win = win ? win : window;
 
       if (typeof win.pageXOffset !== "undefined") {
@@ -148,7 +148,6 @@ qx.Bootstrap.define("qx.bom.Viewport",
       return doc.documentElement.scrollLeft || doc.body.scrollLeft;
     },
 
-
     /**
      * Returns the scroll position of the viewport
      *
@@ -160,8 +159,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position in pixels from top edge, always a positive integer or zero
      */
-    getScrollTop : function(win)
-    {
+    getScrollTop(win) {
       var win = win ? win : window;
 
       if (typeof win.pageYOffset !== "undefined") {
@@ -176,7 +174,6 @@ qx.Bootstrap.define("qx.bom.Viewport",
       return doc.documentElement.scrollTop || doc.body.scrollTop;
     },
 
-
     /**
      * Returns an orientation normalizer value that should be added to device orientation
      * to normalize behaviour on different devices.
@@ -184,40 +181,41 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window} The window to query
      * @return {Map} Orientation normalizing value
      */
-    __getOrientationNormalizer : function(win)
-    {
+    __getOrientationNormalizer(win) {
       // Calculate own understanding of orientation (0 = portrait, 90 = landscape)
-      var currentOrientation = this.getWidth(win) > this.getHeight(win) ? 90 : 0;
-      var deviceOrientation  = win.orientation;
-      if (deviceOrientation == null || Math.abs( deviceOrientation % 180 ) == currentOrientation) {
+      var currentOrientation =
+        this.getWidth(win) > this.getHeight(win) ? 90 : 0;
+      var deviceOrientation = win.orientation;
+      if (
+        deviceOrientation == null ||
+        Math.abs(deviceOrientation % 180) == currentOrientation
+      ) {
         // No device orientation available or device orientation equals own understanding of orientation
         return {
-          "-270":  90,
+          "-270": 90,
           "-180": 180,
-           "-90": -90,
-             "0":   0,
-            "90":  90,
-           "180": 180,
-           "270": -90
+          "-90": -90,
+          0: 0,
+          90: 90,
+          180: 180,
+          270: -90
         };
       } else {
         // Device orientation is not equal to own understanding of orientation
         return {
           "-270": 180,
           "-180": -90,
-           "-90":   0,
-             "0":  90,
-            "90": 180,
-           "180": -90,
-           "270":   0
+          "-90": 0,
+          0: 90,
+          90: 180,
+          180: -90,
+          270: 0
         };
       }
     },
 
-
     // Cache orientation normalizer map on start
-    __orientationNormalizer : null,
-
+    __orientationNormalizer: null,
 
     /**
      * Returns the current orientation of the viewport in degree.
@@ -232,10 +230,9 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @param win {Window?window.top} The window to query. (Default = top window)
      * @return {Integer} The current orientation in degree
      */
-    getOrientation : function(win)
-    {
+    getOrientation(win) {
       // Set window.top as default, because orientationChange event is only fired top window
-      var win = win||window.top;
+      var win = win || window.top;
       // The orientation property of window does not have the same behaviour over all devices
       // iPad has 0degrees = Portrait, Playbook has 90degrees = Portrait, same for Android Honeycomb
       //
@@ -257,7 +254,6 @@ qx.Bootstrap.define("qx.bom.Viewport",
       return orientation;
     },
 
-
     /**
      * Whether the viewport orientation is currently in landscape mode.
      *
@@ -265,11 +261,10 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in landscape mode.
      */
-    isLandscape : function(win) {
+    isLandscape(win) {
       var orientation = this.getOrientation(win);
       return orientation === -90 || orientation === 90;
     },
-
 
     /**
      * Whether the viewport orientation is currently in portrait mode.
@@ -278,8 +273,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in portrait mode.
      */
-    isPortrait : function(win)
-    {
+    isPortrait(win) {
       var orientation = this.getOrientation(win);
       return orientation === 0 || orientation === 180;
     }

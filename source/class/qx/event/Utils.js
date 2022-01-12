@@ -67,13 +67,17 @@ qx.Class.define("qx.event.Utils", {
      * @return {qx.Promise|Object?}
      */
     track: qx.core.Environment.select("qx.promise", {
-      "true": function(tracker, fn) {
+      true(tracker, fn) {
         if (typeof fn !== "function" && !qx.lang.Type.isPromise(fn)) {
-          fn = (function(value) { return function() { return value; } })(fn);
+          fn = (function (value) {
+            return function () {
+              return value;
+            };
+          })(fn);
         }
         return this.then(tracker, fn);
       },
-      "false": function(tracker, fn) {
+      false(tracker, fn) {
         if (typeof fn === "function") {
           return fn();
         }
@@ -88,7 +92,7 @@ qx.Class.define("qx.event.Utils", {
      * @param newPromise {qx.Promise} the new promise
      * @return {qx.Promise} the new promise
      */
-    __push: function(tracker, newPromise) {
+    __push(tracker, newPromise) {
       if (qx.core.Environment.get("qx.debug")) {
         if (tracker.promises === undefined) {
           tracker.promises = [];
@@ -96,7 +100,7 @@ qx.Class.define("qx.event.Utils", {
         var ex = null;
         try {
           throw new Error("");
-        } catch(e) {
+        } catch (e) {
           ex = e;
         }
         tracker.promises.push({ promise: newPromise, ex: ex });
@@ -113,7 +117,7 @@ qx.Class.define("qx.event.Utils", {
      * @return {qx.Promise?} the new promise, or the return value from `fn` if no promises are in use
      */
     then: qx.core.Environment.select("qx.promise", {
-      "true": function(tracker, fn) {
+      true(tracker, fn) {
         if (tracker.rejected) {
           return null;
         }
@@ -122,7 +126,9 @@ qx.Class.define("qx.event.Utils", {
             this.__push(tracker, tracker.promise.then(fn));
           } else {
             var self = this;
-            this.__push(tracker, tracker.promise.then(function (result) {
+            this.__push(
+              tracker,
+              tracker.promise.then(function (result) {
                 if (tracker.rejected) {
                   return null;
                 }
@@ -152,11 +158,11 @@ qx.Class.define("qx.event.Utils", {
         return result;
       },
 
-      "false": function(tracker, fn) {
+      false(tracker, fn) {
         if (tracker.rejected) {
           return null;
         }
-        var result = tracker.result = fn(tracker.result);
+        var result = (tracker.result = fn(tracker.result));
         if (result === qx.event.Utils.ABORT) {
           return this.reject(tracker);
         }
@@ -171,11 +177,14 @@ qx.Class.define("qx.event.Utils", {
      * @param newPromise {qx.Promise} the new promise
      * @return {qx.Promise} the new promise
      */
-    __thenPromise: function(tracker, newPromise) {
+    __thenPromise(tracker, newPromise) {
       if (tracker.promise) {
-        this.__push(tracker, tracker.promise.then(function() {
+        this.__push(
+          tracker,
+          tracker.promise.then(function () {
             return newPromise;
-          }));
+          })
+        );
       } else {
         this.__push(tracker, newPromise);
       }
@@ -190,7 +199,7 @@ qx.Class.define("qx.event.Utils", {
      * @param tracker {Object} the tracker object
      * @return {qx.Promise?} the last promise or the value returned by the catcher
      */
-    reject: function(tracker) {
+    reject(tracker) {
       if (tracker.rejected) {
         return qx.event.Utils.ABORT;
       }
@@ -208,10 +217,13 @@ qx.Class.define("qx.event.Utils", {
      *
      * @param tracker {Object} the tracker object
      */
-    __addCatcher: function(tracker) {
+    __addCatcher(tracker) {
       if (tracker.promise && tracker.catch) {
         if (!tracker.promise["qx.event.Utils.hasCatcher"]) {
-          this.__push(tracker, tracker.promise.catch(this.__catcher.bind(this, tracker)));
+          this.__push(
+            tracker,
+            tracker.promise.catch(this.__catcher.bind(this, tracker))
+          );
           tracker.promise["qx.event.Utils.hasCatcher"] = true;
         }
       }
@@ -224,7 +236,7 @@ qx.Class.define("qx.event.Utils", {
      *
      * @param tracker {Object} the tracker object
      */
-    __catcher: function(tracker, err) {
+    __catcher(tracker, err) {
       var fn = tracker.catch;
       if (fn) {
         tracker.catch = null;
@@ -244,7 +256,7 @@ qx.Class.define("qx.event.Utils", {
      * @param tracker {Object} the tracker object
      * @param fn {Function} the function to call
      */
-    "catch": function(tracker, fn) {
+    catch(tracker, fn) {
       if (tracker.rejected) {
         fn();
         return;
@@ -257,12 +269,12 @@ qx.Class.define("qx.event.Utils", {
       }
 
       if (tracker.catch) {
-        tracker.catch = (function(catch1, catch2) {
-            return function() {
-              catch1();
-              catch2();
-            };
-          })(tracker.catch, fn)
+        tracker.catch = (function (catch1, catch2) {
+          return function () {
+            catch1();
+            catch2();
+          };
+        })(tracker.catch, fn);
       } else {
         tracker.catch = fn;
       }
@@ -278,7 +290,7 @@ qx.Class.define("qx.event.Utils", {
      * @param event {Event} the event being fired
      * @returns {qx.Promise|?} the result of the handler
      */
-    callListener: function(tracker, listener, context, event) {
+    callListener(tracker, listener, context, event) {
       if (tracker.rejected) {
         return qx.event.Utils.ABORT;
       }
@@ -299,14 +311,14 @@ qx.Class.define("qx.event.Utils", {
      * @return {qx.Promise|Object?}
      */
     series: qx.core.Environment.select("qx.promise", {
-      "true": function(arr, fn, ignoreAbort) {
+      true(arr, fn, ignoreAbort) {
         var tracker = {};
         for (var index = 0; index < arr.length; index++) {
           var result = fn(arr[index], index);
           if (qx.Promise.isPromise(result)) {
             for (++index; index < arr.length; index++) {
-              (function(item, index) {
-                result = result.then(function() {
+              (function (item, index) {
+                result = result.then(function () {
                   var tmp = fn(item, index);
                   if (!ignoreAbort && tmp === qx.event.Utils.ABORT) {
                     throw new Error("Rejecting in series()");
@@ -326,7 +338,7 @@ qx.Class.define("qx.event.Utils", {
         return null;
       },
 
-      "false": function(arr, fn, ignoreAbort) {
+      false(arr, fn, ignoreAbort) {
         var tracker = {};
         for (var index = 0; index < arr.length; index++) {
           var result = fn(arr[index], index);

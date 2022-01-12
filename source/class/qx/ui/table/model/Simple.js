@@ -19,14 +19,11 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Class.define("qx.ui.table.model.Simple",
-{
-  extend : qx.ui.table.model.Abstract,
+qx.Class.define("qx.ui.table.model.Simple", {
+  extend: qx.ui.table.model.Abstract,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this._rowArr = [];
     this.__sortColumnIndex = -1;
@@ -37,21 +34,17 @@ qx.Class.define("qx.ui.table.model.Simple",
     this.__editableColArr = null;
   },
 
-  properties :
-  {
+  properties: {
     /**
      * Whether sorting should be case sensitive
      */
-    caseSensitiveSorting :
-    {
-      check : "Boolean",
-      init : true
+    caseSensitiveSorting: {
+      check: "Boolean",
+      init: true
     }
   },
 
-
-  statics :
-  {
+  statics: {
     /**
      * Default ascending sort method to use if no custom method has been
      * provided.
@@ -61,24 +54,28 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorAscending : function(row1, row2, columnIndex)
-    {
+    _defaultSortComparatorAscending(row1, row2, columnIndex) {
       var obj1 = row1[columnIndex];
       var obj2 = row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
-        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        var result = isNaN(obj1)
+          ? isNaN(obj2)
+            ? 0
+            : 1
+          : isNaN(obj2)
+          ? -1
+          : null;
         if (result != null) {
           return result;
         }
       }
-      if ((obj1 == null) && (obj2 !== null)) {
+      if (obj1 == null && obj2 !== null) {
         return -1;
-      } else if ((obj2 == null) && (obj1 !== null)) {
+      } else if (obj2 == null && obj1 !== null) {
         return 1;
       }
-      return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      return obj1 > obj2 ? 1 : obj1 == obj2 ? 0 : -1;
     },
-
 
     /**
      * Same as the Default ascending sort method but using case insensitivity
@@ -88,27 +85,33 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorInsensitiveAscending : function(row1, row2, columnIndex)
-    {
-      var obj1 = (row1[columnIndex].toLowerCase ?
-            row1[columnIndex].toLowerCase() : row1[columnIndex]);
-      var obj2 = (row2[columnIndex].toLowerCase ?
-            row2[columnIndex].toLowerCase() : row2[columnIndex]);
+    _defaultSortComparatorInsensitiveAscending(row1, row2, columnIndex) {
+      var obj1 = row1[columnIndex].toLowerCase
+        ? row1[columnIndex].toLowerCase()
+        : row1[columnIndex];
+      var obj2 = row2[columnIndex].toLowerCase
+        ? row2[columnIndex].toLowerCase()
+        : row2[columnIndex];
 
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
-        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        var result = isNaN(obj1)
+          ? isNaN(obj2)
+            ? 0
+            : 1
+          : isNaN(obj2)
+          ? -1
+          : null;
         if (result != null) {
           return result;
         }
       }
-      if ((obj1 == null) && (obj2 !== null)) {
+      if (obj1 == null && obj2 !== null) {
         return -1;
-      } else if ((obj2 == null) && (obj1 !== null)) {
+      } else if (obj2 == null && obj1 !== null) {
         return 1;
       }
-      return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      return obj1 > obj2 ? 1 : obj1 == obj2 ? 0 : -1;
     },
-
 
     /**
      * Default descending sort method to use if no custom method has been
@@ -119,24 +122,28 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorDescending : function(row1, row2, columnIndex)
-    {
+    _defaultSortComparatorDescending(row1, row2, columnIndex) {
       var obj1 = row1[columnIndex];
       var obj2 = row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
-        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        var result = isNaN(obj1)
+          ? isNaN(obj2)
+            ? 0
+            : 1
+          : isNaN(obj2)
+          ? -1
+          : null;
         if (result != null) {
           return result;
         }
       }
-      if ((obj1 == null) && (obj2 !== null)) {
+      if (obj1 == null && obj2 !== null) {
         return 1;
-      } else if ((obj2 == null) && (obj1 !== null)) {
+      } else if (obj2 == null && obj1 !== null) {
         return -1;
       }
-      return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      return obj1 < obj2 ? 1 : obj1 == obj2 ? 0 : -1;
     },
-
 
     /**
      * Same as the Default descending sort method but using case insensitivity
@@ -146,42 +153,44 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorInsensitiveDescending : function(row1, row2, columnIndex)
-    {
-      var obj1 = (row1[columnIndex].toLowerCase ?
-          row1[columnIndex].toLowerCase() : row1[columnIndex]);
-      var obj2 = (row2[columnIndex].toLowerCase ?
-          row2[columnIndex].toLowerCase() : row2[columnIndex]);
+    _defaultSortComparatorInsensitiveDescending(row1, row2, columnIndex) {
+      var obj1 = row1[columnIndex].toLowerCase
+        ? row1[columnIndex].toLowerCase()
+        : row1[columnIndex];
+      var obj2 = row2[columnIndex].toLowerCase
+        ? row2[columnIndex].toLowerCase()
+        : row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
-        var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
+        var result = isNaN(obj1)
+          ? isNaN(obj2)
+            ? 0
+            : 1
+          : isNaN(obj2)
+          ? -1
+          : null;
         if (result != null) {
           return result;
         }
       }
-      if ((obj1 == null) && (obj2 !== null)) {
+      if (obj1 == null && obj2 !== null) {
         return 1;
-      } else if ((obj2 == null) && (obj1 !== null)) {
+      } else if (obj2 == null && obj1 !== null) {
         return -1;
       }
-      return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      return obj1 < obj2 ? 1 : obj1 == obj2 ? 0 : -1;
     }
-
   },
 
-
-  members :
-  {
-    _rowArr : null,
-    __editableColArr : null,
-    __sortableColArr : null,
-    __sortMethods : null,
-    __sortColumnIndex : null,
-    __sortAscending : null,
-
+  members: {
+    _rowArr: null,
+    __editableColArr: null,
+    __sortableColArr: null,
+    __sortMethods: null,
+    __sortColumnIndex: null,
+    __sortAscending: null,
 
     // overridden
-    getRowData : function(rowIndex)
-    {
+    getRowData(rowIndex) {
       var rowData = this._rowArr[rowIndex];
       if (rowData == null || rowData.originalData == null) {
         return rowData;
@@ -190,7 +199,6 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
     },
 
-
     /**
      * Returns the data of one row as map containing the column IDs as key and
      * the cell values as value. Also the meta data is included.
@@ -198,8 +206,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param rowIndex {Integer} the model index of the row.
      * @return {Map} a Map containing the column values.
      */
-    getRowDataAsMap : function(rowIndex)
-    {
+    getRowDataAsMap(rowIndex) {
       var rowData = this._rowArr[rowIndex];
 
       if (rowData != null) {
@@ -221,9 +228,8 @@ qx.Class.define("qx.ui.table.model.Simple",
         return map;
       }
       // may be null, which is ok
-      return (rowData && rowData.originalData) ? rowData.originalData : null;
+      return rowData && rowData.originalData ? rowData.originalData : null;
     },
-
 
     /**
      * Gets the whole data as an array of maps.
@@ -231,35 +237,31 @@ qx.Class.define("qx.ui.table.model.Simple",
      * Note: Individual items are retrieved by {@link #getRowDataAsMap}.
      * @return {Map[]} Array of row data maps
      */
-    getDataAsMapArray: function() {
+    getDataAsMapArray() {
       var len = this.getRowCount();
       var data = [];
 
-      for (var i = 0; i < len; i++)
-      {
+      for (var i = 0; i < len; i++) {
         data.push(this.getRowDataAsMap(i));
       }
 
       return data;
     },
 
-
     /**
      * Sets all columns editable or not editable.
      *
      * @param editable {Boolean} whether all columns are editable.
      */
-    setEditable : function(editable)
-    {
+    setEditable(editable) {
       this.__editableColArr = [];
 
-      for (var col=0; col<this.getColumnCount(); col++) {
+      for (var col = 0; col < this.getColumnCount(); col++) {
         this.__editableColArr[col] = editable;
       }
 
       this.fireEvent("metaDataChanged");
     },
-
 
     /**
      * Sets whether a column is editable.
@@ -267,10 +269,8 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column of which to set the editable state.
      * @param editable {Boolean} whether the column should be editable.
      */
-    setColumnEditable : function(columnIndex, editable)
-    {
-      if (editable != this.isColumnEditable(columnIndex))
-      {
+    setColumnEditable(columnIndex, editable) {
+      if (editable != this.isColumnEditable(columnIndex)) {
         if (this.__editableColArr == null) {
           this.__editableColArr = [];
         }
@@ -282,10 +282,11 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
     // overridden
-    isColumnEditable : function(columnIndex) {
-      return this.__editableColArr ? (this.__editableColArr[columnIndex] == true) : false;
+    isColumnEditable(columnIndex) {
+      return this.__editableColArr
+        ? this.__editableColArr[columnIndex] == true
+        : false;
     },
-
 
     /**
      * Sets whether a column is sortable.
@@ -293,10 +294,8 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {Integer} the column of which to set the sortable state.
      * @param sortable {Boolean} whether the column should be sortable.
      */
-    setColumnSortable : function(columnIndex, sortable)
-    {
-      if (sortable != this.isColumnSortable(columnIndex))
-      {
+    setColumnSortable(columnIndex, sortable) {
+      if (sortable != this.isColumnSortable(columnIndex)) {
         if (this.__sortableColArr == null) {
           this.__sortableColArr = [];
         }
@@ -306,67 +305,53 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
     },
 
-
     // overridden
-    isColumnSortable : function(columnIndex) {
-      return (
-        this.__sortableColArr
-        ? (this.__sortableColArr[columnIndex] !== false)
-        : true
-      );
+    isColumnSortable(columnIndex) {
+      return this.__sortableColArr
+        ? this.__sortableColArr[columnIndex] !== false
+        : true;
     },
 
     // overridden
-    sortByColumn : function(columnIndex, ascending)
-    {
+    sortByColumn(columnIndex, ascending) {
       // NOTE: We use different comparators for ascending and descending,
       //     because comparators should be really fast.
       var comparator;
 
       var sortMethods = this.__sortMethods[columnIndex];
-      if (sortMethods)
-      {
-        comparator =
-          (ascending
-           ? sortMethods.ascending
-           : sortMethods.descending);
-      }
-      else
-      {
-        if (this.getCaseSensitiveSorting())
-        {
-          comparator =
-            (ascending
-             ? qx.ui.table.model.Simple._defaultSortComparatorAscending
-             : qx.ui.table.model.Simple._defaultSortComparatorDescending);
-        }
-        else
-        {
-          comparator =
-            (ascending
-             ? qx.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending
-             : qx.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending);
+      if (sortMethods) {
+        comparator = ascending ? sortMethods.ascending : sortMethods.descending;
+      } else {
+        if (this.getCaseSensitiveSorting()) {
+          comparator = ascending
+            ? qx.ui.table.model.Simple._defaultSortComparatorAscending
+            : qx.ui.table.model.Simple._defaultSortComparatorDescending;
+        } else {
+          comparator = ascending
+            ? qx.ui.table.model.Simple
+                ._defaultSortComparatorInsensitiveAscending
+            : qx.ui.table.model.Simple
+                ._defaultSortComparatorInsensitiveDescending;
         }
       }
 
       comparator.columnIndex = columnIndex;
-      this._rowArr.sort(function(row1, row2) {
+      this._rowArr.sort(function (row1, row2) {
         return comparator(row1, row2, columnIndex);
       });
 
       this.__sortColumnIndex = columnIndex;
       this.__sortAscending = ascending;
 
-      var data =
-        {
-          columnIndex : columnIndex,
-          ascending   : ascending
-        };
+      var data = {
+        columnIndex: columnIndex,
+        ascending: ascending
+      };
+
       this.fireDataEvent("sorted", data);
 
       this.fireEvent("metaDataChanged");
     },
-
 
     /**
      * Specify the methods to use for ascending and descending sorts of a
@@ -379,12 +364,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param compare {Function|Map}
      *   If provided as a Function, this is the comparator function to sort in
      *   ascending order. It takes three parameters: the two arrays of row data,
-     *   row1 and row2, being compared and the column index sorting was requested 
-     *   for. 
+     *   row1 and row2, being compared and the column index sorting was requested
+     *   for.
      *
-     *   For backwards compatability, user-supplied compare functions may still 
-     *   take only two parameters, the two arrays of row data, row1 and row2, 
-     *   being compared and obtain the column index as arguments.callee.columnIndex. 
+     *   For backwards compatability, user-supplied compare functions may still
+     *   take only two parameters, the two arrays of row data, row1 and row2,
+     *   being compared and obtain the column index as arguments.callee.columnIndex.
      *   This is deprecated, however, as arguments.callee is disallowed in ES5 strict
      *   mode and ES6.
      *
@@ -406,37 +391,30 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   "descending" sort function as well as the "ascending" one.</i>
      *
      */
-    setSortMethods : function(columnIndex, compare)
-    {
+    setSortMethods(columnIndex, compare) {
       var methods;
-      if (qx.lang.Type.isFunction(compare))
-      {
-        methods =
-          {
-            ascending  : compare,
-            descending : function(row1, row2, columnIndex)
-            {
-              /* assure backwards compatibility for sort functions using
-               * arguments.callee.columnIndex and fix a bug where retreiveing
-               * column index via this way did not work for the case where a 
-               * single comparator function was used. 
-               * Note that arguments.callee is not available in ES5 strict mode and ES6. 
-               * See discussion in 
-               * https://github.com/qooxdoo/qooxdoo/pull/9499#pullrequestreview-99655182
-               */ 
-              compare.columnIndex = columnIndex;
+      if (qx.lang.Type.isFunction(compare)) {
+        methods = {
+          ascending: compare,
+          descending(row1, row2, columnIndex) {
+            /* assure backwards compatibility for sort functions using
+             * arguments.callee.columnIndex and fix a bug where retreiveing
+             * column index via this way did not work for the case where a
+             * single comparator function was used.
+             * Note that arguments.callee is not available in ES5 strict mode and ES6.
+             * See discussion in
+             * https://github.com/qooxdoo/qooxdoo/pull/9499#pullrequestreview-99655182
+             */
+            compare.columnIndex = columnIndex;
 
-              return compare(row2, row1, columnIndex);
-            }
-          };
-      }
-      else
-      {
+            return compare(row2, row1, columnIndex);
+          }
+        };
+      } else {
         methods = compare;
       }
       this.__sortMethods[columnIndex] = methods;
     },
-
 
     /**
      * Returns the sortMethod(s) for a table column.
@@ -449,18 +427,15 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   The property value of each is a comparator function, as described
      *   in {@link #setSortMethods}.
      */
-    getSortMethods : function(columnIndex) {
+    getSortMethods(columnIndex) {
       return this.__sortMethods[columnIndex];
     },
-
 
     /**
      * Clears the sorting.
      */
-    clearSorting : function()
-    {
-      if (this.__sortColumnIndex != -1)
-      {
+    clearSorting() {
+      if (this.__sortColumnIndex != -1) {
         this.__sortColumnIndex = -1;
         this.__sortAscending = true;
 
@@ -469,7 +444,7 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
     // overridden
-    getSortColumnIndex : function() {
+    getSortColumnIndex() {
       return this.__sortColumnIndex;
     },
 
@@ -481,13 +456,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param columnIndex {Integer} index of the column
      */
-    _setSortColumnIndex : function(columnIndex)
-    {
+    _setSortColumnIndex(columnIndex) {
       this.__sortColumnIndex = columnIndex;
     },
 
     // overridden
-    isSortAscending : function() {
+    isSortAscending() {
       return this.__sortAscending;
     },
 
@@ -501,42 +475,42 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   <i>true</i> for an ascending sort;
      *   <i> false</i> for a descending sort.
      */
-    _setSortAscending : function(ascending)
-    {
+    _setSortAscending(ascending) {
       this.__sortAscending = ascending;
     },
 
     // overridden
-    getRowCount : function() {
+    getRowCount() {
       return this._rowArr.length;
     },
 
     // overridden
-    getValue : function(columnIndex, rowIndex)
-    {
+    getValue(columnIndex, rowIndex) {
       if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
-        throw new Error("this._rowArr out of bounds: " + rowIndex + " (0.." + this._rowArr.length + ")");
+        throw new Error(
+          "this._rowArr out of bounds: " +
+            rowIndex +
+            " (0.." +
+            this._rowArr.length +
+            ")"
+        );
       }
 
       return this._rowArr[rowIndex][columnIndex];
     },
 
     // overridden
-    setValue : function(columnIndex, rowIndex, value)
-    {
-      if (this._rowArr[rowIndex][columnIndex] != value)
-      {
+    setValue(columnIndex, rowIndex, value) {
+      if (this._rowArr[rowIndex][columnIndex] != value) {
         this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
-        if (this.hasListener("dataChanged"))
-        {
-          var data =
-          {
-            firstRow    : rowIndex,
-            lastRow     : rowIndex,
-            firstColumn : columnIndex,
-            lastColumn  : columnIndex
+        if (this.hasListener("dataChanged")) {
+          var data = {
+            firstRow: rowIndex,
+            lastRow: rowIndex,
+            firstColumn: columnIndex,
+            lastColumn: columnIndex
           };
 
           this.fireDataEvent("dataChanged", data);
@@ -548,7 +522,6 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
     },
 
-
     /**
      * Sets the whole data in a bulk.
      *
@@ -557,19 +530,16 @@ qx.Class.define("qx.ui.table.model.Simple",
      *          in this model.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    setData : function(rowArr, clearSorting)
-    {
+    setData(rowArr, clearSorting) {
       this._rowArr = rowArr;
 
       // Inform the listeners
-      if (this.hasListener("dataChanged"))
-      {
-        var data =
-        {
-          firstRow    : 0,
-          lastRow     : rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : this.getColumnCount() - 1
+      if (this.hasListener("dataChanged")) {
+        var data = {
+          firstRow: 0,
+          lastRow: rowArr.length - 1,
+          firstColumn: 0,
+          lastColumn: this.getColumnCount() - 1
         };
 
         this.fireDataEvent("dataChanged", data);
@@ -579,7 +549,6 @@ qx.Class.define("qx.ui.table.model.Simple",
         this.clearSorting();
       }
     },
-
 
     /**
      * Returns the data of this model.
@@ -591,10 +560,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      *           row-array contains the values in that row in the order of the columns
      *           in this model.
      */
-    getData : function() {
+    getData() {
       return this._rowArr;
     },
-
 
     /**
      * Sets the whole data in a bulk.
@@ -605,10 +573,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      *        If true {@link #getRowData} will return the original map.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    setDataAsMapArray : function(mapArr, rememberMaps, clearSorting) {
+    setDataAsMapArray(mapArr, rememberMaps, clearSorting) {
       this.setData(this._mapArray2RowArr(mapArr, rememberMaps), clearSorting);
     },
-
 
     /**
      * Adds some rows to the model.
@@ -622,8 +589,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      *          the rows are appended to the end.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    addRows : function(rowArr, startIndex, clearSorting)
-    {
+    addRows(rowArr, startIndex, clearSorting) {
       if (startIndex == null) {
         startIndex = this._rowArr.length;
       }
@@ -635,20 +601,19 @@ qx.Class.define("qx.ui.table.model.Simple",
       Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
-      var data =
-      {
-        firstRow    : startIndex,
-        lastRow     : this._rowArr.length - 1,
-        firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1
+      var data = {
+        firstRow: startIndex,
+        lastRow: this._rowArr.length - 1,
+        firstColumn: 0,
+        lastColumn: this.getColumnCount() - 1
       };
+
       this.fireDataEvent("dataChanged", data);
 
       if (clearSorting !== false) {
         this.clearSorting();
       }
     },
-
 
     /**
      * Adds some rows to the model.
@@ -663,10 +628,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      *        If true {@link #getRowData} will return the original map.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    addRowsAsMapArray : function(mapArr, startIndex, rememberMaps, clearSorting) {
-      this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
+    addRowsAsMapArray(mapArr, startIndex, rememberMaps, clearSorting) {
+      this.addRows(
+        this._mapArray2RowArr(mapArr, rememberMaps),
+        startIndex,
+        clearSorting
+      );
     },
-
 
     /**
      * Sets rows in the model. The rows overwrite the old rows starting at
@@ -681,8 +649,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      *          the rows are set from the beginning (0).
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    setRows : function(rowArr, startIndex, clearSorting)
-    {
+    setRows(rowArr, startIndex, clearSorting) {
       if (startIndex == null) {
         startIndex = 0;
       }
@@ -697,20 +664,19 @@ qx.Class.define("qx.ui.table.model.Simple",
       Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
-      var data =
-      {
-        firstRow    : startIndex,
-        lastRow     : startIndex + rowArrLength - 1,
-        firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1
+      var data = {
+        firstRow: startIndex,
+        lastRow: startIndex + rowArrLength - 1,
+        firstColumn: 0,
+        lastColumn: this.getColumnCount() - 1
       };
+
       this.fireDataEvent("dataChanged", data);
 
       if (clearSorting !== false) {
         this.clearSorting();
       }
     },
-
 
     /**
      * Set rows in the model. The rows overwrite the old rows starting at
@@ -726,10 +692,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      *        If true {@link #getRowData} will return the original map.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    setRowsAsMapArray : function(mapArr, startIndex, rememberMaps, clearSorting) {
-      this.setRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
+    setRowsAsMapArray(mapArr, startIndex, rememberMaps, clearSorting) {
+      this.setRows(
+        this._mapArray2RowArr(mapArr, rememberMaps),
+        startIndex,
+        clearSorting
+      );
     },
-
 
     /**
      * Removes some rows from the model.
@@ -738,19 +707,17 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param howMany {Integer} the number of rows to remove.
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    removeRows : function(startIndex, howMany, clearSorting)
-    {
+    removeRows(startIndex, howMany, clearSorting) {
       this._rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
-      var data =
-      {
-        firstRow    : startIndex,
-        lastRow     : this._rowArr.length - 1,
-        firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1,
-        removeStart : startIndex,
-        removeCount : howMany
+      var data = {
+        firstRow: startIndex,
+        lastRow: this._rowArr.length - 1,
+        firstColumn: 0,
+        lastColumn: this.getColumnCount() - 1,
+        removeStart: startIndex,
+        removeCount: howMany
       };
 
       this.fireDataEvent("dataChanged", data);
@@ -758,7 +725,6 @@ qx.Class.define("qx.ui.table.model.Simple",
         this.clearSorting();
       }
     },
-
 
     /**
      * Creates an array of maps to an array of arrays.
@@ -771,21 +737,19 @@ qx.Class.define("qx.ui.table.model.Simple",
      *           row-array contains the values in that row in the order of the columns
      *           in this model.
      */
-    _mapArray2RowArr : function(mapArr, rememberMaps)
-    {
+    _mapArray2RowArr(mapArr, rememberMaps) {
       var rowCount = mapArr.length;
       var columnCount = this.getColumnCount();
       var dataArr = new Array(rowCount);
       var columnArr;
 
-      for (var i=0; i<rowCount; ++i)
-      {
-      columnArr = [];
-      if (rememberMaps) {
-        columnArr.originalData = mapArr[i];
-      }
+      for (var i = 0; i < rowCount; ++i) {
+        columnArr = [];
+        if (rememberMaps) {
+          columnArr.originalData = mapArr[i];
+        }
 
-        for (var j=0; j<columnCount; ++j) {
+        for (var j = 0; j < columnCount; ++j) {
           columnArr[j] = mapArr[i][this.getColumnId(j)];
         }
 
@@ -796,10 +760,11 @@ qx.Class.define("qx.ui.table.model.Simple",
     }
   },
 
-
-  destruct : function()
-  {
-    this._rowArr = this.__editableColArr = this.__sortMethods =
-      this.__sortableColArr = null;
+  destruct() {
+    this._rowArr =
+      this.__editableColArr =
+      this.__sortMethods =
+      this.__sortableColArr =
+        null;
   }
 });

@@ -25,26 +25,29 @@ const path = require("upath");
 qx.Class.define("qx.tool.cli.commands.Es6ify", {
   extend: qx.tool.cli.commands.Command,
   statics: {
-    getYargsCommand: function () {
+    getYargsCommand() {
       return {
         command: "es6ify [file]",
         describe: "help migrate code to ES6",
         builder: {
           verbose: {
             alias: "v",
-            describe: "Verbose logging",
+            describe: "Verbose logging"
           },
+
           overwrite: {
             type: "boolean",
             default: true,
             describe: "Overwrite source files"
           },
+
           exclude: {
             type: "array",
             describe: "Paths to exclude"
           },
+
           arrowFunctions: {
-            choices: [ "never", "always", "careful", "aggressive" ],
+            choices: ["never", "always", "careful", "aggressive"],
             default: "careful"
           }
         }
@@ -54,7 +57,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
 
   members: {
     async process() {
-      await this.base(arguments);
+      await super.process();
       let exclude = this.argv.exclude;
 
       const processFile = async filename => {
@@ -68,6 +71,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
           arrowFunctions: this.argv.arrowFunctions,
           overwrite: this.argv.overwrite
         });
+
         await ify.transform();
       };
 
@@ -77,8 +81,10 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
 
         if (stat.isFile() && basename.match(/\.js$/)) {
           await processFile(filename);
-
-        } else if (stat.isDirectory() && (basename == "." || basename[0] != '.')) {
+        } else if (
+          stat.isDirectory() &&
+          (basename == "." || basename[0] != ".")
+        ) {
           let files = await fs.promises.readdir(filename);
           for (let i = 0; i < files.length; i++) {
             let subname = path.join(filename, files[i]);

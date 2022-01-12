@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.container.Composite",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.container.Composite", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testAdd : function()
-    {
+  members: {
+    testAdd() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -40,19 +37,16 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testAddSame : function()
-    {
+    testAddSame() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1);
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertException(function() {
-           composite.add(widget1);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertException(function () {
+          composite.add(widget1);
         });
       }
 
@@ -62,9 +56,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testAddOther : function()
-    {
+    testAddOther() {
       var composite1 = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite1);
       var composite2 = new qx.ui.mobile.container.Composite();
@@ -81,16 +73,17 @@ qx.Class.define("qx.test.mobile.container.Composite",
       this.assertFalse(composite1.getContainerElement().hasChildNodes());
 
       this._assertChildren(composite2, 1);
-      this.assertEquals(composite2.getContainerElement(), widget.getContainerElement().parentNode);
+      this.assertEquals(
+        composite2.getContainerElement(),
+        widget.getContainerElement().parentNode
+      );
 
       widget.destroy();
       composite1.destroy();
       composite2.destroy();
     },
 
-
-    testAddAt : function()
-    {
+    testAddAt() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -105,7 +98,10 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       this.assertEquals(composite.indexOf(widget3), 1);
 
-      this.assertEquals(composite.getContentElement().childNodes[1], widget3.getContainerElement());
+      this.assertEquals(
+        composite.getContentElement().childNodes[1],
+        widget3.getContainerElement()
+      );
 
       widget1.destroy();
       widget2.destroy();
@@ -113,9 +109,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testAddBefore : function()
-    {
+    testAddBefore() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -125,10 +119,9 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertException(function() {
-           composite.addBefore(widget2, widget3);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertException(function () {
+          composite.addBefore(widget2, widget3);
         });
       }
 
@@ -137,7 +130,10 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       this.assertEquals(composite.indexOf(widget3), 1);
 
-      this.assertEquals(composite.getContentElement().childNodes[1], widget3.getContainerElement());
+      this.assertEquals(
+        composite.getContentElement().childNodes[1],
+        widget3.getContainerElement()
+      );
 
       widget1.destroy();
       widget2.destroy();
@@ -145,9 +141,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testAddAfter : function()
-    {
+    testAddAfter() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -157,10 +151,9 @@ qx.Class.define("qx.test.mobile.container.Composite",
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2);
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertException(function() {
-           composite.addAfter(widget2, widget3);
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertException(function () {
+          composite.addAfter(widget2, widget3);
         });
       }
 
@@ -169,13 +162,19 @@ qx.Class.define("qx.test.mobile.container.Composite",
 
       this.assertEquals(composite.indexOf(widget3), 2);
 
-      this.assertEquals(composite.getContentElement().childNodes[2], widget3.getContainerElement());
+      this.assertEquals(
+        composite.getContentElement().childNodes[2],
+        widget3.getContainerElement()
+      );
 
       composite.remove(widget3);
 
       composite.addAfter(widget3, widget1);
 
-      this.assertEquals(composite.getContentElement().childNodes[1], widget3.getContainerElement());
+      this.assertEquals(
+        composite.getContentElement().childNodes[1],
+        widget3.getContainerElement()
+      );
 
       widget1.destroy();
       widget2.destroy();
@@ -183,9 +182,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testDestroy : function()
-    {
+    testDestroy() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -205,9 +202,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testRemove : function()
-    {
+    testRemove() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -230,14 +225,12 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testRemoveAt : function()
-    {
+    testRemoveAt() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
-      this.assertException(function() {
-         composite.removeAt(1);
+      this.assertException(function () {
+        composite.removeAt(1);
       });
 
       var widget1 = new qx.ui.mobile.core.Widget();
@@ -263,9 +256,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testRemoveAll : function()
-    {
+    testRemoveAll() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -285,9 +276,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testHasChildren : function()
-    {
+    testHasChildren() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -305,9 +294,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    testIndexOf : function()
-    {
+    testIndexOf() {
       var composite = new qx.ui.mobile.container.Composite();
       this.getRoot().add(composite);
 
@@ -327,9 +314,7 @@ qx.Class.define("qx.test.mobile.container.Composite",
       composite.destroy();
     },
 
-
-    _assertChildren : function(composite, number)
-    {
+    _assertChildren(composite, number) {
       var children = composite.getChildren();
       this.assertNotNull(children);
       var length = children.length;
@@ -337,7 +322,5 @@ qx.Class.define("qx.test.mobile.container.Composite",
       length = composite.getContainerElement().childNodes.length;
       this.assertEquals(length, number);
     }
-
   }
-
 });

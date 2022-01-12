@@ -21,22 +21,22 @@
  * {@link qx.dev.Debug#debugObjectToString} so is useful as a starting point
  * during development of a table, before writing each of the cell renderers.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Debug",
-{
-  extend : qx.ui.table.cellrenderer.Abstract,
+qx.Class.define("qx.ui.table.cellrenderer.Debug", {
+  extend: qx.ui.table.cellrenderer.Abstract,
 
-  members :
-  {
+  members: {
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml(cellInfo) {
       var html =
-        "<div style='height:" + cellInfo.styleHeight + "px;overflow:auto;'>" +
+        "<div style='height:" +
+        cellInfo.styleHeight +
+        "px;overflow:auto;'>" +
         qx.dev.Debug.debugObjectToString(
           cellInfo.value,
           "row=" + cellInfo.row + ", col=" + cellInfo.col,
           10,
-          true) +
+          true
+        ) +
         "</div>";
       return html;
     }

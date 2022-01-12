@@ -37,79 +37,68 @@
  *
  * This example creates a tab bar and adds two tab buttons to it.
  */
-qx.Class.define("qx.ui.mobile.tabbar.TabBar",
-{
-  extend : qx.ui.mobile.core.Widget,
+qx.Class.define("qx.ui.mobile.tabbar.TabBar", {
+  extend: qx.ui.mobile.core.Widget,
 
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this._setLayout(new qx.ui.mobile.layout.HBox());
     this.addListener("tap", this._onTap, this);
   },
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-
-
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "tabBar"
+    defaultCssClass: {
+      refine: true,
+      init: "tabBar"
     },
-
 
     /**
      * Sets the selected tab.
      */
-    selection :
-    {
-      check : "qx.ui.mobile.tabbar.TabButton",
-      nullable : true,
-      init : null,
-      apply : "_applySelection",
-      event : "changeSelection"
+    selection: {
+      check: "qx.ui.mobile.tabbar.TabButton",
+      nullable: true,
+      init: null,
+      apply: "_applySelection",
+      event: "changeSelection"
     }
   },
 
+  /*
+   *****************************************************************************
+      MEMBERS
+   *****************************************************************************
+   */
 
-
-
- /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
+  members: {
     /**
      * Event handler. Called when a tab event occurs.
      *
      * @param evt {qx.event.type.Tap} The event object
      */
-    _onTap: function(evt) {
+    _onTap(evt) {
       var target = evt.getTarget();
 
       while (!(target instanceof qx.ui.mobile.tabbar.TabButton)) {
         if (target.getLayoutParent) {
           var layoutParent = target.getLayoutParent();
-          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.tabbar.TabBar) {
+          if (
+            layoutParent == null ||
+            layoutParent instanceof qx.ui.mobile.tabbar.TabBar
+          ) {
             target = null;
             break;
           }
@@ -124,10 +113,8 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
       }
     },
 
-
     // property apply
-    _applySelection : function(value, old)
-    {
+    _applySelection(value, old) {
       if (old) {
         old.removeCssClass("selected");
         if (old.getView()) {
@@ -142,42 +129,36 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
       }
     },
 
-
     /**
      * Adds a tab button to the tab bar.
      *
      * @param button {qx.ui.mobile.tabbar.TabButton} The button to add
      */
-    add : function(button)
-    {
-      this._add(button, {flex:1});
+    add(button) {
+      this._add(button, { flex: 1 });
       if (!this.getSelection()) {
         this.setSelection(button);
       }
       button.addListener("changeView", this._onChangeView, this);
     },
 
-
     /**
      * Event handler. Called when the view was changed.
      *
      * @param evt {qx.event.type.Data} The event
      */
-    _onChangeView : function(evt)
-    {
+    _onChangeView(evt) {
       if (this.getSelection() == evt.getTarget()) {
         evt.getData().show();
       }
     },
-
 
     /**
      * Removes a tab button from the tab bar.
      *
      * @param button {qx.ui.mobile.tabbar.TabButton} The button to remove
      */
-    remove : function(button)
-    {
+    remove(button) {
       this._remove(button);
       if (this.getSelection() == button) {
         this.setSelection(null);
@@ -186,9 +167,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.removeListener("tap", this._onTap, this);
   }
 });

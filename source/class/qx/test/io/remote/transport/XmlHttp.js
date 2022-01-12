@@ -17,72 +17,65 @@ Authors:
 ************************************************************************ */
 
 /*
-*/
+ */
 /**
  *
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.remote.transport.XmlHttp",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [
-    qx.dev.unit.MRequirements
-  ],
+qx.Class.define("qx.test.io.remote.transport.XmlHttp", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.request = new qx.io.remote.transport.XmlHttp();
 
       this.request.addListener("aborted", this.responseError, this);
       this.request.addListener("failed", this.responseError, this);
       this.request.addListener("timeout", this.responseError, this);
 
-      this.resourceBase = qx.util.AliasManager.getInstance().resolve("qx/test/");
+      this.resourceBase =
+        qx.util.AliasManager.getInstance().resolve("qx/test/");
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.request.dispose();
     },
 
-
-    responseError : function(e)
-    {
+    responseError(e) {
       var request = e.getTarget();
       var type = e.getType();
 
-      qx.event.Timer.once(function() {
-        this.resume(function() {
+      qx.event.Timer.once(function () {
+        this.resume(function () {
           this.fail(
-            "Response error: " + type + " " +
-            request.getStatusCode() + " " +
-            request.getStatusText()
+            "Response error: " +
+              type +
+              " " +
+              request.getStatusCode() +
+              " " +
+              request.getStatusText()
           );
         }, this);
       }, this);
     },
 
-
-    getUrl : function(path) {
+    getUrl(path) {
       return qx.util.ResourceManager.getInstance().toUri(path);
     },
 
-
-    isLocal : function() {
+    isLocal() {
       return window.location.protocol == "file:";
     },
 
-
-    needsPHPWarning : function() {
-      this.warn("This test can only be run from a web server with PHP support.");
+    needsPHPWarning() {
+      this.warn(
+        "This test can only be run from a web server with PHP support."
+      );
     },
 
-
-    testSetHeader : function()
-    {
+    testSetHeader() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -94,22 +87,28 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.getRequestHeaders()["foo"] = "bar";
       this.request.setRequestHeader("juhu", "kinners");
 
-      this.request.addListener("completed", function(e) { this.resume(function() {
-        var response = qx.lang.Json.parse(this.request.getResponseText().toLowerCase());
-        this.assertEquals("kinners", response["juhu"]);
-        this.assertEquals("bar", response["foo"]);
-      }, this); }, this);
+      this.request.addListener(
+        "completed",
+        function (e) {
+          this.resume(function () {
+            var response = qx.lang.Json.parse(
+              this.request.getResponseText().toLowerCase()
+            );
+            this.assertEquals("kinners", response["juhu"]);
+            this.assertEquals("bar", response["foo"]);
+          }, this);
+        },
+        this
+      );
 
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.request.send();
       }, 250);
       this.wait(7500);
     },
 
-
-    testGetResponseHeader : function()
-    {
+    testGetResponseHeader() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -118,13 +117,21 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
 
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
-      this.request.addListener("completed", function(e) { this.resume(function() {
-        var juhu = this.request.getResponseHeader("juhu") || this.request.getResponseHeader("Juhu");
-        this.assertEquals("kinners", juhu);
-      }, this); }, this);
+      this.request.addListener(
+        "completed",
+        function (e) {
+          this.resume(function () {
+            var juhu =
+              this.request.getResponseHeader("juhu") ||
+              this.request.getResponseHeader("Juhu");
+            this.assertEquals("kinners", juhu);
+          }, this);
+        },
+        this
+      );
 
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.request.send();
       }, 250);
       this.wait(7500);

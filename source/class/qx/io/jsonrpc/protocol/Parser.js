@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * The parser object has a parse() method, which takes a UTF-encoded string and
  * returns an instance of the correponding subclass of {@link qx.io.jsonrpc.protocol.Message} or
@@ -42,7 +41,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Parser", {
         throw new qx.io.exception.Transport(
           e.toString(),
           qx.io.exception.Transport.INVALID_JSON,
-          {message}
+          { message }
         );
       }
       if (message === null) {
@@ -58,23 +57,48 @@ qx.Class.define("qx.io.jsonrpc.protocol.Parser", {
         return batch;
       }
       // individual message
-      let {id, result, method, params, error} = message;
-      if (id !== undefined && result !== undefined && error === undefined && method === undefined) {
+      let { id, result, method, params, error } = message;
+      if (
+        id !== undefined &&
+        result !== undefined &&
+        error === undefined &&
+        method === undefined
+      ) {
         return new qx.io.jsonrpc.protocol.Result(id, result);
       }
-      if (id !== undefined && result === undefined && error !== undefined && method === undefined) {
-        return new qx.io.jsonrpc.protocol.Error(id, error.code, error.message, error.data);
+      if (
+        id !== undefined &&
+        result === undefined &&
+        error !== undefined &&
+        method === undefined
+      ) {
+        return new qx.io.jsonrpc.protocol.Error(
+          id,
+          error.code,
+          error.message,
+          error.data
+        );
       }
-      if (id !== undefined && result === undefined && error === undefined && method !== undefined) {
+      if (
+        id !== undefined &&
+        result === undefined &&
+        error === undefined &&
+        method !== undefined
+      ) {
         return new qx.io.jsonrpc.protocol.Request(method, params, id);
       }
-      if (id === undefined && result === undefined && error === undefined && method !== undefined) {
+      if (
+        id === undefined &&
+        result === undefined &&
+        error === undefined &&
+        method !== undefined
+      ) {
         return new qx.io.jsonrpc.protocol.Notification(method, params);
       }
       throw new qx.io.exception.Transport(
         "Cannot parse message data.",
         qx.io.exception.Transport.INVALID_MSG_DATA,
-        {message}
+        { message }
       );
     }
   }

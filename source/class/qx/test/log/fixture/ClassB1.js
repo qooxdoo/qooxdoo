@@ -1,17 +1,15 @@
-qx.Class.define("qx.test.log.fixture.ClassB1",
-{
-  extend : qx.test.log.fixture.ClassA,
+qx.Class.define("qx.test.log.fixture.ClassB1", {
+  extend: qx.test.log.fixture.ClassA,
 
-  members :
-  {
-    _applyOldProperty: function () {
-      this.base(arguments);
+  members: {
+    _applyOldProperty() {
+      super._applyOldProperty();
 
       this._callCountApplyOldProperty++;
     },
 
-    _applyNewProperty: function () {
-      this.base(arguments);
+    _applyNewProperty() {
+      super._applyNewProperty();
 
       this._callCountApplyNewProperty++;
     }

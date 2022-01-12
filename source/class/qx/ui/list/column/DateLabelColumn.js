@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Implementation of a Date column that is always read only
  */
 qx.Class.define("qx.ui.list.column.DateLabelColumn", {
   extend: qx.ui.list.column.AbstractWidgetColumn,
-  
+
   properties: {
     dateFormat: {
       init: null,
@@ -30,31 +29,30 @@ qx.Class.define("qx.ui.list.column.DateLabelColumn", {
       check: "qx.util.format.DateFormat"
     }
   },
-  
+
   members: {
     _supportsEditing: false,
-    
+
     /**
      * @Override
      */
     _createCellWidget(row) {
       return new qx.ui.basic.Label();
     },
-    
+
     /**
      * @Override
      */
     _getModelBindingOptions(widget, model) {
       return {
         converter: (data, model, source, target) => {
-          if (!data)
-            return "";
-          if (qx.lang.Type.isNumber(data))
-            data = new Date(data);
-          let df = this.getDateFormat() || qx.util.format.DateFormat.getDateInstance();
+          if (!data) return "";
+          if (qx.lang.Type.isNumber(data)) data = new Date(data);
+          let df =
+            this.getDateFormat() || qx.util.format.DateFormat.getDateInstance();
           return df.format(data);
         }
       };
-    } 
+    }
   }
 });

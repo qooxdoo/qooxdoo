@@ -16,15 +16,14 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base class for the {@link Row} and {@link Column} layers.
  */
 qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
-  extend : qx.ui.virtual.layer.Abstract,
-  
+  extend: qx.ui.virtual.layer.Abstract,
+
   construct() {
-    this.base(arguments);
+    super();
     this._setLayout(new qx.ui.layout.Basic());
   },
 
@@ -35,7 +34,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
       check: "Boolean",
       apply: "_applyHasHeader"
     },
-    
+
     /** Default appearance for spans */
     spanAppearance: {
       init: null,
@@ -47,14 +46,14 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
 
   members: {
     /** @type{String[]} colour overrides */
-    __customColors : null,
-    
+    __customColors: null,
+
     /** @type {Map<Integer, Boolean>} selected rows, indexes by rowIndex */
     __selectedRows: null,
-    
+
     /** @type {Map<Integer, String>} appearance name overrides by row, indexed by rowIndex */
     __spanAppearances: null,
-    
+
     /**
      * Sets a row as selected
      * @param rowIndex {Integer} the zero based row index
@@ -63,17 +62,14 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
     setSelected(rowIndex, selected) {
       let wasSelected = this.isSelected(rowIndex);
       if (selected) {
-        if (!this.__selectedRows)
-          this.__selectedRows = {};
+        if (!this.__selectedRows) this.__selectedRows = {};
         this.__selectedRows[rowIndex] = true;
       } else {
-        if (this.__selectedRows)
-          delete this.__selectedRows[rowIndex];
+        if (this.__selectedRows) delete this.__selectedRows[rowIndex];
       }
-      if (wasSelected != selected)
-        this.updateLayerData();
+      if (wasSelected != selected) this.updateLayerData();
     },
-    
+
     /**
      * Returns whether a row is selected or not
      *
@@ -81,11 +77,10 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      * @return {Boolean}
      */
     isSelected(rowIndex) {
-      if (this.__selectedRows === null)
-        return false;
+      if (this.__selectedRows === null) return false;
       return !!this.__selectedRows[rowIndex];
     },
-    
+
     /**
      * Apply for `spanAppearance`
      */
@@ -102,7 +97,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      */
     setColor(index, color) {
       if (color) {
-        this.__customColors[index] = qx.theme.manager.Color.getInstance().resolve(color);
+        this.__customColors[index] =
+          qx.theme.manager.Color.getInstance().resolve(color);
       } else {
         delete this.__customColors[index];
       }
@@ -123,7 +119,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      * @return {Color} The color at the given index
      */
     getColor(index) {
-      return this.__customColors[index]||null;
+      return this.__customColors[index] || null;
     },
 
     /**
@@ -132,7 +128,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
     _applyHasHeader() {
       this.updateLayerData();
     },
-    
+
     /**
      * Sets the appearance for the given index
      *
@@ -142,8 +138,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      */
     setIndividualSpanAppearance(index, appearance) {
       if (appearance) {
-        if (!this.__spanAppearances)
-          this.__spanAppearances = {};
+        if (!this.__spanAppearances) this.__spanAppearances = {};
         this.__spanAppearances[index] = appearance;
       } else if (this.__spanAppearances) {
         delete this.__spanAppearances[index];
@@ -158,7 +153,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      * @return {String} The appearance at the given index
      */
     getIndividualSpanAppearance(index) {
-      return this.__spanAppearances && this.__spanAppearances[index] || null;
+      return (this.__spanAppearances && this.__spanAppearances[index]) || null;
     },
 
     /**
@@ -169,11 +164,14 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
      */
     getSpanAppearanceFor(index) {
       if (this.isHasHeader()) {
-        if (index == 0)
-          return null;
+        if (index == 0) return null;
         index--;
       }
-      return (this.__spanAppearances && this.__spanAppearances[index]) || this.getSpanAppearance() || null;
+      return (
+        (this.__spanAppearances && this.__spanAppearances[index]) ||
+        this.getSpanAppearance() ||
+        null
+      );
     }
   },
 

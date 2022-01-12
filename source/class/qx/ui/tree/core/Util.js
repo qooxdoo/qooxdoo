@@ -19,10 +19,8 @@
 /**
  * This utility class implements some methods for the <code>VirtualTree</code>.
  */
-qx.Class.define("qx.ui.tree.core.Util",
-{
-  statics :
-  {
+qx.Class.define("qx.ui.tree.core.Util", {
+  statics: {
     /**
      * Returns if the passed item is a node or a leaf.
      *
@@ -31,14 +29,12 @@ qx.Class.define("qx.ui.tree.core.Util",
      * @return {Boolean} <code>True</code> when the passed item is a node,
      *   </code>false</code> when it is a leaf.
      */
-    isNode : function(node, childProperty)
-    {
+    isNode(node, childProperty) {
       if (node == null || childProperty == null) {
         return false;
       }
       return qx.Class.hasProperty(node.constructor, childProperty);
     },
-
 
     /**
      * Returns whether the node has visible children or not.
@@ -50,9 +46,12 @@ qx.Class.define("qx.ui.tree.core.Util",
      * @return {Boolean} <code>True</code> when the node has visible children,
      *   <code>false</code> otherwise.
      */
-    hasChildren : function(node, childProperty, ignoreLeafs)
-    {
-      if (node == null || childProperty == null || !this.isNode(node, childProperty)) {
+    hasChildren(node, childProperty, ignoreLeafs) {
+      if (
+        node == null ||
+        childProperty == null ||
+        !this.isNode(node, childProperty)
+      ) {
         return false;
       }
 
@@ -63,11 +62,8 @@ qx.Class.define("qx.ui.tree.core.Util",
 
       if (!ignoreLeafs) {
         return children.length > 0;
-      }
-      else
-      {
-        for (var i = 0; i < children.getLength(); i++)
-        {
+      } else {
+        for (var i = 0; i < children.getLength(); i++) {
           var child = children.getItem(i);
           if (this.isNode(child, childProperty)) {
             return true;

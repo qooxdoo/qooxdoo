@@ -17,48 +17,50 @@ Authors:
 ************************************************************************ */
 
 /*
-*/
+ */
 /**
  *
  * @asset(qx/test/xmlhttp/echo_get_request.php)
  */
 
-qx.Class.define("qx.test.io.remote.transport.Iframe",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [
-    qx.test.io.MRemoteTest,
-    qx.dev.unit.MRequirements
-  ],
+qx.Class.define("qx.test.io.remote.transport.Iframe", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.test.io.MRemoteTest, qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.request = new qx.io.remote.transport.Iframe();
     },
 
-
-    testGetIframeHtmlContent : function() {
+    testGetIframeHtmlContent() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
       }
       this.require(["php"]);
 
-      this.request.addListener("completed", function() {
-        this.resume(function() {
-          var response = this.request.getIframeHtmlContent();
-          this.assertNotNull(response, "Response is 'null'!");
-          this.assertNotEquals("", response, "Response is empty!");
+      this.request.addListener(
+        "completed",
+        function () {
+          this.resume(function () {
+            var response = this.request.getIframeHtmlContent();
+            this.assertNotNull(response, "Response is 'null'!");
+            this.assertNotEquals("", response, "Response is empty!");
 
-          response = qx.lang.Json.parse(response);
-          this.assertEquals("my_param=expected", response["_data_"], "Response is wrong!");
-        }, this);
-      }, this);
+            response = qx.lang.Json.parse(response);
+            this.assertEquals(
+              "my_param=expected",
+              response["_data_"],
+              "Response is wrong!"
+            );
+          }, this);
+        },
+        this
+      );
 
       // Send request
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/echo_get_request.php"));
-      this.request.setParameters({my_param: "expected"});
+      this.request.setParameters({ my_param: "expected" });
       this.request.send();
 
       this.wait();

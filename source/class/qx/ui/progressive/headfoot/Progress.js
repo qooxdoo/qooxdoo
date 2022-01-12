@@ -20,9 +20,8 @@
  * The standard footer used with Progressive's Table renderer, to show
  * progress of loading data into the table.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Progress",
-{
-  extend     : qx.ui.progressive.headfoot.Abstract,
+qx.Class.define("qx.ui.progressive.headfoot.Progress", {
+  extend: qx.ui.progressive.headfoot.Abstract,
 
   /**
    * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
@@ -33,9 +32,8 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
    *   Array of labels, one for each of the columns.
    *
    */
-  construct : function(columnWidths, labelArr)
-  {
-    this.base(arguments);
+  construct(columnWidths, labelArr) {
+    super();
 
     // Set a default height for the progress bar
     this.setHeight(16);
@@ -45,132 +43,127 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
     this.__linkColors();
 
-    this.set(
-    {
-      backgroundColor : this.__colors.background
+    this.set({
+      backgroundColor: this.__colors.background
     });
 
     // Create a widget that continually increases its width for progress bar
     this.__progressBar = new qx.ui.core.Widget();
-    this.__progressBar.set(
-    {
-      width : 0,
-      backgroundColor : this.__colors.indicatorDone
+    this.__progressBar.set({
+      width: 0,
+      backgroundColor: this.__colors.indicatorDone
     });
+
     this.add(this.__progressBar);
 
     // Create a flex area between the progress bar and the percent done
     var spacer = new qx.ui.core.Widget();
-    spacer.set(
-      {
-        backgroundColor : this.__colors.indicatorUndone
-      });
-    this.add(spacer, { flex : 1 });
+    spacer.set({
+      backgroundColor: this.__colors.indicatorUndone
+    });
+
+    this.add(spacer, { flex: 1 });
 
     // We also like to show progress as a percentage done string.
     this.__percentDone = new qx.ui.basic.Atom("0%");
-    this.__percentDone.set(
-    {
-      width           : 100,
-      backgroundColor : this.__colors.percentBackground,
-      textColor       : this.__colors.percentText
+    this.__percentDone.set({
+      width: 100,
+      backgroundColor: this.__colors.percentBackground,
+      textColor: this.__colors.percentText
     });
+
     this.add(this.__percentDone);
 
     // We're initially invisible
     this.exclude();
   },
 
-  members :
-  {
-    __total : null,
-    __colors : null,
-    __progressBar : null,
-    __percentDone : null,
+  members: {
+    __total: null,
+    __colors: null,
+    __progressBar: null,
+    __percentDone: null,
 
     // overridden
-    _onChangeTheme : function() {
-      this.base(arguments);
+    _onChangeTheme() {
+      super._onChangeTheme();
       this.__linkColors();
     },
-
 
     /**
      * Helper to link the theme colors to the current class.
      */
-    __linkColors : function() {
+    __linkColors() {
       // link to color theme
       var colorMgr = qx.theme.manager.Color.getInstance();
-      this.__colors.background =
-        colorMgr.resolve("progressive-progressbar-background");
-      this.__colors.indicatorDone =
-        colorMgr.resolve("progressive-progressbar-indicator-done");
-      this.__colors.indicatorUndone =
-        colorMgr.resolve("progressive-progressbar-indicator-undone");
-      this.__colors.percentBackground =
-        colorMgr.resolve("progressive-progressbar-percent-background");
-      this.__colors.percentText =
-        colorMgr.resolve("progressive-progressbar-percent-text");
+      this.__colors.background = colorMgr.resolve(
+        "progressive-progressbar-background"
+      );
+      this.__colors.indicatorDone = colorMgr.resolve(
+        "progressive-progressbar-indicator-done"
+      );
+      this.__colors.indicatorUndone = colorMgr.resolve(
+        "progressive-progressbar-indicator-undone"
+      );
+      this.__colors.percentBackground = colorMgr.resolve(
+        "progressive-progressbar-percent-background"
+      );
+      this.__colors.percentText = colorMgr.resolve(
+        "progressive-progressbar-percent-text"
+      );
     },
 
-
     // overridden
-    join : function(progressive)
-    {
+    join(progressive) {
       // Save the progressive handle
-      this.base(arguments, progressive);
+      super.join(progressive);
 
       // Listen for the "renderStart" event, to save the number of elements on
       // the queue, and to set ourself visible
       progressive.addListener(
         "renderStart",
-        function(e)
-        {
+        function (e) {
           this.__total = e.getData().initial;
           this.show();
         },
-        this);
+        this
+      );
 
       // Listen for the "progress" event, to update the progress bar
       progressive.addListener(
         "progress",
-        function(e)
-        {
-          var complete = 1.0 - (e.getData().remaining / this.__total);
+        function (e) {
+          var complete = 1.0 - e.getData().remaining / this.__total;
           var mySize = this.getBounds();
-          if (mySize)
-          {
-            var barWidth = Math.floor((mySize.width -
-                                       this.__percentDone.getBounds().width) *
-                                      complete);
+          if (mySize) {
+            var barWidth = Math.floor(
+              (mySize.width - this.__percentDone.getBounds().width) * complete
+            );
             var percent = Math.floor(complete * 100) + "%";
 
-            if (! isNaN(barWidth))
-            {
+            if (!isNaN(barWidth)) {
               this.__progressBar.setMinWidth(barWidth);
               this.__percentDone.setLabel(percent);
             }
           }
         },
-                              this);
+        this
+      );
 
       // Listen for the "renderEnd" event to make ourself invisible
       progressive.addListener(
         "renderEnd",
-        function(e)
-        {
+        function (e) {
           this.exclude();
         },
-        this);
+        this
+      );
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     this.__colors = null;
 
-    this._disposeObjects(
-      "__progressBar",
-      "__percentDone");
+    this._disposeObjects("__progressBar", "__percentDone");
   }
 });

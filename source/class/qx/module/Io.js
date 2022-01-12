@@ -29,8 +29,7 @@
  * @group (IO)
  */
 qx.Bootstrap.define("qx.module.Io", {
-  statics :
-  {
+  statics: {
     /**
      * Returns a configured XMLHttpRequest object. Using the send method will
      * finally send the request.
@@ -47,7 +46,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * @attachStatic {qxWeb, io.xhr}
      * @return {qx.bom.request.Xhr} The request object.
      */
-    xhr : function(url, settings) {
+    xhr(url, settings) {
       if (!settings) {
         settings = {};
       }
@@ -62,7 +61,6 @@ qx.Bootstrap.define("qx.module.Io", {
       return xhr;
     },
 
-
     /**
      * Returns a predefined script tag wrapper which can be used to load data
      * from cross-domain origins.
@@ -71,12 +69,11 @@ qx.Bootstrap.define("qx.module.Io", {
      * @attachStatic {qxWeb, io.script}
      * @return {qx.bom.request.Script} The request object.
      */
-    script : function(url) {
+    script(url) {
       var script = new qx.bom.request.Script();
       script.open("get", url);
       return script;
     },
-
 
     /**
      * Returns a predefined script tag wrapper which can be used to load data
@@ -92,7 +89,7 @@ qx.Bootstrap.define("qx.module.Io", {
      * @attachStatic {qxWeb, io.jsonp}
      * @return {qx.bom.request.Jsonp} The request object.
      */
-    jsonp : function(url, settings) {
+    jsonp(url, settings) {
       var script = new qx.bom.request.Jsonp();
       if (settings && settings.callbackName) {
         script.setCallbackName(settings.callbackName);
@@ -106,8 +103,7 @@ qx.Bootstrap.define("qx.module.Io", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "io");
   }
 });

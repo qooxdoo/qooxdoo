@@ -20,9 +20,8 @@
  * This class contains the translation of a message and all information
  * to translate it again into a different language.
  */
-qx.Class.define("qx.locale.LocalizedString",
-{
-  extend : qx.type.BaseString,
+qx.Class.define("qx.locale.LocalizedString", {
+  extend: qx.type.BaseString,
 
   /**
    * @param translation {String} The translated message
@@ -30,20 +29,18 @@ qx.Class.define("qx.locale.LocalizedString",
    * @param args {Array} list of arguments passed used as values for format strings
    * @param localized {Boolean} True if the string uses localize instead of translate
    */
-  construct : function(translation, messageId, args, localized)
-  {
-    this.base(arguments, translation);
+  construct(translation, messageId, args, localized) {
+    super(translation);
 
     this.__messageId = messageId;
     this.__localized = !!localized;
     this.__args = args;
   },
 
-  members :
-  {
-    __localized : null,
-    __messageId : null,
-    __args : null,
+  members: {
+    __localized: null,
+    __messageId: null,
+    __args: null,
 
     /**
      * Get a translation of the string using the current locale.
@@ -51,12 +48,18 @@ qx.Class.define("qx.locale.LocalizedString",
      * @return {qx.locale.LocalizedString|String} This string translated using the current
      *    locale.
      */
-    translate : function() {
+    translate() {
       if (this.__localized) {
-        return qx.locale.Manager.getInstance().localize(this.__messageId, this.__args);
+        return qx.locale.Manager.getInstance().localize(
+          this.__messageId,
+          this.__args
+        );
       }
 
-      return qx.locale.Manager.getInstance().translate(this.__messageId, this.__args);
+      return qx.locale.Manager.getInstance().translate(
+        this.__messageId,
+        this.__args
+      );
     },
 
     /**
@@ -64,7 +67,7 @@ qx.Class.define("qx.locale.LocalizedString",
      *
      * @return {String} The messageId of this localized String
      */
-    getMessageId : function() {
+    getMessageId() {
       return this.__messageId;
     }
   }

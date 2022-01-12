@@ -35,10 +35,8 @@
  *
  * This example creates a group and adds a list to it.
  */
-qx.Class.define("qx.ui.mobile.form.Group",
-{
-  extend : qx.ui.mobile.container.Composite,
-
+qx.Class.define("qx.ui.mobile.form.Group", {
+  extend: qx.ui.mobile.container.Composite,
 
   /*
   *****************************************************************************
@@ -50,25 +48,22 @@ qx.Class.define("qx.ui.mobile.form.Group",
    * @param widgets {qx.ui.mobile.core.Widget[]}
    * @param showBorder {Boolean?} initial value of the property showBorder.
    */
-  construct : function(widgets, showBorder)
-  {
-    this.base(arguments);
+  construct(widgets, showBorder) {
+    super();
 
     this.addCssClass("bordered");
 
-    if(showBorder != null) {
+    if (showBorder != null) {
       this.setShowBorder(showBorder);
     }
 
     // Convenience: Add all widgets of array to group.
-    if(widgets) {
-      for(var i = 0; i < widgets.length; i++) {
+    if (widgets) {
+      for (var i = 0; i < widgets.length; i++) {
         this.add(widgets[i]);
       }
     }
-
   },
-
 
   /*
   *****************************************************************************
@@ -76,27 +71,22 @@ qx.Class.define("qx.ui.mobile.form.Group",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "group"
+    defaultCssClass: {
+      refine: true,
+      init: "group"
     },
-
 
     /**
      * Defines whether a border should drawn around the group.
      */
-    showBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_onChangeShowBorder"
+    showBorder: {
+      check: "Boolean",
+      init: true,
+      apply: "_onChangeShowBorder"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -104,14 +94,12 @@ qx.Class.define("qx.ui.mobile.form.Group",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Reacts on change of showBorder property.
      */
-    _onChangeShowBorder : function() {
-
-      if(this.isShowBorder()==true) {
+    _onChangeShowBorder() {
+      if (this.isShowBorder() == true) {
         this.addCssClass("bordered");
       } else {
         this.removeCssClass("bordered");

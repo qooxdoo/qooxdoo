@@ -16,50 +16,71 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DateFormat",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.DateFormat", {
+  extend: qx.dev.unit.TestCase,
 
   include: qx.dev.unit.MRequirements,
 
-  members :
-  {
+  members: {
+    // result contain an object with what should be expected, the result to test the date against
+    __dates: [
+      { date: new Date(2000, 2, 14), result: {} },
+      { date: new Date(2006, 2, 14), result: {} },
+      { date: new Date(2007, 3, 14), result: {} },
+      { date: new Date(2009, 10, 30), result: {} },
+      { date: new Date(2009, 8, 30), result: {} },
+      { date: new Date(2011, 3, 15), result: {} },
+      { date: new Date(2011, 3, 16), result: {} },
+      { date: new Date(2011, 3, 17), result: {} },
+      { date: new Date(2011, 0, 26), result: { weekOfYear: 4 } },
+      { date: new Date(2011, 0, 1), result: { weekOfYear: 52 } },
+      { date: new Date(2011, 0, 3), result: { weekOfYear: 1 } },
+      { date: new Date(2011, 0, 10), result: { weekOfYear: 2 } },
+      {
+        date: new Date(2011, 9, 3),
+        result: {
+          dayOfYear: 276,
+          era: { abbrev: "AD", fullName: "Anno Domini", narrow: "A" }
+        }
+      },
+      { date: new Date(2011, 0, 4), result: { dayOfYear: 4, dayOfWeek: 2 } },
+      { date: new Date(2011, 0, 4), result: { dayOfYear: 4, dayOfWeek: 2 } },
+      {
+        date: new Date(2011, 0, 4, 9, 9, 9),
+        result: { h_hour: 9, K_hour: 9, H_hour: 9, k_hour: 9 }
+      },
+      {
+        date: new Date(2011, 0, 4, 14, 9, 9),
+        result: { h_hour: 2, K_hour: 2, H_hour: 14, k_hour: 14 }
+      },
+      {
+        date: new Date(2011, 0, 4, 0, 9, 9),
+        result: { h_hour: 12, K_hour: 0, H_hour: 0, k_hour: 24 }
+      },
+      {
+        date: new Date(2011, 0, 4, 12, 9, 9),
+        result: { h_hour: 12, K_hour: 0, H_hour: 12, k_hour: 12 }
+      },
+      {
+        date: new Date(2010, 12, 4, 0, 0, 0),
+        result: { h_hour: 12, K_hour: 0, H_hour: 0, k_hour: 24 }
+      },
+      {
+        date: new Date(-20, 10, 14),
+        result: {
+          era: { abbrev: "BC", fullName: "Before Christ", narrow: "B" }
+        }
+      },
+      { date: new Date(2012, 4, 24, 11, 49, 57, 1), result: {} },
+      { date: new Date(2012, 4, 24, 11, 49, 57, 12), result: {} },
+      { date: new Date(2012, 4, 24, 11, 49, 57, 123), result: {} }
+    ],
 
-  // result contain an object with what should be expected, the result to test the date against
-  __dates : [
-    {'date' : new Date(2000, 2, 14), 'result' : {}},
-    {'date' : new Date(2006, 2, 14), 'result' : {}},
-    {'date' : new Date(2007, 3, 14), 'result' : {}},
-    {'date' : new Date(2009, 10, 30), 'result' : {}},
-    {'date' : new Date(2009, 8 ,30), 'result' : {}},
-    {'date' : new Date(2011, 3, 15), 'result' : {}},
-    {'date' : new Date(2011, 3, 16), 'result' : {}},
-    {'date' : new Date(2011, 3, 17), 'result' : {}},
-    {'date' : new Date(2011, 0, 26), 'result' : {'weekOfYear' : 4}},
-    {'date' : new Date(2011, 0, 1), 'result' : {'weekOfYear' : 52}},
-    {'date' : new Date(2011, 0, 3), 'result' : {'weekOfYear' : 1}},
-    {'date' : new Date(2011, 0, 10), 'result' : {'weekOfYear' : 2}},
-    {'date' : new Date(2011, 9, 3), 'result' : {'dayOfYear' : 276, 'era': {'abbrev': 'AD', 'fullName': 'Anno Domini', 'narrow': 'A'}}},
-    {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
-    {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
-    {'date' : new Date(2011,0,4,9,9,9), 'result' : {'h_hour': 9, 'K_hour': 9, 'H_hour': 9, 'k_hour': 9}},
-    {'date' : new Date(2011,0,4,14,9,9), 'result' : {'h_hour': 2, 'K_hour': 2, 'H_hour': 14, 'k_hour': 14}},
-    {'date' : new Date(2011,0,4,0,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
-    {'date' : new Date(2011,0,4,12,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 12, 'k_hour': 12}},
-    {'date' : new Date(2010,12,4,0,0,0), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
-    {'date' : new Date(-20,10,14), 'result' : {'era': {'abbrev': 'BC', 'fullName': 'Before Christ', 'narrow': 'B'}}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 1), 'result' : {}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 12), 'result' : {}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 123), 'result' : {}}
-
-  ],
-
-    tearDown : function() {
+    tearDown() {
       qx.locale.Manager.getInstance().resetLocale();
     },
 
-    __fillNumber : function(number, minSize)
-    {
+    __fillNumber(number, minSize) {
       var str = "" + number;
 
       while (str.length < minSize) {
@@ -69,19 +90,17 @@ qx.Class.define("qx.test.util.DateFormat",
       return str;
     },
 
-    __getExpectedYear : function(absYear,formattedSize,yearsign)
-    {
+    __getExpectedYear(absYear, formattedSize, yearsign) {
       var expectedYear = absYear + "";
-        if(expectedYear.length<formattedSize) {
-          for(var j=expectedYear.length;j<formattedSize;j++) {
-            expectedYear = "0" + expectedYear;
-          }
+      if (expectedYear.length < formattedSize) {
+        for (var j = expectedYear.length; j < formattedSize; j++) {
+          expectedYear = "0" + expectedYear;
         }
-        return yearsign === "-" ? (yearsign + expectedYear) : expectedYear;
+      }
+      return yearsign === "-" ? yearsign + expectedYear : expectedYear;
     },
 
-    _testDateParse : function(date, formatString, locale)
-    {
+    _testDateParse(date, formatString, locale) {
       var dateFmt = new qx.util.format.DateFormat(formatString, locale);
       var dateStr = dateFmt.format(date);
 
@@ -99,11 +118,8 @@ qx.Class.define("qx.test.util.DateFormat",
       dateFmt.dispose();
     },
 
-
-    testDateParse : function()
-    {
-      for(var i=0; i<this.__dates.length; i++)
-      {
+    testDateParse() {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         this._testDateParse(date, "EEEE dd. MMM yyyy", "de_DE");
         this._testDateParse(date, "yyyyMMdd", "en_US");
@@ -119,11 +135,9 @@ qx.Class.define("qx.test.util.DateFormat",
         this._testDateParse(date, "MMM d, y KK:mm a", "en_US");
         this._testDateParse(date, "YYYY/MM/dd", "en_US");
       }
-
     },
 
-    testInvalidDate : function()
-    {
+    testInvalidDate() {
       // Note:
       //   * Edge parses even invalid dates and calculates
       //     from the "overflowing" days and months the
@@ -137,63 +151,94 @@ qx.Class.define("qx.test.util.DateFormat",
       dateFmt.dispose();
     },
 
-    testWeeksInDateParsing : function()
-    {
-      var dateFormat,
-          testDate,
-          parsedDate;
+    testWeeksInDateParsing() {
+      var dateFormat, testDate, parsedDate;
 
       dateFormat = new qx.util.format.DateFormat("EEEE d MMMM yyyy ww");
 
       qx.locale.Manager.getInstance().setLocale("en_US");
 
-      testDate = (new Date(2014, 0, 1)).getTime();
+      testDate = new Date(2014, 0, 1).getTime();
       parsedDate = dateFormat.parse("Wednesday 1 January 2014 01");
-      this.assertIdentical(testDate, parsedDate.getTime(), "ww - 01, should have been parsed");
+      this.assertIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "ww - 01, should have been parsed"
+      );
 
       try {
         parsedDate = dateFormat.parse("Wednesday 1 January 2014 1");
-      } catch(e) {
+      } catch (e) {
         parsedDate = new Date();
       }
 
-      this.assertNotIdentical(testDate, parsedDate.getTime(), "ww - 1, should not have been parsed");
+      this.assertNotIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "ww - 1, should not have been parsed"
+      );
 
       try {
         parsedDate = dateFormat.parse("Wednesday 1 January 2014 ");
-      } catch(e) {
+      } catch (e) {
         parsedDate = new Date();
       }
 
-      this.assertNotIdentical(testDate, parsedDate.getTime(), "ww - '', should not have been parsed");
+      this.assertNotIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "ww - '', should not have been parsed"
+      );
 
-      testDate = (new Date(2014, 4, 6)).getTime();
+      testDate = new Date(2014, 4, 6).getTime();
       parsedDate = dateFormat.parse("Tuesday 6 May 2014 19");
-      this.assertIdentical(testDate, parsedDate.getTime(), "ww - 19, should have been parsed");
+      this.assertIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "ww - 19, should have been parsed"
+      );
 
       dateFormat = new qx.util.format.DateFormat("EEEE d MMMM yyyy w");
       parsedDate = dateFormat.parse("Tuesday 6 May 2014 19");
-      this.assertIdentical(testDate, parsedDate.getTime(), "w - 19, should have been parsed");
+      this.assertIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "w - 19, should have been parsed"
+      );
 
-      testDate = (new Date(2014, 0, 1)).getTime();
+      testDate = new Date(2014, 0, 1).getTime();
       parsedDate = dateFormat.parse("Wednesday 1 January 2014 01");
-      this.assertIdentical(testDate, parsedDate.getTime(), "w - 01, should have been parsed");
+      this.assertIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "w - 01, should have been parsed"
+      );
 
       parsedDate = dateFormat.parse("Wednesday 1 January 2014 1");
-      this.assertIdentical(testDate, parsedDate.getTime(), "w - 1, should have been parsed");
+      this.assertIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "w - 1, should have been parsed"
+      );
 
       try {
         parsedDate = dateFormat.parse("Wednesday 1 January 2014 ");
-      } catch(e) {
+      } catch (e) {
         parsedDate = new Date();
       }
 
-      this.assertNotIdentical(testDate, parsedDate.getTime(), "w - '', should not have been parsed");
+      this.assertNotIdentical(
+        testDate,
+        parsedDate.getTime(),
+        "w - '', should not have been parsed"
+      );
     },
 
-    testTimeZone : function()
-    {
-      var date = new qx.test.util.DateMock({timezoneOffset: -60, time: 1316000836451});
+    testTimeZone() {
+      var date = new qx.test.util.DateMock({
+        timezoneOffset: -60,
+        time: 1316000836451
+      });
 
       var formatStr = "z";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
@@ -201,25 +246,32 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("GMT+01:00", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: 60, time: 1316000836451});
+      date = new qx.test.util.DateMock({
+        timezoneOffset: 60,
+        time: 1316000836451
+      });
       this.assertEquals("GMT-01:00", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: -90, time: 1316000836451});
+      date = new qx.test.util.DateMock({
+        timezoneOffset: -90,
+        time: 1316000836451
+      });
       this.assertEquals("GMT+01:30", dateFmt.format(date));
       date.dispose();
 
-      date = new qx.test.util.DateMock({timezoneOffset: 90, time: 1316000836451});
+      date = new qx.test.util.DateMock({
+        timezoneOffset: 90,
+        time: 1316000836451
+      });
       this.assertEquals("GMT-01:30", dateFmt.format(date));
       date.dispose();
 
       dateFmt.dispose();
     },
 
-    testLocalizedDates : function()
-    {
-      for(var i=0; i<this.__dates.length; i++)
-      {
+    testLocalizedDates() {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
 
         var formatStr = qx.locale.Date.getDateFormat("short", "fr_FR");
@@ -248,19 +300,18 @@ qx.Class.define("qx.test.util.DateFormat",
       }
     },
 
-    testPattern_y_ : function(){
+    testPattern_y_() {
       var df;
 
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
-        var yearsign = date.getFullYear() > 0 ? '+' : '-';
+        var yearsign = date.getFullYear() > 0 ? "+" : "-";
         var absYear = "" + Math.abs(date.getFullYear());
-        var fullYear = date.getFullYear()+'';
-        var lastTwoDigitsYear = fullYear.substring(absYear.length-2);
+        var fullYear = date.getFullYear() + "";
+        var lastTwoDigitsYear = fullYear.substring(absYear.length - 2);
 
         df = new qx.util.format.DateFormat("yyyy");
-        var expectedYear = this.__getExpectedYear(absYear,4,yearsign);
+        var expectedYear = this.__getExpectedYear(absYear, 4, yearsign);
         this.assertEquals(expectedYear, df.format(date));
         var parsedDate = df.parse(df.format(date));
         this.assertEquals(date.getFullYear(), parsedDate.getFullYear());
@@ -278,94 +329,146 @@ qx.Class.define("qx.test.util.DateFormat",
 
         // case yyy
         df = new qx.util.format.DateFormat("yyy");
-        var expectedYear = this.__getExpectedYear(absYear,3,yearsign);
+        var expectedYear = this.__getExpectedYear(absYear, 3, yearsign);
         this.assertEquals(expectedYear, df.format(date));
         df.dispose();
 
         // case yyyy
         df = new qx.util.format.DateFormat("yyyy");
-        var expectedYear = this.__getExpectedYear(absYear,4,yearsign);
+        var expectedYear = this.__getExpectedYear(absYear, 4, yearsign);
         this.assertEquals(expectedYear, df.format(date));
         df.dispose();
 
         // case yyyyy
         df = new qx.util.format.DateFormat("yyyyy");
-        var expectedYear = this.__getExpectedYear(absYear,5,yearsign);
+        var expectedYear = this.__getExpectedYear(absYear, 5, yearsign);
         this.assertEquals(expectedYear, df.format(date));
         df.dispose();
 
         // case yyyyy
         df = new qx.util.format.DateFormat("yyyyyyyyyyy");
-        var expectedYear = this.__getExpectedYear(absYear,11,yearsign);
+        var expectedYear = this.__getExpectedYear(absYear, 11, yearsign);
         this.assertEquals(expectedYear, df.format(date));
         df.dispose();
       }
     },
 
-    testPattern_M_ : function(){
+    testPattern_M_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var absYear = "" + Math.abs(date.getFullYear());
-        var yearsign = date.getFullYear() > 0 ? '+' : '-';
-        var expectedYear = this.__getExpectedYear(absYear,4,yearsign);
+        var yearsign = date.getFullYear() > 0 ? "+" : "-";
+        var expectedYear = this.__getExpectedYear(absYear, 4, yearsign);
         var month = date.getMonth();
-        var realMonth = (month + 1) + "";
+        var realMonth = month + 1 + "";
 
         df = new qx.util.format.DateFormat("yyyy/MM");
-        this.assertEquals(expectedYear + "/" + this.__fillNumber(realMonth,2), df.format(date));
+        this.assertEquals(
+          expectedYear + "/" + this.__fillNumber(realMonth, 2),
+          df.format(date)
+        );
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/M");
         this.assertEquals(expectedYear + "/" + realMonth, df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("abbreviated", month , locale, "format", true), df.format(date));
+        this.assertEquals(
+          expectedYear +
+            "/" +
+            qx.locale.Date.getMonthName(
+              "abbreviated",
+              month,
+              locale,
+              "format",
+              true
+            ),
+          df.format(date)
+        );
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("wide", month, locale, "format", true), df.format(date));
+        this.assertEquals(
+          expectedYear +
+            "/" +
+            qx.locale.Date.getMonthName("wide", month, locale, "format", true),
+          df.format(date)
+        );
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMMM");
-        this.assertEquals(expectedYear + "/" + qx.locale.Date.getMonthName("narrow", month, locale, "format", true), df.format(date));
+        this.assertEquals(
+          expectedYear +
+            "/" +
+            qx.locale.Date.getMonthName(
+              "narrow",
+              month,
+              locale,
+              "format",
+              true
+            ),
+          df.format(date)
+        );
         df.dispose();
       }
-
     },
 
-    testPattern_L_ : function(){
+    testPattern_L_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var month = date.getMonth();
-        var realMonth = (month + 1) + "";
+        var realMonth = month + 1 + "";
 
         df = new qx.util.format.DateFormat("LL");
-        this.assertEquals(this.__fillNumber(realMonth,2), df.format(date));
+        this.assertEquals(this.__fillNumber(realMonth, 2), df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("L");
         this.assertEquals(realMonth, df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("LLL");
-        this.assertEquals(qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getMonthName(
+            "abbreviated",
+            month,
+            locale,
+            "stand-alone",
+            true
+          ),
+          df.format(date)
+        );
         df.dispose();
         df = new qx.util.format.DateFormat("LLLL");
-        this.assertEquals(qx.locale.Date.getMonthName("wide", month, locale, "stand-alone", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getMonthName(
+            "wide",
+            month,
+            locale,
+            "stand-alone",
+            true
+          ),
+          df.format(date)
+        );
         df.dispose();
         df = new qx.util.format.DateFormat("LLLLL");
-        this.assertEquals(qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getMonthName(
+            "narrow",
+            month,
+            locale,
+            "stand-alone",
+            true
+          ),
+          df.format(date)
+        );
         df.dispose();
       }
     },
 
-    testPattern_w_ : function(){
+    testPattern_w_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.weekOfYear)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.weekOfYear) {
           var date = this.__dates[i].date;
           var weekOfYear = this.__dates[i].result.weekOfYear + "";
 
@@ -374,16 +477,15 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("ww");
-          this.assertEquals(this.__fillNumber(weekOfYear,2), df.format(date));
+          this.assertEquals(this.__fillNumber(weekOfYear, 2), df.format(date));
           df.dispose();
         }
       }
     },
 
-    testPattern_d_ : function(){
+    testPattern_d_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var dayOfMonth = date.getDate();
 
@@ -391,19 +493,16 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(dayOfMonth + "", df.format(date));
         df.dispose();
         df = new qx.util.format.DateFormat("dd");
-        this.assertEquals(this.__fillNumber(dayOfMonth,2), df.format(date));
+        this.assertEquals(this.__fillNumber(dayOfMonth, 2), df.format(date));
         df.dispose();
       }
-
     },
 
-    testPattern_D_ : function(){
+    testPattern_D_() {
       var df, dateStr;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
-        if(this.__dates[i].result.dayOfYear)
-        {
+        if (this.__dates[i].result.dayOfYear) {
           var dayOfYear = this.__dates[i].result.dayOfYear + "";
 
           df = new qx.util.format.DateFormat("D");
@@ -411,11 +510,11 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("DD");
-          this.assertEquals(this.__fillNumber(dayOfYear,2), df.format(date));
+          this.assertEquals(this.__fillNumber(dayOfYear, 2), df.format(date));
           df.dispose();
 
           df = new qx.util.format.DateFormat("DDD");
-          this.assertEquals(this.__fillNumber(dayOfYear,3), df.format(date));
+          this.assertEquals(this.__fillNumber(dayOfYear, 3), df.format(date));
           df.dispose();
         }
 
@@ -429,84 +528,167 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(date.getDay(), parsedDate.getDay());
         dateFmt.dispose();
       }
-
     },
 
-    testPattern_E_ : function(){
+    testPattern_E_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
 
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.dayOfWeek)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.dayOfWeek) {
           var date = this.__dates[i].date;
           var fullYear = "" + date.getFullYear();
           var dayOfWeek = this.__dates[i].result.dayOfWeek;
 
           df = new qx.util.format.DateFormat("yyyy/E");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
+          this.assertEquals(
+            fullYear +
+              "/" +
+              qx.locale.Date.getDayName(
+                "abbreviated",
+                dayOfWeek,
+                locale,
+                "format",
+                true
+              ),
+            df.format(date)
+          );
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
+          this.assertEquals(
+            fullYear +
+              "/" +
+              qx.locale.Date.getDayName(
+                "abbreviated",
+                dayOfWeek,
+                locale,
+                "format",
+                true
+              ),
+            df.format(date)
+          );
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
+          this.assertEquals(
+            fullYear +
+              "/" +
+              qx.locale.Date.getDayName(
+                "abbreviated",
+                dayOfWeek,
+                locale,
+                "format",
+                true
+              ),
+            df.format(date)
+          );
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true), df.format(date));
+          this.assertEquals(
+            fullYear +
+              "/" +
+              qx.locale.Date.getDayName(
+                "wide",
+                dayOfWeek,
+                locale,
+                "format",
+                true
+              ),
+            df.format(date)
+          );
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEEE");
-          this.assertEquals(fullYear + "/" + qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true), df.format(date));
+          this.assertEquals(
+            fullYear +
+              "/" +
+              qx.locale.Date.getDayName(
+                "narrow",
+                dayOfWeek,
+                locale,
+                "format",
+                true
+              ),
+            df.format(date)
+          );
           df.dispose();
         }
       }
-
     },
 
-    testPattern_c_ : function(){
+    testPattern_c_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      var locales = [locale,"en_US","ro_RO","de_DE","fr_FR"];
-      for(var k=0; k<locales.length; k++)
-      {
+      var locales = [locale, "en_US", "ro_RO", "de_DE", "fr_FR"];
+      for (var k = 0; k < locales.length; k++) {
         qx.locale.Manager.getInstance().setLocale(locales[k]);
-        for(var i=0; i<this.__dates.length; i++)
-        {
+        for (var i = 0; i < this.__dates.length; i++) {
           var date = this.__dates[i].date;
           var dayOfWeek = date.getDay();
           var startOfWeek = qx.locale.Date.getWeekStart(locales[k]);
-          var expectedDayOfWeek = 1+ ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
+          var expectedDayOfWeek =
+            1 +
+            (dayOfWeek - startOfWeek >= 0
+              ? dayOfWeek - startOfWeek
+              : 7 + (dayOfWeek - startOfWeek));
 
-          df = new qx.util.format.DateFormat("c",locales[k]);
+          df = new qx.util.format.DateFormat("c", locales[k]);
           this.assertEquals(expectedDayOfWeek + "", df.format(date));
           df.dispose();
 
-          df = new qx.util.format.DateFormat("ccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
+          df = new qx.util.format.DateFormat("ccc", locales[k]);
+          this.assertEquals(
+            qx.locale.Date.getDayName(
+              "abbreviated",
+              dayOfWeek,
+              locales[k],
+              "stand-alone",
+              true
+            ),
+            df.format(date)
+          );
           df.dispose();
 
-          df = new qx.util.format.DateFormat("cccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
+          df = new qx.util.format.DateFormat("cccc", locales[k]);
+          this.assertEquals(
+            qx.locale.Date.getDayName(
+              "wide",
+              dayOfWeek,
+              locales[k],
+              "stand-alone",
+              true
+            ),
+            df.format(date)
+          );
           df.dispose();
 
-          df = new qx.util.format.DateFormat("ccccc",locales[k]);
-          this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locales[k], "stand-alone", true), df.format(date));
+          df = new qx.util.format.DateFormat("ccccc", locales[k]);
+          this.assertEquals(
+            qx.locale.Date.getDayName(
+              "narrow",
+              dayOfWeek,
+              locales[k],
+              "stand-alone",
+              true
+            ),
+            df.format(date)
+          );
           df.dispose();
         }
       }
       qx.locale.Manager.getInstance().setLocale(locale);
     },
 
-    testPattern_e_ : function(){
+    testPattern_e_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var dayOfWeek = date.getDay();
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
-        var expectedDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
+        var expectedDayOfWeek =
+          1 +
+          (dayOfWeek - startOfWeek >= 0
+            ? dayOfWeek - startOfWeek
+            : 7 + (dayOfWeek - startOfWeek));
 
         df = new qx.util.format.DateFormat("e");
         this.assertEquals(expectedDayOfWeek + "", df.format(date));
@@ -517,74 +699,95 @@ qx.Class.define("qx.test.util.DateFormat",
         df.dispose();
 
         df = new qx.util.format.DateFormat("eee");
-        this.assertEquals(qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getDayName(
+            "abbreviated",
+            dayOfWeek,
+            locale,
+            "format",
+            true
+          ),
+          df.format(date)
+        );
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeee");
-        this.assertEquals(qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true),
+          df.format(date)
+        );
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeeee");
-        this.assertEquals(qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true), df.format(date));
+        this.assertEquals(
+          qx.locale.Date.getDayName(
+            "narrow",
+            dayOfWeek,
+            locale,
+            "format",
+            true
+          ),
+          df.format(date)
+        );
         df.dispose();
       }
     },
 
-    testPattern_e_parse : function(){
+    testPattern_e_parse() {
       var df, parsedDate;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var dayOfWeek = date.getDay();
 
         df = new qx.util.format.DateFormat("e-yyyy-MM-dd");
         parsedDate = df.parse(df.format(date));
-        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        this.assertEquals(dayOfWeek, parsedDate.getDay());
         df.dispose();
 
         df = new qx.util.format.DateFormat("ee-yyyy-MM-dd");
         parsedDate = df.parse(df.format(date));
-        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        this.assertEquals(dayOfWeek, parsedDate.getDay());
         df.dispose();
 
         df = new qx.util.format.DateFormat("eee-yyyy-MM-dd");
         parsedDate = df.parse(df.format(date));
-        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        this.assertEquals(dayOfWeek, parsedDate.getDay());
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeee-yyyy-MM-dd");
         parsedDate = df.parse(df.format(date));
-        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        this.assertEquals(dayOfWeek, parsedDate.getDay());
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeeee-yyyy-MM-dd");
         parsedDate = df.parse(df.format(date));
-        this.assertEquals(dayOfWeek,parsedDate.getDay());
+        this.assertEquals(dayOfWeek, parsedDate.getDay());
         df.dispose();
       }
     },
 
-    testPattern_a_ : function(){
+    testPattern_a_() {
       var df;
       var locale = qx.locale.Manager.getInstance().getLocale();
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var hour = date.getHours();
-        df = new qx.util.format.DateFormat("a",locale);
-        this.assertEquals(hour < 12 ? qx.locale.Date.getAmMarker(locale).toString() : qx.locale.Date.getPmMarker(locale).toString(), df.format(date));
+        df = new qx.util.format.DateFormat("a", locale);
+        this.assertEquals(
+          hour < 12
+            ? qx.locale.Date.getAmMarker(locale).toString()
+            : qx.locale.Date.getPmMarker(locale).toString(),
+          df.format(date)
+        );
         df.dispose();
       }
-
     },
 
-    testPattern_h_ : function(){
+    testPattern_h_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.h_hour)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.h_hour) {
           var date = this.__dates[i].date;
           var hour = this.__dates[i].result.h_hour;
 
@@ -593,19 +796,16 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("hh");
-          this.assertEquals(this.__fillNumber(hour,2), df.format(date));
+          this.assertEquals(this.__fillNumber(hour, 2), df.format(date));
           df.dispose();
         }
       }
-
     },
 
-    testPattern_H_ : function(){
+    testPattern_H_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.H_hour)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.H_hour) {
           var date = this.__dates[i].date;
           var hour = this.__dates[i].result.H_hour;
 
@@ -614,19 +814,16 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("HH");
-          this.assertEquals(this.__fillNumber(hour,2), df.format(date));
+          this.assertEquals(this.__fillNumber(hour, 2), df.format(date));
           df.dispose();
         }
       }
-
     },
 
-    testPattern_k_ : function(){
+    testPattern_k_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.k_hour)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.k_hour) {
           var date = this.__dates[i].date;
           var hour = this.__dates[i].result.k_hour;
 
@@ -635,19 +832,16 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("kk");
-          this.assertEquals(this.__fillNumber(hour,2), df.format(date));
+          this.assertEquals(this.__fillNumber(hour, 2), df.format(date));
           df.dispose();
         }
       }
-
     },
 
-    testPattern_K_ : function(){
+    testPattern_K_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.K_hour)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.K_hour) {
           var date = this.__dates[i].date;
           var hour = this.__dates[i].result.K_hour;
 
@@ -656,17 +850,15 @@ qx.Class.define("qx.test.util.DateFormat",
           df.dispose();
 
           df = new qx.util.format.DateFormat("KK");
-          this.assertEquals(this.__fillNumber(hour,2), df.format(date));
+          this.assertEquals(this.__fillNumber(hour, 2), df.format(date));
           df.dispose();
         }
       }
-
     },
 
-    testPattern_m_ : function(){
+    testPattern_m_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var min = date.getMinutes();
 
@@ -675,16 +867,14 @@ qx.Class.define("qx.test.util.DateFormat",
         df.dispose();
 
         df = new qx.util.format.DateFormat("mm");
-        this.assertEquals(this.__fillNumber(min,2), df.format(date));
+        this.assertEquals(this.__fillNumber(min, 2), df.format(date));
         df.dispose();
       }
-
     },
 
-    testPattern_s_ : function(){
+    testPattern_s_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         var sec = date.getSeconds();
 
@@ -693,30 +883,28 @@ qx.Class.define("qx.test.util.DateFormat",
         df.dispose();
 
         df = new qx.util.format.DateFormat("ss");
-        this.assertEquals(this.__fillNumber(sec,2), df.format(date));
+        this.assertEquals(this.__fillNumber(sec, 2), df.format(date));
         df.dispose();
       }
-
     },
 
-    testPattern_S_ : function(){
+    testPattern_S_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
         // pad milliseconds to become a fraction of second
         var msec = this.__fillNumber(date.getMilliseconds(), 3);
 
         df = new qx.util.format.DateFormat("S");
-        this.assertEquals(msec.substring(0,1), df.format(date));
+        this.assertEquals(msec.substring(0, 1), df.format(date));
         df.dispose();
 
         df = new qx.util.format.DateFormat("SS");
-        this.assertEquals(msec.substring(0,2), df.format(date));
+        this.assertEquals(msec.substring(0, 2), df.format(date));
         df.dispose();
 
         df = new qx.util.format.DateFormat("SSS");
-        this.assertEquals(msec.substring(0,3), df.format(date));
+        this.assertEquals(msec.substring(0, 3), df.format(date));
         df.dispose();
 
         // check that remaining format specification is padded with zeros
@@ -724,16 +912,14 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(msec.substring(0, 3) + "0", df.format(date));
         df.dispose();
       }
-
     },
 
     // z and Z can be tested when knowing the timezoneoffset of the machines the test will run on
     // here it is EET
 
-    testPattern_z_ : function(){
+    testPattern_z_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
 
         var timezoneOffset = date.getTimezoneOffset();
@@ -741,7 +927,12 @@ qx.Class.define("qx.test.util.DateFormat",
         var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
         var timezoneMinutes = Math.abs(timezoneOffset) % 60;
 
-        var localTimeZone = "GMT" + ((timezoneSign > 0) ? "-" : "+") + this.__fillNumber(Math.abs(timezoneHours),2) + ":" + this.__fillNumber(timezoneMinutes, 2);
+        var localTimeZone =
+          "GMT" +
+          (timezoneSign > 0 ? "-" : "+") +
+          this.__fillNumber(Math.abs(timezoneHours), 2) +
+          ":" +
+          this.__fillNumber(timezoneMinutes, 2);
 
         df = new qx.util.format.DateFormat("z");
         this.assertEquals(localTimeZone, df.format(date));
@@ -755,16 +946,12 @@ qx.Class.define("qx.test.util.DateFormat",
         this.assertEquals(localTimeZone, df.format(date));
         df.dispose();
       }
-
     },
 
-
-    testPattern_G_ : function(){
+    testPattern_G_() {
       var df;
-      for(var i=0; i<this.__dates.length; i++)
-      {
-        if(this.__dates[i].result.era)
-        {
+      for (var i = 0; i < this.__dates.length; i++) {
+        if (this.__dates[i].result.era) {
           var date = this.__dates[i].date;
           var era = this.__dates[i].result.era;
 
@@ -781,126 +968,124 @@ qx.Class.define("qx.test.util.DateFormat",
           this.assertEquals(date.getDay(), parsedDate.getDay());
           df.dispose();
         }
-    }
+      }
+    },
 
-  },
+    _testIsoMasks(date, isoFormat, dateFormat) {
+      var isodf = new qx.util.format.DateFormat(isoFormat);
+      var df = new qx.util.format.DateFormat(dateFormat);
+      var isoDateFormatted = isodf.format(date);
+      var dateFormatted = df.format(date);
+      this.assertEquals(isoDateFormatted, dateFormatted);
+      this.assertEquals(
+        isodf.parse(isoDateFormatted).getTime(),
+        df.parse(dateFormatted).getTime()
+      );
+      isodf.dispose();
+      df.dispose();
+    },
 
-  _testIsoMasks : function(date, isoFormat, dateFormat)
-  {
-    var isodf = new qx.util.format.DateFormat(isoFormat);
-    var df = new qx.util.format.DateFormat(dateFormat);
-    var isoDateFormatted = isodf.format(date);
-    var dateFormatted = df.format(date);
-    this.assertEquals(isoDateFormatted,dateFormatted);
-    this.assertEquals(isodf.parse(isoDateFormatted).getTime(),df.parse(dateFormatted).getTime());
-    isodf.dispose();
-    df.dispose();
-  },
-
-  testIsoMasks : function()
-  {
-      for(var i=0; i<this.__dates.length; i++)
-      {
+    testIsoMasks() {
+      for (var i = 0; i < this.__dates.length; i++) {
         var date = this.__dates[i].date;
-        this._testIsoMasks(date, 'isoDate', 'yyyy-MM-dd');
-        this._testIsoMasks(date, 'isoTime', 'HH:mm:ss');
-        this._testIsoMasks(date, 'isoDateTime', "yyyy-MM-dd'T'HH:mm:ss");
-        this._testIsoMasks(date, 'isoDateTimeTz', "yyyy-MM-dd'T'HH:mm:ssZ");
+        this._testIsoMasks(date, "isoDate", "yyyy-MM-dd");
+        this._testIsoMasks(date, "isoTime", "HH:mm:ss");
+        this._testIsoMasks(date, "isoDateTime", "yyyy-MM-dd'T'HH:mm:ss");
+        this._testIsoMasks(date, "isoDateTimeTz", "yyyy-MM-dd'T'HH:mm:ssZ");
         //this._testIsoMasks(date, 'isoUtcDateTime', "yyyy-MM-dd'T'HH:mm:ss'Z'");
       }
-  },
+    },
 
-  testIsoTz : function() {
-    var isodf = new qx.util.format.DateFormat('isoDateTimeTz');
-    var parsedDate = isodf.parse("2013-01-01T00:00:00+0000");
-    this.assertEquals(parsedDate.getUTCFullYear(), 2013);
-    this.assertEquals(parsedDate.getUTCMonth(), 0);
-    this.assertEquals(parsedDate.getUTCDate(), 1);
-    this.assertEquals(parsedDate.getUTCHours(), 0);
-    this.assertEquals(parsedDate.getUTCMinutes(), 0);
-    this.assertEquals(parsedDate.getUTCSeconds(), 0);
-    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+    testIsoTz() {
+      var isodf = new qx.util.format.DateFormat("isoDateTimeTz");
+      var parsedDate = isodf.parse("2013-01-01T00:00:00+0000");
+      this.assertEquals(parsedDate.getUTCFullYear(), 2013);
+      this.assertEquals(parsedDate.getUTCMonth(), 0);
+      this.assertEquals(parsedDate.getUTCDate(), 1);
+      this.assertEquals(parsedDate.getUTCHours(), 0);
+      this.assertEquals(parsedDate.getUTCMinutes(), 0);
+      this.assertEquals(parsedDate.getUTCSeconds(), 0);
+      this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
 
-    parsedDate = isodf.parse("2004-04-04T04:04:04-0500")
-    this.assertEquals(parsedDate.getUTCFullYear(), 2004);
-    this.assertEquals(parsedDate.getUTCMonth(), 3);
-    this.assertEquals(parsedDate.getUTCDate(), 3);
-    this.assertEquals(parsedDate.getUTCHours(), 23);
-    this.assertEquals(parsedDate.getUTCMinutes(), 4);
-    this.assertEquals(parsedDate.getUTCSeconds(), 4);
-    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
-  },
+      parsedDate = isodf.parse("2004-04-04T04:04:04-0500");
+      this.assertEquals(parsedDate.getUTCFullYear(), 2004);
+      this.assertEquals(parsedDate.getUTCMonth(), 3);
+      this.assertEquals(parsedDate.getUTCDate(), 3);
+      this.assertEquals(parsedDate.getUTCHours(), 23);
+      this.assertEquals(parsedDate.getUTCMinutes(), 4);
+      this.assertEquals(parsedDate.getUTCSeconds(), 4);
+      this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+    },
 
-  testUtc : function () {
-    var isodf = new qx.util.format.DateFormat('isoUtcDateTime');
-    var parsedDate = isodf.parse("2013-01-01T00:00:00Z");
-    this.assertEquals(parsedDate.getUTCFullYear(), 2013);
-    this.assertEquals(parsedDate.getUTCMonth(), 0);
-    this.assertEquals(parsedDate.getUTCDate(), 1);
-    this.assertEquals(parsedDate.getUTCHours(), 0);
-    this.assertEquals(parsedDate.getUTCMinutes(), 0);
-    this.assertEquals(parsedDate.getUTCSeconds(), 0);
-    this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
+    testUtc() {
+      var isodf = new qx.util.format.DateFormat("isoUtcDateTime");
+      var parsedDate = isodf.parse("2013-01-01T00:00:00Z");
+      this.assertEquals(parsedDate.getUTCFullYear(), 2013);
+      this.assertEquals(parsedDate.getUTCMonth(), 0);
+      this.assertEquals(parsedDate.getUTCDate(), 1);
+      this.assertEquals(parsedDate.getUTCHours(), 0);
+      this.assertEquals(parsedDate.getUTCMinutes(), 0);
+      this.assertEquals(parsedDate.getUTCSeconds(), 0);
+      this.assertEquals(parsedDate.getUTCMilliseconds(), 0);
 
-    // checks that UTC hours are calculated correctly
-    parsedDate = isodf.parse("2004-04-04T04:04:04Z");
-    this.assertEquals(parsedDate.getUTCHours(), 4);
+      // checks that UTC hours are calculated correctly
+      parsedDate = isodf.parse("2004-04-04T04:04:04Z");
+      this.assertEquals(parsedDate.getUTCHours(), 4);
 
-    // checks that UTC format does not parse a date with a timezone
-    this.assertException(function() {
-      isodf.parse("2004-04-04T04:04:04+05:00");
-    }, Error);
+      // checks that UTC format does not parse a date with a timezone
+      this.assertException(function () {
+        isodf.parse("2004-04-04T04:04:04+05:00");
+      }, Error);
+    },
 
-  },
+    testChangingLocales() {
+      var manager = qx.locale.Manager.getInstance();
+      manager.resetLocale();
+      var initialLocale = manager.getLocale();
 
-  testChangingLocales : function()
-  {
-    var manager = qx.locale.Manager.getInstance();
-    manager.resetLocale();
-    var initialLocale = manager.getLocale();
+      manager.setLocale("en_US");
 
-    manager.setLocale('en_US');
+      var df = new qx.util.format.DateFormat("EEEE yyyy-mm-dd");
+      var dfinitial = new qx.util.format.DateFormat(
+        "EEEE yyyy-mm-dd",
+        initialLocale
+      );
+      var dfFR = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "fr_FR");
+      var dfDE = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "de_DE");
+      var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "en_US");
+      var d = new Date();
 
-    var df = new qx.util.format.DateFormat("EEEE yyyy-mm-dd");
-    var dfinitial = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", initialLocale);
-    var dfFR = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","fr_FR");
-    var dfDE = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","de_DE");
-    var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","en_US");
-    var d = new Date();
+      this.assertEquals(df.format(d), dfUS.format(d));
 
-    this.assertEquals(df.format(d),dfUS.format(d));
+      manager.setLocale("fr_FR");
+      this.assertEquals(df.format(d), dfFR.format(d));
 
-    manager.setLocale('fr_FR');
-    this.assertEquals(df.format(d),dfFR.format(d));
+      manager.setLocale("de_DE");
+      this.assertEquals(df.format(d), dfDE.format(d));
 
-    manager.setLocale('de_DE');
-    this.assertEquals(df.format(d),dfDE.format(d));
+      manager.resetLocale();
+      this.assertEquals(df.format(d), dfinitial.format(d));
 
-    manager.resetLocale();
-    this.assertEquals(df.format(d),dfinitial.format(d));
+      df.setLocale("fr_FR");
+      this.assertEquals(df.format(d), dfFR.format(d));
 
-    df.setLocale('fr_FR');
-    this.assertEquals(df.format(d),dfFR.format(d));
+      df.resetLocale();
+      this.assertEquals(df.format(d), dfinitial.format(d));
 
-    df.resetLocale();
-    this.assertEquals(df.format(d),dfinitial.format(d));
+      dfFR.setLocale("de_DE");
+      this.assertEquals(dfFR.format(d), dfDE.format(d));
 
-    dfFR.setLocale('de_DE');
-    this.assertEquals(dfFR.format(d),dfDE.format(d));
+      dfFR.resetLocale();
 
-    dfFR.resetLocale();
+      df.dispose();
+      dfinitial.dispose();
+      dfFR.dispose();
+      dfDE.dispose();
+      dfUS.dispose();
+    },
 
-    df.dispose();
-    dfinitial.dispose();
-    dfFR.dispose();
-    dfDE.dispose();
-    dfUS.dispose();
-
-  },
-
-  hasNoEdge: function() {
-    return !(qx.core.Environment.get("browser.name") == "edge");
-  }
-
+    hasNoEdge() {
+      return !(qx.core.Environment.get("browser.name") == "edge");
+    }
   }
 });

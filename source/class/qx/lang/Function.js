@@ -37,10 +37,8 @@
  * @ignore(qx.core.Object)
  * @require(qx.lang.Array)
  */
-qx.Bootstrap.define("qx.lang.Function",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.lang.Function", {
+  statics: {
     /**
      * Extract the caller of a function from the arguments variable.
      * This will not work in Opera < 9.6.
@@ -48,10 +46,9 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param args {arguments} The local arguments variable
      * @return {Function} A reference to the calling function or "undefined" if caller is not supported.
      */
-    getCaller : function(args) {
+    getCaller(args) {
       return args.caller ? args.caller.callee : args.callee.caller;
     },
-
 
     /**
      * Try to get a sensible textual description of a function object.
@@ -61,8 +58,7 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param fcn {Function} function the get the name for.
      * @return {String} Name of the function.
      */
-    getName : function(fcn)
-    {
+    getName(fcn) {
       if (fcn.displayName) {
         return fcn.displayName;
       }
@@ -71,40 +67,33 @@ qx.Bootstrap.define("qx.lang.Function",
         return fcn.classname + ".constructor()";
       }
 
-      if (fcn.$$mixin)
-      {
+      if (fcn.$$mixin) {
         //members
-        for(var key in fcn.$$mixin.$$members)
-        {
+        for (var key in fcn.$$mixin.$$members) {
           if (fcn.$$mixin.$$members[key] == fcn) {
             return fcn.$$mixin.name + ".prototype." + key + "()";
           }
         }
 
         // statics
-        for(var key in fcn.$$mixin)
-        {
+        for (var key in fcn.$$mixin) {
           if (fcn.$$mixin[key] == fcn) {
             return fcn.$$mixin.name + "." + key + "()";
           }
         }
       }
 
-      if (fcn.self)
-      {
+      if (fcn.self) {
         var clazz = fcn.self.constructor;
-        if (clazz)
-        {
+        if (clazz) {
           // members
-          for(var key in clazz.prototype)
-          {
+          for (var key in clazz.prototype) {
             if (clazz.prototype[key] == fcn) {
               return clazz.classname + ".prototype." + key + "()";
             }
           }
           // statics
-          for(var key in clazz)
-          {
+          for (var key in clazz) {
             if (clazz[key] == fcn) {
               return clazz.classname + "." + key + "()";
             }
@@ -117,9 +106,8 @@ qx.Bootstrap.define("qx.lang.Function",
         return fcnReResult[1] + "()";
       }
 
-      return 'anonymous()';
+      return "anonymous()";
     },
-
 
     /**
      * Evaluates JavaScript code globally
@@ -129,15 +117,13 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param data {String} JavaScript commands
      * @return {var} Result of the execution
      */
-    globalEval : function(data)
-    {
+    globalEval(data) {
       if (window.execScript) {
         return window.execScript(data);
       } else {
         return eval.call(window, data);
       }
     },
-
 
     /**
      * Base function for creating functional closures which is used by most other methods here.
@@ -162,10 +148,10 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * @return {Function} Wrapped function
      */
-    create : function(func, options)
-    {
+    create(func, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert && qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
+        qx.core.Assert &&
+          qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
       }
 
       // Nothing to be done when there are no options.
@@ -174,20 +160,36 @@ qx.Bootstrap.define("qx.lang.Function",
       }
 
       // Check for at least one attribute.
-      if (!(options.self || options.args || options.delay != null || options.periodical != null || options.attempt || options.always)) {
+      if (
+        !(
+          options.self ||
+          options.args ||
+          options.delay != null ||
+          options.periodical != null ||
+          options.attempt ||
+          options.always
+        )
+      ) {
         return func;
       }
 
-      return function(event)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          if (qx.core.Object && options.self && qx.Bootstrap.isObject(options.self) && options.self.isDisposed && qx.Bootstrap.isFunction(options.self.isDisposed))
-          {
+      return function (event) {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (
+            qx.core.Object &&
+            options.self &&
+            qx.Bootstrap.isObject(options.self) &&
+            options.self.isDisposed &&
+            qx.Bootstrap.isFunction(options.self.isDisposed)
+          ) {
             if (options.self.isDisposed()) {
-              qx.core.Assert && qx.core.Assert.fail(
-                "Trying to call a bound function with a disposed object as context: " + options.self.toString() + " :: " + qx.lang.Function.getName(func)
-              );
+              qx.core.Assert &&
+                qx.core.Assert.fail(
+                  "Trying to call a bound function with a disposed object as context: " +
+                    options.self.toString() +
+                    " :: " +
+                    qx.lang.Function.getName(func)
+                );
             }
           }
         }
@@ -200,10 +202,9 @@ qx.Bootstrap.define("qx.lang.Function",
           args = options.args.concat(args);
         }
 
-        if (options.delay || options.periodical)
-        {
-          var returns = function() {
-            return func.apply(options.self||this, args);
+        if (options.delay || options.periodical) {
+          var returns = function () {
+            return func.apply(options.self || this, args);
           };
 
           if (qx.core.Environment.get("qx.globalErrorHandling")) {
@@ -217,24 +218,19 @@ qx.Bootstrap.define("qx.lang.Function",
           if (options.periodical) {
             return window.setInterval(returns, options.periodical);
           }
-        }
-        else if (options.attempt)
-        {
+        } else if (options.attempt) {
           var ret = false;
 
           try {
-            ret = func.apply(options.self||this, args);
-          } catch(ex) {}
+            ret = func.apply(options.self || this, args);
+          } catch (ex) {}
 
           return ret;
-        }
-        else
-        {
-          return func.apply(options.self||this, args);
+        } else {
+          return func.apply(options.self || this, args);
         }
       };
     },
-
 
     /**
      * Returns a function whose "this" is altered.
@@ -276,15 +272,15 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Function} The bound function.
      */
-    bind : function(func, self, varargs)
-    {
-      return this.create(func,
-      {
-        self  : self,
-        args  : arguments.length > 2 ? qx.lang.Array.fromArguments(arguments, 2) : null
+    bind(func, self, varargs) {
+      return this.create(func, {
+        self: self,
+        args:
+          arguments.length > 2
+            ? qx.lang.Array.fromArguments(arguments, 2)
+            : null
       });
     },
-
 
     /**
      * Returns a function whose arguments are pre-configured.
@@ -308,13 +304,14 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments} The arguments to pass to the function.
      * @return {var} The pre-configured function.
      */
-    curry : function(func, varargs)
-    {
+    curry(func, varargs) {
       return this.create(func, {
-        args  : arguments.length > 1 ? qx.lang.Array.fromArguments(arguments, 1) : null
+        args:
+          arguments.length > 1
+            ? qx.lang.Array.fromArguments(arguments, 1)
+            : null
       });
     },
-
 
     /**
      * Returns a function which could be used as a listener for a native event callback.
@@ -328,33 +325,26 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {var} The bound function.
      */
-    listener : function(func, self, varargs)
-    {
-      if (arguments.length < 3)
-      {
-        return function(event)
-        {
+    listener(func, self, varargs) {
+      if (arguments.length < 3) {
+        return function (event) {
           // Directly execute, but force first parameter to be the event object.
-          return func.call(self||this, event||window.event);
+          return func.call(self || this, event || window.event);
         };
-      }
-      else
-      {
+      } else {
         var optargs = qx.lang.Array.fromArguments(arguments, 2);
 
-        return function(event)
-        {
-          var args = [event||window.event];
+        return function (event) {
+          var args = [event || window.event];
 
           // Append static arguments
           args.push.apply(args, optargs);
 
           // Finally execute original method
-          func.apply(self||this, args);
+          func.apply(self || this, args);
         };
       }
     },
-
 
     /**
      * Tries to execute the function.
@@ -385,16 +375,16 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Boolean|var} <code>false</code> if an exception is thrown, else the function's return.
      */
-    attempt : function(func, self, varargs)
-    {
-      return this.create(func,
-      {
-        self    : self,
-        attempt : true,
-        args    : arguments.length > 2 ? qx.lang.Array.fromArguments(arguments, 2) : null
+    attempt(func, self, varargs) {
+      return this.create(func, {
+        self: self,
+        attempt: true,
+        args:
+          arguments.length > 2
+            ? qx.lang.Array.fromArguments(arguments, 2)
+            : null
       })();
     },
-
 
     /**
      * Delays the execution of a function by a specified duration.
@@ -420,16 +410,16 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Integer} The JavaScript Timeout ID (useful for clearing delays).
      */
-    delay : function(func, delay, self, varargs)
-    {
-      return this.create(func,
-      {
-        delay : delay,
-        self  : self,
-        args  : arguments.length > 3 ? qx.lang.Array.fromArguments(arguments, 3) : null
+    delay(func, delay, self, varargs) {
+      return this.create(func, {
+        delay: delay,
+        self: self,
+        args:
+          arguments.length > 3
+            ? qx.lang.Array.fromArguments(arguments, 3)
+            : null
       })();
     },
-
 
     /**
      * Executes a function in the specified intervals of time
@@ -452,13 +442,14 @@ qx.Bootstrap.define("qx.lang.Function",
      * @param varargs {arguments ? null} The arguments to pass to the function.
      * @return {Integer} The Interval ID (useful for clearing a periodical).
      */
-    periodical : function(func, interval, self, varargs)
-    {
-      return this.create(func,
-      {
-        periodical : interval,
-        self       : self,
-        args       : arguments.length > 3 ? qx.lang.Array.fromArguments(arguments, 3) : null
+    periodical(func, interval, self, varargs) {
+      return this.create(func, {
+        periodical: interval,
+        self: self,
+        args:
+          arguments.length > 3
+            ? qx.lang.Array.fromArguments(arguments, 3)
+            : null
       })();
     }
   }

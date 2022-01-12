@@ -24,11 +24,10 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
-{
-  type : "abstract",
-  extend : qx.ui.mobile.core.Widget,
-  implement : qx.ui.form.renderer.IFormRenderer,
+qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer", {
+  type: "abstract",
+  extend: qx.ui.mobile.core.Widget,
+  implement: qx.ui.form.renderer.IFormRenderer,
 
   /*
   *****************************************************************************
@@ -39,9 +38,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
   /**
    * @param form {qx.ui.mobile.form.Form} The form to be rendered
    */
-  construct : function(form)
-  {
-    this.base(arguments);
+  construct(form) {
+    super();
 
     this._form = form;
     this._render();
@@ -55,13 +53,11 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "form"
+    defaultCssClass: {
+      refine: true,
+      init: "form"
     }
   },
 
@@ -71,33 +67,33 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
   *****************************************************************************
   */
 
-   members :
-  {
-    _form : null,
-
+  members: {
+    _form: null,
 
     /**
      * Handler responsible for updating the rendered widget as soon as the
      * form changes.
      */
-    _onFormChange : function() {
+    _onFormChange() {
       this._removeAll();
       this.resetForm();
       this._render();
     },
 
-
     /**
      * Renders the for: adds the items and buttons.
      */
-    _render : function() {
+    _render() {
       // add the groups
       var groups = this._form.getGroups();
-      for (var i = 0; i < groups.length; i++)
-      {
+      for (var i = 0; i < groups.length; i++) {
         var group = groups[i];
         this.addItems(
-          group.items, group.labels, group.title, group.options, group.headerOptions
+          group.items,
+          group.labels,
+          group.title,
+          group.options,
+          group.headerOptions
         );
       }
 
@@ -110,15 +106,13 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
       this._form.setRenderer(this);
     },
 
-
     // interface implementation
-    addItems : function(items, names, title) {
+    addItems(items, names, title) {
       throw new Error("Abstract method call");
     },
 
-
     // interface implementation
-    addButton : function(button) {
+    addButton(button) {
       throw new Error("Abstract method call");
     },
 
@@ -127,7 +121,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
      * usually it prints an error message, so that user can rectify the filling of the form element.
      * @param item {qx.ui.mobile.core.Widget} the form item
      */
-    showErrorForItem : function(item) {
+    showErrorForItem(item) {
       throw new Error("Abstract method call");
     },
 
@@ -137,9 +131,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
      * inserted into DOM in the case of invalid form elements
      *
      */
-    resetForm : function() {
+    resetForm() {
       throw new Error("Abstract method call");
     }
   }
-
 });

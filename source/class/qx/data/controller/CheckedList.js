@@ -29,22 +29,22 @@
  */
 qx.Class.define("qx.data.controller.CheckedList", {
   extend: qx.data.controller.List,
-  
+
   /**
    * Constructor
    *
    * @param model {qx.data.Array?null} the model array
    * @param widget {qx.ui.core.Widget?null} the widget target
-   * @param path {String} the path in the model for the caption  
+   * @param path {String} the path in the model for the caption
    */
   construct(model, widget, path) {
-    this.base(arguments, null, widget, path);
+    super(null, widget, path);
     this.setChecked(new qx.data.Array());
     if (model) {
       this.setModel(model);
     }
   },
-  
+
   properties: {
     checked: {
       init: null,
@@ -53,11 +53,11 @@ qx.Class.define("qx.data.controller.CheckedList", {
       event: "changeChecked",
       apply: "_applyChecked"
     },
-    
+
     /**
      * The path to the property which holds the information that should be
-     * shown as a label for a tag for a checked item. This is only needed if 
-     * used with a CheckedSelectBox, and only if live updates of the label 
+     * shown as a label for a tag for a checked item. This is only needed if
+     * used with a CheckedSelectBox, and only if live updates of the label
      * are required.
      */
     checkedLabelPath: {
@@ -66,11 +66,10 @@ qx.Class.define("qx.data.controller.CheckedList", {
       nullable: true
     },
 
-
     /**
      * The path to the property which holds the information that should be
-     * shown as an icon for a tag for a checked item. This is only needed if 
-     * used with a CheckedSelectBox, and only if live updates of the label 
+     * shown as an icon for a tag for a checked item. This is only needed if
+     * used with a CheckedSelectBox, and only if live updates of the label
      * are required.
      */
     checkedIconPath: {
@@ -78,7 +77,6 @@ qx.Class.define("qx.data.controller.CheckedList", {
       apply: "__updateTags",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the checkedLabel binding. The possible keys
@@ -89,7 +87,6 @@ qx.Class.define("qx.data.controller.CheckedList", {
       nullable: true
     },
 
-
     /**
      * A map containing the options for the checked icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
@@ -99,7 +96,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
       nullable: true
     }
   },
-  
+
   members: {
     _applyChecked(value, oldValue) {
       if (oldValue) {
@@ -110,14 +107,14 @@ qx.Class.define("qx.data.controller.CheckedList", {
       }
       this._updateChecked();
     },
-    
+
     /**
      * @Override
-     */  
+     */
     _createItem() {
       var delegate = this.getDelegate();
       var item;
-      
+
       // check if a delegate and a create method is set
       if (delegate != null && delegate.createItem != null) {
         item = delegate.createItem();
@@ -129,10 +126,10 @@ qx.Class.define("qx.data.controller.CheckedList", {
       if (delegate != null && delegate.configureItem != null) {
         delegate.configureItem(item);
       }
-      
+
       return item;
     },
-      
+
     /**
      * Event handler for changes to the checked array
      *
@@ -148,35 +145,35 @@ qx.Class.define("qx.data.controller.CheckedList", {
 
     /**
      * @Override
-     */  
+     */
     update() {
-      this.base(arguments);
+      super.update();
       this._updateChecked();
     },
-    
+
     /**
      * @Override
-     */  
+     */
     _setFilter(value, old) {
-      this.base(arguments, value, old);
+      super._setFilter(value, old);
       this.__syncModelChecked = true;
       qx.ui.core.queue.Widget.add(this);
     },
-    
+
     /**
      * @Override
-     */  
+     */
     syncWidget() {
-      this.base(arguments);
+      super.syncWidget();
       if (this.__syncModelChecked) {
         this._updateChecked();
       }
       this.__syncModelChecked = null;
     },
-    
+
     /**
      * @Override
-     */  
+     */
     _applyModel(value, oldValue) {
       if (!value || !value.getLength()) {
         let checked = this.getChecked();
@@ -184,31 +181,51 @@ qx.Class.define("qx.data.controller.CheckedList", {
           checked.removeAll();
         }
       }
-      this.base(arguments, value, oldValue);
+      super._applyModel(value, oldValue);
       this._updateChecked();
     },
-    
+
     /**
      * @Override
-     */  
+     */
     _applyTarget(value, oldValue) {
-      this.base(arguments, value, oldValue);
+      super._applyTarget(value, oldValue);
       if (oldValue) {
-        oldValue.removeListener("changeChecked", this.__onTargetCheckedChange, this);
+        oldValue.removeListener(
+          "changeChecked",
+          this.__onTargetCheckedChange,
+          this
+        );
         if (qx.Class.supportsEvent(oldValue.constructor, "attachResultsTag")) {
-          oldValue.removeListener("attachResultsTag", this.__onTargetAttachResultsTag, this);
-          oldValue.removeListener("detachResultsTag", this.__onTargetDetachResultsTag, this);
+          oldValue.removeListener(
+            "attachResultsTag",
+            this.__onTargetAttachResultsTag,
+            this
+          );
+          oldValue.removeListener(
+            "detachResultsTag",
+            this.__onTargetDetachResultsTag,
+            this
+          );
         }
       }
       if (value) {
         value.addListener("changeChecked", this.__onTargetCheckedChange, this);
         if (qx.Class.supportsEvent(value.constructor, "attachResultsTag")) {
-          value.addListener("attachResultsTag", this.__onTargetAttachResultsTag, this);
-          value.addListener("detachResultsTag", this.__onTargetDetachResultsTag, this);
+          value.addListener(
+            "attachResultsTag",
+            this.__onTargetAttachResultsTag,
+            this
+          );
+          value.addListener(
+            "detachResultsTag",
+            this.__onTargetDetachResultsTag,
+            this
+          );
         }
       }
     },
-    
+
     /**
      * Event handler for changes in the target widget's `checked` property
      */
@@ -229,7 +246,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
         checked.replace(replacement);
       }
     },
-    
+
     /**
      * Event handler for changes in the target widget's `attachResults` property
      */
@@ -238,7 +255,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
       item.setUserData(this.classname + ".tagWidget", tagWidget);
       this.__attachTag(tagWidget, item);
     },
-    
+
     /**
      * Event handler for changes in the target widget's `detachResults` property
      */
@@ -247,7 +264,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
       this.__detachTag(tagWidget, item);
       item.setUserData(this.classname + ".tagWidget", null);
     },
-    
+
     /**
      * Updates all tags in the target widget
      */
@@ -262,7 +279,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
         this.__attachTag(tagWidget, item);
       });
     },
-    
+
     /**
      * Attaches a single tag; used to bind to the tag so that live updates to the underlying model are reflected in tag names
      *
@@ -271,16 +288,26 @@ qx.Class.define("qx.data.controller.CheckedList", {
      */
     __attachTag(tagWidget, item) {
       let itemModel = item.getModel();
-      let bindData = { };
+      let bindData = {};
       if (this.getCheckedLabelPath()) {
-        bindData.checkedLabelId = itemModel.bind(this.getCheckedLabelPath(), tagWidget, "label", this.getCheckedLabelOptions());
+        bindData.checkedLabelId = itemModel.bind(
+          this.getCheckedLabelPath(),
+          tagWidget,
+          "label",
+          this.getCheckedLabelOptions()
+        );
       }
       if (this.getCheckedIconPath()) {
-        bindData.checkedIconId = itemModel.bind(this.getCheckedIconPath(), tagWidget, "label", this.getCheckedIconOptions());
+        bindData.checkedIconId = itemModel.bind(
+          this.getCheckedIconPath(),
+          tagWidget,
+          "label",
+          this.getCheckedIconOptions()
+        );
       }
       itemModel.setUserData(this.classname + ".bindData", bindData);
     },
-    
+
     /**
      * Detaches a single tag, inverse of `__attachTag`
      *
@@ -300,7 +327,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
         itemModel.setUserData(this.classname + ".bindData", null);
       }
     },
-      
+
     /**
      * Updates the checked widget items to match the array of checked model items
      */
@@ -309,16 +336,16 @@ qx.Class.define("qx.data.controller.CheckedList", {
       if (!target) {
         return;
       }
-      
+
       if (this.__inUpdateChecked) {
         return;
       }
       this.__inUpdateChecked = true;
       try {
-        // Maps of the widget item, indexed by the hashcode of the model item      
+        // Maps of the widget item, indexed by the hashcode of the model item
         let children = {};
         let toUncheck = {};
-        
+
         target.getChildren().forEach(item => {
           let itemModel = item.getModel();
           if (itemModel) {
@@ -329,7 +356,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
             }
           }
         });
-        
+
         let toRemove = [];
         let checked = this.getChecked();
         if (checked) {
@@ -351,7 +378,5 @@ qx.Class.define("qx.data.controller.CheckedList", {
         this.__inUpdateChecked = false;
       }
     }
-    
-    
-  }  
+  }
 });

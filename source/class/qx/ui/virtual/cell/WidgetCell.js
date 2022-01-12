@@ -44,33 +44,29 @@
  * });
  * </pre>
  */
-qx.Class.define("qx.ui.virtual.cell.WidgetCell",
-{
-  extend : qx.ui.virtual.cell.AbstractWidget,
+qx.Class.define("qx.ui.virtual.cell.WidgetCell", {
+  extend: qx.ui.virtual.cell.AbstractWidget,
 
-  properties :
-  {
+  properties: {
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link qx.ui.virtual.cell.IWidgetCellDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       apply: "_applyDelegate",
       init: null,
       nullable: true
     }
   },
 
-  members :
-  {
+  members: {
     // apply method
-    _applyDelegate : function(value, old) {
+    _applyDelegate(value, old) {
       this._cleanupPool();
     },
 
     // overridden
-    _createWidget : function() {
+    _createWidget() {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.createWidget != null) {
@@ -81,13 +77,14 @@ qx.Class.define("qx.ui.virtual.cell.WidgetCell",
     },
 
     // overridden
-    updateData : function(widget, data) {
-      for (var key in data)
-      {
+    updateData(widget, data) {
+      for (var key in data) {
         if (qx.Class.hasProperty(widget.constructor, key)) {
           qx.util.PropertyUtil.setUserValue(widget, key, data[key]);
         } else {
-          throw new Error("Can't update data! The key '" + key + "' is not a Property!");
+          throw new Error(
+            "Can't update data! The key '" + key + "' is not a Property!"
+          );
         }
       }
     }

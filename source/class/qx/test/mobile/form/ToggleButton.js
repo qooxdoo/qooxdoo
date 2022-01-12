@@ -16,22 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.ToggleButton",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.form.ToggleButton", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testValue : function()
-    {
+  members: {
+    testValue() {
       var button = new qx.ui.mobile.form.ToggleButton(true);
       this.getRoot().add(button);
 
       this.assertBoolean(button.getValue());
       this.assertTrue(button.getValue());
-      this.assertTrue(qx.bom.element.Class.has(button.getContentElement(), "checked"));
+      this.assertTrue(
+        qx.bom.element.Class.has(button.getContentElement(), "checked")
+      );
 
-      this.assertEventFired(button, "changeValue", function() {
+      this.assertEventFired(button, "changeValue", function () {
         button.setValue(false);
       });
 
@@ -40,9 +39,7 @@ qx.Class.define("qx.test.mobile.form.ToggleButton",
       button.destroy();
     },
 
-
-    testToggle : function()
-    {
+    testToggle() {
       var button = new qx.ui.mobile.form.ToggleButton(true);
       this.getRoot().add(button);
 
@@ -58,5 +55,4 @@ qx.Class.define("qx.test.mobile.form.ToggleButton",
       button.destroy();
     }
   }
-
 });

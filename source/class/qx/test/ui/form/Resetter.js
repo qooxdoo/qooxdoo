@@ -15,37 +15,34 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Resetter",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Resetter", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
-  members :
-  {
-    __username : null,
-    __password1 : null,
-    __password2 : null,
-    __resetter : null,
+  members: {
+    __username: null,
+    __password1: null,
+    __password2: null,
+    __resetter: null,
 
-    setUp: function() {
+    setUp() {
       this.__username = new qx.ui.form.TextField();
       this.__password1 = new qx.ui.form.TextField();
       this.__password2 = new qx.ui.form.TextField();
       this.__resetter = new qx.ui.form.Resetter();
     },
 
-    tearDown: function() {
+    tearDown() {
       this.__resetter.dispose();
       this.__username.dispose();
       this.__password1.dispose();
       this.__password2.dispose();
     },
 
-
-    testReset: function() {
+    testReset() {
       // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
@@ -67,8 +64,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("C", this.__password2.getValue());
     },
 
-
-    testRemove: function() {
+    testRemove() {
       // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
@@ -90,8 +86,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("b", this.__password1.getValue());
     },
 
-
-    testResetWithSelectBox : function() {
+    testResetWithSelectBox() {
       var box = new qx.ui.form.SelectBox();
       var item1 = new qx.ui.form.ListItem("1");
       var item2 = new qx.ui.form.ListItem("2");
@@ -121,8 +116,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       box.dispose();
     },
 
-
-    testDifferentWidgets : function() {
+    testDifferentWidgets() {
       // set up
       var slider = new qx.ui.form.Slider();
       var textarea = new qx.ui.form.TextArea();
@@ -175,9 +169,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       model.dispose();
     },
 
-
-    testRedefine : function()
-    {
+    testRedefine() {
       // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
@@ -206,9 +198,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("c", this.__password2.getValue());
     },
 
-
-    testRefineSelection : function()
-    {
+    testRefineSelection() {
       var box = new qx.ui.form.SelectBox();
       var item1 = new qx.ui.form.ListItem("1");
       var item2 = new qx.ui.form.ListItem("2");
@@ -239,8 +229,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
       box.dispose();
     },
 
-    testResetOneItem : function()
-    {
+    testResetOneItem() {
       // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
@@ -264,14 +253,12 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
       // check for a not added item
       var self = this;
-      this.assertException(function() {
+      this.assertException(function () {
         self.__resetter.resetItem(this);
       }, Error);
     },
 
-
-    testRedefineOneItem : function()
-    {
+    testRedefineOneItem() {
       // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
@@ -301,10 +288,9 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
       // check for a not added item
       var self = this;
-      this.assertException(function() {
+      this.assertException(function () {
         self.__resetter.redefineItem(this);
       }, Error);
     }
-
   }
 });

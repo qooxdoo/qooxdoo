@@ -16,36 +16,30 @@
 
 ************************************************************************ */
 
-
 /**
  * Rotate is a multi pointer gesture fired when two finger moved around
  * a single point. It contains the angle of the rotation.
  */
-qx.Class.define("qx.event.type.Rotate",
-{
-    extend : qx.event.type.Pointer,
+qx.Class.define("qx.event.type.Rotate", {
+  extend: qx.event.type.Pointer,
 
+  members: {
+    // overridden
+    _cloneNativeEvent(nativeEvent, clone) {
+      var clone = super._cloneNativeEvent(nativeEvent, clone);
 
-    members : {
+      clone.angle = nativeEvent.angle;
 
-      // overridden
-      _cloneNativeEvent : function(nativeEvent, clone)
-      {
-        var clone = this.base(arguments, nativeEvent, clone);
+      return clone;
+    },
 
-        clone.angle = nativeEvent.angle;
-
-        return clone;
-      },
-
-
-      /**
-       * Returns a number with the current calculated angle between the primary and secondary active pointers.
-       *
-       * @return {Number} the angle of the two active pointers.
-       */
-      getAngle : function() {
-        return this._native.angle;
-      }
+    /**
+     * Returns a number with the current calculated angle between the primary and secondary active pointers.
+     *
+     * @return {Number} the angle of the two active pointers.
+     */
+    getAngle() {
+      return this._native.angle;
     }
+  }
 });

@@ -16,20 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io.remote.Rpc",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.io.remote.Rpc", {
+  extend: qx.dev.unit.TestCase,
 
-  include : qx.dev.unit.MMock,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    setUpFakeRequest : function() {
-      var req = this.request = new qx.io.remote.Request();
+  members: {
+    setUpFakeRequest() {
+      var req = (this.request = new qx.io.remote.Request());
 
       // In prototype chain
-      req.setState = req.getSequenceNumber =
-        req.setData = req.send = function() {};
+      req.setState =
+        req.getSequenceNumber =
+        req.setData =
+        req.send =
+          function () {};
 
       // Stub
       this.stub(req);
@@ -41,11 +42,11 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.injectStub(qx.io.remote, "Request", req);
     },
 
-    tearDown: function() {
+    tearDown() {
       this.getSandbox().restore();
     },
 
-    "test: send request": function() {
+    "test: send request"() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc("/foo");
 
@@ -53,49 +54,62 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalledOnce(this.request.send);
     },
 
-    "test: request data for params with date contains date literal when convert dates": function() {
+    "test: request data for params with date contains date literal when convert dates"() {
       this.setUpFakeRequest();
-      var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
-          msg,
-          data;
+      var obj = { date: new Date(Date.UTC(2020, 0, 1, 0, 0, 0, 123)) },
+        msg,
+        data;
 
       var rpc = new qx.io.remote.Rpc();
       this.stub(rpc, "_isConvertDates").returns(true);
-      this.stub(rpc, "createRpcData").returns({"params": obj});
+      this.stub(rpc, "createRpcData").returns({ params: obj });
       rpc.callAsync();
 
       data = this.request.setData.getCall(0).args[0];
       msg = "Must contain converted date literal";
-      this.assertMatch(data, /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/, msg);
+      this.assertMatch(
+        data,
+        /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/,
+        msg
+      );
     },
 
-    "test: request data for params with nested date contains date literal when convert dates": function() {
+    "test: request data for params with nested date contains date literal when convert dates"() {
       this.setUpFakeRequest();
-      var obj = {nested: {date: new Date(Date.UTC(2020,0,1,0,0,0,123))} },
-          msg,
-          data;
+      var obj = {
+          nested: { date: new Date(Date.UTC(2020, 0, 1, 0, 0, 0, 123)) }
+        },
+        msg,
+        data;
 
       var rpc = new qx.io.remote.Rpc();
       this.stub(rpc, "_isConvertDates").returns(true);
-      this.stub(rpc, "createRpcData").returns({"params": obj});
+      this.stub(rpc, "createRpcData").returns({ params: obj });
       rpc.callAsync();
 
       data = this.request.setData.getCall(0).args[0];
       msg = "Must contain converted date literal";
-      this.assertMatch(data, /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/, msg);
+      this.assertMatch(
+        data,
+        /"new Date\(Date.UTC\(2020,0,1,0,0,0,123\)\)"/,
+        msg
+      );
     },
 
-    "test: response contains date from literal when convert dates": function() {
+    "test: response contains date from literal when convert dates"() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc(),
-          req = this.request,
-          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          str = '{"result": {"date": new Date(Date.UTC(2020,0,1,0,0,0,123))} }',
-          that = this;
+        req = this.request,
+        evt = qx.event.Registration.createEvent(
+          "completed",
+          qx.io.remote.Response
+        ),
+        str = '{"result": {"date": new Date(Date.UTC(2020,0,1,0,0,0,123))} }',
+        that = this;
 
       this.stub(rpc, "_isConvertDates").returns(true);
 
-      var callback = this.spy(function(result) {
+      var callback = this.spy(function (result) {
         var msg = "Expected value to be date but found " + typeof result.date;
         that.assertTrue(qx.lang.Type.isDate(result.date), msg);
       });
@@ -109,19 +123,22 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalled(callback);
     },
 
-    "test: response contains date from literal when convert dates and json response": function() {
+    "test: response contains date from literal when convert dates and json response"() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc(),
-          req = this.request,
-          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          str = '{"result": {"date": "new Date(Date.UTC(2020,0,1,0,0,0,123))"} }',
-          that = this;
+        req = this.request,
+        evt = qx.event.Registration.createEvent(
+          "completed",
+          qx.io.remote.Response
+        ),
+        str = '{"result": {"date": "new Date(Date.UTC(2020,0,1,0,0,0,123))"} }',
+        that = this;
 
       this.stub(rpc, "_isConvertDates").returns(true);
       this.stub(rpc, "_isResponseJson").returns(true);
       this.spy(qx.lang.Json, "parse");
 
-      var callback = this.spy(function(result) {
+      var callback = this.spy(function (result) {
         var msg;
 
         that.assertCalled(qx.lang.Json.parse);
@@ -139,18 +156,21 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalled(callback);
     },
 
-    "test: response is parsed as JSON": function() {
+    "test: response is parsed as JSON"() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc(),
-          req = this.request,
-          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          str = '{"result": { "json" : true} }',
-          that = this;
+        req = this.request,
+        evt = qx.event.Registration.createEvent(
+          "completed",
+          qx.io.remote.Response
+        ),
+        str = '{"result": { "json" : true} }',
+        that = this;
 
       this.stub(rpc, "_isConvertDates").returns(false);
       this.spy(qx.lang.Json, "parse");
 
-      var callback = this.spy(function(result) {
+      var callback = this.spy(function (result) {
         that.assertCalledWith(qx.lang.Json.parse, str);
       });
 
@@ -163,18 +183,21 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalled(callback);
     },
 
-    "test: response is not parsed when already object": function() {
+    "test: response is not parsed when already object"() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc(),
-          req = this.request,
-          evt = qx.event.Registration.createEvent("completed", qx.io.remote.Response),
-          obj = {"result": { "json" : true} },
-          that = this;
+        req = this.request,
+        evt = qx.event.Registration.createEvent(
+          "completed",
+          qx.io.remote.Response
+        ),
+        obj = { result: { json: true } },
+        that = this;
 
       this.stub(rpc, "_isConvertDates").returns(false);
       this.spy(qx.lang.Json, "parse");
 
-      var callback = this.spy(function(result) {
+      var callback = this.spy(function (result) {
         that.assertNotCalled(qx.lang.Json.parse);
       });
 
@@ -191,14 +214,13 @@ qx.Class.define("qx.test.io.remote.Rpc",
     // isConvertDates()
     //
 
-    "test: isConvertDates() returns true when Rpc true": function() {
+    "test: isConvertDates() returns true when Rpc true"() {
       var rpc = new qx.io.remote.Rpc();
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
     },
 
-
-    skip: function(msg) {
+    skip(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     }
   }

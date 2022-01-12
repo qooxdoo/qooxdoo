@@ -27,16 +27,14 @@
  * characters like `äëíöü` (etc) are encoded different by `escape()` and `encodeURIComponent()`,
  * so you must take care of this change if you use unicode characters.
  */
-qx.Bootstrap.define("qx.bom.Cookie",
-{
+qx.Bootstrap.define("qx.bom.Cookie", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /*
     ---------------------------------------------------------------------------
       USER APPLICATION METHODS
@@ -50,12 +48,11 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @return {null | String} Returns the saved string value, if the cookie
      *    contains a value for the key, <code>null</code> otherwise.
      */
-    get : function(key)
-    {
+    get(key) {
       var start = document.cookie.indexOf(key + "=");
       var len = start + key.length + 1;
 
-      if ((!start) && (key != document.cookie.substring(0, key.length))) {
+      if (!start && key != document.cookie.substring(0, key.length)) {
         return null;
       }
 
@@ -71,13 +68,11 @@ qx.Bootstrap.define("qx.bom.Cookie",
 
       try {
         return decodeURIComponent(document.cookie.substring(len, end));
-      }
-      catch (URIError) {
+      } catch (URIError) {
         qx.log.Logger.error("Error decoding URI components", URIError.message);
         return null;
       }
     },
-
 
     /**
      * Sets the string value of a cookie.
@@ -91,17 +86,20 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @param secure {Boolean?null} Secure flag.
      * @param sameSite {String?null} sameSite value. (Lax, Strict, None)
      */
-    set : function(key, value, expires, path, domain, secure, sameSite)
-    {
+    set(key, value, expires, path, domain, secure, sameSite) {
       // Generate cookie
-      var cookie = [ key, "=", encodeURIComponent(value) ];
+      var cookie = [key, "=", encodeURIComponent(value)];
 
-      if (expires)
-      {
+      if (expires) {
         var today = new Date();
         today.setTime(today.getTime());
 
-        cookie.push(";expires=", new Date(today.getTime() + (expires * 1000 * 60 * 60 * 24)).toGMTString());
+        cookie.push(
+          ";expires=",
+          new Date(
+            today.getTime() + expires * 1000 * 60 * 60 * 24
+          ).toGMTString()
+        );
       }
 
       if (path) {
@@ -115,13 +113,12 @@ qx.Bootstrap.define("qx.bom.Cookie",
       if (secure) {
         cookie.push(";secure");
       }
-      
-      cookie.push(";sameSite=", sameSite||"Strict");
+
+      cookie.push(";sameSite=", sameSite || "Strict");
 
       // Store cookie
       document.cookie = cookie.join("");
     },
-
 
     /**
      * Deletes the string value of a cookie.
@@ -130,14 +127,13 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
      */
-    del : function(key, path, domain)
-    {
+    del(key, path, domain) {
       if (!qx.bom.Cookie.get(key)) {
         return;
       }
 
       // Generate cookie
-      var cookie = [ key, "=" ];
+      var cookie = [key, "="];
 
       if (path) {
         cookie.push(";path=", path);

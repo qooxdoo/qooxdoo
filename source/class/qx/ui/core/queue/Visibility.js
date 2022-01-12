@@ -20,20 +20,16 @@
  * Keeps data about the visibility of all widgets. Updates the internal
  * tree when widgets are added, removed or modify their visibility.
  */
-qx.Class.define("qx.ui.core.queue.Visibility",
-{
-  statics :
-  {
+qx.Class.define("qx.ui.core.queue.Visibility", {
+  statics: {
     /** @type {Array} This contains all the queued widgets for the next flush. */
-    __queue : [],
-    
-    /** @type {Map} map of widgets by hash code which are in the queue */
-    __lookup : {},
+    __queue: [],
 
+    /** @type {Map} map of widgets by hash code which are in the queue */
+    __lookup: {},
 
     /** @type {Map} Maps hash codes to visibility */
-    __data : {},
-
+    __data: {},
 
     /**
      * Clears the cached data of the given widget. Normally only used
@@ -41,15 +37,13 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
-    remove : function(widget)
-    {
-    	if (this.__lookup[widget.toHashCode()]) {
-	      delete this.__lookup[widget.toHashCode()];
-	      qx.lang.Array.remove(this.__queue, widget);
-    	}
+    remove(widget) {
+      if (this.__lookup[widget.toHashCode()]) {
+        delete this.__lookup[widget.toHashCode()];
+        qx.lang.Array.remove(this.__queue, widget);
+      }
       delete this.__data[widget.toHashCode()];
     },
-
 
     /**
      * Whether the given widget is visible.
@@ -60,10 +54,9 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * @param widget {qx.ui.core.Widget} The widget to query
      * @return {Boolean} Whether the widget is visible
      */
-    isVisible : function(widget) {
+    isVisible(widget) {
       return this.__data[widget.toHashCode()] || false;
     },
-
 
     /**
      * Computes the visibility for the given widget
@@ -71,19 +64,15 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * @param widget {qx.ui.core.Widget} The widget to update
      * @return {Boolean} Whether the widget is visible
      */
-    __computeVisible : function(widget)
-    {
+    __computeVisible(widget) {
       var data = this.__data;
       var hash = widget.toHashCode();
       var visible;
 
       // Respect local value
-      if (widget.isExcluded())
-      {
+      if (widget.isExcluded()) {
         visible = false;
-      }
-      else
-      {
+      } else {
         // Parent hierarchy
         var parent = widget.$$parent;
         if (parent) {
@@ -93,9 +82,8 @@ qx.Class.define("qx.ui.core.queue.Visibility",
         }
       }
 
-      return data[hash] = visible;
+      return (data[hash] = visible);
     },
-
 
     /**
      * Adds a widget to the queue.
@@ -104,8 +92,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
      */
-    add : function(widget)
-    {
+    add(widget) {
       if (this.__lookup[widget.toHashCode()]) {
         return;
       }
@@ -115,14 +102,12 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       qx.ui.core.queue.Manager.scheduleFlush("visibility");
     },
 
-
     /**
      * Flushes the visibility queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      */
-    flush : function()
-    {
+    flush() {
       // Dispose all registered objects
       var queue = this.__queue;
       var data = this.__data;
@@ -130,8 +115,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dynamically add children to queue
       // Only respect already known widgets because otherwise the children
       // are also already in the queue (added on their own)
-      for (var i = queue.length - 1; i >= 0; i--)
-      {
+      for (var i = queue.length - 1; i >= 0; i--) {
         var hash = queue[i].toHashCode();
         if (data[hash] != null) {
           // recursive method call which adds widgets to the queue so be
@@ -145,16 +129,14 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // new data may also be added by related widgets and not
       // only the widget itself.
       var oldData = {};
-      for (var i = queue.length - 1; i >= 0; i--)
-      {
+      for (var i = queue.length - 1; i >= 0; i--) {
         var hash = queue[i].toHashCode();
         oldData[hash] = data[hash];
         data[hash] = null;
       }
 
       // Finally recompute
-      for (var i = queue.length - 1; i >= 0; i--)
-      {
+      for (var i = queue.length - 1; i >= 0; i--) {
         var widget = queue[i];
         var hash = widget.toHashCode();
         queue.splice(i, 1);

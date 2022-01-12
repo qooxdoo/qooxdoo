@@ -22,46 +22,37 @@
  * A tab button can be added to the tab bar and is associated with a
  * {@link #view}.
  */
-qx.Class.define("qx.ui.mobile.tabbar.TabButton",
-{
-  extend : qx.ui.mobile.form.Button,
+qx.Class.define("qx.ui.mobile.tabbar.TabButton", {
+  extend: qx.ui.mobile.form.Button,
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "tabButton"
+    defaultCssClass: {
+      refine: true,
+      init: "tabButton"
     },
-
 
     /**
      * The associated view.
      */
-    view :
-    {
-      check : "qx.ui.mobile.core.Widget",
-      nullable : false,
-      init : null,
-      apply : "_applyView",
-      event : "changeView"
+    view: {
+      check: "qx.ui.mobile.core.Widget",
+      nullable: false,
+      init: null,
+      apply: "_applyView",
+      event: "changeView"
     }
   },
 
-
-  members :
-  {
+  members: {
     // property apply
-    _applyView : function(value, old)
-    {
+    _applyView(value, old) {
       value.exclude();
     }
   }

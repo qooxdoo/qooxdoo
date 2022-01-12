@@ -15,25 +15,21 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.SplitButton",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.SplitButton", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this._split = new qx.ui.form.SplitButton();
       this.getRoot().add(this._split);
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this._split.destroy();
       this.flush();
     },
 
-
-    testArrowAvailable : function() {
+    testArrowAvailable() {
       this._split.setIcon("qx/icon/Oxygen/22/emotes/face-smile.png");
 
       var arrow = this._split.getChildControl("arrow").getChildControl("icon");

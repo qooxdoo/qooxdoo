@@ -19,9 +19,8 @@
 /**
  * Create a new state which may be added to a finite state machine.
  */
-qx.Class.define("qx.util.fsm.State",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.util.fsm.State", {
+  extend: qx.core.Object,
 
   /**
    * @param stateName {String}
@@ -143,18 +142,17 @@ qx.Class.define("qx.util.fsm.State",
    * @throws {Error} If the events object is not provided in new state info.
    *
    */
-  construct : function(stateName, stateInfo)
-  {
+  construct(stateName, stateInfo) {
     var context;
 
     // Call our superclass' constructor
-    this.base(arguments);
+    super();
 
     // Save the state name
     this.setName(stateName);
 
     // Ensure they passed in an object
-    if (typeof (stateInfo) != "object") {
+    if (typeof stateInfo != "object") {
       throw new Error("State info must be an object");
     }
 
@@ -165,54 +163,55 @@ qx.Class.define("qx.util.fsm.State",
     this.setUserData("context", context);
 
     // Save data from the stateInfo object
-    for (var field in stateInfo)
-    {
+    for (var field in stateInfo) {
       // If we find one of our properties, call its setter.
-      switch(field)
-      {
-      case "onentry":
-        this.setOnentry(
-          this.__bindIfFunction(stateInfo[field], context));
-        break;
+      switch (field) {
+        case "onentry":
+          this.setOnentry(this.__bindIfFunction(stateInfo[field], context));
+          break;
 
-      case "onexit":
-        this.setOnexit(
-          this.__bindIfFunction(stateInfo[field], context));
-        break;
+        case "onexit":
+          this.setOnexit(this.__bindIfFunction(stateInfo[field], context));
+          break;
 
-      case "autoActionsBeforeOnentry":
-        this.setAutoActionsBeforeOnentry(stateInfo[field]);
-        break;
+        case "autoActionsBeforeOnentry":
+          this.setAutoActionsBeforeOnentry(stateInfo[field]);
+          break;
 
-      case "autoActionsAfterOnentry":
-        this.setAutoActionsAfterOnentry(stateInfo[field]);
-        break;
+        case "autoActionsAfterOnentry":
+          this.setAutoActionsAfterOnentry(stateInfo[field]);
+          break;
 
-      case "autoActionsBeforeOnexit":
-        this.setAutoActionsBeforeOnexit(stateInfo[field]);
-        break;
+        case "autoActionsBeforeOnexit":
+          this.setAutoActionsBeforeOnexit(stateInfo[field]);
+          break;
 
-      case "autoActionsAfterOnexit":
-        this.setAutoActionsAfterOnexit(stateInfo[field]);
-        break;
+        case "autoActionsAfterOnexit":
+          this.setAutoActionsAfterOnexit(stateInfo[field]);
+          break;
 
-      case "events":
-        this.setEvents(stateInfo[field]);
-        break;
+        case "events":
+          this.setEvents(stateInfo[field]);
+          break;
 
-      case "context":
-        // already handled
-        break;
+        case "context":
+          // already handled
+          break;
 
-      default:
-        // Anything else is user-provided data for their own use.  Save it.
-        this.setUserData(field, stateInfo[field]);
+        default:
+          // Anything else is user-provided data for their own use.  Save it.
+          this.setUserData(field, stateInfo[field]);
 
-        // Log it in case it was a typo and they intended a built-in field
-        this.debug("State " + stateName + ": " +
-                   "Adding user-provided field to state: " + field);
+          // Log it in case it was a typo and they intended a built-in field
+          this.debug(
+            "State " +
+              stateName +
+              ": " +
+              "Adding user-provided field to state: " +
+              field
+          );
 
-        break;
+          break;
       }
     }
 
@@ -225,9 +224,7 @@ qx.Class.define("qx.util.fsm.State",
     this.transitions = {};
   },
 
-
-  statics :
-  {
+  statics: {
     /**
      * Common function for checking the value provided for
      * auto actions.
@@ -286,12 +283,10 @@ qx.Class.define("qx.util.fsm.State",
      * @throws {Error} If a name in the 'objects' list is not valid.
      * @throws {Error} If the 'groups' list is not valid.
      */
-    _commonTransformAutoActions : function(actionType, value, context)
-    {
+    _commonTransformAutoActions(actionType, value, context) {
       // Validate that we received an object property value
-      if (typeof (value) != "object") {
-        throw new Error("Invalid " + actionType + " value: " +
-                        typeof (value));
+      if (typeof value != "object") {
+        throw new Error("Invalid " + actionType + " value: " + typeof value);
       }
 
       // We'll create a function to do the requested actions.  Initialize the
@@ -307,8 +302,7 @@ qx.Class.define("qx.util.fsm.State",
 
       // Retrieve the function request, e.g.
       // "enabled" :
-      for (var f in value)
-      {
+      for (var f in value) {
         // Get the function request value object, e.g.
         // "setEnabled" :
         // [
@@ -322,14 +316,15 @@ qx.Class.define("qx.util.fsm.State",
 
         // The function request value should be an object
         if (!functionRequest instanceof Array) {
-          throw new Error("Invalid function request type: " +
-                          "expected array, found " +
-                          typeof (functionRequest));
+          throw new Error(
+            "Invalid function request type: " +
+              "expected array, found " +
+              typeof functionRequest
+          );
         }
 
         // For each function request...
-        for (var i=0; i<functionRequest.length; i++)
-        {
+        for (var i = 0; i < functionRequest.length; i++) {
           // Retrieve the object and group list object
           objectAndGroupList = functionRequest[i];
 
@@ -339,28 +334,29 @@ qx.Class.define("qx.util.fsm.State",
           //   "objects" : [ "obj1", "obj2" ]
           //   "groups"  : [ "group1", "group2" ],
           // }
-          if (typeof (objectAndGroupList) != "object") {
-            throw new Error("Invalid function request parameter type: " +
-                            "expected object, found " +
-                            typeof (functionRequest[param]));
+          if (typeof objectAndGroupList != "object") {
+            throw new Error(
+              "Invalid function request parameter type: " +
+                "expected object, found " +
+                typeof functionRequest[param]
+            );
           }
 
           // Retrieve the parameter list
           var params = objectAndGroupList["parameters"];
 
           // If it didn't exist, ...
-          if (!params)
-          {
+          if (!params) {
             // ... use an empty array.
             params = [];
-          }
-          else
-          {
+          } else {
             // otherwise, ensure we got an array
             if (!params instanceof Array) {
-              throw new Error("Invalid function parameters: " +
-                              "expected array, found " +
-                              typeof (params));
+              throw new Error(
+                "Invalid function parameters: " +
+                  "expected array, found " +
+                  typeof params
+              );
             }
           }
 
@@ -369,26 +365,20 @@ qx.Class.define("qx.util.fsm.State",
           funcFragment = f + "(";
 
           // For each parameter...
-          for (var j=0; j<params.length; j++)
-          {
+          for (var j = 0; j < params.length; j++) {
             // If this isn't the first parameter, add a separator
             if (j != 0) {
               funcFragment += ",";
             }
 
-            if (typeof (params[j]) == "function")
-            {
+            if (typeof params[j] == "function") {
               // If the parameter is a function, arrange for it to be called
               // at run time.
               funcFragment += "(" + params[j] + ")(fsm)";
-            }
-            else if (typeof (params[j]) == "string")
-            {
+            } else if (typeof params[j] == "string") {
               // If the parameter is a string, quote it.
               funcFragment += '"' + params[j] + '"';
-            }
-            else
-            {
+            } else {
               // Otherwise, just add the parameter's literal value
               funcFragment += params[j];
             }
@@ -402,23 +392,21 @@ qx.Class.define("qx.util.fsm.State",
           var a = objectAndGroupList["objects"];
 
           // Was there an "objects" list?
-          if (!a)
-          {
+          if (!a) {
             // Nope.  Simplify code by creating an empty array.
             a = [];
-          }
-          else if (!a instanceof Array)
-          {
-            throw new Error("Invalid 'objects' list: expected array, got " +
-                            typeof (a));
+          } else if (!a instanceof Array) {
+            throw new Error(
+              "Invalid 'objects' list: expected array, got " + typeof a
+            );
           }
 
-          for (var j=0; j<a.length; j++)
-          {
+          for (var j = 0; j < a.length; j++) {
             // Ensure we got a string
-            if (typeof (a[j]) != "string") {
-              throw new Error("Invalid friendly name in 'objects' list: " +
-                              a[j]);
+            if (typeof a[j] != "string") {
+              throw new Error(
+                "Invalid friendly name in 'objects' list: " + a[j]
+              );
             }
 
             func += " fsm.getObject('" + a[j] + "')." + funcFragment + ";";
@@ -429,25 +417,27 @@ qx.Class.define("qx.util.fsm.State",
           var g = objectAndGroupList["groups"];
 
           // Was a "groups" list found?
-          if (g)
-          {
+          if (g) {
             // Yup.  Ensure it's an array.
-            if (!g instanceof Array)
-            {
-              throw new Error("Invalid 'groups' list: expected array, got " +
-                              typeof (g));
+            if (!g instanceof Array) {
+              throw new Error(
+                "Invalid 'groups' list: expected array, got " + typeof g
+              );
             }
 
-            for (j=0; j<g.length; j++)
-            {
+            for (j = 0; j < g.length; j++) {
               // Arrange to call the function on each object in each group
               func +=
                 "  var groupObjects = " +
-                "    fsm.getGroupObjects('" + g[j] + "');" +
+                "    fsm.getGroupObjects('" +
+                g[j] +
+                "');" +
                 "  for (var i = 0; i < groupObjects.length; i++)" +
                 "  {" +
                 "    var objName = groupObjects[i];" +
-                "    fsm.getObject(objName)." + funcFragment + ";" +
+                "    fsm.getObject(objName)." +
+                funcFragment +
+                ";" +
                 "  }";
             }
           }
@@ -464,21 +454,16 @@ qx.Class.define("qx.util.fsm.State",
     }
   },
 
-
-
-  properties :
-  {
+  properties: {
     /**
      * The name of this state.  This name may be used as a Transition's
      * nextState value, or an explicit next state in the 'events' handling
      * list in a State.
      */
-    name :
-    {
-      transform : "__transformName",
-      nullable : true
+    name: {
+      transform: "__transformName",
+      nullable: true
     },
-
 
     /**
      * The onentry function for this state.  This is documented in the
@@ -486,13 +471,11 @@ qx.Class.define("qx.util.fsm.State",
      * stateInfo object, but it is also possible (but highly NOT recommended)
      * to change this dynamically.
      */
-    onentry :
-    {
-      transform : "__transformOnentry",
-      nullable : true,
-      init : function(fsm, event) {}
+    onentry: {
+      transform: "__transformOnentry",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * The onexit function for this state.  This is documented in the
@@ -500,13 +483,11 @@ qx.Class.define("qx.util.fsm.State",
      * stateInfo object, but it is also possible (but highly NOT recommended)
      * to change this dynamically.
      */
-    onexit :
-    {
-      transform : "__transformOnexit",
-      nullable : true,
-      init : function(fsm, event) {}
+    onexit: {
+      transform: "__transformOnexit",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * Automatic actions to take prior to calling the state's onentry function.
@@ -536,13 +517,11 @@ qx.Class.define("qx.util.fsm.State",
      *     };
      *     </pre>
      */
-    autoActionsBeforeOnentry :
-    {
-      transform : "__transformAutoActionsBeforeOnentry",
-      nullable : true,
-      init : function(fsm, event) {}
+    autoActionsBeforeOnentry: {
+      transform: "__transformAutoActionsBeforeOnentry",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * Automatic actions to take after return from the state's onentry
@@ -573,13 +552,11 @@ qx.Class.define("qx.util.fsm.State",
      *     };
      *     </pre>
      */
-    autoActionsAfterOnentry :
-    {
-      transform : "__transformAutoActionsAfterOnentry",
-      nullable : true,
-      init : function(fsm, event) {}
+    autoActionsAfterOnentry: {
+      transform: "__transformAutoActionsAfterOnentry",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * Automatic actions to take prior to calling the state's onexit function.
@@ -609,13 +586,11 @@ qx.Class.define("qx.util.fsm.State",
      *     };
      *     </pre>
      */
-    autoActionsBeforeOnexit :
-    {
-      transform : "__transformAutoActionsBeforeOnexit",
-      nullable : true,
-      init : function(fsm, event) {}
+    autoActionsBeforeOnexit: {
+      transform: "__transformAutoActionsBeforeOnexit",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * Automatic actions to take after returning from the state's onexit
@@ -646,13 +621,11 @@ qx.Class.define("qx.util.fsm.State",
      *     };
      *     </pre>
      */
-    autoActionsAfterOnexit :
-    {
-      transform : "__transformAutoActionsAfterOnexit",
-      nullable : true,
-      init : function(fsm, event) {}
+    autoActionsAfterOnexit: {
+      transform: "__transformAutoActionsAfterOnexit",
+      nullable: true,
+      init(fsm, event) {}
     },
-
 
     /**
      * The object representing handled and blocked events for this state.
@@ -660,16 +633,13 @@ qx.Class.define("qx.util.fsm.State",
      * through the constructor's stateInfo object, but it is also possible
      * (but highly NOT recommended) to change this dynamically.
      */
-    events :
-    {
-      transform : "__transformEvents",
-      nullable : true
+    events: {
+      transform: "__transformEvents",
+      nullable: true
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Internal transform method
      *
@@ -677,18 +647,15 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} the final value
      * @throws {Error} when an invalid value is detected
      */
-    __transformName : function(value)
-    {
+    __transformName(value) {
       // Ensure that we got a valid state name
-      if (typeof (value) != "string" || value.length < 1)
-      {
+      if (typeof value != "string" || value.length < 1) {
         throw new Error("Invalid state name");
       }
 
       return value;
     },
 
-
     /**
      * Internal transform method
      *
@@ -696,24 +663,21 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} the final value
      * @throws {Error} when an invalid value is detected
      */
-    __transformOnentry : function(value)
-    {
+    __transformOnentry(value) {
       // Validate the onentry function
-      switch(typeof (value))
-      {
+      switch (typeof value) {
         case "undefined":
           // None provided.  Convert it to a null function
-          return function(fsm, event) {};
+          return function (fsm, event) {};
 
         case "function":
           // We're cool.  No changes required
           return qx.lang.Function.bind(value, this.getUserData("context"));
 
         default:
-          throw new Error("Invalid onentry type: " + typeof (value));
+          throw new Error("Invalid onentry type: " + typeof value);
       }
     },
-
 
     /**
      * Internal transform method
@@ -722,24 +686,21 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} the final value
      * @throws {Error} when an invalid value is detected
      */
-    __transformOnexit : function(value)
-    {
+    __transformOnexit(value) {
       // Validate the onexit function
-      switch(typeof (value))
-      {
+      switch (typeof value) {
         case "undefined":
           // None provided.  Convert it to a null function
-          return function(fsm, event) {};
+          return function (fsm, event) {};
 
         case "function":
           // We're cool.  No changes required
-        return qx.lang.Function.bind(value, this.getUserData("context"));
+          return qx.lang.Function.bind(value, this.getUserData("context"));
 
         default:
-          throw new Error("Invalid onexit type: " + typeof (value));
+          throw new Error("Invalid onexit type: " + typeof value);
       }
     },
-
 
     /**
      * Internal transform method
@@ -748,10 +709,9 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} the final value
      * @throws {Error} when an invalid value is detected
      */
-    __transformEvents : function(value)
-    {
+    __transformEvents(value) {
       // Validate that events is an object
-      if (typeof (value) != "object") {
+      if (typeof value != "object") {
         throw new Error("events must be an object");
       }
 
@@ -768,45 +728,54 @@ qx.Class.define("qx.util.fsm.State",
       //     object (meaning that this rule applies if both the event and
       //     the event's target object's Friendly Name match), and its
       //     property value is one of (a), (b) or (c), above.
-      for (var e in value)
-      {
+      for (var e in value) {
         var action = value[e];
 
-        if (typeof (action) == "number" &&
-            action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
-            action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
-        {
-          throw new Error("Invalid numeric value in events object: " +
-                          e + ": " + action);
-        }
-        else if (typeof (action) == "object")
-        {
-          for (var action_e in action)
-          {
-            if (typeof (action[action_e]) == "number" &&
-                action[action_e] !=
-                  qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
-                action[action_e] !=
-                  qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
-            {
-              throw new Error("Invalid numeric value in events object " +
-                              "(" + e + "): " +
-                              action_e + ": " +
-                              action[action_e]);
-            }
-            else if (typeof (action[action_e]) != "string" &&
-                     typeof (action[action_e]) != "number")
-            {
-              throw new Error("Invalid value in events object " +
-                              "(" + e + "): " +
-                              action_e + ": " + action[action_e]);
+        if (
+          typeof action == "number" &&
+          action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+          action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
+        ) {
+          throw new Error(
+            "Invalid numeric value in events object: " + e + ": " + action
+          );
+        } else if (typeof action == "object") {
+          for (var action_e in action) {
+            if (
+              typeof action[action_e] == "number" &&
+              action[action_e] !=
+                qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+              action[action_e] !=
+                qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
+            ) {
+              throw new Error(
+                "Invalid numeric value in events object " +
+                  "(" +
+                  e +
+                  "): " +
+                  action_e +
+                  ": " +
+                  action[action_e]
+              );
+            } else if (
+              typeof action[action_e] != "string" &&
+              typeof action[action_e] != "number"
+            ) {
+              throw new Error(
+                "Invalid value in events object " +
+                  "(" +
+                  e +
+                  "): " +
+                  action_e +
+                  ": " +
+                  action[action_e]
+              );
             }
           }
-        }
-        else if (typeof (action) != "string" && typeof (action) != "number")
-        {
-          throw new Error("Invalid value in events object: " +
-                          e + ": " + value[e]);
+        } else if (typeof action != "string" && typeof action != "number") {
+          throw new Error(
+            "Invalid value in events object: " + e + ": " + value[e]
+          );
         }
       }
 
@@ -814,21 +783,19 @@ qx.Class.define("qx.util.fsm.State",
       return value;
     },
 
-
     /**
      * Internal transform method
      *
      * @param value {var} Current value
      * @return {var} the final value
      */
-    __transformAutoActionsBeforeOnentry : function(value)
-    {
+    __transformAutoActionsBeforeOnentry(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnentry",
         value,
-        this.getUserData("context"));
+        this.getUserData("context")
+      );
     },
-
 
     /**
      * Internal transform method
@@ -836,14 +803,13 @@ qx.Class.define("qx.util.fsm.State",
      * @param value {var} Current value
      * @return {var} the final value
      */
-    __transformAutoActionsAfterOnentry : function(value)
-    {
+    __transformAutoActionsAfterOnentry(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnentry",
         value,
-        this.getUserData("context"));
+        this.getUserData("context")
+      );
     },
-
 
     /**
      * Internal transform method
@@ -851,14 +817,13 @@ qx.Class.define("qx.util.fsm.State",
      * @param value {var} Current value
      * @return {var} the final value
      */
-    __transformAutoActionsBeforeOnexit : function(value)
-    {
+    __transformAutoActionsBeforeOnexit(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnexit",
         value,
-        this.getUserData("context"));
+        this.getUserData("context")
+      );
     },
-
 
     /**
      * Internal transform method
@@ -866,14 +831,13 @@ qx.Class.define("qx.util.fsm.State",
      * @param value {var} Current value
      * @return {var} the final value
      */
-    __transformAutoActionsAfterOnexit : function(value)
-    {
+    __transformAutoActionsAfterOnexit(value) {
       return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnexit",
         value,
-        this.getUserData("context"));
+        this.getUserData("context")
+      );
     },
-
 
     /**
      * If given a function, bind it to a specified context.
@@ -889,18 +853,15 @@ qx.Class.define("qx.util.fsm.State",
      *   be called in the specified context. Otherwise, f is returned
      *   unaltered.
      */
-    __bindIfFunction : function(f, context)
-    {
+    __bindIfFunction(f, context) {
       // Is the first parameter a function?
-      if (typeof(f) == "function")
-      {
+      if (typeof f == "function") {
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);
       }
 
       return f;
     },
-
 
     /**
      * Add a transition to a state
@@ -911,12 +872,12 @@ qx.Class.define("qx.util.fsm.State",
      *   which is to be a part of this state.
      *
      */
-    addTransition : function(trans)
-    {
+    addTransition(trans) {
       // Ensure that we got valid transition info
       if (!trans instanceof qx.util.fsm.Transition) {
-        throw new Error("Invalid transition: not an instance of " +
-                        "qx.util.fsm.Transition");
+        throw new Error(
+          "Invalid transition: not an instance of " + "qx.util.fsm.Transition"
+        );
       }
 
       // Add the new transition object to the state

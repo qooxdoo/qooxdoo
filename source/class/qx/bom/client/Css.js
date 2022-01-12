@@ -26,24 +26,22 @@
  * @ignore(WebKitCSSMatrix)
  * @require(qx.bom.Style)
  */
-qx.Bootstrap.define("qx.bom.client.Css",
-{
-  statics :
-  {
-    __WEBKIT_LEGACY_GRADIENT : null,
+qx.Bootstrap.define("qx.bom.client.Css", {
+  statics: {
+    __WEBKIT_LEGACY_GRADIENT: null,
 
     /**
      * Checks what box model is used in the current environment.
      * @return {String} It either returns "content" or "border".
      * @internal
      */
-    getBoxModel : function() {
-      var content = qx.bom.client.Engine.getName() !== "mshtml" ||
-        !qx.bom.client.Browser.getQuirksMode() ;
+    getBoxModel() {
+      var content =
+        qx.bom.client.Engine.getName() !== "mshtml" ||
+        !qx.bom.client.Browser.getQuirksMode();
 
       return content ? "content" : "border";
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -53,24 +51,22 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * textOverflow is not supported.
      * @internal
      */
-    getTextOverflow : function() {
+    getTextOverflow() {
       return qx.bom.Style.getPropertyName("textOverflow");
     },
-
 
     /**
      * Checks if a placeholder could be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
      */
-    getPlaceholder : function() {
+    getPlaceholder() {
       if (qx.core.Environment.get("engine.name") === "mshtml") {
         return false;
       }
       var i = document.createElement("input");
       return "placeholder" in i;
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -80,10 +76,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * appearance is not supported.
      * @internal
      */
-    getAppearance : function() {
+    getAppearance() {
       return qx.bom.Style.getPropertyName("appearance");
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -93,10 +88,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * borderRadius is not supported.
      * @internal
      */
-    getBorderRadius : function() {
+    getBorderRadius() {
       return qx.bom.Style.getPropertyName("borderRadius");
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -106,10 +100,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * boxShadow is not supported.
      * @internal
      */
-    getBoxShadow : function() {
+    getBoxShadow() {
       return qx.bom.Style.getPropertyName("boxShadow");
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
@@ -119,7 +112,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * borderImage is not supported.
      * @internal
      */
-    getBorderImage : function() {
+    getBorderImage() {
       return qx.bom.Style.getPropertyName("borderImage");
     },
 
@@ -134,7 +127,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * <code>null</code> if the supported syntax could not be detected.
      * @internal
      */
-    getBorderImageSyntax : function() {
+    getBorderImageSyntax() {
       var styleName = qx.bom.client.Css.getBorderImage();
       if (!styleName) {
         return null;
@@ -145,14 +138,14 @@ qx.Bootstrap.define("qx.bom.client.Css",
       if (styleName === "borderImage") {
         // unprefixed implementation: check individual properties
         el.style[styleName] = 'url("foo.png") 4 4 4 4 fill stretch';
-        if (el.style.borderImageSource.indexOf("foo.png") >= 0 &&
-            el.style.borderImageSlice.indexOf("4 fill") >= 0 &&
-            el.style.borderImageRepeat.indexOf("stretch") >= 0)
-        {
+        if (
+          el.style.borderImageSource.indexOf("foo.png") >= 0 &&
+          el.style.borderImageSlice.indexOf("4 fill") >= 0 &&
+          el.style.borderImageRepeat.indexOf("stretch") >= 0
+        ) {
           return true;
         }
-      }
-      else {
+      } else {
         // prefixed implementation, assume no support for "fill"
         el.style[styleName] = 'url("foo.png") 4 4 4 4 stretch';
         // serialized value is unreliable, so just a simple check
@@ -165,7 +158,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return null;
     },
 
-
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>userSelect</code> style property.
@@ -174,10 +166,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * userSelect is not supported.
      * @internal
      */
-    getUserSelect : function() {
+    getUserSelect() {
       return qx.bom.Style.getPropertyName("userSelect");
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) value for the
@@ -189,7 +180,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @return {String|null} the userSelect property value that disables
      * selection or <code>null</code> if userSelect is not supported
      */
-    getUserSelectNone : function() {
+    getUserSelectNone() {
       var styleProperty = qx.bom.client.Css.getUserSelect();
       if (styleProperty) {
         var el = document.createElement("span");
@@ -199,7 +190,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return null;
     },
 
-
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>userModify</code> style property.
@@ -208,10 +198,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * userModify is not supported.
      * @internal
      */
-    getUserModify : function() {
+    getUserModify() {
       return qx.bom.Style.getPropertyName("userModify");
     },
-
 
     /**
      * Returns the vendor-specific name of the <code>float</code> style property
@@ -221,12 +210,14 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * the client supports neither property.
      * @internal
      */
-    getFloat : function() {
+    getFloat() {
       var style = document.documentElement.style;
-      return style.cssFloat !== undefined ? "cssFloat" :
-        style.styleFloat !== undefined ? "styleFloat" : null;
+      return style.cssFloat !== undefined
+        ? "cssFloat"
+        : style.styleFloat !== undefined
+        ? "styleFloat"
+        : null;
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name this client uses for
@@ -237,8 +228,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * if linear gradients are not supported
      * @internal
      */
-    getLinearGradient : function()
-    {
+    getLinearGradient() {
       qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = false;
       var value = "linear-gradient(0deg, #fff, #000)";
       var el = document.createElement("div");
@@ -247,7 +237,12 @@ qx.Bootstrap.define("qx.bom.client.Css",
       if (!style) {
         //try old WebKit syntax (versions 528 - 534.16)
         value = "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))";
-        var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value, false);
+        var style = qx.bom.Style.getAppliedStyle(
+          el,
+          "backgroundImage",
+          value,
+          false
+        );
         if (style) {
           qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = true;
         }
@@ -262,7 +257,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return match ? match[1] : null;
     },
 
-
     /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>radial-gradient</code>.
@@ -271,8 +265,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * if radial gradients are not supported
      * @internal
      */
-    getRadialGradient : function()
-    {
+    getRadialGradient() {
       var value = "radial-gradient(0px 0px, cover, red 50%, blue 100%)";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
@@ -283,7 +276,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return match ? match[1] : null;
     },
 
-
     /**
      * Checks if **only** the old WebKit (version < 534.16) syntax for
      * linear gradients is supported, e.g.
@@ -292,8 +284,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @return {Boolean} <code>true</code> if the legacy syntax must be used
      * @internal
      */
-    getLegacyWebkitGradient : function()
-    {
+    getLegacyWebkitGradient() {
       if (qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT === null) {
         qx.bom.client.Css.getLinearGradient();
       }
@@ -307,7 +298,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @return {Boolean} <code>true</code>, if rgba colors are supported.
      * @internal
      */
-    getRgba : function() {
+    getRgba() {
       var el;
       try {
         el = document.createElement("div");
@@ -326,7 +317,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return false;
     },
 
-
     /**
      * Returns the (possibly vendor-prefixed) name the browser uses for the
      * <code>boxSizing</code> style property.
@@ -335,10 +325,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * boxSizing is not supported.
      * @internal
      */
-    getBoxSizing : function() {
+    getBoxSizing() {
       return qx.bom.Style.getPropertyName("boxSizing");
     },
-
 
     /**
      * Returns the browser-specific name used for the <code>display</code> style
@@ -347,7 +336,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {String|null}
      */
-    getInlineBlock : function() {
+    getInlineBlock() {
       var el = document.createElement("span");
       el.style.display = "inline-block";
       if (el.style.display == "inline-block") {
@@ -360,17 +349,15 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return null;
     },
 
-
     /**
      * Checks if CSS opacity is supported
      *
      * @internal
      * @return {Boolean} <code>true</code> if opacity is supported
      */
-    getOpacity : function() {
-      return (typeof document.documentElement.style.opacity == "string");
+    getOpacity() {
+      return typeof document.documentElement.style.opacity == "string";
     },
-
 
     /**
      * Checks if CSS texShadow is supported
@@ -378,23 +365,21 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {Boolean} <code>true</code> if textShadow is supported
      */
-    getTextShadow : function()
-    {
+    getTextShadow() {
       return !!qx.bom.Style.getPropertyName("textShadow");
     },
-
 
     /**
      * Checks if the Alpha Image Loader must be used to display transparent PNGs.
      *
      * @return {Boolean} <code>true</code> if the Alpha Image Loader is required
      */
-    getAlphaImageLoaderNeeded : function()
-    {
-      return qx.bom.client.Engine.getName() == "mshtml" &&
-             qx.bom.client.Browser.getDocumentMode() < 9;
+    getAlphaImageLoaderNeeded() {
+      return (
+        qx.bom.client.Engine.getName() == "mshtml" &&
+        qx.bom.client.Browser.getDocumentMode() < 9
+      );
     },
-
 
     /**
      * Checks if pointer events are available.
@@ -402,7 +387,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {Boolean} <code>true</code> if pointer events are supported.
      */
-    getPointerEvents : function() {
+    getPointerEvents() {
       var el = document.documentElement;
       // Check if browser reports that pointerEvents is a known style property
       if ("pointerEvents" in el.style) {
@@ -415,11 +400,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
         el.style.pointerEvents = initial;
 
         return supported;
-
       }
       return false;
     },
-
 
     /**
      * Returns which Flexbox syntax is supported by the browser.
@@ -429,26 +412,30 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      * @return {String} <code>flex</code>,<code>flexbox</code>,<code>box</code> or <code>null</code>
      */
-    getFlexboxSyntax : function() {
+    getFlexboxSyntax() {
       var detectedSyntax = null;
 
       var detector = document.createElement("detect");
-      var flexSyntax = [{
-        value: "flex",
-        syntax: "flex"
-      }, {
-        value: "-ms-flexbox",
-        syntax: "flexbox"
-      }, {
-        value: "-webkit-flex",
-        syntax: "flex"
-      }];
+      var flexSyntax = [
+        {
+          value: "flex",
+          syntax: "flex"
+        },
+        {
+          value: "-ms-flexbox",
+          syntax: "flexbox"
+        },
+        {
+          value: "-webkit-flex",
+          syntax: "flex"
+        }
+      ];
 
       for (var i = 0; i < flexSyntax.length; i++) {
         // old IEs will throw an "Invalid argument" exception here
         try {
           detector.style.display = flexSyntax[i].value;
-        } catch(ex) {
+        } catch (ex) {
           return null;
         }
         if (detector.style.display === flexSyntax[i].value) {
@@ -463,20 +450,24 @@ qx.Bootstrap.define("qx.bom.client.Css",
     }
   },
 
-
-
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("css.textoverflow", statics.getTextOverflow);
     qx.core.Environment.add("css.placeholder", statics.getPlaceholder);
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
-    qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);
+    qx.core.Environment.add(
+      "css.gradient.legacywebkit",
+      statics.getLegacyWebkitGradient
+    );
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
-    qx.core.Environment.add("css.borderimage.standardsyntax", statics.getBorderImageSyntax);
+    qx.core.Environment.add(
+      "css.borderimage.standardsyntax",
+      statics.getBorderImageSyntax
+    );
     qx.core.Environment.add("css.usermodify", statics.getUserModify);
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.userselect.none", statics.getUserSelectNone);
@@ -486,7 +477,10 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
-    qx.core.Environment.add("css.alphaimageloaderneeded", statics.getAlphaImageLoaderNeeded);
+    qx.core.Environment.add(
+      "css.alphaimageloaderneeded",
+      statics.getAlphaImageLoaderNeeded
+    );
     qx.core.Environment.add("css.pointerevents", statics.getPointerEvents);
     qx.core.Environment.add("css.flexboxSyntax", statics.getFlexboxSyntax);
   }

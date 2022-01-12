@@ -16,29 +16,23 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Focus",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.Focus", {
+  extend: qx.test.ui.LayoutTestCase,
 
-
-  members :
-  {
-    getContainer : function()
-    {
-      if (!this._container)
-      {
+  members: {
+    getContainer() {
+      if (!this._container) {
         var grid = new qx.ui.layout.Grid(10, 10);
         this._container = new qx.ui.container.Composite(grid).set({
           padding: 20
         });
+
         this.getRoot().add(this._container);
       }
       return this._container;
     },
 
-
-    setUp : function()
-    {
+    setUp() {
       this.flush();
 
       this.ref = new qx.ui.form.TextField();
@@ -59,10 +53,8 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.addListener("blur", this.onInputBlur, this);
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       if (this.input) {
         this.input.destroy();
       }
@@ -71,45 +63,34 @@ qx.Class.define("qx.test.ui.Focus",
         this.ref.destroy();
       }
 
-      if (this._container)
-      {
+      if (this._container) {
         this._container.destroy();
         this._container = null;
       }
       this.flush();
     },
 
-
-    addInput : function() {
-      this.getContainer().add(this.input, {row: 2, column: 0});
+    addInput() {
+      this.getContainer().add(this.input, { row: 2, column: 0 });
     },
 
-
-    addReferenceInput : function() {
-      this.getContainer().add(this.ref, {row: 1, column: 0, colSpan: 2});
+    addReferenceInput() {
+      this.getContainer().add(this.ref, { row: 1, column: 0, colSpan: 2 });
     },
 
-
-    onRefBlur : function()
-    {
+    onRefBlur() {
       this.ref_blur_called = true;
     },
 
-
-    onInputFocus : function()
-    {
+    onInputFocus() {
       this.target_focus_called = true;
     },
 
-
-    onInputBlur : function()
-    {
+    onInputBlur() {
       this.target_blur_called = true;
     },
 
-
-    testNotInsertedBeforeFlush : function()
-    {
+    testNotInsertedBeforeFlush() {
       this.input.focus();
       this.flush();
 
@@ -120,9 +101,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.addInput();
     },
 
-
-    testExcludedBeforeFlush : function()
-    {
+    testExcludedBeforeFlush() {
       this.addInput();
       this.input.exclude();
       this.input.focus();
@@ -135,9 +114,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testHiddenBeforeFlush : function()
-    {
+    testHiddenBeforeFlush() {
       this.addInput();
       this.input.hide();
       this.input.focus();
@@ -150,9 +127,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testNotInsertedAfterFlush : function()
-    {
+    testNotInsertedAfterFlush() {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
@@ -168,9 +143,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.addInput();
     },
 
-
-    testExcludedAfterFlush : function()
-    {
+    testExcludedAfterFlush() {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
@@ -188,9 +161,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testHiddenAfterFlush : function()
-    {
+    testHiddenAfterFlush() {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
@@ -208,21 +179,17 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
+    testInsertedBeforeFlush() {
+      this.addInput();
+      this.input.focus();
+      this.flush();
 
-     testInsertedBeforeFlush : function()
-     {
-       this.addInput();
-       this.input.focus();
-       this.flush();
+      this.assertTrue(this.ref_blur_called, "reference must be blurred");
+      this.assertTrue(this.target_focus_called, "target must be focused");
+      this.assertFalse(this.target_blur_called, "target must not be blurred");
+    },
 
-       this.assertTrue(this.ref_blur_called, "reference must be blurred");
-       this.assertTrue(this.target_focus_called, "target must be focused");
-       this.assertFalse(this.target_blur_called, "target must not be blurred");
-     },
-
-
-    testFocusRemoveBeforeFlush : function()
-    {
+    testFocusRemoveBeforeFlush() {
       this.addInput();
       this.input.focus();
       this.flush();
@@ -237,9 +204,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.addInput();
     },
 
-
-    testFocusExcludeBeforeFlush : function()
-    {
+    testFocusExcludeBeforeFlush() {
       this.addInput();
       this.input.focus();
       this.flush();
@@ -254,9 +219,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testFocusHideBeforeFlush : function()
-    {
+    testFocusHideBeforeFlush() {
       this.addInput();
       this.input.focus();
       this.flush();
@@ -271,9 +234,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testInsertedAfterFlush : function()
-    {
+    testInsertedAfterFlush() {
       this.addInput();
       this.flush();
       this.input.focus();
@@ -284,9 +245,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.assertFalse(this.target_blur_called);
     },
 
-
-    testFocusRemoveAfterFlush : function()
-    {
+    testFocusRemoveAfterFlush() {
       this.addInput();
       this.input.focus();
       this.flush();
@@ -301,9 +260,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.addInput();
     },
 
-
-    testFocusExcludeAfterFlush : function()
-    {
+    testFocusExcludeAfterFlush() {
       this.addInput();
       this.flush();
       this.input.focus();
@@ -319,9 +276,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testFocusHideAfterFlush : function()
-    {
+    testFocusHideAfterFlush() {
       this.addInput();
       this.flush();
       this.input.focus();
@@ -337,8 +292,7 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.show();
     },
 
-
-    testFocusComboBox : function() {
+    testFocusComboBox() {
       var comboBox = new qx.ui.form.ComboBox();
       this.getRoot().add(comboBox);
       comboBox.focus();
@@ -351,10 +305,9 @@ qx.Class.define("qx.test.ui.Focus",
 
       comboBox.destroy();
     }
-
   },
 
-  destruct : function() {
+  destruct() {
     this.ref = this.input = null;
   }
 });

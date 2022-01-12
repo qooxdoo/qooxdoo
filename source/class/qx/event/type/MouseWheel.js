@@ -20,19 +20,15 @@
 /**
  * Mouse wheel event object.
  */
-qx.Class.define("qx.event.type.MouseWheel",
-{
-  extend : qx.event.type.Mouse,
+qx.Class.define("qx.event.type.MouseWheel", {
+  extend: qx.event.type.Mouse,
 
-  members :
-  {
+  members: {
     // overridden
-    stop : function()
-    {
+    stop() {
       this.stopPropagation();
       this.preventDefault();
     },
-
 
     /**
      * Get the amount the wheel has been scrolled
@@ -42,7 +38,7 @@ qx.Class.define("qx.event.type.MouseWheel",
      * @return {Integer} Scroll wheel movement for the given axis. If no axis
      *   is given, the y axis is used.
      */
-    getWheelDelta : function(axis) {
+    getWheelDelta(axis) {
       return qx.util.Wheel.getDelta(this._native, axis);
     }
   }

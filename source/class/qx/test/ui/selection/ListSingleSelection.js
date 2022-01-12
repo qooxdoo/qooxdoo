@@ -16,24 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.ListSingleSelection",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
+qx.Class.define("qx.test.ui.selection.ListSingleSelection", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var length = 10;
       this._notInSelection = [];
       this._mode = "single";
 
-      this._widget = new qx.ui.form.List().set(
-      {
+      this._widget = new qx.ui.form.List().set({
         selectionMode: this._mode,
-        width : 200,
-        height : 400
+        width: 200,
+        height: 400
       });
+
       this.getRoot().add(this._widget);
 
       for (var i = 0; i < length; i++) {
@@ -41,8 +38,11 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
         this._widget.add(item);
 
         if (i == 5) {
-          this.assertIdentical(0, this._widget.getSelection().length,
-            "Couldn't setup test, because selection isn't empty");
+          this.assertIdentical(
+            0,
+            this._widget.getSelection().length,
+            "Couldn't setup test, because selection isn't empty"
+          );
 
           this._widget.setSelection([item]);
           this._selection = [item];
@@ -54,9 +54,8 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -64,8 +63,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getChildren();
       } else {
@@ -73,7 +71,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.form.ListItem(name);
     }
   }

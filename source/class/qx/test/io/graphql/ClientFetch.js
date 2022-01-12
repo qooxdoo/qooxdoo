@@ -19,14 +19,14 @@
 /**
  * GraphQL tests using the Fetch API
  */
-qx.Class.define("qx.test.io.graphql.ClientFetch",
-{
-  extend : qx.test.io.graphql.Client,
+qx.Class.define("qx.test.io.graphql.ClientFetch", {
+  extend: qx.test.io.graphql.Client,
   statics: {
     TEST_ENDPOINT: "https://countries.trevorblades.com/"
   },
+
   construct() {
-    this.base(arguments);
+    super();
     let transport = new qx.io.transport.Fetch(this.constructor.TEST_ENDPOINT);
     transport.getTransportImpl();
     this.client = new qx.io.graphql.Client(transport);

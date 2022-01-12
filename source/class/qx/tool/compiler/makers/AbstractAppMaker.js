@@ -38,7 +38,7 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
     /** Supported Locales */
     locales: {
       nullable: false,
-      init: [ "en" ],
+      init: ["en"],
       apply: "_applyLocales"
     },
 
@@ -52,11 +52,10 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
   },
 
   members: {
-
     /*
      * @Override
      */
-    getOutputDir: function() {
+    getOutputDir() {
       return this.getTarget().getOutputDir();
     },
 
@@ -66,7 +65,7 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
      * @param oldValue
      * @private
      */
-    __applyTarget: function(value, oldValue) {
+    __applyTarget(value, oldValue) {
       if (this._analyser) {
         this._analyser.setOutputDir(value ? value.getOutputDir() : null);
       }
@@ -84,7 +83,7 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
      * @param oldValue
      * @private
      */
-    __applyWriteAllTranslations: function(value, oldValue) {
+    __applyWriteAllTranslations(value, oldValue) {
       if (this.getTarget()) {
         this.getTarget().setWriteAllTranslations(value);
       }
@@ -96,7 +95,7 @@ qx.Class.define("qx.tool.compiler.makers.AbstractAppMaker", {
      * @param oldValue
      * @private
      */
-    _applyLocales: function(value, oldValue) {
+    _applyLocales(value, oldValue) {
       if (this.getTarget()) {
         this.getTarget().setLocales(value);
       }

@@ -16,29 +16,28 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Label",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.form.Label", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testLabelForTarget : function()
-    {
+  members: {
+    testLabelForTarget() {
       var label = new qx.ui.mobile.form.Label("foo-label");
       var target = new qx.ui.mobile.form.TextField("foo");
       label.setLabelFor(target.getId());
 
       var foundValue = label.getContentElement().getAttribute("for");
 
-      this.assertEquals(target.getId(),foundValue,"'For' attribute has an unexpected value.");
+      this.assertEquals(
+        target.getId(),
+        foundValue,
+        "'For' attribute has an unexpected value."
+      );
 
       label.destroy();
       target.destroy();
     },
 
-
-    testDisableTarget : function()
-    {
+    testDisableTarget() {
       var label = new qx.ui.mobile.form.Label("foo-label");
       var target = new qx.ui.mobile.form.TextField("foo");
 
@@ -61,5 +60,4 @@ qx.Class.define("qx.test.mobile.form.Label",
       target.destroy();
     }
   }
-
 });

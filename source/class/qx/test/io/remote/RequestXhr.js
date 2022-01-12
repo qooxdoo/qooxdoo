@@ -17,33 +17,29 @@ Authors:
 ************************************************************************ */
 
 /*
-*/
+ */
 /**
  *
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.remote.RequestXhr",
-{
-  extend : qx.test.io.remote.AbstractRequest,
+qx.Class.define("qx.test.io.remote.RequestXhr", {
+  extend: qx.test.io.remote.AbstractRequest,
   include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    setUp: function() {
-      this.base(arguments);
+  members: {
+    setUp() {
+      super.setUp();
       this.require(["php"]);
     },
 
     // Overridden
-    _createRequest : function() {
+    _createRequest() {
       var url = this.getUrl("qx/test/xmlhttp/echo_get_request.php");
       return new qx.io.remote.Request(url, "GET", "text/plain");
     },
 
-
-    testSynchronous : function()
-    {
+    testSynchronous() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -51,21 +47,23 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
 
       var completedCount = 0;
 
-      for (var i = 0; i < this._getRequests().length; i++)
-      {
+      for (var i = 0; i < this._getRequests().length; i++) {
         var request = this._getRequests()[i];
 
         request.setAsynchronous(false);
         request.setParameter("test", "test" + i);
 
-        request.addListener("completed", function(e)
-        {
-          completedCount++;
+        request.addListener(
+          "completed",
+          function (e) {
+            completedCount++;
 
-          var response = qx.lang.Json.parse(e.getContent());
-          request = e.getTarget();
-          this.assertEquals(request.getParameter("test"), response["test"]);
-        }, this);
+            var response = qx.lang.Json.parse(e.getContent());
+            request = e.getTarget();
+            this.assertEquals(request.getParameter("test"), response["test"]);
+          },
+          this
+        );
 
         request.send();
       }
@@ -73,9 +71,7 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
       this.assertEquals(i, completedCount, "Test doesn't run synchronous!");
     },
 
-
-    testSynchronousAndAsynchronousMix : function()
-    {
+    testSynchronousAndAsynchronousMix() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -92,40 +88,44 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
       var asynchronousRequestFinished = false;
       var synchronousRequestFinished = false;
 
-      asynchronousRequest.addListener("completed", function(e)
-      {
-        //this.resume(function()
-        //{
+      asynchronousRequest.addListener(
+        "completed",
+        function (e) {
+          //this.resume(function()
+          //{
           asynchronousRequestFinished = true;
 
           var response = qx.lang.Json.parse(e.getContent());
           var request = e.getTarget();
           this.assertEquals(request.getParameter("test"), response["test"]);
-        //}, this);
-      }, this);
+          //}, this);
+        },
+        this
+      );
 
-      synchronousRequest.addListener("completed", function(e)
-      {
-        synchronousRequestFinished = true;
+      synchronousRequest.addListener(
+        "completed",
+        function (e) {
+          synchronousRequestFinished = true;
 
-        var response = qx.lang.Json.parse(e.getContent());
-        var request = e.getTarget();
-        this.assertEquals(request.getParameter("test"), response["test"]);
-      }, this);
+          var response = qx.lang.Json.parse(e.getContent());
+          var request = e.getTarget();
+          this.assertEquals(request.getParameter("test"), response["test"]);
+        },
+        this
+      );
 
       asynchronousRequest.send();
       synchronousRequest.send();
 
       var that = this;
-      this.wait(5000, function()
-      {
+      this.wait(5000, function () {
         that.assertTrue(asynchronousRequestFinished);
         that.assertTrue(synchronousRequestFinished);
       });
     },
 
-    testGetResponseHeader : function()
-    {
+    testGetResponseHeader() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -136,13 +136,27 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
       // Response header is "juhu"
       request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
-      request.addListener("completed", function(e) { this.resume(function() {
-        this.assertEquals("kinners", e.getResponseHeader("juhu"), "Exact case match");
-        this.assertEquals("kinners", e.getResponseHeader("Juhu"), "Case insensitive match");
-      }, this); }, this);
+      request.addListener(
+        "completed",
+        function (e) {
+          this.resume(function () {
+            this.assertEquals(
+              "kinners",
+              e.getResponseHeader("juhu"),
+              "Exact case match"
+            );
+            this.assertEquals(
+              "kinners",
+              e.getResponseHeader("Juhu"),
+              "Case insensitive match"
+            );
+          }, this);
+        },
+        this
+      );
 
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         request.send();
       }, 1000);
       this.wait(5000);

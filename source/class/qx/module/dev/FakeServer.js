@@ -26,8 +26,7 @@
  * @group (IO)
  */
 qx.Bootstrap.define("qx.module.dev.FakeServer", {
-  statics :
-  {
+  statics: {
     /**
      * Configures a set of fake HTTP responses. Each response is defined as a map
      * that must provide the following keys:
@@ -54,10 +53,9 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * @attachStatic {qxWeb, dev.fakeServer.configure}
      * @param responseData {Map[]} An array of response description maps.
      */
-    configure : function(responseData) {
+    configure(responseData) {
       qx.dev.FakeServer.getInstance().configure(responseData);
     },
-
 
     /**
      * Removes a response that was configured with {@link #configure}
@@ -66,7 +64,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      *
      * @attachStatic {qxWeb, dev.fakeServer.removeResponse}
      */
-    removeResponse : function(method, url) {
+    removeResponse(method, url) {
       qx.dev.FakeServer.getInstance().removeResponse(method, url);
     },
 
@@ -82,10 +80,9 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * <code>username</code>, <code>password</code>. Must return <code>true</code>
      * if the request should not be faked.
      */
-    addFilter : function(filter) {
+    addFilter(filter) {
       qx.dev.FakeServer.getInstance().addFilter(filter);
     },
-
 
     /**
      * Remove a filter that was added with {@link #addFilter}
@@ -93,10 +90,9 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      *
      * @attachStatic {qxWeb, dev.fakeServer.removeFilter}
      */
-    removeFilter : function(filter) {
+    removeFilter(filter) {
       qx.dev.FakeServer.getInstance().removeFilter(filter);
     },
-
 
     /**
      * Defines a fake XHR response to a matching request.
@@ -107,10 +103,9 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * @param response {Function|Array|String} Response to send. See
      * <a href="http://sinonjs.org/docs/#fakeServer">Sinon.JS: Fake Server</a> for details.
      */
-    respondWith : function(method, urlRegExp, response) {
+    respondWith(method, urlRegExp, response) {
       qx.dev.FakeServer.getInstance().respondWith(method, urlRegExp, response);
     },
-
 
     /**
      * Creates and configures a FakeServer if necessary and returns it.
@@ -118,32 +113,31 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * @attachStatic {qxWeb, dev.fakeServer.getFakeServer}
      * @return {Object} FakeServer object
      */
-    getFakeServer : function() {
+    getFakeServer() {
       return qx.dev.FakeServer.getInstance().getFakeServer();
     },
 
-
     /**
      * Stops the FakeServer and removes all configured responses and/or filters.
-
      * @attachStatic {qxWeb, dev.fakeServer.restore}
      */
-    restore: function() {
+
+    restore() {
       qx.dev.FakeServer.getInstance().restore();
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachStatic({
-      "dev": {
-        "fakeServer" : {
-          "configure" : statics.configure,
-          "removeResponse" : statics.removeResponse,
-          "addFilter" : statics.addFilter,
-          "removeFilter" : statics.removeFilter,
-          "respondWith" : statics.respondWith,
-          "getFakeServer" : statics.getFakeServer,
-          "restore" : statics.restore
+      dev: {
+        fakeServer: {
+          configure: statics.configure,
+          removeResponse: statics.removeResponse,
+          addFilter: statics.addFilter,
+          removeFilter: statics.removeFilter,
+          respondWith: statics.respondWith,
+          getFakeServer: statics.getFakeServer,
+          restore: statics.restore
         }
       }
     });

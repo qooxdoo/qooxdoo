@@ -15,15 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Date",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Date", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget) {
+  members: {
+    __test(widget) {
       // check if the interface is implemented
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IDateForm), "Interface is not implemented.");
+      this.assertTrue(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IDateForm),
+        "Interface is not implemented."
+      );
 
       // check for the init value
       this.assertNull(widget.getValue(), "Wrong init value set.");
@@ -34,14 +35,24 @@ qx.Class.define("qx.test.ui.form.Date",
       // check the getter and setter
       var date = new Date(1981, 1, 10);
       widget.setValue(date);
-      this.assertEquals(date.toString(), widget.getValue().toString(), "Set or get does not work.");
+      this.assertEquals(
+        date.toString(),
+        widget.getValue().toString(),
+        "Set or get does not work."
+      );
 
       var date2 = new Date(2009, 4, 1);
-      this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue(date2);
-      }, function(e) {
-        // do nothing
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeValue",
+        function () {
+          widget.setValue(date2);
+        },
+        function (e) {
+          // do nothing
+        },
+        "Event is wrong!"
+      );
 
       // test for null values
       widget.setValue(null);
@@ -49,27 +60,29 @@ qx.Class.define("qx.test.ui.form.Date",
       widget.destroy();
     },
 
-    testDateField: function() {
+    testDateField() {
       var df = new qx.ui.form.DateField();
       this.__test(df);
       df.dispose();
     },
 
-    testDateChooser: function() {
+    testDateChooser() {
       var dc = new qx.ui.control.DateChooser();
       this.__test(dc);
       dc.dispose();
     },
 
-    testDateFieldIsEmpty: function() {
+    testDateFieldIsEmpty() {
       var field = new qx.ui.form.DateField();
 
-      this.assertTrue(field.isEmpty(), "DateField should be empty on initialization.");
+      this.assertTrue(
+        field.isEmpty(),
+        "DateField should be empty on initialization."
+      );
       field.dispose();
     },
 
-    testDateFieldPopupState : function()
-    {
+    testDateFieldPopupState() {
       var field = new qx.ui.form.DateField();
       this.getRoot().add(field);
       this.flush();
@@ -90,6 +103,5 @@ qx.Class.define("qx.test.ui.form.Date",
       field.dispose();
       field = null;
     }
-
   }
 });

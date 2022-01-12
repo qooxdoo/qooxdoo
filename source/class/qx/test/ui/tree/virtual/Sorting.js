@@ -19,16 +19,12 @@
 /**
  * @ignore(qx.test.ui.tree.virtual.Node)
  */
-qx.Class.define("qx.test.ui.tree.virtual.Sorting",
-{
-  extend : qx.test.ui.tree.virtual.AbstractTreeTest,
+qx.Class.define("qx.test.ui.tree.virtual.Sorting", {
+  extend: qx.test.ui.tree.virtual.AbstractTreeTest,
 
-  members :
-  {
-    testSorter : function()
-    {
-      var sorter = function(a, b)
-      {
+  members: {
+    testSorter() {
+      var sorter = function (a, b) {
         a = a.getName();
         b = b.getName();
         return a < b ? 1 : a > b ? -1 : 0;
@@ -38,7 +34,9 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       var root = this.createModelAndSetModel(2);
 
       this.tree.openNode(root.getChildren().getItem(2));
-      this.tree.openNode(root.getChildren().getItem(2).getChildren().getItem(4));
+      this.tree.openNode(
+        root.getChildren().getItem(2).getChildren().getItem(4)
+      );
 
       var openNodes = [
         sortedModel,
@@ -49,8 +47,9 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       this.__sortModel(sortedModel, sorter);
 
       var delegate = {
-        sorter : sorter
+        sorter: sorter
       };
+
       this.tree.setDelegate(delegate);
       this.flush();
 
@@ -63,11 +62,8 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       sortedModel.dispose();
     },
 
-
-    testModelUnmodified : function()
-    {
-      var sorter = function(a, b)
-      {
+    testModelUnmodified() {
+      var sorter = function (a, b) {
         a = a.getName();
         b = b.getName();
         return a < b ? 1 : a > b ? -1 : 0;
@@ -77,21 +73,22 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       var rootChildrenClone = root.getChildren().concat([]);
 
       var delegate = {
-        sorter : sorter
+        sorter: sorter
       };
+
       this.tree.setDelegate(delegate);
       this.flush();
 
-      this.__testOrderNotChanged(rootChildrenClone.toArray(), root.getChildren().toArray());
+      this.__testOrderNotChanged(
+        rootChildrenClone.toArray(),
+        root.getChildren().toArray()
+      );
 
       rootChildrenClone.dispose();
     },
 
-
-    testSorterAndFilter : function()
-    {
-      var sorter = function(a, b)
-      {
+    testSorterAndFilter() {
+      var sorter = function (a, b) {
         a = a.getName();
         b = b.getName();
         return a < b ? 1 : a > b ? -1 : 0;
@@ -106,12 +103,13 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       this.__sortModel(sortedModel, sorter);
 
       var delegate = {
-        sorter : sorter,
+        sorter: sorter,
 
-        filter : function(child) {
+        filter(child) {
           return child.getName() == "Node 2" ? false : true;
         }
       };
+
       this.tree.setDelegate(delegate);
       this.flush();
 
@@ -124,14 +122,11 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       sortedModel.dispose();
     },
 
-
-    __sortModel : function(model, sorter)
-    {
+    __sortModel(model, sorter) {
       var children = model.getChildren();
       children.sort(sorter);
 
-      for (var i = 0; i < children.getLength(); i++)
-      {
+      for (var i = 0; i < children.getLength(); i++) {
         var child = children.getItem(i);
 
         if (child instanceof qx.test.ui.tree.virtual.Node) {
@@ -140,25 +135,32 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       }
     },
 
-
-    __testBuildLookupTable : function(expected)
-    {
+    __testBuildLookupTable(expected) {
       var found = this.tree.getLookupTable().toArray();
-      var msg = "Expected [" + expected.join(", ") +
-        "], but found [" + found.join(", ") + "]";
+      var msg =
+        "Expected [" +
+        expected.join(", ") +
+        "], but found [" +
+        found.join(", ") +
+        "]";
 
       this.assertEquals(expected.length, found.length, msg);
-      for (var i=0; i<expected.length; i++) {
+      for (var i = 0; i < expected.length; i++) {
         this.assertTrue(expected[i].equals(found[i]), msg);
       }
-      this.assertEquals(expected.length, this.tree.getPane().getRowConfig().getItemCount());
+      this.assertEquals(
+        expected.length,
+        this.tree.getPane().getRowConfig().getItemCount()
+      );
     },
 
-
-    __testOrderNotChanged : function(expected, found)
-    {
-      var msg = "Expected [" + expected.join(", ") +
-        "], but found [" + found.join(", ") + "]";
+    __testOrderNotChanged(expected, found) {
+      var msg =
+        "Expected [" +
+        expected.join(", ") +
+        "], but found [" +
+        found.join(", ") +
+        "]";
 
       this.assertEquals(expected.length, found.length, msg);
       for (var i = 0; i < expected.length; i++) {
@@ -166,16 +168,13 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       HELPER METHOD TO LOG TREE MODEL
     ---------------------------------------------------------------------------
     */
 
-
-    __logModel : function(model, level)
-    {
+    __logModel(model, level) {
       level = level != null ? level : 0;
 
       var prefix = "";

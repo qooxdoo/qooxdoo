@@ -19,12 +19,8 @@
 /**
  * A data row renderer for a simple tree row
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
-{
-  extend : qx.ui.table.rowrenderer.Default,
-
-
-
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer", {
+  extend: qx.ui.table.rowrenderer.Default,
 
   /*
   *****************************************************************************
@@ -32,12 +28,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
   *****************************************************************************
   */
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -45,11 +38,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    updateDataRowElement : function(rowInfo, rowElem)
-    {
+    updateDataRowElement(rowInfo, rowElem) {
       // If the node is selected, select the row
       var tree = rowInfo.table;
       var rowData = rowInfo.rowData;
@@ -60,8 +51,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       // Set the row's selected state based on the data model
       rowInfo.selected = node.bSelected;
 
-      if (node.bSelected)
-      {
+      if (node.bSelected) {
         // Ensure that the selection model knows it's selected
         var row = rowInfo.row;
         var selModel = tree.getSelectionModel();
@@ -71,7 +61,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       }
 
       // Now call our superclass
-      this.base(arguments, rowInfo, rowElem);
+      super.updateDataRowElement(rowInfo, rowElem);
     }
   }
 });

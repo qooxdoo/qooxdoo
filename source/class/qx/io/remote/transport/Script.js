@@ -25,17 +25,13 @@
  * Transports requests to a server using dynamic script tags.
  *
  * This class should not be used directly by client programmers.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.io.remote.transport.Script",
-{
-  extend : qx.io.remote.transport.Abstract,
-  implement: [ qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.io.remote.transport.Script", {
+  extend: qx.io.remote.transport.Abstract,
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -43,9 +39,8 @@ qx.Class.define("qx.io.remote.transport.Script",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var vUniqueId = ++qx.io.remote.transport.Script.__uniqueId;
 
@@ -57,78 +52,69 @@ qx.Class.define("qx.io.remote.transport.Script",
     this.__uniqueId = vUniqueId;
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Unique identifier for each instance.
      *
      * @internal
      */
-    __uniqueId : 0,
+    __uniqueId: 0,
 
     /**
      * Registry for all script transport instances.
      *
      * @internal
      */
-    _instanceRegistry : {},
+    _instanceRegistry: {},
 
     /**
      * Internal URL parameter prefix.
      *
      * @internal
      */
-    ScriptTransport_PREFIX : "_ScriptTransport_",
+    ScriptTransport_PREFIX: "_ScriptTransport_",
 
     /**
      * Internal URL parameter ID.
      *
      * @internal
      */
-    ScriptTransport_ID_PARAM : "_ScriptTransport_id",
+    ScriptTransport_ID_PARAM: "_ScriptTransport_id",
 
     /**
      * Internal URL parameter data prefix.
      *
      * @internal
      */
-    ScriptTransport_DATA_PARAM : "_ScriptTransport_data",
+    ScriptTransport_DATA_PARAM: "_ScriptTransport_data",
 
     /**
      * Capabilities of this transport type.
      *
      * @internal
      */
-    handles :
-    {
-      synchronous           : false,
-      asynchronous          : true,
-      crossDomain           : true,
-      fileUpload            : false,
-      programmaticFormFields : false,
-      responseTypes         : [ "text/plain", "text/javascript", "application/json" ]
+    handles: {
+      synchronous: false,
+      asynchronous: true,
+      crossDomain: true,
+      fileUpload: false,
+      programmaticFormFields: false,
+      responseTypes: ["text/plain", "text/javascript", "application/json"]
     },
-
 
     /**
      * Returns always true, because script transport is supported by all browsers.
      * @return {Boolean} <code>true</code>
      */
-    isSupported : function() {
+    isSupported() {
       return true;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -142,15 +128,13 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @internal
      */
-    _numericMap :
-    {
-      "uninitialized" : 1,
-      "loading"       : 2,
-      "loaded"        : 2,
-      "interactive"   : 3,
-      "complete"      : 4
+    _numericMap: {
+      uninitialized: 1,
+      loading: 2,
+      loaded: 2,
+      interactive: 3,
+      complete: 4
     },
-
 
     /**
      * This method can be called by the script loaded by the ScriptTransport
@@ -162,29 +146,28 @@ qx.Class.define("qx.io.remote.transport.Script",
      * @param content {String} This string is passed to the content property
      *     of the {@link qx.io.remote.Response} object.
      */
-    _requestFinished : qx.event.GlobalError.observeMethod(function(id, content)
-    {
+    _requestFinished: qx.event.GlobalError.observeMethod(function (
+      id,
+      content
+    ) {
       var vInstance = qx.io.remote.transport.Script._instanceRegistry[id];
 
-      if (vInstance == null)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
+      if (vInstance == null) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (qx.core.Environment.get("qx.debug.io.remote")) {
-            this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
+            this.warn(
+              "Request finished for an unknown instance (probably aborted or timed out before)"
+            );
           }
         }
-      }
-      else
-      {
+      } else {
         vInstance._responseContent = content;
-        vInstance._switchReadyState(qx.io.remote.transport.Script._numericMap.complete);
+        vInstance._switchReadyState(
+          qx.io.remote.transport.Script._numericMap.complete
+        );
       }
     })
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -192,12 +175,10 @@ qx.Class.define("qx.io.remote.transport.Script",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __lastReadyState : 0,
-    __element : null,
-    __uniqueId : null,
+  members: {
+    __lastReadyState: 0,
+    __element: null,
+    __uniqueId: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -209,35 +190,43 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Sends the request using "script" elements
      *
      */
-    send : function()
-    {
+    send() {
       var vUrl = this.getUrl();
 
       // --------------------------------------
       //   Adding parameters
       // --------------------------------------
-      vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + qx.io.remote.transport.Script.ScriptTransport_ID_PARAM + "=" + this.__uniqueId;
+      vUrl +=
+        (vUrl.indexOf("?") >= 0 ? "&" : "?") +
+        qx.io.remote.transport.Script.ScriptTransport_ID_PARAM +
+        "=" +
+        this.__uniqueId;
 
       var vParameters = this.getParameters();
       var vParametersList = [];
 
-      for (var vId in vParameters)
-      {
-        if (vId.indexOf(qx.io.remote.transport.Script.ScriptTransport_PREFIX) == 0) {
-          this.error("Illegal parameter name. The following prefix is used internally by qooxdoo): " + qx.io.remote.transport.Script.ScriptTransport_PREFIX);
+      for (var vId in vParameters) {
+        if (
+          vId.indexOf(qx.io.remote.transport.Script.ScriptTransport_PREFIX) == 0
+        ) {
+          this.error(
+            "Illegal parameter name. The following prefix is used internally by qooxdoo): " +
+              qx.io.remote.transport.Script.ScriptTransport_PREFIX
+          );
         }
 
         var value = vParameters[vId];
 
-        if (value instanceof Array)
-        {
-          for (var i=0; i<value.length; i++) {
-            vParametersList.push(encodeURIComponent(vId) + "=" + encodeURIComponent(value[i]));
+        if (value instanceof Array) {
+          for (var i = 0; i < value.length; i++) {
+            vParametersList.push(
+              encodeURIComponent(vId) + "=" + encodeURIComponent(value[i])
+            );
           }
-        }
-        else
-        {
-          vParametersList.push(encodeURIComponent(vId) + "=" + encodeURIComponent(value));
+        } else {
+          vParametersList.push(
+            encodeURIComponent(vId) + "=" + encodeURIComponent(value)
+          );
         }
       }
 
@@ -251,7 +240,11 @@ qx.Class.define("qx.io.remote.transport.Script",
       var vData = this.getData();
 
       if (vData != null) {
-        vUrl += "&" + qx.io.remote.transport.Script.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
+        vUrl +=
+          "&" +
+          qx.io.remote.transport.Script.ScriptTransport_DATA_PARAM +
+          "=" +
+          encodeURIComponent(vData);
       }
 
       qx.io.remote.transport.Script._instanceRegistry[this.__uniqueId] = this;
@@ -263,10 +256,8 @@ qx.Class.define("qx.io.remote.transport.Script",
       this.__element.charset = "utf-8";
       this.__element.src = vUrl;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.debug.io.remote.data"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug.io.remote.data")) {
           this.debug("Request: " + vUrl);
         }
       }
@@ -274,17 +265,14 @@ qx.Class.define("qx.io.remote.transport.Script",
       document.body.appendChild(this.__element);
     },
 
-
     /**
      * Switches the readystate by setting the internal state.
      *
      * @param vReadyState {String} readystate value
      */
-    _switchReadyState : function(vReadyState)
-    {
+    _switchReadyState(vReadyState) {
       // Ignoring already stopped requests
-      switch(this.getState())
-      {
+      switch (this.getState()) {
         case "completed":
         case "aborted":
         case "failed":
@@ -295,12 +283,11 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       // Updating internal state
       while (this.__lastReadyState < vReadyState) {
-        this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
+        this.setState(
+          qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]
+        );
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -316,7 +303,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * @param vLabel {String} Request header name
      * @param vValue {var} Request header value
      */
-    setRequestHeader : function(vLabel, vValue) {},
+    setRequestHeader(vLabel, vValue) {},
 
     /*
     ---------------------------------------------------------------------------
@@ -332,7 +319,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * @param vLabel {String} Response header name
      * @return {null} Returns null
      */
-    getResponseHeader : function(vLabel) {
+    getResponseHeader(vLabel) {
       return null;
     },
 
@@ -343,7 +330,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @return {Map} empty map
      */
-    getResponseHeaders : function() {
+    getResponseHeaders() {
       return {};
     },
 
@@ -359,7 +346,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @return {Integer} status code
      */
-    getStatusCode : function() {
+    getStatusCode() {
       return 200;
     },
 
@@ -369,7 +356,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @return {String} always an empty string.
      */
-    getStatusText : function() {
+    getStatusText() {
       return "";
     },
 
@@ -385,7 +372,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @return {Integer} Returns 0
      */
-    getFetchedLength : function() {
+    getFetchedLength() {
       return 0;
     },
 
@@ -394,12 +381,9 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * @return {null | String} If successful content of response as string.
      */
-    getResponseContent : function()
-    {
-      if (this.getState() !== "completed")
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
+    getResponseContent() {
+      if (this.getState() !== "completed") {
+        if (qx.core.Environment.get("qx.debug")) {
           if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.warn("Transfer not complete, ignoring content!");
           }
@@ -408,37 +392,35 @@ qx.Class.define("qx.io.remote.transport.Script",
         return null;
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
-          this.debug("Returning content for responseType: " + this.getResponseType());
+          this.debug(
+            "Returning content for responseType: " + this.getResponseType()
+          );
         }
       }
 
-      switch(this.getResponseType())
-      {
+      switch (this.getResponseType()) {
         case "text/plain":
-          // server is responsible for using a string as the response
+        // server is responsible for using a string as the response
         case "application/json":
         case "text/javascript":
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            if (qx.core.Environment.get("qx.debug.io.remote.data"))
-            {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (qx.core.Environment.get("qx.debug.io.remote.data")) {
               this.debug("Response: " + this._responseContent);
             }
           }
           var ret = this._responseContent;
-          return (ret === 0 ? 0 : (ret || null));
+          return ret === 0 ? 0 : ret || null;
 
         default:
-          this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
+          this.warn(
+            "No valid responseType specified (" + this.getResponseType() + ")!"
+          );
           return null;
       }
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -446,15 +428,14 @@ qx.Class.define("qx.io.remote.transport.Script",
   *****************************************************************************
   */
 
-  defer : function()
-  {
+  defer() {
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
-    qx.io.remote.Exchange.registerType(qx.io.remote.transport.Script, "qx.io.remote.transport.Script");
+    qx.io.remote.Exchange.registerType(
+      qx.io.remote.transport.Script,
+      "qx.io.remote.transport.Script"
+    );
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -462,10 +443,8 @@ qx.Class.define("qx.io.remote.transport.Script",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    if (this.__element)
-    {
+  destruct() {
+    if (this.__element) {
       delete qx.io.remote.transport.Script._instanceRegistry[this.__uniqueId];
       document.body.removeChild(this.__element);
     }

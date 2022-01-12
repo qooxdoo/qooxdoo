@@ -19,39 +19,32 @@
 /**
  * The well-defined error codes for JSON-RPC.
  */
-qx.Class.define("qx.io.remote.RpcError",
-{
-  statics :
-  {
+qx.Class.define("qx.io.remote.RpcError", {
+  statics: {
     /** Information pertaining to qooxdoo's modified JSON-RPC Version 1 */
-    qx1:
-    {
+    qx1: {
       /** Origin of the error */
-      origin :
-      {
-        Server      : 1,
-        Application : 2,
-        Transport   : 3,
-        Client      : 4
+      origin: {
+        Server: 1,
+        Application: 2,
+        Transport: 3,
+        Client: 4
       },
 
       /**
        * Error data. In Version 1, each origin can have its own error codes.
        * Only 'Server' error codes are globally-defined, however.
        */
-      error :
-      {
+      error: {
         /** Error codes for the Server origin */
-        server :
-        {
+        server: {
           /*
            * Script Error
            *
            * An error was thrown during the processing of a remote procedure
            * call.
            */
-          ScriptError       : -1,
-
+          ScriptError: -1,
 
           /*
            * Unknown Error
@@ -60,8 +53,7 @@ qx.Class.define("qx.io.remote.RpcError",
            * passed to the JsonRpcError constructor.  This code should
            * generally not be used.
            */
-          Unknown           : 0,
-
+          Unknown: 0,
 
           /**
            * Illegal Service
@@ -69,16 +61,14 @@ qx.Class.define("qx.io.remote.RpcError",
            * The service name contains illegal characters or is otherwise
            * deemed unacceptable to the JSON-RPC server.
            */
-          IllegalService    : 1,
-
+          IllegalService: 1,
 
           /**
            * Service Not Found
            *
            * The requested service does not exist at the JSON-RPC server.
            */
-          ServiceNotFound   : 2,
-
+          ServiceNotFound: 2,
 
           /**
            * Class Not Found
@@ -89,8 +79,7 @@ qx.Class.define("qx.io.remote.RpcError",
            * error would always also be legal (and true) whenever this one is
            * returned. (Not used in this implementation)
            */
-          ClassNotFound     : 3, // not used in this implementation
-
+          ClassNotFound: 3, // not used in this implementation
 
           /**
            * Method Not Found
@@ -98,8 +87,7 @@ qx.Class.define("qx.io.remote.RpcError",
            * The method specified in the request is not found in the requested
            * service.
            */
-          MethodNotFound    : 4,
-
+          MethodNotFound: 4,
 
           /**
            * Parameter Mismatch
@@ -111,8 +99,7 @@ qx.Class.define("qx.io.remote.RpcError",
            * This error is also used to indicate an illegal parameter value,
            * in server scripts.
            */
-          ParameterMismatch : 5,
-
+          ParameterMismatch: 5,
 
           /**
            * Permission Denied
@@ -124,34 +111,32 @@ qx.Class.define("qx.io.remote.RpcError",
            * properly authenticated to use the requested method, this error
            * code is returned.
            */
-          PermissionDenied  : 6
+          PermissionDenied: 6
         }
       }
     },
 
     /** Information pertaining to a conformant JSON-RPC Version 2 */
-    v2 :
-    {
+    v2: {
       /**
        * Error data. In Version 1, each origin can have its own error codes.
        * Only 'Server' error codes are globally-defined, however.
        */
-      error :
-      {
+      error: {
         /**
          * Parse Error
          *
          * Invalid JSON was received by the server.
          * An error occurred on the server while parsing the JSON text.
          */
-        ParseError     : -32700,
+        ParseError: -32700,
 
         /**
          * Invalid Request
          *
          * The JSON received by the server is not a valid Request object.
          */
-        InvalidRequest : -32600,
+        InvalidRequest: -32600,
 
         /**
          * Method Not Found
@@ -159,7 +144,7 @@ qx.Class.define("qx.io.remote.RpcError",
          * The method specified in the request is not found in the requested
          * service.
          */
-        MethodNotFound : -32601,
+        MethodNotFound: -32601,
 
         /**
          * Invalid method parameter(s)
@@ -168,12 +153,12 @@ qx.Class.define("qx.io.remote.RpcError",
          * it do not match the requisite types for the method's parameters,
          * it should return this error code to indicate so to the caller.
          */
-        InvalidParams  : -32602,
+        InvalidParams: -32602,
 
         /**
          * Internal JSON-RPC error
          */
-        InternalError  : -32603,
+        InternalError: -32603,
 
         /*********************************************************************
          * The values -32099 to -32000 are reserved for implementation-defined
@@ -191,7 +176,7 @@ qx.Class.define("qx.io.remote.RpcError",
          * properly authenticated to use the requested method, this error
          * code is returned.
          */
-        PermissionDenied  : -32000
+        PermissionDenied: -32000
       }
     }
   }

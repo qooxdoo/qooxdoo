@@ -16,70 +16,61 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
-{
-  extend : qx.dev.unit.TestCase,
-  implement : qx.ui.tree.core.IVirtualTree,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController", {
+  extend: qx.dev.unit.TestCase,
+  implement: qx.ui.tree.core.IVirtualTree,
+  include: qx.dev.unit.MMock,
 
-  events :
-  {
-    open : "qx.event.type.Data",
-    close : "qx.event.type.Data"
+  events: {
+    open: "qx.event.type.Data",
+    close: "qx.event.type.Data"
   },
 
-  properties :
-  {
-    openProperty : {
-      check : "String",
-      init : null
+  properties: {
+    openProperty: {
+      check: "String",
+      init: null
     }
   },
 
-  members :
-  {
-    model : null,
-    controller : null,
-    nodesOpen : null,
+  members: {
+    model: null,
+    controller: null,
+    nodesOpen: null,
 
-    setUp : function()
-    {
-      if (! this.spyOpenNode)
-      {
+    setUp() {
+      if (!this.spyOpenNode) {
         this.spyOpenNode = this.spy(this, "openNode");
         this.spyCloseNode = this.spy(this, "closeNode");
       }
 
-      var rawData = 
-      [
+      var rawData = [
         {
-          name : "Root",
-          open : false,
-          kids :
-          [
+          name: "Root",
+          open: false,
+          kids: [
             {
-              name : "Branch 1",
-              open : false,
-              kids :
-              [
+              name: "Branch 1",
+              open: false,
+              kids: [
                 {
-                  name : "Leaf 1.1"
+                  name: "Leaf 1.1"
                 },
+
                 {
-                  name : "Leaf 1.2"
+                  name: "Leaf 1.2"
                 },
+
                 {
-                  name : "Branch 1.3",
-                  open : false,
-                  kids :
-                  [
+                  name: "Branch 1.3",
+                  open: false,
+                  kids: [
                     {
-                      name : "Branch 1.3.1",
-                      open : false,
-                      kids :
-                      [
+                      name: "Branch 1.3.1",
+                      open: false,
+                      kids: [
                         {
-                          name : "Leaf 1.3.1.1"
+                          name: "Leaf 1.3.1.1"
                         }
                       ]
                     }
@@ -96,37 +87,43 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       // Ensure that pushing onto the model works as well
       var parentItem = qx.data.marshal.Json.createModel(
         {
-          Name  : "New parent",
-          kids  : [],
-          open  : true
+          Name: "New parent",
+          kids: [],
+          open: true
         },
-        true);
+
+        true
+      );
       this.model.getItem(0).getKids().push(parentItem);
 
       var childItem = qx.data.marshal.Json.createModel(
         {
-          Name  : "Child of new parent"
+          Name: "Child of new parent"
         },
-        true);
+
+        true
+      );
       parentItem.getKids().push(childItem);
 
       childItem = qx.data.marshal.Json.createModel(
         {
-          Name  : "Child of Root"
+          Name: "Child of Root"
         },
-        true);
+
+        true
+      );
       this.model.getItem(0).getKids().push(childItem);
 
       this.nodesOpen = {};
 
       this.setOpenProperty("open");
-      this.controller =
-        new qx.ui.tree.core.OpenCloseController(this, this.model.getItem(0));
+      this.controller = new qx.ui.tree.core.OpenCloseController(
+        this,
+        this.model.getItem(0)
+      );
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.controller.dispose();
       this.controller = null;
 
@@ -134,9 +131,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.model = null;
     },
 
-
-    testModelToTree : function()
-    {
+    testModelToTree() {
       var node;
       var openNodeNames;
 
@@ -171,9 +166,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.assertEquals(openNodeNames.length, 0);
     },
 
-
-    testTreeToModel : function()
-    {
+    testTreeToModel() {
       var node;
       var openNodeNames;
 
@@ -198,7 +191,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.assertEquals(openNodeNames[0], "Branch 1");
 
       // the model value should now be true
-      this.assertTrue(node.getOpen())
+      this.assertTrue(node.getOpen());
 
       // send a close event to the controller as if the open button were clicked
       this.fireDataEvent("close", node);
@@ -211,9 +204,8 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       this.assertEquals(openNodeNames.length, 0);
 
       // the model value should now be false
-      this.assertFalse(node.getOpen())
+      this.assertFalse(node.getOpen());
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -221,66 +213,50 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
     ---------------------------------------------------------------------------
     */
 
-    isShowTopLevelOpenCloseIcons : function() {
+    isShowTopLevelOpenCloseIcons() {
       return true;
     },
 
-
-    isShowLeafs : function() {
+    isShowLeafs() {
       return true;
     },
 
-
-    getSelection : function()
-    {
+    getSelection() {
       throw new Error("getSelection called unexpectedly");
     },
 
-
-    getLookupTable : function()
-    {
+    getLookupTable() {
       throw new Error("getLookupTable called unexpectedly");
     },
 
-
-    isNode : function(item)
-    {
+    isNode(item) {
       throw new Error("isNode called unexpectedly");
     },
 
-
-    isNodeOpen : function(node)
-    {
+    isNodeOpen(node) {
       return this.nodesOpen[node.getName()];
     },
 
-
-    getLevel : function(row)
-    {
+    getLevel(row) {
       throw new Error("getLevel called unexpectedly");
     },
 
-
-    hasChildren : function(node)
-    {
+    hasChildren(node) {
       throw new Error("hasChildren called unexpectedly");
     },
 
-    openNode : function(node)
-    {
+    openNode(node) {
       this.nodesOpen[node.getName()] = true;
     },
-    
-    closeNode : function(node)
-    {
+
+    closeNode(node) {
       delete this.nodesOpen[node.getName()];
     },
 
-    openNodeWithoutScrolling : function(node) {},
-    closeNodeWithoutScrolling : function(node) {},
+    openNodeWithoutScrolling(node) {},
+    closeNodeWithoutScrolling(node) {},
 
-    refresh : function()
-    {
+    refresh() {
       // nothing to do
     }
   }

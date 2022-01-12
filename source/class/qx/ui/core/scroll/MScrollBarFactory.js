@@ -22,10 +22,8 @@ qx.core.Environment.add("qx.nativeScrollBars", false);
  * Include this widget if you want to create scrollbars depending on the global
  * "qx.nativeScrollBars" setting.
  */
-qx.Mixin.define("qx.ui.core.scroll.MScrollBarFactory",
-{
-  members :
-  {
+qx.Mixin.define("qx.ui.core.scroll.MScrollBarFactory", {
+  members: {
     /**
      * Creates a new scrollbar. This can either be a styled qooxdoo scrollbar
      * or a native browser scrollbar.
@@ -33,8 +31,7 @@ qx.Mixin.define("qx.ui.core.scroll.MScrollBarFactory",
      * @param orientation {String?"horizontal"} The initial scroll bar orientation
      * @return {qx.ui.core.scroll.IScrollBar} The scrollbar instance
      */
-    _createScrollBar : function(orientation)
-    {
+    _createScrollBar(orientation) {
       if (qx.core.Environment.get("qx.nativeScrollBars")) {
         return new qx.ui.core.scroll.NativeScrollBar(orientation);
       } else {

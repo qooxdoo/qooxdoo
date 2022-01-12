@@ -19,16 +19,13 @@
 /**
  * This handler fires a <code>resize</code> event if the size of a DOM element
  * changes.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.ElementResize",
-{
-  extend : qx.core.Object,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-
-
+qx.Class.define("qx.event.handler.ElementResize", {
+  extend: qx.core.Object,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -39,9 +36,8 @@ qx.Class.define("qx.event.handler.ElementResize",
   /**
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     this.__manager = manager;
     this.__elements = {};
@@ -50,39 +46,27 @@ qx.Class.define("qx.event.handler.ElementResize",
     this.__timer.addListener("interval", this._onInterval, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      resize : true
+    SUPPORTED_TYPES: {
+      resize: true
     },
 
-
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
-
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -90,12 +74,10 @@ qx.Class.define("qx.event.handler.ElementResize",
   *****************************************************************************
   */
 
-  members :
-  {
-    __elements : null,
-    __manager : null,
-    __timer : null,
-
+  members: {
+    __elements: null,
+    __manager: null,
+    __timer: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -104,37 +86,32 @@ qx.Class.define("qx.event.handler.ElementResize",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return target.tagName.toLowerCase() !== "body";
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       var hash = qx.core.ObjectRegistry.toHashCode(target);
 
       var elements = this.__elements;
-      if (!elements[hash])
-      {
+      if (!elements[hash]) {
         elements[hash] = {
           element: target,
           width: qx.bom.element.Dimension.getWidth(target),
           height: qx.bom.element.Dimension.getHeight(target)
         };
+
         this.__timer.start();
       }
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
+    unregisterEvent(target, type, capture) {
       var hash = qx.core.ObjectRegistry.toHashCode(target);
 
       var elements = this.__elements;
-      if (elements[hash])
-      {
+      if (elements[hash]) {
         delete elements[hash];
 
         if (qx.lang.Object.isEmpty(elements)) {
@@ -143,36 +120,34 @@ qx.Class.define("qx.event.handler.ElementResize",
       }
     },
 
-
     /**
      * Checks elements for width and height changes and fires resize event
      * if needed.
      *
      * @param e {qx.event.type.Data} The incoming data event
      */
-    _onInterval : function(e)
-    {
+    _onInterval(e) {
       var elements = this.__elements;
-      for (var key in elements)
-      {
+      for (var key in elements) {
         var data = elements[key];
 
         var el = data.element;
         var width = qx.bom.element.Dimension.getWidth(el);
         var height = qx.bom.element.Dimension.getHeight(el);
 
-        if (data.height !== height || data.width !== width)
-        {
+        if (data.height !== height || data.width !== width) {
           qx.event.Registration.fireNonBubblingEvent(
             el,
             "resize",
             qx.event.type.Data,
-            [{
-              width: width,
-              oldWidth: data.width,
-              height: height,
-              oldHeight: data.height
-            }]
+            [
+              {
+                width: width,
+                oldWidth: data.width,
+                height: height,
+                oldHeight: data.height
+              }
+            ]
           );
 
           data.width = width;
@@ -182,26 +157,16 @@ qx.Class.define("qx.event.handler.ElementResize",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__manager = this.__elements = null;
     this._disposeObjects("__timer");
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -209,7 +174,7 @@ qx.Class.define("qx.event.handler.ElementResize",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

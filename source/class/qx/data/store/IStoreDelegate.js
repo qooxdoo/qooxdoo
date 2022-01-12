@@ -27,12 +27,10 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.data.store.IStoreDelegate",
-{
-  extend : qx.data.marshal.IMarshalerDelegate,
+qx.Interface.define("qx.data.store.IStoreDelegate", {
+  extend: qx.data.marshal.IMarshalerDelegate,
 
-  members :
-  {
+  members: {
     /**
      * This method manipulates the data from the request and returns the
      * manipulated data.
@@ -40,8 +38,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * @param data {Object} The data received by the request.
      * @return {Object} The manipulated data.
      */
-    manipulateData : function(data) {},
-
+    manipulateData(data) {},
 
     /**
      * This method can change the settings on the used request by the store.
@@ -49,6 +46,6 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * @param request {var} The created request, depending on the implementation
      *   of the data store.
      */
-    configureRequest : function(request) {}
+    configureRequest(request) {}
   }
 });

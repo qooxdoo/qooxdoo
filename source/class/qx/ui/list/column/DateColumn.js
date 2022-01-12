@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Implementation of a Date column
  */
 qx.Class.define("qx.ui.list.column.DateColumn", {
   extend: qx.ui.list.column.AbstractWidgetColumn,
-  
+
   members: {
     /**
      * @Override

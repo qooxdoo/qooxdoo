@@ -19,83 +19,69 @@
 /**
  * The indigo qooxdoo decoration theme.
  */
-qx.Theme.define("qx.theme.indigo.Decoration",
-{
-  extend : qx.theme.simple.Decoration,
+qx.Theme.define("qx.theme.indigo.Decoration", {
+  extend: qx.theme.simple.Decoration,
 
-  aliases : {
-    decoration : "qx/decoration/Simple"
+  aliases: {
+    decoration: "qx/decoration/Simple"
   },
 
-  decorations :
-  {
-    "window" :
-    {
-      style :
-      {
-        width : 1,
-        color : "window-border",
-        shadowLength : 1,
-        shadowBlurRadius : 3,
-        shadowColor : "shadow",
-        backgroundColor : "background",
+  decorations: {
+    window: {
+      style: {
+        width: 1,
+        color: "window-border",
+        shadowLength: 1,
+        shadowBlurRadius: 3,
+        shadowColor: "shadow",
+        backgroundColor: "background",
         radius: 3
       }
     },
 
-
-    "window-caption" : {
-      style :
-      {
+    "window-caption": {
+      style: {
         radius: [3, 3, 0, 0],
         color: "window-border",
         widthBottom: 1
       }
     },
 
-    "window-caption-active" : {
-      style :
-      {
+    "window-caption-active": {
+      style: {
         radius: [3, 3, 0, 0],
         color: "highlight",
         widthBottom: 3
       }
     },
 
-
-    "white-box" :
-    {
-      style :
-      {
+    "white-box": {
+      style: {
         width: 1,
         color: "white-box-border",
-        backgroundColor : "white"
+        backgroundColor: "white"
       }
     },
 
-    "statusbar" :
-    {
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-main",
-        styleTop : "solid"
+    statusbar: {
+      style: {
+        widthTop: 1,
+        colorTop: "border-main",
+        styleTop: "solid"
       }
     },
 
-
-    "app-header" : {
-      style :
-      {
-        innerWidthBottom : 1,
+    "app-header": {
+      style: {
+        innerWidthBottom: 1,
         innerColorBottom: "highlight-shade",
         widthBottom: 9,
         colorBottom: "highlight",
 
-        gradientStart : ["#505154", 0],
-        gradientEnd : ["#323335", 100],
+        gradientStart: ["#505154", 0],
+        gradientEnd: ["#323335", 100],
 
-        backgroundColor : "#323335"
+        backgroundColor: "#323335"
       }
     }
   }

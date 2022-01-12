@@ -24,12 +24,9 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.bom.Shortcut",
-{
-  extend : qx.core.Object,
-  implement: [ qx.core.IDisposable ],
-
-
+qx.Class.define("qx.bom.Shortcut", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -46,9 +43,8 @@ qx.Class.define("qx.bom.Shortcut",
    *    The key must be separated by a <code>+</code> or <code>-</code> character.
    *    Examples: Alt+F1, Control+C, Control+Alt+Delete
    */
-  construct : function(shortcut)
-  {
-    this.base(arguments);
+  construct(shortcut) {
+    super();
 
     this.__modifier = {};
     this.__key = null;
@@ -60,23 +56,19 @@ qx.Class.define("qx.bom.Shortcut",
     this.initEnabled();
   },
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired when the command is executed. Sets the "data" property of the event to
      * the object that issued the command.
      */
-    "execute" : "qx.event.type.Data"
+    execute: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -84,40 +76,31 @@ qx.Class.define("qx.bom.Shortcut",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** whether the command should be respected/enabled */
-    enabled :
-    {
-      init : true,
-      check : "Boolean",
-      event : "changeEnabled",
-      apply : "_applyEnabled"
+    enabled: {
+      init: true,
+      check: "Boolean",
+      event: "changeEnabled",
+      apply: "_applyEnabled"
     },
-
 
     /** The command shortcut */
-    shortcut :
-    {
-      check : "String",
-      apply : "_applyShortcut",
-      nullable : true
+    shortcut: {
+      check: "String",
+      apply: "_applyShortcut",
+      nullable: true
     },
-
 
     /**
      * Whether the execute event should be fired repeatedly if the user keep
      * the keys pressed.
      */
-    autoRepeat :
-    {
-      check : "Boolean",
-      init : false
+    autoRepeat: {
+      check: "Boolean",
+      init: false
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -125,11 +108,9 @@ qx.Class.define("qx.bom.Shortcut",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __modifier : "",
-    __key : "",
-
+  members: {
+    __modifier: "",
+    __key: "",
 
     /*
     ---------------------------------------------------------------------------
@@ -142,20 +123,17 @@ qx.Class.define("qx.bom.Shortcut",
      *
      * @param target {Object} Object which issued the execute event
      */
-    execute : function(target) {
+    execute(target) {
       this.fireDataEvent("execute", target);
     },
-
 
     /**
      * Key down event handler.
      *
      * @param event {qx.event.type.KeySequence} The key event object
      */
-    __onKeyDown : function(event)
-    {
-      if (this.getEnabled() && this.__matchesKeyEvent(event))
-      {
+    __onKeyDown(event) {
+      if (this.getEnabled() && this.__matchesKeyEvent(event)) {
         if (!this.isAutoRepeat()) {
           this.execute(event.getTarget());
         }
@@ -163,16 +141,13 @@ qx.Class.define("qx.bom.Shortcut",
       }
     },
 
-
     /**
      * Key press event handler.
      *
      * @param event {qx.event.type.KeySequence} The key event object
      */
-    __onKeyPress : function(event)
-    {
-      if (this.getEnabled() && this.__matchesKeyEvent(event))
-      {
+    __onKeyPress(event) {
+      if (this.getEnabled() && this.__matchesKeyEvent(event)) {
         if (this.isAutoRepeat()) {
           this.execute(event.getTarget());
         }
@@ -180,45 +155,59 @@ qx.Class.define("qx.bom.Shortcut",
       }
     },
 
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-
     // property apply
-    _applyEnabled : function(value, old)
-    {
+    _applyEnabled(value, old) {
       if (value) {
-        qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyDown, this);
-        qx.event.Registration.addListener(document.documentElement, "keypress", this.__onKeyPress, this);
+        qx.event.Registration.addListener(
+          document.documentElement,
+          "keydown",
+          this.__onKeyDown,
+          this
+        );
+        qx.event.Registration.addListener(
+          document.documentElement,
+          "keypress",
+          this.__onKeyPress,
+          this
+        );
       } else {
-        qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyDown, this);
-        qx.event.Registration.removeListener(document.documentElement, "keypress", this.__onKeyPress, this);
+        qx.event.Registration.removeListener(
+          document.documentElement,
+          "keydown",
+          this.__onKeyDown,
+          this
+        );
+        qx.event.Registration.removeListener(
+          document.documentElement,
+          "keypress",
+          this.__onKeyPress,
+          this
+        );
       }
     },
 
-
     // property apply
-    _applyShortcut : function(value, old)
-    {
-      if (value)
-      {
+    _applyShortcut(value, old) {
+      if (value) {
         // do not allow whitespaces within shortcuts
-        if (value.search(/[\s]+/) != -1)
-        {
+        if (value.search(/[\s]+/) != -1) {
           var msg = "Whitespaces are not allowed within shortcuts";
           this.error(msg);
           throw new Error(msg);
         }
 
-        this.__modifier = { "Control" : false,
-                            "Shift"   : false,
-                            "Meta"    : false,
-                            "Alt"     : false };
+        this.__modifier = {
+          Control: false,
+          Shift: false,
+          Meta: false,
+          Alt: false
+        };
         this.__key = null;
 
         // To support shortcuts with "+" and "-" as keys it is necessary
@@ -226,26 +215,25 @@ qx.Class.define("qx.bom.Shortcut",
         // several keyIdentifiers
         var index;
         var a = [];
-        while (value.length > 0 && index != -1)
-        {
+        while (value.length > 0 && index != -1) {
           // search for delimiters "+" and "-"
           index = value.search(/[-+]+/);
 
           // add identifiers - take value if no separator was found or
           // only one char is left (second part of shortcut)
-          a.push((value.length == 1 || index == -1) ? value : value.substring(0, index));
+          a.push(
+            value.length == 1 || index == -1 ? value : value.substring(0, index)
+          );
 
           // extract the already detected identifier
           value = value.substring(index + 1);
         }
         var al = a.length;
 
-        for (var i=0; i<al; i++)
-        {
+        for (var i = 0; i < al; i++) {
           var identifier = this.__normalizeKeyIdentifier(a[i]);
 
-          switch(identifier)
-          {
+          switch (identifier) {
             case "Control":
             case "Shift":
             case "Meta":
@@ -259,8 +247,7 @@ qx.Class.define("qx.bom.Shortcut",
               throw msg;
 
             default:
-              if (this.__key)
-              {
+              if (this.__key) {
                 var msg = "You can only specify one non modifier key!";
                 this.error(msg);
                 throw msg;
@@ -274,9 +261,6 @@ qx.Class.define("qx.bom.Shortcut",
       return true;
     },
 
-
-
-
     /*
     --------------------------------------------------------------------------
       INTERNAL MATCHING LOGIC
@@ -289,12 +273,10 @@ qx.Class.define("qx.bom.Shortcut",
      * @param e {qx.event.type.KeySequence} the key event object
      * @return {Boolean} whether the shortcuts shortcut matches the key event
      */
-    __matchesKeyEvent : function(e)
-    {
+    __matchesKeyEvent(e) {
       var key = this.__key;
 
-      if (!key)
-      {
+      if (!key) {
         // no shortcut defined.
         return false;
       }
@@ -321,7 +303,6 @@ qx.Class.define("qx.bom.Shortcut",
       return false;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       COMPATIBILITY TO COMMAND
@@ -331,32 +312,30 @@ qx.Class.define("qx.bom.Shortcut",
     /**
      * @lint ignoreReferenceField(__oldKeyNameToKeyIdentifierMap)
      */
-    __oldKeyNameToKeyIdentifierMap :
-    {
+    __oldKeyNameToKeyIdentifierMap: {
       // all other keys are converted by converting the first letter to uppercase
-      esc             : "Escape",
-      ctrl            : "Control",
-      print           : "PrintScreen",
-      del             : "Delete",
-      pageup          : "PageUp",
-      pagedown        : "PageDown",
-      numlock         : "NumLock",
-      numpad_0        : "0",
-      numpad_1        : "1",
-      numpad_2        : "2",
-      numpad_3        : "3",
-      numpad_4        : "4",
-      numpad_5        : "5",
-      numpad_6        : "6",
-      numpad_7        : "7",
-      numpad_8        : "8",
-      numpad_9        : "9",
-      numpad_divide   : "/",
-      numpad_multiply : "*",
-      numpad_minus    : "-",
-      numpad_plus     : "+"
+      esc: "Escape",
+      ctrl: "Control",
+      print: "PrintScreen",
+      del: "Delete",
+      pageup: "PageUp",
+      pagedown: "PageDown",
+      numlock: "NumLock",
+      numpad_0: "0",
+      numpad_1: "1",
+      numpad_2: "2",
+      numpad_3: "3",
+      numpad_4: "4",
+      numpad_5: "5",
+      numpad_6: "6",
+      numpad_7: "7",
+      numpad_8: "8",
+      numpad_9: "9",
+      numpad_divide: "/",
+      numpad_multiply: "*",
+      numpad_minus: "-",
+      numpad_plus: "+"
     },
-
 
     /**
      * Checks and normalizes the key identifier.
@@ -364,8 +343,7 @@ qx.Class.define("qx.bom.Shortcut",
      * @param keyName {String} name of the key.
      * @return {String} normalized keyIdentifier or "Unidentified" if a conversion was not possible
      */
-    __normalizeKeyIdentifier : function(keyName)
-    {
+    __normalizeKeyIdentifier(keyName) {
       var kbUtil = qx.event.util.Keyboard;
       var keyIdentifier = "Unidentified";
 
@@ -378,7 +356,9 @@ qx.Class.define("qx.bom.Shortcut",
       }
 
       keyName = keyName.toLowerCase();
-      var keyIdentifier = this.__oldKeyNameToKeyIdentifierMap[keyName] || qx.lang.String.firstUp(keyName);
+      var keyIdentifier =
+        this.__oldKeyNameToKeyIdentifierMap[keyName] ||
+        qx.lang.String.firstUp(keyName);
 
       if (kbUtil.isValidKeyIdentifier(keyIdentifier)) {
         return keyIdentifier;
@@ -386,9 +366,6 @@ qx.Class.define("qx.bom.Shortcut",
         return "Unidentified";
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -401,8 +378,7 @@ qx.Class.define("qx.bom.Shortcut",
      *
      * @return {String} shortcut
      */
-    toString : function()
-    {
+    toString() {
       var key = this.__key;
 
       var str = [];
@@ -411,8 +387,7 @@ qx.Class.define("qx.bom.Shortcut",
         // this.__modifier holds a map with shortcut combination keys
         // like "Control", "Alt", "Meta" and "Shift" as keys with
         // Boolean values
-        if (this.__modifier[modifier])
-        {
+        if (this.__modifier[modifier]) {
           str.push(qx.locale.Key.getKeyName("short", modifier));
         }
       }
@@ -425,17 +400,13 @@ qx.Class.define("qx.bom.Shortcut",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     // this will remove the event listener
     this.setEnabled(false);
 

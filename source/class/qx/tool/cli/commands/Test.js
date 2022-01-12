@@ -39,7 +39,6 @@ qx.Class.define("qx.tool.cli.commands.Test", {
   extend: qx.tool.cli.commands.Serve,
 
   statics: {
-
     /**
      * The name of the file containing the compile config for the testrunner
      * defaults to "compile-test.json"
@@ -52,6 +51,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         default: false,
         type: "boolean"
       },
+
       "disable-webserver": {
         describe: "Disables the start of the webserver",
         default: false,
@@ -59,16 +59,18 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       }
     },
 
-    getYargsCommand: function () {
+    getYargsCommand() {
       return {
         command: "test",
         describe: "run test for current project",
         builder: (() => {
-          let res = Object.assign({},
+          let res = Object.assign(
+            {},
             qx.tool.cli.commands.Compile.YARGS_BUILDER,
             qx.tool.cli.commands.Serve.YARGS_BUILDER,
             qx.tool.cli.commands.Test.YARGS_BUILDER
           );
+
           delete res.watch;
           delete res["machine-readable"];
           delete res["feedback"];
@@ -87,15 +89,16 @@ qx.Class.define("qx.tool.cli.commands.Test", {
      * The event data is the command instance:
      *  cmd: {qx.tool.cli.commands.Test}
      */
-    "runTests": "qx.event.type.Data"
+    runTests: "qx.event.type.Data"
   },
+
   construct(argv) {
-    this.base(arguments, argv);
+    super(argv);
     this.__tests = [];
     this.addListener("changeExitCode", evt => {
       let exitCode = evt.getData();
       // overwrite error code only in case of errors
-      if ((exitCode !== 0) && argv.failFast) {
+      if (exitCode !== 0 && argv.failFast) {
         process.exit(exitCode);
       }
     });
@@ -124,7 +127,6 @@ qx.Class.define("qx.tool.cli.commands.Test", {
   },
 
   members: {
-
     /**
      * @var {Array}
      */
@@ -134,7 +136,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
      * add a test object and listens for the change of exitCode property
      * @param {qx.tool.cli.api.Test} test
      */
-    addTest: function (test) {
+    addTest(test) {
       qx.core.Assert.assertInstance(test, qx.tool.cli.api.Test);
       test.addListenerOnce("changeExitCode", evt => {
         let exitCode = evt.getData();
@@ -144,7 +146,9 @@ qx.Class.define("qx.tool.cli.commands.Test", {
             qx.tool.compiler.Console.info(`Test '${test.getName()}' passed.`);
           }
         } else if (test.getName()) {
-          qx.tool.compiler.Console.error(`Test '${test.getName()}' failed with exit code ${exitCode}.`);
+          qx.tool.compiler.Console.error(
+            `Test '${test.getName()}' failed with exit code ${exitCode}.`
+          );
         }
         // overwrite error code only in case of errors
         if (exitCode !== 0) {
@@ -158,22 +162,32 @@ qx.Class.define("qx.tool.cli.commands.Test", {
     /**
      * @Override
      */
-    process: async function () {
+    async process() {
       this.argv.watch = false;
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
       this.argv["show-startpage"] = false;
       // check for special test compiler config
-      if (!this.argv.configFile && fs.existsSync(path.join(process.cwd(), qx.tool.cli.commands.Test.CONFIG_FILENAME))) {
+      if (
+        !this.argv.configFile &&
+        fs.existsSync(
+          path.join(process.cwd(), qx.tool.cli.commands.Test.CONFIG_FILENAME)
+        )
+      ) {
         this.argv.configFile = qx.tool.cli.commands.Test.CONFIG_FILENAME;
       }
       this.addListener("making", () => {
-        if (!this.hasListener("runTests") && (this.__tests.length === 0) &&
-          (!this.getCompilerApi() || typeof this.getCompilerApi().beforeTests != "function")) {
+        if (
+          !this.hasListener("runTests") &&
+          this.__tests.length === 0 &&
+          (!this.getCompilerApi() ||
+            typeof this.getCompilerApi().beforeTests != "function")
+        ) {
           qx.tool.compiler.Console.error(
             `No tests are registered! You need to either register tests, or install a testrunner.
              See documentation at https://qooxdoo.org/docs/#/development/testing/`
           );
+
           process.exit(-1);
         }
       });
@@ -181,7 +195,10 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       this.addListener("afterStart", async () => {
         qx.tool.compiler.Console.info(`Running unit tests`);
         await this.fireDataEventAsync("runTests", this);
-        if (this.getCompilerApi() && typeof this.getCompilerApi().beforeTests == "function") {
+        if (
+          this.getCompilerApi() &&
+          typeof this.getCompilerApi().beforeTests == "function"
+        ) {
           await this.getCompilerApi().beforeTests(this);
         }
         for (let test of this.__tests) {
@@ -193,7 +210,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
 
       if (this.__needsServer()) {
         // start server
-        await this.base(arguments);
+        await super.process();
       } else {
         // compile only
         await qx.tool.cli.commands.Compile.prototype.process.call(this);
@@ -202,8 +219,12 @@ qx.Class.define("qx.tool.cli.commands.Test", {
       }
     },
 
-    __needsServer: function () {
-      return !this.argv.disableWebserver && (this.getNeedsServer() || this.__tests.some(test => test.getNeedsServer()));
+    __needsServer() {
+      return (
+        !this.argv.disableWebserver &&
+        (this.getNeedsServer() ||
+          this.__tests.some(test => test.getNeedsServer()))
+      );
     }
   }
 });

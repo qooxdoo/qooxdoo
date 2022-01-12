@@ -19,16 +19,14 @@
 /**
  * Provides scrolling ability during drag session to the widget.
  */
-qx.Mixin.define("qx.ui.core.MDragDropScrolling",
-{
+qx.Mixin.define("qx.ui.core.MDragDropScrolling", {
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  construct : function()
-  {
+  construct() {
     var widget = this;
 
     if (this instanceof qx.ui.core.DragDropScrolling) {
@@ -48,27 +46,23 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The threshold for the x-axis (in pixel) to activate scrolling at the edges. */
-    dragScrollThresholdX :
-    {
-      check : "Integer",
-      init : 30
+    dragScrollThresholdX: {
+      check: "Integer",
+      init: 30
     },
 
     /** The threshold for the y-axis (in pixel) to activate scrolling at the edges. */
-    dragScrollThresholdY :
-    {
-      check : "Integer",
-      init : 30
+    dragScrollThresholdY: {
+      check: "Integer",
+      init: 30
     },
 
     /** The factor for slowing down the scrolling. */
-    dragScrollSlowDownFactor :
-    {
-      check : "Float",
-      init : 0.1
+    dragScrollSlowDownFactor: {
+      check: "Float",
+      init: 0.1
     }
   },
 
@@ -78,11 +72,10 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
   *****************************************************************************
   */
 
-  members :
-  {
-    __dragScrollTimer : null,
-    __xDirs : null,
-    __yDirs : null,
+  members: {
+    __dragScrollTimer: null,
+    __xDirs: null,
+    __yDirs: null,
 
     /**
      * Finds the first scrollable parent (in the parent chain).
@@ -90,8 +83,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param widget {qx.ui.core.LayoutItem} The widget to start from.
      * @return {qx.ui.core.Widget} A scrollable widget.
      */
-    _findScrollableParent : function(widget)
-    {
+    _findScrollableParent(widget) {
       var cur = widget;
       if (cur === null) {
         return null;
@@ -112,9 +104,11 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param widget {qx.ui.core.Widget} The widget to check.
      * @return {Boolean} Whether the widget is scrollable.
      */
-    _isScrollable : function(widget)
-    {
-      return qx.Class.hasMixin(widget.constructor, qx.ui.core.scroll.MScrollBarFactory);
+    _isScrollable(widget) {
+      return qx.Class.hasMixin(
+        widget.constructor,
+        qx.ui.core.scroll.MScrollBarFactory
+      );
     },
 
     /**
@@ -123,8 +117,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
      * @return {Map} A map with all four bounds (e.g. {"left":0, "top":20, "right":0, "bottom":80}).
      */
-    _getBounds : function(scrollable)
-    {
+    _getBounds(scrollable) {
       var bounds = scrollable.getContentLocation();
 
       // the scrollable may dictate a nested widget for more precise bounds
@@ -143,11 +136,10 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param thresholdY {Number} y-axis threshold.
      * @return {String} One of the four edgeTypes ('left', 'right', 'top', 'bottom').
      */
-    _getEdgeType : function(diff, thresholdX, thresholdY)
-    {
-      if ((diff.left * -1) <= thresholdX && diff.left < 0) {
+    _getEdgeType(diff, thresholdX, thresholdY) {
+      if (diff.left * -1 <= thresholdX && diff.left < 0) {
         return "left";
-      } else if ((diff.top * -1) <= thresholdY && diff.top < 0) {
+      } else if (diff.top * -1 <= thresholdY && diff.top < 0) {
         return "top";
       } else if (diff.right <= thresholdX && diff.right > 0) {
         return "right";
@@ -165,14 +157,17 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @throws {Error} If edgeType is not one of the distinct four ones.
      * @return {String} Returns 'y' or 'x'.
      */
-    _getAxis : function(edgeType)
-    {
+    _getAxis(edgeType) {
       if (this.__xDirs.indexOf(edgeType) !== -1) {
         return "x";
       } else if (this.__yDirs.indexOf(edgeType) !== -1) {
         return "y";
       } else {
-        throw new Error("Invalid edge type given ("+edgeType+"). Must be: 'left', 'right', 'top' or 'bottom'");
+        throw new Error(
+          "Invalid edge type given (" +
+            edgeType +
+            "). Must be: 'left', 'right', 'top' or 'bottom'"
+        );
       }
     },
 
@@ -182,10 +177,10 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param edgeType {String} One of the four edgeTypes ('left', 'right', 'top', 'bottom').
      * @return {Number} The threshold of the x or y axis.
      */
-    _getThresholdByEdgeType : function(edgeType) {
+    _getThresholdByEdgeType(edgeType) {
       if (this.__xDirs.indexOf(edgeType) !== -1) {
         return this.getDragScrollThresholdX();
-      } else if(this.__yDirs.indexOf(edgeType) !== -1) {
+      } else if (this.__yDirs.indexOf(edgeType) !== -1) {
         return this.getDragScrollThresholdY();
       }
     },
@@ -197,10 +192,9 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param axis {String} Can be 'y' or 'x'.
      * @return {Boolean} Whether the scrollbar is visible.
      */
-    _isScrollbarVisible : function(scrollable, axis)
-    {
+    _isScrollbarVisible(scrollable, axis) {
       if (scrollable && scrollable._isChildControlVisible) {
-        return scrollable._isChildControlVisible("scrollbar-"+axis);
+        return scrollable._isChildControlVisible("scrollbar-" + axis);
       } else {
         return false;
       }
@@ -214,14 +208,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param amount {Number} Amount to scroll which may be negative.
      * @return {Boolean} Whether the amount will exceed the scrollbar max position.
      */
-    _isScrollbarExceedingMaxPos : function(scrollbar, axis, amount)
-    {
+    _isScrollbarExceedingMaxPos(scrollbar, axis, amount) {
       var newPos = 0;
       if (!scrollbar) {
         return true;
       }
       newPos = scrollbar.getPosition() + amount;
-      return (newPos > scrollbar.getMaximum() || newPos < 0);
+      return newPos > scrollbar.getMaximum() || newPos < 0;
     },
 
     /**
@@ -231,10 +224,9 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param threshold {Number} x-axis or y-axis threshold.
      * @return {Number} Threshold exceedance amount (positive or negative).
      */
-    _calculateThresholdExceedance : function(diff, threshold)
-    {
+    _calculateThresholdExceedance(diff, threshold) {
       var amount = threshold - Math.abs(diff);
-      return diff < 0 ? (amount * -1) : amount;
+      return diff < 0 ? amount * -1 : amount;
     },
 
     /**
@@ -246,9 +238,12 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param exceedanceAmount {Number} Threshold exceedance amount (positive or negative).
      * @return {Number} Scroll amount (positive or negative).
      */
-    _calculateScrollAmount : function(scrollbarSize, exceedanceAmount)
-    {
-      return Math.floor(((scrollbarSize / 100) * exceedanceAmount) * this.getDragScrollSlowDownFactor());
+    _calculateScrollAmount(scrollbarSize, exceedanceAmount) {
+      return Math.floor(
+        (scrollbarSize / 100) *
+          exceedanceAmount *
+          this.getDragScrollSlowDownFactor()
+      );
     },
 
     /**
@@ -258,14 +253,14 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * @param axis {String} Can be 'y' or 'x'.
      * @param exceedanceAmount {Number} Threshold exceedance amount (positive or negative).
      */
-    _scrollBy : function(scrollable, axis, exceedanceAmount) {
-      var scrollbar = scrollable.getChildControl("scrollbar-"+axis, true);
+    _scrollBy(scrollable, axis, exceedanceAmount) {
+      var scrollbar = scrollable.getChildControl("scrollbar-" + axis, true);
       if (!scrollbar) {
         return;
       }
       var bounds = scrollbar.getBounds(),
-          scrollbarSize = axis === "x" ? bounds.width : bounds.height,
-          amount = this._calculateScrollAmount(scrollbarSize, exceedanceAmount);
+        scrollbarSize = axis === "x" ? bounds.width : bounds.height,
+        amount = this._calculateScrollAmount(scrollbarSize, exceedanceAmount);
 
       if (this._isScrollbarExceedingMaxPos(scrollbar, axis, amount)) {
         this.__dragScrollTimer.stop();
@@ -285,8 +280,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      *
      * @param e {qx.event.type.Drag} The drag event instance.
      */
-    __onDrag : function(e)
-    {
+    __onDrag(e) {
       if (this.__dragScrollTimer) {
         // stop last scroll action
         this.__dragScrollTimer.stop();
@@ -295,8 +289,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
       var target;
       if (e.getOriginalTarget() instanceof qx.ui.core.Widget) {
         target = e.getOriginalTarget();
-      }
-      else {
+      } else {
         target = qx.ui.core.Widget.getWidgetByElement(e.getOriginalTarget());
       }
       if (!target) {
@@ -311,19 +304,23 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
       while (scrollable) {
         var bounds = this._getBounds(scrollable),
-            xPos = e.getDocumentLeft(),
-            yPos = e.getDocumentTop(),
-            diff = {
-              "left": bounds.left - xPos,
-              "right": bounds.right - xPos,
-              "top": bounds.top - yPos,
-              "bottom": bounds.bottom - yPos
-            },
-            edgeType = null,
-            axis = "",
-            exceedanceAmount = 0;
+          xPos = e.getDocumentLeft(),
+          yPos = e.getDocumentTop(),
+          diff = {
+            left: bounds.left - xPos,
+            right: bounds.right - xPos,
+            top: bounds.top - yPos,
+            bottom: bounds.bottom - yPos
+          },
+          edgeType = null,
+          axis = "",
+          exceedanceAmount = 0;
 
-        edgeType = this._getEdgeType(diff, this.getDragScrollThresholdX(), this.getDragScrollThresholdY());
+        edgeType = this._getEdgeType(
+          diff,
+          this.getDragScrollThresholdX(),
+          this.getDragScrollThresholdY()
+        );
         if (!edgeType) {
           scrollable = this._findScrollableParent(scrollable);
           continue;
@@ -331,17 +328,22 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         axis = this._getAxis(edgeType);
 
         if (this._isScrollbarVisible(scrollable, axis)) {
-          exceedanceAmount = this._calculateThresholdExceedance(diff[edgeType], this._getThresholdByEdgeType(edgeType));
+          exceedanceAmount = this._calculateThresholdExceedance(
+            diff[edgeType],
+            this._getThresholdByEdgeType(edgeType)
+          );
 
           if (this.__dragScrollTimer) {
             this.__dragScrollTimer.dispose();
           }
 
           this.__dragScrollTimer = new qx.event.Timer(50);
-          this.__dragScrollTimer.addListener("interval",
-            function(scrollable, axis, amount) {
+          this.__dragScrollTimer.addListener(
+            "interval",
+            function (scrollable, axis, amount) {
               this._scrollBy(scrollable, axis, amount);
-            }.bind(this, scrollable, axis, exceedanceAmount));
+            }.bind(this, scrollable, axis, exceedanceAmount)
+          );
           this.__dragScrollTimer.start();
           e.stopPropagation();
           return;
@@ -356,16 +358,14 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      *
      * @param e {qx.event.type.Drag} The drag event instance.
      */
-    __onDragend : function(e)
-    {
+    __onDragend(e) {
       if (this.__dragScrollTimer) {
         this.__dragScrollTimer.stop();
       }
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     if (this.__dragScrollTimer) {
       this.__dragScrollTimer.dispose();
     }

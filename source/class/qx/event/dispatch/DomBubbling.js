@@ -20,34 +20,27 @@
 /**
  * Event dispatcher for all bubbling events on DOM elements.
  */
-qx.Class.define("qx.event.dispatch.DomBubbling",
-{
-  extend : qx.event.dispatch.AbstractBubbling,
+qx.Class.define("qx.event.dispatch.DomBubbling", {
+  extend: qx.event.dispatch.AbstractBubbling,
 
-
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this dispatcher */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _getParent : function(target) {
+    _getParent(target) {
       return target.parentNode;
     },
 
-
     // interface implementation
-    canDispatchEvent : function(target, event, type) {
+    canDispatchEvent(target, event, type) {
       return target.nodeType !== undefined && event.getBubbles();
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addDispatcher(statics);
   }
 });

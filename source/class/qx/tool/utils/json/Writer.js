@@ -25,15 +25,15 @@
  */
 qx.Class.define("qx.tool.utils.json.Writer", {
   extend: qx.core.Object,
-  
-  construct: function() {
-    this.base(arguments);
+
+  construct() {
+    super();
     this.buffer = "";
     this.__indent = 0;
     this.__indentStr = "";
     this.__currentLine = 0;
   },
-  
+
   members: {
     /**
      * Writes a string/number.  Multiple lines are rewritten with indentation at the
@@ -41,15 +41,15 @@ qx.Class.define("qx.tool.utils.json.Writer", {
      */
     write(str) {
       if (str === null) {
-        str = "null"; 
+        str = "null";
       } else if (str === undefined) {
-        str = "undefined"; 
+        str = "undefined";
       } else if (typeof str === "number") {
-        str = str.toString(); 
+        str = str.toString();
       } else if (typeof str === "boolean") {
-        str = str ? "true" : "false"; 
+        str = str ? "true" : "false";
       } else if (typeof str !== "string") {
-        throw new Error("Can only write strings and numbers"); 
+        throw new Error("Can only write strings and numbers");
       }
 
       var startPos = 0;
@@ -76,7 +76,7 @@ qx.Class.define("qx.tool.utils.json.Writer", {
     comments(comments) {
       var t = this;
       if (comments) {
-        comments.forEach(function(comment) {
+        comments.forEach(function (comment) {
           t.write(comment.source + "\n");
         });
       }
@@ -84,24 +84,24 @@ qx.Class.define("qx.tool.utils.json.Writer", {
 
     /**
      * Increases or decreases the indentation level (one indent is two spaces)
-     * 
+     *
      * @param count {Number} number to increase/decrease by
      */
     indent(count) {
       if (this.__indent + count < 0) {
-        throw new Error("Unbalanced indent"); 
+        throw new Error("Unbalanced indent");
       }
       this.__indent += count;
-      
+
       var indentStr = this.__indentStr;
       if (count > 0) {
         var str = "";
         for (var i = 0; i < count; i++) {
-          str += "  "; 
+          str += "  ";
         }
         indentStr += str;
       } else {
-        indentStr = indentStr.substring(0, indentStr.length + (count * 2));
+        indentStr = indentStr.substring(0, indentStr.length + count * 2);
       }
       var line = this.buffer.substring(this.__currentLine);
       if (!line.match(/[^\s]/)) {
@@ -111,17 +111,17 @@ qx.Class.define("qx.tool.utils.json.Writer", {
 
       return this;
     },
-    
+
     /**
      * Detects the current indentation level in the output, which has been added manually,
      * ie outside of the `indent()` method.  When outputting an AST via `reprint()`, whitespace
      * is copied too, this allows the code to adopt whatever indentation level has been
      * output by the AST so that injecting `prettyPrint()`-ed new objects are at the same\
      * level.
-     * 
+     *
      * The old indent is returned, and should be passed to `resetIndent()` to restore the
      * previous value.
-     * 
+     *
      * @return {Object} previous indentation
      */
     matchIndent() {
@@ -132,15 +132,14 @@ qx.Class.define("qx.tool.utils.json.Writer", {
       this.__indentStr = indent;
       return oldIndent;
     },
-    
+
     /**
      * Restores the previous indentation settings prior to `matchIndent()`
-     * 
+     *
      * @param indent {Object} previous indentation settings
      */
     resetIndent(indent) {
       this.__indentStr = indent;
     }
-    
   }
 });

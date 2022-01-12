@@ -24,20 +24,17 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Html",
-{
-  statics:
-  {
+qx.Bootstrap.define("qx.bom.client.Html", {
+  statics: {
     /**
      * Whether the client supports Web Workers.
      *
      * @internal
      * @return {Boolean} <code>true</code> if webworkers are supported
      */
-    getWebWorker : function() {
+    getWebWorker() {
       return window.Worker != null;
     },
-
 
     /**
      * Whether the client supports File Readers
@@ -45,10 +42,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if FileReaders are supported
      */
-    getFileReader : function() {
+    getFileReader() {
       return window.FileReader != null;
     },
-
 
     /**
      * Whether the client supports Geo Location.
@@ -56,10 +52,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if geolocation supported
      */
-    getGeoLocation : function() {
+    getGeoLocation() {
       return "geolocation" in navigator;
     },
-
 
     /**
      * Whether the client supports audio.
@@ -67,8 +62,8 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if audio is supported
      */
-    getAudio : function() {
-      return !!document.createElement('audio').canPlayType;
+    getAudio() {
+      return !!document.createElement("audio").canPlayType;
     },
 
     /**
@@ -77,7 +72,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getAudioOgg : function() {
+    getAudioOgg() {
       if (!qx.bom.client.Html.getAudio()) {
         return "";
       }
@@ -91,7 +86,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getAudioMp3 : function() {
+    getAudioMp3() {
       if (!qx.bom.client.Html.getAudio()) {
         return "";
       }
@@ -105,7 +100,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getAudioWav : function() {
+    getAudioWav() {
       if (!qx.bom.client.Html.getAudio()) {
         return "";
       }
@@ -119,7 +114,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getAudioAu : function() {
+    getAudioAu() {
       if (!qx.bom.client.Html.getAudio()) {
         return "";
       }
@@ -133,7 +128,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getAudioAif : function() {
+    getAudioAif() {
       if (!qx.bom.client.Html.getAudio()) {
         return "";
       }
@@ -141,15 +136,14 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return a.canPlayType("audio/x-aiff");
     },
 
-
     /**
      * Whether the client supports video.
      *
      * @internal
      * @return {Boolean} <code>true</code> if video is supported
      */
-    getVideo : function() {
-      return !!document.createElement('video').canPlayType;
+    getVideo() {
+      return !!document.createElement("video").canPlayType;
     },
 
     /**
@@ -158,7 +152,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getVideoOgg : function() {
+    getVideoOgg() {
       if (!qx.bom.client.Html.getVideo()) {
         return "";
       }
@@ -172,7 +166,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getVideoH264 : function() {
+    getVideoH264() {
       if (!qx.bom.client.Html.getVideo()) {
         return "";
       }
@@ -186,7 +180,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {String} "" or "maybe" or "probably"
      */
-    getVideoWebm : function() {
+    getVideoWebm() {
       if (!qx.bom.client.Html.getVideo()) {
         return "";
       }
@@ -200,7 +194,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if local storage is supported
      */
-    getLocalStorage : function() {
+    getLocalStorage() {
       try {
         // write once to make sure to catch safari's private mode [BUG #7718]
         window.localStorage.setItem("$qx_check", "test");
@@ -213,14 +207,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
       }
     },
 
-
     /**
      * Whether the client supports session storage.
      *
      * @internal
      * @return {Boolean} <code>true</code> if session storage is supported
      */
-    getSessionStorage : function() {
+    getSessionStorage() {
       try {
         // write once to make sure to catch safari's private mode [BUG #7718]
         window.sessionStorage.setItem("$qx_check", "test");
@@ -240,7 +233,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if the user data is supported.
      */
-    getUserDataStorage : function() {
+    getUserDataStorage() {
       var el = document.createElement("div");
       el.style["display"] = "none";
       document.getElementsByTagName("head")[0].appendChild(el);
@@ -256,7 +249,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return supported;
     },
 
-
     /**
      * Whether the browser supports CSS class lists.
      * https://developer.mozilla.org/en-US/docs/DOM/element.classList
@@ -264,12 +256,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if class list is supported.
      */
-    getClassList : function() {
-      return !!(document.documentElement.classList &&
-        qx.Bootstrap.getClass(document.documentElement.classList) === "DOMTokenList"
+    getClassList() {
+      return !!(
+        document.documentElement.classList &&
+        qx.Bootstrap.getClass(document.documentElement.classList) ===
+          "DOMTokenList"
       );
     },
-
 
     /**
      * Checks if XPath could be used.
@@ -277,10 +270,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if xpath is supported.
      */
-    getXPath : function() {
+    getXPath() {
       return !!document.evaluate;
     },
-
 
     /**
      * Checks if XUL could be used.
@@ -288,15 +280,17 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if XUL is supported.
      */
-    getXul : function() {
+    getXul() {
       try {
-        document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        document.createElementNS(
+          "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
+          "label"
+        );
         return true;
       } catch (e) {
         return false;
       }
     },
-
 
     /**
      * Checks if SVG could be used
@@ -304,16 +298,17 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if SVG is supported.
      */
-    getSvg : function() {
-      return document.implementation && document.implementation.hasFeature &&
+    getSvg() {
+      return (
+        document.implementation &&
+        document.implementation.hasFeature &&
         (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ||
-        document.implementation.hasFeature(
-          "http://www.w3.org/TR/SVG11/feature#BasicStructure",
-          "1.1"
-        )
+          document.implementation.hasFeature(
+            "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+            "1.1"
+          ))
       );
     },
-
 
     /**
      * Checks if VML is supported
@@ -321,7 +316,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if VML is supported.
      */
-    getVml : function() {
+    getVml() {
       var el = document.createElement("div");
       document.body.appendChild(el);
       el.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
@@ -331,17 +326,15 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return hasVml;
     },
 
-
     /**
      * Checks if canvas could be used
      *
      * @internal
      * @return {Boolean} <code>true</code> if canvas is supported.
      */
-    getCanvas : function() {
+    getCanvas() {
       return !!window.CanvasRenderingContext2D;
     },
-
 
     /**
      * Asynchronous check for using data urls.
@@ -349,18 +342,19 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @param callback {Function} The function which should be executed as
      *   soon as the check is done.
-     * 
+     *
      * @ignore(Image)
      */
-    getDataUrl : function(callback) {
+    getDataUrl(callback) {
       var data = new Image();
-      data.onload = data.onerror = function() {
+      data.onload = data.onerror = function () {
         // wrap that into a timeout because IE might execute it synchronously
-        window.setTimeout(function() {
-          callback.call(null, (data.width == 1 && data.height == 1));
+        window.setTimeout(function () {
+          callback.call(null, data.width == 1 && data.height == 1);
         }, 0);
       };
-      data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      data.src =
+        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
     },
 
     /**
@@ -369,10 +363,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if dataset is supported.
      */
-    getDataset : function() {
+    getDataset() {
       return !!document.documentElement.dataset;
     },
-
 
     /**
      * Check for element.contains
@@ -380,12 +373,10 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if element.contains is supported
      */
-    getContains : function()
-    {
+    getContains() {
       // "object" in IE6/7/8, "function" in IE9
-      return (typeof document.documentElement.contains !== "undefined");
+      return typeof document.documentElement.contains !== "undefined";
     },
-
 
     /**
      * Check for element.compareDocumentPosition
@@ -393,11 +384,11 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if element.compareDocumentPosition is supported
      */
-    getCompareDocumentPosition : function()
-    {
-      return (typeof document.documentElement.compareDocumentPosition === "function");
+    getCompareDocumentPosition() {
+      return (
+        typeof document.documentElement.compareDocumentPosition === "function"
+      );
     },
-
 
     /**
      * Check for element.textContent. Legacy IEs do not support this, use
@@ -406,12 +397,10 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if textContent is supported
      */
-    getTextContent : function()
-    {
+    getTextContent() {
       var el = document.createElement("span");
-      return (typeof el.textContent !== "undefined");
+      return typeof el.textContent !== "undefined";
     },
-
 
     /**
      * Whether the client supports the fullscreen API.
@@ -419,13 +408,15 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if fullscreen is supported
      */
-    getFullScreen : function() {
-      return document.fullscreenEnabled ||
-             document.webkitFullscreenEnabled ||
-             document.mozFullScreenEnabled ||
-             document.msFullscreenEnabled || false;
+    getFullScreen() {
+      return (
+        document.fullscreenEnabled ||
+        document.webkitFullscreenEnabled ||
+        document.mozFullScreenEnabled ||
+        document.msFullscreenEnabled ||
+        false
+      );
     },
-
 
     /**
      * Check for a console object.
@@ -433,11 +424,9 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if a console is available.
      */
-    getConsole : function()
-    {
+    getConsole() {
       return typeof window.console !== "undefined";
     },
-
 
     /**
      * Check for the <code>naturalHeight</code> and <code>naturalWidth</code>
@@ -446,27 +435,27 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @return {Boolean} <code>true</code> if both attributes are supported
      */
-    getNaturalDimensions : function()
-    {
+    getNaturalDimensions() {
       var img = document.createElement("img");
-      return typeof img.naturalHeight === "number" &&
-        typeof img.naturalWidth === "number";
+      return (
+        typeof img.naturalHeight === "number" &&
+        typeof img.naturalWidth === "number"
+      );
     },
-
 
     /**
      * Check for HTML5 history manipulation support.
-
      * @internal
      * @return {Boolean} <code>true</code> if the HTML5 history API is supported
      */
-    getHistoryState : function()
-    {
-      return (typeof window.onpopstate !== "undefined" &&
-              typeof window.history.replaceState !== "undefined" &&
-              typeof window.history.pushState !== "undefined");
-    },
 
+    getHistoryState() {
+      return (
+        typeof window.onpopstate !== "undefined" &&
+        typeof window.history.replaceState !== "undefined" &&
+        typeof window.history.pushState !== "undefined"
+      );
+    },
 
     /**
      * Returns the name of the native object/function used to access the
@@ -477,8 +466,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * document.selection object is available; <code>null</code> if no known
      * text selection API is available.
      */
-    getSelection : function()
-    {
+    getSelection() {
       if (typeof window.getSelection === "function") {
         return "getSelection";
       }
@@ -488,18 +476,17 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return null;
     },
 
-
     /**
      * Check for the isEqualNode DOM method.
      *
      * @return {Boolean} <code>true</code> if isEqualNode is supported by DOM nodes
      */
-    getIsEqualNode : function() {
+    getIsEqualNode() {
       return typeof document.documentElement.isEqualNode === "function";
     }
   },
 
-  defer : function (statics) {
+  defer(statics) {
     qx.core.Environment.add("html.webworker", statics.getWebWorker);
     qx.core.Environment.add("html.filereader", statics.getFileReader);
     qx.core.Environment.add("html.geolocation", statics.getGeoLocation);
@@ -515,7 +502,10 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.video.webm", statics.getVideoWebm);
     qx.core.Environment.add("html.storage.local", statics.getLocalStorage);
     qx.core.Environment.add("html.storage.session", statics.getSessionStorage);
-    qx.core.Environment.add("html.storage.userdata", statics.getUserDataStorage);
+    qx.core.Environment.add(
+      "html.storage.userdata",
+      statics.getUserDataStorage
+    );
     qx.core.Environment.add("html.classlist", statics.getClassList);
     qx.core.Environment.add("html.xpath", statics.getXPath);
     qx.core.Environment.add("html.xul", statics.getXul);
@@ -525,10 +515,16 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.dataset", statics.getDataset);
     qx.core.Environment.addAsync("html.dataurl", statics.getDataUrl);
     qx.core.Environment.add("html.element.contains", statics.getContains);
-    qx.core.Environment.add("html.element.compareDocumentPosition", statics.getCompareDocumentPosition);
+    qx.core.Environment.add(
+      "html.element.compareDocumentPosition",
+      statics.getCompareDocumentPosition
+    );
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
     qx.core.Environment.add("html.console", statics.getConsole);
-    qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
+    qx.core.Environment.add(
+      "html.image.naturaldimensions",
+      statics.getNaturalDimensions
+    );
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
     qx.core.Environment.add("html.selection", statics.getSelection);
     qx.core.Environment.add("html.node.isequalnode", statics.getIsEqualNode);

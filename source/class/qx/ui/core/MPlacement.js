@@ -22,12 +22,10 @@
  * Methods to place popup like widgets to other widgets, points,
  * pointer event coordinates, etc.
  */
-qx.Mixin.define("qx.ui.core.MPlacement",
-{
-
-  statics : {
-    __visible : null,
-    __direction : "left",
+qx.Mixin.define("qx.ui.core.MPlacement", {
+  statics: {
+    __visible: null,
+    __direction: "left",
 
     /**
      * Set the always visible element. If an element is set, the
@@ -36,7 +34,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *
      * @param elem {qx.ui.core.Widget} The widget which should always be visible.
      */
-    setVisibleElement : function(elem) {
+    setVisibleElement(elem) {
       this.__visible = elem;
     },
 
@@ -46,7 +44,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *
      * @return {qx.ui.core.Widget|null} The given widget.
      */
-    getVisibleElement : function() {
+    getVisibleElement() {
       return this.__visible;
     },
 
@@ -56,14 +54,17 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *
      * @param direction {String} The direction <code>left</code> or <code>top</code>.
      */
-    setMoveDirection : function(direction)
-    {
+    setMoveDirection(direction) {
       if (direction === "top" || direction === "left") {
         this.__direction = direction;
       } else {
-        throw new Error("Invalid value for the parameter 'direction' " +
-          "[qx.ui.core.MPlacement.setMoveDirection()], the value was '" + direction + "' " +
-          "but 'top' or 'left' are allowed.");
+        throw new Error(
+          "Invalid value for the parameter 'direction' " +
+            "[qx.ui.core.MPlacement.setMoveDirection()], the value was '" +
+            direction +
+            "' " +
+            "but 'top' or 'left' are allowed."
+        );
       }
     },
 
@@ -73,14 +74,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *
      * @return {String} The move direction.
      */
-    getMoveDirection : function() {
+    getMoveDirection() {
       return this.__direction;
     }
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Position of the aligned object in relation to the opener.
      *
@@ -104,35 +103,40 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * +-------------+
      * </pre>
      */
-    position :
-    {
-      check :
-      [
-        "top-left", "top-center", "top-right",
-        "bottom-left", "bottom-center", "bottom-right",
-        "left-top", "left-middle", "left-bottom",
-        "right-top", "right-middle", "right-bottom"
+    position: {
+      check: [
+        "top-left",
+        "top-center",
+        "top-right",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right",
+        "left-top",
+        "left-middle",
+        "left-bottom",
+        "right-top",
+        "right-middle",
+        "right-bottom"
       ],
-      init : "bottom-left",
-      themeable : true
+
+      init: "bottom-left",
+      themeable: true
     },
 
     /**
      * Whether the widget should be placed relative to an other widget or to
      * the pointer.
      */
-    placeMethod :
-    {
-      check : ["widget", "pointer"],
-      init : "pointer",
+    placeMethod: {
+      check: ["widget", "pointer"],
+      init: "pointer",
       themeable: true
     },
 
     /** Whether the widget should moved using DOM methods. */
-    domMove :
-    {
-      check : "Boolean",
-      init : false
+    domMove: {
+      check: "Boolean",
+      init: false
     },
 
     /**
@@ -141,11 +145,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
      * uses {@link qx.util.placement.BestFitAxis}.
      */
-    placementModeX :
-    {
-      check : ["direct", "keep-align", "best-fit"],
-      init : "keep-align",
-      themeable : true
+    placementModeX: {
+      check: ["direct", "keep-align", "best-fit"],
+      init: "keep-align",
+      themeable: true
     },
 
     /**
@@ -154,61 +157,52 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
      * uses {@link qx.util.placement.BestFitAxis}.
      */
-    placementModeY :
-    {
-      check : ["direct", "keep-align", "best-fit"],
-      init : "keep-align",
-      themeable : true
+    placementModeY: {
+      check: ["direct", "keep-align", "best-fit"],
+      init: "keep-align",
+      themeable: true
     },
 
     /** Left offset of the pointer (in pixel) */
-    offsetLeft :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true
+    offsetLeft: {
+      check: "Integer",
+      init: 0,
+      themeable: true
     },
 
     /** Top offset of the pointer (in pixel) */
-    offsetTop :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true
+    offsetTop: {
+      check: "Integer",
+      init: 0,
+      themeable: true
     },
 
     /** Right offset of the pointer (in pixel) */
-    offsetRight :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true
+    offsetRight: {
+      check: "Integer",
+      init: 0,
+      themeable: true
     },
 
     /** Bottom offset of the pointer (in pixel) */
-    offsetBottom :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true
+    offsetBottom: {
+      check: "Integer",
+      init: 0,
+      themeable: true
     },
 
     /** Offsets in one group */
-    offset :
-    {
-      group : [ "offsetTop", "offsetRight", "offsetBottom", "offsetLeft" ],
-      mode  : "shorthand",
-      themeable : true
+    offset: {
+      group: ["offsetTop", "offsetRight", "offsetBottom", "offsetLeft"],
+      mode: "shorthand",
+      themeable: true
     }
   },
 
-
-  members :
-  {
-    __ptwLiveUpdater : null,
-    __ptwLiveDisappearListener : null,
-    __ptwLiveUpdateDisappearListener : null,
-
+  members: {
+    __ptwLiveUpdater: null,
+    __ptwLiveDisappearListener: null,
+    __ptwLiveUpdateDisappearListener: null,
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does,
@@ -224,8 +218,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *   <code>right</code> and <code>bottom</code> which contains the distance
      *   of the widget relative coords the document.
      */
-    getLayoutLocation : function(widget)
-    {
+    getLayoutLocation(widget) {
       // Use post-layout dimensions
       // which do not rely on the final rendered DOM element
       var insets, bounds, left, top;
@@ -245,8 +238,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Now loop up with parents until reaching the root
       widget = widget.getLayoutParent();
-      while (widget && !widget.isRootWidget())
-      {
+      while (widget && !widget.isRootWidget()) {
         // Add coordinates
         bounds = widget.getBounds();
         left += bounds.left;
@@ -262,11 +254,9 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       // Add the rendered location of the root widget
-      if (widget && widget.isRootWidget())
-      {
+      if (widget && widget.isRootWidget()) {
         var rootCoords = widget.getContentLocation();
-        if (rootCoords)
-        {
+        if (rootCoords) {
           left += rootCoords.left;
           top += rootCoords.top;
         }
@@ -274,13 +264,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Build location data
       return {
-        left : left,
-        top : top,
-        right : left + size.width,
-        bottom : top + size.height
+        left: left,
+        top: top,
+        right: left + size.width,
+        bottom: top + size.height
       };
     },
-
 
     /**
      * Sets the position. Uses low-level, high-performance DOM
@@ -293,13 +282,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
-    moveTo : function(left, top)
-    {
+    moveTo(left, top) {
       var visible = qx.ui.core.MPlacement.getVisibleElement();
 
       // if we have an always visible element
       if (visible) {
-
         var bounds = this.getBounds();
         var elemLocation = visible.getContentLocation();
 
@@ -323,8 +310,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
           //   ---------
           //     | 4 |
           if (
-            (right > elemLocation.left && left < elemLocation.right) &&
-            (bottom > elemLocation.top && top < elemLocation.bottom)
+            right > elemLocation.left &&
+            left < elemLocation.right &&
+            bottom > elemLocation.top &&
+            top < elemLocation.bottom
           ) {
             var direction = qx.ui.core.MPlacement.getMoveDirection();
 
@@ -340,10 +329,9 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       if (this.getDomMove()) {
         this.setDomPosition(left, top);
       } else {
-        this.setLayoutProperties({left: left, top: top});
+        this.setLayoutProperties({ left: left, top: top });
       }
     },
-
 
     /**
      * Places the widget to another (at least laid out) widget. The DOM
@@ -355,33 +343,41 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * widget should be checked and corrected automatically.
      * @return {Boolean} true if the widget was successfully placed
      */
-    placeToWidget : function(target, liveupdate)
-    {
-
+    placeToWidget(target, liveupdate) {
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
-      if (liveupdate)
-      {
+      if (liveupdate) {
         this.__cleanupFromLastPlaceToWidgetLiveUpdate();
 
         // Bind target and livupdate to placeToWidget
-        this.__ptwLiveUpdater = qx.lang.Function.bind(this.placeToWidget, this, target, false);
+        this.__ptwLiveUpdater = qx.lang.Function.bind(
+          this.placeToWidget,
+          this,
+          target,
+          false
+        );
 
-        qx.event.Idle.getInstance().addListener("interval", this.__ptwLiveUpdater);
+        qx.event.Idle.getInstance().addListener(
+          "interval",
+          this.__ptwLiveUpdater
+        );
 
         // Remove the listener when the element disappears.
-        this.__ptwLiveUpdateDisappearListener = function()
-        {
+        this.__ptwLiveUpdateDisappearListener = function () {
           this.__cleanupFromLastPlaceToWidgetLiveUpdate();
         };
 
-        this.addListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
-
+        this.addListener(
+          "disappear",
+          this.__ptwLiveUpdateDisappearListener,
+          this
+        );
       }
 
-      var coords = target.getContentLocation() || this.getLayoutLocation(target);
+      var coords =
+        target.getContentLocation() || this.getLayoutLocation(target);
 
-      if(coords != null) {
+      if (coords != null) {
         this._place(coords);
         return true;
       } else {
@@ -389,38 +385,38 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
     },
 
-
     /**
      * Removes all resources allocated by the last run of placeToWidget with liveupdate=true
      */
-    __cleanupFromLastPlaceToWidgetLiveUpdate : function()
-    {
-      if (this.__ptwLiveUpdater)
-      {
-        qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);
+    __cleanupFromLastPlaceToWidgetLiveUpdate() {
+      if (this.__ptwLiveUpdater) {
+        qx.event.Idle.getInstance().removeListener(
+          "interval",
+          this.__ptwLiveUpdater
+        );
         this.__ptwLiveUpdater = null;
       }
 
-      if (this.__ptwLiveUpdateDisappearListener){
-        this.removeListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
+      if (this.__ptwLiveUpdateDisappearListener) {
+        this.removeListener(
+          "disappear",
+          this.__ptwLiveUpdateDisappearListener,
+          this
+        );
         this.__ptwLiveUpdateDisappearListener = null;
       }
-
     },
-
 
     /**
      * Places the widget to the pointer position.
      *
      * @param event {qx.event.type.Pointer} Pointer event to align to
      */
-    placeToPointer : function(event)
-    {
+    placeToPointer(event) {
       var left = Math.round(event.getDocumentLeft());
       var top = Math.round(event.getDocumentTop());
 
-      var coords =
-      {
+      var coords = {
         left: left,
         top: top,
         right: left,
@@ -430,7 +426,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       this._place(coords);
     },
 
-
     /**
      * Places the widget to any (rendered) DOM element.
      *
@@ -438,11 +433,9 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * @param liveupdate {Boolean} Flag indicating if the position of the
      * widget should be checked and corrected automatically.
      */
-    placeToElement : function(elem, liveupdate)
-    {
+    placeToElement(elem, liveupdate) {
       var location = qx.bom.element.Location.get(elem);
-      var coords =
-      {
+      var coords = {
         left: location.left,
         top: location.top,
         right: location.left + elem.offsetWidth,
@@ -451,27 +444,38 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
-      if (liveupdate)
-      {
+      if (liveupdate) {
         // Bind target and livupdate to placeToWidget
-        this.__ptwLiveUpdater = qx.lang.Function.bind(this.placeToElement, this, elem, false);
+        this.__ptwLiveUpdater = qx.lang.Function.bind(
+          this.placeToElement,
+          this,
+          elem,
+          false
+        );
 
-        qx.event.Idle.getInstance().addListener("interval", this.__ptwLiveUpdater);
+        qx.event.Idle.getInstance().addListener(
+          "interval",
+          this.__ptwLiveUpdater
+        );
 
         // Remove the listener when the element disappears.
-        this.addListener("disappear", function()
-        {
-          if (this.__ptwLiveUpdater)
-          {
-            qx.event.Idle.getInstance().removeListener("interval", this.__ptwLiveUpdater);
-            this.__ptwLiveUpdater = null;
-          }
-        }, this);
+        this.addListener(
+          "disappear",
+          function () {
+            if (this.__ptwLiveUpdater) {
+              qx.event.Idle.getInstance().removeListener(
+                "interval",
+                this.__ptwLiveUpdater
+              );
+              this.__ptwLiveUpdater = null;
+            }
+          },
+          this
+        );
       }
 
       this._place(coords);
     },
-
 
     /**
      * Places the widget in relation to the given point
@@ -479,10 +483,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * @param point {Map} Coordinate of any point with the keys <code>left</code>
      *   and <code>top</code>.
      */
-    placeToPoint : function(point)
-    {
-      var coords =
-      {
+    placeToPoint(point) {
+      var coords = {
         left: point.left,
         top: point.top,
         right: point.left,
@@ -492,22 +494,19 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       this._place(coords);
     },
 
-
     /**
      * Returns the placement offsets as a map
      *
      * @return {Map} The placement offsets
      */
-    _getPlacementOffsets : function()
-    {
+    _getPlacementOffsets() {
       return {
-        left : this.getOffsetLeft(),
-        top : this.getOffsetTop(),
-        right : this.getOffsetRight(),
-        bottom : this.getOffsetBottom()
+        left: this.getOffsetLeft(),
+        top: this.getOffsetTop(),
+        right: this.getOffsetRight(),
+        bottom: this.getOffsetBottom()
       };
     },
-
 
     /**
      * Get the size of the object to place. The callback will be called with
@@ -520,8 +519,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *  @param callback {Function} This function will be called with the size as
      *    first argument
      */
-    __getPlacementSize : function(callback)
-    {
+    __getPlacementSize(callback) {
       var size = null;
 
       if (this._computePlacementSize) {
@@ -530,16 +528,18 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         var size = this.getBounds();
       }
 
-      if (size == null)
-      {
-        this.addListenerOnce("appear", function() {
-          this.__getPlacementSize(callback);
-        }, this);
+      if (size == null) {
+        this.addListenerOnce(
+          "appear",
+          function () {
+            this.__getPlacementSize(callback);
+          },
+          this
+        );
       } else {
         callback.call(this, size);
       }
     },
-
 
     /**
      * Internal method to read specific this properties and
@@ -549,10 +549,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
      *   and <code>bottom</code>.
      */
-    _place : function(coords)
-    {
-      this.__getPlacementSize(function(size)
-      {
+    _place(coords) {
+      this.__getPlacementSize(function (size) {
         var result = qx.util.placement.Placement.compute(
           size,
           this.getLayoutParent().getBounds(),
@@ -566,16 +564,16 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         // state handling for tooltips e.g.
         this.removeState("placementLeft");
         this.removeState("placementRight");
-        this.addState(coords.left < result.left ? "placementRight" : "placementLeft");
+        this.addState(
+          coords.left < result.left ? "placementRight" : "placementLeft"
+        );
 
         this.moveTo(result.left, result.top);
       });
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.__cleanupFromLastPlaceToWidgetLiveUpdate();
   }
 });

@@ -18,27 +18,24 @@ Authors:
 ************************************************************************ */
 
 /*
-*/
+ */
 /**
  *
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.remote.AbstractRequest",
-{
-  type : "abstract",
-  extend : qx.dev.unit.TestCase,
-  include : qx.test.io.MRemoteTest,
+qx.Class.define("qx.test.io.remote.AbstractRequest", {
+  type: "abstract",
+  extend: qx.dev.unit.TestCase,
+  include: qx.test.io.MRemoteTest,
 
-  members :
-  {
-    _requests : null,
+  members: {
+    _requests: null,
 
-    setUp : function()
-    {
+    setUp() {
       this._requests = [];
 
-      for (var i = 0; i < 10 ; i++) {
+      for (var i = 0; i < 10; i++) {
         var request = this._createRequest();
 
         request.addListener("aborted", this.responseError, this);
@@ -49,39 +46,30 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
       }
     },
 
-
-    _createRequest : function() {
+    _createRequest() {
       throw new Error("Abstract method call");
     },
 
-    _getRequests: function() {
+    _getRequests() {
       return this._requests;
     },
 
-    tearDown : function() {
+    tearDown() {
       this._disposeArray("_requests");
     },
 
-
-    responseError : function(e)
-    {
+    responseError(e) {
       var request = e;
       var type = e.getType();
 
-      qx.event.Timer.once(function()
-      {
-        this.resume(function()
-        {
-          this.fail("Response error: " + type + " " +
-            request.getStatusCode()
-          );
+      qx.event.Timer.once(function () {
+        this.resume(function () {
+          this.fail("Response error: " + type + " " + request.getStatusCode());
         }, this);
       }, this);
     },
 
-
-    testAsynchronous : function()
-    {
+    testAsynchronous() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -89,35 +77,33 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
 
       var completedCount = 0;
 
-      for (var i = 0; i < this._requests.length; i++)
-      {
+      for (var i = 0; i < this._requests.length; i++) {
         var request = this._requests[i];
 
         request.setParameter("test", "test" + i);
 
-        request.addListener("completed", function(e)
-        {
-          completedCount++;
+        request.addListener(
+          "completed",
+          function (e) {
+            completedCount++;
 
-          var response = qx.lang.Json.parse(e.getContent());
-          request = e.getTarget();
-          this.assertEquals(request.getParameter("test"), response["test"]);
-
-        }, this);
+            var response = qx.lang.Json.parse(e.getContent());
+            request = e.getTarget();
+            this.assertEquals(request.getParameter("test"), response["test"]);
+          },
+          this
+        );
 
         request.send();
       }
 
       var that = this;
-      this.wait(5000, function()
-      {
+      this.wait(5000, function () {
         that.assertEquals(i, completedCount);
       });
     },
 
-
-    testAbortedOnException : function()
-    {
+    testAbortedOnException() {
       if (this.isLocal()) {
         this.needsPHPWarning();
         return;
@@ -128,19 +114,24 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
       request.addListener("failed", this.responseError, this);
       request.addListener("timeout", this.responseError, this);
 
-      request.addListener("completed", function(e)
-      {
-        throw new Error("Expected exception.");
-      }, this);
+      request.addListener(
+        "completed",
+        function (e) {
+          throw new Error("Expected exception.");
+        },
+        this
+      );
 
-      request.addListener("aborted", function(e)
-      {
-        this.resume(function()
-        {
-          this.assertEquals(request, e.getTarget());
-          request.dispose();
-        }, this);
-      }, this);
+      request.addListener(
+        "aborted",
+        function (e) {
+          this.resume(function () {
+            this.assertEquals(request, e.getTarget());
+            request.dispose();
+          }, this);
+        },
+        this
+      );
 
       request.send();
 

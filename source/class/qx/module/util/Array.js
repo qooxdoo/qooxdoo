@@ -21,24 +21,23 @@
  * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Array", {
-  statics : {
-     /**
-      * Converts an array like object to any other array like
-      * object.
-      *
-      * Attention: The returned array may be same
-      * instance as the incoming one if the constructor is identical!
-      *
-      * @signature function(object, constructor, offset)
-      * @attachStatic {qxWeb, array.cast}
-      *
-      * @param object {var} any array-like object
-      * @param constructor {Function} constructor of the new instance
-      * @param offset {Number?0} position to start from
-      * @return {Array} the converted array
-      */
-    cast : qx.lang.Array.cast,
-
+  statics: {
+    /**
+     * Converts an array like object to any other array like
+     * object.
+     *
+     * Attention: The returned array may be same
+     * instance as the incoming one if the constructor is identical!
+     *
+     * @signature function(object, constructor, offset)
+     * @attachStatic {qxWeb, array.cast}
+     *
+     * @param object {var} any array-like object
+     * @param constructor {Function} constructor of the new instance
+     * @param offset {Number?0} position to start from
+     * @return {Array} the converted array
+     */
+    cast: qx.lang.Array.cast,
 
     /**
      * Check whether the two arrays have the same content. Checks only the
@@ -51,8 +50,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param arr2 {Array} second array
      * @return {Boolean} Whether the two arrays are equal
      */
-    equals : qx.lang.Array.equals,
-
+    equals: qx.lang.Array.equals,
 
     /**
      * Modifies the first array as it removes all elements
@@ -65,8 +63,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param arr2 {Array} the elements of this array will be excluded from the other one
      * @return {Array} The modified array.
      */
-    exclude : qx.lang.Array.exclude,
-
+    exclude: qx.lang.Array.exclude,
 
     /**
      * Convert an arguments object into an array.
@@ -78,8 +75,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param offset {Number?0} position to start from
      * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
-    fromArguments : qx.lang.Array.fromArguments,
-
+    fromArguments: qx.lang.Array.fromArguments,
 
     /**
      * Insert an element into the array after a given second element.
@@ -92,8 +88,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param obj2 {var} insert obj1 after this object
      * @return {Array} The given array.
      */
-    insertAfter : qx.lang.Array.insertAfter,
-
+    insertAfter: qx.lang.Array.insertAfter,
 
     /**
      * Insert an element into the array before a given second element.
@@ -106,8 +101,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param obj2 {var} insert obj1 before this object
      * @return {Array} The given array.
      */
-    insertBefore : qx.lang.Array.insertBefore,
-
+    insertBefore: qx.lang.Array.insertBefore,
 
     /**
      * Returns the highest value in the given array. Supports
@@ -119,8 +113,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param arr {Array} Array to process.
      * @return {Number | undefined} The highest of all values or undefined if array is empty.
      */
-    max : qx.lang.Array.max,
-
+    max: qx.lang.Array.max,
 
     /**
      * Returns the lowest value in the given array. Supports
@@ -132,8 +125,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param arr {Array} Array to process.
      * @return {Number | undefined} The lowest of all values or undefined if array is empty.
      */
-    min : qx.lang.Array.min,
-
+    min: qx.lang.Array.min,
 
     /**
      * Remove an element from the array.
@@ -145,8 +137,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param obj {var} element to be removed from the array
      * @return {var} the removed element
      */
-    remove : qx.lang.Array.remove,
-
+    remove: qx.lang.Array.remove,
 
     /**
      * Remove all elements from the array
@@ -157,8 +148,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param arr {Array} the array
      * @return {Array} empty array
      */
-    removeAll : qx.lang.Array.removeAll,
-
+    removeAll: qx.lang.Array.removeAll,
 
     /**
      * Recreates an array which is free of all duplicate elements from the original.
@@ -172,7 +162,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @return {Array} Returns a copy with no duplicates
      *   or the original array if no duplicates were found.
      */
-    unique : qx.lang.Array.unique,
+    unique: qx.lang.Array.unique,
 
     /**
      * Returns a new array with integers from start to stop incremented or decremented by step.
@@ -185,11 +175,10 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @param step {Integer} increment / decrement - depends whether you use positive or negative values
      * @return {Array} Returns a new array with integers
      */
-    range : qx.lang.Array.range
+    range: qx.lang.Array.range
   },
 
-
-  defer : function(statics) {
-   qxWeb.$attachAll(this, "array");
+  defer(statics) {
+    qxWeb.$attachAll(this, "array");
   }
 });

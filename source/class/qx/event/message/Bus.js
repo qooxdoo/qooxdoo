@@ -26,20 +26,17 @@
  * messages which match the filter. It can be the name of a message, which can
  * terminated with a trailing `*` as a wildcard, or a regular expression.
  */
-qx.Class.define("qx.event.message.Bus",
-{
-  type : "singleton",
+qx.Class.define("qx.event.message.Bus", {
+  type: "singleton",
 
-  extend : qx.core.Object,
+  extend: qx.core.Object,
 
-  statics :
-  {
-
+  statics: {
     /**
      * Shorthand method for {@link qx.event.message.Bus.getSubscription}
      * @return {Object}
      */
-    getSubscriptions : function() {
+    getSubscriptions() {
       return this.getInstance().getSubscriptions();
     },
 
@@ -50,8 +47,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribe : function(topic, subscriber, context)
-    {
+    subscribe(topic, subscriber, context) {
       return this.getInstance().subscribe.apply(this.getInstance(), arguments);
     },
 
@@ -62,9 +58,11 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribeOnce : function(topic, subscriber, context)
-    {
-      return this.getInstance().subscribeOnce.apply(this.getInstance(), arguments);
+    subscribeOnce(topic, subscriber, context) {
+      return this.getInstance().subscribeOnce.apply(
+        this.getInstance(),
+        arguments
+      );
     },
 
     /**
@@ -74,9 +72,11 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription was removed
      */
-    checkSubscription : function(topic, subscriber, context)
-    {
-      return this.getInstance().checkSubscription.apply(this.getInstance(), arguments);
+    checkSubscription(topic, subscriber, context) {
+      return this.getInstance().checkSubscription.apply(
+        this.getInstance(),
+        arguments
+      );
     },
 
     /**
@@ -86,9 +86,11 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription was removed
      */
-    unsubscribe : function(topic, subscriber, context)
-    {
-      return this.getInstance().unsubscribe.apply(this.getInstance(), arguments);
+    unsubscribe(topic, subscriber, context) {
+      return this.getInstance().unsubscribe.apply(
+        this.getInstance(),
+        arguments
+      );
     },
 
     /**
@@ -96,8 +98,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param message {qx.event.message.Message} Message which is being dispatched
      * @return {Boolean} If the message could be dispatched
      */
-    dispatch : function(message)
-    {
+    dispatch(message) {
       return this.getInstance().dispatch.apply(this.getInstance(), arguments);
     },
 
@@ -107,28 +108,28 @@ qx.Class.define("qx.event.message.Bus",
      * @param data {var} Any type of data to attach
      * @return {Boolean} If the message was dispatched
      */
-    dispatchByName : function(name, data)
-    {
-      return this.getInstance().dispatchByName.apply(this.getInstance(), arguments);
+    dispatchByName(name, data) {
+      return this.getInstance().dispatchByName.apply(
+        this.getInstance(),
+        arguments
+      );
     }
   },
 
   /**
    * constructor
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__subscriptions = {};
   },
 
-  members :
-  {
+  members: {
     /**
      * Subscriptions cache
      * @var {Object}
      */
-    __subscriptions : null,
+    __subscriptions: null,
 
     /**
      * Returns the map of message subscriptions with registered subscriptions. The key is
@@ -137,10 +138,9 @@ qx.Class.define("qx.event.message.Bus",
      *
      * @return {Object}
      */
-    getSubscriptions : function() {
+    getSubscriptions() {
       return this.__subscriptions;
     },
-
 
     /**
      * Subscribes to a topic
@@ -156,11 +156,9 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribe : function(topic, subscriber, context)
-    {
-      if (!topic || typeof subscriber != "function")
-      {
-        throw new Error("Invalid parameters! "+ [topic, subscriber, context]); // since v6.0.0
+    subscribe(topic, subscriber, context) {
+      if (!topic || typeof subscriber != "function") {
+        throw new Error("Invalid parameters! " + [topic, subscriber, context]); // since v6.0.0
       }
 
       // handle regexes
@@ -169,32 +167,29 @@ qx.Class.define("qx.event.message.Bus",
 
       var sub = this.getSubscriptions();
 
-      if (this.checkSubscription(topic))
-      {
-        if (this.checkSubscription(topic, subscriber, context))
-        {
+      if (this.checkSubscription(topic)) {
+        if (this.checkSubscription(topic, subscriber, context)) {
           this.warn("Object method already subscribed to " + topic);
           return false;
         }
 
         // add a subscription
-        sub[topic].push(
-        {
-          regex      : regex,
-          subscriber : subscriber,
-          context    : context || null
+        sub[topic].push({
+          regex: regex,
+          subscriber: subscriber,
+          context: context || null
         });
 
         return true;
-      }
-      else
-      {
+      } else {
         // create a subscription
-        sub[topic] = [ {
-          regex      : regex,
-          subscriber : subscriber,
-          context    : context || null
-        } ];
+        sub[topic] = [
+          {
+            regex: regex,
+            subscriber: subscriber,
+            context: context || null
+          }
+        ];
 
         return true;
       }
@@ -204,7 +199,6 @@ qx.Class.define("qx.event.message.Bus",
      * Subscribes to a topic just for one dispatch and automatically unsubscribes
      * after executing the message handler. This subscription cannot be unsubscribed
      * from after it has been registered.
-
      *
      * @param topic {String|RegExp} Topic to subscribe to. see {@link qx.event.message.Bus#subscribe}
      * for details
@@ -212,13 +206,13 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribeOnce : function(topic, subscriber, context)
-    {
+
+    subscribeOnce(topic, subscriber, context) {
       var that = this;
-      var modified_subscriber = function(message) {
+      var modified_subscriber = function (message) {
         subscriber.call(context, message);
         that.unsubscribe(topic, modified_subscriber, context);
-      }
+      };
       return this.subscribe(topic, modified_subscriber, context);
     },
 
@@ -234,8 +228,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription exists for the topic
      */
-    checkSubscription : function(topic, subscriber, context)
-    {
+    checkSubscription(topic, subscriber, context) {
       var topic = topic.toString();
       var sub = this.getSubscriptions();
 
@@ -243,11 +236,12 @@ qx.Class.define("qx.event.message.Bus",
         return false;
       }
 
-      if (subscriber)
-      {
-        for (var i=0; i<sub[topic].length; i++)
-        {
-          if (sub[topic][i].subscriber === subscriber && sub[topic][i].context === (context || null)) {
+      if (subscriber) {
+        for (var i = 0; i < sub[topic].length; i++) {
+          if (
+            sub[topic][i].subscriber === subscriber &&
+            sub[topic][i].context === (context || null)
+          ) {
             return true;
           }
         }
@@ -257,7 +251,6 @@ qx.Class.define("qx.event.message.Bus",
 
       return true;
     },
-
 
     /**
      * Unsubscribe from a topic.
@@ -277,36 +270,38 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription was removed
      */
-    unsubscribe : function(topic, subscriber, context)
-    {
-       var topic = topic.toString();
-       var sub = this.getSubscriptions();
-       var subscrList = sub[topic];
-       if (subscrList) {
-         if (!subscriber) {
-           sub[topic] = null;
-           delete sub[topic];
-           return true;
-         } else {
-           if (! context) {
-             context = null;
-           }
-           var i = subscrList.length;
-           var subscription;
-           do {
-             subscription = subscrList[--i];
-             if (subscription.subscriber === subscriber && subscription.context === context) {
-               subscrList.splice(i, 1);
-               if (subscrList.length === 0) {
-                 sub[topic] = null;
-                 delete sub[topic];
-               }
-               return true;
-             }
-           } while (i);
-         }
-       }
-       return false;
+    unsubscribe(topic, subscriber, context) {
+      var topic = topic.toString();
+      var sub = this.getSubscriptions();
+      var subscrList = sub[topic];
+      if (subscrList) {
+        if (!subscriber) {
+          sub[topic] = null;
+          delete sub[topic];
+          return true;
+        } else {
+          if (!context) {
+            context = null;
+          }
+          var i = subscrList.length;
+          var subscription;
+          do {
+            subscription = subscrList[--i];
+            if (
+              subscription.subscriber === subscriber &&
+              subscription.context === context
+            ) {
+              subscrList.splice(i, 1);
+              if (subscrList.length === 0) {
+                sub[topic] = null;
+                delete sub[topic];
+              }
+              return true;
+            }
+          } while (i);
+        }
+      }
+      return false;
     },
 
     /**
@@ -316,34 +311,29 @@ qx.Class.define("qx.event.message.Bus",
      * @return {Boolean} If the message could be dispatched, i.e. if subscribers
      * exist which have received the message
      */
-    dispatch : function(message)
-    {
+    dispatch(message) {
       var sub = this.getSubscriptions();
       var msgName = message.getName();
       var dispatched = false;
 
-      for (var topic in sub)
-      {
+      for (var topic in sub) {
         var len = topic.length;
-        if (topic[len-1] === "*")
-        {
+        if (topic[len - 1] === "*") {
           // use of wildcard, only allowed as "*" or at the end of the topic
-          if (len === 1 || topic.substr(0, len-2) === msgName.substr(0, len-2))
-          {
+          if (
+            len === 1 ||
+            topic.substr(0, len - 2) === msgName.substr(0, len - 2)
+          ) {
             this.__callSubscribers(sub[topic], message);
             dispatched = true;
           }
-        }
-        else if (sub[topic][0].regex)
-        {
+        } else if (sub[topic][0].regex) {
           // regular expression
           if (message.getName().match(sub[topic][0].regex)) {
             this.__callSubscribers(sub[topic], message);
             dispatched = true;
           }
-        }
-        else if (topic === msgName)
-        {
+        } else if (topic === msgName) {
           // exact match
           this.__callSubscribers(sub[topic], message);
           dispatched = true;
@@ -360,8 +350,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param data {var} Any type of data to attach
      * @return {Boolean} If the message was dispatched
      */
-    dispatchByName : function(name, data)
-    {
+    dispatchByName(name, data) {
       var message = new qx.event.message.Message(name, data);
 
       // Dispatch the message
@@ -378,7 +367,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * Removes all subscriptions
      */
-    removeAllSubscriptions : function() {
+    removeAllSubscriptions() {
       var subscriptions = this.getSubscriptions();
       for (var key in subscriptions) {
         delete subscriptions[key];
@@ -397,32 +386,24 @@ qx.Class.define("qx.event.message.Bus",
      * @param subscribers {Array} subscribers to call
      * @param message {qx.event.message.Message} message for subscribers
      */
-    __callSubscribers : function(subscribers, message)
-    {
+    __callSubscribers(subscribers, message) {
       // (Shallow) clone the subscribers array in case one of them alters the
       // list, e.g., by unsubscribing
       subscribers = subscribers.slice();
 
-      for (var i=0; i<subscribers.length; i++)
-      {
+      for (var i = 0; i < subscribers.length; i++) {
         var subscriber = subscribers[i].subscriber;
         var context = subscribers[i].context;
 
         // call topic subscriber
-        if (context && context.isDisposed)
-        {
-          if (context.isDisposed())
-          {
+        if (context && context.isDisposed) {
+          if (context.isDisposed()) {
             subscribers.splice(i, 1);
             i--;
-          }
-          else
-          {
+          } else {
             subscriber.call(context, message);
           }
-        }
-        else
-        {
+        } else {
           subscriber.call(context, message);
         }
       }

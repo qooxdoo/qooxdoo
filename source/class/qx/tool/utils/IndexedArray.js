@@ -20,8 +20,6 @@
  *
  * *********************************************************************** */
 
-
-
 /**
  * Provides a simple, array like interface which uses a lookup to provide indexed
  * access.  Each element must be a string
@@ -29,8 +27,8 @@
 qx.Class.define("qx.tool.utils.IndexedArray", {
   extend: qx.core.Object,
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.__array = [];
     this.__lookup = {};
     this.__removed = false;
@@ -55,7 +53,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @param name {String} the entry to add
      */
-    push: function(name) {
+    push(name) {
       if (this.__lookup[name] === undefined) {
         this.__array.push(name);
         this.__lookup[name] = this.__array.length - 1;
@@ -68,7 +66,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @param compareFn {Function} sort comparator, if null alphabetic is used
      */
-    sort: function(compareFn) {
+    sort(compareFn) {
       this.__array.sort(compareFn);
 
       // Remove any undefined from the end of the array
@@ -105,7 +103,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      * @param name {String} the entry to check for
      * @return {Boolean} true if found
      */
-    contains: function(name) {
+    contains(name) {
       return this.__lookup[name] !== undefined;
     },
 
@@ -114,7 +112,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @param name {String} the entry to remove
      */
-    remove: function(name) {
+    remove(name) {
       var index = this.__lookup[name];
       if (index !== undefined) {
         delete this.__array[index];
@@ -128,7 +126,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {String}
      */
-    pop: function() {
+    pop() {
       if (this.__array.length == 0) {
         return undefined;
       }
@@ -150,7 +148,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {String}
      */
-    shift: function() {
+    shift() {
       if (this.__array.length == 0) {
         return undefined;
       }
@@ -172,7 +170,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {Integer}
      */
-    getLength: function() {
+    getLength() {
       return this.__array.length;
     },
 
@@ -181,7 +179,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {String}
      */
-    getItem: function(index) {
+    getItem(index) {
       if (this.__dirtySort && this.isKeepSorted()) {
         this.sort();
       }
@@ -193,7 +191,7 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {Boolean}
      */
-    isEmpty: function() {
+    isEmpty() {
       return this.__array.length > 0;
     },
 
@@ -202,13 +200,13 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {String[]}
      */
-    toArray: function() {
+    toArray() {
       if (this.__dirtySort && this.isKeepSorted()) {
         this.sort();
       }
       if (this.__removed) {
         var result = [];
-        this.__array.forEach(function(value) {
+        this.__array.forEach(function (value) {
           if (value) {
             result.push(value);
           }
@@ -223,16 +221,15 @@ qx.Class.define("qx.tool.utils.IndexedArray", {
      *
      * @returns {Object}
      */
-    toObject: function() {
+    toObject() {
       if (this.__dirtySort && this.isKeepSorted()) {
         this.sort();
       }
       var result = {};
-      this.__array.forEach(function(value) {
+      this.__array.forEach(function (value) {
         result[value] = true;
       });
       return result;
     }
-
   }
 });

@@ -15,42 +15,50 @@
      * William Oprandi (woprandi)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.table.model.Filtered",
-{
-  extend : qx.dev.unit.TestCase,
-  members :
-  {
-    createTable : function()
-    {
+qx.Class.define("qx.test.ui.table.model.Filtered", {
+  extend: qx.dev.unit.TestCase,
+  members: {
+    createTable() {
       var table = new qx.ui.table.Table(new qx.ui.table.model.Filtered());
-      var data = [ {
-        a : 1
-      }, {
-        a : 2
-      }, {
-        a : 3
-      }, {
-        a : 4
-      }, {
-        a : 5
-      }, {
-        a : 6
-      }, {
-        a : 7
-      }, {
-        a : 8
-      }, {
-        a : 9
-      }, {
-        a : 10
-      }];
+      var data = [
+        {
+          a: 1
+        },
+        {
+          a: 2
+        },
+        {
+          a: 3
+        },
+        {
+          a: 4
+        },
+        {
+          a: 5
+        },
+        {
+          a: 6
+        },
+        {
+          a: 7
+        },
+        {
+          a: 8
+        },
+        {
+          a: 9
+        },
+        {
+          a: 10
+        }
+      ];
+
       table.getTableModel().setColumns(["a"]);
       table.getTableModel().setDataAsMapArray(data);
       return table;
     },
 
-    testBetween : function()
-    {
+    testBetween() {
       var table = this.createTable();
       var model = table.getTableModel();
 
@@ -62,7 +70,7 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       var data = model.getDataAsMapArray();
       var listA = [];
 
-      data.forEach(function(obj) {
+      data.forEach(function (obj) {
         listA.push(obj.a);
       });
 
@@ -75,8 +83,7 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       table.destroy();
     },
 
-    testNotBetween : function()
-    {
+    testNotBetween() {
       var table = this.createTable();
       var model = table.getTableModel();
 
@@ -86,7 +93,7 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       var data = table.getTableModel().getDataAsMapArray();
       var listA = [];
 
-      data.forEach(function(obj) {
+      data.forEach(function (obj) {
         listA.push(obj.a);
       });
 
@@ -98,8 +105,7 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       table.destroy();
     },
 
-    testNumericFilter : function()
-    {
+    testNumericFilter() {
       var table = this.createTable();
       var model = table.getTableModel();
 

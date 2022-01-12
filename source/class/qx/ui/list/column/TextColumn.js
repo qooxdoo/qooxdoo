@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Implementation of a Text column
  */
 qx.Class.define("qx.ui.list.column.TextColumn", {
   extend: qx.ui.list.column.AbstractWidgetColumn,
-  
+
   members: {
     /**
      * @Override

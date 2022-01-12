@@ -15,80 +15,75 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.performance.data.Marshaling",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMeasure,
+qx.Class.define("qx.test.performance.data.Marshaling", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMeasure,
 
-  members :
-  {
-    CREATE_ITERATIONS : 100000,
-    __objects : null,
-    __marshaler : null,
+  members: {
+    CREATE_ITERATIONS: 100000,
+    __objects: null,
+    __marshaler: null,
 
-    setUp : function() {
+    setUp() {
       this.__marshaler = new qx.data.marshal.Json();
     },
 
-    tearDown : function() {
+    tearDown() {
       this.__marshaler.dispose();
       this.__marshaler = null;
     },
 
-    testJsonSimpleToClass : function()
-    {
-      var data = {a: 10};
+    testJsonSimpleToClass() {
+      var data = { a: 10 };
 
       var self = this;
       this.measure(
         "simple json class creation",
-        function() {
-          for (var i=0; i<self.CREATE_ITERATIONS; i++) {
+        function () {
+          for (var i = 0; i < self.CREATE_ITERATIONS; i++) {
             self.__marshaler.toClass(data);
           }
         },
-        function() {
+        function () {
           qx.Class.undefine("qx.data.model.a");
         },
         this.CREATE_ITERATIONS
       );
     },
 
-    testJsonSimpleToClassWithBubble : function()
-    {
-      var data = {a: 10};
+    testJsonSimpleToClassWithBubble() {
+      var data = { a: 10 };
 
       var self = this;
       this.measure(
         "simple json class creation with bubble events",
-        function() {
-          for (var i=0; i<self.CREATE_ITERATIONS; i++) {
+        function () {
+          for (var i = 0; i < self.CREATE_ITERATIONS; i++) {
             self.__marshaler.toClass(data, true);
           }
         },
-        function() {
+        function () {
           qx.Class.undefine("qx.data.model.a");
         },
         this.CREATE_ITERATIONS
       );
     },
 
-    testJsonSimpleToModel : function()
-    {
-      var data = {a: 10};
+    testJsonSimpleToModel() {
+      var data = { a: 10 };
       this.__marshaler.toClass(data);
 
       var self = this;
       this.__objects = [];
       this.measure(
         "simple json object creation",
-        function() {
-          for (var i=0; i<self.CREATE_ITERATIONS; i++) {
+        function () {
+          for (var i = 0; i < self.CREATE_ITERATIONS; i++) {
             self.__objects.push(self.__marshaler.toModel(data));
           }
         },
-        function() {
-          for (var i=0; i < self.__objects.length; i++) {
+        function () {
+          for (var i = 0; i < self.__objects.length; i++) {
             self.__objects[i].dispose();
           }
           qx.Class.undefine("qx.data.model.a");

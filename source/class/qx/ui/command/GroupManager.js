@@ -12,23 +12,17 @@
 /**
  * Registrar for command groups to be able to active or deactive them.
  */
-qx.Class.define("qx.ui.command.GroupManager",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.command.GroupManager", {
+  extend: qx.core.Object,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__groups = [];
   },
 
-
-  members :
-  {
+  members: {
     __groups: null,
-    __activeGroup : null,
-
+    __activeGroup: null,
 
     /**
      * Add command group.
@@ -37,13 +31,16 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {Boolean} <code>false</code> if group was already added before
      */
-    add : function(group)
-    {
+    add(group) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+        this.assertInstance(
+          group,
+          qx.ui.command.Group,
+          "Given group is not an instance of qx.ui.command.Group"
+        );
       }
 
-      if (this.__groups.includes(group)){
+      if (this.__groups.includes(group)) {
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Group is already added!");
         }
@@ -58,7 +55,6 @@ qx.Class.define("qx.ui.command.GroupManager",
       return true;
     },
 
-
     /**
      * Whether a command manager was added.
      *
@@ -66,15 +62,17 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {Boolean} <code>true</code> if group already added
      */
-    has : function(group)
-    {
+    has(group) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+        this.assertInstance(
+          group,
+          qx.ui.command.Group,
+          "Given group is not an instance of qx.ui.command.Group"
+        );
       }
 
-      return !!(this._getGroup(group));
+      return !!this._getGroup(group);
     },
-
 
     /**
      * Removes a command group from group manager. If removed group was the
@@ -85,17 +83,22 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {qx.ui.command.Group | null} Command group or null if group was not added before
      */
-    remove : function(group)
-    {
+    remove(group) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(group, qx.ui.command.Group, "Group must be an instance of qx.ui.command.Group");
+        this.assertInstance(
+          group,
+          qx.ui.command.Group,
+          "Group must be an instance of qx.ui.command.Group"
+        );
       }
 
       var index = this.__groups.indexOf(group);
-      if (index === -1){
+      if (index === -1) {
         if (qx.core.Environment.get("qx.debug")) {
-          this.debug("Group was not added before. Please use " +
-            "'add()' method to add the group.");
+          this.debug(
+            "Group was not added before. Please use " +
+              "'add()' method to add the group."
+          );
         }
       }
 
@@ -110,7 +113,6 @@ qx.Class.define("qx.ui.command.GroupManager",
       return group;
     },
 
-
     /**
      * Activates a command group and deactivates all other added groups.
      *
@@ -118,23 +120,28 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {Boolean} <code>false</code> if group was not added before
      */
-    setActive : function(group)
-    {
+    setActive(group) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
+        this.assertInstance(
+          group,
+          qx.ui.command.Group,
+          "Given group is not an instance of qx.ui.command.Group"
+        );
       }
 
       if (!this.has(group)) {
         if (qx.core.Environment.get("qx.debug")) {
-          this.debug("Group was not added before! You have to use 'addCommand()' method before activating!");
+          this.debug(
+            "Group was not added before! You have to use 'addCommand()' method before activating!"
+          );
         }
         return false;
       }
 
       // iterate through all groups and deactivate all expect the given one
-      for (var i=0; i<this.__groups.length; i++) {
+      for (var i = 0; i < this.__groups.length; i++) {
         var item = this.__groups[i];
-        if (item == group){
+        if (item == group) {
           item.setActive(true);
           this.__activeGroup = item;
           continue;
@@ -145,39 +152,32 @@ qx.Class.define("qx.ui.command.GroupManager",
       return true;
     },
 
-
     /**
      * Returns active command group.
      *
      * @return {qx.ui.command.Group | null} Active command group
      */
-    getActive : function()
-    {
+    getActive() {
       return this.__activeGroup;
     },
-
 
     /**
      * Blocks the active command group.
      */
-    block : function()
-    {
-      if(this.__activeGroup){
+    block() {
+      if (this.__activeGroup) {
         this.__activeGroup.setActive(false);
       }
     },
 
-
     /**
      * Unblocks the active command group.
      */
-    unblock : function()
-    {
-      if(this.__activeGroup){
+    unblock() {
+      if (this.__activeGroup) {
         this.__activeGroup.setActive(true);
       }
     },
-
 
     /**
      * Helper function returns added command group.
@@ -186,10 +186,9 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {qx.ui.command.Group | null} Command group or null
      */
-    _getGroup : function(group)
-    {
+    _getGroup(group) {
       var index = this.__groups.indexOf(group);
-      if (index === -1){
+      if (index === -1) {
         return null;
       }
 
@@ -197,9 +196,7 @@ qx.Class.define("qx.ui.command.GroupManager",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.__groups = this.__activeGroup = null;
   }
 });

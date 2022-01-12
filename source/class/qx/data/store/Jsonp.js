@@ -28,9 +28,8 @@
  * also apply to this class.
  *
  */
-qx.Class.define("qx.data.store.Jsonp",
-{
-  extend : qx.data.store.Json,
+qx.Class.define("qx.data.store.Jsonp", {
+  extend: qx.data.store.Json,
 
   /**
    * @param url {String?} URL of the JSONP service.
@@ -39,45 +38,40 @@ qx.Class.define("qx.data.store.Jsonp",
    * @param callbackParam {String?} The name of the callback param. See
    *   {@link qx.bom.request.Jsonp#setCallbackParam} for more details.
    */
-  construct : function(url, delegate, callbackParam) {
+  construct(url, delegate, callbackParam) {
     if (callbackParam != undefined) {
       this.setCallbackParam(callbackParam);
     }
 
-    this.base(arguments, url, delegate);
+    super(url, delegate);
   },
 
-
-  properties : {
+  properties: {
     /**
      * The name of the callback parameter of the service. See
      * {@link qx.bom.request.Jsonp#setCallbackParam} for more details.
      */
-    callbackParam : {
-      check : "String",
-      init : "callback",
-      nullable : true
+    callbackParam: {
+      check: "String",
+      init: "callback",
+      nullable: true
     },
 
-
     /**
-    * The name of the callback function. See
-    * {@link qx.bom.request.Jsonp#setCallbackName} for more details.
-    *
-    * Note: Ignored when legacy transport is used.
-    */
-    callbackName : {
-      check : "String",
-      nullable : true
+     * The name of the callback function. See
+     * {@link qx.bom.request.Jsonp#setCallbackName} for more details.
+     *
+     * Note: Ignored when legacy transport is used.
+     */
+    callbackName: {
+      check: "String",
+      nullable: true
     }
   },
 
-
-  members :
-  {
-
+  members: {
     // overridden
-    _createRequest: function(url) {
+    _createRequest(url) {
       // dispose old request
       if (this._getRequest()) {
         this._getRequest().dispose();

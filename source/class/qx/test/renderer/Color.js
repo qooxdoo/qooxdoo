@@ -16,46 +16,37 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.renderer.Color",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.renderer.Color", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    testValidColors : function()
-    {
+  members: {
+    testValidColors() {
       var validColors = {
-        "red" : [255,0,0], //named
-        "black" : [0,0,0], //named
-        "#FFF" : [255,255,255], //hex3
-        "#fffa" : [255,255,255,0.667], //hex4
-        "#Ff1" : [255,255,17], //hex3
-        "#0101FF" : [1,1,255], //hex6
-        "#0101FFef" : [1,1,255,0.937], //hex8
-        "rgb(123,11,1)" : [123, 11, 1], //rgb
-        "rgba(123,11,1,0.4)" : [123, 11, 1,0.4] //rgba
+        red: [255, 0, 0], //named
+        black: [0, 0, 0], //named
+        "#FFF": [255, 255, 255], //hex3
+        "#fffa": [255, 255, 255, 0.667], //hex4
+        "#Ff1": [255, 255, 17], //hex3
+        "#0101FF": [1, 1, 255], //hex6
+        "#0101FFef": [1, 1, 255, 0.937], //hex8
+        "rgb(123,11,1)": [123, 11, 1], //rgb
+        "rgba(123,11,1,0.4)": [123, 11, 1, 0.4] //rgba
       };
 
       for (var color in validColors) {
-        this.assertJsonEquals(validColors[color], qx.util.ColorUtil.stringToRgb(color));
+        this.assertJsonEquals(
+          validColors[color],
+          qx.util.ColorUtil.stringToRgb(color)
+        );
       }
     },
 
-    testInvalidColors : function()
-    {
-      var invalidColors = [
-        "blau",
-        "1234",
-        "#ff",
-        "#fffff",
-        "rgb(12,13)"
-      ];
+    testInvalidColors() {
+      var invalidColors = ["blau", "1234", "#ff", "#fffff", "rgb(12,13)"];
 
-      for (var i=0; i<invalidColors.length; i++)
-      {
+      for (var i = 0; i < invalidColors.length; i++) {
         this.assertException(
-          function() {
+          function () {
             qx.util.ColorUtil.stringToRgb(invalidColors[i]);
           },
           Error,
@@ -64,30 +55,12 @@ qx.Class.define("qx.test.renderer.Color",
       }
 
       this.assertException(
-        function() {
+        function () {
           qx.util.ColorUtil.stringToRgb("inactivecaptiontext");
         },
         Error,
         "Could not convert system colors to RGB"
       );
     }
-
-
-/*
-    testThemedColors : function()
-    {
-      var colorMgr = qx.theme.manager.Color.getInstance();
-      var oldTheme = colorMgr.getColorTheme();
-
-      colorMgr.setColorTheme(qx.theme.ext.Color);
-      this.assertJsonEquals([ 101, 147, 207 ], qx.util.ColorUtil.stringToRgb("border-dark-shadow"));
-
-      colorMgr.setColorTheme(qx.theme.classic.color.LunaBlue);
-      this.assertJsonEquals([ 172, 168, 153 ], qx.util.ColorUtil.stringToRgb("border-dark-shadow"));
-
-      colorMgr.setColorTheme(oldTheme);
-    }
-*/
-
   }
 });

@@ -19,10 +19,8 @@
 /**
  * Form interface for all form widgets which have arrays as their primary data type.
  */
-qx.Interface.define("qx.ui.form.IArrayForm",
-{
-  extend : qx.ui.form.IField,
-
+qx.Interface.define("qx.ui.form.IArrayForm", {
+  extend: qx.ui.form.IField,
 
   /*
   *****************************************************************************
@@ -30,13 +28,10 @@ qx.Interface.define("qx.ui.form.IArrayForm",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the value was modified */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -44,8 +39,7 @@ qx.Interface.define("qx.ui.form.IArrayForm",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       VALUE PROPERTY
@@ -57,22 +51,20 @@ qx.Interface.define("qx.ui.form.IArrayForm",
      *
      * @param value {qx.data.Array|null} The new value of the element.
      */
-    setValue : function(value) {
+    setValue(value) {
       return arguments.length == 1;
     },
-
 
     /**
      * Resets the element's value to its initial value.
      */
-    resetValue : function() {},
-
+    resetValue() {},
 
     /**
      * The element's user set value.
      *
      * @return {qx.data.Array|null} The value.
      */
-    getValue : function() {}
+    getValue() {}
   }
 });

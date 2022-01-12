@@ -20,50 +20,40 @@
  * @ignore(DOMException)
  */
 
-qx.Class.define("qx.test.bom.media.MediaTestCase",
-{
-  type : "abstract",
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.media.MediaTestCase", {
+  type: "abstract",
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     _media: null,
     _src: null,
 
-    _getSrc: function() {
-    },
+    _getSrc() {},
 
-    _createMedia: function() {
-    },
+    _createMedia() {},
 
-    _checkFeature: function() {
-    },
+    _checkFeature() {},
 
-
-    setUp : function()
-    {
+    setUp() {
       this._checkFeature();
 
       this._src = this._getSrc();
       this._media = this._createMedia();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       this._media.dispose();
       this._media = null;
       this._src = null;
     },
 
-    testId: function()
-    {
+    testId() {
       var id = "mediaid";
       this._media.setId(id);
       this.assertEquals(id, this._media.getId());
     },
 
-    testVolume: function()
-    {
+    testVolume() {
       var exReg = /index.*?size.*?err/i;
       var that = this;
 
@@ -73,18 +63,24 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this._media.setVolume(0);
       this.assertEquals(0, this._media.getVolume());
 
-      this.assertException(function() {
-        that._media.setVolume(-1);
-      }, DOMException, exReg);
+      this.assertException(
+        function () {
+          that._media.setVolume(-1);
+        },
+        DOMException,
+        exReg
+      );
 
-      this.assertException(function() {
-        that._media.setVolume(2);
-      }, DOMException, exReg);
+      this.assertException(
+        function () {
+          that._media.setVolume(2);
+        },
+        DOMException,
+        exReg
+      );
     },
 
-
-    testMute: function()
-    {
+    testMute() {
       this.assertFalse(this._media.isMuted());
 
       this._media.setMuted(true);
@@ -94,31 +90,27 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertFalse(this._media.isMuted());
     },
 
-    testCurrentTime: function()
-    {
+    testCurrentTime() {
       var that = this;
       this.assertEquals(0, this._media.getCurrentTime());
     },
 
-    testSource: function()
-    {
+    testSource() {
       this._media.dispose();
       this._media = new qx.bom.media.Audio();
 
       this._media.setSource(this._src);
 
       var _ref = this._src.split("/");
-      var expectedFile = _ref[_ref.length-1];
+      var expectedFile = _ref[_ref.length - 1];
 
       _ref = this._media.getSource().split("/");
-      var foundFile = _ref[_ref.length-1];
+      var foundFile = _ref[_ref.length - 1];
 
       this.assertEquals(expectedFile, foundFile);
     },
 
-
-    testControls: function()
-    {
+    testControls() {
       this.assertFalse(this._media.hasControls());
 
       this._media.showControls();
@@ -128,9 +120,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertFalse(this._media.hasControls());
     },
 
-
-    testAutoplay: function()
-    {
+    testAutoplay() {
       this.assertFalse(this._media.getAutoplay());
       this._media.setAutoplay(true);
       this.assertTrue(this._media.getAutoplay());
@@ -139,12 +129,11 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertFalse(this._media.getAutoplay());
     },
 
-    testGetMediaObject: function() {
+    testGetMediaObject() {
       this.assertElement(this._media.getMediaObject());
     },
 
-    testPreload: function()
-    {
+    testPreload() {
       //default
       this.assertEquals("auto", this._media.getPreload(), "a");
 
@@ -163,8 +152,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertEquals("auto", this._media.getPreload(), "c");
     },
 
-    testLoop: function()
-    {
+    testLoop() {
       this.assertFalse(this._media.isLoop());
 
       this._media.setLoop(true);
@@ -174,15 +162,16 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.assertFalse(this._media.isLoop());
     },
 
-
-    testVolumeChangeEvent: function()
-    {
-      this._media.addListener("volumechange", function(e)
-      {
-        this.resume(function() {
-          this.assertEquals(0.5, this._media.getVolume());
-        }, this);
-      }, this);
+    testVolumeChangeEvent() {
+      this._media.addListener(
+        "volumechange",
+        function (e) {
+          this.resume(function () {
+            this.assertEquals(0.5, this._media.getVolume());
+          }, this);
+        },
+        this
+      );
 
       this._media.setVolume(0.5);
 
@@ -201,10 +190,11 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     // This is some weird timing or caching issue which could
     // not be solved otherwise.
     //
-    "test Play Event": function()
-    {
+    "test Play Event"() {
       if (navigator.plugins.length == 0) {
-        this.skip("Headless browser HTML5 audio/video play event test disabled on headless browsers");
+        this.skip(
+          "Headless browser HTML5 audio/video play event test disabled on headless browsers"
+        );
       }
       // Disabled on travis because of events not being fired reliable
       if (qx.core.Environment.get("qx.test.travis") == "true") {
@@ -212,16 +202,21 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       }
       // BUG #8778
       if (qx.core.Environment.get("browser.name") == "mobile chrome") {
-        this.skip("HTML5 audio/video playback must be triggered by user interaction in Chrome on Android.");
+        this.skip(
+          "HTML5 audio/video playback must be triggered by user interaction in Chrome on Android."
+        );
       }
       this.assertTrue(this._media.isPaused());
 
-      this._media.addListener("play", function(e)
-      {
-        this.resume(function() {
-          this.assertFalse(this._media.isPaused());
-        }, this);
-      }, this);
+      this._media.addListener(
+        "play",
+        function (e) {
+          this.resume(function () {
+            this.assertFalse(this._media.isPaused());
+          }, this);
+        },
+        this
+      );
 
       this._media.play();
 

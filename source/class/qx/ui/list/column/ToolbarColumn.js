@@ -16,22 +16,21 @@
 
 ************************************************************************ */
 
-
 /**
- * Add support for a toolbar in a cell 
+ * Add support for a toolbar in a cell
  */
 qx.Class.define("qx.ui.list.column.ToolbarColumn", {
   extend: qx.ui.list.column.AbstractColumn,
-  
+
   construct(factories) {
-    this.base(arguments);
+    super();
     if (factories) {
       this.__factories = qx.lang.Array.clone(factories);
     } else {
       this.__factories = [];
     }
   },
-  
+
   members: {
     __factories: null,
 
@@ -39,18 +38,20 @@ qx.Class.define("qx.ui.list.column.ToolbarColumn", {
      * Adds a button factory
      *
      * @param factory {ButtonFactory} the factory to add
-     */    
+     */
     addFactory(factory) {
       this.__factories.push(factory);
     },
-    
+
     /**
      * @Override
      */
     _createCellWidget(row) {
-      return new qx.ui.container.Composite(new qx.ui.layout.HBox().set({ alignY: "top" }));
+      return new qx.ui.container.Composite(
+        new qx.ui.layout.HBox().set({ alignY: "top" })
+      );
     },
-    
+
     /**
      * @Override
      */
@@ -60,6 +61,7 @@ qx.Class.define("qx.ui.list.column.ToolbarColumn", {
         widget: widget,
         buttons: []
       };
+
       this.__factories.forEach(factory => {
         let button = factory.createButton();
         widget.add(button);
@@ -83,12 +85,17 @@ qx.Class.define("qx.ui.list.column.ToolbarColumn", {
         element.factory.unbindModel(element.buttonBindData);
       });
     },
-    
+
     /**
      * @Override
      */
     _updateEditableImpl(bindData, enabled, readOnly) {
-      bindData.buttons.forEach(element => element.factory.updateEnabled(element.buttonBindData, enabled && !readOnly));
+      bindData.buttons.forEach(element =>
+        element.factory.updateEnabled(
+          element.buttonBindData,
+          enabled && !readOnly
+        )
+      );
     }
   }
 });

@@ -19,20 +19,27 @@ qx.Class.define("qx.test.core.MemoryManagement", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testEnvSetting: function() {
+    testEnvSetting() {
       var ClassDisposable = qx.Class.define(null, {
         extend: qx.core.Object,
-        implement: [ qx.core.IDisposable ]
+        implement: [qx.core.IDisposable]
       });
+
       var ClassNotDisposable = qx.Class.define(null, {
         extend: qx.core.Object
       });
+
       this.assertTrue(qx.core.Environment.get("qx.automaticMemoryManagement"));
-      
+
       var objDisposable = new ClassDisposable();
       var objNotDisposable = new ClassNotDisposable();
-      this.assertIdentical(objDisposable, qx.core.ObjectRegistry.fromHashCode(objDisposable.toHashCode()));
-      this.assertNull(qx.core.ObjectRegistry.fromHashCode(objNotDisposable.toHashCode()));
+      this.assertIdentical(
+        objDisposable,
+        qx.core.ObjectRegistry.fromHashCode(objDisposable.toHashCode())
+      );
+      this.assertNull(
+        qx.core.ObjectRegistry.fromHashCode(objNotDisposable.toHashCode())
+      );
     }
   }
 });

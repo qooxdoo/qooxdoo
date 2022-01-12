@@ -25,32 +25,36 @@
  * @asset(qx/test/media/*)
  */
 
-qx.Class.define("qx.test.bom.media.Audio",
-{
-  extend : qx.test.bom.media.MediaTestCase,
+qx.Class.define("qx.test.bom.media.Audio", {
+  extend: qx.test.bom.media.MediaTestCase,
   include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    _getSrc: function() {
+  members: {
+    _getSrc() {
       if (qx.core.Environment.get("html.audio.mp3")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.mp3");
-      } else if(qx.core.Environment.get("html.audio.ogg")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.ogg");
-      } else if(qx.core.Environment.get("html.audio.wav")) {
-        return qx.util.ResourceManager.getInstance().toUri("qx/test/media/knock.wav");
+        return qx.util.ResourceManager.getInstance().toUri(
+          "qx/test/media/knock.mp3"
+        );
+      } else if (qx.core.Environment.get("html.audio.ogg")) {
+        return qx.util.ResourceManager.getInstance().toUri(
+          "qx/test/media/knock.ogg"
+        );
+      } else if (qx.core.Environment.get("html.audio.wav")) {
+        return qx.util.ResourceManager.getInstance().toUri(
+          "qx/test/media/knock.wav"
+        );
       }
     },
 
-    _createMedia: function() {
+    _createMedia() {
       return new qx.bom.media.Audio(this._src);
     },
 
-    _checkFeature: function() {
+    _checkFeature() {
       this.require(["audio"]);
     },
 
-    hasAudio: function() {
+    hasAudio() {
       return qx.core.Environment.get("html.audio");
     }
   }

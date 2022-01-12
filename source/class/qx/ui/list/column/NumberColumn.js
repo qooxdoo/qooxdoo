@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Implementation of a Text column
  */
 qx.Class.define("qx.ui.list.column.NumberColumn", {
   extend: qx.ui.list.column.AbstractWidgetColumn,
-  
+
   members: {
     /**
      * @Override
@@ -30,16 +29,16 @@ qx.Class.define("qx.ui.list.column.NumberColumn", {
     _createCellWidget(row) {
       return new qx.ui.form.TextField();
     },
-    
+
     /**
      * @Override
      */
     _getModelBindingOptions(widget, model) {
       return {
-        converter: (data, ctlrModel, source, target) => String(data||0)
+        converter: (data, ctlrModel, source, target) => String(data || 0)
       };
     },
-    
+
     /**
      * @Override
      */
@@ -47,7 +46,9 @@ qx.Class.define("qx.ui.list.column.NumberColumn", {
       return {
         converter: (data, ctlrModel, source, target) => {
           let value = parseFloat(data);
-          return isNaN(value) ? model["get" + qx.lang.String.firstUp(this.getPath())]() : value;
+          return isNaN(value)
+            ? model["get" + qx.lang.String.firstUp(this.getPath())]()
+            : value;
         }
       };
     }

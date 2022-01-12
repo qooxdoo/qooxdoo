@@ -28,20 +28,23 @@ qx.Class.define("qx.test.io.transport.Websocket", {
   },
 
   members: {
-
-    __hasEndpoint : false,
+    __hasEndpoint: false,
     __skipMsg: "Skipping test as endpoint is not available.",
 
     setUp() {
-      this.transport = new qx.io.transport.Websocket("wss://" + this.constructor.TEST_ENDPOINT);
+      this.transport = new qx.io.transport.Websocket(
+        "wss://" + this.constructor.TEST_ENDPOINT
+      );
     },
 
     async "test: check endpoint"() {
       try {
         await this.transport.send("test");
         this.__hasEndpoint = true;
-      } catch(e) {
-        console.error(`Endpoint ${this.constructor.TEST_ENDPOINT} is not accessible: ${e.message}`);
+      } catch (e) {
+        console.error(
+          `Endpoint ${this.constructor.TEST_ENDPOINT} is not accessible: ${e.message}`
+        );
       }
     },
 
@@ -54,9 +57,7 @@ qx.Class.define("qx.test.io.transport.Websocket", {
         this.transport.addListenerOnce("message", evt => {
           this.assertEquals(message, evt.getData());
         });
-        this.transport.send(message)
-          .then(resolve)
-          .catch(reject);
+        this.transport.send(message).then(resolve).catch(reject);
       });
     }
   }

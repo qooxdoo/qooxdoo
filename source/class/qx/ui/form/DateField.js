@@ -37,18 +37,11 @@
  * @childControl textfield {qx.ui.form.TextField} text field for manual date entry
  * @childControl button {qx.ui.form.Button} button that opens the list control
  */
-qx.Class.define("qx.ui.form.DateField",
-{
-  extend : qx.ui.core.Widget,
-  include : [
-    qx.ui.core.MRemoteChildrenHandling,
-    qx.ui.form.MForm
-  ],
-  implement : [
-    qx.ui.form.IForm,
-    qx.ui.form.IDateForm
-  ],
+qx.Class.define("qx.ui.form.DateField", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MRemoteChildrenHandling, qx.ui.form.MForm],
 
+  implement: [qx.ui.form.IForm, qx.ui.form.IDateForm],
 
   /*
   *****************************************************************************
@@ -56,9 +49,8 @@ qx.Class.define("qx.ui.form.DateField",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // set the layout
     var layout = new qx.ui.layout.HBox();
@@ -75,13 +67,21 @@ qx.Class.define("qx.ui.form.DateField",
 
     // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
-    this.addListener("focusin", function(e) {
-      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusin",
+      function (e) {
+        textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+      },
+      this
+    );
 
-    this.addListener("focusout", function(e) {
-      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusout",
+      function (e) {
+        textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+      },
+      this
+    );
 
     // initializes the DateField with the default format
     this._setDefaultDateFormat();
@@ -90,26 +90,19 @@ qx.Class.define("qx.ui.form.DateField",
     this._addLocaleChangeListener();
   },
 
-
-
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Whenever the value is changed this event is fired
      *
      *  Event data: The new text value of the field.
      */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -117,14 +110,11 @@ qx.Class.define("qx.ui.form.DateField",
   *****************************************************************************
   */
 
-  properties :
-  {
-
+  properties: {
     /** The formatter, which converts the selected date to a string. **/
-    dateFormat :
-    {
-      check : "qx.util.format.DateFormat",
-      apply : "_applyDateFormat"
+    dateFormat: {
+      check: "qx.util.format.DateFormat",
+      apply: "_applyDateFormat"
     },
 
     /**
@@ -132,37 +122,30 @@ qx.Class.define("qx.ui.form.DateField",
      * unset, unfocused and enabled. Set to null to not show a placeholder
      * text.
      */
-    placeholder :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyPlaceholder"
+    placeholder: {
+      check: "String",
+      nullable: true,
+      apply: "_applyPlaceholder"
     },
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "datefield"
+    appearance: {
+      refine: true,
+      init: "datefield"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    width :
-    {
-      refine : true,
-      init : 120
+    width: {
+      refine: true,
+      init: 120
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -170,18 +153,16 @@ qx.Class.define("qx.ui.form.DateField",
   *****************************************************************************
   */
 
-  statics :
-  {
-    __dateFormat : null,
-    __formatter : null,
+  statics: {
+    __dateFormat: null,
+    __formatter: null,
 
     /**
      * Get the shared default date formatter
      *
      * @return {qx.util.format.DateFormat} The shared date formatter
      */
-    getDefaultDateFormatter : function()
-    {
+    getDefaultDateFormatter() {
       var format = qx.locale.Date.getDateFormat("medium").toString();
 
       if (format == this.__dateFormat) {
@@ -192,15 +173,15 @@ qx.Class.define("qx.ui.form.DateField",
         this.__formatter.dispose();
       }
 
-      this.__formatter = new qx.util.format.DateFormat(format, qx.locale.Manager.getInstance().getLocale());
+      this.__formatter = new qx.util.format.DateFormat(
+        format,
+        qx.locale.Manager.getInstance().getLocale()
+      );
       this.__dateFormat = format;
 
       return this.__formatter;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -208,19 +189,16 @@ qx.Class.define("qx.ui.form.DateField",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __localeListenerId : null,
-
+  members: {
+    __localeListenerId: null,
 
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true,
-      invalid : true
+    _forwardStates: {
+      focused: true,
+      invalid: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -232,27 +210,27 @@ qx.Class.define("qx.ui.form.DateField",
      * {@link #getDefaultDateFormatter}. You can override this method to
      * define your own default format.
      */
-    _setDefaultDateFormat : function() {
+    _setDefaultDateFormat() {
       this.setDateFormat(qx.ui.form.DateField.getDefaultDateFormatter());
     },
-
 
     /**
      * Checks for "qx.dynlocale" and adds a listener to the locale changes.
      * On every change, {@link #_setDefaultDateFormat} is called to reinitialize
      * the format. You can easily override that method to prevent that behavior.
      */
-    _addLocaleChangeListener : function() {
+    _addLocaleChangeListener() {
       // listen for locale changes
-      if (qx.core.Environment.get("qx.dynlocale"))
-      {
-        this.__localeListenerId =
-          qx.locale.Manager.getInstance().addListener("changeLocale", function() {
+      if (qx.core.Environment.get("qx.dynlocale")) {
+        this.__localeListenerId = qx.locale.Manager.getInstance().addListener(
+          "changeLocale",
+          function () {
             this._setDefaultDateFormat();
-          }, this);
+          },
+          this
+        );
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -260,16 +238,14 @@ qx.Class.define("qx.ui.form.DateField",
     ---------------------------------------------------------------------------
     */
 
-
     /**
-    * This method sets the date, which will be formatted according to
-    * #dateFormat to the date field. It will also select the date in the
-    * calendar popup.
-    *
-    * @param value {Date} The date to set.
+     * This method sets the date, which will be formatted according to
+     * #dateFormat to the date field. It will also select the date in the
+     * calendar popup.
+     *
+     * @param value {Date} The date to set.
      */
-    setValue : function(value)
-    {
+    setValue(value) {
       // set the date to the textfield
       var textField = this.getChildControl("textfield");
       textField.setValue(this.getDateFormat().format(value));
@@ -279,7 +255,6 @@ qx.Class.define("qx.ui.form.DateField",
       dateChooser.setValue(value);
     },
 
-
     /**
      * Returns the current set date, parsed from the input-field
      * corresponding to the {@link #dateFormat}.
@@ -287,8 +262,7 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @return {Date} The currently set date.
      */
-    getValue : function()
-    {
+    getValue() {
       // get the value of the textfield
       var textfieldValue = this.getChildControl("textfield").getValue();
 
@@ -303,13 +277,11 @@ qx.Class.define("qx.ui.form.DateField",
       }
     },
 
-
     /**
      * Resets the DateField. The textfield will be empty and the datechooser
      * will also have no selection.
      */
-    resetValue: function()
-    {
+    resetValue() {
       // set the date to the textfield
       var textField = this.getChildControl("textfield");
       textField.setValue("");
@@ -318,7 +290,6 @@ qx.Class.define("qx.ui.form.DateField",
       var dateChooser = this.getChildControl("list");
       dateChooser.setValue(null);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -329,28 +300,24 @@ qx.Class.define("qx.ui.form.DateField",
     /**
      * Shows the date chooser popup.
      */
-    open : function()
-    {
+    open() {
       var popup = this.getChildControl("popup");
 
       popup.placeToWidget(this, true);
       popup.show();
     },
 
-
     /**
      * Hides the date chooser popup.
      */
-    close : function() {
+    close() {
       this.getChildControl("popup").hide();
     },
-
 
     /**
      * Toggles the date chooser popup visibility.
      */
-    toggle : function()
-    {
+    toggle() {
       var isListOpen = this.getChildControl("popup").isVisible();
       if (isListOpen) {
         this.close();
@@ -359,7 +326,6 @@ qx.Class.define("qx.ui.form.DateField",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
@@ -367,34 +333,29 @@ qx.Class.define("qx.ui.form.DateField",
     */
 
     // property apply routine
-    _applyDateFormat : function(value, old)
-    {
+    _applyDateFormat(value, old) {
       // if old is undefined or null do nothing
       if (!old) {
         return;
       }
 
       // get the date with the old date format
-      try
-      {
+      try {
         var textfield = this.getChildControl("textfield");
         var dateStr = textfield.getValue();
         if (dateStr != null) {
           var currentDate = old.parse(dateStr);
           textfield.setValue(value.format(currentDate));
         }
-      }
-      catch (ex) {
+      } catch (ex) {
         // do nothing if the former date could not be parsed
       }
     },
 
-
     // property apply routine
-    _applyPlaceholder : function(value, old) {
+    _applyPlaceholder(value, old) {
       this.getChildControl("textfield").setPlaceholder(value);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -403,19 +364,21 @@ qx.Class.define("qx.ui.form.DateField",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "textfield":
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
           control.addState("inner");
-          control.addListener("changeValue", this._onTextFieldChangeValue, this);
+          control.addListener(
+            "changeValue",
+            this._onTextFieldChangeValue,
+            this
+          );
           control.addListener("blur", this.close, this);
-          this._add(control, {flex: 1});
+          this._add(control, { flex: 1 });
           break;
 
         case "button":
@@ -435,33 +398,33 @@ qx.Class.define("qx.ui.form.DateField",
           break;
 
         case "popup":
-          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
           control.add(this.getChildControl("list"));
           control.addListener("pointerup", this._onChangeDate, this);
-          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
+          control.addListener(
+            "changeVisibility",
+            this._onPopupChangeVisibility,
+            this
+          );
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
-
-
-
-   /*
-   ---------------------------------------------------------------------------
-     EVENT LISTENERS
-   ---------------------------------------------------------------------------
-   */
-
-   /**
-    * Handler method which handles the tap on the calender popup.
-    *
-    * @param e {qx.event.type.Pointer} The pointer event.
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
     */
-    _onChangeDate : function(e)
-    {
+
+    /**
+     * Handler method which handles the tap on the calender popup.
+     *
+     * @param e {qx.event.type.Pointer} The pointer event.
+     */
+    _onChangeDate(e) {
       var textField = this.getChildControl("textfield");
 
       var selectedDate = this.getChildControl("list").getValue();
@@ -470,26 +433,23 @@ qx.Class.define("qx.ui.form.DateField",
       this.close();
     },
 
-
     /**
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Pointer} Pointer tap event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       this.close();
     },
-
 
     /**
      * Handler for the blur event of the current widget.
      *
      * @param e {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(e) {
+    _onBlur(e) {
       this.close();
     },
-
 
     /**
      * Handler method which handles the key press. It forwards all key event
@@ -499,12 +459,10 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @param e {qx.event.type.KeySequence} Keypress event
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       // get the key identifier
       var iden = e.getKeyIdentifier();
-      if (iden == "Down" && e.isAltPressed())
-      {
+      if (iden == "Down" && e.isAltPressed()) {
         this.toggle();
         e.stopPropagation();
         return;
@@ -517,15 +475,19 @@ qx.Class.define("qx.ui.form.DateField",
       }
 
       // hide the list always on escape
-      if (iden == "Escape")
-      {
+      if (iden == "Escape") {
         this.close();
         e.stopPropagation();
         return;
       }
 
       // Stop navigation keys when popup is open
-      if (iden === "Left" || iden === "Right" || iden === "Down" || iden === "Up") {
+      if (
+        iden === "Left" ||
+        iden === "Right" ||
+        iden === "Down" ||
+        iden === "Up"
+      ) {
         e.preventDefault();
       }
 
@@ -533,28 +495,26 @@ qx.Class.define("qx.ui.form.DateField",
       this.getChildControl("list").handleKeyPress(e);
     },
 
-
     /**
      * Redirects changeVisibility event from the list to this widget.
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onPopupChangeVisibility : function(e)
-    {
-      e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
+    _onPopupChangeVisibility(e) {
+      e.getData() == "visible"
+        ? this.addState("popupOpen")
+        : this.removeState("popupOpen");
 
       // Synchronize the chooser with the current value on every
       // opening of the popup. This is needed when the value has been
       // modified and not saved yet (e.g. no blur)
       var popup = this.getChildControl("popup");
-      if (popup.isVisible())
-      {
+      if (popup.isVisible()) {
         var chooser = this.getChildControl("list");
         var date = this.getValue();
         chooser.setValue(date);
       }
     },
-
 
     /**
      * Reacts on value changes of the text field and syncs the
@@ -562,12 +522,10 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @param e {qx.event.type.Data} Change event
      */
-    _onTextFieldChangeValue : function(e)
-    {
+    _onTextFieldChangeValue(e) {
       // Apply to popup
       var date = this.getValue();
-      if (date != null)
-      {
+      if (date != null) {
         var list = this.getChildControl("list");
         list.setValue(date);
       }
@@ -576,28 +534,24 @@ qx.Class.define("qx.ui.form.DateField",
       this.fireDataEvent("changeValue", this.getValue());
     },
 
-
     /**
      * Checks if the textfield of the DateField is empty.
      *
      * @return {Boolean} True, if the textfield of the DateField is empty.
      */
-    isEmpty: function()
-    {
+    isEmpty() {
       var value = this.getChildControl("textfield").getValue();
       return value == null || value == "";
     },
 
     // overridden
-    focus : function()
-    {
-      this.base(arguments);
+    focus() {
+      super.focus();
       this.getChildControl("textfield").getFocusElement().focus();
     },
 
     // overridden
-    tabFocus : function()
-    {
+    tabFocus() {
       var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
@@ -605,28 +559,30 @@ qx.Class.define("qx.ui.form.DateField",
     },
 
     // overridden
-    setAriaLabel: function(label) {
+    setAriaLabel(label) {
       this.getChildControl("textfield").setAriaLabel(label);
     },
 
     // overridden
-    addAriaLabelledBy: function(...labelWidgets) {
+    addAriaLabelledBy(...labelWidgets) {
       this.getChildControl("textfield").addAriaLabelledBy(...labelWidgets);
     },
 
     // overridden
-    addAriaDescribedBy: function(...describingWidgets) {
-      this.getChildControl("textfield").addAriaDescribedBy(...describingWidgets);
-    },
+    addAriaDescribedBy(...describingWidgets) {
+      this.getChildControl("textfield").addAriaDescribedBy(
+        ...describingWidgets
+      );
+    }
   },
 
-
-  destruct : function() {
+  destruct() {
     // listen for locale changes
-    if (qx.core.Environment.get("qx.dynlocale"))
-    {
+    if (qx.core.Environment.get("qx.dynlocale")) {
       if (this.__localeListenerId) {
-        qx.locale.Manager.getInstance().removeListenerById(this.__localeListenerId);
+        qx.locale.Manager.getInstance().removeListenerById(
+          this.__localeListenerId
+        );
       }
     }
   }

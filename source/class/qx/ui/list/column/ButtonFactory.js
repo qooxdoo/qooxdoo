@@ -16,14 +16,13 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base for columns which are based on simple widgets, eg TextField
  */
 qx.Class.define("qx.ui.list.column.ButtonFactory", {
   extend: qx.core.Object,
-  implement: [ qx.ui.list.column.IButtonFactory ],
-  
+  implement: [qx.ui.list.column.IButtonFactory],
+
   properties: {
     /** The icon to use; if null, then iconPath is used */
     icon: {
@@ -31,28 +30,28 @@ qx.Class.define("qx.ui.list.column.ButtonFactory", {
       nullable: true,
       check: "String"
     },
-    
+
     /** The path to get the icon */
     iconPath: {
       init: null,
       nullable: true,
       check: "String"
     },
-    
+
     /** The title to use; if null, then titlePath is used */
     title: {
       init: null,
       nullable: true,
       check: "String"
     },
-    
+
     /** The path to get the title */
     titlePath: {
       init: null,
       nullable: true,
       check: "String"
     },
-    
+
     /** The appearance of the button, ignored if null */
     appearance: {
       init: null,
@@ -60,33 +59,35 @@ qx.Class.define("qx.ui.list.column.ButtonFactory", {
       check: "String"
     }
   },
-  
+
   events: {
     /** Fired when the button is clicked; data is a Map:
      *     model {qx.core.Object} the row model
-     *     button {qx.core.Object} the button 
+     *     button {qx.core.Object} the button
      */
-    "execute": "qx.event.type.Data"
+    execute: "qx.event.type.Data"
   },
-  
+
   members: {
     /**
      * @Override
      */
     createButton() {
-      let button = new qx.ui.form.Button(this.getTitle()||"", this.getIcon()).set({ allowGrowY: false });
-      if (this.getAppearance())
-        button.setAppearance(this.getAppearance());
+      let button = new qx.ui.form.Button(
+        this.getTitle() || "",
+        this.getIcon()
+      ).set({ allowGrowY: false });
+      if (this.getAppearance()) button.setAppearance(this.getAppearance());
       return button;
     },
-    
+
     /**
      * @Override
      */
     releaseButton(button) {
       button.dispose();
     },
-    
+
     /**
      * @Override
      */
@@ -94,19 +95,32 @@ qx.Class.define("qx.ui.list.column.ButtonFactory", {
       let bindData = {
         model,
         button,
-        buttonExecuteId: button.addListener("execute", () => this.fireDataEvent("execute", { model, button }))
+        buttonExecuteId: button.addListener("execute", () =>
+          this.fireDataEvent("execute", { model, button })
+        )
       };
+
       let path = this.getIconPath();
       if (path) {
-        bindData.iconBindingId = model.bind(path, button, "icon", this._getIconBindingOptions(model, button));
+        bindData.iconBindingId = model.bind(
+          path,
+          button,
+          "icon",
+          this._getIconBindingOptions(model, button)
+        );
       }
       path = this.getTitlePath();
       if (path) {
-        bindData.titleBindingId = model.bind(path, button, "label", this._getTitleBindingOptions(model, button));
+        bindData.titleBindingId = model.bind(
+          path,
+          button,
+          "label",
+          this._getTitleBindingOptions(model, button)
+        );
       }
       return bindData;
     },
-    
+
     /**
      * @Override
      */
@@ -117,7 +131,7 @@ qx.Class.define("qx.ui.list.column.ButtonFactory", {
       if (bindData.titleBindingId)
         bindData.model.removeBinding(bindData.titleBindingId);
     },
-    
+
     /**
      * @Override
      */
@@ -126,25 +140,25 @@ qx.Class.define("qx.ui.list.column.ButtonFactory", {
     },
 
     /**
-     * Returns the options for binding to the model, same as the `qx.data.SingleValueBinding.bind` 
+     * Returns the options for binding to the model, same as the `qx.data.SingleValueBinding.bind`
      * options parameter
      *
      * @param model {qx.core.Object}
      * @param button {qx.ui.form.Button}
      * @return {Object?}
-     */    
+     */
     _getIconBindingOptions(model, button) {
       return undefined;
     },
-    
+
     /**
-     * Returns the options for binding to the widget, same as the `qx.data.SingleValueBinding.bind` 
+     * Returns the options for binding to the widget, same as the `qx.data.SingleValueBinding.bind`
      * options parameter
      *
      * @param model {qx.ui.core.Widget}
      * @param button {qx.ui.form.Button}
      * @return {Object?}
-     */    
+     */
     _getTitleBindingOptions(widget, button) {
       return undefined;
     }

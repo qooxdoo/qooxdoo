@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.form.Spinner", {
     /**
      * Test if spinner use NumberFormat locale
      */
-    testCorrectLocaleUsed: function () {
+    testCorrectLocaleUsed() {
       var spinner = new qx.ui.form.Spinner();
 
       // "de" locale has comma as decimal separator
@@ -31,8 +31,11 @@ qx.Class.define("qx.test.ui.form.Spinner", {
       spinner.setNumberFormat(nf);
 
       spinner.setValue(1.23);
-      this.assertEquals("1,23", spinner.getChildControl("textfield").getValue());
-      
+      this.assertEquals(
+        "1,23",
+        spinner.getChildControl("textfield").getValue()
+      );
+
       spinner.destroy();
       nf.dispose();
     },
@@ -40,12 +43,13 @@ qx.Class.define("qx.test.ui.form.Spinner", {
     /**
      * Test if postfix is always set after textfield of the spinner has been edited
      */
-    testPostfixIsAlwaysSet : function() {
+    testPostfixIsAlwaysSet() {
       var spinner = new qx.ui.form.Spinner();
       spinner.set({
         maximum: 120,
         minimum: 1
       });
+
       var numberFormat = new qx.util.format.NumberFormat();
       numberFormat.setPostfix("min");
       spinner.setNumberFormat(numberFormat);
@@ -72,7 +76,7 @@ qx.Class.define("qx.test.ui.form.Spinner", {
       this.assertEquals("50min", tf.getValue());
       tf.setValue("50");
       this.assertEquals("50min", tf.getValue());
-      
+
       spinner.destroy();
       numberFormat.dispose();
     }

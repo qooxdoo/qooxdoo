@@ -19,30 +19,25 @@
 /**
  * Escaping and unescaping of XML strings.
  */
-qx.Class.define("qx.xml.String",
-{
-  statics :
-  {
+qx.Class.define("qx.xml.String", {
+  statics: {
     /** Mapping of XML entity names to the corresponding char code */
-    TO_CHARCODE :
-    {
-      "quot" : 34, // " - double-quote
-      "amp"  : 38, // &
-      "lt"   : 60, // <
-      "gt"   : 62, // >
-      "apos" : 39 // XML apostrophe
+    TO_CHARCODE: {
+      quot: 34, // " - double-quote
+      amp: 38, // &
+      lt: 60, // <
+      gt: 62, // >
+      apos: 39 // XML apostrophe
     },
 
     /** Mapping of char codes to XML entity names */
-    FROM_CHARCODE :
-    {
+    FROM_CHARCODE: {
       34: "quot", // " - double-quote
-      38: "amp",  // &
-      60: "lt",   // <
-      62: "gt",   // >
-      39: "apos"  // XML apostrophe
+      38: "amp", // &
+      60: "lt", // <
+      62: "gt", // >
+      39: "apos" // XML apostrophe
     },
-
 
     /**
      * Escapes the characters in a <code>String</code> using XML entities.
@@ -57,10 +52,9 @@ qx.Class.define("qx.xml.String",
      * @param str {String} the string to be escaped
      * @return {String} the escaped string
      */
-    escape : function(str) {
+    escape(str) {
       return qx.util.StringEscape.escape(str, this.FROM_CHARCODE);
     },
-
 
     /**
      * Unescapes a string containing XML entity escapes to a string
@@ -73,7 +67,7 @@ qx.Class.define("qx.xml.String",
      * @param str {String} the string to be unescaped
      * @return {String} the unescaped string
      */
-    unescape : function(str) {
+    unescape(str) {
       return qx.util.StringEscape.unescape(str, this.TO_CHARCODE);
     }
   }

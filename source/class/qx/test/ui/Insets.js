@@ -16,28 +16,25 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Insets",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.Insets", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    testPadding : function()
-    {
+  members: {
+    testPadding() {
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      widget.setPadding(1,2,3,4);
-      this.assertPadding(widget, 1,2,3,4);
+      widget.setPadding(1, 2, 3, 4);
+      this.assertPadding(widget, 1, 2, 3, 4);
 
       // shorthand mode
       widget.setPadding(1);
-      this.assertPadding(widget, 1,1,1,1);
+      this.assertPadding(widget, 1, 1, 1, 1);
 
       widget.setPadding(2, 5);
-      this.assertPadding(widget, 2,5,2,5);
+      this.assertPadding(widget, 2, 5, 2, 5);
 
       this.getRoot().remove(widget);
       widget.dispose();
@@ -48,18 +45,18 @@ qx.Class.define("qx.test.ui.Insets",
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      deco = new qx.ui.decoration.Decorator().set({width: 1});
+      deco = new qx.ui.decoration.Decorator().set({ width: 1 });
       widget.setDecorator(deco);
       this.assertPadding(widget, 0, 0, 0, 0);
 
       deco.dispose();
-      deco = new qx.ui.decoration.Decorator().set({width: 2});
+      deco = new qx.ui.decoration.Decorator().set({ width: 2 });
       widget.setDecorator(deco);
       widget.setPadding(2);
       this.assertPadding(widget, 2, 2, 2, 2);
 
       deco.dispose();
-      deco = new qx.ui.decoration.Decorator().set({width: [2, 3, 5, 7]});
+      deco = new qx.ui.decoration.Decorator().set({ width: [2, 3, 5, 7] });
       widget.setDecorator(deco);
       widget.setPadding(1, 4, 16, 64);
       this.assertPadding(widget, 1, 4, 16, 64);
@@ -72,6 +69,7 @@ qx.Class.define("qx.test.ui.Insets",
         width: 2,
         innerWidth: 2
       });
+
       widget.setDecorator(deco);
       widget.setPadding(2);
       this.assertPadding(widget, 4, 4, 4, 4);
@@ -81,9 +79,7 @@ qx.Class.define("qx.test.ui.Insets",
       deco.dispose();
     },
 
-
-    testDecoration : function()
-    {
+    testDecoration() {
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 

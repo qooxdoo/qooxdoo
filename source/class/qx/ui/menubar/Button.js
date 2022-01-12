@@ -20,9 +20,8 @@
 /**
  * A menubar button
  */
-qx.Class.define("qx.ui.menubar.Button",
-{
-  extend : qx.ui.form.MenuButton,
+qx.Class.define("qx.ui.menubar.Button", {
+  extend: qx.ui.form.MenuButton,
 
   /*
   *****************************************************************************
@@ -30,21 +29,17 @@ qx.Class.define("qx.ui.menubar.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "menubar-button"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "menubar-button"
     },
 
-    show :
-    {
-      refine : true,
-      init : "inherit"
-    },
+    show: {
+      refine: true,
+      init: "inherit"
+    }
   },
-
 
   /*
   *****************************************************************************
@@ -52,8 +47,7 @@ qx.Class.define("qx.ui.menubar.Button",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -65,11 +59,9 @@ qx.Class.define("qx.ui.menubar.Button",
      *
      * @return {qx.ui.menubar.MenuBar} MenuBar instance or <code>null</code>.
      */
-    getMenuBar : function()
-    {
+    getMenuBar() {
       var parent = this;
-      while (parent)
-      {
+      while (parent) {
         /* this method is also used by toolbar.MenuButton, so we need to check
            for a ToolBar instance. */
         if (parent instanceof qx.ui.toolbar.ToolBar) {
@@ -82,17 +74,15 @@ qx.Class.define("qx.ui.menubar.Button",
       return null;
     },
 
-
     // overridden
-    open : function(selectFirst) {
-      this.base(arguments, selectFirst);
+    open(selectFirst) {
+      super.open(selectFirst);
 
       var menubar = this.getMenuBar();
       if (menubar) {
         menubar._setAllowMenuOpenHover(true);
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -105,22 +95,18 @@ qx.Class.define("qx.ui.menubar.Button",
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onMenuChange : function(e)
-    {
+    _onMenuChange(e) {
       var menu = this.getMenu();
       var menubar = this.getMenuBar();
 
-      if (menu.isVisible())
-      {
+      if (menu.isVisible()) {
         this.addState("pressed");
 
         // Sync with open menu property
         if (menubar) {
           menubar.setOpenMenu(menu);
         }
-      }
-      else
-      {
+      } else {
         this.removeState("pressed");
 
         // Sync with open menu property
@@ -132,9 +118,8 @@ qx.Class.define("qx.ui.menubar.Button",
     },
 
     // overridden
-    _onPointerUp : function(e)
-    {
-      this.base(arguments, e);
+    _onPointerUp(e) {
+      super._onPointerUp(e);
 
       // Set state 'pressed' to visualize that the menu is open.
       var menu = this.getMenu();
@@ -148,18 +133,15 @@ qx.Class.define("qx.ui.menubar.Button",
      *
      * @param e {qx.event.type.Pointer} pointerover event object
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       // Add hovered state
       this.addState("hovered");
 
       // Open submenu
-      if (this.getMenu() && e.getPointerType() == "mouse")
-      {
+      if (this.getMenu() && e.getPointerType() == "mouse") {
         var menubar = this.getMenuBar();
 
-        if (menubar && menubar._isAllowMenuOpenHover())
-        {
+        if (menubar && menubar._isAllowMenuOpenHover()) {
           // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
 

@@ -33,13 +33,10 @@
  *
  * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
-qx.Bootstrap.define("qx.core.Aspect",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.core.Aspect", {
+  statics: {
     /** @type {Array} Registry for all known aspect wishes */
-    __registry : [],
-
+    __registry: [],
 
     /**
      * This function is used by {@link qx.Class#define} to wrap all statics, members and
@@ -52,18 +49,19 @@ qx.Bootstrap.define("qx.core.Aspect",
      *
      * @return {Function} wrapped function
      */
-    wrap : function(fullName, fcn, type)
-    {
+    wrap(fullName, fcn, type) {
       var before = [];
       var after = [];
       var reg = this.__registry;
       var entry;
 
-      for (var i=0; i<reg.length; i++)
-      {
+      for (var i = 0; i < reg.length; i++) {
         entry = reg[i];
 
-        if ((entry.type == null || type == entry.type || entry.type == "*") && (entry.name == null || fullName.match(entry.name))) {
+        if (
+          (entry.type == null || type == entry.type || entry.type == "*") &&
+          (entry.name == null || fullName.match(entry.name))
+        ) {
           entry.pos == -1 ? before.push(entry.fcn) : after.push(entry.fcn);
         }
       }
@@ -72,23 +70,21 @@ qx.Bootstrap.define("qx.core.Aspect",
         return fcn;
       }
 
-      var wrapper = function()
-      {
-        for (var i=0; i<before.length; i++) {
+      var wrapper = function () {
+        for (var i = 0; i < before.length; i++) {
           before[i].call(this, fullName, fcn, type, arguments);
         }
 
         var ret = fcn.apply(this, arguments);
 
-        for (var i=0; i<after.length; i++) {
+        for (var i = 0; i < after.length; i++) {
           after[i].call(this, fullName, fcn, type, arguments, ret);
         }
 
         return ret;
       };
 
-      if (type !== "static")
-      {
+      if (type !== "static") {
         wrapper.self = fcn.self;
         wrapper.base = fcn.base;
       }
@@ -98,7 +94,6 @@ qx.Bootstrap.define("qx.core.Aspect",
 
       return wrapper;
     },
-
 
     /**
      * Register a function to be called just before or after each time
@@ -118,10 +113,8 @@ qx.Bootstrap.define("qx.core.Aspect",
      *     this pattern (using <code>fullName.match(name)</code>) will be
      *     wrapped.
      */
-    addAdvice : function(fcn, position, type, name)
-    {
-      this.__registry.push(
-      {
+    addAdvice(fcn, position, type, name) {
+      this.__registry.push({
         fcn: fcn,
         pos: position === "before" ? -1 : 1,
         type: type,

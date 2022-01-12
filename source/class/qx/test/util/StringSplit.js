@@ -32,87 +32,123 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.util.StringSplit", {
+  extend: qx.dev.unit.TestCase,
 
-qx.Class.define("qx.test.util.StringSplit",
-{
-  extend : qx.dev.unit.TestCase,
-
-  members :
-  {
+  members: {
     /**
      * @lint ignoreDeprecated(eval)
      */
-    testSplit : function()
-    {
+    testSplit() {
       var testCode = [
-        ["qx.util.StringSplit.split('')",                       [""]],
-        ["qx.util.StringSplit.split('', /./)",                  [""]],
-        ["qx.util.StringSplit.split('', /.?/)",                 []],
-        ["qx.util.StringSplit.split('', /.??/)",                []],
-        ["qx.util.StringSplit.split('ab', /a*/)",               ["", "b"]],
-        ["qx.util.StringSplit.split('ab', /a*?/)",              ["a", "b"]],
-        ["qx.util.StringSplit.split('ab', /(?:ab)/)",           ["", ""]],
-        ["qx.util.StringSplit.split('ab', /(?:ab)*/)",          ["", ""]],
-        ["qx.util.StringSplit.split('ab', /(?:ab)*?/)",         ["a", "b"]],
-        ["qx.util.StringSplit.split('test', '')",               ["t", "e", "s", "t"]],
-        ["qx.util.StringSplit.split('test')",                   ["test"]],
-        ["qx.util.StringSplit.split('111', 1)",                 ["", "", "", ""]],
-        ["qx.util.StringSplit.split('test', /(?:)/, 2)",        ["t", "e"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, -1)",       ["t", "e", "s", "t"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, undefined)",["t", "e", "s", "t"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, null)",     []],
-        ["qx.util.StringSplit.split('test', /(?:)/, NaN)",      []],
-        ["qx.util.StringSplit.split('test', /(?:)/, true)",     ["t"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, '2')",      ["t", "e"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, 'two')",    []],
-        ["qx.util.StringSplit.split('a', /-/)",                 ["a"]],
-        ["qx.util.StringSplit.split('a', /-?/)",                ["a"]],
-        ["qx.util.StringSplit.split('a', /-??/)",               ["a"]],
-        ["qx.util.StringSplit.split('a', /a/)",                 ["", ""]],
-        ["qx.util.StringSplit.split('a', /a?/)",                ["", ""]],
-        ["qx.util.StringSplit.split('a', /a??/)",               ["a"]],
-        ["qx.util.StringSplit.split('ab', /-/)",                ["ab"]],
-        ["qx.util.StringSplit.split('ab', /-?/)",               ["a", "b"]],
-        ["qx.util.StringSplit.split('ab', /-??/)",              ["a", "b"]],
-        ["qx.util.StringSplit.split('a-b', /-/)",               ["a", "b"]],
-        ["qx.util.StringSplit.split('a-b', /-?/)",              ["a", "b"]],
-        ["qx.util.StringSplit.split('a-b', /-??/)",             ["a", "-", "b"]],
-        ["qx.util.StringSplit.split('a--b', /-/)",              ["a", "", "b"]],
-        ["qx.util.StringSplit.split('a--b', /-?/)",             ["a", "", "b"]],
-        ["qx.util.StringSplit.split('a--b', /-??/)",            ["a", "-", "-", "b"]],
-        ["qx.util.StringSplit.split('', /()()/)",               []],
-        ["qx.util.StringSplit.split('.', /()()/)",              ["."]],
-        ["qx.util.StringSplit.split('.', /(.?)(.?)/)",          ["", ".", "", ""]],
-        ["qx.util.StringSplit.split('.', /(.??)(.??)/)",        ["."]],
-        ["qx.util.StringSplit.split('.', /(.)?(.)?/)",          ["", ".", undefined, ""]],
-        ["qx.util.StringSplit.split('tesst', /(s)*/)",          ["t", undefined, "e", "s", "t"]],
-        ["qx.util.StringSplit.split('tesst', /(s)*?/)",         ["t", undefined, "e", undefined, "s", undefined, "s", undefined, "t"]],
-        ["qx.util.StringSplit.split('tesst', /(s*)/)",          ["t", "", "e", "ss", "t"]],
-        ["qx.util.StringSplit.split('tesst', /(s*?)/)",         ["t", "", "e", "", "s", "", "s", "", "t"]],
-        ["qx.util.StringSplit.split('tesst', /(?:s)*/)",        ["t", "e", "t"]],
-        ["qx.util.StringSplit.split('tesst', /(?=s+)/)",        ["te", "s", "st"]],
-        ["qx.util.StringSplit.split('test', 't')",              ["", "es", ""]],
-        ["qx.util.StringSplit.split('test', 'es')",             ["t", "t"]],
-        ["qx.util.StringSplit.split('test', /t/)",              ["", "es", ""]],
-        ["qx.util.StringSplit.split('test', /es/)",             ["t", "t"]],
-        ["qx.util.StringSplit.split('test', /(t)/)",            ["", "t", "es", "t", ""]],
-        ["qx.util.StringSplit.split('test', /(es)/)",           ["t", "es", "t"]],
-        ["qx.util.StringSplit.split('test', /(t)(e)(s)(t)/)",   ["", "t", "e", "s", "t", ""]],
-        ["qx.util.StringSplit.split('.', /(((.((.??)))))/)",    ["", ".", ".", ".", "", "", ""]],
-        ["qx.util.StringSplit.split('.', /(((((.??)))))/)",     ["."]]
+        ["qx.util.StringSplit.split('')", [""]],
+        ["qx.util.StringSplit.split('', /./)", [""]],
+        ["qx.util.StringSplit.split('', /.?/)", []],
+        ["qx.util.StringSplit.split('', /.??/)", []],
+        ["qx.util.StringSplit.split('ab', /a*/)", ["", "b"]],
+        ["qx.util.StringSplit.split('ab', /a*?/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('ab', /(?:ab)/)", ["", ""]],
+        ["qx.util.StringSplit.split('ab', /(?:ab)*/)", ["", ""]],
+        ["qx.util.StringSplit.split('ab', /(?:ab)*?/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('test', '')", ["t", "e", "s", "t"]],
+        ["qx.util.StringSplit.split('test')", ["test"]],
+        ["qx.util.StringSplit.split('111', 1)", ["", "", "", ""]],
+        ["qx.util.StringSplit.split('test', /(?:)/, 2)", ["t", "e"]],
+        ["qx.util.StringSplit.split('test', /(?:)/, -1)", ["t", "e", "s", "t"]],
+        [
+          "qx.util.StringSplit.split('test', /(?:)/, undefined)",
+          ["t", "e", "s", "t"]
+        ],
+        ["qx.util.StringSplit.split('test', /(?:)/, null)", []],
+        ["qx.util.StringSplit.split('test', /(?:)/, NaN)", []],
+        ["qx.util.StringSplit.split('test', /(?:)/, true)", ["t"]],
+        ["qx.util.StringSplit.split('test', /(?:)/, '2')", ["t", "e"]],
+        ["qx.util.StringSplit.split('test', /(?:)/, 'two')", []],
+        ["qx.util.StringSplit.split('a', /-/)", ["a"]],
+        ["qx.util.StringSplit.split('a', /-?/)", ["a"]],
+        ["qx.util.StringSplit.split('a', /-??/)", ["a"]],
+        ["qx.util.StringSplit.split('a', /a/)", ["", ""]],
+        ["qx.util.StringSplit.split('a', /a?/)", ["", ""]],
+        ["qx.util.StringSplit.split('a', /a??/)", ["a"]],
+        ["qx.util.StringSplit.split('ab', /-/)", ["ab"]],
+        ["qx.util.StringSplit.split('ab', /-?/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('ab', /-??/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('a-b', /-/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('a-b', /-?/)", ["a", "b"]],
+        ["qx.util.StringSplit.split('a-b', /-??/)", ["a", "-", "b"]],
+        ["qx.util.StringSplit.split('a--b', /-/)", ["a", "", "b"]],
+        ["qx.util.StringSplit.split('a--b', /-?/)", ["a", "", "b"]],
+        ["qx.util.StringSplit.split('a--b', /-??/)", ["a", "-", "-", "b"]],
+        ["qx.util.StringSplit.split('', /()()/)", []],
+        ["qx.util.StringSplit.split('.', /()()/)", ["."]],
+        ["qx.util.StringSplit.split('.', /(.?)(.?)/)", ["", ".", "", ""]],
+        ["qx.util.StringSplit.split('.', /(.??)(.??)/)", ["."]],
+        [
+          "qx.util.StringSplit.split('.', /(.)?(.)?/)",
+          ["", ".", undefined, ""]
+        ],
+        [
+          "qx.util.StringSplit.split('tesst', /(s)*/)",
+          ["t", undefined, "e", "s", "t"]
+        ],
+        [
+          "qx.util.StringSplit.split('tesst', /(s)*?/)",
+          ["t", undefined, "e", undefined, "s", undefined, "s", undefined, "t"]
+        ],
+        [
+          "qx.util.StringSplit.split('tesst', /(s*)/)",
+          ["t", "", "e", "ss", "t"]
+        ],
+        [
+          "qx.util.StringSplit.split('tesst', /(s*?)/)",
+          ["t", "", "e", "", "s", "", "s", "", "t"]
+        ],
+        ["qx.util.StringSplit.split('tesst', /(?:s)*/)", ["t", "e", "t"]],
+        ["qx.util.StringSplit.split('tesst', /(?=s+)/)", ["te", "s", "st"]],
+        ["qx.util.StringSplit.split('test', 't')", ["", "es", ""]],
+        ["qx.util.StringSplit.split('test', 'es')", ["t", "t"]],
+        ["qx.util.StringSplit.split('test', /t/)", ["", "es", ""]],
+        ["qx.util.StringSplit.split('test', /es/)", ["t", "t"]],
+        ["qx.util.StringSplit.split('test', /(t)/)", ["", "t", "es", "t", ""]],
+        ["qx.util.StringSplit.split('test', /(es)/)", ["t", "es", "t"]],
+        [
+          "qx.util.StringSplit.split('test', /(t)(e)(s)(t)/)",
+          ["", "t", "e", "s", "t", ""]
+        ],
+        [
+          "qx.util.StringSplit.split('.', /(((.((.??)))))/)",
+          ["", ".", ".", ".", "", "", ""]
+        ],
+        ["qx.util.StringSplit.split('.', /(((((.??)))))/)", ["."]]
       ];
 
-      for (var i = 0; i < testCode.length; i++)
-      {
+      for (var i = 0; i < testCode.length; i++) {
         var result = eval(testCode[i][0]);
         this.assertArrayEquals(testCode[i][1], result);
       }
 
       var ecmaSampleRe = /<(\/)?([^<>]+)>/;
-      this.assertArrayEquals(["A", undefined, "B", "bold", "/", "B", "and", undefined, "CODE", "coded", "/", "CODE", ""],
-                             qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe));
-
+      this.assertArrayEquals(
+        [
+          "A",
+          undefined,
+          "B",
+          "bold",
+          "/",
+          "B",
+          "and",
+          undefined,
+          "CODE",
+          "coded",
+          "/",
+          "CODE",
+          ""
+        ],
+        qx.util.StringSplit.split(
+          "A<B>bold</B>and<CODE>coded</CODE>",
+          ecmaSampleRe
+        )
+      );
     }
   }
 });
-

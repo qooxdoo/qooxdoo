@@ -20,12 +20,8 @@
 /**
  * This class is used to work with the result of a HTTP request.
  */
-qx.Class.define("qx.io.remote.Response",
-{
-  extend : qx.event.type.Event,
-
-
-
+qx.Class.define("qx.io.remote.Response", {
+  extend: qx.event.type.Event,
 
   /*
   *****************************************************************************
@@ -33,8 +29,7 @@ qx.Class.define("qx.io.remote.Response",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PROPERTIES
@@ -42,36 +37,29 @@ qx.Class.define("qx.io.remote.Response",
     */
 
     /** State of the response. */
-    state :
-    {
-      check    : "Integer",
-      nullable : true
+    state: {
+      check: "Integer",
+      nullable: true
     },
 
     /** Status code of the response. */
-    statusCode :
-    {
-      check    : "Integer",
-      nullable : true
+    statusCode: {
+      check: "Integer",
+      nullable: true
     },
 
     /** Content of the response. */
-    content :
-    {
-      nullable : true
+    content: {
+      nullable: true
     },
 
     /** The headers of the response. */
-    responseHeaders :
-    {
-      check    : "Object",
-      nullable : true,
-      apply : "_applyResponseHeaders"
+    responseHeaders: {
+      check: "Object",
+      nullable: true,
+      apply: "_applyResponseHeaders"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -79,8 +67,7 @@ qx.Class.define("qx.io.remote.Response",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     __lowerHeaders: null,
 
     /*
@@ -90,9 +77,8 @@ qx.Class.define("qx.io.remote.Response",
     */
 
     // overridden
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
       clone.setType(this.getType());
       clone.setState(this.getState());
       clone.setStatusCode(this.getStatusCode());
@@ -101,14 +87,12 @@ qx.Class.define("qx.io.remote.Response",
       return clone;
     },
 
-
     /**
      * Returns a specific response header
      * @param vHeader {String} Response header name
      * @return {Object | null} The header value or null;
      */
-    getResponseHeader : function(vHeader)
-    {
+    getResponseHeader(vHeader) {
       if (this.__lowerHeaders) {
         return this.__lowerHeaders[vHeader.toLowerCase()] || null;
       }
@@ -123,11 +107,11 @@ qx.Class.define("qx.io.remote.Response",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyResponseHeaders : function(value, old) {
+    _applyResponseHeaders(value, old) {
       var lowerHeaders = {};
 
       if (value !== null) {
-        Object.keys(value).forEach(function(key) {
+        Object.keys(value).forEach(function (key) {
           lowerHeaders[key.toLowerCase()] = value[key];
         });
         this.__lowerHeaders = lowerHeaders;

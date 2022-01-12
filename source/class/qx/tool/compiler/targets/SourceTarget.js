@@ -44,13 +44,13 @@ qx.Class.define("qx.tool.compiler.targets.SourceTarget", {
         let appMeta = this.getAppMeta();
         await appMeta.syncAssets();
       }
-      return await this.base(arguments);
+      return await super._writeApplication();
     },
 
     /*
      * @Override
      */
-    toString: function() {
+    toString() {
       return "Source Target: " + this.getOutputDir();
     }
   }

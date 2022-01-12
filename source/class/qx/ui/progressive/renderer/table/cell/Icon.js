@@ -22,16 +22,13 @@
 /**
  * Abstract Icon cell renderer.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
-{
-  type       : "abstract",
-  extend     : qx.ui.progressive.renderer.table.cell.Abstract,
-
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
+  type: "abstract",
+  extend: qx.ui.progressive.renderer.table.cell.Abstract,
 
   /** Create a new instance of an Icon cell renderer */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var aliasManager = qx.util.AliasManager.getInstance();
     var resourceManager = qx.util.ResourceManager.getInstance();
@@ -40,14 +37,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
     this.__imageBlank = resourceManager.toUri(blankImg);
   },
 
-
-  members :
-  {
+  members: {
     /**
      * A blank image for use as a spacer in place of another image
      */
-    __imageBlank : null,
-
+    __imageBlank: null,
 
     /**
      * Retrieve the URI for a blank image
@@ -55,8 +49,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
      * @return {String}
      *   The URI of the blank image.
      */
-    getBlankImage : function()
-    {
+    getBlankImage() {
       return this.__imageBlank;
     },
 
@@ -109,55 +102,53 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
      *     </dd>
      *   </dl>
      */
-    _identifyImage : function(cellInfo)
-    {
+    _identifyImage(cellInfo) {
       throw new Error("_identifyImage() is abstract");
     },
 
     // overridden
-    _getCellStyle : function(cellInfo)
-    {
+    _getCellStyle(cellInfo) {
       var ret =
-        this.base(arguments, cellInfo) +
+        super._getCellStyle(cellInfo) +
         "text-align:center;" +
         "vertical-align:middle;";
       return ret;
     },
 
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
-      var html = [ ];
+    _getContentHtml(cellInfo) {
+      var html = [];
       var imageData = this.__getImageData(cellInfo);
 
       // Start the image tag
-      html.push('<img ');
+      html.push("<img ");
 
       // Add magic to make png images work in IE
-      if (qx.core.Environment.get("css.alphaimageloaderneeded") &&
-          /\.png$/i.test(imageData.url))
-      {
-        html.push('src="', this.__imageBlank, '" style="filter:',
-                  "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
-                  imageData.url,
-                  "',sizingMethod='scale')",
-                  '" ');
-      }
-      else
-      {
+      if (
+        qx.core.Environment.get("css.alphaimageloaderneeded") &&
+        /\.png$/i.test(imageData.url)
+      ) {
+        html.push(
+          'src="',
+          this.__imageBlank,
+          '" style="filter:',
+          "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
+          imageData.url,
+          "',sizingMethod='scale')",
+          '" '
+        );
+      } else {
         html.push('src="', imageData.url, '" ');
       }
 
       // If image width is specified...
-      if (imageData.imageWidth)
-      {
+      if (imageData.imageWidth) {
         // ... then add it.
         html.push(" width='", imageData.imageWidth, "px'");
       }
 
       // If image height is specified...
-      if (imageData.imageHeight)
-      {
+      if (imageData.imageHeight) {
         // ... then add it.
         html.push(" height='", imageData.imageHeight, "px'");
       }
@@ -166,15 +157,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       html.push(" style='padding-top:2px;'");
 
       // If a tooltip is specified...
-      if (imageData.tooltip)
-      {
+      if (imageData.tooltip) {
         // ... then add it.
         html.push(" title='", imageData.tooltip, "'");
       }
 
       // If there are any extra parameters specified, add them now.
-      if (imageData.extras)
-      {
+      if (imageData.extras) {
         html.push(imageData.extras);
       }
 
@@ -203,24 +192,20 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
      * @return {Map}
      *   See {@link #_identifyImage}
      */
-    __getImageData : function(cellInfo)
-    {
+    __getImageData(cellInfo) {
       // Query the subclass about image and tooltip
       var imageData = this._identifyImage(cellInfo);
 
       // If subclass refuses to give map, construct it
-      if (imageData == null || typeof imageData == "string")
-      {
-        imageData =
-        {
-          url     : imageData,
-          tooltip : null
+      if (imageData == null || typeof imageData == "string") {
+        imageData = {
+          url: imageData,
+          tooltip: null
         };
       }
 
       // If subclass gave null as url, replace with url to empty image
-      if (imageData.url == null)
-      {
+      if (imageData.url == null) {
         imageData.url = this.__imageBlank;
       }
 

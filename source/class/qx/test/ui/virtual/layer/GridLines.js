@@ -17,21 +17,17 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.GridLines",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.GridLines", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    _assertGridLines : function(linesLayer, isHorizontal, color, lineSize, msg)
-    {
+  members: {
+    _assertGridLines(linesLayer, isHorizontal, color, lineSize, msg) {
       this.assertEquals(isHorizontal, linesLayer.isHorizontal(), msg);
       this.assertEquals(color, linesLayer.getDefaultLineColor(), msg);
       this.assertEquals(lineSize, linesLayer.getDefaultLineSize(), msg);
     },
 
-    testCreate : function()
-    {
+    testCreate() {
       var lines = new qx.ui.virtual.layer.GridLines();
       this._assertGridLines(lines, true, "gray", 1);
       lines.destroy();

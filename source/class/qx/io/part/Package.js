@@ -24,41 +24,35 @@
  * @internal
  * @ignore(qx.util.ResourceManager)
  */
-qx.Bootstrap.define("qx.io.part.Package",
-{
+qx.Bootstrap.define("qx.io.part.Package", {
   /**
    * @param urls {String[]} A list of script URLs
    * @param id {var} Unique package hash key
    * @param loaded {Boolean?false} Whether the package is already loaded
    */
-  construct : function(urls, id, loaded)
-  {
+  construct(urls, id, loaded) {
     this.__readyState = loaded ? "complete" : "initialized";
     this.__urls = urls;
     this.__id = id;
   },
 
-
-  members :
-  {
-    __readyState : null,
-    __urls : null,
-    __id : null,
-    __closure : null,
-    __loadWithClosure : null,
-    __timeoutId : null,
-    __notifyPackageResult : null,
-
+  members: {
+    __readyState: null,
+    __urls: null,
+    __id: null,
+    __closure: null,
+    __loadWithClosure: null,
+    __timeoutId: null,
+    __notifyPackageResult: null,
 
     /**
      * Get the package ID.
      *
      * @return {String} The package id
      */
-    getId : function() {
+    getId() {
       return this.__id;
     },
-
 
     /**
      * Get the ready state of the package. The value is one of
@@ -75,10 +69,9 @@ qx.Bootstrap.define("qx.io.part.Package",
      *
      * @return {String} The ready state.
      */
-    getReadyState : function() {
+    getReadyState() {
       return this.__readyState;
     },
-
 
     /**
      * Returns the urlsstored stored in the package.
@@ -86,10 +79,9 @@ qx.Bootstrap.define("qx.io.part.Package",
      * @internal
      * @return {String[]} An array of urls of this package.
      */
-    getUrls : function() {
+    getUrls() {
       return this.__urls;
     },
-
 
     /**
      * Method for storing the closure for this package. This is only relevant
@@ -97,8 +89,7 @@ qx.Bootstrap.define("qx.io.part.Package",
      *
      * @param closure {Function} The code of this package wrapped in a closure.
      */
-    saveClosure : function(closure)
-    {
+    saveClosure(closure) {
       if (this.__readyState == "error") {
         return;
       }
@@ -114,27 +105,22 @@ qx.Bootstrap.define("qx.io.part.Package",
       }
     },
 
-
     /**
      * Executes the stored closure. This is only relevant if a
      * {@link qx.io.part.ClosurePart} is used.
      */
-    execute : function()
-    {
-      if (this.__closure)
-      {
+    execute() {
+      if (this.__closure) {
         this.__closure();
         delete this.__closure;
       }
 
-      if (qx.$$packageData[this.__id])
-      {
+      if (qx.$$packageData[this.__id]) {
         this.__importPackageData(qx.$$packageData[this.__id]);
         delete qx.$$packageData[this.__id];
       }
       this.__readyState = "complete";
     },
-
 
     /**
      * Load method if the package loads a closure. This is only relevant if a
@@ -144,8 +130,7 @@ qx.Bootstrap.define("qx.io.part.Package",
      *   done loading in this package.
      * @param self {Object?} The context of the callback.
      */
-    loadClosure : function(notifyPackageResult, self)
-    {
+    loadClosure(notifyPackageResult, self) {
       if (this.__readyState !== "initialized") {
         return;
       }
@@ -158,8 +143,8 @@ qx.Bootstrap.define("qx.io.part.Package",
 
       this.__loadScriptList(
         this.__urls,
-        function() {},
-        function() {
+        function () {},
+        function () {
           this.__readyState = "error";
           notifyPackageResult.call(self, this);
         },
@@ -167,12 +152,11 @@ qx.Bootstrap.define("qx.io.part.Package",
       );
 
       var pkg = this;
-      this.__timeoutId = setTimeout(function() {
+      this.__timeoutId = setTimeout(function () {
         pkg.__readyState = "error";
         notifyPackageResult.call(self, pkg);
       }, qx.Part.TIMEOUT);
     },
-
 
     /**
      * Load the part's script URLs in the correct order.
@@ -181,8 +165,7 @@ qx.Bootstrap.define("qx.io.part.Package",
      *   done loading in this package.
      * @param self {Object?} The context of the callback.
      */
-    load : function(notifyPackageResult, self)
-    {
+    load(notifyPackageResult, self) {
       if (this.__readyState !== "initialized") {
         return;
       }
@@ -193,19 +176,18 @@ qx.Bootstrap.define("qx.io.part.Package",
 
       this.__loadScriptList(
         this.__urls,
-        function() {
+        function () {
           this.__readyState = "complete";
           this.execute();
           notifyPackageResult.call(self, this);
         },
-        function() {
+        function () {
           this.__readyState = "error";
           notifyPackageResult.call(self, this);
         },
         this
       );
     },
-
 
     /**
      * Loads a list of scripts in the correct order.
@@ -215,20 +197,16 @@ qx.Bootstrap.define("qx.io.part.Package",
      * @param errBack {Function} Function to execute on error
      * @param self {Object?window} Context to execute the given function in
      */
-    __loadScriptList : function(urlList, callback, errBack, self)
-    {
-      if (urlList.length == 0)
-      {
+    __loadScriptList(urlList, callback, errBack, self) {
+      if (urlList.length == 0) {
         callback.call(self);
         return;
       }
 
       var urlsLoaded = 0;
       var self = this;
-      var loadScripts = function(urls)
-      {
-        if (urlsLoaded >= urlList.length)
-        {
+      var loadScripts = function (urls) {
+        if (urlsLoaded >= urlList.length) {
           callback.call(self);
           return;
         }
@@ -236,30 +214,25 @@ qx.Bootstrap.define("qx.io.part.Package",
         var loader = new qx.bom.request.Script();
         loader.open("GET", urls.shift());
 
-        loader.onload = function()
-        {
+        loader.onload = function () {
           urlsLoaded += 1;
           loader.dispose();
 
           // Important to use engine detection directly to keep the minimal
           // package size small [BUG #5068]
-          if ((qx.bom.client.Engine.getName() == "webkit"))
-          {
+          if (qx.bom.client.Engine.getName() == "webkit") {
             // force asynchronous load
             // Safari fails with an "maximum recursion depth exceeded" error if it is
             // called sync.
-            setTimeout(function()
-            {
+            setTimeout(function () {
               loadScripts.call(self, urls, callback, self);
             }, 0);
-          }
-          else
-          {
+          } else {
             loadScripts.call(self, urls, callback, self);
           }
         };
 
-        loader.onerror = function() {
+        loader.onerror = function () {
           if (self.__readyState == "loading") {
             clearTimeout(self.__timeoutId);
             loader.dispose();
@@ -268,14 +241,13 @@ qx.Bootstrap.define("qx.io.part.Package",
         };
 
         // Force loading script asynchronously (IE may load synchronously)
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           loader.send();
         });
       };
 
       loadScripts(urlList.concat());
     },
-
 
     /**
      * Import the data of a package. The function is defined in the loader
@@ -284,6 +256,6 @@ qx.Bootstrap.define("qx.io.part.Package",
      * @signature function(packageData)
      * @param packageData {Map} Map of package data categories ("resources",...)
      */
-    __importPackageData : qx.$$loader.importPackageData
+    __importPackageData: qx.$$loader.importPackageData
   }
 });

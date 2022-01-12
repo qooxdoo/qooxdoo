@@ -19,15 +19,14 @@
 /**
  * The data model of a table.
  */
-qx.Interface.define("qx.ui.table.ITableModel",
-{
+qx.Interface.define("qx.ui.table.ITableModel", {
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events : {
+  events: {
     /**
      * Fired when the table data changed (the stuff shown in the table body).
      * The data property of the event may be null or a map having the following attributes:
@@ -38,19 +37,18 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *   <li>lastColumn: The model index of the last column that has changed.</li>
      * </ul>
      */
-    "dataChanged" : "qx.event.type.Data",
+    dataChanged: "qx.event.type.Data",
 
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.Event",
+    metaDataChanged: "qx.event.type.Event",
 
     /**
      * Fired after the table is sorted (but before the metaDataChanged event)
      */
-    "sorted" : "qx.event.type.Data"
+    sorted: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -58,16 +56,14 @@ qx.Interface.define("qx.ui.table.ITableModel",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Returns the number of rows in the model.
      *
      * @abstract
      * @return {Integer} the number of rows.
      */
-    getRowCount : function() {},
-
+    getRowCount() {},
 
     /**
      *
@@ -83,8 +79,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *                    objects. The details on the object returned are determined by the model
      *                    implementation only.
      */
-    getRowData : function(rowIndex) {},
-
+    getRowData(rowIndex) {},
 
     /**
      * Returns the number of columns in the model.
@@ -92,8 +87,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @abstract
      * @return {Integer} the number of columns.
      */
-    getColumnCount : function() {},
-
+    getColumnCount() {},
 
     /**
      * Returns the ID of column. The ID may be used to identify columns
@@ -104,8 +98,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the ID of the column.
      */
-    getColumnId : function(columnIndex) {},
-
+    getColumnId(columnIndex) {},
 
     /**
      * Returns the index of a column.
@@ -114,8 +107,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnId {String} the ID of the column.
      * @return {Integer} the index of the column.
      */
-    getColumnIndexById : function(columnId) {},
-
+    getColumnIndexById(columnId) {},
 
     /**
      * Returns the name of a column. This name will be shown to the user in the
@@ -125,8 +117,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the name of the column.
      */
-    getColumnName : function(columnIndex) {},
-
+    getColumnName(columnIndex) {},
 
     /**
      * Returns whether a column is editable.
@@ -134,8 +125,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is editable.
      */
-    isColumnEditable : function(columnIndex) {},
-
+    isColumnEditable(columnIndex) {},
 
     /**
      * Returns whether a column is sortable.
@@ -143,8 +133,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is sortable.
      */
-    isColumnSortable : function(columnIndex) {},
-
+    isColumnSortable(columnIndex) {},
 
     /**
      * Sorts the model by a column.
@@ -152,8 +141,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to sort by.
      * @param ascending {Boolean} whether to sort ascending.
      */
-    sortByColumn : function(columnIndex, ascending) {},
-
+    sortByColumn(columnIndex, ascending) {},
 
     /**
      * Returns the column index the model is sorted by. If the model is not sorted
@@ -161,16 +149,14 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *
      * @return {Integer} the column index the model is sorted by.
      */
-    getSortColumnIndex : function() {},
-
+    getSortColumnIndex() {},
 
     /**
      * Returns whether the model is sorted ascending.
      *
      * @return {Boolean} whether the model is sorted ascending.
      */
-    isSortAscending : function() {},
-
+    isSortAscending() {},
 
     /**
      * Prefetches some rows. This is a hint to the model that the specified rows
@@ -179,8 +165,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param firstRowIndex {Integer} the index of first row.
      * @param lastRowIndex {Integer} the index of last row.
      */
-    prefetchRows : function(firstRowIndex, lastRowIndex) {},
-
+    prefetchRows(firstRowIndex, lastRowIndex) {},
 
     /**
      * Returns a cell value by column index.
@@ -191,8 +176,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @return {var} The value of the cell.
      * @see #getValueById
      */
-    getValue : function(columnIndex, rowIndex) {},
-
+    getValue(columnIndex, rowIndex) {},
 
     /**
      * Returns a cell value by column ID.
@@ -204,8 +188,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param rowIndex {Integer} the index of the row.
      * @return {var} the value of the cell.
      */
-    getValueById : function(columnId, rowIndex) {},
-
+    getValueById(columnId, rowIndex) {},
 
     /**
      * Sets a cell value by column index.
@@ -216,8 +199,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param value {var} The new value.
      * @see #setValueById
      */
-    setValue : function(columnIndex, rowIndex, value) {},
-
+    setValue(columnIndex, rowIndex, value) {},
 
     /**
      * Sets a cell value by column ID.
@@ -229,6 +211,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param rowIndex {Integer} The index of the row.
      * @param value {var} The new value.
      */
-    setValueById : function(columnId, rowIndex, value) {}
+    setValueById(columnId, rowIndex, value) {}
   }
 });

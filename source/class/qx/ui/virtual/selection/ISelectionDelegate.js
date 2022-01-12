@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Objects, which are used as delegates for a virtual selection manager may
  * implement any of the methods described in this interface. The delegate does
@@ -27,10 +26,8 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate", {
+  members: {
     /**
      * Returns whether the given item is selectable. The type of the item
      * depends on the concrete selection manager implementation. The
@@ -43,8 +40,7 @@ qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
      * @param item {var} The item to be checked
      * @return {Boolean} Whether the given item is selectable
      */
-    isItemSelectable : function(item) {},
-
+    isItemSelectable(item) {},
 
     /**
      * Update the style (appearance) of the given item.
@@ -54,6 +50,6 @@ qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
      *    or <code>lead</code>
      * @param wasAdded {Boolean} Whether the given style should be added or removed.
      */
-    styleSelectable : function(item, type, wasAdded) {}
+    styleSelectable(item, type, wasAdded) {}
   }
 });

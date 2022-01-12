@@ -5,19 +5,15 @@ qx.Interface.define("qx.ui.list.column.IButtonFactory", {
      *
      * @return {qx.ui.form.Button}
      */
-    createButton() {
-      
-    },
-    
+    createButton() {},
+
     /**
      * Called to pool (or destroy) a button instance
      *
      * @param button {qx.ui.form.Button} button returned by `createButton`
      */
-    releaseButton(button) {
-      
-    },
-    
+    releaseButton(button) {},
+
     /**
      * Called to bind a button instance to a row
      *
@@ -25,27 +21,21 @@ qx.Interface.define("qx.ui.list.column.IButtonFactory", {
      * @param button {qx.ui.form.Button} the button, created by `createButton`
      * @return {Object} binding state data
      */
-    bindModel(model, button) {
-      
-    },
-    
+    bindModel(model, button) {},
+
     /**
      * Called to unbind a button instance from a row
      *
      * @param bindData {Object} the bindData returned by `bindModel`
      */
-    unbindModel(bindData) {
-      
-    },
-    
+    unbindModel(bindData) {},
+
     /**
      * Sets whether the button is enabled
      *
      * @param bindData {Object} return vablue from `bindModel`
      * @param enabled {Boolean} whether to be enabled
      */
-    updateEnabled(bindData, enabled) {
-      
-    }
+    updateEnabled(bindData, enabled) {}
   }
 });

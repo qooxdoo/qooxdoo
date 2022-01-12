@@ -49,12 +49,10 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/button.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.form.Button",
-{
-  extend : qx.ui.basic.Atom,
-  include : [qx.ui.core.MExecutable],
-  implement : [qx.ui.form.IExecutable],
-
+qx.Class.define("qx.ui.form.Button", {
+  extend: qx.ui.basic.Atom,
+  include: [qx.ui.core.MExecutable],
+  implement: [qx.ui.form.IExecutable],
 
   /*
   *****************************************************************************
@@ -67,9 +65,8 @@ qx.Class.define("qx.ui.form.Button",
    * @param icon {String?null} Icon URL of the atom
    * @param command {qx.ui.command.Command?null} Command instance to connect with
    */
-  construct : function(label, icon, command)
-  {
-    this.base(arguments, label, icon);
+  construct(label, icon, command) {
+    super(label, icon);
 
     if (command != null) {
       this.setCommand(command);
@@ -89,12 +86,10 @@ qx.Class.define("qx.ui.form.Button",
     this.addListener("keyup", this._onKeyUp);
 
     // Stop events
-    this.addListener("dblclick", function(e) {
+    this.addListener("dblclick", function (e) {
       e.stopPropagation();
     });
   },
-
-
 
   /*
   *****************************************************************************
@@ -102,25 +97,19 @@ qx.Class.define("qx.ui.form.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "button"
+    appearance: {
+      refine: true,
+      init: "button"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -128,20 +117,17 @@ qx.Class.define("qx.ui.form.Button",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      focused : true,
-      hovered : true,
-      pressed : true,
-      disabled : true
+    _forwardStates: {
+      focused: true,
+      hovered: true,
+      pressed: true,
+      disabled: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -152,8 +138,7 @@ qx.Class.define("qx.ui.form.Button",
     /**
      * Manually press the button
      */
-    press : function()
-    {
+    press() {
       if (this.hasState("abandoned")) {
         return;
       }
@@ -161,29 +146,23 @@ qx.Class.define("qx.ui.form.Button",
       this.addState("pressed");
     },
 
-
     /**
      * Manually release the button
      */
-    release : function()
-    {
+    release() {
       if (this.hasState("pressed")) {
         this.removeState("pressed");
       }
     },
 
-
     /**
      * Completely reset the button (remove all states)
      */
-    reset : function()
-    {
+    reset() {
       this.removeState("pressed");
       this.removeState("abandoned");
       this.removeState("hovered");
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -200,21 +179,18 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {qx.event.type.Pointer} Mouse event
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
       }
 
-      if (this.hasState("abandoned"))
-      {
+      if (this.hasState("abandoned")) {
         this.removeState("abandoned");
         this.addState("pressed");
       }
 
       this.addState("hovered");
     },
-
 
     /**
      * Listener method for "pointerout" event
@@ -225,21 +201,18 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {qx.event.type.Pointer} Mouse event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
       }
 
       this.removeState("hovered");
 
-      if (this.hasState("pressed"))
-      {
+      if (this.hasState("pressed")) {
         this.removeState("pressed");
         this.addState("abandoned");
       }
     },
-
 
     /**
      * Listener method for "pointerdown" event
@@ -250,8 +223,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {qx.event.type.Pointer} Mouse event
      */
-    _onPointerDown : function(e)
-    {
+    _onPointerDown(e) {
       if (!e.isLeftPressed()) {
         return;
       }
@@ -266,7 +238,6 @@ qx.Class.define("qx.ui.form.Button",
       this.addState("pressed");
     },
 
-
     /**
      * Listener method for "pointerup" event
      * <ul>
@@ -277,8 +248,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {qx.event.type.Pointer} Mouse event
      */
-    _onPointerUp : function(e)
-    {
+    _onPointerUp(e) {
       this.releaseCapture();
 
       // We must remove the states before executing the command
@@ -298,19 +268,17 @@ qx.Class.define("qx.ui.form.Button",
       e.stopPropagation();
     },
 
-
     /**
      * Listener method for "tap" event which stops the propagation.
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       // "execute" is fired here so that the button can be dragged
       // without executing it (e.g. in a TabBar with overflow)
       this.execute();
       e.stopPropagation();
     },
-
 
     /**
      * Listener method for "keydown" event.<br/>
@@ -319,10 +287,8 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Key event
      */
-    _onKeyDown : function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyDown(e) {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
           this.removeState("abandoned");
@@ -331,7 +297,6 @@ qx.Class.define("qx.ui.form.Button",
       }
     },
 
-
     /**
      * Listener method for "keyup" event.<br/>
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
@@ -339,14 +304,11 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Key event
      */
-    _onKeyUp : function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyUp(e) {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
-          if (this.hasState("pressed"))
-          {
+          if (this.hasState("pressed")) {
             this.removeState("abandoned");
             this.removeState("pressed");
             this.execute();

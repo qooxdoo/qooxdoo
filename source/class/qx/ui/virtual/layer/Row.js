@@ -16,18 +16,17 @@
 
 ************************************************************************ */
 
-
 /**
  * The Row layer renders row background colors.
  */
 qx.Class.define("qx.ui.virtual.layer.Row", {
-  extend : qx.ui.virtual.layer.AbstractBackground,
+  extend: qx.ui.virtual.layer.AbstractBackground,
 
   properties: {
     // overridden
     appearance: {
-      refine : true,
-      init : "row-layer"
+      refine: true,
+      init: "row-layer"
     }
   },
 
@@ -47,7 +46,11 @@ qx.Class.define("qx.ui.virtual.layer.Row", {
         child.dispose();
       }
 
-      for (var rowSizeIndex = 0; rowSizeIndex < rowSizes.length; rowSizeIndex++) {
+      for (
+        var rowSizeIndex = 0;
+        rowSizeIndex < rowSizes.length;
+        rowSizeIndex++
+      ) {
         let child;
         if (children.length <= rowSizeIndex) {
           child = new qx.ui.virtual.layer.BackgroundSpan();
@@ -55,29 +58,29 @@ qx.Class.define("qx.ui.virtual.layer.Row", {
         } else {
           child = children[rowSizeIndex];
         }
-        
+
         let rowIndex = firstRow + rowSizeIndex;
-        let rowAppearance = this.getSpanAppearanceFor(rowIndex) || child.$$init_appearance;
+        let rowAppearance =
+          this.getSpanAppearanceFor(rowIndex) || child.$$init_appearance;
         child.set({
           appearance: rowAppearance,
           layoutProperties: {
             left: 0,
             top: rowSizes[rowSizeIndex].outerTop
           },
+
           width: width,
           height: rowSizes[rowSizeIndex].outerHeight
         });
-        
+
         function setState(name, state) {
-          if (state)
-            child.addState(name);
-          else
-            child.removeState(name);
+          if (state) child.addState(name);
+          else child.removeState(name);
         }
         setState("selected", this.isSelected(rowIndex));
         setState("header", this.isHasHeader() && rowIndex == 0);
         let dataRowIndex = this.isHasHeader() ? rowIndex - 1 : rowIndex;
-        setState("odd", (dataRowIndex % 2) == 0);
+        setState("odd", dataRowIndex % 2 == 0);
       }
 
       this._width = width;
@@ -89,7 +92,12 @@ qx.Class.define("qx.ui.virtual.layer.Row", {
     _updateLayerWindow(firstRow, firstColumn) {
       if (
         firstRow !== this.getFirstRow() ||
-        this._width < qx.lang.Array.sum(this.getPane().getColumnSizes().map(s => s.outerWidth))
+        this._width <
+          qx.lang.Array.sum(
+            this.getPane()
+              .getColumnSizes()
+              .map(s => s.outerWidth)
+          )
       ) {
         this._fullUpdate(firstRow, firstColumn);
       }
@@ -99,7 +107,7 @@ qx.Class.define("qx.ui.virtual.layer.Row", {
      * @Override
      */
     setColor(index, color) {
-      this.base(arguments, index, color);
+      super.setColor(index, color);
 
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
@@ -110,7 +118,7 @@ qx.Class.define("qx.ui.virtual.layer.Row", {
      * @Override
      */
     setIndividualRowAppearance(index, decorator) {
-      this.base(arguments, index, decorator);
+      super.setIndividualRowAppearance(index, decorator);
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }

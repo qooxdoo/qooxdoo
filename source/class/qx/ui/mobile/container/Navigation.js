@@ -36,10 +36,8 @@
  *   page.show();
  * </pre>
  */
-qx.Class.define("qx.ui.mobile.container.Navigation",
-{
-  extend : qx.ui.mobile.container.Composite,
-
+qx.Class.define("qx.ui.mobile.container.Navigation", {
+  extend: qx.ui.mobile.container.Composite,
 
   /*
   *****************************************************************************
@@ -47,9 +45,8 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments, new qx.ui.mobile.layout.VBox());
+  construct() {
+    super(new qx.ui.mobile.layout.VBox());
 
     this.__navigationBar = this._createNavigationBar();
     if (this.__navigationBar) {
@@ -57,35 +54,31 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     }
 
     this.__content = this._createContent();
-    this._add(this.__content, {flex:1});
+    this._add(this.__content, { flex: 1 });
   },
-
 
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  properties : {
+  properties: {
     // overridden
-    defaultCssClass : {
-      refine : true,
-      init : "navigation"
+    defaultCssClass: {
+      refine: true,
+      init: "navigation"
     }
   },
-
 
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
-  events :
-  {
+  events: {
     /** Fired when the navigation bar gets updated */
-    "update" : "qx.event.type.Data"
+    update: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -93,72 +86,60 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
   *****************************************************************************
   */
 
-  members :
-  {
-    __navigationBar : null,
-    __content : null,
-    __layout : null,
-
+  members: {
+    __navigationBar: null,
+    __content: null,
+    __layout: null,
 
     // overridden
-    add : function(widget) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    add(widget) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
 
       this.getContent().add(widget);
     },
 
-
     // overridden
-    remove : function(widget) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    remove(widget) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInterface(widget, qx.ui.mobile.container.INavigation);
       }
       this.getContent().remove(widget);
     },
-
 
     /**
      * Returns the content container. Add all your widgets to this container.
      *
      * @return {qx.ui.mobile.container.Composite} The content container
      */
-    getContent : function()
-    {
+    getContent() {
       return this.__content;
     },
-
 
     /**
      * Returns the assigned card layout.
      * @return {qx.ui.mobile.layout.Card} assigned Card Layout.
      */
-    getLayout : function() {
+    getLayout() {
       return this.__layout;
     },
-
 
     /**
      * Returns the navigation bar.
      *
      * @return {qx.ui.mobile.navigationbar.NavigationBar} The navigation bar.
      */
-    getNavigationBar : function()
-    {
+    getNavigationBar() {
       return this.__navigationBar;
     },
-
 
     /**
      * Creates the content container.
      *
      * @return {qx.ui.mobile.container.Composite} The created content container
      */
-    _createContent : function()
-    {
+    _createContent() {
       this.__layout = new qx.ui.mobile.layout.Card();
       this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
       this.__layout.addListener("animationStart", this._onAnimationStart, this);
@@ -167,29 +148,26 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       return new qx.ui.mobile.container.Composite(this.__layout);
     },
 
-
     /**
-    * Handler for the "animationStart" event on the layout.
-    */
-    _onAnimationStart : function() {
+     * Handler for the "animationStart" event on the layout.
+     */
+    _onAnimationStart() {
       this.addCssClass("blocked");
     },
 
-
     /**
-    * Handler for the "animationEnd" event on the layout.
-    */
-    _onAnimationEnd : function() {
+     * Handler for the "animationEnd" event on the layout.
+     */
+    _onAnimationEnd() {
       this.removeCssClass("blocked");
     },
-
 
     /**
      * Event handler. Called when the "updateLayout" event occurs.
      *
      * @param evt {qx.event.type.Data} The causing event
      */
-    _onUpdateLayout : function(evt) {
+    _onUpdateLayout(evt) {
       var data = evt.getData();
       var widget = data.widget;
       var action = data.action;
@@ -198,18 +176,20 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       }
     },
 
-
     /**
      * Updates the navigation bar depending on the set widget.
      *
      * @param widget {qx.ui.mobile.core.Widget} The widget that should be merged into the navigation bar.
      */
-    _update : function(widget) {
+    _update(widget) {
       var navigationBar = this.getNavigationBar();
 
-      this._setStyle("transitionDuration", widget.getNavigationBarToggleDuration()+"s");
+      this._setStyle(
+        "transitionDuration",
+        widget.getNavigationBarToggleDuration() + "s"
+      );
 
-      if(widget.isNavigationBarHidden()) {
+      if (widget.isNavigationBarHidden()) {
         this.addCssClass("hidden");
       } else {
         navigationBar.show();
@@ -229,7 +209,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
       var title = widget.getTitleWidget();
       if (title) {
-        navigationBar.add(title, {flex:1});
+        navigationBar.add(title, { flex: 1 });
       }
 
       var rightContainer = widget.getRightContainer();
@@ -240,25 +220,25 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       this.fireDataEvent("update", widget);
     },
 
-
     /**
      * Creates the navigation bar.
      *
      * @return {qx.ui.mobile.navigationbar.NavigationBar} The created navigation bar
      */
-    _createNavigationBar : function()
-    {
+    _createNavigationBar() {
       return new qx.ui.mobile.navigationbar.NavigationBar();
     }
   },
 
+  destruct() {
+    this.getLayout().removeListener(
+      "animationStart",
+      this._onAnimationStart,
+      this
+    );
+    this.getLayout().removeListener("animationEnd", this._onAnimationEnd, this);
 
-  destruct : function()
-  {
-    this.getLayout().removeListener("animationStart",this._onAnimationStart, this);
-    this.getLayout().removeListener("animationEnd",this._onAnimationEnd, this);
-
-    this._disposeObjects("__navigationBar", "__content","__layout");
+    this._disposeObjects("__navigationBar", "__content", "__layout");
     this.__navigationBar = this.__content = this.__layout = null;
   }
 });

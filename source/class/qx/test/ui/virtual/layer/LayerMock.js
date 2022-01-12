@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
-{
-  extend : qx.ui.virtual.layer.Abstract,
+qx.Class.define("qx.test.ui.virtual.layer.LayerMock", {
+  extend: qx.ui.virtual.layer.Abstract,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.calls = [];
   },
@@ -33,56 +31,44 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
   *****************************************************************************
   */
 
-  members :
-  {
-    updateLayerData : function()
-    {
-      this.calls.push(["updateLayerData", qx.lang.Array.fromArguments(arguments)]);
-      this.base(arguments);
+  members: {
+    updateLayerData() {
+      this.calls.push([
+        "updateLayerData",
+        qx.lang.Array.fromArguments(arguments)
+      ]);
+      super.updateLayerData();
     },
 
-
-    _updateLayerData : function() {
-      this.calls.push(["_updateLayerData", qx.lang.Array.fromArguments(arguments)]);
+    _updateLayerData() {
+      this.calls.push([
+        "_updateLayerData",
+        qx.lang.Array.fromArguments(arguments)
+      ]);
     },
 
-
-    fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+    fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
-      this.base(
-        arguments, firstRow, firstColumn,
-        rowSizes, columnSizes
-      );
+      super.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
     },
 
-
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes) {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       this.calls.push(["_fullUpdate", qx.lang.Array.fromArguments(arguments)]);
     },
 
-
-    updateLayerWindow : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
-      this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
-      this.base(
-        arguments, firstRow, firstColumn,
-        rowSizes, columnSizes
-      );
+    updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
+      this.calls.push([
+        "updateLayerWindow",
+        qx.lang.Array.fromArguments(arguments)
+      ]);
+      super.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);
     },
 
-
-    _updateLayerWindow : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    ) {
-      this.calls.push(["_updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
+    _updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
+      this.calls.push([
+        "_updateLayerWindow",
+        qx.lang.Array.fromArguments(arguments)
+      ]);
     }
   }
 });

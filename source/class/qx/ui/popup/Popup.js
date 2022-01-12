@@ -25,12 +25,9 @@
  * Popups are used to display menus, the lists of combo or select boxes,
  * tooltips, etc.
  */
-qx.Class.define("qx.ui.popup.Popup",
-{
-  extend : qx.ui.container.Composite,
-  include : qx.ui.core.MPlacement,
-
-
+qx.Class.define("qx.ui.popup.Popup", {
+  extend: qx.ui.container.Composite,
+  include: qx.ui.core.MPlacement,
 
   /*
   *****************************************************************************
@@ -38,17 +35,12 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  construct : function(layout)
-  {
-    this.base(arguments, layout);
+  construct(layout) {
+    super(layout);
 
     // Initialize visibility
     this.initVisibility();
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -56,20 +48,17 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "popup"
+    appearance: {
+      refine: true,
+      init: "popup"
     },
 
     // overridden
-    visibility :
-    {
-      refine : true,
-      init : "excluded"
+    visibility: {
+      refine: true,
+      init: "excluded"
     },
 
     /**
@@ -77,16 +66,11 @@ qx.Class.define("qx.ui.popup.Popup",
      * this to false gives you better control but it also requires you
      * to handle the closing of the popup.
      */
-    autoHide :
-    {
-      check : "Boolean",
-      init : true
+    autoHide: {
+      check: "Boolean",
+      init: true
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -94,41 +78,32 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    show : function()
-    {
+    show() {
       // Lazy adding to the root element, otherwise it could happen that
       // IE scrolls automatically to top, see bug #3955 for details.
-      if (this.getLayoutParent() == null)
-      {
+      if (this.getLayoutParent() == null) {
         // Automatically add to application's root
         qx.core.Init.getApplication().getRoot().add(this);
       }
-      this.base(arguments);
+      super.show();
     },
 
-
     // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
 
       var mgr = qx.ui.popup.Manager.getInstance();
       value === "visible" ? mgr.add(this) : mgr.remove(this);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -136,7 +111,7 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     if (!qx.ui.popup.Manager.getInstance().isDisposed()) {
       qx.ui.popup.Manager.getInstance().remove(this);
     }

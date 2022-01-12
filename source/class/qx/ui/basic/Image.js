@@ -44,11 +44,8 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.ui.basic.Image",
-{
-  extend : qx.ui.core.Widget,
-
-
+qx.Class.define("qx.ui.basic.Image", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -59,19 +56,15 @@ qx.Class.define("qx.ui.basic.Image",
   /**
    * @param source {String?null} The URL of the image to display.
    */
-  construct : function(source)
-  {
+  construct(source) {
     this.__contentElements = {};
 
-    this.base(arguments);
+    super();
 
     if (source) {
       this.setSource(source);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -79,19 +72,16 @@ qx.Class.define("qx.ui.basic.Image",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The URL of the image. Setting it will possibly abort loading of current image. */
-    source :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      event : "changeSource",
-      apply : "_applySource",
-      themeable : true
+    source: {
+      check: "String",
+      init: null,
+      nullable: true,
+      event: "changeSource",
+      apply: "_applySource",
+      themeable: true
     },
-
 
     /**
      * Whether the image should be scaled to the given dimensions
@@ -99,74 +89,63 @@ qx.Class.define("qx.ui.basic.Image",
      * This is disabled by default because it prevents the usage
      * of image clipping when enabled.
      */
-    scale :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeScale",
-      themeable : true,
-      apply : "_applyScale"
+    scale: {
+      check: "Boolean",
+      init: false,
+      event: "changeScale",
+      themeable: true,
+      apply: "_applyScale"
     },
 
     /**
      * Whether to preserve the image ratio (ie prevent distortion), and which dimension
      * to prioritise
      */
-    forceRatio : {
-      init : "auto",
-      check : [ "disabled", "height", "width", "auto" ],
-      apply : "_applyDimension"
+    forceRatio: {
+      init: "auto",
+      check: ["disabled", "height", "width", "auto"],
+      apply: "_applyDimension"
     },
 
     /**
      * Whether to allow scaling the image up
      */
-    allowScaleUp : {
-      init : false,
-      check : "Boolean",
-      apply : "_applyDimension"
+    allowScaleUp: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyDimension"
     },
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "image"
+    appearance: {
+      refine: true,
+      init: "image"
     },
 
-
     // overridden
-    allowShrinkX :
-    {
-      refine : true,
-      init : false
+    allowShrinkX: {
+      refine: true,
+      init: false
     },
 
-
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowShrinkY: {
+      refine: true,
+      init: false
     },
 
-
     // overridden
-    allowGrowX :
-    {
-      refine : true,
-      init : false
+    allowGrowX: {
+      refine: true,
+      init: false
     },
 
-
     // overridden
-    allowGrowY :
-    {
-      refine : true,
-      init : false
+    allowGrowY: {
+      refine: true,
+      init: false
     }
   },
-
 
   /*
   *****************************************************************************
@@ -174,30 +153,26 @@ qx.Class.define("qx.ui.basic.Image",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired if the image source can not be loaded. This event can only be
      * fired for the first loading of an unmanaged resource (external image).
      */
-    loadingFailed : "qx.event.type.Event",
-
+    loadingFailed: "qx.event.type.Event",
 
     /**
      * Fired if the image has been loaded. This is even true for managed
      * resources (images known by generator).
      */
-    loaded : "qx.event.type.Event",
-
+    loaded: "qx.event.type.Event",
 
     /** Fired when the pending request has been aborted. */
-    aborted : "qx.event.type.Event"
+    aborted: "qx.event.type.Event"
   },
 
-
-  statics:
-  {
-    PLACEHOLDER_IMAGE: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+  statics: {
+    PLACEHOLDER_IMAGE:
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
   },
 
   /*
@@ -206,20 +181,18 @@ qx.Class.define("qx.ui.basic.Image",
   *****************************************************************************
   */
 
-  members :
-  {
-    __width : null,
-    __height : null,
-    __mode : null,
-    __contentElements : null,
-    __currentContentElement : null,
-    __wrapper : null,
-    __requestId : 0,
-
+  members: {
+    __width: null,
+    __height: null,
+    __mode: null,
+    __contentElements: null,
+    __currentContentElement: null,
+    __wrapper: null,
+    __requestId: 0,
 
     // overridden
-    _onChangeTheme : function() {
-      this.base(arguments);
+    _onChangeTheme() {
+      super._onChangeTheme();
       // restyle source (theme change might have changed the resolved url)
       this._styleSource();
     },
@@ -231,29 +204,26 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     // overridden
-    getContentElement : function() {
+    getContentElement() {
       return this.__getSuitableContentElement();
     },
 
-
     // overridden
-    _createContentElement : function() {
+    _createContentElement() {
       return this.__getSuitableContentElement();
     },
 
-
     // overridden
-    _getContentHint : function()
-    {
+    _getContentHint() {
       return {
-        width : this.__width || 0,
-        height : this.__height || 0
+        width: this.__width || 0,
+        height: this.__height || 0
       };
     },
 
     // overridden
-    _applyDecorator : function(value, old) {
-      this.base(arguments, value, old);
+    _applyDecorator(value, old) {
+      super._applyDecorator(value, old);
 
       var source = this.getSource();
       source = qx.util.AliasManager.getInstance().resolve(source);
@@ -265,8 +235,7 @@ qx.Class.define("qx.ui.basic.Image",
     },
 
     // overridden
-    _applyTextColor : function(value)
-    {
+    _applyTextColor(value) {
       if (this.__getMode() === "font") {
         var el = this.getContentElement();
         if (this.__wrapper) {
@@ -274,7 +243,10 @@ qx.Class.define("qx.ui.basic.Image",
         }
 
         if (value) {
-          el.setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
+          el.setStyle(
+            "color",
+            qx.theme.manager.Color.getInstance().resolve(value)
+          );
         } else {
           el.removeStyle("color");
         }
@@ -282,9 +254,8 @@ qx.Class.define("qx.ui.basic.Image",
     },
 
     // overridden
-    _applyPadding : function(value, old, name)
-    {
-      this.base(arguments, value, old, name);
+    _applyPadding(value, old, name) {
+      super._applyPadding(value, old, name);
 
       var element = this.getContentElement();
       if (this.__wrapper) {
@@ -292,35 +263,38 @@ qx.Class.define("qx.ui.basic.Image",
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
-      } else if (this.__getMode() === 'font') {
+      } else if (this.__getMode() === "font") {
         element.setStyles({
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
       } else {
         element.setPadding(
-          this.getPaddingLeft() || 0, this.getPaddingTop() || 0
+          this.getPaddingLeft() || 0,
+          this.getPaddingTop() || 0
         );
       }
-
     },
 
-    renderLayout : function(left, top, width, height) {
-      this.base(arguments, left, top, width, height);
+    renderLayout(left, top, width, height) {
+      super.renderLayout(left, top, width, height);
 
       var element = this.getContentElement();
       if (this.__wrapper) {
         element.getChild(0).setStyles({
-          width: width - (this.getPaddingLeft() || 0) - (this.getPaddingRight() || 0),
-          height: height - (this.getPaddingTop() || 0) - (this.getPaddingBottom() || 0),
+          width:
+            width -
+            (this.getPaddingLeft() || 0) -
+            (this.getPaddingRight() || 0),
+          height:
+            height -
+            (this.getPaddingTop() || 0) -
+            (this.getPaddingBottom() || 0),
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -329,19 +303,16 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     // property apply, overridden
-    _applyEnabled : function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyEnabled(value, old) {
+      super._applyEnabled(value, old);
 
       if (this.getSource()) {
         this._styleSource();
       }
     },
 
-
     // property apply
-    _applySource : function(value, old)
-    {
+    _applySource(value, old) {
       // abort loading current image
       if (old) {
         if (qx.io.ImageLoader.isLoading(old)) {
@@ -352,21 +323,18 @@ qx.Class.define("qx.ui.basic.Image",
       this._styleSource();
     },
 
-
     // property apply
-    _applyScale : function(value) {
+    _applyScale(value) {
       this._styleSource();
     },
-
 
     /**
      * Remembers the mode to keep track which contentElement is currently in use.
      * @param mode {String} internal mode (alphaScaled|scaled|nonScaled)
      */
-    __setMode : function(mode) {
+    __setMode(mode) {
       this.__mode = mode;
     },
-
 
     /**
      * Returns the current mode if set. Otherwise checks the current source and
@@ -374,10 +342,8 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @return {String} current internal mode
      */
-    __getMode : function()
-    {
-      if (this.__mode == null)
-      {
+    __getMode() {
+      if (this.__mode == null) {
         var source = this.getSource();
 
         if (source && qx.lang.String.startsWith(source, "@")) {
@@ -389,7 +355,11 @@ qx.Class.define("qx.ui.basic.Image",
           isPng = source.endsWith(".png");
         }
 
-        if (this.getScale() && isPng && qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        if (
+          this.getScale() &&
+          isPng &&
+          qx.core.Environment.get("css.alphaimageloaderneeded")
+        ) {
           this.__mode = "alphaScaled";
         } else if (this.getScale()) {
           this.__mode = "scaled";
@@ -401,15 +371,13 @@ qx.Class.define("qx.ui.basic.Image",
       return this.__mode;
     },
 
-
     /**
      * Creates a contentElement suitable for the current mode
      *
      * @param mode {String} internal mode
      * @return {qx.html.Image} suitable image content element
      */
-    __createSuitableContentElement : function(mode)
-    {
+    __createSuitableContentElement(mode) {
       var scale;
       var tagName;
       var clazz = qx.html.Image;
@@ -434,22 +402,21 @@ qx.Class.define("qx.ui.basic.Image",
           break;
       }
 
-      var element = new (clazz)(tagName);
+      var element = new clazz(tagName);
       element.connectObject(this);
       element.setStyles({
-        "overflowX": "hidden",
-        "overflowY": "hidden",
-        "boxSizing": "border-box"
+        overflowX: "hidden",
+        overflowY: "hidden",
+        boxSizing: "border-box"
       });
 
       if (mode == "font") {
         element.setRich(true);
-      }
-      else {
+      } else {
         element.setScale(scale);
 
         if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
-          var wrapper = this.__wrapper = new qx.html.Element("div");
+          var wrapper = (this.__wrapper = new qx.html.Element("div"));
           element.connectObject(this);
           wrapper.setStyle("position", "absolute");
           wrapper.add(element);
@@ -460,14 +427,12 @@ qx.Class.define("qx.ui.basic.Image",
       return element;
     },
 
-
     /**
      * Returns a contentElement suitable for the current mode
      *
      * @return {qx.html.Image} suitable image contentElement
      */
-    __getSuitableContentElement : function()
-    {
+    __getSuitableContentElement() {
       if (this.$$disposed) {
         return null;
       }
@@ -475,7 +440,8 @@ qx.Class.define("qx.ui.basic.Image",
       var mode = this.__getMode();
 
       if (this.__contentElements[mode] == null) {
-        this.__contentElements[mode] = this.__createSuitableContentElement(mode);
+        this.__contentElements[mode] =
+          this.__createSuitableContentElement(mode);
       }
 
       var element = this.__contentElements[mode];
@@ -487,14 +453,12 @@ qx.Class.define("qx.ui.basic.Image",
       return element;
     },
 
-
     /**
      * Applies the source to the clipped image instance or preload
      * an image to detect sizes and apply it afterwards.
      *
      */
-    _styleSource : function()
-    {
+    _styleSource() {
       var AliasManager = qx.util.AliasManager.getInstance();
       var ResourceManager = qx.util.ResourceManager.getInstance();
 
@@ -505,20 +469,23 @@ qx.Class.define("qx.ui.basic.Image",
         element = element.getChild(0);
       }
 
-      if (!source)
-      {
+      if (!source) {
         this.__resetSource(element);
         return;
       }
 
       this.__checkForContentElementSwitch(source);
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
         (parseInt(qx.core.Environment.get("engine.version"), 10) < 9 ||
-         qx.core.Environment.get("browser.documentmode") < 9))
-      {
+          qx.core.Environment.get("browser.documentmode") < 9)
+      ) {
         var repeat = this.getScale() ? "scale" : "no-repeat";
-        element.tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);
+        element.tagNameHint = qx.bom.element.Decoration.getTagName(
+          repeat,
+          source
+        );
       }
 
       var contentEl = this.__getContentElement();
@@ -530,9 +497,9 @@ qx.Class.define("qx.ui.basic.Image",
         if (qx.lang.Type.isString(color)) {
           this._applyTextColor(color, null);
         }
-      }
-      else if (ResourceManager.has(source)) {
-        var highResolutionSource = ResourceManager.findHighResolutionSource(source);
+      } else if (ResourceManager.has(source)) {
+        var highResolutionSource =
+          ResourceManager.findHighResolutionSource(source);
         if (highResolutionSource) {
           var imageWidth = ResourceManager.getImageWidth(source);
           var imageHeight = ResourceManager.getImageHeight(source);
@@ -541,7 +508,10 @@ qx.Class.define("qx.ui.basic.Image",
 
           // set background size on current element (div or img)
           var backgroundSize = imageWidth + "px, " + imageHeight + "px";
-          this.__currentContentElement.setStyle("background-size", backgroundSize);
+          this.__currentContentElement.setStyle(
+            "background-size",
+            backgroundSize
+          );
 
           this.setSource(highResolutionSource);
           source = highResolutionSource;
@@ -556,33 +526,31 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
-
     /**
      * Helper function, which fires <code>loaded</code> event asynchronously.
      * It emulates native <code>loaded</code> event of an image object. This
      * helper will be called, if you try to load a managed image or an
      * previously loaded unmanaged image.
      */
-    __fireLoadEvent : function()
-    {
+    __fireLoadEvent() {
       this.__requestId++;
-      qx.bom.AnimationFrame.request(function(rId){
-        // prevent firing of the event if source changed in the meantime
-        if (rId === this.__requestId) {
-          this.fireEvent("loaded");
-        } else {
-          this.fireEvent("aborted");
-        }
-      }.bind(this, this.__requestId));
+      qx.bom.AnimationFrame.request(
+        function (rId) {
+          // prevent firing of the event if source changed in the meantime
+          if (rId === this.__requestId) {
+            this.fireEvent("loaded");
+          } else {
+            this.fireEvent("aborted");
+          }
+        }.bind(this, this.__requestId)
+      );
     },
-
 
     /**
      * Returns the content element.
      * @return {qx.html.Image} content element
      */
-    __getContentElement : function()
-    {
+    __getContentElement() {
       var contentEl = this.__currentContentElement;
       if (this.__wrapper) {
         contentEl = contentEl.getChild(0);
@@ -591,33 +559,29 @@ qx.Class.define("qx.ui.basic.Image",
       return contentEl;
     },
 
-
     /**
      * Checks if the current content element is capable to display the image
      * with the current settings (scaling, alpha PNG)
      *
      * @param source {String} source of the image
      */
-    __checkForContentElementSwitch : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(source)
-      {
-        var alphaImageLoader = qx.core.Environment.get("css.alphaimageloaderneeded");
+    __checkForContentElementSwitch: qx.core.Environment.select("engine.name", {
+      mshtml(source) {
+        var alphaImageLoader = qx.core.Environment.get(
+          "css.alphaimageloaderneeded"
+        );
         var isPng = source.endsWith(".png");
         var isFont = source.startsWith("@");
 
         if (isFont) {
           this.__setMode("font");
-        } else if (alphaImageLoader && isPng)
-        {
+        } else if (alphaImageLoader && isPng) {
           if (this.getScale() && this.__getMode() != "alphaScaled") {
             this.__setMode("alphaScaled");
           } else if (!this.getScale() && this.__getMode() != "nonScaled") {
             this.__setMode("nonScaled");
           }
-        }
-        else
-        {
+        } else {
           if (this.getScale() && this.__getMode() != "scaled") {
             this.__setMode("scaled");
           } else if (!this.getScale() && this.__getMode() != "nonScaled") {
@@ -625,11 +589,12 @@ qx.Class.define("qx.ui.basic.Image",
           }
         }
 
-        this.__checkForContentElementReplacement(this.__getSuitableContentElement());
+        this.__checkForContentElementReplacement(
+          this.__getSuitableContentElement()
+        );
       },
 
-      "default" : function(source)
-      {
+      default(source) {
         var isFont = source && qx.lang.String.startsWith(source, "@");
 
         if (isFont) {
@@ -640,32 +605,30 @@ qx.Class.define("qx.ui.basic.Image",
           this.__setMode("nonScaled");
         }
 
-        this.__checkForContentElementReplacement(this.__getSuitableContentElement());
+        this.__checkForContentElementReplacement(
+          this.__getSuitableContentElement()
+        );
       }
     }),
-
 
     /**
      * Checks the current child and replaces it if necessary
      *
      * @param elementToAdd {qx.html.Image} content element to add
      */
-    __checkForContentElementReplacement : function(elementToAdd)
-    {
+    __checkForContentElementReplacement(elementToAdd) {
       var currentContentElement = this.__currentContentElement;
 
-      if (currentContentElement != elementToAdd)
-      {
-        if (currentContentElement != null)
-        {
+      if (currentContentElement != elementToAdd) {
+        if (currentContentElement != null) {
           var pixel = "px";
           var styles = {};
 
           //inherit styles from current element
           var currentStyles = currentContentElement.getAllStyles();
-          if(currentStyles) {
-            for(var prop in currentStyles) {
-                styles[prop] = currentStyles[prop];
+          if (currentStyles) {
+            for (var prop in currentStyles) {
+              styles[prop] = currentStyles[prop];
             }
           }
 
@@ -676,15 +639,18 @@ qx.Class.define("qx.ui.basic.Image",
 
           // Copy dimension and location of the current content element
           var bounds = this.getBounds();
-          if (bounds != null)
-          {
+          if (bounds != null) {
             styles.width = bounds.width + pixel;
             styles.height = bounds.height + pixel;
           }
 
           var insets = this.getInsets();
-          styles.left = parseInt(currentContentElement.getStyle("left") || insets.left) + pixel;
-          styles.top = parseInt(currentContentElement.getStyle("top") || insets.top) + pixel;
+          styles.left =
+            parseInt(currentContentElement.getStyle("left") || insets.left) +
+            pixel;
+          styles.top =
+            parseInt(currentContentElement.getStyle("top") || insets.top) +
+            pixel;
 
           styles.zIndex = 10;
 
@@ -715,8 +681,7 @@ qx.Class.define("qx.ui.basic.Image",
           var hint = newEl.getNodeName();
           if (newEl.setSource) {
             newEl.setSource(null);
-          }
-          else {
+          } else {
             newEl.setValue("");
           }
           var currentEl = this.__getContentElement();
@@ -730,8 +695,13 @@ qx.Class.define("qx.ui.basic.Image",
 
           // copy event listeners
           var listeners = currentContentElement.getListeners() || [];
-          listeners.forEach(function(listenerData) {
-            elementToAdd.addListener(listenerData.type, listenerData.handler, listenerData.self, listenerData.capture);
+          listeners.forEach(function (listenerData) {
+            elementToAdd.addListener(
+              listenerData.type,
+              listenerData.handler,
+              listenerData.self,
+              listenerData.capture
+            );
           });
 
           if (currentDomEl && newDomEl) {
@@ -747,29 +717,23 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
-
     /**
      * Use the ResourceManager to set a managed image
      *
      * @param el {Element} image DOM element
      * @param source {String} source path
      */
-    __setManagedImage : function(el, source)
-    {
+    __setManagedImage(el, source) {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var isFont = ResourceManager.isFontUri(source);
 
       // Try to find a disabled image in registry
-      if (!this.getEnabled())
-      {
+      if (!this.getEnabled()) {
         var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-        if (!isFont && ResourceManager.has(disabled))
-        {
+        if (!isFont && ResourceManager.has(disabled)) {
           source = disabled;
           this.addState("replacement");
-        }
-        else
-        {
+        } else {
           this.removeState("replacement");
         }
       }
@@ -781,7 +745,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Special case for non resource manager handled font icons
       if (isFont) {
-
         // Don't use scale if size is set via postfix
         if (this.getScale() && parseInt(source.split("/")[2], 10)) {
           this.setScale(false);
@@ -794,8 +757,7 @@ qx.Class.define("qx.ui.basic.Image",
           var hint = this.getSizeHint();
           width = this.getWidth() || hint.width;
           height = this.getHeight() || hint.height;
-        }
-        else {
+        } else {
           var font = this.__getFont(source);
           var size = parseInt(source.split("/")[2] || font.getSize(), 10);
           width = ResourceManager.getImageWidth(source) || size;
@@ -805,10 +767,8 @@ qx.Class.define("qx.ui.basic.Image",
         this.__updateContentHint(width, height);
         this.__setSource(el, source);
 
-
         // Apply source
-      }
-      else {
+      } else {
         // Apply source
         this.__setSource(el, source);
 
@@ -820,8 +780,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
-    __setFontSize : function(el, width, height)
-    {
+    __setFontSize(el, width, height) {
       if (this.getScale()) {
         el.setStyle("fontSize", (width > height ? height : width) + "px");
       } else {
@@ -833,18 +792,18 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
-    _applyDimension : function()
-    {
-      this.base(arguments);
+    _applyDimension() {
+      super._applyDimension();
 
-      var isFont = this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
+      var isFont =
+        this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
       if (isFont) {
         var el = this.getContentElement();
         if (el) {
           var hint = this.getSizeHint();
           var width = this.getWidth() || hint.width || 40;
           var height = this.getHeight() || hint.height || 40;
-          this.__setFontSize(el,width,height);
+          this.__setFontSize(el, width, height);
         }
       } else {
         this.__updateContentHint();
@@ -857,8 +816,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param el {Element} image DOM element
      * @param source {String} source path
      */
-    __setUnmanagedImage : function(el, source)
-    {
+    __setUnmanagedImage(el, source) {
       var ImageLoader = qx.io.ImageLoader;
 
       // Apply source
@@ -870,33 +828,30 @@ qx.Class.define("qx.ui.basic.Image",
       this.__updateContentHint(width, height);
     },
 
-
     /**
      * Use the ImageLoader to load an unmanaged image
      *
      * @param el {Element} image DOM element
      * @param source {String} source path
      */
-    __loadUnmanagedImage : function(el, source)
-    {
+    __loadUnmanagedImage(el, source) {
       var ImageLoader = qx.io.ImageLoader;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         // loading external images via HTTP/HTTPS is a common usecase, as is
         // using data URLs.
         var sourceLC = source.toLowerCase();
-        if (!sourceLC.startsWith("http") &&
-            !sourceLC.startsWith("data:image/"))
-        {
+        if (
+          !sourceLC.startsWith("http") &&
+          !sourceLC.startsWith("data:image/")
+        ) {
           var self = this.self(arguments);
 
           if (!self.__warned) {
             self.__warned = {};
           }
 
-          if (!self.__warned[source])
-          {
+          if (!self.__warned[source]) {
             this.debug("try to load an unmanaged relative image: " + source);
             self.__warned[source] = true;
           }
@@ -904,7 +859,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // only try to load the image if it not already failed
-      if(!ImageLoader.isFailed(source)) {
+      if (!ImageLoader.isFailed(source)) {
         ImageLoader.load(source, this.__loaderCallback, this);
       } else {
         this.__resetSource(el);
@@ -916,22 +871,24 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @param el {Element} image DOM element
      */
-    __resetSource : function(el)
-    {
+    __resetSource(el) {
       if (el != null) {
         if (el instanceof qx.html.Image) {
           el.resetSource();
-        }
-        else {
+        } else {
           el.resetValue();
         }
       }
     },
 
     __getFont(source) {
-      var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+      var font = qx.theme.manager.Font.getInstance().resolve(
+        source.match(/@([^/]+)/)[1]
+      );
       if (typeof font == "string") {
-        throw new Error(`Cannot find font in virtual image source: '${source}'`);
+        throw new Error(
+          `Cannot find font in virtual image source: '${source}'`
+        );
       }
       return font;
     },
@@ -943,7 +900,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param el {Element} image DOM element
      * @param source {String} source path
      */
-    __setSource: function (el, source) {
+    __setSource(el, source) {
       var isFont = source && qx.lang.String.startsWith(source, "@");
 
       if (isFont) {
@@ -963,14 +920,15 @@ qx.Class.define("qx.ui.basic.Image",
         el.setValue(String.fromCharCode(charCode));
 
         return;
-      }
-      else if (el.getNodeName() == "div") {
-
+      } else if (el.getNodeName() == "div") {
         // checks if a decorator already set.
         // In this case we have to merge background styles
-        var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
+        var decorator = qx.theme.manager.Decoration.getInstance().resolve(
+          this.getDecorator()
+        );
         if (decorator) {
-          var hasGradient = (decorator.getStartColor() && decorator.getEndColor());
+          var hasGradient =
+            decorator.getStartColor() && decorator.getEndColor();
           var hasBackground = decorator.getBackgroundImage();
           if (hasGradient || hasBackground) {
             var repeat = this.getScale() ? "scale" : "no-repeat";
@@ -981,15 +939,17 @@ qx.Class.define("qx.ui.basic.Image",
             var decoratorStyle = decorator.getStyles(true);
 
             var combinedStyles = {
-              "backgroundImage": attr.style.backgroundImage,
-              "backgroundPosition": (attr.style.backgroundPosition || "0 0"),
-              "backgroundRepeat": (attr.style.backgroundRepeat || "no-repeat"),
-              "position": "absolute"
+              backgroundImage: attr.style.backgroundImage,
+              backgroundPosition: attr.style.backgroundPosition || "0 0",
+              backgroundRepeat: attr.style.backgroundRepeat || "no-repeat",
+              position: "absolute"
             };
 
             if (hasBackground) {
-              combinedStyles["backgroundPosition"] += "," + decoratorStyle["background-position"] || "0 0";
-              combinedStyles["backgroundRepeat"] += ", " + decorator.getBackgroundRepeat();
+              combinedStyles["backgroundPosition"] +=
+                "," + decoratorStyle["background-position"] || "0 0";
+              combinedStyles["backgroundRepeat"] +=
+                ", " + decorator.getBackgroundRepeat();
             }
 
             if (hasGradient) {
@@ -997,7 +957,10 @@ qx.Class.define("qx.ui.basic.Image",
               combinedStyles["backgroundRepeat"] += ", no-repeat";
             }
 
-            combinedStyles["backgroundImage"] += "," + (decoratorStyle["background-image"] || decoratorStyle["background"]);
+            combinedStyles["backgroundImage"] +=
+              "," +
+              (decoratorStyle["background-image"] ||
+                decoratorStyle["background"]);
 
             // apply combined background images
             el.setStyles(combinedStyles);
@@ -1006,12 +969,12 @@ qx.Class.define("qx.ui.basic.Image",
           }
         } else {
           // force re-apply to remove old decorator styles
-          if (el.setSource){
+          if (el.setSource) {
             el.setSource(null);
           }
         }
       }
-      if (el.setSource){
+      if (el.setSource) {
         el.setSource(source);
         el.setStyle("position", "absolute");
       }
@@ -1023,15 +986,16 @@ qx.Class.define("qx.ui.basic.Image",
      * @param source {String} Image source which was loaded
      * @param imageInfo {Map} Dimensions of the loaded image
      */
-    __loaderCallback : function(source, imageInfo)
-    {
+    __loaderCallback(source, imageInfo) {
       // Ignore the callback on already disposed images
       if (this.$$disposed === true) {
         return;
       }
 
       // Ignore when the source has already been modified
-      if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
+      if (
+        source !== qx.util.AliasManager.getInstance().resolve(this.getSource())
+      ) {
         this.fireEvent("aborted");
         return;
       }
@@ -1051,15 +1015,14 @@ qx.Class.define("qx.ui.basic.Image",
       this.__setUnmanagedImage(this.__getContentElement(), source);
     },
 
-
     /**
      * Updates the content hint when the image size has been changed
      *
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
      */
-    __updateContentHint : function(width, height) {
-      if (width === undefined ) {
+    __updateContentHint(width, height) {
+      if (width === undefined) {
         width = this.__width;
       }
       if (height === undefined) {
@@ -1069,73 +1032,72 @@ qx.Class.define("qx.ui.basic.Image",
         qx.ui.core.queue.Layout.add(this);
       }
     },
-    
-    
+
     /**
      * Recalculates the size of the image, according to scaling parameters
      * @param maxWidth {Integer?} maximum width restriction
      * @param maxHeight {Integer?} minimum height restriction
      */
-    _recalc: function(originalWidth, originalHeight) {
+    _recalc(originalWidth, originalHeight) {
       var maxWidth = this.getMaxWidth();
       var maxHeight = this.getMaxHeight();
       var minWidth = this.getMinWidth();
       var minHeight = this.getMinHeight();
-      
+
       var width = originalWidth;
       var height = originalHeight;
-      
+
       var ratio = originalHeight / originalWidth;
 
-      switch(this.getForceRatio()) {
-      case 'height':
-        if (maxHeight !== null && height > maxHeight) {
-          height = maxHeight;
-          width = height / ratio;
-        } else if (height < minHeight) {
-          height = minHeight;
-          width = height / ratio;
-        }
-        if (height < maxHeight && this.isAllowScaleUp()) {
-          height = maxHeight;
-          width = height / ratio;
-        }
-        break;
-        
-      case 'width':
-        if (maxWidth !== null && width > maxWidth) {
-          width = maxWidth;
-          height = width * ratio;
-        } else if (width < minWidth) {
-          width = minWidth;
-          height = width * ratio;
-        }
-        if (width < maxWidth && this.isAllowScaleUp()) {
-          width = maxWidth;
-          height = width * ratio;
-        }
-        break;
-      
-      case 'auto':
-      case 'bestfit':
-        if (maxWidth !== null && width > maxWidth) {
-          width = maxWidth;
-          height = width * ratio;
-        } else if (width < minWidth) {
-          width = minWidth;
-          height = width * ratio;
-        }
-        if (width < maxWidth && this.isAllowScaleUp()) {
-          width = maxWidth;
-          height = width * ratio;
-        }
-        if (maxHeight !== null && height > maxHeight) {
-          height = maxHeight;
-          width = height / ratio;
-        }
-        break;
+      switch (this.getForceRatio()) {
+        case "height":
+          if (maxHeight !== null && height > maxHeight) {
+            height = maxHeight;
+            width = height / ratio;
+          } else if (height < minHeight) {
+            height = minHeight;
+            width = height / ratio;
+          }
+          if (height < maxHeight && this.isAllowScaleUp()) {
+            height = maxHeight;
+            width = height / ratio;
+          }
+          break;
+
+        case "width":
+          if (maxWidth !== null && width > maxWidth) {
+            width = maxWidth;
+            height = width * ratio;
+          } else if (width < minWidth) {
+            width = minWidth;
+            height = width * ratio;
+          }
+          if (width < maxWidth && this.isAllowScaleUp()) {
+            width = maxWidth;
+            height = width * ratio;
+          }
+          break;
+
+        case "auto":
+        case "bestfit":
+          if (maxWidth !== null && width > maxWidth) {
+            width = maxWidth;
+            height = width * ratio;
+          } else if (width < minWidth) {
+            width = minWidth;
+            height = width * ratio;
+          }
+          if (width < maxWidth && this.isAllowScaleUp()) {
+            width = maxWidth;
+            height = width * ratio;
+          }
+          if (maxHeight !== null && height > maxHeight) {
+            height = maxHeight;
+            width = height / ratio;
+          }
+          break;
       }
-      
+
       width = Math.round(width);
       height = Math.round(height);
       if (width != this.__width || height != this.__height) {
@@ -1147,14 +1109,13 @@ qx.Class.define("qx.ui.basic.Image",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     for (var mode in this.__contentElements) {
       if (this.__contentElements.hasOwnProperty(mode)) {
         this.__contentElements[mode].disconnectObject(this);

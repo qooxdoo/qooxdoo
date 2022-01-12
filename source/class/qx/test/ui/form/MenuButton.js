@@ -15,34 +15,34 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.MenuButton",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.MenuButton", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __menu : null,
+  members: {
+    __menu: null,
 
-    __menuButton : null,
+    __menuButton: null,
 
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this.__menu = new qx.ui.menu.Menu();
       this.__menu.add(new qx.ui.menu.Button("Undo"));
       this.__menu.add(new qx.ui.menu.Button("Redo"));
       this.__menu.add(new qx.ui.menu.Button("Cut"));
 
-      this.__menuButton = new qx.ui.form.MenuButton("Menu Button", null, this.__menu);
+      this.__menuButton = new qx.ui.form.MenuButton(
+        "Menu Button",
+        null,
+        this.__menu
+      );
 
       this.getRoot().add(this.__menuButton);
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       var buttons = this.__menu.getChildren();
       for (var i = 0; i < buttons.length; i++) {
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.form.MenuButton",
       this.flush();
     },
 
-    testOpen: function() {
+    testOpen() {
       this.__menuButton.open();
       this.assertTrue(this.__menu.isVisible());
       this.assertNull(this.__menu.getSelectedButton());
@@ -63,21 +63,27 @@ qx.Class.define("qx.test.ui.form.MenuButton",
       this.assertFalse(this.__menu.isVisible());
     },
 
-    testOpenSelectFirst: function() {
+    testOpenSelectFirst() {
       this.__menuButton.open(true);
       this.assertTrue(this.__menu.isVisible());
-      this.assertEquals(this.__menu.getChildren()[0], this.__menu.getSelectedButton());
+      this.assertEquals(
+        this.__menu.getChildren()[0],
+        this.__menu.getSelectedButton()
+      );
 
       qx.ui.menu.Manager.getInstance().hideAll();
       this.assertFalse(this.__menu.isVisible());
     },
 
-    testOpenSelectFirstWithDisabledElement: function() {
+    testOpenSelectFirstWithDisabledElement() {
       this.__menu.getChildren()[0].setEnabled(false);
 
       this.__menuButton.open(true);
       this.assertTrue(this.__menu.isVisible());
-      this.assertEquals(this.__menu.getChildren()[1], this.__menu.getSelectedButton());
+      this.assertEquals(
+        this.__menu.getChildren()[1],
+        this.__menu.getSelectedButton()
+      );
 
       qx.ui.menu.Manager.getInstance().hideAll();
       this.assertFalse(this.__menu.isVisible());

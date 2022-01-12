@@ -16,55 +16,52 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DateMock",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.test.util.DateMock", {
+  extend: qx.core.Object,
 
-  construct : function(dateMap)
-  {
-    this.base(arguments);
+  construct(dateMap) {
+    super();
     this.__date = dateMap;
   },
 
-  members :
-  {
-    getFullYear : function() {
+  members: {
+    getFullYear() {
       return this.__date.fullYear;
     },
 
-    getMonth : function() {
+    getMonth() {
       return this.__date.month;
     },
 
-    getDate : function() {
+    getDate() {
       return this.__date.date;
     },
 
-    getDay : function() {
+    getDay() {
       return this.__date.day;
     },
 
-    getHours : function() {
+    getHours() {
       return this.__date.hours;
     },
 
-    getSeconds : function() {
+    getSeconds() {
       return this.__date.seconds;
     },
 
-    getMinutes : function() {
+    getMinutes() {
       return this.__date.minutes;
     },
 
-    getMilliseconds : function() {
+    getMilliseconds() {
       return this.__date.milliseconds;
     },
 
-    getTimezoneOffset : function() {
+    getTimezoneOffset() {
       return this.__date.timezoneOffset;
     },
 
-    getTime : function(){
+    getTime() {
       return this.__date.time;
     }
   }

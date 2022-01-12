@@ -33,8 +33,8 @@ const fs = qx.tool.utils.Promisify.fs;
 qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
   extend: qx.tool.compiler.resources.ResourceConverter,
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
   members: {
@@ -46,24 +46,45 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
     getDestFilename(target, asset) {
       let filename;
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
-        filename = path.join(target.getOutputDir(), "resource", asset.getFilename().replace(/\bscss\b/g, "css"));
+        filename = path.join(
+          target.getOutputDir(),
+          "resource",
+          asset.getFilename().replace(/\bscss\b/g, "css")
+        );
       } else {
-        filename = path.join(target.getOutputDir(), "resource", asset.getFilename().replace(/\.scss$/, ".css"));
+        filename = path.join(
+          target.getOutputDir(),
+          "resource",
+          asset.getFilename().replace(/\.scss$/, ".css")
+        );
       }
       return filename;
     },
 
     async convert(target, asset, srcFilename, destFilename, isThemeFile) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
-        let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
+        let copyFilename = path.join(
+          target.getOutputDir(),
+          "resource",
+          asset.getFilename()
+        );
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
       if (!qx.tool.compiler.resources.ScssConverter.isNewCompiler()) {
-        return this.legacyMobileSassConvert(target, asset, srcFilename, destFilename);
+        return this.legacyMobileSassConvert(
+          target,
+          asset,
+          srcFilename,
+          destFilename
+        );
       }
 
-      let scssFile = new qx.tool.compiler.resources.ScssFile(target, asset.getLibrary(), asset.getFilename());
+      let scssFile = new qx.tool.compiler.resources.ScssFile(
+        target,
+        asset.getLibrary(),
+        asset.getFilename()
+      );
       scssFile.setThemeFile(isThemeFile);
       return scssFile.compile(destFilename);
     },
@@ -74,7 +95,11 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
      */
     async legacyMobileSassConvert(target, asset, srcFilename, destFilename) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
-        let copyFilename = path.join(target.getOutputDir(), "resource", asset.getFilename());
+        let copyFilename = path.join(
+          target.getOutputDir(),
+          "resource",
+          asset.getFilename()
+        );
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
@@ -91,24 +116,28 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
             path.join(qooxdooPath, "source/resource/qx/mobile/scss"),
             path.join(qooxdooPath, "source/resource/qx/scss")
           ],
+
           outFile: destFilename,
           sourceMap: destFilename + ".map",
           outputStyle: "compressed"
         };
-        let result = await qx.tool.utils.Promisify.call(cb => sass.render(sassOptions, (err, result) => {
-          if (err) {
-            cb(new Error(err.message));
-          } else {
-            cb(null, result);
-          }
-        }));
+
+        let result = await qx.tool.utils.Promisify.call(cb =>
+          sass.render(sassOptions, (err, result) => {
+            if (err) {
+              cb(new Error(err.message));
+            } else {
+              cb(null, result);
+            }
+          })
+        );
         await fs.writeFileAsync(destFilename, result.css);
         await fs.writeFileAsync(destFilename + ".map", result.map);
       }
     }
   },
 
-  statics:{
+  statics: {
     /** @type {Boolean} Default is true for the API, the CLI will set this to null */
     USE_V6_COMPILER: true,
 
@@ -117,9 +146,11 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
 
     isNewCompiler() {
       if (qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER === null) {
-        console.warn("DEPRECATED: Using the Qooxdoo v5 style of SASS Compilation; this is backwards compatible " +
+        console.warn(
+          "DEPRECATED: Using the Qooxdoo v5 style of SASS Compilation; this is backwards compatible " +
             "but the default will change in v7 to use the new style (see https://git.io/JfTPV for details, and how " +
-            "to disable this warning).");
+            "to disable this warning)."
+        );
         qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER = false;
       }
       return qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER;

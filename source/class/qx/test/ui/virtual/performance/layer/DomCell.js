@@ -16,9 +16,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
-{
-  extend : qx.ui.virtual.layer.Abstract,
+qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell", {
+  extend: qx.ui.virtual.layer.Abstract,
 
   /*
   *****************************************************************************
@@ -26,10 +25,8 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
   *****************************************************************************
   */
 
-  members :
-  {
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+  members: {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var el = this.getContentElement().getDomElement();
       el.innerHTML = "";
 
@@ -43,21 +40,30 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
 
       var fragment = document.createDocumentFragment();
 
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var col = firstColumn;
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        for (var y = 0; y < columnSizes.length; y++) {
           var content = col + " / " + row;
           var cell = document.createElement("div");
-          Style.setCss(cell, [
-            "position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", columnSizes[y], "px;",
-            "height:", rowSizes[x], "px;"
-          ].join(""));
+          Style.setCss(
+            cell,
+            [
+              "position:absolute;",
+              "left:",
+              left,
+              "px;",
+              "top:",
+              top,
+              "px;",
+              "width:",
+              columnSizes[y],
+              "px;",
+              "height:",
+              rowSizes[x],
+              "px;"
+            ].join("")
+          );
 
           Attribute.set(cell, "text", content);
           left += columnSizes[y];

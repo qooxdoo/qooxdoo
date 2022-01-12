@@ -15,20 +15,16 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.list.fixture.ItemMock",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.test.ui.list.fixture.ItemMock", {
+  extend: qx.core.Object,
 
-  properties :
-  {
-    name :
-    {
-      event : "changeName"
+  properties: {
+    name: {
+      event: "changeName"
     },
 
-    group :
-    {
-      event : "changeGroup"
+    group: {
+      event: "changeGroup"
     }
   }
 });

@@ -31,13 +31,9 @@
  * @use(qx.io.remote.transport.Script)
  * @internal
  */
-qx.Class.define("qx.io.remote.Exchange",
-{
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.io.remote.Exchange", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -50,16 +46,12 @@ qx.Class.define("qx.io.remote.Exchange",
    *
    * @param vRequest {qx.io.remote.Request} request object
    */
-  construct : function(vRequest)
-  {
-    this.base(arguments);
+  construct(vRequest) {
+    super();
 
     this.setRequest(vRequest);
     vRequest.setTransport(this);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -67,27 +59,25 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
-  events : {
+  events: {
     /** Fired whenever a request is send */
-    "sending" : "qx.event.type.Event",
+    sending: "qx.event.type.Event",
 
     /** Fired whenever a request is received */
-    "receiving" : "qx.event.type.Event",
+    receiving: "qx.event.type.Event",
 
     /** Fired whenever a request is completed */
-    "completed" : "qx.io.remote.Response",
+    completed: "qx.io.remote.Response",
 
     /** Fired whenever a request is aborted */
-    "aborted" : "qx.event.type.Event",
+    aborted: "qx.event.type.Event",
 
     /** Fired whenever a request has failed */
-    "failed" : "qx.io.remote.Response",
+    failed: "qx.io.remote.Response",
 
     /** Fired whenever a request has timed out */
-    "timeout" : "qx.io.remote.Response"
+    timeout: "qx.io.remote.Response"
   },
-
-
 
   /*
   *****************************************************************************
@@ -95,8 +85,7 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /* ************************************************************************
        Class data, properties and methods
     ************************************************************************ */
@@ -112,29 +101,32 @@ qx.Class.define("qx.io.remote.Exchange",
      *
      * @internal
      */
-    typesOrder : [ "qx.io.remote.transport.XmlHttp", "qx.io.remote.transport.Iframe", "qx.io.remote.transport.Script" ],
+    typesOrder: [
+      "qx.io.remote.transport.XmlHttp",
+      "qx.io.remote.transport.Iframe",
+      "qx.io.remote.transport.Script"
+    ],
 
     /**
      * Marker for initialized types.
      *
      * @internal
      */
-    typesReady : false,
+    typesReady: false,
 
     /**
      * Map of all available types.
      *
      * @internal
      */
-    typesAvailable : {},
+    typesAvailable: {},
 
     /**
      * Map of all supported types.
      *
      * @internal
      */
-    typesSupported : {},
-
+    typesSupported: {},
 
     /**
      * Registers a transport type.
@@ -143,10 +135,9 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vClass {Object} transport class
      * @param vId {String} unique id
      */
-    registerType : function(vClass, vId) {
+    registerType(vClass, vId) {
       qx.io.remote.Exchange.typesAvailable[vId] = vClass;
     },
-
 
     /**
      * Initializes the available type of transport classes and
@@ -154,14 +145,12 @@ qx.Class.define("qx.io.remote.Exchange",
      *
      * @throws {Error} an error if no supported transport type is available
      */
-    initTypes : function()
-    {
+    initTypes() {
       if (qx.io.remote.Exchange.typesReady) {
         return;
       }
 
-      for (var vId in qx.io.remote.Exchange.typesAvailable)
-      {
+      for (var vId in qx.io.remote.Exchange.typesAvailable) {
         var vTransporterImpl = qx.io.remote.Exchange.typesAvailable[vId];
 
         if (vTransporterImpl.isSupported()) {
@@ -176,7 +165,6 @@ qx.Class.define("qx.io.remote.Exchange",
       }
     },
 
-
     /**
      * Checks which supported transport class can handle the request with the
      * given content type.
@@ -187,14 +175,12 @@ qx.Class.define("qx.io.remote.Exchange",
      * @return {Boolean} <code>true</code> if the transport implementation supports
      * the request's requirements
      */
-    canHandle : function(vImpl, vNeeds, vResponseType)
-    {
+    canHandle(vImpl, vNeeds, vResponseType) {
       if (!vImpl.handles.responseTypes.includes(vResponseType)) {
         return false;
       }
 
-      for (var vKey in vNeeds)
-      {
+      for (var vKey in vNeeds) {
         if (!vImpl.handles[vKey]) {
           return false;
         }
@@ -202,9 +188,6 @@ qx.Class.define("qx.io.remote.Exchange",
 
       return true;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -232,17 +215,13 @@ qx.Class.define("qx.io.remote.Exchange",
      *
      * @internal
      */
-    _nativeMap :
-    {
-      0 : "created",
-      1 : "configured",
-      2 : "sending",
-      3 : "receiving",
-      4 : "completed"
+    _nativeMap: {
+      0: "created",
+      1: "configured",
+      2: "sending",
+      3: "receiving",
+      4: "completed"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -258,12 +237,9 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vIsLocal {Boolean} whether the request is a local one
      * @return {Boolean | var} Returns boolean value depending on the status code
      */
-    wasSuccessful : function(vStatusCode, vReadyState, vIsLocal)
-    {
-      if (vIsLocal)
-      {
-        switch(vStatusCode)
-        {
+    wasSuccessful(vStatusCode, vReadyState, vIsLocal) {
+      if (vIsLocal) {
+        switch (vStatusCode) {
           case null:
           case 0:
             return true;
@@ -276,16 +252,18 @@ qx.Class.define("qx.io.remote.Exchange",
             // at least older versions of Safari don't set the status code for local file access
             return typeof vStatusCode === "undefined";
         }
-      }
-      else
-      {
-        switch(vStatusCode)
-        {
+      } else {
+        switch (vStatusCode) {
           case -1: // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
-            if (qx.core.Environment.get("qx.debug"))
-            {
-              if (qx.core.Environment.get("qx.debug.io.remote") && vReadyState > 3) {
-                qx.log.Logger.debug(this, "Failed with statuscode: -1 at readyState " + vReadyState);
+            if (qx.core.Environment.get("qx.debug")) {
+              if (
+                qx.core.Environment.get("qx.debug.io.remote") &&
+                vReadyState > 3
+              ) {
+                qx.log.Logger.debug(
+                  this,
+                  "Failed with statuscode: -1 at readyState " + vReadyState
+                );
               }
             }
 
@@ -303,10 +281,15 @@ qx.Class.define("qx.io.remote.Exchange",
             return true;
 
           case 206: // Partial Content
-            if (qx.core.Environment.get("qx.debug"))
-            {
-              if (qx.core.Environment.get("qx.debug.io.remote") && vReadyState === 4) {
-                qx.log.Logger.debug(this, "Failed with statuscode: 206 (Partial content while being complete!)");
+            if (qx.core.Environment.get("qx.debug")) {
+              if (
+                qx.core.Environment.get("qx.debug.io.remote") &&
+                vReadyState === 4
+              ) {
+                qx.log.Logger.debug(
+                  this,
+                  "Failed with statuscode: 206 (Partial content while being complete!)"
+                );
               }
             }
 
@@ -339,35 +322,38 @@ qx.Class.define("qx.io.remote.Exchange",
           case 503: // Out of Resources
           case 504: // Gateway Time-Out
           case 505: // HTTP Version not supported
-            if (qx.core.Environment.get("qx.debug"))
-            {
+            if (qx.core.Environment.get("qx.debug")) {
               if (qx.core.Environment.get("qx.debug.io.remote")) {
-                qx.log.Logger.debug(this, "Failed with typical HTTP statuscode: " + vStatusCode);
+                qx.log.Logger.debug(
+                  this,
+                  "Failed with typical HTTP statuscode: " + vStatusCode
+                );
               }
             }
 
             return false;
 
+          // The following case labels are wininet.dll error codes that may
+          // be encountered.
 
-            // The following case labels are wininet.dll error codes that may
-            // be encountered.
-
-            // Server timeout
+          // Server timeout
           case 12002:
-            // Internet Name Not Resolved
+          // Internet Name Not Resolved
           case 12007:
-            // 12029 to 12031 correspond to dropped connections.
+          // 12029 to 12031 correspond to dropped connections.
           case 12029:
           case 12030:
           case 12031:
-            // Connection closed by server.
+          // Connection closed by server.
           case 12152:
-            // See above comments for variable status.
+          // See above comments for variable status.
           case 13030:
-            if (qx.core.Environment.get("qx.debug"))
-            {
+            if (qx.core.Environment.get("qx.debug")) {
               if (qx.core.Environment.get("qx.debug.io.remote")) {
-                qx.log.Logger.debug(this, "Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
+                qx.log.Logger.debug(
+                  this,
+                  "Failed with MSHTML specific HTTP statuscode: " + vStatusCode
+                );
               }
             }
 
@@ -380,12 +366,14 @@ qx.Class.define("qx.io.remote.Exchange",
               return true;
             }
 
-            qx.log.Logger.debug(this, "Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+            qx.log.Logger.debug(
+              this,
+              "Unknown status code: " + vStatusCode + " (" + vReadyState + ")"
+            );
             return false;
         }
       }
     },
-
 
     /**
      * Status code to string conversion
@@ -393,10 +381,8 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vStatusCode {Integer} request status code
      * @return {String} String presentation of status code
      */
-    statusCodeToString : function(vStatusCode)
-    {
-      switch(vStatusCode)
-      {
+    statusCodeToString(vStatusCode) {
+      switch (vStatusCode) {
         case -1:
           return "Not available";
 
@@ -406,16 +392,17 @@ qx.Class.define("qx.io.remote.Exchange",
           var url = window.location.href;
 
           // Are we on a local page obtained via file: protocol?
-          if (url.toLowerCase().startsWith("file:"))
-          {
+          if (url.toLowerCase().startsWith("file:")) {
             // Yup. Can't issue remote requests from here.
-            return ("Unknown status code. " +
-                    "Possibly due to application URL using 'file:' protocol?");
-          }
-          else
-          {
-            return ("Unknown status code. " +
-                    "Possibly due to a cross-domain request?");
+            return (
+              "Unknown status code. " +
+              "Possibly due to application URL using 'file:' protocol?"
+            );
+          } else {
+            return (
+              "Unknown status code. " +
+              "Possibly due to a cross-domain request?"
+            );
           }
 
         case 200:
@@ -535,24 +522,18 @@ qx.Class.define("qx.io.remote.Exchange",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Set the request to send with this transport. */
-    request :
-    {
-      check : "qx.io.remote.Request",
-      nullable : true
+    request: {
+      check: "qx.io.remote.Request",
+      nullable: true
     },
-
 
     /**
      * Set the implementation to use to send the request with.
@@ -560,25 +541,28 @@ qx.Class.define("qx.io.remote.Exchange",
      *  The implementation should be a subclass of qx.io.remote.transport.Abstract and
      *  must implement all methods in the transport API.
      */
-    implementation :
-    {
-      check : "qx.io.remote.transport.Abstract",
-      nullable : true,
-      apply : "_applyImplementation"
+    implementation: {
+      check: "qx.io.remote.transport.Abstract",
+      nullable: true,
+      apply: "_applyImplementation"
     },
 
     /** Current state of the transport layer. */
-    state :
-    {
-      check : [ "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
-      init : "configured",
-      event : "changeState",
-      apply : "_applyState"
+    state: {
+      check: [
+        "configured",
+        "sending",
+        "receiving",
+        "completed",
+        "aborted",
+        "timeout",
+        "failed"
+      ],
+      init: "configured",
+      event: "changeState",
+      apply: "_applyState"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -586,8 +570,7 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       CORE METHODS
@@ -600,8 +583,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * @return {var | Boolean} Returns true if the request was sent.
      * @lint ignoreUnused(field)
      */
-    send : function()
-    {
+    send() {
       var vRequest = this.getRequest();
 
       if (!vRequest) {
@@ -634,8 +616,7 @@ qx.Class.define("qx.io.remote.Exchange",
       }
 
       // See if there are any programmatic form fields requested
-      for (var field in vRequest.getFormFields())
-      {
+      for (var field in vRequest.getFormFields()) {
         // There are.
         vNeeds.programmaticFormFields = true;
 
@@ -645,35 +626,35 @@ qx.Class.define("qx.io.remote.Exchange",
 
       var vTransportImpl, vTransport;
 
-      for (var i=0, l=vUsage.length; i<l; i++)
-      {
+      for (var i = 0, l = vUsage.length; i < l; i++) {
         vTransportImpl = vSupported[vUsage[i]];
 
-        if (vTransportImpl)
-        {
-          if (!qx.io.remote.Exchange.canHandle(vTransportImpl, vNeeds, vResponseType)) {
+        if (vTransportImpl) {
+          if (
+            !qx.io.remote.Exchange.canHandle(
+              vTransportImpl,
+              vNeeds,
+              vResponseType
+            )
+          ) {
             continue;
           }
 
-          try
-          {
-            if (qx.core.Environment.get("qx.debug"))
-            {
+          try {
+            if (qx.core.Environment.get("qx.debug")) {
               if (qx.core.Environment.get("qx.debug.io.remote")) {
                 this.debug("Using implementation: " + vTransportImpl.classname);
               }
             }
 
-            vTransport = new vTransportImpl;
+            vTransport = new vTransportImpl();
             this.setImplementation(vTransport);
 
             vTransport.setUseBasicHttpAuth(vRequest.getUseBasicHttpAuth());
 
             vTransport.send();
             return true;
-          }
-          catch(ex)
-          {
+          } catch (ex) {
             this.error("Request handler throws error");
             this.error(ex);
             return false;
@@ -681,34 +662,30 @@ qx.Class.define("qx.io.remote.Exchange",
         }
       }
 
-      this.error("There is no transport implementation available to handle this request: " + vRequest);
+      this.error(
+        "There is no transport implementation available to handle this request: " +
+          vRequest
+      );
     },
-
 
     /**
      * Force the transport into the aborted ("aborted")
      *  state.
      *
      */
-    abort : function()
-    {
+    abort() {
       var vImplementation = this.getImplementation();
 
-      if (vImplementation)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
+      if (vImplementation) {
+        if (qx.core.Environment.get("qx.debug")) {
           if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.debug("Abort: implementation " + vImplementation.toHashCode());
           }
         }
 
         vImplementation.abort();
-      }
-      else
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
+      } else {
+        if (qx.core.Environment.get("qx.debug")) {
           if (qx.core.Environment.get("qx.debug.io.remote")) {
             this.debug("Abort: forcing state to be aborted");
           }
@@ -718,28 +695,30 @@ qx.Class.define("qx.io.remote.Exchange",
       }
     },
 
-
     /**
      * Force the transport into the timeout state.
      *
      */
-    timeout : function()
-    {
+    timeout() {
       var vImplementation = this.getImplementation();
 
-      if (vImplementation)
-      {
+      if (vImplementation) {
         var str = "";
-        for (var key in vImplementation.getParameters())
-        {
+        for (var key in vImplementation.getParameters()) {
           str += "&" + key + "=" + vImplementation.getParameters()[key];
         }
-        this.warn("Timeout: implementation " + vImplementation.toHashCode() + ", "
-                  + vImplementation.getUrl() + " [" + vImplementation.getMethod() + "], " + str);
+        this.warn(
+          "Timeout: implementation " +
+            vImplementation.toHashCode() +
+            ", " +
+            vImplementation.getUrl() +
+            " [" +
+            vImplementation.getMethod() +
+            "], " +
+            str
+        );
         vImplementation.timeout();
-      }
-      else
-      {
+      } else {
         this.warn("Timeout: forcing state to timeout");
         this.setState("timeout");
       }
@@ -747,7 +726,6 @@ qx.Class.define("qx.io.remote.Exchange",
       // Disable future timeouts in case user handler blocks
       this.__disableRequestTimeout();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -760,15 +738,12 @@ qx.Class.define("qx.io.remote.Exchange",
      * even if the user handler (e.g. "completed") was already called.
      *
      */
-    __disableRequestTimeout : function() {
+    __disableRequestTimeout() {
       var vRequest = this.getRequest();
       if (vRequest) {
         vRequest.setTimeout(0);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -781,62 +756,54 @@ qx.Class.define("qx.io.remote.Exchange",
      *
      * @param e {qx.event.type.Event} event object
      */
-    _onsending : function(e) {
+    _onsending(e) {
       this.setState("sending");
     },
-
 
     /**
      * Event listener for "receiving" event.
      *
      * @param e {qx.event.type.Event} event object
      */
-    _onreceiving : function(e) {
+    _onreceiving(e) {
       this.setState("receiving");
     },
-
 
     /**
      * Event listener for "completed" event.
      *
      * @param e {qx.event.type.Event} event object
      */
-    _oncompleted : function(e) {
+    _oncompleted(e) {
       this.setState("completed");
     },
-
 
     /**
      * Event listener for "abort" event.
      *
      * @param e {qx.event.type.Event} event object
      */
-    _onabort : function(e) {
+    _onabort(e) {
       this.setState("aborted");
     },
-
 
     /**
      * Event listener for "failed" event.
      *
      * @param e {qx.event.type.Event} event object
      */
-    _onfailed : function(e) {
+    _onfailed(e) {
       this.setState("failed");
     },
-
 
     /**
      * Event listener for "timeout" event.
      *
      * @param e {qx.event.type.Event} event object
      */
-    _ontimeout : function(e) {
+    _ontimeout(e) {
       this.setState("timeout");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -850,10 +817,8 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyImplementation : function(value, old)
-    {
-      if (old)
-      {
+    _applyImplementation(value, old) {
+      if (old) {
         old.removeListener("sending", this._onsending, this);
         old.removeListener("receiving", this._onreceiving, this);
         old.removeListener("completed", this._oncompleted, this);
@@ -862,8 +827,7 @@ qx.Class.define("qx.io.remote.Exchange",
         old.removeListener("failed", this._onfailed, this);
       }
 
-      if (value)
-      {
+      if (value) {
         var vRequest = this.getRequest();
 
         value.setUrl(vRequest.getUrl());
@@ -879,44 +843,37 @@ qx.Class.define("qx.io.remote.Exchange",
 
         // Set the parseJson property which is currently only supported for XmlHttp transport
         // (which is the only transport supporting JSON parsing so far).
-        if (value instanceof qx.io.remote.transport.XmlHttp){
+        if (value instanceof qx.io.remote.transport.XmlHttp) {
           value.setParseJson(vRequest.getParseJson());
         }
 
         var data = vRequest.getData();
-        if (data === null)
-        {
+        if (data === null) {
           var vParameters = vRequest.getParameters(true);
           var vParametersList = [];
 
-          for (var vId in vParameters)
-          {
+          for (var vId in vParameters) {
             var paramValue = vParameters[vId];
 
-            if (paramValue instanceof Array)
-            {
-              for (var i=0; i<paramValue.length; i++)
-              {
-                vParametersList.push(encodeURIComponent(vId) +
-                                     "=" +
-                                     encodeURIComponent(paramValue[i]));
+            if (paramValue instanceof Array) {
+              for (var i = 0; i < paramValue.length; i++) {
+                vParametersList.push(
+                  encodeURIComponent(vId) +
+                    "=" +
+                    encodeURIComponent(paramValue[i])
+                );
               }
-            }
-            else
-            {
-              vParametersList.push(encodeURIComponent(vId) +
-                                   "=" +
-                                   encodeURIComponent(paramValue));
+            } else {
+              vParametersList.push(
+                encodeURIComponent(vId) + "=" + encodeURIComponent(paramValue)
+              );
             }
           }
 
-          if (vParametersList.length > 0)
-          {
+          if (vParametersList.length > 0) {
             value.setData(vParametersList.join("&"));
           }
-        }
-        else
-        {
+        } else {
           value.setData(data);
         }
 
@@ -931,24 +888,20 @@ qx.Class.define("qx.io.remote.Exchange",
       }
     },
 
-
     /**
      * Apply method for the state property.
      *
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyState : function(value, old)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyState(value, old) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("State: " + old + " => " + value);
         }
       }
 
-      switch(value)
-      {
+      switch (value) {
         case "sending":
           this.fireEvent("sending");
           break;
@@ -963,22 +916,21 @@ qx.Class.define("qx.io.remote.Exchange",
         case "failed":
           var vImpl = this.getImplementation();
 
-          if (!vImpl)
-          {
+          if (!vImpl) {
             // implementation has already been disposed
             break;
           }
 
-
           // Disable future timeouts in case user handler blocks
           this.__disableRequestTimeout();
 
-          if (this.hasListener(value))
-          {
-            var vResponse = qx.event.Registration.createEvent(value, qx.io.remote.Response);
+          if (this.hasListener(value)) {
+            var vResponse = qx.event.Registration.createEvent(
+              value,
+              qx.io.remote.Response
+            );
 
-            if (value == "completed")
-            {
+            if (value == "completed") {
               var vContent = vImpl.getResponseContent();
               vResponse.setContent(vContent);
 
@@ -988,11 +940,9 @@ qx.Class.define("qx.io.remote.Exchange",
                * closed with no data having been sent.
                */
 
-              if (vContent === null)
-              {
+              if (vContent === null) {
                 // Nope.  Change COMPLETED to FAILED.
-                if (qx.core.Environment.get("qx.debug"))
-                {
+                if (qx.core.Environment.get("qx.debug")) {
                   if (qx.core.Environment.get("qx.debug.io.remote")) {
                     this.debug("Altered State: " + value + " => failed");
                   }
@@ -1000,9 +950,7 @@ qx.Class.define("qx.io.remote.Exchange",
 
                 value = "failed";
               }
-            }
-            else if (value == "failed")
-            {
+            } else if (value == "failed") {
               vResponse.setContent(vImpl.getResponseContent());
             }
 
@@ -1010,7 +958,6 @@ qx.Class.define("qx.io.remote.Exchange",
             vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
             this.dispatchEvent(vResponse);
-
           }
 
           // Disconnect and dispose implementation
@@ -1025,22 +972,16 @@ qx.Class.define("qx.io.remote.Exchange",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      ENVIRONMENT SETTINGS
   *****************************************************************************
   */
 
-  environment : {
-    "qx.debug.io.remote"       : false,
-    "qx.debug.io.remote.data"  : false
+  environment: {
+    "qx.debug.io.remote": false,
+    "qx.debug.io.remote.data": false
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -1048,12 +989,10 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     var vImpl = this.getImplementation();
 
-    if (vImpl)
-    {
+    if (vImpl) {
       this.setImplementation(null);
       vImpl.dispose();
     }

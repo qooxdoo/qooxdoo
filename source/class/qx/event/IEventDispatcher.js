@@ -21,10 +21,8 @@
  * register themselves at the event Manager using
  * {@link qx.event.Registration#addDispatcher}.
  */
-qx.Interface.define("qx.event.IEventDispatcher",
-{
-  members:
-  {
+qx.Interface.define("qx.event.IEventDispatcher", {
+  members: {
     /**
      * Whether the dispatcher is responsible for the this event.
      *
@@ -33,12 +31,10 @@ qx.Interface.define("qx.event.IEventDispatcher",
      * @param type {String} the event type
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
-    canDispatchEvent : function(target, event, type)
-    {
+    canDispatchEvent(target, event, type) {
       this.assertInstance(event, qx.event.type.Event);
       this.assertString(type);
     },
-
 
     /**
      * This function dispatches the event to the event listeners.
@@ -48,8 +44,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
      * @param type {String} the event type
      * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
-    dispatchEvent : function(target, event, type)
-    {
+    dispatchEvent(target, event, type) {
       this.assertInstance(event, qx.event.type.Event);
       this.assertString(type);
     }

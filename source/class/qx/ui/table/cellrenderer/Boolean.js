@@ -20,12 +20,8 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Boolean",
-{
-  extend : qx.ui.table.cellrenderer.AbstractImage,
-
-
-
+qx.Class.define("qx.ui.table.cellrenderer.Boolean", {
+  extend: qx.ui.table.cellrenderer.AbstractImage,
 
   /*
   *****************************************************************************
@@ -33,9 +29,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__aliasManager = qx.util.AliasManager.getInstance();
 
@@ -45,11 +40,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().addListener(
-        "changeTheme", this._onChangeTheme, this
+        "changeTheme",
+        this._onChangeTheme,
+        this
       );
     }
   },
-
 
   /*
    *****************************************************************************
@@ -57,29 +53,25 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
    *****************************************************************************
    */
 
-  properties :
-  {
+  properties: {
     /**
      * The icon used to indicate the true state
      */
-    iconTrue :
-    {
-      check : "String",
-      init : "decoration/table/boolean-true.png",
-      apply : "_applyIconTrue"
+    iconTrue: {
+      check: "String",
+      init: "decoration/table/boolean-true.png",
+      apply: "_applyIconTrue"
     },
 
     /**
-    * The icon used to indicate the false state
-    */
-    iconFalse :
-    {
-      check : "String",
-      init : "decoration/table/boolean-false.png",
-      apply : "_applyIconFalse"
+     * The icon used to indicate the false state
+     */
+    iconFalse: {
+      check: "String",
+      init: "decoration/table/boolean-false.png",
+      apply: "_applyIconFalse"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -87,41 +79,35 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   *****************************************************************************
   */
 
-  members :
-  {
-    __iconUrlTrue : null,
-    __iconUrlFalse : false,
-    __aliasManager : null,
-
+  members: {
+    __iconUrlTrue: null,
+    __iconUrlFalse: false,
+    __aliasManager: null,
 
     /**
      * Handler for theme changes.
      * @signature function()
      */
-    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
-    {
-      "true" : function() {
+    _onChangeTheme: qx.core.Environment.select("qx.dyntheme", {
+      true() {
         this._applyIconTrue(this.getIconTrue());
         this._applyIconFalse(this.getIconFalse());
       },
-      "false" : null
+      false: null
     }),
 
     // property apply
-    _applyIconTrue : function(value) {
+    _applyIconTrue(value) {
       this.__iconUrlTrue = this.__aliasManager.resolve(value);
     },
 
-
     // property apply
-    _applyIconFalse : function(value) {
+    _applyIconFalse(value) {
       this.__iconUrlFalse = this.__aliasManager.resolve(value);
     },
 
-
     // overridden
-    _identifyImage : function(cellInfo)
-    {
+    _identifyImage(cellInfo) {
       var w;
       var h;
       var rm;
@@ -153,15 +139,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
       // The traditional (fixed) size of the image was 11x11px. Use that if we
       // weren't able to retrieve the actual size of the image, and never
       // exceed that size.
-      imageHints =
-      {
-        imageWidth  : w ? Math.min(w, 11) : 11,
-        imageHeight : h ? Math.min(h, 11) : 11
+      imageHints = {
+        imageWidth: w ? Math.min(w, 11) : 11,
+        imageHeight: h ? Math.min(h, 11) : 11
       };
 
       // Add the URL portion of the hint
-      switch(cellInfo.value)
-      {
+      switch (cellInfo.value) {
         case true:
           imageHints.url = this.__iconUrlTrue;
           break;
@@ -185,12 +169,14 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__aliasManager = null;
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme", this._onChangeTheme, this
+        "changeTheme",
+        this._onChangeTheme,
+        this
       );
     }
   }

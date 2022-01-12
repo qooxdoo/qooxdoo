@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Dataset",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Dataset", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var div = document.createElement("div");
       div.id = "el";
 
@@ -31,25 +28,19 @@ qx.Class.define("qx.test.bom.Dataset",
       document.body.appendChild(div);
     },
 
-
-    tearDown : function() {
+    tearDown() {
       document.body.removeChild(this._el);
     },
 
-
-    testSetAttribute : function()
-    {
+    testSetAttribute() {
       var Dataset = qx.bom.element.Dataset;
 
       Dataset.set(this._el, "maxAge", "100");
-      this.assertEquals("100", Dataset.get(this._el,"maxAge"));
+      this.assertEquals("100", Dataset.get(this._el, "maxAge"));
       this.assertEquals("100", this._el.getAttribute("data-max-age"));
-
     },
 
-
-    testSetAttributeWithUndefinedValue : function()
-    {
+    testSetAttributeWithUndefinedValue() {
       var Dataset = qx.bom.element.Dataset;
 
       Dataset.set(this._el, "age", undefined);
@@ -61,9 +52,7 @@ qx.Class.define("qx.test.bom.Dataset",
       this.assertUndefined(Dataset.get(this._el, "age2", null));
     },
 
-
-    testGetAttribute : function()
-    {
+    testGetAttribute() {
       var Dataset = qx.bom.element.Dataset;
 
       this.assertUndefined(Dataset.get(this._el, "salary"));
@@ -72,8 +61,7 @@ qx.Class.define("qx.test.bom.Dataset",
       this.assertEquals("20", Dataset.get(this._el, "salary"));
     },
 
-    testRemoveAttribute : function()
-    {
+    testRemoveAttribute() {
       var Dataset = qx.bom.element.Dataset;
 
       Dataset.set(this._el, "age", "44");

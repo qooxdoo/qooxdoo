@@ -50,13 +50,9 @@
  * To let these events work it is needed to create the elements using
  * {@link qx.bom.Input}
  */
-qx.Class.define("qx.event.handler.Input",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
+qx.Class.define("qx.event.handler.Input", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -64,26 +60,26 @@ qx.Class.define("qx.event.handler.Input",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
-    this._onChangeCheckedWrapper = qx.lang.Function.listener(this._onChangeChecked, this);
-    this._onChangeValueWrapper = qx.lang.Function.listener(this._onChangeValue, this);
+    this._onChangeCheckedWrapper = qx.lang.Function.listener(
+      this._onChangeChecked,
+      this
+    );
+    this._onChangeValueWrapper = qx.lang.Function.listener(
+      this._onChangeValue,
+      this
+    );
     this._onInputWrapper = qx.lang.Function.listener(this._onInput, this);
     this._onPropertyWrapper = qx.lang.Function.listener(this._onProperty, this);
 
     // special event handler for opera
-    if ((qx.core.Environment.get("engine.name") == "opera")) {
+    if (qx.core.Environment.get("engine.name") == "opera") {
       this._onKeyDownWrapper = qx.lang.Function.listener(this._onKeyDown, this);
       this._onKeyUpWrapper = qx.lang.Function.listener(this._onKeyUp, this);
     }
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -91,28 +87,22 @@ qx.Class.define("qx.event.handler.Input",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      input : 1,
-      change : 1
+    SUPPORTED_TYPES: {
+      input: 1,
+      change: 1
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -120,17 +110,16 @@ qx.Class.define("qx.event.handler.Input",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // special handling for opera
-    __enter : false,
-    __onInputTimeoutId : null,
+    __enter: false,
+    __onInputTimeoutId: null,
 
     // stores the former set value for opera and IE
-    __oldValue : null,
+    __oldValue: null,
 
     // stores the former set value for IE
-    __oldInputValue : null,
+    __oldInputValue: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -139,225 +128,333 @@ qx.Class.define("qx.event.handler.Input",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
+    canHandleEvent(target, type) {
       var lower = target.tagName.toLowerCase();
 
       if (type === "input" && (lower === "input" || lower === "textarea")) {
         return true;
       }
 
-      if (type === "change" && (lower === "input" || lower === "textarea" || lower === "select")) {
+      if (
+        type === "change" &&
+        (lower === "input" || lower === "textarea" || lower === "select")
+      ) {
         return true;
       }
 
       return false;
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       if (
         qx.core.Environment.get("engine.name") == "mshtml" &&
         (qx.core.Environment.get("engine.version") < 9 ||
-        (qx.core.Environment.get("engine.version") >= 9 && qx.core.Environment.get("browser.documentmode") < 9))
-      )
-      {
-        if (!target.__inputHandlerAttached)
-        {
+          (qx.core.Environment.get("engine.version") >= 9 &&
+            qx.core.Environment.get("browser.documentmode") < 9))
+      ) {
+        if (!target.__inputHandlerAttached) {
           var tag = target.tagName.toLowerCase();
           var elementType = target.type;
 
-          if (elementType === "text" || elementType === "password" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
-            qx.bom.Event.addNativeListener(target, "propertychange", this._onPropertyWrapper);
+          if (
+            elementType === "text" ||
+            elementType === "password" ||
+            tag === "textarea" ||
+            elementType === "checkbox" ||
+            elementType === "radio"
+          ) {
+            qx.bom.Event.addNativeListener(
+              target,
+              "propertychange",
+              this._onPropertyWrapper
+            );
           }
 
           if (elementType !== "checkbox" && elementType !== "radio") {
-            qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.addNativeListener(
+              target,
+              "change",
+              this._onChangeValueWrapper
+            );
           }
 
           if (elementType === "text" || elementType === "password") {
-            this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
-            qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
+            this._onKeyPressWrapped = qx.lang.Function.listener(
+              this._onKeyPress,
+              this,
+              target
+            );
+            qx.bom.Event.addNativeListener(
+              target,
+              "keypress",
+              this._onKeyPressWrapped
+            );
           }
 
           target.__inputHandlerAttached = true;
         }
-      }
-      else
-      {
-        if (type === "input")
-        {
+      } else {
+        if (type === "input") {
           this.__registerInputListener(target);
-        }
-        else if (type === "change")
-        {
+        } else if (type === "change") {
           if (target.type === "radio" || target.type === "checkbox") {
-            qx.bom.Event.addNativeListener(target, "change", this._onChangeCheckedWrapper);
+            qx.bom.Event.addNativeListener(
+              target,
+              "change",
+              this._onChangeCheckedWrapper
+            );
           } else {
-            qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.addNativeListener(
+              target,
+              "change",
+              this._onChangeValueWrapper
+            );
           }
 
           // special enter bugfix for opera
-          if ((qx.core.Environment.get("engine.name") == "opera") || (qx.core.Environment.get("engine.name") == "mshtml")) {
+          if (
+            qx.core.Environment.get("engine.name") == "opera" ||
+            qx.core.Environment.get("engine.name") == "mshtml"
+          ) {
             if (target.type === "text" || target.type === "password") {
-              this._onKeyPressWrapped = qx.lang.Function.listener(this._onKeyPress, this, target);
-              qx.bom.Event.addNativeListener(target, "keypress", this._onKeyPressWrapped);
+              this._onKeyPressWrapped = qx.lang.Function.listener(
+                this._onKeyPress,
+                this,
+                target
+              );
+              qx.bom.Event.addNativeListener(
+                target,
+                "keypress",
+                this._onKeyPressWrapped
+              );
             }
           }
         }
       }
     },
 
-
-    __registerInputListener : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(target)
-      {
+    __registerInputListener: qx.core.Environment.select("engine.name", {
+      mshtml(target) {
         if (
           qx.core.Environment.get("engine.version") >= 9 &&
           qx.core.Environment.get("browser.documentmode") >= 9
         ) {
           qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
 
-          if (target.type === "text" || target.type === "password" || target.type === "textarea")
-          {
+          if (
+            target.type === "text" ||
+            target.type === "password" ||
+            target.type === "textarea"
+          ) {
             // Fixed input for delete and backspace key
-            this._inputFixWrapper = qx.lang.Function.listener(this._inputFix, this, target);
-            qx.bom.Event.addNativeListener(target, "keyup", this._inputFixWrapper);
+            this._inputFixWrapper = qx.lang.Function.listener(
+              this._inputFix,
+              this,
+              target
+            );
+            qx.bom.Event.addNativeListener(
+              target,
+              "keyup",
+              this._inputFixWrapper
+            );
           }
         }
       },
 
-      "webkit" : function(target)
-      {
+      webkit(target) {
         var tag = target.tagName.toLowerCase();
 
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 532 && tag == "textarea") {
-          qx.bom.Event.addNativeListener(target, "keypress", this._onInputWrapper);
+        if (
+          parseFloat(qx.core.Environment.get("engine.version")) < 532 &&
+          tag == "textarea"
+        ) {
+          qx.bom.Event.addNativeListener(
+            target,
+            "keypress",
+            this._onInputWrapper
+          );
         }
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
 
-      "opera" : function(target) {
+      opera(target) {
         // register key events for filtering "enter" on input events
         qx.bom.Event.addNativeListener(target, "keyup", this._onKeyUpWrapper);
-        qx.bom.Event.addNativeListener(target, "keydown", this._onKeyDownWrapper);
+        qx.bom.Event.addNativeListener(
+          target,
+          "keydown",
+          this._onKeyDownWrapper
+        );
         // register an blur event for preventing the input event on blur
 
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
 
-      "default" : function(target) {
+      default(target) {
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       }
     }),
 
-
     // interface implementation
-    unregisterEvent : function(target, type)
-    {
+    unregisterEvent(target, type) {
       if (
         qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("engine.version") < 9 &&
         qx.core.Environment.get("browser.documentmode") < 9
-      )
-      {
-        if (target.__inputHandlerAttached)
-        {
+      ) {
+        if (target.__inputHandlerAttached) {
           var tag = target.tagName.toLowerCase();
           var elementType = target.type;
 
-          if (elementType === "text" || elementType === "password" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
-            qx.bom.Event.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
+          if (
+            elementType === "text" ||
+            elementType === "password" ||
+            tag === "textarea" ||
+            elementType === "checkbox" ||
+            elementType === "radio"
+          ) {
+            qx.bom.Event.removeNativeListener(
+              target,
+              "propertychange",
+              this._onPropertyWrapper
+            );
           }
 
           if (elementType !== "checkbox" && elementType !== "radio") {
-            qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
+            qx.bom.Event.removeNativeListener(
+              target,
+              "change",
+              this._onChangeValueWrapper
+            );
           }
 
           if (elementType === "text" || elementType === "password") {
-            qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
+            qx.bom.Event.removeNativeListener(
+              target,
+              "keypress",
+              this._onKeyPressWrapped
+            );
           }
 
           try {
             delete target.__inputHandlerAttached;
-          } catch(ex) {
+          } catch (ex) {
             target.__inputHandlerAttached = null;
           }
         }
-      }
-      else
-      {
-        if (type === "input")
-        {
+      } else {
+        if (type === "input") {
           this.__unregisterInputListener(target);
-        }
-        else if (type === "change")
-        {
-          if (target.type === "radio" || target.type === "checkbox")
-          {
-            qx.bom.Event.removeNativeListener(target, "change", this._onChangeCheckedWrapper);
-          }
-          else
-          {
-            qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
+        } else if (type === "change") {
+          if (target.type === "radio" || target.type === "checkbox") {
+            qx.bom.Event.removeNativeListener(
+              target,
+              "change",
+              this._onChangeCheckedWrapper
+            );
+          } else {
+            qx.bom.Event.removeNativeListener(
+              target,
+              "change",
+              this._onChangeValueWrapper
+            );
           }
         }
 
-        if ((qx.core.Environment.get("engine.name") == "opera") || (qx.core.Environment.get("engine.name") == "mshtml")) {
+        if (
+          qx.core.Environment.get("engine.name") == "opera" ||
+          qx.core.Environment.get("engine.name") == "mshtml"
+        ) {
           if (target.type === "text" || target.type === "password") {
-            qx.bom.Event.removeNativeListener(target, "keypress", this._onKeyPressWrapped);
+            qx.bom.Event.removeNativeListener(
+              target,
+              "keypress",
+              this._onKeyPressWrapped
+            );
           }
         }
       }
     },
 
-
-    __unregisterInputListener : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(target)
-      {
+    __unregisterInputListener: qx.core.Environment.select("engine.name", {
+      mshtml(target) {
         if (
           qx.core.Environment.get("engine.version") >= 9 &&
           qx.core.Environment.get("browser.documentmode") >= 9
         ) {
-          qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+          qx.bom.Event.removeNativeListener(
+            target,
+            "input",
+            this._onInputWrapper
+          );
 
-          if (target.type === "text" || target.type === "password" || target.type === "textarea") {
+          if (
+            target.type === "text" ||
+            target.type === "password" ||
+            target.type === "textarea"
+          ) {
             // Fixed input for delete and backspace key
-            qx.bom.Event.removeNativeListener(target, "keyup", this._inputFixWrapper);
+            qx.bom.Event.removeNativeListener(
+              target,
+              "keyup",
+              this._inputFixWrapper
+            );
           }
         }
       },
 
-      "webkit" : function(target)
-      {
+      webkit(target) {
         var tag = target.tagName.toLowerCase();
 
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 532 && tag == "textarea") {
-          qx.bom.Event.removeNativeListener(target, "keypress", this._onInputWrapper);
+        if (
+          parseFloat(qx.core.Environment.get("engine.version")) < 532 &&
+          tag == "textarea"
+        ) {
+          qx.bom.Event.removeNativeListener(
+            target,
+            "keypress",
+            this._onInputWrapper
+          );
         }
-        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+        qx.bom.Event.removeNativeListener(
+          target,
+          "input",
+          this._onInputWrapper
+        );
       },
 
-      "opera" : function(target) {
+      opera(target) {
         // unregister key events for filtering "enter" on input events
-        qx.bom.Event.removeNativeListener(target, "keyup", this._onKeyUpWrapper);
-        qx.bom.Event.removeNativeListener(target, "keydown", this._onKeyDownWrapper);
-        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+        qx.bom.Event.removeNativeListener(
+          target,
+          "keyup",
+          this._onKeyUpWrapper
+        );
+        qx.bom.Event.removeNativeListener(
+          target,
+          "keydown",
+          this._onKeyDownWrapper
+        );
+        qx.bom.Event.removeNativeListener(
+          target,
+          "input",
+          this._onInputWrapper
+        );
       },
 
-      "default" : function(target) {
-        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+      default(target) {
+        qx.bom.Event.removeNativeListener(
+          target,
+          "input",
+          this._onInputWrapper
+        );
       }
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -374,31 +471,37 @@ qx.Class.define("qx.event.handler.Input",
      * @param e {Event} DOM event object
      * @param target {Element} The event target
      */
-    _onKeyPress : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(e, target)
-      {
+    _onKeyPress: qx.core.Environment.select("engine.name", {
+      mshtml(e, target) {
         if (e.keyCode === 13) {
           if (target.value !== this.__oldValue) {
             this.__oldValue = target.value;
-            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+            qx.event.Registration.fireEvent(
+              target,
+              "change",
+              qx.event.type.Data,
+              [target.value]
+            );
           }
         }
       },
 
-      "opera" : function(e, target)
-      {
+      opera(e, target) {
         if (e.keyCode === 13) {
           if (target.value !== this.__oldValue) {
             this.__oldValue = target.value;
-            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+            qx.event.Registration.fireEvent(
+              target,
+              "change",
+              qx.event.type.Data,
+              [target.value]
+            );
           }
         }
       },
 
-      "default" : null
+      default: null
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -417,23 +520,23 @@ qx.Class.define("qx.event.handler.Input",
      * @param e {Event} DOM event object
      * @param target {Element} The event target
      */
-    _inputFix : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(e, target)
-      {
-        if (e.keyCode === 46 || e.keyCode === 8)
-        {
-          if (target.value !== this.__oldInputValue)
-          {
+    _inputFix: qx.core.Environment.select("engine.name", {
+      mshtml(e, target) {
+        if (e.keyCode === 46 || e.keyCode === 8) {
+          if (target.value !== this.__oldInputValue) {
             this.__oldInputValue = target.value;
-            qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
+            qx.event.Registration.fireEvent(
+              target,
+              "input",
+              qx.event.type.Data,
+              [target.value]
+            );
           }
         }
       },
 
-      "default" : null
+      default: null
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -447,19 +550,16 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onKeyDown : qx.core.Environment.select("engine.name",
-    {
-      "opera" : function(e)
-      {
+    _onKeyDown: qx.core.Environment.select("engine.name", {
+      opera(e) {
         // enter is pressed
         if (e.keyCode === 13) {
           this.__enter = true;
         }
       },
 
-      "default" : null
+      default: null
     }),
-
 
     /**
      * Key event listener for opera which recognizes if the enter key has been
@@ -468,19 +568,16 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} DOM event object
      */
-    _onKeyUp : qx.core.Environment.select("engine.name",
-    {
-      "opera" : function(e)
-      {
+    _onKeyUp: qx.core.Environment.select("engine.name", {
+      opera(e) {
         // enter is pressed
         if (e.keyCode === 13) {
           this.__enter = false;
         }
       },
 
-      "default" : null
+      default: null
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -494,25 +591,32 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} Native DOM event
      */
-    _onInput : qx.event.GlobalError.observeMethod(function(e)
-    {
+    _onInput: qx.event.GlobalError.observeMethod(function (e) {
       var target = qx.bom.Event.getTarget(e);
       var tag = target.tagName.toLowerCase();
       // ignore native input event when triggered by return in input element
       if (!this.__enter || tag !== "input") {
         // opera lower 10.6 needs a special treatment for input events because
         // they are also fired on blur
-        if ((qx.core.Environment.get("engine.name") == "opera") &&
-            qx.core.Environment.get("browser.version") < 10.6) {
-          this.__onInputTimeoutId = window.setTimeout(function() {
-            qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
+        if (
+          qx.core.Environment.get("engine.name") == "opera" &&
+          qx.core.Environment.get("browser.version") < 10.6
+        ) {
+          this.__onInputTimeoutId = window.setTimeout(function () {
+            qx.event.Registration.fireEvent(
+              target,
+              "input",
+              qx.event.type.Data,
+              [target.value]
+            );
           }, 0);
         } else {
-          qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
+          qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [
+            target.value
+          ]);
         }
       }
     }),
-
 
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
@@ -520,25 +624,23 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} Native DOM event
      */
-    _onChangeValue : qx.event.GlobalError.observeMethod(function(e)
-    {
+    _onChangeValue: qx.event.GlobalError.observeMethod(function (e) {
       var target = qx.bom.Event.getTarget(e);
       var data = target.value;
 
-      if (target.type === "select-multiple")
-      {
+      if (target.type === "select-multiple") {
         var data = [];
-        for (var i=0, o=target.options, l=o.length; i<l; i++)
-        {
+        for (var i = 0, o = target.options, l = o.length; i < l; i++) {
           if (o[i].selected) {
             data.push(o[i].value);
           }
         }
       }
 
-      qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [data]);
+      qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [
+        data
+      ]);
     }),
-
 
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
@@ -546,22 +648,24 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} Native DOM event
      */
-    _onChangeChecked : qx.event.GlobalError.observeMethod(function(e)
-    {
+    _onChangeChecked: qx.event.GlobalError.observeMethod(function (e) {
       var target = qx.bom.Event.getTarget(e);
 
-      if (target.type === "radio")
-      {
+      if (target.type === "radio") {
         if (target.checked) {
-          qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+          qx.event.Registration.fireEvent(
+            target,
+            "change",
+            qx.event.type.Data,
+            [target.value]
+          );
         }
-      }
-      else
-      {
-        qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.checked]);
+      } else {
+        qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [
+          target.checked
+        ]);
       }
     }),
-
 
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
@@ -569,36 +673,47 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(e)
      * @param e {Event} Native DOM event
      */
-    _onProperty : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : qx.event.GlobalError.observeMethod(function(e)
-      {
+    _onProperty: qx.core.Environment.select("engine.name", {
+      mshtml: qx.event.GlobalError.observeMethod(function (e) {
         var target = qx.bom.Event.getTarget(e);
         var prop = e.propertyName;
 
-        if (prop === "value" && (target.type === "text" || target.type === "password" || target.tagName.toLowerCase() === "textarea"))
-        {
+        if (
+          prop === "value" &&
+          (target.type === "text" ||
+            target.type === "password" ||
+            target.tagName.toLowerCase() === "textarea")
+        ) {
           if (!target.$$inValueSet) {
-            qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
+            qx.event.Registration.fireEvent(
+              target,
+              "input",
+              qx.event.type.Data,
+              [target.value]
+            );
           }
-        }
-        else if (prop === "checked")
-        {
+        } else if (prop === "checked") {
           if (target.type === "checkbox") {
-            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.checked]);
+            qx.event.Registration.fireEvent(
+              target,
+              "change",
+              qx.event.type.Data,
+              [target.checked]
+            );
           } else if (target.checked) {
-            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+            qx.event.Registration.fireEvent(
+              target,
+              "change",
+              qx.event.type.Data,
+              [target.value]
+            );
           }
         }
       }),
 
-      "default" : function() {}
+      default() {}
     })
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -606,7 +721,7 @@ qx.Class.define("qx.event.handler.Input",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

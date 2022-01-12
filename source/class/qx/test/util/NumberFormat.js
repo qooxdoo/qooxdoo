@@ -16,16 +16,14 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.NumberFormat",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.NumberFormat", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __nf : null,
-    __oldLocale : null,
+  members: {
+    __nf: null,
+    __oldLocale: null,
 
-    setUp : function() {
+    setUp() {
       this.assertNotUndefined(qx.util.format.NumberFormat);
 
       this.__oldLocale = qx.locale.Manager.getInstance().getLocale();
@@ -34,16 +32,17 @@ qx.Class.define("qx.test.util.NumberFormat",
       this.__nf = new qx.util.format.NumberFormat();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.__nf.dispose();
       qx.locale.Manager.getInstance().setLocale(this.__oldLocale);
     },
 
-    testNumberFormatConstructor: function() {
+    testNumberFormatConstructor() {
       var wrongArgs = [null, undefined, NaN, Infinity, 1, {}, [], true],
-          correctArgs = ["de_DE"],
-          nf, i, len;
+        correctArgs = ["de_DE"],
+        nf,
+        i,
+        len;
 
       try {
         nf = new qx.util.format.NumberFormat();
@@ -52,37 +51,27 @@ qx.Class.define("qx.test.util.NumberFormat",
       }
       try {
         nf.dispose();
-      }
-      catch(e) {
-      }
+      } catch (e) {}
 
       try {
         nf = new qx.util.format.NumberFormat("de_DE", true);
         this.fail("Did not fail on wrong arguments number");
-      } catch (e) {
-
-      }
+      } catch (e) {}
       try {
         nf.dispose();
-      }
-      catch(e) {
-      }
+      } catch (e) {}
 
-      for (i = 0, len= wrongArgs.length; i < len; i += 1) {
+      for (i = 0, len = wrongArgs.length; i < len; i += 1) {
         try {
           nf = new qx.util.format.NumberFormat(wrongArgs[i]);
           this.fail("A wrong argument did not raise an error: " + wrongArgs[i]);
-        } catch (e) {
-
-        }
+        } catch (e) {}
         try {
           nf.dispose();
-        }
-        catch(e) {
-        }
+        } catch (e) {}
       }
 
-      for (i = 0, len= correctArgs.length; i < len; i += 1) {
+      for (i = 0, len = correctArgs.length; i < len; i += 1) {
         try {
           nf = new qx.util.format.NumberFormat(correctArgs[i]);
         } catch (e) {
@@ -90,14 +79,11 @@ qx.Class.define("qx.test.util.NumberFormat",
         }
         try {
           nf.dispose();
-        }
-        catch(e) {
-        }
+        } catch (e) {}
       }
     },
 
-    testNumberFormat : function()
-    {
+    testNumberFormat() {
       var nf = this.__nf;
 
       // this failed due to a rounding error
@@ -121,20 +107,19 @@ qx.Class.define("qx.test.util.NumberFormat",
       this.assertEquals("NaN", nf.format(nan));
     },
 
-    testNumberParse : function()
-    {
+    testNumberParse() {
       var nf = this.__nf;
 
       var goodNumbers = {
-        "1000" : 1000,
-        "-0,02" : -0.02,
-        "0,02" : 0.02,
-        ",02" : 0.02,
-        "-,02" : -0.02,
-        "+,02" : 0.02,
-        "-1.111.111,2" : -1111111.2,
-        "-1.000.000" : -1000000,
-        "+1.000,12" : 1000.12
+        1000: 1000,
+        "-0,02": -0.02,
+        "0,02": 0.02,
+        ",02": 0.02,
+        "-,02": -0.02,
+        "+,02": 0.02,
+        "-1.111.111,2": -1111111.2,
+        "-1.000.000": -1000000,
+        "+1.000,12": 1000.12
       };
 
       for (var number in goodNumbers) {
@@ -150,12 +135,11 @@ qx.Class.define("qx.test.util.NumberFormat",
 
       var badNumberStr;
 
-      for (var i=0; i<badNumberStrings.length; i++)
-      {
+      for (var i = 0; i < badNumberStrings.length; i++) {
         badNumberStr = badNumberStrings[i];
 
         this.assertException(
-          function() {
+          function () {
             nf.format(nf.parse(badNumberStr));
           },
           Error,
@@ -163,11 +147,9 @@ qx.Class.define("qx.test.util.NumberFormat",
           "testing if parsing fails on string '" + badNumberStr + "'"
         );
       }
-
     },
 
-    testLocaleSwitch : function()
-    {
+    testLocaleSwitch() {
       var nf = this.__nf;
       nf.setMinimumFractionDigits(0);
       nf.setMaximumFractionDigits(2);
@@ -175,7 +157,7 @@ qx.Class.define("qx.test.util.NumberFormat",
       var numberStr = "0.5";
 
       this.assertException(
-        function() {
+        function () {
           nf.parse(numberStr);
         },
         Error,
@@ -185,19 +167,21 @@ qx.Class.define("qx.test.util.NumberFormat",
 
       qx.locale.Manager.getInstance().setLocale("en_US");
 
-      this.assertEquals(0.5, nf.parse("0.5"),
-        "parsing failed after locale change");
+      this.assertEquals(
+        0.5,
+        nf.parse("0.5"),
+        "parsing failed after locale change"
+      );
     },
 
-    testNumberFormatChange : function()
-    {
+    testNumberFormatChange() {
       var nf = this.__nf;
       nf.setPostfix(" %");
 
       var numberStr = "5 Percent";
 
       this.assertException(
-        function() {
+        function () {
           nf.parse(numberStr);
         },
         Error,
@@ -206,12 +190,14 @@ qx.Class.define("qx.test.util.NumberFormat",
       );
 
       nf.setPostfix(" Percent");
-      this.assertEquals(5, nf.parse(numberStr),
-        "parsing failed after number format change");
+      this.assertEquals(
+        5,
+        nf.parse(numberStr),
+        "parsing failed after number format change"
+      );
     },
 
-    testParseWithPrefixOrPostfix : function()
-    {
+    testParseWithPrefixOrPostfix() {
       var spinner = new qx.ui.form.Spinner();
       var prefix = "$ ";
       var postfix = " €";
@@ -225,8 +211,11 @@ qx.Class.define("qx.test.util.NumberFormat",
       spinner.setNumberFormat(numberFormat);
       spinner.getChildControl("textfield").setValue("$ 1,23 €");
 
-      this.assertEquals(prefix + "1,23" + postfix, spinner.getChildControl("textfield").getValue());
-      
+      this.assertEquals(
+        prefix + "1,23" + postfix,
+        spinner.getChildControl("textfield").getValue()
+      );
+
       spinner.destroy();
       numberFormat.dispose();
     }

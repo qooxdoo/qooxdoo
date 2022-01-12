@@ -21,20 +21,17 @@
  */
 
 qx.Class.define("qx.dev.unit.TestLoaderBasic", {
+  extend: qx.core.Object,
 
-  extend : qx.core.Object,
-
-  include : [qx.dev.unit.MTestLoader],
+  include: [qx.dev.unit.MTestLoader],
 
   /**
    *
    * @param nameSpace {String} Test namespace, e.g. myapplication.test.*
    */
-  construct : function(nameSpace)
-  {
+  construct(nameSpace) {
     if (nameSpace) {
       this.setTestNamespace(nameSpace);
     }
   }
 });
-

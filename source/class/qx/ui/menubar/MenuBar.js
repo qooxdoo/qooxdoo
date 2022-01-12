@@ -19,19 +19,17 @@
 /**
  * Container for menubar buttons to display a classic application menu.
  */
-qx.Class.define("qx.ui.menubar.MenuBar",
-{
-  extend : qx.ui.toolbar.ToolBar,
-  
+qx.Class.define("qx.ui.menubar.MenuBar", {
+  extend: qx.ui.toolbar.ToolBar,
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // ARIA attrs
     this.getContentElement().setAttribute("role", "menubar");
@@ -43,13 +41,11 @@ qx.Class.define("qx.ui.menubar.MenuBar",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Appearance of the widget */
-    appearance :
-    {
-      refine : true,
-      init : "menubar"
+    appearance: {
+      refine: true,
+      init: "menubar"
     }
   }
 });

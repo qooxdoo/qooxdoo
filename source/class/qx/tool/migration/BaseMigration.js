@@ -18,7 +18,7 @@
 
 const process = require("process");
 const fs = qx.tool.utils.Promisify.fs;
-const fsp = require('fs').promises;
+const fsp = require("fs").promises;
 const replaceInFile = require("replace-in-file");
 const semver = require("semver");
 
@@ -28,7 +28,7 @@ const semver = require("semver");
  * on the individual migration class. It also holds a reference
  * to the runner which contains meta data for all migrations.
  */
-qx.Class.define("qx.tool.migration.BaseMigration",{
+qx.Class.define("qx.tool.migration.BaseMigration", {
   type: "abstract",
   extend: qx.core.Object,
 
@@ -36,8 +36,8 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
    * Constructor
    * @param {qx.tool.migration.Runner} runner The runner instance
    */
-  construct: function(runner) {
-    this.base(arguments);
+  construct(runner) {
+    super();
     this.setRunner(runner);
   },
 
@@ -58,12 +58,11 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
   },
 
   members: {
-
     /**
      * Returns the version of qooxdoo this migration applies to.
      */
     getVersion() {
-      return this.classname.match(/\.M([0-9_]+)$/)[1].replace(/_/g,".");
+      return this.classname.match(/\.M([0-9_]+)$/)[1].replace(/_/g, ".");
     },
 
     /**
@@ -72,7 +71,10 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * @return {Promise<String>|*}
      */
     async getQxVersion() {
-      return await this.getRunner().getQxVersion() || qx.tool.config.Utils.getQxVersion();
+      return (
+        (await this.getRunner().getQxVersion()) ||
+        qx.tool.config.Utils.getQxVersion()
+      );
     },
 
     /**
@@ -102,7 +104,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       } else if (typeof param != "undefined") {
         throw new TypeError("Argument must be string or number");
       }
-      this.setApplied(this.getApplied()+numberOfMigrations);
+      this.setApplied(this.getApplied() + numberOfMigrations);
     },
 
     /**
@@ -121,7 +123,7 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       } else if (typeof param != "undefined") {
         throw new TypeError("Argument must be string or number");
       }
-      this.setPending(this.getPending()+numberOfMigrations);
+      this.setPending(this.getPending() + numberOfMigrations);
     },
 
     /**
@@ -148,7 +150,9 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
               await fs.renameAsync(oldPath, newPath);
               this.debug(`Renamed '${oldPath}' to '${newPath}'.`);
             } catch (e) {
-              qx.tool.compiler.Console.error(`Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`);
+              qx.tool.compiler.Console.error(
+                `Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`
+              );
               process.exit(1);
             }
           }
@@ -166,7 +170,10 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     async checkFilesToRename(fileList) {
       let filesToRename = [];
       for (let [newPath, oldPath] of fileList) {
-        if (! await fs.existsAsync(newPath) && await fs.existsAsync(oldPath)) {
+        if (
+          !(await fs.existsAsync(newPath)) &&
+          (await fs.existsAsync(oldPath))
+        ) {
           filesToRename.push([newPath, oldPath]);
         }
       }
@@ -182,7 +189,10 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
     async checkFilesContain(files, text) {
       files = Array.isArray(files) ? files : [files];
       for (let file of files) {
-        if ((await fsp.stat(file)).isFile() && (await fsp.readFile(file, "utf8")).includes(text)) {
+        if (
+          (await fsp.stat(file)).isFile() &&
+          (await fsp.readFile(file, "utf8")).includes(text)
+        ) {
           return true;
         }
       }
@@ -196,29 +206,38 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      *    Array containing objects compatible with https://github.com/adamreisnz/replace-in-file
      * @return {Promise<void>}
      */
-    async replaceInFilesUnlessDryRun(replaceInFilesArr=[]) {
+    async replaceInFilesUnlessDryRun(replaceInFilesArr = []) {
       qx.core.Assert.assertArray(replaceInFilesArr);
       let dryRun = this.getRunner().getDryRun();
       for (let replaceInFiles of replaceInFilesArr) {
-        if (await this.checkFilesContain(replaceInFiles.files, replaceInFiles.from)) {
+        if (
+          await this.checkFilesContain(
+            replaceInFiles.files,
+            replaceInFiles.from
+          )
+        ) {
           if (dryRun) {
-            this.announce(`In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`);
+            this.announce(
+              `In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`
+            );
             this.markAsPending();
             continue;
           }
           try {
-            this.debug(`Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`);
+            this.debug(
+              `Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`
+            );
             await replaceInFile(replaceInFiles);
             this.markAsApplied();
           } catch (e) {
-            qx.tool.compiler.Console.error(`Error replacing in files: ${e.message}`);
+            qx.tool.compiler.Console.error(
+              `Error replacing in files: ${e.message}`
+            );
             process.exit(1);
           }
         }
       }
-
     },
-
 
     /**
      * Updates a dependency in the given Manifest model, , unless this is a dry run, in which case
@@ -230,10 +249,16 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
      * @private
      * @return {Promise<void>}
      */
-    async updateDependencyUnlessDryRun(manifestModel, dependencyName, semverRange) {
+    async updateDependencyUnlessDryRun(
+      manifestModel,
+      dependencyName,
+      semverRange
+    ) {
       const oldRange = manifestModel.getValue(`requires.${dependencyName}`);
       if (this.getRunner().getDryRun()) {
-        this.announce(`Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`);
+        this.announce(
+          `Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`
+        );
         this.markAsPending();
       } else {
         manifestModel.setValue(`requires.${dependencyName}`, semverRange);
@@ -254,7 +279,11 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       let qxRange = manifestModel.getValue("requires.@qooxdoo/framework");
       if (!semver.satisfies(qxVersion, qxRange)) {
         qxRange = `^${qxVersion}`;
-        await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/framework", qxRange);
+        await this.updateDependencyUnlessDryRun(
+          manifestModel,
+          "@qooxdoo/framework",
+          qxRange
+        );
       }
     },
 
@@ -269,10 +298,14 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
       qx.core.Assert.assertInstance(configModel, qx.tool.config.Abstract);
       if (configModel.getValue("$schema") !== schemaUri) {
         if (this.getRunner().getDryRun()) {
-          this.markAsPending(`Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`);
+          this.markAsPending(
+            `Schema version for ${configModel.getDataPath()} will be set to ${schemaUri}.`
+          );
         } else {
           configModel.setValue("$schema", schemaUri);
-          this.markAsApplied(`Schema version for ${configModel.getDataPath()} updated.`);
+          this.markAsApplied(
+            `Schema version for ${configModel.getDataPath()} updated.`
+          );
         }
       }
     },
@@ -288,7 +321,10 @@ qx.Class.define("qx.tool.migration.BaseMigration",{
         this.announce("Packages will be upgraded.");
         this.markAsPending();
       } else {
-        let options = {verbose:runner.getVerbose(), qxVersion:runner.getQxVersion()};
+        let options = {
+          verbose: runner.getVerbose(),
+          qxVersion: runner.getQxVersion()
+        };
         await new qx.tool.cli.commands.package.Upgrade(options).process();
         this.markAsApplied();
       }

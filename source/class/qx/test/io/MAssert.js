@@ -2,9 +2,7 @@
  * Mixin containing special assert methods
  */
 qx.Mixin.define("qx.test.io.MAssert", {
-
-  members : {
-
+  members: {
     /**
      * Deep equal comparison, using Sinon's `deepEqual` comparison.
      * Two values are "deep equal" if:
@@ -21,11 +19,16 @@ qx.Mixin.define("qx.test.io.MAssert", {
      * @param {*} actual
      * @param {String?} msg
      */
-    assertDeepEquals : function(expected, actual, msg) {
+    assertDeepEquals(expected, actual, msg) {
       if (!msg) {
-        msg = `Failed to assert that ${qx.lang.Json.stringify(actual)} deeply equals ${qx.lang.Json.stringify(expected)}.`;
+        msg = `Failed to assert that ${qx.lang.Json.stringify(
+          actual
+        )} deeply equals ${qx.lang.Json.stringify(expected)}.`;
       }
-      this.assert(qx.dev.unit.Sinon.getSinon().deepEqual(expected, actual), msg);
+      this.assert(
+        qx.dev.unit.Sinon.getSinon().deepEqual(expected, actual),
+        msg
+      );
     },
 
     /**
@@ -34,7 +37,7 @@ qx.Mixin.define("qx.test.io.MAssert", {
      * @param {String} actual
      * @param {String?} msg
      */
-    assertContains: function(expectedFragment, actual, msg) {
+    assertContains(expectedFragment, actual, msg) {
       this.assertString(expectedFragment);
       this.assertString(actual);
       if (!msg) {

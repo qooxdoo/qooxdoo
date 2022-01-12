@@ -19,16 +19,14 @@
 /**
  * Simple Theme
  */
-qx.Theme.define("qx.theme.Indigo",
-{
-  title : "Indigo",
+qx.Theme.define("qx.theme.Indigo", {
+  title: "Indigo",
 
-  meta :
-  {
-    color : qx.theme.indigo.Color,
-    decoration : qx.theme.indigo.Decoration,
-    font : qx.theme.indigo.Font,
-    appearance : qx.theme.indigo.Appearance,
-    icon : qx.theme.icon.Tango
+  meta: {
+    color: qx.theme.indigo.Color,
+    decoration: qx.theme.indigo.Decoration,
+    font: qx.theme.indigo.Font,
+    appearance: qx.theme.indigo.Appearance,
+    icon: qx.theme.icon.Tango
   }
 });

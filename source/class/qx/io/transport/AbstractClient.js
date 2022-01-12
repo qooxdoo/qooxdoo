@@ -45,25 +45,33 @@ qx.Class.define("qx.io.transport.AbstractClient", {
       if (!qx.lang.Type.isRegExp(uriRegExp)) {
         throw new Error("First argument must be a regular expression!");
       }
-      if (!qx.Interface.classImplements(transportClass, qx.io.transport.ITransport)) {
-        throw new Error("Transport class must implement qx.io.transport.ITransport");
+      if (
+        !qx.Interface.classImplements(
+          transportClass,
+          qx.io.transport.ITransport
+        )
+      ) {
+        throw new Error(
+          "Transport class must implement qx.io.transport.ITransport"
+        );
       }
-      this.constructor.__transports.push({ uriRegExp, transport: transportClass});
+      this.constructor.__transports.push({
+        uriRegExp,
+        transport: transportClass
+      });
     }
   },
-
 
   properties: {
     /**
      * The transport object
      */
     transport: {
-      check : "qx.io.transport.ITransport"
+      check: "qx.io.transport.ITransport"
     }
   },
 
   members: {
-
     /**
      * Given a transport object implementing {@link qx.io.transport.ITransport}
      * select that transport; if a string URI is passed, select one that has
@@ -76,7 +84,9 @@ qx.Class.define("qx.io.transport.AbstractClient", {
       let uri;
       if (qx.lang.Type.isString(transportOrUri)) {
         if (!this.constructor.__transports) {
-          throw new Error("No transport has been registered. Put @use(qx.io.transport.X) in the doc block of your class, X being the transport class of your choice (such as qx.io.transport.Xhr for http transport).");
+          throw new Error(
+            "No transport has been registered. Put @use(qx.io.transport.X) in the doc block of your class, X being the transport class of your choice (such as qx.io.transport.Xhr for http transport)."
+          );
         }
         uri = transportOrUri;
         for (let registeredTransport of this.constructor.__transports.reverse()) {
@@ -86,11 +96,22 @@ qx.Class.define("qx.io.transport.AbstractClient", {
           }
         }
         if (!transport) {
-          throw new qx.io.exception.Transport(`No matching transport for URI '${transportOrUri}'`, qx.io.exception.Transport.INVALID_URI);
+          throw new qx.io.exception.Transport(
+            `No matching transport for URI '${transportOrUri}'`,
+            qx.io.exception.Transport.INVALID_URI
+          );
         }
       } else {
-        if (!(transportOrUri instanceof qx.core.Object) || !qx.Interface.classImplements(transportOrUri.constructor, qx.io.transport.ITransport)) {
-          throw new Error("Argument must be an qooxdoo object implementing qx.io.transport.ITransport");
+        if (
+          !(transportOrUri instanceof qx.core.Object) ||
+          !qx.Interface.classImplements(
+            transportOrUri.constructor,
+            qx.io.transport.ITransport
+          )
+        ) {
+          throw new Error(
+            "Argument must be an qooxdoo object implementing qx.io.transport.ITransport"
+          );
         }
         transport = transportOrUri;
       }

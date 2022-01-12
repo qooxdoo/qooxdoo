@@ -17,22 +17,19 @@
 ************************************************************************ */
 
 /* ************************************************************************
-************************************************************************ */
+ ************************************************************************ */
 /**
  *
  * @asset(qx/icon/Tango/48/places/folder.png)
  */
 
-qx.Class.define("qx.test.bom.Attribute",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Attribute", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __maxLengthValues : null,
+  members: {
+    __maxLengthValues: null,
 
-    setUp : function()
-    {
+    setUp() {
       var div = document.createElement("div");
       div.id = "el";
 
@@ -54,22 +51,19 @@ qx.Class.define("qx.test.bom.Attribute",
       document.body.appendChild(img);
 
       this.__maxLengthValues = {
-        "mshtml": 2147483647,
-        "default": -1
+        mshtml: 2147483647,
+        default: -1
       };
     },
 
-
-    tearDown : function() {
+    tearDown() {
       document.body.removeChild(this._el);
       document.body.removeChild(this._checkBox);
       document.body.removeChild(this._img);
       document.body.removeChild(this._input);
     },
 
-
-    testSetAttribute : function()
-    {
+    testSetAttribute() {
       var Attribute = qx.bom.element.Attribute;
 
       Attribute.set(this._el, "maxLength", 10);
@@ -84,33 +78,39 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._el, "selected", true);
       this.assertEquals("selected", this._el.getAttribute("selected"));
 
-      var imgSrc = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      var imgSrc = qx.util.ResourceManager.getInstance().toUri(
+        "qx/icon/Tango/48/places/folder.png"
+      );
       Attribute.set(this._img, "src", imgSrc);
       this.assertEquals(imgSrc, this._img.getAttribute("src", 2));
 
       Attribute.set(this._el, "data-foo", true);
       this.assertEquals("true", this._el.getAttribute("data-foo"));
-
     },
 
-    testSetAttributeWithUndefinedValue : function()
-    {
+    testSetAttributeWithUndefinedValue() {
       var Attribute = qx.bom.element.Attribute;
 
       Attribute.set(this._el, "src", undefined);
       this.assertNotEquals("undefined", this._el.getAttribute("src"));
     },
 
-    testGetAttribute : function()
-    {
+    testGetAttribute() {
       var Attribute = qx.bom.element.Attribute;
 
       if (qx.core.Environment.get("browser.name") == "edge") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
-      }
-      else if (qx.core.Environment.get("browser.name") == "chrome" || 
-               qx.core.Environment.get("browser.name") == "safari") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues.mshtml
+        );
+      } else if (
+        qx.core.Environment.get("browser.name") == "chrome" ||
+        qx.core.Environment.get("browser.name") == "safari"
+      ) {
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues["default"]
+        );
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -148,35 +148,47 @@ qx.Class.define("qx.test.bom.Attribute",
       this._checkBox["value"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._checkBox, "value"));
 
-      var imgSrc = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/folder.png");
+      var imgSrc = qx.util.ResourceManager.getInstance().toUri(
+        "qx/icon/Tango/48/places/folder.png"
+      );
       Attribute.set(this._img, "src", imgSrc);
       this.assertEquals(imgSrc, Attribute.get(this._img, "src"));
     },
 
-    testRemoveAttribute : function()
-    {
+    testRemoveAttribute() {
       var Attribute = qx.bom.element.Attribute;
 
       Attribute.set(this._input, "maxLength", 10);
       Attribute.set(this._input, "maxLength", null);
 
-      var maxLengthValue = qx.core.Environment.select("engine.name", this.__maxLengthValues);
+      var maxLengthValue = qx.core.Environment.select(
+        "engine.name",
+        this.__maxLengthValues
+      );
 
       if (qx.core.Environment.get("browser.name") == "edge") {
         maxLengthValue = this.__maxLengthValues.mshtml;
-      }
-      else if (qx.core.Environment.get("browser.name") == "chrome" ||
-               qx.core.Environment.get("browser.name") == "safari") {
+      } else if (
+        qx.core.Environment.get("browser.name") == "chrome" ||
+        qx.core.Environment.get("browser.name") == "safari"
+      ) {
         maxLengthValue = this.__maxLengthValues["default"];
       }
 
       this.assertEquals(maxLengthValue, this._input["maxLength"]);
       if (qx.core.Environment.get("browser.name") == "edge") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
-      }
-      else if (qx.core.Environment.get("browser.name") == "chrome" ||
-               qx.core.Environment.get("browser.name") == "safari") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues.mshtml
+        );
+      } else if (
+        qx.core.Environment.get("browser.name") == "chrome" ||
+        qx.core.Environment.get("browser.name") == "safari"
+      ) {
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues["default"]
+        );
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -190,18 +202,24 @@ qx.Class.define("qx.test.bom.Attribute",
       this.assertNull(this._el.getAttribute("html"));
     },
 
-    testResetAttribute : function()
-    {
+    testResetAttribute() {
       var Attribute = qx.bom.element.Attribute;
 
       Attribute.set(this._input, "maxLength", 10);
       Attribute.reset(this._input, "maxLength");
       if (qx.core.Environment.get("browser.name") == "edge") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
-      }
-      else if (qx.core.Environment.get("browser.name") == "chrome" ||
-               qx.core.Environment.get("browser.name") == "safari") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues.mshtml
+        );
+      } else if (
+        qx.core.Environment.get("browser.name") == "chrome" ||
+        qx.core.Environment.get("browser.name") == "safari"
+      ) {
+        this.assertEquals(
+          Attribute.get(this._input, "maxLength"),
+          this.__maxLengthValues["default"]
+        );
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -236,7 +254,6 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "value", "foo");
       Attribute.reset(this._input, "value");
       this.assertNull(Attribute.get(this._input, "value"));
-
     }
   }
 });

@@ -20,19 +20,16 @@
  * Basic implementation for an event emitter. This supplies a basic and
  * minimalistic event mechanism.
  */
-qx.Bootstrap.define("qx.event.Emitter",
-{
-  extend : Object,
-  statics : {
+qx.Bootstrap.define("qx.event.Emitter", {
+  extend: Object,
+  statics: {
     /** Static storage for all event listener */
-    __storage : []
+    __storage: []
   },
 
-  members :
-  {
-    __listener : null,
-    __any : null,
-
+  members: {
+    __listener: null,
+    __any: null,
 
     /**
      * Attach a listener to the event emitter. The given <code>name</code>
@@ -44,13 +41,21 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
-    on : function(name, listener, ctx) {
+    on(name, listener, ctx) {
       var id = qx.event.Emitter.__storage.length;
-      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id, name: name});
-      qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
+      this.__getStorage(name).push({
+        listener: listener,
+        ctx: ctx,
+        id: id,
+        name: name
+      });
+      qx.event.Emitter.__storage.push({
+        name: name,
+        listener: listener,
+        ctx: ctx
+      });
       return id;
     },
-
 
     /**
      * Attach a listener to the event emitter which will be executed only once.
@@ -62,13 +67,21 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
-    once : function(name, listener, ctx) {
+    once(name, listener, ctx) {
       var id = qx.event.Emitter.__storage.length;
-      this.__getStorage(name).push({listener: listener, ctx: ctx, once: true, id: id});
-      qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
+      this.__getStorage(name).push({
+        listener: listener,
+        ctx: ctx,
+        once: true,
+        id: id
+      });
+      qx.event.Emitter.__storage.push({
+        name: name,
+        listener: listener,
+        ctx: ctx
+      });
       return id;
     },
-
 
     /**
      * Remove a listener from the event emitter. The given <code>name</code>
@@ -80,7 +93,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @return {Integer|null} The listener's id if it was removed or
      * <code>null</code> if it wasn't found
      */
-    off : function(name, listener, ctx) {
+    off(name, listener, ctx) {
       var storage = this.__getStorage(name);
       for (var i = storage.length - 1; i >= 0; i--) {
         var entry = storage[i];
@@ -93,7 +106,6 @@ qx.Bootstrap.define("qx.event.Emitter",
       return null;
     },
 
-
     /**
      * Removes the listener identified by the given <code>id</code>. The id
      * will be return on attaching the listener and can be stored for removing.
@@ -102,16 +114,13 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @return {Integer|null} The listener's id if it was removed or
      * <code>null</code> if it wasn't found
      */
-    offById : function(id) {
+    offById(id) {
       var entry = qx.event.Emitter.__storage[id];
       if (entry) {
         this.off(entry.name, entry.listener, entry.ctx);
       }
       return null;
     },
-
-
-
 
     /**
      * Alternative for {@link #on}.
@@ -120,10 +129,9 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
-    addListener : function(name, listener, ctx) {
+    addListener(name, listener, ctx) {
       return this.on(name, listener, ctx);
     },
-
 
     /**
      * Alternative for {@link #once}.
@@ -132,10 +140,9 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param ctx {var?Window} The context of the listener.
      * @return {Integer} An unique <code>id</code> for the attached listener.
      */
-    addListenerOnce : function(name, listener, ctx) {
+    addListenerOnce(name, listener, ctx) {
       return this.once(name, listener, ctx);
     },
-
 
     /**
      * Alternative for {@link #off}.
@@ -143,21 +150,17 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param listener {Function} The function execute on {@link #emit}.
      * @param ctx {var?Window} The context of the listener.
      */
-    removeListener : function(name, listener, ctx) {
+    removeListener(name, listener, ctx) {
       this.off(name, listener, ctx);
     },
-
 
     /**
      * Alternative for {@link #offById}.
      * @param id {Integer} The id of the listener.
      */
-    removeListenerById : function(id) {
-     this.offById(id);
+    removeListenerById(id) {
+      this.offById(id);
     },
-
-
-
 
     /**
      * Emits an event with the given name. The data will be passed
@@ -165,7 +168,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param name {String} The name of the event to emit.
      * @param data {var?undefined} The data which should be passed to the listener.
      */
-    emit : function(name, data) {
+    emit(name, data) {
       var storage = this.__getStorage(name).concat();
       var toDelete = [];
       for (var i = 0; i < storage.length; i++) {
@@ -178,11 +181,13 @@ qx.Bootstrap.define("qx.event.Emitter",
 
       // listener callbacks could manipulate the storage
       // (e.g. module.Event.once)
-      toDelete.forEach(function(entry) {
-        var origStorage = this.__getStorage(name);
-        var idx = origStorage.indexOf(entry);
-        origStorage.splice(idx, 1);
-      }.bind(this));
+      toDelete.forEach(
+        function (entry) {
+          var origStorage = this.__getStorage(name);
+          var idx = origStorage.indexOf(entry);
+          origStorage.splice(idx, 1);
+        }.bind(this)
+      );
 
       // call on any
       storage = this.__getStorage("*");
@@ -192,18 +197,15 @@ qx.Bootstrap.define("qx.event.Emitter",
       }
     },
 
-
-
     /**
      * Returns the internal attached listener.
      * @internal
      * @return {Map} A map which has the event name as key. The values are
      *   arrays containing a map with 'listener' and 'ctx'.
      */
-    getListeners : function() {
+    getListeners() {
       return this.__listener;
     },
-
 
     /**
      * Returns the data entry for a given event id. If the entry could
@@ -212,11 +214,11 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param id {Number} The listeners id
      * @return {Map|undefined} The data entry if found
      */
-    getEntryById : function(id) {
+    getEntryById(id) {
       for (var name in this.__listener) {
         var store = this.__listener[name];
 
-        for (var i=0, j=store.length; i<j; i++) {
+        for (var i = 0, j = store.length; i < j; i++) {
           if (store[i].id === id) {
             return store[i];
           }
@@ -224,14 +226,13 @@ qx.Bootstrap.define("qx.event.Emitter",
       }
     },
 
-
     /**
      * Internal helper which will return the storage for the given name.
      * @param name {String} The name of the event.
      * @return {Array} An array which is the storage for the listener and
      *   the given event name.
      */
-    __getStorage : function(name) {
+    __getStorage(name) {
       if (this.__listener == null) {
         this.__listener = {};
       }

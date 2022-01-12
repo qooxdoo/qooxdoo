@@ -23,20 +23,17 @@
  *
  * @childControl dropdown {qx.ui.form.core.VirtualDropDownList} The drop-down list.
  */
-qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
-{
-  extend  : qx.ui.core.Widget,
-  include : qx.ui.form.MForm,
-  implement : qx.ui.form.IForm,
-  type : "abstract",
-
+qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
+  extend: qx.ui.core.Widget,
+  include: qx.ui.form.MForm,
+  implement: qx.ui.form.IForm,
+  type: "abstract",
 
   /**
    * @param model {qx.data.Array?null} The model data for the widget.
    */
-  construct : function(model)
-  {
-    this.base(arguments);
+  construct(model) {
+    super();
 
     // set the layout
     var layout = new qx.ui.layout.HBox();
@@ -51,7 +48,11 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     this._createChildControl("dropdown");
 
-    this.bind('allowGrowDropDown', this.getChildControl('dropdown'), 'allowGrowDropDown');
+    this.bind(
+      "allowGrowDropDown",
+      this.getChildControl("dropdown"),
+      "allowGrowDropDown"
+    );
 
     if (model != null) {
       this.initModel(model);
@@ -61,150 +62,125 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     }
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
-
     // overridden
-    width :
-    {
-      refine : true,
-      init : 120
+    width: {
+      refine: true,
+      init: 120
     },
-
 
     /** Data array containing the data which should be shown in the drop-down. */
-    model :
-    {
-      check : "qx.data.Array",
-      apply : "_applyModel",
+    model: {
+      check: "qx.data.Array",
+      apply: "_applyModel",
       event: "changeModel",
-      nullable : false,
-      deferredInit : true
+      nullable: false,
+      deferredInit: true
     },
-
 
     /**
      * Delegation object which can have one or more functions defined by the
      * {@link qx.ui.list.core.IListDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
       nullable: true
     },
 
-
     /**
      * The path to the property which holds the information that should be
      * displayed as a label. This is only needed if objects are stored in the
      * model.
      */
-    labelPath :
-    {
+    labelPath: {
       check: "String",
       apply: "_applyLabelPath",
       event: "changeLabelPath",
       nullable: true
     },
 
-
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    labelOptions :
-    {
+    labelOptions: {
       apply: "_applyLabelOptions",
       event: "changeLabelOptions",
       nullable: true
     },
-
 
     /**
      * The path to the property which holds the information that should be
      * displayed as an icon. This is only needed if objects are stored in the
      * model and icons should be displayed.
      */
-    iconPath :
-    {
+    iconPath: {
       check: "String",
-      event : "changeIconPath",
+      event: "changeIconPath",
       apply: "_applyIconPath",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    iconOptions :
-    {
+    iconOptions: {
       apply: "_applyIconOptions",
-      event : "changeIconOptions",
+      event: "changeIconOptions",
       nullable: true
     },
 
-
     /** Default item height. */
-    itemHeight :
-    {
-      check : "Integer",
-      init : 25,
-      apply : "_applyRowHeight",
-      themeable : true
+    itemHeight: {
+      check: "Integer",
+      init: 25,
+      apply: "_applyRowHeight",
+      themeable: true
     },
-
 
     /**
      * The maximum height of the drop-down list. Setting this value to
      * <code>null</code> will set cause the list to be auto-sized.
      */
-    maxListHeight :
-    {
-      check : "Number",
-      apply : "_applyMaxListHeight",
+    maxListHeight: {
+      check: "Number",
+      apply: "_applyMaxListHeight",
       nullable: true,
-      init : 200
+      init: 200
     },
-
 
     /**
      * Allow the drop-down to grow wider than its parent.
      */
-    allowGrowDropDown :
-    {
-      init : false,
-      nullable : false,
-      check : "Boolean",
-      event : "changeAllowGrowDropDown"
+    allowGrowDropDown: {
+      init: false,
+      nullable: false,
+      check: "Boolean",
+      event: "changeAllowGrowDropDown"
     }
   },
 
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /** @type {qx.data.Array} The initial model array of this virtual box. */
-    __defaultModel : null,
+    __defaultModel: null,
 
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true,
-      invalid : true
+    _forwardStates: {
+      focused: true,
+      invalid: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -212,40 +188,35 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Trigger a rebuild from the internal data structure.
      */
-    refresh : function()
-    {
+    refresh() {
       this.getChildControl("dropdown").getChildControl("list").refresh();
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     /**
      * Shows the drop-down.
      */
-    open : function() {
+    open() {
       this._beforeOpen();
       this.getChildControl("dropdown").open();
     },
 
-
     /**
      * Hides the drop-down.
      */
-    close : function() {
+    close() {
       this._beforeClose();
       this.getChildControl("dropdown").close();
     },
 
-
     /**
      * Toggles the drop-down visibility.
      */
-    toggle : function() {
-      var dropDown =this.getChildControl("dropdown");
+    toggle() {
+      var dropDown = this.getChildControl("dropdown");
 
       if (dropDown.isVisible()) {
         this.close();
@@ -254,42 +225,39 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "dropdown":
           control = new qx.ui.form.core.VirtualDropDownList(this);
-          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
+          control.addListener(
+            "changeVisibility",
+            this._onPopupChangeVisibility,
+            this
+          );
           break;
       }
 
-      return control || this.base(arguments, id, hash);
+      return control || super._createChildControlImpl(id, hash);
     },
-
 
     /**
      * This method is called before the drop-down is opened.
      */
-    _beforeOpen: function() {},
-
+    _beforeOpen() {},
 
     /**
      * This method is called before the drop-down is closed.
      */
-    _beforeClose: function() {},
-
+    _beforeClose() {},
 
     /**
      * Returns the action dependent on the user interaction: e. q. <code>open</code>,
@@ -299,26 +267,23 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      * @return {String|null} The action or <code>null</code> when interaction
      *  doesn't hit any action.
      */
-    _getAction : function(event)
-    {
+    _getAction(event) {
       var keyIdentifier = event.getKeyIdentifier();
       var isOpen = this.getChildControl("dropdown").isVisible();
       var isModifierPressed = this._isModifierPressed(event);
 
       if (
-        !isOpen && !isModifierPressed &&
+        !isOpen &&
+        !isModifierPressed &&
         (keyIdentifier === "Down" || keyIdentifier === "Up")
       ) {
         return "open";
-      } else if (
-        isOpen && !isModifierPressed && keyIdentifier === "Escape"
-      ) {
+      } else if (isOpen && !isModifierPressed && keyIdentifier === "Escape") {
         return "close";
       } else {
         return null;
       }
     },
-
 
     /**
      * Helper Method to create bind path depended on the passed path.
@@ -327,8 +292,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      * @param path {String?null} The path to the item's property.
      * @return {String} The created path.
      */
-    _getBindPath : function(source, path)
-    {
+    _getBindPath(source, path) {
       var bindPath = source + "[0]";
 
       if (path != null && path != "") {
@@ -347,17 +311,19 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      * @return {Boolean} <code>True</code> when a modifier key is pressed,
      *   <code>false</code> otherwise.
      */
-    _isModifierPressed : function(event)
-    {
+    _isModifierPressed(event) {
       var isAltPressed = event.isAltPressed();
       var isCtrlOrCommandPressed = event.isCtrlOrCommandPressed();
       var isShiftPressed = event.isShiftPressed();
       var isMetaPressed = event.isMetaPressed();
 
-      return (isAltPressed || isCtrlOrCommandPressed ||
-        isShiftPressed || isMetaPressed);
+      return (
+        isAltPressed ||
+        isCtrlOrCommandPressed ||
+        isShiftPressed ||
+        isMetaPressed
+      );
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -365,16 +331,14 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Handler for the blur event of the current widget.
      *
      * @param event {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(event) {
+    _onBlur(event) {
       this.close();
     },
-
 
     /**
      * Handles the complete keyboard events for user interaction. If there is
@@ -383,13 +347,11 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      *
      * @param event {qx.event.type.KeySequence} The keyboard event.
      */
-    _handleKeyboard : function(event)
-    {
+    _handleKeyboard(event) {
       var action = this._getAction(event);
       var isOpen = this.getChildControl("dropdown").isVisible();
 
-      switch(action)
-      {
+      switch (action) {
         case "open":
           this.open();
           break;
@@ -406,35 +368,32 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       }
     },
 
-
     /**
      * Handles all pointer events dispatched on the widget.
      *
      * @param event {qx.event.type.Pointer|qx.event.type.Roll} The pointer event.
      */
-    _handlePointer : function(event) {},
-
+    _handlePointer(event) {},
 
     /**
      * Updates drop-down minimum size.
      *
      * @param event {qx.event.type.Data} Data event.
      */
-    _onResize : function(event){
+    _onResize(event) {
       this.getChildControl("dropdown").setMinWidth(event.getData().width);
     },
-
 
     /**
      * Adds/removes the state 'popupOpen' depending on the visibility of the popup
      *
      * @param event {qx.event.type.Data} Data event
      */
-    _onPopupChangeVisibility : function(event)
-    {
-      event.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
+    _onPopupChangeVisibility(event) {
+      event.getData() == "visible"
+        ? this.addState("popupOpen")
+        : this.removeState("popupOpen");
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -442,67 +401,67 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     ---------------------------------------------------------------------------
     */
 
-
     // property apply
-    _applyModel : function(value, old)
-    {
+    _applyModel(value, old) {
       this.getChildControl("dropdown").getChildControl("list").setModel(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // property apply
-    _applyDelegate : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
+    _applyDelegate(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setDelegate(value);
     },
 
-
     // property apply
-    _applyLabelPath : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setLabelPath(value);
+    _applyLabelPath(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setLabelPath(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // property apply
-    _applyLabelOptions : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setLabelOptions(value);
+    _applyLabelOptions(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setLabelOptions(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // property apply
-    _applyIconPath : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setIconPath(value);
+    _applyIconPath(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setIconPath(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // property apply
-    _applyIconOptions : function(value, old)
-    {
-      this.getChildControl("dropdown").getChildControl("list").setIconOptions(value);
+    _applyIconOptions(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setIconOptions(value);
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // property apply
-    _applyRowHeight : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setItemHeight(value);
+    _applyRowHeight(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setItemHeight(value);
     },
 
-
     // property apply
-    _applyMaxListHeight : function(value, old) {
-      this.getChildControl("dropdown").getChildControl("list").setMaxHeight(value);
+    _applyMaxListHeight(value, old) {
+      this.getChildControl("dropdown")
+        .getChildControl("list")
+        .setMaxHeight(value);
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__defaultModel) {
       this.__defaultModel.dispose();
     }

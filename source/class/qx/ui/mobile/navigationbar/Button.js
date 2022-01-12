@@ -19,24 +19,20 @@
 /**
  * A navigation bar button widget.
  */
-qx.Class.define("qx.ui.mobile.navigationbar.Button",
-{
-  extend : qx.ui.mobile.form.Button,
+qx.Class.define("qx.ui.mobile.navigationbar.Button", {
+  extend: qx.ui.mobile.form.Button,
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "navigationbar-button"
+    defaultCssClass: {
+      refine: true,
+      init: "navigationbar-button"
     }
   }
 });

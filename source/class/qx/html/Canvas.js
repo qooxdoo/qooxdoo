@@ -19,11 +19,8 @@
 /**
  * Managed wrapper for the HTML canvas tag.
  */
-qx.Class.define("qx.html.Canvas",
-{
-  extend : qx.html.Element,
-
-
+qx.Class.define("qx.html.Canvas", {
+  extend: qx.html.Element,
 
   /*
   *****************************************************************************
@@ -37,15 +34,10 @@ qx.Class.define("qx.html.Canvas",
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.
    */
-  construct : function(styles, attributes)
-  {
-    this.base(arguments, "canvas", styles, attributes);
+  construct(styles, attributes) {
+    super("canvas", styles, attributes);
     this.__canvas = document.createElement("canvas");
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -53,26 +45,22 @@ qx.Class.define("qx.html.Canvas",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __canvas : null,
+  members: {
+    __canvas: null,
 
     // overridden
-    _createDomElement : function() {
+    _createDomElement() {
       return this.__canvas;
     },
-
 
     /**
      * Get the canvas element [<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#canvas">W3C-HMTL5</a>]
      *
      * @return {Element} The canvas DOM element.
      */
-    getCanvas : function() {
+    getCanvas() {
       return this.__canvas;
     },
-
 
     /**
      * Set the width attribute of the canvas element. This property controls the
@@ -80,20 +68,18 @@ qx.Class.define("qx.html.Canvas",
      *
      * @param width {Integer} canvas width
      */
-    setWidth : function(width) {
+    setWidth(width) {
       this.__canvas.width = width;
     },
-
 
     /**
      * Get the width attribute of the canvas element
      *
      * @return {Integer} canvas width
      */
-    getWidth : function() {
+    getWidth() {
       return this.__canvas.width;
     },
-
 
     /**
      * Set the height attribute of the canvas element. This property controls the
@@ -101,20 +87,18 @@ qx.Class.define("qx.html.Canvas",
      *
      * @param height {Integer} canvas height
      */
-    setHeight : function(height) {
+    setHeight(height) {
       this.__canvas.height = height;
     },
-
 
     /**
      * Get the height attribute of the canvas element
      *
      * @return {Integer} canvas height
      */
-    getHeight : function() {
+    getHeight() {
       return this.__canvas.height;
     },
-
 
     /**
      * Get the canvas' 2D rendering context
@@ -123,7 +107,7 @@ qx.Class.define("qx.html.Canvas",
      *
      * @return {CanvasRenderingContext2D} The 2D rendering context.
      */
-    getContext2d : function() {
+    getContext2d() {
       return this.__canvas.getContext("2d");
     }
   }

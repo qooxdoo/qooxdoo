@@ -34,7 +34,6 @@
  * Utility module to give some support to work with functions.
  */
 qx.Bootstrap.define("qx.util.Function", {
-
   statics: {
     /**
      * Returns a debounced version of the given callback. The execution of the callback
@@ -49,7 +48,7 @@ qx.Bootstrap.define("qx.util.Function", {
      * @param immediate {Boolean?} whether to run the callback at the beginning and then debounce, default is <code>false</code>
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
-    debounce: function (callback, delay, immediate) {
+    debounce(callback, delay, immediate) {
       var fired = false;
       var intervalId = null;
       var args = null;
@@ -64,7 +63,6 @@ qx.Bootstrap.define("qx.util.Function", {
         if (intervalId === null) {
           // setup the interval for the first run
           intervalId = window.setInterval(function () {
-
             // if the 'wrapperFunction' was *not* called during the last
             // interval then can call the provided callback and clear the interval
             if (!fired) {
@@ -72,9 +70,12 @@ qx.Bootstrap.define("qx.util.Function", {
               intervalId = null;
 
               if (context && context.isDisposed && context.isDisposed()) {
-                qx.log.Logger.warn("The context object '" + context + "' of the debounced call is already disposed.");
-              }
-              else {
+                qx.log.Logger.warn(
+                  "The context object '" +
+                    context +
+                    "' of the debounced call is already disposed."
+                );
+              } else {
                 callback.apply(context, args);
               }
             }
@@ -93,7 +94,6 @@ qx.Bootstrap.define("qx.util.Function", {
       return wrapperFunction;
     },
 
-
     /**
      * Returns a throttled version of the given callback. The execution of the callback
      * is throttled which means it is only executed in the given interval.
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.util.Function", {
      * executing of the callback precisely. Default values are <code>true</code> for both options.
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
-    throttle: function (callback, interval, options) {
+    throttle(callback, interval, options) {
       if (typeof options === "undefined") {
         options = {};
       }

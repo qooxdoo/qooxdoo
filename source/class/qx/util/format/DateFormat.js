@@ -68,12 +68,9 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.util.format.DateFormat",
-{
-  extend : qx.core.Object,
-  implement : [ qx.util.format.IFormat ],
-
-
+qx.Class.define("qx.util.format.DateFormat", {
+  extend: qx.core.Object,
+  implement: [qx.util.format.IFormat],
 
   /*
   *****************************************************************************
@@ -87,28 +84,30 @@ qx.Class.define("qx.util.format.DateFormat",
    * @param locale {String?} optional locale to be used. In case this is not present, the {@link #locale} property of DateFormat
    * will be following the {@link qx.locale.Manager#locale} property of qx.locale.Manager
    */
-  construct : function(format, locale)
-  {
-    this.base(arguments);
+  construct(format, locale) {
+    super();
 
     this.__initialLocale = this.__locale = locale;
 
-    if (format != null)
-    {
+    if (format != null) {
       this.__format = format.toString();
-      if(this.__format in qx.util.format.DateFormat.ISO_MASKS)
-      {
-        if(this.__format === 'isoUtcDateTime') {
+      if (this.__format in qx.util.format.DateFormat.ISO_MASKS) {
+        if (this.__format === "isoUtcDateTime") {
           this.__UTC = true;
         }
         this.__format = qx.util.format.DateFormat.ISO_MASKS[this.__format];
       }
-    } else
-    {
-      this.__format = qx.locale.Date.getDateFormat("long", this.getLocale()) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this.getLocale());
+    } else {
+      this.__format =
+        qx.locale.Date.getDateFormat("long", this.getLocale()) +
+        " " +
+        qx.locale.Date.getDateTimeFormat(
+          "HHmmss",
+          "HH:mm:ss",
+          this.getLocale()
+        );
     }
   },
-
 
   /*
   *****************************************************************************
@@ -116,8 +115,7 @@ qx.Class.define("qx.util.format.DateFormat",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Convenience factory that returns a <code>DateFomat</code> instance that
      * uses a short date-only format. Beware that the overall layout of the
@@ -128,20 +126,21 @@ qx.Class.define("qx.util.format.DateFormat",
      *
      * @return {DateFormat} a DateFormat instance.
      */
-    getDateInstance : function()
-    {
+    getDateInstance() {
       var DateFormat = qx.util.format.DateFormat;
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
       // Memoizing the instance, so caller doesn't have to dispose it.
-      if (DateFormat._dateInstance == null || DateFormat._dateInstance.__format != format) {
+      if (
+        DateFormat._dateInstance == null ||
+        DateFormat._dateInstance.__format != format
+      ) {
         DateFormat._dateInstance = new DateFormat(format);
       }
 
       return DateFormat._dateInstance;
     },
-
 
     /**
      * Convenience factory that returns a <code>DateFomat</code> instance that
@@ -153,20 +152,24 @@ qx.Class.define("qx.util.format.DateFormat",
      *
      * @return {DateFormat} a DateFormat instance.
      */
-    getDateTimeInstance : function()
-    {
+    getDateTimeInstance() {
       var DateFormat = qx.util.format.DateFormat;
 
-      var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+      var format =
+        qx.locale.Date.getDateFormat("long") +
+        " " +
+        qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
 
       // Memoizing the instance, so caller doesn't have to dispose it.
-      if (DateFormat._dateTimeInstance == null || DateFormat._dateTimeInstance.__format != format) {
+      if (
+        DateFormat._dateTimeInstance == null ||
+        DateFormat._dateTimeInstance.__format != format
+      ) {
         DateFormat._dateTimeInstance = new DateFormat(format);
       }
 
       return DateFormat._dateTimeInstance;
     },
-
 
     /**
      * @type {Integer} The threshold until when a year should be assumed to belong to the
@@ -174,27 +177,23 @@ qx.Class.define("qx.util.format.DateFormat",
      *   assumed to belong to the 20th century (e.g. 88 -> 1988). Years over 100 will be
      *   used unchanged (e.g. 1792 -> 1792).
      */
-    ASSUME_YEAR_2000_THRESHOLD : 30,
+    ASSUME_YEAR_2000_THRESHOLD: 30,
 
     /** @type {Map} Special masks of patterns that are used frequently*/
-    ISO_MASKS : {
-      isoDate :        "yyyy-MM-dd",
-      isoTime :        "HH:mm:ss",
-      isoDateTime :    "yyyy-MM-dd'T'HH:mm:ss",
-      isoDateTimeTz :  "yyyy-MM-dd'T'HH:mm:ssZ",
-      isoUtcDateTime : "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    ISO_MASKS: {
+      isoDate: "yyyy-MM-dd",
+      isoTime: "HH:mm:ss",
+      isoDateTime: "yyyy-MM-dd'T'HH:mm:ss",
+      isoDateTimeTz: "yyyy-MM-dd'T'HH:mm:ssZ",
+      isoUtcDateTime: "yyyy-MM-dd'T'HH:mm:ss'Z'"
     },
 
     /** @type {String} The am marker. */
-    AM_MARKER : "am",
+    AM_MARKER: "am",
 
     /** @type {String} The pm marker. */
-    PM_MARKER : "pm"
-
+    PM_MARKER: "pm"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -202,15 +201,14 @@ qx.Class.define("qx.util.format.DateFormat",
   *****************************************************************************
   */
 
-  members :
-  {
-    __locale : null,
-    __initialLocale : null,
-    __format : null,
-    __parseFeed : null,
-    __parseRules : null,
-    __formatTree : null,
-    __UTC : null,
+  members: {
+    __locale: null,
+    __initialLocale: null,
+    __format: null,
+    __parseFeed: null,
+    __parseRules: null,
+    __formatTree: null,
+    __UTC: null,
 
     /**
      * Fills a number with leading zeros ("25" -> "0025").
@@ -219,9 +217,8 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param minSize {Integer} the minimum size the returned string should have.
      * @return {String} the filled number as string.
      */
-    __fillNumber : function(number, minSize)
-    {
-      var str = "" + (number < 0 ? ((-1) * number) : number);
+    __fillNumber(number, minSize) {
+      var str = "" + (number < 0 ? -1 * number : number);
 
       while (str.length < minSize) {
         str = "0" + str;
@@ -230,20 +227,17 @@ qx.Class.define("qx.util.format.DateFormat",
       return number < 0 ? "-" + str : str;
     },
 
-
     /**
      * Returns the day in year of a date.
      *
      * @param date {Date} the date.
      * @return {Integer} the day in year.
      */
-    __getDayInYear : function(date)
-    {
+    __getDayInYear(date) {
       var helpDate = new Date(date.getTime());
       var day = helpDate.getDate();
 
-      while (helpDate.getMonth() != 0)
-      {
+      while (helpDate.getMonth() != 0) {
         // Set the date to the last day of the previous month
         helpDate.setDate(-1);
         day += helpDate.getDate() + 1;
@@ -252,17 +246,17 @@ qx.Class.define("qx.util.format.DateFormat",
       return day;
     },
 
-
     /**
      * Returns the thursday in the same week as the date.
      *
      * @param date {Date} the date to get the thursday of.
      * @return {Date} the thursday in the same week as the date.
      */
-    __thursdayOfSameWeek : function(date) {
-      return new Date(date.getTime() + (3 - ((date.getDay() + 6) % 7)) * 86400000);
+    __thursdayOfSameWeek(date) {
+      return new Date(
+        date.getTime() + (3 - ((date.getDay() + 6) % 7)) * 86400000
+      );
     },
-
 
     /**
      * Returns the week in year of a date.
@@ -270,8 +264,7 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param date {Date} the date to get the week in year of.
      * @return {Integer} the week in year.
      */
-    __getWeekInYear : function(date)
-    {
+    __getWeekInYear(date) {
       // The following algorithm comes from http://www.salesianer.de/util/kalwoch.html
       // Get the thursday of the week the date belongs to
       var thursdayDate = this.__thursdayOfSameWeek(date);
@@ -284,7 +277,9 @@ qx.Class.define("qx.util.format.DateFormat",
       var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(weekYear, 0, 4));
 
       // Calculate the calendar week
-      return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
+      return Math.floor(
+        1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7
+      );
     },
 
     /**
@@ -293,11 +288,14 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param date {Date} the date to get the week in year of.
      * @return {Integer} the week in month.
      */
-    __getWeekInMonth : function(date)
-    {
+    __getWeekInMonth(date) {
       var thursdayDate = this.__thursdayOfSameWeek(date);
-      var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(date.getFullYear(), date.getMonth(), 4));
-      return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
+      var thursdayWeek1 = this.__thursdayOfSameWeek(
+        new Date(date.getFullYear(), date.getMonth(), 4)
+      );
+      return Math.floor(
+        1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7
+      );
     },
 
     /**
@@ -309,8 +307,7 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param date {Date} the date to get the week in year of.
      * @return {Integer} the week year.
      */
-    __getWeekYear : function(date)
-    {
+    __getWeekYear(date) {
       var thursdayDate = this.__thursdayOfSameWeek(date);
       return thursdayDate.getFullYear();
     },
@@ -321,9 +318,8 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param year {Integer} the year to check.
      * @return {Boolean} true if it is a leap year.
      */
-    __isLeapYear : function(year)
-    {
-      var februaryDate = new Date(year,2,1);
+    __isLeapYear(year) {
+      var februaryDate = new Date(year, 2, 1);
       februaryDate.setDate(-1);
       return februaryDate.getDate() + 1 === 29;
     },
@@ -335,34 +331,29 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param year {Integer} the year to check.
      * @return {Object} a json object {month: M, day: D}.
      */
-    __getMonthAndDayFromDayOfYear : function(dayOfYear,year)
-    {
+    __getMonthAndDayFromDayOfYear(dayOfYear, year) {
       var month = 0;
       var day = 0;
       // if we don't know the year, we take a non-leap year'
-      if(!year) {
+      if (!year) {
         year = 1971;
       }
       var dayCounter = 0;
-      for(var i=1; i <= 12; i++)
-      {
-        var tempDate = new Date(year,i,1);
+      for (var i = 1; i <= 12; i++) {
+        var tempDate = new Date(year, i, 1);
         tempDate.setDate(-1);
         var days = tempDate.getDate() + 1;
         dayCounter += days;
-        if(dayCounter < dayOfYear)
-        {
+        if (dayCounter < dayOfYear) {
           month++;
           day += days;
-        }
-        else
-        {
-          day = dayOfYear - (dayCounter-days);
+        } else {
+          day = dayOfYear - (dayCounter - days);
           break;
         }
       }
 
-      return {month: month,day: day};
+      return { month: month, day: day };
     },
 
     /**
@@ -373,25 +364,29 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param dayOfMonth {Integer} the day in month
      * @return {Integer} the year.
      */
-    __getYearFromWeekYearAndMonth : function(weekYear, month, dayOfMonth)
-    {
+    __getYearFromWeekYearAndMonth(weekYear, month, dayOfMonth) {
       var year;
-      switch(month){
-        case 11 :
+      switch (month) {
+        case 11:
           year = weekYear - 1;
-          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
+          if (
+            weekYear != this.__getWeekYear(new Date(year, month, dayOfMonth))
+          ) {
             year = weekYear;
           }
-        break;
-        case 0 :
+          break;
+        case 0:
           year = weekYear + 1;
-          if (weekYear != this.__getWeekYear(new Date(year,month,dayOfMonth))) {
+          if (
+            weekYear != this.__getWeekYear(new Date(year, month, dayOfMonth))
+          ) {
             year = weekYear;
           }
-        break;
-        default :
+          break;
+        default:
           year = weekYear;
       }
+
       return year;
     },
 
@@ -400,10 +395,11 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param value {String} The new value.
      *
      */
-    setLocale : function(value)
-    {
+    setLocale(value) {
       if (value !== null && typeof value != "string") {
-        throw new Error("Cannot set locale to " + value + " - please provide a string");
+        throw new Error(
+          "Cannot set locale to " + value + " - please provide a string"
+        );
       }
       this.__locale = value === null ? this.__initialLocale : value;
     },
@@ -411,14 +407,14 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Resets the Locale
      */
-    resetLocale : function() {
+    resetLocale() {
       this.setLocale(null);
     },
 
     /**
      * Returns the locale
      */
-    getLocale : function() {
+    getLocale() {
       var locale = this.__locale;
       if (locale === undefined) {
         locale = qx.locale.Manager.getInstance().getLocale();
@@ -441,22 +437,29 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param date {Date} The date to format.
      * @return {String} the formatted date.
      */
-    format : function(date)
-    {
+    format(date) {
       // check for null dates
       if (date == null) {
         return null;
       }
 
-      if(isNaN(date.getTime())) {
+      if (isNaN(date.getTime())) {
         if (qx.core.Environment.get("qx.debug")) {
           qx.log.Logger.error("Provided date is invalid");
         }
         return null;
       }
 
-      if(this.__UTC) {
-        date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
+      if (this.__UTC) {
+        date = new Date(
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          date.getUTCHours(),
+          date.getUTCMinutes(),
+          date.getUTCSeconds(),
+          date.getUTCMilliseconds()
+        );
       }
 
       var locale = this.getLocale();
@@ -479,15 +482,12 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__initFormatTree();
       var output = "";
 
-      for (var i=0; i<this.__formatTree.length; i++)
-      {
+      for (var i = 0; i < this.__formatTree.length; i++) {
         var currAtom = this.__formatTree[i];
 
         if (currAtom.type == "literal") {
           output += currAtom.text;
-        }
-        else
-        {
+        } else {
           // This is a wildcard
           var wildcardChar = currAtom.character;
           var wildcardSize = currAtom.size;
@@ -495,9 +495,8 @@ qx.Class.define("qx.util.format.DateFormat",
           // Get its replacement
           var replacement = "?";
 
-          switch(wildcardChar)
-          {
-            case 'y': // Year
+          switch (wildcardChar) {
+            case "y": // Year
               if (wildcardSize == 2) {
                 replacement = this.__fillNumber(fullYear % 100, 2);
               } else {
@@ -508,16 +507,16 @@ qx.Class.define("qx.util.format.DateFormat",
                     replacement = "0" + replacement;
                   }
                 }
-                if(fullYear < 0) {
+                if (fullYear < 0) {
                   replacement = "-" + replacement;
                 }
               }
 
               break;
 
-            case 'Y': // Year
+            case "Y": // Year
               replacement = this.__getWeekYear(date) + "";
-              var year = replacement.replace('-','');
+              var year = replacement.replace("-", "");
               if (wildcardSize > replacement.length) {
                 for (var j = year.length; j < wildcardSize; j++) {
                   year = "0" + year;
@@ -527,155 +526,271 @@ qx.Class.define("qx.util.format.DateFormat",
 
               break;
 
-            case 'G': // Era - there is no CLDR data for ERA yet
+            case "G": // Era - there is no CLDR data for ERA yet
               if (wildcardSize >= 1 && wildcardSize <= 3) {
-                replacement = fullYear > 0 ? 'AD' : 'BC';
-              }
-              else if(wildcardSize == 4) {
-                replacement = fullYear > 0 ? 'Anno Domini' : 'Before Christ';
-              }
-              else if(wildcardSize == 5) {
-                replacement = fullYear > 0 ? 'A' : 'B';
+                replacement = fullYear > 0 ? "AD" : "BC";
+              } else if (wildcardSize == 4) {
+                replacement = fullYear > 0 ? "Anno Domini" : "Before Christ";
+              } else if (wildcardSize == 5) {
+                replacement = fullYear > 0 ? "A" : "B";
               }
 
               break;
 
-            case 'Q': // quarter
+            case "Q": // quarter
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
+                replacement = this.__fillNumber(
+                  parseInt(month / 4) + 1,
+                  wildcardSize
+                );
               }
-              if(wildcardSize == 3) {
-                replacement = 'Q' + (parseInt(month/4) + 1);
+              if (wildcardSize == 3) {
+                replacement = "Q" + (parseInt(month / 4) + 1);
               }
 
               break;
 
-            case 'q': // quarter stand alone
+            case "q": // quarter stand alone
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this.__fillNumber(parseInt(month/4) + 1, wildcardSize);
+                replacement = this.__fillNumber(
+                  parseInt(month / 4) + 1,
+                  wildcardSize
+                );
               }
-              if(wildcardSize == 3) {
-                replacement = 'Q' + (parseInt(month/4) + 1);
+              if (wildcardSize == 3) {
+                replacement = "Q" + (parseInt(month / 4) + 1);
               }
 
               break;
 
-            case 'D': // Day in year (e.g. 189)
-              replacement = this.__fillNumber(this.__getDayInYear(date), wildcardSize);
+            case "D": // Day in year (e.g. 189)
+              replacement = this.__fillNumber(
+                this.__getDayInYear(date),
+                wildcardSize
+              );
               break;
 
-            case 'd': // Day in month
+            case "d": // Day in month
               replacement = this.__fillNumber(dayOfMonth, wildcardSize);
               break;
 
-            case 'w': // Week in year (e.g. 27)
-              replacement = this.__fillNumber(this.__getWeekInYear(date), wildcardSize);
+            case "w": // Week in year (e.g. 27)
+              replacement = this.__fillNumber(
+                this.__getWeekInYear(date),
+                wildcardSize
+              );
               break;
 
-            case 'W': // Week in year (e.g. 27)
+            case "W": // Week in year (e.g. 27)
               replacement = this.__getWeekInMonth(date);
               break;
 
-            case 'E': // Day in week
+            case "E": // Day in week
               if (wildcardSize >= 1 && wildcardSize <= 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "abbreviated",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "wide",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "narrow",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               }
 
               break;
 
-            case 'e': // Day in week
+            case "e": // Day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
               // the index is 1 based
-              var localeDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
+              var localeDayOfWeek =
+                1 +
+                (dayOfWeek - startOfWeek >= 0
+                  ? dayOfWeek - startOfWeek
+                  : 7 + (dayOfWeek - startOfWeek));
               if (wildcardSize >= 1 && wildcardSize <= 2) {
                 replacement = this.__fillNumber(localeDayOfWeek, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "abbreviated",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "wide",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format", true);
+                replacement = qx.locale.Date.getDayName(
+                  "narrow",
+                  dayOfWeek,
+                  locale,
+                  "format",
+                  true
+                );
               }
 
               break;
 
-            case 'c': // Stand-alone local day in week
+            case "c": // Stand-alone local day in week
               var startOfWeek = qx.locale.Date.getWeekStart(locale);
               // the index is 1 based
-              var localeDayOfWeek = 1 + ((dayOfWeek - startOfWeek >=0) ? (dayOfWeek - startOfWeek) : 7 + (dayOfWeek-startOfWeek));
+              var localeDayOfWeek =
+                1 +
+                (dayOfWeek - startOfWeek >= 0
+                  ? dayOfWeek - startOfWeek
+                  : 7 + (dayOfWeek - startOfWeek));
               if (wildcardSize == 1) {
-                replacement = ''+localeDayOfWeek;
+                replacement = "" + localeDayOfWeek;
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getDayName(
+                  "abbreviated",
+                  dayOfWeek,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getDayName(
+                  "wide",
+                  dayOfWeek,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getDayName(
+                  "narrow",
+                  dayOfWeek,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               }
 
               break;
 
-            case 'M': // Month
+            case "M": // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format", true);
+                replacement = qx.locale.Date.getMonthName(
+                  "abbreviated",
+                  month,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format", true);
+                replacement = qx.locale.Date.getMonthName(
+                  "wide",
+                  month,
+                  locale,
+                  "format",
+                  true
+                );
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "format", true);
-
+                replacement = qx.locale.Date.getMonthName(
+                  "narrow",
+                  month,
+                  locale,
+                  "format",
+                  true
+                );
               }
 
               break;
 
-            case 'L': // Stand-alone month
+            case "L": // Stand-alone month
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getMonthName(
+                  "abbreviated",
+                  month,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getMonthName(
+                  "wide",
+                  month,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               } else if (wildcardSize == 5) {
-                replacement = qx.locale.Date.getMonthName("narrow", month, locale, "stand-alone", true);
+                replacement = qx.locale.Date.getMonthName(
+                  "narrow",
+                  month,
+                  locale,
+                  "stand-alone",
+                  true
+                );
               }
 
               break;
 
-            case 'a': // am/pm marker
+            case "a": // am/pm marker
               // NOTE: 0:00 is am, 12:00 is pm
-              replacement = (hours < 12) ? qx.locale.Date.getAmMarker(locale) : qx.locale.Date.getPmMarker(locale);
+              replacement =
+                hours < 12
+                  ? qx.locale.Date.getAmMarker(locale)
+                  : qx.locale.Date.getPmMarker(locale);
               break;
 
-            case 'H': // Hour in day (0-23)
+            case "H": // Hour in day (0-23)
               replacement = this.__fillNumber(hours, wildcardSize);
               break;
 
-            case 'k': // Hour in day (1-24)
-              replacement = this.__fillNumber((hours == 0) ? 24 : hours, wildcardSize);
+            case "k": // Hour in day (1-24)
+              replacement = this.__fillNumber(
+                hours == 0 ? 24 : hours,
+                wildcardSize
+              );
               break;
 
-            case 'K': // Hour in am/pm (0-11)
+            case "K": // Hour in am/pm (0-11)
               replacement = this.__fillNumber(hours % 12, wildcardSize);
               break;
 
-            case 'h': // Hour in am/pm (1-12)
-              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12), wildcardSize);
+            case "h": // Hour in am/pm (1-12)
+              replacement = this.__fillNumber(
+                hours % 12 == 0 ? 12 : hours % 12,
+                wildcardSize
+              );
               break;
 
-            case 'm': // Minute in hour
+            case "m": // Minute in hour
               replacement = this.__fillNumber(minutes, wildcardSize);
               break;
 
-            case 's': // Second in minute
+            case "s": // Second in minute
               replacement = this.__fillNumber(seconds, wildcardSize);
               break;
 
-            case 'S': // Fractional second
+            case "S": // Fractional second
               replacement = this.__fillNumber(ms, 3);
               if (wildcardSize < replacement.length) {
                 replacement = replacement.substr(0, wildcardSize);
@@ -687,33 +802,31 @@ qx.Class.define("qx.util.format.DateFormat",
               }
               break;
 
-            case 'z': // Time zone
-              if (wildcardSize >= 1 && wildcardSize <= 4)
-              {
+            case "z": // Time zone
+              if (wildcardSize >= 1 && wildcardSize <= 4) {
                 replacement =
-                "GMT" +
-                ((timezoneSign > 0) ? "-" : "+") +
-                this.__fillNumber(Math.abs(timezoneHours), 2) +
-                ":" + this.__fillNumber(timezoneMinutes, 2);
+                  "GMT" +
+                  (timezoneSign > 0 ? "-" : "+") +
+                  this.__fillNumber(Math.abs(timezoneHours), 2) +
+                  ":" +
+                  this.__fillNumber(timezoneMinutes, 2);
               }
 
               break;
 
-            case 'Z': // RFC 822 time zone
-              if (wildcardSize >= 1 && wildcardSize <= 3)
-              {
-              replacement =
-                ((timezoneSign > 0) ? "-" : "+") +
-                this.__fillNumber(Math.abs(timezoneHours), 2) +
-                this.__fillNumber(timezoneMinutes, 2);
-              }
-              else
-              {
+            case "Z": // RFC 822 time zone
+              if (wildcardSize >= 1 && wildcardSize <= 3) {
                 replacement =
-                "GMT" +
-                ((timezoneSign > 0) ? "-" : "+") +
-                this.__fillNumber(Math.abs(timezoneHours), 2) +
-                ":" + this.__fillNumber(timezoneMinutes, 2);
+                  (timezoneSign > 0 ? "-" : "+") +
+                  this.__fillNumber(Math.abs(timezoneHours), 2) +
+                  this.__fillNumber(timezoneMinutes, 2);
+              } else {
+                replacement =
+                  "GMT" +
+                  (timezoneSign > 0 ? "-" : "+") +
+                  this.__fillNumber(Math.abs(timezoneHours), 2) +
+                  ":" +
+                  this.__fillNumber(timezoneMinutes, 2);
               }
               break;
           }
@@ -725,7 +838,6 @@ qx.Class.define("qx.util.format.DateFormat",
       return output;
     },
 
-
     /**
      * Parses a date.
      *
@@ -734,35 +846,38 @@ qx.Class.define("qx.util.format.DateFormat",
      * @throws {Error} If the format is not well formed or if the date string does not
      *       match to the format.
      */
-    parse : function(dateStr)
-    {
+    parse(dateStr) {
       this.__initParseFeed();
 
       // Apply the regex
       var hit = this.__parseFeed.regex.exec(dateStr);
 
       if (hit == null) {
-        throw new Error("Date string '" + dateStr + "' does not match the date format: " + this.__format);
+        throw new Error(
+          "Date string '" +
+            dateStr +
+            "' does not match the date format: " +
+            this.__format
+        );
       }
 
       // Apply the rules
-      var dateValues =
-      {
-        era         : 1,
-        year        : 1970,
-        quarter     : 1,
-        month       : 0,
-        day         : 1,
-        dayOfYear   : 1,
-        hour        : 0,
-        ispm        : false,
-        weekDay     : 4,
-        weekYear    : 1970,
-        weekOfMonth : 1,
-        weekOfYear  : 1,
-        min         : 0,
-        sec         : 0,
-        ms          : 0,
+      var dateValues = {
+        era: 1,
+        year: 1970,
+        quarter: 1,
+        month: 0,
+        day: 1,
+        dayOfYear: 1,
+        hour: 0,
+        ispm: false,
+        weekDay: 4,
+        weekYear: 1970,
+        weekOfMonth: 1,
+        weekOfYear: 1,
+        min: 0,
+        sec: 0,
+        ms: 0,
         tzOffsetMins: null
       };
 
@@ -770,8 +885,7 @@ qx.Class.define("qx.util.format.DateFormat",
       var applyWeekYearAfterRule = false;
       var applyDayOfYearAfterRule = false;
 
-      for (var i=0; i<this.__parseFeed.usedRules.length; i++)
-      {
+      for (var i = 0; i < this.__parseFeed.usedRules.length; i++) {
         var rule = this.__parseFeed.usedRules[i];
 
         var value = hit[currGroup];
@@ -782,79 +896,112 @@ qx.Class.define("qx.util.format.DateFormat",
           rule.manipulator(dateValues, value, rule.pattern);
         }
 
-        if(rule.pattern == "Y+")
-        {
+        if (rule.pattern == "Y+") {
           var yearRuleApplied = false;
-          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
-            if(this.__parseFeed.usedRules[k].pattern == 'y+'){
+          for (var k = 0; k < this.__parseFeed.usedRules.length; k++) {
+            if (this.__parseFeed.usedRules[k].pattern == "y+") {
               yearRuleApplied = true;
               break;
             }
           }
-          if(!yearRuleApplied) {
+          if (!yearRuleApplied) {
             applyWeekYearAfterRule = true;
           }
         }
 
-        if(rule.pattern.indexOf("D") != -1)
-        {
+        if (rule.pattern.indexOf("D") != -1) {
           var dayRuleApplied = false;
-          for(var k=0; k<this.__parseFeed.usedRules.length; k++) {
-            if(this.__parseFeed.usedRules[k].pattern.indexOf("d") != -1){
+          for (var k = 0; k < this.__parseFeed.usedRules.length; k++) {
+            if (this.__parseFeed.usedRules[k].pattern.indexOf("d") != -1) {
               dayRuleApplied = true;
               break;
             }
           }
-          if(!dayRuleApplied) {
+          if (!dayRuleApplied) {
             applyDayOfYearAfterRule = true;
           }
         }
 
-        currGroup += (rule.groups == null) ? 1 : rule.groups;
+        currGroup += rule.groups == null ? 1 : rule.groups;
       }
-      if(applyWeekYearAfterRule) {
-        dateValues.year = this.__getYearFromWeekYearAndMonth(dateValues.weekYear,dateValues.month,dateValues.day);
+      if (applyWeekYearAfterRule) {
+        dateValues.year = this.__getYearFromWeekYearAndMonth(
+          dateValues.weekYear,
+          dateValues.month,
+          dateValues.day
+        );
       }
 
-      if(applyDayOfYearAfterRule)
-      {
-        var dayAndMonth = this.__getMonthAndDayFromDayOfYear(dateValues.dayOfYear, dateValues.year);
+      if (applyDayOfYearAfterRule) {
+        var dayAndMonth = this.__getMonthAndDayFromDayOfYear(
+          dateValues.dayOfYear,
+          dateValues.year
+        );
         dateValues.month = dayAndMonth.month;
         dateValues.day = dayAndMonth.day;
       }
 
-      if(dateValues.era < 0 && (dateValues.year * dateValues.era < 0)) {
+      if (dateValues.era < 0 && dateValues.year * dateValues.era < 0) {
         dateValues.year = dateValues.year * dateValues.era;
       }
 
       var date;
       if (this.__UTC || dateValues.tzOffsetMins !== null) {
-        var utcMs = Date.UTC(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
+        var utcMs = Date.UTC(
+          dateValues.year,
+          dateValues.month,
+          dateValues.day,
+          dateValues.ispm ? dateValues.hour + 12 : dateValues.hour,
+          dateValues.min,
+          dateValues.sec,
+          dateValues.ms
+        );
         if (dateValues.tzOffsetMins !== 0) {
-          utcMs += (dateValues.tzOffsetMins * 60000);
+          utcMs += dateValues.tzOffsetMins * 60000;
         }
         date = new Date(utcMs);
-        if (this.__UTC && (dateValues.month !== date.getUTCMonth() || dateValues.year !== date.getUTCFullYear())) {
-          throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
+        if (
+          this.__UTC &&
+          (dateValues.month !== date.getUTCMonth() ||
+            dateValues.year !== date.getUTCFullYear())
+        ) {
+          throw new Error(
+            "Error parsing date '" +
+              dateStr +
+              "': the value for day or month is too large"
+          );
         }
       } else {
-        date = new Date(dateValues.year, dateValues.month, dateValues.day, (dateValues.ispm) ? (dateValues.hour + 12) : dateValues.hour, dateValues.min, dateValues.sec, dateValues.ms);
-        if (dateValues.month !== date.getMonth() || dateValues.year !== date.getFullYear()) {
-          throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
+        date = new Date(
+          dateValues.year,
+          dateValues.month,
+          dateValues.day,
+          dateValues.ispm ? dateValues.hour + 12 : dateValues.hour,
+          dateValues.min,
+          dateValues.sec,
+          dateValues.ms
+        );
+        if (
+          dateValues.month !== date.getMonth() ||
+          dateValues.year !== date.getFullYear()
+        ) {
+          throw new Error(
+            "Error parsing date '" +
+              dateStr +
+              "': the value for day or month is too large"
+          );
         }
       }
 
       return date;
     },
 
-
     /**
      * Helper method for {@link #format()} and {@link #parse()}.
      * Parses the date format.
      *
      */
-    __initFormatTree : function()
-    {
+    __initFormatTree() {
       if (this.__formatTree != null) {
         return;
       }
@@ -870,20 +1017,15 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var i = 0;
 
-      while (i < format.length)
-      {
+      while (i < format.length) {
         var currChar = format.charAt(i);
 
-        switch(state)
-        {
+        switch (state) {
           case "quoted_literal":
             // We are now inside a quoted literal
             // Check whether the current character is an escaped "'" character
-            if (currChar == "'")
-            {
-              if (i + 1 >= format.length)
-              {
-
+            if (currChar == "'") {
+              if (i + 1 >= format.length) {
                 // this is the last character
                 i++;
 
@@ -892,22 +1034,16 @@ qx.Class.define("qx.util.format.DateFormat",
 
               var lookAhead = format.charAt(i + 1);
 
-              if (lookAhead == "'")
-              {
+              if (lookAhead == "'") {
                 currLiteral += currChar;
                 i++;
-              }
-              else
-              {
-
+              } else {
                 // quoted literal ends
                 i++;
 
                 state = "unkown";
               }
-            }
-            else
-            {
+            } else {
               currLiteral += currChar;
               i++;
             }
@@ -916,21 +1052,17 @@ qx.Class.define("qx.util.format.DateFormat",
 
           case "wildcard":
             // Check whether the currChar belongs to that wildcard
-            if (currChar == currWildcardChar)
-            {
+            if (currChar == currWildcardChar) {
               // It does -> Raise the size
               currWildcardSize++;
 
               i++;
-            }
-            else
-            {
+            } else {
               // It does not -> The current wildcard is done
-              this.__formatTree.push(
-              {
-                type      : "wildcard",
-                character : currWildcardChar,
-                size      : currWildcardSize
+              this.__formatTree.push({
+                type: "wildcard",
+                character: currWildcardChar,
+                size: currWildcardSize
               });
 
               currWildcardChar = null;
@@ -942,17 +1074,16 @@ qx.Class.define("qx.util.format.DateFormat",
 
           default:
             // We are not (any more) in a wildcard or quoted literal -> Check what's starting here
-            if ((currChar >= 'a' && currChar <= 'z') || (currChar >= 'A' && currChar <= 'Z'))
-            {
+            if (
+              (currChar >= "a" && currChar <= "z") ||
+              (currChar >= "A" && currChar <= "Z")
+            ) {
               // This is a letter -> All letters are wildcards
               // Start a new wildcard
               currWildcardChar = currChar;
               state = "wildcard";
-            }
-            else if (currChar == "'")
-            {
-              if (i + 1 >= format.length)
-              {
+            } else if (currChar == "'") {
+              if (i + 1 >= format.length) {
                 // this is the last character
                 currLiteral += currChar;
                 i++;
@@ -961,36 +1092,28 @@ qx.Class.define("qx.util.format.DateFormat",
 
               var lookAhead = format.charAt(i + 1);
 
-              if (lookAhead == "'")
-              {
+              if (lookAhead == "'") {
                 currLiteral += currChar;
                 i++;
               }
 
               i++;
               state = "quoted_literal";
-            }
-            else
-            {
+            } else {
               state = "default";
             }
 
-            if (state != "default")
-            {
+            if (state != "default") {
               // Add the literal
-              if (currLiteral.length > 0)
-              {
-                this.__formatTree.push(
-                {
-                  type : "literal",
-                  text : currLiteral
+              if (currLiteral.length > 0) {
+                this.__formatTree.push({
+                  type: "literal",
+                  text: currLiteral
                 });
 
                 currLiteral = "";
               }
-            }
-            else
-            {
+            } else {
               // This is an unquoted literal -> Add it to the current literal
               currLiteral += currChar;
               i++;
@@ -1001,25 +1124,19 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       // Add the last wildcard or literal
-      if (currWildcardChar != null)
-      {
-        this.__formatTree.push(
-        {
-          type      : "wildcard",
-          character : currWildcardChar,
-          size      : currWildcardSize
+      if (currWildcardChar != null) {
+        this.__formatTree.push({
+          type: "wildcard",
+          character: currWildcardChar,
+          size: currWildcardSize
         });
-      }
-      else if (currLiteral.length > 0)
-      {
-        this.__formatTree.push(
-        {
-          type : "literal",
-          text : currLiteral
+      } else if (currLiteral.length > 0) {
+        this.__formatTree.push({
+          type: "literal",
+          text: currLiteral
         });
       }
     },
-
 
     /**
      * Initializes the parse feed.
@@ -1029,10 +1146,8 @@ qx.Class.define("qx.util.format.DateFormat",
      *
      * @throws {Error} If the date format is malformed.
      */
-    __initParseFeed : function()
-    {
-      if (this.__parseFeed != null)
-      {
+    __initParseFeed() {
+      if (this.__parseFeed != null) {
         // We already have the parse feed
         return;
       }
@@ -1047,15 +1162,12 @@ qx.Class.define("qx.util.format.DateFormat",
       var usedRules = [];
       var pattern = "^";
 
-      for (var atomIdx=0; atomIdx<this.__formatTree.length; atomIdx++)
-      {
+      for (var atomIdx = 0; atomIdx < this.__formatTree.length; atomIdx++) {
         var currAtom = this.__formatTree[atomIdx];
 
         if (currAtom.type == "literal") {
           pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
-        }
-        else
-        {
+        } else {
           // This is a wildcard
           var wildcardChar = currAtom.character;
           var wildcardSize = currAtom.size;
@@ -1063,12 +1175,10 @@ qx.Class.define("qx.util.format.DateFormat",
           // Get the rule for this wildcard
           var wildcardRule;
 
-          for (var ruleIdx=0; ruleIdx<this.__parseRules.length; ruleIdx++)
-          {
+          for (var ruleIdx = 0; ruleIdx < this.__parseRules.length; ruleIdx++) {
             var rule = this.__parseRules[ruleIdx];
 
-            if ( this.__isRuleForWildcard(rule,wildcardChar,wildcardSize))
-            {
+            if (this.__isRuleForWildcard(rule, wildcardChar, wildcardSize)) {
               // We found the right rule for the wildcard
               wildcardRule = rule;
               break;
@@ -1076,19 +1186,22 @@ qx.Class.define("qx.util.format.DateFormat",
           }
 
           // Check the rule
-          if (wildcardRule == null)
-          {
+          if (wildcardRule == null) {
             // We have no rule for that wildcard -> Malformed date format
             var wildcardStr = "";
 
-            for (var i=0; i<wildcardSize; i++) {
+            for (var i = 0; i < wildcardSize; i++) {
               wildcardStr += wildcardChar;
             }
 
-            throw new Error("Malformed date format: " + format + ". Wildcard " + wildcardStr + " is not supported");
-          }
-          else
-          {
+            throw new Error(
+              "Malformed date format: " +
+                format +
+                ". Wildcard " +
+                wildcardStr +
+                " is not supported"
+            );
+          } else {
             // Add the rule to the pattern
             usedRules.push(wildcardRule);
             pattern += wildcardRule.regex;
@@ -1103,16 +1216,15 @@ qx.Class.define("qx.util.format.DateFormat",
 
       try {
         regex = new RegExp(pattern);
-      } catch(exc) {
+      } catch (exc) {
         throw new Error("Malformed date format: " + format);
       }
 
       // Create the this.__parseFeed
-      this.__parseFeed =
-      {
-        regex       : regex,
-        "usedRules" : usedRules,
-        pattern     : pattern
+      this.__parseFeed = {
+        regex: regex,
+        usedRules: usedRules,
+        pattern: pattern
       };
     },
 
@@ -1123,50 +1235,47 @@ qx.Class.define("qx.util.format.DateFormat",
      * @param wildcardSize {Integer} the number of  wildcardChar characters in the wildcard
      * @return {Boolean} if the rule matches or not
      */
-    __isRuleForWildcard : function(rule, wildcardChar, wildcardSize)
-    {
-      if(wildcardChar==='y' && rule.pattern==='y+')
-      {
+    __isRuleForWildcard(rule, wildcardChar, wildcardSize) {
+      if (wildcardChar === "y" && rule.pattern === "y+") {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
-      }
-      else if(wildcardChar==='Y' && rule.pattern==='Y+')
-      {
+      } else if (wildcardChar === "Y" && rule.pattern === "Y+") {
         rule.regex = rule.regexFunc(wildcardSize);
         return true;
-      }
-      else
-      {
-        return wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length;
+      } else {
+        return (
+          wildcardChar == rule.pattern.charAt(0) &&
+          wildcardSize == rule.pattern.length
+        );
       }
     },
     /**
      * Initializes the static parse rules.
      *
      */
-    __initParseRules : function()
-    {
+    __initParseRules() {
       var DateFormat = qx.util.format.DateFormat;
       var LString = qx.lang.String;
 
-      if (this.__parseRules != null)
-      {
+      if (this.__parseRules != null) {
         // The parse rules are already initialized
-        return ;
+        return;
       }
 
-      var rules = this.__parseRules = [];
+      var rules = (this.__parseRules = []);
 
-      var amMarker = qx.locale.Date.getAmMarker(this.getLocale()).toString() || DateFormat.AM_MARKER;
-      var pmMarker = qx.locale.Date.getPmMarker(this.getLocale()).toString() || DateFormat.PM_MARKER;
+      var amMarker =
+        qx.locale.Date.getAmMarker(this.getLocale()).toString() ||
+        DateFormat.AM_MARKER;
+      var pmMarker =
+        qx.locale.Date.getPmMarker(this.getLocale()).toString() ||
+        DateFormat.PM_MARKER;
       var locale = this.getLocale();
 
-      var yearManipulator = function(dateValues, value)
-      {
+      var yearManipulator = function (dateValues, value) {
         value = parseInt(value, 10);
 
-        if(value >= 0)
-        {
+        if (value >= 0) {
           if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
             value += 2000;
           } else if (value < 100) {
@@ -1177,12 +1286,10 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.year = value;
       };
 
-      var weekYearManipulator = function(dateValues, value)
-      {
+      var weekYearManipulator = function (dateValues, value) {
         value = parseInt(value, 10);
 
-        if(value >= 0)
-        {
+        if (value >= 0) {
           if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
             value += 2000;
           } else if (value < 100) {
@@ -1193,30 +1300,34 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.weekYear = value;
       };
 
-      var monthManipulator = function(dateValues, value) {
+      var monthManipulator = function (dateValues, value) {
         dateValues.month = parseInt(value, 10) - 1;
       };
 
-      var localWeekDayManipulator = function(dateValues, value) {
+      var localWeekDayManipulator = function (dateValues, value) {
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
-        var dayOfWeek =  (parseInt(value,10) - 1 + startOfWeek) <= 6 ? parseInt(value,10) - 1 + startOfWeek : (parseInt(value,10) - 1 + startOfWeek) -7;
+        var dayOfWeek =
+          parseInt(value, 10) - 1 + startOfWeek <= 6
+            ? parseInt(value, 10) - 1 + startOfWeek
+            : parseInt(value, 10) - 1 + startOfWeek - 7;
         dateValues.weekDay = dayOfWeek;
       };
 
-      var ampmManipulator = function(dateValues, value) {
-        var pmMarker = qx.locale.Date.getPmMarker(locale).toString() || DateFormat.PM_MARKER;
-        dateValues.ispm = (value == pmMarker);
+      var ampmManipulator = function (dateValues, value) {
+        var pmMarker =
+          qx.locale.Date.getPmMarker(locale).toString() || DateFormat.PM_MARKER;
+        dateValues.ispm = value == pmMarker;
       };
 
-      var noZeroHourManipulator = function(dateValues, value) {
+      var noZeroHourManipulator = function (dateValues, value) {
         dateValues.hour = parseInt(value, 10) % 24;
       };
 
-      var noZeroAmPmHourManipulator = function(dateValues, value) {
+      var noZeroAmPmHourManipulator = function (dateValues, value) {
         dateValues.hour = parseInt(value, 10) % 12;
       };
 
-      var timezoneManipulator = function(dateValues, value) {
+      var timezoneManipulator = function (dateValues, value) {
         var regEx = new RegExp("([+-]?)(\\d\\d)(?::?(\\d\\d))?$");
         var tzResults = regEx.exec(value);
         var offsetHours = parseInt(tzResults[2], 10);
@@ -1228,7 +1339,7 @@ qx.Class.define("qx.util.format.DateFormat",
         if (offsetMins > 59) {
           throw new Error("Invalid minutes in time zone offset.");
         }
-        dateValues.tzOffsetMins = (offsetHours * 60) + offsetMins;
+        dateValues.tzOffsetMins = offsetHours * 60 + offsetMins;
         if (tzResults[1] === "-") {
           dateValues.tzOffsetMins = -dateValues.tzOffsetMins;
         }
@@ -1238,73 +1349,84 @@ qx.Class.define("qx.util.format.DateFormat",
       //   return;
       // };
 
-      var narrowEraNames = ['A', 'B'];
-      var narrowEraNameManipulator = function(dateValues, value) {
-        dateValues.era = value == 'A' ? 1 : -1;
+      var narrowEraNames = ["A", "B"];
+      var narrowEraNameManipulator = function (dateValues, value) {
+        dateValues.era = value == "A" ? 1 : -1;
       };
 
-      var abbrevEraNames = ['AD', 'BC'];
-      var abbrevEraNameManipulator = function(dateValues, value) {
-        dateValues.era = value == 'AD' ? 1 : -1;
+      var abbrevEraNames = ["AD", "BC"];
+      var abbrevEraNameManipulator = function (dateValues, value) {
+        dateValues.era = value == "AD" ? 1 : -1;
       };
 
-      var fullEraNames = ['Anno Domini', 'Before Christ'];
-      var fullEraNameManipulator = function(dateValues, value) {
-        dateValues.era = value == 'Anno Domini' ? 1 : -1;
+      var fullEraNames = ["Anno Domini", "Before Christ"];
+      var fullEraNameManipulator = function (dateValues, value) {
+        dateValues.era = value == "Anno Domini" ? 1 : -1;
       };
 
-      var abbrevQuarterNames = ['Q1','Q2','Q3','Q4'];
-      var abbrevQuarterManipulator = function(dateValues, value) {
+      var abbrevQuarterNames = ["Q1", "Q2", "Q3", "Q4"];
+      var abbrevQuarterManipulator = function (dateValues, value) {
         dateValues.quarter = abbrevQuarterNames.indexOf(value);
       };
 
-      var fullQuarterNames = ['1st quarter','2nd quarter','3rd quarter','4th quarter'];
-      var fullQuarterManipulator = function(dateValues, value) {
+      var fullQuarterNames = [
+        "1st quarter",
+        "2nd quarter",
+        "3rd quarter",
+        "4th quarter"
+      ];
+      var fullQuarterManipulator = function (dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
       };
 
       var cache = {};
 
-      var dateNamesManipulator = function(pattern){
-        var monthPatternLetters = ['L','M'];
-        var dayPatternLetters = ['c', 'e', 'E'];
+      var dateNamesManipulator = function (pattern) {
+        var monthPatternLetters = ["L", "M"];
+        var dayPatternLetters = ["c", "e", "E"];
         var firstLetterInPattern = pattern.charAt(0);
-        var isMonth = monthPatternLetters.indexOf(firstLetterInPattern)>=0;
+        var isMonth = monthPatternLetters.indexOf(firstLetterInPattern) >= 0;
 
-        var getContext = function() {
+        var getContext = function () {
           var letters = isMonth ? monthPatternLetters : dayPatternLetters;
-          var context = firstLetterInPattern === letters[0] ? "stand-alone" : "format" ;
+          var context =
+            firstLetterInPattern === letters[0] ? "stand-alone" : "format";
           var patternLength = pattern.length;
-          var lengthName = 'abbreviated';
-          switch(patternLength)
-          {
+          var lengthName = "abbreviated";
+          switch (patternLength) {
             case 4:
-              lengthName = 'wide';
+              lengthName = "wide";
               break;
             case 5:
-              lengthName = 'narrow';
+              lengthName = "narrow";
               break;
             default:
-              lengthName = 'abbreviated';
+              lengthName = "abbreviated";
           }
+
           return [context, lengthName];
         };
 
-        if(!cache[pattern])
-        {
+        if (!cache[pattern]) {
           cache[pattern] = {};
           var context = getContext();
-          var func = isMonth ? qx.locale.Date.getMonthNames : qx.locale.Date.getDayNames;
-          var names = func.call(qx.locale.Date, context[1], locale, context[0], true);
-          for(var i=0, l=names.length; i<l; i++)
-          {
+          var func = isMonth
+            ? qx.locale.Date.getMonthNames
+            : qx.locale.Date.getDayNames;
+          var names = func.call(
+            qx.locale.Date,
+            context[1],
+            locale,
+            context[0],
+            true
+          );
+          for (var i = 0, l = names.length; i < l; i++) {
             names[i] = LString.escapeRegexpChars(names[i].toString());
           }
           cache[pattern].data = names;
-          cache[pattern].func = function(dateValues, value)
-          {
+          cache[pattern].func = function (dateValues, value) {
             value = LString.escapeRegexpChars(value);
-            dateValues[isMonth ? 'month' : 'weekDay'] = names.indexOf(value);
+            dateValues[isMonth ? "month" : "weekDay"] = names.indexOf(value);
           };
         }
 
@@ -1313,483 +1435,414 @@ qx.Class.define("qx.util.format.DateFormat",
 
       // Unsupported: F (Day of week in month)
 
-      rules.push(
-      {
-        pattern     : "y+",
-        regexFunc       : function(yNumber)
-          {
-            var regex = "(-*";
-            for(var i=0;i<yNumber;i++)
-            {
-              regex += "\\d";
-              if(i===yNumber-1 && i!==1) {
-                regex += "+?";
-              }
+      rules.push({
+        pattern: "y+",
+        regexFunc(yNumber) {
+          var regex = "(-*";
+          for (var i = 0; i < yNumber; i++) {
+            regex += "\\d";
+            if (i === yNumber - 1 && i !== 1) {
+              regex += "+?";
             }
-            regex += ")";
-            return regex;
-          },
-        manipulator : yearManipulator
+          }
+          regex += ")";
+          return regex;
+        },
+        manipulator: yearManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "Y+",
-        regexFunc       : function(yNumber)
-          {
-            var regex = "(-*";
-            for(var i=0;i<yNumber;i++)
-            {
-              regex += "\\d";
-              if(i===yNumber-1) {
-                regex += "+?";
-              }
+      rules.push({
+        pattern: "Y+",
+        regexFunc(yNumber) {
+          var regex = "(-*";
+          for (var i = 0; i < yNumber; i++) {
+            regex += "\\d";
+            if (i === yNumber - 1) {
+              regex += "+?";
             }
-            regex += ")";
-            return regex;
-          },
-        manipulator : weekYearManipulator
+          }
+          regex += ")";
+          return regex;
+        },
+        manipulator: weekYearManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "G",
-        regex       : "(" + abbrevEraNames.join("|") + ")",
-        manipulator : abbrevEraNameManipulator
+      rules.push({
+        pattern: "G",
+        regex: "(" + abbrevEraNames.join("|") + ")",
+        manipulator: abbrevEraNameManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "GG",
-        regex       : "(" + abbrevEraNames.join("|") + ")",
-        manipulator : abbrevEraNameManipulator
+      rules.push({
+        pattern: "GG",
+        regex: "(" + abbrevEraNames.join("|") + ")",
+        manipulator: abbrevEraNameManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "GGG",
-        regex       : "(" + abbrevEraNames.join("|") + ")",
-        manipulator : abbrevEraNameManipulator
+      rules.push({
+        pattern: "GGG",
+        regex: "(" + abbrevEraNames.join("|") + ")",
+        manipulator: abbrevEraNameManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "GGGG",
-        regex       : "(" + fullEraNames.join("|") + ")",
-        manipulator : fullEraNameManipulator
+      rules.push({
+        pattern: "GGGG",
+        regex: "(" + fullEraNames.join("|") + ")",
+        manipulator: fullEraNameManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "GGGGG",
-        regex       : "(" + narrowEraNames.join("|") + ")",
-        manipulator : narrowEraNameManipulator
+      rules.push({
+        pattern: "GGGGG",
+        regex: "(" + narrowEraNames.join("|") + ")",
+        manipulator: narrowEraNameManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "Q",
-        regex       : "(\\d\\d*?)",
-        field : "quarter"
+      rules.push({
+        pattern: "Q",
+        regex: "(\\d\\d*?)",
+        field: "quarter"
       });
 
-      rules.push(
-      {
-        pattern     : "QQ",
-        regex       : "(\\d\\d?)",
-        field : "quarter"
+      rules.push({
+        pattern: "QQ",
+        regex: "(\\d\\d?)",
+        field: "quarter"
       });
 
-      rules.push(
-      {
-        pattern     : "QQQ",
-        regex       : "(" + abbrevQuarterNames.join("|") + ")",
-        manipulator : abbrevQuarterManipulator
+      rules.push({
+        pattern: "QQQ",
+        regex: "(" + abbrevQuarterNames.join("|") + ")",
+        manipulator: abbrevQuarterManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "QQQQ",
-        regex       : "(" + fullQuarterNames.join("|") + ")",
-        manipulator : fullQuarterManipulator
+      rules.push({
+        pattern: "QQQQ",
+        regex: "(" + fullQuarterNames.join("|") + ")",
+        manipulator: fullQuarterManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "q",
-        regex       : "(\\d\\d*?)",
-        field : "quarter"
+      rules.push({
+        pattern: "q",
+        regex: "(\\d\\d*?)",
+        field: "quarter"
       });
 
-      rules.push(
-      {
-        pattern     : "qq",
-        regex       : "(\\d\\d?)",
-        field : "quarter"
+      rules.push({
+        pattern: "qq",
+        regex: "(\\d\\d?)",
+        field: "quarter"
       });
 
-      rules.push(
-      {
-        pattern     : "qqq",
-        regex       : "(" + abbrevQuarterNames.join("|") + ")",
-        manipulator : abbrevQuarterManipulator
+      rules.push({
+        pattern: "qqq",
+        regex: "(" + abbrevQuarterNames.join("|") + ")",
+        manipulator: abbrevQuarterManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "qqqq",
-        regex       : "(" + fullQuarterNames.join("|") + ")",
-        manipulator : fullQuarterManipulator
+      rules.push({
+        pattern: "qqqq",
+        regex: "(" + fullQuarterNames.join("|") + ")",
+        manipulator: fullQuarterManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "M",
-        regex       : "(\\d\\d*?)",
-        manipulator : monthManipulator
+      rules.push({
+        pattern: "M",
+        regex: "(\\d\\d*?)",
+        manipulator: monthManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "MM",
-        regex       : "(\\d\\d?)",
-        manipulator : monthManipulator
+      rules.push({
+        pattern: "MM",
+        regex: "(\\d\\d?)",
+        manipulator: monthManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "MMM",
-        regex       : "(" + dateNamesManipulator("MMM").data.join("|") + ")",
-        manipulator : dateNamesManipulator("MMM").func
+      rules.push({
+        pattern: "MMM",
+        regex: "(" + dateNamesManipulator("MMM").data.join("|") + ")",
+        manipulator: dateNamesManipulator("MMM").func
       });
 
-      rules.push(
-      {
-        pattern     : "MMMM",
-        regex       : "(" + dateNamesManipulator("MMMM").data.join("|") + ")",
-        manipulator : dateNamesManipulator("MMMM").func
+      rules.push({
+        pattern: "MMMM",
+        regex: "(" + dateNamesManipulator("MMMM").data.join("|") + ")",
+        manipulator: dateNamesManipulator("MMMM").func
       });
 
-      rules.push(
-      {
-        pattern     : "MMMMM",
-        regex       : "(" + dateNamesManipulator("MMMMM").data.join("|") + ")",
-        manipulator : dateNamesManipulator("MMMMM").func
+      rules.push({
+        pattern: "MMMMM",
+        regex: "(" + dateNamesManipulator("MMMMM").data.join("|") + ")",
+        manipulator: dateNamesManipulator("MMMMM").func
       });
 
-      rules.push(
-      {
-        pattern     : "L",
-        regex       : "(\\d\\d*?)",
-        manipulator : monthManipulator
+      rules.push({
+        pattern: "L",
+        regex: "(\\d\\d*?)",
+        manipulator: monthManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "LL",
-        regex       : "(\\d\\d?)",
-        manipulator : monthManipulator
+      rules.push({
+        pattern: "LL",
+        regex: "(\\d\\d?)",
+        manipulator: monthManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "LLL",
-        regex       : "(" + dateNamesManipulator("LLL").data.join("|") + ")",
-        manipulator : dateNamesManipulator("LLL").func
+      rules.push({
+        pattern: "LLL",
+        regex: "(" + dateNamesManipulator("LLL").data.join("|") + ")",
+        manipulator: dateNamesManipulator("LLL").func
       });
 
-      rules.push(
-      {
-        pattern     : "LLLL",
-        regex       : "(" + dateNamesManipulator("LLLL").data.join("|") + ")",
-        manipulator : dateNamesManipulator("LLLL").func
+      rules.push({
+        pattern: "LLLL",
+        regex: "(" + dateNamesManipulator("LLLL").data.join("|") + ")",
+        manipulator: dateNamesManipulator("LLLL").func
       });
 
-      rules.push(
-      {
-        pattern     : "LLLLL",
-        regex       : "(" + dateNamesManipulator("LLLLL").data.join("|") + ")",
-        manipulator : dateNamesManipulator("LLLLL").func
+      rules.push({
+        pattern: "LLLLL",
+        regex: "(" + dateNamesManipulator("LLLLL").data.join("|") + ")",
+        manipulator: dateNamesManipulator("LLLLL").func
       });
 
-      rules.push(
-      {
-        pattern : "dd",
-        regex   : "(\\d\\d?)",
-        field   : "day"
+      rules.push({
+        pattern: "dd",
+        regex: "(\\d\\d?)",
+        field: "day"
       });
 
-      rules.push(
-      {
-        pattern : "d",
-        regex   : "(\\d\\d*?)",
-        field   : "day"
+      rules.push({
+        pattern: "d",
+        regex: "(\\d\\d*?)",
+        field: "day"
       });
 
-      rules.push(
-      {
-        pattern : "D",
-        regex   : "(\\d?)",
-        field   : "dayOfYear"
+      rules.push({
+        pattern: "D",
+        regex: "(\\d?)",
+        field: "dayOfYear"
       });
 
-      rules.push(
-      {
-        pattern : "DD",
-        regex   : "(\\d\\d?)",
-        field   : "dayOfYear"
+      rules.push({
+        pattern: "DD",
+        regex: "(\\d\\d?)",
+        field: "dayOfYear"
       });
 
-      rules.push(
-      {
-        pattern : "DDD",
-        regex   : "(\\d\\d\\d?)",
-        field   : "dayOfYear"
+      rules.push({
+        pattern: "DDD",
+        regex: "(\\d\\d\\d?)",
+        field: "dayOfYear"
       });
 
-      rules.push(
-      {
-        pattern     : "E",
-        regex       : "(" + dateNamesManipulator("E").data.join("|") + ")",
-        manipulator : dateNamesManipulator("E").func
+      rules.push({
+        pattern: "E",
+        regex: "(" + dateNamesManipulator("E").data.join("|") + ")",
+        manipulator: dateNamesManipulator("E").func
       });
 
-      rules.push(
-      {
-        pattern     : "EE",
-        regex       : "(" + dateNamesManipulator("EE").data.join("|") + ")",
-        manipulator : dateNamesManipulator("EE").func
+      rules.push({
+        pattern: "EE",
+        regex: "(" + dateNamesManipulator("EE").data.join("|") + ")",
+        manipulator: dateNamesManipulator("EE").func
       });
 
-      rules.push(
-      {
-        pattern     : "EEE",
-        regex       : "(" + dateNamesManipulator("EEE").data.join("|") + ")",
-        manipulator : dateNamesManipulator("EEE").func
+      rules.push({
+        pattern: "EEE",
+        regex: "(" + dateNamesManipulator("EEE").data.join("|") + ")",
+        manipulator: dateNamesManipulator("EEE").func
       });
 
-      rules.push(
-      {
-        pattern     : "EEEE",
-        regex       : "(" + dateNamesManipulator("EEEE").data.join("|") + ")",
-        manipulator : dateNamesManipulator("EEEE").func
+      rules.push({
+        pattern: "EEEE",
+        regex: "(" + dateNamesManipulator("EEEE").data.join("|") + ")",
+        manipulator: dateNamesManipulator("EEEE").func
       });
 
-      rules.push(
-      {
-        pattern     : "EEEEE",
-        regex       : "(" + dateNamesManipulator("EEEEE").data.join("|") + ")",
-        manipulator : dateNamesManipulator("EEEEE").func
+      rules.push({
+        pattern: "EEEEE",
+        regex: "(" + dateNamesManipulator("EEEEE").data.join("|") + ")",
+        manipulator: dateNamesManipulator("EEEEE").func
       });
 
-      rules.push(
-      {
-        pattern     : "e",
-        regex       : "(\\d?)",
-        manipulator : localWeekDayManipulator
+      rules.push({
+        pattern: "e",
+        regex: "(\\d?)",
+        manipulator: localWeekDayManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "ee",
-        regex       : "(\\d\\d?)",
-        manipulator : localWeekDayManipulator
+      rules.push({
+        pattern: "ee",
+        regex: "(\\d\\d?)",
+        manipulator: localWeekDayManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "eee",
-        regex       : "(" + dateNamesManipulator("eee").data.join("|") + ")",
-        manipulator : dateNamesManipulator("eee").func
+      rules.push({
+        pattern: "eee",
+        regex: "(" + dateNamesManipulator("eee").data.join("|") + ")",
+        manipulator: dateNamesManipulator("eee").func
       });
 
-      rules.push(
-      {
-        pattern     : "eeee",
-        regex       : "(" + dateNamesManipulator("eeee").data.join("|") + ")",
-        manipulator : dateNamesManipulator("eeee").func
+      rules.push({
+        pattern: "eeee",
+        regex: "(" + dateNamesManipulator("eeee").data.join("|") + ")",
+        manipulator: dateNamesManipulator("eeee").func
       });
 
-      rules.push(
-      {
-        pattern     : "eeeee",
-        regex       : "(" + dateNamesManipulator("eeeee").data.join("|") + ")",
-        manipulator : dateNamesManipulator("eeeee").func
+      rules.push({
+        pattern: "eeeee",
+        regex: "(" + dateNamesManipulator("eeeee").data.join("|") + ")",
+        manipulator: dateNamesManipulator("eeeee").func
       });
 
-      rules.push(
-      {
-        pattern     : "c",
-        regex       : "\\d?",
-        manipulator : localWeekDayManipulator
+      rules.push({
+        pattern: "c",
+        regex: "\\d?",
+        manipulator: localWeekDayManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "ccc",
-        regex       : "(" + dateNamesManipulator("ccc").data.join("|") + ")",
-        manipulator : dateNamesManipulator("ccc").func
+      rules.push({
+        pattern: "ccc",
+        regex: "(" + dateNamesManipulator("ccc").data.join("|") + ")",
+        manipulator: dateNamesManipulator("ccc").func
       });
 
-      rules.push(
-      {
-        pattern     : "cccc",
-        regex       : "(" + dateNamesManipulator("cccc").data.join("|") + ")",
-        manipulator : dateNamesManipulator("cccc").func
+      rules.push({
+        pattern: "cccc",
+        regex: "(" + dateNamesManipulator("cccc").data.join("|") + ")",
+        manipulator: dateNamesManipulator("cccc").func
       });
 
-      rules.push(
-      {
-        pattern     : "ccccc",
-        regex       : "(" + dateNamesManipulator("ccccc").data.join("|") + ")",
-        manipulator : dateNamesManipulator("ccccc").func
+      rules.push({
+        pattern: "ccccc",
+        regex: "(" + dateNamesManipulator("ccccc").data.join("|") + ")",
+        manipulator: dateNamesManipulator("ccccc").func
       });
 
-      rules.push(
-      {
-        pattern     : "a",
-        regex       : "(" + amMarker + "|" + pmMarker + ")",
-        manipulator : ampmManipulator
+      rules.push({
+        pattern: "a",
+        regex: "(" + amMarker + "|" + pmMarker + ")",
+        manipulator: ampmManipulator
       });
 
-      rules.push(
-      {
-        pattern : "W",
-        regex   : "(\\d?)",
-        field   : "weekOfMonth"
+      rules.push({
+        pattern: "W",
+        regex: "(\\d?)",
+        field: "weekOfMonth"
       });
 
-      rules.push(
-      {
-        pattern : "w",
-        regex   : "(\\d\\d?)",
-        field   : "weekOfYear"
+      rules.push({
+        pattern: "w",
+        regex: "(\\d\\d?)",
+        field: "weekOfYear"
       });
 
-      rules.push(
-      {
-        pattern : "ww",
-        regex   : "(\\d\\d)",
-        field   : "weekOfYear"
+      rules.push({
+        pattern: "ww",
+        regex: "(\\d\\d)",
+        field: "weekOfYear"
       });
 
-      rules.push(
-      {
-        pattern : "HH",
-        regex   : "(\\d\\d?)",
-        field   : "hour"
+      rules.push({
+        pattern: "HH",
+        regex: "(\\d\\d?)",
+        field: "hour"
       });
 
-      rules.push(
-      {
-        pattern : "H",
-        regex   : "(\\d\\d?)",
-        field   : "hour"
+      rules.push({
+        pattern: "H",
+        regex: "(\\d\\d?)",
+        field: "hour"
       });
 
-      rules.push(
-      {
-        pattern     : "kk",
-        regex       : "(\\d\\d?)",
-        manipulator : noZeroHourManipulator
+      rules.push({
+        pattern: "kk",
+        regex: "(\\d\\d?)",
+        manipulator: noZeroHourManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "k",
-        regex       : "(\\d\\d?)",
-        manipulator : noZeroHourManipulator
+      rules.push({
+        pattern: "k",
+        regex: "(\\d\\d?)",
+        manipulator: noZeroHourManipulator
       });
 
-      rules.push(
-      {
-        pattern : "KK",
-        regex   : "(\\d\\d?)",
-        field   : "hour"
+      rules.push({
+        pattern: "KK",
+        regex: "(\\d\\d?)",
+        field: "hour"
       });
 
-      rules.push(
-      {
-        pattern : "K",
-        regex   : "(\\d\\d?)",
-        field   : "hour"
+      rules.push({
+        pattern: "K",
+        regex: "(\\d\\d?)",
+        field: "hour"
       });
 
-      rules.push(
-      {
-        pattern     : "hh",
-        regex       : "(\\d\\d?)",
-        manipulator : noZeroAmPmHourManipulator
+      rules.push({
+        pattern: "hh",
+        regex: "(\\d\\d?)",
+        manipulator: noZeroAmPmHourManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "h",
-        regex       : "(\\d\\d?)",
-        manipulator : noZeroAmPmHourManipulator
+      rules.push({
+        pattern: "h",
+        regex: "(\\d\\d?)",
+        manipulator: noZeroAmPmHourManipulator
       });
 
-      rules.push(
-      {
-        pattern : "mm",
-        regex   : "(\\d\\d?)",
-        field   : "min"
+      rules.push({
+        pattern: "mm",
+        regex: "(\\d\\d?)",
+        field: "min"
       });
 
-      rules.push(
-      {
-        pattern : "m",
-        regex   : "(\\d\\d?)",
-        field   : "min"
+      rules.push({
+        pattern: "m",
+        regex: "(\\d\\d?)",
+        field: "min"
       });
 
-      rules.push(
-      {
-        pattern : "ss",
-        regex   : "(\\d\\d?)",
-        field   : "sec"
+      rules.push({
+        pattern: "ss",
+        regex: "(\\d\\d?)",
+        field: "sec"
       });
 
-      rules.push(
-      {
-        pattern : "s",
-        regex   : "(\\d\\d?)",
-        field   : "sec"
+      rules.push({
+        pattern: "s",
+        regex: "(\\d\\d?)",
+        field: "sec"
       });
 
-      rules.push(
-      {
-        pattern : "SSS",
-        regex   : "(\\d\\d?\\d?)",
-        field   : "ms"
+      rules.push({
+        pattern: "SSS",
+        regex: "(\\d\\d?\\d?)",
+        field: "ms"
       });
 
-      rules.push(
-      {
-        pattern : "SS",
-        regex   : "(\\d\\d?\\d?)",
-        field   : "ms"
+      rules.push({
+        pattern: "SS",
+        regex: "(\\d\\d?\\d?)",
+        field: "ms"
       });
 
-      rules.push(
-      {
-        pattern : "S",
-        regex   : "(\\d\\d?\\d?)",
-        field   : "ms"
+      rules.push({
+        pattern: "S",
+        regex: "(\\d\\d?\\d?)",
+        field: "ms"
       });
 
-      rules.push(
-      {
-        pattern     : "Z",
-        regex       : "([\\+\\-]\\d\\d\\d\\d)",
-        manipulator : timezoneManipulator
+      rules.push({
+        pattern: "Z",
+        regex: "([\\+\\-]\\d\\d\\d\\d)",
+        manipulator: timezoneManipulator
       });
 
-      rules.push(
-      {
-        pattern     : "z",
-        regex       : "(GMT[\\+\\-]\\d\\d:\\d\\d)",
-        manipulator : timezoneManipulator
+      rules.push({
+        pattern: "z",
+        regex: "(GMT[\\+\\-]\\d\\d:\\d\\d)",
+        manipulator: timezoneManipulator
       });
     }
   }

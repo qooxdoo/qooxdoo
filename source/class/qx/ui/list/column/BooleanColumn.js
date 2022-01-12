@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Column which has a boolean checkbox
  */
 qx.Class.define("qx.ui.list.column.BooleanColumn", {
   extend: qx.ui.list.column.AbstractWidgetColumn,
-  
+
   members: {
     /**
      * @Override

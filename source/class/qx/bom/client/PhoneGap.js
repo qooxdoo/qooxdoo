@@ -24,31 +24,28 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.PhoneGap",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.PhoneGap", {
+  statics: {
     /**
      * Checks if PhoneGap/Cordova is available.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
      */
-    getPhoneGap : function() {
-      return ("cordova" in window || "Cordova" in window || "PhoneGap" in window);
+    getPhoneGap() {
+      return "cordova" in window || "Cordova" in window || "PhoneGap" in window;
     },
-
 
     /**
      * Checks if notifications can be displayed.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
      */
-    getNotification : function() {
+    getNotification() {
       return "notification" in navigator;
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("phonegap", statics.getPhoneGap);
     qx.core.Environment.add("phonegap.notification", statics.getNotification);
   }

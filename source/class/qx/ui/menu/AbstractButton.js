@@ -26,13 +26,11 @@
  * @childControl shortcut {qx.ui.basic.Label} shows if specified the shortcut
  * @childControl arrow {qx.ui.basic.Image} shows the arrow to show an additional widget (e.g. popup or submenu)
  */
-qx.Class.define("qx.ui.menu.AbstractButton",
-{
-  extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MExecutable],
-  implement : [qx.ui.form.IExecutable],
-  type : "abstract",
-
+qx.Class.define("qx.ui.menu.AbstractButton", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MExecutable],
+  implement: [qx.ui.form.IExecutable],
+  type: "abstract",
 
   /*
   *****************************************************************************
@@ -40,12 +38,11 @@ qx.Class.define("qx.ui.menu.AbstractButton",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.menu.ButtonLayout);
+    this._setLayout(new qx.ui.menu.ButtonLayout());
 
     // Add listeners
     this.addListener("tap", this._onTap);
@@ -55,62 +52,54 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this.addListener("changeCommand", this._onChangeCommand, this);
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    blockToolTip :
-    {
-      refine : true,
-      init : true
+    blockToolTip: {
+      refine: true,
+      init: true
     },
 
     /** The label text of the button */
-    label :
-    {
-      check : "String",
-      apply : "_applyLabel",
-      nullable : true,
+    label: {
+      check: "String",
+      apply: "_applyLabel",
+      nullable: true,
       event: "changeLabel"
     },
 
     /** Whether a sub menu should be shown and which one */
-    menu :
-    {
-      check : "qx.ui.menu.Menu",
-      apply : "_applyMenu",
-      nullable : true,
-      dereference : true,
-      event : "changeMenu"
+    menu: {
+      check: "qx.ui.menu.Menu",
+      apply: "_applyMenu",
+      nullable: true,
+      dereference: true,
+      event: "changeMenu"
     },
 
     /** The icon to use */
-    icon :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      themeable : true,
-      nullable : true,
+    icon: {
+      check: "String",
+      apply: "_applyIcon",
+      themeable: true,
+      nullable: true,
       event: "changeIcon"
     },
 
     /** Indicates whether the label for the command (shortcut) should be visible or not. */
-    showCommandLabel :
-    {
-      check : "Boolean",
-      apply : "_applyShowCommandLabel",
-      themeable : true,
-      init : true,
+    showCommandLabel: {
+      check: "Boolean",
+      apply: "_applyShowCommandLabel",
+      themeable: true,
+      init: true,
       event: "changeShowCommandLabel"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -118,8 +107,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -127,54 +115,48 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "icon":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           control.setAnonymous(true);
-          this._add(control, {column:0});
+          this._add(control, { column: 0 });
           break;
 
         case "label":
-          control = new qx.ui.basic.Label;
+          control = new qx.ui.basic.Label();
           control.setAnonymous(true);
-          this._add(control, {column:1});
+          this._add(control, { column: 1 });
           break;
 
         case "shortcut":
-          control = new qx.ui.basic.Label;
+          control = new qx.ui.basic.Label();
           control.setAnonymous(true);
           if (!this.getShowCommandLabel()) {
             control.exclude();
           }
-          this._add(control, {column:2});
+          this._add(control, { column: 2 });
           break;
 
         case "arrow":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           control.setAnonymous(true);
-          this._add(control, {column:3});
+          this._add(control, { column: 3 });
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      selected : 1
+    _forwardStates: {
+      selected: 1
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -187,37 +169,46 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      *
      * @return {Array} Preferred width of each child
      */
-    getChildrenSizes : function()
-    {
-      var iconWidth=0, labelWidth=0, shortcutWidth=0, arrowWidth=0;
+    getChildrenSizes() {
+      var iconWidth = 0,
+        labelWidth = 0,
+        shortcutWidth = 0,
+        arrowWidth = 0;
 
-      if (this._isChildControlVisible("icon"))
-      {
+      if (this._isChildControlVisible("icon")) {
         var icon = this.getChildControl("icon");
-        iconWidth = icon.getMarginLeft() + icon.getSizeHint().width + icon.getMarginRight();
+        iconWidth =
+          icon.getMarginLeft() +
+          icon.getSizeHint().width +
+          icon.getMarginRight();
       }
 
-      if (this._isChildControlVisible("label"))
-      {
+      if (this._isChildControlVisible("label")) {
         var label = this.getChildControl("label");
-        labelWidth = label.getMarginLeft() + label.getSizeHint().width + label.getMarginRight();
+        labelWidth =
+          label.getMarginLeft() +
+          label.getSizeHint().width +
+          label.getMarginRight();
       }
 
-      if (this._isChildControlVisible("shortcut"))
-      {
+      if (this._isChildControlVisible("shortcut")) {
         var shortcut = this.getChildControl("shortcut");
-        shortcutWidth = shortcut.getMarginLeft() + shortcut.getSizeHint().width + shortcut.getMarginRight();
+        shortcutWidth =
+          shortcut.getMarginLeft() +
+          shortcut.getSizeHint().width +
+          shortcut.getMarginRight();
       }
 
-      if (this._isChildControlVisible("arrow"))
-      {
+      if (this._isChildControlVisible("arrow")) {
         var arrow = this.getChildControl("arrow");
-        arrowWidth = arrow.getMarginLeft() + arrow.getSizeHint().width + arrow.getMarginRight();
+        arrowWidth =
+          arrow.getMarginLeft() +
+          arrow.getSizeHint().width +
+          arrow.getMarginRight();
       }
 
-      return [ iconWidth, labelWidth, shortcutWidth, arrowWidth ];
+      return [iconWidth, labelWidth, shortcutWidth, arrowWidth];
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -225,17 +216,19 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event listener for tap
      *
      * @param e {qx.event.type.Pointer} pointer event
      */
-    _onTap : function(e)
-    {
+    _onTap(e) {
       if (e.isLeftPressed()) {
         this.execute();
-        qx.event.Timer.once(qx.ui.menu.Manager.getInstance().hideAll, qx.ui.menu.Manager.getInstance(), 0);
+        qx.event.Timer.once(
+          qx.ui.menu.Manager.getInstance().hideAll,
+          qx.ui.menu.Manager.getInstance(),
+          0
+        );
       }
 
       // right click
@@ -247,24 +240,21 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       }
     },
 
-
     /**
      * Event listener for keypress event
      *
      * @param e {qx.event.type.KeySequence} keypress event
      */
-    _onKeyPress : function(e) {
+    _onKeyPress(e) {
       this.execute();
     },
-
 
     /**
      * Event listener for command changes. Updates the text of the shortcut.
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onChangeCommand : function(e)
-    {
+    _onChangeCommand(e) {
       var command = e.getData();
 
       // do nothing if no command is set
@@ -272,14 +262,21 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         return;
       }
 
-      if (qx.core.Environment.get("qx.dynlocale"))
-      {
+      if (qx.core.Environment.get("qx.dynlocale")) {
         var oldCommand = e.getOldData();
         if (!oldCommand) {
-          qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+          qx.locale.Manager.getInstance().addListener(
+            "changeLocale",
+            this._onChangeLocale,
+            this
+          );
         }
         if (!command) {
-          qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+          qx.locale.Manager.getInstance().removeListener(
+            "changeLocale",
+            this._onChangeLocale,
+            this
+          );
         }
       }
 
@@ -287,22 +284,19 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       this.getChildControl("shortcut").setValue(cmdString);
     },
 
-
     /**
      * Update command string on locale changes
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e) {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         var command = this.getCommand();
         if (command != null) {
           this.getChildControl("shortcut").setValue(command.toString());
         }
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -311,8 +305,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     */
 
     // property apply
-    _applyIcon : function(value, old)
-    {
+    _applyIcon(value, old) {
       if (value) {
         this._showChildControl("icon").setSource(value);
       } else {
@@ -321,8 +314,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     },
 
     // property apply
-    _applyLabel : function(value, old)
-    {
+    _applyLabel(value, old) {
       if (value) {
         this._showChildControl("label").setValue(value);
       } else {
@@ -331,28 +323,23 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     },
 
     // property apply
-    _applyMenu : function(value, old)
-    {
-      if (old)
-      {
+    _applyMenu(value, old) {
+      if (old) {
         old.removeListener("changeVisibility", this._onMenuChange, this);
         old.resetOpener();
         old.removeState("submenu");
       }
 
-      if (value)
-      {
+      if (value) {
         this._showChildControl("arrow");
 
         value.addListener("changeVisibility", this._onMenuChange, this);
         value.setOpener(this);
         value.addState("submenu");
-      }
-      else
-      {
+      } else {
         this._excludeChildControl("arrow");
       }
-      
+
       // ARIA attrs
       const contentEl = this.getContentElement();
       if (!contentEl) {
@@ -361,7 +348,10 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       if (value) {
         contentEl.setAttribute("aria-haspopup", "menu");
         contentEl.setAttribute("aria-expanded", value.isVisible());
-        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+        contentEl.setAttribute(
+          "aria-controls",
+          value.getContentElement().getAttribute("id")
+        );
       } else {
         contentEl.removeAttribute("aria-haspopup");
         contentEl.removeAttribute("aria-expanded");
@@ -374,15 +364,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onMenuChange : function(e)
-    {
+    _onMenuChange(e) {
       // ARIA attrs
-      this.getContentElement().setAttribute("aria-expanded", this.getMenu().isVisible());
+      this.getContentElement().setAttribute(
+        "aria-expanded",
+        this.getMenu().isVisible()
+      );
     },
 
     // property apply
-    _applyShowCommandLabel : function(value, old)
-    {
+    _applyShowCommandLabel(value, old) {
       if (value) {
         this._showChildControl("shortcut");
       } else {
@@ -391,27 +382,27 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     }
   },
 
-
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
 
-  destruct : function()
-  {
+  destruct() {
     this.removeListener("changeCommand", this._onChangeCommand, this);
 
-    if (this.getMenu())
-    {
+    if (this.getMenu()) {
       if (!qx.core.ObjectRegistry.inShutDown) {
         this.getMenu().destroy();
       }
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   }
 });
-

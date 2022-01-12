@@ -19,10 +19,8 @@
  * Defines the methods needed by every marshaler which should work with the
  * qooxdoo data stores.
  */
-qx.Interface.define("qx.data.marshal.IMarshaler",
-{
-  members :
-  {
+qx.Interface.define("qx.data.marshal.IMarshaler", {
+  members: {
     /**
      * Creates for the given data the needed classes. The classes contain for
      * every key in the data a property. The classname is always the prefix
@@ -33,8 +31,7 @@ qx.Interface.define("qx.data.marshal.IMarshaler",
      * @param includeBubbleEvents {Boolean} Whether the model should support
      *   the bubbling of change events or not.
      */
-    toClass : function(data, includeBubbleEvents) {},
-
+    toClass(data, includeBubbleEvents) {},
 
     /**
      * Creates for the given data the needed models. Be sure to have the classes
@@ -44,6 +41,6 @@ qx.Interface.define("qx.data.marshal.IMarshaler",
      *
      * @return {qx.core.Object} The created model object.
      */
-    toModel : function(data) {}
+    toModel(data) {}
   }
 });

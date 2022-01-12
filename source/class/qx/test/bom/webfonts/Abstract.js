@@ -14,18 +14,16 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.bom.webfonts.Abstract", {
+  extend: qx.dev.unit.TestCase,
 
-  extend : qx.dev.unit.TestCase,
-
-  members :
-  {
-    hasWebFontSupport : function()
-    {
+  members: {
+    hasWebFontSupport() {
       var browser = qx.core.Environment.get("browser.name");
       var version = qx.core.Environment.get("browser.version");
-      if ((browser == "firefox" && version < 3.5) ||
-          (browser == "opera" && version < 10))
-      {
+      if (
+        (browser == "firefox" && version < 3.5) ||
+        (browser == "opera" && version < 10)
+      ) {
         return false;
       }
       return true;

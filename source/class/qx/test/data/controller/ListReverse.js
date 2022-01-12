@@ -1,61 +1,54 @@
-
 /**
  * @ignore(qx.test.ListItem)
  */
 
-qx.Class.define("qx.test.data.controller.ListReverse",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.data.controller.ListReverse", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
 
     // define a test class
-    qx.Class.define("qx.test.ListItem",
-    {
-      extend : qx.ui.core.Widget,
-      implement : [qx.ui.form.IModel],
-      include : [qx.ui.form.MModelProperty],
+    qx.Class.define("qx.test.ListItem", {
+      extend: qx.ui.core.Widget,
+      implement: [qx.ui.form.IModel],
+      include: [qx.ui.form.MModelProperty],
 
-      properties :
-      {
-        label : {
-          check : "String",
+      properties: {
+        label: {
+          check: "String",
           init: "label",
-          event : "changeLabel"
+          event: "changeLabel"
         },
 
-        icon : {
-          check : "String",
-          init : "icon",
-          event : "changeIcon"
+        icon: {
+          check: "String",
+          init: "icon",
+          event: "changeIcon"
         },
 
-        child : {
-          check : "qx.test.ListItem",
+        child: {
+          check: "qx.test.ListItem",
           event: "changeChild",
           nullable: true
         },
 
-        children : {
-          event : "changeChildren",
+        children: {
+          event: "changeChildren",
           nullable: true
         }
       }
     });
   },
 
-
-  members :
-  {
+  members: {
     __list: null,
     __controller: null,
     __data: null,
     __model: null,
     __delegate: null,
 
-    setUp : function()
-    {
+    setUp() {
       this.__list = new qx.ui.form.List();
 
       // create the model
@@ -67,16 +60,15 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       this.__model = new qx.data.Array(this.__data);
 
       this.__delegate = {
-        createItem : function() {
+        createItem() {
           return new qx.test.ListItem();
         }
       };
+
       this.__controller = new qx.data.controller.List();
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.flush();
       this.__controller.dispose();
       this.__controller = null;
@@ -86,10 +78,8 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       this.__list.dispose();
     },
 
-
-    testStringListModel : function()
-    {
-      this.__delegate.bindItem = function(controller, item, id) {
+    testStringListModel() {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindDefaultProperties(item, id);
         controller.bindProperty("", "label", null, item, id);
         controller.bindPropertyReverse("", "label", null, item, id);
@@ -123,7 +113,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       }
 
       // invoke a removing and setting of the bindings with the new bindItem
-      this.__delegate.bindItem = function(controller, item, id) {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindProperty("", "label", null, item, id);
       };
       this.__controller.update();
@@ -135,10 +125,8 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       }
     },
 
-
-    testStringListModelInitModelPrior : function()
-    {
-      this.__delegate.bindItem = function(controller, item, id) {
+    testStringListModelInitModelPrior() {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindProperty("", "icon", null, item, id);
         controller.bindPropertyReverse("", "icon", null, item, id);
       };
@@ -157,10 +145,8 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       }
     },
 
-
-    testStringListModelInitTargetPrior : function()
-    {
-      this.__delegate.bindItem = function(controller, item, id) {
+    testStringListModelInitTargetPrior() {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindPropertyReverse("", "icon", null, item, id);
         controller.bindProperty("", "icon", null, item, id);
       };
@@ -179,15 +165,13 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       }
     },
 
-
-    testStringListModelDeepTarget : function()
-    {
-      this.__delegate.bindItem = function(controller, item, id) {
+    testStringListModelDeepTarget() {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindProperty("", "child.label", null, item, id);
         controller.bindPropertyReverse("", "child.label", null, item, id);
       };
 
-      this.__delegate.configureItem = function(item) {
+      this.__delegate.configureItem = function (item) {
         item.setChild(new qx.test.ListItem());
       };
 
@@ -208,7 +192,10 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
         items[i].getChild().setLabel("affe" + i);
-        this.assertEquals(items[i].getChild().getLabel(), this.__model.getItem(i));
+        this.assertEquals(
+          items[i].getChild().getLabel(),
+          this.__model.getItem(i)
+        );
       }
 
       // get rid of the created items
@@ -218,16 +205,17 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       }
     },
 
-
-    testStringListModelArrayTarget : function()
-    {
-      this.__delegate.bindItem = function(controller, item, id) {
+    testStringListModelArrayTarget() {
+      this.__delegate.bindItem = function (controller, item, id) {
         controller.bindProperty("", "children[0].label", null, item, id);
         controller.bindPropertyReverse("", "children[0].label", null, item, id);
       };
 
-      this.__delegate.configureItem = function(item) {
-        var childItems = new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem());
+      this.__delegate.configureItem = function (item) {
+        var childItems = new qx.data.Array(
+          new qx.test.ListItem(),
+          new qx.test.ListItem()
+        );
         item.setChildren(childItems);
       };
 
@@ -242,19 +230,31 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       var items = this.__list.getChildren();
       for (var i = 0; i < items.length; i++) {
         this.__model.setItem(i, "abc" + i);
-        this.assertEquals("abc" + i, items[i].getChildren().getItem(0).getLabel());
+        this.assertEquals(
+          "abc" + i,
+          items[i].getChildren().getItem(0).getLabel()
+        );
       }
 
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
-        items[i].getChildren().getItem(0).setLabel("affe" + i);
-        this.assertEquals(items[i].getChildren().getItem(0).getLabel(), this.__model.getItem(i));
+        items[i]
+          .getChildren()
+          .getItem(0)
+          .setLabel("affe" + i);
+        this.assertEquals(
+          items[i].getChildren().getItem(0).getLabel(),
+          this.__model.getItem(i)
+        );
       }
 
       // check a change of the array order
       for (var i = 0; i < items.length; i++) {
         items[i].getChildren().reverse();
-        this.assertEquals(items[i].getChildren().getItem(0).getLabel(), this.__model.getItem(i));
+        this.assertEquals(
+          items[i].getChildren().getItem(0).getLabel(),
+          this.__model.getItem(i)
+        );
       }
 
       // get rid of the created items

@@ -15,15 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Color",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Color", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget) {
+  members: {
+    __test(widget) {
       // check if the interface is implemented
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IColorForm), "Interface is not implemented.");
+      this.assertTrue(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IColorForm),
+        "Interface is not implemented."
+      );
 
       // check for the init value
       this.assertNull(widget.getValue(), "Wrong init value set.");
@@ -33,14 +34,24 @@ qx.Class.define("qx.test.ui.form.Color",
 
       // check the getter and setter
       widget.setValue("#008000");
-      this.assertEquals("#008000", widget.getValue(), "Set or get does not work.");
+      this.assertEquals(
+        "#008000",
+        widget.getValue(),
+        "Set or get does not work."
+      );
 
       var self = this;
-      this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue("#CCCCCC");
-      }, function(e) {
-        self.assertEquals("#CCCCCC", e.getData(), "Wrong data in the event.");
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeValue",
+        function () {
+          widget.setValue("#CCCCCC");
+        },
+        function (e) {
+          self.assertEquals("#CCCCCC", e.getData(), "Wrong data in the event.");
+        },
+        "Event is wrong!"
+      );
 
       // test for null values
       widget.setValue(null);
@@ -48,13 +59,12 @@ qx.Class.define("qx.test.ui.form.Color",
       widget.destroy();
     },
 
-    testColorSelector: function() {
-     this.__test(new qx.ui.control.ColorSelector());
+    testColorSelector() {
+      this.__test(new qx.ui.control.ColorSelector());
     },
 
-    testColorPopup: function() {
-     this.__test(new qx.ui.control.ColorPopup());
+    testColorPopup() {
+      this.__test(new qx.ui.control.ColorPopup());
     }
-
   }
 });

@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.SelectBox",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
+qx.Class.define("qx.test.ui.selection.SelectBox", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var length = 10;
       this._notInSelection = [];
       this._mode = "one";
@@ -46,9 +43,8 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -56,15 +52,13 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       this.flush();
     },
 
-    testResetSelectionAllowEmpty : function()
-    {
+    testResetSelectionAllowEmpty() {
       this._mode = "single";
       this._widget.getChildrenContainer().setSelectionMode(this._mode);
       this.testResetSelection();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getChildrenContainer().getChildren();
       } else {
@@ -72,7 +66,7 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.form.ListItem(name);
     }
   }

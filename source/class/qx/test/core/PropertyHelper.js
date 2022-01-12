@@ -16,106 +16,91 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.core.PropertyHelper",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.test.core.PropertyHelper", {
+  extend: qx.core.Object,
 
-  construct : function(delegate) {
-    this.base(arguments);
+  construct(delegate) {
+    super();
 
     if (delegate) {
       delegate(this);
     }
   },
 
-  properties :
-  {
+  properties: {
     // protection
-    publicProp : { nullable : true },
+    publicProp: { nullable: true },
 
     // types
-    stringProp :
-    {
-      check    : "String",
-      nullable : true
+    stringProp: {
+      check: "String",
+      nullable: true
     },
 
-    booleanProp :
-    {
-      check    : "Boolean",
-      nullable : true
+    booleanProp: {
+      check: "Boolean",
+      nullable: true
     },
 
-    numberProp :
-    {
-      check    : "Number",
-      nullable : true
+    numberProp: {
+      check: "Number",
+      nullable: true
     },
 
-    objectProp :
-    {
-      check    : "Object",
-      nullable : true
+    objectProp: {
+      check: "Object",
+      nullable: true
     },
 
-    arrayProp :
-    {
-      check    : "Array",
-      nullable : true
+    arrayProp: {
+      check: "Array",
+      nullable: true
     },
 
-    mapProp :
-    {
-      check    : "Map",
-      nullable : true
+    mapProp: {
+      check: "Map",
+      nullable: true
     },
 
     // multi values
-    noProp :
-    {
-      check    : "String",
-      nullable : true
+    noProp: {
+      check: "String",
+      nullable: true
     },
 
-    initProp : { init : "foo" },
+    initProp: { init: "foo" },
 
-    initApplyProp1 :
-    {
-      check : "String",
-      init : "juhu",
-      apply : "_applyInitApplyProp"
+    initApplyProp1: {
+      check: "String",
+      init: "juhu",
+      apply: "_applyInitApplyProp"
     },
 
-    initApplyProp2 :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applyInitApplyProp"
+    initApplyProp2: {
+      check: "String",
+      init: null,
+      nullable: true,
+      apply: "_applyInitApplyProp"
     },
 
-    nullProp :
-    {
-      init     : "bar",
-      nullable : true
+    nullProp: {
+      init: "bar",
+      nullable: true
     },
 
-    appearanceProp :
-    {
-      themeable : true,
-      nullable  : true
+    appearanceProp: {
+      themeable: true,
+      nullable: true
     },
 
-    fullProp :
-    {
-      init      : 100,
-      themeable : true
+    fullProp: {
+      init: 100,
+      themeable: true
     }
   },
 
-  members :
-  {
-    _applyInitApplyProp : function(value, old) {
+  members: {
+    _applyInitApplyProp(value, old) {
       this.lastApply = [value, old];
     }
   }

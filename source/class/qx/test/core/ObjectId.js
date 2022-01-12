@@ -26,16 +26,17 @@ qx.Class.define("qx.test.core.ObjectId", {
   include: qx.dev.unit.MMock,
 
   members: {
-    testGetObject: function() {
+    testGetObject() {
       var clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         members: {
-          _createQxObjectImpl: function(id) {
-            switch(id) {
-            case "txt":
-              return new qx.ui.form.TextField();
+          _createQxObjectImpl(id) {
+            switch (id) {
+              case "txt":
+                return new qx.ui.form.TextField();
             }
-            return this.base(arguments, id);
+
+            return super._createQxObjectImpl(id);
           }
         }
       });

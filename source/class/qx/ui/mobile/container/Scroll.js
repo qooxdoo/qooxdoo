@@ -39,19 +39,16 @@
  *
  * This example creates a scroll container and adds a label to it.
  */
-qx.Class.define("qx.ui.mobile.container.Scroll",
-{
-  extend : qx.ui.mobile.container.Composite,
-
+qx.Class.define("qx.ui.mobile.container.Scroll", {
+  extend: qx.ui.mobile.container.Composite,
 
   /**
-  * @param scrollProperties {Object} A map with scroll properties which are passed to the scrolling container (may contain iScroll properties).
-  */
-  construct : function(scrollProperties)
-  {
-    this.base(arguments);
+   * @param scrollProperties {Object} A map with scroll properties which are passed to the scrolling container (may contain iScroll properties).
+   */
+  construct(scrollProperties) {
+    super();
 
-    if(scrollProperties) {
+    if (scrollProperties) {
       this._scrollProperties = scrollProperties;
     }
 
@@ -64,52 +61,43 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     this._currentY = 0;
   },
 
-
-  events :
-  {
+  events: {
     /** Fired when the scroll container reaches its end position (including momentum/inertia). */
-    scrollEnd : "qx.event.type.Event",
-
+    scrollEnd: "qx.event.type.Event",
 
     /** Fired when the user scrolls to the end of scroll area. */
-    pageEnd : "qx.event.type.Event",
-
+    pageEnd: "qx.event.type.Event",
 
     /** Fired when a vertical or horizontal waypoint is triggered. Data:
-    * <code> {"offset": 0,
-    *        "input": "10%",
-    *        "index": 0,
-    *        "element" : 0}</code>
-    */
-    waypoint : "qx.event.type.Data",
-
-
-    /**
-    * Fired when a momentum starts on an iOS device.
-    */
-    momentumStart : "qx.event.type.Event",
+     * <code> {"offset": 0,
+     *        "input": "10%",
+     *        "index": 0,
+     *        "element" : 0}</code>
+     */
+    waypoint: "qx.event.type.Data",
 
     /**
-    * Fired when a momentum ends on an iOS device.
-    */
-    momentumEnd : "qx.event.type.Data"
+     * Fired when a momentum starts on an iOS device.
+     */
+    momentumStart: "qx.event.type.Event",
+
+    /**
+     * Fired when a momentum ends on an iOS device.
+     */
+    momentumEnd: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "scroll"
+    defaultCssClass: {
+      refine: true,
+      init: "scroll"
     },
-
 
     /**
      * Delegation object which can have one or more functions defined by the
@@ -117,8 +105,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      *
      * @internal
      */
-    delegate :
-    {
+    delegate: {
       init: null,
       nullable: true
     }
@@ -132,84 +119,85 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   members: {
     _scrollProperties: null,
-    _activeWaypointX : null,
-    _activeWaypointY : null,
+    _activeWaypointX: null,
+    _activeWaypointY: null,
     _waypointsX: null,
     _waypointsY: null,
-    _calculatedWaypointsX : null,
-    _calculatedWaypointsY : null,
-    _currentX : null,
-    _currentY : null,
-
+    _calculatedWaypointsX: null,
+    _calculatedWaypointsY: null,
+    _currentX: null,
+    _currentY: null,
 
     /**
-    * Sets the current x position.
-    * @param value {Number} the current horizontal position.
-    */
-    _setCurrentX : function(value) {
+     * Sets the current x position.
+     * @param value {Number} the current horizontal position.
+     */
+    _setCurrentX(value) {
       var old = this._currentX;
       this._currentX = value;
       this._fireWaypoint(value, old, "x");
     },
 
-
     /**
-    * Sets the current y position.
-    * @param value {Number} the current vertical position.
-    */
-    _setCurrentY : function(value) {
+     * Sets the current y position.
+     * @param value {Number} the current vertical position.
+     */
+    _setCurrentY(value) {
       var old = this._currentY;
       this._currentY = value;
-      this._fireWaypoint(value, old,  "y");
+      this._fireWaypoint(value, old, "y");
     },
 
-
-   /**
-    * Sets the horizontal trigger points, where a <code>waypoint</code> event will be fired.
-    * @param waypoints {Array} description
-    */
-    setWaypointsX : function(waypoints) {
+    /**
+     * Sets the horizontal trigger points, where a <code>waypoint</code> event will be fired.
+     * @param waypoints {Array} description
+     */
+    setWaypointsX(waypoints) {
       this._waypointsX = waypoints;
     },
-
 
     /**
      * Sets the vertical trigger points, where a <code>waypoint</code> event will be fired.
      * @param waypoints {Array} an array with waypoint descriptions. Allowed are percentage description as string, or pixel trigger points defined as numbers. <code>["20%",200]</code>
      */
-    setWaypointsY : function(waypoints) {
+    setWaypointsY(waypoints) {
       this._waypointsY = waypoints;
     },
-
 
     /**
      * Returns the scroll height.
      * @return {Number} the scroll height.
      */
-    getScrollHeight: function() {
+    getScrollHeight() {
       return this._getScrollHeight();
     },
-
 
     /**
      * Returns the scroll width.
      * @return {Number} the scroll width.
      */
-    getScrollWidth: function() {
+    getScrollWidth() {
       return this._getScrollWidth();
     },
-
 
     /**
      * Re-calculates the internal waypoint offsets.
      */
-    _updateWaypoints: function() {
+    _updateWaypoints() {
       this._calculatedWaypointsX = [];
       this._calculatedWaypointsY = [];
-      this._calcWaypoints(this._waypointsX, this._calculatedWaypointsX, this.getScrollWidth(), "x");
-      this._calcWaypoints(this._waypointsY, this._calculatedWaypointsY, this.getScrollHeight());
+      this._calcWaypoints(
+        this._waypointsX,
+        this._calculatedWaypointsX,
+        this.getScrollWidth(),
+        "x"
+      );
+      this._calcWaypoints(
+        this._waypointsY,
+        this._calculatedWaypointsY,
+        this.getScrollHeight()
+      );
     },
-
 
     /**
      * Validates and checks the waypoint offsets.
@@ -218,7 +206,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param scrollSize {Number} the vertical or horizontal scroll size.
      * @param axis {String?} "x" or "y".
      */
-    _calcWaypoints: function(waypoints, results, scrollSize, axis) {
+    _calcWaypoints(waypoints, results, scrollSize, axis) {
       axis = axis || "y";
 
       var offset = 0;
@@ -228,39 +216,42 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
           if (waypoint.endsWith("%")) {
             offset = parseInt(waypoint, 10) * (scrollSize / 100);
             results.push({
-              "offset": offset,
-              "input": waypoint,
-              "index": i,
-              "element": null,
-              "axis": axis
+              offset: offset,
+              input: waypoint,
+              index: i,
+              element: null,
+              axis: axis
             });
           } else {
             // Dynamically created waypoints, based upon a selector.
             var element = this.getContentElement();
             var waypointElements = qx.bom.Selector.query(waypoint, element);
             for (var j = 0; j < waypointElements.length; j++) {
-              var position = qx.bom.element.Location.getRelative(waypointElements[j], element);
+              var position = qx.bom.element.Location.getRelative(
+                waypointElements[j],
+                element
+              );
               if (axis === "y") {
                 offset = position.top + this.getContentElement().scrollTop;
               } else if (axis === "x") {
                 offset = position.left + this.getContentElement().scrollLeft;
               }
               results.push({
-                "offset": position.top + this._currentY,
-                "input": waypoint,
-                "index": i,
-                "element": j,
-                "axis": axis
+                offset: position.top + this._currentY,
+                input: waypoint,
+                index: i,
+                element: j,
+                axis: axis
               });
             }
           }
         } else if (qx.lang.Type.isNumber(waypoint)) {
           results.push({
-            "offset": waypoint,
-            "input": waypoint,
-            "index": i,
-            "element": null,
-            "axis": axis
+            offset: waypoint,
+            input: waypoint,
+            index: i,
+            element: null,
+            axis: axis
           });
         }
       }
@@ -270,20 +261,19 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       });
     },
 
-
     /**
      * Fires a waypoints event when scroll position changes.
      * @param value {Number} old scroll position.
      * @param old {Number} old scroll position.
      * @param axis {String} "x" or "y".
      */
-    _fireWaypoint: function(value, old, axis) {
+    _fireWaypoint(value, old, axis) {
       var waypoints = this._calculatedWaypointsY;
       if (axis === "x") {
         waypoints = this._calculatedWaypointsX;
       }
 
-      if(waypoints === null) {
+      if (waypoints === null) {
         return;
       }
 
@@ -291,9 +281,10 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (waypoint.offset !== null) {
-
-          if ((value > -1 && value >= waypoint.offset) ||
-           (value < 0 && waypoint.offset < 0 && value <= waypoint.offset)) {
+          if (
+            (value > -1 && value >= waypoint.offset) ||
+            (value < 0 && waypoint.offset < 0 && value <= waypoint.offset)
+          ) {
             nextWaypoint = waypoint;
           } else {
             break;
@@ -328,25 +319,28 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
         activeWaypoint = this._activeWaypointX;
       }
 
-      if (activeWaypoint === null || (activeWaypoint.index !== nextWaypoint.index || activeWaypoint.element !== nextWaypoint.element)) {
+      if (
+        activeWaypoint === null ||
+        activeWaypoint.index !== nextWaypoint.index ||
+        activeWaypoint.element !== nextWaypoint.element
+      ) {
         activeWaypoint = nextWaypoint;
         this._activeWaypointY = activeWaypoint;
         if (axis === "x") {
           this._activeWaypointX = activeWaypoint;
         }
         this.fireDataEvent("waypoint", {
-          "axis": axis,
-          "index": nextWaypoint.index,
-          "element": nextWaypoint.element,
-          "direction": direction
+          axis: axis,
+          index: nextWaypoint.index,
+          element: nextWaypoint.element,
+          direction: direction
         });
       }
     },
 
-
     // overridden
-    _createContainerElement: function() {
-      var element = this.base(arguments);
+    _createContainerElement() {
+      var element = super._createContainerElement();
       var scrollElement = this._createScrollElement();
       if (scrollElement) {
         return scrollElement;
@@ -355,26 +349,23 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       return element;
     },
 
-
     // overridden
-    _getContentElement: function() {
-      var contentElement = this.base(arguments);
+    _getContentElement() {
+      var contentElement = super._getContentElement();
 
       var scrollContentElement = this._getScrollContentElement();
 
       return scrollContentElement || contentElement;
     },
 
-
     /**
      * Calls the refresh function the used scrolling method. Needed to recalculate the
      * scrolling container.
      */
-    refresh: function() {
+    refresh() {
       this._refresh();
       this._updateWaypoints();
     },
-
 
     /**
      * Scrolls the wrapper contents to the x/y coordinates in a given time.
@@ -384,43 +375,39 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param time {Integer} Time slice in which scrolling should
      *              be done.
      */
-    scrollTo: function(x, y, time) {
+    scrollTo(x, y, time) {
       this._scrollTo(x, y, time);
     },
-
 
     /**
      * Returns the current scroll position
      * @return {Array} an array with <code>[scrollLeft,scrollTop]</code>.
      */
-    getPosition: function() {
+    getPosition() {
       return this._getPosition();
     },
 
-
     /**
      * Detects whether this scroll container is scrollable or not.
      * @return {Boolean} <code>true</code> or <code>false</code>
      */
-    isScrollable: function() {
+    isScrollable() {
       return this._isScrollable();
     },
 
-
     /**
      * Detects whether this scroll container is scrollable or not.
      * @return {Boolean} <code>true</code> or <code>false</code>
      */
-    _isScrollable: function() {
+    _isScrollable() {
       return this._isScrollableX() || this._isScrollableY();
     },
-
 
     /**
      * Detects whether this scroll container is scrollable on x axis or not.
      * @return {Boolean} <code>true</code> or <code>false</code>
      */
-    _isScrollableX: function() {
+    _isScrollableX() {
       if (this.getLayoutParent() === null) {
         return false;
       }
@@ -429,19 +416,18 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var contentWidth = this.getContentElement().scrollWidth;
 
       var scrollContentElement = this._getScrollContentElement();
-      if(scrollContentElement) {
+      if (scrollContentElement) {
         contentWidth = qx.bom.element.Dimension.getWidth(scrollContentElement);
       }
 
       return parentWidth < contentWidth;
     },
 
-
     /**
      * Detects whether this scroll container is scrollable on y axis or not.
      * @return {Boolean} <code>true</code> or <code>false</code>
      */
-    _isScrollableY: function() {
+    _isScrollableY() {
       if (this.getLayoutParent() === null) {
         return false;
       }
@@ -450,13 +436,13 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var contentHeight = this.getContentElement().scrollHeight;
 
       var scrollContentElement = this._getScrollContentElement();
-      if(scrollContentElement) {
-        contentHeight = qx.bom.element.Dimension.getHeight(scrollContentElement);
+      if (scrollContentElement) {
+        contentHeight =
+          qx.bom.element.Dimension.getHeight(scrollContentElement);
       }
 
       return parentHeight < contentHeight;
     },
-
 
     /**
      * Scrolls the wrapper contents to the widgets coordinates in a given
@@ -467,33 +453,39 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      *              be done (in seconds).
      *
      */
-    scrollToElement: function(target, time) {
+    scrollToElement(target, time) {
       this._scrollToElement(target, time);
     },
 
-
     /**
-    * Scrolls the wrapper contents to the widgets coordinates in a given
-    * period.
-    *
-    * @param element {String} the element to which the scroll container should scroll to.
-    * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
-    *
-    */
-    _scrollToElement : function(element, time)
-    {
+     * Scrolls the wrapper contents to the widgets coordinates in a given
+     * period.
+     *
+     * @param element {String} the element to which the scroll container should scroll to.
+     * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
+     *
+     */
+    _scrollToElement(element, time) {
       if (this._getContentElement() && this._isScrollable()) {
         if (typeof time === "undefined") {
           time = 0;
         }
 
-        var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
+        var location = qx.bom.element.Location.getRelative(
+          this._getContentElement(),
+          element,
+          "scroll",
+          "scroll"
+        );
         var offset = this._getScrollOffset();
 
-        this._scrollTo(-location.left - offset[0], -location.top - offset[1], time);
+        this._scrollTo(
+          -location.left - offset[0],
+          -location.top - offset[1],
+          time
+        );
       }
     },
-
 
     /**
      *
@@ -503,8 +495,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      *
      * @return {Array} an array with x,y offset.
      */
-    _getScrollOffset : function()
-    {
+    _getScrollOffset() {
       var delegate = this.getDelegate();
       if (delegate != null && delegate.getScrollOffset) {
         return delegate.getScrollOffset.bind(this)();
@@ -512,7 +503,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
         return [0, 0];
       }
     },
-
 
     /**
      * Scrolls the wrapper contents to the widgets coordinates in a given
@@ -522,26 +512,22 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param time {Integer} Time slice in which scrolling should
      *              be done.
      */
-    scrollToWidget: function(widget, time) {
+    scrollToWidget(widget, time) {
       if (widget) {
         this._scrollToElement(widget.getContentElement(), time);
       }
     }
   },
 
-
-  defer : function(statics)
-  {
-    if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-    {
+  defer(statics) {
+    if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
       qx.Class.include(statics, qx.ui.mobile.container.MIScroll);
     } else {
       qx.Class.include(statics, qx.ui.mobile.container.MNativeScroll);
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.removeListener("appear", this._updateWaypoints, this);
     this._waypointsX = this._waypointsY = null;
   }

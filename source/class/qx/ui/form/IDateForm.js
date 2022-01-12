@@ -20,10 +20,8 @@
  * Form interface for all form widgets which have date as their primary
  * data type like datechooser's.
  */
-qx.Interface.define("qx.ui.form.IDateForm",
-{
-  extend : qx.ui.form.IField,
-
+qx.Interface.define("qx.ui.form.IDateForm", {
+  extend: qx.ui.form.IField,
 
   /*
   *****************************************************************************
@@ -31,13 +29,10 @@ qx.Interface.define("qx.ui.form.IDateForm",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the value was modified */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -45,8 +40,7 @@ qx.Interface.define("qx.ui.form.IDateForm",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       VALUE PROPERTY
@@ -58,22 +52,20 @@ qx.Interface.define("qx.ui.form.IDateForm",
      *
      * @param value {Date|null} The new value of the element.
      */
-    setValue : function(value) {
+    setValue(value) {
       return arguments.length == 1;
     },
-
 
     /**
      * Resets the element's value to its initial value.
      */
-    resetValue : function() {},
-
+    resetValue() {},
 
     /**
      * The element's user set value.
      *
      * @return {Date|null} The value.
      */
-    getValue : function() {}
+    getValue() {}
   }
 });

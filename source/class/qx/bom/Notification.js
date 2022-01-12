@@ -52,7 +52,6 @@
  * @ignore(Notification.requestPermission,Notification,Notification.permission)
  */
 qx.Class.define("qx.bom.Notification", {
-
   extend: qx.core.Object,
   type: "singleton",
 
@@ -62,20 +61,17 @@ qx.Class.define("qx.bom.Notification", {
   *****************************************************************************
   */
 
-  statics : {
-
+  statics: {
     /**
      * Whether the client supports the desktop notification API.
      *
      * @internal
      * @return {Boolean} <code>true</code> if notification API is supported
      */
-    getNotification : function() {
+    getNotification() {
       return window.Notification !== undefined;
     }
-
   },
-
 
   /*
   *****************************************************************************
@@ -86,11 +82,10 @@ qx.Class.define("qx.bom.Notification", {
   /**
    * This is a singleton. Use <code>getInstance()</code> to get an instance.
    */
-  construct : function() {
-    this.base(arguments);
-     this.__notifications = {};
+  construct() {
+    super();
+    this.__notifications = {};
   },
-
 
   /*
   *****************************************************************************
@@ -98,27 +93,25 @@ qx.Class.define("qx.bom.Notification", {
   *****************************************************************************
   */
 
-  events : {
-
+  events: {
     /**
      * Event fired when a notification with data <code>tag</code> appeared.
      */
-    "appear" : "Data",
+    appear: "Data",
 
     /**
      * Event fired when a notification with data <code>tag</code> has been
      * clicked by the user.
      */
-    "click" : "Data",
+    click: "Data",
 
     /**
      * Event fired when a notification with data <code>tag</code> has been
      * closed. This may happen either interactively or due to a timeout
      * defined by the instance displaying the notification.
      */
-    "close" : "Data"
+    close: "Data"
   },
-
 
   /*
   *****************************************************************************
@@ -127,9 +120,8 @@ qx.Class.define("qx.bom.Notification", {
   */
 
   members: {
-    __notifications : null,
-    __lastId : 0,
-
+    __notifications: null,
+    __lastId: 0,
 
     /**
      * Display a desktop notification using a _title_, _message_ and _icon_.
@@ -146,22 +138,20 @@ qx.Class.define("qx.bom.Notification", {
      *                     other. Leave blank for automatic tag handling.
      * @return {String} Notification tag
      */
-    show : function(title, message, icon, expire, tag) {
+    show(title, message, icon, expire, tag) {
       if (qx.bom.Notification.getNotification()) {
-
         // Generate unique tag to be able to identify the
         // notification later on.
         if (tag !== undefined) {
-          tag = "id" + (this.__lastId++);
+          tag = "id" + this.__lastId++;
         }
 
         // If we've the permission already, just send it
         if (Notification.permission == "granted") {
           this._show(tag, title, message, icon, expire);
 
-        // We've not asked for permission yet. Lets do it.
+          // We've not asked for permission yet. Lets do it.
         } else if (Notification.permission != "denied") {
-
           var that = this;
           Notification.requestPermission(function (permission) {
             if (Notification.permission === undefined) {
@@ -173,12 +163,10 @@ qx.Class.define("qx.bom.Notification", {
             }
           });
         }
-
       }
 
       return tag === undefined ? null : tag;
     },
-
 
     /**
      * Display a desktop notification using a _title_, _message_ and _icon_.
@@ -194,8 +182,10 @@ qx.Class.define("qx.bom.Notification", {
      *                     tend to remove timeout-less messages after some
      *                     time.
      */
-    _show : function(tag, title, message, icon, expire) {
-      var lang = qx.locale.Manager.getInstance().getLocale().replace(/_.*$/, "");
+    _show(tag, title, message, icon, expire) {
+      var lang = qx.locale.Manager.getInstance()
+        .getLocale()
+        .replace(/_.*$/, "");
 
       // Resolve icon path if needed and possible
       if (icon) {
@@ -208,8 +198,10 @@ qx.Class.define("qx.bom.Notification", {
         // old versions of firefox did not display the notification if
         // an icon was specified, so we disable the icon for firefox
         // < version 46
-        if (qx.core.Environment.get("engine.name") == "gecko" &&
-            qx.core.Environment.get("browser.version") < 46) {
+        if (
+          qx.core.Environment.get("engine.name") == "gecko" &&
+          qx.core.Environment.get("browser.version") < 46
+        ) {
           icon = undefined;
         }
       }
@@ -220,26 +212,27 @@ qx.Class.define("qx.bom.Notification", {
         icon: icon,
         lang: lang
       });
+
       var that = this;
-      notification.onshow = function() {
+      notification.onshow = function () {
         that.__notifications[tag] = notification;
         that.fireDataEvent("appear", tag);
       };
-      notification.onclose = function() {
+      notification.onclose = function () {
         that.fireDataEvent("close", tag);
         if (that.__notifications[tag]) {
           that.__notifications[tag] = null;
           delete that.__notifications[tag];
         }
       };
-      notification.onclick = function() {
+      notification.onclick = function () {
         that.fireDataEvent("click", tag);
         if (that.__notifications[tag]) {
           that.__notifications[tag] = null;
           delete that.__notifications[tag];
         }
       };
-      notification.onerror = function() {
+      notification.onerror = function () {
         that.fireDataEvent("error", tag);
         if (that.__notifications[tag]) {
           that.__notifications[tag] = null;
@@ -249,24 +242,26 @@ qx.Class.define("qx.bom.Notification", {
 
       // Install expire timer if exists
       if (expire) {
-        qx.event.Timer.once(function() {
-          notification.close();
-        }, this, expire);
+        qx.event.Timer.once(
+          function () {
+            notification.close();
+          },
+          this,
+          expire
+        );
       }
     },
-
 
     /**
      * Actively close an active notification.
      *
      * @param tag {String} Notification tag
      */
-    close : function(tag) {
+    close(tag) {
       if (this.__notifications[tag]) {
         this.__notifications[tag].close();
       }
     },
-
 
     /**
      * Tell the browser to request permission to display notifications.
@@ -275,7 +270,7 @@ qx.Class.define("qx.bom.Notification", {
      *
      * This needs to be called from within an interactive event handler.
      */
-    request : function() {
+    request() {
       if (qx.bom.Notification.getNotification()) {
         Notification.requestPermission(function (permission) {
           if (Notification.permission === undefined) {
@@ -285,7 +280,6 @@ qx.Class.define("qx.bom.Notification", {
       }
     },
 
-
     /**
      * Check if we've the permission to send notifications.
      *
@@ -293,14 +287,14 @@ qx.Class.define("qx.bom.Notification", {
      *                  indicates that we need to call <code>request()</code>  before
      *                  a notification can be sent.
      */
-    getPermission : function() {
-       return qx.bom.Notification.getNotification() ? Notification.permission : "denied";
+    getPermission() {
+      return qx.bom.Notification.getNotification()
+        ? Notification.permission
+        : "denied";
     }
-
   },
 
-
-  defer : function (statics) {
+  defer(statics) {
     qx.core.Environment.add("html.notification", statics.getNotification);
   }
 });

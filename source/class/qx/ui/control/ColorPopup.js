@@ -32,10 +32,9 @@
  * @childControl colorselector-okbutton {qx.ui.form.Button} button of the colorselector
  * @childControl colorselector-cancelbutton {qx.ui.form.Button} button of the colorselector
  */
-qx.Class.define("qx.ui.control.ColorPopup",
-{
-  extend : qx.ui.popup.Popup,
-  implement : [qx.ui.form.IColorForm],
+qx.Class.define("qx.ui.control.ColorPopup", {
+  extend: qx.ui.popup.Popup,
+  implement: [qx.ui.form.IColorForm],
 
   /*
   *****************************************************************************
@@ -43,9 +42,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.setLayout(new qx.ui.layout.VBox(5));
 
@@ -63,54 +61,44 @@ qx.Class.define("qx.ui.control.ColorPopup",
   *****************************************************************************
   */
 
-  properties :
-  {
-
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "colorpopup"
+    appearance: {
+      refine: true,
+      init: "colorpopup"
     },
 
     /** The hex value of the selected color. */
-    value :
-    {
-      nullable : true,
-      apply : "_applyValue",
-      event : "changeValue"
+    value: {
+      nullable: true,
+      apply: "_applyValue",
+      event: "changeValue"
     },
 
     /** The numeric red value of the selected color. */
-    red :
-    {
-      check : "Number",
-      init : null,
-      nullable : true,
-      event : "changeRed"
+    red: {
+      check: "Number",
+      init: null,
+      nullable: true,
+      event: "changeRed"
     },
 
     /** The numeric green value of the selected color. */
-    green :
-    {
-      check : "Number",
-      init : null,
-      nullable : true,
-      event : "changeGreen"
+    green: {
+      check: "Number",
+      init: null,
+      nullable: true,
+      event: "changeGreen"
     },
 
     /** The numeric blue value of the selected color. */
-    blue :
-    {
-      check : "Number",
-      init : null,
-      nullable : true,
-      event : "changeBlue"
+    blue: {
+      check: "Number",
+      init: null,
+      nullable: true,
+      event: "changeBlue"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -118,26 +106,22 @@ qx.Class.define("qx.ui.control.ColorPopup",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __minZIndex : 1e5,
-    __boxes : null,
-    __colorSelectorWindow : null,
-    __colorSelector : null,
-    __buttonBar : null,
-    __recentTableId : "recent",
-    __fieldNumber : 12,
-
+  members: {
+    __minZIndex: 1e5,
+    __boxes: null,
+    __colorSelectorWindow: null,
+    __colorSelector: null,
+    __buttonBar: null,
+    __recentTableId: "recent",
+    __fieldNumber: 12,
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "field":
-          control = new qx.ui.core.Widget;
+          control = new qx.ui.core.Widget();
           control.addListener("pointerdown", this._onFieldPointerDown, this);
           control.addListener("pointerover", this._onFieldPointerOver, this);
           control.addListener("pointerout", this._onFieldPointerOut, this);
@@ -160,20 +144,24 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
         case "preview-pane":
           control = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-          control.setLayout(new qx.ui.layout.HBox);
+          control.setLayout(new qx.ui.layout.HBox());
 
-          control.add(this._createChildControl("selected-preview", true), {flex : 1});
-          control.add(this._createChildControl("current-preview", true), {flex : 1});
+          control.add(this._createChildControl("selected-preview", true), {
+            flex: 1
+          });
+          control.add(this._createChildControl("current-preview", true), {
+            flex: 1
+          });
 
           this.add(control);
           break;
 
         case "selected-preview":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic());
           break;
 
         case "current-preview":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic());
           break;
 
         case "colorselector-okbutton":
@@ -187,11 +175,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -202,39 +187,34 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * Creates the GroupBoxes containing the colored fields.
      */
-    _createBoxes : function()
-    {
+    _createBoxes() {
       this.__boxes = {};
 
       var tables = this._tables;
       var table, box, field;
-      var j=0;
+      var j = 0;
 
-      for (var tableId in tables)
-      {
+      for (var tableId in tables) {
         table = tables[tableId];
 
         box = new qx.ui.groupbox.GroupBox(table.label);
-        box.setLayout(new qx.ui.layout.HBox);
+        box.setLayout(new qx.ui.layout.HBox());
 
         this.__boxes[tableId] = box;
         this.add(box);
 
-        for (var i=0; i<this.__fieldNumber; i++)
-        {
-          field = this.getChildControl("field#" + (j++));
+        for (var i = 0; i < this.__fieldNumber; i++) {
+          field = this.getChildControl("field#" + j++);
           field.setBackgroundColor(table.values[i] || null);
           box.add(field);
         }
       }
     },
 
-
     /**
      * Creates the ColorSelector and adds buttons.
      */
-    _createColorSelector : function()
-    {
+    _createColorSelector() {
       if (this.__colorSelector) {
         return;
       }
@@ -248,7 +228,9 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.__colorSelector = new qx.ui.control.ColorSelector();
       win.add(this.__colorSelector);
 
-      this.__buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, "right"));
+      this.__buttonBar = new qx.ui.container.Composite(
+        new qx.ui.layout.HBox(8, "right")
+      );
       win.add(this.__buttonBar);
 
       var btnCancel = this._createChildControl("colorselector-cancelbutton");
@@ -258,10 +240,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.__buttonBar.add(btnOk);
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -269,16 +247,12 @@ qx.Class.define("qx.ui.control.ColorPopup",
     */
 
     // Property apply
-    _applyValue : function(value, old)
-    {
-      if (value === null)
-      {
+    _applyValue(value, old) {
+      if (value === null) {
         this.setRed(null);
         this.setGreen(null);
         this.setBlue(null);
-      }
-      else
-      {
+      } else {
         var rgb = qx.util.ColorUtil.stringToRgb(value);
         this.setRed(rgb[0]);
         this.setGreen(rgb[1]);
@@ -289,15 +263,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._rotatePreviousColors();
     },
 
-
     /**
      * Adds the most recent selected color to the "Recent colors" list.
      * If this list is full, the first color will be removed before inserting
      * the new one.
      */
-    _rotatePreviousColors : function()
-    {
-      if(!this._tables){
+    _rotatePreviousColors() {
+      if (!this._tables) {
         return;
       }
 
@@ -328,12 +300,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
       // Sync to visible fields
       var vFields = vRecentBox.getChildren();
 
-      for (var i=0; i<vFields.length; i++) {
+      for (var i = 0; i < vFields.length; i++) {
         vFields[i].setBackgroundColor(vRecentTable[i] || null);
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -347,8 +317,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldPointerDown : function(e)
-    {
+    _onFieldPointerDown(e) {
       var vValue = this.getChildControl("current-preview").getBackgroundColor();
       this.setValue(vValue);
 
@@ -357,15 +326,16 @@ qx.Class.define("qx.ui.control.ColorPopup",
       }
     },
 
-
     /**
      * Listener of pointermove event on a color field. Sets preview pane's
      * background color to the field's color value.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldPointerOver : function(e) {
-      this.getChildControl("current-preview").setBackgroundColor(e.getTarget().getBackgroundColor());
+    _onFieldPointerOver(e) {
+      this.getChildControl("current-preview").setBackgroundColor(
+        e.getTarget().getBackgroundColor()
+      );
     },
 
     /**
@@ -374,7 +344,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldPointerOut : function(e) {
+    _onFieldPointerOut(e) {
       var red = this.getRed();
       var green = this.getGreen();
       var blue = this.getBlue();
@@ -391,19 +361,16 @@ qx.Class.define("qx.ui.control.ColorPopup",
      * Listener of execute event on the "cancel" button.
      * Hides the ColorPopup and resets it's color value.
      */
-    _onAutomaticBtnExecute : function()
-    {
+    _onAutomaticBtnExecute() {
       this.setValue(null);
       this.hide();
     },
-
 
     /**
      * Listener of execute event on the "Open ColorSelector" button.
      * Opens a ColorSelector widget and hides the ColorPopup.
      */
-    _onSelectorButtonExecute : function()
-    {
+    _onSelectorButtonExecute() {
       this._createColorSelector();
 
       this.exclude();
@@ -412,8 +379,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       var green = this.getGreen();
       var blue = this.getBlue();
 
-      if (red === null || green === null || blue === null)
-      {
+      if (red === null || green === null || blue === null) {
         red = 255;
         green = 255;
         blue = 255;
@@ -426,24 +392,27 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.__colorSelectorWindow.open();
     },
 
-
     /**
      * Listener of execute event on the "OK" button.
      * Hides the ColorPopup and sets it's color value to the selected color.
      */
-    _onColorSelectorOk : function()
-    {
+    _onColorSelectorOk() {
       var sel = this.__colorSelector;
-      this.setValue(qx.util.ColorUtil.rgbToRgbString([sel.getRed(), sel.getGreen(), sel.getBlue()]));
+      this.setValue(
+        qx.util.ColorUtil.rgbToRgbString([
+          sel.getRed(),
+          sel.getGreen(),
+          sel.getBlue()
+        ])
+      );
       this.__colorSelectorWindow.close();
     },
-
 
     /**
      * Listener of execute event on the "Cancel" button.
      * Hides the ColorPopup.
      */
-    _onColorSelectorCancel : function() {
+    _onColorSelectorCancel() {
       this.__colorSelectorWindow.close();
     },
 
@@ -454,9 +423,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
      *
      * @param e {qx.event.type.Data} Incoming event object
      */
-    _onChangeVisibility : function(e) {
-      if (this.getVisibility() == "visible")
-      {
+    _onChangeVisibility(e) {
+      if (this.getVisibility() == "visible") {
         var red = this.getRed();
         var green = this.getGreen();
         var blue = this.getBlue();
@@ -474,22 +442,31 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * @lint ignoreReferenceField(_tables)
      */
-    _tables :
-    {
-      core :
-      {
-        label : qx.locale.Manager.tr("Basic Colors"),
-        values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
+    _tables: {
+      core: {
+        label: qx.locale.Manager.tr("Basic Colors"),
+        values: [
+          "#000",
+          "#333",
+          "#666",
+          "#999",
+          "#CCC",
+          "#FFF",
+          "red",
+          "green",
+          "blue",
+          "yellow",
+          "teal",
+          "maroon"
+        ]
       },
 
-      recent :
-      {
-        label : qx.locale.Manager.tr("Recent Colors"),
-        values : [ ]
+      recent: {
+        label: qx.locale.Manager.tr("Recent Colors"),
+        values: []
       }
     }
   },
-
 
   /*
   *****************************************************************************
@@ -497,8 +474,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__colorSelectorWindow) {
       this.__colorSelectorWindow.destroy();
       this.__colorSelector.destroy();

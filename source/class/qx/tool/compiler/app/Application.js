@@ -22,7 +22,6 @@
 
 const path = require("upath");
 
-
 qx.Class.define("qx.tool.compiler.app.Application", {
   extend: qx.core.Object,
 
@@ -30,13 +29,13 @@ qx.Class.define("qx.tool.compiler.app.Application", {
    * Constructor
    * @param classname {String|String[]} [, classname...]
    */
-  construct: function(classname) {
-    this.base(arguments);
+  construct(classname) {
+    super();
     this.initType();
     var args = qx.lang.Array.fromArguments(arguments);
     var t = this;
     this.__classes = [];
-    args.forEach(function(arg) {
+    args.forEach(function (arg) {
       if (qx.lang.Type.isArray(arg)) {
         qx.lang.Array.append(t.__classes, arg);
       } else {
@@ -53,10 +52,10 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      */
     type: {
       init: "browser",
-      check: [ "browser", "rhino", "node" ],
+      check: ["browser", "rhino", "node"],
       apply: "_applyType"
     },
-    
+
     /**
      * Environment property map
      */
@@ -136,7 +135,6 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       nullable: false,
       check: "String",
       apply: "_applyType"
-
     },
 
     /**
@@ -165,7 +163,6 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       check: "Boolean",
       init: true
     },
-
 
     /**
      * Classes to include with the build
@@ -236,14 +233,14 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @returns boolean
      */
-    isBrowserApp: function () {
+    isBrowserApp() {
       return this.getType() === "browser";
     },
 
     /**
      * Calculates the dependencies of the classes to create a load order
      */
-    calcDependencies: function() {
+    calcDependencies() {
       var t = this;
       var Console = qx.tool.compiler.Console.getInstance();
       var analyser = this.getAnalyser();
@@ -263,7 +260,12 @@ qx.Class.define("qx.tool.compiler.app.Application", {
         parts = [];
         t.__parts.forEach(part => {
           if (partsByName[part.getName()]) {
-            throw new Error(Console.decode("qx.tool.compiler.application.duplicatePartNames", part.getName()));
+            throw new Error(
+              Console.decode(
+                "qx.tool.compiler.application.duplicatePartNames",
+                part.getName()
+              )
+            );
           }
           var partData = {
             name: part.getName(),
@@ -274,27 +276,35 @@ qx.Class.define("qx.tool.compiler.app.Application", {
             combine: part.getCombine(),
             minify: part.getMinify()
           };
-          partData.match = qx.tool.compiler.app.Application.createWildcardMatchFunction(part.getInclude(), part.getExclude());
+
+          partData.match =
+            qx.tool.compiler.app.Application.createWildcardMatchFunction(
+              part.getInclude(),
+              part.getExclude()
+            );
           partsByName[part.getName()] = partData;
           parts.push(partData);
         });
         bootPart = partsByName.boot;
         if (!bootPart) {
-          throw new Error(Console.decode("qx.tool.compiler.application.noBootPart"));
+          throw new Error(
+            Console.decode("qx.tool.compiler.application.noBootPart")
+          );
         }
       } else {
         bootPart = {
           name: "boot",
-          include:[ "*" ],
+          include: ["*"],
           exclude: [],
           classes: [],
           dependsOn: {},
           combine: false,
           minify: false,
-          match: function() {
+          match() {
             return true;
           }
         };
+
         partsByName.boot = bootPart;
         parts.push(bootPart);
       }
@@ -303,12 +313,13 @@ qx.Class.define("qx.tool.compiler.app.Application", {
         if (classDataByClassname[classname]) {
           return classDataByClassname[classname];
         }
-        var classData = classDataByClassname[classname] = {
+        var classData = (classDataByClassname[classname] = {
           classname: classname,
           parts: {},
           best: null,
           actual: null
-        };
+        });
+
         parts.forEach(part => {
           if (part === bootPart) {
             return;
@@ -317,17 +328,23 @@ qx.Class.define("qx.tool.compiler.app.Application", {
           if (result !== null) {
             classData.parts[part.name] = result;
 
-            var lastMatch = classData.best && classData.parts[classData.best.name];
+            var lastMatch =
+              classData.best && classData.parts[classData.best.name];
             if (lastMatch === undefined || lastMatch === null) {
               classData.best = part;
 
-            // Exact
+              // Exact
             } else if (lastMatch === "exact") {
               if (result === "exact") {
-                Console.print("qx.tool.compiler.application.conflictingExactPart", classname, part.name, classData.best.name);
+                Console.print(
+                  "qx.tool.compiler.application.conflictingExactPart",
+                  classname,
+                  part.name,
+                  classData.best.name
+                );
               }
 
-            // Wildcard
+              // Wildcard
             } else {
               qx.core.Assert.assertTrue(typeof lastMatch == "number");
               if (result === "exact") {
@@ -336,7 +353,12 @@ qx.Class.define("qx.tool.compiler.app.Application", {
               } else {
                 qx.core.Assert.assertTrue(typeof result == "number");
                 if (lastMatch === result) {
-                  Console.print("qx.tool.compiler.application.conflictingBestPart", classname, part.name, classData.best.name);
+                  Console.print(
+                    "qx.tool.compiler.application.conflictingBestPart",
+                    classname,
+                    part.name,
+                    classData.best.name
+                  );
                 } else if (lastMatch < result) {
                   classData.best = part;
                 }
@@ -350,7 +372,6 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       var needed = new qx.tool.utils.IndexedArray();
       var neededIndex = 0;
       var stack = new qx.tool.utils.IndexedArray();
-
 
       /*
        * We could say that when a class is `.require`d, then we treat any of it's `construct:true` dependencies as `require:true`
@@ -376,7 +397,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
        */
       function compileAllRemainingDeps(classname, deps) {
         var checked = {};
-        var depNames = { };
+        var depNames = {};
         depNames[classname] = true;
 
         function search(classname) {
@@ -452,7 +473,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
 
         if (parts && !allDeps.contains(classname)) {
           var classData = createClassData(classname);
-          var part = classData.best||bootPart;
+          var part = classData.best || bootPart;
           part.classes.push(classname);
           classData.actual = part;
           if (info.externals) {
@@ -467,7 +488,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
           }
         }
         allDeps.push(classname);
-        deferDeps.forEach(function(depName) {
+        deferDeps.forEach(function (depName) {
           var deps = [];
           compileAllRemainingDeps(depName, deps);
           deps.forEach(addDep);
@@ -482,11 +503,13 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       }
 
       exclude = {};
-      t.__expandClassnames(t.getExclude()).forEach(name => exclude[name] = true);
+      t.__expandClassnames(t.getExclude()).forEach(
+        name => (exclude[name] = true)
+      );
 
       // Start the ball rolling
       addDep("qx.core.Object");
-      t.getRequiredClasses().forEach(function(classname) {
+      t.getRequiredClasses().forEach(function (classname) {
         addDep(classname);
       });
       if (t.getTheme()) {
@@ -541,7 +564,10 @@ qx.Class.define("qx.tool.compiler.app.Application", {
             return part.dependsOn.some(check);
           }
           if (part.dependsOn.some(check)) {
-            Console.print("qx.tool.compiler.application.partRecursive", part.name);
+            Console.print(
+              "qx.tool.compiler.application.partRecursive",
+              part.name
+            );
           }
         });
       }
@@ -573,12 +599,17 @@ qx.Class.define("qx.tool.compiler.app.Application", {
         if (analyser.findLibrary(ns)) {
           this.__requiredLibs.push(ns);
         } else {
-          Console.print("qx.tool.compiler.application.missingRequiredLibrary", ns);
+          Console.print(
+            "qx.tool.compiler.application.missingRequiredLibrary",
+            ns
+          );
         }
       }
 
       this.__partsDeps = parts;
-      this.__fatalCompileErrors = fatalCompileErrors.length ? fatalCompileErrors : null;
+      this.__fatalCompileErrors = fatalCompileErrors.length
+        ? fatalCompileErrors
+        : null;
     },
 
     /**
@@ -586,7 +617,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @return {String[]}
      */
-    getFatalCompileErrors: function() {
+    getFatalCompileErrors() {
       return this.__fatalCompileErrors;
     },
 
@@ -595,13 +626,15 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @returns {String[]}
      */
-    getUris: function() {
+    getUris() {
       var uris = [];
       var db = this.getAnalyser().getDatabase();
 
       function add(classname) {
         var def = db.classInfo[classname];
-        uris.push(def.libraryName + ":" + classname.replace(/\./g, "/") + ".js");
+        uris.push(
+          def.libraryName + ":" + classname.replace(/\./g, "/") + ".js"
+        );
       }
       this.__loadDeps.forEach(add);
 
@@ -613,7 +646,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @returns {String[]}
      */
-    getDependencies: function() {
+    getDependencies() {
       return this.__loadDeps;
     },
 
@@ -622,7 +655,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @returns {Object[]}
      */
-    getPartsDependencies: function() {
+    getPartsDependencies() {
       return this.__partsDeps;
     },
 
@@ -631,7 +664,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      *
      * @returns {String[]}
      */
-    getRequiredLibraries: function() {
+    getRequiredLibraries() {
       return this.__requiredLibs;
     },
 
@@ -641,7 +674,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * @param resManager  {qx.tool.compiler.resources.Manager} the resource manager
      * @param environment {Map} environment
      */
-    getAssetUris: function(target, resManager, environment) {
+    getAssetUris(target, resManager, environment) {
       var assets = [];
       var analyser = this.getAnalyser();
       var db = analyser.getDatabase();
@@ -678,7 +711,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
         var classInfo = db.classInfo[classname];
         var tmp = classInfo.assets;
         if (tmp) {
-          tmp.forEach(function(uri) {
+          tmp.forEach(function (uri) {
             var pos = uri.indexOf("/");
             if (pos > -1) {
               var prefix = uri.substring(0, pos);
@@ -687,11 +720,17 @@ qx.Class.define("qx.tool.compiler.app.Application", {
                 uri = mappedPrefix + uri.substring(pos);
               }
             }
-            resManager.findLibrariesForResource(uri).forEach(library => assets.push(library.getNamespace() + ":" + uri)); 
+            resManager
+              .findLibrariesForResource(uri)
+              .forEach(library =>
+                assets.push(library.getNamespace() + ":" + uri)
+              );
           });
         }
         if (!libraryLookup[classInfo.libraryName]) {
-          libraryLookup[classInfo.libraryName] = analyser.findLibrary(classInfo.libraryName);
+          libraryLookup[classInfo.libraryName] = analyser.findLibrary(
+            classInfo.libraryName
+          );
         }
       }
 
@@ -703,7 +742,10 @@ qx.Class.define("qx.tool.compiler.app.Application", {
               let asset = rm.getAsset(filename);
               if (asset) {
                 let str = asset.getDestFilename(target);
-                str = path.relative(path.join(target.getOutputDir(), "resource"), str);
+                str = path.relative(
+                  path.join(target.getOutputDir(), "resource"),
+                  str
+                );
                 assets.push(asset.getLibrary().getNamespace() + ":" + str);
               } else {
                 qx.tool.compiler.Console.print(msgId, filename);
@@ -715,8 +757,14 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       for (let name in libraryLookup) {
         var lib = libraryLookup[name];
         if (lib) {
-          addExternalAssets(lib.getAddScript(), "qx.tool.compiler.application.missingScriptResource");
-          addExternalAssets(lib.getAddCss(), "qx.tool.compiler.application.missingCssResource");
+          addExternalAssets(
+            lib.getAddScript(),
+            "qx.tool.compiler.application.missingScriptResource"
+          );
+          addExternalAssets(
+            lib.getAddCss(),
+            "qx.tool.compiler.application.missingCssResource"
+          );
         }
       }
 
@@ -734,7 +782,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
           var value = environment[capture];
           if (value !== undefined) {
             if (qx.lang.Type.isArray(value)) {
-              value.forEach(function(value) {
+              value.forEach(function (value) {
                 assets.push(left + value + right);
               });
             } else {
@@ -772,19 +820,23 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * Returns the class name for the application
      * @returns {String}
      */
-    getClassName: function() {
+    getClassName() {
       return this.__classes[0];
     },
-    
+
     /**
      * Returns the classes required for the application
      * @returns {String[]}
      */
-    getRequiredClasses: function() {
+    getRequiredClasses() {
       var result = {};
-      this.__classes.forEach(name => result[name] = true);
-      this.__expandClassnames(this.getInclude()).forEach(name => result[name] = true);
-      this.__expandClassnames(this.getExclude()).forEach(name => delete result[name]);
+      this.__classes.forEach(name => (result[name] = true));
+      this.__expandClassnames(this.getInclude()).forEach(
+        name => (result[name] = true)
+      );
+      this.__expandClassnames(this.getExclude()).forEach(
+        name => delete result[name]
+      );
 
       // We sort the result so that we can get a consistent ordering for loading classes, otherwise the order in
       //  which the filing system returns the files can cause classes to be loaded in a lightly different sequence;
@@ -796,7 +848,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * Adds a part
      * @param part {Part} the part to add
      */
-    addPart: function(part) {
+    addPart(part) {
       if (!this.__parts) {
         this.__parts = [];
       }
@@ -807,14 +859,14 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * Returns the parts, or null if there are none defined
      * @return {Part[]}
      */
-    getParts: function() {
+    getParts() {
       return this.__parts || [];
     },
-    
+
     /**
      * Returns a dynamically calculated version of the application environment, which
      * is defaults or dynamic values plus the `environment` property
-     * 
+     *
      * @return {Map} The environment settings
      */
     getCalculatedEnvironment() {
@@ -824,27 +876,30 @@ qx.Class.define("qx.tool.compiler.app.Application", {
           "qx.compiler.applicationName": this.getName(),
           "qx.compiler.applicationType": this.getType()
         },
-        this.getEnvironment());
+
+        this.getEnvironment()
+      );
     },
-    
+
     /**
      * Expands a list of class names including wildcards (eg "qx.ui.*") into an
      * exhaustive list without wildcards
      * @param names {String[]}
      * @return String[]
      */
-    __expandClassnames: function(names) {
+    __expandClassnames(names) {
       var t = this;
       var result = {};
-      names.forEach(function(name) {
+      names.forEach(function (name) {
         var pos = name.indexOf("*");
         if (pos < 0) {
           result[name] = true;
         } else {
           var prefix = name.substring(0, pos);
           if (prefix) {
-            t.getAnalyser().getLibraries()
-              .forEach(function(lib) {
+            t.getAnalyser()
+              .getLibraries()
+              .forEach(function (lib) {
                 var symbols = lib.getKnownSymbols();
                 for (var symbol in symbols) {
                   if (symbols[symbol] == "class" && symbol.startsWith(prefix)) {
@@ -855,8 +910,9 @@ qx.Class.define("qx.tool.compiler.app.Application", {
           }
           var postfix = name.substring(pos + 1);
           if (postfix) {
-            t.getAnalyser().getLibraries()
-              .forEach(function(lib) {
+            t.getAnalyser()
+              .getLibraries()
+              .forEach(function (lib) {
                 var symbols = lib.getKnownSymbols();
                 for (var symbol in symbols) {
                   if (symbols[symbol] == "class" && symbol.endsWith(postfix)) {
@@ -873,20 +929,24 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     /**
      * Apply for `type` property
      */
-    _applyType: function(value, oldValue) {
-      var loader = path.join(this.getTemplatePath(), "loader", "loader-" + this.getType() + ".tmpl.js");
+    _applyType(value, oldValue) {
+      var loader = path.join(
+        this.getTemplatePath(),
+        "loader",
+        "loader-" + this.getType() + ".tmpl.js"
+      );
       this.setLoaderTemplate(loader);
     },
 
     /**
      * Transforms values to make sure that they are an array (and never null)
      */
-    __transformArray: function(value) {
+    __transformArray(value) {
       if (!value) {
         return null;
       }
       if (!qx.lang.Type.isArray(value)) {
-        return [ value ];
+        return [value];
       }
       return value;
     }
@@ -903,15 +963,20 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * @param exclude {String[]} the wildcard specs to exclude
      * @return {Function}
      */
-    createWildcardMatchFunction: function(include, exclude) {
+    createWildcardMatchFunction(include, exclude) {
       var code = [];
       if (exclude) {
         exclude.forEach(spec => {
           var pos;
           if ((pos = spec.indexOf("*")) > -1) {
-            code.push("  if (value.startsWith(\"" + spec.substring(0, pos) + "\"))\n    return null; // " + spec);
+            code.push(
+              '  if (value.startsWith("' +
+                spec.substring(0, pos) +
+                '"))\n    return null; // ' +
+                spec
+            );
           } else {
-            code.push("  if (value === \"" + spec + "\")\n  return null;");
+            code.push('  if (value === "' + spec + '")\n  return null;');
           }
         });
       }
@@ -924,9 +989,16 @@ qx.Class.define("qx.tool.compiler.app.Application", {
             nsDepth++;
           }
           if ((pos = spec.indexOf("*")) > -1) {
-            code.push("  if (value.startsWith(\"" + spec.substring(0, pos) + "\"))\n    return " + nsDepth + "; // " + spec);
+            code.push(
+              '  if (value.startsWith("' +
+                spec.substring(0, pos) +
+                '"))\n    return ' +
+                nsDepth +
+                "; // " +
+                spec
+            );
           } else {
-            code.push("  if (value === \"" + spec + "\")\n  return \"exact\";");
+            code.push('  if (value === "' + spec + '")\n  return "exact";');
           }
         });
       }

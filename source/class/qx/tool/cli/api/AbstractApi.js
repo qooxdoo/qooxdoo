@@ -20,25 +20,26 @@
  *
  * *********************************************************************** */
 const path = require("path");
-const fs = require("fs");      
+const fs = require("fs");
 
 /**
  * Base class for the compiler API classes
  */
 qx.Class.define("qx.tool.cli.api.AbstractApi", {
   extend: qx.core.Object,
-  
+
   properties: {
     rootDir: {
       check: "String",
       nullable: false
     },
+
     /** Configuration data for the compiler */
     configuration: {
       init: {}
     }
   },
-  
+
   members: {
     /**
      * Loads the configuration
@@ -48,28 +49,28 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
     async load() {
       return this.getConfiguration();
     },
-    
+
     /**
      * Called by the compiler API during initialisation - this is an ideal
      * place to install additional commands, because a command has not yet
-     * been selected 
+     * been selected
      */
     async initialize() {
       // Nothing
     },
 
     /**
-     * 
+     *
      * helper to load an npm module. Check if it can be loaded before
      * If not install the module with 'npm install --no-save --no-package-lock' to the current library
-     * 
+     *
      * @param module {String} module to check
      */
-    require: function(module) {
+    require(module) {
       let mod = path.join(process.cwd(), "node_modules");
       if (!fs.existsSync(mod)) {
         fs.mkdirSync(mod);
-      }        
+      }
       mod = path.join(mod, module);
       let exists = fs.existsSync(mod);
       if (!exists) {
@@ -78,20 +79,18 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
       return require(mod);
     },
     /**
-      * 
-      * install an npm module with 'npm install --no-save --no-package-lock' to the current library
-      * 
-      * @param module {String} module to load
-      */
-    loadNpmModule: function(module) {
-      const {execSync} = require("child_process");
+     *
+     * install an npm module with 'npm install --no-save --no-package-lock' to the current library
+     *
+     * @param module {String} module to load
+     */
+    loadNpmModule(module) {
+      const { execSync } = require("child_process");
       let s = `npm install --no-save --no-package-lock ${module}`;
       qx.tool.compiler.Console.info(s);
       execSync(s, {
         stdio: "inherit"
       });
     }
-  
-
   }
 });

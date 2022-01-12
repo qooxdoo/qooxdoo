@@ -19,12 +19,10 @@
 /**
  * Common base class for all focus events.
  */
-qx.Class.define("qx.event.type.Focus",
-{
-  extend : qx.event.type.Event,
+qx.Class.define("qx.event.type.Focus", {
+  extend: qx.event.type.Event,
 
-  members :
-  {
+  members: {
     /**
      * Initialize the fields of the event. The event must be initialized before
      * it can be dispatched.
@@ -36,9 +34,8 @@ qx.Class.define("qx.event.type.Focus",
      *     {@link qx.event.type.Event#stopPropagation}
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(target, relatedTarget, canBubble)
-    {
-      this.base(arguments, canBubble, false);
+    init(target, relatedTarget, canBubble) {
+      super.init(canBubble, false);
 
       this._target = target;
       this._relatedTarget = relatedTarget;

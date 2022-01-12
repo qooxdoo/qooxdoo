@@ -19,16 +19,14 @@
 /**
  * Basic node creation and type detection
  */
-qx.Bootstrap.define("qx.dom.Node",
-{
+qx.Bootstrap.define("qx.dom.Node", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /*
     ---------------------------------------------------------------------------
       NODE TYPES
@@ -51,23 +49,18 @@ qx.Bootstrap.define("qx.dom.Node",
      * * DOCUMENT_FRAGMENT
      * * NOTATION
      */
-    ELEMENT                : 1,
-    ATTRIBUTE              : 2,
-    TEXT                   : 3,
-    CDATA_SECTION          : 4,
-    ENTITY_REFERENCE       : 5,
-    ENTITY                 : 6,
-    PROCESSING_INSTRUCTION : 7,
-    COMMENT                : 8,
-    DOCUMENT               : 9,
-    DOCUMENT_TYPE          : 10,
-    DOCUMENT_FRAGMENT      : 11,
-    NOTATION               : 12,
-
-
-
-
-
+    ELEMENT: 1,
+    ATTRIBUTE: 2,
+    TEXT: 3,
+    CDATA_SECTION: 4,
+    ENTITY_REFERENCE: 5,
+    ENTITY: 6,
+    PROCESSING_INSTRUCTION: 7,
+    COMMENT: 8,
+    DOCUMENT: 9,
+    DOCUMENT_TYPE: 10,
+    DOCUMENT_FRAGMENT: 11,
+    NOTATION: 12,
 
     /*
     ---------------------------------------------------------------------------
@@ -81,13 +74,12 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node|Document|Window} the node which should be tested
      * @return {Document|null} The document of the given DOM node
      */
-    getDocument : function(node)
-    {
-      return node.nodeType === this.DOCUMENT ? node : // is document already
-        node.ownerDocument || // is DOM node
-        node.document; // is window
+    getDocument(node) {
+      return node.nodeType === this.DOCUMENT
+        ? node // is document already
+        : node.ownerDocument || // is DOM node
+            node.document; // is window
     },
-
 
     /**
      * Returns the DOM2 <code>defaultView</code> (window).
@@ -95,22 +87,20 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node|Document|Window} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
      */
-    getWindow : function(node)
-    {
+    getWindow(node) {
       // is a window already
-        if (node.nodeType == null) {
-          return node;
-        }
+      if (node.nodeType == null) {
+        return node;
+      }
 
-        // jump to document
-        if (node.nodeType !== this.DOCUMENT) {
-          node = node.ownerDocument;
-        }
+      // jump to document
+      if (node.nodeType !== this.DOCUMENT) {
+        node = node.ownerDocument;
+      }
 
-        // jump to window
-        return node.defaultView || node.parentWindow;
+      // jump to window
+      return node.defaultView || node.parentWindow;
     },
-
 
     /**
      * Returns the document element. (Logical root node)
@@ -122,10 +112,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node|Document|Window} node to inspect
      * @return {Element} document element of the given node
      */
-    getDocumentElement : function(node) {
+    getDocumentElement(node) {
       return this.getDocument(node).documentElement;
     },
-
 
     /**
      * Returns the body element. (Visual root node)
@@ -136,14 +125,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node|Document|Window} node to inspect
      * @return {Element} document body of the given node
      */
-    getBodyElement : function(node) {
+    getBodyElement(node) {
       return this.getDocument(node).body;
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -157,10 +141,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM node
      */
-    isNode : function(node) {
+    isNode(node) {
       return !!(node && node.nodeType != null);
     },
-
 
     /**
      * Whether the given object is a DOM element node
@@ -168,10 +151,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
      */
-    isElement : function(node) {
+    isElement(node) {
       return !!(node && node.nodeType === this.ELEMENT);
     },
-
 
     /**
      * Whether the given object is a DOM document node
@@ -179,10 +161,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true when the node is a DOM document
      */
-    isDocument : function(node) {
+    isDocument(node) {
       return !!(node && node.nodeType === this.DOCUMENT);
     },
-
 
     /**
      * Whether the given object is a DOM document fragment node
@@ -190,10 +171,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true when the node is a DOM document fragment
      */
-    isDocumentFragment : function(node) {
+    isDocumentFragment(node) {
       return !!(node && node.nodeType === this.DOCUMENT_FRAGMENT);
     },
-
 
     /**
      * Whether the given object is a DOM text node
@@ -201,10 +181,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM text node
      */
-    isText : function(node) {
+    isText(node) {
       return !!(node && node.nodeType === this.TEXT);
     },
-
 
     /**
      * Check whether the given object is a browser window object.
@@ -212,10 +191,9 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param obj {Object} the object which should be tested
      * @return {Boolean} true if the object is a window object
      */
-    isWindow : function(obj) {
+    isWindow(obj) {
       return !!(obj && obj.history && obj.location && obj.document);
     },
-
 
     /**
      * Whether the node has the given node name
@@ -224,16 +202,13 @@ qx.Bootstrap.define("qx.dom.Node",
      * @param nodeName {String} the node name to check for
      * @return {Boolean} Whether the node has the given node name
      */
-    isNodeName : function (node, nodeName)
-    {
-      if(!nodeName || !node || !node.nodeName) {
+    isNodeName(node, nodeName) {
+      if (!nodeName || !node || !node.nodeName) {
         return false;
       }
 
       return nodeName.toLowerCase() == qx.dom.Node.getName(node);
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -241,22 +216,19 @@ qx.Bootstrap.define("qx.dom.Node",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get the node name as lower case string
      *
      * @param node {Node} the node
      * @return {String} the node name
      */
-    getName : function (node)
-    {
-      if(!node || !node.nodeName) {
+    getName(node) {
+      if (!node || !node.nodeName) {
         return null;
       }
 
       return node.nodeName.toLowerCase();
     },
-
 
     /**
      * Returns the text content of an node where the node may be of node type
@@ -267,17 +239,18 @@ qx.Bootstrap.define("qx.dom.Node",
      * @return {String} the joined text content of the given node or null if not appropriate.
      * @signature function(node)
      */
-    getText : function(node)
-    {
-      if(!node || !node.nodeType) {
+    getText(node) {
+      if (!node || !node.nodeType) {
         return null;
       }
 
-      switch(node.nodeType)
-      {
+      switch (node.nodeType) {
         case 1: // NODE_ELEMENT
-          var i, a=[], nodes=node.childNodes, length=nodes.length;
-          for (i=0; i<length; i++) {
+          var i,
+            a = [],
+            nodes = node.childNodes,
+            length = nodes.length;
+          for (i = 0; i < length; i++) {
             a[i] = this.getText(nodes[i]);
           }
 
@@ -292,22 +265,22 @@ qx.Bootstrap.define("qx.dom.Node",
       return null;
     },
 
-
     /**
      * Checks if the given node is a block node
      *
      * @param node {Node} Node
      * @return {Boolean} whether it is a block node
      */
-    isBlockNode : function(node)
-    {
+    isBlockNode(node) {
       if (!qx.dom.Node.isElement(node)) {
-       return false;
+        return false;
       }
 
       node = qx.dom.Node.getName(node);
 
-      return /^(body|form|textarea|fieldset|ul|ol|dl|dt|dd|li|div|hr|p|h[1-6]|quote|pre|table|thead|tbody|tfoot|tr|td|th|iframe|address|blockquote)$/.test(node);
+      return /^(body|form|textarea|fieldset|ul|ol|dl|dt|dd|li|div|hr|p|h[1-6]|quote|pre|table|thead|tbody|tfoot|tr|td|th|iframe|address|blockquote)$/.test(
+        node
+      );
     }
   }
 });

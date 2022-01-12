@@ -20,29 +20,22 @@
  * @ignore(qx.test.propA, qx.test.propB)
  */
 
-qx.Class.define("qx.test.util.PropertyUtil",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.util.PropertyUtil", {
+  extend: qx.test.ui.LayoutTestCase,
 
-
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.button = new qx.ui.form.Button();
       this.getRoot().add(this.button);
       this.flush();
     },
 
-
-    tearDown : function() {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.button.destroy();
     },
 
-
-    testGetUserValue : function()
-    {
+    testGetUserValue() {
       var Prop = qx.util.PropertyUtil;
       this.assertUndefined(Prop.getUserValue(this.button, "label"));
 
@@ -53,25 +46,19 @@ qx.Class.define("qx.test.util.PropertyUtil",
       this.assertUndefined(Prop.getUserValue(this.button, "center"));
     },
 
-
-    testGetThemeValue : function()
-    {
+    testGetThemeValue() {
       var Prop = qx.util.PropertyUtil;
       this.assertUndefined(Prop.getThemeValue(this.button, "content"));
       this.assertEquals(true, Prop.getThemeValue(this.button, "center"));
     },
 
-
-    testGetInitValue : function()
-    {
+    testGetInitValue() {
       var Prop = qx.util.PropertyUtil;
       this.assertUndefined(Prop.getInitValue(this.button, "content"));
       this.assertEquals(false, Prop.getInitValue(this.button, "rich"));
     },
 
-
-    testSetThemed : function()
-    {
+    testSetThemed() {
       var Prop = qx.util.PropertyUtil;
       this.assertNull(this.button.getIcon());
 
@@ -84,29 +71,40 @@ qx.Class.define("qx.test.util.PropertyUtil",
       this.assertUndefined(Prop.getThemeValue(this.button, "icon"));
     },
 
-    testGetProperties : function()
-    {
+    testGetProperties() {
       qx.Class.define("qx.test.propA", {
-        extend : qx.core.Object,
-        properties : {
-          a : {}
+        extend: qx.core.Object,
+        properties: {
+          a: {}
         }
       });
 
       qx.Class.define("qx.test.propB", {
-        extend : qx.test.propA,
-        properties : {
-          b : {}
+        extend: qx.test.propA,
+        properties: {
+          b: {}
         }
       });
 
       // check getProperties
-      this.assertKeyInMap("a", qx.util.PropertyUtil.getProperties(qx.test.propA));
-      this.assertKeyInMap("b", qx.util.PropertyUtil.getProperties(qx.test.propB));
+      this.assertKeyInMap(
+        "a",
+        qx.util.PropertyUtil.getProperties(qx.test.propA)
+      );
+      this.assertKeyInMap(
+        "b",
+        qx.util.PropertyUtil.getProperties(qx.test.propB)
+      );
 
       // check getAllProperties
-      this.assertKeyInMap("a", qx.util.PropertyUtil.getAllProperties(qx.test.propB));
-      this.assertKeyInMap("b", qx.util.PropertyUtil.getAllProperties(qx.test.propB));
+      this.assertKeyInMap(
+        "a",
+        qx.util.PropertyUtil.getAllProperties(qx.test.propB)
+      );
+      this.assertKeyInMap(
+        "b",
+        qx.util.PropertyUtil.getAllProperties(qx.test.propB)
+      );
 
       delete qx.test.propB;
       delete qx.test.propA;

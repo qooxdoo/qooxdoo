@@ -19,23 +19,20 @@
 /**
  * This interface defines what an application class has to implement.
  */
-qx.Interface.define("qx.application.IApplication",
-{
-  members :
-  {
+qx.Interface.define("qx.application.IApplication", {
+  members: {
     /**
      * Called when the application relevant classes are loaded and ready.
      *
      */
-    main : function() {},
-
+    main() {},
 
     /**
      * Called when the application's main method was executed to handle
      * "final" tasks like rendering or retrieving data.
      *
      */
-    finalize : function() {},
+    finalize() {},
 
     /**
      * Called in the document.beforeunload event of the browser. If the method
@@ -45,13 +42,12 @@ qx.Interface.define("qx.application.IApplication",
      *
      * @return {String?null} message text on unloading the page
      */
-    close : function() {},
-
+    close() {},
 
     /**
      * This method contains the last code which is run inside the page and may contain cleanup code.
      *
      */
-    terminate : function() {}
+    terminate() {}
   }
 });

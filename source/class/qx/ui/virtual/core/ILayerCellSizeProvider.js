@@ -10,7 +10,6 @@ qx.Interface.define("qx.ui.virtual.core.ILayerCellSizeProvider", {
      *
      * @return {Map?}
      */
-    getCellSizeHint(rowIndex, columnIndex) {
-    }
+    getCellSizeHint(rowIndex, columnIndex) {}
   }
 });

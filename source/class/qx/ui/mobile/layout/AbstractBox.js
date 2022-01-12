@@ -19,26 +19,23 @@
 /**
  * Base class for all box layout managers.
  */
-qx.Class.define("qx.ui.mobile.layout.AbstractBox",
-{
-  extend : qx.ui.mobile.layout.Abstract,
-  type : "abstract",
+qx.Class.define("qx.ui.mobile.layout.AbstractBox", {
+  extend: qx.ui.mobile.layout.Abstract,
+  type: "abstract",
 
-
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+   */
 
   /**
    * @param alignX {String?null} Sets the {@link #alignX} property
    * @param alignY {String?null} Sets the {@link #alignY} property
    * @param reversed {Boolean?null} Sets the {@link #reversed} property
    */
-  construct : function(alignX, alignY, reversed)
-  {
-    this.base(arguments);
+  construct(alignX, alignY, reversed) {
+    super();
     if (alignX) {
       this.setAlignX(alignX);
     }
@@ -50,142 +47,119 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     }
   },
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-
-
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     /**
      * Horizontal alignment of the whole children block.
      */
-    alignX :
-    {
-      check : [ "left", "center", "right" ],
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
+    alignX: {
+      check: ["left", "center", "right"],
+      nullable: true,
+      init: null,
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Vertical alignment of each child.
      */
-    alignY :
-    {
-      check : [ "top", "middle", "bottom" ],
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
+    alignY: {
+      check: ["top", "middle", "bottom"],
+      nullable: true,
+      init: null,
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Children will be displayed in reverse order.
      */
-    reversed :
-    {
-      check : "Boolean",
-      nullable : true,
-      init : null,
-      apply : "_applyLayoutChange"
+    reversed: {
+      check: "Boolean",
+      nullable: true,
+      init: null,
+      apply: "_applyLayoutChange"
     }
   },
 
+  /*
+   *****************************************************************************
+      STATICS
+   *****************************************************************************
+   */
 
-
-
- /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
+  statics: {
     /**
      * The property to CSS mapping.
      */
-    PROPERTY_CSS_MAPPING :
-    {
-      "alignX":
-      {
-        "qx-hbox" :
-        {
-          "left" : "qx-flex-justify-start",
-          "center" : "qx-flex-justify-center",
-          "right" : "qx-flex-justify-end"
+    PROPERTY_CSS_MAPPING: {
+      alignX: {
+        "qx-hbox": {
+          left: "qx-flex-justify-start",
+          center: "qx-flex-justify-center",
+          right: "qx-flex-justify-end"
         },
-        "qx-vbox" :
-        {
-          "left" : "qx-flex-align-start",
-          "center" : "qx-flex-align-center",
-          "right" : "qx-flex-align-end"
+
+        "qx-vbox": {
+          left: "qx-flex-align-start",
+          center: "qx-flex-align-center",
+          right: "qx-flex-align-end"
         }
       },
-      "alignY" :
-      {
-        "qx-hbox" :
-        {
-          "top" : "qx-flex-align-start",
-          "middle" : "qx-flex-align-center",
-          "bottom" : "qx-flex-align-end"
+
+      alignY: {
+        "qx-hbox": {
+          top: "qx-flex-align-start",
+          middle: "qx-flex-align-center",
+          bottom: "qx-flex-align-end"
         },
-        "qx-vbox" :
-        {
-          "top" : "qx-flex-justify-start",
-          "middle" : "qx-flex-justify-center",
-          "bottom" : "qx-flex-justify-end"
+
+        "qx-vbox": {
+          top: "qx-flex-justify-start",
+          middle: "qx-flex-justify-center",
+          bottom: "qx-flex-justify-end"
         }
       },
-      "reversed" :
-      {
-        "qx-hbox" :
-        {
-          "true" : "qx-flex-reverse",
-          "false" : null
+
+      reversed: {
+        "qx-hbox": {
+          true: "qx-flex-reverse",
+          false: null
         },
-        "qx-vbox" :
-        {
-          "true" : "qx-flex-reverse",
-          "false" : null
+
+        "qx-vbox": {
+          true: "qx-flex-reverse",
+          false: null
         }
       }
     },
-
 
     /**
      * Supported child layout properties. Used to check if the property is allowed.
      * List all supported child layout properties here.
      */
-    SUPPORTED_CHILD_LAYOUT_PROPERTIES : {
-      "flex" : 1
+    SUPPORTED_CHILD_LAYOUT_PROPERTIES: {
+      flex: 1
     }
   },
 
+  /*
+   *****************************************************************************
+      MEMBERS
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
+  members: {
     // overridden
-    _getSupportedChildLayoutProperties : function() {
+    _getSupportedChildLayoutProperties() {
       return qx.ui.mobile.layout.AbstractBox.SUPPORTED_CHILD_LAYOUT_PROPERTIES;
     },
 
-
     // overridden
-    _setLayoutProperty : function(widget, property, value)
-    {
+    _setLayoutProperty(widget, property, value) {
       if (property == "flex") {
         var old = this._getChildLayoutPropertyValue(widget, property);
         if (old != null) {
@@ -195,47 +169,40 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       }
     },
 
-
     // overridden
-    connectToWidget : function(widget)
-    {
+    connectToWidget(widget) {
       if (this._widget) {
         this.resetAlignX();
         this.resetAlignY();
         this.resetReversed();
       }
-      this.base(arguments, widget);
+      super.connectToWidget(widget);
     },
 
-
     // overridden
-    disconnectFromChildWidget : function(widget)
-    {
-      this.base(arguments);
+    disconnectFromChildWidget(widget) {
+      super.disconnectFromChildWidget();
       for (var i = 0; i <= 6; i++) {
-        widget.removeCssClass("qx-flex" +i);
+        widget.removeCssClass("qx-flex" + i);
       }
     },
 
-
-
     // property apply
-    _applyLayoutChange : function(value, old, property)
-    {
-      if (this._widget)
-      {
+    _applyLayoutChange(value, old, property) {
+      if (this._widget) {
         // In this case the layout should only have one main css class.
         var layoutCss = this._getCssClasses()[0];
-        var CSS_MAPPING = qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][layoutCss];
-        if (old)
-        {
+        var CSS_MAPPING =
+          qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][
+            layoutCss
+          ];
+        if (old) {
           var oldCssClass = CSS_MAPPING[old];
           if (oldCssClass) {
             this._widget.removeCssClass(oldCssClass);
           }
         }
-        if (value)
-        {
+        if (value) {
           var cssClass = CSS_MAPPING[value];
           if (cssClass) {
             this._widget.addCssClass(cssClass);

@@ -23,30 +23,21 @@
  * This Selection Manager differs from its superclass in that we do not want
  * rows to be selected when moving around with the keyboard.
  */
-qx.Class.define("qx.ui.treevirtual.SelectionManager",
-{
-  extend : qx.ui.table.selection.Manager,
-
-
-
+qx.Class.define("qx.ui.treevirtual.SelectionManager", {
+  extend: qx.ui.table.selection.Manager,
 
   /**
    * @param table {qx.ui.table.Table}
    *    The table whose selections are being managed
    */
-  construct : function(table)
-  {
-    this.base(arguments);
+  construct(table) {
+    super();
 
     this.__table = table;
   },
 
-
-
-  members :
-  {
-    __table : null,
-
+  members: {
+    __table: null,
 
     /**
      * Getter for the table being managed
@@ -54,11 +45,9 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      * @return {qx.ui.table.Table}
      *   Table being managed
      */
-    getTable : function()
-    {
+    getTable() {
       return this.__table;
     },
-
 
     /**
      * Handles a select event.  First we determine if the click was on the
@@ -70,12 +59,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
      */
-    _handleSelectEvent : function(index, evt)
-    {
+    _handleSelectEvent(index, evt) {
       var _this = this;
 
-      function handleButtonClick(tree, index, evt)
-      {
+      function handleButtonClick(tree, index, evt) {
         // Get the data model
         var dataModel = tree.getDataModel();
 
@@ -86,24 +73,22 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         var focusedCol = tree.getFocusedColumn();
 
         // If the click is not in the tree column, ...
-        if (focusedCol != treeCol)
-        {
+        if (focusedCol != treeCol) {
           // ... then let the Table selection manager deal with it
           return false;
         }
 
         // If the cell hasn't been focused automatically...
-        if (evt instanceof qx.event.type.Mouse)
-        {
-          if (! tree.getFocusCellOnPointerMove())
-          {
+        if (evt instanceof qx.event.type.Mouse) {
+          if (!tree.getFocusCellOnPointerMove()) {
             // ... then focus it now so we can determine the node to open/close
             var scrollers = tree._getPaneScrollerArr();
 
-            for (var i=0; i<scrollers.length; i++)
-            {
-              scrollers[i]._focusCellAtPagePos(evt.getViewportLeft(),
-                                               evt.getViewportTop());
+            for (var i = 0; i < scrollers.length; i++) {
+              scrollers[i]._focusCellAtPagePos(
+                evt.getViewportLeft(),
+                evt.getViewportTop()
+              );
             }
           }
         }
@@ -116,52 +101,54 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         }
 
         // Was this a mouse event?
-        if (evt instanceof qx.event.type.Mouse)
-        {
+        if (evt instanceof qx.event.type.Mouse) {
           // Was the click on the open/close button? We get the position and add a bit of
           // latitude to that
           var x = evt.getViewportLeft();
           var latitude = 2;
           var buttonPos = tree.getOpenCloseButtonPosition(node);
-          if (x >= buttonPos.left - latitude && x <= buttonPos.left + buttonPos.width + latitude)
-          {
+          if (
+            x >= buttonPos.left - latitude &&
+            x <= buttonPos.left + buttonPos.width + latitude
+          ) {
             // Yup.  Toggle the opened state for this node if open/close is allowed
-            if (!node.bHideOpenClose && node.type !== qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) {
-              dataModel.setState(node, {bOpened: !node.bOpened});
+            if (
+              !node.bHideOpenClose &&
+              node.type !== qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF
+            ) {
+              dataModel.setState(node, { bOpened: !node.bOpened });
             }
             return tree.getOpenCloseClickSelectsRow() ? false : true;
-          }
-          else
-          {
+          } else {
             // Yup.  Get the order of the columns
             var tcm = tree.getTableColumnModel();
             var columnPositions = tcm._getColToXPosMap();
 
             // Calculate the position of the beginning of the tree column
-            var left = qx.bom.element.Location.getLeft(tree.getContentElement().getDomElement());
-            for (var i=0; i<columnPositions[treeCol].visX; i++) {
+            var left = qx.bom.element.Location.getLeft(
+              tree.getContentElement().getDomElement()
+            );
+            for (var i = 0; i < columnPositions[treeCol].visX; i++) {
               left += tcm.getColumnWidth(columnPositions[i].visX);
             }
             return _this._handleExtendedClick(tree, evt, node, left);
           }
-        }
-        else
-        {
+        } else {
           // See which key generated the event
           var identifier = evt.getKeyIdentifier();
 
-          switch(identifier)
-          {
+          switch (identifier) {
             case "Space":
               // This should only select the row, not toggle the opened state
               return false;
 
             case "Enter":
               // Toggle the open state if open/close is allowed
-              if (!node.bHideOpenClose &&
-                  node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
-              {
-                dataModel.setState(node, { bOpened : ! node.bOpened });
+              if (
+                !node.bHideOpenClose &&
+                node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF
+              ) {
+                dataModel.setState(node, { bOpened: !node.bOpened });
               }
 
               return tree.getOpenCloseClickSelectsRow() ? false : true;
@@ -177,10 +164,9 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
       var bNoSelect = handleButtonClick(this.__table, index, evt);
 
       // If we haven't been told not to do the selection...
-      if (!bNoSelect)
-      {
+      if (!bNoSelect) {
         // then call the superclass to handle it.
-        this.base(arguments, index, evt);
+        super._handleSelectEvent(index, evt);
       }
     },
 
@@ -207,13 +193,12 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      *   <i>true</i> if the row should be prevented from being selected;
      *   <i>false</i> otherwise.
      */
-    _handleExtendedClick : function(tree, evt, node, left)
-    {
+    _handleExtendedClick(tree, evt, node, left) {
       return false;
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__table = null;
   }
 });

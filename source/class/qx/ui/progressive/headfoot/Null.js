@@ -19,14 +19,11 @@
 /**
  * A null header/footer.  This is not displayed.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Null",
-{
-  extend     : qx.ui.progressive.headfoot.Abstract,
+qx.Class.define("qx.ui.progressive.headfoot.Null", {
+  extend: qx.ui.progressive.headfoot.Abstract,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // We're null, so don't display.
     this.exclude();

@@ -33,8 +33,8 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
    * @param className {String|String[]} classname(s) to generate
    * @param theme {String} the theme classname
    */
-  construct: function(className, theme) {
-    this.base(arguments);
+  construct(className, theme) {
+    super();
     this.__applications = [];
     if (className) {
       var app = new qx.tool.compiler.app.Application(className);
@@ -52,7 +52,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
      * Adds an Application to be made
      * @param app
      */
-    addApplication: function(app) {
+    addApplication(app) {
       this.__applications.push(app);
     },
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
      * Returns the array of applications
      * @returns {Application[]}
      */
-    getApplications: function() {
+    getApplications() {
       return this.__applications;
     },
 
@@ -78,12 +78,14 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       let hasWarnings = false;
 
       // merge all environment settings for the analyser
-      const compileEnv = qx.tool.utils.Values.merge({},
+      const compileEnv = qx.tool.utils.Values.merge(
+        {},
         qx.tool.compiler.ClassFile.ENVIRONMENT_CONSTANTS,
         {
           "qx.compiler": true,
           "qx.compiler.version": qx.tool.config.Utils.getCompilerVersion()
         },
+
         this.getEnvironment(),
         target.getDefaultEnvironment(),
         target.getEnvironment()
@@ -92,7 +94,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       let preserve = target.getPreserveEnvironment();
       if (preserve) {
         let tmp = {};
-        preserve.forEach(key => tmp[key] = true);
+        preserve.forEach(key => (tmp[key] = true));
         preserve = tmp;
       } else {
         preserve = {};
@@ -100,7 +102,11 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
 
       let appEnvironments = {};
       this.getApplications().forEach(app => {
-        appEnvironments[app.toHashCode()] = qx.tool.utils.Values.merge({}, compileEnv, app.getCalculatedEnvironment());
+        appEnvironments[app.toHashCode()] = qx.tool.utils.Values.merge(
+          {},
+          compileEnv,
+          app.getCalculatedEnvironment()
+        );
       });
 
       // Analyze the list of environment variables, detect which are shared between all apps
@@ -171,8 +177,8 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         });
       }
 
-      this.__applications.forEach(function(app) {
-        app.getRequiredClasses().forEach(function(className) {
+      this.__applications.forEach(function (app) {
+        app.getRequiredClasses().forEach(function (className) {
           analyser.addClass(className);
         });
         if (app.getTheme()) {
@@ -203,12 +209,22 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       for (let i = 0; i < appsThisTime.length; i++) {
         let application = appsThisTime[i];
         if (application.getType() != "browser" && !compileEnv["qx.headless"]) {
-          qx.tool.compiler.Console.print("qx.tool.compiler.maker.appNotHeadless", application.getName());
+          qx.tool.compiler.Console.print(
+            "qx.tool.compiler.maker.appNotHeadless",
+            application.getName()
+          );
         }
-        var appEnv = qx.tool.utils.Values.merge({}, compileEnv, appEnvironments[application.toHashCode()]);
+        var appEnv = qx.tool.utils.Values.merge(
+          {},
+          compileEnv,
+          appEnvironments[application.toHashCode()]
+        );
         application.calcDependencies();
         if (application.getFatalCompileErrors()) {
-          qx.tool.compiler.Console.print("qx.tool.compiler.maker.appFatalError", application.getName());
+          qx.tool.compiler.Console.print(
+            "qx.tool.compiler.maker.appFatalError",
+            application.getName()
+          );
           success = false;
           continue;
         }
@@ -218,7 +234,9 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
               return;
             }
             db.classInfo[classname].markers.forEach(marker => {
-              let type = qx.tool.compiler.Console.getInstance().getMessageType(marker.msgId);
+              let type = qx.tool.compiler.Console.getInstance().getMessageType(
+                marker.msgId
+              );
               if (type == "warning") {
                 hasWarnings = true;
               }
@@ -231,6 +249,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           analyser,
           maker: this
         };
+
         allAppInfos.push(appInfo);
         await this.fireDataEventAsync("writingApplication", appInfo);
         await target.generateApplication(application, appEnv);
@@ -239,11 +258,9 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
 
       await this.fireDataEventAsync("writtenApplications", allAppInfos);
       if (this.isOutputTypescript()) {
-        await (
-          new qx.tool.compiler.targets.TypeScriptWriter(target)
-            .set({ outputTo: this.getOutputTypescriptTo() })
-            .run()
-        );
+        await new qx.tool.compiler.targets.TypeScriptWriter(target)
+          .set({ outputTo: this.getOutputTypescriptTo() })
+          .run();
       }
 
       await analyser.saveDatabase();

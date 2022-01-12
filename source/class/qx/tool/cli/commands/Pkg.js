@@ -25,26 +25,27 @@ qx.Class.define("qx.tool.cli.commands.Pkg", {
      * The yargs command data
      * @return {{}}
      */
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
-        command : "pkg <command> [options]",
-        desc : "alias for 'qx package'",
-        builder : function(yargs) {
-          qx.tool.cli.Cli.addYargsCommands(yargs, [
-            "Install",
-            "List",
-            "Publish",
-            "Remove",
-            "Update",
-            "Upgrade",
-            "Migrate"
-          ], "qx.tool.cli.commands.package");
-          return yargs
-            .demandCommand()
-            .showHelpOnFail()
-            .help();
+        command: "pkg <command> [options]",
+        desc: "alias for 'qx package'",
+        builder(yargs) {
+          qx.tool.cli.Cli.addYargsCommands(
+            yargs,
+            [
+              "Install",
+              "List",
+              "Publish",
+              "Remove",
+              "Update",
+              "Upgrade",
+              "Migrate"
+            ],
+            "qx.tool.cli.commands.package"
+          );
+          return yargs.demandCommand().showHelpOnFail().help();
         },
-        handler : function(argv) {
+        handler(argv) {
           // Nothing
         }
       };

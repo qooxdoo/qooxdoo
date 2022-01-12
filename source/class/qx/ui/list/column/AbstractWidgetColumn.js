@@ -16,13 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base for columns which are based on simple widgets, eg TextField
  */
 qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
   extend: qx.ui.list.column.AbstractColumn,
-  
+
   properties: {
     /** Path to bind to in the row model object */
     path: {
@@ -30,10 +29,10 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
       check: "String"
     }
   },
-  
+
   members: {
     _supportsEditing: true,
-    
+
     /**
      * @Override
      */
@@ -42,14 +41,28 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
       let data = {
         model: model,
         widget: widget,
-        modelChangeId: model.addListener("change" + qx.lang.String.firstUp(path), evt => {
-          let value = evt.getData();
-          this._onModelChangeValue(model, value, widget);
-        })
+        modelChangeId: model.addListener(
+          "change" + qx.lang.String.firstUp(path),
+          evt => {
+            let value = evt.getData();
+            this._onModelChangeValue(model, value, widget);
+          }
+        )
       };
-      data.modelValueBindId = model.bind(path, widget, "value", this._getModelBindingOptions(widget, model));
+
+      data.modelValueBindId = model.bind(
+        path,
+        widget,
+        "value",
+        this._getModelBindingOptions(widget, model)
+      );
       if (this._supportsEditing) {
-        data.widgetBindId = widget.bind("value", model, path, this._getWidgetBindingOptions(widget, model));
+        data.widgetBindId = widget.bind(
+          "value",
+          model,
+          path,
+          this._getWidgetBindingOptions(widget, model)
+        );
       }
       //this._onModelChangeValue(model, model["get" + qx.lang.String.firstUp(path)](), widget);
       return data;
@@ -58,29 +71,29 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
     _onModelChangeValue(model, value, widget) {
       this.fireDataEvent("change", value);
     },
-    
+
     /**
-     * Returns the options for binding to the model, same as the `qx.data.SingleValueBinding.bind` 
+     * Returns the options for binding to the model, same as the `qx.data.SingleValueBinding.bind`
      * options parameter
      *
      * @param model {qx.core.Object}
      * @return {Object?}
-     */    
+     */
     _getModelBindingOptions(model) {
       return undefined;
     },
-    
+
     /**
-     * Returns the options for binding to the widget, same as the `qx.data.SingleValueBinding.bind` 
+     * Returns the options for binding to the widget, same as the `qx.data.SingleValueBinding.bind`
      * options parameter
      *
      * @param model {qx.ui.core.Widget}
      * @return {Object?}
-     */    
+     */
     _getWidgetBindingOptions(widget) {
       return undefined;
     },
-    
+
     /**
      * @Override
      */
@@ -95,18 +108,16 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
         widget.removeBinding(bindData.widgetBindId);
       }
     },
-    
+
     /**
      * @Override
      */
     _updateEditableImpl(bindData, enabled, readOnly) {
-      if (this.isReadOnly())
-        readOnly = true;
+      if (this.isReadOnly()) readOnly = true;
       if (enabled) {
         if (typeof bindData.widget.setReadOnly == "function")
           bindData.widget.set({ enabled: true, readOnly: readOnly });
-        else
-          bindData.widget.set({ enabled: !readOnly });
+        else bindData.widget.set({ enabled: !readOnly });
       } else {
         bindData.widget.set({ enabled: false });
       }

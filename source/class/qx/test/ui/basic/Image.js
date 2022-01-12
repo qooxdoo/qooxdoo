@@ -25,20 +25,17 @@
  * @asset(qx/static/drawer@2x.png)
  */
 
-qx.Class.define("qx.test.ui.basic.Image",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.basic.Image", {
+  extend: qx.test.ui.LayoutTestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    tearDown : function() {
+  members: {
+    tearDown() {
       this.getSandbox().restore();
     },
 
-    testSwitchScaling : function()
-    {
-      var image = new qx.ui.basic.Image;
+    testSwitchScaling() {
+      var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
       image.set({ source: "qx/icon/Tango/48/places/folder.png", scale: false });
       this.getRoot().add(image);
@@ -60,14 +57,11 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.destroy();
     },
 
-
-    testSwitchPngToGif : function()
-    {
+    testSwitchPngToGif() {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
       this.addAutoDispose(image);
       this.getRoot().add(image);
       this.flush();
-
 
       var tagName = image.getContentElement().getNodeName();
       this.assertTrue(tagName == "div");
@@ -81,9 +75,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.destroy();
     },
 
-
-    testSwitchGifToPng : function()
-    {
+    testSwitchGifToPng() {
       var image = new qx.ui.basic.Image("qx/static/blank.gif");
       this.addAutoDispose(image);
       image.setScale(true);
@@ -114,9 +106,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.destroy();
     },
 
-
-    testSwitchDimension : function()
-    {
+    testSwitchDimension() {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
       this.addAutoDispose(image);
       this.getRoot().add(image);
@@ -138,15 +128,19 @@ qx.Class.define("qx.test.ui.basic.Image",
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         contentElement = contentElement.getChildren()[0];
       }
-      this.assertEquals(parseInt(contentElement.getStyle("width")), parseInt(width));
-      this.assertEquals(parseInt(contentElement.getStyle("height")), parseInt(height));
+      this.assertEquals(
+        parseInt(contentElement.getStyle("width")),
+        parseInt(width)
+      );
+      this.assertEquals(
+        parseInt(contentElement.getStyle("height")),
+        parseInt(height)
+      );
 
       image.destroy();
     },
 
-
-    testSwitchWithDecorator : function()
-    {
+    testSwitchWithDecorator() {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
       this.addAutoDispose(image);
       this.getRoot().add(image);
@@ -164,9 +158,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.destroy();
     },
 
-
-    testSwitchWithSelectable : function()
-    {
+    testSwitchWithSelectable() {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
       this.addAutoDispose(image);
       this.getRoot().add(image);
@@ -179,58 +171,68 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setScale(true);
       this.flush();
 
-      var selectableAfter = image.getContentElement().getAttribute("qxselectable");
+      var selectableAfter = image
+        .getContentElement()
+        .getAttribute("qxselectable");
 
       this.assertEquals(selectable, selectableAfter);
 
       image.destroy();
     },
 
-
-    testFailedEvent : function() {
+    testFailedEvent() {
       var image = new qx.ui.basic.Image("affe.xyz" + Math.random());
       this.addAutoDispose(image);
-      image.addListener("loadingFailed", function() {
-        this.resume(function() {
-          // use a timeout to dispose the image because it needs to
-          // end its processing after the event has been fired.
-          window.setTimeout(function() {
-            image.destroy();
+      image.addListener(
+        "loadingFailed",
+        function () {
+          this.resume(function () {
+            // use a timeout to dispose the image because it needs to
+            // end its processing after the event has been fired.
+            window.setTimeout(function () {
+              image.destroy();
+            });
           });
-        });
-      }, this);
+        },
+        this
+      );
 
       this.wait();
     },
 
-
-    testLoadedEvent : function()
-    {
-      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
-      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+    testLoadedEvent() {
+      var source =
+        "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+      this.assertFalse(
+        qx.io.ImageLoader.isLoaded(source),
+        "Image already loaded, but this should not happen!"
+      );
 
       var image = new qx.ui.basic.Image(source);
       this.addAutoDispose(image);
-      image.addListener("loaded", function() {
-        this.resume(function() {
-          // use a timeout to dispose the image because it needs to
-          // end its processing after the event has been fired.
-          window.setTimeout(function() {
-            image.destroy();
+      image.addListener(
+        "loaded",
+        function () {
+          this.resume(function () {
+            // use a timeout to dispose the image because it needs to
+            // end its processing after the event has been fired.
+            window.setTimeout(function () {
+              image.destroy();
+            });
           });
-        });
-      }, this);
+        },
+        this
+      );
 
       this.wait(1000);
     },
 
-
-    "test: Abort image loading on changing source" : function()
-    {
+    "test: Abort image loading on changing source"() {
       // image will be received with a delay of 2 sec
       var sourceA = "../resource/qx/test/delayedImage.php?" + Date.now();
 
-      var sourceB = "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+      var sourceB =
+        "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
 
       var image = new qx.ui.basic.Image(sourceA);
       this.addAutoDispose(image);
@@ -238,16 +240,20 @@ qx.Class.define("qx.test.ui.basic.Image",
       var spyhandler = this.spy();
       image.addListener("aborted", spyhandler, this);
 
-      this.assertTrue(qx.io.ImageLoader.isLoading(sourceA), "SourceA should be in loading state!");
+      this.assertTrue(
+        qx.io.ImageLoader.isLoading(sourceA),
+        "SourceA should be in loading state!"
+      );
       image.setSource(sourceB);
-      this.assertFalse(qx.io.ImageLoader.isLoaded(sourceA), "SourceA should not be loaded after source change!");
+      this.assertFalse(
+        qx.io.ImageLoader.isLoaded(sourceA),
+        "SourceA should not be loaded after source change!"
+      );
 
       this.assertCalledOnce(spyhandler);
     },
 
-
-    "test: Abort image loading through the ImageLoader" : function()
-    {
+    "test: Abort image loading through the ImageLoader"() {
       // image will be received with a delay of 2 sec
       var Source = "../resource/qx/test/delayedImage.php?" + Date.now();
 
@@ -257,24 +263,32 @@ qx.Class.define("qx.test.ui.basic.Image",
       var spyhandler = this.spy();
       image.addListener("aborted", spyhandler, this);
 
-      this.assertTrue(qx.io.ImageLoader.isLoading(Source), "Source should be in loading state!");
+      this.assertTrue(
+        qx.io.ImageLoader.isLoading(Source),
+        "Source should be in loading state!"
+      );
 
       qx.io.ImageLoader.abort(Source);
 
-      this.assertFalse(qx.io.ImageLoader.isLoaded(Source), "Source should not be loaded after source change!");
+      this.assertFalse(
+        qx.io.ImageLoader.isLoaded(Source),
+        "Source should not be loaded after source change!"
+      );
 
       this.assertCalledOnce(spyhandler);
     },
 
-
-    testLoadedEventForUnmanagedImage : function()
-    {
+    testLoadedEventForUnmanagedImage() {
       // Known to fail in firefox:
       if (this.isFirefox()) {
         throw new qx.dev.unit.RequirementError();
       }
-      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
-      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+      var source =
+        "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+      this.assertFalse(
+        qx.io.ImageLoader.isLoaded(source),
+        "Image already loaded, but this should not happen!"
+      );
 
       var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
@@ -286,24 +300,29 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
-        image.resetSource();
-        image.setSource(source);
-      }, this);
+      image.addListenerOnce(
+        "loaded",
+        function () {
+          image.resetSource();
+          image.setSource(source);
+        },
+        this
+      );
 
-      this.wait(500, function(){
-        this.assertCalledTwice(spyhandler);
-        // use a timeout to dispose the image because it needs to
-        // end its processing after the event has been fired.
-        window.setTimeout(function() {
-          image.destroy();
-        });
-      }.bind(this));
+      this.wait(
+        500,
+        function () {
+          this.assertCalledTwice(spyhandler);
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
+          });
+        }.bind(this)
+      );
     },
 
-
-    testLoadedEventForManagedImage : function()
-    {
+    testLoadedEventForManagedImage() {
       var source = "qx/icon/Tango/48/places/folder.png";
       var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
@@ -315,31 +334,40 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
-        image.resetSource();
-        image.setSource(source);
-      }, this);
+      image.addListenerOnce(
+        "loaded",
+        function () {
+          image.resetSource();
+          image.setSource(source);
+        },
+        this
+      );
 
-      this.wait(500, function(){
-        this.assertCalledTwice(spyhandler);
-        // use a timeout to dispose the image because it needs to
-        // end its processing after the event has been fired.
-        window.setTimeout(function() {
-          image.destroy();
-        });
-      }.bind(this));
+      this.wait(
+        500,
+        function () {
+          this.assertCalledTwice(spyhandler);
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
+          });
+        }.bind(this)
+      );
     },
 
-
-    testAbortedEventForUnmanagedImage : function()
-    {
+    testAbortedEventForUnmanagedImage() {
       // Known to fail in firefox:
       if (this.isFirefox()) {
         throw new qx.dev.unit.RequirementError();
       }
 
-      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
-      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+      var source =
+        "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+      this.assertFalse(
+        qx.io.ImageLoader.isLoaded(source),
+        "Image already loaded, but this should not happen!"
+      );
 
       var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
@@ -351,27 +379,34 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
-        image.resetSource();
-        image.setSource(source);
+      image.addListenerOnce(
+        "loaded",
+        function () {
+          image.resetSource();
+          image.setSource(source);
 
-        // load thrice
-        image.resetSource();
-        image.setSource(source);
-      }, this);
+          // load thrice
+          image.resetSource();
+          image.setSource(source);
+        },
+        this
+      );
 
-      this.wait(500, function(){
-        //even if we called setSource thrice, the loaded event must be called only twice
-        this.assertCalledOnce(spyhandler);
-        // use a timeout to dispose the image because it needs to
-        // end its processing after the event has been fired.
-        window.setTimeout(function() {
-          image.destroy();
-        });
-      }.bind(this));
+      this.wait(
+        500,
+        function () {
+          //even if we called setSource thrice, the loaded event must be called only twice
+          this.assertCalledOnce(spyhandler);
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
+          });
+        }.bind(this)
+      );
     },
 
-    testWebFontImage : function() {
+    testWebFontImage() {
       this._initWebFont();
 
       var image = new qx.ui.basic.Image("@FontAwesome/heart");
@@ -428,7 +463,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.destroy();
     },
 
-    testHighResImage: function () {
+    testHighResImage() {
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
       }
@@ -446,14 +481,17 @@ qx.Class.define("qx.test.ui.basic.Image",
       var resourceManager = qx.util.ResourceManager.getInstance();
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
-      this.assertEquals("qx/static/drawer@2x.png", image.getContentElement().getSource());
+      this.assertEquals(
+        "qx/static/drawer@2x.png",
+        image.getContentElement().getSource()
+      );
 
       image.destroy();
 
       devicePixelRatioStub.restore();
     },
 
-    testHighResImageWithDecoratorAndSourceInConstructor: function () {
+    testHighResImageWithDecoratorAndSourceInConstructor() {
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
       }
@@ -473,7 +511,9 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
 
-      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
+      var backgroundImage = image
+        .getContentElement()
+        .getStyle("backgroundImage");
       this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
@@ -482,7 +522,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       devicePixelRatioStub.restore();
     },
 
-    testHighResImageWithDecoratorAndSourceInSetter: function () {
+    testHighResImageWithDecoratorAndSourceInSetter() {
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
       }
@@ -503,8 +543,10 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
 
-      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
-        this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+      var backgroundImage = image
+        .getContentElement()
+        .getStyle("backgroundImage");
+      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
       image.destroy();
@@ -512,16 +554,14 @@ qx.Class.define("qx.test.ui.basic.Image",
       devicePixelRatioStub.restore();
     },
 
-    isFirefox : function()
-    {
+    isFirefox() {
       return qx.core.Environment.get("engine.name") === "gecko";
     },
 
     /**
      * @ignore(qx.theme.icon.Font)
      */
-    _initWebFont : function()
-    {
+    _initWebFont() {
       qx.$$resources["@FontAwesome/heart"] = [40, 40, 61444];
       qx.$$resources["@FontAwesome/arrow_right"] = [40, 47, 61537];
 
@@ -530,16 +570,17 @@ qx.Class.define("qx.test.ui.basic.Image",
       // Add font definitions
       var config = {
         fonts: {
-          "FontAwesome": {
+          FontAwesome: {
             size: 40,
             lineHeight: 1,
-            comparisonString : "\uf1e3\uf1f7\uf11b\uf19d",
+            comparisonString: "\uf1e3\uf1f7\uf11b\uf19d",
             family: ["FontAwesome"],
             sources: [
               {
                 family: "FontAwesome",
                 source: [
-                  "qx/test/webfonts/fontawesome-webfont.ttf" , "qx/test/webfonts/fontawesome-webfont.woff"
+                  "qx/test/webfonts/fontawesome-webfont.ttf",
+                  "qx/test/webfonts/fontawesome-webfont.woff"
                 ]
               }
             ]
@@ -550,6 +591,5 @@ qx.Class.define("qx.test.ui.basic.Image",
       qx.Theme.define("qx.theme.icon.Font", config);
       qx.Theme.include(currentFont, qx.theme.icon.Font);
     }
-
   }
 });

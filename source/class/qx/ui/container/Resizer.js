@@ -49,11 +49,9 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/resizer.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.Resizer",
-{
-  extend    : qx.ui.container.Composite,
-  include   : qx.ui.core.MResizable,
-
+qx.Class.define("qx.ui.container.Resizer", {
+  extend: qx.ui.container.Composite,
+  include: qx.ui.core.MResizable,
 
   /*
   *****************************************************************************
@@ -61,12 +59,10 @@ qx.Class.define("qx.ui.container.Resizer",
   *****************************************************************************
   */
 
-  properties:
-  {
-    appearance :
-    {
-      refine : true,
-      init : "resizer"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "resizer"
     }
   }
 });

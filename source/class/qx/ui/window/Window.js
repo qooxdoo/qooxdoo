@@ -35,22 +35,16 @@
  * @childControl maximize-button {qx.ui.form.Button} button to maximize the window
  * @childControl close-button {qx.ui.form.Button} button to close the window
  */
-qx.Class.define("qx.ui.window.Window",
-{
-  extend : qx.ui.core.Widget,
+qx.Class.define("qx.ui.window.Window", {
+  extend: qx.ui.core.Widget,
 
-  include :
-  [
+  include: [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.core.MResizable,
     qx.ui.core.MMovable,
     qx.ui.core.MContentPadding
   ],
-
-
-
-
 
   /*
   *****************************************************************************
@@ -62,9 +56,8 @@ qx.Class.define("qx.ui.window.Window",
    * @param caption {String?} The caption text
    * @param icon {String?} The URL of the caption bar icon
    */
-  construct : function(caption, icon)
-  {
-    this.base(arguments);
+  construct(caption, icon) {
+    super();
 
     // configure internal layout
     this._setLayout(new qx.ui.layout.VBox());
@@ -102,15 +95,12 @@ qx.Class.define("qx.ui.window.Window",
 
     // Change the resize frames appearance
     this._getResizeFrame().setAppearance("window-resize-frame");
-    
+
     // ARIA attrs
     this.getContentElement().setAttribute("role", "dialog");
     this.addAriaLabelledBy(this.getChildControl("title"));
     this.addAriaDescribedBy(this.getChildControl("statusbar-text"));
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -118,15 +108,10 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Class} The default window manager class. */
-    DEFAULT_MANAGER_CLASS : qx.ui.window.Manager
+    DEFAULT_MANAGER_CLASS: qx.ui.window.Manager
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -134,18 +119,17 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired before the window is closed.
      *
      * The close action can be prevented by calling
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
-    "beforeClose" : "qx.event.type.Event",
+    beforeClose: "qx.event.type.Event",
 
     /** Fired if the window is closed */
-    "close" : "qx.event.type.Event",
+    close: "qx.event.type.Event",
 
     /**
      * Fired before the window is minimize.
@@ -153,10 +137,10 @@ qx.Class.define("qx.ui.window.Window",
      * The minimize action can be prevented by calling
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
-    "beforeMinimize" : "qx.event.type.Event",
+    beforeMinimize: "qx.event.type.Event",
 
     /** Fired if the window is minimized */
-    "minimize" : "qx.event.type.Event",
+    minimize: "qx.event.type.Event",
 
     /**
      * Fired before the window is maximize.
@@ -164,10 +148,10 @@ qx.Class.define("qx.ui.window.Window",
      * The maximize action can be prevented by calling
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
-    "beforeMaximize" : "qx.event.type.Event",
+    beforeMaximize: "qx.event.type.Event",
 
     /** Fired if the window is maximized */
-    "maximize" : "qx.event.type.Event",
+    maximize: "qx.event.type.Event",
 
     /**
      * Fired before the window is restored from a minimized or maximized state.
@@ -175,14 +159,11 @@ qx.Class.define("qx.ui.window.Window",
      * The restored action can be prevented by calling
      * {@link qx.event.type.Event#preventDefault} on the event object
      */
-    "beforeRestore" : "qx.event.type.Event",
+    beforeRestore: "qx.event.type.Event",
 
     /** Fired if the window is restored from a minimized or maximized state */
-    "restore" : "qx.event.type.Event"
+    restore: "qx.event.type.Event"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -190,8 +171,7 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       INTERNAL OPTIONS
@@ -199,42 +179,33 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "window"
+    appearance: {
+      refine: true,
+      init: "window"
     },
-
 
     // overridden
-    visibility :
-    {
-      refine : true,
-      init : "excluded"
+    visibility: {
+      refine: true,
+      init: "excluded"
     },
-
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
-
 
     /**
      * If the window is active, only one window in a single qx.ui.window.Manager could
      *  have set this to true at the same time.
      */
-    active :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyActive",
-      event : "changeActive"
+    active: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyActive",
+      event: "changeActive"
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -243,54 +214,43 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /** Should the window be always on top */
-    alwaysOnTop :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeAlwaysOnTop"
+    alwaysOnTop: {
+      check: "Boolean",
+      init: false,
+      event: "changeAlwaysOnTop"
     },
 
     /** Should the window be modal (this disables minimize and maximize buttons) */
-    modal :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeModal",
-      apply : "_applyModal"
+    modal: {
+      check: "Boolean",
+      init: false,
+      event: "changeModal",
+      apply: "_applyModal"
     },
-
 
     /** The text of the caption */
-    caption :
-    {
-      apply : "_applyCaptionBarChange",
-      event : "changeCaption",
-      nullable : true
+    caption: {
+      apply: "_applyCaptionBarChange",
+      event: "changeCaption",
+      nullable: true
     },
-
 
     /** The icon of the caption */
-    icon :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyCaptionBarChange",
-      event : "changeIcon",
-      themeable : true
+    icon: {
+      check: "String",
+      nullable: true,
+      apply: "_applyCaptionBarChange",
+      event: "changeIcon",
+      themeable: true
     },
-
 
     /** The text of the statusbar */
-    status :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyStatus",
-      event :"changeStatus"
+    status: {
+      check: "String",
+      nullable: true,
+      apply: "_applyStatus",
+      event: "changeStatus"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -299,36 +259,28 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /** Should the close button be shown */
-    showClose :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange",
-      themeable : true
+    showClose: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange",
+      themeable: true
     },
-
 
     /** Should the maximize button be shown */
-    showMaximize :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange",
-      themeable : true
+    showMaximize: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange",
+      themeable: true
     },
-
 
     /** Should the minimize button be shown */
-    showMinimize :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange",
-      themeable : true
+    showMinimize: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange",
+      themeable: true
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -337,33 +289,25 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /** Should the user have the ability to close the window */
-    allowClose :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange"
+    allowClose: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange"
     },
-
 
     /** Should the user have the ability to maximize the window */
-    allowMaximize :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange"
+    allowMaximize: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange"
     },
-
 
     /** Should the user have the ability to minimize the window */
-    allowMinimize :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyCaptionBarChange"
+    allowMinimize: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyCaptionBarChange"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -372,15 +316,11 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /** Should the statusbar be shown */
-    showStatusbar :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyShowStatusbar"
+    showStatusbar: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyShowStatusbar"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -389,25 +329,21 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /** Whether this window should be automatically centered when it appears */
-    centerOnAppear :
-    {
-      init  : false,
-      check : "Boolean",
-      apply : "_applyCenterOnAppear"
+    centerOnAppear: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyCenterOnAppear"
     },
 
     /**
      * Whether this window should be automatically centered when its container
      * is resized.
      */
-    centerOnContainerResize :
-    {
-      init  : false,
-      check : "Boolean",
-      apply : "_applyCenterOnContainerResize"
+    centerOnContainerResize: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyCenterOnContainerResize"
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -428,15 +364,11 @@ qx.Class.define("qx.ui.window.Window",
      * clean-up, you should listen on the 'close' event and remove and clean
      * up those widgets there.
      */
-    autoDestroy :
-    {
-      check : "Boolean",
-      init : false
+    autoDestroy: {
+      check: "Boolean",
+      init: false
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -444,21 +376,19 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-    members :
-  {
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+  members: {
     /** @type {Integer} Original top value before maximation had occurred */
-    __restoredTop : null,
+    __restoredTop: null,
 
     /** @type {Integer} Original left value before maximation had occurred */
-    __restoredLeft : null,
+    __restoredLeft: null,
 
     /** @type {Integer} Listener ID for centering on appear */
-    __centeringAppearId : null,
+    __centeringAppearId: null,
 
     /** @type {Integer} Listener ID for centering on resize */
-    __centeringResizeId : null,
-
+    __centeringResizeId: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -472,36 +402,33 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @return {qx.ui.container.Composite} pane sub widget
      */
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("pane");
     },
-
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      active : true,
-      maximized : true,
-      showStatusbar : true,
-      modal : true
+    _forwardStates: {
+      active: true,
+      maximized: true,
+      showStatusbar: true,
+      modal: true
     },
 
-
     // overridden
-    setLayoutParent : function(parent)
-    {
-      var             oldParent;
+    setLayoutParent(parent) {
+      var oldParent;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        parent && this.assertInterface(
-          parent, qx.ui.window.IDesktop,
-          "Windows can only be added to widgets, which implement the interface "+
-          "qx.ui.window.IDesktop. All root widgets implement this interface."
-        );
+      if (qx.core.Environment.get("qx.debug")) {
+        parent &&
+          this.assertInterface(
+            parent,
+            qx.ui.window.IDesktop,
+            "Windows can only be added to widgets, which implement the interface " +
+              "qx.ui.window.IDesktop. All root widgets implement this interface."
+          );
       }
 
       // Before changing the parent, if there's a prior one, remove our resize
@@ -513,24 +440,23 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // Call the superclass
-      this.base(arguments, parent);
+      super.setLayoutParent(parent);
 
       // Re-add a listener for resize, if required
-      if (parent && this.getCenterOnContainerResize())
-      {
-        this.__centeringResizeId =
-          parent.addListener("resize", this.center, this);
+      if (parent && this.getCenterOnContainerResize()) {
+        this.__centeringResizeId = parent.addListener(
+          "resize",
+          this.center,
+          this
+        );
       }
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "statusbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
           this._add(control);
@@ -544,7 +470,7 @@ qx.Class.define("qx.ui.window.Window",
 
         case "pane":
           control = new qx.ui.container.Composite();
-          this._add(control, {flex: 1});
+          this._add(control, { flex: 1 });
           break;
 
         case "captionbar":
@@ -564,7 +490,10 @@ qx.Class.define("qx.ui.window.Window",
 
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
-          this.getChildControl("captionbar").add(control, {row: 0, column:0});
+          this.getChildControl("captionbar").add(control, {
+            row: 0,
+            column: 0
+          });
           break;
 
         case "title":
@@ -573,7 +502,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setAllowGrowX(true);
 
           var captionBar = this.getChildControl("captionbar");
-          captionBar.add(control, {row: 0, column:1});
+          captionBar.add(control, { row: 0, column: 1 });
           break;
 
         case "minimize-button":
@@ -581,7 +510,10 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMinimizeButtonTap, this);
 
-          this.getChildControl("captionbar").add(control, {row: 0, column:2});
+          this.getChildControl("captionbar").add(control, {
+            row: 0,
+            column: 2
+          });
           break;
 
         case "restore-button":
@@ -589,7 +521,10 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onRestoreButtonTap, this);
 
-          this.getChildControl("captionbar").add(control, {row: 0, column:3});
+          this.getChildControl("captionbar").add(control, {
+            row: 0,
+            column: 3
+          });
           break;
 
         case "maximize-button":
@@ -597,7 +532,10 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMaximizeButtonTap, this);
 
-          this.getChildControl("captionbar").add(control, {row: 0, column:4});
+          this.getChildControl("captionbar").add(control, {
+            row: 0,
+            column: 4
+          });
           break;
 
         case "close-button":
@@ -605,16 +543,15 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onCloseButtonTap, this);
 
-          this.getChildControl("captionbar").add(control, {row: 0, column:6});
+          this.getChildControl("captionbar").add(control, {
+            row: 0,
+            column: 6
+          });
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -625,8 +562,7 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Updates the status and the visibility of each element of the captionbar.
      */
-    _updateCaptionBar : function()
-    {
+    _updateCaptionBar() {
       var btn;
 
       var icon = this.getIcon();
@@ -645,56 +581,40 @@ qx.Class.define("qx.ui.window.Window",
         this._excludeChildControl("title");
       }
 
-      if (this.getShowMinimize())
-      {
+      if (this.getShowMinimize()) {
         this._showChildControl("minimize-button");
 
         btn = this.getChildControl("minimize-button");
         this.getAllowMinimize() ? btn.resetEnabled() : btn.setEnabled(false);
-      }
-      else
-      {
+      } else {
         this._excludeChildControl("minimize-button");
       }
 
-      if (this.getShowMaximize())
-      {
-        if (this.isMaximized())
-        {
+      if (this.getShowMaximize()) {
+        if (this.isMaximized()) {
           this._showChildControl("restore-button");
           this._excludeChildControl("maximize-button");
-        }
-        else
-        {
+        } else {
           this._showChildControl("maximize-button");
           this._excludeChildControl("restore-button");
         }
 
         btn = this.getChildControl("maximize-button");
         this.getAllowMaximize() ? btn.resetEnabled() : btn.setEnabled(false);
-      }
-      else
-      {
+      } else {
         this._excludeChildControl("maximize-button");
         this._excludeChildControl("restore-button");
       }
 
-      if (this.getShowClose())
-      {
+      if (this.getShowClose()) {
         this._showChildControl("close-button");
 
         btn = this.getChildControl("close-button");
         this.getAllowClose() ? btn.resetEnabled() : btn.setEnabled(false);
-      }
-      else
-      {
+      } else {
         this._excludeChildControl("close-button");
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -709,14 +629,17 @@ qx.Class.define("qx.ui.window.Window",
      * {@link qx.ui.win.Window#autoDestroy} property is false; otherwise
      * removes and destroys the window.
      */
-    close : function()
-    {
+    close() {
       if (!this.getAutoDestroy() && !this.isVisible()) {
         return;
       }
 
-      if (this.fireNonBubblingEvent("beforeClose", qx.event.type.Event, [false, true]))
-      {
+      if (
+        this.fireNonBubblingEvent("beforeClose", qx.event.type.Event, [
+          false,
+          true
+        ])
+      ) {
         this.hide();
         this.fireEvent("close");
       }
@@ -725,23 +648,19 @@ qx.Class.define("qx.ui.window.Window",
       // so now. (Note that we explicitly re-obtain the autoDestroy property
       // value, allowing the user's close handler to enable/disable it before
       // here.)
-      if (this.getAutoDestroy())
-      {
+      if (this.getAutoDestroy()) {
         this.dispose();
       }
     },
 
-
     /**
      * Open the window.
      */
-    open : function()
-    {
+    open() {
       this.show();
       this.setActive(true);
       this.focus();
     },
-
 
     /**
      * Centers the window to the parent.
@@ -753,14 +672,11 @@ qx.Class.define("qx.ui.window.Window",
      *   win.addListenerOnce("resize", this.center, this);
      * </pre>
      */
-    center : function()
-    {
+    center() {
       var parent = this.getLayoutParent();
-      if (parent)
-      {
+      if (parent) {
         var bounds = parent.getBounds();
-        if (bounds)
-        {
+        if (bounds) {
           var hint = this.getSizeHint();
 
           var left = Math.round((bounds.width - hint.width) / 2);
@@ -776,18 +692,15 @@ qx.Class.define("qx.ui.window.Window",
         }
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         this.warn("Centering depends on parent bounds!");
       }
     },
 
-
     /**
      * Maximize the window.
      */
-    maximize : function()
-    {
+    maximize() {
       // If the window is already maximized -> return
       if (this.isMaximized()) {
         return;
@@ -796,10 +709,13 @@ qx.Class.define("qx.ui.window.Window",
       // First check if the parent uses a canvas layout
       // Otherwise maximize() is not possible
       var parent = this.getLayoutParent();
-      if (parent != null && parent.supportsMaximize())
-      {
-        if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
-        {
+      if (parent != null && parent.supportsMaximize()) {
+        if (
+          this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [
+            false,
+            true
+          ])
+        ) {
           if (!this.isVisible()) {
             this.open();
           }
@@ -828,18 +744,20 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-
     /**
      * Minimized the window.
      */
-    minimize : function()
-    {
+    minimize() {
       if (!this.isVisible()) {
         return;
       }
 
-      if (this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
-      {
+      if (
+        this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [
+          false,
+          true
+        ])
+      ) {
         // store current dimension and location
         var props = this.getLayoutProperties();
         this.__restoredLeft = props.left === undefined ? 0 : props.left;
@@ -851,19 +769,21 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-
     /**
      * Restore the window to <code>"normal"</code>, if it is
      * <code>"maximized"</code> or <code>"minimized"</code>.
      */
-    restore : function()
-    {
+    restore() {
       if (this.getMode() === "normal") {
         return;
       }
 
-      if (this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [false, true]))
-      {
+      if (
+        this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [
+          false,
+          true
+        ])
+      ) {
         if (!this.isVisible()) {
           this.open();
         }
@@ -873,9 +793,9 @@ qx.Class.define("qx.ui.window.Window",
         var top = this.__restoredTop;
 
         this.setLayoutProperties({
-          edge : null,
-          left : left,
-          top : top
+          edge: null,
+          left: left,
+          top: top
         });
 
         // Remove maximized state
@@ -889,22 +809,20 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-
     /**
      * Set the window's position relative to its parent
      *
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
-    moveTo : function(left, top)
-    {
+    moveTo(left, top) {
       if (this.isMaximized()) {
         return;
       }
 
       this.setLayoutProperties({
-        left : left,
-        top : top
+        left: left,
+        top: top
       });
     },
 
@@ -917,8 +835,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {Boolean} <code>true</code> if the window is maximized,
      *   <code>false</code> otherwise.
      */
-    isMaximized : function()
-    {
+    isMaximized() {
       return this.hasState("maximized");
     },
 
@@ -928,12 +845,11 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @return {String} The window mode as <code>String</code> value.
      */
-    getMode : function()
-    {
-      if(!this.isVisible()) {
+    getMode() {
+      if (!this.isVisible()) {
         return "minimized";
       } else {
-        if(this.isMaximized()) {
+        if (this.isMaximized()) {
           return "maximized";
         } else {
           return "normal";
@@ -948,8 +864,7 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     // property apply
-    _applyActive : function(value, old)
-    {
+    _applyActive(value, old) {
       if (old) {
         this.removeState("active");
       } else {
@@ -957,34 +872,29 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-
     // property apply
-    _applyModal : function(value, old)
-    {
+    _applyModal(value, old) {
       if (old) {
         this.removeState("modal");
       } else {
         this.addState("modal");
       }
-      
+
       // ARIA attrs
       this.getContentElement().setAttribute("aria-modal", value);
     },
-
 
     /**
      * Returns the element, to which the content padding should be applied.
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.getChildControl("pane");
     },
 
-
     // property apply
-    _applyShowStatusbar : function(value, old)
-    {
+    _applyShowStatusbar(value, old) {
       // store the state if the status bar is shown
       var resizeFrame = this._getResizeFrame();
       if (value) {
@@ -1002,35 +912,29 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-
     // property apply
-    _applyCaptionBarChange : function(value, old) {
+    _applyCaptionBarChange(value, old) {
       this._updateCaptionBar();
     },
 
-
     // property apply
-    _applyStatus : function(value, old)
-    {
+    _applyStatus(value, old) {
       var label = this.getChildControl("statusbar-text", true);
       if (label) {
         label.setValue(value);
       }
     },
 
-
     // overridden
-    _applyFocusable : function(value, old)
-    {
+    _applyFocusable(value, old) {
       // Workaround for bug #7581: Don't set the tabIndex
       // to prevent native scrolling on focus in IE
       if (qx.core.Environment.get("engine.name") !== "mshtml") {
-        this.base(arguments, value, old);
+        super._applyFocusable(value, old);
       }
     },
 
-    _applyCenterOnAppear : function(value, old)
-    {
+    _applyCenterOnAppear(value, old) {
       // Remove prior listener for centering on appear
       if (this.__centeringAppearId !== null) {
         this.removeListenerById(this.__centeringAppearId);
@@ -1039,14 +943,16 @@ qx.Class.define("qx.ui.window.Window",
 
       // If we are to center on appear, arrange to do so
       if (value) {
-        this.__centeringAppearId =
-          this.addListener("appear", this.center, this);
+        this.__centeringAppearId = this.addListener(
+          "appear",
+          this.center,
+          this
+        );
       }
     },
 
-    _applyCenterOnContainerResize : function(value, old)
-    {
-      var             parent = this.getLayoutParent();
+    _applyCenterOnContainerResize(value, old) {
+      var parent = this.getLayoutParent();
 
       // Remove prior listener for centering on resize
       if (this.__centeringResizeId !== null) {
@@ -1057,13 +963,14 @@ qx.Class.define("qx.ui.window.Window",
       // If we are to center on resize, arrange to do so
       if (value) {
         if (parent) {
-          this.__centeringResizeId =
-            parent.addListener("resize", this.center, this);
-          
+          this.__centeringResizeId = parent.addListener(
+            "resize",
+            this.center,
+            this
+          );
         }
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1076,20 +983,18 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Event} any event
      */
-    _onWindowEventStop : function(e) {
+    _onWindowEventStop(e) {
       e.stopPropagation();
     },
-
 
     /**
      * Focuses the window instance.
      *
      * @param e {qx.event.type.Pointer} pointer down event
      */
-    _onWindowPointerDown : function(e) {
+    _onWindowPointerDown(e) {
       this.setActive(true);
     },
-
 
     /**
      * Listens to the "focusout" event to deactivate the window (if the
@@ -1097,21 +1002,18 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Focus} focus event
      */
-    _onWindowFocusOut : function(e) {
+    _onWindowFocusOut(e) {
       // only needed for non-modal windows
-      if (this.getModal())
-      {
+      if (this.getModal()) {
         return;
       }
 
       // get the current focused widget and check if it is a child
       var current = e.getRelatedTarget();
-      if (current != null && !qx.ui.core.Widget.contains(this, current))
-      {
+      if (current != null && !qx.ui.core.Widget.contains(this, current)) {
         this.setActive(false);
       }
     },
-
 
     /**
      * Maximizes the window or restores it if it is already
@@ -1119,15 +1021,15 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Pointer} double tap event
      */
-    _onCaptionPointerDblTap : function(e)
-    {
-      if (this.getAllowMaximize() && (e.getTarget() === this.getChildControl("captionbar") || e.getTarget() === this.getChildControl("title"))) {
+    _onCaptionPointerDblTap(e) {
+      if (
+        this.getAllowMaximize() &&
+        (e.getTarget() === this.getChildControl("captionbar") ||
+          e.getTarget() === this.getChildControl("title"))
+      ) {
         this.isMaximized() ? this.restore() : this.maximize();
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1141,12 +1043,10 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Pointer} pointer tap event
      */
-    _onMinimizeButtonTap : function(e)
-    {
+    _onMinimizeButtonTap(e) {
       this.minimize();
       this.getChildControl("minimize-button").reset();
     },
-
 
     /**
      * Restores the window, removes all states from the restore button and
@@ -1154,12 +1054,10 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Pointer} pointer pointer event
      */
-    _onRestoreButtonTap : function(e)
-    {
+    _onRestoreButtonTap(e) {
       this.restore();
       this.getChildControl("restore-button").reset();
     },
-
 
     /**
      * Maximizes the window, removes all states from the maximize button and
@@ -1167,12 +1065,10 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Pointer} pointer pointer event
      */
-    _onMaximizeButtonTap : function(e)
-    {
+    _onMaximizeButtonTap(e) {
       this.maximize();
       this.getChildControl("maximize-button").reset();
     },
-
 
     /**
      * Closes the window, removes all states from the close button and
@@ -1180,15 +1076,13 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @param e {qx.event.type.Pointer} pointer pointer event
      */
-    _onCloseButtonTap : function(e)
-    {
+    _onCloseButtonTap(e) {
       this.close();
       this.getChildControl("close-button").reset();
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     var id;
     var parent;
 

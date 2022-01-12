@@ -11,14 +11,16 @@ qx.Interface.define("qx.io.transport.ITransport", {
       event: "changeEndpoint"
     }
   },
+
   events: {
     /**
      * Event fired when a message is received from the endpoint. Event data
      * is an UTF-8 encoded string
      */
-    "message": "qx.event.type.Data"
+    message: "qx.event.type.Data"
   },
-  members : {
+
+  members: {
     /**
      * Transport the given message to the endpoint
      *

@@ -16,30 +16,30 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.ListMultiSelection",
-{
-  extend : qx.test.ui.selection.AbstractMultiSelectonTest,
+qx.Class.define("qx.test.ui.selection.ListMultiSelection", {
+  extend: qx.test.ui.selection.AbstractMultiSelectonTest,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var length = 10;
       this._selection = [];
       this._notInSelection = [];
       this._mode = "multi";
 
-      this._widget = new qx.ui.form.List().set(
-      {
+      this._widget = new qx.ui.form.List().set({
         selectionMode: this._mode,
-        width : 200,
-        height : 400
+        width: 200,
+        height: 400
       });
+
       this.getRoot().add(this._widget);
 
       var selection = this._widget.getSelection();
-      this.assertIdentical(selection.length, 0,
-        "Couldn't setup test, because selection isn't empty");
+      this.assertIdentical(
+        selection.length,
+        0,
+        "Couldn't setup test, because selection isn't empty"
+      );
 
       for (var i = 0; i < length; i++) {
         var item = new qx.ui.form.ListItem("ListItem" + i);
@@ -56,9 +56,8 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -66,8 +65,7 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getChildren();
       } else {
@@ -75,7 +73,7 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.form.ListItem(name);
     }
   }

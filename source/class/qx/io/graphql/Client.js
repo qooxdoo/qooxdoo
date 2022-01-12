@@ -25,11 +25,10 @@
  * @experimental The API might change. Feedback is appreciated.
  */
 qx.Class.define("qx.io.graphql.Client", {
-
   extend: qx.io.transport.AbstractClient,
 
   statics: {
-    registerTransport : qx.io.transport.AbstractClient.registerTransport
+    registerTransport: qx.io.transport.AbstractClient.registerTransport
   },
 
   events: {
@@ -38,7 +37,7 @@ qx.Class.define("qx.io.graphql.Client", {
      * {@link qx.io.exception.Transport}, {@link qx.io.exception.Protocol},
      * or {@link qx.io.exception.Cancel}.
      */
-    "error" : "qx.event.type.Data"
+    error: "qx.event.type.Data"
   },
 
   /**
@@ -47,13 +46,12 @@ qx.Class.define("qx.io.graphql.Client", {
    *    or a string URI, which will trigger auto-detection of transport, as long as an
    *    appropriate transport has been registered with the static `registerTransport()` function.
    */
-  construct: function (transportOrUri) {
-    this.base(arguments);
+  construct(transportOrUri) {
+    super();
     this.selectTransport(transportOrUri);
   },
 
   members: {
-
     /**
      * Send the given GraphQl query. See https://graphql.org/learn/queries/
      *
@@ -64,12 +62,14 @@ qx.Class.define("qx.io.graphql.Client", {
       let transport = this.getTransport();
       return new qx.Promise((resolve, reject) => {
         transport.addListenerOnce("message", evt => {
-          try{
+          try {
             if (qx.core.Environment.get("qx.io.graphql.debug")) {
-              this.debug( "<<< Received: " + evt.getData());
+              this.debug("<<< Received: " + evt.getData());
             }
             let responseData = qx.lang.Json.parse(evt.getData());
-            let graphQlResponse = new qx.io.graphql.protocol.Response(responseData);
+            let graphQlResponse = new qx.io.graphql.protocol.Response(
+              responseData
+            );
             if (graphQlResponse.getErrors()) {
               return reject(this._handleErrors(graphQlResponse));
             }
@@ -99,14 +99,22 @@ qx.Class.define("qx.io.graphql.Client", {
     _handleErrors(response) {
       let errors = response.getErrors();
       errors.forEach(error => {
-        let exception = new qx.io.exception.Protocol(error.message, null, response.toObject());
+        let exception = new qx.io.exception.Protocol(
+          error.message,
+          null,
+          response.toObject()
+        );
         this.fireDataEvent("error", exception);
       });
-      return new qx.io.exception.Protocol(errors[0].message, null, response.toObject());
+      return new qx.io.exception.Protocol(
+        errors[0].message,
+        null,
+        response.toObject()
+      );
     }
   },
 
   environment: {
-    "qx.io.graphql.debug" : false
+    "qx.io.graphql.debug": false
   }
 });

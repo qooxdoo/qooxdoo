@@ -15,24 +15,21 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.type.Array",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.type.Array", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __arr : null,
+  members: {
+    __arr: null,
 
-    setUp : function()
-    {
+    setUp() {
       this.__arr = new qx.type.Array("x");
     },
 
-    testConstruct : function() {
+    testConstruct() {
       this.assertEquals(this.__arr[0], "x");
     },
 
-    testAppend : function() {
+    testAppend() {
       // native array
       this.__arr.append([1, 2]);
       this.assertEquals(this.__arr[1], 1);
@@ -51,8 +48,7 @@ qx.Class.define("qx.test.type.Array",
       this.assertEquals(this.__arr[6], 6);
     },
 
-
-    testPrepend : function() {
+    testPrepend() {
       // native array
       this.__arr.prepend([1, 2]);
       this.assertEquals(this.__arr[0], 1);

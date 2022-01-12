@@ -20,13 +20,9 @@
 /**
  * Abstract for all transport implementations
  */
-qx.Class.define("qx.io.remote.transport.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.io.remote.transport.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -34,17 +30,13 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.setRequestHeaders({});
     this.setParameters({});
     this.setFormFields({});
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -52,33 +44,31 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  events : {
+  events: {
     /** Event when a request is created */
-    "created" : "qx.event.type.Event",
+    created: "qx.event.type.Event",
 
     /** Event when a request is configured */
-    "configured" : "qx.event.type.Event",
+    configured: "qx.event.type.Event",
 
     /** Event when a request is send */
-    "sending" : "qx.event.type.Event",
+    sending: "qx.event.type.Event",
 
     /** Event when a request is received */
-    "receiving" : "qx.event.type.Event",
+    receiving: "qx.event.type.Event",
 
     /** Event when a request is completed */
-    "completed" : "qx.event.type.Event",
+    completed: "qx.event.type.Event",
 
     /** Event when a request is aborted */
-    "aborted" : "qx.event.type.Event",
+    aborted: "qx.event.type.Event",
 
     /** Event when a request has failed */
-    "failed" : "qx.event.type.Event",
+    failed: "qx.event.type.Event",
 
     /** Event when a request has timed out */
-    "timeout" : "qx.event.type.Event"
+    timeout: "qx.event.type.Event"
   },
-
-
 
   /*
   *****************************************************************************
@@ -86,110 +76,92 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Target url to issue the request to */
-    url :
-    {
-      check : "String",
-      nullable : true
+    url: {
+      check: "String",
+      nullable: true
     },
-
 
     /** Determines what type of request to issue */
-    method :
-    {
-      check : "String",
-      nullable : true,
-      init : "GET"
+    method: {
+      check: "String",
+      nullable: true,
+      init: "GET"
     },
-
 
     /** Set the request to asynchronous */
-    asynchronous :
-    {
-      check : "Boolean",
-      nullable : true,
-      init : true
+    asynchronous: {
+      check: "Boolean",
+      nullable: true,
+      init: true
     },
-
 
     /** Set the data to be sent via this request */
-    data :
-    {
-      check : "String",
-      nullable : true
+    data: {
+      check: "String",
+      nullable: true
     },
-
 
     /** Username to use for HTTP authentication */
-    username :
-    {
-      check : "String",
-      nullable : true
+    username: {
+      check: "String",
+      nullable: true
     },
-
 
     /** Password to use for HTTP authentication */
-    password :
-    {
-      check : "String",
-      nullable : true
+    password: {
+      check: "String",
+      nullable: true
     },
-
 
     /** The state of the current request */
-    state :
-    {
-      check : [ "created", "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
-      init : "created",
-      event : "changeState",
-      apply : "_applyState"
+    state: {
+      check: [
+        "created",
+        "configured",
+        "sending",
+        "receiving",
+        "completed",
+        "aborted",
+        "timeout",
+        "failed"
+      ],
+      init: "created",
+      event: "changeState",
+      apply: "_applyState"
     },
-
 
     /** Request headers */
-    requestHeaders :
-    {
-      check : "Object",
-      nullable : true
+    requestHeaders: {
+      check: "Object",
+      nullable: true
     },
-
 
     /** Request parameters to send. */
-    parameters :
-    {
-      check : "Object",
-      nullable : true
+    parameters: {
+      check: "Object",
+      nullable: true
     },
-
 
     /** Request form fields to send. */
-    formFields :
-    {
-      check : "Object",
-      nullable : true
+    formFields: {
+      check: "Object",
+      nullable: true
     },
-
 
     /** Response Type */
-    responseType :
-    {
-      check : "String",
-      nullable : true
+    responseType: {
+      check: "String",
+      nullable: true
     },
 
-
     /** Use Basic HTTP Authentication */
-    useBasicHttpAuth :
-    {
-      check : "Boolean",
-      nullable : true
+    useBasicHttpAuth: {
+      check: "Boolean",
+      nullable: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -197,8 +169,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       USER METHODS
@@ -214,10 +185,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      * @throws {Error} the abstract function warning.
      */
-    send : function() {
+    send() {
       throw new Error("send is abstract");
     },
-
 
     /**
      * Force the transport into the aborted state ("aborted").
@@ -225,10 +195,8 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * Listeners of the "aborted" signal are notified about the event.
      *
      */
-    abort : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    abort() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Aborting...");
         }
@@ -237,17 +205,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       this.setState("aborted");
     },
 
-
     /**
      * Force the transport into the timeout state ("timeout").
      *
      * Listeners of the "timeout" signal are notified about the event.
      *
      */
-    timeout : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    timeout() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Timeout...");
         }
@@ -256,17 +221,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       this.setState("timeout");
     },
 
-
     /**
      * Force the transport into the failed state ("failed").
      *
      * Listeners of the "failed" signal are notified about the event.
      *
      */
-    failed : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    failed() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.warn("Failed...");
         }
@@ -274,9 +236,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
       this.setState("failed");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -295,12 +254,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @param vValue {var} Value for the header
      * @throws {Error} the abstract function warning.
      */
-    setRequestHeader : function(vLabel, vValue) {
+    setRequestHeader(vLabel, vValue) {
       throw new Error("setRequestHeader is abstract");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -319,10 +275,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {Object}
      * @throws {Error} the abstract function warning.
      */
-    getResponseHeader : function(vLabel) {
+    getResponseHeader(vLabel) {
       throw new Error("getResponseHeader is abstract");
     },
-
 
     /**
      * Provides an hash of all response headers.
@@ -334,12 +289,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {Object}
      * @throws {Error} the abstract function warning.
      */
-    getResponseHeaders : function() {
+    getResponseHeaders() {
       throw new Error("getResponseHeaders is abstract");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -357,10 +309,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {Integer}
      * @throws {Error} the abstract function warning.
      */
-    getStatusCode : function() {
+    getStatusCode() {
       throw new Error("getStatusCode is abstract");
     },
-
 
     /**
      * Provides the status text for the current request if available and null otherwise.
@@ -372,12 +323,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {String}
      * @throws {Error} the abstract function warning.
      */
-    getStatusText : function() {
+    getStatusText() {
       throw new Error("getStatusText is abstract");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -397,10 +345,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {String}
      * @throws {Error} the abstract function warning.
      */
-    getResponseText : function() {
+    getResponseText() {
       throw new Error("getResponseText is abstract");
     },
-
 
     /**
      * Provides the XML provided by the response if any and null otherwise.
@@ -414,10 +361,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {Object}
      * @throws {Error} the abstract function warning.
      */
-    getResponseXml : function() {
+    getResponseXml() {
       throw new Error("getResponseXml is abstract");
     },
-
 
     /**
      * Returns the length of the content as fetched thus far.
@@ -429,12 +375,9 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @return {Integer}
      * @throws {Error} the abstract function warning.
      */
-    getFetchedLength : function() {
+    getFetchedLength() {
       throw new Error("getFetchedLength is abstract");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -449,17 +392,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyState : function(value, old)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyState(value, old) {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.io.remote")) {
           this.debug("State: " + value);
         }
       }
 
-      switch(value)
-      {
+      switch (value) {
         case "created":
           this.fireEvent("created");
           break;
@@ -497,15 +437,13 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.setRequestHeaders(null);
     this.setParameters(null);
     this.setFormFields(null);

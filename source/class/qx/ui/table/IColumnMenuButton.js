@@ -19,18 +19,15 @@
 /**
  * Interface for creating the column visibility menu
  */
-qx.Interface.define("qx.ui.table.IColumnMenuButton",
-{
-  properties :
-  {
+qx.Interface.define("qx.ui.table.IColumnMenuButton", {
+  properties: {
     /**
      * The menu which is displayed when this button is pressed.
      */
-    menu : { }
+    menu: {}
   },
 
-  members :
-  {
+  members: {
     /**
      * Instantiate a sub-widget.
      *
@@ -74,8 +71,7 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      * @return {qx.ui.core.Widget}
      *   The instantiated object as specified by <i>item</i>.
      */
-    factory : function(item, options)
-    {
+    factory(item, options) {
       return true;
     },
 
@@ -84,8 +80,7 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      * visibility menu.
      *
      */
-    empty : function()
-    {
+    empty() {
       return true;
     }
   }

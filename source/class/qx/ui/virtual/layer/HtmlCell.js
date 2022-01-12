@@ -17,31 +17,29 @@
 
 ************************************************************************ */
 
-
 /**
  * The HtmlCell layer renders each cell with custom HTML markup. The concrete
  * markup for each cell is provided by a cell provider.
  */
-qx.Class.define("qx.ui.virtual.layer.HtmlCell",
-{
-  extend : qx.ui.virtual.layer.Abstract,
-
+qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
+  extend: qx.ui.virtual.layer.Abstract,
 
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
    *    provides the HTML markup for each cell.
    */
-  construct : function(htmlCellProvider)
-  {
-    this.base(arguments);
+  construct(htmlCellProvider) {
+    super();
     this.setZIndex(12);
 
     if (qx.core.Environment.get("qx.debug")) {
-      this.assertInterface(htmlCellProvider, qx.ui.virtual.core.IHtmlCellProvider);
+      this.assertInterface(
+        htmlCellProvider,
+        qx.ui.virtual.core.IHtmlCellProvider
+      );
     }
     this._cellProvider = htmlCellProvider;
   },
-
 
   /*
   *****************************************************************************
@@ -49,9 +47,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     /**
      * Get the cell size taking the box model into account
      *
@@ -63,46 +59,58 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
      *    vertical paddings and borders
      * @return {String} The CSS style string for the cell size
      */
-    _getCellSizeStyle : function(width, height, insetX, insetY)
-    {
+    _getCellSizeStyle(width, height, insetX, insetY) {
       var style = "";
-      if (qx.core.Environment.get("css.boxmodel") == "content")
-      {
+      if (qx.core.Environment.get("css.boxmodel") == "content") {
         width -= insetX;
         height -= insetY;
       }
 
-      style += "width:" +  width + "px;";
+      style += "width:" + width + "px;";
       style += "height:" + height + "px;";
 
       return style;
     },
 
-
     // overridden
-    _fullUpdate : function(firstRow, firstColumn)
-    {
+    _fullUpdate(firstRow, firstColumn) {
       let rowSizes = this.getPane().getRowSizes();
       let columnSizes = this.getPane().getColumnSizes();
       var html = [];
       var row = firstRow;
-      
-      for (var y=0; y<rowSizes.length; y++) {
+
+      for (var y = 0; y < rowSizes.length; y++) {
         var column = firstColumn;
-        
-        for (var x=0; x<columnSizes.length; x++) {
-          var cellProperties = this._cellProvider.getCellProperties(row, column);
+
+        for (var x = 0; x < columnSizes.length; x++) {
+          var cellProperties = this._cellProvider.getCellProperties(
+            row,
+            column
+          );
           var insets = cellProperties.insets || [0, 0];
 
           html.push(
             "<div ",
             "style='",
-            "left:", columnSizes[x].left, "px;",
-            "top:", rowSizes[y].top, "px;",
-            this._getCellSizeStyle(columnSizes[x].width, rowSizes[y].height, insets[0], insets[1]),
-            cellProperties.style || "", "' ",
-            "class='", cellProperties.classes || "", "' ",
-            cellProperties.attributes || "", ">",
+            "left:",
+            columnSizes[x].left,
+            "px;",
+            "top:",
+            rowSizes[y].top,
+            "px;",
+            this._getCellSizeStyle(
+              columnSizes[x].width,
+              rowSizes[y].height,
+              insets[0],
+              insets[1]
+            ),
+            cellProperties.style || "",
+            "' ",
+            "class='",
+            cellProperties.classes || "",
+            "' ",
+            cellProperties.attributes || "",
+            ">",
             cellProperties.content || "",
             "</div>"
           );
@@ -122,7 +130,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._cellProvider = null;
   }
 });

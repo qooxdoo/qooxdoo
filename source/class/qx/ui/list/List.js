@@ -60,7 +60,7 @@
  * </pre>
  *
  *
- * Note about backward compatibility: Although a number of method were protected (eg _runDelegateXxxx), 
+ * Note about backward compatibility: Although a number of method were protected (eg _runDelegateXxxx),
  * they could not be overridden in 6.0.0 or earlier because implementation required access to private methods
  * and data structures, and therefore are exempt from BC concerns
  *
@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.list.List", {
    *
    * @param model {qx.data.IListData|null?} model for the list.
    */
-  construct: function(model) {
-    this.base(arguments, 0, 1, 20, 100);
+  construct(model) {
+    super(0, 1, 20, 100);
 
     this._init();
 
@@ -96,10 +96,10 @@ qx.Class.define("qx.ui.list.List", {
     /**
      * Fired when the length of {@link #model} changes.
      */
-    "changeModelLength": "qx.event.type.Data",
-    
+    changeModelLength: "qx.event.type.Data",
+
     /** Fired when properties of the model change */
-    "change": "qx.event.type.Data"
+    change: "qx.event.type.Data"
   },
 
   properties: {
@@ -164,101 +164,84 @@ qx.Class.define("qx.ui.list.List", {
       nullable: true
     },
 
-
     /**
      * The path to the property which holds the information that should be
      * displayed as an icon. This is only needed if objects are stored in the
      * model and icons should be displayed.
      */
-    iconPath:
-    {
+    iconPath: {
       check: "String",
       apply: "_applyIconPath",
       nullable: true
     },
-
 
     /**
      * The path to the property which holds the information that should be
      * displayed as a group label. This is only needed if objects are stored in the
      * model.
      */
-    groupLabelPath:
-    {
+    groupLabelPath: {
       check: "String",
       apply: "_applyGroupLabelPath",
       nullable: true
     },
 
-
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    labelOptions:
-    {
+    labelOptions: {
       apply: "_applyLabelOptions",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    iconOptions:
-    {
+    iconOptions: {
       apply: "_applyIconOptions",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the group label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    groupLabelOptions:
-    {
+    groupLabelOptions: {
       apply: "_applyGroupLabelOptions",
       nullable: true
     },
-
 
     /**
      * Delegation object which can have one or more functions defined by the
      * {@link qx.ui.list.core.IListDelegate} interface.
      */
-    delegate:
-    {
+    delegate: {
       apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
       nullable: true
     },
 
-
     /**
      * Indicates that the list is managing the {@link #groups} automatically.
      */
-    autoGrouping:
-    {
+    autoGrouping: {
       check: "Boolean",
       init: true
     },
-
 
     /**
      * Contains all groups for data binding, but do only manipulate the array
      * when the {@link #autoGrouping} is set to <code>false</code>.
      */
-    groups:
-    {
+    groups: {
       check: "qx.data.Array",
       event: "changeGroups",
       nullable: false,
       deferredInit: true
     },
-
 
     /** 
      * Render list items with variable height, 
@@ -306,18 +289,14 @@ qx.Class.define("qx.ui.list.List", {
   },
 
   members: {
-
     /** @type {qx.ui.virtual.layer.Row} background renderer */
     _background: null,
-
 
     /** @type {qx.ui.list.provider.IListProvider} provider for cell rendering */
     _provider: null,
 
-
     /** @type {qx.ui.virtual.layer.Abstract} layer which contains the items. */
     _layer: null,
-
 
     /**
      * @type {Array} lookup table to get the model index from a row. To get the
@@ -328,10 +307,8 @@ qx.Class.define("qx.ui.list.List", {
      */
     __lookupTable: null,
 
-
     /** @type {Array} lookup table for getting the group index from the row */
     __lookupTableForGroup: null,
-
 
     /**
      * @type {Map} contains all groups with the items as children. The key is
@@ -339,7 +316,6 @@ qx.Class.define("qx.ui.list.List", {
      *   item's model index.
      */
     __groupHashMap: null,
-
 
     /**
      * @type {Boolean} indicates when one or more <code>String</code> are used for grouping.
@@ -358,21 +334,18 @@ qx.Class.define("qx.ui.list.List", {
 
     __defaultGroups: null,
 
-
-
     /**
      * Trigger a rebuild from the internal data structure.
      */
-    refresh: function() {
+    refresh() {
       this.__buildUpLookupTable();
     },
-
 
     /** @type {qx.ui.list.AbstractColumn[]} the columns */
     __columns: null,
 
     // overridden
-    _createChildControlImpl: function(id, hash) {
+    _createChildControlImpl(id, hash) {
       var control;
 
       switch (id) {
@@ -380,14 +353,14 @@ qx.Class.define("qx.ui.list.List", {
           control = new qx.ui.virtual.layer.Row();
           break;
       }
-      return control || this.base(arguments, id);
-    },
 
+      return control || super._createChildControlImpl(id);
+    },
 
     /**
      * Initialize the virtual list provider.
      */
-    _initWidgetProvider: function() {
+    _initWidgetProvider() {
       this._provider = new qx.ui.list.provider.WidgetProvider(this);
     },
 
@@ -403,9 +376,11 @@ qx.Class.define("qx.ui.list.List", {
     /**
      * Initializes the virtual list.
      */
-    _init: function() {
+    _init() {
       this._initWidgetProvider();
-      this._provider.addListener("change", evt => this.fireDataEvent("change", evt.getData()));
+      this._provider.addListener("change", evt =>
+        this.fireDataEvent("change", evt.getData())
+      );
 
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
@@ -421,9 +396,8 @@ qx.Class.define("qx.ui.list.List", {
       this.getPane().set({
         autoSizeRows: this.isAutoSizeRows(),
         autoSizeColumns: this.isAutoSizeColumns()
-      })
+      });
     },
-
 
     /**
      * Initializes the background renderer.
@@ -432,7 +406,6 @@ qx.Class.define("qx.ui.list.List", {
       this._background = this.getChildControl("row-layer");
       this.getPane().addLayer(this._background);
     },
-
 
     /**
      * Initializes the layer for rendering.
@@ -461,7 +434,7 @@ qx.Class.define("qx.ui.list.List", {
      * @Override
      */
     _applyEnabled(value, oldValue) {
-      this.base(arguments, value, oldValue);
+      super._applyEnabled(value, oldValue);
       this.updateEditable();
     },
 
@@ -472,13 +445,11 @@ qx.Class.define("qx.ui.list.List", {
       this._provider.updateEditable();
     },
 
-
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Returns the model data for the given row.
@@ -500,8 +471,7 @@ qx.Class.define("qx.ui.list.List", {
         data = this.getGroups().getItem(this._lookupGroup(cell.row));
       } else {
         let row = cell.row;
-        if (this.getProvider().getShowHeaders())
-          row--;
+        if (this.getProvider().getShowHeaders()) row--;
         data = model.getItem(this._lookupByRowAndColumn(row, cell.column));
       }
 
@@ -512,7 +482,6 @@ qx.Class.define("qx.ui.list.List", {
       }
     },
 
-
     /**
      * Return the internal lookup table. But do not manipulate the
      * lookup table!
@@ -520,13 +489,18 @@ qx.Class.define("qx.ui.list.List", {
      * @return {Array} The internal lookup table.
      */
     _getLookupTable() {
-      if (qx.core.Environment.get("qx.debug") && this.getRepeatingColumnCount() == 1 && !this.__warnedAbout_getLookupTable) {
-        this.warn("Calling _getLookupTable to retrieve the internal lookup table has changed since v7");
+      if (
+        qx.core.Environment.get("qx.debug") &&
+        this.getRepeatingColumnCount() == 1 &&
+        !this.__warnedAbout_getLookupTable
+      ) {
+        this.warn(
+          "Calling _getLookupTable to retrieve the internal lookup table has changed since v7"
+        );
         this.__warnedAbout_getLookupTable = true;
       }
       return this.__lookupTable;
     },
-
 
     /**
      * Performs a lookup from row to model index.
@@ -537,10 +511,12 @@ qx.Class.define("qx.ui.list.List", {
      */
     _lookup(row) {
       if (this.getRepeatingColumnCount() != 1)
-        throw new Error(this.classname + "._lookup is not supported when using repeating columns");
+        throw new Error(
+          this.classname +
+            "._lookup is not supported when using repeating columns"
+        );
       return this._lookupByRowAndColumn(row, 0);
     },
-
 
     /**
      * Performs a lookup from row to model index.
@@ -554,19 +530,16 @@ qx.Class.define("qx.ui.list.List", {
       if (this.getRepeatingColumnCount() == 1) {
         column = 0;
       }
-      
+
       if (column < 0 || column >= this.getRepeatingColumnCount())
         throw new Error("Invalid column index");
 
       let columnIndexes = this.__lookupTable[row];
-      if (!columnIndexes)
-        return -1;
+      if (!columnIndexes) return -1;
 
-      if (columnIndexes.length < column)
-        return null;
+      if (columnIndexes.length < column) return null;
       return columnIndexes[column];
     },
-
 
     /**
      * Performs a lookup from row to group index.
@@ -575,10 +548,9 @@ qx.Class.define("qx.ui.list.List", {
      * @return {Number} The group index or
      *   <code>-1</code> if the row is a not a group item.
      */
-    _lookupGroup: function(row) {
+    _lookupGroup(row) {
       return this.__lookupTableForGroup.indexOf(row);
     },
-
 
     /**
      * Performs a lookup from model index to row.
@@ -586,7 +558,7 @@ qx.Class.define("qx.ui.list.List", {
      * @param index {Number} The index to look at.
      * @return {Map} containing `row` and `column`, both are zero based indexes
      */
-    _reverseLookup: function(index) {
+    _reverseLookup(index) {
       if (index < 0) {
         return null;
       }
@@ -594,13 +566,11 @@ qx.Class.define("qx.ui.list.List", {
         let arr = this.__lookupTable[i];
         if (arr !== null) {
           let col = arr.indexOf(index);
-          if (col > -1)
-            return { row: i, col };
+          if (col > -1) return { row: i, col };
         }
       }
       return -1;
     },
-
 
     /**
      * Checks if the passed row is a group or an item.
@@ -609,26 +579,23 @@ qx.Class.define("qx.ui.list.List", {
      * @return {Boolean} <code>true</code> if the row is a group element,
      *  <code>false</code> if the row is an item element.
      */
-    _isGroup: function(row) {
+    _isGroup(row) {
       if (this.getProvider().getShowHeaders()) {
-        if (row === 0)
-          return false;
+        if (row === 0) return false;
         row--;
       }
 
       return this._lookupByRowAndColumn(row, 0) === -1;
     },
 
-
     /**
      * Returns the selectable model items.
      *
      * @return {qx.data.Array | null} The selectable items.
      */
-    _getSelectables: function() {
+    _getSelectables() {
       return this.getModel();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -636,9 +603,8 @@ qx.Class.define("qx.ui.list.List", {
     ---------------------------------------------------------------------------
     */
 
-
     // apply method
-    _applyModel: function(value, old) {
+    _applyModel(value, old) {
       if (value != null) {
         value.addListener("changeLength", this._onModelChange, this);
       }
@@ -650,59 +616,51 @@ qx.Class.define("qx.ui.list.List", {
       this._onModelChange();
     },
 
-
     // apply method
-    _applyRowHeight: function(value, old) {
+    _applyRowHeight(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
 
     // apply method
-    _applyGroupRowHeight: function(value, old) {
+    _applyGroupRowHeight(value, old) {
       this.__updateGroupRowHeight();
     },
 
     // apply method
-    _applyLabelPath: function(value, old) {
+    _applyLabelPath(value, old) {
       this._provider.setLabelPath(value);
     },
 
-
     // apply method
-    _applyIconPath: function(value, old) {
+    _applyIconPath(value, old) {
       this._provider.setIconPath(value);
     },
 
-
     // apply method
-    _applyGroupLabelPath: function(value, old) {
+    _applyGroupLabelPath(value, old) {
       this._provider.setGroupLabelPath(value);
     },
 
-
     // apply method
-    _applyLabelOptions: function(value, old) {
+    _applyLabelOptions(value, old) {
       this._provider.setLabelOptions(value);
     },
 
-
     // apply method
-    _applyIconOptions: function(value, old) {
+    _applyIconOptions(value, old) {
       this._provider.setIconOptions(value);
     },
 
-
     // apply method
-    _applyGroupLabelOptions: function(value, old) {
+    _applyGroupLabelOptions(value, old) {
       this._provider.setGroupLabelOptions(value);
     },
 
-
     // apply method
-    _applyDelegate: function(value, old) {
+    _applyDelegate(value, old) {
       this._provider.setDelegate(value);
       this.__buildUpLookupTable();
     },
-
 
     /**
      * Psuedo-property variableItemHeight
@@ -746,31 +704,28 @@ qx.Class.define("qx.ui.list.List", {
       this.getPane().setAutoSizeColumns(value);
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event handler for the resize event.
      *
      * @param e {qx.event.type.Data} resize event.
      */
-    _onResize: function(e) {
+    _onResize(e) {
       if (!this.isAutoSizeColumns() && this.getRepeatingColumnCount() == 1)
         this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     },
-
 
     /**
      * Event handler for the model change event.
      *
      * @param e {qx.event.type.Data} model change event.
      */
-    _onModelChange: function(e) {
+    _onModelChange(e) {
       // we have to remove the bindings before we rebuild the lookup table
       // otherwise bindings might be dispatched to wrong items
       // see: https://github.com/qooxdoo/qooxdoo/issues/196
@@ -784,19 +739,19 @@ qx.Class.define("qx.ui.list.List", {
       this.getPane().fullUpdate();
     },
 
-
     /*
     ---------------------------------------------------------------------------
       HELPER ROUTINES
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Helper method to update the row & column counts.
      */
     __updateRowColumnCount() {
-      this.getPane().getRowConfig().setItemCount(this.__lookupTable.length + 1);
+      this.getPane()
+        .getRowConfig()
+        .setItemCount(this.__lookupTable.length + 1);
       let count = this.getRepeatingColumnCount();
       if (count !== 1) {
         let columnConfig = this.getPane().getColumnConfig();
@@ -808,7 +763,6 @@ qx.Class.define("qx.ui.list.List", {
       }
       this.getPane().fullUpdate();
     },
-
 
     /**
      * Helper method to update group row heights.
@@ -830,11 +784,10 @@ qx.Class.define("qx.ui.list.List", {
       }
     },
 
-
     /**
      * Internal method for building the lookup table.
      */
-    __buildUpLookupTable: function() {
+    __buildUpLookupTable() {
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
       this.__groupHashMap = {};
@@ -856,13 +809,12 @@ qx.Class.define("qx.ui.list.List", {
       this.__updateRowColumnCount();
     },
 
-
     /**
      * Invokes filtering using the filter given in the delegate.
      *
      * @param model {qx.data.IListData} The model.
      */
-    _runDelegateFilter: function(model) {
+    _runDelegateFilter(model) {
       var filter = qx.util.Delegate.getMethod(this.getDelegate(), "filter");
 
       for (var i = 0, l = model.length; i < l; ++i) {
@@ -872,13 +824,12 @@ qx.Class.define("qx.ui.list.List", {
       }
     },
 
-
     /**
      * Invokes sorting using the sorter given in the delegate.
      *
      * @param model {qx.data.IListData} The model.
      */
-    _runDelegateSorter: function(model) {
+    _runDelegateSorter(model) {
       if (this.__lookupTable.length == 0) {
         return;
       }
@@ -887,12 +838,11 @@ qx.Class.define("qx.ui.list.List", {
 
       if (sorter != null) {
         // TODO
-        this.__lookupTable.sort(function(a, b) {
+        this.__lookupTable.sort(function (a, b) {
           return sorter(model.getItem(a), model.getItem(b));
         });
       }
     },
-
 
     /**
      * Invokes grouping using the group result given in the delegate.
@@ -916,14 +866,13 @@ qx.Class.define("qx.ui.list.List", {
       }
     },
 
-
     /**
      * Adds a model index the the group.
      *
      * @param group {String|Object|null} the group.
      * @param index {Integer} model index to add.
      */
-    __addGroup: function(group, index) {
+    __addGroup(group, index) {
       // if group is null add to default group
       if (group == null) {
         this.__defaultGroupUsed = true;
@@ -940,13 +889,12 @@ qx.Class.define("qx.ui.list.List", {
       this.__groupHashMap[name].push(index);
     },
 
-
     /**
      * Creates a lookup table form the internal group hash map.
      *
      * @return {Array} the lookup table based on the internal group hash map.
      */
-    __createLookupFromGroup: function() {
+    __createLookupFromGroup() {
       this.__checkGroupStructure();
 
       var result = [];
@@ -985,14 +933,13 @@ qx.Class.define("qx.ui.list.List", {
       return result;
     },
 
-
     /**
      * Returns an unique group name for the passed group.
      *
      * @param group {String|Object} Group to find unique group name.
      * @return {String} Unique group name.
      */
-    __getUniqueGroupName: function(group) {
+    __getUniqueGroupName(group) {
       var name = null;
       if (!qx.lang.Type.isString(group)) {
         var index = this.getGroups().indexOf(group);
@@ -1004,30 +951,31 @@ qx.Class.define("qx.ui.list.List", {
         } else {
           name += index;
         }
-      }
-      else {
+      } else {
         this.__groupStringsUsed = true;
         var name = group;
       }
       return name;
     },
 
-
     /**
      * Checks that <code>Object</code> and <code>String</code> are not mixed
      * as group identifier, otherwise an exception occurs.
      */
-    __checkGroupStructure: function() {
-      if (this.__groupObjectsUsed && this.__defaultGroupUsed ||
-        this.__groupObjectsUsed && this.__groupStringsUsed) {
-        throw new Error("GroupingTypeError: You can't mix 'Objects' and 'Strings' as" +
-          " group identifier!");
+    __checkGroupStructure() {
+      if (
+        (this.__groupObjectsUsed && this.__defaultGroupUsed) ||
+        (this.__groupObjectsUsed && this.__groupStringsUsed)
+      ) {
+        throw new Error(
+          "GroupingTypeError: You can't mix 'Objects' and 'Strings' as" +
+            " group identifier!"
+        );
       }
     }
   },
 
-
-  destruct: function() {
+  destruct() {
     var model = this.getModel();
     if (model != null) {
       model.removeListener("changeLength", this._onModelChange, this);
@@ -1041,9 +989,13 @@ qx.Class.define("qx.ui.list.List", {
     this._background.dispose();
     this._provider.dispose();
     this._layer.dispose();
-    this._background = this._provider = this._layer =
-      this.__lookupTable = this.__lookupTableForGroup =
-      this.__groupHashMap = null;
+    this._background =
+      this._provider =
+      this._layer =
+      this.__lookupTable =
+      this.__lookupTableForGroup =
+      this.__groupHashMap =
+        null;
 
     if (this.__defaultGroups) {
       this.__defaultGroups.dispose();

@@ -40,13 +40,13 @@
  * @asset(qx/iconfont/MaterialIcons/*)
  */
 qx.Bootstrap.define("qxWeb", {
-  extend : qx.type.BaseArray,
-  statics : {
+  extend: qx.type.BaseArray,
+  statics: {
     // internal storage for all initializers
-    __init : [],
+    __init: [],
 
     // internal reference to the used qx namespace
-    $$qx : qx,
+    $$qx: qx,
 
     /**
      * Internal helper to initialize collections.
@@ -58,39 +58,58 @@ qx.Bootstrap.define("qxWeb", {
      * @param clazz {Class} The class of the new collection.
      * @return {q} A new initialized collection.
      */
-    $init : function(arg, clazz) {
+    $init(arg, clazz) {
       // restore widget instance
-      if (arg.length && arg.length == 1 && arg[0] && arg[0].$widget instanceof qxWeb) {
+      if (
+        arg.length &&
+        arg.length == 1 &&
+        arg[0] &&
+        arg[0].$widget instanceof qxWeb
+      ) {
         return arg[0].$widget;
       }
 
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
         // check for node or window object
-        var isNode = !!(arg[i] && (arg[i].nodeType === 1 ||
-          arg[i].nodeType === 9 || arg[i].nodeType === 11));
+        var isNode = !!(
+          arg[i] &&
+          (arg[i].nodeType === 1 ||
+            arg[i].nodeType === 9 ||
+            arg[i].nodeType === 11)
+        );
         if (isNode) {
           clean.push(arg[i]);
           continue;
         }
-        var isWindow = !!(arg[i] && arg[i].history && arg[i].location && arg[i].document);
+        var isWindow = !!(
+          arg[i] &&
+          arg[i].history &&
+          arg[i].location &&
+          arg[i].document
+        );
         if (isWindow) {
           clean.push(arg[i]);
         }
       }
 
-      if (arg[0] && arg[0].getAttribute && arg[0].getAttribute("data-qx-class") && clean.length < 2) {
-        clazz = qx.Bootstrap.getByName(arg[0].getAttribute("data-qx-class")) || clazz;
+      if (
+        arg[0] &&
+        arg[0].getAttribute &&
+        arg[0].getAttribute("data-qx-class") &&
+        clean.length < 2
+      ) {
+        clazz =
+          qx.Bootstrap.getByName(arg[0].getAttribute("data-qx-class")) || clazz;
       }
 
       var col = qx.lang.Array.cast(clean, clazz);
-      for (var i=0; i < qxWeb.__init.length; i++) {
+      for (var i = 0; i < qxWeb.__init.length; i++) {
         qxWeb.__init[i].call(col);
       }
 
       return col;
     },
-
 
     /**
      * This is an API for module development and can be used to attach new methods
@@ -99,9 +118,13 @@ qx.Bootstrap.define("qxWeb", {
      * @param module {Map} A map containing the methods to attach.
      * @param override {Boolean?false} Force to override
      */
-    $attach : function(module, override) {
+    $attach(module, override) {
       for (var name in module) {
-        if (qxWeb.prototype[name] != undefined && Array.prototype[name] == undefined && override !== true) {
+        if (
+          qxWeb.prototype[name] != undefined &&
+          Array.prototype[name] == undefined &&
+          override !== true
+        ) {
           if (qx.core.Environment.get("qx.debug")) {
             throw new Error("Method '" + name + "' already available.");
           }
@@ -111,7 +134,6 @@ qx.Bootstrap.define("qxWeb", {
       }
     },
 
-
     /**
      * This is an API for module development and can be used to attach new methods
      * to {@link q}.
@@ -119,11 +141,13 @@ qx.Bootstrap.define("qxWeb", {
      * @param module {Map} A map containing the methods to attach.
      * @param override {Boolean?false} Force to override
      */
-    $attachStatic : function(module, override) {
+    $attachStatic(module, override) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
           if (qxWeb[name] != undefined && override !== true) {
-            throw new Error("Method '" + name + "' already available as static method.");
+            throw new Error(
+              "Method '" + name + "' already available as static method."
+            );
           }
         }
         qxWeb[name] = module[name];
@@ -148,7 +172,7 @@ qx.Bootstrap.define("qxWeb", {
      * @param clazz {Object} the qooxdoo class definition calling this method.
      * @param staticsNamespace {String?undefined} Specifies the namespace under which statics are attached to {@link q}.
      */
-    $attachAll : function(clazz, staticsNamespace) {
+    $attachAll(clazz, staticsNamespace) {
       // members
       for (var name in clazz.members) {
         if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0) {
@@ -166,13 +190,19 @@ qx.Bootstrap.define("qxWeb", {
       }
 
       for (var name in clazz.statics) {
-        if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0 && name !== "name" && name !== "basename" &&
-            name !== "classname" && name !== "toString" && name !== name.toUpperCase()) {
+        if (
+          name.indexOf("$") !== 0 &&
+          name.indexOf("_") !== 0 &&
+          name !== "name" &&
+          name !== "basename" &&
+          name !== "classname" &&
+          name !== "toString" &&
+          name !== name.toUpperCase()
+        ) {
           destination[name] = clazz.statics[name];
         }
       }
     },
-
 
     /**
      * This is an API for module development and can be used to attach new initialization
@@ -181,10 +211,9 @@ qx.Bootstrap.define("qxWeb", {
      *
      * @param init {Function} The initialization method for a module.
      */
-    $attachInit : function(init) {
+    $attachInit(init) {
       this.__init.push(init);
     },
-
 
     /**
      * Define a new class using the qooxdoo class system.
@@ -210,7 +239,7 @@ qx.Bootstrap.define("qxWeb", {
      * <code>construct</code>. Check out one of the samples below to get the idea.
      * @return {Function} The defined class.
      */
-    define : function(name, config) {
+    define(name, config) {
       if (config == undefined) {
         config = name;
         name = null;
@@ -218,7 +247,6 @@ qx.Bootstrap.define("qxWeb", {
       return qx.Bootstrap.define.call(qx.Bootstrap, name, config);
     }
   },
-
 
   /**
    * Primary usage:
@@ -239,15 +267,14 @@ qx.Bootstrap.define("qxWeb", {
    * @param context {Element|q} Only the children of this element are considered.
    * @return {q} A collection of DOM elements.
    */
-  construct : function(selector, context) {
+  construct(selector, context) {
     if (!selector && this instanceof qxWeb) {
       return this;
     }
 
     if (!selector) {
       selector = [];
-    }
-    else if (qx.Bootstrap.isString(selector)) {
+    } else if (qx.Bootstrap.isString(selector)) {
       if (context instanceof qxWeb && context.length != 0) {
         context = context[0];
       }
@@ -256,18 +283,18 @@ qx.Bootstrap.define("qxWeb", {
       } else {
         selector = qx.bom.Selector.query(selector, context);
       }
-    }
-    else if ((selector.nodeType === 1 || selector.nodeType === 9 ||
-      selector.nodeType === 11) ||
-      (selector.history && selector.location && selector.document))
-    {
+    } else if (
+      selector.nodeType === 1 ||
+      selector.nodeType === 9 ||
+      selector.nodeType === 11 ||
+      (selector.history && selector.location && selector.document)
+    ) {
       selector = [selector];
     }
     return qxWeb.$init(selector, qxWeb);
   },
 
-
-  members : {
+  members: {
     /**
      * Gets a new collection containing only those elements that passed the
      * given filter. This can be either a selector expression or a filter
@@ -276,24 +303,28 @@ qx.Bootstrap.define("qxWeb", {
      * @param selector {String|Function} Selector expression or filter function
      * @return {q} New collection containing the elements that passed the filter
      */
-    filter : function(selector) {
+    filter(selector) {
       if (qx.lang.Type.isFunction(selector)) {
-        return qxWeb.$init(Array.prototype.filter.call(this, selector), this.constructor);
+        return qxWeb.$init(
+          Array.prototype.filter.call(this, selector),
+          this.constructor
+        );
       }
-      return qxWeb.$init(qx.bom.Selector.matches(selector, this), this.constructor);
+      return qxWeb.$init(
+        qx.bom.Selector.matches(selector, this),
+        this.constructor
+      );
     },
-
 
     /**
      * Recreates a collection which is free of all duplicate elements from the original.
      *
      * @return {q} Returns a copy with no duplicates
      */
-    unique : function() {
+    unique() {
       var unique = qx.lang.Array.unique(this);
       return qxWeb.$init(unique, this.constructor);
     },
-
 
     /**
      * Returns a copy of the collection within the given range.
@@ -302,15 +333,20 @@ qx.Bootstrap.define("qxWeb", {
      * @param end {Number?} The index to end.
      * @return {q} A new collection containing a slice of the original collection.
      */
-    slice : function(begin, end) {
+    slice(begin, end) {
       // Old IEs return an empty array if the second argument is undefined
       // check 'end' explicit for "undefined" [BUG #7322]
       if (end !== undefined) {
-        return qxWeb.$init(Array.prototype.slice.call(this, begin, end), this.constructor);
+        return qxWeb.$init(
+          Array.prototype.slice.call(this, begin, end),
+          this.constructor
+        );
       }
-      return qxWeb.$init(Array.prototype.slice.call(this, begin), this.constructor);
+      return qxWeb.$init(
+        Array.prototype.slice.call(this, begin),
+        this.constructor
+      );
     },
-
 
     /**
      * Removes the given number of items and returns the removed items as a new collection.
@@ -322,10 +358,12 @@ qx.Bootstrap.define("qxWeb", {
      * @param varargs {var} As many items as you want to add.
      * @return {q} A new collection containing the removed items.
      */
-    splice : function(index , howMany, varargs) {
-      return qxWeb.$init(Array.prototype.splice.apply(this, arguments), this.constructor);
+    splice(index, howMany, varargs) {
+      return qxWeb.$init(
+        Array.prototype.splice.apply(this, arguments),
+        this.constructor
+      );
     },
-
 
     /**
      * Returns a new collection containing the modified elements. For more details, check out the
@@ -335,10 +373,9 @@ qx.Bootstrap.define("qxWeb", {
      * @param thisarg {var} Context of the callback.
      * @return {q} New collection containing the elements that passed the filter
      */
-    map : function(callback, thisarg) {
+    map(callback, thisarg) {
       return qxWeb.$init(Array.prototype.map.apply(this, arguments), qxWeb);
     },
-
 
     /**
      * Returns a copy of the collection including the given elements.
@@ -346,9 +383,9 @@ qx.Bootstrap.define("qxWeb", {
      * @param varargs {var} As many items as you want to add.
      * @return {q} A new collection containing all items.
      */
-    concat : function(varargs) {
+    concat(varargs) {
       var clone = Array.prototype.slice.call(this, 0);
-      for (var i=0; i < arguments.length; i++) {
+      for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] instanceof qxWeb) {
           clone = clone.concat(Array.prototype.slice.call(arguments[i], 0));
         } else {
@@ -358,7 +395,6 @@ qx.Bootstrap.define("qxWeb", {
       return qxWeb.$init(clone, this.constructor);
     },
 
-
     /**
      * Returns the index of the given element within the current
      * collection or -1 if the element is not in the collection
@@ -366,7 +402,7 @@ qx.Bootstrap.define("qxWeb", {
      * @param fromIndex {Integer} The index to start the search at
      * @return {Number} The element's index
      */
-    indexOf : function(elem, fromIndex) {
+    indexOf(elem, fromIndex) {
       if (!elem) {
         return -1;
       }
@@ -390,7 +426,7 @@ qx.Bootstrap.define("qxWeb", {
         elem = elem[0];
       }
 
-      for (var i = fromIndex, l = this.length; i<l; i++) {
+      for (var i = fromIndex, l = this.length; i < l; i++) {
         if (this[i] === elem) {
           return i;
         }
@@ -398,7 +434,6 @@ qx.Bootstrap.define("qxWeb", {
 
       return -1;
     },
-
 
     /**
      * Calls the browser's native debugger to easily allow debugging within
@@ -409,14 +444,13 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} The collection for chaining
      * @ignore(debugger)
      */
-    debug : function() {
+    debug() {
       if (qx.core.Environment.get("qx.debug")) {
         /* eslint-disable-next-line no-debugger */
         debugger;
       }
       return this;
     },
-
 
     /**
      * Logs information about the current collection, its DOM elements and the
@@ -428,14 +462,13 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} The collection for chaining
      *
      */
-    logThis : function() {
+    logThis() {
       if (qx.core.Environment.get("qx.debug")) {
-
         // loop over the collection elements to make sure we get the current content
         // of the collection and not the reference values later (they might change depending on
         // manipulation of the collection)
         var elements = [];
-        this.forEach(function(item) {
+        this.forEach(function (item) {
           elements.push(item);
         });
 
@@ -451,7 +484,6 @@ qx.Bootstrap.define("qxWeb", {
       return this;
     },
 
-
     /**
      * Calls a function for each DOM element  or document fragment in the
      * collection. This is used for DOM manipulations which can't be
@@ -462,15 +494,14 @@ qx.Bootstrap.define("qxWeb", {
      * @param ctx {Object} The context for the callback function (default: The collection)
      * @return {q} The collection for chaining
      */
-    _forEachElement : function(func, ctx) {
-      for (var i=0, l=this.length; i<l; i++) {
+    _forEachElement(func, ctx) {
+      for (var i = 0, l = this.length; i < l; i++) {
         if (this[i] && (this[i].nodeType === 1 || this[i].nodeType === 11)) {
           func.apply(ctx || this, [this[i], i, this]);
         }
       }
       return this;
     },
-
 
     /**
      * Calls a function for each DOM element node in the collection. Each node is wrapped
@@ -482,8 +513,8 @@ qx.Bootstrap.define("qxWeb", {
      * @param ctx {Object} The context for the callback function (default: The collection)
      * @return {q} The collection for chaining
      */
-    _forEachElementWrapped : function(func, ctx) {
-      this._forEachElement(function(item, idx, arr) {
+    _forEachElementWrapped(func, ctx) {
+      this._forEachElement(function (item, idx, arr) {
         func.apply(this, [qxWeb(item), idx, arr]);
       }, ctx);
       return this;
@@ -493,7 +524,7 @@ qx.Bootstrap.define("qxWeb", {
   /**
    * @ignore(q)
    */
-  defer : function(statics) {
+  defer(statics) {
     if (window.q == undefined) {
       window.q = statics;
     }

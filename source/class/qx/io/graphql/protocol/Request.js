@@ -22,15 +22,14 @@
  * a HTTP request (https://graphql.org/learn/serving-over-http)
  * @experimental The API might change. Feedback is appreciated.
  */
-qx.Class.define("qx.io.graphql.protocol.Request",{
+qx.Class.define("qx.io.graphql.protocol.Request", {
   extend: qx.io.graphql.protocol.Message,
   properties: {
-
     /**
      * An optional field that only needs to be provided if multiple operations are present in the query
      */
     operationName: {
-      check:"String",
+      check: "String",
       nullable: true,
       event: "changeOperationName"
     },
@@ -38,7 +37,7 @@ qx.Class.define("qx.io.graphql.protocol.Request",{
     /**
      * The query as a string which will be parsed and executed on the server
      */
-    query : {
+    query: {
       check: "String",
       nullable: false,
       init: "",
@@ -48,7 +47,7 @@ qx.Class.define("qx.io.graphql.protocol.Request",{
     /**
      * A qooxdoo object that maps variable names to variable values
      */
-    variables : {
+    variables: {
       check: "qx.core.Object",
       nullable: true,
       event: "changeVariables",
@@ -63,7 +62,7 @@ qx.Class.define("qx.io.graphql.protocol.Request",{
       return qx.lang.Json.stringify(this.toObject(), this._jsonReplacer);
     },
 
-    _jsonReplacer: function(key, value) {
+    _jsonReplacer(key, value) {
       if (key === "variables" || key === "operationName") {
         return value !== null ? value : undefined;
       }
@@ -71,12 +70,11 @@ qx.Class.define("qx.io.graphql.protocol.Request",{
       return value;
     },
 
-
     /**
      * Transforms the variables object to a qooxdoo model. Called automaticaly
      * when the variables property is set.
      */
-    _transformVariables: function(val) {
+    _transformVariables(val) {
       let model = null;
       if (![null, undefined].includes(val)) {
         model = qx.data.marshal.Json.createModel(val);
@@ -84,8 +82,8 @@ qx.Class.define("qx.io.graphql.protocol.Request",{
       return model;
     },
 
-    _validateVariables: function(val) {
-      if (!qx.lang.Type.isObject(val) && (val !== null)) {
+    _validateVariables(val) {
+      if (!qx.lang.Type.isObject(val) && val !== null) {
         throw new qx.core.ValidationError(
           "Validation Error: " + val + " is not an object or null."
         );

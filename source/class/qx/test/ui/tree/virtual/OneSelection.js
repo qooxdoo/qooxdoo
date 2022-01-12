@@ -16,22 +16,17 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
-{
-  extend : qx.test.ui.tree.virtual.SingleSelection,
+qx.Class.define("qx.test.ui.tree.virtual.OneSelection", {
+  extend: qx.test.ui.tree.virtual.SingleSelection,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.base(arguments);
+  members: {
+    setUp() {
+      super.setUp();
 
       this.tree.setSelectionMode("one");
     },
 
-
-    testSelectionWithClosedNode : function()
-    {
+    testSelectionWithClosedNode() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 
@@ -47,28 +42,45 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       // check selection from manager
       var selectionOnManager = this.tree._manager.getSelection();
       this.assertEquals(1, selectionOnManager.length);
-      this.assertEquals(this.tree.getLookupTable().indexOf(itemToSelect), selectionOnManager[0]);
+      this.assertEquals(
+        this.tree.getLookupTable().indexOf(itemToSelect),
+        selectionOnManager[0]
+      );
 
       var self = this;
-      this.assertEventFired(selection, "change",
-        function()
-        {
+      this.assertEventFired(
+        selection,
+        "change",
+        function () {
           self.tree.closeNode(parent);
         },
-        function(e)
-        {
+        function (e) {
           var selectionOnManager = self.tree._manager.getSelection();
-          self.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
-          self.assertEquals(parent, selection.getItem(0), "Selection not reset on Tree");
-          self.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
-          self.assertEquals(self.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "Selection not reset on manager");
+          self.assertEquals(
+            1,
+            selection.getLength(),
+            "Selection not reset on Tree"
+          );
+          self.assertEquals(
+            parent,
+            selection.getItem(0),
+            "Selection not reset on Tree"
+          );
+          self.assertEquals(
+            1,
+            selectionOnManager.length,
+            "Selection not reset on manager"
+          );
+          self.assertEquals(
+            self.tree.getLookupTable().indexOf(parent),
+            selectionOnManager[0],
+            "Selection not reset on manager"
+          );
         }
       );
     },
 
-
-    testSelectionWithClosedParentNode : function()
-    {
+    testSelectionWithClosedParentNode() {
       var root = this.createModelAndSetModel(3);
       var selection = this.tree.getSelection();
 
@@ -85,27 +97,45 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       // check selection from manager
       var selectionOnManager = this.tree._manager.getSelection();
       this.assertEquals(1, selectionOnManager.length);
-      this.assertEquals(this.tree.getLookupTable().indexOf(itemToSelect), selectionOnManager[0]);
+      this.assertEquals(
+        this.tree.getLookupTable().indexOf(itemToSelect),
+        selectionOnManager[0]
+      );
 
       var self = this;
-      this.assertEventFired(selection, "change",
-        function()
-        {
+      this.assertEventFired(
+        selection,
+        "change",
+        function () {
           self.tree.closeNode(nodeToClose);
         },
-        function(e)
-        {
+        function (e) {
           var selectionOnManager = self.tree._manager.getSelection();
-          self.assertEquals(1, selection.getLength(), "Selection not reset on Tree");
-          self.assertEquals(nodeToClose, selection.getItem(0), "Selection not reset on Tree");
-          self.assertEquals(1, selectionOnManager.length, "Selection not reset on manager");
-          self.assertEquals(self.tree.getLookupTable().indexOf(nodeToClose), selectionOnManager[0], "Selection not reset on manager");
+          self.assertEquals(
+            1,
+            selection.getLength(),
+            "Selection not reset on Tree"
+          );
+          self.assertEquals(
+            nodeToClose,
+            selection.getItem(0),
+            "Selection not reset on Tree"
+          );
+          self.assertEquals(
+            1,
+            selectionOnManager.length,
+            "Selection not reset on manager"
+          );
+          self.assertEquals(
+            self.tree.getLookupTable().indexOf(nodeToClose),
+            selectionOnManager[0],
+            "Selection not reset on manager"
+          );
         }
       );
     },
 
-    testRemoveItem : function()
-    {
+    testRemoveItem() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 
@@ -119,14 +149,14 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
       this.assertEquals(itemToSelect, selection.getItem(0), "On Tree (setup)");
 
       var self = this;
-      this.assertEventFired(selection, "change",
-        function()
-        {
+      this.assertEventFired(
+        selection,
+        "change",
+        function () {
           // remove selected item
           parent.getChildren().removeAt(2).dispose();
         },
-        function(e)
-        {
+        function (e) {
           // check selection from list
           self.assertEquals(1, selection.getLength(), "On Tree");
           self.assertEquals(parent, selection.getItem(0), "On Tree");
@@ -134,7 +164,11 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection",
           // check selection from manager
           var selectionOnManager = self.tree._manager.getSelection();
           self.assertEquals(1, selectionOnManager.length, "On Manager");
-          self.assertEquals(self.tree.getLookupTable().indexOf(parent), selectionOnManager[0], "On Manager");
+          self.assertEquals(
+            self.tree.getLookupTable().indexOf(parent),
+            selectionOnManager[0],
+            "On Manager"
+          );
         }
       );
     }

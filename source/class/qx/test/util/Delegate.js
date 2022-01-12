@@ -16,51 +16,50 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Delegate",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.util.Delegate", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    __delegate : null,
+  members: {
+    __delegate: null,
 
-
-    setUp : function()
-    {
+    setUp() {
       this.__delegate = {
-        STATIC : true,
+        STATIC: true,
 
-        myMethod : function() {}
+        myMethod() {}
       };
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.__delegate = null;
     },
 
-
-    testGetMethod : function()
-    {
-      this.assertNotNull(qx.util.Delegate.getMethod(this.__delegate, "myMethod"));
-      this.assertFunction(qx.util.Delegate.getMethod(this.__delegate, "myMethod"));
+    testGetMethod() {
+      this.assertNotNull(
+        qx.util.Delegate.getMethod(this.__delegate, "myMethod")
+      );
+      this.assertFunction(
+        qx.util.Delegate.getMethod(this.__delegate, "myMethod")
+      );
 
       this.assertNull(qx.util.Delegate.getMethod(this.__delegate, "STATIC"));
       this.assertNull(qx.util.Delegate.getMethod(this.__delegate, "banana"));
     },
 
-
-    testContainsMethod : function()
-    {
-      this.assertTrue(qx.util.Delegate.containsMethod(this.__delegate, "myMethod"));
-      this.assertFalse(qx.util.Delegate.containsMethod(this.__delegate, "STATIC"));
-      this.assertFalse(qx.util.Delegate.containsMethod(this.__delegate, "banana"));
+    testContainsMethod() {
+      this.assertTrue(
+        qx.util.Delegate.containsMethod(this.__delegate, "myMethod")
+      );
+      this.assertFalse(
+        qx.util.Delegate.containsMethod(this.__delegate, "STATIC")
+      );
+      this.assertFalse(
+        qx.util.Delegate.containsMethod(this.__delegate, "banana")
+      );
     },
 
-
-    testMethodCall : function()
-    {
+    testMethodCall() {
       var spy = this.spy(this.__delegate, "myMethod");
 
       var myMethod = qx.util.Delegate.getMethod(this.__delegate, "myMethod");

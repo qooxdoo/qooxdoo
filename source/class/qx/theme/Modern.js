@@ -20,16 +20,14 @@
 /**
  * Contemporary Theme
  */
-qx.Theme.define("qx.theme.Modern",
-{
-  title : "Modern",
+qx.Theme.define("qx.theme.Modern", {
+  title: "Modern",
 
-  meta :
-  {
-    color : qx.theme.modern.Color,
-    decoration : qx.theme.modern.Decoration,
-    font : qx.theme.modern.Font,
-    appearance : qx.theme.modern.Appearance,
-    icon : qx.theme.icon.Tango
+  meta: {
+    color: qx.theme.modern.Color,
+    decoration: qx.theme.modern.Decoration,
+    font: qx.theme.modern.Font,
+    appearance: qx.theme.modern.Appearance,
+    icon: qx.theme.icon.Tango
   }
 });

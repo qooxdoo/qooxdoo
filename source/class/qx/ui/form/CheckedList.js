@@ -22,26 +22,26 @@
  */
 qx.Class.define("qx.ui.form.CheckedList", {
   extend: qx.ui.form.List,
-  
+
   construct() {
-    this.base(arguments);
+    super();
     this.__checked = {};
   },
-  
+
   destruct() {
     this.__checked.dispose();
     this.__checked = null;
   },
-  
+
   events: {
     /** Fired when the checked array changes, data is the array */
-    "changeChecked": "qx.event.type.Data"
+    changeChecked: "qx.event.type.Data"
   },
-  
+
   members: {
     /** @type {Map<String,qx.ui.form.CheckBox>} map of checked items, indexed by hash code */
     __checked: null,
-    
+
     /**
      * Returns the array of checked items
      *
@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
     getChecked() {
       return Object.values(this.__checked);
     },
-    
+
     /**
      * Sets the array of checked items
      *
@@ -61,17 +61,26 @@ qx.Class.define("qx.ui.form.CheckedList", {
       this.__inChangingChecked = true;
       try {
         let toUncheck = {};
-        Object.values(this.__checked).forEach(item => toUncheck[item.toHashCode()] = item);
+        Object.values(this.__checked).forEach(
+          item => (toUncheck[item.toHashCode()] = item)
+        );
         let replacement = {};
         if (!checked) {
           checked = [];
         } else {
           if (qx.core.Environment.get("qx.debug")) {
             let lookup = {};
-            this.getChildren().forEach(item => lookup[item.toHashCode()] = item);
-            checked.forEach(item => this.assertTrue(!!lookup[item.toHashCode()], `The item ${item} to be checked is not a child of this list`));
+            this.getChildren().forEach(
+              item => (lookup[item.toHashCode()] = item)
+            );
+            checked.forEach(item =>
+              this.assertTrue(
+                !!lookup[item.toHashCode()],
+                `The item ${item} to be checked is not a child of this list`
+              )
+            );
           }
-          
+
           let someTurnedOn = false;
           checked.forEach(item => {
             let hash = item.toHashCode();
@@ -82,7 +91,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
             delete toUncheck[hash];
             replacement[hash] = item;
           });
-          
+
           // Nothing turned on and nothing to turn off - then no change
           if (!someTurnedOn && Object.keys(toUncheck).length == 0) {
             return;
@@ -93,8 +102,8 @@ qx.Class.define("qx.ui.form.CheckedList", {
       } finally {
         this.__inChangingChecked = false;
       }
-      
-      this.fireDataEvent("changeChecked", this.getChecked(), oldData); 
+
+      this.fireDataEvent("changeChecked", this.getChecked(), oldData);
     },
 
     /**
@@ -103,37 +112,42 @@ qx.Class.define("qx.ui.form.CheckedList", {
     resetChecked() {
       this.setChecked(null);
     },
-    
+
     /*
      * @Override
      */
     _onAddChild(evt) {
-      this.base(arguments, evt);
-      
+      super._onAddChild(evt);
+
       let item = evt.getData();
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(item, qx.ui.form.CheckBox, this.classname + " only supports instances of qx.ui.core.CheckBox as children");
+        this.assertInstance(
+          item,
+          qx.ui.form.CheckBox,
+          this.classname +
+            " only supports instances of qx.ui.core.CheckBox as children"
+        );
       }
       if (item.getValue()) {
         this.__onItemChangeCheckedImpl(item);
       }
       item.addListener("changeValue", this.__onItemChangeChecked, this);
     },
-    
+
     /*
      * @Override
      */
     _onRemoveChild(evt) {
-      this.base(arguments, evt);
-      
+      super._onRemoveChild(evt);
+
       let item = evt.getData();
       item.removeListener("changeValue", this.__onItemChangeChecked, this);
-      
+
       if (item.getValue()) {
         this.__onItemChangeCheckedImpl(item, true);
       }
     },
-    
+
     /**
      * Event handler for when an item is [un]checked
      *
@@ -145,7 +159,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
       }
       this.__onItemChangeCheckedImpl(evt.getTarget());
     },
-    
+
     /**
      * Handles changes in the items checked state
      *

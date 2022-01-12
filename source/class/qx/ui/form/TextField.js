@@ -22,10 +22,8 @@
 /**
  * The TextField is a single-line text input field.
  */
-qx.Class.define("qx.ui.form.TextField",
-{
-  extend : qx.ui.form.AbstractField,
-
+qx.Class.define("qx.ui.form.TextField", {
+  extend: qx.ui.form.AbstractField,
 
   /*
   *****************************************************************************
@@ -33,48 +31,43 @@ qx.Class.define("qx.ui.form.TextField",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "textfield"
+    appearance: {
+      refine: true,
+      init: "textfield"
     },
 
     // overridden
-    allowGrowY :
-    {
-      refine : true,
-      init : false
+    allowGrowY: {
+      refine: true,
+      init: false
     },
 
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowShrinkY: {
+      refine: true,
+      init: false
     }
   },
 
-  members : {
-
+  members: {
     // overridden
-    _renderContentElement : function(innerHeight, element) {
-     if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-         (parseInt(qx.core.Environment.get("engine.version"), 10) < 9
-         || qx.core.Environment.get("browser.documentmode") < 9))
-     {
-       element.setStyles({
-         "line-height" : innerHeight + 'px'
-       });
-     }
+    _renderContentElement(innerHeight, element) {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        (parseInt(qx.core.Environment.get("engine.version"), 10) < 9 ||
+          qx.core.Environment.get("browser.documentmode") < 9)
+      ) {
+        element.setStyles({
+          "line-height": innerHeight + "px"
+        });
+      }
     },
 
-
     // overridden
-    _createContentElement : function() {
-      var el = this.base(arguments);
+    _createContentElement() {
+      var el = super._createContentElement();
       var deviceType = qx.core.Environment.get("device.type");
       if (deviceType == "tablet" || deviceType == "mobile") {
         el.addListener("keypress", this._onKeyPress, this);
@@ -83,30 +76,28 @@ qx.Class.define("qx.ui.form.TextField",
       return el;
     },
 
-
     /**
-    * Close the virtual keyboard if the Enter key is pressed.
-    * @param evt {qx.event.type.KeySequence} the keypress event.
-    */
-    _onKeyPress : function(evt) {
+     * Close the virtual keyboard if the Enter key is pressed.
+     * @param evt {qx.event.type.KeySequence} the keypress event.
+     */
+    _onKeyPress(evt) {
       // On return
       if (evt.getKeyIdentifier() == "Enter") {
         if (this.isFocusable()) {
           this.blur();
-        }
-        else {
-           // When the text field is not focusable, blur() will raise an exception on
-           // touch devices and the virtual keyboard is not closed. To work around this
-           // issue, we're enabling the focus just for the blur() call.
-           this.setFocusable(true);
-           this.blur();
-           this.setFocusable(false);
+        } else {
+          // When the text field is not focusable, blur() will raise an exception on
+          // touch devices and the virtual keyboard is not closed. To work around this
+          // issue, we're enabling the focus just for the blur() call.
+          this.setFocusable(true);
+          this.blur();
+          this.setFocusable(false);
         }
       }
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.getContentElement().removeListener("keypress", this._onKeyPress, this);
   }
 });

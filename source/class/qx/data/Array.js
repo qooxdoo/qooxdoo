@@ -22,15 +22,14 @@
  * for it. All the native methods are included in the implementation and it
  * also fires events if the content or the length of the array changes in
  * any way. Also the <code>.length</code> property is available on the array.
- * 
+ *
  * This class does not need to be disposed, unless you set the autoDisposeItems
  * property to true and want the items to be disposed.
  */
-qx.Class.define("qx.data.Array",
-{
-  extend : qx.core.Object,
-  include : qx.data.marshal.MEventBubbling,
-  implement : [qx.data.IListData],
+qx.Class.define("qx.data.Array", {
+  extend: qx.core.Object,
+  include: qx.data.marshal.MEventBubbling,
+  implement: [qx.data.IListData],
 
   /**
    * Creates a new instance of an array.
@@ -44,14 +43,13 @@ qx.Class.define("qx.data.Array",
    *   If the parameter is a JavaScript array, a new array containing the given
    *   elements will be created.
    */
-  construct : function(param)
-  {
-    this.base(arguments);
+  construct(param) {
+    super();
     // if no argument is given
     if (param == undefined) {
       this.__array = [];
 
-    // check for elements (create the array)
+      // check for elements (create the array)
     } else if (arguments.length > 1) {
       // create an empty array and go through every argument and push it
       this.__array = [];
@@ -59,14 +57,14 @@ qx.Class.define("qx.data.Array",
         this.__array.push(arguments[i]);
       }
 
-    // check for a number (length)
+      // check for a number (length)
     } else if (typeof param == "number") {
       this.__array = new Array(param);
-    // check for an array itself
+      // check for an array itself
     } else if (param instanceof Array) {
       this.__array = qx.lang.Array.clone(param);
 
-    // error case
+      // error case
     } else {
       this.__array = [];
       this.dispose();
@@ -74,7 +72,7 @@ qx.Class.define("qx.data.Array",
     }
 
     // propagate changes
-    for (var i=0; i<this.__array.length; i++) {
+    for (var i = 0; i < this.__array.length; i++) {
       this._applyEventPropagation(this.__array[i], null, i);
     }
 
@@ -87,22 +85,20 @@ qx.Class.define("qx.data.Array",
     }
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Flag to set the dispose behavior of the array. If the property is set to
      * <code>true</code>, the array will dispose its content on dispose, too.
      */
-    autoDisposeItems : {
-      check : "Boolean",
-      init : false
+    autoDisposeItems: {
+      check: "Boolean",
+      init: false
     }
   },
 
@@ -112,8 +108,7 @@ qx.Class.define("qx.data.Array",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * The change event which will be fired if there is a change in the array.
      * The data contains a map with five key value pairs:
@@ -124,22 +119,18 @@ qx.Class.define("qx.data.Array",
      * <li>added: The items which has been added (as a JavaScript array)</li>
      * <li>removed: The items which has been removed (as a JavaScript array)</li>
      */
-    "change" : "qx.event.type.Data",
-
+    change: "qx.event.type.Data",
 
     /**
      * The changeLength event will be fired every time the length of the
      * array changes.
      */
-    "changeLength": "qx.event.type.Data"
+    changeLength: "qx.event.type.Data"
   },
 
-
-  members :
-  {
+  members: {
     // private members
-    __array : null,
-
+    __array: null,
 
     /**
      * Concatenates the current and the given array into a new one.
@@ -150,7 +141,7 @@ qx.Class.define("qx.data.Array",
      * @return {qx.data.Array} A new array containing the values of both former
      *   arrays.
      */
-    concat: function(array) {
+    concat(array) {
       array = qx.lang.Array.toNativeArray(array);
       if (array) {
         var newArray = this.__array.concat(array);
@@ -159,7 +150,6 @@ qx.Class.define("qx.data.Array",
       }
       return new qx.data.Array(newArray);
     },
-
 
     /**
      * Returns the array as a string using the given connector string to
@@ -170,10 +160,9 @@ qx.Class.define("qx.data.Array",
      *
      * @return {String} The array as a string.
      */
-    join: function(connector) {
+    join(connector) {
       return this.__array.join(connector);
     },
-
 
     /**
      * Removes and returns the last element of the array.
@@ -181,7 +170,7 @@ qx.Class.define("qx.data.Array",
      *
      * @return {var} The last element of the array.
      */
-    pop: function() {
+    pop() {
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener
@@ -194,18 +183,20 @@ qx.Class.define("qx.data.Array",
         item: this
       });
 
-      this.fireDataEvent("change",
+      this.fireDataEvent(
+        "change",
         {
           start: this.length - 1,
           end: this.length - 1,
           type: "remove",
-          removed : [item],
-          added : []
-        }, null
+          removed: [item],
+          added: []
+        },
+        null
       );
+
       return item;
     },
-
 
     /**
      * Adds an element at the end of the array.
@@ -215,7 +206,7 @@ qx.Class.define("qx.data.Array",
      *
      * @return {Number} The new length of the array.
      */
-    push: function(varargs) {
+    push(varargs) {
       for (var i = 0; i < arguments.length; i++) {
         this.__array.push(arguments[i]);
         this.__updateLength();
@@ -225,30 +216,31 @@ qx.Class.define("qx.data.Array",
         // fire change bubbles event
         this.fireDataEvent("changeBubble", {
           value: [arguments[i]],
-          name: (this.length - 1) + "",
+          name: this.length - 1 + "",
           old: [],
           item: this
         });
 
         // fire change event
-        this.fireDataEvent("change",
+        this.fireDataEvent(
+          "change",
           {
             start: this.length - 1,
             end: this.length - 1,
             type: "add",
             added: [arguments[i]],
-            removed : []
-          }, null
+            removed: []
+          },
+          null
         );
       }
       return this.length;
     },
 
-
     /**
      * Reverses the order of the array. An change event will be fired.
      */
-    reverse: function() {
+    reverse() {
       // ignore on empty arrays
       if (this.length == 0) {
         return;
@@ -259,8 +251,16 @@ qx.Class.define("qx.data.Array",
 
       this.__updateEventPropagation(0, this.length);
 
-      this.fireDataEvent("change",
-        {start: 0, end: this.length - 1, type: "order", added: [], removed: []}, null
+      this.fireDataEvent(
+        "change",
+        {
+          start: 0,
+          end: this.length - 1,
+          type: "order",
+          added: [],
+          removed: []
+        },
+        null
       );
 
       // fire change bubbles event
@@ -272,14 +272,13 @@ qx.Class.define("qx.data.Array",
       });
     },
 
-
     /**
      * Removes the first element of the array and returns it. An change event
      * will be fired.
      *
      * @return {var} the former first element.
      */
-    shift: function() {
+    shift() {
       // ignore on empty arrays
       if (this.length == 0) {
         return;
@@ -288,7 +287,7 @@ qx.Class.define("qx.data.Array",
       var item = this.__array.shift();
       this.__updateLength();
       // remove the possible added event listener
-      this._registerEventChaining(null, item, this.length -1);
+      this._registerEventChaining(null, item, this.length - 1);
       // as every item has changed its position, we need to update the event bubbling
       this.__updateEventPropagation(0, this.length);
 
@@ -301,18 +300,20 @@ qx.Class.define("qx.data.Array",
       });
 
       // fire change event
-      this.fireDataEvent("change",
+      this.fireDataEvent(
+        "change",
         {
           start: 0,
-          end: this.length -1,
+          end: this.length - 1,
           type: "remove",
-          removed : [item],
-          added : []
-        }, null
+          removed: [item],
+          added: []
+        },
+        null
       );
+
       return item;
     },
-
 
     /**
      * Returns a new array based on the range specified by the parameters.
@@ -324,10 +325,9 @@ qx.Class.define("qx.data.Array",
      *
      * @return {qx.data.Array} A new array containing the given range of values.
      */
-    slice: function(from, to) {
+    slice(from, to) {
       return new qx.data.Array(this.__array.slice(from, to));
     },
-
 
     /**
      * Method to remove and add new elements to the array. A change event
@@ -342,7 +342,7 @@ qx.Class.define("qx.data.Array",
      * @return {qx.data.Array} An data array containing the removed elements.
      *   Keep in to dispose this one, even if you don't use it!
      */
-    splice: function(startIndex, amount, varargs) {
+    splice(startIndex, amount, varargs) {
       // store the old length
       var oldLength = this.__array.length;
 
@@ -361,7 +361,7 @@ qx.Class.define("qx.data.Array",
             break;
           }
           // if all added and removed items are equal
-          if (i == addedItems.length -1) {
+          if (i == addedItems.length - 1) {
             // prevent all events and return a new array
             return new qx.data.Array();
           }
@@ -383,17 +383,20 @@ qx.Class.define("qx.data.Array",
           end = this.length - 1;
         } else {
           type = "add/remove";
-          end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
+          end =
+            startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
 
-        this.fireDataEvent("change",
+        this.fireDataEvent(
+          "change",
           {
             start: startIndex,
             end: end,
             type: type,
-            added : addedItems,
-            removed : returnArray
-          }, null
+            added: addedItems,
+            removed: returnArray
+          },
+          null
         );
       }
 
@@ -407,16 +410,20 @@ qx.Class.define("qx.data.Array",
         this._registerEventChaining(arguments[i], null, startIndex + (i - 2));
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
+      this.__updateEventPropagation(
+        startIndex + (arguments.length - 2) - amount,
+        this.length
+      );
 
       // fire the changeBubble event
       if (removed || added) {
         var value = [];
         for (var i = 2; i < arguments.length; i++) {
-          value[i-2] = arguments[i];
+          value[i - 2] = arguments[i];
         }
-        var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
-        var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
+        var endIndex = startIndex + Math.max(arguments.length - 3, amount - 1);
+        var name =
+          startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
         var eventData = {
           value: value,
@@ -424,31 +431,30 @@ qx.Class.define("qx.data.Array",
           old: returnArray,
           item: this
         };
+
         this.fireDataEvent("changeBubble", eventData);
       }
-      return (new qx.data.Array(returnArray));
+      return new qx.data.Array(returnArray);
     },
-    
-    
+
     /**
      * Efficiently replaces the array with the contents of src; this will suppress the
      * change event if the array contents are the same, and will make sure that only
      * one change event is fired
-     * 
+     *
      * @param src {qx.data.Array|Array} the new value to set the array to
      */
-    replace: function(src) {
+    replace(src) {
       src = qx.lang.Array.toNativeArray(src);
       if (this.equals(src)) {
         return;
       }
-      var args = [ 0, this.getLength() ];
-      src.forEach(function(item) {
+      var args = [0, this.getLength()];
+      src.forEach(function (item) {
         args.push(item);
       });
       this.splice.apply(this, args);
     },
-
 
     /**
      * Sorts the array. If a function is given, this will be used to
@@ -458,7 +464,7 @@ qx.Class.define("qx.data.Array",
      * @param func {Function} A compare function comparing two parameters and
      *   should return a number.
      */
-    sort: function(func) {
+    sort(func) {
       // ignore if the array is empty
       if (this.length == 0) {
         return;
@@ -468,14 +474,22 @@ qx.Class.define("qx.data.Array",
       this.__array.sort.apply(this.__array, arguments);
 
       // prevent changeBubble event if nothing has been changed
-      if (qx.lang.Array.equals(this.__array, oldArray) === true){
+      if (qx.lang.Array.equals(this.__array, oldArray) === true) {
         return;
       }
 
       this.__updateEventPropagation(0, this.length);
 
-      this.fireDataEvent("change",
-        {start: 0, end: this.length - 1, type: "order", added: [], removed: []}, null
+      this.fireDataEvent(
+        "change",
+        {
+          start: 0,
+          end: this.length - 1,
+          type: "order",
+          added: [],
+          removed: []
+        },
+        null
       );
 
       // fire change bubbles event
@@ -487,7 +501,6 @@ qx.Class.define("qx.data.Array",
       });
     },
 
-
     /**
      * Adds the given items to the beginning of the array. For every element,
      * a change event will be fired.
@@ -495,7 +508,7 @@ qx.Class.define("qx.data.Array",
      * @param varargs {var} As many elements as you want to add to the beginning.
      * @return {Integer} The new length of the array
      */
-    unshift: function(varargs) {
+    unshift(varargs) {
       for (var i = arguments.length - 1; i >= 0; i--) {
         this.__array.unshift(arguments[i]);
         this.__updateLength();
@@ -511,19 +524,20 @@ qx.Class.define("qx.data.Array",
         });
 
         // fire change event
-        this.fireDataEvent("change",
+        this.fireDataEvent(
+          "change",
           {
             start: 0,
             end: this.length - 1,
             type: "add",
-            added : [arguments[i]],
-            removed : []
-          }, null
+            added: [arguments[i]],
+            removed: []
+          },
+          null
         );
       }
       return this.length;
     },
-
 
     /**
      * Returns the list data as native array. Beware of the fact that the
@@ -533,10 +547,9 @@ qx.Class.define("qx.data.Array",
      *
      * @return {Array} The native array.
      */
-    toArray: function() {
+    toArray() {
       return this.__array;
     },
-
 
     /**
      * Replacement function for the getting of the array value.
@@ -546,10 +559,9 @@ qx.Class.define("qx.data.Array",
      *
      * @return {var} The element at the given index.
      */
-    getItem: function(index) {
+    getItem(index) {
       return this.__array[index];
     },
-
 
     /**
      * Replacement function for the setting of an array value.
@@ -560,7 +572,7 @@ qx.Class.define("qx.data.Array",
      * @param index {Number} The index of the array element.
      * @param item {var} The new item to set.
      */
-    setItem: function(index, item) {
+    setItem(index, item) {
       var oldItem = this.__array[index];
       // ignore settings of already set items [BUG #4106]
       if (oldItem === item) {
@@ -583,17 +595,18 @@ qx.Class.define("qx.data.Array",
       });
 
       // fire change event
-      this.fireDataEvent("change",
+      this.fireDataEvent(
+        "change",
         {
           start: index,
           end: index,
           type: "add/remove",
           added: [item],
           removed: [oldItem]
-        }, null
+        },
+        null
       );
     },
-
 
     /**
      * This method returns the current length stored under .length on each
@@ -601,10 +614,9 @@ qx.Class.define("qx.data.Array",
      *
      * @return {Number} The current length of the array.
      */
-    getLength: function() {
+    getLength() {
       return this.length;
     },
-
 
     /**
      * Returns the index of the item in the array. If the item is not in the
@@ -613,7 +625,7 @@ qx.Class.define("qx.data.Array",
      * @param item {var} The item of which the index should be returned.
      * @return {Number} The Index of the given item.
      */
-    indexOf: function(item) {
+    indexOf(item) {
       return this.__array.indexOf(item);
     },
 
@@ -624,22 +636,20 @@ qx.Class.define("qx.data.Array",
      * @param item {var} The item of which the index should be returned.
      * @return {Number} The Index of the given item.
      */
-    lastIndexOf: function(item) {
+    lastIndexOf(item) {
       return this.__array.lastIndexOf(item);
     },
-
 
     /**
      * Returns the toString of the original Array
      * @return {String} The array as a string.
      */
-    toString: function() {
+    toString() {
       if (this.__array != null) {
         return this.__array.toString();
       }
       return "";
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -654,7 +664,7 @@ qx.Class.define("qx.data.Array",
      * @param item {var} The item which is possibly in the array.
      * @return {Boolean} true, if the array contains the given item.
      */
-    contains: function(item) {
+    contains(item) {
       return this.includes(item);
     },
 
@@ -664,20 +674,18 @@ qx.Class.define("qx.data.Array",
      * @param item {var} The item which is possibly in the array.
      * @return {Boolean} true, if the array contains the given item.
      */
-    includes: function(item) {
+    includes(item) {
       return this.__array.indexOf(item) !== -1;
     },
-
 
     /**
      * Return a copy of the given arr
      *
      * @return {qx.data.Array} copy of this
      */
-    copy : function() {
+    copy() {
       return this.concat();
     },
-
 
     /**
      * Insert an element at a given position.
@@ -685,11 +693,9 @@ qx.Class.define("qx.data.Array",
      * @param index {Integer} Position where to insert the item.
      * @param item {var} The element to insert.
      */
-    insertAt : function(index, item)
-    {
+    insertAt(index, item) {
       this.splice(index, 0, item).dispose();
     },
-
 
     /**
      * Insert an item into the array before a given item.
@@ -697,8 +703,7 @@ qx.Class.define("qx.data.Array",
      * @param before {var} Insert item before this object.
      * @param item {var} The item to be inserted.
      */
-    insertBefore : function(before, item)
-    {
+    insertBefore(before, item) {
       var index = this.indexOf(before);
 
       if (index == -1) {
@@ -708,24 +713,21 @@ qx.Class.define("qx.data.Array",
       }
     },
 
-
     /**
      * Insert an element into the array after a given item.
      *
      * @param after {var} Insert item after this object.
      * @param item {var} Object to be inserted.
      */
-    insertAfter : function(after, item)
-    {
+    insertAfter(after, item) {
       var index = this.indexOf(after);
 
-      if (index == -1 || index == (this.length - 1)) {
+      if (index == -1 || index == this.length - 1) {
         this.push(item);
       } else {
         this.splice(index + 1, 0, item).dispose();
       }
     },
-
 
     /**
      * Remove an element from the array at the given index.
@@ -733,20 +735,19 @@ qx.Class.define("qx.data.Array",
      * @param index {Integer} Index of the item to be removed.
      * @return {var} The removed item.
      */
-    removeAt : function(index) {
+    removeAt(index) {
       var returnArray = this.splice(index, 1);
       var item = returnArray.getItem(0);
       returnArray.dispose();
       return item;
     },
 
-
     /**
      * Remove all elements from the array.
      *
      * @return {Array} A native array containing the removed elements.
      */
-    removeAll : function() {
+    removeAll() {
       // remove all possible added event listeners
       for (var i = 0; i < this.__array.length; i++) {
         this._registerEventChaining(null, this.__array[i], i);
@@ -774,18 +775,20 @@ qx.Class.define("qx.data.Array",
       });
 
       // fire the change event
-      this.fireDataEvent("change",
+      this.fireDataEvent(
+        "change",
         {
           start: 0,
           end: oldLength - 1,
           type: "remove",
-          removed : items,
-          added : []
-        }, null
+          removed: items,
+          added: []
+        },
+        null
       );
+
       return items;
     },
-
 
     /**
      * Append the items of the given array.
@@ -794,8 +797,7 @@ qx.Class.define("qx.data.Array",
      * be appended.
      * @throws {Error} if the argument is not an array.
      */
-    append : function(array)
-    {
+    append(array) {
       // qooxdoo array support
       array = qx.lang.Array.toNativeArray(array);
 
@@ -818,9 +820,9 @@ qx.Class.define("qx.data.Array",
 
       // fire change bubbles
       var name =
-        oldLength == (this.length-1) ?
-        oldLength :
-        oldLength + "-" + (this.length-1);
+        oldLength == this.length - 1
+          ? oldLength
+          : oldLength + "-" + (this.length - 1);
       this.fireDataEvent("changeBubble", {
         value: array,
         name: name + "",
@@ -829,31 +831,30 @@ qx.Class.define("qx.data.Array",
       });
 
       // fire the change event
-      this.fireDataEvent("change",
+      this.fireDataEvent(
+        "change",
         {
           start: oldLength,
           end: this.length - 1,
           type: "add",
-          added : array,
-          removed : []
-        }, null
+          added: array,
+          removed: []
+        },
+        null
       );
     },
-
 
     /**
      * Removes all elements which are listed in the array.
      *
      * @param array {Array} the elements of this array will be excluded from this one
      */
-    exclude : function(array)
-    {
+    exclude(array) {
       array = qx.lang.Array.toNativeArray(array);
-      array.forEach(function(item) {
+      array.forEach(function (item) {
         this.remove(item);
       }, this);
     },
-
 
     /**
      * Remove the given item.
@@ -861,17 +862,14 @@ qx.Class.define("qx.data.Array",
      * @param item {var} Item to be removed from the array.
      * @return {var} The removed item.
      */
-    remove : function(item)
-    {
+    remove(item) {
       var index = this.indexOf(item);
 
-      if (index != -1)
-      {
+      if (index != -1) {
         this.splice(index, 1).dispose();
         return item;
       }
     },
-
 
     /**
      * Check whether the given array has the same content as this.
@@ -880,15 +878,13 @@ qx.Class.define("qx.data.Array",
      * @param array {qx.data.Array} The array to check.
      * @return {Boolean} Whether the two arrays are equal.
      */
-    equals : function(array)
-    {
+    equals(array) {
       if (this.length !== array.length) {
         return false;
       }
 
       array = qx.lang.Array.toNativeArray(array);
-      for (var i = 0; i < this.length; i++)
-      {
+      for (var i = 0; i < this.length; i++) {
         if (this.getItem(i) !== array[i]) {
           return false;
         }
@@ -897,15 +893,13 @@ qx.Class.define("qx.data.Array",
       return true;
     },
 
-
     /**
      * Returns the sum of all values in the array. Supports
      * numeric values only.
      *
      * @return {Number} The sum of all values.
      */
-    sum : function()
-    {
+    sum() {
       var result = 0;
       for (var i = 0; i < this.length; i++) {
         result += this.getItem(i);
@@ -914,7 +908,6 @@ qx.Class.define("qx.data.Array",
       return result;
     },
 
-
     /**
      * Returns the highest value in the given array.
      * Supports numeric values only.
@@ -922,12 +915,10 @@ qx.Class.define("qx.data.Array",
      * @return {Number | null} The highest of all values or undefined if the
      *   array is empty.
      */
-    max : function()
-    {
+    max() {
       var result = this.getItem(0);
 
-      for (var i = 1; i < this.length; i++)
-      {
+      for (var i = 1; i < this.length; i++) {
         if (this.getItem(i) > result) {
           result = this.getItem(i);
         }
@@ -936,7 +927,6 @@ qx.Class.define("qx.data.Array",
       return result === undefined ? null : result;
     },
 
-
     /**
      * Returns the lowest value in the array. Supports
      * numeric values only.
@@ -944,12 +934,10 @@ qx.Class.define("qx.data.Array",
      * @return {Number | null} The lowest of all values or undefined
      *   if the array is empty.
      */
-    min : function()
-    {
+    min() {
       var result = this.getItem(0);
 
-      for (var i = 1; i < this.length; i++)
-      {
+      for (var i = 1; i < this.length; i++) {
         if (this.getItem(i) < result) {
           result = this.getItem(i);
         }
@@ -957,7 +945,6 @@ qx.Class.define("qx.data.Array",
 
       return result === undefined ? null : result;
     },
-
 
     /**
      * Invokes the given function for every item in the array.
@@ -967,11 +954,11 @@ qx.Class.define("qx.data.Array",
      *   the item, the index and the array itself.
      * @param context {var?} The context in which the callback will be invoked.
      */
-    forEach : function(callback, context)
-    {
-      this.__array.forEach((element, index) => callback.call(context, element, index, this));
+    forEach(callback, context) {
+      this.__array.forEach((element, index) =>
+        callback.call(context, element, index, this)
+      );
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -991,10 +978,9 @@ qx.Class.define("qx.data.Array",
      * @return {qx.data.Array} A new array instance containing only the items
      *  which passed the test.
      */
-    filter : function(callback, self) {
+    filter(callback, self) {
       return new qx.data.Array(this.__array.filter(callback, self));
     },
-
 
     /**
      * Creates a new array with the results of calling a provided function on every
@@ -1008,10 +994,9 @@ qx.Class.define("qx.data.Array",
      * @param self {var?undefined} The context of the callback.
      * @return {qx.data.Array} A new array instance containing the new created items.
      */
-    map : function(callback, self) {
+    map(callback, self) {
       return new qx.data.Array(this.__array.map(callback, self));
     },
-
 
     /**
      * Finds the first matching element in the array which passes the test implemented by the
@@ -1024,10 +1009,9 @@ qx.Class.define("qx.data.Array",
      * @param self {var?undefined} The context of the callback.
      * @return {Boolean} <code>true</code>, if any element passed the test function.
      */
-    find : function(callback, self) {
+    find(callback, self) {
       return this.__array.find(callback, self);
     },
-
 
     /**
      * Tests whether any element in the array passes the test implemented by the
@@ -1040,10 +1024,9 @@ qx.Class.define("qx.data.Array",
      * @param self {var?undefined} The context of the callback.
      * @return {Boolean} <code>true</code>, if any element passed the test function.
      */
-    some : function(callback, self) {
+    some(callback, self) {
       return this.__array.some(callback, self);
     },
-
 
     /**
      * Tests whether every element in the array passes the test implemented by the
@@ -1056,10 +1039,9 @@ qx.Class.define("qx.data.Array",
      * @param self {var?undefined} The context of the callback.
      * @return {Boolean} <code>true</code>, if every element passed the test function.
      */
-    every : function(callback, self) {
+    every(callback, self) {
       return this.__array.every(callback, self);
     },
-
 
     /**
      * Apply a function against an accumulator and each value of the array
@@ -1074,10 +1056,9 @@ qx.Class.define("qx.data.Array",
      *   call of the callback.
      * @return {var} The returned value of the last accumulator call.
      */
-    reduce : function(callback, initValue) {
+    reduce(callback, initValue) {
       return this.__array.reduce(callback, initValue);
     },
-
 
     /**
      * Apply a function against an accumulator and each value of the array
@@ -1092,10 +1073,9 @@ qx.Class.define("qx.data.Array",
      *   call of the callback.
      * @return {var} The returned value of the last accumulator call.
      */
-    reduceRight : function(callback, initValue) {
+    reduceRight(callback, initValue) {
       return this.__array.reduceRight(callback, initValue);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1107,26 +1087,23 @@ qx.Class.define("qx.data.Array",
      * Every time the length will be updated, a {@link #changeLength} data
      * event will be fired.
      */
-    __updateLength: function() {
+    __updateLength() {
       var oldLength = this.length;
       this.length = this.__array.length;
       this.fireDataEvent("changeLength", this.length, oldLength);
     },
-
 
     /**
      * Helper to update the event propagation for a range of items.
      * @param from {Number} Start index.
      * @param to {Number} End index.
      */
-    __updateEventPropagation : function(from, to) {
-      for (var i=from; i < to; i++) {
+    __updateEventPropagation(from, to) {
+      for (var i = from; i < to; i++) {
         this._registerEventChaining(this.__array[i], this.__array[i], i);
       }
     }
   },
-
-
 
   /*
    *****************************************************************************
@@ -1134,7 +1111,7 @@ qx.Class.define("qx.data.Array",
    *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     for (var i = 0; i < this.__array.length; i++) {
       var item = this.__array[i];
       this._applyEventPropagation(null, item, i);

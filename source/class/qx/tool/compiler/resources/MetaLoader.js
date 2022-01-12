@@ -23,13 +23,15 @@
 qx.Class.define("qx.tool.compiler.resources.MetaLoader", {
   extend: qx.tool.compiler.resources.ResourceLoader,
 
-  construct: function() {
-    this.base(arguments, ".meta");
+  construct() {
+    super(".meta");
   },
 
   members: {
     async load(asset) {
-      asset.getFileInfo().meta = await qx.tool.utils.Json.loadJsonAsync(asset.getSourceFilename());
+      asset.getFileInfo().meta = await qx.tool.utils.Json.loadJsonAsync(
+        asset.getSourceFilename()
+      );
     }
   }
 });
