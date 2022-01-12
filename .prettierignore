@@ -1,5 +1,7 @@
-/bin/
+/bin/*
 /compiled/
 /known-good/
 /node_modules/
 /test/
+/bootstrap/*
+/source/resource/qx/tool/cli/templates/
