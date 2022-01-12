@@ -58,8 +58,12 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
       await this.base(arguments);
       const ignoreFileName = ".prettierignore";
       const ig = ignore();
-      if (fs.existsSync(ignoreFileName)) {
-        ig.add(fs.readFileSync(ignoreFileName).toString());
+      try {
+        ig.add((await fs.promises.readFile(ignoreFileName)).toString());
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          throw err;
+        }
       }
       let exclude = this.argv.exclude;
       if (exclude) {
@@ -100,7 +104,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
       if (files.length === 0) {
         files.push("source");
       }
-      for await (file of files) {
+      for await (let file of files) {
         await scanImpl(file);
       }
     }
