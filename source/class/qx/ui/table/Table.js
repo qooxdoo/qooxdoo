@@ -2212,8 +2212,9 @@ qx.Class.define("qx.ui.table.Table",
       this.fireDataEvent("columnVisibilityMenuCreateStart", data);
 
       this.__columnMenuButtons = {};
-      for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
+      for (var iCol=0, l=tableModel.getColumnCount(); iCol<l; iCol++)
       {
+        var col = columnModel.getOverallColumnAtX(iCol);
         var menuButton =
           columnButton.factory("menu-button",
                                {
