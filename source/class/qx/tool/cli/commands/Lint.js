@@ -99,6 +99,18 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       let lintOptions = config.eslintConfig || {};
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
       lintOptions.globals = Object.assign(lintOptions.globals || {}, await this.__addGlobals(config));
+      lintOptions.parser = "@babel/eslint-parser";
+      lintOptions.parserOptions = lintOptions.parserOptions || {};
+      lintOptions.parserOptions.requireConfigFile = false;
+      lintOptions.parserOptions.babelOptions = {
+        plugins: [
+                "@babel/plugin-syntax-jsx"
+        ],
+        parserOpts: {
+          allowSuperOutsideMethod: true
+        }
+      };
+      lintOptions.parserOptions.sourceType = "script";
       let linter = new ESLint({
         cwd: helperFilePath,
         cache: this.argv.cache || false,
