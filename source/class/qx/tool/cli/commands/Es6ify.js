@@ -18,6 +18,7 @@
 
 const fs = require("fs");
 const path = require("upath");
+const ignore = require("ignore");
 
 /**
  * Migrates code to ES6 (partially)
@@ -27,7 +28,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
   statics: {
     getYargsCommand: function () {
       return {
-        command: "es6ify [file]",
+        command: "es6ify [files...]",
         describe: "help migrate code to ES6",
         builder: {
           verbose: {
@@ -55,13 +56,27 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
   members: {
     async process() {
       await this.base(arguments);
+      const ignoreFileName = ".prettierignore";
+      const ig = ignore();
+      try {
+        ig.add((await fs.promises.readFile(ignoreFileName)).toString());
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          throw err;
+        }
+      }
       let exclude = this.argv.exclude;
+      if (exclude) {
+        if (!qx.lang.Type.isArray(exclude)) {
+          exclude = [exclude];
+        }
+        ig.add(exclude);
+      }
 
       const processFile = async filename => {
-        if (exclude && filename.startsWith(exclude)) {
+        if (ig.ignores(filename)) {
           return;
         }
-
         console.log(`Processing ${filename}...`);
         let ify = new qx.tool.compiler.Es6ify(filename);
         ify.set({
@@ -74,7 +89,6 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
       const scanImpl = async filename => {
         let basename = path.basename(filename);
         let stat = await fs.promises.stat(filename);
-
         if (stat.isFile() && basename.match(/\.js$/)) {
           await processFile(filename);
 
@@ -86,8 +100,14 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
           }
         }
       };
-
-      await scanImpl(this.argv.file);
+      let files = this.argv.files || [];
+      if (files.length === 0) {
+        files.push("source");
+      }
+      for await (let file of files) {
+        await scanImpl(file);
+      }
     }
   }
 });
+
