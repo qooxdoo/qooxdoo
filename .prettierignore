@@ -1,8 +1,8 @@
-/bin/*
+/bin/
 /compiled/
 /known-good/
 /node_modules/
 /test/
-/bootstrap/*
+/bootstrap/
 /source/resource/qx/tool/cli/templates/
 /source/class/qx/dev/unit/Sinon.js

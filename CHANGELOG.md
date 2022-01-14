@@ -16,12 +16,6 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
-- through the change to eslint 8 the old parser `babel-eslint` is removed. You have to use
-  `@babel/eslint-parser` instead. This needs an new attribute:
-  ```json
-  "parserOptions": {
-      "requireConfigFile": false
-    }
   ```
 
 
