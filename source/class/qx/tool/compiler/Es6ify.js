@@ -21,7 +21,6 @@ const path = require("path");
 const babelCore = require("@babel/core");
 
 const types = require("@babel/types");
-const babylon = require("@babel/parser");
 const prettier = require("prettier");
 
 /**
@@ -80,26 +79,26 @@ const prettier = require("prettier");
 
 /**
  * Processes a .js source file and tries to upgrade to ES6 syntax
- * 
+ *
  * This is a reliable but fairly unintrusive upgrade, provided that `arrowFunctions` property is
- * `careful`.  The issue is that this code: `setTimeout(function() { something(); })` can be 
+ * `careful`.  The issue is that this code: `setTimeout(function() { something(); })` can be
  * changed to `setTimeout(() => something())` and that is often desirable, but it also means that
- * the `this` will be different because an arrow function always has the `this` from where the 
+ * the `this` will be different because an arrow function always has the `this` from where the
  * code is written.
- * 
- * However, if you use an API which changes `this` then the switch to arrow functions will break 
- * your code.  Mostly, in Qooxdoo, changes to `this` are done via an explicit API (eg 
+ *
+ * However, if you use an API which changes `this` then the switch to arrow functions will break
+ * your code.  Mostly, in Qooxdoo, changes to `this` are done via an explicit API (eg
  * `obj.addListener("changeXyx", function() {}, this)`) and so those known APIs can be translated,
  * but there are places which do not work this way (eg the unit tests `qx.dev.unit.TestCase.resume()`).
  * Third party integrations are of course completely unknown.
- * 
+ *
  * If `arrowFunctions` is set to aggressive, then all functions are switched to arrow functions except
  * where there is a known API that does not support it (eg any call to `.resume` in a test class); this
  * could break your code.
- * 
- * If `arrowFunctions is set to `careful` (the default), then functions are only switched to arrow 
+ *
+ * If `arrowFunctions is set to `careful` (the default), then functions are only switched to arrow
  * functions where the API is known  (eg `.addListener`).
- * 
+ *
  * The final step is that the ES6ify will use https://prettier.io/ to reformat the code, and will use
  * the nearest `prettierrc.json` for configuration
  */
@@ -157,9 +156,9 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             }
           ]
         ],
-        parserOpts: { 
+        parserOpts: {
           allowSuperOutsideMethod: true,
-          sourceType: "script" 
+          sourceType: "script"
         },
         generatorOpts: {
           retainLines: true
@@ -171,7 +170,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       let prettierConfig = await prettier.resolveConfig(this.__filename, { editorConfig: true })||{};
       prettierConfig.parser = "babel";
       let prettyCode = prettier.format(result.code, prettierConfig);
-      
+
       let outname = this.__filename + (this.isOverwrite() ? "" : ".es6ify");
       await fs.promises.writeFile(outname, prettyCode, "utf8");
     },
@@ -189,7 +188,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
      *   myMethod() {}
      * }
      * ```
-     * @returns 
+     * @returns
      */
     __pluginFunctionExpressions() {
       return {
@@ -241,7 +240,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
 
     /**
      * Tries to convert functions into arrow functions
-     * @returns 
+     * @returns
      */
     __pluginArrowFunctions() {
       let t = this;
@@ -265,11 +264,11 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                 ) {
                   return;
                 }
-    
+
               } else if (arrowFunctions == "aggressive") {
-                if (callee == "qx.event.GlobalError.observeMethod" || 
-                    callee == "this.assertException" || 
-                    callee == "this.assertEventFired" || 
+                if (callee == "qx.event.GlobalError.observeMethod" ||
+                    callee == "this.assertException" ||
+                    callee == "this.assertEventFired" ||
                     callee == "qx.core.Assert.assertEventFired" ||
                     (isTest && callee.endsWith(".resume"))) {
                   return;
@@ -292,7 +291,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
     /**
      * Where a function has been translated into an arrow function, the this binding is not needed
      * and can be removed
-     * @returns 
+     * @returns
      */
     __pluginRemoveUnnecessaryThis() {
       return {
@@ -317,7 +316,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
 
     /**
      * Translates `this.base(arguments...)` into `super`
-     * @returns 
+     * @returns
      */
     __pluginSwitchToSuper() {
       let methodNameStack = [];
