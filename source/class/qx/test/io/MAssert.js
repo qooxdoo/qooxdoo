@@ -25,7 +25,7 @@ qx.Mixin.define("qx.test.io.MAssert", {
       if (!msg) {
         msg = `Failed to assert that ${qx.lang.Json.stringify(actual)} deeply equals ${qx.lang.Json.stringify(expected)}.`;
       }
-      this.assert(qx.dev.unit.Sinon.getSinon().deepEqual(expected, actual), msg);
+      this.assert(qx.lang.Object.equals(expected,actual), msg);
     },
 
     /**

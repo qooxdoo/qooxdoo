@@ -432,7 +432,6 @@ qx.Class.define("qx.test.ui.basic.Image",
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
       }
-
       var devicePixelRatioStub = this.stub(
         qx.bom.client.Device,
         "getDevicePixelRatio",

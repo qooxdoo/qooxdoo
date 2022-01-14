@@ -160,10 +160,12 @@ qx.Class.define("qx.test.ui.core.Queues",
 
       qx.ui.core.queue.Widget.flush();
 
-      this.assertCalledOnce(spy1, "widgte1");
-      this.assertCalledOnce(spy2, "widget2");
-      this.assertCalledOnce(spy3, "widget3");
-      this.assertCalledOnce(spy4, "widget4");
+      this.assertCalledOnce(spy1);
+      this.assertCalledOnce(spy1);
+      this.assertCalledOnce(spy1);
+      this.assertCalledOnce(spy2);
+      this.assertCalledOnce(spy3);
+      this.assertCalledOnce(spy4);
       this.assertCallOrder(spy4, spy3, spy2, spy1);
 
       this.assertTrue(spy1.args[0][0].job1);
@@ -191,8 +193,8 @@ qx.Class.define("qx.test.ui.core.Queues",
 
       qx.ui.core.queue.Widget.flush();
 
-      this.assertCalledOnce(spy1, "widgte1");
-      this.assertCalledOnce(spy2, "widget2");
+      this.assertCalledOnce(spy1);
+      this.assertCalledOnce(spy2);
 
       this.assertTrue(spy1.args[0][0].job2);
       this.assertTrue(spy1.args[0][0].job3);

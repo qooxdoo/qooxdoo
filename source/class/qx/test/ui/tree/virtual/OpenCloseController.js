@@ -50,7 +50,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
         this.spyCloseNode = this.spy(this, "closeNode");
       }
 
-      var rawData = 
+      var rawData =
       [
         {
           name : "Root",
@@ -141,8 +141,8 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       var openNodeNames;
 
       // Reset the spies
-      this.spyOpenNode.reset();
-      this.spyCloseNode.reset();
+      this.spyOpenNode.resetHistory();
+      this.spyCloseNode.resetHistory();
 
       // get the Branch 1 node
       node = this.model.getItem(0).getKids().getItem(0);
@@ -178,8 +178,8 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       var openNodeNames;
 
       // Reset the spies
-      this.spyOpenNode.reset();
-      this.spyCloseNode.reset();
+      this.spyOpenNode.resetHistory();
+      this.spyCloseNode.resetHistory();
 
       // get the Branch 1 node
       node = this.model.getItem(0).getKids().getItem(0);
@@ -270,7 +270,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
     {
       this.nodesOpen[node.getName()] = true;
     },
-    
+
     closeNode : function(node)
     {
       delete this.nodesOpen[node.getName()];
