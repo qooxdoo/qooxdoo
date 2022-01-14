@@ -76,6 +76,11 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
  * @ignore(_this$options)
  *
  */
+/*eslint curly: "off"*/
+/*eslint no-void: "off"*/
+/*eslint no-func-assign: "off" */
+/*eslint complexity: ["error", 99]*/
+
 (function () {
 
   this.sinon =
@@ -615,7 +620,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                           this.returnValueDefined);
                   },
 
-                  /*eslint complexity: ["error", 20]*/
                   invoke: function invoke(context, args) {
                       /*
                        * callCallback (conditionally) calls ensureArgs
@@ -3489,7 +3493,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                   },
 
                   n: function (spyInstance) {
-                      // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
                       return spyInstance.toString();
                   },
 
@@ -3545,7 +3548,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                       var calls = [];
 
                       for (var i = 0, l = spyInstance.callCount; i < l; ++i) {
-                          // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
                           var stringifiedCall = `    ${spyInstance.getCall(i).toString()}`;
                           if (/\n/.test(calls[i - 1])) {
                               stringifiedCall = `\n${stringifiedCall}`;
@@ -3663,7 +3665,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                   },
               };
 
-              /* eslint-disable @sinonjs/no-prototype-methods/no-prototype-methods */
               var delegateToCalls = proxyCallUtil.delegateToCalls;
               delegateToCalls(spyApi, "callArg", false, "callArgWith", true, function () {
                   throw new Error(
@@ -4693,7 +4694,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 
                   // Firefox has a problem when using hasOwn.call on objects from other frames.
                   var owned = object.hasOwnProperty
-                       ? object.hasOwnProperty(property) // eslint-disable-line @sinonjs/no-prototype-methods/no-prototype-methods
+                       ? object.hasOwnProperty(property)
                        : hasOwnProperty(object, property);
 
                   if (hasES5Support) {
@@ -5090,7 +5091,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
                   var pass = true;
 
                   try {
-                      // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
                       obj.forEach(function () {
                           if (!fn.apply(this, arguments)) {
                               // Throwing an error is the only way to break `forEach`
@@ -5252,7 +5252,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
               var call = Function.call;
 
               module.exports = function copyPrototypeMethods(prototype) {
-                  // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
                   return Object.getOwnPropertyNames(prototype).reduce(function (result, name) {
                       // ignore size because it throws from Map
                       if (
@@ -5376,7 +5375,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
            */
           function valueToString(value) {
               if (value && value.toString) {
-                  // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
                   return value.toString();
               }
               return String(value);
@@ -8408,7 +8406,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
       function mapToString(map) {
           var representation = "";
 
-          // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
           map.forEach(function (value, key) {
               representation += `[${stringify(key)},${stringify(value)}],`;
           });
@@ -8427,7 +8424,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
       function genericIterableToString(iterable) {
           var representation = "";
 
-          // eslint-disable-next-line @sinonjs/no-prototype-methods/no-prototype-methods
           iterable.forEach(function (value) {
               representation += `${stringify(value)},`;
           });
