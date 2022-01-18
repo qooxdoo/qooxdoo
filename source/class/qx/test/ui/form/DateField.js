@@ -16,37 +16,35 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.DateField",
-{
+qx.Class.define("qx.test.ui.form.DateField", {
   extend: qx.test.ui.LayoutTestCase,
 
-  members:
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.__datefield = new qx.ui.form.DateField();
       this.getRoot().add(this.__datefield);
     },
 
-    tearDown: function() {
+    tearDown() {
       this.__datefield.destroy();
-      this.base(arguments);
+      super.tearDown();
     },
 
-    "test: setting value sets date of chooser": function() {
+    "test: setting value sets date of chooser"() {
       var datefield = this.__datefield,
-          chooser = datefield.getChildControl("list"),
-          date = new Date();
+        chooser = datefield.getChildControl("list"),
+        date = new Date();
 
       datefield.setValue(date);
       this.assertEquals(date, chooser.getValue());
     },
 
-    "test: choosing date fills in formatted date": function() {
+    "test: choosing date fills in formatted date"() {
       var datefield = this.__datefield,
-          textfield = datefield.getChildControl("textfield"),
-          chooser =  datefield.getChildControl("list"),
-          date = new Date(),
-          dateStr = this.formatDate(date);
+        textfield = datefield.getChildControl("textfield"),
+        chooser = datefield.getChildControl("list"),
+        date = new Date(),
+        dateStr = this.formatDate(date);
 
       chooser.setValue(date);
 
@@ -56,13 +54,12 @@ qx.Class.define("qx.test.ui.form.DateField",
       this.assertEquals(dateStr, textfield.getValue());
     },
 
-    formatDate: function(date) {
+    formatDate(date) {
       return this.__datefield.getDateFormat().format(date);
     },
 
-    skip: function(msg) {
+    skip(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     }
-
   }
 });

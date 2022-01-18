@@ -64,10 +64,8 @@
  * This class should not be used directly normally. It's better
  * to use {@link qx.event.Registration} instead.
  */
-qx.Bootstrap.define("qx.bom.Event",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.Event", {
+  statics: {
     /**
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes.
@@ -82,25 +80,31 @@ qx.Bootstrap.define("qx.bom.Event",
      *    the event handler for the capturing phase or the bubbling phase.
      * @param passive {Boolean ? false} Specifies whether to set the passive option to true or false if supported.
      */
-    addNativeListener : function(target, type, listener, useCapture, passive)
-    {
+    addNativeListener(target, type, listener, useCapture, passive) {
       if (target.addEventListener) {
-        if (passive === undefined || !qx.core.Environment.get("event.passive")) {
+        if (
+          passive === undefined ||
+          !qx.core.Environment.get("event.passive")
+        ) {
           target.addEventListener(type, listener, !!useCapture);
         } else {
-          target.addEventListener(type, listener, { capture: !!useCapture, passive: !!passive });
-		}  
+          target.addEventListener(type, listener, {
+            capture: !!useCapture,
+            passive: !!passive
+          });
+        }
       } else if (target.attachEvent) {
         target.attachEvent("on" + type, listener);
       } else if (typeof target["on" + type] != "undefined") {
         target["on" + type] = listener;
       } else {
         if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn("No method available to add native listener to " + target);
+          qx.log.Logger.warn(
+            "No method available to add native listener to " + target
+          );
         }
       }
     },
-
 
     /**
      * Use the low level browser functionality to remove event listeners
@@ -112,38 +116,29 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to remove
      *    the event handler for the capturing phase or the bubbling phase.
      */
-    removeNativeListener : function(target, type, listener, useCapture)
-    {
-      if (target.removeEventListener)
-      {
+    removeNativeListener(target, type, listener, useCapture) {
+      if (target.removeEventListener) {
         target.removeEventListener(type, listener, !!useCapture);
-      }
-      else if (target.detachEvent)
-      {
+      } else if (target.detachEvent) {
         try {
           target.detachEvent("on" + type, listener);
-        }
-        catch(e)
-        {
+        } catch (e) {
           // IE7 sometimes dispatches "unload" events on protected windows
           // Ignore the "permission denied" errors.
-          if(e.number !== -2146828218) {
+          if (e.number !== -2146828218) {
             throw e;
           }
         }
-      }
-      else if (typeof target["on" + type] != "undefined")
-      {
+      } else if (typeof target["on" + type] != "undefined") {
         target["on" + type] = null;
-      }
-      else
-      {
+      } else {
         if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn("No method available to remove native listener from " + target);
+          qx.log.Logger.warn(
+            "No method available to remove native listener from " + target
+          );
         }
       }
     },
-
 
     /**
      * Returns the target of the event.
@@ -151,10 +146,9 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param e {Event} Native event object
      * @return {Object} Any valid native event target
      */
-    getTarget : function(e) {
+    getTarget(e) {
       return e.target || e.srcElement;
     },
-
 
     /**
      * Computes the related target from the native DOM event
@@ -162,15 +156,12 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param e {Event} Native DOM event object
      * @return {Element} The related target
      */
-    getRelatedTarget : function(e)
-    {
-      if (e.relatedTarget !== undefined)
-      {
+    getRelatedTarget(e) {
+      if (e.relatedTarget !== undefined) {
         // In Firefox the related target of mouse events is sometimes an
         // anonymous div inside of a text area, which raises an exception if
         // the nodeType is read. This is why the try/catch block is needed.
-        if ((qx.core.Environment.get("engine.name") == "gecko"))
-        {
+        if (qx.core.Environment.get("engine.name") == "gecko") {
           try {
             e.relatedTarget && e.relatedTarget.nodeType;
           } catch (ex) {
@@ -179,10 +170,10 @@ qx.Bootstrap.define("qx.bom.Event",
         }
 
         return e.relatedTarget;
-      }
-      else if (e.fromElement !== undefined &&
-        (e.type === "mouseover" || e.type === "pointerover"))
-      {
+      } else if (
+        e.fromElement !== undefined &&
+        (e.type === "mouseover" || e.type === "pointerover")
+      ) {
         return e.fromElement;
       } else if (e.toElement !== undefined) {
         return e.toElement;
@@ -190,7 +181,6 @@ qx.Bootstrap.define("qx.bom.Event",
         return null;
       }
     },
-
 
     /**
      * Prevent the native default of the event to be processed.
@@ -200,22 +190,19 @@ qx.Bootstrap.define("qx.bom.Event",
      *
      * @param e {Event} Native event object
      */
-    preventDefault : function(e)
-    {
+    preventDefault(e) {
       if (e.preventDefault) {
         e.preventDefault();
-      }
-      else {
+      } else {
         try {
           // this allows us to prevent some key press events in IE.
           // See bug #1049
           e.keyCode = 0;
-        } catch(ex) {}
+        } catch (ex) {}
 
         e.returnValue = false;
       }
     },
-
 
     /**
      * Stops the propagation of the given event to the parent element.
@@ -224,15 +211,13 @@ qx.Bootstrap.define("qx.bom.Event",
      *
      * @param e {Event} Native event object
      */
-    stopPropagation : function(e)
-    {
+    stopPropagation(e) {
       if (e.stopPropagation) {
         e.stopPropagation();
       } else {
         e.cancelBubble = true;
       }
     },
-
 
     /**
      * Fires a synthetic native event on the given element.
@@ -242,11 +227,9 @@ qx.Bootstrap.define("qx.bom.Event",
      * @return {Boolean} A value that indicates whether any of the event handlers called {@link #preventDefault}.
      *  <code>true</code> The default action is permitted, <code>false</code> the caller should prevent the default action.
      */
-    fire : function(target, type)
-    {
+    fire(target, type) {
       // dispatch for standard first
-      if (document.createEvent)
-      {
+      if (document.createEvent) {
         var evt = document.createEvent("HTMLEvents");
         evt.initEvent(type, true, true);
 
@@ -254,13 +237,11 @@ qx.Bootstrap.define("qx.bom.Event",
       }
 
       // dispatch for IE
-      else
-      {
+      else {
         var evt = document.createEventObject();
         return target.fireEvent("on" + type, evt);
       }
     },
-
 
     /**
      * Whether the given target supports the given event type.
@@ -277,16 +258,16 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
-    supportsEvent : function(target, type)
-    {
+    supportsEvent(target, type) {
       var browserName = qx.core.Environment.get("browser.name");
       var engineName = qx.core.Environment.get("engine.name");
 
       // transitionEnd support can not be detected generically for Internet Explorer 10+ [BUG #7875]
-      if (type.toLowerCase().indexOf("transitionend") != -1
-          && engineName === "mshtml"
-          && qx.core.Environment.get("browser.documentmode") > 9)
-      {
+      if (
+        type.toLowerCase().indexOf("transitionend") != -1 &&
+        engineName === "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") > 9
+      ) {
         return true;
       }
 
@@ -300,9 +281,19 @@ qx.Bootstrap.define("qx.bom.Event",
         safariBrowserNames.indexOf(browserName) > -1
       ) {
         var supportedEvents = [
-          'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
-          'playing', 'pause', 'loadedmetadata', 'ended', 'volumechange'
+          "loadeddata",
+          "progress",
+          "timeupdate",
+          "seeked",
+          "canplay",
+          "play",
+          "playing",
+          "pause",
+          "loadedmetadata",
+          "ended",
+          "volumechange"
         ];
+
         if (supportedEvents.indexOf(type.toLowerCase()) > -1) {
           return true;
         }
@@ -310,23 +301,24 @@ qx.Bootstrap.define("qx.bom.Event",
 
       // The 'transitionend' event can only be detected on window objects,
       // not DOM elements [BUG #7249]
-      if (target != window && type.toLowerCase().indexOf("transitionend") != -1) {
+      if (
+        target != window &&
+        type.toLowerCase().indexOf("transitionend") != -1
+      ) {
         var transitionSupport = qx.core.Environment.get("css.transition");
-        return (transitionSupport && transitionSupport["end-event"] == type);
+        return transitionSupport && transitionSupport["end-event"] == type;
       }
       // Using the lowercase representation is important for the
       // detection of events like 'MSPointer*'. They have to detected
       // using the lower case name of the event.
       var eventName = "on" + type.toLowerCase();
 
-      var supportsEvent = (eventName in target);
+      var supportsEvent = eventName in target;
 
-      if (!supportsEvent)
-      {
+      if (!supportsEvent) {
         supportsEvent = typeof target[eventName] == "function";
 
-        if (!supportsEvent && target.setAttribute)
-        {
+        if (!supportsEvent && target.setAttribute) {
           target.setAttribute(eventName, "return;");
           supportsEvent = typeof target[eventName] == "function";
 
@@ -336,7 +328,6 @@ qx.Bootstrap.define("qx.bom.Event",
 
       return supportsEvent;
     },
-
 
     /**
      * Returns the (possibly vendor-prefixed) name of the given event type.
@@ -348,10 +339,9 @@ qx.Bootstrap.define("qx.bom.Event",
      * @return {String|null} Event name or <code>null</code> if the event is not
      * supported.
      */
-    getEventName : function(target, type)
-    {
+    getEventName(target, type) {
       var pref = [""].concat(qx.bom.Style.VENDOR_PREFIXES);
-      for (var i=0, l=pref.length; i<l; i++) {
+      for (var i = 0, l = pref.length; i < l; i++) {
         var prefix = pref[i].toLowerCase();
         if (qx.bom.Event.supportsEvent(target, prefix + type)) {
           return prefix ? prefix + qx.lang.String.firstUp(type) : type;

@@ -25,21 +25,18 @@
  * which accepts a boolean value. The default mode is "text" which is
  * a good choice because it has a better performance.
  */
-qx.Class.define("qx.html.Label",
-{
-  extend : qx.html.Element,
+qx.Class.define("qx.html.Label", {
+  extend: qx.html.Element,
 
   /**
    * Creates a new Image
    *
    * @see constructor for {Element}
    */
-  construct: function(tagName, styles, attributes) {
-    this.base(arguments, tagName, styles, attributes);
+  construct(tagName, styles, attributes) {
+    super(tagName, styles, attributes);
     this.registerProperty("value", null, this._setValueProperty);
   },
-
-
 
   /*
   *****************************************************************************
@@ -47,45 +44,38 @@ qx.Class.define("qx.html.Label",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __rich : null,
+  members: {
+    __rich: null,
 
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Implementation of setter for the "value" property
-     * 
+     *
      * @param value {String?} value to set
      */
-    _setValueProperty: function(value) {
+    _setValueProperty(value) {
       var element = this.getDomElement();
       qx.bom.Label.setValue(element, value);
     },
 
     // overridden
-    _createDomElement : function()
-    {
+    _createDomElement() {
       var rich = this.__rich;
       var el = qx.bom.Label.create(this._content, rich);
-      el.style.overflow = 'hidden';
+      el.style.overflow = "hidden";
       return el;
     },
 
-
     // overridden
     // be sure that style attributes are merged and not overwritten
-    _copyData : function(fromMarkup, propertiesFromDom) {
-      return this.base(arguments, true, propertiesFromDom);
+    _copyData(fromMarkup, propertiesFromDom) {
+      return super._copyData(true, propertiesFromDom);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -99,12 +89,13 @@ qx.Class.define("qx.html.Label",
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for chaining support.
      */
-    setRich : function(value)
-    {
+    setRich(value) {
       var element = this.getDomElement();
 
       if (element) {
-        throw new Error("The label mode cannot be modified after initial creation");
+        throw new Error(
+          "The label mode cannot be modified after initial creation"
+        );
       }
 
       value = !!value;
@@ -117,26 +108,23 @@ qx.Class.define("qx.html.Label",
       return this;
     },
 
-
     /**
      * Sets the HTML/text content depending on the content mode.
      *
      * @param value {String} The content to be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setValue : function(value)
-    {
+    setValue(value) {
       this._setProperty("value", value);
       return this;
     },
-
 
     /**
      * Get the current content.
      *
      * @return {String} The labels's content
      */
-    getValue : function() {
+    getValue() {
       return this._getProperty("value");
     },
 
@@ -145,7 +133,7 @@ qx.Class.define("qx.html.Label",
      *
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    resetValue: function() {
+    resetValue() {
       return this._removeProperty("value");
     }
   }

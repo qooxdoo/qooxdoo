@@ -23,20 +23,17 @@
  *
  * @require(qx.util.ResponseParser#parse)
  */
-qx.Bootstrap.define("qx.util.ResponseParser",
-{
-
+qx.Bootstrap.define("qx.util.ResponseParser", {
   /**
    * @param parser {String|Function} See {@link #setParser}.
    */
-  construct: function(parser) {
+  construct(parser) {
     if (parser !== undefined) {
       this.setParser(parser);
     }
   },
 
-  statics:
-  {
+  statics: {
     /**
      * @type {Map} Map of parser functions. Parsers defined here can be
      * referenced symbolically, e.g. with {@link #setParser}.
@@ -49,8 +46,7 @@ qx.Bootstrap.define("qx.util.ResponseParser",
     }
   },
 
-  members :
-  {
+  members: {
     __parser: null,
 
     /**
@@ -61,7 +57,7 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      * @param contentType {String} contentType (e.g. 'application/json')
      * @return {String|Object} The parsed response of the request.
      */
-    parse: function(response, contentType) {
+    parse(response, contentType) {
       var parser = this._getParser(contentType);
 
       if (typeof parser === "function") {
@@ -72,7 +68,6 @@ qx.Bootstrap.define("qx.util.ResponseParser",
 
       return response;
     },
-
 
     /**
      * Set parser used to parse response once request has
@@ -101,10 +96,10 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      *
      * @return {Function} The parser function
      */
-    setParser: function(parser) {
+    setParser(parser) {
       // Symbolically given known parser
       if (typeof qx.util.ResponseParser.PARSER[parser] === "function") {
-        return this.__parser = qx.util.ResponseParser.PARSER[parser];
+        return (this.__parser = qx.util.ResponseParser.PARSER[parser]);
       }
 
       // If parser is not a symbol, it must be a function
@@ -112,9 +107,8 @@ qx.Bootstrap.define("qx.util.ResponseParser",
         qx.core.Assert.assertFunction(parser);
       }
 
-      return this.__parser = parser;
+      return (this.__parser = parser);
     },
-
 
     /**
      * Gets the parser.
@@ -130,10 +124,10 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      * content type is undetermined.
      *
      */
-    _getParser: function(contentType) {
+    _getParser(contentType) {
       var parser = this.__parser,
-          contentTypeOrig = "",
-          contentTypeNormalized = "";
+        contentTypeOrig = "",
+        contentTypeNormalized = "";
 
       // Use user-provided parser, if any
       if (parser) {
@@ -147,16 +141,16 @@ qx.Bootstrap.define("qx.util.ResponseParser",
       // Ignore parameters (e.g. the character set)
       contentTypeNormalized = contentTypeOrig.replace(/;.*$/, "");
 
-      if ((/^application\/(\w|\.)*\+?json$/).test(contentTypeNormalized)) {
+      if (/^application\/(\w|\.)*\+?json$/.test(contentTypeNormalized)) {
         parser = qx.util.ResponseParser.PARSER.json;
       }
 
-      if ((/^application\/xml$/).test(contentTypeNormalized)) {
+      if (/^application\/xml$/.test(contentTypeNormalized)) {
         parser = qx.util.ResponseParser.PARSER.xml;
       }
 
       // Deprecated
-      if ((/[^\/]+\/[^\+]+\+xml$/).test(contentTypeOrig)) {
+      if (/[^\/]+\/[^\+]+\+xml$/.test(contentTypeOrig)) {
         parser = qx.util.ResponseParser.PARSER.xml;
       }
 
@@ -164,4 +158,3 @@ qx.Bootstrap.define("qx.util.ResponseParser",
     }
   }
 });
-

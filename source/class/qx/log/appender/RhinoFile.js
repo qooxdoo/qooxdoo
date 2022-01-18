@@ -21,16 +21,14 @@
  */
 /* global java */
 qx.Class.define("qx.log.appender.RhinoFile", {
-
-  statics:
-  {
+  statics: {
     /**
      * Path/name of the log file to use, relative to the directory Rhino was
      * called from.
      */
-    FILENAME : null,
+    FILENAME: null,
 
-    __FILEHANDLE : null,
+    __FILEHANDLE: null,
 
     /**
      * Writes a message to the file.
@@ -38,8 +36,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
      * @param logMessage {String} Message to be logged
      * @param level {String} Log level. One of "debug", "info", "warn", "error"
      */
-    log : function(logMessage, level)
-    {
+    log(logMessage, level) {
       if (!qx.log.appender.RhinoFile.__FILEHANDLE) {
         qx.log.appender.RhinoFile.create();
       }
@@ -50,14 +47,12 @@ qx.Class.define("qx.log.appender.RhinoFile", {
       logFile.flush();
     },
 
-
     /**
      * Logs a debug message
      *
      * @param logMessage {String} Message to be logged
      */
-    debug : function(logMessage)
-    {
+    debug(logMessage) {
       this.log(logMessage, "debug");
     },
 
@@ -66,8 +61,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
      *
      * @param logMessage {String} Message to be logged
      */
-    info : function(logMessage)
-    {
+    info(logMessage) {
       this.log(logMessage, "info");
     },
 
@@ -76,8 +70,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
      *
      * @param logMessage {String} Message to be logged
      */
-    warn : function(logMessage)
-    {
+    warn(logMessage) {
       this.log(logMessage, "warn");
     },
 
@@ -86,8 +79,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
      *
      * @param logMessage {String} Message to be logged
      */
-    error : function(logMessage)
-    {
+    error(logMessage) {
       this.log(logMessage, "error");
     },
 
@@ -96,13 +88,12 @@ qx.Class.define("qx.log.appender.RhinoFile", {
      *
      * @param entry {Map} Log entry object
      */
-    process : function(entry)
-    {
+    process(entry) {
       var level = entry.level || "info";
       for (var prop in entry) {
         if (prop == "items") {
           var items = entry[prop];
-          for (var p=0, l=items.length; p<l; p++) {
+          for (var p = 0, l = items.length; p < l; p++) {
             var item = items[p];
             this[level](item.text);
           }
@@ -110,13 +101,11 @@ qx.Class.define("qx.log.appender.RhinoFile", {
       }
     },
 
-
     /**
      * Creates a new log file using the value of {@link #FILENAME} as the
      * file path/name.
      */
-    create : function()
-    {
+    create() {
       if (qx.log.appender.RhinoFile.__FILEHANDLE) {
         qx.log.appender.RhinoFile.__FILEHANDLE.close();
       }
@@ -125,10 +114,13 @@ qx.Class.define("qx.log.appender.RhinoFile", {
         qx.log.appender.RhinoFile.FILENAME = "qooxdoo.log";
       }
 
-      var fstream = new java.io.FileWriter(qx.log.appender.RhinoFile.FILENAME, true);
-      qx.log.appender.RhinoFile.__FILEHANDLE = new java.io.BufferedWriter(fstream);
+      var fstream = new java.io.FileWriter(
+        qx.log.appender.RhinoFile.FILENAME,
+        true
+      );
+      qx.log.appender.RhinoFile.__FILEHANDLE = new java.io.BufferedWriter(
+        fstream
+      );
     }
-
   }
 });
-

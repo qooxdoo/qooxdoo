@@ -17,36 +17,31 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.dev.unit.TestCase", {
+  extend: qx.dev.unit.TestCase,
 
-  extend : qx.dev.unit.TestCase,
-
-  members : {
-
-    testSkip : function()
-    {
+  members: {
+    testSkip() {
       this.skip();
       this.fail("Executed code after calling skip()!");
     },
 
+    testResumeHandler() {
+      this.__do(
+        this.resumeHandler(function (param) {
+          this.assertEquals(param, "foo");
 
-    testResumeHandler : function()
-    {
-      this.__do(this.resumeHandler(function(param) {
-        this.assertEquals(param, "foo");
-
-        return "bar";
-      }, this));
+          return "bar";
+        }, this)
+      );
 
       this.wait();
     },
 
-    __do : function(callback)
-    {
+    __do(callback) {
       window.setTimeout(this.__doSuccess.bind(this, callback), 0);
     },
 
-    __doSuccess : function(callback)
-    {
+    __doSuccess(callback) {
       var result = callback("foo");
       this.assertEquals(result, "bar");
     }

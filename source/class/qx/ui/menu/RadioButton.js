@@ -22,13 +22,14 @@
  * a normal {@link qx.ui.form.RadioButton} and shows a radio icon when
  * checked; normally shows no icon when not checked (depends on the theme).
  */
-qx.Class.define("qx.ui.menu.RadioButton",
-{
-  extend : qx.ui.menu.AbstractButton,
-  include : [qx.ui.form.MModelProperty],
-  implement : [qx.ui.form.IRadioItem, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
-
-
+qx.Class.define("qx.ui.menu.RadioButton", {
+  extend: qx.ui.menu.AbstractButton,
+  include: [qx.ui.form.MModelProperty],
+  implement: [
+    qx.ui.form.IRadioItem,
+    qx.ui.form.IBooleanForm,
+    qx.ui.form.IModel
+  ],
 
   /*
   *****************************************************************************
@@ -40,9 +41,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
    * @param label {String} Initial label
    * @param menu {qx.ui.menu.Menu} Initial sub menu
    */
-  construct : function(label, menu)
-  {
-    this.base(arguments);
+  construct(label, menu) {
+    super();
 
     // ARIA attrs
     // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
@@ -62,45 +62,35 @@ qx.Class.define("qx.ui.menu.RadioButton",
     this.addListener("execute", this._onExecute, this);
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menu-radiobutton"
+    appearance: {
+      refine: true,
+      init: "menu-radiobutton"
     },
 
     /** The value of the widget. True, if the widget is checked. */
-    value :
-    {
-      check : "Boolean",
-      nullable : true,
-      event : "changeValue",
-      apply : "_applyValue",
-      init : false
+    value: {
+      check: "Boolean",
+      nullable: true,
+      event: "changeValue",
+      apply: "_applyValue",
+      init: false
     },
 
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
-    group :
-    {
-      check  : "qx.ui.form.RadioGroup",
-      nullable : true,
-      apply : "_applyGroup"
+    group: {
+      check: "qx.ui.form.RadioGroup",
+      nullable: true,
+      apply: "_applyGroup"
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -109,34 +99,23 @@ qx.Class.define("qx.ui.menu.RadioButton",
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
 
-  members :
-  {
+  members: {
     // overridden (from MExecutable to keep the icon out of the binding)
     /**
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties :
-    [
-      "enabled",
-      "label",
-      "toolTipText",
-      "value",
-      "menu"
-    ],
-
+    _bindableProperties: ["enabled", "label", "toolTipText", "value", "menu"],
 
     // property apply
-    _applyValue: function (value, old) {
+    _applyValue(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
 
       // ARIA attrs
       this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
 
-
     // property apply
-    _applyGroup : function(value, old)
-    {
+    _applyGroup(value, old) {
       if (old) {
         old.remove(this);
       }
@@ -146,13 +125,12 @@ qx.Class.define("qx.ui.menu.RadioButton",
       }
     },
 
-
     /**
      * Handler for the execute event.
      *
      * @param e {qx.event.type.Event} The execute event.
      */
-    _onExecute : function(e) {
+    _onExecute(e) {
       var grp = this.getGroup();
       if (grp && grp.getAllowEmptySelection()) {
         this.toggleValue();

@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.Number",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.Number", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testEquals : function() {
+  members: {
+    testEquals() {
       this.assertNotUndefined(qx.lang.Number);
       this.assertFunction(qx.lang.Number.equals);
 

@@ -29,25 +29,31 @@ const inquirer = require("inquirer");
 qx.Class.define("qx.tool.cli.commands.add.Script", {
   extend: qx.tool.cli.commands.Command,
   statics: {
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "script <scriptpath> [options]",
-        describe: "adds a new script file to the current project, to be loaded before application startup.",
+        describe:
+          "adds a new script file to the current project, to be loaded before application startup.",
         builder: {
-          "resourcedir" : {
-            describe : "The subdirectory of the resource folder in which to place the file",
-            alias : "d",
-            default : "js"
+          resourcedir: {
+            describe:
+              "The subdirectory of the resource folder in which to place the file",
+            alias: "d",
+            default: "js"
           },
-          "rename" : {
-            describe : "Rename the file to the given name",
-            alias : "r"
+
+          rename: {
+            describe: "Rename the file to the given name",
+            alias: "r"
           },
-          "undo" : {
-            describe : "Removes the file that would normally be added with the given arguments",
-            alias : "z"
+
+          undo: {
+            describe:
+              "Removes the file that would normally be added with the given arguments",
+            alias: "z"
           },
-          "noninteractive":{
+
+          noninteractive: {
             alias: "I",
             describe: "Do not prompt user"
           }
@@ -57,23 +63,40 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
   },
 
   members: {
-    process: async function() {
+    async process() {
       let manifestModel = await qx.tool.config.Manifest.getInstance().load();
       let namespace = manifestModel.getValue("provides.namespace");
 
       let script_path = this.argv.scriptpath;
       let script_name = path.basename(script_path);
-      let resource_dir_path = path.join(process.cwd(), "source", "resource", namespace, this.argv.resourcedir);
-      let resource_file_path = path.join(resource_dir_path, this.argv.rename || script_name);
-      let external_res_path = path.join(namespace, this.argv.resourcedir, this.argv.rename || script_name);
+      let resource_dir_path = path.join(
+        process.cwd(),
+        "source",
+        "resource",
+        namespace,
+        this.argv.resourcedir
+      );
+      let resource_file_path = path.join(
+        resource_dir_path,
+        this.argv.rename || script_name
+      );
+      let external_res_path = path.join(
+        namespace,
+        this.argv.resourcedir,
+        this.argv.rename || script_name
+      );
       // validate file paths
       if (!script_path.endsWith(".js")) {
-        throw new qx.tool.utils.Utils.UserError("File doesn't seem to be a javascript file.");
+        throw new qx.tool.utils.Utils.UserError(
+          "File doesn't seem to be a javascript file."
+        );
       }
-      if (!await fs.existsAsync(script_path) && !this.argv.undo) {
-        throw new qx.tool.utils.Utils.UserError(`File does not exist: ${script_path}`);
+      if (!(await fs.existsAsync(script_path)) && !this.argv.undo) {
+        throw new qx.tool.utils.Utils.UserError(
+          `File does not exist: ${script_path}`
+        );
       }
-      if (await fs.existsAsync(resource_file_path) && !this.argv.undo) {
+      if ((await fs.existsAsync(resource_file_path)) && !this.argv.undo) {
         if (!this.argv.noninteractive) {
           let question = {
             type: "confirm",
@@ -81,6 +104,7 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
             message: `Script already exists and will be overwritten. Do you want to proceed?`,
             default: "y"
           };
+
           let answer = await inquirer.prompt(question);
           if (!answer.doOverwrite) {
             process.exit(0);
@@ -88,7 +112,8 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
         }
       }
       // check manifest structure
-      let script_list = manifestModel.getValue("externalResources.script") || [];
+      let script_list =
+        manifestModel.getValue("externalResources.script") || [];
       if (this.argv.undo) {
         // undo, i.e. remove file from resource folder and Manifest
         if (script_list.includes(external_res_path)) {
@@ -99,10 +124,11 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
         }
       } else {
         // copy script to app resources and add to manifest
-        if (!await fs.existsAsync(resource_dir_path)) {
+        if (!(await fs.existsAsync(resource_dir_path))) {
           fs.mkdirSync(resource_dir_path, {
             recursive: true,
-            mode: 0o755});
+            mode: 0o755
+          });
         }
         await fs.copyFileAsync(script_path, resource_file_path);
         if (!script_list.includes(external_res_path)) {
@@ -111,9 +137,7 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
       }
       // save
       this.debug(script_list);
-      manifestModel
-        .setValue("externalResources.script", script_list)
-        .save();
+      manifestModel.setValue("externalResources.script", script_list).save();
     }
   }
 });

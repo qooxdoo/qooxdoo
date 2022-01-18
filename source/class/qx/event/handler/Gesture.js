@@ -21,49 +21,54 @@
  *
  * @require(qx.event.handler.Pointer)
  */
-qx.Class.define("qx.event.handler.Gesture",
-{
-  extend : qx.event.handler.GestureCore,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
+qx.Class.define("qx.event.handler.Gesture", {
+  extend: qx.event.handler.GestureCore,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
-  statics : {
-
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : {
-      tap : 1,
-      swipe : 1,
-      longtap : 1,
-      dbltap : 1,
-      rotate : 1,
-      pinch : 1,
-      track : 1,
-      trackstart : 1,
-      trackend : 1,
-      roll : 1
+    SUPPORTED_TYPES: {
+      tap: 1,
+      swipe: 1,
+      longtap: 1,
+      dbltap: 1,
+      rotate: 1,
+      pinch: 1,
+      track: 1,
+      trackstart: 1,
+      trackend: 1,
+      roll: 1
     },
 
-    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove", "gesturecancel"],
+    GESTURE_EVENTS: [
+      "gesturebegin",
+      "gesturefinish",
+      "gesturemove",
+      "gesturecancel"
+    ],
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
+    TARGET_CHECK:
+      qx.event.IEventHandler.TARGET_DOMNODE +
+      qx.event.IEventHandler.TARGET_DOCUMENT,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true,
+    IGNORE_CAN_HANDLE: true,
 
-    EVENT_CLASSES : {
-      "tap": qx.event.type.Tap,
-      "longtap": qx.event.type.Tap,
-      "dbltap": qx.event.type.Tap,
-      "swipe": qx.event.type.Swipe,
-      "rotate": qx.event.type.Rotate,
-      "pinch": qx.event.type.Pinch,
-      "track": qx.event.type.Track,
-      "trackstart": qx.event.type.Track,
-      "trackend": qx.event.type.Track,
-      "roll" : qx.event.type.Roll
+    EVENT_CLASSES: {
+      tap: qx.event.type.Tap,
+      longtap: qx.event.type.Tap,
+      dbltap: qx.event.type.Tap,
+      swipe: qx.event.type.Swipe,
+      rotate: qx.event.type.Rotate,
+      pinch: qx.event.type.Pinch,
+      track: qx.event.type.Track,
+      trackstart: qx.event.type.Track,
+      trackend: qx.event.type.Track,
+      roll: qx.event.type.Roll
     }
   },
 
@@ -72,8 +77,7 @@ qx.Class.define("qx.event.handler.Gesture",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
+  construct(manager) {
     // Define shorthands
     this.__manager = manager;
     this.__window = manager.getWindow();
@@ -82,48 +86,65 @@ qx.Class.define("qx.event.handler.Gesture",
     qx.event.handler.GestureCore.apply(this, [this.__root]);
   },
 
-  members : {
-    __manager : null,
-    __window : null,
-    __root : null,
-    __listener : null,
-    __onDblClickWrapped : null,
-    __fireRollWrapped : null,
+  members: {
+    __manager: null,
+    __window: null,
+    __root: null,
+    __listener: null,
+    __onDblClickWrapped: null,
+    __fireRollWrapped: null,
 
     /**
      * Getter for the internal __window object
      * @return {Window} DOM window instance
      */
-    getWindow: function() {
+    getWindow() {
       return this.__window;
     },
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
     // overridden
-    _initObserver : function() {
-      this.__listener = qx.lang.Function.listener(this.checkAndFireGesture, this);
-      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(function(type) {
-        qx.event.Registration.addListener(this.__root, type, this.__listener, this);
-      }.bind(this));
+    _initObserver() {
+      this.__listener = qx.lang.Function.listener(
+        this.checkAndFireGesture,
+        this
+      );
+      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(
+        function (type) {
+          qx.event.Registration.addListener(
+            this.__root,
+            type,
+            this.__listener,
+            this
+          );
+        }.bind(this)
+      );
 
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") < 9)
-      {
-        this.__onDblClickWrapped = qx.lang.Function.listener(this._onDblClick, this);
-        qx.bom.Event.addNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9
+      ) {
+        this.__onDblClickWrapped = qx.lang.Function.listener(
+          this._onDblClick,
+          this
+        );
+        qx.bom.Event.addNativeListener(
+          this.__root,
+          "dblclick",
+          this.__onDblClickWrapped
+        );
       }
 
       // list to wheel events
@@ -131,7 +152,13 @@ qx.Class.define("qx.event.handler.Gesture",
       this.__fireRollWrapped = qx.lang.Function.listener(this._fireRoll, this);
       // replaced the useCapture (4th parameter) from this to true
       // see https://github.com/qooxdoo/qooxdoo/pull/9292
-      qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped, true, false);
+      qx.bom.Event.addNativeListener(
+        data.target,
+        data.type,
+        this.__fireRollWrapped,
+        true,
+        false
+      );
     },
 
     /**
@@ -141,37 +168,51 @@ qx.Class.define("qx.event.handler.Gesture",
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
      */
-    checkAndFireGesture : function(pointerEvent, type, target) {
-      this.__callBase("checkAndFireGesture",
-        [pointerEvent.getNativeEvent(), pointerEvent.getType(), pointerEvent.getTarget()]
-      );
+    checkAndFireGesture(pointerEvent, type, target) {
+      this.__callBase("checkAndFireGesture", [
+        pointerEvent.getNativeEvent(),
+        pointerEvent.getType(),
+        pointerEvent.getTarget()
+      ]);
     },
 
-
     // overridden
-    _stopObserver : function() {
-      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(function(type) {
-        qx.event.Registration.removeListener(this.__root, type, this.__listener);
-      }.bind(this));
+    _stopObserver() {
+      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(
+        function (type) {
+          qx.event.Registration.removeListener(
+            this.__root,
+            type,
+            this.__listener
+          );
+        }.bind(this)
+      );
 
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") < 9)
-      {
-        qx.bom.Event.removeNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9
+      ) {
+        qx.bom.Event.removeNativeListener(
+          this.__root,
+          "dblclick",
+          this.__onDblClickWrapped
+        );
       }
 
       var data = qx.bom.client.Event.getMouseWheel(this.__window);
-      qx.bom.Event.removeNativeListener(data.target, data.type, this.__fireRollWrapped);
+      qx.bom.Event.removeNativeListener(
+        data.target,
+        data.type,
+        this.__fireRollWrapped
+      );
     },
 
-
     // overridden
-    _hasIntermediaryHandler : function(target) {
+    _hasIntermediaryHandler(target) {
       /* This check is irrelevant for qx.Desktop since there is only one
          gesture handler */
       return false;
     },
-
 
     /**
      * Fire a touch event with the given parameters
@@ -180,7 +221,7 @@ qx.Class.define("qx.event.handler.Gesture",
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
      */
-    _fireEvent : function(domEvent, type, target) {
+    _fireEvent(domEvent, type, target) {
       if (!target) {
         target = qx.bom.Event.getTarget(domEvent);
       }
@@ -189,32 +230,40 @@ qx.Class.define("qx.event.handler.Gesture",
         type = domEvent.type;
       }
 
-      var eventTypeClass = qx.event.handler.Gesture.EVENT_CLASSES[type] || qx.event.type.Pointer;
+      var eventTypeClass =
+        qx.event.handler.Gesture.EVENT_CLASSES[type] || qx.event.type.Pointer;
 
       if (target && target.nodeType) {
-        qx.event.Registration.fireEvent(
+        qx.event.Registration.fireEvent(target, type, eventTypeClass, [
+          domEvent,
           target,
-          type,
-          eventTypeClass,
-          [domEvent, target, null, true, true]
-        );
+          null,
+          true,
+          true
+        ]);
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+      qx.event.Registration.fireEvent(
+        this.__window,
+        "useraction",
+        qx.event.type.Data,
+        [type]
+      );
     },
-
 
     /**
      * Dispose this object
      */
-    dispose : function()
-    {
+    dispose() {
       this._stopObserver();
       this.__callBase("dispose");
-      this.__manager = this.__window = this.__root = this.__onDblClickWrapped = null;
+      this.__manager =
+        this.__window =
+        this.__root =
+        this.__onDblClickWrapped =
+          null;
     },
-
 
     /**
      * Call overridden method.
@@ -222,14 +271,14 @@ qx.Class.define("qx.event.handler.Gesture",
      * @param method {String} Name of the overridden method.
      * @param args {Array} Arguments.
      */
-    __callBase: function(method, args) {
+    __callBase(method, args) {
       qx.event.handler.GestureCore.prototype[method].apply(this, args || []);
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
-    qx.event.Registration.addListener(window, "appinitialized", () => { 
+    qx.event.Registration.addListener(window, "appinitialized", () => {
       qx.event.Registration.getManager(document).getHandler(statics);
     });
   }

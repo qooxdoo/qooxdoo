@@ -16,36 +16,35 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Selector",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Selector", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testElementClass : function()
-    {
+  members: {
+    testElementClass() {
       var Element = qx.dom.Element;
 
       var elements = [];
 
-      for (var i=0; i<250; i++)
-      {
+      for (var i = 0; i < 250; i++) {
         var el = Element.create("ul", {
-          "class": "fromcode",
-          "html": "<li>one</li><li>two</li><li>three</li>",
-          "id": "setid"+ i
+          class: "fromcode",
+          html: "<li>one</li><li>two</li><li>three</li>",
+          id: "setid" + i
         });
 
         document.body.appendChild(el);
         elements.push(el);
       }
 
-      this.assertEquals(250, qx.bom.Selector.query("ul.fromcode", document.body).length);
+      this.assertEquals(
+        250,
+        qx.bom.Selector.query("ul.fromcode", document.body).length
+      );
       this.assertEquals(750, qx.bom.Selector.query("ul > li").length);
 
-      elements.forEach(function(el) {
+      elements.forEach(function (el) {
         document.body.removeChild(el);
-      })
+      });
     }
   }
 });

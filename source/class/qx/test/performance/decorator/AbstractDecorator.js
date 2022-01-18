@@ -1,31 +1,26 @@
-qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMeasure,
+qx.Class.define("qx.test.performance.decorator.AbstractDecorator", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMeasure,
   type: "abstract",
 
-  members :
-  {
-    CREATE_ITTERATIONS : 5000,
-    RENDER_ITTERATIONS : 5000,
-    RESIZE_ITTERATIONS : 10000,
+  members: {
+    CREATE_ITTERATIONS: 5000,
+    RENDER_ITTERATIONS: 5000,
+    RESIZE_ITTERATIONS: 10000,
 
-    __el : null,
+    __el: null,
 
-
-    setUp : function()
-    {
-      this.__el = qx.dom.Element.create("div", { "id": "testRoot" });
+    setUp() {
+      this.__el = qx.dom.Element.create("div", { id: "testRoot" });
       document.body.appendChild(this.__el);
     },
 
-    tearDown : function() {
+    tearDown() {
       document.body.removeChild(this.__el);
       this.__el = null;
     },
 
-    createDivs : function(count)
-    {
+    createDivs(count) {
       var divs = [];
       var container = document.createElement("div");
       for (var i = 0; i < count; i++) {
@@ -43,46 +38,39 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
       return divs;
     },
 
-
-    createDecorator : function() {
+    createDecorator() {
       // abstract method call
     },
 
-
-    testCreate : function()
-    {
+    testCreate() {
       var self = this;
       this.measureRepeated(
         "create and initial getStyles",
-        function() {
+        function () {
           var decorator = self.createDecorator();
           decorator.getStyles();
         },
-        function() {},
+        function () {},
         this.CREATE_ITTERATIONS
       );
     },
 
-
-    testRender : function()
-    {
+    testRender() {
       // warmup the decorator
       var decorator = this.createDecorator();
 
       var divs = this.createDivs(this.RENDER_ITTERATIONS);
       this.measureRepeated(
         "apply styles",
-        function(i) {
+        function (i) {
           qx.bom.element.Style.setStyles(divs[i], decorator.getStyles());
         },
-        function() {},
+        function () {},
         this.RENDER_ITTERATIONS
       );
     },
 
-
-    testResize : function()
-    {
+    testResize() {
       var divs = this.createDivs(this.RESIZE_ITTERATIONS);
 
       var decorator = this.createDecorator();
@@ -93,11 +81,11 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
 
       this.measureRepeated(
         "resize decorator",
-        function(i) {
+        function (i) {
           var currentSize = size[i % 2];
           qx.bom.element.Style.set(divs[i], "width", currentSize);
         },
-        function() {},
+        function () {},
         this.RESIZE_ITTERATIONS
       );
     }

@@ -3,8 +3,8 @@
  */
 qx.Class.define("qx.tool.cli.api.Test", {
   extend: qx.core.Object,
-  construct: function(name, testFunction) {
-    this.base(arguments);
+  construct(name, testFunction) {
+    super();
     this.setName(name);
     if (testFunction) {
       this.setTestFunction(testFunction);
@@ -17,14 +17,16 @@ qx.Class.define("qx.tool.cli.api.Test", {
     name: {
       check: "String"
     },
+
     /**
-     * A description of the test. 
+     * A description of the test.
      * For documentation purpose
      */
     description: {
       check: "String",
       event: "changeDescription"
     },
+
     /**
      * The exit code of the test.
      *
@@ -35,6 +37,7 @@ qx.Class.define("qx.tool.cli.api.Test", {
       nullable: true,
       init: null
     },
+
     /**
      * Is the webserver instance needed for this test?
      */
@@ -43,9 +46,10 @@ qx.Class.define("qx.tool.cli.api.Test", {
       nullable: false,
       init: true
     },
+
     /**
      * The test function called by qx test
-     * 
+     *
      */
     testFunction: {
       check: "Function",
@@ -54,17 +58,16 @@ qx.Class.define("qx.tool.cli.api.Test", {
     }
   },
 
-
   members: {
     /**
      * Execute the test
-     * 
+     *
      * @returns: Promise
-     * 
+     *
      * Can be overriden
      */
-    execute: function() {
-      let f = this.getTestFunction(); 
+    execute() {
+      let f = this.getTestFunction();
       return qx.Promise.resolve(f.call(this, this));
     }
   }

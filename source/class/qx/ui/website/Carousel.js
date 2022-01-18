@@ -25,19 +25,16 @@
  * @require(qx.module.event.GestureHandler)
  * @require(qx.module.event.Track)
  */
-qx.Bootstrap.define("qx.ui.website.Carousel",
-{
-  extend : qx.ui.website.Widget,
+qx.Bootstrap.define("qx.ui.website.Carousel", {
+  extend: qx.ui.website.Widget,
 
   statics: {
-
-    _config : {
+    _config: {
       /**
        * The time in milliseconds for the page switch animation.
        */
       pageSwitchDuration: 500
     },
-
 
     /**
      * Factory method which converts the current collection into a collection of
@@ -46,20 +43,17 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
      * @return {qx.ui.website.Carousel} A new carousel collection.
      * @attach {qxWeb}
      */
-    carousel: function() {
-      var carousel =  new qx.ui.website.Carousel(this);
+    carousel() {
+      var carousel = new qx.ui.website.Carousel(this);
       carousel.init();
 
       return carousel;
     }
-
   },
 
-
-  construct : function(selector, context) {
-    this.base(arguments, selector, context);
+  construct(selector, context) {
+    super(selector, context);
   },
-
 
   members: {
     __active: null,
@@ -69,12 +63,11 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
     __startPosLeft: null,
     __pagination: null,
     _ie9: false,
-    __blocked : false,
-
+    __blocked: false,
 
     // overridden
-    init : function() {
-      if (!this.base(arguments)) {
+    init() {
+      if (!super.init()) {
         return false;
       }
 
@@ -90,17 +83,20 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
       var prefix = this.getCssPrefix();
 
-      this.__scrollContainer = qxWeb.create("<div>")
+      this.__scrollContainer = qxWeb
+        .create("<div>")
         .addClass(prefix + "-container")
         .appendTo(this);
 
-      this.__pageContainer = qxWeb.create("<div>")
+      this.__pageContainer = qxWeb
+        .create("<div>")
         .addClass("qx-hbox")
         .setStyle("height", "100%")
         .appendTo(this.__scrollContainer);
 
       this.__paginationLabels = [];
-      this.__pagination = qxWeb.create("<div>")
+      this.__pagination = qxWeb
+        .create("<div>")
         .addClasses([prefix + "-pagination", "qx-hbox", "qx-flex1"])
         .setStyle("visibility", "excluded")
         .appendTo(this);
@@ -121,11 +117,13 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return true;
     },
 
-    render: function() {
+    render() {
       var pages = this.find("." + this.getCssPrefix() + "-page");
-      pages.forEach(function(page) {
-        this.addPage(qxWeb(page));
-      }.bind(this));
+      pages.forEach(
+        function (page) {
+          this.addPage(qxWeb(page));
+        }.bind(this)
+      );
       if (pages.length > 0) {
         this.setActive(pages.eq(0));
       }
@@ -133,37 +131,34 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return this;
     },
 
-
     /**
      * Sets one of the Carousel's pages as active, meaning it will be
      * visible.
      *
      * @param page {qxWeb} The page to be activated
      */
-    setActive: function(page) {
+    setActive(page) {
       var old = this.__active;
       this.__active = page;
       this._update();
-      var data = {value: page, old: old, target: this};
+      var data = { value: page, old: old, target: this };
       this.emit("changeActive", data);
     },
-
 
     /**
      * Returns the currently active (i.e. visible) page
      * @return {qxWeb} The active page
      */
-    getActive: function() {
+    getActive() {
       return this.__active;
     },
-
 
     /**
      * Scrolls the carousel to the next page.
      *
      * @return {qx.ui.website.Carousel} Self instance for chaining
      */
-    nextPage: function() {
+    nextPage() {
       var pages = this._getPages();
       if (pages.length == 0) {
         return this;
@@ -184,13 +179,12 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return this;
     },
 
-
     /**
      * Scrolls the carousel to the previous page.
      *
      * @return {qx.ui.website.Carousel} Self instance for chaining
      */
-    previousPage: function() {
+    previousPage() {
       var pages = this._getPages();
       if (pages.length == 0) {
         return this;
@@ -211,19 +205,20 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return this;
     },
 
-
     /**
      * Adds a page to the Carousel. Updates the pagination,
      * scroll position, active property and the sizing.
      * @param child {qxWeb} The added child.
      */
-    addPage: function(child) {
-      child.addClasses(["qx-flex1", this.getCssPrefix() + "-page"])
+    addPage(child) {
+      child
+        .addClasses(["qx-flex1", this.getCssPrefix() + "-page"])
         .appendTo(this.__pageContainer);
 
-      if (this.find("." + this.getCssPrefix() + "-page").length >
-        this.__paginationLabels.length)
-      {
+      if (
+        this.find("." + this.getCssPrefix() + "-page").length >
+        this.__paginationLabels.length
+      ) {
         var paginationLabel = this._createPaginationLabel();
         this.__paginationLabels.push(paginationLabel);
         this.__pagination.append(paginationLabel);
@@ -245,18 +240,17 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
       // scroll as soon as we have the third page added
       if (this._getPages().length === 3 && !this._ie9) {
-        this.__scrollContainer.translate([(-this.getWidth()) + "px", 0, 0]);
+        this.__scrollContainer.translate([-this.getWidth() + "px", 0, 0]);
       }
       this._updatePagination();
     },
-
 
     /**
      * Removes a page from the Carousel. Updates the pagination,
      * scroll position, active property and the sizing.
      * @param child {qxWeb} The removed child.
      */
-    removePage: function(child) {
+    removePage(child) {
       child.remove();
 
       // reset the active page if we don't have any page at all
@@ -280,16 +274,15 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
       this.__paginationLabels.splice(child.priorPosition, 1)[0].remove();
       for (var i = 0; i < this.__paginationLabels.length; i++) {
-        this.__paginationLabels[i].getChildren(".label").setHtml((i + 1) + "");
+        this.__paginationLabels[i].getChildren(".label").setHtml(i + 1 + "");
       }
       this._updatePagination();
     },
 
-
     /**
      * Updates the order, scroll position and pagination.
      */
-    _update: function() {
+    _update() {
       if (!this.getActive()) {
         return;
       }
@@ -326,7 +319,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
         if (left !== undefined) {
           // first, translate the old page into view
-          this.__scrollContainer.translate([(-left) + "px", 0, 0]);
+          this.__scrollContainer.translate([-left + "px", 0, 0]);
           // animate to the new page
           this._translateTo(this.getWidth());
         }
@@ -339,7 +332,6 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       this._updatePagination();
     },
 
-
     /**
      * Updates the CSS order property of the flexbox layout.
      * The active page should be the second in order with a order property of '0'.
@@ -349,7 +341,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
      *
      * @return {String} The scroll direction, either 'left' or 'right'.
      */
-    _updateOrder: function() {
+    _updateOrder() {
       if (this._ie9) {
         return "left";
       }
@@ -367,7 +359,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
       var activeIndex = pages.indexOf(this.getActive());
 
-      this._setOrder(this.getActive(), 0);// active page should always have order 0
+      this._setOrder(this.getActive(), 0); // active page should always have order 0
       var order = 1;
 
       // order all pages with a higher index than the active page
@@ -390,11 +382,10 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return scrollDirection;
     },
 
-
     /**
      * Updates the width of the container and the pages.
      */
-    _updateWidth: function() {
+    _updateWidth() {
       if (!this.isRendered() || this.getProperty("offsetWidth") === 0) {
         this.setStyle("visibility", "hidden");
         if (!this.hasListener("appear", this._updateWidth, this)) {
@@ -404,14 +395,16 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       }
 
       // set the initial transition on first appear
-      if (this._getPositionLeft() === 0 && this._getPages().length > 2 && !this._ie9) {
-        this.__scrollContainer.translate([(-this.getWidth()) + "px", 0, 0]);
+      if (
+        this._getPositionLeft() === 0 &&
+        this._getPages().length > 2 &&
+        !this._ie9
+      ) {
+        this.__scrollContainer.translate([-this.getWidth() + "px", 0, 0]);
       }
 
       // set the container width to total width of all pages
-      var containerWidth =
-        this.getWidth() *
-        this._getPages().length;
+      var containerWidth = this.getWidth() * this._getPages().length;
       this.__pageContainer.setStyle("width", containerWidth + "px");
       // set the width of all pages to the carousel width
       this._getPages().setStyle("width", this.getWidth() + "px");
@@ -419,12 +412,11 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       this.setStyle("visibility", "visible");
     },
 
-
     /**
      * Handler for trackstart. It saves the initial scroll position and
      * cancels any running animation.
      */
-    _onTrackStart: function() {
+    _onTrackStart() {
       if (this.__blocked) {
         return;
       }
@@ -435,75 +427,83 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
         .stop()
         // correct the scroll position as the stopped animation
         // resets to its initial value
-        .translate([(-Math.round(this.__startPosLeft)) + "px", 0, 0]);
+        .translate([-Math.round(this.__startPosLeft) + "px", 0, 0]);
     },
-
 
     /**
      * Track handler which updates the scroll position.
      * @param e {Event} The track event.
      */
-    _onTrack: function(e) {
+    _onTrack(e) {
       if (this.__blocked) {
         return;
       }
 
       if (e.delta.axis == "x" && this._getPages().length > 2) {
-        this.__scrollContainer.translate([-(this.__startPosLeft - e.delta.x) + "px", 0, 0]);
+        this.__scrollContainer.translate([
+          -(this.__startPosLeft - e.delta.x) + "px",
+          0,
+          0
+        ]);
       }
     },
-
 
     /**
      * TrackEnd handler for enabling the scroll events.
      */
-    _onTrackEnd: function() {
-      if (this.__startPosLeft == null || this.__blocked) { // don't end if we didn't start
+    _onTrackEnd() {
+      if (this.__startPosLeft == null || this.__blocked) {
+        // don't end if we didn't start
         return;
       }
 
       // make sure the trackend handling is done after the swipe handling
-      window.setTimeout(function() {
-        if (this._getPages().length < 3 || this.__scrollContainer.isPlaying()) {
-          return;
-        }
-
-        this.__startPosLeft = null;
-
-        var width = this.getWidth();
-        var pages = this._getPages();
-
-        var oldActive = this.getActive();
-
-        // if more than 50% is visible of the previous page
-        if (this._getPositionLeft() < (width - (width / 2))) {
-          var prev = this.getActive().getPrev();
-          if (prev.length == 0) {
-            prev = pages.eq(pages.length - 1);
+      window.setTimeout(
+        function () {
+          if (
+            this._getPages().length < 3 ||
+            this.__scrollContainer.isPlaying()
+          ) {
+            return;
           }
-          this.setActive(prev);
-        // if more than 50% is visible of the next page
-        } else if (this._getPositionLeft() > (width + width / 2)) {
-          var next = this.getActive().getNext();
-          if (next.length == 0) {
-            next = pages.eq(0);
-          }
-          this.setActive(next);
-        }
 
-        if (this.getActive() == oldActive) {
-          this._update();
-        }
-      }.bind(this), 0);
+          this.__startPosLeft = null;
+
+          var width = this.getWidth();
+          var pages = this._getPages();
+
+          var oldActive = this.getActive();
+
+          // if more than 50% is visible of the previous page
+          if (this._getPositionLeft() < width - width / 2) {
+            var prev = this.getActive().getPrev();
+            if (prev.length == 0) {
+              prev = pages.eq(pages.length - 1);
+            }
+            this.setActive(prev);
+            // if more than 50% is visible of the next page
+          } else if (this._getPositionLeft() > width + width / 2) {
+            var next = this.getActive().getNext();
+            if (next.length == 0) {
+              next = pages.eq(0);
+            }
+            this.setActive(next);
+          }
+
+          if (this.getActive() == oldActive) {
+            this._update();
+          }
+        }.bind(this),
+        0
+      );
     },
-
 
     /**
      * Swipe handler which triggers page changes based on the
      * velocity and the direction.
      * @param e {Event} The swipe event.
      */
-    _onSwipe: function(e) {
+    _onSwipe(e) {
       if (this.__blocked) {
         return;
       }
@@ -517,92 +517,109 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       }
     },
 
-
     /**
      * Factory method for a paginationLabel.
      * @return {qxWeb} the created pagination label.
      */
-    _createPaginationLabel : function() {
+    _createPaginationLabel() {
       var paginationIndex = this._getPages().length;
 
-      return qxWeb.create('<div class="' + this.getCssPrefix() + '-pagination-label"></div>')
+      return qxWeb
+        .create(
+          '<div class="' + this.getCssPrefix() + '-pagination-label"></div>'
+        )
         .on("tap", this._onPaginationLabelTap, this)
-        .append(qxWeb.create('<div class="label">' + paginationIndex + '</div>'));
+        .append(
+          qxWeb.create('<div class="label">' + paginationIndex + "</div>")
+        );
     },
-
 
     /**
      * Handles the tap on pagination labels and changes to the desired page.
      * @param e {Event} The tap event.
      */
-    _onPaginationLabelTap: function(e) {
-      this.__paginationLabels.forEach(function(label, index) {
-        if (label[0] === e.currentTarget) {
-          var pages = this._getPages();
+    _onPaginationLabelTap(e) {
+      this.__paginationLabels.forEach(
+        function (label, index) {
+          if (label[0] === e.currentTarget) {
+            var pages = this._getPages();
 
-          // wo don't reorder with two pages there just set the active property
-          if (pages.length === 2) {
-            this.setActive(pages.eq(index));
-            return;
+            // wo don't reorder with two pages there just set the active property
+            if (pages.length === 2) {
+              this.setActive(pages.eq(index));
+              return;
+            }
+
+            var activeIndex = pages.indexOf(this.getActive());
+            var distance = index - activeIndex;
+
+            // set the order to deault dom order
+            this._setOrder(pages, 0);
+            // get the active page into view
+            this.__scrollContainer.translate([
+              -activeIndex * this.getWidth() + "px",
+              0,
+              0
+            ]);
+
+            this.__blocked = true;
+            // animate to the desired page
+            this._translateTo((activeIndex + distance) * this.getWidth());
+            this.__scrollContainer.once(
+              "animationEnd",
+              function (page) {
+                this.__blocked = false;
+                // set the viewport back to the default position
+                this.__scrollContainer.translate([
+                  -this.getWidth() + "px",
+                  0,
+                  0
+                ]);
+                this.setActive(page); // this also updates the order
+                this._updatePagination();
+              }.bind(this, pages.eq(index))
+            );
           }
-
-          var activeIndex = pages.indexOf(this.getActive());
-          var distance = index - activeIndex;
-
-          // set the order to deault dom order
-          this._setOrder(pages, 0);
-          // get the active page into view
-          this.__scrollContainer.translate([(-activeIndex * this.getWidth()) + "px", 0, 0]);
-
-          this.__blocked = true;
-          // animate to the desired page
-          this._translateTo((activeIndex + distance) * this.getWidth());
-          this.__scrollContainer.once("animationEnd", function(page) {
-            this.__blocked = false;
-            // set the viewport back to the default position
-            this.__scrollContainer.translate([(-this.getWidth()) + "px", 0, 0]);
-            this.setActive(page); // this also updates the order
-            this._updatePagination();
-          }.bind(this, pages.eq(index)));
-        }
-      }.bind(this));
+        }.bind(this)
+      );
     },
-
 
     /**
      * Updates the pagination indicator of this carousel.
      * Adds the 'active' CSS class to the currently visible page's
      * pagination button.
      */
-    _updatePagination : function() {
+    _updatePagination() {
       // hide the pagination for one page
-      this._getPages().length < 2 ?
-        this.__pagination.setStyle("visibility", "excluded") :
-        this.__pagination.setStyle("visibility", "visible");
+      this._getPages().length < 2
+        ? this.__pagination.setStyle("visibility", "excluded")
+        : this.__pagination.setStyle("visibility", "visible");
 
-      this.__pagination.find("." + this.getCssPrefix() + "-pagination-label").removeClass("active");
+      this.__pagination
+        .find("." + this.getCssPrefix() + "-pagination-label")
+        .removeClass("active");
       var pages = this._getPages();
-      this.__paginationLabels[pages.indexOf(this.getActive())].addClass("active");
+      this.__paginationLabels[pages.indexOf(this.getActive())].addClass(
+        "active"
+      );
     },
-
 
     /**
      * Resize handler. It updates the sizes, snap points and scroll position.
      */
-    _onResize : function() {
+    _onResize() {
       this._updateWidth();
 
       if (this._getPages().length > 2) {
-        this.__scrollContainer.translate([(-this.getWidth()) + "px", 0, 0]);
+        this.__scrollContainer.translate([-this.getWidth() + "px", 0, 0]);
       }
     },
-
 
     /**
      * Animates using CSS translations to the given left position.
      * @param left {Number} The new left position
      */
-    _translateTo: function(left) {
+    _translateTo(left) {
       this.__scrollContainer.animate({
         duration: this.getConfig("pageSwitchDuration"),
         keep: 100,
@@ -610,32 +627,30 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
         keyFrames: {
           0: {},
           100: {
-            translate: [(-left) + "px", 0, 0]
+            translate: [-left + "px", 0, 0]
           }
         }
       });
     },
-
 
     /**
      * Sets the given order on the given collection.
      * @param col {qxWeb} The collection to set the css property.
      * @param value {Number|String} The value for the order property
      */
-    _setOrder: function(col, value) {
+    _setOrder(col, value) {
       col.setStyles({
         order: value,
         msFlexOrder: value
       });
     },
 
-
     /**
      * Returns the order css property of the given collection.
      * @param col {qxWeb} The collection to check.
      * @return {Number} The order as number.
      */
-    _getOrder: function(col) {
+    _getOrder(col) {
       var order = parseInt(col.getStyle("order"));
       if (isNaN(order)) {
         order = parseInt(col.getStyle("msFlexOrder"));
@@ -643,29 +658,26 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       return order;
     },
 
-
     /**
      * Returns a collection of all pages.
      * @return {qxWeb} All pages.
      */
-    _getPages: function() {
+    _getPages() {
       return this.__pageContainer.find("." + this.getCssPrefix() + "-page");
     },
-
 
     /**
      * Returns the current left position.
      * @return {Number} The position in px.
      */
-    _getPositionLeft: function() {
+    _getPositionLeft() {
       var containerRect = this.__scrollContainer[0].getBoundingClientRect();
       var parentRect = this[0].getBoundingClientRect();
       return -(containerRect.left - parentRect.left);
     },
 
-
     // overridden
-    dispose : function() {
+    dispose() {
       qxWeb(window).off("resize", this._onResize, this);
 
       this.off("trackstart", this._onTrackStart, this)
@@ -673,11 +685,11 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
         .off("swipe", this._onSwipe, this)
         .off("trackend", this._onTrackEnd, this);
 
-      return this.base(arguments);
+      return super.dispose();
     }
   },
 
-  defer: function(statics) {
-    qxWeb.$attach({carousel : statics.carousel});
+  defer(statics) {
+    qxWeb.$attach({ carousel: statics.carousel });
   }
 });

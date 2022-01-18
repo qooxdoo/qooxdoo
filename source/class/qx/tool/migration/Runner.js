@@ -21,10 +21,9 @@ const semver = require("semver");
 /**
  * Runs all available migrations
  */
-qx.Class.define("qx.tool.migration.Runner",{
+qx.Class.define("qx.tool.migration.Runner", {
   extend: qx.core.Object,
   properties: {
-
     /**
      * Whether to apply the migrations (false) or just announce them (true)
      */
@@ -50,8 +49,8 @@ qx.Class.define("qx.tool.migration.Runner",{
       nullable: true
     }
   },
-  members: {
 
+  members: {
     /**
      * Instantiates all migration classes in the `qx.tool.migration` namespace which
      * match the version of the current application, and runs all methods of
@@ -67,9 +66,12 @@ qx.Class.define("qx.tool.migration.Runner",{
     async runMigrations() {
       let qxVersion = await qx.tool.config.Utils.getQxVersion();
       let appQxVersion = await qx.tool.config.Utils.getAppQxVersion();
-      this.debug(`${this.getDryRun()?"Checking":"Running"} migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`);
-      let migrationClasses = Object
-        .getOwnPropertyNames(qx.tool.migration)
+      this.debug(
+        `${
+          this.getDryRun() ? "Checking" : "Running"
+        } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`
+      );
+      let migrationClasses = Object.getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
         .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
       let applied = 0;
@@ -78,9 +80,12 @@ qx.Class.define("qx.tool.migration.Runner",{
         let migrationInstance = new Clazz(this);
         let migrationVersion = migrationInstance.getVersion();
         let qxVersion = this.getQxVersion();
-        this.debug(`>>> Migration version: ${migrationVersion}, maximum qx version: ${qxVersion}`);
-        let skip = (appQxVersion && !semver.lt(appQxVersion, migrationVersion))
-          || (qxVersion && semver.gt(migrationVersion, qxVersion));
+        this.debug(
+          `>>> Migration version: ${migrationVersion}, maximum qx version: ${qxVersion}`
+        );
+        let skip =
+          (appQxVersion && !semver.lt(appQxVersion, migrationVersion)) ||
+          (qxVersion && semver.gt(migrationVersion, qxVersion));
         if (skip) {
           this.debug(`>>> Skipping migration ${Clazz.classname}.`);
         } else {
@@ -97,15 +102,22 @@ qx.Class.define("qx.tool.migration.Runner",{
           let previousApplied = migrationInstance.getApplied();
           let previousPending = migrationInstance.getPending();
           await migrationInstance[method]();
-          this.debug(`>>> - ${method}: ${migrationInstance.getApplied() - previousApplied} applied/${migrationInstance.getPending() - previousPending} pending`);
+          this.debug(
+            `>>> - ${method}: ${
+              migrationInstance.getApplied() - previousApplied
+            } applied/${
+              migrationInstance.getPending() - previousPending
+            } pending`
+          );
         }
         applied += migrationInstance.getApplied();
         pending += migrationInstance.getPending();
-        this.debug(`>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`);
+        this.debug(
+          `>>> Done with ${Clazz.classname}: ${applied} migrations applied, ${pending} migrations pending.`
+        );
       }
 
-
-      return {applied, pending};
-    },
+      return { applied, pending };
+    }
   }
 });

@@ -23,10 +23,8 @@
  * The native JavaScript Number is not modified by this class.
  *
  */
-qx.Class.define("qx.lang.Number",
-{
-  statics :
-  {
+qx.Class.define("qx.lang.Number", {
+  statics: {
     /**
      * Check whether the number is in a given range
      *
@@ -35,10 +33,9 @@ qx.Class.define("qx.lang.Number",
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is >= vmin and <= vmax
      */
-    isInRange : function(nr, vmin, vmax) {
+    isInRange(nr, vmin, vmax) {
       return nr >= vmin && nr <= vmax;
     },
-
 
     /**
      * Check whether the number is between a given range
@@ -48,10 +45,9 @@ qx.Class.define("qx.lang.Number",
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is > vmin and < vmax
      */
-    isBetweenRange : function(nr, vmin, vmax) {
+    isBetweenRange(nr, vmin, vmax) {
       return nr > vmin && nr < vmax;
     },
-
 
     /**
      * Limit the number to a given range
@@ -65,8 +61,7 @@ qx.Class.define("qx.lang.Number",
      * @param vmax {Integer} upper bound of the range
      * @return {Integer} the limited number
      */
-    limit : function(nr, vmin, vmax)
-    {
+    limit(nr, vmin, vmax) {
       if (vmax != null && nr > vmax) {
         return vmax;
       } else if (vmin != null && nr < vmin) {
@@ -76,7 +71,6 @@ qx.Class.define("qx.lang.Number",
       }
     },
 
-
     /**
      * Checks the equality of two numbers regarding the imprecision of floats.
      *
@@ -84,17 +78,18 @@ qx.Class.define("qx.lang.Number",
      * @param y {Number}
      * @return {Boolean}
      */
-    equals : function(x, y)
-    {
+    equals(x, y) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertNumber(x);
         qx.core.Assert.assertNumber(y);
       }
 
       // 1e-14 is the relative difference.
-      return x === y ||
-             Math.abs(x - y) < Number.EPSILON ||
-             Math.abs(x - y) <= Math.max(Math.abs(x), Math.abs(y)) * 1e-14;
+      return (
+        x === y ||
+        Math.abs(x - y) < Number.EPSILON ||
+        Math.abs(x - y) <= Math.max(Math.abs(x), Math.abs(y)) * 1e-14
+      );
     }
   }
 });

@@ -53,15 +53,21 @@ qx.Class.define("qx.tool.config.Utils", {
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<Object>}
      */
-    async getProjectData(dir=null) {
+    async getProjectData(dir = null) {
       dir = dir || process.cwd();
-      let qooxdooJsonPath = path.join(dir, qx.tool.config.Registry.config.fileName);
+      let qooxdooJsonPath = path.join(
+        dir,
+        qx.tool.config.Registry.config.fileName
+      );
       let data = {
         libraries: [],
         applications: []
       };
+
       if (await fs.existsAsync(qooxdooJsonPath)) {
-        let qooxdooJson = await qx.tool.utils.Json.loadJsonAsync(qooxdooJsonPath);
+        let qooxdooJson = await qx.tool.utils.Json.loadJsonAsync(
+          qooxdooJsonPath
+        );
         if (qx.lang.Type.isArray(qooxdooJson.libraries)) {
           data.libraries = qooxdooJson.libraries;
         }
@@ -69,14 +75,22 @@ qx.Class.define("qx.tool.config.Utils", {
           data.applications = qooxdooJson.applications;
         }
       }
-      if (await fs.existsAsync(path.join(dir, qx.tool.config.Manifest.config.fileName))) {
+      if (
+        await fs.existsAsync(
+          path.join(dir, qx.tool.config.Manifest.config.fileName)
+        )
+      ) {
         if (!data.libraries.find(lib => lib.path === ".")) {
-          data.libraries.push({path : "."});
+          data.libraries.push({ path: "." });
         }
       }
-      if (await fs.existsAsync(path.join(dir, qx.tool.config.Compile.config.fileName))) {
+      if (
+        await fs.existsAsync(
+          path.join(dir, qx.tool.config.Compile.config.fileName)
+        )
+      ) {
         if (!data.applications.find(app => app.path === ".")) {
-          data.applications.push({path : "."});
+          data.applications.push({ path: "." });
         }
       }
       return data;
@@ -90,13 +104,15 @@ qx.Class.define("qx.tool.config.Utils", {
      * @throws {Error} Throws an error if no library can be found.
      * @return {String} A promise that resolves with the absolute path to the library
      */
-    async getLibraryPath(dir=null) {
+    async getLibraryPath(dir = null) {
       dir = dir || process.cwd();
-      let {libraries} = await this.getProjectData(dir);
+      let { libraries } = await this.getProjectData(dir);
       if (libraries instanceof Array && libraries.length) {
         return path.resolve(process.cwd(), libraries[0].path);
       }
-      throw new qx.tool.utils.Utils.UserError("Cannot find library path - are you in the right directory?");
+      throw new qx.tool.utils.Utils.UserError(
+        "Cannot find library path - are you in the right directory?"
+      );
     },
 
     /**
@@ -108,13 +124,15 @@ qx.Class.define("qx.tool.config.Utils", {
      * @throws {Error} Throws an error if no application can be found.
      * @return {Promise<String>} A promise that resolves with the absolute path to the application
      */
-    async getApplicationPath(dir=null) {
+    async getApplicationPath(dir = null) {
       dir = dir || process.cwd();
-      let {applications} = await this.getProjectData(dir);
+      let { applications } = await this.getProjectData(dir);
       if (applications instanceof Array && applications.length) {
         return path.resolve(process.cwd(), applications[0].path);
       }
-      throw new qx.tool.utils.Utils.UserError("Cannot find application path - are you in the right directory?");
+      throw new qx.tool.utils.Utils.UserError(
+        "Cannot find application path - are you in the right directory?"
+      );
     },
 
     /**
@@ -152,7 +170,7 @@ qx.Class.define("qx.tool.config.Utils", {
             return dir;
           }
           // 2. node_modules folders
-          let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework")
+          let npmdir = path.join(dir, "node_modules", "@qooxdoo", "framework");
           if (await this.isQxLibrary(npmdir)) {
             return npmdir;
           }
@@ -189,7 +207,9 @@ qx.Class.define("qx.tool.config.Utils", {
           return res;
         }
 
-        throw new qx.tool.utils.Utils.UserError(`Path to the qx library cannot be determined.`);
+        throw new qx.tool.utils.Utils.UserError(
+          `Path to the qx library cannot be determined.`
+        );
       };
 
       this.__qxPathPromise = getQxPathImpl();
@@ -203,8 +223,10 @@ qx.Class.define("qx.tool.config.Utils", {
      * @param {String?} dir The base directory. If not given, the current working dir is used
      * @return {Promise<Boolean>}
      */
-    async applicationExists(dir){
-      return await fs.existsAsync(path.join(dir, qx.tool.config.Compile.config.fileName))
+    async applicationExists(dir) {
+      return await fs.existsAsync(
+        path.join(dir, qx.tool.config.Compile.config.fileName)
+      );
     },
 
     /**
@@ -222,7 +244,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * The version is written during compiler compile into the enviroment
      * @return {String}
      */
-     getCompilerVersion() {
+    getCompilerVersion() {
       return qx.core.Environment.get("qx.compiler.version");
     },
 
@@ -233,9 +255,9 @@ qx.Class.define("qx.tool.config.Utils", {
      * @param {String?} baseDir The base directory. If not given, the current working dir is used
      * @return {Promise<String>}
      */
-    async getAppQxVersion(baseDir=null) {
+    async getAppQxVersion(baseDir = null) {
       baseDir = baseDir || process.cwd();
-      let manifestRequiresKey="@qooxdoo/framework";
+      let manifestRequiresKey = "@qooxdoo/framework";
       let manifestModel = await qx.tool.config.Manifest.getInstance()
         .set({
           baseDir,
@@ -244,18 +266,27 @@ qx.Class.define("qx.tool.config.Utils", {
         })
         .load();
       let qxVersion;
-      let qxVersionRange = manifestModel.getValue(`requires.${manifestRequiresKey}`);
-      qx.log.Logger.debug(`Manifest in ${baseDir} requires ${manifestRequiresKey}: ${qxVersionRange}`);
-      if (qxVersionRange && !qxVersionRange.match(/[<>]/)) { // cannot do comparisons
+      let qxVersionRange = manifestModel.getValue(
+        `requires.${manifestRequiresKey}`
+      );
+      qx.log.Logger.debug(
+        `Manifest in ${baseDir} requires ${manifestRequiresKey}: ${qxVersionRange}`
+      );
+      if (qxVersionRange && !qxVersionRange.match(/[<>]/)) {
+        // cannot do comparisons
         try {
           // get the highest version mentioned with a tilde or caret range
-          qxVersion = qxVersionRange.match(/[\^~]?([-0-9a-z._]+)/g).sort().reverse()[0].slice(1);
-        } catch(e) {}
+          qxVersion = qxVersionRange
+            .match(/[\^~]?([-0-9a-z._]+)/g)
+            .sort()
+            .reverse()[0]
+            .slice(1);
+        } catch (e) {}
       }
       if (!qxVersion || !semver.valid(qxVersion)) {
         throw new Error(
-          `Cannot determine the qooxdoo version used to compile the application. `+
-          `Please specify a caret or tilde range for the requires.${manifestRequiresKey} key in the Manifest")`
+          `Cannot determine the qooxdoo version used to compile the application. ` +
+            `Please specify a caret or tilde range for the requires.${manifestRequiresKey} key in the Manifest")`
         );
       }
       return qxVersion;
@@ -267,8 +298,11 @@ qx.Class.define("qx.tool.config.Utils", {
      * @return {Promise<boolean>}
      */
     async isQxLibrary(libraryPath) {
-      let manifestPath = path.join(libraryPath, qx.tool.config.Manifest.config.fileName);
-      if (!await fs.existsAsync(manifestPath)) {
+      let manifestPath = path.join(
+        libraryPath,
+        qx.tool.config.Manifest.config.fileName
+      );
+      if (!(await fs.existsAsync(manifestPath))) {
         return false;
       }
       try {
@@ -277,7 +311,9 @@ qx.Class.define("qx.tool.config.Utils", {
           return true;
         }
       } catch (e) {
-        throw new qx.tool.utils.Utils.UserError(`Invalid manifest file ${manifestPath}.`);
+        throw new qx.tool.utils.Utils.UserError(
+          `Invalid manifest file ${manifestPath}.`
+        );
       }
       return false;
     },
@@ -288,7 +324,7 @@ qx.Class.define("qx.tool.config.Utils", {
      * @param {String?} cwd The working directory. If not given, the current working dir is used
      * @return {Promise<qx.tool.config.Manifest[]>}
      */
-    async getManifestModels(cwd=null) {
+    async getManifestModels(cwd = null) {
       cwd = cwd || process.cwd();
       const registryModel = qx.tool.config.Registry.getInstance();
       let manifestModels = [];
@@ -297,11 +333,15 @@ qx.Class.define("qx.tool.config.Utils", {
         await registryModel.load();
         let libraries = registryModel.getLibraries();
         for (let library of libraries) {
-          manifestModels.push(new qx.tool.config.Abstract(qx.tool.config.Manifest.config).set({
-            baseDir: path.join(cwd, library.path)
-          }));
+          manifestModels.push(
+            new qx.tool.config.Abstract(qx.tool.config.Manifest.config).set({
+              baseDir: path.join(cwd, library.path)
+            })
+          );
         }
-      } else if (await fs.existsAsync(qx.tool.config.Manifest.config.fileName)) {
+      } else if (
+        await fs.existsAsync(qx.tool.config.Manifest.config.fileName)
+      ) {
         manifestModels.push(qx.tool.config.Manifest.getInstance());
       }
       return manifestModels;
@@ -313,7 +353,10 @@ qx.Class.define("qx.tool.config.Utils", {
      * @return {Promise<String>} Version
      */
     async getLibraryVersion(libPath) {
-      let manifestPath = path.join(libPath, qx.tool.config.Manifest.config.fileName);
+      let manifestPath = path.join(
+        libPath,
+        qx.tool.config.Manifest.config.fileName
+      );
       let manifest = await qx.tool.utils.Json.loadJsonAsync(manifestPath);
       if (!manifest) {
         throw new Error(`No Manifest exists at ${manifestPath}.`);
@@ -325,7 +368,9 @@ qx.Class.define("qx.tool.config.Utils", {
         throw new Error(`No valid version data in ${manifestPath}.`);
       }
       if (!semver.valid(version)) {
-        throw new qx.tool.utils.Utils.UserError(`Manifest at ${manifestPath} contains invalid version number "${version}". Please use a semver compatible version.`);
+        throw new qx.tool.utils.Utils.UserError(
+          `Manifest at ${manifestPath} contains invalid version number "${version}". Please use a semver compatible version.`
+        );
       }
       return version;
     }

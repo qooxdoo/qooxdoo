@@ -20,37 +20,49 @@
 /**
  * The classic qooxdoo font theme.
  */
-qx.Theme.define("qx.theme.classic.Font",
-{
-  fonts :
-  {
-    "default" :
-    {
-      size : 11,
-      lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+qx.Theme.define("qx.theme.classic.Font", {
+  fonts: {
+    default: {
+      size: 11,
+      lineHeight: 1.4,
+      family: [
+        "Lucida Grande",
+        "Tahoma",
+        "Verdana",
+        "Bitstream Vera Sans",
+        "Liberation Sans"
+      ]
     },
 
-    "bold" :
-    {
-      size : 11,
-      lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
-      bold : true
+    bold: {
+      size: 11,
+      lineHeight: 1.4,
+      family: [
+        "Lucida Grande",
+        "Tahoma",
+        "Verdana",
+        "Bitstream Vera Sans",
+        "Liberation Sans"
+      ],
+      bold: true
     },
 
-    "small" :
-    {
-      size : 10,
-      lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+    small: {
+      size: 10,
+      lineHeight: 1.4,
+      family: [
+        "Lucida Grande",
+        "Tahoma",
+        "Verdana",
+        "Bitstream Vera Sans",
+        "Liberation Sans"
+      ]
     },
 
-    "monospace" :
-    {
-      size : 11,
-      lineHeight : 1.4,
-      family : [ "DejaVu Sans Mono", "Courier New", "monospace" ]
+    monospace: {
+      size: 11,
+      lineHeight: 1.4,
+      family: ["DejaVu Sans Mono", "Courier New", "monospace"]
     }
   }
 });

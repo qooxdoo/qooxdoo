@@ -15,54 +15,48 @@
      * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.container.Stack",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.container.Stack", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __stack : null,
-    __c1 : null,
-    __c2 : null,
-    __c3 : null,
+  members: {
+    __stack: null,
+    __c1: null,
+    __c2: null,
+    __c3: null,
 
+    setUp() {
+      var stack = (this.__stack = new qx.ui.container.Stack());
 
-    setUp : function() {
-      var stack = this.__stack = new qx.ui.container.Stack();
+      var c1 = (this.__c1 = new qx.ui.container.Composite());
+      var c2 = (this.__c2 = new qx.ui.container.Composite());
+      var c3 = (this.__c3 = new qx.ui.container.Composite());
 
-      var c1 = this.__c1 = new qx.ui.container.Composite();
-      var c2 = this.__c2 = new qx.ui.container.Composite();
-      var c3 = this.__c3 = new qx.ui.container.Composite();
-
-      c1.set({ backgroundColor : "#F00", width : 200, height : 200 });
-      c2.set({ backgroundColor : "#0F0", width : 200, height : 200 });
-      c3.set({ backgroundColor : "#00F", width : 200, height : 200 });
-
+      c1.set({ backgroundColor: "#F00", width: 200, height: 200 });
+      c2.set({ backgroundColor: "#0F0", width: 200, height: 200 });
+      c3.set({ backgroundColor: "#00F", width: 200, height: 200 });
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.__stack.destroy();
       this.__c1.destroy();
       this.__c2.destroy();
       this.__c3.destroy();
     },
 
-   /**
-    * if stack doesn't have a child selected,
-    * the new added child should be selected
-    */
-    testAddAndSelectChild: function() {
+    /**
+     * if stack doesn't have a child selected,
+     * the new added child should be selected
+     */
+    testAddAndSelectChild() {
       this.__stack.add(this.__c1);
-      this.assertIdentical( this.__c1, this.__stack.getSelection()[0]);
+      this.assertIdentical(this.__c1, this.__stack.getSelection()[0]);
     },
-
 
     /**
      * if stack has a selected child,
      * the new added one should be excluded/hide but not selected.
      */
-    testAddAndDontSelectChildInADynamicStack: function() {
+    testAddAndDontSelectChildInADynamicStack() {
       this.__stack.setDynamic(false);
       this.__stack.add(this.__c1);
       this.__stack.add(this.__c2);
@@ -70,12 +64,11 @@ qx.Class.define("qx.test.ui.container.Stack",
       this.assertTrue(this.__c2.isHidden());
     },
 
-
     /**
      * if stack has a selected child,
      * the new added one should be excluded/hide but not selected.
      */
-    testAddAndDontSelectChildInANonDynamicStack: function() {
+    testAddAndDontSelectChildInANonDynamicStack() {
       this.__stack.setDynamic(true);
       this.__stack.add(this.__c1);
       this.__stack.add(this.__c2);
@@ -83,11 +76,10 @@ qx.Class.define("qx.test.ui.container.Stack",
       this.assertTrue(this.__c2.isExcluded());
     },
 
-
     /**
      *if we remove child, selected the first one
      */
-    testRemoveSelectedChildSelectFirstOne: function() {
+    testRemoveSelectedChildSelectFirstOne() {
       this.__stack.add(this.__c1);
       this.__stack.add(this.__c2);
       this.__stack.setSelection([this.__c2]);
@@ -96,12 +88,11 @@ qx.Class.define("qx.test.ui.container.Stack",
       this.assertIdentical(this.__c1, this.__stack.getSelection()[0]);
     },
 
-
     /**
      * if we remove child, and stack doesn't have any children left,
      * reset selection.
      */
-    testRemoveSelectedChildResetSelection: function() {
+    testRemoveSelectedChildResetSelection() {
       this.__stack.add(this.__c1);
       this.__stack.add(this.__c2);
       this.__stack.add(this.__c3);
@@ -112,5 +103,4 @@ qx.Class.define("qx.test.ui.container.Stack",
       this.assertArrayEquals([], this.__stack.getSelection());
     }
   }
-
 });

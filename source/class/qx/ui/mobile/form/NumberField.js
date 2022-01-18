@@ -21,12 +21,10 @@
  * "number" and the attribute "min" ,"max" and "step". The attributes can be used
  * for form validation {@link qx.ui.form.validation.Manager}.
  */
-qx.Class.define("qx.ui.mobile.form.NumberField",
-{
-  extend : qx.ui.mobile.form.Input,
-  include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
-  implement : [qx.ui.form.IStringForm],
-
+qx.Class.define("qx.ui.mobile.form.NumberField", {
+  extend: qx.ui.mobile.form.Input,
+  include: [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
+  implement: [qx.ui.form.IStringForm],
 
   /*
   *****************************************************************************
@@ -37,9 +35,8 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
   /**
    * @param value {var?null} The value of the widget.
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
   },
 
   /*
@@ -47,51 +44,42 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "number-field"
+    defaultCssClass: {
+      refine: true,
+      init: "number-field"
     },
-
 
     /**
      * The minimum text field value (may be negative). This value must be smaller
      * than {@link #minimum}.
      */
-    minimum :
-    {
-      check : "Number",
-      init : '',
-      apply : "_onChangeMinimum"
+    minimum: {
+      check: "Number",
+      init: "",
+      apply: "_onChangeMinimum"
     },
-
 
     /**
      * The maximum text field value (may be negative). This value must be larger
      * than {@link #maximum}.
      */
-    maximum :
-    {
-      check : "Number",
-      init : '',
-      apply : "_onChangeMaximum"
+    maximum: {
+      check: "Number",
+      init: "",
+      apply: "_onChangeMaximum"
     },
-
 
     /**
      * The amount to increment on each event.
      */
-    step :
-    {
-      check : "Number",
-      init : '',
-      apply : "_onChangeStep"
+    step: {
+      check: "Number",
+      init: "",
+      apply: "_onChangeStep"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -99,39 +87,34 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getType : function()
-    {
+    _getType() {
       return "number";
     },
-
 
     /**
      * Called when changed the property step.
      * Delegates value change on DOM element.
      */
-    _onChangeStep : function(value,old) {
-      this._setAttribute("step",value);
+    _onChangeStep(value, old) {
+      this._setAttribute("step", value);
     },
-
 
     /**
      * Called when changed the property maximum.
      * Delegates value change on DOM element.
      */
-    _onChangeMaximum : function(value,old) {
-      this._setAttribute("max",value);
+    _onChangeMaximum(value, old) {
+      this._setAttribute("max", value);
     },
-
 
     /**
      * Called when changed the property minimum.
      * Delegates value change on DOM element.
      */
-    _onChangeMinimum : function(value,old) {
-      this._setAttribute("min",value);
+    _onChangeMinimum(value, old) {
+      this._setAttribute("min", value);
     }
   }
 });

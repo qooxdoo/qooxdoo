@@ -47,10 +47,12 @@ qx.Class.define("qx.tool.utils.Website", {
     APP_NAMESPACE: "apps"
   },
 
-  construct: function(options={}) {
+  construct(options = {}) {
     qx.core.Object.apply(this, arguments);
     const self = qx.tool.utils.Website;
-    let p = qx.util.ResourceManager.getInstance().toUri("qx/tool/website/.gitignore");
+    let p = qx.util.ResourceManager.getInstance().toUri(
+      "qx/tool/website/.gitignore"
+    );
     p = path.dirname(p);
     this.initSourceDir(p);
     this.initTargetDir(path.join(p, "build"));
@@ -99,17 +101,28 @@ qx.Class.define("qx.tool.utils.Website", {
      */
     async startWatcher() {
       await this.stopWatcher();
-      let sourceDir = await qx.tool.utils.files.Utils.correctCase(this.getSourceDir());
-      this._watcher = chokidar.watch([ sourceDir ], {});
-      this._watcher.on("change", filename => this.__onFileChange("change", filename));
+      let sourceDir = await qx.tool.utils.files.Utils.correctCase(
+        this.getSourceDir()
+      );
+      this._watcher = chokidar.watch([sourceDir], {});
+      this._watcher.on("change", filename =>
+        this.__onFileChange("change", filename)
+      );
       this._watcher.on("add", filename => this.__onFileChange("add", filename));
-      this._watcher.on("unlink", filename => this.__onFileChange("unlink", filename));
+      this._watcher.on("unlink", filename =>
+        this.__onFileChange("unlink", filename)
+      );
       this._watcher.on("ready", async () => {
         await this.triggerRebuild(true);
         this.__watcherReady = true;
       });
       this._watcher.on("error", err => {
-        qx.tool.compiler.Console.print(err.code == "ENOSPC" ? "qx.tool.cli.watch.enospcError" : "qx.tool.cli.watch.watchError", err);
+        qx.tool.compiler.Console.print(
+          err.code == "ENOSPC"
+            ? "qx.tool.cli.watch.enospcError"
+            : "qx.tool.cli.watch.watchError",
+          err
+        );
       });
     },
 
@@ -158,7 +171,9 @@ qx.Class.define("qx.tool.utils.Website", {
      */
     __onFileChange(type, filename) {
       if (this.__watcherReady) {
-        if (!filename.toLowerCase().startsWith(this.getTargetDir().toLowerCase())) {
+        if (
+          !filename.toLowerCase().startsWith(this.getTargetDir().toLowerCase())
+        ) {
           this.triggerRebuild(false);
         }
       }
@@ -220,7 +235,9 @@ qx.Class.define("qx.tool.utils.Website", {
       var pages = [];
       var order = {};
       if (metadata.site.pages) {
-        metadata.site.pages.forEach((url, index) => typeof url == "string" ? order[url] = index : null);
+        metadata.site.pages.forEach((url, index) =>
+          typeof url == "string" ? (order[url] = index) : null
+        );
       }
       var unorderedPages = [];
 
@@ -229,6 +246,7 @@ qx.Class.define("qx.tool.utils.Website", {
           url: url,
           title: title
         };
+
         var index = order[url];
         if (index !== undefined) {
           pages[index] = page;
@@ -269,12 +287,17 @@ qx.Class.define("qx.tool.utils.Website", {
         if (unused) {
           // this is simply to avoid linting errors until https://github.com/qooxdoo/qooxdoo/issues/461 is fixed
         }
-        let data = await fs.readFileAsync(path.join(partialsDir, filename), "utf8");
+        let data = await fs.readFileAsync(
+          path.join(partialsDir, filename),
+          "utf8"
+        );
         let fn;
         try {
           fn = dot.template(data);
         } catch (err) {
-          qx.tool.compiler.Console.log("Failed to load partial " + filename + ": " + err);
+          qx.tool.compiler.Console.log(
+            "Failed to load partial " + filename + ": " + err
+          );
           continue;
         }
         fn.name = filename;
@@ -295,12 +318,13 @@ qx.Class.define("qx.tool.utils.Website", {
           .metadata({
             site: {
               title: "Qooxdoo Application Server",
-              description: "Mini website used by \"qx serve\"",
+              description: 'Mini website used by "qx serve"',
               email: "info@qooxdoo.org",
               twitter_username: "qooxdoo",
               github_username: "qooxdoo",
               pages: ["/", "/about/"]
             },
+
             baseurl: "",
             url: "",
             lang: "en",
@@ -312,9 +336,11 @@ qx.Class.define("qx.tool.utils.Website", {
           .use(this.loadPartials.bind(this))
           .use(markdown())
           .use(this.getPages.bind(this))
-          .use(layouts({
-            engine: "dot"
-          }))
+          .use(
+            layouts({
+              engine: "dot"
+            })
+          )
           .build(function (err) {
             if (err) {
               reject(err);
@@ -332,18 +358,25 @@ qx.Class.define("qx.tool.utils.Website", {
      */
     async compileScss() {
       let result = await new Promise((resolve, reject) => {
-        sass.render({
-          file: path.join(this.getSourceDir(), "sass", "qooxdoo.scss"),
-          outFile: path.join(this.getTargetDir(), "qooxdoo.css")
-        }, function (err, result) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result);
+        sass.render(
+          {
+            file: path.join(this.getSourceDir(), "sass", "qooxdoo.scss"),
+            outFile: path.join(this.getTargetDir(), "qooxdoo.css")
+          },
+          function (err, result) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
           }
-        });
+        );
       });
-      await fs.writeFileAsync(path.join(this.getTargetDir(), "qooxdoo.css"), result.css, "utf8");
+      await fs.writeFileAsync(
+        path.join(this.getTargetDir(), "qooxdoo.css"),
+        result.css,
+        "utf8"
+      );
     },
 
     /**
@@ -357,11 +390,23 @@ qx.Class.define("qx.tool.utils.Website", {
       if (await fs.existsAsync(apps_path)) {
         rimraf.sync(apps_path);
       }
-      const opts = { noninteractive: true, namespace, theme: "indigo", icontheme: "Tango"};
-      await (new qx.tool.cli.commands.Create(opts)).process();
+      const opts = {
+        noninteractive: true,
+        namespace,
+        theme: "indigo",
+        icontheme: "Tango"
+      };
+      await new qx.tool.cli.commands.Create(opts).process();
       process.chdir(apps_path);
-      for (let name of ["apiviewer", "widgetbrowser", "playground", "demobrowser"]) {
-        await (new qx.tool.cli.commands.package.Install({})).install("qooxdoo/qxl." + name);
+      for (let name of [
+        "apiviewer",
+        "widgetbrowser",
+        "playground",
+        "demobrowser"
+      ]) {
+        await new qx.tool.cli.commands.package.Install({}).install(
+          "qooxdoo/qxl." + name
+        );
       }
     }
   }

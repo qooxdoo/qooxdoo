@@ -25,23 +25,22 @@
  *
  * @require(qx.lang.String)
  */
-qx.Bootstrap.define("qx.bom.Style",
-{
-  statics : {
+qx.Bootstrap.define("qx.bom.Style", {
+  statics: {
     /** Vendor-specific style property prefixes */
-    VENDOR_PREFIXES : ["Webkit", "Moz", "O", "ms", "Khtml"],
+    VENDOR_PREFIXES: ["Webkit", "Moz", "O", "ms", "Khtml"],
 
     /**
      * Internal lookup table to map property names to CSS names
      * @internal
      */
-    __cssName : {},
+    __cssName: {},
 
     /**
      * A reference to the native CSS.supports function (supportsCSS in Opera)
      * @internal
      */
-    __supports : null,
+    __supports: null,
 
     /**
      * Takes the name of a style property and returns the name the browser uses
@@ -51,17 +50,16 @@ qx.Bootstrap.define("qx.bom.Style",
      * @return {String|null} The supported property name or <code>null</code> if
      * not supported
      */
-    getPropertyName : function(propertyName)
-    {
+    getPropertyName(propertyName) {
       var style = document.documentElement.style;
 
       if (style[propertyName] !== undefined) {
         return propertyName;
       }
 
-      for (var i=0, l=this.VENDOR_PREFIXES.length; i<l; i++) {
-        var prefixedProp = this.VENDOR_PREFIXES[i] +
-          qx.lang.String.firstUp(propertyName);
+      for (var i = 0, l = this.VENDOR_PREFIXES.length; i < l; i++) {
+        var prefixedProp =
+          this.VENDOR_PREFIXES[i] + qx.lang.String.firstUp(propertyName);
         if (style[prefixedProp] !== undefined) {
           return prefixedProp;
         }
@@ -69,7 +67,6 @@ qx.Bootstrap.define("qx.bom.Style",
 
       return null;
     },
-
 
     /**
      * Takes the name of a JavaScript style property and returns the
@@ -85,19 +82,17 @@ qx.Bootstrap.define("qx.bom.Style",
      * @param propertyName {String} JavaScript style property
      * @return {String} CSS property
      */
-    getCssName: function(propertyName)
-    {
+    getCssName(propertyName) {
       var cssName = this.__cssName[propertyName];
 
-      if (!cssName)
-      {
+      if (!cssName) {
         // all vendor prefixes (except for "ms") start with an uppercase letter
-        cssName = propertyName.replace(/[A-Z]/g, function(match){
-          return  ('-' + match.charAt(0).toLowerCase());
+        cssName = propertyName.replace(/[A-Z]/g, function (match) {
+          return "-" + match.charAt(0).toLowerCase();
         });
 
         // lowercase "ms" vendor prefix needs special handling
-        if((/^ms/.test(cssName))) {
+        if (/^ms/.test(cssName)) {
           cssName = "-" + cssName;
         }
         this.__cssName[propertyName] = cssName;
@@ -105,7 +100,6 @@ qx.Bootstrap.define("qx.bom.Style",
 
       return cssName;
     },
-
 
     /**
      * Detects CSS support by using the native CSS.supports function or by
@@ -123,25 +117,30 @@ qx.Bootstrap.define("qx.bom.Style",
      * @return {String|null} prefixed style value or <code>null</code> if not supported
      * @internal
      */
-    getAppliedStyle : function(element, propertyName, value, prefixed)
-    {
+    getAppliedStyle(element, propertyName, value, prefixed) {
       var cssProperty = qx.bom.Style.getCssName(propertyName);
       var win = qx.dom.Node.getWindow(element);
 
-      var vendorPrefixes = (prefixed !== false) ?
-        [null].concat(this.VENDOR_PREFIXES) : [null];
+      var vendorPrefixes =
+        prefixed !== false ? [null].concat(this.VENDOR_PREFIXES) : [null];
 
-      for (var i=0, l=vendorPrefixes.length; i<l; i++) {
+      for (var i = 0, l = vendorPrefixes.length; i < l; i++) {
         var supported = false;
-        var prefixedVal = vendorPrefixes[i] ?
-          "-" + vendorPrefixes[i].toLowerCase() + "-" + value : value;
+        var prefixedVal = vendorPrefixes[i]
+          ? "-" + vendorPrefixes[i].toLowerCase() + "-" + value
+          : value;
 
         if (qx.bom.Style.__supports) {
-          supported = qx.bom.Style.__supports.call(win, cssProperty, prefixedVal);
+          supported = qx.bom.Style.__supports.call(
+            win,
+            cssProperty,
+            prefixedVal
+          );
         } else {
           element.style.cssText += cssProperty + ":" + prefixedVal + ";";
-          supported = (typeof element.style[propertyName] == "string" &&
-          element.style[propertyName] !== "");
+          supported =
+            typeof element.style[propertyName] == "string" &&
+            element.style[propertyName] !== "";
         }
 
         if (supported) {
@@ -152,7 +151,7 @@ qx.Bootstrap.define("qx.bom.Style",
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     if (window.CSS && window.CSS.supports) {
       qx.bom.Style.__supports = window.CSS.supports.bind(window.CSS);
     } else if (window.supportsCSS) {

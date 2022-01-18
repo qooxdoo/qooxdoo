@@ -19,12 +19,8 @@
 /**
  * Shows the header of a table.
  */
-qx.Class.define("qx.ui.table.pane.Header",
-{
-  extend : qx.ui.core.Widget,
-
-
-
+qx.Class.define("qx.ui.table.pane.Header", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -35,9 +31,8 @@ qx.Class.define("qx.ui.table.pane.Header",
   /**
    * @param paneScroller {qx.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
    */
-  construct : function(paneScroller)
-  {
-    this.base(arguments);
+  construct(paneScroller) {
+    super();
     this._setLayout(new qx.ui.layout.HBox());
 
     // add blocker
@@ -49,40 +44,33 @@ qx.Class.define("qx.ui.table.pane.Header",
     this.getContentElement().setAttribute("role", "row");
   },
 
-
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    __paneScroller : null,
-    __moveFeedback : null,
-    __lastPointerOverColumn : null,
-    __blocker : null,
+  members: {
+    __paneScroller: null,
+    __moveFeedback: null,
+    __lastPointerOverColumn: null,
+    __blocker: null,
 
     /**
      * Returns the TablePaneScroller this header belongs to.
      *
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
-    getPaneScroller : function() {
+    getPaneScroller() {
       return this.__paneScroller;
     },
-
 
     /**
      * Returns the table this header belongs to.
      *
      * @return {qx.ui.table.Table} the table.
      */
-    getTable : function() {
+    getTable() {
       return this.__paneScroller.getTable();
     },
 
@@ -91,7 +79,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      *
      * @return {qx.ui.core.Blocker} the blocker.
      */
-    getBlocker : function() {
+    getBlocker() {
       return this.__blocker;
     },
 
@@ -99,27 +87,24 @@ qx.Class.define("qx.ui.table.pane.Header",
      * Event handler. Called the column order has changed.
      *
      */
-    onColOrderChanged : function() {
+    onColOrderChanged() {
       this._updateContent(true);
     },
-
 
     /**
      * Event handler. Called when the pane model has changed.
      */
-    onPaneModelChanged : function() {
+    onPaneModelChanged() {
       this._updateContent(true);
     },
-
 
     /**
      * Event handler. Called when the table model meta data has changed.
      *
      */
-    onTableModelMetaDataChanged : function() {
+    onTableModelMetaDataChanged() {
       this._updateContent();
     },
-
 
     /**
      * Sets the column width. This overrides the width from the column model.
@@ -135,8 +120,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      *   pointer drag in the header; false or undefined otherwise.
      *
      */
-    setColumnWidth : function(col, width, isPointerAction)
-    {
+    setColumnWidth(col, width, isPointerAction) {
       var child = this.getHeaderWidgetAtColumn(col);
 
       if (child != null) {
@@ -144,20 +128,18 @@ qx.Class.define("qx.ui.table.pane.Header",
       }
     },
 
-
     /**
      * Sets the column the pointer is currently over.
      *
      * @param col {Integer} the model index of the column the pointer is currently over or
      *      null if the pointer is over no column.
      */
-    setPointerOverColumn : function(col)
-    {
-      if (col != this.__lastPointerOverColumn)
-      {
-        if (this.__lastPointerOverColumn != null)
-        {
-          var widget = this.getHeaderWidgetAtColumn(this.__lastPointerOverColumn);
+    setPointerOverColumn(col) {
+      if (col != this.__lastPointerOverColumn) {
+        if (this.__lastPointerOverColumn != null) {
+          var widget = this.getHeaderWidgetAtColumn(
+            this.__lastPointerOverColumn
+          );
 
           if (widget != null) {
             widget.removeState("hovered");
@@ -172,19 +154,16 @@ qx.Class.define("qx.ui.table.pane.Header",
       }
     },
 
-
     /**
      * Get the header widget for the given column
      *
      * @param col {Integer} The column number
      * @return {qx.ui.table.headerrenderer.HeaderCell} The header cell widget
      */
-    getHeaderWidgetAtColumn : function(col)
-    {
+    getHeaderWidgetAtColumn(col) {
       var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
       return this._getChildren()[xPos];
     },
-
 
     /**
      * Shows the feedback shown while a column is moved by the user.
@@ -193,12 +172,10 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @param x {Integer} the x position the left side of the feedback should have
      *      (in pixels, relative to the left side of the header).
      */
-    showColumnMoveFeedback : function(col, x)
-    {
+    showColumnMoveFeedback(col, x) {
       var pos = this.getContentLocation();
 
-      if (this.__moveFeedback == null)
-      {
+      if (this.__moveFeedback == null) {
         var table = this.getTable();
         var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
         var cellWidget = this._getChildren()[xPos];
@@ -206,12 +183,11 @@ qx.Class.define("qx.ui.table.pane.Header",
         var tableModel = table.getTableModel();
         var columnModel = table.getTableColumnModel();
 
-        var cellInfo =
-        {
-          xPos  : xPos,
-          col   : col,
-          name  : tableModel.getColumnName(col),
-          table : table
+        var cellInfo = {
+          xPos: xPos,
+          col: col,
+          name: tableModel.getColumnName(col),
+          table: table
         };
 
         var cellRenderer = columnModel.getHeaderCellRenderer(col);
@@ -224,29 +200,25 @@ qx.Class.define("qx.ui.table.pane.Header",
         feedback.setHeight(size.height);
         feedback.setZIndex(1000000);
         feedback.setOpacity(0.8);
-        feedback.setLayoutProperties({top: pos.top});
+        feedback.setLayoutProperties({ top: pos.top });
 
         this.getApplicationRoot().add(feedback);
         this.__moveFeedback = feedback;
       }
 
-      this.__moveFeedback.setLayoutProperties({left: pos.left + x});
+      this.__moveFeedback.setLayoutProperties({ left: pos.left + x });
       this.__moveFeedback.show();
     },
-
 
     /**
      * Hides the feedback shown while a column is moved by the user.
      */
-    hideColumnMoveFeedback : function()
-    {
-      if (this.__moveFeedback != null)
-      {
+    hideColumnMoveFeedback() {
+      if (this.__moveFeedback != null) {
         this.__moveFeedback.destroy();
         this.__moveFeedback = null;
       }
     },
-
 
     /**
      * Returns whether the column move feedback is currently shown.
@@ -254,10 +226,9 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @return {Boolean} <code>true</code> whether the column move feedback is
      *    currently shown, <code>false</code> otherwise.
      */
-    isShowingColumnMoveFeedback : function() {
+    isShowingColumnMoveFeedback() {
       return this.__moveFeedback != null;
     },
-
 
     /**
      * Updates the content of the header.
@@ -265,8 +236,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @param completeUpdate {Boolean} if true a complete update is performed. On a
      *      complete update all header widgets are recreated.
      */
-    _updateContent : function(completeUpdate)
-    {
+    _updateContent(completeUpdate) {
       var table = this.getTable();
       var tableModel = table.getTableModel();
       var columnModel = table.getTableColumnModel();
@@ -286,8 +256,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       var cellInfo = {};
       cellInfo.sortedAscending = tableModel.isSortAscending();
 
-      for (var x=0; x<colCount; x++)
-      {
+      for (var x = 0; x < colCount; x++) {
         var col = paneModel.getColumnAtX(x);
         if (col === undefined) {
           continue;
@@ -301,27 +270,23 @@ qx.Class.define("qx.ui.table.pane.Header",
         cellInfo.col = col;
         cellInfo.name = tableModel.getColumnName(col);
         cellInfo.editable = tableModel.isColumnEditable(col);
-        cellInfo.sorted = (col == sortedColumn);
+        cellInfo.sorted = col == sortedColumn;
         cellInfo.table = table;
 
         // Get the cached widget
         var cachedWidget = children[x];
 
         // Create or update the widget
-        if (cachedWidget == null)
-        {
+        if (cachedWidget == null) {
           // We have no cached widget -> create it
           cachedWidget = cellRenderer.createHeaderCell(cellInfo);
 
-          cachedWidget.set(
-          {
-            width  : colWidth
+          cachedWidget.set({
+            width: colWidth
           });
 
           this._add(cachedWidget);
-        }
-        else
-        {
+        } else {
           // This widget already created before -> recycle it
           cellRenderer.updateHeaderCell(cellInfo, cachedWidget);
         }
@@ -340,24 +305,19 @@ qx.Class.define("qx.ui.table.pane.Header",
       }
     },
 
-
     /**
      * Cleans up all header cells.
      *
      */
-    _cleanUpCells : function()
-    {
+    _cleanUpCells() {
       var children = this._getChildren();
 
-      for (var x=children.length-1; x>=0; x--)
-      {
+      for (var x = children.length - 1; x >= 0; x--) {
         var cellWidget = children[x];
         cellWidget.destroy();
       }
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -365,8 +325,7 @@ qx.Class.define("qx.ui.table.pane.Header",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__blocker.dispose();
     this._disposeObjects("__paneScroller");
   }

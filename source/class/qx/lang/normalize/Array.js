@@ -28,9 +28,7 @@
  */
 /* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.Array", {
-
-  statics : {
-
+  statics: {
     /**
      * The <code>indexOf()</code> method returns the first index at which a given
      * element can be found in the array, or -1 if it is not present.
@@ -50,14 +48,14 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @return {Integer} The first index at which the element was found or -1
      * if the element was not found in the array
      */
-    indexOf : function(searchElement, fromIndex) {
+    indexOf(searchElement, fromIndex) {
       if (fromIndex == null) {
         fromIndex = 0;
       } else if (fromIndex < 0) {
         fromIndex = Math.max(0, this.length + fromIndex);
       }
 
-      for (var i=fromIndex; i<this.length; i++) {
+      for (var i = fromIndex; i < this.length; i++) {
         if (this[i] === searchElement) {
           return i;
         }
@@ -65,7 +63,6 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
       return -1;
     },
-
 
     /**
      * The <code>lastIndexOf()</code> method returns the last index
@@ -89,15 +86,14 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @return {Integer} The last index at which the element was found or -1
      * if the element was not found in the array
      */
-    lastIndexOf : function(searchElement, fromIndex)
-    {
+    lastIndexOf(searchElement, fromIndex) {
       if (fromIndex == null) {
         fromIndex = this.length - 1;
       } else if (fromIndex < 0) {
         fromIndex = Math.max(0, this.length + fromIndex);
       }
 
-      for (var i=fromIndex; i>=0; i--) {
+      for (var i = fromIndex; i >= 0; i--) {
         if (this[i] === searchElement) {
           return i;
         }
@@ -105,7 +101,6 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
       return -1;
     },
-
 
     /**
      * The <code>forEach()</code> method executes a provided function
@@ -118,18 +113,15 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param callback {Function} Function to execute for each element.
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      */
-    forEach : function(callback, obj)
-    {
+    forEach(callback, obj) {
       var l = this.length;
-      for (var i=0; i<l; i++)
-      {
+      for (var i = 0; i < l; i++) {
         var value = this[i];
-        if (value !== undefined)  {
+        if (value !== undefined) {
           callback.call(obj || window, value, i, this);
         }
       }
     },
-
 
     /**
      * The <code>filter()</code> method creates a new array with
@@ -143,16 +135,13 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Array} filtered array
      */
-    filter : function(callback, obj)
-    {
+    filter(callback, obj) {
       var res = [];
 
       var l = this.length;
-      for (var i=0; i<l; i++)
-      {
+      for (var i = 0; i < l; i++) {
         var value = this[i];
-        if (value !== undefined)
-        {
+        if (value !== undefined) {
           if (callback.call(obj || window, value, i, this)) {
             res.push(this[i]);
           }
@@ -180,13 +169,11 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Array} result array
      */
-    map : function(callback, obj)
-    {
+    map(callback, obj) {
       var res = [];
 
       var l = this.length;
-      for (var i=0; i<l; i++)
-      {
+      for (var i = 0; i < l; i++) {
         var value = this[i];
         if (value !== undefined) {
           res[i] = callback.call(obj || window, value, i, this);
@@ -208,14 +195,11 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Array} result array
      */
-    some : function(callback, obj)
-    {
+    some(callback, obj) {
       var l = this.length;
-      for (var i=0; i<l; i++)
-      {
+      for (var i = 0; i < l; i++) {
         var value = this[i];
-        if (value !== undefined)
-        {
+        if (value !== undefined) {
           if (callback.call(obj || window, value, i, this)) {
             return true;
           }
@@ -236,14 +220,11 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Array} result array
      */
-    every : function(callback, obj)
-    {
+    every(callback, obj) {
       var l = this.length;
-      for (var i=0; i<l; i++)
-      {
+      for (var i = 0; i < l; i++) {
         var value = this[i];
-        if (value !== undefined)
-        {
+        if (value !== undefined) {
           if (!callback.call(obj || window, value, i, this)) {
             return false;
           }
@@ -263,7 +244,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Object} result, undefined if not found
      */
-    find : function(callback, obj) {
+    find(callback, obj) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertFunction(callback);
       }
@@ -289,7 +270,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
      * @return {Integer} the index in the array, -1 if not found
      */
-    findIndex : function(callback, obj) {
+    findIndex(callback, obj) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertFunction(callback);
       }
@@ -326,8 +307,8 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param init {Object?} Object to use as the first argument to the first call of the callback.
      * @return {var} result value
      */
-    reduce : function(callback, init) {
-      if(typeof callback !== "function") {
+    reduce(callback, init) {
+      if (typeof callback !== "function") {
         throw new TypeError("First argument is not callable");
       }
 
@@ -366,7 +347,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param init {Object?} Object to use as the first argument to the first call of the callback.
      * @return {var} return value
      */
-    reduceRight : function(callback, init) {
+    reduceRight(callback, init) {
       if (typeof callback !== "function") {
         throw new TypeError("First argument is not callable");
       }
@@ -376,7 +357,11 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
       }
 
       var ret = init === undefined ? this[this.length - 1] : init;
-      for (var i = init === undefined ? this.length - 2 : this.length - 1; i >= 0; i--) {
+      for (
+        var i = init === undefined ? this.length - 2 : this.length - 1;
+        i >= 0;
+        i--
+      ) {
         if (i in this) {
           ret = callback.call(undefined, ret, this[i], i, this);
         }
@@ -395,8 +380,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
      * @param fromIndex {Number} Index to start search from
      * @return {bool} true if element is included
      */
-    includes : function(searchElement, fromIndex)
-    {
+    includes(searchElement, fromIndex) {
       if (this == null) {
         throw new TypeError('"this" is null or not defined');
       }
@@ -424,7 +408,13 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
       var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
 
       function sameValueZero(x, y) {
-        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+        return (
+          x === y ||
+          (typeof x === "number" &&
+            typeof y === "number" &&
+            isNaN(x) &&
+            isNaN(y))
+        );
       }
 
       // 7. Repeat, while k < len
@@ -446,8 +436,8 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
   /**
    * @lint environmentNonLiteralKey()
    */
-  defer : function(statics) {
-    var install = function(key, name) {
+  defer(statics) {
+    var install = function (key, name) {
       if (!qx.core.Environment.get(key)) {
         Object.defineProperty(Array.prototype, name, {
           enumerable: false,

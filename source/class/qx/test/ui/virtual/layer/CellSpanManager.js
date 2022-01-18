@@ -17,14 +17,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.rowConfig = new qx.ui.virtual.core.Axis(10, 100);
       this.columnConfig = new qx.ui.virtual.core.Axis(20, 100);
 
@@ -34,21 +31,16 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       );
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.cellSpan.dispose();
       this.rowConfig.dispose();
       this.columnConfig.dispose();
     },
 
-
-    assertSorted : function(cells, key)
-    {
+    assertSorted(cells, key) {
       var last = -1;
-      for (var i=0, l=cells.length; i<l; i++)
-      {
+      for (var i = 0, l = cells.length; i < l; i++) {
         var cell = cells[i];
         var start = cell[key];
         this.assert(last <= start);
@@ -56,9 +48,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       }
     },
 
-
-    testGetSortedCells : function()
-    {
+    testGetSortedCells() {
       var cellSpan = this.cellSpan;
 
       cellSpan.addCell("c1", 6, 4, 5, 3);
@@ -84,7 +74,6 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       this.assertEquals(6, cells.length);
       this.assertSorted(cells, "lastColumn");
 
-
       cellSpan.addCell("c7", 6, 5, 2, 5);
       cellSpan.addCell("c8", 1, 12, 7, 4);
 
@@ -105,9 +94,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       this.assertSorted(cells, "lastColumn");
     },
 
-
-    testFindCellsInRange : function()
-    {
+    testFindCellsInRange() {
       var cellSpan = this.cellSpan;
 
       cellSpan.addCell("c1", 6, 4, 5, 3);
@@ -118,10 +105,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c6", 10, 10, 1, 3);
 
       var result = cellSpan._findCellsInRange("firstRow", 2, 6);
-      this.assertArrayEquals(
-        ["c1", "c2", "c4"],
-        Object.keys(result).sort()
-      );
+      this.assertArrayEquals(["c1", "c2", "c4"], Object.keys(result).sort());
 
       var result = cellSpan._findCellsInRange("firstRow", 11, 20);
       this.assertArrayEquals([], Object.keys(result));
@@ -130,20 +114,13 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       this.assertArrayEquals([], Object.keys(result));
 
       var result = cellSpan._findCellsInRange("firstRow", 0, 5);
-      this.assertArrayEquals(
-        ["c2", "c4", "c5"],
-        Object.keys(result).sort()
-      );
-
+      this.assertArrayEquals(["c2", "c4", "c5"], Object.keys(result).sort());
 
       var result = cellSpan._findCellsInRange("lastRow", 3, 8);
       this.assertArrayEquals(["c2", "c4"], Object.keys(result).sort());
 
       var result = cellSpan._findCellsInRange("firstColumn", 3, 7);
-      this.assertArrayEquals(
-        ["c1", "c2", "c3"],
-        Object.keys(result).sort()
-      );
+      this.assertArrayEquals(["c1", "c2", "c3"], Object.keys(result).sort());
 
       var result = cellSpan._findCellsInRange("lastColumn", 0, 22);
       this.assertArrayEquals(
@@ -152,9 +129,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       );
     },
 
-
-    testFindCellsInWindow : function()
-    {
+    testFindCellsInWindow() {
       var cellSpan = this.cellSpan;
 
       cellSpan.addCell("c1", 6, 4, 5, 3);
@@ -166,92 +141,131 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
 
       var cells = cellSpan.findCellsInWindow(1, 7, 5, 14);
       var ids = [];
-      cells.forEach(function(cell) {
+      cells.forEach(function (cell) {
         ids.push(cell.id);
       });
       this.assertArrayEquals(["c2", "c4", "c5"], ids.sort());
     },
 
-
-    testGetCellOffsets : function()
-    {
+    testGetCellOffsets() {
       var cellSpan = this.cellSpan;
 
-      var bounds = cellSpan.getCellBounds([{
-        firstRow: 1,
-        lastRow: 3,
-        firstColumn: 2,
-        lastColumn: 5
-      }], 3, 3);
-      this.assertJsonEquals({
-        left: -20,
-        top: -20,
-        width: 80,
-        height: 30
-      }, bounds[0]);
+      var bounds = cellSpan.getCellBounds(
+        [
+          {
+            firstRow: 1,
+            lastRow: 3,
+            firstColumn: 2,
+            lastColumn: 5
+          }
+        ],
+        3,
+        3
+      );
+      this.assertJsonEquals(
+        {
+          left: -20,
+          top: -20,
+          width: 80,
+          height: 30
+        },
+        bounds[0]
+      );
 
-      var bounds = cellSpan.getCellBounds([{
-        firstRow: 1,
-        lastRow: 3,
-        firstColumn: 2,
-        lastColumn: 5
-      }], 1, 2);
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 80,
-        height: 30
-      }, bounds[0]);
+      var bounds = cellSpan.getCellBounds(
+        [
+          {
+            firstRow: 1,
+            lastRow: 3,
+            firstColumn: 2,
+            lastColumn: 5
+          }
+        ],
+        1,
+        2
+      );
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 80,
+          height: 30
+        },
+        bounds[0]
+      );
 
-      var bounds = cellSpan.getCellBounds([{
-        firstRow: 1,
-        lastRow: 3,
-        firstColumn: 2,
-        lastColumn: 5
-      }], 0, 1);
-      this.assertJsonEquals({
-        left: 20,
-        top: 10,
-        width: 80,
-        height: 30
-      }, bounds[0]);
+      var bounds = cellSpan.getCellBounds(
+        [
+          {
+            firstRow: 1,
+            lastRow: 3,
+            firstColumn: 2,
+            lastColumn: 5
+          }
+        ],
+        0,
+        1
+      );
+      this.assertJsonEquals(
+        {
+          left: 20,
+          top: 10,
+          width: 80,
+          height: 30
+        },
+        bounds[0]
+      );
     },
 
-
-    testAxisChange : function()
-    {
-      var bounds = this.cellSpan.getCellBounds([{
-        firstRow: 1,
-        lastRow: 3,
-        firstColumn: 2,
-        lastColumn: 5
-      }], 3, 3);
-      this.assertJsonEquals({
-        left: -20,
-        top: -20,
-        width: 80,
-        height: 30
-      }, bounds[0]);
+    testAxisChange() {
+      var bounds = this.cellSpan.getCellBounds(
+        [
+          {
+            firstRow: 1,
+            lastRow: 3,
+            firstColumn: 2,
+            lastColumn: 5
+          }
+        ],
+        3,
+        3
+      );
+      this.assertJsonEquals(
+        {
+          left: -20,
+          top: -20,
+          width: 80,
+          height: 30
+        },
+        bounds[0]
+      );
 
       this.rowConfig.setDefaultItemSize(15);
 
-      var bounds = this.cellSpan.getCellBounds([{
-        firstRow: 1,
-        lastRow: 3,
-        firstColumn: 2,
-        lastColumn: 5
-      }], 3, 3);
-      this.assertJsonEquals({
-        left: -20,
-        top: -30,
-        width: 80,
-        height: 45
-      }, bounds[0]);
+      var bounds = this.cellSpan.getCellBounds(
+        [
+          {
+            firstRow: 1,
+            lastRow: 3,
+            firstColumn: 2,
+            lastColumn: 5
+          }
+        ],
+        3,
+        3
+      );
+      this.assertJsonEquals(
+        {
+          left: -20,
+          top: -30,
+          width: 80,
+          height: 45
+        },
+        bounds[0]
+      );
     },
 
-
-    testComputeCellSpanMap : function()
-    {
+    testComputeCellSpanMap() {
       var cellSpan = this.cellSpan;
 
       cellSpan.addCell("c1", 0, 0, 2, 2);
@@ -262,43 +276,43 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
 
       var cells = cellSpan.findCellsInWindow(1, 1, 4, 4);
       var ids = [];
-      cells.forEach(function(cell) {
+      cells.forEach(function (cell) {
         ids.push(cell.id);
       });
       this.assertJsonEquals(["c1", "c2", "c3", "c4", "c5"], ids.sort());
 
       var map = cellSpan.computeCellSpanMap(cells, 1, 1, 4, 4);
-      this.assertJsonEquals([
-       undefined,
-       [undefined, 1, undefined, undefined, 1],
-       [undefined, undefined, 1, 1],
-       [undefined, undefined, 1, 1],
-       [undefined, 1, undefined, undefined, 1]
-      ], map);
+      this.assertJsonEquals(
+        [
+          undefined,
+          [undefined, 1, undefined, undefined, 1],
+          [undefined, undefined, 1, 1],
+          [undefined, undefined, 1, 1],
+          [undefined, 1, undefined, undefined, 1]
+        ],
+        map
+      );
     },
 
-
-    testDispose : function()
-    {
+    testDispose() {
       var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
       var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
 
-      this.assertDestroy(function()
-      {
+      this.assertDestroy(function () {
         var cellSpan = new qx.ui.virtual.layer.CellSpanManager(
           rowConfig,
           columnConfig
         );
+
         cellSpan.dispose();
       }, this);
 
       rowConfig.dispose();
       columnConfig.dispose();
     }
-
   },
 
-  destruct : function() {
+  destruct() {
     this.cellSpan = this.rowConfig = this.columnConfig = null;
   }
 });

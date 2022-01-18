@@ -24,13 +24,10 @@
  *
  * http://www.w3.org/TR/css3-3d-transforms/
  */
-qx.Bootstrap.define("qx.bom.element.Transform",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.element.Transform", {
+  statics: {
     /** Internal storage of the CSS names */
-    __cssKeys : qx.core.Environment.get("css.transform"),
-
+    __cssKeys: qx.core.Environment.get("css.transform"),
 
     /**
      * Method to apply multiple transforms at once to the given element. It
@@ -51,7 +48,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The element to apply the transformation.
      * @param transforms {Map} The map containing the transforms and value.
      */
-    transform : function(el, transforms) {
+    transform(el, transforms) {
       var transformCss = this.getTransformValue(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
@@ -59,17 +56,15 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       }
     },
 
-
     /**
      * Translates the given element by the given value. For further details, take
      * a look at the {@link #transform} method.
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to translate e.g. <code>"10px"</code>.
      */
-    translate : function(el, value) {
-      this.transform(el, {translate: value});
+    translate(el, value) {
+      this.transform(el, { translate: value });
     },
-
 
     /**
      * Scales the given element by the given value. For further details, take
@@ -77,10 +72,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The element to apply the transformation.
      * @param value {Number|Array} The value to scale.
      */
-    scale : function(el, value) {
-      this.transform(el, {scale: value});
+    scale(el, value) {
+      this.transform(el, { scale: value });
     },
-
 
     /**
      * Rotates the given element by the given value. For further details, take
@@ -88,10 +82,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to rotate e.g. <code>"90deg"</code>.
      */
-    rotate : function(el, value) {
-      this.transform(el, {rotate: value});
+    rotate(el, value) {
+      this.transform(el, { rotate: value });
     },
-
 
     /**
      * Skews the given element by the given value. For further details, take
@@ -99,10 +92,9 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The element to apply the transformation.
      * @param value {String|Array} The value to skew e.g. <code>"90deg"</code>.
      */
-    skew : function(el, value) {
-      this.transform(el, {skew: value});
+    skew(el, value) {
+      this.transform(el, { skew: value });
     },
-
 
     /**
      * Converts the given map to a string which could be added to a css
@@ -111,7 +103,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * take a look at the {@link #transform} method.
      * @return {String} The CSS value.
      */
-    getCss : function(transforms) {
+    getCss(transforms) {
       var transformCss = this.getTransformValue(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
@@ -119,7 +111,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       }
       return "";
     },
-
 
     /**
      * Sets the transform-origin property of the given element.
@@ -129,12 +120,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param value {String} CSS position values like <code>50% 50%</code> or
      *   <code>left top</code>.
      */
-    setOrigin : function(el, value) {
+    setOrigin(el, value) {
       if (this.__cssKeys != null) {
         el.style[this.__cssKeys["origin"]] = value;
       }
     },
-
 
     /**
      * Returns the transform-origin property of the given element.
@@ -143,13 +133,12 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to read the property.
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
-    getOrigin : function(el) {
+    getOrigin(el) {
       if (this.__cssKeys != null) {
         return el.style[this.__cssKeys["origin"]];
       }
       return "";
     },
-
 
     /**
      * Sets the transform-style property of the given element.
@@ -158,12 +147,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to set the property.
      * @param value {String} Either <code>flat</code> or <code>preserve-3d</code>.
      */
-    setStyle : function(el, value) {
+    setStyle(el, value) {
       if (this.__cssKeys != null) {
         el.style[this.__cssKeys["style"]] = value;
       }
     },
-
 
     /**
      * Returns the transform-style property of the given element.
@@ -173,13 +161,12 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The set property, either <code>flat</code> or
      *   <code>preserve-3d</code>.
      */
-    getStyle : function(el) {
+    getStyle(el) {
       if (this.__cssKeys != null) {
         return el.style[this.__cssKeys["style"]];
       }
       return "";
     },
-
 
     /**
      * Sets the perspective property of the given element.
@@ -189,12 +176,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param value {Number} The perspective layer. Numbers between 100
      *   and 5000 give the best results.
      */
-    setPerspective : function(el, value) {
+    setPerspective(el, value) {
       if (this.__cssKeys != null) {
         el.style[this.__cssKeys["perspective"]] = value + "px";
       }
     },
-
 
     /**
      * Returns the perspective property of the given element.
@@ -203,13 +189,12 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to read the property.
      * @return {String} The set property, e.g. <code>500</code>
      */
-    getPerspective : function(el) {
+    getPerspective(el) {
       if (this.__cssKeys != null) {
         return el.style[this.__cssKeys["perspective"]];
       }
       return "";
     },
-
 
     /**
      * Sets the perspective-origin property of the given element.
@@ -219,12 +204,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param value {String} CSS position values like <code>50% 50%</code> or
      *   <code>left top</code>.
      */
-    setPerspectiveOrigin : function(el, value) {
+    setPerspectiveOrigin(el, value) {
       if (this.__cssKeys != null) {
         el.style[this.__cssKeys["perspective-origin"]] = value;
       }
     },
-
 
     /**
      * Returns the perspective-origin property of the given element.
@@ -233,7 +217,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to read the property.
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
-    getPerspectiveOrigin : function(el) {
+    getPerspectiveOrigin(el) {
       if (this.__cssKeys != null) {
         var value = el.style[this.__cssKeys["perspective-origin"]];
         if (value != "") {
@@ -249,7 +233,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       return "";
     },
 
-
     /**
      * Sets the backface-visibility property of the given element.
      *
@@ -257,12 +240,13 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to set the property.
      * @param value {Boolean} <code>true</code> if the backface should be visible.
      */
-    setBackfaceVisibility : function(el, value) {
+    setBackfaceVisibility(el, value) {
       if (this.__cssKeys != null) {
-        el.style[this.__cssKeys["backface-visibility"]] = value ? "visible" : "hidden";
+        el.style[this.__cssKeys["backface-visibility"]] = value
+          ? "visible"
+          : "hidden";
       }
     },
-
 
     /**
      * Returns the backface-visibility property of the given element.
@@ -271,13 +255,12 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param el {Element} The dom element to read the property.
      * @return {Boolean} <code>true</code>, if the backface is visible.
      */
-    getBackfaceVisibility : function(el) {
+    getBackfaceVisibility(el) {
       if (this.__cssKeys != null) {
         return el.style[this.__cssKeys["backface-visibility"]] == "visible";
       }
       return true;
     },
-
 
     /**
      * Converts the given transforms map to a valid CSS string.
@@ -285,7 +268,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @param transforms {Map} A map containing the transforms.
      * @return {String} The CSS transforms.
      */
-    getTransformValue : function(transforms) {
+    getTransformValue(transforms) {
       var value = "";
       var properties3d = ["translate", "scale"];
 
@@ -295,7 +278,8 @@ qx.Bootstrap.define("qx.bom.element.Transform",
         // if an array is given
         if (qx.Bootstrap.isArray(params)) {
           // use 3d properties for translate and scale if all 3 parameter are given
-          if (params.length === 3 &&
+          if (
+            params.length === 3 &&
             properties3d.indexOf(property) > -1 &&
             qx.core.Environment.get("css.transform.3d")
           ) {
@@ -307,7 +291,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
             value += this._computeAxisProperties(property, params);
           }
 
-        // case for single values given
+          // case for single values given
         } else {
           // single value case
           value += property + "(" + params + ") ";
@@ -317,7 +301,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       return value.trim();
     },
 
-
     /**
      * Helper function to create 3d property.
      *
@@ -326,12 +309,11 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *
      * @return {String} Computed property and its value
      */
-    _compute3dProperty : function(property, params)
-    {
+    _compute3dProperty(property, params) {
       var cssValue = "";
       property += "3d";
 
-      for (var i=0; i < params.length; i++) {
+      for (var i = 0; i < params.length; i++) {
         if (params[i] == null) {
           params[i] = 0;
         }
@@ -342,7 +324,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       return cssValue;
     },
 
-
     /**
      * Helper function to create axis related properties.
      *
@@ -351,13 +332,14 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      *
      * @return {String} Computed property and its value
      */
-    _computeAxisProperties : function(property, params)
-    {
+    _computeAxisProperties(property, params) {
       var value = "";
       var dimensions = ["X", "Y", "Z"];
-      for (var i=0; i < params.length; i++) {
-        if (params[i] == null ||
-          (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
+      for (var i = 0; i < params.length; i++) {
+        if (
+          params[i] == null ||
+          (i == 2 && !qx.core.Environment.get("css.transform.3d"))
+        ) {
           continue;
         }
         value += property + dimensions[i] + "(";

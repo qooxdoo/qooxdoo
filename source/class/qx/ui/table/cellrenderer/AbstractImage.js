@@ -21,12 +21,9 @@
  * A template class for cell renderer, which display images. Concrete
  * implementations must implement the method {@link #_identifyImage}.
  */
-qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
-{
-  extend : qx.ui.table.cellrenderer.Abstract,
-  type : "abstract",
-
-
+qx.Class.define("qx.ui.table.cellrenderer.AbstractImage", {
+  extend: qx.ui.table.cellrenderer.Abstract,
+  type: "abstract",
 
   /*
   *****************************************************************************
@@ -34,29 +31,23 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var clazz = this.self(arguments);
-    if (!clazz.stylesheet)
-    {
+    if (!clazz.stylesheet) {
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
-        ".qooxdoo-table-cell-icon {" +
-        "  text-align:center;" +
-        "}"
+        ".qooxdoo-table-cell-icon {" + "  text-align:center;" + "}"
       );
     }
   },
-
 
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     /**
      * Whether to repeat or scale the image.
      *
@@ -69,27 +60,24 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *     <code>repeat-x</code>,
      *     <code>repeat-y</code>,
      *     <code>no-repeat</code>
-    */
-    repeat :
-    {
-      check : function(value)
-      {
-        var valid =
-          [
-            "scale",
-            "scale-x",
-            "scale-y",
-            "repeat",
-            "repeat-x",
-            "repeat-y",
-            "no-repeat"
-          ];
+     */
+    repeat: {
+      check(value) {
+        var valid = [
+          "scale",
+          "scale-x",
+          "scale-y",
+          "repeat",
+          "repeat-x",
+          "repeat-y",
+          "no-repeat"
+        ];
+
         return valid.includes(value);
       },
-      init  : "no-repeat"
+      init: "no-repeat"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -97,12 +85,10 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   *****************************************************************************
   */
 
-  members :
-  {
-    __defaultWidth : 16,
-    __defaultHeight : 16,
-    __imageData : null,
-
+  members: {
+    __defaultWidth: 16,
+    __defaultHeight: 16,
+    __imageData: null,
 
     /**
      * Identifies the Image to show. This is a template method, which must be
@@ -125,10 +111,9 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *           </ul>
      * @throws {Error} the abstract function warning.
      */
-    _identifyImage : function(cellInfo) {
+    _identifyImage(cellInfo) {
       throw new Error("_identifyImage is abstract");
     },
-
 
     /**
      * Retrieves the image infos.
@@ -140,27 +125,23 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      *                 and a "tooltip" attribute
      *                 (type string) being the tooltip text (or null if none was specified)
      */
-    _getImageInfos : function(cellInfo)
-    {
+    _getImageInfos(cellInfo) {
       // Query the subclass about image and tooltip
       var imageData = this._identifyImage(cellInfo);
 
       // If subclass refuses to give map, construct it with required properties
       // If no map is given, but instead a string, assume that this string is
       // the URL of the image [BUG #4289]
-      if (imageData == null || typeof imageData == "string")
-      {
-        imageData =
-        {
-          url : imageData,
-          tooltip : null
+      if (imageData == null || typeof imageData == "string") {
+        imageData = {
+          url: imageData,
+          tooltip: null
         };
       }
 
       // If sizes are not included in map given by subclass,
       // fall-back to calculated image size
-      if (!imageData.imageWidth || !imageData.imageHeight)
-      {
+      if (!imageData.imageWidth || !imageData.imageHeight) {
         var sizes = this.__getImageSize(imageData.url);
 
         imageData.imageWidth = sizes.width;
@@ -176,7 +157,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       return imageData;
     },
 
-
     /**
      * Compute the size of the given image
      *
@@ -184,54 +164,47 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * @return {Map} A map containing the image's <code>width</code> and
      *    <code>height</code>
      */
-    __getImageSize : function(source)
-    {
+    __getImageSize(source) {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       var ImageLoader = qx.io.ImageLoader;
       var width, height;
 
       // Detect if the image registry knows this image
-      if (ResourceManager.has(source))
-      {
+      if (ResourceManager.has(source)) {
         width = ResourceManager.getImageWidth(source);
         height = ResourceManager.getImageHeight(source);
-      }
-      else if (ImageLoader.isLoaded(source))
-      {
+      } else if (ImageLoader.isLoaded(source)) {
         width = ImageLoader.getWidth(source);
         height = ImageLoader.getHeight(source);
-      }
-      else
-      {
+      } else {
         width = this.__defaultWidth;
         height = this.__defaultHeight;
       }
 
-      return {width : width, height : height};
+      return { width: width, height: height };
     },
 
-
     // overridden
-    createDataCellHtml : function(cellInfo, htmlArr)
-    {
+    createDataCellHtml(cellInfo, htmlArr) {
       this.__imageData = this._getImageInfos(cellInfo);
-      return this.base(arguments, cellInfo, htmlArr);
+      return super.createDataCellHtml(cellInfo, htmlArr);
     },
 
-
     // overridden
-    _getCellClass : function(cellInfo) {
-      return this.base(arguments) + " qooxdoo-table-cell-icon";
+    _getCellClass(cellInfo) {
+      return super._getCellClass() + " qooxdoo-table-cell-icon";
     },
 
-
     // overridden
-    _getContentHtml : function(cellInfo) {
+    _getContentHtml(cellInfo) {
       var content = "<div></div>";
       // set image
       if (this.__imageData.url) {
         var srcUrl = this.__imageData.url;
-        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource(this.__imageData.url);
+        var highResolutionSource =
+          qx.util.ResourceManager.getInstance().findHighResolutionSource(
+            this.__imageData.url
+          );
         if (highResolutionSource) {
           srcUrl = highResolutionSource;
         }
@@ -241,21 +214,29 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "middle",
           position: "static"
-        }
-        if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
+        };
+
+        if (
+          qx.util.ResourceManager.getInstance().getCombinedFormat(
+            this.__imageData.url
+          ) === ""
+        ) {
           // background size is critical for high-resolution images but breaks combined images
-          style["background-size"] = this.__imageData.width + "px " + this.__imageData.height + "px";
+          style["background-size"] =
+            this.__imageData.width + "px " + this.__imageData.height + "px";
         }
-        content = qx.bom.element.Decoration.create(srcUrl, this.getRepeat(), style);
+        content = qx.bom.element.Decoration.create(
+          srcUrl,
+          this.getRepeat(),
+          style
+        );
       }
       return content;
     },
 
-
     // overridden
-    _getCellAttributes : function(cellInfo)
-    {
-      let baseAttrs = this.base(arguments, cellInfo);
+    _getCellAttributes(cellInfo) {
+      let baseAttrs = super._getCellAttributes(cellInfo);
       if (!baseAttrs) {
         baseAttrs = "";
       }
@@ -275,8 +256,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__imageData = null;
   }
 });

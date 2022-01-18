@@ -19,18 +19,14 @@
 
 /**
  * This handler provides events for qooxdoo application startup/shutdown logic.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  * @require(qx.bom.client.Engine)
  */
-qx.Class.define("qx.event.handler.Application",
-{
-  extend : qx.core.Object,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.event.handler.Application", {
+  extend: qx.core.Object,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -43,9 +39,8 @@ qx.Class.define("qx.event.handler.Application",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     // Define shorthands
     this._window = manager.getWindow();
@@ -64,37 +59,27 @@ qx.Class.define("qx.event.handler.Application",
     qx.event.handler.Application.$$instance = this;
   },
 
-
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      ready : 1,
-      shutdown : 1
+    SUPPORTED_TYPES: {
+      ready: 1,
+      shutdown: 1
     },
 
-
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
-
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_WINDOW,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true,
-
+    IGNORE_CAN_HANDLE: true,
 
     /**
      * Sends the currently running application the ready signal. Used
@@ -102,22 +87,19 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @internal
      */
-    onScriptLoaded : function()
-    {
+    onScriptLoaded() {
       var inst = qx.event.handler.Application.$$instance;
       if (inst) {
         inst.__fireReady();
       }
     },
 
-
     /**
      * Notifies that the application has finished initialization
      *
      * @internal
      */
-    onAppInstanceInitialized : function()
-    {
+    onAppInstanceInitialized() {
       var inst = qx.event.handler.Application.$$instance;
       if (inst) {
         inst.__fireAppInstanceInitialized();
@@ -125,18 +107,13 @@ qx.Class.define("qx.event.handler.Application",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -144,29 +121,23 @@ qx.Class.define("qx.event.handler.Application",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-    __isReady : null,
-    __isInitialized : null,
-    __domReady : null,
-    __loaded : null,
-    __isUnloaded : null,
-
-
-
-
+    __isReady: null,
+    __isInitialized: null,
+    __domReady: null,
+    __loaded: null,
+    __isUnloaded: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -178,27 +149,21 @@ qx.Class.define("qx.event.handler.Application",
      * Fires a global ready event.
      *
      */
-    __fireReady : function()
-    {
+    __fireReady() {
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded)
-      {
+      if (!this.__isReady && this.__domReady && qx.$$loader.scriptLoaded) {
         // If qooxdoo is loaded within a frame in IE, the document is ready before
         // the "ready" listener can be added. To avoid any startup issue check
         // for the availability of the "ready" listener before firing the event.
         // So at last the native "load" will trigger the "ready" event.
-        if ((qx.core.Environment.get("engine.name") == "mshtml"))
-        {
-          if (qx.event.Registration.hasListener(this._window, "ready"))
-          {
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
+          if (qx.event.Registration.hasListener(this._window, "ready")) {
             this.__isReady = true;
 
             // Fire user event
             qx.event.Registration.fireEvent(this._window, "ready");
           }
-        }
-        else
-        {
+        } else {
           this.__isReady = true;
 
           // Fire user event
@@ -206,14 +171,14 @@ qx.Class.define("qx.event.handler.Application",
         }
       }
     },
-    
+
     /**
      * Fires a global "appinitialized" event.
      *
      */
-    __fireAppInstanceInitialized : function() {
+    __fireAppInstanceInitialized() {
       this.__isInitialized = true;
-      
+
       // Fire user event
       qx.event.Registration.fireEvent(this._window, "appinitialized");
     },
@@ -223,7 +188,7 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @return {Boolean} ready status
      */
-    isApplicationReady : function() {
+    isApplicationReady() {
       return this.__isReady;
     },
 
@@ -232,12 +197,9 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @return {Boolean} initialization status
      */
-    isApplicationInitialized : function() {
+    isApplicationInitialized() {
       return this.__isInitialized;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -249,43 +211,46 @@ qx.Class.define("qx.event.handler.Application",
      * Initializes the native application event listeners.
      *
      */
-    _initObserver : function()
-    {
- 
+    _initObserver() {
       // in Firefox the loader script sets the ready state
-      if (qx.$$domReady || document.readyState == "complete" || document.readyState == "ready")
-      {
+      if (
+        qx.$$domReady ||
+        document.readyState == "complete" ||
+        document.readyState == "ready"
+      ) {
         this.__domReady = true;
         this.__fireReady();
-      }
-      else
-      {
-        this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
+      } else {
+        this._onNativeLoadWrapped = qx.lang.Function.bind(
+          this._onNativeLoad,
+          this
+        );
         if (
           qx.core.Environment.get("engine.name") == "gecko" ||
           qx.core.Environment.get("engine.name") == "opera" ||
           qx.core.Environment.get("engine.name") == "webkit" ||
-          (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") > 8)
+          (qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("browser.documentmode") > 8)
         ) {
           // Using native method supported by Mozilla, Webkit, Opera and IE >= 9
-          qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
-          
+          qx.bom.Event.addNativeListener(
+            this._window,
+            "DOMContentLoaded",
+            this._onNativeLoadWrapped
+          );
         } else if (typeof document !== "undefined") {
           var self = this;
 
           // Continually check to see if the document is ready
-          var timer = function()
-          {
-            try
-            {
+          var timer = function () {
+            try {
               // If IE is used, use the trick by Diego Perini
               // http://javascript.nwbox.com/IEContentLoaded/
               document.documentElement.doScroll("left");
               if (document.body) {
                 self._onNativeLoadWrapped();
               }
-            }
-            catch(error) {
+            } catch (error) {
               window.setTimeout(timer, 100);
             }
           };
@@ -294,34 +259,50 @@ qx.Class.define("qx.event.handler.Application",
         }
 
         // Additional load listener as fallback
-        qx.bom.Event.addNativeListener(this._window, "load", this._onNativeLoadWrapped);
+        qx.bom.Event.addNativeListener(
+          this._window,
+          "load",
+          this._onNativeLoadWrapped
+        );
       }
-      if ((qx.core.Environment.get("runtime.name") == "rhino") || (qx.core.Environment.get("runtime.name") == "node.js")) {
+      if (
+        qx.core.Environment.get("runtime.name") == "rhino" ||
+        qx.core.Environment.get("runtime.name") == "node.js"
+      ) {
         return;
-      }  
-      this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
-      qx.bom.Event.addNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
+      }
+      this._onNativeUnloadWrapped = qx.lang.Function.bind(
+        this._onNativeUnload,
+        this
+      );
+      qx.bom.Event.addNativeListener(
+        this._window,
+        "unload",
+        this._onNativeUnloadWrapped
+      );
     },
-
 
     /**
      * Disconnect the native application event listeners.
      *
      */
-    _stopObserver : function()
-    {
+    _stopObserver() {
       if (this._onNativeLoadWrapped) {
-        qx.bom.Event.removeNativeListener(this._window, "load", this._onNativeLoadWrapped);
+        qx.bom.Event.removeNativeListener(
+          this._window,
+          "load",
+          this._onNativeLoadWrapped
+        );
       }
-      qx.bom.Event.removeNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
+      qx.bom.Event.removeNativeListener(
+        this._window,
+        "unload",
+        this._onNativeUnloadWrapped
+      );
 
       this._onNativeLoadWrapped = null;
       this._onNativeUnloadWrapped = null;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -332,58 +313,52 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * When qx.globalErrorHandling is enabled the callback will observed
      */
-    _onNativeLoad: function () {
+    _onNativeLoad() {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
-        "true": qx.event.GlobalError.observeMethod(this.__onNativeLoadHandler),
-        "false": this.__onNativeLoadHandler
+        true: qx.event.GlobalError.observeMethod(this.__onNativeLoadHandler),
+        false: this.__onNativeLoadHandler
       });
+
       callback.apply(this, arguments);
     },
-
 
     /**
      * Event listener for native load event
      */
-    __onNativeLoadHandler: function () {
+    __onNativeLoadHandler() {
       this.__domReady = true;
       this.__fireReady();
     },
 
-
     /**
      * When qx.globalErrorHandling is enabled the callback will observed
      */
-    _onNativeUnload: function () {
+    _onNativeUnload() {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
-        "true": qx.event.GlobalError.observeMethod(this.__onNativeUnloadHandler),
-        "false": this.__onNativeUnloadHandler
+        true: qx.event.GlobalError.observeMethod(this.__onNativeUnloadHandler),
+        false: this.__onNativeUnloadHandler
       });
+
       callback.apply(this, arguments);
     },
-
 
     /**
      * Event listener for native unload event
      */
-    __onNativeUnloadHandler: function () {
+    __onNativeUnloadHandler() {
       if (!this.__isUnloaded) {
         this.__isUnloaded = true;
 
         try {
           // Fire user event
           qx.event.Registration.fireEvent(this._window, "shutdown");
-        }
-        catch (e) {
+        } catch (e) {
           // IE doesn't execute the "finally" block if no "catch" block is present
           throw e;
         }
       }
     }
-
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -391,14 +366,11 @@ qx.Class.define("qx.event.handler.Application",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._stopObserver();
 
     this._window = null;
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -406,7 +378,7 @@ qx.Class.define("qx.event.handler.Application",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

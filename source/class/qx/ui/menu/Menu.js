@@ -27,22 +27,16 @@
  *
  * @childControl slidebar {qx.ui.menu.MenuSlideBar} shows a slidebar to easily navigate inside the menu (if too little space is left)
  */
-qx.Class.define("qx.ui.menu.Menu",
-{
-  extend : qx.ui.core.Widget,
+qx.Class.define("qx.ui.menu.Menu", {
+  extend: qx.ui.core.Widget,
 
-  include : [
-    qx.ui.core.MPlacement,
-    qx.ui.core.MRemoteChildrenHandling
-  ],
+  include: [qx.ui.core.MPlacement, qx.ui.core.MRemoteChildrenHandling],
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.menu.Layout);
+    this._setLayout(new qx.ui.menu.Layout());
 
     // Automatically add to application's root
     var root = this.getApplicationRoot();
@@ -69,10 +63,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.initKeepActive();
   },
 
-
-
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       WIDGET PROPERTIES
@@ -80,47 +71,40 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menu"
+    appearance: {
+      refine: true,
+      init: "menu"
     },
 
     // overridden
-    allowGrowX :
-    {
-      refine : true,
+    allowGrowX: {
+      refine: true,
       init: false
     },
 
     // overridden
-    allowGrowY :
-    {
-      refine : true,
+    allowGrowY: {
+      refine: true,
       init: false
     },
 
     // overridden
-    visibility :
-    {
-      refine : true,
-      init : "excluded"
+    visibility: {
+      refine: true,
+      init: "excluded"
     },
 
     // overridden
-    keepFocus :
-    {
-      refine : true,
-      init : true
+    keepFocus: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    keepActive :
-    {
-      refine : true,
-      init : true
+    keepActive: {
+      refine: true,
+      init: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -129,67 +113,60 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     /** The spacing between each cell of the menu buttons */
-    spacingX :
-    {
-      check : "Integer",
-      apply : "_applySpacingX",
-      init : 0,
-      themeable : true
+    spacingX: {
+      check: "Integer",
+      apply: "_applySpacingX",
+      init: 0,
+      themeable: true
     },
 
     /** The spacing between each menu button */
-    spacingY :
-    {
-      check : "Integer",
-      apply : "_applySpacingY",
-      init : 0,
-      themeable : true
+    spacingY: {
+      check: "Integer",
+      apply: "_applySpacingY",
+      init: 0,
+      themeable: true
     },
 
     /**
-    * Default icon column width if no icons are rendered.
-    * This property is ignored as soon as an icon is present.
-    */
-    iconColumnWidth :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true,
-      apply : "_applyIconColumnWidth"
+     * Default icon column width if no icons are rendered.
+     * This property is ignored as soon as an icon is present.
+     */
+    iconColumnWidth: {
+      check: "Integer",
+      init: 0,
+      themeable: true,
+      apply: "_applyIconColumnWidth"
     },
 
     /** Default arrow column width if no sub menus are rendered */
-    arrowColumnWidth :
-    {
-      check : "Integer",
-      init : 0,
-      themeable : true,
-      apply : "_applyArrowColumnWidth"
+    arrowColumnWidth: {
+      check: "Integer",
+      init: 0,
+      themeable: true,
+      apply: "_applyArrowColumnWidth"
     },
 
     /**
      * Color of the blocker
      */
-    blockerColor :
-    {
-      check : "Color",
-      init : null,
+    blockerColor: {
+      check: "Color",
+      init: null,
       nullable: true,
-      apply : "_applyBlockerColor",
+      apply: "_applyBlockerColor",
       themeable: true
     },
 
     /**
      * Opacity of the blocker
      */
-    blockerOpacity :
-    {
-      check : "Number",
-      init : 1,
-      apply : "_applyBlockerOpacity",
+    blockerOpacity: {
+      check: "Number",
+      init: 1,
+      apply: "_applyBlockerOpacity",
       themeable: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -198,31 +175,25 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     /** The currently selected button */
-    selectedButton :
-    {
-      check : "qx.ui.core.Widget",
-      nullable : true,
-      apply : "_applySelectedButton"
+    selectedButton: {
+      check: "qx.ui.core.Widget",
+      nullable: true,
+      apply: "_applySelectedButton"
     },
 
     /** The currently opened button (sub menu is visible) */
-    openedButton :
-    {
-      check : "qx.ui.core.Widget",
-      nullable : true,
-      apply : "_applyOpenedButton"
+    openedButton: {
+      check: "qx.ui.core.Widget",
+      nullable: true,
+      apply: "_applyOpenedButton"
     },
 
     /** Widget that opened the menu */
-    opener :
-    {
-      check : "qx.ui.core.Widget",
+    opener: {
+      check: "qx.ui.core.Widget",
       nullable: true,
-      apply : "_applyOpener"
+      apply: "_applyOpener"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -231,33 +202,28 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     /** Interval in ms after which sub menus should be opened */
-    openInterval :
-    {
-      check : "Integer",
-      themeable : true,
-      init : 250,
-      apply : "_applyOpenInterval"
+    openInterval: {
+      check: "Integer",
+      themeable: true,
+      init: 250,
+      apply: "_applyOpenInterval"
     },
 
     /** Interval in ms after which sub menus should be closed  */
-    closeInterval :
-    {
-      check : "Integer",
-      themeable : true,
-      init : 250,
-      apply : "_applyCloseInterval"
+    closeInterval: {
+      check: "Integer",
+      themeable: true,
+      init: 250,
+      apply: "_applyCloseInterval"
     },
 
     /** Blocks the background if value is <code>true<code> */
-    blockBackground :
-    {
-      check : "Boolean",
-      themeable : true,
-      init : false
+    blockBackground: {
+      check: "Boolean",
+      themeable: true,
+      init: false
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -265,14 +231,12 @@ qx.Class.define("qx.ui.menu.Menu",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __scheduledOpen : null,
-    __onAfterSlideBarAdd : null,
+  members: {
+    __scheduledOpen: null,
+    __onAfterSlideBarAdd: null,
 
     /** @type {qx.ui.core.Blocker} blocker for background blocking */
-    _blocker : null,
+    _blocker: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -283,32 +247,30 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Opens the menu and configures the opener
      */
-    open : function()
-    {
-      if (this.getOpener() != null)
-      {
+    open() {
+      if (this.getOpener() != null) {
         var isPlaced = this.placeToWidget(this.getOpener(), true);
-        if(isPlaced) {
+        if (isPlaced) {
           this.__updateSlideBar();
           this.show();
 
           this._placementTarget = this.getOpener();
         } else {
-          this.warn("Could not open menu instance because 'opener' widget is not visible");
+          this.warn(
+            "Could not open menu instance because 'opener' widget is not visible"
+          );
         }
       } else {
         this.warn("The menu instance needs a configured 'opener' widget!");
       }
     },
 
-
     /**
      * Opens the menu at the pointer position
      *
      * @param e {qx.event.type.Pointer} Pointer event to align to
      */
-    openAtPointer : function(e)
-    {
+    openAtPointer(e) {
       this.placeToPointer(e);
       this.__updateSlideBar();
       this.show();
@@ -319,15 +281,13 @@ qx.Class.define("qx.ui.menu.Menu",
       };
     },
 
-
     /**
      * Opens the menu in relation to the given point
      *
      * @param point {Map} Coordinate of any point with the keys <code>left</code>
      *   and <code>top</code>.
      */
-    openAtPoint : function(point)
-    {
+    openAtPoint(point) {
       this.placeToPoint(point);
       this.__updateSlideBar();
       this.show();
@@ -335,36 +295,32 @@ qx.Class.define("qx.ui.menu.Menu",
       this._placementTarget = point;
     },
 
-
     /**
      * Convenience method to add a separator to the menu
      */
-    addSeparator : function() {
-      this.add(new qx.ui.menu.Separator);
+    addSeparator() {
+      this.add(new qx.ui.menu.Separator());
     },
-
 
     /**
      * Returns the column sizes detected during the pre-layout phase
      *
      * @return {Array} List of all column widths
      */
-    getColumnSizes : function() {
+    getColumnSizes() {
       return this._getMenuLayout().getColumnSizes();
     },
-
 
     /**
      * Return all selectable menu items.
      *
      * @return {qx.ui.core.Widget[]} selectable widgets
      */
-    getSelectables : function() {
+    getSelectables() {
       var result = [];
       var children = this.getChildren();
 
-      for (var i = 0; i < children.length; i++)
-      {
+      for (var i = 0; i < children.length; i++) {
         if (children[i].isEnabled()) {
           result.push(children[i]);
         }
@@ -373,7 +329,6 @@ qx.Class.define("qx.ui.menu.Menu",
       return result;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -381,38 +336,32 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     // property apply
-    _applyIconColumnWidth : function(value, old) {
+    _applyIconColumnWidth(value, old) {
       this._getMenuLayout().setIconColumnWidth(value);
     },
 
-
     // property apply
-    _applyArrowColumnWidth : function(value, old) {
+    _applyArrowColumnWidth(value, old) {
       this._getMenuLayout().setArrowColumnWidth(value);
     },
 
-
     // property apply
-    _applySpacingX : function(value, old) {
+    _applySpacingX(value, old) {
       this._getMenuLayout().setColumnSpacing(value);
     },
 
-
     // property apply
-    _applySpacingY : function(value, old) {
+    _applySpacingY(value, old) {
       this._getMenuLayout().setSpacing(value);
     },
 
-
     // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
 
       var mgr = qx.ui.menu.Manager.getInstance();
 
-      if (value === "visible")
-      {
+      if (value === "visible") {
         // Register to manager (zIndex handling etc.)
         mgr.add(this);
 
@@ -421,9 +370,7 @@ qx.Class.define("qx.ui.menu.Menu",
         if (parentMenu) {
           parentMenu.setOpenedButton(this.getOpener());
         }
-      }
-      else if (old === "visible")
-      {
+      } else if (old === "visible") {
         // Deregister from manager (zIndex handling etc.)
         mgr.remove(this);
 
@@ -441,27 +388,21 @@ qx.Class.define("qx.ui.menu.Menu",
       this.__updateBlockerVisibility();
     },
 
-
     /**
      * Updates the blocker's visibility
      */
-    __updateBlockerVisibility : function()
-    {
-      if (this.isVisible())
-      {
+    __updateBlockerVisibility() {
+      if (this.isVisible()) {
         if (this.getBlockBackground()) {
           var zIndex = this.getZIndex();
           this._blocker.blockContent(zIndex - 1);
         }
-      }
-      else
-      {
+      } else {
         if (this._blocker.isBlocked()) {
           this._blocker.unblock();
         }
       }
     },
-
 
     /**
      * Get the parent menu. Returns <code>null</code> if the menu doesn't have a
@@ -469,8 +410,7 @@ qx.Class.define("qx.ui.menu.Menu",
      *
      * @return {qx.ui.core.Widget|null} The parent menu.
      */
-    getParentMenu : function()
-    {
+    getParentMenu() {
       var widget = this.getOpener();
       if (!widget || !(widget instanceof qx.ui.menu.AbstractButton)) {
         return null;
@@ -486,10 +426,8 @@ qx.Class.define("qx.ui.menu.Menu",
       return widget;
     },
 
-
     // property apply
-    _applySelectedButton : function(value, old)
-    {
+    _applySelectedButton(value, old) {
       if (old) {
         old.removeState("selected");
       }
@@ -499,22 +437,25 @@ qx.Class.define("qx.ui.menu.Menu",
 
       // ARIA attrs
       const opener = this.__getRootOpener();
-      const contentEl = opener ? opener.getContentElement() : this.getContentElement();
+      const contentEl = opener
+        ? opener.getContentElement()
+        : this.getContentElement();
       if (!contentEl) {
         return;
       }
       const valueContentEl = value ? value.getContentElement() : null;
       if (valueContentEl) {
-        contentEl.setAttribute("aria-activedescendant", valueContentEl.getAttribute("id"));
+        contentEl.setAttribute(
+          "aria-activedescendant",
+          valueContentEl.getAttribute("id")
+        );
       } else {
         contentEl.removeAttribute("aria-activedescendant");
       }
     },
 
-
     // property apply
-    _applyOpenedButton : function(value, old)
-    {
+    _applyOpenedButton(value, old) {
       if (old && old.getMenu()) {
         old.getMenu().exclude();
       }
@@ -525,8 +466,7 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
     // property apply
-    _applyOpener : function(value, old)
-    {
+    _applyOpener(value, old) {
       // ARIA attrs
       const contentEl = this.getContentElement();
       if (!contentEl) {
@@ -540,18 +480,15 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
-
     // property apply
-    _applyBlockerColor : function(value, old) {
+    _applyBlockerColor(value, old) {
       this._blocker.setColor(value);
     },
 
-
     // property apply
-    _applyBlockerOpacity : function(value, old) {
+    _applyBlockerOpacity(value, old) {
       this._blocker.setOpacity(value);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -560,18 +497,15 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     // overridden
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("slidebar", true) || this;
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "slidebar":
           var control = new qx.ui.menu.MenuSlideBar();
 
@@ -583,71 +517,69 @@ qx.Class.define("qx.ui.menu.Menu",
           slidebarLayout.dispose();
 
           var children = qx.lang.Array.clone(this.getChildren());
-          for (var i=0; i<children.length; i++) {
+          for (var i = 0; i < children.length; i++) {
             control.add(children[i]);
           }
 
           this.removeListener("resize", this._onResize, this);
-          control.getChildrenContainer().addListener("resize", this._onResize, this);
+          control
+            .getChildrenContainer()
+            .addListener("resize", this._onResize, this);
 
           this._add(control);
 
-        break;
+          break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * Get the menu layout manager
      *
      * @return {qx.ui.layout.Abstract} The menu layout manager
      */
-    _getMenuLayout : function()
-    {
+    _getMenuLayout() {
       if (this.hasChildControl("slidebar")) {
-        return this.getChildControl("slidebar").getChildrenContainer().getLayout();
+        return this.getChildControl("slidebar")
+          .getChildrenContainer()
+          .getLayout();
       } else {
         return this._getLayout();
       }
     },
-
 
     /**
      * Get the menu bounds
      *
      * @return {Map} The menu bounds
      */
-    _getMenuBounds : function()
-    {
+    _getMenuBounds() {
       if (this.hasChildControl("slidebar")) {
-        return this.getChildControl("slidebar").getChildrenContainer().getBounds();
+        return this.getChildControl("slidebar")
+          .getChildrenContainer()
+          .getBounds();
       } else {
         return this.getBounds();
       }
     },
-
 
     /**
      * Computes the size of the menu. This method is used by the
      * {@link qx.ui.core.MPlacement} mixin.
      * @return {Map} The menu bounds
      */
-    _computePlacementSize : function() {
+    _computePlacementSize() {
       return this._getMenuBounds();
     },
-
 
     /**
      * Updates the visibility of the slidebar based on the menu's current size
      * and position.
      */
-    __updateSlideBar : function()
-    {
+    __updateSlideBar() {
       var menuBounds = this._getMenuBounds();
-      if (!menuBounds)
-      {
+      if (!menuBounds) {
         this.addListenerOnce("resize", this.__updateSlideBar, this);
         return;
       }
@@ -659,25 +591,19 @@ qx.Class.define("qx.ui.menu.Menu",
       // Adding the slidebar must be deferred because this call can happen
       // during the layout flush, which make it impossible to move existing
       // layout to the slidebar
-      if (top < 0)
-      {
-        this._assertSlideBar(function() {
+      if (top < 0) {
+        this._assertSlideBar(function () {
           this.setHeight(menuBounds.height + top);
           this.moveTo(left, 0);
         });
-      }
-      else if (top + menuBounds.height > rootHeight)
-      {
-        this._assertSlideBar(function() {
+      } else if (top + menuBounds.height > rootHeight) {
+        this._assertSlideBar(function () {
           this.setHeight(rootHeight - top);
         });
-      }
-      else
-      {
+      } else {
         this.setHeight(null);
       }
     },
-
 
     /**
      * Schedules the addition of the slidebar and calls the given callback
@@ -687,8 +613,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * @return {var|undefined} The return value of the callback if the slidebar
      * already exists, or <code>undefined</code> if it doesn't
      */
-    _assertSlideBar : function(callback)
-    {
+    _assertSlideBar(callback) {
       if (this.hasChildControl("slidebar")) {
         return callback.call(this);
       }
@@ -697,30 +622,26 @@ qx.Class.define("qx.ui.menu.Menu",
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // overridden
-    syncWidget : function(jobs)
-    {
+    syncWidget(jobs) {
       this.getChildControl("slidebar");
-      if (this.__onAfterSlideBarAdd)
-      {
+      if (this.__onAfterSlideBarAdd) {
         this.__onAfterSlideBarAdd.call(this);
         delete this.__onAfterSlideBarAdd;
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Gets called when a child is added. Sets ARIA attrs
-     * @param {*} child 
+     * @param {*} child
      */
-    _afterAddChild: function (child) {
+    _afterAddChild(child) {
       // Some childs, e.g. Seperators, are no meaningful menu items
       if (child instanceof qx.ui.menu.AbstractButton) {
         const contentEl = child.getContentElement();
@@ -732,10 +653,8 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Update position if the menu or the root is resized
      */
-    _onResize : function()
-    {
-      if (this.isVisible())
-      {
+    _onResize() {
+      if (this.isVisible()) {
         var target = this._placementTarget;
         if (!target) {
           return;
@@ -750,14 +669,12 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
-
     /**
      * Event listener for pointerover event.
      *
      * @param e {qx.event.type.Pointer} pointerover event
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       // Cache manager
       var mgr = qx.ui.menu.Manager.getInstance();
 
@@ -766,14 +683,12 @@ qx.Class.define("qx.ui.menu.Menu",
 
       // Change selection
       var target = e.getTarget();
-      if (target.isEnabled() && target instanceof qx.ui.menu.AbstractButton)
-      {
+      if (target.isEnabled() && target instanceof qx.ui.menu.AbstractButton) {
         // Select button directly
         this.setSelectedButton(target);
 
         var subMenu = target.getMenu && target.getMenu();
-        if (subMenu)
-        {
+        if (subMenu) {
           subMenu.setOpener(target);
 
           // Finally schedule for opening
@@ -781,43 +696,35 @@ qx.Class.define("qx.ui.menu.Menu",
 
           // Remember scheduled menu for opening
           this.__scheduledOpen = subMenu;
-        }
-        else
-        {
+        } else {
           var opened = this.getOpenedButton();
           if (opened) {
             mgr.scheduleClose(opened.getMenu());
           }
 
-          if (this.__scheduledOpen)
-          {
+          if (this.__scheduledOpen) {
             mgr.cancelOpen(this.__scheduledOpen);
             this.__scheduledOpen = null;
           }
         }
-      }
-      else if (!this.getOpenedButton())
-      {
+      } else if (!this.getOpenedButton()) {
         // When no button is opened reset the selection
         // Otherwise keep it
         this.resetSelectedButton();
       }
     },
 
-
     /**
      * Event listener for pointerout event.
      *
      * @param e {qx.event.type.Pointer} pointerout event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       // Cache manager
       var mgr = qx.ui.menu.Manager.getInstance();
 
       // Detect whether the related target is out of the menu
-      if (!qx.ui.core.Widget.contains(this, e.getRelatedTarget()))
-      {
+      if (!qx.ui.core.Widget.contains(this, e.getRelatedTarget())) {
         // Update selected property
         // Force it to the open sub menu in cases where that is opened
         // Otherwise reset it. Menus which are left by the cursor should
@@ -844,14 +751,14 @@ qx.Class.define("qx.ui.menu.Menu",
       HELPER FUNCTIONS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Get the opener of the root/the first parent menu.
      * parent menu.
      *
      * @return {qx.ui.core.Widget|null} The opener.
      */
-    __getRootOpener: function () {
+    __getRootOpener() {
       let parentMenu = this.getParentMenu();
       if (!parentMenu) {
         return this.getOpener();
@@ -865,15 +772,13 @@ qx.Class.define("qx.ui.menu.Menu",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (!qx.core.ObjectRegistry.inShutDown) {
       qx.ui.menu.Manager.getInstance().remove(this);
     }

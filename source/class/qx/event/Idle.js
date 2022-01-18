@@ -16,27 +16,23 @@
 
 ************************************************************************ */
 
-
 /**
  * A generic singleton that fires an "interval" event all 100 milliseconds. It
  * can be used whenever one needs to run code periodically. The main purpose of
  * this class is reduce the number of timers.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
 
-qx.Class.define("qx.event.Idle",
-{
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
-  type : "singleton",
+qx.Class.define("qx.event.Idle", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
+  type: "singleton",
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
-
 
   /*
   *****************************************************************************
@@ -44,12 +40,10 @@ qx.Class.define("qx.event.Idle",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** This event if fired each time the interval time has elapsed */
-    "interval" : "qx.event.type.Event"
+    interval: "qx.event.type.Event"
   },
-
 
   /*
   *****************************************************************************
@@ -57,29 +51,23 @@ qx.Class.define("qx.event.Idle",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Interval for the timer, which periodically fires the "interval" event,
      * in milliseconds.
      */
-    timeoutInterval :
-    {
+    timeoutInterval: {
       check: "Number",
-      init : 100,
-      apply : "_applyTimeoutInterval"
+      init: 100,
+      apply: "_applyTimeoutInterval"
     }
   },
 
-
-
-  members :
-  {
-
-    __timer : null,
+  members: {
+    __timer: null,
 
     // property apply
-    _applyTimeoutInterval : function(value) {
+    _applyTimeoutInterval(value) {
       if (this.__timer) {
         this.__timer.setInterval(value);
       }
@@ -88,27 +76,27 @@ qx.Class.define("qx.event.Idle",
     /**
      * Fires an "interval" event
      */
-    _onInterval : function() {
+    _onInterval() {
       this.fireEvent("interval");
     },
 
     /**
      * Starts the timer but only if there are listeners for the "interval" event
      */
-    __startTimer: function() {
+    __startTimer() {
       if (!this.__timer && this.hasListener("interval")) {
-          var timer = new qx.event.Timer(this.getTimeoutInterval());
-          timer.addListener("interval", this._onInterval, this);
-          timer.start();
+        var timer = new qx.event.Timer(this.getTimeoutInterval());
+        timer.addListener("interval", this._onInterval, this);
+        timer.start();
 
-          this.__timer = timer;
+        this.__timer = timer;
       }
     },
 
     /**
      * Stops the timer but only if there are no listeners for the interval event
      */
-    __stopTimer: function() {
+    __stopTimer() {
       if (this.__timer && !this.hasListener("interval")) {
         this.__timer.stop();
         this.__timer.dispose();
@@ -119,8 +107,8 @@ qx.Class.define("qx.event.Idle",
     /*
      * @Override
      */
-    addListener: function(type, listener, self, capture) {
-      var result = this.base(arguments, type, listener, self, capture);
+    addListener(type, listener, self, capture) {
+      var result = super.addListener(type, listener, self, capture);
       this.__startTimer();
       return result;
     },
@@ -128,8 +116,8 @@ qx.Class.define("qx.event.Idle",
     /*
      * @Override
      */
-    addListenerOnce: function(type, listener, self, capture) {
-      var result = this.base(arguments, type, listener, self, capture);
+    addListenerOnce(type, listener, self, capture) {
+      var result = super.addListenerOnce(type, listener, self, capture);
       this.__startTimer();
       return result;
     },
@@ -137,8 +125,8 @@ qx.Class.define("qx.event.Idle",
     /*
      * @Override
      */
-    removeListener: function(type, listener, self, capture) {
-      var result = this.base(arguments, type, listener, self, capture);
+    removeListener(type, listener, self, capture) {
+      var result = super.removeListener(type, listener, self, capture);
       this.__stopTimer();
       return result;
     },
@@ -146,12 +134,11 @@ qx.Class.define("qx.event.Idle",
     /*
      * @Override
      */
-    removeListenerById: function(id) {
-      var result = this.base(arguments, id);
+    removeListenerById(id) {
+      var result = super.removeListenerById(id);
       this.__stopTimer();
       return result;
     }
-
   },
 
   /*
@@ -160,13 +147,11 @@ qx.Class.define("qx.event.Idle",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__timer) {
       this.__timer.stop();
     }
 
     this.__timer = null;
   }
-
 });

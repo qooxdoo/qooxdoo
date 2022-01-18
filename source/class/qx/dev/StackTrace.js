@@ -25,18 +25,15 @@
  * @ignore(qx.bom)
  * @ignore(qx.Class.*)
  */
-qx.Bootstrap.define("qx.dev.StackTrace",
-{
-  statics:
-  {
-
+qx.Bootstrap.define("qx.dev.StackTrace", {
+  statics: {
     /**
      * Optional user-defined function to convert source file names into readable
      * class names. Will be called with the source file name extracted from the
      * browser's stack trace information as the only argument. The returned
      * string is used in the output of {@link #getStackTraceFromError}
      */
-    FILENAME_TO_CLASSNAME : null,
+    FILENAME_TO_CLASSNAME: null,
 
     /**
      * Optional user-defined formatting function for stack trace information.
@@ -44,7 +41,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * stack trace. {@link #getStackTraceFromError} will return the output of
      * this function. Must return an array of strings.
      */
-    FORMAT_STACKTRACE : null,
+    FORMAT_STACKTRACE: null,
 
     /**
      * Get a stack trace of the current position in the code.
@@ -61,23 +58,27 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @return {String[]} Stack trace of the current position in the code. Each line in the array
      *     represents one call in the stack trace.
      */
-    getStackTrace : function()
-    {
+    getStackTrace() {
       var trace = [];
       try {
         throw new Error();
-      }
-      catch(ex) {
-        if (qx.dev.StackTrace.hasEnvironmentCheck &&
-            qx.core.Environment.get("ecmascript.error.stacktrace"))
-        {
+      } catch (ex) {
+        if (
+          qx.dev.StackTrace.hasEnvironmentCheck &&
+          qx.core.Environment.get("ecmascript.error.stacktrace")
+        ) {
           var errorTrace = qx.dev.StackTrace.getStackTraceFromError(ex);
-          var callerTrace = qx.dev.StackTrace.getStackTraceFromCaller(arguments);
+          var callerTrace =
+            qx.dev.StackTrace.getStackTraceFromCaller(arguments);
           qx.lang.Array.removeAt(errorTrace, 0);
 
-          trace = callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
-          for (var i=0; i<Math.min(callerTrace.length, errorTrace.length); i++)
-          {
+          trace =
+            callerTrace.length > errorTrace.length ? callerTrace : errorTrace;
+          for (
+            var i = 0;
+            i < Math.min(callerTrace.length, errorTrace.length);
+            i++
+          ) {
             var callerCall = callerTrace[i];
             if (callerCall.indexOf("anonymous") >= 0) {
               continue;
@@ -120,15 +121,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             }
             trace[i] = line;
           }
-        }
-        else {
+        } else {
           trace = this.getStackTraceFromCaller(arguments);
         }
       }
 
       return trace;
     },
-
 
     /**
      * Get a stack trace from the arguments special variable using the
@@ -144,10 +143,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      *     Each line in the array represents one call in the stack trace.
      * @signature function(args)
      */
-    getStackTraceFromCaller : function(args)
-    {
+    getStackTraceFromCaller(args) {
       var isStrictMode = function () {
-        return (typeof this == 'undefined');
+        return typeof this == "undefined";
       };
 
       var trace = [];
@@ -155,19 +153,18 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       if (!isStrictMode()) {
         try {
           fcn = qx.lang.Function.getCaller(args);
-        }catch(ex) {
+        } catch (ex) {
           // Nothing
         }
       }
       var knownFunction = {};
-      while (fcn)
-      {
+      while (fcn) {
         var fcnName = qx.lang.Function.getName(fcn);
         trace.push(fcnName);
 
         try {
           fcn = fcn.caller;
-        } catch(ex) {
+        } catch (ex) {
           break;
         }
 
@@ -185,7 +182,6 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       }
       return trace;
     },
-
 
     /**
      * Try to get a stack trace from an Error object. Mozilla sets the field
@@ -209,19 +205,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @return {String[]} Stack trace of the exception. Each line in the array
      *     represents one call in the stack trace.
      */
-    getStackTraceFromError : function(error)
-    {
+    getStackTraceFromError(error) {
       var trace = [];
-      var lineRe,
-          hit,
-          className,
-          lineNumber,
-          columnNumber,
-          fileName,
-          url;
+      var lineRe, hit, className, lineNumber, columnNumber, fileName, url;
 
-      var traceProp = qx.dev.StackTrace.hasEnvironmentCheck ?
-          qx.core.Environment.get("ecmascript.error.stacktrace") : null;
+      var traceProp = qx.dev.StackTrace.hasEnvironmentCheck
+        ? qx.core.Environment.get("ecmascript.error.stacktrace")
+        : null;
 
       if (traceProp === "stack") {
         if (!error.stack) {
@@ -230,8 +220,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         // Gecko style, e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
         lineRe = /@(.+):(\d+)$/gm;
 
-        while ((hit = lineRe.exec(error.stack)) != null)
-        {
+        while ((hit = lineRe.exec(error.stack)) != null) {
           url = hit[1];
           lineNumber = hit[2];
 
@@ -266,9 +255,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             }
           }
         }
-      }
-      else if (traceProp === "stacktrace")
-      {
+      } else if (traceProp === "stacktrace") {
         // Opera
         var stacktrace = error.stacktrace;
         if (!stacktrace) {
@@ -279,7 +266,8 @@ qx.Bootstrap.define("qx.dev.StackTrace",
         }
 
         // new Opera style (10.6+)
-        lineRe = /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
+        lineRe =
+          /line\ (\d+?),\ column\ (\d+?)\ in\ (?:.*?)\ in\ (.*?):[^\/]/gm;
         while ((hit = lineRe.exec(stacktrace)) != null) {
           lineNumber = hit[1];
           columnNumber = hit[2];
@@ -300,13 +288,11 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           className = this.__fileNameToClassName(url);
           trace.push(className + ":" + lineNumber);
         }
-      }
-      else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
+      } else if (error.message && error.message.indexOf("Backtrace:") >= 0) {
         // Some old Opera versions append the trace to the message property
         var traceString = error.message.split("Backtrace:")[1].trim();
         var lines = traceString.split("\n");
-        for (var i=0; i<lines.length; i++)
-        {
+        for (var i = 0; i < lines.length; i++) {
           var reResult = lines[i].match(/\s*Line ([0-9]+) of.* (\S.*)/);
           if (reResult && reResult.length >= 2) {
             lineNumber = reResult[1];
@@ -314,10 +300,11 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             trace.push(fileName + ":" + lineNumber);
           }
         }
-      }
-      else if (error.sourceURL && error.line) {
+      } else if (error.sourceURL && error.line) {
         // Safari
-        trace.push(this.__fileNameToClassName(error.sourceURL) + ":" + error.line);
+        trace.push(
+          this.__fileNameToClassName(error.sourceURL) + ":" + error.line
+        );
       }
 
       return this.__formatStackTrace(trace);
@@ -331,13 +318,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @param fileName {String} URL of the JavaScript file
      * @return {String} Result of the conversion
      */
-    __fileNameToClassName : function(fileName)
-    {
+    __fileNameToClassName(fileName) {
       if (typeof qx.dev.StackTrace.FILENAME_TO_CLASSNAME == "function") {
         var convertedName = qx.dev.StackTrace.FILENAME_TO_CLASSNAME(fileName);
-        if (qx.core.Environment.get("qx.debug") &&
-          !qx.lang.Type.isString(convertedName))
-        {
+        if (
+          qx.core.Environment.get("qx.debug") &&
+          !qx.lang.Type.isString(convertedName)
+        ) {
           throw new Error("FILENAME_TO_CLASSNAME must return a string!");
         }
         return convertedName;
@@ -345,7 +332,6 @@ qx.Bootstrap.define("qx.dev.StackTrace",
 
       return qx.dev.StackTrace.__fileNameToClassNameDefault(fileName);
     },
-
 
     /**
      * Converts the URL of a JavaScript file to a class name if the file is
@@ -355,8 +341,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @return {String} class name of the file if conversion was possible.
      * Otherwise the fileName is returned unmodified.
      */
-    __fileNameToClassNameDefault : function(fileName)
-    {
+    __fileNameToClassNameDefault(fileName) {
       var scriptDir = "/source/class/";
       var jsPos = fileName.indexOf(scriptDir);
       if (jsPos < 0) {
@@ -367,10 +352,15 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       if (paramPos >= 0) {
         fileName = fileName.substring(0, paramPos);
       }
-      var className = (jsPos == -1) ? fileName : fileName.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
+      var className =
+        jsPos == -1
+          ? fileName
+          : fileName
+              .substring(jsPos + scriptDir.length)
+              .replace(/\//g, ".")
+              .replace(/\.js$/, "");
       return className;
     },
-
 
     /**
      * Runs the given stack trace array through the formatter function
@@ -380,13 +370,15 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      * @param trace {String[]} Stack trace information
      * @return {String[]} Formatted stack trace info
      */
-    __formatStackTrace : function(trace)
-    {
+    __formatStackTrace(trace) {
       if (typeof qx.dev.StackTrace.FORMAT_STACKTRACE == "function") {
         trace = qx.dev.StackTrace.FORMAT_STACKTRACE(trace);
         // Can't use qx.core.Assert here since it throws an AssertionError which
         // calls getStackTrace in its constructor, leading to infinite recursion
-        if (qx.core.Environment.get("qx.debug") && !qx.lang.Type.isArray(trace)) {
+        if (
+          qx.core.Environment.get("qx.debug") &&
+          !qx.lang.Type.isArray(trace)
+        ) {
           throw new Error("FORMAT_STACKTRACE must return an array of strings!");
         }
       }
@@ -394,11 +386,13 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     }
   },
 
-  defer : function(statics)
-  {
+  defer(statics) {
     // This is necessary to avoid an infinite loop when logging the absence
     // of the "ecmascript.error.stacktrace" environment key.
-    statics.hasEnvironmentCheck = qx.bom && qx.bom.client &&
-      qx.bom.client.EcmaScript && qx.bom.client.EcmaScript.getStackTrace;
+    statics.hasEnvironmentCheck =
+      qx.bom &&
+      qx.bom.client &&
+      qx.bom.client.EcmaScript &&
+      qx.bom.client.EcmaScript.getStackTrace;
   }
 });

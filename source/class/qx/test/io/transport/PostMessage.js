@@ -27,11 +27,12 @@ qx.Class.define("qx.test.io.transport.PostMessage", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-
     setUp() {
       // see https://medium.com/@dee_bloo/make-multithreading-easier-with-inline-web-workers-a58723428a42
       function createWorker(fn) {
-        let blob = new Blob(['self.onmessage = ', fn.toString()], { type: 'text/javascript' });
+        let blob = new Blob(["self.onmessage = ", fn.toString()], {
+          type: "text/javascript"
+        });
         return new Worker(URL.createObjectURL(blob));
       }
       // create echo server
@@ -47,9 +48,7 @@ qx.Class.define("qx.test.io.transport.PostMessage", {
         this.transport.addListenerOnce("message", evt => {
           this.assertEquals(message, evt.getData());
         });
-        this.transport.send(message)
-          .then(resolve)
-          .catch(reject);
+        this.transport.send(message).then(resolve).catch(reject);
       });
     }
   }

@@ -18,7 +18,7 @@
 const path = require("upath");
 const fs = require("fs");
 const async = require("async");
-const {promisify} = require("util");
+const { promisify } = require("util");
 const child_process = require("child_process");
 const psTree = require("ps-tree");
 
@@ -35,7 +35,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      *
      * @returns {Promise} a promise
      */
-    newExternalPromise: function () {
+    newExternalPromise() {
       var resolve;
       var reject;
       var promise = new Promise((resolve_, reject_) => {
@@ -47,8 +47,7 @@ qx.Class.define("qx.tool.utils.Utils", {
       return promise;
     },
 
-
-    promisifyThis: function promisifyThis(fn, self, ...args) {
+    promisifyThis(fn, self, ...args) {
       return new Promise((resolve, reject) => {
         args = args.slice();
         args.push(function (err, result) {
@@ -95,17 +94,18 @@ qx.Class.define("qx.tool.utils.Utils", {
 
       var result = "";
       if (hours) {
-        result += ((hours > 9) ? hours : "0" + hours) + "h ";
+        result += (hours > 9 ? hours : "0" + hours) + "h ";
       }
       if (hours || minutes) {
-        result += ((minutes > 9) ? minutes : "0" + minutes) + "m ";
+        result += (minutes > 9 ? minutes : "0" + minutes) + "m ";
       }
       if (seconds > 9 || (!hours && !minutes)) {
         result += seconds;
       } else if (hours || minutes) {
         result += "0" + seconds;
       }
-      result += "." + ((millisec > 99) ? "" : millisec > 9 ? "0" : "00") + millisec + "s";
+      result +=
+        "." + (millisec > 99 ? "" : millisec > 9 ? "0" : "00") + millisec + "s";
       return result;
     },
 
@@ -114,7 +114,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      * @param dir
      * @param cb
      */
-    mkpath: function mkpath(dir, cb) {
+    mkpath(dir, cb) {
       dir = path.normalize(dir);
       var segs = dir.split(path.sep);
       var made = "";
@@ -141,21 +141,30 @@ qx.Class.define("qx.tool.utils.Utils", {
               } else if (stat.isDirectory()) {
                 cb(null);
               } else {
-                cb(new Error("Cannot create " + made + " (in " + dir + ") because it exists and is not a directory", "ENOENT"));
+                cb(
+                  new Error(
+                    "Cannot create " +
+                      made +
+                      " (in " +
+                      dir +
+                      ") because it exists and is not a directory",
+                    "ENOENT"
+                  )
+                );
               }
             });
           });
         },
         function (err) {
           cb(err);
-        });
+        }
+      );
     },
-
 
     /**
      * Creates the parent directory of a filename, if it does not already exist
      */
-    mkParentPath: function mkParentPath(dir, cb) {
+    mkParentPath(dir, cb) {
       var segs = dir.split(/[\\\/]/);
       segs.pop();
       if (!segs.length) {
@@ -165,8 +174,6 @@ qx.Class.define("qx.tool.utils.Utils", {
       return this.mkpath(dir, cb);
     },
 
-
-
     /**
      * Creates the parent directory of a filename, if it does not already exist
      *
@@ -174,7 +181,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      *
      * @return {Promise?} the value
      */
-    makeParentDir: function (filename) {
+    makeParentDir(filename) {
       const mkParentPath = promisify(this.mkParentPath).bind(this);
       return mkParentPath(filename);
     },
@@ -186,7 +193,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      *
      * @return {Promise?} the value
      */
-    makeDirs: function (filename) {
+    makeDirs(filename) {
       const mkpath = promisify(this.mkpath);
       return mkpath(filename);
     },
@@ -208,16 +215,16 @@ qx.Class.define("qx.tool.utils.Utils", {
     ToStringWriteStream: null,
 
     /*  Function to test if an object is a plain object, i.e. is constructed
-    **  by the built-in Object constructor and inherits directly from Object.prototype
-    **  or null. Some built-in objects pass the test, e.g. Math which is a plain object
-    **  and some host or exotic objects may pass also.
-    **
-    **  @param {} obj - value to test
-    **  @returns {Boolean} true if passes tests, false otherwise
-    *
-    * @see https://stackoverflow.com/a/5878101/2979698
-    */
-    isPlainObject: function (obj) {
+     **  by the built-in Object constructor and inherits directly from Object.prototype
+     **  or null. Some built-in objects pass the test, e.g. Math which is a plain object
+     **  and some host or exotic objects may pass also.
+     **
+     **  @param {} obj - value to test
+     **  @returns {Boolean} true if passes tests, false otherwise
+     *
+     * @see https://stackoverflow.com/a/5878101/2979698
+     */
+    isPlainObject(obj) {
       // Basic check for Type object that's not null
       if (typeof obj == "object" && obj !== null) {
         // If Object.getPrototypeOf supported, use it
@@ -244,9 +251,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      * @return {{exitCode: Number, output: String, error: *, messages: *}}
      */
     async runCommand(cwd, ...args) {
-      let options = {
-
-      };
+      let options = {};
 
       if (typeof cwd == "object") {
         options = cwd;
@@ -287,12 +292,14 @@ qx.Class.define("qx.tool.utils.Utils", {
           shell: true,
           env: env
         });
+
         let result = {
           exitCode: null,
           output: "",
           error: "",
           messages: null
         };
+
         proc.stdout.on("data", data => {
           data = data.toString().trim();
           options.log(data);
@@ -322,7 +329,7 @@ qx.Class.define("qx.tool.utils.Utils", {
      * @return {Promise<Number>} A promise that resolves with the exit code
      */
     run(cmd, args) {
-      let opts = {env: process.env};
+      let opts = { env: process.env };
       return new Promise((resolve, reject) => {
         let exe = child_process.spawn(cmd, args, opts);
         // suppress all output unless in verbose mode
@@ -334,7 +341,9 @@ qx.Class.define("qx.tool.utils.Utils", {
         });
         exe.on("close", code => {
           if (code !== 0) {
-            let message = `Error executing '${cmd} ${args.join(" ")}'. Use --verbose to see what went wrong.`;
+            let message = `Error executing '${cmd} ${args.join(
+              " "
+            )}'. Use --verbose to see what went wrong.`;
             reject(new qx.tool.utils.Utils.UserError(message));
           } else {
             resolve(0);
@@ -366,8 +375,8 @@ qx.Class.define("qx.tool.utils.Utils", {
 
     /**
      * Parses a command line and separates them out into an array that can be given to `child_process.spawn` etc
-     * 
-     * @param {String} cmd 
+     *
+     * @param {String} cmd
      * @returns {String[]}
      */
     parseCommand(str) {
@@ -384,7 +393,7 @@ qx.Class.define("qx.tool.utils.Utils", {
           }
           continue;
         }
-        if (c == "\"" || c == "\'") {
+        if (c == '"' || c == "'") {
           inQuote = c;
           if (!inArg) {
             inArg = true;
@@ -414,22 +423,22 @@ qx.Class.define("qx.tool.utils.Utils", {
 
     /**
      * Quotes special characters in the argument array, ensuring that they are safe to pass to the command line
-     * 
-     * @param {String[]} cmd 
+     *
+     * @param {String[]} cmd
      * @returns {String[]}
      */
     quoteCommand(cmd) {
-      const SPECIALS = "&*?;# \"";
+      const SPECIALS = '&*?;# "';
       cmd = cmd.map(arg => {
         let c = arg[0];
-        if ((c == '\'' || c == '\"') && c == arg[arg.length-1]) {
+        if ((c == "'" || c == '"') && c == arg[arg.length - 1]) {
           return arg;
         }
-        if (arg.indexOf('\'') > -1) {
-          if (arg.indexOf('\"') > -1) {
+        if (arg.indexOf("'") > -1) {
+          if (arg.indexOf('"') > -1) {
             return "$'" + arg.replace(/'/g, "\\'") + "'";
           }
-          return '\"' + arg + '\"';
+          return '"' + arg + '"';
         }
         for (let i = 0; i < SPECIALS.length; i++) {
           if (arg.indexOf(SPECIALS[i]) > -1) {
@@ -438,13 +447,13 @@ qx.Class.define("qx.tool.utils.Utils", {
         }
         return arg;
       });
-      return cmd;      
+      return cmd;
     },
-    
+
     /**
      * Reformats a command line
-     * 
-     * @param {String} cmd 
+     *
+     * @param {String} cmd
      * @returns {String}
      */
     formatCommand(cmd) {
@@ -453,13 +462,13 @@ qx.Class.define("qx.tool.utils.Utils", {
 
     /**
      * Kills a process tree
-     * 
+     *
      * @param {Number} parentId parent process ID to kill
      */
     async killTree(parentId) {
       await new qx.Promise((resolve, reject) => {
         psTree(parentId, function (err, children) {
-          if (err) { 
+          if (err) {
             reject(err);
             return;
           }
@@ -485,7 +494,9 @@ qx.Class.define("qx.tool.utils.Utils", {
      * @return {String}
      */
     getTemplateDir() {
-      let dir = qx.util.ResourceManager.getInstance().toUri("qx/tool/cli/templates/template_vars.js");
+      let dir = qx.util.ResourceManager.getInstance().toUri(
+        "qx/tool/cli/templates/template_vars.js"
+      );
       dir = path.dirname(dir);
       return dir;
     },
@@ -530,6 +541,7 @@ qx.Class.define("qx.tool.utils.Utils", {
         return this.__lineNumber;
       }
     }
+
     statics.LineCountingTransform = LineCountingTransform;
 
     class StripSourceMapTransform extends Transform {
@@ -561,6 +573,7 @@ qx.Class.define("qx.tool.utils.Utils", {
         callback();
       }
     }
+
     statics.StripSourceMapTransform = StripSourceMapTransform;
 
     class ToStringWriteStream extends Writable {
@@ -583,6 +596,7 @@ qx.Class.define("qx.tool.utils.Utils", {
         return this.__value;
       }
     }
+
     statics.ToStringWriteStream = ToStringWriteStream;
   }
 });

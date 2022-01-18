@@ -26,26 +26,22 @@
  *
  * Use {@link #load} to preload your own images.
  */
-qx.Bootstrap.define("qx.io.ImageLoader",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.io.ImageLoader", {
+  statics: {
     /** @type {Map} Internal data structure to cache image sizes */
-    __data : {},
-
+    __data: {},
 
     /** @type {Map} Default image size */
-    __defaultSize :
-    {
-      width : null,
-      height : null
+    __defaultSize: {
+      width: null,
+      height: null
     },
 
     /** @type {RegExp} Known image types */
-    __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
+    __knownImageTypesRegExp: /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
     /** @type {RegExp} Image types of a data URL */
-    __dataUrlRegExp : /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
+    __dataUrlRegExp: /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
 
     /**
      * Whether the given image has previously been loaded using the
@@ -54,12 +50,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loaded
      */
-    isLoaded : function(source)
-    {
+    isLoaded(source) {
       var entry = this.__data[source];
       return !!(entry && entry.loaded);
     },
-
 
     /**
      * Whether the given image has previously been requested using the
@@ -68,12 +62,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image loading failed
      */
-    isFailed : function(source)
-    {
+    isFailed(source) {
       var entry = this.__data[source];
       return !!(entry && entry.failed);
     },
-
 
     /**
      * Whether the given image is currently loading.
@@ -81,12 +73,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loading in the moment.
      */
-    isLoading : function(source)
-    {
+    isLoading(source) {
       var entry = this.__data[source];
       return !!(entry && entry.loading);
     },
-
 
     /**
      * Returns the format of a previously loaded image
@@ -94,38 +84,33 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {String ? null} The format of the image or <code>null</code>
      */
-    getFormat : function(source)
-    {
+    getFormat(source) {
       var entry = this.__data[source];
 
-      if (! entry || ! entry.format)
-      {
+      if (!entry || !entry.format) {
         var result = this.__dataUrlRegExp.exec(source);
-        if (result != null)
-        {
+        if (result != null) {
           // If width and height aren't defined, provide some defaults
           var width =
-            (entry && qx.lang.Type.isNumber(entry.width)
-             ? entry.width
-             : this.__defaultSize.width);
+            entry && qx.lang.Type.isNumber(entry.width)
+              ? entry.width
+              : this.__defaultSize.width;
 
           var height =
-            (entry && qx.lang.Type.isNumber(entry.height)
-             ? entry.height
-             : this.__defaultSize.height);
+            entry && qx.lang.Type.isNumber(entry.height)
+              ? entry.height
+              : this.__defaultSize.height;
 
-          entry =
-            {
-              loaded : true,
-              format : result[1],
-              width  : width,
-              height : height
-            };
+          entry = {
+            loaded: true,
+            format: result[1],
+            width: width,
+            height: height
+          };
         }
       }
       return entry ? entry.format : null;
     },
-
 
     /**
      * Returns the size of a previously loaded image
@@ -135,11 +120,12 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *    <code>height</code> as key). If the image is not yet loaded, the
      *    dimensions are given as <code>null</code> for width and height.
      */
-    getSize : function(source) {
+    getSize(source) {
       var entry = this.__data[source];
-      return entry ? { width: entry.width, height: entry.height } : this.__defaultSize;
+      return entry
+        ? { width: entry.width, height: entry.height }
+        : this.__defaultSize;
     },
-
 
     /**
      * Returns the image width
@@ -147,12 +133,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {Integer} The width or <code>null</code> when the image is not loaded
      */
-    getWidth : function(source)
-    {
+    getWidth(source) {
       var entry = this.__data[source];
       return entry ? entry.width : null;
     },
-
 
     /**
      * Returns the image height
@@ -160,12 +144,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param source {String} Image source to query
      * @return {Integer} The height or <code>null</code> when the image is not loaded
      */
-    getHeight : function(source)
-    {
+    getHeight(source) {
       var entry = this.__data[source];
       return entry ? entry.height : null;
     },
-
 
     /**
      * Loads the given image. Supports a callback which is
@@ -180,8 +162,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   information about the image.
      * @param context {Object?} Context in which the given callback should be executed
      */
-    load : function(source, callback, context)
-    {
+    load(source, callback, context) {
       // Shorthand
       var entry = this.__data[source];
 
@@ -195,19 +176,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
 
       // Already known image source
-      if (entry.loaded || entry.loading || entry.failed)
-      {
-        if (callback)
-        {
+      if (entry.loaded || entry.loading || entry.failed) {
+        if (callback) {
           if (entry.loading) {
             entry.callbacks.push(callback, context);
           } else {
             callback.call(context, source, entry);
           }
         }
-      }
-      else
-      {
+      } else {
         // Updating entry
         entry.loading = true;
         entry.callbacks = [];
@@ -217,9 +194,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         }
 
         var ResourceManager = qx.util.ResourceManager.getInstance();
-        if(ResourceManager.isFontUri(source))
-        {
-          var el = document.createElement('div');
+        if (ResourceManager.isFontUri(source)) {
+          var el = document.createElement("div");
           var charCode = ResourceManager.fromFontUriToCharCode(source);
           el.value = String.fromCharCode(charCode);
           entry.element = el;
@@ -227,10 +203,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         }
 
         // Create image element
-        var el = document.createElement('img');
+        var el = document.createElement("img");
 
         // Create common callback routine
-        var boundCallback = qx.lang.Function.listener(this.__onload, this, el, source);
+        var boundCallback = qx.lang.Function.listener(
+          this.__onload,
+          this,
+          el,
+          source
+        );
 
         // Assign callback to element
         el.onload = boundCallback;
@@ -244,18 +225,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     },
 
-
     /**
      * Abort the loading for the given url.
      *
      * @param source {String} URL of the image to abort its loading.
      */
-    abort : function (source)
-    {
+    abort(source) {
       var entry = this.__data[source];
 
-      if (entry && !entry.loaded)
-      {
+      if (entry && !entry.loaded) {
         entry.aborted = true;
 
         var callbacks = entry.callbacks;
@@ -272,26 +250,25 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         delete entry.element;
         delete entry.loading;
 
-        for (var i=0, l=callbacks.length; i<l; i+=2) {
-          callbacks[i].call(callbacks[i+1], source, entry);
+        for (var i = 0, l = callbacks.length; i < l; i += 2) {
+          callbacks[i].call(callbacks[i + 1], source, entry);
         }
       }
 
       this.__data[source] = null;
     },
 
-
     /**
      * Calls a method based on qx.globalErrorHandling
      */
-    __onload: function () {
+    __onload() {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
-        "true": qx.event.GlobalError.observeMethod(this.__onLoadHandler),
-        "false": this.__onLoadHandler
+        true: qx.event.GlobalError.observeMethod(this.__onLoadHandler),
+        false: this.__onLoadHandler
       });
+
       callback.apply(this, arguments);
     },
-
 
     /**
      * Internal event listener for all load/error events.
@@ -302,21 +279,22 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @param element {Element} DOM element which represents the image
      * @param source {String} The image source loaded
      */
-    __onLoadHandler: function (event, element, source) {
+    __onLoadHandler(event, element, source) {
       // Shorthand
       var entry = this.__data[source];
 
       // [BUG #9149]: When loading a SVG IE11 won't have
       // the width/height of the element set, unless
       // it is inserted into the DOM.
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
-          parseFloat(qx.bom.client.Engine.getVersion()) === 11)
-      {
+      if (
+        qx.bom.client.Engine.getName() == "mshtml" &&
+        parseFloat(qx.bom.client.Engine.getVersion()) === 11
+      ) {
         document.body.appendChild(element);
       }
 
       var isImageAvailable = function (imgElem) {
-        return (imgElem && imgElem.height !== 0);
+        return imgElem && imgElem.height !== 0;
       };
 
       // [BUG #7497]: IE11 doesn't properly emit an error event
@@ -332,14 +310,14 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         if (result != null) {
           entry.format = result[1];
         }
-      }
-      else {
+      } else {
         entry.failed = true;
       }
 
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
-          parseFloat(qx.bom.client.Engine.getVersion()) === 11)
-      {
+      if (
+        qx.bom.client.Engine.getName() == "mshtml" &&
+        parseFloat(qx.bom.client.Engine.getVersion()) === 11
+      ) {
         document.body.removeChild(element);
       }
 
@@ -360,12 +338,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     },
 
-
     /**
      * Dispose stored images.
      */
-    dispose : function()
-    {
+    dispose() {
       this.__data = {};
     }
   }

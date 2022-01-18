@@ -23,48 +23,41 @@
  * <code>scrollbar-y</code> to get the handler working. Also, you have to
  * attach the listener yourself.
  */
-qx.Mixin.define("qx.ui.core.scroll.MRoll",
-{
-  members :
-  {
-    _cancelRoll : null,
-
+qx.Mixin.define("qx.ui.core.scroll.MRoll", {
+  members: {
+    _cancelRoll: null,
 
     /**
      * Responsible for adding the event listener needed for scroll handling.
      */
-    _addRollHandling : function() {
+    _addRollHandling() {
       this.addListener("roll", this._onRoll, this);
       this.addListener("pointerdown", this._onPointerDownForRoll, this);
     },
 
-
     /**
      * Responsible for removing the event listener needed for scroll handling.
      */
-    _removeRollHandling : function() {
+    _removeRollHandling() {
       this.removeListener("roll", this._onRoll, this);
       this.removeListener("pointerdown", this._onPointerDownForRoll, this);
     },
-
 
     /**
      * Handler for the pointerdown event which simply stops the momentum scrolling.
      *
      * @param e {qx.event.type.Pointer} pointerdown event
      */
-    _onPointerDownForRoll : function(e) {
+    _onPointerDownForRoll(e) {
       this._cancelRoll = e.getPointerId();
     },
-
 
     /**
      * Roll event handler
      *
      * @param e {qx.event.type.Roll} Roll event
      */
-    _onRoll : function(e)
-    {
+    _onRoll(e) {
       // only wheel and touch
       if (e.getPointerType() == "mouse") {
         return;
@@ -99,7 +92,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
         var max = scrollbarY.getMaximum();
 
         // pass the event to the parent if the scrollbar is at an edge
-        if (deltaY < 0 && position <= 0 || deltaY > 0 && position >= max) {
+        if ((deltaY < 0 && position <= 0) || (deltaY > 0 && position >= max)) {
           endY = true;
         }
       }
@@ -113,7 +106,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
         var position = scrollbarX.getPosition();
         var max = scrollbarX.getMaximum();
         // pass the event to the parent if the scrollbar is at an edge
-        if (deltaX < 0 && position <= 0 || deltaX > 0 && position >= max) {
+        if ((deltaX < 0 && position <= 0) || (deltaX > 0 && position >= max)) {
           endX = true;
         }
       }
@@ -123,9 +116,11 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
       }
 
       // pass the event to the parent if both scrollbars are at the end
-      if ((!endY && deltaX === 0) ||
-          (!endX && deltaY === 0) ||
-          ((!endX || !endY ) && deltaX !== 0 && deltaY !== 0)) {
+      if (
+        (!endY && deltaX === 0) ||
+        (!endX && deltaY === 0) ||
+        ((!endX || !endY) && deltaX !== 0 && deltaY !== 0)
+      ) {
         // Stop bubbling and native event only if a scrollbar is visible
         e.stop();
       }

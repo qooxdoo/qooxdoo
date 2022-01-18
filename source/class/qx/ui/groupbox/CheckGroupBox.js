@@ -24,34 +24,32 @@
  * @childControl legend {qx.ui.form.CheckBox} checkbox to en-/disable the
  *   groupbox content
  */
-qx.Class.define("qx.ui.groupbox.CheckGroupBox",
-{
-  extend : qx.ui.groupbox.GroupBox,
-  implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
-  include : [qx.ui.form.MModelProperty],
+qx.Class.define("qx.ui.groupbox.CheckGroupBox", {
+  extend: qx.ui.groupbox.GroupBox,
+  implement: [
+    qx.ui.form.IExecutable,
+    qx.ui.form.IBooleanForm,
+    qx.ui.form.IModel
+  ],
+  include: [qx.ui.form.MModelProperty],
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init   : "check-groupbox"
+    appearance: {
+      refine: true,
+      init: "check-groupbox"
     }
   },
 
-  events :
-  {
+  events: {
     /** Fired when the included checkbox changed its value */
-    "changeValue" : "qx.event.type.Data",
+    changeValue: "qx.event.type.Data",
 
     /** Fired if the {@link #execute} method is invoked.*/
-    "execute" : "qx.event.type.Event"
+    execute: "qx.event.type.Event"
   },
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -59,12 +57,10 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "legend":
           control = new qx.ui.form.CheckBox();
           control.setValue(true);
@@ -73,23 +69,18 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
           control.addListener("resize", this._repositionFrame, this);
           control.addListener("execute", this._onExecute, this);
 
-          this._add(control, {left: 0, right: 0});
+          this._add(control, { left: 0, right: 0 });
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
-
     // overridden
-    _applyEnabled : function(value, old) {
-      this.base(arguments, value, old);
+    _applyEnabled(value, old) {
+      super._applyEnabled(value, old);
 
       this.getChildrenContainer().setEnabled(value && this.getValue());
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -102,18 +93,16 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      *
      * @param e {qx.event.type.Event} Event which holds the current status
      */
-    _onExecute: function(e) {
+    _onExecute(e) {
       this.fireEvent("execute");
     },
-
 
     /**
      * Event listener for change event of checkbox
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
      */
-    _onRadioChangeValue : function(e)
-    {
+    _onRadioChangeValue(e) {
       var checked = e.getData() ? true : false;
       // Disable content
       this.getChildrenContainer().setEnabled(checked);
@@ -122,8 +111,6 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       this.fireDataEvent("changeValue", checked, e.getOldData());
     },
 
-
-
     /*
     ---------------------------------------------------------------------------
       REDIRECTIONS TO LEGEND (CHECKBOX COMPATIBILITY MODE)
@@ -131,47 +118,42 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     */
 
     // interface implementation
-    execute: function() {
+    execute() {
       this.getChildControl("legend").execute();
     },
 
-
     // interface implementation
-    setCommand : function(command) {
+    setCommand(command) {
       this.getChildControl("legend").setCommand(command);
     },
 
-
     // interface implementation
-    getCommand : function() {
+    getCommand() {
       return this.getChildControl("legend").getCommand();
     },
-
 
     /**
      * The value of the groupbox.
      *
      * @return {Boolean} <code>true</code> when enabled.
      */
-    getValue : function() {
+    getValue() {
       return this.getChildControl("legend").getValue();
     },
-
 
     /**
      * Configures the value of the groupbox.
      *
      * @param value {Boolean} <code>true</code> when enabled.
      */
-    setValue : function(value) {
+    setValue(value) {
       this.getChildControl("legend").setValue(value);
     },
-
 
     /**
      * Resets the value.
      */
-    resetValue: function() {
+    resetValue() {
       this.getChildControl("legend").resetValue();
     }
   }

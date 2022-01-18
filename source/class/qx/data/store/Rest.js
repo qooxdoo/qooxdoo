@@ -21,8 +21,7 @@
  * populated with the marshaled response. Note the action is invoked on the
  * resource, not the store.
  */
-qx.Class.define("qx.data.store.Rest",
-{
+qx.Class.define("qx.data.store.Rest", {
   extend: qx.core.Object,
 
   /**
@@ -32,14 +31,13 @@ qx.Class.define("qx.data.store.Rest",
    * @param delegate {Object?null} The delegate containing one of the methods
    *  specified in {@link qx.data.store.IStoreDelegate}.
    */
-  construct: function(resource, actionName, delegate)
-  {
-    this.base(arguments);
+  construct(resource, actionName, delegate) {
+    super();
 
     try {
       this.setResource(resource);
       this.setActionName(actionName);
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }
@@ -51,12 +49,14 @@ qx.Class.define("qx.data.store.Rest",
       this.__configureRequest();
     }
 
-    this.__onActionSuccessBound = qx.lang.Function.bind(this.__onActionSuccess, this);
+    this.__onActionSuccessBound = qx.lang.Function.bind(
+      this.__onActionSuccess,
+      this
+    );
     this.__addListeners();
   },
 
-  properties:
-  {
+  properties: {
     /**
      * The resource.
      */
@@ -80,8 +80,7 @@ qx.Class.define("qx.data.store.Rest",
     }
   },
 
-  members:
-  {
+  members: {
     _marshaler: null,
     _delegate: null,
 
@@ -90,9 +89,9 @@ qx.Class.define("qx.data.store.Rest",
     /**
      * Configure the resource's request by processing the delegate.
      */
-    __configureRequest: function() {
+    __configureRequest() {
       var resource = this.getResource(),
-          delegate = this._delegate;
+        delegate = this._delegate;
 
       // Overrides existing callback, if any
       resource.configureRequest(delegate.configureRequest);
@@ -101,12 +100,15 @@ qx.Class.define("qx.data.store.Rest",
     /**
      * Listen to events fired by the resource.
      */
-    __addListeners: function() {
+    __addListeners() {
       var resource = this.getResource(),
-          actionName = this.getActionName();
+        actionName = this.getActionName();
 
       if (resource && actionName) {
-        resource.addListener(this.getActionName() + "Success", this.__onActionSuccessBound);
+        resource.addListener(
+          this.getActionName() + "Success",
+          this.__onActionSuccessBound
+        );
       }
     },
 
@@ -117,16 +119,15 @@ qx.Class.define("qx.data.store.Rest",
      *
      * @param e {qx.event.type.Rest} Rest event.
      */
-    __onActionSuccess: function(e) {
+    __onActionSuccess(e) {
       var data = e.getData(),
-          marshaler = this._marshaler,
-          model,
-          oldModel = this.getModel(),
-          delegate = this._delegate;
+        marshaler = this._marshaler,
+        model,
+        oldModel = this.getModel(),
+        delegate = this._delegate;
 
       // Skip if data is empty
       if (data) {
-
         // Manipulate received data
         if (delegate && delegate.manipulateData) {
           data = delegate.manipulateData(data);
@@ -148,7 +149,7 @@ qx.Class.define("qx.data.store.Rest",
     }
   },
 
-  destruct: function() {
+  destruct() {
     var model = this.getModel();
     if (model && typeof model.dispose === "function") {
       model.dispose();

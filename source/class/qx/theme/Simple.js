@@ -18,16 +18,14 @@
 /**
  * Simple Theme
  */
-qx.Theme.define("qx.theme.Simple",
-{
-  title : "Simple",
+qx.Theme.define("qx.theme.Simple", {
+  title: "Simple",
 
-  meta :
-  {
-    color : qx.theme.simple.Color,
-    decoration : qx.theme.simple.Decoration,
-    font : qx.theme.simple.Font,
-    appearance : qx.theme.simple.Appearance,
-    icon : qx.theme.icon.Tango
+  meta: {
+    color: qx.theme.simple.Color,
+    decoration: qx.theme.simple.Decoration,
+    font: qx.theme.simple.Font,
+    appearance: qx.theme.simple.Appearance,
+    icon: qx.theme.icon.Tango
   }
 });

@@ -21,15 +21,12 @@
  * This is a renderer that simply calls the function provided by the data
  * element.
  */
-qx.Class.define("qx.ui.progressive.renderer.FunctionCaller",
-{
-  extend     : qx.ui.progressive.renderer.Abstract,
+qx.Class.define("qx.ui.progressive.renderer.FunctionCaller", {
+  extend: qx.ui.progressive.renderer.Abstract,
 
-  members :
-  {
+  members: {
     // overridden
-    render : function(state, element)
-    {
+    render(state, element) {
       element.data(state.getUserData());
     }
   }

@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.LibraryManager",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.LibraryManager", {
+  extend: qx.dev.unit.TestCase,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__mgr = qx.util.LibraryManager.getInstance();
     this.libKeys = ["sourceUri", "resourceUri"];
@@ -35,37 +33,32 @@ qx.Class.define("qx.test.util.LibraryManager",
     }
   },
 
-  members :
-  {
-    __mgr : null,
-    __qxBackup : null,
-    libKeys : null,
+  members: {
+    __mgr: null,
+    __qxBackup: null,
+    libKeys: null,
 
-    testHas : function()
-    {
+    testHas() {
       this.assert(this.__mgr.has("qx"));
       this.assertFalse(this.__mgr.has("foo"));
     },
 
-    testGet : function()
-    {
-      for (var i=0, l=this.libKeys.length; i<l; i++) {
+    testGet() {
+      for (var i = 0, l = this.libKeys.length; i < l; i++) {
         var key = this.libKeys[i];
         this.assertEquals(qx.$$libraries.qx[key], this.__mgr.get("qx", key));
       }
     },
 
-    testSet : function()
-    {
-      for (var i=0, l=this.libKeys.length; i<l; i++) {
+    testSet() {
+      for (var i = 0, l = this.libKeys.length; i < l; i++) {
         var key = this.libKeys[i];
         this.__mgr.set("qx", key, "foo");
         this.assertEquals("foo", qx.$$libraries.qx[key]);
       }
     },
 
-    tearDownTestSet : function()
-    {
+    tearDownTestSet() {
       for (var key in this.__qxBackup) {
         qx.$$libraries.qx[key] = this.__qxBackup[key];
       }

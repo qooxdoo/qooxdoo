@@ -23,11 +23,10 @@
  * make sense used in a group of two or more of them. They are managed (connected)
  * to a {@link qx.ui.form.RadioGroup} to handle the selection.
  */
-qx.Class.define("qx.ui.toolbar.RadioButton",
-{
-  extend : qx.ui.toolbar.CheckBox,
-  include : [qx.ui.form.MModelProperty],
-  implement : [qx.ui.form.IModel, qx.ui.form.IRadioItem],
+qx.Class.define("qx.ui.toolbar.RadioButton", {
+  extend: qx.ui.toolbar.CheckBox,
+  include: [qx.ui.form.MModelProperty],
+  implement: [qx.ui.form.IModel, qx.ui.form.IRadioItem],
 
   /*
   *****************************************************************************
@@ -35,9 +34,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
   *****************************************************************************
   */
 
-  construct : function(label, icon)
-  {
-    this.base(arguments, label, icon);
+  construct(label, icon) {
+    super(label, icon);
 
     // ARIA attrs
     // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
@@ -47,15 +45,13 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     contentEl.removeAttribute("aria-pressed");
   },
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -63,17 +59,15 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     */
 
     // overridden
-    _applyValue : function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyValue(value, old) {
+      super._applyValue(value, old);
 
       // ARIA attrs
       const contentEl = this.getContentElement();
       contentEl.removeAttribute("aria-pressed");
       contentEl.setAttribute("aria-checked", Boolean(value));
 
-      if (value)
-      {
+      if (value) {
         var grp = this.getGroup();
         if (grp) {
           grp.setSelection([this]);
@@ -81,9 +75,8 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       }
     },
 
-
     // overridden
-    _onExecute : function(e) {
+    _onExecute(e) {
       var grp = this.getGroup();
       if (grp && grp.getAllowEmptySelection()) {
         this.toggleValue();

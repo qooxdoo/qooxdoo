@@ -20,12 +20,9 @@
  * An abstract resize behavior.  All resize behaviors should extend this
  * class.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -33,8 +30,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Called when the ResizeTableColumnModel is initialized, and upon loading of
      * a new TableModel, to allow the Resize Behaviors to know how many columns
@@ -44,10 +40,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * @param numColumns {Integer} The number of columns in use.
      * @throws {Error} the abstract function warning.
      */
-    _setNumColumns : function(numColumns) {
+    _setNumColumns(numColumns) {
       throw new Error("_setNumColumns is abstract");
     },
-
 
     /**
      * Called when the table has first been rendered.
@@ -57,10 +52,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * @param forceRefresh {Boolean?false} Whether a refresh should be forced
      * @throws {Error} the abstract function warning.
      */
-    onAppear : function(event, forceRefresh) {
+    onAppear(event, forceRefresh) {
       throw new Error("onAppear is abstract");
     },
-
 
     /**
      * Called when the table width changes due to either a window size change
@@ -70,10 +64,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * @param event {var} The <i>tableWidthChanged</i> event object.
      * @throws {Error} the abstract function warning.
      */
-    onTableWidthChanged : function(event) {
+    onTableWidthChanged(event) {
       throw new Error("onTableWidthChanged is abstract");
     },
-
 
     /**
      * Called when the use of vertical scroll bar in the table changes, either
@@ -85,10 +78,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     vertical scroll bar is now present.
      * @throws {Error} the abstract function warning.
      */
-    onVerticalScrollBarChanged : function(event) {
+    onVerticalScrollBarChanged(event) {
       throw new Error("onVerticalScrollBarChanged is abstract");
     },
-
 
     /**
      * Called when a column width is changed.
@@ -100,10 +92,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     width (data.newWidth).
      * @throws {Error} the abstract function warning.
      */
-    onColumnWidthChanged : function(event) {
+    onColumnWidthChanged(event) {
       throw new Error("onColumnWidthChanged is abstract");
     },
-
 
     /**
      * Called when a column visibility is changed.
@@ -115,7 +106,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     (data.visible).
      * @throws {Error} the abstract function warning.
      */
-    onVisibilityChanged : function(event) {
+    onVisibilityChanged(event) {
       throw new Error("onVisibilityChanged is abstract");
     },
 
@@ -124,8 +115,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @return {Integer} The available width
      */
-    _getAvailableWidth : function()
-    {
+    _getAvailableWidth() {
       var tableColumnModel = this.getTableColumnModel();
 
       // Get the inner width off the table
@@ -135,11 +125,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       if (!scrollerArr[0] || !scrollerArr[0].getLayoutParent().getBounds()) {
         return null;
       }
-      var scrollerParentWidth = scrollerArr[0].getLayoutParent().getBounds().width;
+      var scrollerParentWidth = scrollerArr[0]
+        .getLayoutParent()
+        .getBounds().width;
 
-      var lastScroller = scrollerArr[scrollerArr.length-1];
+      var lastScroller = scrollerArr[scrollerArr.length - 1];
       scrollerParentWidth -= lastScroller.getPaneInsetRight();
 
       return scrollerParentWidth;
     }
-  }});
+  }
+});

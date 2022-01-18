@@ -60,17 +60,13 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/slidebar.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.SlideBar",
-{
-  extend : qx.ui.core.Widget,
+qx.Class.define("qx.ui.container.SlideBar", {
+  extend: qx.ui.core.Widget,
 
-  include :
-  [
+  include: [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling
   ],
-
-
 
   /*
   *****************************************************************************
@@ -81,12 +77,11 @@ qx.Class.define("qx.ui.container.SlideBar",
   /**
    * @param orientation {String?"horizontal"} The slide bar orientation
    */
-  construct : function(orientation)
-  {
-    this.base(arguments);
+  construct(orientation) {
+    super();
 
     var scrollPane = this.getChildControl("scrollpane");
-    this._add(scrollPane, {flex: 1});
+    this._add(scrollPane, { flex: 1 });
 
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -97,41 +92,33 @@ qx.Class.define("qx.ui.container.SlideBar",
     this.addListener("roll", this._onRoll, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "slidebar"
+    appearance: {
+      refine: true,
+      init: "slidebar"
     },
 
     /** Orientation of the bar */
-    orientation :
-    {
-      check : ["horizontal", "vertical"],
-      init : "horizontal",
-      apply : "_applyOrientation"
+    orientation: {
+      check: ["horizontal", "vertical"],
+      init: "horizontal",
+      apply: "_applyOrientation"
     },
 
     /** The number of pixels to scroll if the buttons are pressed */
-    scrollStep :
-    {
-      check : "Integer",
-      init : 15,
-      themeable : true
+    scrollStep: {
+      check: "Integer",
+      init: 15,
+      themeable: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -139,12 +126,10 @@ qx.Class.define("qx.ui.container.SlideBar",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired on scroll animation end invoked by 'scroll*' methods. */
-    scrollAnimationEnd : "qx.event.type.Event"
+    scrollAnimationEnd: "qx.event.type.Event"
   },
-
 
   /*
   *****************************************************************************
@@ -152,8 +137,7 @@ qx.Class.define("qx.ui.container.SlideBar",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -161,27 +145,24 @@ qx.Class.define("qx.ui.container.SlideBar",
     */
 
     // overridden
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("content");
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "button-forward":
-          control = new qx.ui.form.RepeatButton;
+          control = new qx.ui.form.RepeatButton();
           control.addListener("execute", this._onExecuteForward, this);
           control.setFocusable(false);
           this._addAt(control, 2);
           break;
 
         case "button-backward":
-          control = new qx.ui.form.RepeatButton;
+          control = new qx.ui.form.RepeatButton();
           control.addListener("execute", this._onExecuteBackward, this);
           control.setFocusable(false);
           this._addAt(control, 0);
@@ -198,23 +179,26 @@ qx.Class.define("qx.ui.container.SlideBar",
           control.addListener("update", this._onResize, this);
           control.addListener("scrollX", this._onScroll, this);
           control.addListener("scrollY", this._onScroll, this);
-          control.addListener("scrollAnimationEnd", this._onScrollAnimationEnd, this);
+          control.addListener(
+            "scrollAnimationEnd",
+            this._onScrollAnimationEnd,
+            this
+          );
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      barLeft : true,
-      barTop : true,
-      barRight : true,
-      barBottom : true
+    _forwardStates: {
+      barLeft: true,
+      barTop: true,
+      barRight: true,
+      barBottom: true
     },
 
     /*
@@ -229,8 +213,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @param offset {Integer?0} Amount to scroll
      * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollBy : function(offset, duration)
-    {
+    scrollBy(offset, duration) {
       var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
         pane.scrollByX(offset, duration);
@@ -239,15 +222,13 @@ qx.Class.define("qx.ui.container.SlideBar",
       }
     },
 
-
     /**
      * Scrolls the element's content to the given coordinate
      *
      * @param value {Integer} The position to scroll to.
      * @param duration {Number?} The time in milliseconds the scroll to should take.
      */
-    scrollTo : function(value, duration)
-    {
+    scrollTo(value, duration) {
       var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
         pane.scrollToX(value, duration);
@@ -256,54 +237,44 @@ qx.Class.define("qx.ui.container.SlideBar",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
     // overridden
-    _applyEnabled : function(value, old, name) {
-      this.base(arguments, value, old, name);
+    _applyEnabled(value, old, name) {
+      super._applyEnabled(value, old, name);
       this._updateArrowsEnabled();
     },
 
-
     // property apply
-    _applyOrientation : function(value, old)
-    {
+    _applyOrientation(value, old) {
       // ARIA attrs
       this.getContentElement().setAttribute("aria-orientation", value);
-      
+
       var oldLayouts = [this.getLayout(), this._getLayout()];
       var buttonForward = this.getChildControl("button-forward");
       var buttonBackward = this.getChildControl("button-backward");
 
       // old can also be null, so we have to check both explicitly to set
       // the states correctly.
-      if (old == "vertical" && value == "horizontal")
-      {
+      if (old == "vertical" && value == "horizontal") {
         buttonForward.removeState("vertical");
         buttonBackward.removeState("vertical");
         buttonForward.addState("horizontal");
         buttonBackward.addState("horizontal");
-      }
-      else if (old == "horizontal" && value == "vertical")
-      {
+      } else if (old == "horizontal" && value == "vertical") {
         buttonForward.removeState("horizontal");
         buttonBackward.removeState("horizontal");
         buttonForward.addState("vertical");
         buttonBackward.addState("vertical");
       }
 
-
-      if (value == "horizontal")
-      {
+      if (value == "horizontal") {
         this._setLayout(new qx.ui.layout.HBox());
         this.setLayout(new qx.ui.layout.HBox());
-      }
-      else
-      {
+      } else {
         this._setLayout(new qx.ui.layout.VBox());
         this.setLayout(new qx.ui.layout.VBox());
       }
@@ -317,9 +288,6 @@ qx.Class.define("qx.ui.container.SlideBar",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
@@ -331,8 +299,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      *
      * @param e {qx.event.type.Roll} the roll event
      */
-    _onRoll : function(e)
-    {
+    _onRoll(e) {
       // only wheel and touch
       if (e.getPointerType() == "mouse") {
         return;
@@ -348,10 +315,12 @@ qx.Class.define("qx.ui.container.SlideBar",
         var steps = parseInt(delta);
 
         // pass the event to the parent if both scrollbars are at the end
-        if (!(
-          steps < 0 && position <= 0 ||
-          steps > 0 && position >= max ||
-          delta == 0)
+        if (
+          !(
+            (steps < 0 && position <= 0) ||
+            (steps > 0 && position >= max) ||
+            delta == 0
+          )
         ) {
           e.stop();
         } else {
@@ -365,11 +334,13 @@ qx.Class.define("qx.ui.container.SlideBar",
         var steps = parseInt(delta);
 
         // pass the event to the parent if both scrollbars are at the end
-        if (!(
-          steps < 0 && position <= 0 ||
-          steps > 0 && position >= max ||
-          delta == 0
-        )) {
+        if (
+          !(
+            (steps < 0 && position <= 0) ||
+            (steps > 0 && position >= max) ||
+            delta == 0
+          )
+        ) {
           e.stop();
         } else {
           e.stopMomentum();
@@ -383,22 +354,19 @@ qx.Class.define("qx.ui.container.SlideBar",
       }
     },
 
-
     /**
      * Update arrow enabled state after scrolling
      */
-    _onScroll : function() {
+    _onScroll() {
       this._updateArrowsEnabled();
     },
-
 
     /**
      * Handler to fire the 'scrollAnimationEnd' event.
      */
-    _onScrollAnimationEnd : function() {
+    _onScrollAnimationEnd() {
       this.fireEvent("scrollAnimationEnd");
     },
-
 
     /**
      * Listener for resize event. This event is fired after the
@@ -407,8 +375,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      *
      * @param e {Event} Event object
      */
-    _onResize : function(e)
-    {
+    _onResize(e) {
       var content = this.getChildControl("scrollpane").getChildren()[0];
       if (!content) {
         return;
@@ -417,9 +384,10 @@ qx.Class.define("qx.ui.container.SlideBar",
       var innerSize = this.getInnerSize();
       var contentSize = content.getBounds();
 
-      var overflow = (this.getOrientation() === "horizontal") ?
-        contentSize.width > innerSize.width :
-        contentSize.height > innerSize.height;
+      var overflow =
+        this.getOrientation() === "horizontal"
+          ? contentSize.width > innerSize.width
+          : contentSize.height > innerSize.height;
 
       if (overflow) {
         this._showArrows();
@@ -429,24 +397,21 @@ qx.Class.define("qx.ui.container.SlideBar",
       }
     },
 
-
     /**
      * Scroll handler for left scrolling
      *
      */
-    _onExecuteBackward : function() {
+    _onExecuteBackward() {
       this.scrollBy(-this.getScrollStep());
     },
-
 
     /**
      * Scroll handler for right scrolling
      *
      */
-    _onExecuteForward : function() {
+    _onExecuteForward() {
       this.scrollBy(this.getScrollStep());
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -457,8 +422,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Update arrow enabled state
      */
-    _updateArrowsEnabled : function()
-    {
+    _updateArrowsEnabled() {
       // set the disables state directly because we are overriding the
       // inheritance
       if (!this.getEnabled()) {
@@ -469,13 +433,10 @@ qx.Class.define("qx.ui.container.SlideBar",
 
       var pane = this.getChildControl("scrollpane");
 
-      if (this.getOrientation() === "horizontal")
-      {
+      if (this.getOrientation() === "horizontal") {
         var position = pane.getScrollX();
         var max = pane.getScrollMaxX();
-      }
-      else
-      {
+      } else {
         var position = pane.getScrollY();
         var max = pane.getScrollMaxY();
       }
@@ -484,29 +445,24 @@ qx.Class.define("qx.ui.container.SlideBar",
       this.getChildControl("button-forward").setEnabled(position < max);
     },
 
-
     /**
      * Show the arrows (Called from resize event)
      *
      */
-    _showArrows : function()
-    {
+    _showArrows() {
       this._showChildControl("button-forward");
       this._showChildControl("button-backward");
     },
-
 
     /**
      * Hide the arrows (Called from resize event)
      *
      */
-    _hideArrows : function()
-    {
+    _hideArrows() {
       this._excludeChildControl("button-forward");
       this._excludeChildControl("button-backward");
 
       this.scrollTo(0);
     }
   }
-
 });

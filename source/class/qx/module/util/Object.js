@@ -23,7 +23,7 @@
  * @require (qx.module.util.Array)
  */
 qx.Bootstrap.define("qx.module.util.Object", {
-  statics : {
+  statics: {
     /**
      * Return a copy of an Object
      *
@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param deep {Boolean} If the clone should be a deep clone.
      * @return {Object} A copy of the object
      */
-    clone : qx.lang.Object.clone,
+    clone: qx.lang.Object.clone,
 
     /**
      * Get the values of a map as array
@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */
-    getValues : qx.lang.Object.getValues,
+    getValues: qx.lang.Object.getValues,
 
     /**
      * Inverts a map by exchanging the keys with the values.
@@ -59,8 +59,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param map {Object} Map to invert
      * @return {Object} inverted Map
      */
-    invert : qx.lang.Object.invert,
-
+    invert: qx.lang.Object.invert,
 
     /**
      * Whether the map contains the given value.
@@ -72,8 +71,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param value {var} Value to look for
      * @return {Boolean} Whether the value was found in the map.
      */
-    contains : qx.lang.Object.contains,
-
+    contains: qx.lang.Object.contains,
 
     /**
      * Merges one or more objects into the 'target' object.
@@ -85,12 +83,11 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param varargs {var} As many items as you want to merge.
      * @return {Object} the merged object
      */
-    merge : function(target, varargs) {
-
+    merge(target, varargs) {
       var varargs = qxWeb.array.fromArguments(arguments);
       var target = varargs.shift();
 
-      varargs.forEach(function(sourceObject) {
+      varargs.forEach(function (sourceObject) {
         target = qx.Bootstrap.objectMergeWith(target, sourceObject);
       });
 
@@ -98,7 +95,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "object");
   }
 });

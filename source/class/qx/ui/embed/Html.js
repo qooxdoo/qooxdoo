@@ -35,12 +35,9 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/html.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.embed.Html",
-{
-  extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MNativeOverflow],
-
-
+qx.Class.define("qx.ui.embed.Html", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MNativeOverflow],
 
   /*
   *****************************************************************************
@@ -51,17 +48,13 @@ qx.Class.define("qx.ui.embed.Html",
   /**
    * @param html {String} Initial HTML content
    */
-  construct : function(html)
-  {
-    this.base(arguments);
+  construct(html) {
+    super();
 
     if (html != null) {
       this.setHtml(html);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -69,17 +62,14 @@ qx.Class.define("qx.ui.embed.Html",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Any text string which can contain HTML, too */
-    html :
-    {
-      check : "String",
-      apply : "_applyHtml",
-      event : "changeHtml",
-      nullable : true
+    html: {
+      check: "String",
+      apply: "_applyHtml",
+      event: "changeHtml",
+      nullable: true
     },
-
 
     /**
      * The css classname for the html embed.
@@ -87,32 +77,24 @@ qx.Class.define("qx.ui.embed.Html",
      * in the css class. These styles cause conflicts with
      * the layout engine.
      */
-    cssClass :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyCssClass"
+    cssClass: {
+      check: "String",
+      init: "",
+      apply: "_applyCssClass"
     },
 
-
     // overridden
-    selectable :
-    {
-      refine : true,
-      init : true
+    selectable: {
+      refine: true,
+      init: true
     },
 
-
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -120,20 +102,16 @@ qx.Class.define("qx.ui.embed.Html",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       WIDGET API
     ---------------------------------------------------------------------------
     */
 
-    getFocusElement : function() {
+    getFocusElement() {
       return this.getContentElement();
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -142,42 +120,40 @@ qx.Class.define("qx.ui.embed.Html",
     */
 
     // property apply
-    _applyHtml : function(value, old)
-    {
+    _applyHtml(value, old) {
       var elem = this.getContentElement();
       // Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=7679
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") == 9)
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") == 9
+      ) {
         elem.setStyle("position", "relative");
       }
 
       // Insert HTML content
-      elem.setAttribute("html", value||"");
+      elem.setAttribute("html", value || "");
     },
 
-
     // property apply
-    _applyCssClass : function (value, old) {
+    _applyCssClass(value, old) {
       this.getContentElement().removeClass(old);
       this.getContentElement().addClass(value);
     },
 
-
     // overridden
-    _applySelectable : function(value)
-    {
-      this.base(arguments, value);
+    _applySelectable(value) {
+      super._applySelectable(value);
 
       /*
        * We have to set the value to "text" in Webkit for the content element
        */
-      if ((qx.core.Environment.get("engine.name") == "webkit"))
-      {
-        this.getContentElement().setStyle("userSelect", value ? "text" : "none");
+      if (qx.core.Environment.get("engine.name") == "webkit") {
+        this.getContentElement().setStyle(
+          "userSelect",
+          value ? "text" : "none"
+        );
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -186,9 +162,10 @@ qx.Class.define("qx.ui.embed.Html",
     */
 
     // overridden
-    _applyFont : function(value, old)
-    {
-      var styles = value ? qx.theme.manager.Font.getInstance().resolve(value).getStyles() : qx.bom.Font.getDefaultStyles();
+    _applyFont(value, old) {
+      var styles = value
+        ? qx.theme.manager.Font.getInstance().resolve(value).getStyles()
+        : qx.bom.Font.getDefaultStyles();
 
       // check if text color already set - if so this local value has higher priority
       if (this.getTextColor() != null) {
@@ -198,9 +175,6 @@ qx.Class.define("qx.ui.embed.Html",
       this.getContentElement().setStyles(styles);
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       TEXT COLOR SUPPORT
@@ -208,10 +182,12 @@ qx.Class.define("qx.ui.embed.Html",
     */
 
     // overridden
-    _applyTextColor : function(value, old)
-    {
+    _applyTextColor(value, old) {
       if (value) {
-        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
+        this.getContentElement().setStyle(
+          "color",
+          qx.theme.manager.Color.getInstance().resolve(value)
+        );
       } else {
         this.getContentElement().removeStyle("color");
       }

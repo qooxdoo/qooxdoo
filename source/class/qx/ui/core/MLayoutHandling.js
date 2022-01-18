@@ -25,16 +25,14 @@
  * {@link #remap} in its defer function. This will map the protected
  * methods to the public ones and save one method call for each function.
  */
-qx.Mixin.define("qx.ui.core.MLayoutHandling",
-{
+qx.Mixin.define("qx.ui.core.MLayoutHandling", {
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Set a layout manager for the widget. A a layout manager can only be connected
      * with one widget. Reset the connection with a previous widget first, if you
@@ -43,23 +41,19 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling",
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      */
-    setLayout : function(layout) {
+    setLayout(layout) {
       this._setLayout(layout);
     },
-
 
     /**
      * Get the widget's layout manager.
      *
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    getLayout : function() {
+    getLayout() {
       return this._getLayout();
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -67,8 +61,7 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Mapping of protected methods to public.
      * This omits an additional function call when using these methods. Call
@@ -76,8 +69,7 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling",
      *
      * @param members {Map} The including classes members map
      */
-    remap : function(members)
-    {
+    remap(members) {
       members.getLayout = members._getLayout;
       members.setLayout = members._setLayout;
     }

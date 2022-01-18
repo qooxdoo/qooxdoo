@@ -27,7 +27,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
     /**
      * Static counter for all request ids
      */
-    __current_request_id : 0,
+    __current_request_id: 0,
 
     getCurrentId() {
       return qx.io.jsonrpc.protocol.Request.__current_request_id;
@@ -37,12 +37,14 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
       qx.io.jsonrpc.protocol.Request.__current_request_id = 0;
     }
   },
+
   properties: {
     /**
      * The integer id of the request
      */
-    id : {
-      check: value => qx.lang.Type.isNumber(value) && parseInt(value, 10) === value
+    id: {
+      check: value =>
+        qx.lang.Type.isNumber(value) && parseInt(value, 10) === value
     }
   },
 
@@ -55,17 +57,16 @@ qx.Class.define("qx.io.jsonrpc.protocol.Request", {
    *    used.
    */
   construct(method, params, id) {
-    this.base(arguments, method, params);
+    super(method, params);
     if (id === undefined) {
       id = ++qx.io.jsonrpc.protocol.Request.__current_request_id;
     }
-    this.set({id});
+    this.set({ id });
     this.__promise = new qx.Promise();
   },
 
   members: {
-
-    __promise : null,
+    __promise: null,
 
     /**
      * Getter for promise which resolves with the result to the request

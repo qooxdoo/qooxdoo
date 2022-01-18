@@ -20,48 +20,46 @@
  *
  * *********************************************************************** */
 
-
-
 /**
  * Code is divided up into Parts, where each is a non-overlapping set of URIs for segmented
  * loading; the Part can support specific attributes, such as whether to be combined into
- * one file for the boot loader, whether to be minified, etc 
+ * one file for the boot loader, whether to be minified, etc
  */
 qx.Class.define("qx.tool.compiler.app.Part", {
   extend: qx.core.Object,
-  
-  construct: function(name, include, exclude) {
-    this.base(arguments);
+
+  construct(name, include, exclude) {
+    super();
     this.set({
       name: name,
       include: include,
-      exclude: exclude||[]
+      exclude: exclude || []
     });
   },
-  
+
   properties: {
     name: {
       nullable: false,
       check: "String"
     },
-    
+
     combine: {
       init: false,
       nullable: false,
       check: "Boolean"
     },
-    
+
     minify: {
       init: false,
       nullable: false,
       check: "Boolean"
     },
-    
+
     include: {
       nullable: false,
       check: "Array"
     },
-    
+
     exclude: {
       nullable: false,
       check: "Array"

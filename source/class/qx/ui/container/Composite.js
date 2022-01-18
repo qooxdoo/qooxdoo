@@ -17,7 +17,6 @@
 
 ************************************************************************ */
 
-
 /**
  * The Composite is a generic container widget.
  *
@@ -51,12 +50,9 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/composite.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.Composite",
-{
-  extend : qx.ui.core.Widget,
-  include : [ qx.ui.core.MChildrenHandling, qx.ui.core.MLayoutHandling ],
-
-
+qx.Class.define("qx.ui.container.Composite", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MChildrenHandling, qx.ui.core.MLayoutHandling],
 
   /*
   *****************************************************************************
@@ -68,16 +64,13 @@ qx.Class.define("qx.ui.container.Composite",
    * @param layout {qx.ui.layout.Abstract} A layout instance to use to
    *   place widgets on the screen.
    */
-  construct : function(layout)
-  {
-    this.base(arguments);
+  construct(layout) {
+    super();
 
     if (layout != null) {
       this._setLayout(layout);
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -85,25 +78,21 @@ qx.Class.define("qx.ui.container.Composite",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * This event is fired after a child widget was added to this widget. The
      * {@link qx.event.type.Data#getData} method of the event returns the
      * added child.
      */
-    addChildWidget : "qx.event.type.Data",
-
+    addChildWidget: "qx.event.type.Data",
 
     /**
      * This event is fired after a child widget has been removed from this widget.
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed child.
      */
-    removeChildWidget : "qx.event.type.Data"
+    removeChildWidget: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -111,21 +100,19 @@ qx.Class.define("qx.ui.container.Composite",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _afterAddChild : function(child) {
+    _afterAddChild(child) {
       this.fireNonBubblingEvent("addChildWidget", qx.event.type.Data, [child]);
     },
 
-
     // overridden
-    _afterRemoveChild : function(child) {
-      this.fireNonBubblingEvent("removeChildWidget", qx.event.type.Data, [child]);
+    _afterRemoveChild(child) {
+      this.fireNonBubblingEvent("removeChildWidget", qx.event.type.Data, [
+        child
+      ]);
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -133,8 +120,7 @@ qx.Class.define("qx.ui.container.Composite",
   *****************************************************************************
   */
 
-  defer : function(statics, members)
-  {
+  defer(statics, members) {
     qx.ui.core.MChildrenHandling.remap(members);
     qx.ui.core.MLayoutHandling.remap(members);
   }

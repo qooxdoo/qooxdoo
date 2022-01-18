@@ -21,9 +21,8 @@
  * The normal toolbar button. Like a normal {@link qx.ui.form.Button}
  * but with a style matching the toolbar.
  */
-qx.Class.define("qx.ui.toolbar.Button",
-{
-  extend : qx.ui.form.Button,
+qx.Class.define("qx.ui.toolbar.Button", {
+  extend: qx.ui.form.Button,
 
   /*
   *****************************************************************************
@@ -31,25 +30,22 @@ qx.Class.define("qx.ui.toolbar.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "toolbar-button"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "toolbar-button"
     },
 
-    show :
-    {
-      refine : true,
-      init : "inherit"
-    },
+    show: {
+      refine: true,
+      init: "inherit"
+    }
   },
 
-  members : {
+  members: {
     // overridden
-    _applyVisibility : function(value, old) {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
       // trigger a appearance recalculation of the parent
       var parent = this.getLayoutParent();
       if (parent && parent instanceof qx.ui.toolbar.PartContainer) {
@@ -58,4 +54,3 @@ qx.Class.define("qx.ui.toolbar.Button",
     }
   }
 });
-

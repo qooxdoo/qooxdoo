@@ -24,17 +24,14 @@
  *
  * @cldr()
  */
-qx.Class.define("qx.locale.Date",
-{
-  statics :
-  {
+qx.Class.define("qx.locale.Date", {
+  statics: {
     /**
      * Reference to the locale manager.
      *
      * @internal
      */
-    __mgr : qx.locale.Manager.getInstance(),
-
+    __mgr: qx.locale.Manager.getInstance(),
 
     /**
      * Get AM marker for time definitions
@@ -42,10 +39,9 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {String} translated AM marker.
      */
-    getAmMarker : function(locale) {
+    getAmMarker(locale) {
       return this.__mgr.localize("cldr_am", [], locale);
     },
-
 
     /**
      * Get PM marker for time definitions
@@ -53,10 +49,9 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {String} translated PM marker.
      */
-    getPmMarker : function(locale) {
+    getPmMarker(locale) {
       return this.__mgr.localize("cldr_pm", [], locale);
     },
-
 
     /**
      * Return localized names of day names
@@ -70,8 +65,7 @@ qx.Class.define("qx.locale.Date",
      * in order to find a localized name for the day
      * @return {String[]} array of localized day names starting with sunday.
      */
-    getDayNames : function(length, locale, context, withFallback)
-    {
+    getDayNames(length, locale, context, withFallback) {
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -79,19 +73,26 @@ qx.Class.define("qx.locale.Date",
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
+      var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       var names = [];
 
-      for (var i=0; i<days.length; i++)
-      {
+      for (var i = 0; i < days.length; i++) {
         var key = "cldr_day_" + context + "_" + length + "_" + days[i];
-        names.push(withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale));
+        names.push(
+          withFallback
+            ? this.__localizeWithFallback(
+                context,
+                context === "format" ? "stand-alone" : "format",
+                key,
+                locale
+              )
+            : this.__mgr.localize(key, [], locale)
+        );
       }
 
       return names;
     },
-
 
     /**
      * Return localized name of a week day name
@@ -106,24 +107,28 @@ qx.Class.define("qx.locale.Date",
      * in order to find a localized name for the day
      * @return {String} localized day name
      */
-    getDayName : function(length, day, locale, context, withFallback)
-    {
+    getDayName(length, day, locale, context, withFallback) {
       var context = context ? context : "format";
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInteger(day);
         qx.core.Assert.assertInRange(day, 0, 6);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
-      var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
+      var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       var key = "cldr_day_" + context + "_" + length + "_" + days[day];
-      return withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale);
+      return withFallback
+        ? this.__localizeWithFallback(
+            context,
+            context === "format" ? "stand-alone" : "format",
+            key,
+            locale
+          )
+        : this.__mgr.localize(key, [], locale);
     },
-
 
     /**
      * Return localized names of month names
@@ -137,8 +142,7 @@ qx.Class.define("qx.locale.Date",
      * in order to find a localized name for the month
      * @return {String[]} array of localized month names starting with january.
      */
-    getMonthNames : function(length, locale, context, withFallback)
-    {
+    getMonthNames(length, locale, context, withFallback) {
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -148,15 +152,22 @@ qx.Class.define("qx.locale.Date",
 
       var names = [];
 
-      for (var i=0; i<12; i++)
-      {
+      for (var i = 0; i < 12; i++) {
         var key = "cldr_month_" + context + "_" + length + "_" + (i + 1);
-        names.push(withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale));
+        names.push(
+          withFallback
+            ? this.__localizeWithFallback(
+                context,
+                context === "format" ? "stand-alone" : "format",
+                key,
+                locale
+              )
+            : this.__mgr.localize(key, [], locale)
+        );
       }
 
       return names;
     },
-
 
     /**
      * Return localized name of a month
@@ -171,8 +182,7 @@ qx.Class.define("qx.locale.Date",
      * in order to find a localized name for the month
      * @return {String} localized month name
      */
-    getMonthName : function(length, month, locale, context, withFallback)
-    {
+    getMonthName(length, month, locale, context, withFallback) {
       var context = context ? context : "format";
 
       if (qx.core.Environment.get("qx.debug")) {
@@ -181,9 +191,15 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + context + "_" + length + "_" + (month + 1);
-      return withFallback ? this.__localizeWithFallback(context, context === 'format' ? 'stand-alone' : 'format', key, locale) : this.__mgr.localize(key, [], locale);
+      return withFallback
+        ? this.__localizeWithFallback(
+            context,
+            context === "format" ? "stand-alone" : "format",
+            key,
+            locale
+          )
+        : this.__mgr.localize(key, [], locale);
     },
-
 
     /**
      * Return localized date format string to be used with {@link qx.util.format.DateFormat}.
@@ -193,8 +209,7 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String?} optional locale to be used
      * @return {String} localized date format string
      */
-    getDateFormat : function(size, locale)
-    {
+    getDateFormat(size, locale) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
@@ -202,7 +217,6 @@ qx.Class.define("qx.locale.Date",
       var key = "cldr_date_format_" + size;
       return this.__mgr.localize(key, [], locale);
     },
-
 
     /**
      * Try to localize a date/time format string. For format string possibilities see
@@ -217,8 +231,7 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {String} best matching format string
      */
-    getDateTimeFormat : function(canonical, fallback, locale)
-    {
+    getDateTimeFormat(canonical, fallback, locale) {
       var key = "cldr_date_time_format_" + canonical;
       var localizedFormat = this.__mgr.localize(key, [], locale);
 
@@ -229,7 +242,6 @@ qx.Class.define("qx.locale.Date",
       return localizedFormat;
     },
 
-
     /**
      * Return localized time format string to be used with {@link qx.util.format.DateFormat}.
      *
@@ -238,8 +250,7 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {String} localized time format string
      */
-    getTimeFormat : function(size, locale)
-    {
+    getTimeFormat(size, locale) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
@@ -251,8 +262,7 @@ qx.Class.define("qx.locale.Date",
         return localizedFormat;
       }
 
-      switch(size)
-      {
+      switch (size) {
         case "short":
         case "medium":
           return qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
@@ -268,7 +278,6 @@ qx.Class.define("qx.locale.Date",
       }
     },
 
-
     /**
      * Return the day the week starts with
      *
@@ -277,75 +286,73 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
      */
-    getWeekStart : function(locale)
-    {
-      var weekStart =
-      {
+    getWeekStart(locale) {
+      var weekStart = {
         // default is monday
-        "MV" : 5, // friday
-        "AE" : 6, // saturday
-        "AF" : 6,
-        "BH" : 6,
-        "DJ" : 6,
-        "DZ" : 6,
-        "EG" : 6,
-        "ER" : 6,
-        "ET" : 6,
-        "IQ" : 6,
-        "IR" : 6,
-        "JO" : 6,
-        "KE" : 6,
-        "KW" : 6,
-        "LB" : 6,
-        "LY" : 6,
-        "MA" : 6,
-        "OM" : 6,
-        "QA" : 6,
-        "SA" : 6,
-        "SD" : 6,
-        "SO" : 6,
-        "TN" : 6,
-        "YE" : 6,
-        "AS" : 0, // sunday
-        "AU" : 0,
-        "AZ" : 0,
-        "BW" : 0,
-        "CA" : 0,
-        "CN" : 0,
-        "FO" : 0,
-        "GE" : 0,
-        "GL" : 0,
-        "GU" : 0,
-        "HK" : 0,
-        "IE" : 0,
-        "IL" : 0,
-        "IS" : 0,
-        "JM" : 0,
-        "JP" : 0,
-        "KG" : 0,
-        "KR" : 0,
-        "LA" : 0,
-        "MH" : 0,
-        "MN" : 0,
-        "MO" : 0,
-        "MP" : 0,
-        "MT" : 0,
-        "NZ" : 0,
-        "PH" : 0,
-        "PK" : 0,
-        "SG" : 0,
-        "TH" : 0,
-        "TT" : 0,
-        "TW" : 0,
-        "UM" : 0,
-        "US" : 0,
-        "UZ" : 0,
-        "VI" : 0,
-        "ZA" : 0,
-        "ZW" : 0,
-        "MW" : 0,
-        "NG" : 0,
-        "TJ" : 0
+        MV: 5, // friday
+        AE: 6, // saturday
+        AF: 6,
+        BH: 6,
+        DJ: 6,
+        DZ: 6,
+        EG: 6,
+        ER: 6,
+        ET: 6,
+        IQ: 6,
+        IR: 6,
+        JO: 6,
+        KE: 6,
+        KW: 6,
+        LB: 6,
+        LY: 6,
+        MA: 6,
+        OM: 6,
+        QA: 6,
+        SA: 6,
+        SD: 6,
+        SO: 6,
+        TN: 6,
+        YE: 6,
+        AS: 0, // sunday
+        AU: 0,
+        AZ: 0,
+        BW: 0,
+        CA: 0,
+        CN: 0,
+        FO: 0,
+        GE: 0,
+        GL: 0,
+        GU: 0,
+        HK: 0,
+        IE: 0,
+        IL: 0,
+        IS: 0,
+        JM: 0,
+        JP: 0,
+        KG: 0,
+        KR: 0,
+        LA: 0,
+        MH: 0,
+        MN: 0,
+        MO: 0,
+        MP: 0,
+        MT: 0,
+        NZ: 0,
+        PH: 0,
+        PK: 0,
+        SG: 0,
+        TH: 0,
+        TT: 0,
+        TW: 0,
+        UM: 0,
+        US: 0,
+        UZ: 0,
+        VI: 0,
+        ZA: 0,
+        ZW: 0,
+        MW: 0,
+        NG: 0,
+        TJ: 0
       };
 
       var territory = qx.locale.Date._getTerritory(locale);
@@ -353,7 +360,6 @@ qx.Class.define("qx.locale.Date",
       // default is monday
       return weekStart[territory] != null ? weekStart[territory] : 1;
     },
-
 
     /**
      * Return the day the weekend starts with
@@ -363,30 +369,28 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
      */
-    getWeekendStart : function(locale)
-    {
-      var weekendStart =
-      {
+    getWeekendStart(locale) {
+      var weekendStart = {
         // default is saturday
-        "EG" : 5, // friday
-        "IL" : 5,
-        "SY" : 5,
-        "IN" : 0, // sunday
-        "AE" : 4, // thursday
-        "BH" : 4,
-        "DZ" : 4,
-        "IQ" : 4,
-        "JO" : 4,
-        "KW" : 4,
-        "LB" : 4,
-        "LY" : 4,
-        "MA" : 4,
-        "OM" : 4,
-        "QA" : 4,
-        "SA" : 4,
-        "SD" : 4,
-        "TN" : 4,
-        "YE" : 4
+        EG: 5, // friday
+        IL: 5,
+        SY: 5,
+        IN: 0, // sunday
+        AE: 4, // thursday
+        BH: 4,
+        DZ: 4,
+        IQ: 4,
+        JO: 4,
+        KW: 4,
+        LB: 4,
+        LY: 4,
+        MA: 4,
+        OM: 4,
+        QA: 4,
+        SA: 4,
+        SD: 4,
+        TN: 4,
+        YE: 4
       };
 
       var territory = qx.locale.Date._getTerritory(locale);
@@ -394,7 +398,6 @@ qx.Class.define("qx.locale.Date",
       // default is saturday
       return weekendStart[territory] != null ? weekendStart[territory] : 6;
     },
-
 
     /**
      * Return the day the weekend ends with
@@ -404,31 +407,29 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
      */
-    getWeekendEnd : function(locale)
-    {
-      var weekendEnd =
-      {
+    getWeekendEnd(locale) {
+      var weekendEnd = {
         // default is sunday
-        "AE" : 5, // friday
-        "BH" : 5,
-        "DZ" : 5,
-        "IQ" : 5,
-        "JO" : 5,
-        "KW" : 5,
-        "LB" : 5,
-        "LY" : 5,
-        "MA" : 5,
-        "OM" : 5,
-        "QA" : 5,
-        "SA" : 5,
-        "SD" : 5,
-        "TN" : 5,
-        "YE" : 5,
-        "AF" : 5,
-        "IR" : 5,
-        "EG" : 6, // saturday
-        "IL" : 6,
-        "SY" : 6
+        AE: 5, // friday
+        BH: 5,
+        DZ: 5,
+        IQ: 5,
+        JO: 5,
+        KW: 5,
+        LB: 5,
+        LY: 5,
+        MA: 5,
+        OM: 5,
+        QA: 5,
+        SA: 5,
+        SD: 5,
+        TN: 5,
+        YE: 5,
+        AF: 5,
+        IR: 5,
+        EG: 6, // saturday
+        IL: 6,
+        SY: 6
       };
 
       var territory = qx.locale.Date._getTerritory(locale);
@@ -437,7 +438,6 @@ qx.Class.define("qx.locale.Date",
       return weekendEnd[territory] != null ? weekendEnd[territory] : 0;
     },
 
-
     /**
      * Returns whether a certain day of week belongs to the week end.
      *
@@ -445,18 +445,16 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} optional locale to be used
      * @return {Boolean} whether the given day is a weekend day
      */
-    isWeekend : function(day, locale)
-    {
+    isWeekend(day, locale) {
       var weekendStart = qx.locale.Date.getWeekendStart(locale);
       var weekendEnd = qx.locale.Date.getWeekendEnd(locale);
 
       if (weekendEnd > weekendStart) {
-        return ((day >= weekendStart) && (day <= weekendEnd));
+        return day >= weekendStart && day <= weekendEnd;
       } else {
-        return ((day >= weekendStart) || (day <= weekendEnd));
+        return day >= weekendStart || day <= weekendEnd;
       }
     },
-
 
     /**
      * Extract the territory part from a locale
@@ -464,8 +462,7 @@ qx.Class.define("qx.locale.Date",
      * @param locale {String} the locale
      * @return {String} territory
      */
-    _getTerritory : function(locale)
-    {
+    _getTerritory(locale) {
       if (locale) {
         var territory = locale.split("_")[1] || locale;
       } else {
@@ -487,16 +484,15 @@ qx.Class.define("qx.locale.Date",
      * @return {String} localized name for the key
      *
      */
-    __localizeWithFallback : function(context, fallbackContext, key, locale)
-    {
+    __localizeWithFallback(context, fallbackContext, key, locale) {
       var localizedString = this.__mgr.localize(key, [], locale);
-      if(localizedString == key)
-      {
-        var newKey = key.replace('_' + context + '_', '_' + fallbackContext + '_');
+      if (localizedString == key) {
+        var newKey = key.replace(
+          "_" + context + "_",
+          "_" + fallbackContext + "_"
+        );
         return this.__mgr.localize(newKey, [], locale);
-      }
-      else
-      {
+      } else {
         return localizedString;
       }
     }

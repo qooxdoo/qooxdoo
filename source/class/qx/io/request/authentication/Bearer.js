@@ -20,9 +20,7 @@
 /**
  * Bearer (token) authentication.
  */
-qx.Class.define("qx.io.request.authentication.Bearer",
-{
-
+qx.Class.define("qx.io.request.authentication.Bearer", {
   extend: qx.core.Object,
 
   implement: qx.io.request.authentication.IAuthentication,
@@ -30,23 +28,19 @@ qx.Class.define("qx.io.request.authentication.Bearer",
   /**
    * @param token {string} The token to use.
    */
-  construct : function(token)
-  {
-     this.__credentials = token;
+  construct(token) {
+    this.__credentials = token;
   },
 
-  members :
-  {
-    __credentials : null,
+  members: {
+    __credentials: null,
 
     /**
      * Headers to include for bearer (token) authentication.
      * @return {Map} Map containing the authentication credentials
      */
-    getAuthHeaders: function() {
-      return [
-        {key: "Authorization", value: "Bearer " + this.__credentials}
-      ];
+    getAuthHeaders() {
+      return [{ key: "Authorization", value: "Bearer " + this.__credentials }];
     }
   }
 });

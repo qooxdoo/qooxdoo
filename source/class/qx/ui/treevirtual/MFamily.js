@@ -19,10 +19,8 @@
 /**
  * A set of methods which may be used to retrieve various siblings of nodes.
  */
-qx.Mixin.define("qx.ui.treevirtual.MFamily",
-{
-  members :
-  {
+qx.Mixin.define("qx.ui.treevirtual.MFamily", {
+  members: {
     /**
      * Get the first child of the specified node.
      *
@@ -34,31 +32,23 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      * @return {Integer}
      *   The node id of the first child.
      */
-    familyGetFirstChild : function(nodeReference)
-    {
+    familyGetFirstChild(nodeReference) {
       var node;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         node = this.getTableModel().getData()[nodeReference];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
-      if (node.children.length > 0)
-      {
+      if (node.children.length > 0) {
         return node.children[0];
       }
 
       return null;
     },
-
 
     /**
      * Get the last child of the specified node.
@@ -71,31 +61,23 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      * @return {Integer}
      *   The node id of the last child.
      */
-    familyGetLastChild : function(nodeReference)
-    {
+    familyGetLastChild(nodeReference) {
       var node;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         node = this.getTableModel().getData()[nodeReference];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
-      if (node.children.length > 0)
-      {
+      if (node.children.length > 0) {
         return node.children[node.children.length - 1];
       }
 
       return null;
     },
-
 
     /**
      * Get the next sibling of the specified node.
@@ -108,23 +90,17 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      * @return {Integer}
      *   The node id of the next sibling.
      */
-    familyGetNextSibling : function(nodeReference)
-    {
+    familyGetNextSibling(nodeReference) {
       var node;
       var nodeId;
       var nodes = this.getTableModel().getData();
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
         node = nodes[nodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
@@ -132,14 +108,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       var parentChildren = nodes[node.parentNodeId].children;
 
       // Find this node id in our parent's children array
-      for (var i=0; i<parentChildren.length; i++)
-      {
+      for (var i = 0; i < parentChildren.length; i++) {
         // Is this our id?
-        if (parentChildren[i] == myNodeId)
-        {
+        if (parentChildren[i] == myNodeId) {
           // Yup.  Ensure there is a next sibling.
-          if (i < parentChildren.length - 1)
-          {
+          if (i < parentChildren.length - 1) {
             // There is.  Return the next sibling.
             return parentChildren[i + 1];
           }
@@ -149,7 +122,6 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
         }
       }
     },
-
 
     /**
      * Get the previous sibling of the specified node.
@@ -162,23 +134,17 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      * @return {Integer}
      *   The node id of the previous sibling.
      */
-    familyGetPrevSibling : function(nodeReference)
-    {
+    familyGetPrevSibling(nodeReference) {
       var node;
       var nodeId;
       var nodes = this.getTableModel().getData();
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
         node = nodes[nodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
@@ -186,14 +152,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       var parentChildren = nodes[node.parentNodeId].children;
 
       // Find this node id in our parent's children array
-      for (var i=0; i<parentChildren.length; i++)
-      {
+      for (var i = 0; i < parentChildren.length; i++) {
         // Is this our id?
-        if (parentChildren[i] == myNodeId)
-        {
+        if (parentChildren[i] == myNodeId) {
           // Yup.  Ensure there is a previous sibling.
-          if (i > 0)
-          {
+          if (i > 0) {
             // There is.  Return the previous sibling.
             return parentChildren[i - 1];
           }

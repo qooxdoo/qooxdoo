@@ -21,11 +21,8 @@
  * The test result class runs the test functions and fires events depending on
  * the result of the test run.
  */
-qx.Class.define("qx.dev.unit.TestResult",
-{
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.dev.unit.TestResult", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -33,59 +30,55 @@ qx.Class.define("qx.dev.unit.TestResult",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired before the test is started
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    startTest : "qx.event.type.Data",
+    startTest: "qx.event.type.Data",
 
     /** Fired after the test has finished
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    endTest   : "qx.event.type.Data",
+    endTest: "qx.event.type.Data",
 
     /**
      * Fired if the test raised an {@link qx.core.AssertionError}
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    error     : "qx.event.type.Data",
+    error: "qx.event.type.Data",
 
     /**
      * Fired if the test failed with a different exception
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    failure   : "qx.event.type.Data",
+    failure: "qx.event.type.Data",
 
     /**
      * Fired if an asynchronous test sets a timeout
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    wait   : "qx.event.type.Data",
+    wait: "qx.event.type.Data",
 
     /**
      * Fired if the test was skipped, e.g. because a requirement was not met.
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    skip : "qx.event.type.Data",
+    skip: "qx.event.type.Data",
 
     /**
      * Fired if a performance test returned results.
      *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
-    endMeasurement : "qx.event.type.Data"
+    endMeasurement: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -93,8 +86,7 @@ qx.Class.define("qx.dev.unit.TestResult",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Run a test function using a given test result
      *
@@ -102,12 +94,10 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param test {qx.dev.unit.TestSuite|qx.dev.unit.TestFunction} The test
      * @param testFunction {var} The test function
      */
-    run : function(testResult, test, testFunction) {
+    run(testResult, test, testFunction) {
       testResult.run(test, testFunction);
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -115,10 +105,8 @@ qx.Class.define("qx.dev.unit.TestResult",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    _timeout : null,
+  members: {
+    _timeout: null,
 
     /**
      * Run the test
@@ -130,26 +118,35 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * @return {var} The return value of the test function
      */
-    run : function(test, testFunction, self, resume)
-    {
-      if(!this._timeout) {
+    run(test, testFunction, self, resume) {
+      if (!this._timeout) {
         this._timeout = {};
       }
 
       var testClass = test.getTestClass();
       if (!testClass.hasListener("assertionFailed")) {
-        testClass.addListener("assertionFailed", function(ev) {
-          var error = [{
-            exception : ev.getData(),
-            test      : test
-          }];
-          this.fireDataEvent("failure", error);
-        }, this);
+        testClass.addListener(
+          "assertionFailed",
+          function (ev) {
+            var error = [
+              {
+                exception: ev.getData(),
+                test: test
+              }
+            ];
+
+            this.fireDataEvent("failure", error);
+          },
+          this
+        );
       }
 
       if (resume && !this._timeout[test.getFullName()]) {
         this._timeout[test.getFullName()] = "failed";
-        var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
+        var qxEx = new qx.type.BaseError(
+          "Error in asynchronous test",
+          "resume() called before wait()"
+        );
         this._createError("failure", [qxEx], test);
         this.fireDataEvent("endTest", test);
         return undefined;
@@ -161,25 +158,17 @@ qx.Class.define("qx.dev.unit.TestResult",
         qx.dev.Debug.startDisposeProfiling();
       }
 
-      if (this._timeout[test.getFullName()])
-      {
+      if (this._timeout[test.getFullName()]) {
         if (this._timeout[test.getFullName()] !== "failed") {
           this._timeout[test.getFullName()].stop();
           this._timeout[test.getFullName()].dispose();
         }
         delete this._timeout[test.getFullName()];
-      }
-      else
-      {
+      } else {
         try {
           test.setUp();
-        }
-        catch(ex)
-        {
-
-          if (ex instanceof qx.dev.unit.AsyncWrapper)
-          {
-
+        } catch (ex) {
+          if (ex instanceof qx.dev.unit.AsyncWrapper) {
             if (this._timeout[test.getFullName()]) {
               // Do nothing if there's already a timeout for this test
               return;
@@ -187,26 +176,32 @@ qx.Class.define("qx.dev.unit.TestResult",
 
             if (ex.getDelay()) {
               var that = this;
-              var defaultTimeoutFunction = function() {
+              var defaultTimeoutFunction = function () {
                 throw new qx.core.AssertionError(
                   "Asynchronous Test Error in setUp",
-                  "Timeout of " + ex.getDelay() + " ms reached before resume() was called."
+                  "Timeout of " +
+                    ex.getDelay() +
+                    " ms reached before resume() was called."
                 );
               };
-              var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
-              var context = (ex.getContext() ? ex.getContext() : window);
-              this._timeout[test.getFullName()] = qx.event.Timer.once(function() {
-                this.run(test, timeoutFunc, context);
-              }, that, ex.getDelay());
+              var timeoutFunc = ex.getDeferredFunction()
+                ? ex.getDeferredFunction()
+                : defaultTimeoutFunction;
+              var context = ex.getContext() ? ex.getContext() : window;
+              this._timeout[test.getFullName()] = qx.event.Timer.once(
+                function () {
+                  this.run(test, timeoutFunc, context);
+                },
+                that,
+                ex.getDelay()
+              );
               this.fireDataEvent("wait", test);
             }
             return undefined;
           } else {
-
             try {
               this.tearDown(test);
-            }
-            catch (except) {
+            } catch (except) {
               /* Any exceptions here are likely caused by setUp having failed
                previously, so we'll ignore them. */
             }
@@ -214,12 +209,13 @@ qx.Class.define("qx.dev.unit.TestResult",
             if (ex.classname == "qx.dev.unit.RequirementError") {
               this._createError("skip", [ex], test);
               this.fireDataEvent("endTest", test);
-            }
-            else {
-              if (ex instanceof qx.type.BaseError && ex.message == qx.type.BaseError.DEFAULTMESSAGE) {
+            } else {
+              if (
+                ex instanceof qx.type.BaseError &&
+                ex.message == qx.type.BaseError.DEFAULTMESSAGE
+              ) {
                 ex.message = "setUp failed";
-              }
-              else {
+              } else {
                 ex.message = "setUp failed: " + ex.message;
               }
               this._createError("error", [ex], test);
@@ -235,13 +231,9 @@ qx.Class.define("qx.dev.unit.TestResult",
 
       try {
         returnValue = testFunction.call(self || window);
-      }
-      catch(ex)
-      {
+      } catch (ex) {
         var error = true;
-        if (ex instanceof qx.dev.unit.AsyncWrapper)
-        {
-
+        if (ex instanceof qx.dev.unit.AsyncWrapper) {
           if (this._timeout[test.getFullName()]) {
             // Do nothing if there's already a timeout for this test
             return;
@@ -249,27 +241,34 @@ qx.Class.define("qx.dev.unit.TestResult",
 
           if (ex.getDelay()) {
             var that = this;
-            var defaultTimeoutFunction = function() {
+            var defaultTimeoutFunction = function () {
               throw new qx.core.AssertionError(
                 "Asynchronous Test Error",
-                "Timeout of " + ex.getDelay() + " ms reached before resume() was called."
+                "Timeout of " +
+                  ex.getDelay() +
+                  " ms reached before resume() was called."
               );
             };
-            var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
-            var context = (ex.getContext() ? ex.getContext() : window);
-            this._timeout[test.getFullName()] = qx.event.Timer.once(function() {
-               this.run(test, timeoutFunc, context);
-            }, that, ex.getDelay());
+            var timeoutFunc = ex.getDeferredFunction()
+              ? ex.getDeferredFunction()
+              : defaultTimeoutFunction;
+            var context = ex.getContext() ? ex.getContext() : window;
+            this._timeout[test.getFullName()] = qx.event.Timer.once(
+              function () {
+                this.run(test, timeoutFunc, context);
+              },
+              that,
+              ex.getDelay()
+            );
             this.fireDataEvent("wait", test);
           }
-
         } else if (ex instanceof qx.dev.unit.MeasurementResult) {
           error = false;
           this._createError("endMeasurement", [ex], test);
         } else {
           try {
             this.tearDown(test);
-          } catch(except) {}
+          } catch (except) {}
           if (ex.classname == "qx.core.AssertionError") {
             this._createError("failure", [ex], test);
             this.fireDataEvent("endTest", test);
@@ -283,18 +282,17 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
       }
 
-      if (!error)
-      {
+      if (!error) {
         try {
           this.tearDown(test);
           this.fireDataEvent("endTest", test);
-        } catch(ex) {
-          if (ex instanceof qx.type.BaseError &&
-            ex.message == qx.type.BaseError.DEFAULTMESSAGE)
-          {
+        } catch (ex) {
+          if (
+            ex instanceof qx.type.BaseError &&
+            ex.message == qx.type.BaseError.DEFAULTMESSAGE
+          ) {
             ex.message = "tearDown failed";
-          }
-          else {
+          } else {
             ex.message = "tearDown failed: " + ex.message;
           }
 
@@ -312,7 +310,6 @@ qx.Class.define("qx.dev.unit.TestResult",
       return returnValue;
     },
 
-
     /**
      * Fire an error event
      *
@@ -320,20 +317,18 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param exceptions {Error[]} The exception(s), which caused the test to fail
      * @param test {qx.dev.unit.TestSuite|qx.dev.unit.TestFunction} The test
      */
-    _createError : function(eventName, exceptions, test)
-    {
+    _createError(eventName, exceptions, test) {
       var errors = [];
-      for (var i=0,l=exceptions.length; i<l; i++) {
+      for (var i = 0, l = exceptions.length; i < l; i++) {
         // WebKit and Opera
         errors.push({
-          exception : exceptions[i],
-          test      : test
+          exception: exceptions[i],
+          test: test
         });
       }
 
       this.fireDataEvent(eventName, errors);
     },
-
 
     /**
      * Wraps the AUT's qx.event.Registration.addListener function so that it
@@ -344,16 +339,33 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * @param testFunction {qx.dev.unit.TestFunction} The current test
      */
-    __wrapAddListener : function(testFunction)
-    {
+    __wrapAddListener(testFunction) {
       testFunction._addedListeners = [];
       if (!qx.event.Registration.addListenerOriginal) {
-        qx.event.Registration.addListenerOriginal = qx.event.Registration.addListener;
-        qx.event.Registration.addListener = function(target, type, listener, self, capture) {
-          var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
+        qx.event.Registration.addListenerOriginal =
+          qx.event.Registration.addListener;
+        qx.event.Registration.addListener = function (
+          target,
+          type,
+          listener,
+          self,
+          capture
+        ) {
+          var listenerId = qx.event.Registration.addListenerOriginal(
+            target,
+            type,
+            listener,
+            self,
+            capture
+          );
           var store = true;
-          if ( (target.classname && target.classname.indexOf("testrunner.unit") == 0)
-               || (self && self.classname && self.classname.indexOf("testrunner.unit") == 0) ) {
+          if (
+            (target.classname &&
+              target.classname.indexOf("testrunner.unit") == 0) ||
+            (self &&
+              self.classname &&
+              self.classname.indexOf("testrunner.unit") == 0)
+          ) {
             store = false;
           }
           if (store) {
@@ -364,27 +376,24 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
     },
 
-
     /**
      * Removes any listeners left over after a test's run.
      *
      * @param testFunction {qx.dev.unit.TestFunction} The current test
      */
-    __removeListeners : function(testFunction)
-    {
+    __removeListeners(testFunction) {
       // remove listeners added during test execution
       if (testFunction._addedListeners) {
         var listeners = testFunction._addedListeners;
-        for (var i=0,l=listeners.length; i<l; i++) {
+        for (var i = 0, l = listeners.length; i < l; i++) {
           var target = listeners[i][0];
           var id = listeners[i][1];
           try {
             qx.event.Registration.removeListenerById(target, id);
-          } catch(ex) {}
+          } catch (ex) {}
         }
       }
     },
-
 
     /**
      * Calls the generic tearDown method on the test class, then the specific
@@ -392,35 +401,44 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * @param test {Object} The test object (first argument of {@link #run})
      */
-    tearDown : function(test)
-    {
+    tearDown(test) {
       test.tearDown();
       var testClass = test.getTestClass();
-      var specificTearDown = "tearDown" + qx.lang.String.firstUp(test.getName());
+      var specificTearDown =
+        "tearDown" + qx.lang.String.firstUp(test.getName());
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
       }
       testClass.doAutoDispose();
 
-      if (qx.core.Environment.get("qx.debug.dispose")
-        && qx.dev.Debug.disposeProfilingActive)
-      {
+      if (
+        qx.core.Environment.get("qx.debug.dispose") &&
+        qx.dev.Debug.disposeProfilingActive
+      ) {
         var testName = test.getFullName();
         var undisposed = qx.dev.Debug.stopDisposeProfiling();
-        for (var i=0; i<undisposed.length; i++) {
+        for (var i = 0; i < undisposed.length; i++) {
           var trace;
           if (undisposed[i].stackTrace) {
             trace = undisposed[i].stackTrace.join("\n");
           }
-          window.top.qx.log.Logger.warn("Undisposed object in " + testName + ": "
-          + undisposed[i].object.classname + "[" + undisposed[i].object.toHashCode()
-          + "]" + "\n" + trace);
+          window.top.qx.log.Logger.warn(
+            "Undisposed object in " +
+              testName +
+              ": " +
+              undisposed[i].object.classname +
+              "[" +
+              undisposed[i].object.toHashCode() +
+              "]" +
+              "\n" +
+              trace
+          );
         }
       }
     }
   },
 
-  destruct : function() {
+  destruct() {
     this._timeout = null;
   }
 });

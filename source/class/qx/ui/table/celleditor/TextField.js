@@ -20,36 +20,31 @@
 /**
  * A cell editor factory creating text fields.
  */
-qx.Class.define("qx.ui.table.celleditor.TextField",
-{
-  extend : qx.ui.table.celleditor.AbstractField,
+qx.Class.define("qx.ui.table.celleditor.TextField", {
+  extend: qx.ui.table.celleditor.AbstractField,
 
-  members :
-  {
+  members: {
     // overridden
-    getCellEditorValue : function(cellEditor)
-    {
+    getCellEditorValue(cellEditor) {
       var value = cellEditor.getValue();
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if (validationFunc ) {
-        value = validationFunc( value, cellEditor.originalValue );
+      if (validationFunc) {
+        value = validationFunc(value, cellEditor.originalValue);
       }
-     
+
       if (typeof cellEditor.originalValue == "number") {
         // Correct problem of NaN displaying when value is null string.
         //if (value != null) {
-        if (value != null && value != '') {
+        if (value != null && value != "") {
           value = parseFloat(value);
         }
       }
       return value;
     },
 
-
-    _createEditor : function()
-    {
+    _createEditor() {
       var cellEditor = new qx.ui.form.TextField();
       cellEditor.setAppearance("table-editor-textfield");
       return cellEditor;

@@ -21,44 +21,37 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.tree.selection.SelectionManager",
-{
-  extend : qx.ui.core.selection.ScrollArea,
+qx.Class.define("qx.ui.tree.selection.SelectionManager", {
+  extend: qx.ui.core.selection.ScrollArea,
 
-  members :
-  {
+  members: {
     // overridden
-    _getSelectableLocationY : function(item)
-    {
+    _getSelectableLocationY(item) {
       var computed = item.getBounds();
-      if (computed)
-      {
+      if (computed) {
         var top = this._getWidget().getItemTop(item);
         return {
           top: top,
-          bottom: top+computed.height
+          bottom: top + computed.height
         };
       }
     },
 
-
     // overridden
-    _isSelectable : function(item) {
-      return this._isItemSelectable(item)
-      && item instanceof qx.ui.tree.core.AbstractTreeItem;
+    _isSelectable(item) {
+      return (
+        this._isItemSelectable(item) &&
+        item instanceof qx.ui.tree.core.AbstractTreeItem
+      );
     },
 
-
     // overridden
-    _getSelectableFromPointerEvent : function(event)
-    {
+    _getSelectableFromPointerEvent(event) {
       return this._getWidget().getTreeItem(event.getTarget());
     },
 
-
     // overridden
-    getSelectables : function(all)
-    {
+    getSelectables(all) {
       // if only the user selectables should be returned
       var oldUserInteraction = false;
       if (!all) {
@@ -69,12 +62,12 @@ qx.Class.define("qx.ui.tree.selection.SelectionManager",
       var widget = this._getWidget();
       var result = [];
 
-      if (widget.getRoot() != null)
-      {
-        var items = widget.getRoot().getItems(true, !!all, widget.getHideRoot());
+      if (widget.getRoot() != null) {
+        var items = widget
+          .getRoot()
+          .getItems(true, !!all, widget.getHideRoot());
 
-        for (var i = 0; i < items.length; i++)
-        {
+        for (var i = 0; i < items.length; i++) {
           if (this._isSelectable(items[i])) {
             result.push(items[i]);
           }
@@ -87,10 +80,8 @@ qx.Class.define("qx.ui.tree.selection.SelectionManager",
       return result;
     },
 
-
     // overridden
-    _getSelectableRange : function(item1, item2)
-    {
+    _getSelectableRange(item1, item2) {
       // Fast path for identical items
       if (item1 === item2) {
         return [item1];
@@ -106,38 +97,33 @@ qx.Class.define("qx.ui.tree.selection.SelectionManager",
       }
 
       if (item1Index < item2Index) {
-        return selectables.slice(item1Index, item2Index+1);
+        return selectables.slice(item1Index, item2Index + 1);
       } else {
-        return selectables.slice(item2Index, item1Index+1);
+        return selectables.slice(item2Index, item1Index + 1);
       }
     },
 
-
     // overridden
-    _getFirstSelectable : function() {
+    _getFirstSelectable() {
       return this.getSelectables()[0] || null;
     },
 
-
     // overridden
-    _getLastSelectable : function()
-    {
+    _getLastSelectable() {
       var selectables = this.getSelectables();
       if (selectables.length > 0) {
-        return selectables[selectables.length-1];
+        return selectables[selectables.length - 1];
       } else {
         return null;
       }
     },
 
     // overridden
-    _getRelatedSelectable : function(item, relation)
-    {
+    _getRelatedSelectable(item, relation) {
       var widget = this._getWidget();
       var related = null;
 
-      switch (relation)
-      {
+      switch (relation) {
         case "above":
           related = widget.getPreviousNodeOf(item, false);
           break;

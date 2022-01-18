@@ -25,29 +25,27 @@
  * @asset(qx/test/xmlhttp/*)
  */
 
-qx.Class.define("qx.test.bom.request.XhrWithRemote",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.request.XhrWithRemote", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.test.io.MRemoteTest,
-             qx.dev.unit.MMock,
-             qx.dev.unit.MRequirements],
+  include: [
+    qx.test.io.MRemoteTest,
+    qx.dev.unit.MMock,
+    qx.dev.unit.MRequirements
+  ],
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
-  members :
-  {
+  members: {
+    req: null,
 
-    req : null,
-
-    setUp: function() {
+    setUp() {
       this.req = new qx.bom.request.Xhr();
     },
 
-    tearDown: function() {
+    tearDown() {
       this.req.dispose();
     },
 
@@ -55,15 +53,15 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // Basic
     //
 
-    "test: GET with event attribute handler": function() {
+    "test: GET with event attribute handler"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       req.open("GET", this.noCache(url));
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertEquals(req.responseText, "SAMPLE");
           });
         }
@@ -73,15 +71,15 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: GET with event": function() {
+    "test: GET with event"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       req.open("GET", this.noCache(url));
 
       var that = this;
-      var onreadystatechange = function() {
+      var onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertEquals(req.responseText, "SAMPLE");
           });
         }
@@ -92,17 +90,20 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: GET XML": function() {
+    "test: GET XML"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.xml");
 
       req.open("GET", this.noCache(url));
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
-            that.assertObject(req.responseXML.documentElement, "Must be XML object");
+          that.resume(function () {
+            that.assertObject(
+              req.responseXML.documentElement,
+              "Must be XML object"
+            );
           });
         }
       };
@@ -111,7 +112,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: handle arbitrary XML": function() {
+    "test: handle arbitrary XML"() {
       this.require(["php"]);
 
       // Content-Type: foo/bar+xml
@@ -121,10 +122,13 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.open("GET", this.noCache(url));
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
-            that.assertObject(req.responseXML.documentElement, "Must be XML object");
+          that.resume(function () {
+            that.assertObject(
+              req.responseXML.documentElement,
+              "Must be XML object"
+            );
           });
         }
       };
@@ -133,14 +137,14 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: handle invalid XML": function() {
+    "test: handle invalid XML"() {
       var url = this.getUrl("qx/test/xmlhttp/invalid.xml"),
-          req = this.req,
-          that = this;
+        req = this.req,
+        that = this;
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             req.responseXML;
           });
         }
@@ -152,7 +156,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: POST": function() {
+    "test: POST"() {
       this.require(["php"]);
 
       var req = this.req;
@@ -161,9 +165,9 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertEquals('{"affe":"true"}', req.responseText);
           });
         }
@@ -173,12 +177,12 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: have readyState UNSENT": function() {
+    "test: have readyState UNSENT"() {
       var req = this.req;
       this.assertIdentical(0, req.readyState);
     },
 
-    "test: have readyState OPENED": function() {
+    "test: have readyState OPENED"() {
       this.require(["php"]);
 
       var req = this.req;
@@ -188,7 +192,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertIdentical(1, req.readyState);
     },
 
-    "test: abort pending request": function() {
+    "test: abort pending request"() {
       this.require(["php"]);
 
       var req = this.req;
@@ -200,7 +204,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertNotEquals(4, req.readyState, "Request must not complete");
     },
 
-    "test: have status 200 when modified": function() {
+    "test: have status 200 when modified"() {
       this.require(["php"]);
 
       var req = this.req;
@@ -210,9 +214,9 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.open("GET", this.noCache(url));
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertEquals(200, req.status);
           });
         }
@@ -222,13 +226,13 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: validate freshness": function() {
+    "test: validate freshness"() {
       this.require(["php", "noIe"]);
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/time.php");
 
-      var send = function() {
+      var send = function () {
         req.open("GET", url);
         req.send();
       };
@@ -236,14 +240,18 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       var that = this;
       var count = 0;
       var results = [];
-      req.onload = function() {
+      req.onload = function () {
         count += 1;
         results.push(req.responseText);
         if (count < 2) {
           send();
         } else {
-          that.resume(function() {
-            that.assertNotEquals(results[0], results[1], "Response must differ");
+          that.resume(function () {
+            that.assertNotEquals(
+              results[0],
+              results[1],
+              "Response must differ"
+            );
           });
         }
       };
@@ -294,34 +302,40 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     //   this.wait(15000 + 1000);
     // },
 
-    "test: open throws error with insecure method": function() {
+    "test: open throws error with insecure method"() {
       var req = this.req,
-          url = this.getUrl("qx/test/xmlhttp/sample.txt");
+        url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
-      this.assertException(function() {
+      this.assertException(function () {
         // Type of error is of no interest
         try {
           req.open("TRACE", url);
-        } catch(e) {
+        } catch (e) {
           throw Error();
         }
       });
     },
 
-    "test: overrideMimeType content type unchanged": function() {
+    "test: overrideMimeType content type unchanged"() {
       this.require(["php", "noIe"]);
 
       var req = this.req,
-          that = this;
+        that = this;
 
-      var onloadAssertContentTypeUnchanged = function() {
-        that.resume(function() {
-          that.assertEquals("text/html;charset=iso-8859-1", req.getResponseHeader("Content-Type"));
+      var onloadAssertContentTypeUnchanged = function () {
+        that.resume(function () {
+          that.assertEquals(
+            "text/html;charset=iso-8859-1",
+            req.getResponseHeader("Content-Type")
+          );
           that.assertEquals("ƒeƒXƒg", req.responseText);
         });
       };
 
-      var query = "?type="+encodeURIComponent("text/html;charset=iso-8859-1")+"&content=%83%65%83%58%83%67";
+      var query =
+        "?type=" +
+        encodeURIComponent("text/html;charset=iso-8859-1") +
+        "&content=%83%65%83%58%83%67";
       var url = this.getUrl("qx/test/xmlhttp/get_content.php") + query;
 
       req.onload = onloadAssertContentTypeUnchanged;
@@ -330,22 +344,24 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-
-    "test: overrideMimeType content type override": function() {
+    "test: overrideMimeType content type override"() {
       this.require(["php", "noIe"]);
 
       var req = this.req,
-          that = this;
+        that = this;
 
-      var onloadAssertContentTypeOverride = function() {
-        that.resume(function() {
+      var onloadAssertContentTypeOverride = function () {
+        that.resume(function () {
           // may or may not work - see API docs of overrideMimeType
           // that.assertEquals("text/plain;charset=Shift-JIS", req.getResponseHeader("Content-Type"));
           that.assertEquals("テスト", req.responseText);
         });
       };
 
-      var query = "?type="+encodeURIComponent("text/html;charset=iso-8859-1")+"&content=%83%65%83%58%83%67";
+      var query =
+        "?type=" +
+        encodeURIComponent("text/html;charset=iso-8859-1") +
+        "&content=%83%65%83%58%83%67";
       var url = this.getUrl("qx/test/xmlhttp/get_content.php") + query;
 
       req.onload = onloadAssertContentTypeOverride;
@@ -357,18 +373,18 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
     // BUGFIXES
 
-    "test: progress to readyState DONE": function() {
+    "test: progress to readyState DONE"() {
       // This is a mess, see
       // http://www.quirksmode.org/blog/archives/2005/09/xmlhttp_notes_r_2.html.
 
       var req = this.req,
-          states = [],
-          that = this;
+        states = [],
+        that = this;
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         states.push(req.readyState);
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertArrayEquals([1, 2, 3, 4], states);
           });
         }
@@ -381,11 +397,11 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: progress to readyState DONE when sync": function() {
+    "test: progress to readyState DONE when sync"() {
       var req = this.req,
-          states = [];
+        states = [];
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         states.push(req.readyState);
       };
 
@@ -398,24 +414,23 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.assertArrayEquals([1, 4], states);
     },
 
-    "test: progress to readyState DONE when from cache": function() {
+    "test: progress to readyState DONE when from cache"() {
       var primeReq = this.req,
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt")),
-          states = [],
-          count = 0,
-          that = this;
+        url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt")),
+        states = [],
+        count = 0,
+        that = this;
 
-      primeReq.onreadystatechange = function() {
+      primeReq.onreadystatechange = function () {
         if (primeReq.readyState == 4) {
-
-          that.resume(function() {
+          that.resume(function () {
             // From cache with new request
             var req = new qx.bom.request.Xhr();
 
-            req.onreadystatechange = function() {
+            req.onreadystatechange = function () {
               states.push(req.readyState);
               if (req.readyState == 4) {
-                that.resume(function() {
+                that.resume(function () {
                   that.assertArrayEquals([1, 2, 3, 4], states);
                 });
               }
@@ -436,16 +451,16 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: have status 304 when cache is fresh": function() {
+    "test: have status 304 when cache is fresh"() {
       this.require(["php"]);
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/not_modified.php");
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertIdentical(304, req.status);
           });
         }
@@ -476,13 +491,13 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       // The actual ETag is not of importance here, since the server
       // is returning 304 anyway. We're just triggering the behavior
       // specified above.
-      req.setRequestHeader("If-None-Match", "\"4893a3a-b0-49ea970349b00\"");
+      req.setRequestHeader("If-None-Match", '"4893a3a-b0-49ea970349b00"');
       req.send();
 
       this.wait();
     },
 
-    "test: allow many requests with same object": function() {
+    "test: allow many requests with same object"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       var count = 0;
@@ -493,9 +508,9 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
         req.send();
       }
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             if (++count < 3) {
               request();
               this.wait();
@@ -514,13 +529,13 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // onreadystatechange()
     //
 
-    "test: call onreadystatechange for OPEN": function() {
+    "test: call onreadystatechange for OPEN"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
       var that = this;
       var count = 0;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         // Count call for state OPENED
         if (req.readyState == 1) {
           count = count + 1;
@@ -528,7 +543,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
         // Assert when DONE
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             // onreadystatechange should only be called
             // once for state OPENED
             that.assertEquals(1, count);
@@ -542,7 +557,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: not call onreadystatechange when aborting OPENED": function() {
+    "test: not call onreadystatechange when aborting OPENED"() {
       var req = this.req;
 
       // OPENED, without send flag
@@ -552,18 +567,22 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.spy(req, "onreadystatechange");
       req.abort();
 
-      this.wait(100, function() {
-        this.assertNotCalled(req.onreadystatechange);
-      }, this);
+      this.wait(
+        100,
+        function () {
+          this.assertNotCalled(req.onreadystatechange);
+        },
+        this
+      );
     },
 
-    "test: call onreadystatechange when aborting LOADING": function() {
+    "test: call onreadystatechange when aborting LOADING"() {
       this.require(["php", "noIe9"]);
 
       var req = this.req;
       var that = this;
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
           that.resume();
         }
@@ -575,20 +594,20 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.open("GET", url + "?duration=100");
       req.send();
 
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         req.abort();
       }, 0);
 
       this.wait();
     },
 
-    "test: call onloadend when aborting LOADING": function() {
+    "test: call onloadend when aborting LOADING"() {
       this.require(["php", "noIe9"]);
 
       var req = this.req;
       var that = this;
 
-      req.onloadend = function() {
+      req.onloadend = function () {
         that.resume();
       };
 
@@ -598,7 +617,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.open("GET", url + "?duration=100");
       req.send();
 
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         req.abort();
       }, 0);
 
@@ -609,35 +628,39 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // onerror()
     //
 
-    "test: call onerror on network error": function() {
+    "test: call onerror on network error"() {
       var req = this.req;
 
       var that = this;
-      req.onerror = function() {
-        that.resume(function() {
+      req.onerror = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
         });
       };
 
       // Network error (async)
       // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
+      qx.event.Timer.once(
+        function () {
+          req.open("GET", "http://fail.tld");
+          req.send();
+        },
+        this,
+        0
+      );
 
       // May take a while to detect network error
       this.wait(15000);
     },
 
-    "test: call onerror on file error": function() {
+    "test: call onerror on file error"() {
       this.require(["file"]);
 
       var req = this.req;
 
       var that = this;
-      req.onerror = function() {
-        that.resume(function() {
+      req.onerror = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
         });
       };
@@ -648,16 +671,16 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: throw error on network error when sync": function() {
+    "test: throw error on network error when sync"() {
       var req = this.req;
 
       // Network error (sync)
       req.open("GET", "http://fail.tld", false);
 
-      this.assertException(function() {
+      this.assertException(function () {
         try {
           req.send();
-        } catch(e) {
+        } catch (e) {
           throw Error();
         }
       });
@@ -667,7 +690,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // ontimeout()
     //
 
-    "test: not call ontimeout when DONE and sync": function() {
+    "test: not call ontimeout when DONE and sync"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       this.spy(req, "ontimeout");
@@ -678,27 +701,35 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       req.open("GET", url, false);
       req.send();
 
-      this.wait(function() {
-        this.assertNotCalled(req.ontimeout);
-      }, 500, this);
+      this.wait(
+        function () {
+          this.assertNotCalled(req.ontimeout);
+        },
+        500,
+        this
+      );
     },
 
-    "test: timeout triggers timeout error": function() {
+    "test: timeout triggers timeout error"() {
       // "timeout error" is specified here
       // http://www.w3.org/TR/XMLHttpRequest2/#timeout-error
 
       this.require(["php"]);
 
       var req = this.req,
-          url = this.getUrl("qx/test/xmlhttp/loading.php"),
-          that = this;
+        url = this.getUrl("qx/test/xmlhttp/loading.php"),
+        that = this;
 
-      req.onloadend = function() {
-        that.resume(function() {
+      req.onloadend = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
           that.assertIdentical("", req.responseText);
           that.assertIdentical(null, req.responseXML);
-          that.assertCallOrder(req.onreadystatechange, req.ontimeout, req.onloadend);
+          that.assertCallOrder(
+            req.onreadystatechange,
+            req.ontimeout,
+            req.onloadend
+          );
         });
       };
 
@@ -714,15 +745,15 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: timeout not call onabort": function() {
+    "test: timeout not call onabort"() {
       this.require(["php"]);
 
       var req = this.req,
-          url = this.getUrl("qx/test/xmlhttp/loading.php"),
-          that = this;
+        url = this.getUrl("qx/test/xmlhttp/loading.php"),
+        that = this;
 
-      req.ontimeout = function() {
-        that.resume(function() {
+      req.ontimeout = function () {
+        that.resume(function () {
           that.assertNotCalled(req.onabort);
         });
       };
@@ -740,20 +771,24 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // onloadend()
     //
 
-    "test: call onloadend on network error": function() {
+    "test: call onloadend on network error"() {
       var req = this.req;
 
       var that = this;
-      req.onloadend = function() {
+      req.onloadend = function () {
         that.resume();
       };
 
       // Network error
       // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
+      qx.event.Timer.once(
+        function () {
+          req.open("GET", "http://fail.tld");
+          req.send();
+        },
+        this,
+        0
+      );
 
       // May take a while to detect network error
       this.wait(15000);
@@ -763,17 +798,18 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // Call order
     //
 
-    "test: call handler in order when request successful": function() {
+    "test: call handler in order when request successful"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
       var that = this;
-      req.onloadend = function() {
-        that.resume(function() {
+      req.onloadend = function () {
+        that.resume(function () {
           that.assertCallOrder(
             req.onreadystatechange,
             req.onload,
-            req.onloadend);
+            req.onloadend
+          );
         });
       };
       this.spy(req, "onreadystatechange");
@@ -785,16 +821,17 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: call handler in order when request failed": function() {
+    "test: call handler in order when request failed"() {
       var req = this.req;
 
       var that = this;
-      req.onloadend = function() {
-        that.resume(function() {
+      req.onloadend = function () {
+        that.resume(function () {
           that.assertCallOrder(
             req.onreadystatechange,
             req.onerror,
-            req.onloadend);
+            req.onloadend
+          );
         });
       };
       this.spy(req, "onreadystatechange");
@@ -802,10 +839,14 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.spy(req, "onloadend");
 
       // Is sync in Opera >= 11.5
-      qx.event.Timer.once(function() {
-        req.open("GET", "http://fail.tld");
-        req.send();
-      }, this, 0);
+      qx.event.Timer.once(
+        function () {
+          req.open("GET", "http://fail.tld");
+          req.send();
+        },
+        this,
+        0
+      );
 
       // May take a while to detect network error
       this.wait(15000);
@@ -815,15 +856,15 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     // Disposing
     //
 
-    "test: dispose hard-working": function() {
+    "test: dispose hard-working"() {
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
       req.open("GET", this.noCache(url));
 
       var that = this;
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         if (req.readyState == 4) {
-          that.resume(function() {
+          that.resume(function () {
             // Must not throw error
             req.dispose();
           });
@@ -834,21 +875,25 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.wait();
     },
 
-    noCache: function(url) {
-      return url + "?nocache=" + (new Date()).valueOf();
+    noCache(url) {
+      return url + "?nocache=" + new Date().valueOf();
     },
 
-    hasNoIe: function() {
-      return qx.core.Environment.get("engine.name") !== "mshtml" &&
-        qx.core.Environment.get("browser.name") !== "edge";
+    hasNoIe() {
+      return (
+        qx.core.Environment.get("engine.name") !== "mshtml" &&
+        qx.core.Environment.get("browser.name") !== "edge"
+      );
     },
 
-    hasNoIe9: function() {
-      return (qx.core.Environment.get("engine.name") !== "mshtml" ||
-        qx.core.Environment.get("browser.documentmode") !== 9);
+    hasNoIe9() {
+      return (
+        qx.core.Environment.get("engine.name") !== "mshtml" ||
+        qx.core.Environment.get("browser.documentmode") !== 9
+      );
     },
 
-    hasFile: function() {
+    hasFile() {
       return location.protocol === "file:";
     }
   }

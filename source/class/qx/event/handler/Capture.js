@@ -20,14 +20,9 @@
 /**
  * This class provides capture event support at DOM level.
  */
-qx.Class.define("qx.event.handler.Capture",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
-
+qx.Class.define("qx.event.handler.Capture", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -35,31 +30,22 @@ qx.Class.define("qx.event.handler.Capture",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      capture : true,
-      losecapture : true
+    SUPPORTED_TYPES: {
+      capture: true,
+      losecapture: true
     },
 
-
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
-
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE: true
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -67,8 +53,7 @@ qx.Class.define("qx.event.handler.Capture",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -76,25 +61,18 @@ qx.Class.define("qx.event.handler.Capture",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     }
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -102,7 +80,7 @@ qx.Class.define("qx.event.handler.Capture",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

@@ -16,20 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.PasswordField",
-{
-  extend : qx.test.ui.table.celleditor.AbstractField,
+qx.Class.define("qx.test.ui.table.celleditor.PasswordField", {
+  extend: qx.test.ui.table.celleditor.AbstractField,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.factory = new qx.ui.table.celleditor.PasswordField();
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.factory.dispose();
     }
   }

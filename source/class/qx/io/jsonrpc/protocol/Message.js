@@ -19,16 +19,16 @@
 /**
  * The base class for all JSON-RPC v2.0 object except {@link qx.io.jsonrpc.protocol.Batch}
  */
-qx.Class.define("qx.io.jsonrpc.protocol.Message",{
+qx.Class.define("qx.io.jsonrpc.protocol.Message", {
   extend: qx.core.Object,
   properties: {
-    jsonrpc : {
+    jsonrpc: {
       check: "String",
       init: "2.0"
     }
   },
 
-  members : {
+  members: {
     /**
      * Serialize to JSON string
      * @return {String}

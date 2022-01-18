@@ -22,25 +22,24 @@
 
 var fs = require("fs");
 
-
 qx.Class.define("qx.tool.compiler.Preprocess", {
   extend: qx.core.Object,
 
-  construct: function(path) {
-    this.base(arguments);
+  construct(path) {
+    super();
     this.__path = path;
   },
 
   members: {
     __path: null,
 
-    run: function(outputTo, cb) {
+    run(outputTo, cb) {
       var t = this;
-      fs.readFile(this.__path, { encoding: "utf8" }, function(err, data) {
+      fs.readFile(this.__path, { encoding: "utf8" }, function (err, data) {
         if (err) {
           cb(err);
         } else {
-          t._process(data, function(data) {
+          t._process(data, function (data) {
             if (typeof outputTo == "string") {
               fs.writeFile(outputTo, data, { encoding: "utf8" }, cb);
             } else if (typeof outputTo == "function") {
@@ -53,26 +52,29 @@ qx.Class.define("qx.tool.compiler.Preprocess", {
       });
     },
 
-    _process: function(data, cb) {
-      data = data.replace(/(''|"")?\/\*#([^\n]+)([\s\S]*)\*\//gm, function(match, quotes, cmd, body) {
-        var quote = quotes[0];
-        if (quote == "'") {
-          body = body.replace(/'/gm, "\\'");
-        } else {
-          body = body.replace(/"/gm, "\\\"");
+    _process(data, cb) {
+      data = data.replace(
+        /(''|"")?\/\*#([^\n]+)([\s\S]*)\*\//gm,
+        function (match, quotes, cmd, body) {
+          var quote = quotes[0];
+          if (quote == "'") {
+            body = body.replace(/'/gm, "\\'");
+          } else {
+            body = body.replace(/"/gm, '\\"');
+          }
+          var result = "";
+          body.split("\n").forEach(function (line, index) {
+            if (index == 0) {
+              return;
+            }
+            if (index > 1) {
+              result += " + \n";
+            }
+            result += quote + line + "\\n" + quote;
+          });
+          return result;
         }
-        var result = "";
-        body.split("\n").forEach(function(line, index) {
-          if (index == 0) {
-            return;
-          }
-          if (index > 1) {
-            result += " + \n";
-          }
-          result += quote + line + "\\n" + quote;
-        });
-        return result;
-      });
+      );
       cb(data);
     }
   }

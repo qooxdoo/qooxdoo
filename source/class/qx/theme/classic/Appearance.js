@@ -39,89 +39,75 @@
  *
  * @asset(qx/decoration/Classic/*)
  */
-qx.Theme.define("qx.theme.classic.Appearance",
-{
-  appearances :
-  {
+qx.Theme.define("qx.theme.classic.Appearance", {
+  appearances: {
     /*
     ---------------------------------------------------------------------------
       CORE
     ---------------------------------------------------------------------------
     */
 
-    "widget" : {},
+    widget: {},
 
-    "label" :
-    {
-      style : function(states)
-      {
+    label: {
+      style(states) {
         return {
-          textColor : states.disabled ? "text-disabled" : undefined
+          textColor: states.disabled ? "text-disabled" : undefined
         };
       }
     },
 
-    "image" :
-    {
-      style : function(states)
-      {
+    image: {
+      style(states) {
         return {
-          opacity : !states.replacement && states.disabled ? 0.3 : undefined
+          opacity: !states.replacement && states.disabled ? 0.3 : undefined
         };
       }
     },
 
-    "atom" : {},
-    "atom/label" : "label",
-    "atom/icon" : "image",
+    atom: {},
+    "atom/label": "label",
+    "atom/icon": "image",
 
-    "root" :
-    {
-      style : function(states)
-      {
+    root: {
+      style(states) {
         return {
-          backgroundColor : "background",
-          textColor : "text",
-          font : "default"
+          backgroundColor: "background",
+          textColor: "text",
+          font: "default"
         };
       }
     },
 
-    "popup" :
-    {
-      style : function(states)
-      {
+    popup: {
+      style(states) {
         return {
-          decorator : "popup",
-          backgroundColor : "background-pane"
+          decorator: "popup",
+          backgroundColor: "background-pane"
         };
       }
     },
 
-    "tooltip" :
-    {
-      include : "popup",
+    tooltip: {
+      include: "popup",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : "tooltip",
-          textColor : "tooltip-text",
-          decorator : "tooltip",
-          padding : [ 1, 3, 2, 3 ],
-          offset : [ 15, 5, 5, 5 ]
+          backgroundColor: "tooltip",
+          textColor: "tooltip-text",
+          decorator: "tooltip",
+          padding: [1, 3, 2, 3],
+          offset: [15, 5, 5, 5]
         };
       }
     },
 
-    "tooltip/atom" : "atom",
+    "tooltip/atom": "atom",
 
-    "tooltip-error" :
-    {
-      include : "tooltip",
+    "tooltip-error": {
+      include: "tooltip",
 
-      style : function(states)
-      {
+      style(states) {
         return {
           textColor: "text-selected",
           showTimeout: 100,
@@ -133,35 +119,29 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tooltip-error/atom" : "atom",
+    "tooltip-error/atom": "atom",
 
-    "iframe" :
-    {
-      style : function(states)
-      {
+    iframe: {
+      style(states) {
         return {
-          backgroundColor : "white",
-          decorator : "inset"
+          backgroundColor: "white",
+          decorator: "inset"
         };
       }
     },
 
-    "move-frame" :
-    {
-      style : function(states)
-      {
+    "move-frame": {
+      style(states) {
         return {
-          decorator : "main"
+          decorator: "main"
         };
       }
     },
 
-    "resize-frame" : "move-frame",
+    "resize-frame": "move-frame",
 
-    "dragdrop-cursor" :
-    {
-      style : function(states)
-      {
+    "dragdrop-cursor": {
+      style(states) {
         var icon = "nodrop";
 
         if (states.copy) {
@@ -173,16 +153,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          source : "decoration/cursors/" + icon + ".gif",
-          position : "right-top",
-          offset : [ 2, 16, 2, 6 ]
+          source: "decoration/cursors/" + icon + ".gif",
+          position: "right-top",
+          offset: [2, 16, 2, 6]
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -190,88 +166,83 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "button-frame" :
-    {
-      alias : "atom",
+    "button-frame": {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         if (states.pressed || states.abandoned || states.checked) {
-          var decorator = !states.inner && states.focused ? "focused-inset" : "inset";
-          var padding = [ 4, 3, 2, 5 ];
+          var decorator =
+            !states.inner && states.focused ? "focused-inset" : "inset";
+          var padding = [4, 3, 2, 5];
         } else {
-          var decorator = !states.inner && states.focused ? "focused-outset" : "outset";
-          var padding = [ 3, 4 ];
+          var decorator =
+            !states.inner && states.focused ? "focused-outset" : "outset";
+          var padding = [3, 4];
         }
 
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
-          decorator : decorator,
-          padding : padding
+          backgroundColor: states.abandoned
+            ? "button-abandoned"
+            : states.hovered
+            ? "button-hovered"
+            : states.checked
+            ? "button-checked"
+            : "button",
+          decorator: decorator,
+          padding: padding
         };
       }
     },
 
-    "button" :
-    {
-      alias : "button-frame",
-      include : "button-frame",
+    button: {
+      alias: "button-frame",
+      include: "button-frame",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          center : true
+          center: true
         };
       }
     },
 
-    "toggle-button" : "button",
+    "toggle-button": "button",
 
-    "hover-button" :
-    {
-      alias : "atom",
-      include : "atom",
+    "hover-button": {
+      alias: "atom",
+      include: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : states.hovered ? "background-selected" : undefined,
-          textColor : states.hovered ? "text-selected" : undefined
+          backgroundColor: states.hovered ? "background-selected" : undefined,
+          textColor: states.hovered ? "text-selected" : undefined
         };
       }
     },
 
-    "menubutton" : {
-      include : "button",
-      alias : "button",
+    menubutton: {
+      include: "button",
+      alias: "button",
 
-      style : function(states) {
+      style(states) {
         return {
-          icon : "decoration/arrows/down.gif",
-          iconPosition : "right"
+          icon: "decoration/arrows/down.gif",
+          iconPosition: "right"
         };
       }
     },
 
-    "splitbutton" : {},
-    "splitbutton/button" : "button",
-    "splitbutton/arrow" :
-    {
-      alias : "button",
-      include : "button",
+    splitbutton: {},
+    "splitbutton/button": "button",
+    "splitbutton/arrow": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/arrows/down.gif"
+          icon: "decoration/arrows/down.gif"
         };
       }
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -279,24 +250,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollarea/corner" :
-    {
-      style : function()
-      {
+    "scrollarea/corner": {
+      style() {
         return {
-          backgroundColor : "background"
+          backgroundColor: "background"
         };
       }
     },
 
-    "scrollarea" : "widget",
-    "scrollarea/pane" : "widget",
-    "scrollarea/scrollbar-x" : "scrollbar",
-    "scrollarea/scrollbar-y" : "scrollbar",
-
-
-
-
+    scrollarea: "widget",
+    "scrollarea/pane": "widget",
+    "scrollarea/scrollbar-x": "scrollbar",
+    "scrollarea/scrollbar-y": "scrollbar",
 
     /*
     ---------------------------------------------------------------------------
@@ -304,12 +269,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "list" :
-    {
-      alias : "scrollarea",
+    list: {
+      alias: "scrollarea",
 
-      style : function(states)
-      {
+      style(states) {
         var backgroundColor;
 
         var focused = !!states.focused;
@@ -327,51 +290,43 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          decorator       : states.focused ? "focused-inset" : "inset",
-          backgroundColor : backgroundColor
+          decorator: states.focused ? "focused-inset" : "inset",
+          backgroundColor: backgroundColor
         };
       }
     },
 
-    "listitem" :
-    {
-      alias : "atom",
+    listitem: {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          gap             : 4,
-          padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor       : states.selected ? "text-selected" : undefined,
-          decorator       : states.lead ? "lead-item" : undefined,
-          opacity : states.drag ? 0.5 : undefined
+          gap: 4,
+          padding: states.lead ? [2, 4] : [3, 5],
+          backgroundColor: states.selected ? "background-selected" : undefined,
+          textColor: states.selected ? "text-selected" : undefined,
+          decorator: states.lead ? "lead-item" : undefined,
+          opacity: states.drag ? 0.5 : undefined
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
       FORM FIELDS
     ---------------------------------------------------------------------------
     */
-    "form-renderer-label" : {
-      include : "label",
-      style : function() {
+    "form-renderer-label": {
+      include: "label",
+      style() {
         return {
           paddingTop: 4
         };
       }
     },
 
-    "textfield" :
-    {
-      style : function(states)
-      {
+    textfield: {
+      style(states) {
         var backgroundColor;
 
         var focused = !!states.focused;
@@ -398,22 +353,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          decorator       : states.focused ? "focused-inset" : "inset",
-          padding         : [ 2, 3 ],
-          textColor       : textColor,
-          backgroundColor : backgroundColor
+          decorator: states.focused ? "focused-inset" : "inset",
+          padding: [2, 3],
+          textColor: textColor,
+          backgroundColor: backgroundColor
         };
       }
     },
 
-    "textarea" : "textfield",
+    textarea: "textfield",
 
-    "checkbox":
-    {
-      alias : "atom",
+    checkbox: {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         // The "disabled" icon is set to an icon **without** the -disabled
         // suffix on purpose. This is because the Image widget handles this
         // already by replacing the current image with a disabled version
@@ -435,7 +388,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             icon = "checkbox-checked";
           }
 
-        // Undetermined
+          // Undetermined
         } else if (states.undetermined) {
           if (states.disabled) {
             icon = "checkbox-undetermined";
@@ -447,13 +400,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
             icon = "checkbox-undetermined";
           }
 
-        // Focused & Pressed & Hovered (when enabled)
+          // Focused & Pressed & Hovered (when enabled)
         } else if (!states.disabled) {
           if (states.focused) {
             icon = "checkbox-focused";
           } else if (states.pressed) {
             icon = "checkbox-pressed";
-          } else if (states.hovered ) {
+          } else if (states.hovered) {
             icon = "checkbox-hovered";
           }
         }
@@ -470,13 +423,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "radiobutton":
-    {
-      alias : "checkbox",
-      include : "checkbox",
+    radiobutton: {
+      alias: "checkbox",
+      include: "checkbox",
 
-      style : function(states)
-      {
+      style(states) {
         // "disabled" state is not handled here with purpose. The image widget
         // does handle this already by replacing the current image with a
         // disabled version (if available). If no disabled image is found the
@@ -510,74 +461,57 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       SPINNER
     ---------------------------------------------------------------------------
     */
 
-    "spinner" :
-    {
-      style : function(states)
-      {
+    spinner: {
+      style(states) {
         return {
-          decorator : states.focused ? "focused-inset" : "inset",
-          textColor : states.disabled ? "text-disabled" : undefined
+          decorator: states.focused ? "focused-inset" : "inset",
+          textColor: states.disabled ? "text-disabled" : undefined
         };
       }
     },
 
-    "spinner/textfield" :
-    {
-      include : "textfield",
+    "spinner/textfield": {
+      include: "textfield",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          decorator : undefined,
+          decorator: undefined,
           padding: [2, 3]
         };
       }
     },
 
-    "spinner/upbutton" :
-    {
-      alias : "button",
-      include : "button",
+    "spinner/upbutton": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/arrows/up-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.hovered ? "button-hovered" : "button"
+          icon: "decoration/arrows/up-small.gif",
+          padding: states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          backgroundColor: states.hovered ? "button-hovered" : "button"
         };
       }
     },
 
-    "spinner/downbutton" :
-    {
-      alias : "button",
-      include : "button",
+    "spinner/downbutton": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/arrows/down-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.hovered ? "button-hovered" : "button"
+          icon: "decoration/arrows/down-small.gif",
+          padding: states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          backgroundColor: states.hovered ? "button-hovered" : "button"
         };
       }
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -585,40 +519,32 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datefield" : "combobox",
+    datefield: "combobox",
 
-    "datefield/button" :
-    {
-      alias : "combobox/button",
-      include : "combobox/button",
+    "datefield/button": {
+      alias: "combobox/button",
+      include: "combobox/button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "icon/16/apps/office-calendar.png",
-          padding : [0, 3],
-          backgroundColor : undefined,
-          decorator : undefined
+          icon: "icon/16/apps/office-calendar.png",
+          padding: [0, 3],
+          backgroundColor: undefined,
+          decorator: undefined
         };
       }
     },
 
-    "datefield/list" :
-    {
-      alias : "datechooser",
-      include : "datechooser",
+    "datefield/list": {
+      alias: "datechooser",
+      include: "datechooser",
 
-      style : function(states)
-      {
+      style(states) {
         return {
           decorator: states.focused ? "focused-inset" : "inset"
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -626,79 +552,65 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "groupbox" :
-    {
-      style : function(states)
-      {
+    groupbox: {
+      style(states) {
         return {
-          backgroundColor : "background"
+          backgroundColor: "background"
         };
       }
     },
 
-    "groupbox/legend" :
-    {
-      alias : "atom",
+    "groupbox/legend": {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : "background",
-          textColor : states.invalid ? "invalid" : undefined,
-          padding   : [1, 0, 1, 4]
+          backgroundColor: "background",
+          textColor: states.invalid ? "invalid" : undefined,
+          padding: [1, 0, 1, 4]
         };
       }
     },
 
-    "groupbox/frame" :
-    {
-      style : function(states)
-      {
+    "groupbox/frame": {
+      style(states) {
         return {
-          padding : [ 12, 9 ],
+          padding: [12, 9],
           marginTop: 10,
-          decorator  : "groove"
+          decorator: "groove"
         };
       }
     },
 
-    "check-groupbox" : "groupbox",
+    "check-groupbox": "groupbox",
 
-    "check-groupbox/legend" :
-    {
-      alias : "checkbox",
-      include : "checkbox",
+    "check-groupbox/legend": {
+      alias: "checkbox",
+      include: "checkbox",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : "background",
-          textColor : states.invalid ? "invalid" : undefined,
-          padding   : [1, 0, 1, 4]
+          backgroundColor: "background",
+          textColor: states.invalid ? "invalid" : undefined,
+          padding: [1, 0, 1, 4]
         };
       }
     },
 
-    "radio-groupbox" : "groupbox",
+    "radio-groupbox": "groupbox",
 
-    "radio-groupbox/legend" :
-    {
-      alias : "radiobutton",
-      include : "radiobutton",
+    "radio-groupbox/legend": {
+      alias: "radiobutton",
+      include: "radiobutton",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : "background",
-          textColor : states.invalid ? "invalid" : undefined,
-          padding   : [1, 0, 1, 4]
+          backgroundColor: "background",
+          textColor: states.invalid ? "invalid" : undefined,
+          padding: [1, 0, 1, 4]
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -706,121 +618,100 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "toolbar" :
-    {
-      style : function(states)
-      {
+    toolbar: {
+      style(states) {
         return {
-          backgroundColor : "background"
+          backgroundColor: "background"
         };
       }
     },
 
-    "toolbar/part" : {},
-    "toolbar/part/container" : {},
+    "toolbar/part": {},
+    "toolbar/part/container": {},
 
-    "toolbar/part/handle" :
-    {
-      style : function(states)
-      {
+    "toolbar/part/handle": {
+      style(states) {
         return {
-          decorator : "toolbar-part-handle",
-          backgroundColor : "background",
-          padding   : [ 0, 1 ],
-          margin    : [ 3, 2 ],
-          allowGrowY : true
+          decorator: "toolbar-part-handle",
+          backgroundColor: "background",
+          padding: [0, 1],
+          margin: [3, 2],
+          allowGrowY: true
         };
       }
     },
 
-    "toolbar-separator" :
-    {
-      style : function(states)
-      {
+    "toolbar-separator": {
+      style(states) {
         return {
-          margin    : [ 3, 2 ],
-          decorator : "toolbar-separator"
+          margin: [3, 2],
+          decorator: "toolbar-separator"
         };
       }
     },
 
-    "toolbar-button" :
-    {
-      alias : "atom",
+    "toolbar-button": {
+      alias: "atom",
 
-      style : function(states)
-      {
-        if (states.pressed || states.checked || states.abandoned)
-        {
+      style(states) {
+        if (states.pressed || states.checked || states.abandoned) {
           var border = "inset-thin";
-          var padding = [ 3, 2, 1, 4 ];
-        }
-        else if (states.hovered && !states.disabled)
-        {
+          var padding = [3, 2, 1, 4];
+        } else if (states.hovered && !states.disabled) {
           var border = "outset-thin";
-          var padding = [ 2, 3 ];
-        }
-        else
-        {
+          var padding = [2, 3];
+        } else {
           var border = undefined;
-          var padding = [ 3, 4 ];
+          var padding = [3, 4];
         }
 
         return {
-          cursor  : "default",
-          decorator : border,
-          padding : padding,
-          backgroundColor : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
+          cursor: "default",
+          decorator: border,
+          padding: padding,
+          backgroundColor: states.abandoned
+            ? "button-abandoned"
+            : states.checked
+            ? "background-light"
+            : "button"
         };
       }
     },
 
-    "toolbar-menubutton" :
-    {
-      alias : "toolbar-button",
-      include : "toolbar-button",
+    "toolbar-menubutton": {
+      alias: "toolbar-button",
+      include: "toolbar-button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          showArrow : true
+          showArrow: true
         };
       }
     },
 
-    "toolbar-menubutton/arrow" :
-    {
-      alias : "image",
-      include : "image",
+    "toolbar-menubutton/arrow": {
+      alias: "image",
+      include: "image",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          source : "decoration/arrows/down-small.gif"
+          source: "decoration/arrows/down-small.gif"
         };
       }
     },
 
-    "toolbar-splitbutton" : {},
-    "toolbar-splitbutton/button" : "toolbar-button",
-    "toolbar-splitbutton/arrow" :
-    {
-      alias : "toolbar-button",
-      include : "toolbar-button",
+    "toolbar-splitbutton": {},
+    "toolbar-splitbutton/button": "toolbar-button",
+    "toolbar-splitbutton/arrow": {
+      alias: "toolbar-button",
+      include: "toolbar-button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/arrows/down.gif"
+          icon: "decoration/arrows/down.gif"
         };
       }
     },
-
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -828,43 +719,35 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "slidebar" : {},
-    "slidebar/scrollpane" : {},
-    "slidebar/content" : {},
+    slidebar: {},
+    "slidebar/scrollpane": {},
+    "slidebar/content": {},
 
-    "slidebar/button-forward" :
-    {
-      alias : "button",
-      include : "button",
+    "slidebar/button-forward": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : states.vertical ?
-            "decoration/arrows/down.gif" :
-            "decoration/arrows/next.gif"
+          icon: states.vertical
+            ? "decoration/arrows/down.gif"
+            : "decoration/arrows/next.gif"
         };
       }
     },
 
-    "slidebar/button-backward" :
-    {
-      alias : "button",
-      include : "button",
+    "slidebar/button-backward": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : states.vertical ?
-            "decoration/arrows/up.gif" :
-           "decoration/arrows/left.gif"
+          icon: states.vertical
+            ? "decoration/arrows/up.gif"
+            : "decoration/arrows/left.gif"
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -872,15 +755,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tabview" : {},
+    tabview: {},
 
-    "tabview/bar" :
-    {
-      alias : "slidebar",
+    "tabview/bar": {
+      alias: "slidebar",
 
-      style : function(states)
-      {
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+      style(states) {
+        var marginTop = 0,
+          marginRight = 0,
+          marginBottom = 0,
+          marginLeft = 0;
 
         if (states.barTop) {
           marginBottom = -2;
@@ -893,138 +777,114 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          marginBottom : marginBottom,
-          marginTop : marginTop,
-          marginLeft : marginLeft,
-          marginRight : marginRight
+          marginBottom: marginBottom,
+          marginTop: marginTop,
+          marginLeft: marginLeft,
+          marginRight: marginRight
         };
       }
     },
 
+    "tabview/bar/button-forward": {
+      include: "slidebar/button-forward",
+      alias: "slidebar/button-forward",
 
-    "tabview/bar/button-forward" :
-    {
-      include : "slidebar/button-forward",
-      alias : "slidebar/button-forward",
-
-      style : function(states)
-      {
-        if (states.barTop || states.barBottom)
-        {
+      style(states) {
+        if (states.barTop || states.barBottom) {
           return {
-            marginTop : 2,
+            marginTop: 2,
             marginBottom: 2
           };
-        }
-        else
-        {
+        } else {
           return {
-            marginLeft : 2,
-            marginRight : 2
+            marginLeft: 2,
+            marginRight: 2
           };
         }
       }
     },
 
-    "tabview/bar/button-backward" :
-    {
-      include : "slidebar/button-backward",
-      alias : "slidebar/button-backward",
+    "tabview/bar/button-backward": {
+      include: "slidebar/button-backward",
+      alias: "slidebar/button-backward",
 
-      style : function(states)
-      {
-        if (states.barTop || states.barBottom)
-        {
+      style(states) {
+        if (states.barTop || states.barBottom) {
           return {
-            marginTop : 2,
+            marginTop: 2,
             marginBottom: 2
           };
-        }
-        else
-        {
+        } else {
           return {
-            marginLeft : 2,
-            marginRight : 2
+            marginLeft: 2,
+            marginRight: 2
           };
         }
       }
     },
 
-    "tabview/pane" :
-    {
-      style : function(states)
-      {
+    "tabview/pane": {
+      style(states) {
         return {
-          backgroundColor : "background",
-          decorator : "outset",
-          padding : 10
+          backgroundColor: "background",
+          decorator: "outset",
+          padding: 10
         };
       }
     },
 
-    "tabview-page" : "widget",
+    "tabview-page": "widget",
 
-    "tabview-page/button" :
-    {
-      style : function(states)
-      {
+    "tabview-page/button": {
+      style(states) {
         var decorator;
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+        var marginTop = 0,
+          marginRight = 0,
+          marginBottom = 0,
+          marginLeft = 0;
 
         if (states.barTop || states.barBottom) {
-          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
+          var paddingTop = 2,
+            paddingBottom = 2,
+            paddingLeft = 6,
+            paddingRight = 6;
         } else {
-          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
+          var paddingTop = 6,
+            paddingBottom = 6,
+            paddingLeft = 6,
+            paddingRight = 6;
         }
 
-        if (states.barTop)
-        {
+        if (states.barTop) {
           decorator = "tabview-page-button-top";
-        }
-        else if (states.barRight)
-        {
+        } else if (states.barRight) {
           decorator = "tabview-page-button-right";
-        }
-        else if (states.barBottom)
-        {
+        } else if (states.barBottom) {
           decorator = "tabview-page-button-bottom";
-        }
-        else
-        {
+        } else {
           decorator = "tabview-page-button-left";
         }
 
-        if (states.checked)
-        {
-          if (states.barTop || states.barBottom)
-          {
+        if (states.checked) {
+          if (states.barTop || states.barBottom) {
             paddingLeft += 2;
             paddingRight += 2;
-          }
-          else
-          {
+          } else {
             paddingTop += 2;
             paddingBottom += 2;
           }
-        }
-        else
-        {
-          if (states.barTop || states.barBottom)
-          {
+        } else {
+          if (states.barTop || states.barBottom) {
             marginBottom += 2;
             marginTop += 2;
-          }
-          else if (states.barLeft || states.barRight)
-          {
+          } else if (states.barLeft || states.barRight) {
             marginRight += 2;
             marginLeft += 2;
           }
         }
 
-        if (states.checked)
-        {
-          if (!states.firstTab)
-          {
+        if (states.checked) {
+          if (!states.firstTab) {
             if (states.barTop || states.barBottom) {
               marginLeft = -4;
             } else {
@@ -1032,8 +892,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             }
           }
 
-          if (!states.lastTab)
-          {
+          if (!states.lastTab) {
             if (states.barTop || states.barBottom) {
               marginRight = -4;
             } else {
@@ -1043,41 +902,36 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          zIndex : states.checked ? 10 : 5,
-          decorator : decorator,
-          backgroundColor : "background",
-          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ],
-          textColor : states.disabled ? "text-disabled" : undefined
+          zIndex: states.checked ? 10 : 5,
+          decorator: decorator,
+          backgroundColor: "background",
+          padding: [paddingTop, paddingRight, paddingBottom, paddingLeft],
+          margin: [marginTop, marginRight, marginBottom, marginLeft],
+          textColor: states.disabled ? "text-disabled" : undefined
         };
       }
     },
 
-    "tabview-page/button/label" :
-    {
-      alias : "label",
+    "tabview-page/button/label": {
+      alias: "label",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          padding : states.focused ? [0, 1, 0, 1] : [1, 2, 1, 2],
-          decorator : states.focused ? "keyboard-focus" : undefined
+          padding: states.focused ? [0, 1, 0, 1] : [1, 2, 1, 2],
+          decorator: states.focused ? "keyboard-focus" : undefined
         };
       }
     },
 
-    "tabview-page/button/icon" : "image",
-    "tabview-page/button/close-button" :
-    {
-      alias : "atom",
-      style : function(states)
-      {
+    "tabview-page/button/icon": "image",
+    "tabview-page/button/close-button": {
+      alias: "atom",
+      style(states) {
         return {
-          icon : "qx/icon/Oxygen/16/actions/window-close.png"
+          icon: "qx/icon/Oxygen/16/actions/window-close.png"
         };
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1085,59 +939,49 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollbar" : {},
+    scrollbar: {},
 
-    "scrollbar/slider" :
-    {
-      alias : "slider",
+    "scrollbar/slider": {
+      alias: "slider",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          backgroundColor : "background-light"
+          backgroundColor: "background-light"
         };
       }
     },
 
-    "scrollbar/slider/knob" :
-    {
-      include : "button-frame",
+    "scrollbar/slider/knob": {
+      include: "button-frame",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          height    : 14,
-          width     : 14,
+          height: 14,
+          width: 14,
 
-          minHeight : states.horizontal ? undefined : 9,
-          minWidth  : states.horizontal ? 9 : undefined
+          minHeight: states.horizontal ? undefined : 9,
+          minWidth: states.horizontal ? 9 : undefined
         };
       }
     },
 
+    "scrollbar/button": {
+      alias: "button",
+      include: "button",
 
-    "scrollbar/button" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
+      style(states) {
         var padding;
-        if (states.up || states.down)
-        {
+        if (states.up || states.down) {
           if (states.pressed || states.abandoned || states.checked) {
-            padding = [ 5, 2, 3, 4 ];
+            padding = [5, 2, 3, 4];
           } else {
-            padding = [ 4, 3 ];
+            padding = [4, 3];
           }
-        }
-        else
-        {
+        } else {
           if (states.pressed || states.abandoned || states.checked) {
-            padding = [ 4, 3, 2, 5 ];
+            padding = [4, 3, 2, 5];
           } else {
-            padding = [ 3, 4 ];
+            padding = [3, 4];
           }
         }
 
@@ -1153,17 +997,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          padding : padding,
-          icon : icon
+          padding: padding,
+          icon: icon
         };
       }
     },
 
-    "scrollbar/button-begin" : "scrollbar/button",
-    "scrollbar/button-end" : "scrollbar/button",
-
-
-
+    "scrollbar/button-begin": "scrollbar/button",
+    "scrollbar/button-end": "scrollbar/button",
 
     /*
     ---------------------------------------------------------------------------
@@ -1171,10 +1012,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "slider" :
-    {
-      style : function(states)
-      {
+    slider: {
+      style(states) {
         var backgroundColor;
 
         if (states.disabled) {
@@ -1188,28 +1027,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          backgroundColor :  backgroundColor,
-          decorator : states.focused ? "focused-inset" : "inset"
+          backgroundColor: backgroundColor,
+          decorator: states.focused ? "focused-inset" : "inset"
         };
       }
     },
 
-    "slider/knob" :
-    {
-      include : "button-frame",
+    "slider/knob": {
+      include: "button-frame",
 
-      style : function(states)
-      {
+      style(states) {
         return {
           width: 14,
           height: 14,
-          decorator : "outset"
+          decorator: "outset"
         };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1217,82 +1051,69 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tree-folder/open" :
-    {
-      style : function(states)
-      {
+    "tree-folder/open": {
+      style(states) {
         return {
-          source : states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif"
+          source: states.opened
+            ? "decoration/tree/minus.gif"
+            : "decoration/tree/plus.gif"
         };
       }
     },
 
-
-    "tree-folder" :
-    {
-      style : function(states)
-      {
+    "tree-folder": {
+      style(states) {
         return {
-          padding : [2, 3, 2, 0],
-          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png",
-          iconOpened : "icon/16/places/folder-open.png",
-          opacity : states.drag ? 0.5 : undefined
+          padding: [2, 3, 2, 0],
+          icon: states.opened
+            ? "icon/16/places/folder-open.png"
+            : "icon/16/places/folder.png",
+          iconOpened: "icon/16/places/folder-open.png",
+          opacity: states.drag ? 0.5 : undefined
         };
       }
     },
 
-    "tree-folder/icon" :
-    {
-      style : function(states)
-      {
+    "tree-folder/icon": {
+      style(states) {
         return {
-          padding : [0, 4, 0, 0]
+          padding: [0, 4, 0, 0]
         };
       }
     },
 
-    "tree-folder/label" :
-    {
-      style : function(states)
-      {
+    "tree-folder/label": {
+      style(states) {
         return {
-          padding : [ 1, 2 ],
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor : states.selected ? "text-selected" : undefined
+          padding: [1, 2],
+          backgroundColor: states.selected ? "background-selected" : undefined,
+          textColor: states.selected ? "text-selected" : undefined
         };
       }
     },
 
-    "tree-file" :
-    {
-      include : "tree-folder",
-      alias : "tree-folder",
+    "tree-file": {
+      include: "tree-folder",
+      alias: "tree-folder",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "icon/16/mimetypes/text-plain.png",
-          opacity : states.drag ? 0.5 : undefined
+          icon: "icon/16/mimetypes/text-plain.png",
+          opacity: states.drag ? 0.5 : undefined
         };
       }
     },
 
-    "tree" :
-    {
-      include : "list",
-      alias : "list",
+    tree: {
+      include: "list",
+      alias: "list",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          contentPadding : [4, 4, 4, 4]
+          contentPadding: [4, 4, 4, 4]
         };
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1300,176 +1121,140 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual" :
-    {
-      style : function(states)
-      {
+    treevirtual: {
+      style(states) {
         return {
-          decorator : "main"
+          decorator: "main"
         };
       }
     },
 
-    "treevirtual-folder" :
-    {
-      style : function(states)
-      {
+    "treevirtual-folder": {
+      style(states) {
         return {
-          icon : (states.opened
-                  ? "icon/16/places/folder-open.png"
-                  : "icon/16/places/folder.png"),
-          opacity : states.drag ? 0.5 : undefined
+          icon: states.opened
+            ? "icon/16/places/folder-open.png"
+            : "icon/16/places/folder.png",
+          opacity: states.drag ? 0.5 : undefined
         };
       }
     },
 
-    "treevirtual-file" :
-    {
-      include : "treevirtual-folder",
-      alias : "treevirtual-folder",
+    "treevirtual-file": {
+      include: "treevirtual-folder",
+      alias: "treevirtual-folder",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "icon/16/mimetypes/text-plain.png",
-          opacity : states.drag ? 0.5 : undefined
+          icon: "icon/16/mimetypes/text-plain.png",
+          opacity: states.drag ? 0.5 : undefined
         };
       }
     },
 
-    "treevirtual-line" :
-    {
-      style : function(states)
-      {
+    "treevirtual-line": {
+      style(states) {
         return {
-          icon       : "decoration/treevirtual/line.gif"
+          icon: "decoration/treevirtual/line.gif"
         };
       }
     },
 
-    "treevirtual-contract" :
-    {
-      style : function(states)
-      {
+    "treevirtual-contract": {
+      style(states) {
         return {
-          icon        : "decoration/tree/minus.gif"
+          icon: "decoration/tree/minus.gif"
         };
       }
     },
 
-    "treevirtual-expand" :
-    {
-      style : function(states)
-      {
+    "treevirtual-expand": {
+      style(states) {
         return {
-          icon        : "decoration/tree/plus.gif"
+          icon: "decoration/tree/plus.gif"
         };
       }
     },
 
-    "treevirtual-only-contract" :
-    {
-      style : function(states)
-      {
+    "treevirtual-only-contract": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/only_minus.gif"
+          icon: "decoration/treevirtual/only_minus.gif"
         };
       }
     },
 
-    "treevirtual-only-expand" :
-    {
-      style : function(states)
-      {
+    "treevirtual-only-expand": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/only_plus.gif"
+          icon: "decoration/treevirtual/only_plus.gif"
         };
       }
     },
 
-    "treevirtual-start-contract" :
-    {
-      style : function(states)
-      {
+    "treevirtual-start-contract": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/start_minus.gif"
+          icon: "decoration/treevirtual/start_minus.gif"
         };
       }
     },
 
-    "treevirtual-start-expand" :
-    {
-      style : function(states)
-      {
+    "treevirtual-start-expand": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/start_plus.gif"
+          icon: "decoration/treevirtual/start_plus.gif"
         };
       }
     },
 
-    "treevirtual-end-contract" :
-    {
-      style : function(states)
-      {
+    "treevirtual-end-contract": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/end_minus.gif"
-        }
+          icon: "decoration/treevirtual/end_minus.gif"
+        };
       }
     },
 
-    "treevirtual-end-expand" :
-    {
-      style : function(states)
-      {
+    "treevirtual-end-expand": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/end_plus.gif"
-        }
+          icon: "decoration/treevirtual/end_plus.gif"
+        };
       }
     },
 
-    "treevirtual-cross-contract" :
-    {
-      style : function(states)
-      {
+    "treevirtual-cross-contract": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/cross_minus.gif"
-        }
+          icon: "decoration/treevirtual/cross_minus.gif"
+        };
       }
     },
 
-    "treevirtual-cross-expand" :
-    {
-      style : function(states)
-      {
+    "treevirtual-cross-expand": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/cross_plus.gif"
-        }
+          icon: "decoration/treevirtual/cross_plus.gif"
+        };
       }
     },
 
-
-    "treevirtual-end" :
-    {
-      style : function(states)
-      {
+    "treevirtual-end": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/end.gif"
-        }
+          icon: "decoration/treevirtual/end.gif"
+        };
       }
     },
 
-    "treevirtual-cross" :
-    {
-      style : function(states)
-      {
+    "treevirtual-cross": {
+      style(states) {
         return {
-          icon        : "decoration/treevirtual/cross.gif"
-        }
+          icon: "decoration/treevirtual/cross.gif"
+        };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1477,129 +1262,112 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "window" :
-    {
-      style : function(states)
-      {
+    window: {
+      style(states) {
         return {
-          contentPadding : [ 10, 10, 10, 10 ],
-          backgroundColor : "background",
-          decorator : states.maximized ? undefined : "window"
+          contentPadding: [10, 10, 10, 10],
+          backgroundColor: "background",
+          decorator: states.maximized ? undefined : "window"
         };
       }
     },
 
-    "window-resize-frame" : "resize-frame",
+    "window-resize-frame": "resize-frame",
 
-    "window/pane" : {},
+    "window/pane": {},
 
-    "window/captionbar" :
-    {
-      style : function(states)
-      {
+    "window/captionbar": {
+      style(states) {
         return {
-          padding : 1,
-          backgroundColor : states.active ? "window-active-caption" : "window-inactive-caption",
-          textColor : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
+          padding: 1,
+          backgroundColor: states.active
+            ? "window-active-caption"
+            : "window-inactive-caption",
+          textColor: states.active
+            ? "window-active-caption-text"
+            : "window-inactive-caption-text"
         };
       }
     },
 
-    "window/icon" :
-    {
-      style : function(states)
-      {
+    "window/icon": {
+      style(states) {
         return {
-          marginRight : 4
+          marginRight: 4
         };
       }
     },
 
-    "window/title" :
-    {
-      style : function(states)
-      {
+    "window/title": {
+      style(states) {
         return {
-          cursor : "default",
-          font : "bold",
-          marginRight : 20,
+          cursor: "default",
+          font: "bold",
+          marginRight: 20,
           alignY: "middle"
         };
       }
     },
 
-    "window/minimize-button" :
-    {
-      include : "button",
-      alias : "button",
+    "window/minimize-button": {
+      include: "button",
+      alias: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/window/minimize.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon: "decoration/window/minimize.gif",
+          padding: states.pressed || states.abandoned ? [2, 1, 0, 3] : [1, 2]
         };
       }
     },
 
-    "window/restore-button" :
-    {
-      include : "button",
-      alias : "button",
+    "window/restore-button": {
+      include: "button",
+      alias: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/window/restore.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon: "decoration/window/restore.gif",
+          padding: states.pressed || states.abandoned ? [2, 1, 0, 3] : [1, 2]
         };
       }
     },
 
-    "window/maximize-button" :
-    {
-      include : "button",
-      alias : "button",
+    "window/maximize-button": {
+      include: "button",
+      alias: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/window/maximize.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          icon: "decoration/window/maximize.gif",
+          padding: states.pressed || states.abandoned ? [2, 1, 0, 3] : [1, 2]
         };
       }
     },
 
-    "window/close-button" :
-    {
-      include : "button",
-      alias : "button",
+    "window/close-button": {
+      include: "button",
+      alias: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          marginLeft : 2,
-          icon : "decoration/window/close.gif",
-          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+          marginLeft: 2,
+          icon: "decoration/window/close.gif",
+          padding: states.pressed || states.abandoned ? [2, 1, 0, 3] : [1, 2]
         };
       }
     },
 
-    "window/statusbar" :
-    {
-      style : function(states)
-      {
+    "window/statusbar": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          padding : [ 2, 6 ]
+          decorator: "inset-thin",
+          padding: [2, 6]
         };
       }
     },
 
-    "window/statusbar-text" : "label",
-
-
-
+    "window/statusbar-text": "label",
 
     /*
     ---------------------------------------------------------------------------
@@ -1607,17 +1375,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "resizer" :
-    {
-      style : function(states)
-      {
+    resizer: {
+      style(states) {
         return {
-          decorator : "outset"
+          decorator: "outset"
         };
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1625,42 +1389,35 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "splitpane" : {},
+    splitpane: {},
 
-    "splitpane/splitter" :
-    {
-      style : function(states)
-      {
+    "splitpane/splitter": {
+      style(states) {
         return {
-          backgroundColor : "background"
+          backgroundColor: "background"
         };
       }
     },
 
-    "splitpane/splitter/knob" :
-    {
-      style : function(states)
-      {
+    "splitpane/splitter/knob": {
+      style(states) {
         return {
-          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png",
-          padding : 2
+          source: states.horizontal
+            ? "decoration/splitpane/knob-horizontal.png"
+            : "decoration/splitpane/knob-vertical.png",
+          padding: 2
         };
       }
     },
 
-    "splitpane/slider" :
-    {
-      style : function(states)
-      {
+    "splitpane/slider": {
+      style(states) {
         return {
-          backgroundColor : "border-dark",
-          opacity : 0.3
+          backgroundColor: "border-dark",
+          opacity: 0.3
         };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1668,12 +1425,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" :
-    {
+    selectbox: {
       include: "button-frame",
 
-      style : function(states)
-      {
+      style(states) {
         var background = "button";
         if (states.invalid && !states.disabled) {
           background = "background-invalid";
@@ -1686,30 +1441,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          backgroundColor : background
+          backgroundColor: background
         };
       }
     },
 
-    "selectbox/atom" : "atom",
-    "selectbox/popup" : "popup",
-    "selectbox/list" : "list",
+    "selectbox/atom": "atom",
+    "selectbox/popup": "popup",
+    "selectbox/list": "list",
 
-    "selectbox/arrow" :
-    {
-      include : "image",
+    "selectbox/arrow": {
+      include: "image",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          source : "decoration/arrows/down.gif",
-          paddingRight : 4,
-          paddingLeft : 5
+          source: "decoration/arrows/down.gif",
+          paddingRight: 4,
+          paddingLeft: 5
         };
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1717,46 +1468,44 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datechooser" :
-    {
-      style : function(states)
-      {
+    datechooser: {
+      style(states) {
         return {
-          decorator : "outset"
-        }
-      }
-    },
-
-    "datechooser/navigation-bar" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "date-chooser",
-          textColor : states.disabled ? "text-disabled" : states.invalid ? "invalid" : undefined,
-          padding : [2, 10]
+          decorator: "outset"
         };
       }
     },
 
-    "datechooser/last-year-button-tooltip" : "tooltip",
-    "datechooser/last-month-button-tooltip" : "tooltip",
-    "datechooser/next-year-button-tooltip" : "tooltip",
-    "datechooser/next-month-button-tooltip" : "tooltip",
+    "datechooser/navigation-bar": {
+      style(states) {
+        return {
+          backgroundColor: "date-chooser",
+          textColor: states.disabled
+            ? "text-disabled"
+            : states.invalid
+            ? "invalid"
+            : undefined,
+          padding: [2, 10]
+        };
+      }
+    },
 
-    "datechooser/last-year-button"  : "datechooser/button",
-    "datechooser/last-month-button" : "datechooser/button",
-    "datechooser/next-year-button"  : "datechooser/button",
-    "datechooser/next-month-button" : "datechooser/button",
-    "datechooser/button/icon" : {},
+    "datechooser/last-year-button-tooltip": "tooltip",
+    "datechooser/last-month-button-tooltip": "tooltip",
+    "datechooser/next-year-button-tooltip": "tooltip",
+    "datechooser/next-month-button-tooltip": "tooltip",
 
-    "datechooser/button" :
-    {
-      style : function(states)
-      {
+    "datechooser/last-year-button": "datechooser/button",
+    "datechooser/last-month-button": "datechooser/button",
+    "datechooser/next-year-button": "datechooser/button",
+    "datechooser/next-month-button": "datechooser/button",
+    "datechooser/button/icon": {},
+
+    "datechooser/button": {
+      style(states) {
         var result = {
-          width  : 17,
-          show   : "icon"
+          width: 17,
+          show: "icon"
         };
 
         if (states.lastYear) {
@@ -1778,7 +1527,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         if (states.pressed || states.checked || states.abandoned) {
-          result.padding = [ 2, 0, 0, 2 ];
+          result.padding = [2, 0, 0, 2];
         } else if (states.hovered) {
           result.padding = 1;
         } else {
@@ -1789,71 +1538,76 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "datechooser/month-year-label" :
-    {
-      style : function(states)
-      {
+    "datechooser/month-year-label": {
+      style(states) {
         return {
-          font          : "bold",
-          textAlign     : "center"
+          font: "bold",
+          textAlign: "center"
         };
       }
     },
 
-    "datechooser/date-pane" :
-    {
-      style : function(states)
-      {
+    "datechooser/date-pane": {
+      style(states) {
         return {
-          decorator       : "datechooser-date-pane",
-          backgroundColor : "date-chooser"
+          decorator: "datechooser-date-pane",
+          backgroundColor: "date-chooser"
         };
       }
     },
 
-    "datechooser/weekday" :
-    {
-      style : function(states)
-      {
+    "datechooser/weekday": {
+      style(states) {
         return {
-          decorator       : "datechooser-weekday",
-          font            : "bold",
-          textAlign       : "center",
-          textColor       : states.disabled ? "text-disabled" : states.weekend ? "date-chooser-title" : "date-chooser",
-          backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
+          decorator: "datechooser-weekday",
+          font: "bold",
+          textAlign: "center",
+          textColor: states.disabled
+            ? "text-disabled"
+            : states.weekend
+            ? "date-chooser-title"
+            : "date-chooser",
+          backgroundColor: states.weekend
+            ? "date-chooser"
+            : "date-chooser-title"
         };
       }
     },
 
-    "datechooser/day" :
-    {
-      style : function(states)
-      {
+    "datechooser/day": {
+      style(states) {
         return {
-          textAlign       : "center",
-          decorator       : states.today ? "main" : undefined,
-          textColor       : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
-          backgroundColor : states.disabled ? undefined : states.selected ? "date-chooser-selected" : undefined,
-          padding         : [ 2, 4 ]
+          textAlign: "center",
+          decorator: states.today ? "main" : undefined,
+          textColor: states.disabled
+            ? "text-disabled"
+            : states.selected
+            ? "text-selected"
+            : states.otherMonth
+            ? "text-disabled"
+            : undefined,
+          backgroundColor: states.disabled
+            ? undefined
+            : states.selected
+            ? "date-chooser-selected"
+            : undefined,
+          padding: [2, 4]
         };
       }
     },
 
-    "datechooser/week" :
-    {
-      style : function(states)
-      {
+    "datechooser/week": {
+      style(states) {
         return {
-          textAlign : "center",
-          textColor : "date-chooser-title",
-          padding   : [ 2, 4 ],
-          decorator : states.header ? "datechooser-week-header" : "datechooser-week"
+          textAlign: "center",
+          textColor: "date-chooser-title",
+          padding: [2, 4],
+          decorator: states.header
+            ? "datechooser-week-header"
+            : "datechooser-week"
         };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1861,10 +1615,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "combobox" :
-    {
-      style : function(states)
-      {
+    combobox: {
+      style(states) {
         var backgroundColor;
 
         if (states.disabled) {
@@ -1878,46 +1630,39 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          decorator       : states.focused ? "focused-inset" : "inset",
-          textColor       : states.disabled ? "text-disabled" : undefined,
-          backgroundColor : backgroundColor
+          decorator: states.focused ? "focused-inset" : "inset",
+          textColor: states.disabled ? "text-disabled" : undefined,
+          backgroundColor: backgroundColor
         };
       }
     },
 
-    "combobox/button" :
-    {
-      alias : "button",
-      include : "button",
+    "combobox/button": {
+      alias: "button",
+      include: "button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : "decoration/arrows/down.gif",
-          backgroundColor : states.hovered ? "button-hovered" : "button"
+          icon: "decoration/arrows/down.gif",
+          backgroundColor: states.hovered ? "button-hovered" : "button"
         };
       }
     },
 
-    "combobox/popup" : "popup",
-    "combobox/list" : "list",
+    "combobox/popup": "popup",
+    "combobox/list": "list",
 
-    "combobox/textfield" :
-    {
-      include : "textfield",
+    "combobox/textfield": {
+      include: "textfield",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          decorator : undefined,
+          decorator: undefined,
           padding: [2, 3],
           backgroundColor: undefined
         };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1925,24 +1670,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "menu" :
-    {
-      style : function(states)
-      {
-        var result =
-        {
-          backgroundColor : "background",
-          decorator : "menu",
-          spacingX : 6,
-          spacingY : 1,
-          iconColumnWidth : 16,
-          arrowColumnWidth : 4,
-          padding : 1,
-          placementModeY : states.submenu || states.contextmenu ? "best-fit" : "keep-align"
+    menu: {
+      style(states) {
+        var result = {
+          backgroundColor: "background",
+          decorator: "menu",
+          spacingX: 6,
+          spacingY: 1,
+          iconColumnWidth: 16,
+          arrowColumnWidth: 4,
+          padding: 1,
+          placementModeY:
+            states.submenu || states.contextmenu ? "best-fit" : "keep-align"
         };
 
-        if (states.submenu)
-        {
+        if (states.submenu) {
           result.position = "right-top";
           result.offset = [-2, -3];
         }
@@ -1955,159 +1697,144 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menu/slidebar" : "menu-slidebar",
+    "menu/slidebar": "menu-slidebar",
 
-    "menu-slidebar" : "widget",
+    "menu-slidebar": "widget",
 
-    "menu-slidebar-button" :
-    {
-      style : function(states)
-      {
+    "menu-slidebar-button": {
+      style(states) {
         return {
-          backgroundColor : states.hovered  ? "background-selected" : undefined,
-          padding : 6,
-          center : true
+          backgroundColor: states.hovered ? "background-selected" : undefined,
+          padding: 6,
+          center: true
         };
       }
     },
 
-    "menu-slidebar/button-backward" :
-    {
-      include : "menu-slidebar-button",
+    "menu-slidebar/button-backward": {
+      include: "menu-slidebar-button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : states.hovered ? "decoration/arrows/up-invert.gif" : "decoration/arrows/up.gif"
+          icon: states.hovered
+            ? "decoration/arrows/up-invert.gif"
+            : "decoration/arrows/up.gif"
         };
       }
     },
 
-    "menu-slidebar/button-forward" :
-    {
-      include : "menu-slidebar-button",
+    "menu-slidebar/button-forward": {
+      include: "menu-slidebar-button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : states.hovered ? "decoration/arrows/down-invert.gif" : "decoration/arrows/down.gif"
+          icon: states.hovered
+            ? "decoration/arrows/down-invert.gif"
+            : "decoration/arrows/down.gif"
         };
       }
     },
 
-    "menu-separator" :
-    {
-      style : function(states)
-      {
+    "menu-separator": {
+      style(states) {
         return {
-          height : 0,
-          decorator : "menu-separator",
-          marginTop : 4,
+          height: 0,
+          decorator: "menu-separator",
+          marginTop: 4,
           marginBottom: 4,
-          marginLeft : 2,
-          marginRight : 2
-        }
-      }
-    },
-
-    "menu-button" :
-    {
-      alias : "atom",
-
-      style : function(states)
-      {
-        return {
-          backgroundColor : states.selected ? "background-selected" : undefined,
-          textColor : states.selected ? "text-selected" : undefined,
-          padding : [ 2, 6 ]
+          marginLeft: 2,
+          marginRight: 2
         };
       }
     },
 
-    "menu-button/icon" :
-    {
-      include : "image",
+    "menu-button": {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          alignY : "middle"
+          backgroundColor: states.selected ? "background-selected" : undefined,
+          textColor: states.selected ? "text-selected" : undefined,
+          padding: [2, 6]
         };
       }
     },
 
-    "menu-button/label" :
-    {
-      include : "label",
+    "menu-button/icon": {
+      include: "image",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          alignY : "middle",
-          padding : 1
+          alignY: "middle"
         };
       }
     },
 
-    "menu-button/shortcut" :
-    {
-      include : "label",
+    "menu-button/label": {
+      include: "label",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          alignY : "middle",
-          marginLeft : 14,
-          padding : 1
+          alignY: "middle",
+          padding: 1
         };
       }
     },
 
-    "menu-button/arrow" :
-    {
-      include : "image",
+    "menu-button/shortcut": {
+      include: "label",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          source : states.selected ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
-          alignY : "middle"
+          alignY: "middle",
+          marginLeft: 14,
+          padding: 1
         };
       }
     },
 
-    "menu-checkbox" :
-    {
-      alias : "menu-button",
-      include : "menu-button",
+    "menu-button/arrow": {
+      include: "image",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : !states.checked ? undefined :
-            states.selected ? "decoration/menu/checkbox-invert.gif" :
-              "decoration/menu/checkbox.gif"
-        }
+          source: states.selected
+            ? "decoration/arrows/right-invert.gif"
+            : "decoration/arrows/right.gif",
+          alignY: "middle"
+        };
       }
     },
 
-    "menu-radiobutton" :
-    {
-      alias : "menu-button",
-      include : "menu-button",
+    "menu-checkbox": {
+      alias: "menu-button",
+      include: "menu-button",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          icon : !states.checked ? undefined :
-            states.selected ? "decoration/menu/radiobutton-invert.gif" :
-              "decoration/menu/radiobutton.gif"
-        }
+          icon: !states.checked
+            ? undefined
+            : states.selected
+            ? "decoration/menu/checkbox-invert.gif"
+            : "decoration/menu/checkbox.gif"
+        };
       }
     },
 
+    "menu-radiobutton": {
+      alias: "menu-button",
+      include: "menu-button",
 
-
+      style(states) {
+        return {
+          icon: !states.checked
+            ? undefined
+            : states.selected
+            ? "decoration/menu/radiobutton-invert.gif"
+            : "decoration/menu/radiobutton.gif"
+        };
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -2115,33 +1842,30 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "menubar" :
-    {
-      style : function(states)
-      {
+    menubar: {
+      style(states) {
         return {
-          backgroundColor : "background",
-          decorator       : "outset"
+          backgroundColor: "background",
+          decorator: "outset"
         };
       }
     },
 
-    "menubar-button" :
-    {
-      alias : "atom",
+    "menubar-button": {
+      alias: "atom",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          padding : [ 2, 6 ],
-          backgroundColor : states.pressed || states.hovered && !states.disabled ? "background-selected" : undefined,
-          textColor : states.pressed || states.hovered ? "text-selected" : undefined
+          padding: [2, 6],
+          backgroundColor:
+            states.pressed || (states.hovered && !states.disabled)
+              ? "background-selected"
+              : undefined,
+          textColor:
+            states.pressed || states.hovered ? "text-selected" : undefined
         };
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2149,115 +1873,99 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "colorselector" : "widget",
-    "colorselector/control-bar" : "widget",
-    "colorselector/visual-pane" : "groupbox",
+    colorselector: "widget",
+    "colorselector/control-bar": "widget",
+    "colorselector/visual-pane": "groupbox",
     "colorselector/control-pane": "widget",
-    "colorselector/preset-grid" : "widget",
+    "colorselector/preset-grid": "widget",
 
-    "colorselector/colorbucket":
-    {
-      style : function(states)
-      {
+    "colorselector/colorbucket": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          width : 16,
-          height : 16
-        }
+          decorator: "inset-thin",
+          width: 16,
+          height: 16
+        };
       }
     },
 
-    "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : {
-      include : "groupbox",
-      alias : "groupbox",
-      style : function() {
+    "colorselector/preset-field-set": "groupbox",
+    "colorselector/input-field-set": {
+      include: "groupbox",
+      alias: "groupbox",
+      style() {
         return {
           paddingTop: 12
-        }
+        };
       }
     },
 
-    "colorselector/preview-field-set" : {
-      include : "groupbox",
-      alias : "groupbox",
-      style : function() {
+    "colorselector/preview-field-set": {
+      include: "groupbox",
+      alias: "groupbox",
+      style() {
         return {
           paddingTop: 12
-        }
+        };
       }
     },
 
-    "colorselector/hex-field-composite" : "widget",
-    "colorselector/hex-field" : "textfield",
+    "colorselector/hex-field-composite": "widget",
+    "colorselector/hex-field": "textfield",
 
-    "colorselector/rgb-spinner-composite" : "widget",
-    "colorselector/rgb-spinner-red" : "spinner",
-    "colorselector/rgb-spinner-green" : "spinner",
-    "colorselector/rgb-spinner-blue" : "spinner",
+    "colorselector/rgb-spinner-composite": "widget",
+    "colorselector/rgb-spinner-red": "spinner",
+    "colorselector/rgb-spinner-green": "spinner",
+    "colorselector/rgb-spinner-blue": "spinner",
 
-    "colorselector/hsb-spinner-composite" : "widget",
-    "colorselector/hsb-spinner-hue" : "spinner",
-    "colorselector/hsb-spinner-saturation" : "spinner",
-    "colorselector/hsb-spinner-brightness" : "spinner",
+    "colorselector/hsb-spinner-composite": "widget",
+    "colorselector/hsb-spinner-hue": "spinner",
+    "colorselector/hsb-spinner-saturation": "spinner",
+    "colorselector/hsb-spinner-brightness": "spinner",
 
-    "colorselector/preview-content-old":
-    {
-      style : function(states)
-      {
+    "colorselector/preview-content-old": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          width : 50,
-          height : 10
-        }
+          decorator: "inset-thin",
+          width: 50,
+          height: 10
+        };
       }
     },
 
-    "colorselector/preview-content-new":
-    {
-      style : function(states)
-      {
+    "colorselector/preview-content-new": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          backgroundColor : "white",
-          width : 50,
-          height : 10
-        }
+          decorator: "inset-thin",
+          backgroundColor: "white",
+          width: 50,
+          height: 10
+        };
       }
     },
 
-    "colorselector/hue-saturation-field":
-    {
-      style : function(states)
-      {
+    "colorselector/hue-saturation-field": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          margin : 5
-        }
+          decorator: "inset-thin",
+          margin: 5
+        };
       }
     },
 
-    "colorselector/brightness-field":
-    {
-      style : function(states)
-      {
+    "colorselector/brightness-field": {
+      style(states) {
         return {
-          decorator : "inset-thin",
-          margin : [5, 7]
-        }
+          decorator: "inset-thin",
+          margin: [5, 7]
+        };
       }
     },
 
     "colorselector/hue-saturation-pane": "widget",
-    "colorselector/hue-saturation-handle" : "widget",
+    "colorselector/hue-saturation-handle": "widget",
     "colorselector/brightness-pane": "widget",
-    "colorselector/brightness-handle" : "widget",
-
-
-
-
-
-
+    "colorselector/brightness-handle": "widget",
 
     /*
     ---------------------------------------------------------------------------
@@ -2265,105 +1973,86 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "table" : "widget",
+    table: "widget",
 
-    "table/statusbar" :
-    {
-      style : function(states)
-      {
+    "table/statusbar": {
+      style(states) {
         return {
-          decorator : "table-statusbar",
-          paddingLeft : 2,
-          paddingRight : 2
+          decorator: "table-statusbar",
+          paddingLeft: 2,
+          paddingRight: 2
         };
       }
     },
 
-    "table/column-button" :
-    {
-      alias : "button",
-      style : function(states)
-      {
+    "table/column-button": {
+      alias: "button",
+      style(states) {
         var border, padding;
 
-        if (states.pressed || states.checked || states.abandoned)
-        {
+        if (states.pressed || states.checked || states.abandoned) {
           border = "inset-thin";
-          padding = [ 3, 2, 1, 4 ];
-        }
-        else if (states.hovered)
-        {
+          padding = [3, 2, 1, 4];
+        } else if (states.hovered) {
           border = "outset-thin";
-          padding = [ 2, 3 ];
-        }
-        else
-        {
+          padding = [2, 3];
+        } else {
           border = undefined;
-          padding = [ 3, 4 ];
+          padding = [3, 4];
         }
 
         return {
-          decorator : border,
-          padding : padding,
-          backgroundColor : states.abandoned ? "button-abandoned" : "button",
-          icon : "decoration/table/select-column-order.png"
+          decorator: border,
+          padding: padding,
+          backgroundColor: states.abandoned ? "button-abandoned" : "button",
+          icon: "decoration/table/select-column-order.png"
         };
       }
     },
 
-    "table-column-reset-button" :
-    {
-      extend : "menu-button",
-      alias : "menu-button",
+    "table-column-reset-button": {
+      extend: "menu-button",
+      alias: "menu-button",
 
-      style : function()
-      {
+      style() {
         return {
-          icon : "icon/16/actions/view-refresh.png"
-        }
+          icon: "icon/16/actions/view-refresh.png"
+        };
       }
     },
 
     "table-scroller/scrollbar-x": "scrollbar",
     "table-scroller/scrollbar-y": "scrollbar",
 
-    "table-scroller" : "widget",
+    "table-scroller": "widget",
 
-    "table-scroller/header":
-    {
-      style : function(states)
-      {
+    "table-scroller/header": {
+      style(states) {
         return {
-          decorator : "table-scroller-header",
-          backgroundColor : "table-header"
+          decorator: "table-scroller-header",
+          backgroundColor: "table-header"
         };
       }
     },
 
-    "table-scroller/pane" :
-    {
-      style : function(states)
-      {
+    "table-scroller/pane": {
+      style(states) {
         return {
-          backgroundColor : "table-pane"
+          backgroundColor: "table-pane"
         };
       }
     },
 
-    "table-scroller/focus-indicator" :
-    {
-      style : function(states)
-      {
+    "table-scroller/focus-indicator": {
+      style(states) {
         return {
-          decorator : "table-scroller-focus-indicator"
+          decorator: "table-scroller-focus-indicator"
         };
       }
     },
 
-    "table-scroller/resize-line" :
-    {
-      style : function(states)
-      {
+    "table-scroller/resize-line": {
+      style(states) {
         return {
           backgroundColor: "table-header-border",
           width: 3
@@ -2371,90 +2060,86 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "table-header-cell" :
-    {
-      alias : "atom",
-      style : function(states)
-      {
+    "table-header-cell": {
+      alias: "atom",
+      style(states) {
         return {
           minWidth: 13,
-          paddingLeft : 2,
-          paddingRight : 2,
-          paddingBottom : states.hovered ? 0 : 2,
-          decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
-          backgroundColor : states.hovered ? "table-header-cell-hover" : "table-header-cell",
-          sortIcon : states.sorted ?
-              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : undefined
-        }
+          paddingLeft: 2,
+          paddingRight: 2,
+          paddingBottom: states.hovered ? 0 : 2,
+          decorator: states.hovered
+            ? "table-header-cell-hovered"
+            : "table-header-cell",
+          backgroundColor: states.hovered
+            ? "table-header-cell-hover"
+            : "table-header-cell",
+          sortIcon: states.sorted
+            ? states.sortedAscending
+              ? "decoration/table/ascending.png"
+              : "decoration/table/descending.png"
+            : undefined
+        };
       }
     },
 
-    "table-header-cell/icon" : {
-      style : function(states)
-      {
+    "table-header-cell/icon": {
+      style(states) {
         return {
           marginRight: 4,
-          opacity : states.disabled ? 0.3 : 1
-        }
-      }
-    },
-
-    "table-header-cell/sort-icon" : {
-      style : function(states)
-      {
-        return {
-          alignY : "middle",
-          opacity : states.disabled ? 0.3 : 1
-        }
-      }
-    },
-
-    "table-editor-textfield" :
-    {
-      include : "textfield",
-
-      style : function(states)
-      {
-        return {
-          decorator : undefined,
-          padding : [ 2, 2 ]
+          opacity: states.disabled ? 0.3 : 1
         };
       }
     },
 
-    "table-editor-selectbox" :
-    {
-      include : "selectbox",
-      alias : "selectbox",
-
-      style : function(states)
-      {
+    "table-header-cell/sort-icon": {
+      style(states) {
         return {
-          padding : [ 0, 2 ]
+          alignY: "middle",
+          opacity: states.disabled ? 0.3 : 1
         };
       }
     },
 
-    "table-editor-combobox" :
-    {
-      include : "combobox",
-      alias : "combobox",
+    "table-editor-textfield": {
+      include: "textfield",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          decorator : undefined
+          decorator: undefined,
+          padding: [2, 2]
         };
       }
     },
 
-    "progressive-table-header" : {
+    "table-editor-selectbox": {
+      include: "selectbox",
+      alias: "selectbox",
+
+      style(states) {
+        return {
+          padding: [0, 2]
+        };
+      }
+    },
+
+    "table-editor-combobox": {
+      include: "combobox",
+      alias: "combobox",
+
+      style(states) {
+        return {
+          decorator: undefined
+        };
+      }
+    },
+
+    "progressive-table-header": {
       alias: "table-scroller/header"
     },
 
-    "progressive-table-header-cell" : {
-      style : function(states) {
+    "progressive-table-header-cell": {
+      style(states) {
         return {
           decorator: "table-header-cell",
           backgroundColor: "table-header-cell",
@@ -2463,98 +2148,84 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       COLOR POPUP
     ---------------------------------------------------------------------------
     */
 
+    colorpopup: {
+      alias: "popup",
+      include: "popup",
 
-    "colorpopup" :
-    {
-      alias : "popup",
-      include : "popup",
-
-      style : function(states)
-      {
+      style(states) {
         return {
-          decorator : "outset",
-          padding : 5,
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "colorpopup/field":
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "inset-thin",
-          margin : 2,
-          width : 14,
-          height : 14,
-          backgroundColor : "background"
-        }
-      }
-    },
-
-    "colorpopup/selector-button" : "button",
-    "colorpopup/auto-button" : "button",
-
-    "colorpopup/preview-pane" : "groupbox",
-
-    "colorpopup/current-preview":
-    {
-      style : function(state)
-      {
-        return {
-          height : 20,
-          padding: 4,
-          marginLeft : 4,
-          decorator : "inset-thin",
-          allowGrowX : true
-        }
-      }
-    },
-
-    "colorpopup/selected-preview":
-    {
-      style : function(state)
-      {
-        return {
-          height : 20,
-          padding: 4,
-          marginRight : 4,
-          decorator : "inset-thin",
-          allowGrowX : true
-        }
-      }
-    },
-
-    "colorpopup/colorselector-okbutton":
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/actions/dialog-ok.png"
+          decorator: "outset",
+          padding: 5,
+          backgroundColor: "background"
         };
       }
     },
 
-    "colorpopup/colorselector-cancelbutton":
-   {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
+    "colorpopup/field": {
+      style(states) {
         return {
-          icon : "icon/16/actions/dialog-cancel.png"
+          decorator: "inset-thin",
+          margin: 2,
+          width: 14,
+          height: 14,
+          backgroundColor: "background"
+        };
+      }
+    },
+
+    "colorpopup/selector-button": "button",
+    "colorpopup/auto-button": "button",
+
+    "colorpopup/preview-pane": "groupbox",
+
+    "colorpopup/current-preview": {
+      style(state) {
+        return {
+          height: 20,
+          padding: 4,
+          marginLeft: 4,
+          decorator: "inset-thin",
+          allowGrowX: true
+        };
+      }
+    },
+
+    "colorpopup/selected-preview": {
+      style(state) {
+        return {
+          height: 20,
+          padding: 4,
+          marginRight: 4,
+          decorator: "inset-thin",
+          allowGrowX: true
+        };
+      }
+    },
+
+    "colorpopup/colorselector-okbutton": {
+      alias: "button",
+      include: "button",
+
+      style(states) {
+        return {
+          icon: "icon/16/actions/dialog-ok.png"
+        };
+      }
+    },
+
+    "colorpopup/colorselector-cancelbutton": {
+      alias: "button",
+      include: "button",
+
+      style(states) {
+        return {
+          icon: "icon/16/actions/dialog-cancel.png"
         };
       }
     },
@@ -2564,116 +2235,106 @@ qx.Theme.define("qx.theme.classic.Appearance",
       VIRTUAL WIDGETS
     ---------------------------------------------------------------------------
     */
-    "virtual-list" : "list",
-    "virtual-list/row-layer" : "row-layer",
+    "virtual-list": "list",
+    "virtual-list/row-layer": "row-layer",
 
-    "row-layer" : "widget",
-    "column-layer" : "widget",
+    "row-layer": "widget",
+    "column-layer": "widget",
 
-    "group-item" :
-    {
-      include : "label",
-      alias : "label",
+    "group-item": {
+      include: "label",
+      alias: "label",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          padding : 4,
-          backgroundColor : "#BABABA",
-          textColor : "white",
+          padding: 4,
+          backgroundColor: "#BABABA",
+          textColor: "white",
           font: "bold"
         };
       }
     },
 
-    "virtual-selectbox" : "selectbox",
-    "virtual-selectbox/dropdown" : "popup",
-    "virtual-selectbox/dropdown/list" : {
-      alias : "virtual-list"
+    "virtual-selectbox": "selectbox",
+    "virtual-selectbox/dropdown": "popup",
+    "virtual-selectbox/dropdown/list": {
+      alias: "virtual-list"
     },
 
-    "virtual-combobox" : "combobox",
-    "virtual-combobox/dropdown" : "popup",
-    "virtual-combobox/dropdown/list" : {
-      alias : "virtual-list"
+    "virtual-combobox": "combobox",
+    "virtual-combobox/dropdown": "popup",
+    "virtual-combobox/dropdown/list": {
+      alias: "virtual-list"
     },
 
-    "virtual-tree" :
-    {
-      include : "tree",
-      alias : "tree",
+    "virtual-tree": {
+      include: "tree",
+      alias: "tree",
 
-      style : function(states)
-      {
+      style(states) {
         return {
-          itemHeight : 21
+          itemHeight: 21
         };
       }
     },
 
-    "virtual-tree-folder" : "tree-folder",
-    "virtual-tree-file" : "tree-file",
+    "virtual-tree-folder": "tree-folder",
+    "virtual-tree-file": "tree-file",
 
-    "cell" :
-    {
-      style : function(states)
-      {
+    cell: {
+      style(states) {
         return {
-          backgroundColor: states.selected ?
-            "table-row-background-selected" :
-            "table-row-background-even",
+          backgroundColor: states.selected
+            ? "table-row-background-selected"
+            : "table-row-background-even",
           textColor: states.selected ? "text-selected" : "text",
           padding: [3, 6]
-        }
+        };
       }
     },
 
-    "cell-string" : "cell",
-    "cell-number" :
-    {
-      include : "cell",
-      style : function(states)
-      {
+    "cell-string": "cell",
+    "cell-number": {
+      include: "cell",
+      style(states) {
         return {
-          textAlign : "right"
-        }
+          textAlign: "right"
+        };
       }
     },
-    "cell-image" : "cell",
-    "cell-boolean" : "cell",
-    "cell-atom" : "cell",
-    "cell-date" : "cell",
-    "cell-html" : "cell",
 
+    "cell-image": "cell",
+    "cell-boolean": "cell",
+    "cell-atom": "cell",
+    "cell-date": "cell",
+    "cell-html": "cell",
 
     /*
     ---------------------------------------------------------------------------
       PROGRESSBAR
     ---------------------------------------------------------------------------
     */
-    "progressbar":
-    {
-      style: function(states) {
+    progressbar: {
+      style(states) {
         return {
           decorator: "progressbar",
           padding: [1],
           backgroundColor: "white",
-          width : 200,
-          height : 20
-        }
+          width: 200,
+          height: 20
+        };
       }
     },
 
-    "progressbar/progress":
-    {
-      style: function(states) {
+    "progressbar/progress": {
+      style(states) {
         return {
-          backgroundColor: states.disabled ? "background-disabled" : "background-selected"
-        }
+          backgroundColor: states.disabled
+            ? "background-disabled"
+            : "background-selected"
+        };
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2681,42 +2342,40 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "app-header":
-    {
-      style : function(states)
-      {
+    "app-header": {
+      style(states) {
         return {
-          textColor : "text-selected",
+          textColor: "text-selected",
           backgroundColor: "background-selected",
-          padding : [8, 12]
+          padding: [8, 12]
         };
       }
     },
 
     "app-header-label": "label",
 
-    "app-splitpane" : {
-      alias : "splitpane",
-      style : function(states) {
+    "app-splitpane": {
+      alias: "splitpane",
+      style(states) {
         return {
           padding: [0, 10, 10, 10],
           backgroundColor: "light-background"
-        }
+        };
       }
     },
-      
+
     /*
       --------------------
       VIRTUAL SELECTBOX 
       --------------------
     */
-      
-    "list-search-highlight" : {
-      style : function(states) {
+
+    "list-search-highlight": {
+      style(states) {
         return {
-          backgroundColor: 'rgba(255, 251, 0, 0.53)',
-          textDecorationStyle: 'dotted',
-          textDecorationLine: 'underline'
+          backgroundColor: "rgba(255, 251, 0, 0.53)",
+          textDecorationStyle: "dotted",
+          textDecorationLine: "underline"
         };
       }
     }

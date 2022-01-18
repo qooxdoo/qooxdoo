@@ -23,26 +23,27 @@
  * set some additional information on your renderer before adding the widgets,
  * be sure to do that before calling this.base(arguments, form).
  */
-qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
-{
-  type : "abstract",
-  extend : qx.ui.core.Widget,
-  implement : qx.ui.form.renderer.IFormRenderer,
+qx.Class.define("qx.ui.form.renderer.AbstractRenderer", {
+  type: "abstract",
+  extend: qx.ui.core.Widget,
+  implement: qx.ui.form.renderer.IFormRenderer,
 
   /**
    * @param form {qx.ui.form.Form} The form to render.
    */
-  construct : function(form)
-  {
-    this.base(arguments);
+  construct(form) {
+    super();
 
     this._labels = [];
 
     // translation support
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener(
-        "changeLocale", this._onChangeLocale, this
+        "changeLocale",
+        this._onChangeLocale,
+        this
       );
+
       this._names = [];
     }
     this._form = form;
@@ -51,51 +52,49 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     form.addListener("change", this._onFormChange, this);
   },
 
-  properties :
-  {
+  properties: {
     /**
      * A string that is appended to the label if it is not empty.
      * Defaults to " :"
      */
-    labelSuffix :
-    {
-      check : "String",
-      init : " :",
-      event : "changeLabelSuffix",
-      nullable : true
+    labelSuffix: {
+      check: "String",
+      init: " :",
+      event: "changeLabelSuffix",
+      nullable: true
     },
 
     /**
      * A string that is appended to the label and the label suffix if the corresponding
      * form field is mandatory. Defaults to space plus a red asterisk.
      */
-    requiredSuffix :
-    {
-      check : "String",
-      init : " <span style='color:red'>*</span> ",
-      event : "changeRequiredSuffix",
-      nullable : false
+    requiredSuffix: {
+      check: "String",
+      init: " <span style='color:red'>*</span> ",
+      event: "changeRequiredSuffix",
+      nullable: false
     }
   },
 
-
-  members :
-  {
-    _names : null,
-    _form : null,
-    _labels : null,
-
+  members: {
+    _names: null,
+    _form: null,
+    _labels: null,
 
     /**
      * Renders the form: adds the items and buttons.
      */
-    _render : function() {
+    _render() {
       // add the groups
       var groups = this._form.getGroups();
       for (var i = 0; i < groups.length; i++) {
         var group = groups[i];
         this.addItems(
-          group.items, group.labels, group.title, group.options, group.headerOptions
+          group.items,
+          group.labels,
+          group.title,
+          group.options,
+          group.headerOptions
         );
       }
 
@@ -107,15 +106,14 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       }
     },
 
-
     /**
      * Handler responsible for updating the rendered widget as soon as the
      * form changes.
      */
-    _onFormChange : function() {
+    _onFormChange() {
       this._removeAll();
       // remove all created labels
-      for (var i=0; i < this._labels.length; i++) {
+      for (var i = 0; i < this._labels.length; i++) {
         this._labels[i].dispose();
       }
       this._labels = [];
@@ -123,17 +121,15 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       this._render();
     },
 
-
     /**
      * Helper to bind the item's visibility to the label's visibility.
      * @param item {qx.ui.core.Widget} The form element.
      * @param label {qx.ui.basic.Label} The label for the form element.
      */
-    _connectVisibility : function(item, label) {
+    _connectVisibility(item, label) {
       // map the items visibility to the label
       item.bind("visibility", label, "visibility");
     },
-
 
     /**
      * Locale change event handler
@@ -141,9 +137,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e) {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         for (var i = 0; i < this._names.length; i++) {
           var entry = this._names[i];
           if (entry.name && entry.name.translate) {
@@ -154,9 +149,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
         }
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Creates the label text for the given form item.
@@ -166,32 +160,28 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
      * @param item {qx.ui.form.IForm} The item, which has the required state.
      * @return {String} The text for the given item.
      */
-    _createLabelText : function(name, item)
-    {
+    _createLabelText(name, item) {
       var requiredSuffix = "";
       if (item.getRequired()) {
         requiredSuffix = this.getRequiredSuffix();
       }
 
       // Create the label. Append a suffix only if there's text to display.
-      var labelSuffix = name.length > 0 || item.getRequired() ? this.getLabelSuffix() : "";
+      var labelSuffix =
+        name.length > 0 || item.getRequired() ? this.getLabelSuffix() : "";
       return name + requiredSuffix + labelSuffix;
     },
 
-
     // interface implementation
-    addItems : function(items, names, title) {
+    addItems(items, names, title) {
       throw new Error("Abstract method call");
     },
 
-
     // interface implementation
-    addButton : function(button) {
+    addButton(button) {
       throw new Error("Abstract method call");
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -199,10 +189,13 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
     this._names = null;
 

@@ -20,11 +20,8 @@
 /**
  * A button which opens the connected menu when tapping on it.
  */
-qx.Class.define("qx.ui.form.MenuButton",
-{
-  extend : qx.ui.form.Button,
-
-
+qx.Class.define("qx.ui.form.MenuButton", {
+  extend: qx.ui.form.Button,
 
   /*
   *****************************************************************************
@@ -37,9 +34,8 @@ qx.Class.define("qx.ui.form.MenuButton",
    * @param icon {String?null} Initial icon
    * @param menu {qx.ui.menu.Menu} Connect to menu instance
    */
-  construct : function(label, icon, menu)
-  {
-    this.base(arguments, label, icon);
+  construct(label, icon, menu) {
+    super(label, icon);
 
     // Initialize properties
     if (menu != null) {
@@ -50,36 +46,27 @@ qx.Class.define("qx.ui.form.MenuButton",
     this.getContentElement().setAttribute("role", "button");
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The menu instance to show when tapping on the button */
-    menu :
-    {
-      check : "qx.ui.menu.Menu",
-      nullable : true,
-      apply : "_applyMenu",
-      event : "changeMenu"
+    menu: {
+      check: "qx.ui.menu.Menu",
+      nullable: true,
+      apply: "_applyMenu",
+      event: "changeMenu"
     },
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menubutton"
+    appearance: {
+      refine: true,
+      init: "menubutton"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -87,16 +74,15 @@ qx.Class.define("qx.ui.form.MenuButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
     // overridden
-    _applyVisibility : function(value, old) {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
 
       // hide the menu too
       var menu = this.getMenu();
@@ -105,25 +91,21 @@ qx.Class.define("qx.ui.form.MenuButton",
       }
     },
 
-
     // property apply
-    _applyMenu : function(value, old)
-    {
-      if (old)
-      {
+    _applyMenu(value, old) {
+      if (old) {
         old.removeListener("changeVisibility", this._onMenuChange, this);
         old.resetOpener();
       }
 
-      if (value)
-      {
+      if (value) {
         value.addListener("changeVisibility", this._onMenuChange, this);
         value.setOpener(this);
 
         value.removeState("submenu");
         value.removeState("contextmenu");
       }
-      
+
       // ARIA attrs
       const contentEl = this.getContentElement();
       if (!contentEl) {
@@ -132,16 +114,16 @@ qx.Class.define("qx.ui.form.MenuButton",
       if (value) {
         contentEl.setAttribute("aria-haspopup", "menu");
         contentEl.setAttribute("aria-expanded", value.isVisible());
-        contentEl.setAttribute("aria-controls", value.getContentElement().getAttribute("id"));
+        contentEl.setAttribute(
+          "aria-controls",
+          value.getContentElement().getAttribute("id")
+        );
       } else {
         contentEl.removeAttribute("aria-haspopup");
         contentEl.removeAttribute("aria-expanded");
         contentEl.removeAttribute("aria-controls");
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -154,14 +136,15 @@ qx.Class.define("qx.ui.form.MenuButton",
      *
      * @param selectFirst {Boolean?false} Whether the first menu button should be selected
      */
-    open : function(selectFirst)
-    {
+    open(selectFirst) {
       var menu = this.getMenu();
 
-      if (menu)
-      {
+      if (menu) {
         // Focus this button when the menu opens
-        if (this.isFocusable() && !qx.ui.core.FocusHandler.getInstance().isFocused(this)) {
+        if (
+          this.isFocusable() &&
+          !qx.ui.core.FocusHandler.getInstance().isFocused(this)
+        ) {
           this.focus();
         }
         // Hide all menus first
@@ -172,8 +155,7 @@ qx.Class.define("qx.ui.form.MenuButton",
         menu.open();
 
         // Select first item
-        if (selectFirst)
-        {
+        if (selectFirst) {
           var first = menu.getSelectables()[0];
           if (first) {
             menu.setSelectedButton(first);
@@ -181,9 +163,6 @@ qx.Class.define("qx.ui.form.MenuButton",
         }
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -196,10 +175,9 @@ qx.Class.define("qx.ui.form.MenuButton",
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onMenuChange : function(e)
-    {
+    _onMenuChange(e) {
       var menu = this.getMenu();
-      const menuVisible = menu.isVisible()
+      const menuVisible = menu.isVisible();
       if (menuVisible) {
         this.addState("pressed");
       } else {
@@ -210,14 +188,13 @@ qx.Class.define("qx.ui.form.MenuButton",
       this.getContentElement().setAttribute("aria-expanded", menuVisible);
     },
 
-
     // overridden
-    _onPointerDown : function(e) {
+    _onPointerDown(e) {
       // call the base function to get into the capture phase [BUG #4340]
-      this.base(arguments, e);
+      super._onPointerDown(e);
 
       // only open on left clicks [BUG #5125]
-      if(e.getButton() != "left") {
+      if (e.getButton() != "left") {
         return;
       }
 
@@ -235,45 +212,38 @@ qx.Class.define("qx.ui.form.MenuButton",
       }
     },
 
-
     // overridden
-    _onPointerUp : function(e) {
+    _onPointerUp(e) {
       // call base for firing the execute event
-      this.base(arguments, e);
+      super._onPointerUp(e);
 
       // Just stop propagation to stop menu manager
       // from getting the event
       e.stopPropagation();
     },
 
-
     // overridden
-    _onPointerOver : function(e) {
+    _onPointerOver(e) {
       // Add hovered state
       this.addState("hovered");
     },
 
-
     // overridden
-    _onPointerOut : function(e) {
+    _onPointerOut(e) {
       // Just remove the hover state
       this.removeState("hovered");
     },
 
-
     // overridden
-    _onKeyDown : function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyDown(e) {
+      switch (e.getKeyIdentifier()) {
         case "Space":
         case "Enter":
           this.removeState("abandoned");
           this.addState("pressed");
 
           var menu = this.getMenu();
-          if (menu)
-          {
+          if (menu) {
             // Toggle sub menu visibility
             if (!menu.isVisible()) {
               this.open();
@@ -286,9 +256,8 @@ qx.Class.define("qx.ui.form.MenuButton",
       }
     },
 
-
     // overridden
-    _onKeyUp : function(e) {
+    _onKeyUp(e) {
       // no action required here
     }
   }

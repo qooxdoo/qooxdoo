@@ -25,21 +25,21 @@
 qx.Class.define("qx.tool.compiler.jsdoc.ParamParser", {
   extend: qx.tool.compiler.jsdoc.CommandParser,
 
-  members: {  
-    parseCommand: function(pdoc, classname, analyser) {
+  members: {
+    parseCommand(pdoc, classname, analyser) {
       var m = pdoc.body.match(/^([\S]+)(\s+\{([^}]+)\}([\s\S]+))??$/);
       var type;
       if (m) {
         pdoc.paramName = m[1].trim();
-        type = this.resolveType((m[3]||"").trim(), classname, analyser);
+        type = this.resolveType((m[3] || "").trim(), classname, analyser);
         pdoc.description = m[4];
       } else {
-        m = pdoc.body.match(/^(\{([^}]+)\}([\s]+))(\S+)(\s+[\s\S]*)$/);      
+        m = pdoc.body.match(/^(\{([^}]+)\}([\s]+))(\S+)(\s+[\s\S]*)$/);
         if (m) {
           pdoc.paramName = m[4].trim();
-          type = this.resolveType((m[2]||"").trim(), classname, analyser);
+          type = this.resolveType((m[2] || "").trim(), classname, analyser);
           pdoc.description = m[5].trim();
-        }  
+        }
       }
       if (m) {
         var pos = type.indexOf("?");
@@ -62,6 +62,7 @@ qx.Class.define("qx.tool.compiler.jsdoc.ParamParser", {
               result = {
                 type: str.substring(0, pos)
               };
+
               var count = 1;
               pos = 0;
               while (dims.length && dims.substring(pos, 2) == "[]") {

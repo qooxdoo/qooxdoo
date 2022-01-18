@@ -20,13 +20,9 @@
 /**
  * Manager for color themes
  */
-qx.Class.define("qx.theme.manager.Color",
-{
-  type : "singleton",
-  extend : qx.util.ValueManager,
-
-
-
+qx.Class.define("qx.theme.manager.Color", {
+  type: "singleton",
+  extend: qx.util.ValueManager,
 
   /*
   *****************************************************************************
@@ -34,20 +30,15 @@ qx.Class.define("qx.theme.manager.Color",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** the currently selected color theme */
-    theme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+    theme: {
+      check: "Theme",
+      nullable: true,
+      apply: "_applyTheme",
+      event: "changeTheme"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -55,11 +46,8 @@ qx.Class.define("qx.theme.manager.Color",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    _applyTheme : function(value)
-    {
+  members: {
+    _applyTheme(value) {
       var dest = {};
       this._setDynamic(dest); // reset dynamic cache
       if (value) {
@@ -73,7 +61,6 @@ qx.Class.define("qx.theme.manager.Color",
       }
     },
 
-
     /**
      * Helper to take a color stored in the theme and returns the string color value.
      * In most of the times that means it just returns the string stored in the theme.
@@ -83,7 +70,7 @@ qx.Class.define("qx.theme.manager.Color",
      * @param name {String} The name of the color to check.
      * @return {String} The resolved color as string.
      */
-    __parseColor : function(colors, name) {
+    __parseColor(colors, name) {
       var color = colors[name];
       if (typeof color === "string") {
         if (!qx.util.ColorUtil.isCssString(color)) {
@@ -94,16 +81,14 @@ qx.Class.define("qx.theme.manager.Color",
           throw new Error("Could not parse color: " + color);
         }
         return color;
-
       } else if (color instanceof Array) {
         return qx.util.ColorUtil.rgbToRgbString(color);
       } else if (color instanceof Function) {
-        return this.__parseColor(colors,color(name));
+        return this.__parseColor(colors, color(name));
       }
       // this is might already be a rgb or hex color
       return name;
     },
-
 
     /**
      * Returns the dynamically interpreted result for the incoming value,
@@ -112,13 +97,11 @@ qx.Class.define("qx.theme.manager.Color",
      * @return {var} either returns the (translated) result of the incoming
      * value or the value itself
      */
-    resolve : function(value)
-    {
+    resolve(value) {
       var cache = this._dynamic;
       var resolved = cache[value];
 
-      if (resolved)
-      {
+      if (resolved) {
         return resolved;
       }
 
@@ -127,14 +110,12 @@ qx.Class.define("qx.theme.manager.Color",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme !== null && theme.colors[value])
-      {
-        return cache[value] = this.__parseColor(theme.colors, value);
+      if (theme !== null && theme.colors[value]) {
+        return (cache[value] = this.__parseColor(theme.colors, value));
       }
 
       return value;
     },
-
 
     /**
      * Whether a value is interpreted dynamically
@@ -142,11 +123,10 @@ qx.Class.define("qx.theme.manager.Color",
      * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
-    isDynamic : function(value) {
+    isDynamic(value) {
       var cache = this._dynamic;
 
-      if (value && (cache[value] !== undefined))
-      {
+      if (value && cache[value] !== undefined) {
         return true;
       }
 
@@ -155,8 +135,7 @@ qx.Class.define("qx.theme.manager.Color",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme !== null && value && (theme.colors[value] !== undefined))
-      {
+      if (theme !== null && value && theme.colors[value] !== undefined) {
         cache[value] = this.__parseColor(theme.colors, value);
         return true;
       }

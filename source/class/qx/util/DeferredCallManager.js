@@ -20,16 +20,14 @@
 /**
  * This class manages the timer used for deferred calls. All
  * {@link qx.util.DeferredCall} instances use the single timer from this class.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.util.DeferredCallManager",
-{
-  extend : qx.core.Object,
-  type : "singleton",
-  implement : [ qx.core.IDisposable ],
-
+qx.Class.define("qx.util.DeferredCallManager", {
+  extend: qx.core.Object,
+  type: "singleton",
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -37,15 +35,11 @@ qx.Class.define("qx.util.DeferredCallManager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
+  construct() {
     this.__calls = {};
     this.__timeoutWrapper = qx.lang.Function.bind(this.__timeout, this);
     this.__hasCalls = false;
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -53,24 +47,20 @@ qx.Class.define("qx.util.DeferredCallManager",
   *****************************************************************************
   */
 
-  members :
-  {
-    __timeoutId : null,
-    __currentQueue : null,
-    __calls : null,
-    __hasCalls : null,
-    __timeoutWrapper : null,
-
+  members: {
+    __timeoutId: null,
+    __currentQueue: null,
+    __calls: null,
+    __hasCalls: null,
+    __timeoutWrapper: null,
 
     /**
      * Schedule a deferred call
      *
      * @param deferredCall {qx.util.DeferredCall} The call to schedule
      */
-    schedule : function(deferredCall)
-    {
-      if (this.__timeoutId == null)
-      {
+    schedule(deferredCall) {
+      if (this.__timeoutId == null) {
         this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
       }
 
@@ -93,7 +83,7 @@ qx.Class.define("qx.util.DeferredCallManager",
      * after restoring the sinon sandbox the timeout must be refreshed otherwise
      * DeferredCalls would never fire.
      */
-    refreshTimeout : function() {
+    refreshTimeout() {
       if (this.__timeoutId !== null) {
         this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
       }
@@ -104,14 +94,12 @@ qx.Class.define("qx.util.DeferredCallManager",
      *
      * @param deferredCall {qx.util.DeferredCall} The call to schedule
      */
-    cancel : function(deferredCall)
-    {
+    cancel(deferredCall) {
       var callKey = deferredCall.toHashCode();
 
       // the flush is currently running and the call is already
       // scheduled -> remove it from the current queue
-      if(this.__currentQueue && this.__currentQueue[callKey])
-      {
+      if (this.__currentQueue && this.__currentQueue[callKey]) {
         this.__currentQueue[callKey] = null;
         return;
       }
@@ -119,36 +107,30 @@ qx.Class.define("qx.util.DeferredCallManager",
       delete this.__calls[callKey];
 
       // stop timer if no other calls are waiting
-      if(qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
-      {
+      if (qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null) {
         window.clearTimeout(this.__timeoutId);
         this.__timeoutId = null;
       }
     },
-
 
     /**
      * Helper function for the timer.
      *
      * @signature function()
      */
-    __timeout : qx.event.GlobalError.observeMethod(function()
-    {
+    __timeout: qx.event.GlobalError.observeMethod(function () {
       this.__timeoutId = null;
 
       // the queue may change while doing the flush so we work on a copy of
       // the queue and loop while the queue has any entries.
-      while(this.__hasCalls)
-      {
+      while (this.__hasCalls) {
         this.__currentQueue = qx.lang.Object.clone(this.__calls);
         this.__calls = {};
         this.__hasCalls = false;
 
-        for (var key in this.__currentQueue)
-        {
+        for (var key in this.__currentQueue) {
           var call = this.__currentQueue[key];
-          if (call)
-          {
+          if (call) {
             this.__currentQueue[key] = null;
             call.call();
           }
@@ -157,9 +139,7 @@ qx.Class.define("qx.util.DeferredCallManager",
 
       this.__currentQueue = null;
     })
-
   },
-
 
   /*
   *****************************************************************************
@@ -167,8 +147,7 @@ qx.Class.define("qx.util.DeferredCallManager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__timeoutId != null) {
       window.clearTimeout(this.__timeoutId);
     }

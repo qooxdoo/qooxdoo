@@ -19,11 +19,8 @@
 /**
  * This appender is used to log to an existing DOM element
  */
-qx.Class.define("qx.log.appender.Element",
-{
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.log.appender.Element", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -34,26 +31,24 @@ qx.Class.define("qx.log.appender.Element",
   /**
    * @param element {Element} DOM element to use for log output.
    */
-  construct : function(element)
-  {
-    this.base(arguments);
+  construct(element) {
+    super();
 
-    var style =
-    [
-      '.qxappender .level-debug{background:white}',
-      '.qxappender .level-info{background:#DEEDFA}',
-      '.qxappender .level-warn{background:#FFF7D5}',
-      '.qxappender .level-error{background:#FFE2D5}',
-      '.qxappender .level-user{background:#E3EFE9}',
-      '.qxappender .type-string{color:black;font-weight:normal;}',
-      '.qxappender .type-number{color:#155791;font-weight:normal;}',
-      '.qxappender .type-boolean{color:#15BC91;font-weight:normal;}',
-      '.qxappender .type-array{color:#CC3E8A;font-weight:bold;}',
-      '.qxappender .type-map{color:#CC3E8A;font-weight:bold;}',
-      '.qxappender .type-key{color:#565656;font-style:italic}',
-      '.qxappender .type-class{color:#5F3E8A;font-weight:bold}',
-      '.qxappender .type-instance{color:#565656;font-weight:bold}',
-      '.qxappender .type-stringify{color:#565656;font-weight:bold}'
+    var style = [
+      ".qxappender .level-debug{background:white}",
+      ".qxappender .level-info{background:#DEEDFA}",
+      ".qxappender .level-warn{background:#FFF7D5}",
+      ".qxappender .level-error{background:#FFE2D5}",
+      ".qxappender .level-user{background:#E3EFE9}",
+      ".qxappender .type-string{color:black;font-weight:normal;}",
+      ".qxappender .type-number{color:#155791;font-weight:normal;}",
+      ".qxappender .type-boolean{color:#15BC91;font-weight:normal;}",
+      ".qxappender .type-array{color:#CC3E8A;font-weight:bold;}",
+      ".qxappender .type-map{color:#CC3E8A;font-weight:bold;}",
+      ".qxappender .type-key{color:#565656;font-style:italic}",
+      ".qxappender .type-class{color:#5F3E8A;font-weight:bold}",
+      ".qxappender .type-instance{color:#565656;font-weight:bold}",
+      ".qxappender .type-stringify{color:#565656;font-weight:bold}"
     ];
 
     // Include stylesheet
@@ -63,26 +58,21 @@ qx.Class.define("qx.log.appender.Element",
     qx.log.Logger.register(this);
   },
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __element : null,
+  members: {
+    __element: null,
 
     /**
      * Configures the DOM element to use.
      *
      * @param element {Element} DOM element to log to
      */
-    setElement : function(element)
-    {
+    setElement(element) {
       // Clear old element
       this.clear();
 
@@ -95,13 +85,11 @@ qx.Class.define("qx.log.appender.Element",
       this.__element = element;
     },
 
-
     /**
      * Clears the current output.
      *
      */
-    clear : function()
-    {
+    clear() {
       var elem = this.__element;
 
       // Remove all messages
@@ -110,15 +98,13 @@ qx.Class.define("qx.log.appender.Element",
       }
     },
 
-
     /**
      * Processes a single log entry
      *
      * @signature function(entry)
      * @param entry {Map} The entry to process
      */
-    process : function(entry)
-    {
+    process(entry) {
       var elem = this.__element;
 
       if (!elem) {

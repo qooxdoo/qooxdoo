@@ -14,60 +14,66 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.bom.webfonts.Validator", {
+  extend: qx.test.bom.webfonts.Abstract,
 
-  extend : qx.test.bom.webfonts.Abstract,
+  include: [qx.dev.unit.MRequirements],
 
-  include : [qx.dev.unit.MRequirements],
-
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__nodesBefore = document.body.childNodes.length;
       this.require(["webFontSupport"]);
-      this.__val = new qx.bom.webfonts.Validator;
+      this.__val = new qx.bom.webfonts.Validator();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       if (this.__val) {
         this.__val.dispose();
         delete this.__val;
       }
       qx.bom.webfonts.Validator.removeDefaultHelperElements();
-      this.assertEquals(this.__nodesBefore, document.body.childNodes.length, "Validator did not clean up correctly!");
+      this.assertEquals(
+        this.__nodesBefore,
+        document.body.childNodes.length,
+        "Validator did not clean up correctly!"
+      );
     },
 
-    testValidFont : function()
-    {
+    testValidFont() {
       this.__val.setFontFamily("monospace, courier");
-      this.__val.addListener("changeStatus", function(ev) {
-        var result = ev.getData();
-        this.resume(function(ev) {
-          this.assertTrue(result.valid);
-        }, this);
-      }, this);
+      this.__val.addListener(
+        "changeStatus",
+        function (ev) {
+          var result = ev.getData();
+          this.resume(function (ev) {
+            this.assertTrue(result.valid);
+          }, this);
+        },
+        this
+      );
 
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.__val.validate();
       }, 0);
       this.wait(1000);
     },
 
-    testInvalidFont : function()
-    {
+    testInvalidFont() {
       this.__val.setFontFamily("zzzzzzzzzzzzzzz");
       this.__val.setTimeout(250);
-      this.__val.addListener("changeStatus", function(ev) {
-        var result = ev.getData();
-        this.resume(function(ev) {
-          this.assertFalse(result.valid);
-        }, this);
-      }, this);
+      this.__val.addListener(
+        "changeStatus",
+        function (ev) {
+          var result = ev.getData();
+          this.resume(function (ev) {
+            this.assertFalse(result.valid);
+          }, this);
+        },
+        this
+      );
 
       var that = this;
-      window.setTimeout(function() {
+      window.setTimeout(function () {
         that.__val.validate();
       }, 0);
       this.wait(500);

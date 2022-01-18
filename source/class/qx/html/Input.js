@@ -20,11 +20,8 @@
  * A Input wrap any valid HTML input element and make it accessible
  * through the normalized qooxdoo element interface.
  */
-qx.Class.define("qx.html.Input",
-{
-  extend : qx.html.Element,
-
-
+qx.Class.define("qx.html.Input", {
+  extend: qx.html.Element,
 
   /*
   *****************************************************************************
@@ -44,7 +41,7 @@ qx.Class.define("qx.html.Input",
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.
    */
-  construct : function(type, styles, attributes) {
+  construct(type, styles, attributes) {
     // Update node name correctly
     if (type === "select" || type === "textarea") {
       var nodeName = type;
@@ -52,16 +49,17 @@ qx.Class.define("qx.html.Input",
       nodeName = "input";
     }
 
-    this.base(arguments, nodeName, styles, attributes);
+    super(nodeName, styles, attributes);
 
     this.__type = type;
-    
-    this.registerProperty("value", this._getValueProperty, this._setValueProperty);
+
+    this.registerProperty(
+      "value",
+      this._getValueProperty,
+      this._setValueProperty
+    );
     this.registerProperty("wrap", null, this._setWrapProperty);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -69,56 +67,54 @@ qx.Class.define("qx.html.Input",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __type : null,
+  members: {
+    __type: null,
     // used for webkit only
-    __selectable : null,
-    __enabled : null,
+    __selectable: null,
+    __enabled: null,
 
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-    
-    _useNodeImpl: function(domNode, newChildren) {
-      this.base(arguments, domNode, newChildren);
+
+    _useNodeImpl(domNode, newChildren) {
+      super._useNodeImpl(domNode, newChildren);
     },
 
     //overridden
-    _createDomElement : function() {
+    _createDomElement() {
       return qx.bom.Input.create(this.__type);
     },
-    
+
     /**
      * Implementation of setter for the "value" property
-     * 
+     *
      * @param value {String?} value to set
      */
-    _setValueProperty: function(value) {
+    _setValueProperty(value) {
       var element = this.getDomElement();
       qx.bom.Input.setValue(element, value);
     },
-    
+
     /**
      * Implementation of getter for the "value" property
-     * 
+     *
      * @return {String?} value on the dom
      */
-    _getValueProperty: function() {
+    _getValueProperty() {
       var element = this.getDomElement();
       var value = qx.bom.Input.getValue(element);
       return value;
     },
-    
+
     /**
      * Implementation of setter for the "wrap" property
-     * 
+     *
      * @param value {String?} value to set
      */
-    _setWrapProperty: function(value) {
+    _setWrapProperty(value) {
       var element = this.getDomElement();
       qx.bom.Input.setWrap(element, value);
 
@@ -142,27 +138,25 @@ qx.Class.define("qx.html.Input",
      *
      * @param value {Boolean} true, if the input element should be enabled.
      */
-    setEnabled : function(value)
-    {
+    setEnabled(value) {
       this.__enabled = value;
 
-      this.setAttribute("disabled", value===false);
+      this.setAttribute("disabled", value === false);
 
       if (qx.core.Environment.get("engine.name") == "webkit") {
         if (!value) {
           this.setStyles({
-            "userModify": "read-only",
-            "userSelect": "none"
+            userModify: "read-only",
+            userSelect: "none"
           });
         } else {
           this.setStyles({
-            "userModify": null,
-            "userSelect": this.__selectable ? null : "none"
+            userModify: null,
+            userSelect: this.__selectable ? null : "none"
           });
         }
       }
     },
-
 
     /**
      * Set whether the element is selectable. It uses the qooxdoo attribute
@@ -172,37 +166,32 @@ qx.Class.define("qx.html.Input",
      *
      * @param value {Boolean} True, if the element should be selectable.
      */
-    setSelectable : qx.core.Environment.select("engine.name",
-    {
-      "webkit" : function(value)
-      {
+    setSelectable: qx.core.Environment.select("engine.name", {
+      webkit(value) {
         this.__selectable = value;
 
         // Only apply the value when it is enabled
         this.base(arguments, this.__enabled && value);
       },
 
-      "default" : function(value)
-      {
+      default(value) {
         this.base(arguments, value);
       }
     }),
-
-
 
     /*
     ---------------------------------------------------------------------------
       INPUT API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Sets the value of the input element.
      *
      * @param value {var} the new value
      * @return {qx.html.Input} This instance for for chaining support.
      */
-    setValue : function(value) {
+    setValue(value) {
       var element = this.getDomElement();
 
       if (element) {
@@ -218,13 +207,12 @@ qx.Class.define("qx.html.Input",
       return this;
     },
 
-
     /**
      * Get the current value.
      *
      * @return {String} The element's current value.
      */
-    getValue : function() {
+    getValue() {
       var element = this.getDomElement();
 
       if (element) {
@@ -233,7 +221,6 @@ qx.Class.define("qx.html.Input",
 
       return this._getProperty("value") || "";
     },
-
 
     /**
      * Sets the text wrap behavior of a text area element.
@@ -245,7 +232,7 @@ qx.Class.define("qx.html.Input",
      *  directly when possible
      * @return {qx.html.Input} This instance for for chaining support.
      */
-    setWrap : function(wrap, direct) {
+    setWrap(wrap, direct) {
       if (this.__type === "textarea") {
         this._setProperty("wrap", wrap, direct);
       } else {
@@ -255,7 +242,6 @@ qx.Class.define("qx.html.Input",
       return this;
     },
 
-
     /**
      * Gets the text wrap behavior of a text area element.
      *
@@ -263,7 +249,7 @@ qx.Class.define("qx.html.Input",
      *
      * @return {Boolean} Whether wrapping is enabled or disabled.
      */
-    getWrap : function() {
+    getWrap() {
       if (this.__type === "textarea") {
         return this._getProperty("wrap");
       } else {

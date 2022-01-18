@@ -21,10 +21,8 @@
  * {@link qx.data.SingleValueBinding} to the instance including the mixin.
  * The source object will be <code>this</code>.
  */
-qx.Mixin.define("qx.data.MBinding",
-{
-  members :
-  {
+qx.Mixin.define("qx.data.MBinding", {
+  members: {
     /**
      * The bind method delegates the call to the
      * {@link qx.data.SingleValueBinding#bind} function. As source, the current
@@ -47,13 +45,15 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bind : function(sourcePropertyChain, targetObject, targetProperty, options)
-    {
+    bind(sourcePropertyChain, targetObject, targetProperty, options) {
       return qx.data.SingleValueBinding.bind(
-        this, sourcePropertyChain, targetObject, targetProperty, options
+        this,
+        sourcePropertyChain,
+        targetObject,
+        targetProperty,
+        options
       );
     },
-
 
     /**
      * The bind method delegates the call to the
@@ -71,21 +71,26 @@ qx.Mixin.define("qx.data.MBinding",
      *
      * @return {qx.Promise} A promise which is resolved when the initial value
      * 	 has been set on the target.  Note that this does NOT resolve when subsequent
-     *   values are returned.  The promise value is the internal id for that binding. 
-     *   The id can be used for referencing the binding e.g. for removing. This is not 
+     *   values are returned.  The promise value is the internal id for that binding.
+     *   The id can be used for referencing the binding e.g. for removing. This is not
      *   an atomic id so you can't you use it as a hash-map index.
      *
      * @throws {qx.core.AssertionError} If the event is no data event or
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bindAsync : qx.core.Environment.select("qx.promise", {
-      "true": function(sourcePropertyChain, targetObject, targetProperty, options) {
+    bindAsync: qx.core.Environment.select("qx.promise", {
+      true(sourcePropertyChain, targetObject, targetProperty, options) {
         var id = qx.data.SingleValueBinding.bind(
-          this, sourcePropertyChain, targetObject, targetProperty, options
+          this,
+          sourcePropertyChain,
+          targetObject,
+          targetProperty,
+          options
         );
+
         if (id.initialPromise) {
-          return id.initialPromise.then(function() {
+          return id.initialPromise.then(function () {
             id.initialPromise = null;
             return id;
           });
@@ -93,11 +98,15 @@ qx.Mixin.define("qx.data.MBinding",
           return qx.Promise.resolve(id);
         }
       },
-      "false": function(sourcePropertyChain, targetObject, targetProperty, options) {
-        return this.bind(sourcePropertyChain, targetObject, targetProperty, options);
+      false(sourcePropertyChain, targetObject, targetProperty, options) {
+        return this.bind(
+          sourcePropertyChain,
+          targetObject,
+          targetProperty,
+          options
+        );
       }
     }),
-
 
     /**
      * Removes the binding with the given id from the current object. The
@@ -106,10 +115,9 @@ qx.Mixin.define("qx.data.MBinding",
      * @param id {var} The id of the binding.
      * @throws {Error} If the binding could not be found.
      */
-    removeBinding: function(id){
+    removeBinding(id) {
       qx.data.SingleValueBinding.removeBindingFromObject(this, id);
     },
-
 
     /**
      * Removes all bindings between the object and the related one.
@@ -119,10 +127,9 @@ qx.Mixin.define("qx.data.MBinding",
      * @throws {Error} If one of the bindings listed internally can not be
      *   removed.
      */
-    removeRelatedBindings : function(relatedObject) {
+    removeRelatedBindings(relatedObject) {
       qx.data.SingleValueBinding.removeRelatedBindings(this, relatedObject);
     },
-
 
     /**
      * Removes all bindings from the object.
@@ -132,10 +139,9 @@ qx.Mixin.define("qx.data.MBinding",
      * @throws {Error} If one of the bindings listed internally can not be
      *   removed.
      */
-    removeAllBindings: function() {
+    removeAllBindings() {
       qx.data.SingleValueBinding.removeAllBindingsForObject(this);
     },
-
 
     /**
      * Returns an array which lists all bindings for the object.
@@ -144,13 +150,12 @@ qx.Mixin.define("qx.data.MBinding",
      *   information is an array itself containing id, sourceObject, sourceEvent,
      *   targetObject and targetProperty in that order.
      */
-    getBindings: function() {
+    getBindings() {
       return qx.data.SingleValueBinding.getAllBindingsForObject(this);
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     // restore the object hash for disposing the bindings
     this.$$hash = this.$$discardedHashCode;
     this.removeAllBindings();

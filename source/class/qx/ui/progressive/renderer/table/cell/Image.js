@@ -21,10 +21,8 @@
 /**
  * Table Cell Boolean Renderer.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
-{
-  extend     : qx.ui.progressive.renderer.table.cell.Icon,
-
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Image", {
+  extend: qx.ui.progressive.renderer.table.cell.Icon,
 
   /**
    * @param height {Integer ? 16}
@@ -33,67 +31,48 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
    * @param width {Integer ? 16}
    *   The width of the image. The default is 16.
    */
-  construct : function(width, height)
-  {
-    this.base(arguments);
+  construct(width, height) {
+    super();
 
-    if (width === undefined)
-    {
+    if (width === undefined) {
       this.__imageWidth = width;
-    }
-    else
-    {
+    } else {
       this.__imageWidth = 16;
     }
 
-    if (height === undefined)
-    {
+    if (height === undefined) {
       this.__imageHeight = height;
-    }
-    else
-    {
+    } else {
       this.__imageHeight = 16;
     }
   },
 
-
-  members :
-  {
-
-    __imageWidth : null,
-    __imageHeight : null,
+  members: {
+    __imageWidth: null,
+    __imageHeight: null,
 
     // overridden
-    _identifyImage : function(cellInfo)
-    {
-      var imageData =
-      {
-        imageWidth  : this.__imageWidth,
-        imageHeight : this.__imageHeight
+    _identifyImage(cellInfo) {
+      var imageData = {
+        imageWidth: this.__imageWidth,
+        imageHeight: this.__imageHeight
       };
 
       var height;
 
       // String data is the unresolved url for the image.
       // Object data is a map containing the url, tooltip, and a height
-      if (typeof(cellInfo.cellData) == "string")
-      {
+      if (typeof cellInfo.cellData == "string") {
         imageData.url = cellInfo.cellData;
-      }
-      else
-      {
+      } else {
         imageData.url = cellInfo.cellData.url;
         imageData.tooltip = cellInfo.cellData.tooltip;
         height = cellInfo.cellData.height;
       }
 
-      if (imageData.url == "")
-      {
+      if (imageData.url == "") {
         imageData.url = this._imageBlank;
-      }
-      else
-      {
-
+      } else {
         var aliasManager = qx.util.AliasManager.getInstance();
         var resourceManager = qx.util.ResourceManager.getInstance();
         var resolved = aliasManager.resolve(imageData.url);
@@ -101,8 +80,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
       }
 
       // Adjust the row height, if necessary, to let this image fit
-      if (height)
-      {
+      if (height) {
         cellInfo.height = height;
       }
 

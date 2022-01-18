@@ -16,23 +16,29 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.toolchain.PrivateOptimization",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.toolchain.PrivateOptimization", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-  /*
-   * The next test tests whether privates are renamed at all.
-   */
-    testPrivatesRenaming: function() {
+  members: {
+    /*
+     * The next test tests whether privates are renamed at all.
+     */
+    testPrivatesRenaming() {
       // Can only fail in build version with all optimizations
-      this.assertEquals("__te" + "st a", this.__test(), "Variable in a string renamed!");
-      this.assertEquals("__te" + "st a test", this.__test() + " test", "Variable in a string renamed!");
+      this.assertEquals(
+        "__te" + "st a",
+        this.__test(),
+        "Variable in a string renamed!"
+      );
+      this.assertEquals(
+        "__te" + "st a test",
+        this.__test() + " test",
+        "Variable in a string renamed!"
+      );
     },
 
     // needed for testPrivatesRenaming
-    __test: function() {
+    __test() {
       return "__test a";
     }
   }

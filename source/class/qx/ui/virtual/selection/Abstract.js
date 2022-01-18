@@ -17,15 +17,12 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base class for selection manager, which manage selectable items
  * rendered in a virtual {@link qx.ui.virtual.core.Pane}.
  */
-qx.Class.define("qx.ui.virtual.selection.Abstract",
-{
-  extend : qx.ui.core.selection.Abstract,
-
+qx.Class.define("qx.ui.virtual.selection.Abstract", {
+  extend: qx.ui.core.selection.Abstract,
 
   /*
    *****************************************************************************
@@ -40,9 +37,8 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
    *    which can be used to customize the behavior of the selection manager
    *    without sub classing it.
    */
-  construct : function(pane, selectionDelegate)
-  {
-    this.base(arguments);
+  construct(pane, selectionDelegate) {
+    super();
 
     if (qx.core.Environment.get("qx.debug")) {
       this.assertInstance(pane, qx.ui.virtual.core.Pane);
@@ -52,18 +48,15 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     this._delegate = selectionDelegate || {};
   },
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // Determines if automatically scrolling of selected item into view is active.
-    _autoScrollIntoView : true,
-
+    _autoScrollIntoView: true,
 
     /*
     ---------------------------------------------------------------------------
@@ -72,21 +65,18 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     */
 
     // overridden
-    _isSelectable : function(item) {
-      return this._delegate.isItemSelectable ?
-        this._delegate.isItemSelectable(item) :
-        true;
+    _isSelectable(item) {
+      return this._delegate.isItemSelectable
+        ? this._delegate.isItemSelectable(item)
+        : true;
     },
 
-
     // overridden
-    _styleSelectable : function(item, type, enabled)
-    {
+    _styleSelectable(item, type, enabled) {
       if (this._delegate.styleSelectable) {
         this._delegate.styleSelectable(item, type, enabled);
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -97,8 +87,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     /**
      * Attach pointer events to the managed pane.
      */
-    attachPointerEvents : function()
-    {
+    attachPointerEvents() {
       var paneElement = this._pane.getContentElement();
       paneElement.addListener("pointerdown", this.handlePointerDown, this);
       paneElement.addListener("tap", this.handleTap, this);
@@ -107,22 +96,19 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
       paneElement.addListener("losecapture", this.handleLoseCapture, this);
     },
 
-
     /**
      * Detach pointer events from the managed pane.
      *
      * @deprecated {6.0} misspelled, please use detachPointerEvents instead!
      */
-    detatchPointerEvents : function()
-    {
+    detatchPointerEvents() {
       this.detachPointerEvents();
     },
 
     /**
      * Detach pointer events from the managed pane.
      */
-    detachPointerEvents : function()
-    {
+    detachPointerEvents() {
       var paneElement = this._pane.getContentElement();
       paneElement.removeListener("pointerdown", this.handlePointerDown, this);
       paneElement.removeListener("tap", this.handleTap, this);
@@ -140,20 +126,18 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      * @param target {qx.core.Object} the key event target.
      *
      */
-    attachKeyEvents : function(target) {
+    attachKeyEvents(target) {
       target.addListener("keypress", this.handleKeyPress, this);
     },
-
 
     /**
      * Detach key events.
      *
      * @param target {qx.core.Object} the key event target.
      */
-    detachKeyEvents : function(target) {
+    detachKeyEvents(target) {
       target.removeListener("keypress", this.handleKeyPress, this);
     },
-
 
     /**
      * Attach list events. The selection mode <code>one</code> need to know,
@@ -164,12 +148,10 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      * @param list {qx.core.Object} the event target for <code>addItem</code> and
      *    <code>removeItem</code> events
      */
-    attachListEvents : function(list)
-    {
+    attachListEvents(list) {
       list.addListener("addItem", this.handleAddItem, this);
       list.addListener("removeItem", this.handleRemoveItem, this);
     },
-
 
     /**
      * Detach list events.
@@ -177,12 +159,10 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      * @param list {qx.core.Object} the event target for <code>addItem</code> and
      *    <code>removeItem</code> events
      */
-    detachListEvents : function(list)
-    {
+    detachListEvents(list) {
       list.removeListener("addItem", this.handleAddItem, this);
       list.removeListener("removeItem", this.handleRemoveItem, this);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -191,45 +171,37 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     */
 
     // overridden
-    _capture : function() {
+    _capture() {
       this._pane.capture();
     },
 
-
     // overridden
-    _releaseCapture : function() {
+    _releaseCapture() {
       this._pane.releaseCapture();
     },
 
-
     // overridden
-    _getScroll : function()
-    {
+    _getScroll() {
       return {
-        left : this._pane.getScrollX(),
+        left: this._pane.getScrollX(),
         top: this._pane.getScrollY()
       };
     },
 
-
     // overridden
-    _scrollBy : function(xoff, yoff)
-    {
+    _scrollBy(xoff, yoff) {
       this._pane.setScrollX(this._pane.getScrollX() + xoff);
       this._pane.setScrollY(this._pane.getScrollY() + yoff);
     },
 
-
     // overridden
-    _getLocation : function()
-    {
+    _getLocation() {
       var elem = this._pane.getContentElement().getDomElement();
       return elem ? qx.bom.element.Location.get(elem) : null;
     },
 
-
     // overridden
-    _getDimension : function() {
+    _getDimension() {
       return this._pane.getInnerSize();
     }
   },
@@ -240,7 +212,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
    *****************************************************************************
    */
 
-  destruct : function() {
+  destruct() {
     this._pane = this._delegate = null;
   }
 });

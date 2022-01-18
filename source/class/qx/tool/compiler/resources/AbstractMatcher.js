@@ -26,15 +26,15 @@
 qx.Class.define("qx.tool.compiler.resources.AbstractMatcher", {
   extend: qx.core.Object,
   type: "abstract",
-  
+
   /**
    * Constructor
-   * 
-   * @param match {Array[String]|String|RegEx?} the reg ex to match filenames, or the extension, 
+   *
+   * @param match {Array[String]|String|RegEx?} the reg ex to match filenames, or the extension,
    * or an array of extensions
    */
-  construct: function(match) {
-    this.base(arguments);
+  construct(match) {
+    super();
     if (match) {
       if (qx.lang.Type.isArray(match)) {
         match = match.map(elem => {
@@ -54,18 +54,18 @@ qx.Class.define("qx.tool.compiler.resources.AbstractMatcher", {
       }
     }
   },
-  
+
   members: {
     __match: null,
 
     /**
      * Called to determine whether this handler is appropriate for the given filename;
      * default implementation is to check the RegEx passed to the constructor
-     * 
+     *
      * @param filename {String} the name of the resource
      * @param library {qx.tool.compiler.app.Library} the library its in
      */
-    matches: function(filename, library) {
+    matches(filename, library) {
       return this.__match !== null && this.__match(filename);
     }
   }

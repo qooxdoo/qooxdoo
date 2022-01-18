@@ -19,27 +19,21 @@
 /**
  * A navigation bar title widget.
  */
-qx.Class.define("qx.ui.mobile.navigationbar.Title",
-{
-  extend : qx.ui.mobile.basic.Label,
+qx.Class.define("qx.ui.mobile.navigationbar.Title", {
+  extend: qx.ui.mobile.basic.Label,
 
-  properties :
-  {
-    wrap :
-    {
-      refine : true,
-      init : false
+  properties: {
+    wrap: {
+      refine: true,
+      init: false
     },
 
-
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "title"
+    defaultCssClass: {
+      refine: true,
+      init: "title"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -47,11 +41,9 @@ qx.Class.define("qx.ui.mobile.navigationbar.Title",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "h1";
     }
   }

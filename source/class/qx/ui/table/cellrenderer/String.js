@@ -20,9 +20,8 @@
  * The string data cell renderer. All it does is escape the incoming String
  * values.
  */
-qx.Class.define("qx.ui.table.cellrenderer.String",
-{
-  extend : qx.ui.table.cellrenderer.Conditional,
+qx.Class.define("qx.ui.table.cellrenderer.String", {
+  extend: qx.ui.table.cellrenderer.Conditional,
 
   /*
   *****************************************************************************
@@ -30,15 +29,14 @@ qx.Class.define("qx.ui.table.cellrenderer.String",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getContentHtml : function(cellInfo) {
+    _getContentHtml(cellInfo) {
       return qx.bom.String.escape(cellInfo.value || "");
     },
 
     // overridden
-    _getCellClass : function(cellInfo) {
+    _getCellClass(cellInfo) {
       return "qooxdoo-table-cell";
     }
   }

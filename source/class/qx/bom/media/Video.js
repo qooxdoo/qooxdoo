@@ -16,41 +16,35 @@
 
 ************************************************************************ */
 
-
 /**
  *
  * Media object for playing videos.
- * 
+ *
  * NOTE: Instances of this class must be disposed of to free resources
  */
-qx.Class.define("qx.bom.media.Video",
-{
-  extend : qx.bom.media.Abstract,
+qx.Class.define("qx.bom.media.Video", {
+  extend: qx.bom.media.Abstract,
 
   /**
    * @param source {String} the source url to the sound file.
    */
-  construct : function(source)
-  {
+  construct(source) {
     this._video = document.createElement("video");
     if (source) {
       this._video.src = source;
     }
-    this.base(arguments, this._video);
+    super(this._video);
   },
 
-
-  members :
-  {
-    _video : null,
-
+  members: {
+    _video: null,
 
     /**
      * Gets the width of the video element.
      *
      * @return {Number} the width of the video element
      */
-    getWidth: function() {
+    getWidth() {
       return this._video.width;
     },
 
@@ -59,67 +53,61 @@ qx.Class.define("qx.bom.media.Video",
      *
      * @param value {Number} The new value of width.
      */
-    setWidth: function(value) {
+    setWidth(value) {
       this._video.width = value;
     },
-
 
     /**
      * Gets the height of the video element.
      *
      * @return {Number} the height of the video element
      */
-    getHeight: function() {
+    getHeight() {
       return this._video.height;
     },
-
 
     /**
      * Sets the height of the video element.
      *
      * @param value {Number} The new value of height.
      */
-    setHeight: function(value) {
+    setHeight(value) {
       this._video.height = value;
     },
-
 
     /**
      * Gets the width of the video.
      *
      * @return {Number} the width of the video
      */
-    getVideoWidth: function() {
+    getVideoWidth() {
       return this._video.videoWidth;
     },
-
 
     /**
      * Gets the height of the video.
      *
      * @return {Number} the height of the video
      */
-    getVideoHeight: function() {
+    getVideoHeight() {
       return this._video.videoHeight;
     },
-
 
     /**
      * Gets the poster of the video.
      *
      * @return {String} the URL of an image to act as the video poster
      */
-    getPoster: function() {
+    getPoster() {
       return this._video.poster;
     },
-
 
     /**
      * Sets the poster of the video.
      *
      * @param value {String} The new value of poster.
      */
-    setPoster: function(value) {
+    setPoster(value) {
       this._video.poster = value;
     }
   }

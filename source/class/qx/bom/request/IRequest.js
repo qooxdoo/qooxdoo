@@ -25,11 +25,8 @@
  * borrows some methods as described in
  * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
  */
-qx.Interface.define("qx.bom.request.IRequest",
-{
-
-  members :
-  {
+qx.Interface.define("qx.bom.request.IRequest", {
+  members: {
     //
     // Properties
     // (Plain JavaScript)
@@ -88,7 +85,7 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param async {Boolean?true}
      *  Whether or not to perform the operation asynchronously.
      */
-    open: function(method, url, async) {},
+    open(method, url, async) {},
 
     /**
      * Sends request.
@@ -96,19 +93,19 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param data {String|Document?null}
      *  Optional data to send.
      */
-    send: function(data) {},
+    send(data) {},
 
     /**
      * Abort request
      */
-    abort: function() {},
+    abort() {},
 
     /**
      * Get all response headers from response.
      *
      * @return {String} All response headers.
      */
-    getAllResponseHeaders: function() {},
+    getAllResponseHeaders() {},
 
     /**
      * Get a single response header from response.
@@ -118,7 +115,7 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @return {String}
      *  Response header.
      */
-    getResponseHeader: function(header) {},
+    getResponseHeader(header) {},
 
     /**
      * Sets a request header to be used by the request.
@@ -128,7 +125,7 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param value {String}
      *  The value to set as the body of the header.
      */
-    setRequestHeader: function(key, value) {},
+    setRequestHeader(key, value) {},
 
     //
     // Handlers
@@ -137,31 +134,31 @@ qx.Interface.define("qx.bom.request.IRequest",
     /**
      * Event handler for event fired at every state change.
      */
-    onreadystatechange: function() {},
+    onreadystatechange() {},
 
     /**
      * Event handler for event fired on successful retrieval.
      */
-    onload: function() {},
+    onload() {},
 
     /**
      * Event handler for event fired on retrieval.
      */
-    onloadend: function() {},
+    onloadend() {},
 
     /**
      * Event handler for event fired on a network error.
      */
-    onerror: function() {},
+    onerror() {},
 
     /**
-    * Event handler for event fired when request is aborted.
-    */
-    onabort: function() {},
+     * Event handler for event fired when request is aborted.
+     */
+    onabort() {},
 
     /**
-    * Event handler for event fired when timeout interval has passed.
-    */
-    ontimeout: function() {}
+     * Event handler for event fired when timeout interval has passed.
+     */
+    ontimeout() {}
   }
 });

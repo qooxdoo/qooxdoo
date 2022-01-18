@@ -16,15 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dom.Hierarchy",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.dom.Hierarchy", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__renderedElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__renderedElement);
 
@@ -38,9 +34,7 @@ qx.Class.define("qx.test.dom.Hierarchy",
       this.__notDisplayedElement.appendChild(this.__childOfNotDisplayedElement);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       if (this.__childElement) {
         this.__renderedElement.removeChild(this.__childElement);
         this.__childElement = null;
@@ -65,61 +59,80 @@ qx.Class.define("qx.test.dom.Hierarchy",
       }
     },
 
-
-    testIsRendered : function()
-    {
+    testIsRendered() {
       this.assertTrue(qx.dom.Hierarchy.isRendered(this.__renderedElement));
       this.assertFalse(qx.dom.Hierarchy.isRendered(this.__unRenderedElement));
       this.assertTrue(qx.dom.Hierarchy.isRendered(this.__notDisplayedElement));
-      this.assertTrue(qx.dom.Hierarchy.isRendered(this.__childOfNotDisplayedElement));
+      this.assertTrue(
+        qx.dom.Hierarchy.isRendered(this.__childOfNotDisplayedElement)
+      );
     },
 
-
-    testIsRenderedIframe : function()
-    {
+    testIsRenderedIframe() {
       this.__iframe = qx.bom.Iframe.create();
-      var src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+      var src = qx.util.ResourceManager.getInstance().toUri(
+        "qx/static/blank.html"
+      );
       src = qx.util.Uri.getAbsolute(src);
       qx.bom.Iframe.setSource(this.__iframe, src);
       document.body.appendChild(this.__iframe);
 
-      qx.event.Registration.addListener(this.__iframe, "load", function(e) {
-        this.resume(function() {
-          this.assertTrue(qx.dom.Hierarchy.isRendered(this.__iframe));
-        }, this);
-      }, this);
+      qx.event.Registration.addListener(
+        this.__iframe,
+        "load",
+        function (e) {
+          this.resume(function () {
+            this.assertTrue(qx.dom.Hierarchy.isRendered(this.__iframe));
+          }, this);
+        },
+        this
+      );
 
       this.wait(10000);
     },
 
-
-    testContains : function()
-    {
-      this.assertTrue(qx.dom.Hierarchy.contains(document.body, this.__renderedElement));
+    testContains() {
+      this.assertTrue(
+        qx.dom.Hierarchy.contains(document.body, this.__renderedElement)
+      );
 
       this.__childElement = qx.dom.Element.create("div");
       this.__renderedElement.appendChild(this.__childElement);
-      this.assertTrue(qx.dom.Hierarchy.contains(this.__renderedElement, this.__childElement));
-      this.assertFalse(qx.dom.Hierarchy.contains(this.__childElement, this.__renderedElement));
+      this.assertTrue(
+        qx.dom.Hierarchy.contains(this.__renderedElement, this.__childElement)
+      );
+      this.assertFalse(
+        qx.dom.Hierarchy.contains(this.__childElement, this.__renderedElement)
+      );
 
       this.__siblingElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
-      this.assertFalse(qx.dom.Hierarchy.contains(this.__renderedElement, this.__siblingElement));
+      this.assertFalse(
+        qx.dom.Hierarchy.contains(this.__renderedElement, this.__siblingElement)
+      );
     },
 
-
-    testGetCommonParent : function()
-    {
+    testGetCommonParent() {
       this.__siblingElement = qx.dom.Element.create("div");
       document.body.appendChild(this.__siblingElement);
 
-      this.assertEquals(document.body,
-      qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__siblingElement));
+      this.assertEquals(
+        document.body,
+        qx.dom.Hierarchy.getCommonParent(
+          this.__renderedElement,
+          this.__siblingElement
+        )
+      );
 
       this.__childElement = qx.dom.Element.create("div");
       this.__renderedElement.appendChild(this.__childElement);
-      this.assertEquals(this.__renderedElement,
-      qx.dom.Hierarchy.getCommonParent(this.__renderedElement, this.__childElement));
+      this.assertEquals(
+        this.__renderedElement,
+        qx.dom.Hierarchy.getCommonParent(
+          this.__renderedElement,
+          this.__childElement
+        )
+      );
     }
   }
 });

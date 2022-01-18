@@ -30,39 +30,37 @@
  * @require(qx.bom.storage.UserData#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.UserData", {
-  statics : {
-    __local : null,
-    __session : null,
+  statics: {
+    __local: null,
+    __session: null,
 
     // global id used as key for the storage
-    __id : 0,
+    __id: 0,
 
     /**
      * Returns an instance of {@link qx.bom.storage.UserData} used to store
      * data persistent.
      * @return {qx.bom.storage.UserData} A storage instance.
      */
-    getLocal : function() {
+    getLocal() {
       if (this.__local) {
         return this.__local;
       }
-      return this.__local = new qx.bom.storage.UserData("local");
+      return (this.__local = new qx.bom.storage.UserData("local"));
     },
-
 
     /**
      * Returns an instance of {@link qx.bom.storage.UserData} used to store
      * data persistent.
      * @return {qx.bom.storage.UserData} A storage instance.
      */
-    getSession : function() {
+    getSession() {
       if (this.__session) {
         return this.__session;
       }
-      return this.__session = new qx.bom.storage.UserData("session");
+      return (this.__session = new qx.bom.storage.UserData("session"));
     }
   },
-
 
   /**
    * Create a new instance. Usually, you should take the static
@@ -70,7 +68,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
    *
    * @param storeName {String} type of storage.
    */
-  construct : function(storeName) {
+  construct(storeName) {
     // create a dummy DOM element used for storage
     this.__el = document.createElement("div");
     this.__el.style["display"] = "none";
@@ -97,35 +95,32 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
     }
   },
 
-
-  members : {
-    __el : null,
-    __storeName : "qxtest",
+  members: {
+    __el: null,
+    __storeName: "qxtest",
 
     // storage which holds the key and the value
-    __storage : null,
+    __storage: null,
 
     // reference store which holds the key and the key used to store
-    __reference : null,
+    __reference: null,
 
     /**
      * Returns the map used to keep a in memory copy of the stored data.
      * @return {Map} The stored data.
      * @internal
      */
-    getStorage : function() {
+    getStorage() {
       return this.__storage;
     },
-
 
     /**
      * Returns the amount of key-value pairs stored.
      * @return {Integer} The length of the storage.
      */
-    getLength : function() {
+    getLength() {
       return Object.keys(this.__storage).length;
     },
-
 
     /**
      * Store an item in the storage.
@@ -133,18 +128,18 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @param key {String} The identifier key.
      * @param value {var} The data, which will be stored as JSON.
      */
-    setItem : function(key, value) {
+    setItem(key, value) {
       // override case
       if (this.__reference[key]) {
         var storageKey = this.__reference[key];
-      // new case
+        // new case
       } else {
         var storageKey = "qx" + qx.bom.storage.UserData.__id;
         qx.bom.storage.UserData.__id++;
       }
 
       // build and save the data used to store both, key and value
-      var storageValue = qx.lang.Json.stringify({key: key, value: value});
+      var storageValue = qx.lang.Json.stringify({ key: key, value: value });
       this.__el.setAttribute(storageKey, storageValue);
       this.__el.save(this.__storeName);
 
@@ -153,23 +148,21 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
       this.__reference[key] = storageKey;
     },
 
-
     /**
      * Returns the stored item.
      *
      * @param key {String} The identifier to get the data.
      * @return {var} The stored data.
      */
-    getItem : function(key) {
+    getItem(key) {
       return this.__storage[key] || null;
     },
-
 
     /**
      * Removes an item form the storage.
      * @param key {String} The identifier.
      */
-    removeItem : function(key) {
+    removeItem(key) {
       // check if the item is available
       var storageName = this.__reference[key];
       if (storageName == undefined) {
@@ -189,7 +182,9 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
       var lastStoreName = "qx" + qx.bom.storage.UserData.__id;
       if (this.__el.getAttribute(lastStoreName)) {
         // if not, move the last item to the deleted spot
-        var lastItem = this.__el.getAttribute("qx" + qx.bom.storage.UserData.__id);
+        var lastItem = this.__el.getAttribute(
+          "qx" + qx.bom.storage.UserData.__id
+        );
         this.__el.removeAttribute(lastStoreName);
         this.__el.setAttribute(storageName, lastItem);
 
@@ -200,11 +195,10 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
       this.__el.save(this.__storeName);
     },
 
-
     /**
      * Deletes every stored item in the storage.
      */
-    clear : function() {
+    clear() {
       // delete all entries from the storage
       for (var key in this.__reference) {
         this.__el.removeAttribute(this.__reference[key]);
@@ -215,16 +209,14 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
       this.__reference = {};
     },
 
-
     /**
      * Returns the named key at the given index.
      * @param index {Integer} The index in the storage.
      * @return {String} The key stored at the given index.
      */
-    getKey : function(index) {
+    getKey(index) {
       return Object.keys(this.__storage)[index];
     },
-
 
     /**
      * Helper to access every stored item.
@@ -234,7 +226,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      *    of the stored data.
      * @param scope {var} The scope of the function.
      */
-    forEach : function(callback, scope) {
+    forEach(callback, scope) {
       var length = this.getLength();
       for (var i = 0; i < length; i++) {
         var key = this.getKey(i);

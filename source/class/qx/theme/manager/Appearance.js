@@ -20,13 +20,9 @@
 /**
  * Manager for appearance themes
  */
-qx.Class.define("qx.theme.manager.Appearance",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.theme.manager.Appearance", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -34,16 +30,12 @@ qx.Class.define("qx.theme.manager.Appearance",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__styleCache = {};
     this.__aliasMap = {};
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -51,20 +43,15 @@ qx.Class.define("qx.theme.manager.Appearance",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Currently used appearance theme */
-    theme :
-    {
-      check : "Theme",
-      nullable : true,
-      event : "changeTheme",
-      apply : "_applyTheme"
+    theme: {
+      check: "Theme",
+      nullable: true,
+      event: "changeTheme",
+      apply: "_applyTheme"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -72,23 +59,20 @@ qx.Class.define("qx.theme.manager.Appearance",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /**
      * @lint ignoreReferenceField(__defaultStates)
      */
-    __defaultStates : {},
-    __styleCache : null,
-    __aliasMap : null,
-
+    __defaultStates: {},
+    __styleCache: null,
+    __aliasMap: null,
 
     // property apply
-    _applyTheme : function() {
+    _applyTheme() {
       // empty the caches
       this.__aliasMap = {};
       this.__styleCache = {};
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -106,31 +90,26 @@ qx.Class.define("qx.theme.manager.Appearance",
      * @param chain {Array} The appearance id chain.
      * @return {String} Resolved ID
      */
-    __resolveId : function(id, theme, defaultId, chain)
-    {
+    __resolveId(id, theme, defaultId, chain) {
       var db = theme.appearances;
       var entry = db[id];
 
-      if (!entry)
-      {
+      if (!entry) {
         var divider = "/";
         var end = [];
         var splitted = id.split(divider);
         var chainCopy = qx.lang.Array.clone(splitted);
         var alias;
 
-        while (!entry && splitted.length > 0)
-        {
+        while (!entry && splitted.length > 0) {
           end.unshift(splitted.pop());
           var baseid = splitted.join(divider);
           entry = db[baseid];
 
-          if (entry)
-          {
+          if (entry) {
             alias = entry.alias || entry;
 
-            if (typeof alias === "string")
-            {
+            if (typeof alias === "string") {
               var mapped = alias + divider + end.join(divider);
               return this.__resolveId(mapped, theme, defaultId, chainCopy);
             }
@@ -156,31 +135,29 @@ qx.Class.define("qx.theme.manager.Appearance",
 
         // it's safe to output this message here since we can be sure that the return
         // value is 'null' and something went wrong with the id lookup.
-        if (qx.core.Environment.get("qx.debug"))
-        {
+        if (qx.core.Environment.get("qx.debug")) {
           if (typeof chain !== "undefined") {
-            this.debug("Cannot find a matching appearance for '" + chain.join("/") + "'.");
+            this.debug(
+              "Cannot find a matching appearance for '" + chain.join("/") + "'."
+            );
 
             if (chain.length > 1) {
-              this.info("Hint: This may be an issue with nested child controls and a missing alias definition in the appearance theme.");
+              this.info(
+                "Hint: This may be an issue with nested child controls and a missing alias definition in the appearance theme."
+              );
             }
           }
         }
 
         return null;
-      }
-      else if (typeof entry === "string")
-      {
+      } else if (typeof entry === "string") {
         return this.__resolveId(entry, theme, defaultId, chainCopy);
-      }
-      else if (entry.include && !entry.style)
-      {
+      } else if (entry.include && !entry.style) {
         return this.__resolveId(entry.include, theme, defaultId, chainCopy);
       }
 
       return id;
     },
-
 
     /**
      * Get the result of the "state" function for a given id and states
@@ -191,26 +168,28 @@ qx.Class.define("qx.theme.manager.Appearance",
      * @param defaultId {String} fallback id.
      * @return {Map} map of widget properties as returned by the "state" function
      */
-    styleFrom : function(id, states, theme, defaultId)
-    {
+    styleFrom(id, states, theme, defaultId) {
       if (!theme) {
         theme = this.getTheme();
       }
 
       // Resolve ID
       var aliasMap = this.__aliasMap;
-      if(!aliasMap[theme.name]) {
+      if (!aliasMap[theme.name]) {
         aliasMap[theme.name] = {};
       }
       var resolved = aliasMap[theme.name][id];
       if (!resolved) {
-        resolved = aliasMap[theme.name][id] = this.__resolveId(id, theme, defaultId);
+        resolved = aliasMap[theme.name][id] = this.__resolveId(
+          id,
+          theme,
+          defaultId
+        );
       }
 
       // Query theme for ID
       var entry = theme.appearances[resolved];
-      if (!entry)
-      {
+      if (!entry) {
         this.warn("Missing appearance: " + id);
         return null;
       }
@@ -224,26 +203,23 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Build an unique cache name from ID and state combination
       var unique = resolved;
-      if (states)
-      {
+      if (states) {
         // Create data fields
         var bits = entry.$$bits;
-        if (!bits)
-        {
+        if (!bits) {
           bits = entry.$$bits = {};
           entry.$$length = 0;
         }
 
         // Compute sum
         var sum = 0;
-        for (var state in states)
-        {
+        for (var state in states) {
           if (!states[state]) {
             continue;
           }
 
           if (bits[state] == null) {
-            bits[state] = 1<<entry.$$length++;
+            bits[state] = 1 << entry.$$length++;
           }
 
           sum += bits[state];
@@ -257,7 +233,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Using cache if available
       var cache = this.__styleCache;
-      if (cache[theme.name] && (cache[theme.name][unique] !== undefined)) {
+      if (cache[theme.name] && cache[theme.name][unique] !== undefined) {
         return cache[theme.name][unique];
       }
 
@@ -270,9 +246,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       var result;
 
       // If an include or base is defined, too, we need to merge the entries
-      if (entry.include || entry.base)
-      {
-
+      if (entry.include || entry.base) {
         // Gather included data
         var incl;
         if (entry.include) {
@@ -290,23 +264,20 @@ qx.Class.define("qx.theme.manager.Appearance",
         result = {};
 
         // Copy base data, but exclude overwritten local and included stuff
-        if (entry.base)
-        {
+        if (entry.base) {
           var base = this.styleFrom(resolved, states, entry.base, defaultId);
 
-          if (entry.include)
-          {
-            for (var baseIncludeKey in base)
-            {
-              if (!incl.hasOwnProperty(baseIncludeKey) && !local.hasOwnProperty(baseIncludeKey)) {
+          if (entry.include) {
+            for (var baseIncludeKey in base) {
+              if (
+                !incl.hasOwnProperty(baseIncludeKey) &&
+                !local.hasOwnProperty(baseIncludeKey)
+              ) {
                 result[baseIncludeKey] = base[baseIncludeKey];
               }
             }
-          }
-          else
-          {
-            for (var baseKey in base)
-            {
+          } else {
+            for (var baseKey in base) {
               if (!local.hasOwnProperty(baseKey)) {
                 result[baseKey] = base[baseKey];
               }
@@ -315,10 +286,8 @@ qx.Class.define("qx.theme.manager.Appearance",
         }
 
         // Copy include data, but exclude overwritten local stuff
-        if (entry.include)
-        {
-          for (var includeKey in incl)
-          {
+        if (entry.include) {
+          for (var includeKey in incl) {
             if (!local.hasOwnProperty(includeKey)) {
               result[includeKey] = incl[includeKey];
             }
@@ -329,17 +298,15 @@ qx.Class.define("qx.theme.manager.Appearance",
         for (var localKey in local) {
           result[localKey] = local[localKey];
         }
-      }
-      else
-      {
+      } else {
         result = entry.style(states);
       }
 
       // Cache new entry and return
-      if(!cache[theme.name]) {
+      if (!cache[theme.name]) {
         cache[theme.name] = {};
       }
-       return cache[theme.name][unique] = result || null;
+      return (cache[theme.name][unique] = result || null);
     }
   }
 });

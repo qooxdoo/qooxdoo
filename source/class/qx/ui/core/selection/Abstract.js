@@ -23,12 +23,9 @@
  * The selection handling supports both Shift and Ctrl/Meta modifies like
  * known from native applications.
  */
-qx.Class.define("qx.ui.core.selection.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.ui.core.selection.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -36,16 +33,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // {Map} Internal selection storage
     this.__selection = {};
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -53,15 +46,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fires after the selection was modified. Contains the selection under the data property. */
-    "changeSelection" : "qx.event.type.Data"
+    changeSelection: "qx.event.type.Data"
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -69,8 +57,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Selects the selection mode to use.
      *
@@ -79,13 +66,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * * additive: Easy Web-2.0 selection mode. Allows multiple selections without modifier keys.
      * * one: If possible always exactly one item is selected
      */
-    mode :
-    {
-      check : [ "single", "multi", "additive", "one" ],
-      init : "single",
-      apply : "_applyMode"
+    mode: {
+      check: ["single", "multi", "additive", "one"],
+      init: "single",
+      apply: "_applyMode"
     },
-
 
     /**
      * Enable drag selection (multi selection of items through
@@ -93,24 +78,20 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * Only possible for the modes <code>multi</code> and <code>additive</code>
      */
-    drag :
-    {
-      check : "Boolean",
-      init : false
+    drag: {
+      check: "Boolean",
+      init: false
     },
-
 
     /**
      * Enable quick selection mode, where no tap is needed to change the selection.
      *
      * Only possible for the modes <code>single</code> and <code>one</code>.
      */
-    quick :
-    {
-      check : "Boolean",
-      init : false
+    quick: {
+      check: "Boolean",
+      init: false
     },
-
 
     /**
      * Whether the selection can be changed by user interaction
@@ -121,44 +102,39 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __scrollStepX : 0,
-    __scrollStepY : 0,
-    __scrollTimer : null,
-    __frameScroll : null,
-    __lastRelX : null,
-    __lastRelY : null,
-    __frameLocation : null,
-    __dragStartX : null,
-    __dragStartY : null,
-    __inCapture : null,
-    __pointerX : null,
-    __pointerY : null,
-    __moveDirectionX : null,
-    __moveDirectionY : null,
-    __selectionModified : null,
-    __selectionContext : null,
-    __leadItem : null,
-    __selection : null,
-    __anchorItem : null,
-    __pointerDownOnSelected : null,
+  members: {
+    __scrollStepX: 0,
+    __scrollStepY: 0,
+    __scrollTimer: null,
+    __frameScroll: null,
+    __lastRelX: null,
+    __lastRelY: null,
+    __frameLocation: null,
+    __dragStartX: null,
+    __dragStartY: null,
+    __inCapture: null,
+    __pointerX: null,
+    __pointerY: null,
+    __moveDirectionX: null,
+    __moveDirectionY: null,
+    __selectionModified: null,
+    __selectionContext: null,
+    __leadItem: null,
+    __selection: null,
+    __anchorItem: null,
+    __pointerDownOnSelected: null,
 
     // A flag that signals an user interaction, which means the selection change
     // was triggered by pointer or keyboard [BUG #3344]
-    _userInteraction : false,
+    _userInteraction: false,
 
-    __oldScrollTop : null,
+    __oldScrollTop: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -174,17 +150,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {String} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
-    getSelectionContext : function() {
+    getSelectionContext() {
       return this.__selectionContext;
     },
-
 
     /**
      * Selects all items of the managed object.
      *
      */
-    selectAll : function()
-    {
+    selectAll() {
       var mode = this.getMode();
       if (mode == "single" || mode == "one") {
         throw new Error("Can not select all items in selection mode: " + mode);
@@ -193,7 +167,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._selectAllItems();
       this._fireChange();
     },
-
 
     /**
      * Selects the given item. Replaces current selection
@@ -204,13 +177,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param item {Object} Any valid item
      */
-    selectItem : function(item)
-    {
+    selectItem(item) {
       this._setSelectedItem(item);
 
       var mode = this.getMode();
-      if (mode !== "single" && mode !== "one")
-      {
+      if (mode !== "single" && mode !== "one") {
         this._setLeadItem(item);
         this._setAnchorItem(item);
       }
@@ -218,7 +189,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._scrollItemIntoView(item);
       this._fireChange();
     },
-
 
     /**
      * Adds the given item to the existing selection.
@@ -228,14 +198,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param item {Object} Any valid item
      */
-    addItem : function(item)
-    {
+    addItem(item) {
       var mode = this.getMode();
       if (mode === "single" || mode === "one") {
         this._setSelectedItem(item);
-      }
-      else
-      {
+      } else {
         if (this._getAnchorItem() == null) {
           this._setAnchorItem(item);
         }
@@ -248,7 +215,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
     /**
      * Removes the given item from the selection.
      *
@@ -257,12 +223,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param item {Object} Any valid item
      */
-    removeItem : function(item)
-    {
+    removeItem(item) {
       this._removeFromSelection(item);
 
-      if (this.getMode() === "one" && this.isSelectionEmpty())
-      {
+      if (this.getMode() === "one" && this.isSelectionEmpty()) {
         var selected = this._applyDefaultSelection();
 
         // Do not fire any event in this case.
@@ -282,18 +246,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
     /**
      * Selects an item range between two given items.
      *
      * @param begin {Object} Item to start with
      * @param end {Object} Item to end at
      */
-    selectItemRange : function(begin, end)
-    {
+    selectItemRange(begin, end) {
       var mode = this.getMode();
       if (mode == "single" || mode == "one") {
-        throw new Error("Can not select multiple items in selection mode: " + mode);
+        throw new Error(
+          "Can not select multiple items in selection mode: " + mode
+        );
       }
 
       this._selectItemRange(begin, end);
@@ -306,17 +270,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
     /**
      * Clears the whole selection at once. Also
      * resets the lead and anchor items and their
      * styles.
      *
      */
-    clearSelection : function()
-    {
-      if (this.getMode() == "one")
-      {
+    clearSelection() {
+      if (this.getMode() == "one") {
         var selected = this._applyDefaultSelection(true);
         if (selected != null) {
           return;
@@ -330,7 +291,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
     /**
      * Replaces current selection with given array of items.
      *
@@ -339,13 +299,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param items {Array} Items to select
      */
-    replaceSelection : function(items)
-    {
+    replaceSelection(items) {
       var mode = this.getMode();
-      if (mode == "one" || mode === "single")
-      {
-        if (items.length > 1)   {
-          throw new Error("Could not select more than one items in mode: " + mode + "!");
+      if (mode == "one" || mode === "single") {
+        if (items.length > 1) {
+          throw new Error(
+            "Could not select more than one items in mode: " + mode + "!"
+          );
         }
 
         if (items.length == 1) {
@@ -354,13 +314,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           this.clearSelection();
         }
         return;
-      }
-      else
-      {
+      } else {
         this._replaceMultiSelection(items);
       }
     },
-
 
     /**
      * Get the selected item. This method does only work in <code>single</code>
@@ -368,18 +325,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Object} The selected item.
      */
-    getSelectedItem : function()
-    {
+    getSelectedItem() {
       var mode = this.getMode();
-      if (mode === "single" || mode === "one")
-      {
+      if (mode === "single" || mode === "one") {
         var result = this._getSelectedItem();
         return result != undefined ? result : null;
       }
 
-      throw new Error("The method getSelectedItem() is only supported in 'single' and 'one' selection mode!");
+      throw new Error(
+        "The method getSelectedItem() is only supported in 'single' and 'one' selection mode!"
+      );
     },
-
 
     /**
      * Returns an array of currently selected items.
@@ -389,10 +345,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Object[]} List of items.
      */
-    getSelection : function() {
+    getSelection() {
       return Object.values(this.__selection);
     },
-
 
     /**
      * Returns the selection sorted by the index in the
@@ -400,18 +355,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Object[]} Sorted list of items
      */
-    getSortedSelection : function()
-    {
+    getSortedSelection() {
       var children = this.getSelectables();
       var sel = Object.values(this.__selection);
 
-      sel.sort(function(a, b) {
+      sel.sort(function (a, b) {
         return children.indexOf(a) - children.indexOf(b);
       });
 
       return sel;
     },
-
 
     /**
      * Detects whether the given item is currently selected.
@@ -419,42 +372,38 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
-    isItemSelected : function(item)
-    {
+    isItemSelected(item) {
       var hash = this._selectableToHashCode(item);
       return this.__selection[hash] !== undefined;
     },
-
 
     /**
      * Whether the selection is empty
      *
      * @return {Boolean} Whether the selection is empty
      */
-    isSelectionEmpty : function() {
+    isSelectionEmpty() {
       return qx.lang.Object.isEmpty(this.__selection);
     },
-
 
     /**
      * Invert the selection. Select the non selected and deselect the selected.
      */
-    invertSelection: function() {
+    invertSelection() {
       var mode = this.getMode();
       if (mode === "single" || mode === "one") {
-        throw new Error("The method invertSelection() is only supported in 'multi' and 'additive' selection mode!");
+        throw new Error(
+          "The method invertSelection() is only supported in 'multi' and 'additive' selection mode!"
+        );
       }
 
       var selectables = this.getSelectables();
-      for (var i = 0; i < selectables.length; i++)
-      {
+      for (var i = 0; i < selectables.length; i++) {
         this._toggleInSelection(selectables[i]);
       }
 
       this._fireChange();
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -468,8 +417,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
-    _setLeadItem : function(value)
-    {
+    _setLeadItem(value) {
       var old = this.__leadItem;
 
       if (old !== null) {
@@ -483,17 +431,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this.__leadItem = value;
     },
 
-
     /**
      * Returns the current lead item. Generally the item which was last modified
      * by the user (tapped on etc.)
      *
      * @return {Object} The lead item or <code>null</code>
      */
-    getLeadItem : function() {
+    getLeadItem() {
       return this.__leadItem;
     },
-
 
     /**
      * Sets the anchor item. This is the item which is the starting
@@ -502,8 +448,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
-    _setAnchorItem : function(value)
-    {
+    _setAnchorItem(value) {
       var old = this.__anchorItem;
 
       if (old != null) {
@@ -517,7 +462,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this.__anchorItem = value;
     },
 
-
     /**
      * Returns the current anchor item. This is the item which is the starting
      * point for all range selections. Normally this is the item which was
@@ -525,13 +469,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Object} The anchor item or <code>null</code>
      */
-    _getAnchorItem : function() {
+    _getAnchorItem() {
       return this.__anchorItem !== null ? this.__anchorItem : null;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -545,10 +485,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any item
      * @return {Boolean} <code>true</code> when the item is selectable
      */
-    _isSelectable : function(item) {
+    _isSelectable(item) {
       throw new Error("Abstract method call: _isSelectable()");
     },
-
 
     /**
      * Finds the selectable instance from a pointer event
@@ -556,8 +495,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param event {qx.event.type.Pointer} The pointer event
      * @return {Object|null} The resulting selectable
      */
-    _getSelectableFromPointerEvent : function(event)
-    {
+    _getSelectableFromPointerEvent(event) {
       var target = event.getTarget();
       // check for target (may be null when leaving the viewport) [BUG #4378]
       if (target && this._isSelectable(target)) {
@@ -566,17 +504,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       return null;
     },
 
-
     /**
      * Returns an unique hashcode for the given item.
      *
      * @param item {var} Any item
      * @return {String} A valid hashcode
      */
-    _selectableToHashCode : function(item) {
+    _selectableToHashCode(item) {
       throw new Error("Abstract method call: _selectableToHashCode()");
     },
-
 
     /**
      * Updates the style (appearance) of the given item.
@@ -585,32 +521,25 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
      * @param enabled {Boolean} Whether the given style should be added or removed.
      */
-    _styleSelectable : function(item, type, enabled) {
+    _styleSelectable(item, type, enabled) {
       throw new Error("Abstract method call: _styleSelectable()");
     },
-
 
     /**
      * Enables capturing of the container.
      *
      */
-    _capture : function() {
+    _capture() {
       throw new Error("Abstract method call: _capture()");
     },
-
 
     /**
      * Releases capturing of the container
      *
      */
-    _releaseCapture : function() {
+    _releaseCapture() {
       throw new Error("Abstract method call: _releaseCapture()");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -624,20 +553,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {Map} Map with the keys <code>top</code>, <code>right</code>,
      *    <code>bottom</code> and <code>left</code>.
      */
-    _getLocation : function() {
+    _getLocation() {
       throw new Error("Abstract method call: _getLocation()");
     },
-
 
     /**
      * Returns the dimension of the container (available scrolling space).
      *
      * @return {Map} Map with the keys <code>width</code> and <code>height</code>.
      */
-    _getDimension : function() {
+    _getDimension() {
       throw new Error("Abstract method call: _getDimension()");
     },
-
 
     /**
      * Returns the relative (to the container) horizontal location of the given item.
@@ -645,10 +572,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any item
      * @return {Map} A map with the keys <code>left</code> and <code>right</code>.
      */
-    _getSelectableLocationX : function(item) {
+    _getSelectableLocationX(item) {
       throw new Error("Abstract method call: _getSelectableLocationX()");
     },
-
 
     /**
      * Returns the relative (to the container) horizontal location of the given item.
@@ -656,14 +582,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any item
      * @return {Map} A map with the keys <code>top</code> and <code>bottom</code>.
      */
-    _getSelectableLocationY : function(item) {
+    _getSelectableLocationY(item) {
       throw new Error("Abstract method call: _getSelectableLocationY()");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -676,10 +597,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Map} Map with the keys <code>left</code> and <code>top</code>.
      */
-    _getScroll : function() {
+    _getScroll() {
       throw new Error("Abstract method call: _getScroll()");
     },
-
 
     /**
      * Scrolls by the given offset
@@ -687,24 +607,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param xoff {Integer} Horizontal offset to scroll by
      * @param yoff {Integer} Vertical offset to scroll by
      */
-    _scrollBy : function(xoff, yoff) {
+    _scrollBy(xoff, yoff) {
       throw new Error("Abstract method call: _scrollBy()");
     },
-
 
     /**
      * Scrolls the given item into the view (make it visible)
      *
      * @param item {var} Any item
      */
-    _scrollItemIntoView : function(item) {
+    _scrollItemIntoView(item) {
       throw new Error("Abstract method call: _scrollItemIntoView()");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -716,13 +630,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns all selectable items of the container.
      *
      * @param all {Boolean} true for all selectables, false for the
-      *   selectables the user can interactively select
+     *   selectables the user can interactively select
      * @return {Array} A list of items
      */
-    getSelectables : function(all) {
+    getSelectables(all) {
       throw new Error("Abstract method call: getSelectables()");
     },
-
 
     /**
      * Returns all selectable items between the two given items.
@@ -733,50 +646,45 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item2 {var} Second item
      * @return {Array} List of items
      */
-    _getSelectableRange : function(item1, item2) {
+    _getSelectableRange(item1, item2) {
       throw new Error("Abstract method call: _getSelectableRange()");
     },
-
 
     /**
      * Returns the first selectable item.
      *
      * @return {var} The first selectable item
      */
-    _getFirstSelectable : function() {
+    _getFirstSelectable() {
       throw new Error("Abstract method call: _getFirstSelectable()");
     },
-
 
     /**
      * Returns the last selectable item.
      *
      * @return {var} The last selectable item
      */
-    _getLastSelectable : function() {
+    _getLastSelectable() {
       throw new Error("Abstract method call: _getLastSelectable()");
     },
-
 
     /**
      * Returns the first visible and selectable item.
      *
      * @return {var} The first visible and selectable item
      */
-    _getFirstVisibleSelectable : function() {
+    _getFirstVisibleSelectable() {
       throw new Error("Abstract method call: _getFirstVisibleSelectable()");
     },
-
 
     /**
      * Returns the last visible and selectable item.
      *
      * @return {var} The last visible and selectable item
      */
-    _getLastVisibleSelectable : function() {
+    _getLastVisibleSelectable() {
       throw new Error("Abstract method call: _getLastVisibleSelectable()");
     },
-
 
     /**
      * Returns a selectable item which is related to the given
@@ -787,10 +695,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *    <code>right</code>, <code>under</code> or <code>left</code>
      * @return {var} The related item
      */
-    _getRelatedSelectable : function(item, relation) {
+    _getRelatedSelectable(item, relation) {
       throw new Error("Abstract method call: _getRelatedSelectable()");
     },
-
 
     /**
      * Returns the item which should be selected on pageUp/pageDown.
@@ -801,12 +708,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param up {Boolean?false} Which page key was pressed:
      *   <code>up</code> or <code>down</code>.
      */
-    _getPage : function(lead, up) {
+    _getPage(lead, up) {
       throw new Error("Abstract method call: _getPage()");
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -815,8 +719,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     // property apply
-    _applyMode : function(value, old)
-    {
+    _applyMode(value, old) {
       this._setLeadItem(null);
       this._setAnchorItem(null);
 
@@ -830,11 +733,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       POINTER SUPPORT
@@ -847,14 +745,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handlePointerOver : function(event)
-    {
+    handlePointerOver(event) {
       // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
       // by keyboard interaction. We have to ignore the event to avoid a selection for
       // "pointerover" (quick selection). For more details see [BUG #4225]
-      if(this.__oldScrollTop != null &&
-         this.__oldScrollTop != this._getScroll().top)
-      {
+      if (
+        this.__oldScrollTop != null &&
+        this.__oldScrollTop != this._getScroll().top
+      ) {
         this.__oldScrollTop = null;
         return;
       }
@@ -897,15 +795,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._userInteraction = false;
     },
 
-
     /**
      * This method should be connected to the <code>pointerdown</code> event
      * of the managed object.
      *
      * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handlePointerDown : function(event)
-    {
+    handlePointerDown(event) {
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
@@ -917,19 +813,22 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() ||
+      var isCtrlPressed =
+        event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
       // tapping on selected items deselect on pointerup, not on pointerdown
-      if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed && !this.getDrag())
-      {
+      if (
+        this.isItemSelected(item) &&
+        !isShiftPressed &&
+        !isCtrlPressed &&
+        !this.getDrag()
+      ) {
         this.__pointerDownOnSelected = item;
         this._userInteraction = false;
         return;
-      }
-      else
-      {
+      } else {
         this.__pointerDownOnSelected = null;
       }
 
@@ -945,8 +844,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         !isShiftPressed &&
         !isCtrlPressed &&
         event.getPointerType() == "mouse"
-      )
-      {
+      ) {
         this._setAnchorItem(item);
         this._setLeadItem(item);
 
@@ -963,13 +861,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this._capture();
       }
 
-
       // Fire change event as needed
       this._fireChange("tap");
 
       this._userInteraction = false;
     },
-
 
     /**
      * This method should be connected to the <code>tap</code> event
@@ -977,19 +873,22 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param event {qx.event.type.Tap} A valid pointer event
      */
-    handleTap : function(event)
-    {
+    handleTap(event) {
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
       // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() ||
+      var isCtrlPressed =
+        event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
-      if (!isCtrlPressed && !isShiftPressed && this.__pointerDownOnSelected != null)
-      {
+      if (
+        !isCtrlPressed &&
+        !isShiftPressed &&
+        this.__pointerDownOnSelected != null
+      ) {
         this._userInteraction = false;
         var item = this._getSelectableFromPointerEvent(event);
         if (item === null || !this.isItemSelected(item)) {
@@ -1005,8 +904,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Action depends on selected mode
       if (!this.isReadOnly()) {
-        switch(this.getMode())
-        {
+        switch (this.getMode()) {
           case "single":
           case "one":
             this._setSelectedItem(item);
@@ -1023,11 +921,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             this._setLeadItem(item);
 
             // Create/Update range selection
-            if (isShiftPressed)
-            {
+            if (isShiftPressed) {
               var anchor = this._getAnchorItem();
-              if (anchor === null)
-              {
+              if (anchor === null) {
                 anchor = this._getFirstSelectable();
                 this._setAnchorItem(anchor);
               }
@@ -1036,15 +932,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             }
 
             // Toggle in selection
-            else if (isCtrlPressed)
-            {
+            else if (isCtrlPressed) {
               this._setAnchorItem(item);
               this._toggleInSelection(item);
             }
 
             // Replace current selection
-            else
-            {
+            else {
               this._setAnchorItem(item);
               this._setSelectedItem(item);
             }
@@ -1058,17 +952,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._cleanup();
     },
 
-
     /**
      * This method should be connected to the <code>losecapture</code> event
      * of the managed object.
      *
      * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handleLoseCapture : function(event) {
+    handleLoseCapture(event) {
       this._cleanup();
     },
-
 
     /**
      * This method should be connected to the <code>pointermove</code> event
@@ -1076,13 +968,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handlePointerMove : function(event)
-    {
+    handlePointerMove(event) {
       // Only relevant when capturing is enabled
       if (!this.__inCapture) {
         return;
       }
-
 
       // Update pointer position cache
       this.__pointerX = event.getDocumentLeft();
@@ -1111,7 +1001,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.__moveDirectionY = 0;
       }
 
-
       // Update scroll steps
       var location = this.__frameLocation;
 
@@ -1131,18 +1020,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.__scrollStepY = 0;
       }
 
-
       // Dynamically create required timer instance
-      if (!this.__scrollTimer)
-      {
+      if (!this.__scrollTimer) {
         this.__scrollTimer = new qx.event.Timer(100);
         this.__scrollTimer.addListener("interval", this._onInterval, this);
       }
 
-
       // Start interval
       this.__scrollTimer.start();
-
 
       // Auto select based on new cursor position
       this._autoSelect();
@@ -1151,21 +1036,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._userInteraction = false;
     },
 
-
     /**
      * This method should be connected to the <code>addItem</code> event
      * of the managed object.
      *
      * @param e {qx.event.type.Data} The event object
      */
-    handleAddItem : function(e)
-    {
+    handleAddItem(e) {
       var item = e.getData();
       if (this.getMode() === "one" && this.isSelectionEmpty()) {
         this.addItem(item);
       }
     },
-
 
     /**
      * This method should be connected to the <code>removeItem</code> event
@@ -1173,12 +1055,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param e {qx.event.type.Data} The event object
      */
-    handleRemoveItem : function(e) {
+    handleRemoveItem(e) {
       this.removeItem(e.getData());
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1189,8 +1068,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Stops all timers, release capture etc. to cleanup drag selection
      */
-    _cleanup : function()
-    {
+    _cleanup() {
       if (!this.getDrag() && this.__inCapture) {
         return;
       }
@@ -1214,14 +1092,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
     },
 
-
     /**
      * Event listener for timer used by drag selection
      *
      * @param e {qx.event.type.Event} Timer event
      */
-    _onInterval : function(e)
-    {
+    _onInterval(e) {
       // Scroll by defined block size
       this._scrollBy(this.__scrollStepX, this.__scrollStepY);
 
@@ -1232,17 +1108,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._autoSelect();
     },
 
-
     /**
      * Automatically selects items based on the pointer movement during a drag selection
      */
-    _autoSelect : function()
-    {
+    _autoSelect() {
       var inner = this._getDimension();
 
       // Get current relative Y position and compare it with previous one
-      var relX = Math.max(0, Math.min(this.__pointerX - this.__frameLocation.left, inner.width)) + this.__frameScroll.left;
-      var relY = Math.max(0, Math.min(this.__pointerY - this.__frameLocation.top, inner.height)) + this.__frameScroll.top;
+      var relX =
+        Math.max(
+          0,
+          Math.min(this.__pointerX - this.__frameLocation.left, inner.width)
+        ) + this.__frameScroll.left;
+      var relY =
+        Math.max(
+          0,
+          Math.min(this.__pointerY - this.__frameLocation.top, inner.height)
+        ) + this.__frameScroll.top;
 
       // Compare old and new relative coordinates (for performance reasons)
       if (this.__lastRelX === relX && this.__lastRelY === relY) {
@@ -1255,29 +1137,26 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var anchor = this._getAnchorItem();
       var lead = anchor;
 
-
       // Process X-coordinate
       var moveX = this.__moveDirectionX;
       var nextX, locationX;
 
-      while (moveX !== 0)
-      {
+      while (moveX !== 0) {
         // Find next item to process depending on current scroll direction
-        nextX = moveX > 0 ?
-          this._getRelatedSelectable(lead, "right") :
-          this._getRelatedSelectable(lead, "left");
+        nextX =
+          moveX > 0
+            ? this._getRelatedSelectable(lead, "right")
+            : this._getRelatedSelectable(lead, "left");
 
         // May be null (e.g. first/last item)
-        if (nextX !== null)
-        {
+        if (nextX !== null) {
           locationX = this._getSelectableLocationX(nextX);
 
           // Continue when the item is in the visible area
           if (
             (moveX > 0 && locationX.left <= relX) ||
             (moveX < 0 && locationX.right >= relX)
-          )
-          {
+          ) {
             lead = nextX;
             continue;
           }
@@ -1287,29 +1166,26 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         break;
       }
 
-
       // Process Y-coordinate
       var moveY = this.__moveDirectionY;
       var nextY, locationY;
 
-      while (moveY !== 0)
-      {
+      while (moveY !== 0) {
         // Find next item to process depending on current scroll direction
-        nextY = moveY > 0 ?
-          this._getRelatedSelectable(lead, "under") :
-          this._getRelatedSelectable(lead, "above");
+        nextY =
+          moveY > 0
+            ? this._getRelatedSelectable(lead, "under")
+            : this._getRelatedSelectable(lead, "above");
 
         // May be null (e.g. first/last item)
-        if (nextY !== null)
-        {
+        if (nextY !== null) {
           locationY = this._getSelectableLocationY(nextY);
 
           // Continue when the item is in the visible area
           if (
             (moveY > 0 && locationY.top <= relY) ||
             (moveY < 0 && locationY.bottom >= relY)
-          )
-          {
+          ) {
             lead = nextY;
             continue;
           }
@@ -1319,16 +1195,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         break;
       }
 
-
       // Differenciate between the two supported modes
       var mode = this.getMode();
-      if (mode === "multi")
-      {
+      if (mode === "multi") {
         // Replace current selection with new range
         this._selectItemRange(anchor, lead);
-      }
-      else if (mode === "additive")
-      {
+      } else if (mode === "additive") {
         // Behavior depends on the fact whether the
         // anchor item is selected or not
         if (this.isItemSelected(anchor)) {
@@ -1343,15 +1215,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this._setAnchorItem(lead);
       }
 
-
       // Fire change event as needed
       this._fireChange("drag");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1364,18 +1230,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @lint ignoreReferenceField(__navigationKeys)
      */
-    __navigationKeys :
-    {
-      Home : 1,
-      Down : 1 ,
-      Right : 1,
-      PageDown : 1,
-      End : 1,
-      Up : 1,
-      Left : 1,
-      PageUp : 1
+    __navigationKeys: {
+      Home: 1,
+      Down: 1,
+      Right: 1,
+      PageDown: 1,
+      End: 1,
+      Up: 1,
+      Left: 1,
+      PageUp: 1
     },
-
 
     /**
      * This method should be connected to the <code>keypress</code> event
@@ -1383,8 +1247,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param event {qx.event.type.KeySequence} A valid key sequence event
      */
-    handleKeyPress : function(event)
-    {
+    handleKeyPress(event) {
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
@@ -1394,34 +1257,27 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var mode = this.getMode();
 
       // Support both control keys on Mac
-      var isCtrlPressed = event.isCtrlPressed() ||
+      var isCtrlPressed =
+        event.isCtrlPressed() ||
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
       var consumed = false;
       var readOnly = this.isReadOnly();
 
-      if (key === "A" && isCtrlPressed && !readOnly)
-      {
-        if (mode !== "single" && mode !== "one")
-        {
+      if (key === "A" && isCtrlPressed && !readOnly) {
+        if (mode !== "single" && mode !== "one") {
           this._selectAllItems();
           consumed = true;
         }
-      }
-      else if (key === "Escape" && !readOnly)
-      {
-        if (mode !== "single" && mode !== "one")
-        {
+      } else if (key === "Escape" && !readOnly) {
+        if (mode !== "single" && mode !== "one") {
           this._clearSelection();
           consumed = true;
         }
-      }
-      else if (key === "Space" && !readOnly)
-      {
+      } else if (key === "Space" && !readOnly) {
         var lead = this.getLeadItem();
-        if (lead != null && !isShiftPressed)
-        {
+        if (lead != null && !isShiftPressed) {
           if (isCtrlPressed || mode === "additive") {
             this._toggleInSelection(lead);
           } else {
@@ -1429,10 +1285,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           }
           consumed = true;
         }
-      }
-      else if (this.__navigationKeys[key] && readOnly) {
-        switch(key)
-        {
+      } else if (this.__navigationKeys[key] && readOnly) {
+        switch (key) {
           case "Home":
             next = this._getFirstSelectable();
             break;
@@ -1442,19 +1296,31 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             break;
 
           case "Up":
-            next = this._getRelatedSelectable(this._getFirstVisibleSelectable(), "above");
+            next = this._getRelatedSelectable(
+              this._getFirstVisibleSelectable(),
+              "above"
+            );
             break;
 
           case "Down":
-            next = this._getRelatedSelectable(this._getLastVisibleSelectable(), "under");
+            next = this._getRelatedSelectable(
+              this._getLastVisibleSelectable(),
+              "under"
+            );
             break;
 
           case "Left":
-            next = this._getRelatedSelectable(this._getFirstVisibleSelectable(), "left");
+            next = this._getRelatedSelectable(
+              this._getFirstVisibleSelectable(),
+              "left"
+            );
             break;
 
           case "Right":
-            next = this._getRelatedSelectable(this._getLastVisibleSelectable(), "right");
+            next = this._getRelatedSelectable(
+              this._getLastVisibleSelectable(),
+              "right"
+            );
             break;
 
           case "PageUp":
@@ -1471,9 +1337,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           this.__oldScrollTop = this._getScroll().top;
           this._scrollItemIntoView(next);
         }
-      }
-      else if (this.__navigationKeys[key])
-      {
+      } else if (this.__navigationKeys[key]) {
         consumed = true;
         if (mode === "single" || mode == "one") {
           current = this._getSelectedItem();
@@ -1481,10 +1345,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           current = this.getLeadItem();
         }
 
-        if (current !== null)
-        {
-          switch(key)
-          {
+        if (current !== null) {
+          switch (key) {
             case "Home":
               next = this._getFirstSelectable();
               break;
@@ -1517,11 +1379,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               next = this._getPage(current, false);
               break;
           }
-        }
-        else
-        {
-          switch(key)
-          {
+        } else {
+          switch (key) {
             case "Home":
             case "Down":
             case "Right":
@@ -1539,10 +1398,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
 
         // Process result
-        if (next !== null)
-        {
-          switch(mode)
-          {
+        if (next !== null) {
+          switch (mode) {
             case "single":
             case "one":
               this._setSelectedItem(next);
@@ -1553,18 +1410,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
 
             case "multi":
-              if (isShiftPressed)
-              {
+              if (isShiftPressed) {
                 var anchor = this._getAnchorItem();
                 if (anchor === null) {
-                  this._setAnchorItem(anchor = this._getFirstSelectable());
+                  this._setAnchorItem((anchor = this._getFirstSelectable()));
                 }
 
                 this._setLeadItem(next);
                 this._selectItemRange(anchor, next, isCtrlPressed);
-              }
-              else
-              {
+              } else {
                 this._setAnchorItem(next);
                 this._setLeadItem(next);
 
@@ -1581,9 +1435,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
       }
 
-
-      if (consumed)
-      {
+      if (consumed) {
         // Stop processed events
         event.stop();
 
@@ -1592,11 +1444,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       this._userInteraction = false;
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1607,27 +1454,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Adds all items to the selection
      */
-    _selectAllItems : function()
-    {
+    _selectAllItems() {
       var range = this.getSelectables();
-      for (var i=0, l=range.length; i<l; i++) {
+      for (var i = 0, l = range.length; i < l; i++) {
         this._addToSelection(range[i]);
       }
     },
 
-
     /**
      * Clears current selection
      */
-    _clearSelection : function()
-    {
+    _clearSelection() {
       var selection = this.__selection;
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);
       }
       this.__selection = {};
     },
-
 
     /**
      * Select a range from <code>item1</code> to <code>item2</code>.
@@ -1637,18 +1480,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param extend {Boolean?false} Whether the current
      *    selection should be replaced or extended.
      */
-    _selectItemRange : function(item1, item2, extend)
-    {
+    _selectItemRange(item1, item2, extend) {
       var range = this._getSelectableRange(item1, item2);
 
       // Remove items which are not in the detected range
-      if (!extend)
-      {
+      if (!extend) {
         var selected = this.__selection;
         var mapped = this.__rangeToMap(range);
 
-        for (var hash in selected)
-        {
+        for (var hash in selected) {
           if (!mapped[hash]) {
             this._removeFromSelection(selected[hash]);
           }
@@ -1656,11 +1496,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Add new items to the selection
-      for (var i=0, l=range.length; i<l; i++) {
+      for (var i = 0, l = range.length; i < l; i++) {
         this._addToSelection(range[i]);
       }
     },
-
 
     /**
      * Deselect all items between <code>item1</code> and <code>item2</code>.
@@ -1668,14 +1507,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item1 {Object} Start with this item
      * @param item2 {Object} End with this item
      */
-    _deselectItemRange : function(item1, item2)
-    {
+    _deselectItemRange(item1, item2) {
       var range = this._getSelectableRange(item1, item2);
-      for (var i=0, l=range.length; i<l; i++) {
+      for (var i = 0, l = range.length; i < l; i++) {
         this._removeFromSelection(range[i]);
       }
     },
-
 
     /**
      * Internal method to convert a range to a map of hash
@@ -1683,24 +1520,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param range {Array} List of selectable items
      */
-    __rangeToMap : function(range)
-    {
+    __rangeToMap(range) {
       var mapped = {};
       var item;
 
-      for (var i=0, l=range.length; i<l; i++)
-      {
+      for (var i = 0, l = range.length; i < l; i++) {
         item = range[i];
         mapped[this._selectableToHashCode(item)] = item;
       }
 
       return mapped;
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1714,8 +1544,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {var} The selected item (or <code>null</code>)
      */
-    _getSelectedItem : function()
-    {
+    _getSelectedItem() {
       for (var hash in this.__selection) {
         return this.__selection[hash];
       }
@@ -1723,33 +1552,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       return null;
     },
 
-
     /**
      * Replace current selection with given item.
      *
      * @param item {var} Any valid selectable item
      */
-    _setSelectedItem : function(item)
-    {
-      if (this._isSelectable(item))
-      {
+    _setSelectedItem(item) {
+      if (this._isSelectable(item)) {
         // If already selected try to find out if this is the only item
         var current = this.__selection;
         var hash = this._selectableToHashCode(item);
 
-        if (!current[hash] || (current.length >= 2))
-        {
+        if (!current[hash] || current.length >= 2) {
           this._clearSelection();
           this._addToSelection(item);
         }
       }
     },
-
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1762,19 +1581,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param item {Object} Any item
      */
-    _addToSelection : function(item)
-    {
+    _addToSelection(item) {
       var hash = this._selectableToHashCode(item);
 
-      if (this.__selection[hash] == null && this._isSelectable(item))
-      {
+      if (this.__selection[hash] == null && this._isSelectable(item)) {
         this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
 
         this.__selectionModified = true;
       }
     },
-
 
     /**
      * Toggles the item e.g. remove it when already selected
@@ -1782,17 +1598,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @param item {Object} Any item
      */
-    _toggleInSelection : function(item)
-    {
+    _toggleInSelection(item) {
       var hash = this._selectableToHashCode(item);
 
-      if (this.__selection[hash] == null)
-      {
+      if (this.__selection[hash] == null) {
         this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
-      }
-      else
-      {
+      } else {
         delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
       }
@@ -1800,18 +1612,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this.__selectionModified = true;
     },
 
-
     /**
      * Removes the given item from the current selection.
      *
      * @param item {Object} Any item
      */
-    _removeFromSelection : function(item)
-    {
+    _removeFromSelection(item) {
       var hash = this._selectableToHashCode(item);
 
-      if (this.__selection[hash] != null)
-      {
+      if (this.__selection[hash] != null) {
         delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
 
@@ -1819,14 +1628,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
     },
 
-
     /**
      * Replaces current selection with items from given array.
      *
      * @param items {Array} List of items to select
      */
-    _replaceMultiSelection : function(items)
-    {
+    _replaceMultiSelection(items) {
       if (items.length === 0) {
         this.clearSelection();
         return;
@@ -1837,11 +1644,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Build map from hash codes and filter non-selectables
       var selectable, hash;
       var incoming = {};
-      for (var i=0, l=items.length; i<l; i++)
-      {
+      for (var i = 0, l = items.length; i < l; i++) {
         selectable = items[i];
-        if (this._isSelectable(selectable))
-        {
+        if (this._isSelectable(selectable)) {
           hash = this._selectableToHashCode(selectable);
           incoming[hash] = selectable;
         }
@@ -1853,15 +1658,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Clear old entries from map
       var current = this.__selection;
-      for (var hash in current)
-      {
-        if (incoming[hash])
-        {
+      for (var hash in current) {
+        if (incoming[hash]) {
           // Reduce map to make next loop faster
           delete incoming[hash];
-        }
-        else
-        {
+        } else {
           // update internal map
           selectable = current[hash];
           delete current[hash];
@@ -1875,8 +1676,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Add remaining selectables to selection
-      for (var hash in incoming)
-      {
+      for (var hash in incoming) {
         // update internal map
         selectable = current[hash] = incoming[hash];
 
@@ -1904,7 +1704,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._fireChange();
     },
 
-
     /**
      * Fires the selection change event if the selection has
      * been modified.
@@ -1912,10 +1711,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param context {String} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
-    _fireChange : function(context)
-    {
-      if (this.__selectionModified)
-      {
+    _fireChange(context) {
+      if (this.__selectionModified) {
         // Store context
         this.__selectionContext = context || null;
 
@@ -1925,7 +1722,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
     },
 
-
     /**
      * Applies the default selection. The default item is the first item.
      *
@@ -1933,10 +1729,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {var} The selected item.
      */
-    _applyDefaultSelection : function(force)
-    {
-      if (force === true || this.getMode() === "one" && this.isSelectionEmpty())
-      {
+    _applyDefaultSelection(force) {
+      if (
+        force === true ||
+        (this.getMode() === "one" && this.isSelectionEmpty())
+      ) {
         var first = this._getFirstSelectable();
         if (first != null) {
           this.selectItem(first);
@@ -1947,15 +1744,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this._disposeObjects("__scrollTimer");
     this.__selection = this.__pointerDownOnSelected = this.__anchorItem = null;
     this.__leadItem = null;

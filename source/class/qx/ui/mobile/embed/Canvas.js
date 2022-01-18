@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Creates a HTML canvas widget in your mobile application.
  *
@@ -45,10 +44,8 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.embed.Canvas",
-{
-  extend : qx.ui.mobile.core.Widget,
-
+qx.Class.define("qx.ui.mobile.embed.Canvas", {
+  extend: qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
@@ -58,11 +55,9 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
 
   /**
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
-
 
   /*
   *****************************************************************************
@@ -70,24 +65,20 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "canvas";
     },
-
 
     /**
      * Get the canvas element [<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#canvas">W3C-HMTL5</a>]
      *
      * @return {Element} The canvas DOM element.
      */
-    getCanvas : function() {
+    getCanvas() {
       return this.getContainerElement();
     },
-
 
     /**
      * Set the width attribute of the canvas element. This property controls the
@@ -95,20 +86,18 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
      *
      * @param width {Integer} canvas width
      */
-    setWidth : function(width) {
+    setWidth(width) {
       this.getContainerElement().width = width;
     },
-
 
     /**
      * Get the width attribute of the canvas element
      *
      * @return {Integer} canvas width
      */
-    getWidth : function() {
+    getWidth() {
       return this.getContainerElement().width;
     },
-
 
     /**
      * Set the height attribute of the canvas element. This property controls the
@@ -116,20 +105,18 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
      *
      * @param height {Integer} canvas height
      */
-    setHeight : function(height) {
+    setHeight(height) {
       this.getContainerElement().height = height;
     },
-
 
     /**
      * Get the height attribute of the canvas element
      *
      * @return {Integer} canvas height
      */
-    getHeight : function() {
+    getHeight() {
       return this.getContainerElement().height;
     },
-
 
     /**
      * Get the canvas' 2D rendering context
@@ -138,7 +125,7 @@ qx.Class.define("qx.ui.mobile.embed.Canvas",
      *
      * @return {CanvasRenderingContext2D} The 2D rendering context.
      */
-    getContext2d : function() {
+    getContext2d() {
       return this.getContainerElement().getContext("2d");
     }
   }

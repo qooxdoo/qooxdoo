@@ -21,10 +21,8 @@
 /**
  * Table Cell Renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
-{
-  extend     : qx.ui.progressive.renderer.table.cell.Abstract,
-
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional", {
+  extend: qx.ui.progressive.renderer.table.cell.Abstract,
 
   /**
    * @param align {String}
@@ -39,27 +37,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
    * @param weight {String}
    *   The default weight to format the cell with if the condition matches.
    */
-  construct : function(align, color, style, weight)
-  {
-    this.base(arguments);
+  construct(align, color, style, weight) {
+    super();
 
-    this.__numericAllowed =
-      [
-        "==",
-        "!=",
-        ">",
-        "<",
-        ">=",
-        "<="
-      ];
+    this.__numericAllowed = ["==", "!=", ">", "<", ">=", "<="];
 
-    this.__betweenAllowed =
-      [
-        "between",
-        "!between"
-      ];
+    this.__betweenAllowed = ["between", "!between"];
 
-    this.__conditions = [ ];
+    this.__conditions = [];
 
     this.__defaultTextAlign = align || "";
     this.__defaultColor = color || "";
@@ -67,17 +52,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     this.__defaultFontWeight = weight || "";
   },
 
-
-
-  members :
-  {
-    __numericAllowed    : null,
-    __betweenAllowed    : null,
-    __conditions        : null,
-    __defaultTextAlign  : null,
-    __defaultColor      : null,
-    __defaultFontStyle  : null,
-    __defaultFontWeight : null,
+  members: {
+    __numericAllowed: null,
+    __betweenAllowed: null,
+    __conditions: null,
+    __defaultTextAlign: null,
+    __defaultColor: null,
+    __defaultFontStyle: null,
+    __defaultFontWeight: null,
 
     /**
      * Applies the cell styles to the style map.
@@ -88,29 +70,23 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * @param style {Map}
      *   map of already applied styles.
      */
-    __applyFormatting : function(condition, style)
-    {
-      if (condition.align)
-      {
+    __applyFormatting(condition, style) {
+      if (condition.align) {
         style["text-align"] = condition.align;
       }
 
-      if (condition.color)
-      {
+      if (condition.color) {
         style["color"] = condition.color;
       }
 
-      if (condition.style)
-      {
+      if (condition.style) {
         style["font-style"] = condition.style;
       }
 
-      if (condition.weight)
-      {
+      if (condition.weight) {
         style["font-weight"] = condition.weight;
       }
     },
-
 
     /**
      * The addNumericCondition method is used to add a basic numeric condition
@@ -149,27 +125,29 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * @throws {Error} If the condition can not be recognized or the value
      * is null.
      */
-    addNumericCondition : function(condition, value1, align,
-                                   color, style, weight, target)
-    {
-      if (!this.__numericAllowed.includes(condition) ||
-          value1 == null)
-      {
+    addNumericCondition(
+      condition,
+      value1,
+      align,
+      color,
+      style,
+      weight,
+      target
+    ) {
+      if (!this.__numericAllowed.includes(condition) || value1 == null) {
         throw new Error("Condition not recognized or value is null!");
       }
 
-      this.__conditions.push(
-        {
-          condition : condition,
-          align     : align,
-          color     : color,
-          style     : style,
-          weight    : weight,
-          value1    : value1,
-          target    :target
-        });
+      this.__conditions.push({
+        condition: condition,
+        align: align,
+        color: color,
+        style: style,
+        weight: weight,
+        value1: value1,
+        target: target
+      });
     },
-
 
     /**
      * The addBetweenCondition method is used to add a between condition to
@@ -211,29 +189,35 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * @throws {Error} If the condition can not recognized or one of the
      * values is null.
      */
-    addBetweenCondition : function(condition, value1, value2, align,
-                                   color, style, weight, target)
-    {
-      if (!this.__betweenAllowed.includes(condition) ||
-          value1 == null ||
-          value2 == null)
-      {
+    addBetweenCondition(
+      condition,
+      value1,
+      value2,
+      align,
+      color,
+      style,
+      weight,
+      target
+    ) {
+      if (
+        !this.__betweenAllowed.includes(condition) ||
+        value1 == null ||
+        value2 == null
+      ) {
         throw new Error("Condition not recognized or value1/value2 is null!");
       }
 
-      this.__conditions.push(
-        {
-          condition : condition,
-          align     : align,
-          color     : color,
-          style     : style,
-          weight    : weight,
-          value1    : value1,
-          value2    : value2,
-          target    : target
-        });
+      this.__conditions.push({
+        condition: condition,
+        align: align,
+        color: color,
+        style: style,
+        weight: weight,
+        value1: value1,
+        value2: value2,
+        target: target
+      });
     },
-
 
     /**
      * The addRegex method is used to add a regular expression condition to
@@ -267,25 +251,21 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      *
      * @throws {Error} If the regex is null.
      */
-    addRegex : function(regex, align, color, style, weight, target)
-    {
-      if (! regex)
-      {
+    addRegex(regex, align, color, style, weight, target) {
+      if (!regex) {
         throw new Error("regex cannot be null!");
       }
 
-      this.__conditions.push(
-        {
-          condition : "regex",
-          align     : align,
-          color     : color,
-          style     : style,
-          weight    : weight,
-          regex     : regex,
-          target    : target
-        });
+      this.__conditions.push({
+        condition: "regex",
+        align: align,
+        color: color,
+        style: style,
+        weight: weight,
+        regex: regex,
+        target: target
+      });
     },
-
 
     /**
      * Overridden; called whenever the cell updates. The cell will iterate
@@ -300,10 +280,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      *
      * @return {String}
      */
-    _getCellStyle : function(cellInfo)
-    {
-      if (this.__conditions.length == 0)
-      {
+    _getCellStyle(cellInfo) {
+      if (this.__conditions.length == 0) {
         return cellInfo.style || "";
       }
 
@@ -311,140 +289,109 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
       var bTestPassed;
       var compareValue;
 
-      var style =
-        {
-          "text-align"  : this.__defaultTextAlign,
-          "color"       : this.__defaultColor,
-          "font-style"  : this.__defaultFontStyle,
-          "font-weight" : this.__defaultFontWeight
-        };
+      var style = {
+        "text-align": this.__defaultTextAlign,
+        color: this.__defaultColor,
+        "font-style": this.__defaultFontStyle,
+        "font-weight": this.__defaultFontWeight
+      };
 
-      for (i = 0; i < this.__conditions.length; i++)
-      {
+      for (i = 0; i < this.__conditions.length; i++) {
         var test = this.__conditions[i];
 
         bTestPassed = false;
 
-        if (this.__numericAllowed.includes(test.condition))
-        {
-          if (test.target == null)
-          {
+        if (this.__numericAllowed.includes(test.condition)) {
+          if (test.target == null) {
             compareValue = cellInfo.cellData;
-          }
-          else
-          {
+          } else {
             compareValue = cellInfo.element.data[test.target];
           }
 
-          switch(test.condition)
-          {
-          case "==":
-            if (compareValue == test.value1)
-            {
-              bTestPassed = true;
-            }
+          switch (test.condition) {
+            case "==":
+              if (compareValue == test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case "!=":
-            if (compareValue != test.value1)
-            {
-              bTestPassed = true;
-            }
+            case "!=":
+              if (compareValue != test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case ">":
-            if (compareValue > test.value1)
-            {
-              bTestPassed = true;
-            }
+            case ">":
+              if (compareValue > test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case "<":
-            if (compareValue < test.value1)
-            {
-              bTestPassed = true;
-            }
+            case "<":
+              if (compareValue < test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case ">=":
-            if (compareValue >= test.value1)
-            {
-              bTestPassed = true;
-            }
+            case ">=":
+              if (compareValue >= test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case "<=":
-            if (compareValue <= test.value1)
-            {
-              bTestPassed = true;
-            }
+            case "<=":
+              if (compareValue <= test.value1) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
           }
-        }
-        else if (this.__betweenAllowed.includes(test.condition))
-        {
-          if (test.target == null)
-          {
+        } else if (this.__betweenAllowed.includes(test.condition)) {
+          if (test.target == null) {
             compareValue = cellInfo.cellData;
-          }
-          else
-          {
+          } else {
             compareValue = cellInfo.element.data[test.target];
           }
 
-          switch(test.condition)
-          {
-          case "between":
-            if (compareValue >= test.value1 &&
-                compareValue <= test.value2)
-            {
-              bTestPassed = true;
-            }
+          switch (test.condition) {
+            case "between":
+              if (compareValue >= test.value1 && compareValue <= test.value2) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
 
-          case "!between":
-            if (compareValue < test.value1 &&
-                compareValue > test.value2)
-            {
-              bTestPassed = true;
-            }
+            case "!between":
+              if (compareValue < test.value1 && compareValue > test.value2) {
+                bTestPassed = true;
+              }
 
-            break;
+              break;
           }
-        }
-        else if (test.condition == "regex")
-        {
-          if (test.target == null)
-          {
+        } else if (test.condition == "regex") {
+          if (test.target == null) {
             compareValue = cellInfo.cellData;
-          }
-          else
-          {
+          } else {
             compareValue = cellInfo.element.data[test.target];
           }
 
-          var the_pattern = new RegExp(test.value1, 'g');
+          var the_pattern = new RegExp(test.value1, "g");
           bTestPassed = the_pattern.test(compareValue);
         }
 
         // Apply formatting, if any.
-        if (bTestPassed)
-        {
+        if (bTestPassed) {
           this.__applyFormatting(test, style);
         }
 
         var styleString = [];
-        for(var key in style)
-        {
-          if (style[key])
-          {
+        for (var key in style) {
+          if (style[key]) {
             styleString.push(key, ":", style[key], ";");
           }
         }
@@ -454,7 +401,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__numericAllowed = this.__betweenAllowed = this.__conditions = null;
   }
 });

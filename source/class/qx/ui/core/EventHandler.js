@@ -20,12 +20,9 @@
 /**
  * Connects the widgets to the browser DOM events.
  */
-qx.Class.define("qx.ui.core.EventHandler",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
+qx.Class.define("qx.ui.core.EventHandler", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -33,14 +30,11 @@ qx.Class.define("qx.ui.core.EventHandler",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__manager = qx.event.Registration.getManager(window);
   },
-
-
 
   /*
   *****************************************************************************
@@ -48,91 +42,86 @@ qx.Class.define("qx.ui.core.EventHandler",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
+    PRIORITY: qx.event.Registration.PRIORITY_FIRST,
 
     /** @type {Map} Supported event types. Identical to events map of qx.ui.core.Widget */
-    SUPPORTED_TYPES :
-    {
+    SUPPORTED_TYPES: {
       // mouse events
-      mousemove : 1,
-      mouseover : 1,
-      mouseout : 1,
-      mousedown : 1,
-      mouseup : 1,
-      click : 1,
-      auxclick : 1,
-      dblclick : 1,
-      contextmenu : 1,
-      mousewheel : 1,
+      mousemove: 1,
+      mouseover: 1,
+      mouseout: 1,
+      mousedown: 1,
+      mouseup: 1,
+      click: 1,
+      auxclick: 1,
+      dblclick: 1,
+      contextmenu: 1,
+      mousewheel: 1,
 
       // key events
-      keyup : 1,
-      keydown : 1,
-      keypress : 1,
-      keyinput : 1,
+      keyup: 1,
+      keydown: 1,
+      keypress: 1,
+      keyinput: 1,
 
       // mouse capture
-      capture : 1,
-      losecapture : 1,
+      capture: 1,
+      losecapture: 1,
 
       // focus events
-      focusin : 1,
-      focusout : 1,
-      focus : 1,
-      blur : 1,
-      activate : 1,
-      deactivate : 1,
+      focusin: 1,
+      focusout: 1,
+      focus: 1,
+      blur: 1,
+      activate: 1,
+      deactivate: 1,
 
       // appear events
-      appear : 1,
-      disappear : 1,
+      appear: 1,
+      disappear: 1,
 
       // drag drop events
-      dragstart : 1,
-      dragend : 1,
-      dragover : 1,
-      dragleave : 1,
-      drop : 1,
-      drag : 1,
-      dragchange : 1,
-      droprequest : 1,
+      dragstart: 1,
+      dragend: 1,
+      dragover: 1,
+      dragleave: 1,
+      drop: 1,
+      drag: 1,
+      dragchange: 1,
+      droprequest: 1,
 
       // touch events
-      touchstart : 1,
-      touchend : 1,
-      touchmove : 1,
-      touchcancel : 1,
+      touchstart: 1,
+      touchend: 1,
+      touchmove: 1,
+      touchcancel: 1,
 
       // gestures
-      tap : 1,
-      longtap : 1,
-      swipe : 1,
-      dbltap : 1,
-      track : 1,
-      trackend : 1,
-      trackstart : 1,
-      pinch : 1,
-      rotate : 1,
-      roll : 1,
+      tap: 1,
+      longtap: 1,
+      swipe: 1,
+      dbltap: 1,
+      track: 1,
+      trackend: 1,
+      trackstart: 1,
+      pinch: 1,
+      rotate: 1,
+      roll: 1,
 
       // pointer events
-      pointermove : 1,
-      pointerover : 1,
-      pointerout : 1,
-      pointerdown : 1,
-      pointerup : 1,
-      pointercancel : 1
+      pointermove: 1,
+      pointerover: 1,
+      pointerout: 1,
+      pointerdown: 1,
+      pointerup: 1,
+      pointercancel: 1
     },
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -140,62 +129,53 @@ qx.Class.define("qx.ui.core.EventHandler",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __manager : null,
-
+  members: {
+    __manager: null,
 
     /**
      * @type {Map} Supported focus event types
      *
      * @lint ignoreReferenceField(__focusEvents)
      */
-    __focusEvents :
-    {
-      focusin : 1,
-      focusout : 1,
-      focus : 1,
-      blur : 1
+    __focusEvents: {
+      focusin: 1,
+      focusout: 1,
+      focus: 1,
+      blur: 1
     },
-
 
     /**
      * @type {Map} Map of events which should be fired independently from being disabled
      *
      * @lint ignoreReferenceField(__ignoreDisabled)
      */
-    __ignoreDisabled :
-    {
+    __ignoreDisabled: {
       // mouse events
-      mouseover : 1,
-      mouseout : 1,
+      mouseover: 1,
+      mouseout: 1,
 
       // appear events
-      appear : 1,
-      disappear : 1
+      appear: 1,
+      disappear: 1
     },
-
 
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return target instanceof qx.ui.core.Widget;
     },
-
 
     /**
      * Dispatches a DOM event on a widget.
      *
      * @param domEvent {qx.event.type.Event} The event object to dispatch.
      */
-    _dispatchEvent : function(domEvent)
-    {
+    _dispatchEvent(domEvent) {
       // EVENT TARGET
       var domTarget = domEvent.getTarget();
 
       var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget);
       var targetChanged = false;
-      while (widgetTarget && widgetTarget.isAnonymous())
-      {
+      while (widgetTarget && widgetTarget.isAnonymous()) {
         var targetChanged = true;
         widgetTarget = widgetTarget.getLayoutParent();
       }
@@ -205,10 +185,8 @@ qx.Class.define("qx.ui.core.EventHandler",
         widgetTarget.getContentElement().activate();
       }
 
-
       // Correcting target for focus events
-      if (this.__focusEvents[domEvent.getType()])
-      {
+      if (this.__focusEvents[domEvent.getType()]) {
         widgetTarget = widgetTarget && widgetTarget.getFocusTarget();
 
         // Whether nothing is returned
@@ -217,19 +195,17 @@ qx.Class.define("qx.ui.core.EventHandler",
         }
       }
 
-
       // EVENT RELATED TARGET
-      if (domEvent.getRelatedTarget)
-      {
+      if (domEvent.getRelatedTarget) {
         var domRelatedTarget = domEvent.getRelatedTarget();
 
-        var widgetRelatedTarget = qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
+        var widgetRelatedTarget =
+          qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
         while (widgetRelatedTarget && widgetRelatedTarget.isAnonymous()) {
           widgetRelatedTarget = widgetRelatedTarget.getLayoutParent();
         }
 
-        if (widgetRelatedTarget)
-        {
+        if (widgetRelatedTarget) {
           // Correcting target for focus events
           if (this.__focusEvents[domEvent.getType()]) {
             widgetRelatedTarget = widgetRelatedTarget.getFocusTarget();
@@ -242,10 +218,8 @@ qx.Class.define("qx.ui.core.EventHandler",
         }
       }
 
-
       // EVENT CURRENT TARGET
       var currentTarget = domEvent.getCurrentTarget();
-
 
       var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
       if (!currentWidget || currentWidget.isAnonymous()) {
@@ -259,22 +233,29 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Ignore most events in the disabled state.
       var type = domEvent.getType();
-      if (!currentWidget || !(currentWidget.isEnabled() || this.__ignoreDisabled[type])) {
+      if (
+        !currentWidget ||
+        !(currentWidget.isEnabled() || this.__ignoreDisabled[type])
+      ) {
         return;
       }
-
 
       // PROCESS LISTENERS
 
       // Load listeners
-      var capture = domEvent.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
+      var capture =
+        domEvent.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
 
       if (domEvent.getEventPhase() == qx.event.type.Event.AT_TARGET) {
         if (!listeners) {
           listeners = [];
         }
-        var otherListeners = this.__manager.getListeners(currentWidget, type, !capture);
+        var otherListeners = this.__manager.getListeners(
+          currentWidget,
+          type,
+          !capture
+        );
         if (otherListeners) {
           listeners = listeners.concat(otherListeners);
         }
@@ -285,40 +266,39 @@ qx.Class.define("qx.ui.core.EventHandler",
       }
 
       // Create cloned event with correct target
-      var widgetEvent = qx.event.Pool.getInstance().getObject(domEvent.constructor);
+      var widgetEvent = qx.event.Pool.getInstance().getObject(
+        domEvent.constructor
+      );
       domEvent.clone(widgetEvent);
 
       widgetEvent.setTarget(widgetTarget);
-      widgetEvent.setRelatedTarget(widgetRelatedTarget||null);
+      widgetEvent.setRelatedTarget(widgetRelatedTarget || null);
       widgetEvent.setCurrentTarget(currentWidget);
 
       // Keep original target of DOM event, otherwise map it to the original
       var orig = domEvent.getOriginalTarget();
-      if (orig)
-      {
+      if (orig) {
         var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(orig);
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
           widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
         }
 
         widgetEvent.setOriginalTarget(widgetOriginalTarget);
-      }
-      else
-      {
+      } else {
         widgetEvent.setOriginalTarget(domTarget);
       }
 
       // Dispatch it on all listeners
       var tracker = {};
-      qx.event.Utils.then(tracker, function() {
-        return qx.event.Utils.series(listeners, function(listener) {
+      qx.event.Utils.then(tracker, function () {
+        return qx.event.Utils.series(listeners, function (listener) {
           var context = listener.context || currentWidget;
           return listener.handler.call(context, widgetEvent);
         });
       });
 
       // Synchronize propagation stopped/prevent default property
-      qx.event.Utils.then(tracker, function() {
+      qx.event.Utils.then(tracker, function () {
         if (widgetEvent.getPropagationStopped()) {
           domEvent.stopPropagation();
         }
@@ -328,15 +308,13 @@ qx.Class.define("qx.ui.core.EventHandler",
         }
       });
 
-      return qx.event.Utils.then(tracker, function() {
+      return qx.event.Utils.then(tracker, function () {
         qx.event.Pool.getInstance().poolObject(widgetEvent);
       });
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       var elem;
 
       if (type === "focus" || type === "blur") {
@@ -350,10 +328,8 @@ qx.Class.define("qx.ui.core.EventHandler",
       }
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
+    unregisterEvent(target, type, capture) {
       var elem;
 
       if (type === "focus" || type === "blur") {
@@ -368,17 +344,15 @@ qx.Class.define("qx.ui.core.EventHandler",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__manager = null;
   },
-
 
   /*
   *****************************************************************************
@@ -386,7 +360,7 @@ qx.Class.define("qx.ui.core.EventHandler",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

@@ -20,11 +20,10 @@
  * An Object modelling a GraphQL response (see http://spec.graphql.org/draft/#sec-Response-Format)
  * @experimental The API might change. Feedback is appreciated.
  */
-qx.Class.define("qx.io.graphql.protocol.Response",{
+qx.Class.define("qx.io.graphql.protocol.Response", {
   extend: qx.io.graphql.protocol.Message,
 
   properties: {
-
     /**
      * "The data entry in the response will be the result of the execution
      * of the requested operation. If the operation was a query, this
@@ -35,7 +34,7 @@ qx.Class.define("qx.io.graphql.protocol.Response",{
      * If an error was encountered during the execution that prevented
      * a valid response, the data entry in the response should be null"
      */
-    data : {
+    data: {
       check: "Object",
       nullable: true,
       init: null
@@ -53,8 +52,11 @@ qx.Class.define("qx.io.graphql.protocol.Response",{
      * response may contain any errors that occurred during execution. If
      * errors occurred during execution, it should contain those errors."
      */
-    errors : {
-      check: value => qx.lang.Type.isArray(value) && value.length && value.every(item => Boolean(item.message)),
+    errors: {
+      check: value =>
+        qx.lang.Type.isArray(value) &&
+        value.length &&
+        value.every(item => Boolean(item.message)),
       nullable: true
     }
   }

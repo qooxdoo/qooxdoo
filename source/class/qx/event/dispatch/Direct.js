@@ -19,12 +19,9 @@
 /**
  * Dispatches events directly on the event target (no bubbling nor capturing).
  */
-qx.Class.define("qx.event.dispatch.Direct",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventDispatcher,
-
-
+qx.Class.define("qx.event.dispatch.Direct", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventDispatcher,
 
   /*
   *****************************************************************************
@@ -32,20 +29,14 @@ qx.Class.define("qx.event.dispatch.Direct",
   *****************************************************************************
   */
 
-
   /**
    * Create a new instance
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager) {
+  construct(manager) {
     this._manager = manager;
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -53,16 +44,10 @@ qx.Class.define("qx.event.dispatch.Direct",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this dispatcher */
-    PRIORITY : qx.event.Registration.PRIORITY_LAST
+    PRIORITY: qx.event.Registration.PRIORITY_LAST
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -70,8 +55,7 @@ qx.Class.define("qx.event.dispatch.Direct",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
@@ -79,33 +63,35 @@ qx.Class.define("qx.event.dispatch.Direct",
     */
 
     // interface implementation
-    canDispatchEvent : function(target, event, type) {
+    canDispatchEvent(target, event, type) {
       return !event.getBubbles();
     },
 
-
     // interface implementation
-    dispatchEvent : function(target, event, type)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (target instanceof qx.core.Object)
-        {
-          var expectedEventClassName = qx.Class.getEventType(target.constructor, type);
+    dispatchEvent(target, event, type) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (target instanceof qx.core.Object) {
+          var expectedEventClassName = qx.Class.getEventType(
+            target.constructor,
+            type
+          );
           var expectedEventClass = qx.Class.getByName(expectedEventClassName);
-          if (!expectedEventClass)
-          {
+          if (!expectedEventClass) {
             this.error(
-              "The event type '" + type + "' declared in the class '" +
-              target.constructor + " is not an available class': " +
-              expectedEventClassName
+              "The event type '" +
+                type +
+                "' declared in the class '" +
+                target.constructor +
+                " is not an available class': " +
+                expectedEventClassName
             );
-          }
-          else if (!(event instanceof expectedEventClass))
-          {
+          } else if (!(event instanceof expectedEventClass)) {
             this.error(
-              "Expected event type to be instanceof '" + expectedEventClassName +
-              "' but found '" + event.classname + "'"
+              "Expected event type to be instanceof '" +
+                expectedEventClassName +
+                "' but found '" +
+                event.classname +
+                "'"
             );
           }
         }
@@ -117,7 +103,7 @@ qx.Class.define("qx.event.dispatch.Direct",
       var self = this;
       var listeners = this._manager.getListeners(target, type, false);
       if (listeners) {
-        listeners.forEach(function(listener) {
+        listeners.forEach(function (listener) {
           if (self._manager.isBlacklisted(listener.unique)) {
             return;
           }
@@ -125,24 +111,32 @@ qx.Class.define("qx.event.dispatch.Direct",
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
-            if (context && context.isDisposed && context.isDisposed() && !context.isDisposing()) {
+            if (
+              context &&
+              context.isDisposed &&
+              context.isDisposed() &&
+              !context.isDisposing()
+            ) {
               self.warn(
-                "The context object '" + context + "' for the event '" +
-                type + "' of '" + target + "'is already disposed."
+                "The context object '" +
+                  context +
+                  "' for the event '" +
+                  type +
+                  "' of '" +
+                  target +
+                  "'is already disposed."
               );
             }
           }
-          qx.event.Utils.then(tracker, function() {
+          qx.event.Utils.then(tracker, function () {
             return listener.handler.call(context, event);
           });
         });
       }
-      
+
       return tracker.promise;
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -150,7 +144,7 @@ qx.Class.define("qx.event.dispatch.Direct",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addDispatcher(statics);
   }
 });

@@ -25,42 +25,38 @@
  *
  * @ignore(qx.ui.root.Abstract)
  */
-qx.Class.define("qx.ui.core.Blocker",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.core.Blocker", {
+  extend: qx.core.Object,
 
-
-  events :
-  {
+  events: {
     /**
      * Fires after {@link #block} executed.
      */
-    blocked : "qx.event.type.Event",
-
+    blocked: "qx.event.type.Event",
 
     /**
      * Fires after {@link #unblock} executed.
      */
-    unblocked : "qx.event.type.Event"
+    unblocked: "qx.event.type.Event"
   },
-
 
   /**
    * Creates a blocker for the passed widget.
    *
    * @param widget {qx.ui.core.Widget} Widget which should be added the blocker
    */
-  construct: function(widget)
-  {
-    this.base(arguments);
+  construct(widget) {
+    super();
     this._widget = widget;
 
     widget.addListener("resize", this.__onBoundsChange, this);
     widget.addListener("move", this.__onBoundsChange, this);
     widget.addListener("disappear", this.__onWidgetDisappear, this);
 
-    if (qx.Class.isDefined("qx.ui.root.Abstract") &&
-        widget instanceof qx.ui.root.Abstract) {
+    if (
+      qx.Class.isDefined("qx.ui.root.Abstract") &&
+      widget instanceof qx.ui.root.Abstract
+    ) {
       this._isRoot = true;
       this.setKeepBlockerActive(true);
     }
@@ -68,7 +64,9 @@ qx.Class.define("qx.ui.core.Blocker",
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().addListener(
-        "changeTheme", this._onChangeTheme, this
+        "changeTheme",
+        this._onChangeTheme,
+        this
       );
     }
 
@@ -82,32 +80,27 @@ qx.Class.define("qx.ui.core.Blocker",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Color of the blocker
      */
-    color  :
-    {
-      check : "Color",
-      init : null,
+    color: {
+      check: "Color",
+      init: null,
       nullable: true,
-      apply : "_applyColor",
+      apply: "_applyColor",
       themeable: true
     },
-
 
     /**
      * Opacity of the blocker
      */
-    opacity :
-    {
-      check : "Number",
-      init : 1,
-      apply : "_applyOpacity",
+    opacity: {
+      check: "Number",
+      init: 1,
+      apply: "_applyOpacity",
       themeable: true
     },
-
 
     /**
      * If this property is enabled, the blocker created with {@link #block}
@@ -124,16 +117,11 @@ qx.Class.define("qx.ui.core.Blocker",
      *     https://github.com/qooxdoo/qooxdoo/issues/9449
      *     https://github.com/qooxdoo/qooxdoo/issues/8104
      */
-    keepBlockerActive :
-    {
-      check : "Boolean",
-      init : false
+    keepBlockerActive: {
+      check: "Boolean",
+      init: false
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -141,29 +129,26 @@ qx.Class.define("qx.ui.core.Blocker",
   *****************************************************************************
   */
 
-  members :
-  {
-    __blocker : null,
-    __blockerCount : 0,
+  members: {
+    __blocker: null,
+    __blockerCount: 0,
 
-    __activeElements  : null,
-    __focusElements   : null,
+    __activeElements: null,
+    __focusElements: null,
 
-    __timer : null,
+    __timer: null,
 
-    _widget : null,
-    _isRoot : false,
+    _widget: null,
+    _isRoot: false,
 
-    __appearListener : null,
-
+    __appearListener: null,
 
     /**
      * Adjust html element size on layout resizes.
      *
      * @param e {qx.event.type.Data} event object
      */
-    __onBoundsChange : function(e)
-    {
+    __onBoundsChange(e) {
       var data = e.getData();
 
       if (this.isBlocked()) {
@@ -171,39 +156,36 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Widget re-appears: Update blocker size/position and attach to (new) parent
      */
-    __onWidgetAppear : function()
-    {
+    __onWidgetAppear() {
       this._updateBlockerBounds(this._widget.getBounds());
       if (this._widget.isRootWidget()) {
         this._widget.getContentElement().add(this.getBlockerElement());
       } else {
-        this._widget.getLayoutParent().getContentElement().add(this.getBlockerElement());
+        this._widget
+          .getLayoutParent()
+          .getContentElement()
+          .add(this.getBlockerElement());
       }
     },
-
 
     /**
      * Remove the blocker if the widget disappears
      */
-    __onWidgetDisappear : function()
-    {
+    __onWidgetDisappear() {
       if (this.isBlocked()) {
         this.getBlockerElement().getParent().remove(this.getBlockerElement());
         this._widget.addListenerOnce("appear", this.__onWidgetAppear, this);
       }
     },
 
-
     /**
      * set the blocker's size and position
      * @param bounds {Map} Map with the new width, height, left and top values
      */
-    _updateBlockerBounds : function(bounds)
-    {
+    _updateBlockerBounds(bounds) {
       this.getBlockerElement().setStyles({
         width: bounds.width + "px",
         height: bounds.height + "px",
@@ -212,34 +194,27 @@ qx.Class.define("qx.ui.core.Blocker",
       });
     },
 
-
     // property apply
-    _applyColor : function(value, old)
-    {
+    _applyColor(value, old) {
       var color = qx.theme.manager.Color.getInstance().resolve(value);
       this.__setBlockersStyle("backgroundColor", color);
     },
 
-
     // property apply
-    _applyOpacity : function(value, old)
-    {
+    _applyOpacity(value, old) {
       this.__setBlockersStyle("opacity", value);
     },
-
 
     /**
      * Handler for the theme change.
      * @signature function()
      */
-    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
-    {
-      "true" : function() {
+    _onChangeTheme: qx.core.Environment.select("qx.dyntheme", {
+      true() {
         this._applyColor(this.getColor());
       },
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Set the style to all blockers (blocker and content blocker).
@@ -247,8 +222,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * @param key {String} The name of the style attribute.
      * @param value {String} The value.
      */
-    __setBlockersStyle : function(key, value)
-    {
+    __setBlockersStyle(key, value) {
       var blockers = [];
       this.__blocker && blockers.push(this.__blocker);
 
@@ -257,15 +231,19 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Backup the current active and focused widget.
      */
-    _backupActiveWidget : function()
-    {
-      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
-      var activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
-      var focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+    _backupActiveWidget() {
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(
+        qx.event.handler.Focus
+      );
+      var activeWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getActive()
+      );
+      var focusedWidget = qx.ui.core.Widget.getWidgetByElement(
+        focusHandler.getFocus()
+      );
 
       this.__activeElements.push(activeWidget);
       this.__focusElements.push(focusedWidget);
@@ -279,16 +257,14 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Restore the current active and focused widget.
      */
-    _restoreActiveWidget : function()
-    {
+    _restoreActiveWidget() {
       var widget;
 
       var focusElementsLength = this.__focusElements.length;
-      if (focusElementsLength > 0)       {
+      if (focusElementsLength > 0) {
         widget = this.__focusElements.pop();
 
         if (widget && !widget.isDisposed() && widget.isFocusable()) {
@@ -306,16 +282,14 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Creates the blocker element.
      *
      * @return {qx.html.Element} The blocker element
      */
-    __createBlockerElement : function() {
+    __createBlockerElement() {
       return new qx.html.Blocker(this.getColor(), this.getOpacity());
     },
-
 
     /**
      * Get/create the blocker element
@@ -324,10 +298,8 @@ qx.Class.define("qx.ui.core.Blocker",
      * widget's content element
      * @return {qx.html.Element} The blocker element
      */
-    getBlockerElement : function(widget)
-    {
-      if (!this.__blocker)
-      {
+    getBlockerElement(widget) {
+      if (!this.__blocker) {
         this.__blocker = this.__createBlockerElement();
         this.__blocker.setStyle("zIndex", 15);
 
@@ -345,16 +317,13 @@ qx.Class.define("qx.ui.core.Blocker",
       return this.__blocker;
     },
 
-
     /**
      * Block all events from this widget by placing a transparent overlay widget,
      * which receives all events, exactly over the widget.
      */
-    block : function()
-    {
+    block() {
       this._block();
     },
-
 
     /**
      * Adds the blocker to the appropriate element and includes it.
@@ -362,10 +331,13 @@ qx.Class.define("qx.ui.core.Blocker",
      * @param zIndex {Number} All child widgets with a zIndex below this value will be blocked
      * @param blockContent {Boolean} append the blocker to the widget's content if true
      */
-    _block : function(zIndex, blockContent) {
+    _block(zIndex, blockContent) {
       if (!this._isRoot && !this._widget.getLayoutParent()) {
         if (!this.__appearListener) {
-          this.__appearListener = this._widget.addListenerOnce("appear", this._block.bind(this, zIndex));
+          this.__appearListener = this._widget.addListenerOnce(
+            "appear",
+            this._block.bind(this, zIndex)
+          );
         }
         return;
       }
@@ -383,8 +355,7 @@ qx.Class.define("qx.ui.core.Blocker",
       }
 
       this.__blockerCount++;
-      if (this.__blockerCount < 2)
-      {
+      if (this.__blockerCount < 2) {
         this._backupActiveWidget();
 
         var bounds = this._widget.getBounds();
@@ -407,30 +378,27 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Returns whether the widget is blocked.
      *
      * @return {Boolean} Whether the widget is blocked.
      */
-    isBlocked : function() {
+    isBlocked() {
       return this.__blockerCount > 0;
     },
-
 
     /**
      * Unblock the widget blocked by {@link #block}, but it takes care of
      * the amount of {@link #block} calls. The blocker is only removed if
      * the number of {@link #unblock} calls is identical to {@link #block} calls.
      */
-    unblock : function()
-    {
+    unblock() {
       if (this.__appearListener) {
         this._widget.removeListenerById(this.__appearListener);
         this.__appearListener = null;
       }
 
-      if (!this.isBlocked()){
+      if (!this.isBlocked()) {
         return;
       }
 
@@ -441,19 +409,17 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
-
     /**
      * Unblock the widget blocked by {@link #block}, but it doesn't take care of
      * the amount of {@link #block} calls. The blocker is directly removed.
      */
-    forceUnblock : function()
-    {
+    forceUnblock() {
       if (this.__appearListener) {
         this._widget.removeListenerById(this.__appearListener);
         this.__appearListener = null;
       }
 
-      if (!this.isBlocked()){
+      if (!this.isBlocked()) {
         return;
       }
 
@@ -461,12 +427,10 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__unblock();
     },
 
-
     /**
      * Unblock the widget blocked by {@link #block}.
      */
-    __unblock : function()
-    {
+    __unblock() {
       this._restoreActiveWidget();
 
       var blocker = this.getBlockerElement();
@@ -479,34 +443,31 @@ qx.Class.define("qx.ui.core.Blocker",
       this.fireEvent("unblocked", qx.event.type.Event);
     },
 
-
     /**
      * Block direct child widgets with a zIndex below <code>zIndex</code>
      *
      * @param zIndex {Integer} All child widgets with a zIndex below this value
      *     will be blocked
      */
-    blockContent : function(zIndex) {
+    blockContent(zIndex) {
       this._block(zIndex, true);
     },
-
 
     /**
      * Stops the passed "Tab" event.
      *
      * @param e {qx.event.type.KeySequence} event to stop.
      */
-    __stopTabEvent : function(e) {
+    __stopTabEvent(e) {
       if (e.getKeyIdentifier() == "Tab") {
         e.stop();
       }
     },
 
-
     /**
      * Sets the blocker element to active.
      */
-    __activateBlockerElement : function() {
+    __activateBlockerElement() {
       //
       // If this._widget is attached to the focus handler as a focus root,
       // activating the blocker after this widget was deactivated,
@@ -519,13 +480,14 @@ qx.Class.define("qx.ui.core.Blocker",
       //  https://github.com/qooxdoo/qooxdoo/issues/9449
       //  https://github.com/qooxdoo/qooxdoo/issues/8104
       //
-      if (this.getKeepBlockerActive() &&
-          !qx.ui.core.FocusHandler.getInstance().isFocusRoot(this._widget)) {
+      if (
+        this.getKeepBlockerActive() &&
+        !qx.ui.core.FocusHandler.getInstance().isFocusRoot(this._widget)
+      ) {
         this.getBlockerElement().activate();
       }
     }
   },
-
 
   /*
   *****************************************************************************
@@ -533,12 +495,13 @@ qx.Class.define("qx.ui.core.Blocker",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme", this._onChangeTheme, this
+        "changeTheme",
+        this._onChangeTheme,
+        this
       );
     }
 
@@ -552,7 +515,6 @@ qx.Class.define("qx.ui.core.Blocker",
     }
 
     this._disposeObjects("__blocker", "__timer");
-    this.__activeElements = this.__focusElements =
-      this._widget = null;
+    this.__activeElements = this.__focusElements = this._widget = null;
   }
 });

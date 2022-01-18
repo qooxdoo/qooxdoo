@@ -16,19 +16,15 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Viewport",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Viewport", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testGetScrollLeft : function()
-    {
+  members: {
+    testGetScrollLeft() {
       this.assertPositiveInteger(qx.bom.Viewport.getScrollLeft());
     },
 
-    testGetScrollTop : function()
-    {
+    testGetScrollTop() {
       this.assertPositiveInteger(qx.bom.Viewport.getScrollTop());
     }
   }

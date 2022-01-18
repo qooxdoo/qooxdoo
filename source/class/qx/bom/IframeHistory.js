@@ -29,53 +29,41 @@
  *
  * @internal
  */
-qx.Class.define("qx.bom.IframeHistory",
-{
-  extend : qx.bom.History,
-  implement: [ qx.core.IDisposable ],
+qx.Class.define("qx.bom.IframeHistory", {
+  extend: qx.bom.History,
+  implement: [qx.core.IDisposable],
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__initTimer();
   },
 
-
-  members :
-  {
-    __iframe : null,
-    __iframeReady : false,
-    __writeStateTimner : null,
-    __dontApplyState : null,
-    __locationState : null,
-
+  members: {
+    __iframe: null,
+    __iframeReady: false,
+    __writeStateTimner: null,
+    __dontApplyState: null,
+    __locationState: null,
 
     // overridden
-    _setInitialState : function()
-    {
-      this.base(arguments);
+    _setInitialState() {
+      super._setInitialState();
       this.__locationState = this._getHash();
     },
 
-
     //overridden
-    _setHash : function(value)
-    {
-      this.base(arguments, value);
+    _setHash(value) {
+      super._setHash(value);
       this.__locationState = this._encode(value);
     },
 
-
     //overridden
-    addToHistory : function(state, newTitle)
-    {
+    addToHistory(state, newTitle) {
       if (!qx.lang.Type.isString(state)) {
         state = state + "";
       }
 
-      if (qx.lang.Type.isString(newTitle))
-      {
+      if (qx.lang.Type.isString(newTitle)) {
         this.setTitle(newTitle);
         this._titles[state] = newTitle;
       }
@@ -86,10 +74,8 @@ qx.Class.define("qx.bom.IframeHistory",
       this.fireDataEvent("request", state);
     },
 
-
     //overridden
-    _onHistoryLoad : function(state)
-    {
+    _onHistoryLoad(state) {
       this._setState(state);
       this.fireDataEvent("request", state);
       if (this._titles[state] != null) {
@@ -97,37 +83,31 @@ qx.Class.define("qx.bom.IframeHistory",
       }
     },
 
-
     /**
      * Helper function to set state property. This will only be called
      * by _onHistoryLoad. It determines, that no apply of state will be called.
      * @param state {String} State loaded from history
      */
-    _setState : function(state)
-    {
+    _setState(state) {
       this.__dontApplyState = true;
       this.setState(state);
       this.__dontApplyState = false;
     },
 
-
     //overridden
-    _applyState : function(value, old)
-    {
-      if (this.__dontApplyState){
+    _applyState(value, old) {
+      if (this.__dontApplyState) {
         return;
       }
       this._writeState(value);
     },
-
 
     /**
      * Get state from the iframe
      *
      * @return {String} current state of the browser history
      */
-    _readState : function()
-    {
+    _readState() {
       if (!this.__iframeReady) {
         return this._decode(this._getHash());
       }
@@ -137,17 +117,21 @@ qx.Class.define("qx.bom.IframeHistory",
       return elem ? this._decode(elem.innerText) : "";
     },
 
-
     /**
      * Store state to the iframe
      *
      * @param state {String} state to save
      */
-    _writeState : function(state)
-    {
+    _writeState(state) {
       if (!this.__iframeReady) {
         this.__clearWriteSateTimer();
-        this.__writeStateTimner = qx.event.Timer.once(function(){this._writeState(state);}, this, 50);
+        this.__writeStateTimner = qx.event.Timer.once(
+          function () {
+            this._writeState(state);
+          },
+          this,
+          50
+        );
         return;
       }
       this.__clearWriteSateTimer();
@@ -155,47 +139,50 @@ qx.Class.define("qx.bom.IframeHistory",
       var state = this._encode(state);
 
       // IE8 is sometimes recognizing a hash change as history entry. Cause of sporadic surface of this behavior, we have to prevent setting hash.
-      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") != 8){
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.version") != 8
+      ) {
         this._setHash(state);
       }
 
       var doc = this.__iframe.contentWindow.document;
       doc.open();
-      doc.write('<html><body><div id="state">' + state + '</div></body></html>');
+      doc.write(
+        '<html><body><div id="state">' + state + "</div></body></html>"
+      );
       doc.close();
     },
-
 
     /**
      * Helper function to clear the write state timer.
      */
-    __clearWriteSateTimer : function()
-    {
-      if (this.__writeStateTimner){
+    __clearWriteSateTimer() {
+      if (this.__writeStateTimner) {
         this.__writeStateTimner.stop();
         this.__writeStateTimner.dispose();
       }
     },
 
-
     /**
      * Initialize the polling timer
      */
-    __initTimer : function()
-    {
+    __initTimer() {
       this.__initIframe(function () {
-        qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
+        qx.event.Idle.getInstance().addListener(
+          "interval",
+          this.__onHashChange,
+          this
+        );
       });
     },
-
 
     /**
      * Hash change listener.
      *
      * @param e {qx.event.type.Event} event instance
      */
-    __onHashChange : function(e)
-    {
+    __onHashChange(e) {
       // the location only changes if the user manually changes the fragment
       // identifier.
       var currentState = null;
@@ -206,11 +193,13 @@ qx.Class.define("qx.bom.IframeHistory",
       } else {
         currentState = this._readState();
       }
-      if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
+      if (
+        qx.lang.Type.isString(currentState) &&
+        currentState != this.getState()
+      ) {
         this._onHistoryLoad(currentState);
       }
     },
-
 
     /**
      * Stores the given location state.
@@ -218,14 +207,12 @@ qx.Class.define("qx.bom.IframeHistory",
      * @param locationState {String} location state
      * @return {String}
      */
-    __storeLocationState : function (locationState)
-    {
+    __storeLocationState(locationState) {
       locationState = this._decode(locationState);
       this._writeState(locationState);
 
       return locationState;
     },
-
 
     /**
      * Checks whether the given location state is the current one.
@@ -233,23 +220,23 @@ qx.Class.define("qx.bom.IframeHistory",
      * @param locationState {String} location state to check
      * @return {Boolean}
      */
-    __isCurrentLocationState : function (locationState) {
-      return qx.lang.Type.isString(locationState) && locationState == this.__locationState;
+    __isCurrentLocationState(locationState) {
+      return (
+        qx.lang.Type.isString(locationState) &&
+        locationState == this.__locationState
+      );
     },
-
 
     /**
      * Initializes the iframe
      *
      * @param handler {Function?null} if given this callback is executed after iframe is ready to use
      */
-    __initIframe : function(handler)
-    {
+    __initIframe(handler) {
       this.__iframe = this.__createIframe();
       document.body.appendChild(this.__iframe);
 
-      this.__waitForIFrame(function()
-      {
+      this.__waitForIFrame(function () {
         this._writeState(this.getState());
 
         if (handler) {
@@ -258,7 +245,6 @@ qx.Class.define("qx.bom.IframeHistory",
       }, this);
     },
 
-
     /**
      * IMPORTANT NOTE FOR IE:
      * Setting the source before adding the iframe to the document.
@@ -266,10 +252,11 @@ qx.Class.define("qx.bom.IframeHistory",
      *
      * @return {qx.bom.Iframe}
      */
-    __createIframe : function ()
-    {
+    __createIframe() {
       var iframe = qx.bom.Iframe.create({
-        src : qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage"))
+        src: qx.util.ResourceManager.getInstance().toUri(
+          qx.core.Environment.get("qx.blankpage")
+        )
       });
 
       iframe.style.visibility = "hidden";
@@ -280,7 +267,6 @@ qx.Class.define("qx.bom.IframeHistory",
       return iframe;
     },
 
-
     /**
      * Waits for the IFrame being loaded. Once the IFrame is loaded
      * the callback is called with the provided context.
@@ -289,21 +275,26 @@ qx.Class.define("qx.bom.IframeHistory",
      * @param context {Object?window} The context for the callback.
      * @param retry {Integer} number of tries to initialize the iframe
      */
-    __waitForIFrame : function(callback, context, retry)
-    {
+    __waitForIFrame(callback, context, retry) {
       if (typeof retry === "undefined") {
         retry = 0;
       }
 
-      if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
-      {
+      if (
+        !this.__iframe.contentWindow ||
+        !this.__iframe.contentWindow.document
+      ) {
         if (retry > 20) {
           throw new Error("can't initialize iframe");
         }
 
-        qx.event.Timer.once(function() {
-          this.__waitForIFrame(callback, context, ++retry);
-        }, this, 10);
+        qx.event.Timer.once(
+          function () {
+            this.__waitForIFrame(callback, context, ++retry);
+          },
+          this,
+          10
+        );
 
         return;
       }
@@ -313,14 +304,16 @@ qx.Class.define("qx.bom.IframeHistory",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.__iframe = null;
-    if (this.__writeStateTimner){
+    if (this.__writeStateTimner) {
       this.__writeStateTimner.dispose();
       this.__writeStateTimner = null;
     }
-    qx.event.Idle.getInstance().removeListener("interval", this.__onHashChange, this);
+    qx.event.Idle.getInstance().removeListener(
+      "interval",
+      this.__onHashChange,
+      this
+    );
   }
 });

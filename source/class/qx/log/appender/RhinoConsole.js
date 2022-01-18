@@ -24,17 +24,15 @@
  */
 /* global java */
 qx.Class.define("qx.log.appender.RhinoConsole", {
-
-  statics:
-  {
+  statics: {
     /**
      * java.lang.System.out
      */
-    __OUT : null,
+    __OUT: null,
     /**
      * java.lang.System.err
      */
-    __ERR : null,
+    __ERR: null,
 
     /**
      * Writes a message to the shell. Errors will be sent to STDERR, everything
@@ -43,8 +41,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      * @param logMessage {String} Message to be logged
      * @param level {String} Log level. One of "debug", "info", "warn", "error"
      */
-    log : function(logMessage, level)
-    {
+    log(logMessage, level) {
       if (level == "error") {
         this.__ERR.println(logMessage);
       } else {
@@ -57,8 +54,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    debug : function(logMessage)
-    {
+    debug(logMessage) {
       this.log(logMessage, "debug");
     },
 
@@ -67,8 +63,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    info : function(logMessage)
-    {
+    info(logMessage) {
       this.log(logMessage, "info");
     },
 
@@ -77,8 +72,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    warn : function(logMessage)
-    {
+    warn(logMessage) {
       this.log(logMessage, "warn");
     },
 
@@ -87,8 +81,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    error : function(logMessage)
-    {
+    error(logMessage) {
       this.log(logMessage, "error");
     },
 
@@ -97,28 +90,24 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
      *
      * @param entry {Map} Log entry object
      */
-    process : function(entry)
-    {
+    process(entry) {
       var level = entry.level || "info";
       for (var prop in entry) {
         if (prop == "items") {
           var items = entry[prop];
-          for (var p=0, l=items.length; p<l; p++) {
+          for (var p = 0, l = items.length; p < l; p++) {
             var item = items[p];
             this[level](item.text);
           }
         }
       }
     }
-
   },
 
-  defer : function()
-  {
-    if (typeof(java) !== "undefined" && typeof(java.lang) !== "undefined") {
+  defer() {
+    if (typeof java !== "undefined" && typeof java.lang !== "undefined") {
       qx.log.appender.RhinoConsole.__OUT = java.lang.System.out;
       qx.log.appender.RhinoConsole.__ERR = java.lang.System.err;
     }
   }
-
 });

@@ -17,25 +17,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.placement.BestFitAxis",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.placement.BestFitAxis", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.axis = qx.util.placement.BestFitAxis;
     },
 
-    tearDown : function() {
+    tearDown() {
       delete this.axis;
     },
 
-    testEnoughSpace : function()
-    {
+    testEnoughSpace() {
       var size = 50;
-      var target = {start: 500, end: 600};
-      var offsets = {start: 10, end: 20};
+      var target = { start: 500, end: 600 };
+      var offsets = { start: 10, end: 20 };
       var areaSize = 1000;
 
       this.assertEquals(
@@ -64,12 +61,10 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
     },
 
-
-    testNotEnoughSpaceStart : function()
-    {
+    testNotEnoughSpaceStart() {
       var size = 250;
-      var target = {start: 30, end: 200};
-      var offsets = {start: 10, end: 20};
+      var target = { start: 30, end: 200 };
+      var offsets = { start: 10, end: 20 };
       var areaSize = 1000;
 
       this.assertEquals(
@@ -98,12 +93,10 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
     },
 
-
-    testNotEnoughSpaceEnd : function()
-    {
+    testNotEnoughSpaceEnd() {
       var size = 250;
-      var target = {start: 300, end: 400};
-      var offsets = {start: 10, end: 20};
+      var target = { start: 300, end: 400 };
+      var offsets = { start: 10, end: 20 };
       var areaSize = 500;
 
       this.assertEquals(
@@ -132,12 +125,10 @@ qx.Class.define("qx.test.util.placement.BestFitAxis",
       );
     },
 
-
-    testNotEnoughSpaceBothSides : function()
-    {
+    testNotEnoughSpaceBothSides() {
       var size = 250;
-      var target = {start: 50, end: 100};
-      var offsets = {start: 10, end: 20};
+      var target = { start: 50, end: 100 };
+      var offsets = { start: 10, end: 20 };
       var areaSize = 150;
 
       this.assertEquals(

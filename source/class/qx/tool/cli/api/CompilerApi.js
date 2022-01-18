@@ -30,12 +30,16 @@ const fs = qx.tool.utils.Promisify.fs;
 qx.Class.define("qx.tool.cli.api.CompilerApi", {
   extend: qx.tool.cli.api.AbstractApi,
 
-  construct: function () {
-    this.base(arguments);
+  construct() {
+    super();
     this.__libraryApis = {};
-    this.addListener("changeCommand", function () {
-      this.afterCommandLoaded(this.getCommand());
-    }, this);
+    this.addListener(
+      "changeCommand",
+      function () {
+        this.afterCommandLoaded(this.getCommand());
+      },
+      this
+    );
   },
 
   properties: {
@@ -93,13 +97,16 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
      * @overridden
      */
     async load() {
-      let compileJsonPath = path.join(this.getRootDir(), this.getConfigFilename());
+      let compileJsonPath = path.join(
+        this.getRootDir(),
+        this.getConfigFilename()
+      );
       let config = {};
       if (await fs.existsAsync(compileJsonPath)) {
         config = await qx.tool.utils.Json.loadJsonAsync(compileJsonPath);
       }
       this.setConfiguration(config);
-      return this.base(arguments);
+      return super.load();
     },
 
     /**
@@ -110,7 +117,6 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
     async afterProcessFinished(cmd, res) {
       // Nothing
     },
-
 
     /**
      * Called after all libraries have been loaded and added to the compilation data

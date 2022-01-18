@@ -38,11 +38,8 @@
  * @ignore(qx.ui.menu.Manager.*)
  * @ignore(qx.ui)
  */
-qx.Class.define("qx.ui.root.Application",
-{
-  extend : qx.ui.root.Abstract,
-
-
+qx.Class.define("qx.ui.root.Application", {
+  extend: qx.ui.root.Abstract,
 
   /*
   *****************************************************************************
@@ -53,17 +50,21 @@ qx.Class.define("qx.ui.root.Application",
   /**
    * @param doc {Document} Document to use
    */
-  construct : function(doc)
-  {
+  construct(doc) {
     // Symbolic links
     this.__window = qx.dom.Node.getWindow(doc);
     this.__doc = doc;
 
     // Base call
-    this.base(arguments);
+    super();
 
     // Resize handling
-    qx.event.Registration.addListener(this.__window, "resize", this._onResize, this);
+    qx.event.Registration.addListener(
+      this.__window,
+      "resize",
+      this._onResize,
+      this
+    );
 
     // Use a hard-coded canvas layout
     this._setLayout(new qx.ui.layout.Canvas());
@@ -84,20 +85,22 @@ qx.Class.define("qx.ui.root.Application",
 
     // handle focus for iOS which seems to deny any focus action
     if (qx.core.Environment.get("os.name") == "ios") {
-      this.getContentElement().addListener("tap", function(e) {
-        var widget = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
-        while (widget && !widget.isFocusable()) {
-          widget = widget.getLayoutParent();
-        }
-        if (widget && widget.isFocusable()) {
-          widget.getContentElement().focus();
-        }
-      }, this, true);
+      this.getContentElement().addListener(
+        "tap",
+        function (e) {
+          var widget = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+          while (widget && !widget.isFocusable()) {
+            widget = widget.getLayoutParent();
+          }
+          if (widget && widget.isFocusable()) {
+            widget.getContentElement().focus();
+          }
+        },
+        this,
+        true
+      );
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -105,11 +108,9 @@ qx.Class.define("qx.ui.root.Application",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __window : null,
-    __doc : null,
+  members: {
+    __window: null,
+    __doc: null,
 
     // overridden
     /**
@@ -118,19 +119,19 @@ qx.Class.define("qx.ui.root.Application",
      * @lint ignoreDeprecated(alert)
      * @return {qx.html.Element} The container HTML element
      */
-    _createContentElement : function()
-    {
+    _createContentElement() {
       var doc = this.__doc;
 
-      if ((qx.core.Environment.get("engine.name") == "webkit"))
-      {
+      if (qx.core.Environment.get("engine.name") == "webkit") {
         // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) no body
         // element seems to be available in the DOM, if the HTML file did not
         // contain a body tag explicitly. Unfortunately, it cannot be added
         // here dynamically.
         if (!doc.body) {
           /* eslint-disable-next-line no-alert */
-          window.alert("The application could not be started due to a missing body tag in the HTML file!");
+          window.alert(
+            "The application could not be started due to a missing body tag in the HTML file!"
+          );
         }
       }
 
@@ -147,9 +148,9 @@ qx.Class.define("qx.ui.root.Application",
 
       var root = new qx.html.Root(elem);
       root.setStyles({
-        "position" : "absolute",
-        "overflowX" : "hidden",
-        "overflowY" : "hidden"
+        position: "absolute",
+        overflowX: "hidden",
+        overflowY: "hidden"
       });
 
       // Store reference to the widget in the DOM element.
@@ -158,13 +159,12 @@ qx.Class.define("qx.ui.root.Application",
       return root;
     },
 
-
     /**
      * Listener for window's resize event
      *
      * @param e {qx.event.type.Event} Event object
      */
-    _onResize : function(e) {
+    _onResize(e) {
       qx.ui.core.queue.Layout.add(this);
 
       // close all popups
@@ -178,45 +178,45 @@ qx.Class.define("qx.ui.root.Application",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var width = qx.bom.Viewport.getWidth(this.__window);
       var height = qx.bom.Viewport.getHeight(this.__window);
 
       return {
-        minWidth : width,
-        width : width,
-        maxWidth : width,
-        minHeight : height,
-        height : height,
-        maxHeight : height
+        minWidth: width,
+        width: width,
+        maxWidth: width,
+        minHeight: height,
+        height: height,
+        maxHeight: height
       };
     },
 
-
     // overridden
-    _applyPadding : function(value, old, name)
-    {
+    _applyPadding(value, old, name) {
       if (value && (name == "paddingTop" || name == "paddingLeft")) {
-        throw new Error("The root widget does not support 'left', or 'top' paddings!");
+        throw new Error(
+          "The root widget does not support 'left', or 'top' paddings!"
+        );
       }
-      this.base(arguments, value, old, name);
+      super._applyPadding(value, old, name);
     },
-
 
     /**
      * Handler for the native 'touchstart' on the window which prevents
      * the native page scrolling.
      * @param e {qx.event.type.Touch} The qooxdoo touch event.
      */
-    __stopScrolling : function(e) {
+    __stopScrolling(e) {
       var node = e.getOriginalTarget();
       while (node && node.style) {
-        var touchAction = qx.bom.element.Style.get(node, "touch-action") !== "none" &&
+        var touchAction =
+          qx.bom.element.Style.get(node, "touch-action") !== "none" &&
           qx.bom.element.Style.get(node, "touch-action") !== "";
-        var webkitOverflowScrolling = qx.bom.element.Style.get(node, "-webkit-overflow-scrolling") === "touch";
+        var webkitOverflowScrolling =
+          qx.bom.element.Style.get(node, "-webkit-overflow-scrolling") ===
+          "touch";
         var overflowX = qx.bom.element.Style.get(node, "overflowX") != "hidden";
         var overflowY = qx.bom.element.Style.get(node, "overflowY") != "hidden";
 
@@ -229,19 +229,15 @@ qx.Class.define("qx.ui.root.Application",
     },
 
     // overridden
-    destroy : function()
-    {
+    destroy() {
       if (this.$$disposed) {
         return;
       }
 
       qx.dom.Element.remove(this.getContentElement().getDomElement());
-      this.base(arguments);
+      super.destroy();
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -249,7 +245,7 @@ qx.Class.define("qx.ui.root.Application",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__window = this.__doc = null;
   }
 });

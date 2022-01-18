@@ -24,12 +24,8 @@
  * @childControl slider {qx.ui.splitpane.Slider} shown during resizing the splitpane
  * @childControl splitter {qx.ui.splitpane.Splitter} splitter to resize the splitpane
  */
-qx.Class.define("qx.ui.splitpane.Pane",
-{
-  extend : qx.ui.core.Widget,
-
-
-
+qx.Class.define("qx.ui.splitpane.Pane", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -44,9 +40,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
    * @param orientation {String} The orientation of the split pane control.
    * Allowed values are "horizontal" (default) and "vertical".
    */
-  construct : function(orientation)
-  {
-    this.base(arguments);
+  construct(orientation) {
+    super();
 
     this.__children = [];
 
@@ -65,48 +60,38 @@ qx.Class.define("qx.ui.splitpane.Pane",
     this.__blocker.addListener("losecapture", this._onPointerUp, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "splitpane"
+    appearance: {
+      refine: true,
+      init: "splitpane"
     },
 
     /**
      * Distance between pointer and splitter when the cursor should change
      * and enable resizing.
      */
-    offset :
-    {
-      check : "Integer",
-      init : 6,
-      apply : "_applyOffset"
+    offset: {
+      check: "Integer",
+      init: 6,
+      apply: "_applyOffset"
     },
 
     /**
      * The orientation of the splitpane control.
      */
-    orientation :
-    {
-      init  : "horizontal",
-      check : [ "horizontal", "vertical" ],
-      apply : "_applyOrientation"
+    orientation: {
+      init: "horizontal",
+      check: ["horizontal", "vertical"],
+      apply: "_applyOrientation"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -114,45 +99,39 @@ qx.Class.define("qx.ui.splitpane.Pane",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __splitterOffset : null,
-    __activeDragSession : false,
-    __lastPointerX : null,
-    __lastPointerY : null,
-    __isHorizontal : null,
-    __beginSize : null,
-    __endSize : null,
-    __children : null,
-    __blocker : null,
-
+  members: {
+    __splitterOffset: null,
+    __activeDragSession: false,
+    __lastPointerX: null,
+    __lastPointerY: null,
+    __isHorizontal: null,
+    __beginSize: null,
+    __endSize: null,
+    __children: null,
+    __blocker: null,
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         // Create and add slider
         case "slider":
           control = new qx.ui.splitpane.Slider(this);
           control.exclude();
-          this._add(control, {type : id});
+          this._add(control, { type: id });
           break;
 
         // Create splitter
         case "splitter":
           control = new qx.ui.splitpane.Splitter(this);
-          this._add(control, {type : id});
+          this._add(control, { type: id });
           control.addListener("move", this.__onSplitterMove, this);
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * Move handler for the splitter which takes care of the external
@@ -160,10 +139,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param e {qx.event.type.Data} The data even of move.
      */
-    __onSplitterMove : function(e) {
+    __onSplitterMove(e) {
       this.__setBlockerPosition(e.getData());
     },
-
 
     /**
      * Creates a blocker for the splitter which takes all bouse events and
@@ -171,30 +149,40 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param orientation {String} The orientation of the pane.
      */
-    __createBlocker : function(orientation) {
+    __createBlocker(orientation) {
       this.__blocker = new qx.ui.splitpane.Blocker(orientation);
       this.getContentElement().add(this.__blocker);
 
       var splitter = this.getChildControl("splitter");
       var splitterWidth = splitter.getWidth();
       if (!splitterWidth) {
-        splitter.addListenerOnce("appear", function() {
-          this.__setBlockerPosition();
-        }, this);
+        splitter.addListenerOnce(
+          "appear",
+          function () {
+            this.__setBlockerPosition();
+          },
+          this
+        );
       }
 
       // resize listener to remove the blocker in case the splitter
       // is removed.
-      splitter.addListener("resize", function(e) {
-        var bounds = e.getData();
-        if (this.getChildControl("splitter").isKnobVisible() && (bounds.height == 0 || bounds.width == 0)) {
-          this.__blocker.hide();
-        } else {
-          this.__blocker.show();
-        }
-      }, this);
+      splitter.addListener(
+        "resize",
+        function (e) {
+          var bounds = e.getData();
+          if (
+            this.getChildControl("splitter").isKnobVisible() &&
+            (bounds.height == 0 || bounds.width == 0)
+          ) {
+            this.__blocker.hide();
+          } else {
+            this.__blocker.show();
+          }
+        },
+        this
+      );
     },
-
 
     /**
      * Returns the blocker used over the splitter. this could be used for
@@ -204,11 +192,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @internal
      */
-    getBlocker : function() {
+    getBlocker() {
       return this.__blocker;
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -224,8 +210,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * @param value {String} The new value of the orientation property
      * @param old {String} The old value of the orientation property
      */
-    _applyOrientation : function(value, old)
-    {
+    _applyOrientation(value, old) {
       // ARIA attrs
       this.getContentElement().setAttribute("aria-orientation", value);
 
@@ -249,8 +234,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       // Create new layout
-      var newLayout = value === "vertical" ?
-        new qx.ui.splitpane.VLayout : new qx.ui.splitpane.HLayout;
+      var newLayout =
+        value === "vertical"
+          ? new qx.ui.splitpane.VLayout()
+          : new qx.ui.splitpane.HLayout();
       this._setLayout(newLayout);
 
       // Update states for splitter and slider
@@ -266,9 +253,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__setBlockerPosition();
     },
 
-
     // property apply
-    _applyOffset : function(value, old) {
+    _applyOffset(value, old) {
       this.__setBlockerPosition();
     },
 
@@ -279,7 +265,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * @param bounds {Map?null} If the bounds of the splitter are known,
      *   they can be added.
      */
-    __setBlockerPosition : function(bounds) {
+    __setBlockerPosition(bounds) {
       var splitter = this.getChildControl("splitter");
       var offset = this.getOffset();
       var splitterBounds = splitter.getBounds();
@@ -309,7 +295,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
           this.__blocker.setLeft(offset, left);
         }
 
-      // vertical case
+        // vertical case
       } else {
         // get the height either of the given bounds or of the read bounds
         var height = null;
@@ -318,7 +304,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         } else if (splitterBounds) {
           height = splitterBounds.height;
         }
-        var top =  bounds && bounds.top;
+        var top = bounds && bounds.top;
 
         if (height || !this.getChildControl("splitter").isKnobVisible()) {
           if (isNaN(top)) {
@@ -329,7 +315,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -348,38 +333,33 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * @param widget {qx.ui.core.Widget} The widget to be inserted into pane.
      * @param flex {Number} The (optional) layout property for the widget's flex value.
      */
-    add : function(widget, flex)
-    {
+    add(widget, flex) {
       if (flex === undefined) {
         this._add(widget);
       } else {
-        this._add(widget, {flex : flex});
+        this._add(widget, { flex: flex });
       }
       this.__children.push(widget);
     },
-
 
     /**
      * Removes the given widget from the pane.
      *
      * @param widget {qx.ui.core.Widget} The widget to be removed.
      */
-    remove : function(widget)
-    {
+    remove(widget) {
       this._remove(widget);
       qx.lang.Array.remove(this.__children, widget);
     },
-
 
     /**
      * Returns an array containing the pane's content.
      *
      * @return {qx.ui.core.Widget[]} The pane's child widgets
      */
-    getChildren : function() {
+    getChildren() {
       return this.__children;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -394,8 +374,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param e {qx.event.type.Pointer} pointerdown event
      */
-    _onPointerDown : function(e)
-    {
+    _onPointerDown(e) {
       // Only proceed if left pointer button is pressed and the splitter is active
       if (!e.isLeftPressed()) {
         return;
@@ -406,16 +385,18 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Store offset between pointer event coordinates and splitter
       var splitterLocation = splitter.getContentLocation();
       var paneLocation = this.getContentLocation();
-      this.__splitterOffset = this.__isHorizontal ?
-        e.getDocumentLeft() - splitterLocation.left + paneLocation.left :
-        e.getDocumentTop() - splitterLocation.top + paneLocation.top ;
+      this.__splitterOffset = this.__isHorizontal
+        ? e.getDocumentLeft() - splitterLocation.left + paneLocation.left
+        : e.getDocumentTop() - splitterLocation.top + paneLocation.top;
 
       // Synchronize slider to splitter size and show it
       var slider = this.getChildControl("slider");
       var splitterBounds = splitter.getBounds();
       slider.setUserBounds(
-        splitterBounds.left, splitterBounds.top,
-        splitterBounds.width || 6, splitterBounds.height || 6
+        splitterBounds.left,
+        splitterBounds.top,
+        splitterBounds.width || 6,
+        splitterBounds.height || 6
       );
 
       slider.setZIndex(splitter.getZIndex() + 1);
@@ -428,19 +409,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
       e.stop();
     },
 
-
     /**
      * Handler for pointermove event.
      *
      * @param e {qx.event.type.Pointer} pointermove event
      */
-    _onPointerMove : function(e)
-    {
+    _onPointerMove(e) {
       this._setLastPointerPosition(e.getDocumentLeft(), e.getDocumentTop());
 
       // Check if slider is already being dragged
-      if (this.__activeDragSession)
-      {
+      if (this.__activeDragSession) {
         // Compute new children sizes
         this.__computeSizes();
 
@@ -448,29 +426,26 @@ qx.Class.define("qx.ui.splitpane.Pane",
         var slider = this.getChildControl("slider");
         var pos = this.__beginSize;
 
-        if(this.__isHorizontal) {
+        if (this.__isHorizontal) {
           slider.setDomLeft(pos);
-          this.__blocker.setStyle("left", (pos - this.getOffset()) + "px");
+          this.__blocker.setStyle("left", pos - this.getOffset() + "px");
         } else {
           slider.setDomTop(pos);
-          this.__blocker.setStyle("top", (pos - this.getOffset()) + "px");
+          this.__blocker.setStyle("top", pos - this.getOffset() + "px");
         }
 
         e.stop();
       }
     },
 
-
     /**
      * Handler for pointerout event
      *
      * @param e {qx.event.type.Pointer} pointerout event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       this._setLastPointerPosition(e.getDocumentLeft(), e.getDocumentTop());
     },
-
 
     /**
      * Handler for pointerup event
@@ -479,8 +454,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param e {qx.event.type.Pointer} pointerup event
      */
-    _onPointerUp : function(e)
-    {
+    _onPointerUp(e) {
       if (!this.__activeDragSession) {
         return;
       }
@@ -499,7 +473,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       e.stop();
     },
 
-
     /*
     ---------------------------------------------------------------------------
       INTERVAL HANDLING
@@ -509,8 +482,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Updates widgets' sizes based on the slider position.
      */
-    _finalizeSizes : function()
-    {
+    _finalizeSizes() {
       var beginSize = this.__beginSize;
       var endSize = this.__endSize;
 
@@ -527,39 +499,38 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var secondFlexValue = secondWidget.getLayoutProperties().flex;
 
       // Both widgets have flex values
-      if((firstFlexValue != 0) && (secondFlexValue != 0))
-      {
-        firstWidget.setLayoutProperties({ flex : beginSize });
-        secondWidget.setLayoutProperties({ flex : endSize });
+      if (firstFlexValue != 0 && secondFlexValue != 0) {
+        firstWidget.setLayoutProperties({ flex: beginSize });
+        secondWidget.setLayoutProperties({ flex: endSize });
       }
 
       // Update both sizes
-      else
-      {
+      else {
         // Set widths to static widgets
-        if (this.__isHorizontal)
-        {
+        if (this.__isHorizontal) {
           firstWidget.setWidth(beginSize);
           secondWidget.setWidth(endSize);
-        }
-        else
-        {
+        } else {
           firstWidget.setHeight(beginSize);
           secondWidget.setHeight(endSize);
         }
       }
     },
 
-
     /**
      * Computes widgets' sizes based on the pointer coordinate.
      */
-    __computeSizes : function()
-    {
+    __computeSizes() {
       if (this.__isHorizontal) {
-        var min="minWidth", size="width", max="maxWidth", pointer=this.__lastPointerX;
+        var min = "minWidth",
+          size = "width",
+          max = "maxWidth",
+          pointer = this.__lastPointerX;
       } else {
-        var min="minHeight", size="height", max="maxHeight", pointer=this.__lastPointerY;
+        var min = "minHeight",
+          size = "height",
+          max = "maxHeight",
+          pointer = this.__lastPointerY;
       }
 
       var children = this._getChildren();
@@ -567,32 +538,27 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var endHint = children[3].getSizeHint();
 
       // Area given to both widgets
-      var allocatedSize = children[2].getBounds()[size] + children[3].getBounds()[size];
+      var allocatedSize =
+        children[2].getBounds()[size] + children[3].getBounds()[size];
 
       // Calculate widget sizes
       var beginSize = pointer - this.__splitterOffset;
       var endSize = allocatedSize - beginSize;
 
       // Respect minimum limits
-      if (beginSize < beginHint[min])
-      {
+      if (beginSize < beginHint[min]) {
         endSize -= beginHint[min] - beginSize;
         beginSize = beginHint[min];
-      }
-      else if (endSize < endHint[min])
-      {
+      } else if (endSize < endHint[min]) {
         beginSize -= endHint[min] - endSize;
         endSize = endHint[min];
       }
 
       // Respect maximum limits
-      if (beginSize > beginHint[max])
-      {
+      if (beginSize > beginHint[max]) {
         endSize += beginSize - beginHint[max];
         beginSize = beginHint[max];
-      }
-      else if (endSize > endHint[max])
-      {
+      } else if (endSize > endHint[max]) {
         beginSize += endSize - endHint[max];
         endSize = endHint[max];
       }
@@ -602,16 +568,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__endSize = endSize;
     },
 
-
     /**
      * Determines whether this is an active drag session
      *
      * @return {Boolean} True if active drag session, otherwise false.
      */
-    _isActiveDragSession : function() {
+    _isActiveDragSession() {
       return this.__activeDragSession;
     },
-
 
     /**
      * Sets the last pointer position.
@@ -619,15 +583,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * @param x {Integer} the x position of the pointer.
      * @param y {Integer} the y position of the pointer.
      */
-     _setLastPointerPosition : function(x, y)
-     {
-       this.__lastPointerX = x;
-       this.__lastPointerY = y;
-     }
+    _setLastPointerPosition(x, y) {
+      this.__lastPointerX = x;
+      this.__lastPointerY = y;
+    }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.__children = null;
   }
 });

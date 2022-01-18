@@ -31,10 +31,8 @@
  * So this class seems to be the best compromise to handle
  * string concatenation.
  */
-qx.Class.define("qx.util.StringBuilder",
-{
-  extend : qx.type.BaseArray,
-
+qx.Class.define("qx.util.StringBuilder", {
+  extend: qx.type.BaseArray,
 
   /*
   *****************************************************************************
@@ -58,7 +56,7 @@ qx.Class.define("qx.util.StringBuilder",
    * @param length_or_items {Integer|var?null} The initial length of the StringBuilder
    *        OR an argument list of values.
    */
-  construct : function(length_or_items) {
+  construct(length_or_items) {
     qx.type.BaseArray.apply(this, arguments);
   },
 
@@ -68,26 +66,23 @@ qx.Class.define("qx.util.StringBuilder",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Removes all content
      *
      */
-    clear : function() {
+    clear() {
       this.length = 0;
     },
-
 
     /**
      * Returns the concatted strings.
      *
      * @return {String} Concatted strings
      */
-    get : function() {
+    get() {
       return this.join("");
     },
-
 
     /**
      * Adds new strings. Supports multiple arguments.
@@ -95,31 +90,26 @@ qx.Class.define("qx.util.StringBuilder",
      * @signature function(varargs)
      * @param varargs {String} The separate strings to add
      */
-    add : null,
-
+    add: null,
 
     /**
      * Whether the string builder is empty
      *
      * @return {Boolean} <code>true</code> when the builder is empty
      */
-    isEmpty : function() {
+    isEmpty() {
       return this.length === 0;
     },
-
 
     /**
      * Returns the size of the strings
      *
      * @return {Integer} The string length
      */
-    size : function(){
+    size() {
       return this.join("").length;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -127,8 +117,7 @@ qx.Class.define("qx.util.StringBuilder",
   *****************************************************************************
   */
 
-  defer : function(statics, members)
-  {
+  defer(statics, members) {
     members.add = members.push;
     members.toString = members.get;
     members.valueOf = members.get;

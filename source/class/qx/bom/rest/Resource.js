@@ -55,10 +55,9 @@
  * @group (IO)
  * @ignore(qx.core.Object.*)
  */
-qx.Bootstrap.define("qx.bom.rest.Resource",
-{
+qx.Bootstrap.define("qx.bom.rest.Resource", {
   extend: qx.event.Emitter,
-  implement: [ qx.core.IDisposable ],
+  implement: [qx.core.IDisposable],
 
   /**
    * @param description {Map?} Each key of the map is interpreted as
@@ -69,8 +68,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
    * @see qx.bom.rest
    * @see qx.io.rest
    */
-  construct: function(description)
-  {
+  construct(description) {
     this.__requests = {};
     this.__routes = {};
     this.__pollTimers = {};
@@ -83,14 +81,13 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         }
         this.__mapFromDescription(description);
       }
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }
   },
 
-  events:
-  {
+  events: {
     /**
      * Fired when any request was successful.
      *
@@ -99,7 +96,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Additionally, an action specific event is fired that follows the pattern
      * "<action>Success", e.g. "indexSuccess".
      */
-    "success": "qx.bom.rest.Resource",
+    success: "qx.bom.rest.Resource",
 
     /**
      * Fired when request associated to action given in prefix was successful.
@@ -107,7 +104,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * For example, "indexSuccess" is fired when <code>index()</code> was
      * successful.
      */
-     "actionSuccess": "qx.bom.rest.Resource",
+    actionSuccess: "qx.bom.rest.Resource",
 
     /**
      * Fired when any request fails.
@@ -117,19 +114,19 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Additionally, an action specific event is fired that follows the pattern
      * "<action>Error", e.g. "indexError".
      */
-    "error": "qx.bom.rest.Resource",
+    error: "qx.bom.rest.Resource",
 
     /**
      * Fired when any request associated to action given in prefix fails.
      *
      * For example, "indexError" is fired when <code>index()</code> failed.
      */
-     "actionError": "qx.bom.rest.Resource",
+    actionError: "qx.bom.rest.Resource",
 
     /**
      * Fired when a request is sent to the given endpoint.
      */
-    "sent": "qx.bom.rest.Resource",
+    sent: "qx.bom.rest.Resource",
 
     /**
      * Fired when any request associated to action is sent to the given endpoint.
@@ -137,13 +134,13 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * For example, "indexSent" is fired when <code>index()</code> was
      * called.
      */
-     "actionSent": "qx.bom.rest.Resource",
+    actionSent: "qx.bom.rest.Resource",
 
     /**
      * Fired when a request is started to the given endpoint. This moment is right after the request
      * was opened and send.
      */
-    "started": "qx.bom.rest.Resource",
+    started: "qx.bom.rest.Resource",
 
     /**
      * Fired when any request associated to action is started to the given endpoint. This moment is
@@ -151,11 +148,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * For example, "indexStarted" is fired when <code>index()</code> was called.
      */
-     "actionStarted": "qx.bom.rest.Resource"
+    actionStarted: "qx.bom.rest.Resource"
   },
 
-  statics:
-  {
+  statics: {
     /**
      * Number of milliseconds below a long-poll request is considered immediate and
      * subject to throttling checks.
@@ -178,10 +174,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param url {String} The URL to parse for placeholders.
      * @return {Array} Array of placeholders without the placeholder prefix.
      */
-    placeholdersFromUrl: function(url) {
+    placeholdersFromUrl(url) {
       var placeholderRe = /\{(\w+)(=\w+)?\}/g,
-          match,
-          placeholders = [];
+        match,
+        placeholders = [];
 
       // With g flag set, searching begins at the regex object's
       // lastIndex, which is zero initially and increments with each match.
@@ -193,8 +189,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
     }
   },
 
-  members:
-  {
+  members: {
     __requests: null,
     __routes: null,
     __baseUrl: null,
@@ -224,7 +219,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @internal
      */
-    setRequestFactory: function(fn) {
+    setRequestFactory(fn) {
       this.__begetRequest = fn;
     },
 
@@ -235,7 +230,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @internal
      */
-    setRequestHandler: function(handler) {
+    setRequestHandler(handler) {
       this.__requestHandler = handler;
     },
 
@@ -244,95 +239,112 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @return {Map} Map defining callbacks and their context.
      */
-    _getRequestHandler: function() {
-      return (this.__requestHandler === null) ? {
-        onsuccess: {
-          callback: function(req, action) {
-            return function() {
-              var response = {
-                  "id": parseInt(req.toHashCode(), 10),
-                  "response": req.getResponse(),
-                  "request": req,
-                  "action": action
-              };
-              this.emit(action + "Success", response);
-              this.emit("success", response);
-            };
-          },
-          context: this
-        },
-        onfail: {
-          callback: function(req, action) {
-            return function() {
-              var response = {
-                  "id": parseInt(req.toHashCode(), 10),
-                  "response": req.getResponse(),
-                  "request": req,
-                  "action": action
-              };
-              this.emit(action + "Error", response);
-              this.emit("error", response);
-            };
-          },
-          context: this
-        },
-        onloadend: {
-          callback: function(req, action) {
-            return function() {
-              // [#8315] // dispose asynchronous to work with Sinon.js
-              window.setTimeout(function() {
-                req.dispose();
-              }, 0);
-            };
-          },
-          context: this
-        },
-        onreadystatechange: {
-          callback: function(req, action) {
-            return function () {
-              if (req.getTransport().readyState === qx.bom.request.Xhr.HEADERS_RECEIVED) {
-                var response = {
-                    "id": parseInt(req.toHashCode(), 10),
-                    "request": req,
-                    "action": action
-                };
-                this.emit(action + "Sent", response);
-                this.emit("sent", response);
-              }
+    _getRequestHandler() {
+      return this.__requestHandler === null
+        ? {
+            onsuccess: {
+              callback(req, action) {
+                return function () {
+                  var response = {
+                    id: parseInt(req.toHashCode(), 10),
+                    response: req.getResponse(),
+                    request: req,
+                    action: action
+                  };
 
-              if (req.getTransport().readyState === qx.bom.request.Xhr.OPENED) {
-                var payload = {
-                  "id": parseInt(req.toHashCode(), 10),
-                  "request": req,
-                  "action": action
+                  this.emit(action + "Success", response);
+                  this.emit("success", response);
                 };
-                this.emit(action + "Started", payload);
-                this.emit("started", payload);
-              }
-            };
-          },
-          context: this
-        },
-        onprogress: {
-          callback: function(req, action) {
-            return function () {
-              var payload = {
-                "id": parseInt(req.toHashCode(), 10),
-                "request": req,
-                "action": action,
-                "progress": {
-                  "lengthComputable": req.getTransport().progress.lengthComputable,
-                  "loaded": req.getTransport().progress.loaded,
-                  "total": req.getTransport().progress.total
-                }
-              };
-              this.emit(action + "Progress", payload);
-              this.emit("progress", payload);
-            };
-          },
-          context: this
-        }
-      } : this.__requestHandler;
+              },
+              context: this
+            },
+
+            onfail: {
+              callback(req, action) {
+                return function () {
+                  var response = {
+                    id: parseInt(req.toHashCode(), 10),
+                    response: req.getResponse(),
+                    request: req,
+                    action: action
+                  };
+
+                  this.emit(action + "Error", response);
+                  this.emit("error", response);
+                };
+              },
+              context: this
+            },
+
+            onloadend: {
+              callback(req, action) {
+                return function () {
+                  // [#8315] // dispose asynchronous to work with Sinon.js
+                  window.setTimeout(function () {
+                    req.dispose();
+                  }, 0);
+                };
+              },
+              context: this
+            },
+
+            onreadystatechange: {
+              callback(req, action) {
+                return function () {
+                  if (
+                    req.getTransport().readyState ===
+                    qx.bom.request.Xhr.HEADERS_RECEIVED
+                  ) {
+                    var response = {
+                      id: parseInt(req.toHashCode(), 10),
+                      request: req,
+                      action: action
+                    };
+
+                    this.emit(action + "Sent", response);
+                    this.emit("sent", response);
+                  }
+
+                  if (
+                    req.getTransport().readyState === qx.bom.request.Xhr.OPENED
+                  ) {
+                    var payload = {
+                      id: parseInt(req.toHashCode(), 10),
+                      request: req,
+                      action: action
+                    };
+
+                    this.emit(action + "Started", payload);
+                    this.emit("started", payload);
+                  }
+                };
+              },
+              context: this
+            },
+
+            onprogress: {
+              callback(req, action) {
+                return function () {
+                  var payload = {
+                    id: parseInt(req.toHashCode(), 10),
+                    request: req,
+                    action: action,
+                    progress: {
+                      lengthComputable:
+                        req.getTransport().progress.lengthComputable,
+                      loaded: req.getTransport().progress.loaded,
+                      total: req.getTransport().progress.total
+                    }
+                  };
+
+                  this.emit(action + "Progress", payload);
+                  this.emit("progress", payload);
+                };
+              },
+              context: this
+            }
+          }
+        : this.__requestHandler;
     },
 
     /**
@@ -343,8 +355,8 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @internal
      */
-    getRequestsByAction: function (action) {
-      var hasRequests = (this.__requests !== null && action in this.__requests);
+    getRequestsByAction(action) {
+      var hasRequests = this.__requests !== null && action in this.__requests;
       return hasRequests ? this.__requests[action] : null;
     },
 
@@ -354,7 +366,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param callback {Function} Function called before request is send.
      *   Receives request, action, params and data.
      */
-    configureRequest: function(callback) {
+    configureRequest(callback) {
       this.__configureRequestCallback = callback;
     },
 
@@ -364,9 +376,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * May be overridden to change type of request.
      * @return {qx.bom.request.SimpleXhr|qx.io.request.AbstractRequest} Request object
      */
-    _getRequest: function() {
-      return (this.__begetRequest === null) ? new qx.bom.request.SimpleXhr()
-                                            : this.__begetRequest();
+    _getRequest() {
+      return this.__begetRequest === null
+        ? new qx.bom.request.SimpleXhr()
+        : this.__begetRequest();
     },
 
     /**
@@ -375,7 +388,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param action {String} The action the created request is associated to.
      * @return {qx.bom.request.SimpleXhr|qx.io.request.AbstractRequest} Request object
      */
-    __createRequest: function(action) {
+    __createRequest(action) {
       var req = this._getRequest();
 
       if (!qx.lang.Type.isArray(this.__requests[action])) {
@@ -405,7 +418,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *   the URL parameter and the value a regular expression (to match string) or
      *   <code>qx.bom.rest.Resource.REQUIRED</code> (to verify existence).
      */
-    map: function(action, method, url, check) {
+    map(action, method, url, check) {
       this.__routes[action] = [method, url, check];
 
       // Track requests
@@ -418,17 +431,20 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
 
       // Do not overwrite existing "non-action" methods unless the method is
       // null (i.e. because it exists as a stub for documentation)
-      if (typeof this[action] !== "undefined" && this[action] !== null &&
-          this[action].action !== true)
-      {
-        throw new Error("Method with name of action (" +
-          action + ") already exists");
+      if (
+        typeof this[action] !== "undefined" &&
+        this[action] !== null &&
+        this[action].action !== true
+      ) {
+        throw new Error(
+          "Method with name of action (" + action + ") already exists"
+        );
       }
 
       this.__declareEvent(action + "Success");
       this.__declareEvent(action + "Error");
 
-      this[action] = qx.lang.Function.bind(function() {
+      this[action] = qx.lang.Function.bind(function () {
         Array.prototype.unshift.call(arguments, action);
         return this.invoke.apply(this, arguments);
       }, this);
@@ -454,10 +470,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *  See {@link qx.io.request.AbstractRequest#requestData}.
      * @return {Number} Id of the action's invocation.
      */
-    invoke: function(action, params, data) {
+    invoke(action, params, data) {
       var req = this.__createRequest(action),
-          params = params == null ? {} : params,
-          config = this._getRequestConfig(action, params);
+        params = params == null ? {} : params,
+        config = this._getRequestConfig(action, params);
 
       // Cache parameters
       this.__routes[action].params = params;
@@ -484,18 +500,21 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         reqHandler.onsuccess.callback(req, action),
         reqHandler.onsuccess.context
       );
+
       // Handle erroneous request
       req.addListenerOnce(
         "fail",
         reqHandler.onfail.callback(req, action),
         reqHandler.onfail.context
       );
+
       // Handle loadend (Note that loadEnd is fired after "success")
       req.addListenerOnce(
         "loadEnd",
         reqHandler.onloadend.callback(req, action),
         reqHandler.onloadend.context
       );
+
       if (reqHandler.hasOwnProperty("onreadystatechange")) {
         req.addListener(
           "readystatechange",
@@ -525,7 +544,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param baseUrl {String} Base URL.
      */
-    setBaseUrl: function(baseUrl) {
+    setBaseUrl(baseUrl) {
       this.__baseUrl = baseUrl;
     },
 
@@ -535,15 +554,16 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param params {Map} Parameters.
      * @param check {Map} Checks.
      */
-    __checkParameters: function(params, check) {
-      if(typeof check !== "undefined") {
-
+    __checkParameters(params, check) {
+      if (typeof check !== "undefined") {
         if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertObject(check, "Check must be object with params as keys");
+          qx.core.Assert.assertObject(
+            check,
+            "Check must be object with params as keys"
+          );
         }
 
-        Object.keys(check).forEach(function(param) {
-
+        Object.keys(check).forEach(function (param) {
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
             if (check[param] !== true) {
@@ -554,7 +574,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
           }
 
           // Missing parameter
-          if (check[param] === qx.bom.rest.Resource.REQUIRED && typeof params[param] === "undefined") {
+          if (
+            check[param] === qx.bom.rest.Resource.REQUIRED &&
+            typeof params[param] === "undefined"
+          ) {
             throw new Error("Missing parameter '" + param + "'");
           }
 
@@ -578,11 +601,15 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param config {Map} Configuration.
      * @param data {Map} Data.
      */
-    __configureRequest: function(req, config, data) {
+    __configureRequest(req, config, data) {
       req.setUrl(config.url);
 
       if (!req.setMethod && config.method !== "GET") {
-        throw new Error("Request (" + req.classname + ") doesn't support other HTTP methods than 'GET'");
+        throw new Error(
+          "Request (" +
+            req.classname +
+            ") doesn't support other HTTP methods than 'GET'"
+        );
       }
 
       if (req.setMethod) {
@@ -601,12 +628,15 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param config {Map} Configuration.
      * @param data {Map} Data.
      */
-    __configureJsonRequest: function(req, config, data) {
+    __configureJsonRequest(req, config, data) {
       if (data) {
         var contentType = req.getRequestHeader("Content-Type");
 
-        if (req.getMethod && qx.util.Request.methodAllowsRequestBody(req.getMethod())) {
-          if ((/application\/.*\+?json/).test(contentType)) {
+        if (
+          req.getMethod &&
+          qx.util.Request.methodAllowsRequestBody(req.getMethod())
+        ) {
+          if (/application\/.*\+?json/.test(contentType)) {
             data = qx.lang.Json.stringify(data);
             req.setRequestData(data);
           }
@@ -620,7 +650,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param varargs {String|Number} Action of which all invocations to abort
      *  (when string), or a single invocation of an action to abort (when number)
      */
-    abort: function(varargs) {
+    abort(varargs) {
       if (qx.lang.Type.isNumber(varargs)) {
         var id = varargs;
         var post = qx.core.ObjectRegistry.getPostId();
@@ -632,7 +662,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         var action = varargs;
         var reqs = this.__requests[action];
         if (this.__requests[action]) {
-          reqs.forEach(function(req) {
+          reqs.forEach(function (req) {
             req.abort();
           });
         }
@@ -646,7 +676,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param action {String} Action to refresh.
      */
-    refresh: function(action) {
+    refresh(action) {
       this.invoke(action, this.__routes[action].params);
     },
 
@@ -674,7 +704,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param immediately {Boolean?false} <code>true</code>, if the poll should
      *   invoke a call immediately.
      */
-    poll: function(action, interval, params, immediately) {
+    poll(action, interval, params, immediately) {
       // Dispose timer previously created for action
       if (this.__pollTimers[action]) {
         this.stopPollByAction(action);
@@ -690,8 +720,8 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         this.invoke(action, params);
       }
 
-      var intervalListener = (function(scope) {
-        return function() {
+      var intervalListener = (function (scope) {
+        return function () {
           var req = scope.__requests[action][0];
           if (!immediately && !req) {
             scope.invoke(action, params);
@@ -706,7 +736,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
       this._startPoll(action, intervalListener, interval);
     },
 
-
     /**
      * Start a poll process.
      *
@@ -714,11 +743,11 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param listener {Function} The function to repeatedly execute at the given interval.
      * @param interval {Number} Interval in ms.
      */
-    _startPoll: function(action, listener, interval) {
+    _startPoll(action, listener, interval) {
       this.__pollTimers[action] = {
-        "id": window.setInterval(listener, interval),
-        "interval": interval,
-        "listener": listener
+        id: window.setInterval(listener, interval),
+        interval: interval,
+        listener: listener
       };
     },
 
@@ -727,7 +756,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param action {String} Action to poll.
      */
-    stopPollByAction: function(action) {
+    stopPollByAction(action) {
       if (action in this.__pollTimers) {
         var intervalId = this.__pollTimers[action].id;
         window.clearInterval(intervalId);
@@ -739,7 +768,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param action {String} Action to poll.
      */
-    restartPollByAction: function(action) {
+    restartPollByAction(action) {
       if (action in this.__pollTimers) {
         var timer = this.__pollTimers[action];
         this.stopPollByAction(action);
@@ -769,24 +798,27 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @return {String} Id of handler responsible for long-polling. To stop
      *  polling, remove handler using {@link qx.core.Object#removeListenerById}.
      */
-    longPoll: function(action) {
+    longPoll(action) {
       var res = this,
-          lastResponse,               // Keep track of last response
-          immediateResponseCount = 0; // Count immediate responses
+        lastResponse, // Keep track of last response
+        immediateResponseCount = 0; // Count immediate responses
 
       // Throttle to prevent high load on server and client
       function throttle() {
         var isImmediateResponse =
-          lastResponse &&
-          ((new Date()) - lastResponse) < res._getThrottleLimit();
+          lastResponse && new Date() - lastResponse < res._getThrottleLimit();
 
         if (isImmediateResponse) {
           immediateResponseCount += 1;
           if (immediateResponseCount > res._getThrottleCount()) {
             if (qx.core.Environment.get("qx.debug")) {
-              qx.Bootstrap.debug("Received successful response more than " +
-                res._getThrottleCount() + " times subsequently, each within " +
-                res._getThrottleLimit() + " ms. Throttling.");
+              qx.Bootstrap.debug(
+                "Received successful response more than " +
+                  res._getThrottleCount() +
+                  " times subsequently, each within " +
+                  res._getThrottleLimit() +
+                  " ms. Throttling."
+              );
             }
             return true;
           }
@@ -800,8 +832,9 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         return false;
       }
 
-      var handlerId = this.__longPollHandlers[action] =
-        this.addListener(action + "Success", function longPollHandler() {
+      var handlerId = (this.__longPollHandlers[action] = this.addListener(
+        action + "Success",
+        function longPollHandler() {
           if (res.isDisposed()) {
             return;
           }
@@ -810,7 +843,8 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
             lastResponse = new Date();
             res.refresh(action);
           }
-        });
+        }
+      ));
 
       this.invoke(action);
       return handlerId;
@@ -826,7 +860,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @return {Map} Map of configuration settings. Has the properties
      *   <code>method</code>, <code>url</code> and <code>check</code>.
      */
-    _getRequestConfig: function(action, params) {
+    _getRequestConfig(action, params) {
       var route = this.__routes[action];
 
       // Not modify original params
@@ -837,16 +871,16 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
       }
 
       var method = route[0],
-          url = this.__baseUrl !== null ? this.__baseUrl + route[1] : route[1],
-          check = route[2],
-          placeholders = qx.bom.rest.Resource.placeholdersFromUrl(url);
+        url = this.__baseUrl !== null ? this.__baseUrl + route[1] : route[1],
+        check = route[2],
+        placeholders = qx.bom.rest.Resource.placeholdersFromUrl(url);
 
       params = params || {};
 
-      placeholders.forEach(function(placeholder) {
+      placeholders.forEach(function (placeholder) {
         // Placeholder part of template and default value
         var re = new RegExp("{" + placeholder + "=?(\\w+)?}"),
-            defaultValue = url.match(re)[1];
+          defaultValue = url.match(re)[1];
 
         // Fill in default or empty string when missing
         if (typeof params[placeholder] === "undefined") {
@@ -860,14 +894,14 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         url = url.replace(re, params[placeholder]);
       });
 
-      return {method: method, url: url, check: check};
+      return { method: method, url: url, check: check };
     },
 
     /**
      * Override to adjust the throttle limit.
      * @return {Integer} Throttle limit in milliseconds
      */
-    _getThrottleLimit: function() {
+    _getThrottleLimit() {
       return qx.bom.rest.Resource.POLL_THROTTLE_LIMIT;
     },
 
@@ -875,7 +909,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Override to adjust the throttle count.
      * @return {Integer} Throttle count
      */
-    _getThrottleCount: function() {
+    _getThrottleCount() {
       return qx.bom.rest.Resource.POLL_THROTTLE_COUNT;
     },
 
@@ -886,16 +920,22 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param description {Map} Map that defines the routes.
      */
-    __mapFromDescription: function(description) {
-      Object.keys(description).forEach(function(action) {
+    __mapFromDescription(description) {
+      Object.keys(description).forEach(function (action) {
         var route = description[action],
-            method = route.method,
-            url = route.url,
-            check = route.check;
+          method = route.method,
+          url = route.url,
+          check = route.check;
 
         if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertString(method, "Method must be string for route '" + action + "'");
-          qx.core.Assert.assertString(url, "URL must be string for route '" + action + "'");
+          qx.core.Assert.assertString(
+            method,
+            "Method must be string for route '" + action + "'"
+          );
+          qx.core.Assert.assertString(
+            url,
+            "URL must be string for route '" + action + "'"
+          );
         }
 
         this.map(action, method, url, check);
@@ -907,7 +947,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param type {String} Type of event.
      */
-    __declareEvent: function(type) {
+    __declareEvent(type) {
       if (!this.constructor.$$events) {
         this.constructor.$$events = {};
       }
@@ -928,17 +968,15 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @return {Boolean} Whether the object has been disposed
      */
-    isDisposed : function() {
+    isDisposed() {
       return this.$$disposed || false;
     },
-
 
     /**
      * Dispose this object
      *
      */
-    dispose : function()
-    {
+    dispose() {
       // Check first
       if (this.$$disposed) {
         return;
@@ -948,28 +986,30 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
       this.$$disposed = true;
 
       // Debug output
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
-          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.Bootstrap.debug(
+            this,
+            "Disposing " + this.classname + "[" + this.toHashCode() + "]"
+          );
         }
       }
 
       this.destruct();
 
       // Additional checks
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.debug.dispose.level") > 0)
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0) {
           var key, value;
-          for (key in this)
-          {
+          for (key in this) {
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (value !== null && typeof value === "object" && !(qx.Bootstrap.isString(value)))
-            {
+            if (
+              value !== null &&
+              typeof value === "object" &&
+              !qx.Bootstrap.isString(value)
+            ) {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
               // private variables (hint: checks in qx.Class.define). We accept both.
@@ -981,13 +1021,36 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
               var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
               // keep the old behavior for IE6 and FF2
               if (ff2 || ie6) {
-                if (qx.core.Object && value instanceof qx.core.Object || qx.core.Environment.get("qx.debug.dispose.level") > 1) {
-                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                if (
+                  (qx.core.Object && value instanceof qx.core.Object) ||
+                  qx.core.Environment.get("qx.debug.dispose.level") > 1
+                ) {
+                  qx.Bootstrap.warn(
+                    this,
+                    "Missing destruct definition for '" +
+                      key +
+                      "' in " +
+                      this.classname +
+                      "[" +
+                      this.toHashCode() +
+                      "]: " +
+                      value
+                  );
                   delete this[key];
                 }
               } else {
                 if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
-                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                  qx.Bootstrap.warn(
+                    this,
+                    "Missing destruct definition for '" +
+                      key +
+                      "' in " +
+                      this.classname +
+                      "[" +
+                      this.toHashCode() +
+                      "]: " +
+                      value
+                  );
                   delete this[key];
                 }
               }
@@ -1002,12 +1065,12 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * All created requests, routes and pollTimers will be disposed.
      */
-    destruct: function() {
+    destruct() {
       var action;
 
       for (action in this.__requests) {
         if (this.__requests[action]) {
-          this.__requests[action].forEach(function(req) {
+          this.__requests[action].forEach(function (req) {
             req.dispose();
           });
         }

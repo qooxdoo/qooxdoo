@@ -19,10 +19,8 @@
 /**
  * The Row widget represents a row in a {@link Form}.
  */
-qx.Class.define("qx.ui.mobile.form.Row",
-{
-  extend : qx.ui.mobile.container.Composite,
-
+qx.Class.define("qx.ui.mobile.form.Row", {
+  extend: qx.ui.mobile.container.Composite,
 
   /*
   *****************************************************************************
@@ -34,14 +32,10 @@ qx.Class.define("qx.ui.mobile.form.Row",
    * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
    *     container
    */
-  construct : function(layout)
-  {
-    this.base(arguments, layout);
+  construct(layout) {
+    super(layout);
     this.initSelectable();
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -49,29 +43,22 @@ qx.Class.define("qx.ui.mobile.form.Row",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "form-row"
+    defaultCssClass: {
+      refine: true,
+      init: "form-row"
     },
-
 
     /**
      * Whether the widget is selectable or not.
      */
-    selectable :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyAttribute"
+    selectable: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyAttribute"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -79,11 +66,9 @@ qx.Class.define("qx.ui.mobile.form.Row",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "li";
     }
   }

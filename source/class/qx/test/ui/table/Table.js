@@ -15,38 +15,31 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.table.Table",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.table.Table", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    createModel : function()
-    {
+  members: {
+    createModel() {
       var tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([ "ID", "A number", "String", "A date", "Boolean" ]);
+      tableModel.setColumns(["ID", "A number", "String", "A date", "Boolean"]);
       tableModel.setData(this.createRandomRows(5));
 
       return tableModel;
     },
 
-
-    createRandomRows : function(rowCount)
-    {
+    createRandomRows(rowCount) {
       var rowData = [];
       var nextId = 0;
       var strings = ["a", "b", "c", "d"];
       for (var row = 0; row < rowCount; row++) {
         var date = new Date(row * row * row);
         var number = row % 2 == 0 ? row / 2 : NaN;
-        rowData.push([ nextId++, number, strings[row % 4], date, (row % 2 == 1) ]);
+        rowData.push([nextId++, number, strings[row % 4], date, row % 2 == 1]);
       }
       return rowData;
     },
 
-
-    testSortInteger : function()
-    {
+    testSortInteger() {
       // table
       var model = this.createModel();
       var table = new qx.ui.table.Table(model);
@@ -55,22 +48,20 @@ qx.Class.define("qx.test.ui.table.Table",
       model.sortByColumn(0);
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][0] >= data[i+1][0]);
+        this.assertTrue(data[i][0] >= data[i + 1][0]);
       }
 
       // sort ascending
       model.sortByColumn(0, true);
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][0] <= data[i+1][0]);
+        this.assertTrue(data[i][0] <= data[i + 1][0]);
       }
 
       table.destroy();
       model.dispose();
     },
 
-
-    testSortIntegerNaN : function()
-    {
+    testSortIntegerNaN() {
       // table
       var model = this.createModel();
       var table = new qx.ui.table.Table(model);
@@ -81,12 +72,12 @@ qx.Class.define("qx.test.ui.table.Table",
       for (var i = 0; i < data.length - 1; i++) {
         if (isNaN(data[i][1])) {
           // both should be NaN
-          this.assertTrue(isNaN(data[i+1][1]));
-        } else if (isNaN(data[i+1][1])) {
+          this.assertTrue(isNaN(data[i + 1][1]));
+        } else if (isNaN(data[i + 1][1])) {
           // should be a number
           this.assertFalse(isNaN(data[i][1]));
         } else {
-          this.assertTrue(data[i][1] >= data[i+1][1]);
+          this.assertTrue(data[i][1] >= data[i + 1][1]);
         }
       }
 
@@ -96,12 +87,12 @@ qx.Class.define("qx.test.ui.table.Table",
       for (var i = 0; i < data.length - 1; i++) {
         if (isNaN(data[i][1])) {
           // both should be NaN
-          this.assertTrue(isNaN(data[i+1][1]));
-        } else if (isNaN(data[i+1][1])) {
+          this.assertTrue(isNaN(data[i + 1][1]));
+        } else if (isNaN(data[i + 1][1])) {
           // should be a number
           this.assertFalse(isNaN(data[i][1]));
         } else {
-          this.assertTrue(data[i][1] <= data[i+1][1]);
+          this.assertTrue(data[i][1] <= data[i + 1][1]);
         }
       }
 
@@ -109,9 +100,7 @@ qx.Class.define("qx.test.ui.table.Table",
       model.dispose();
     },
 
-
-    testSortIntegerNaNInsensitive : function()
-    {
+    testSortIntegerNaNInsensitive() {
       // table
       var model = this.createModel();
       var table = new qx.ui.table.Table(model);
@@ -123,12 +112,12 @@ qx.Class.define("qx.test.ui.table.Table",
       for (var i = 0; i < data.length - 1; i++) {
         if (isNaN(data[i][1])) {
           // both should be NaN
-          this.assertTrue(isNaN(data[i+1][1]));
-        } else if (isNaN(data[i+1][1])) {
+          this.assertTrue(isNaN(data[i + 1][1]));
+        } else if (isNaN(data[i + 1][1])) {
           // should be a number
           this.assertFalse(isNaN(data[i][1]));
         } else {
-          this.assertTrue(data[i][1] >= data[i+1][1]);
+          this.assertTrue(data[i][1] >= data[i + 1][1]);
         }
       }
 
@@ -138,12 +127,12 @@ qx.Class.define("qx.test.ui.table.Table",
       for (var i = 0; i < data.length - 1; i++) {
         if (isNaN(data[i][1])) {
           // both should be NaN
-          this.assertTrue(isNaN(data[i+1][1]));
-        } else if (isNaN(data[i+1][1])) {
+          this.assertTrue(isNaN(data[i + 1][1]));
+        } else if (isNaN(data[i + 1][1])) {
           // should be a number
           this.assertFalse(isNaN(data[i][1]));
         } else {
-          this.assertTrue(data[i][1] <= data[i+1][1]);
+          this.assertTrue(data[i][1] <= data[i + 1][1]);
         }
       }
 
@@ -151,9 +140,7 @@ qx.Class.define("qx.test.ui.table.Table",
       model.dispose();
     },
 
-
-    testSortStringInsensitive : function()
-    {
+    testSortStringInsensitive() {
       // table
       var model = this.createModel();
       var table = new qx.ui.table.Table(model);
@@ -163,22 +150,20 @@ qx.Class.define("qx.test.ui.table.Table",
       model.sortByColumn(2);
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][2] >= data[i+1][2]);
+        this.assertTrue(data[i][2] >= data[i + 1][2]);
       }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][2] <= data[i+1][2]);
+        this.assertTrue(data[i][2] <= data[i + 1][2]);
       }
 
       table.destroy();
       model.dispose();
     },
 
-
-    testSortString : function()
-    {
+    testSortString() {
       // table
       var model = this.createModel();
       var table = new qx.ui.table.Table(model);
@@ -187,25 +172,30 @@ qx.Class.define("qx.test.ui.table.Table",
       model.sortByColumn(2);
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][2] >= data[i+1][2]);
+        this.assertTrue(data[i][2] >= data[i + 1][2]);
       }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
-        this.assertTrue(data[i][2] <= data[i+1][2]);
+        this.assertTrue(data[i][2] <= data[i + 1][2]);
       }
 
       table.destroy();
       model.dispose();
     },
 
-
-    testRegularListener : function() {
+    testRegularListener() {
       var table = new qx.ui.table.Table();
 
       var executed = false;
-      var id = table.addListener("changeRowHeight", function() {executed = true;}, this);
+      var id = table.addListener(
+        "changeRowHeight",
+        function () {
+          executed = true;
+        },
+        this
+      );
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -217,14 +207,19 @@ qx.Class.define("qx.test.ui.table.Table",
       table.destroy();
     },
 
-
-    testSpecialListener : function() {
+    testSpecialListener() {
       var table = new qx.ui.table.Table();
       // use a meta column to see if both events are handled properly
       table.setMetaColumnCounts([1, -1]);
 
       var executed = false;
-      var id = table.addListener("cellClick", function() {executed = true;}, this);
+      var id = table.addListener(
+        "cellClick",
+        function () {
+          executed = true;
+        },
+        this
+      );
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -233,25 +228,31 @@ qx.Class.define("qx.test.ui.table.Table",
       var scroller = table._getPaneScrollerArr()[0];
       var mouse = new qx.event.type.Mouse();
       mouse.init({}, scroller, scroller, false, true);
-      scroller.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [scroller, mouse, 0, 0], true);
+      scroller.fireEvent(
+        "cellClick",
+        qx.ui.table.pane.CellEvent,
+        [scroller, mouse, 0, 0],
+        true
+      );
       this.assertFalse(executed, "Listener not removed");
 
       mouse.dispose();
       table.destroy();
     },
 
-
-    testScrollAfterScrollbarVisibilityChange : function()
-    {
+    testScrollAfterScrollbarVisibilityChange() {
       var rowData = [];
       for (var row = 0; row < 15; row++) {
-        rowData.push([ row ]);
+        rowData.push([row]);
       }
 
       var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns(["ID"]);
       tableModel.setData(rowData);
-      var table = new qx.ui.table.Table(tableModel).set({width: 200, height: 200});
+      var table = new qx.ui.table.Table(tableModel).set({
+        width: 200,
+        height: 200
+      });
       this.getRoot().add(table);
 
       qx.ui.core.queue.Manager.flush();
@@ -264,30 +265,30 @@ qx.Class.define("qx.test.ui.table.Table",
       table.getTableColumnModel().setColumnWidth(0, 100);
       // check that the table is not scrolled back to the top
       this.assertEquals(100, table.getPaneScroller(0).getScrollY());
-      
+
       table.destroy();
       tableModel.dispose();
     },
 
-
-    testFocusAfterRemove : function()
-    {
+    testFocusAfterRemove() {
       var tableModelSimple = new qx.ui.table.model.Simple();
-      tableModelSimple.setColumns([ "Location", "Team" ]);
+      tableModelSimple.setColumns(["Location", "Team"]);
       var tableSimple = new qx.ui.table.Table(tableModelSimple);
 
-      var data = [ [1, 'team1'],
-                   [2, 'team2'],
-                   [3, 'team3']];
+      var data = [
+        [1, "team1"],
+        [2, "team2"],
+        [3, "team3"]
+      ];
 
       tableModelSimple.setData(data);
 
       // select and focus row 2
-      tableSimple.getSelectionModel().addSelectionInterval(1,1);
-      tableSimple.setFocusedCell(1,1);
+      tableSimple.getSelectionModel().addSelectionInterval(1, 1);
+      tableSimple.setFocusedCell(1, 1);
 
       // remove this row
-      tableModelSimple.removeRows(1,1);
+      tableModelSimple.removeRows(1, 1);
 
       // check if the selection and the focus is gone
       this.assertEquals(null, tableSimple.getFocusedRow()); // don't use assertNull because it can be undefined

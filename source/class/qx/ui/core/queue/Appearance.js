@@ -21,16 +21,13 @@
  * The AppearanceQueue registers all widgets which are influences through
  * state changes.
  */
-qx.Class.define("qx.ui.core.queue.Appearance",
-{
-  statics :
-  {
+qx.Class.define("qx.ui.core.queue.Appearance", {
+  statics: {
     /** @type {Array} This contains all the queued widgets for the next flush. */
-    __queue : [],
-    
-    /** @type {Map} map of widgets by hash code which are in the queue */
-    __lookup : {},
+    __queue: [],
 
+    /** @type {Map} map of widgets by hash code which are in the queue */
+    __lookup: {},
 
     /**
      * Clears the widget from the internal queue. Normally only used
@@ -38,13 +35,12 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
-    remove : function(widget) {
-    	if (this.__lookup[widget.toHashCode()]) {
-    		qx.lang.Array.remove(this.__queue, widget);
-    		delete this.__lookup[widget.toHashCode()];
-    	}
+    remove(widget) {
+      if (this.__lookup[widget.toHashCode()]) {
+        qx.lang.Array.remove(this.__queue, widget);
+        delete this.__lookup[widget.toHashCode()];
+      }
     },
-
 
     /**
      * Adds a widget to the queue.
@@ -53,8 +49,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
      */
-    add : function(widget)
-    {
+    add(widget) {
       if (this.__lookup[widget.toHashCode()]) {
         return;
       }
@@ -64,36 +59,32 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
 
-
     /**
      * Whether the given widget is already queued
      *
      * @param widget {qx.ui.core.Widget} The widget to check
      * @return {Boolean} <code>true</code> if the widget is queued
      */
-    has : function(widget) {
+    has(widget) {
       return !!this.__lookup[widget.toHashCode()];
     },
-
 
     /**
      * Flushes the appearance queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      */
-    flush : function()
-    {
+    flush() {
       var Visibility = qx.ui.core.queue.Visibility;
 
       var queue = this.__queue;
       var obj;
 
-      for (var i = queue.length - 1; i >= 0; i--)
-      {
+      for (var i = queue.length - 1; i >= 0; i--) {
         // Order is important to allow the same widget to be re-queued directly
         obj = queue[i];
         queue.splice(i, 1);
-        delete this.__lookup[obj.toHashCode()]
+        delete this.__lookup[obj.toHashCode()];
 
         // Only apply to currently visible widgets
         if (Visibility.isVisible(obj)) {

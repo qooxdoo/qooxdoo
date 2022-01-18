@@ -22,13 +22,10 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.Util",
-{
-  statics :
-  {
+qx.Class.define("qx.ui.layout.Util", {
+  statics: {
     /** @type {RegExp} Regular expression to match percent values */
-    PERCENT_VALUE : /[0-9]+(?:\.[0-9]+)?%/,
-
+    PERCENT_VALUE: /[0-9]+(?:\.[0-9]+)?%/,
 
     /**
      * Computes the flex offsets needed to reduce the space
@@ -48,72 +45,62 @@ qx.Class.define("qx.ui.layout.Util",
      * @return {Map} A map which contains the calculated offsets under the key
      *   which is identical to the ID given in the incoming map.
      */
-    computeFlexOffsets : function(flexibles, avail, used)
-    {
+    computeFlexOffsets(flexibles, avail, used) {
       var child, key, flexSum, flexStep;
       var grow = avail > used;
       var remaining = Math.abs(avail - used);
       var roundingOffset, currentOffset;
 
-
       // Preprocess data
       var result = {};
-      for (key in flexibles)
-      {
+      for (key in flexibles) {
         child = flexibles[key];
-        result[key] =
-        {
-          potential : grow ? child.max - child.value : child.value - child.min,
-          flex : grow ? child.flex : 1 / child.flex,
-          offset : 0
+        result[key] = {
+          potential: grow ? child.max - child.value : child.value - child.min,
+          flex: grow ? child.flex : 1 / child.flex,
+          offset: 0
         };
       }
 
-
       // Continue as long as we need to do anything
-      while (remaining != 0)
-      {
+      while (remaining != 0) {
         // Find minimum potential for next correction
         flexStep = Infinity;
         flexSum = 0;
-        for (key in result)
-        {
+        for (key in result) {
           child = result[key];
 
-          if (child.potential > 0)
-          {
+          if (child.potential > 0) {
             flexSum += child.flex;
             flexStep = Math.min(flexStep, child.potential / child.flex);
           }
         }
-
 
         // No potential found, quit here
         if (flexSum == 0) {
           break;
         }
 
-
         // Respect maximum potential given through remaining space
         // The parent should always win in such conflicts.
         flexStep = Math.min(remaining, flexStep * flexSum) / flexSum;
 
-
         // Start with correction
         roundingOffset = 0;
-        for (key in result)
-        {
+        for (key in result) {
           child = result[key];
 
-          if (child.potential > 0)
-          {
+          if (child.potential > 0) {
             // Compute offset for this step
-            currentOffset = Math.min(remaining, child.potential, Math.ceil(flexStep * child.flex));
+            currentOffset = Math.min(
+              remaining,
+              child.potential,
+              Math.ceil(flexStep * child.flex)
+            );
 
             // Fix rounding issues
             roundingOffset += currentOffset - flexStep * child.flex;
-            if (roundingOffset >= 1)
-            {
+            if (roundingOffset >= 1) {
               roundingOffset -= 1;
               currentOffset -= 1;
             }
@@ -136,7 +123,6 @@ qx.Class.define("qx.ui.layout.Util",
       return result;
     },
 
-
     /**
      * Computes the offset which needs to be added to the top position
      * to result in the stated vertical alignment. Also respects
@@ -149,8 +135,13 @@ qx.Class.define("qx.ui.layout.Util",
      * @param marginRight {Integer?0} Optional right margin of the widget
      * @return {Integer} Computed top coordinate
      */
-    computeHorizontalAlignOffset : function(align, width, availWidth, marginLeft, marginRight)
-    {
+    computeHorizontalAlignOffset(
+      align,
+      width,
+      availWidth,
+      marginLeft,
+      marginRight
+    ) {
       if (marginLeft == null) {
         marginLeft = 0;
       }
@@ -160,8 +151,7 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       var value = 0;
-      switch(align)
-      {
+      switch (align) {
         case "left":
           value = marginLeft;
           break;
@@ -180,7 +170,7 @@ qx.Class.define("qx.ui.layout.Util",
           if (value < marginLeft) {
             value = marginLeft;
           } else if (value < marginRight) {
-            value = Math.max(marginLeft, availWidth-width-marginRight);
+            value = Math.max(marginLeft, availWidth - width - marginRight);
           }
 
           break;
@@ -188,7 +178,6 @@ qx.Class.define("qx.ui.layout.Util",
 
       return value;
     },
-
 
     /**
      * Computes the offset which needs to be added to the top position
@@ -202,8 +191,13 @@ qx.Class.define("qx.ui.layout.Util",
      * @param marginBottom {Integer?0} Optional bottom margin of the widget
      * @return {Integer} Computed top coordinate
      */
-    computeVerticalAlignOffset : function(align, height, availHeight, marginTop, marginBottom)
-    {
+    computeVerticalAlignOffset(
+      align,
+      height,
+      availHeight,
+      marginTop,
+      marginBottom
+    ) {
       if (marginTop == null) {
         marginTop = 0;
       }
@@ -213,8 +207,7 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       var value = 0;
-      switch(align)
-      {
+      switch (align) {
         case "top":
           value = marginTop;
           break;
@@ -233,7 +226,7 @@ qx.Class.define("qx.ui.layout.Util",
           if (value < marginTop) {
             value = marginTop;
           } else if (value < marginBottom) {
-            value = Math.max(marginTop, availHeight-height-marginBottom);
+            value = Math.max(marginTop, availHeight - height - marginBottom);
           }
 
           break;
@@ -241,7 +234,6 @@ qx.Class.define("qx.ui.layout.Util",
 
       return value;
     },
-
 
     /**
      * Collapses two margins.
@@ -254,11 +246,10 @@ qx.Class.define("qx.ui.layout.Util",
      * @param varargs {arguments} Any number of configured margins
      * @return {Integer} The collapsed margin
      */
-    collapseMargins : function(varargs)
-    {
-      var max=0, min=0;
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
+    collapseMargins(varargs) {
+      var max = 0,
+        min = 0;
+      for (var i = 0, l = arguments.length; i < l; i++) {
         var value = arguments[i];
 
         if (value < 0) {
@@ -270,7 +261,6 @@ qx.Class.define("qx.ui.layout.Util",
 
       return max + min;
     },
-
 
     /**
      * Computes the sum of all horizontal gaps. Normally the
@@ -284,40 +274,39 @@ qx.Class.define("qx.ui.layout.Util",
      * @param collapse {Boolean?false} Optional margin collapsing mode
      * @return {Integer} Sum of all gaps in the final layout.
      */
-    computeHorizontalGaps : function(children, spacing, collapse)
-    {
+    computeHorizontalGaps(children, spacing, collapse) {
       if (spacing == null) {
         spacing = 0;
       }
 
       var gaps = 0;
 
-      if (collapse)
-      {
+      if (collapse) {
         // Add first child
         gaps += children[0].getMarginLeft();
 
-        for (var i=1, l=children.length; i<l; i+=1) {
-          gaps += this.collapseMargins(spacing, children[i-1].getMarginRight(), children[i].getMarginLeft());
+        for (var i = 1, l = children.length; i < l; i += 1) {
+          gaps += this.collapseMargins(
+            spacing,
+            children[i - 1].getMarginRight(),
+            children[i].getMarginLeft()
+          );
         }
 
         // Add last child
-        gaps += children[l-1].getMarginRight();
-      }
-      else
-      {
+        gaps += children[l - 1].getMarginRight();
+      } else {
         // Simple adding of all margins
-        for (var i=1, l=children.length; i<l; i+=1) {
+        for (var i = 1, l = children.length; i < l; i += 1) {
           gaps += children[i].getMarginLeft() + children[i].getMarginRight();
         }
 
         // Add spacing
-        gaps += (spacing * (l-1));
+        gaps += spacing * (l - 1);
       }
 
       return gaps;
     },
-
 
     /**
      * Computes the sum of all vertical gaps. Normally the
@@ -331,40 +320,39 @@ qx.Class.define("qx.ui.layout.Util",
      * @param collapse {Boolean?false} Optional margin collapsing mode
      * @return {Integer} Sum of all gaps in the final layout.
      */
-    computeVerticalGaps : function(children, spacing, collapse)
-    {
+    computeVerticalGaps(children, spacing, collapse) {
       if (spacing == null) {
         spacing = 0;
       }
 
       var gaps = 0;
 
-      if (collapse)
-      {
+      if (collapse) {
         // Add first child
         gaps += children[0].getMarginTop();
 
-        for (var i=1, l=children.length; i<l; i+=1) {
-          gaps += this.collapseMargins(spacing, children[i-1].getMarginBottom(), children[i].getMarginTop());
+        for (var i = 1, l = children.length; i < l; i += 1) {
+          gaps += this.collapseMargins(
+            spacing,
+            children[i - 1].getMarginBottom(),
+            children[i].getMarginTop()
+          );
         }
 
         // Add last child
-        gaps += children[l-1].getMarginBottom();
-      }
-      else
-      {
+        gaps += children[l - 1].getMarginBottom();
+      } else {
         // Simple adding of all margins
-        for (var i=1, l=children.length; i<l; i+=1) {
+        for (var i = 1, l = children.length; i < l; i += 1) {
           gaps += children[i].getMarginTop() + children[i].getMarginBottom();
         }
 
         // Add spacing
-        gaps += (spacing * (l-1));
+        gaps += spacing * (l - 1);
       }
 
       return gaps;
     },
-
 
     /**
      * Computes the gaps together with the configuration of separators.
@@ -374,24 +362,22 @@ qx.Class.define("qx.ui.layout.Util",
      * @param separator {String|qx.ui.decoration.IDecorator} Separator to render
      * @return {Integer} Sum of gaps
      */
-    computeHorizontalSeparatorGaps : function(children, spacing, separator)
-    {
-      var instance = qx.theme.manager.Decoration.getInstance().resolve(separator);
+    computeHorizontalSeparatorGaps(children, spacing, separator) {
+      var instance =
+        qx.theme.manager.Decoration.getInstance().resolve(separator);
       var insets = instance.getInsets();
       var width = insets.left + insets.right;
 
       var gaps = 0;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         gaps += child.getMarginLeft() + child.getMarginRight();
       }
 
-      gaps += (spacing + width + spacing) * (l-1);
+      gaps += (spacing + width + spacing) * (l - 1);
 
       return gaps;
     },
-
 
     /**
      * Computes the gaps together with the configuration of separators.
@@ -401,24 +387,22 @@ qx.Class.define("qx.ui.layout.Util",
      * @param separator {String|qx.ui.decoration.IDecorator} Separator to render
      * @return {Integer} Sum of gaps
      */
-    computeVerticalSeparatorGaps : function(children, spacing, separator)
-    {
-      var instance = qx.theme.manager.Decoration.getInstance().resolve(separator);
+    computeVerticalSeparatorGaps(children, spacing, separator) {
+      var instance =
+        qx.theme.manager.Decoration.getInstance().resolve(separator);
       var insets = instance.getInsets();
       var height = insets.top + insets.bottom;
 
       var gaps = 0;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         gaps += child.getMarginTop() + child.getMarginBottom();
       }
 
-      gaps += (spacing + height + spacing) * (l-1);
+      gaps += (spacing + height + spacing) * (l - 1);
 
       return gaps;
     },
-
 
     /**
      * Arranges two sizes in one box to best respect their individual limitations.
@@ -435,33 +419,26 @@ qx.Class.define("qx.ui.layout.Util",
      * @return {Map} Map with the keys <code>begin</code and <code>end</code> with the
      *   arranged dimensions.
      */
-    arrangeIdeals : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
-    {
-      if (beginIdeal < beginMin || endIdeal < endMin)
-      {
-        if (beginIdeal < beginMin && endIdeal < endMin)
-        {
+    arrangeIdeals(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax) {
+      if (beginIdeal < beginMin || endIdeal < endMin) {
+        if (beginIdeal < beginMin && endIdeal < endMin) {
           // Just increase both, can not rearrange them otherwise
           // Result into overflowing of the overlapping content
           // Should normally not happen through auto sizing!
           beginIdeal = beginMin;
           endIdeal = endMin;
-        }
-        else if (beginIdeal < beginMin)
-        {
+        } else if (beginIdeal < beginMin) {
           // Reduce end, increase begin to min
-          endIdeal -= (beginMin - beginIdeal);
+          endIdeal -= beginMin - beginIdeal;
           beginIdeal = beginMin;
 
           // Re-check to keep min size of end
           if (endIdeal < endMin) {
             endIdeal = endMin;
           }
-        }
-        else if (endIdeal < endMin)
-        {
+        } else if (endIdeal < endMin) {
           // Reduce begin, increase end to min
-          beginIdeal -= (endMin - endIdeal);
+          beginIdeal -= endMin - endIdeal;
           endIdeal = endMin;
 
           // Re-check to keep min size of begin
@@ -471,30 +448,24 @@ qx.Class.define("qx.ui.layout.Util",
         }
       }
 
-      if (beginIdeal > beginMax || endIdeal > endMax)
-      {
-        if (beginIdeal > beginMax && endIdeal > endMax)
-        {
+      if (beginIdeal > beginMax || endIdeal > endMax) {
+        if (beginIdeal > beginMax && endIdeal > endMax) {
           // Just reduce both, can not rearrange them otherwise
           // Leaves a blank area in the pane!
           beginIdeal = beginMax;
           endIdeal = endMax;
-        }
-        else if (beginIdeal > beginMax)
-        {
+        } else if (beginIdeal > beginMax) {
           // Increase end, reduce begin to max
-          endIdeal += (beginIdeal - beginMax);
+          endIdeal += beginIdeal - beginMax;
           beginIdeal = beginMax;
 
           // Re-check to keep max size of end
           if (endIdeal > endMax) {
             endIdeal = endMax;
           }
-        }
-        else if (endIdeal > endMax)
-        {
+        } else if (endIdeal > endMax) {
           // Increase begin, reduce end to max
-          beginIdeal += (endIdeal - endMax);
+          beginIdeal += endIdeal - endMax;
           endIdeal = endMax;
 
           // Re-check to keep max size of begin
@@ -505,8 +476,8 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       return {
-        begin : beginIdeal,
-        end : endIdeal
+        begin: beginIdeal,
+        end: endIdeal
       };
     }
   }

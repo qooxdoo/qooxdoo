@@ -17,11 +17,16 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.html.jsx.TestJsx", {
-  extend : qx.dev.unit.TestCase,
+  extend: qx.dev.unit.TestCase,
 
   members: {
     testBasics() {
-      let html = <div id="el1">Hello<div id="el2" className="hello" style="border: 1px solid"/> World</div>;
+      let html = (
+        <div id="el1">
+          Hello
+          <div id="el2" className="hello" style="border: 1px solid" /> World
+        </div>
+      );
       this.assertEquals(true, html instanceof qx.html.Element);
       this.assertEquals(3, html.getChildren().length);
       let el2 = html.getChildren()[1];
@@ -32,10 +37,14 @@ qx.Class.define("qx.test.html.jsx.TestJsx", {
       this.assertEquals("el2", el2.getAttribute("id"));
       this.assertEquals("1px solid", el2.getStyle("border"));
     },
-    
+
     testRefs() {
       let myRef = new qx.html.JsxRef();
-      let html = <div><div ref={myRef}></div></div>;
+      let html = (
+        <div>
+          <div ref={myRef}></div>
+        </div>
+      );
       this.assertTrue(html.getChildren()[0] === myRef.getValue());
     }
   }

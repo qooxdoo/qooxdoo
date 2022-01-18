@@ -26,28 +26,28 @@
  * @internal
  * @asset(qx/static/blank.gif)
  */
-qx.Class.define("qx.ui.splitpane.Blocker",
-{
-  extend : qx.html.Element,
+qx.Class.define("qx.ui.splitpane.Blocker", {
+  extend: qx.html.Element,
 
   /**
    * @param orientation {String} The orientation of the split pane control.
    */
-  construct : function(orientation)
-  {
+  construct(orientation) {
     var styles = {
       position: "absolute",
       zIndex: 11
     };
 
     // IE needs some extra love here to convince it to block events.
-    if ((qx.core.Environment.get("engine.name") == "mshtml"))
-    {
-      styles.backgroundImage = "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")";
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
+      styles.backgroundImage =
+        "url(" +
+        qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") +
+        ")";
       styles.backgroundRepeat = "repeat";
     }
 
-    this.base(arguments, "div", styles);
+    super("div", styles);
 
     // Initialize orientation
     if (orientation) {
@@ -57,27 +57,21 @@ qx.Class.define("qx.ui.splitpane.Blocker",
     }
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The orientation of the blocker which should be the same as the
      * orientation of the splitpane.
      */
-    orientation :
-    {
-      init  : "horizontal",
-      check : [ "horizontal", "vertical" ],
-      apply : "_applyOrientation"
+    orientation: {
+      init: "horizontal",
+      check: ["horizontal", "vertical"],
+      apply: "_applyOrientation"
     }
   },
 
-
-  members :
-  {
-
+  members: {
     // property apply
-    _applyOrientation : function(value, old) {
+    _applyOrientation(value, old) {
       // ARIA attrs
       this.setAttribute("aria-orientation", value);
 
@@ -92,18 +86,16 @@ qx.Class.define("qx.ui.splitpane.Blocker",
       }
     },
 
-
     /**
      * Takes the two parameters and set the propper width of the blocker.
      *
      * @param offset {Number} The offset of the splitpane.
      * @param spliterSize {Number} The width of the splitter.
      */
-    setWidth : function(offset, spliterSize) {
+    setWidth(offset, spliterSize) {
       var width = spliterSize + 2 * offset;
       this.setStyle("width", width + "px");
     },
-
 
     /**
      * Takes the two parameter and sets the propper height of the blocker.
@@ -111,11 +103,10 @@ qx.Class.define("qx.ui.splitpane.Blocker",
      * @param offset {Number} The offset of the splitpane.
      * @param spliterSize {Number} The height of the splitter.
      */
-    setHeight : function(offset, spliterSize) {
+    setHeight(offset, spliterSize) {
       var height = spliterSize + 2 * offset;
       this.setStyle("height", height + "px");
     },
-
 
     /**
      * Takes the two parameter and sets the propper left position of
@@ -124,11 +115,10 @@ qx.Class.define("qx.ui.splitpane.Blocker",
      * @param offset {Number} The offset of the splitpane.
      * @param splitterLeft {Number} The left position of the splitter.
      */
-    setLeft : function(offset, splitterLeft) {
+    setLeft(offset, splitterLeft) {
       var left = splitterLeft - offset;
       this.setStyle("left", left + "px");
     },
-
 
     /**
      * Takes the two parameter and sets the propper top position of
@@ -137,7 +127,7 @@ qx.Class.define("qx.ui.splitpane.Blocker",
      * @param offset {Number} The offset of the splitpane.
      * @param splitterTop {Number} The top position of the splitter.
      */
-    setTop : function(offset, splitterTop) {
+    setTop(offset, splitterTop) {
       var top = splitterTop - offset;
       this.setStyle("top", top + "px");
     }

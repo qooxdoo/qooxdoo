@@ -64,77 +64,64 @@
  *   }
  * </pre>
  */
-qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
-{
-  properties :
-  {
+qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", {
+  properties: {
     /**
      * Start color of the background gradient.
      * Note that alpha transparency (rgba) is not supported in IE 8.
      */
-    startColor :
-    {
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
+    startColor: {
+      nullable: true,
+      apply: "_applyLinearBackgroundGradient"
     },
 
     /**
      * End color of the background gradient.
      * Note that alpha transparency (rgba) is not supported in IE 8.
      */
-    endColor :
-    {
-      nullable : true,
-      apply : "_applyLinearBackgroundGradient"
+    endColor: {
+      nullable: true,
+      apply: "_applyLinearBackgroundGradient"
     },
 
     /** The orientation of the gradient. */
-    orientation :
-    {
-      init : "vertical",
-      apply : "_applyLinearBackgroundGradient"
+    orientation: {
+      init: "vertical",
+      apply: "_applyLinearBackgroundGradient"
     },
 
     /** Position in percent where to start the color. */
-    startColorPosition :
-    {
-      init : 0,
-      apply : "_applyLinearBackgroundGradient"
+    startColorPosition: {
+      init: 0,
+      apply: "_applyLinearBackgroundGradient"
     },
 
     /** Position in percent where to start the color. */
-    endColorPosition :
-    {
-      init : 100,
-      apply : "_applyLinearBackgroundGradient"
+    endColorPosition: {
+      init: 100,
+      apply: "_applyLinearBackgroundGradient"
     },
 
     /** Defines if the given positions are in % or px.*/
-    colorPositionUnit :
-    {
-      init : "%",
-      apply : "_applyLinearBackgroundGradient"
+    colorPositionUnit: {
+      init: "%",
+      apply: "_applyLinearBackgroundGradient"
     },
 
-
     /** Property group to set the start color including its start position. */
-    gradientStart :
-    {
-      group : ["startColor", "startColorPosition"],
-      mode : "shorthand"
+    gradientStart: {
+      group: ["startColor", "startColorPosition"],
+      mode: "shorthand"
     },
 
     /** Property group to set the end color including its end position. */
-    gradientEnd :
-    {
-      group : ["endColor", "endColorPosition"],
-      mode : "shorthand"
+    gradientEnd: {
+      group: ["endColor", "endColorPosition"],
+      mode: "shorthand"
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Takes a styles map and adds the linear background styles in place to the
      * given map. This is the needed behavior for
@@ -142,27 +129,43 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @param styles {Map} A map to add the styles.
      */
-    _styleLinearBackgroundGradient : function(styles) {
+    _styleLinearBackgroundGradient(styles) {
       var backgroundStyle = [];
 
-      if(!this.getStartColor() || !this.getEndColor()) {
+      if (!this.getStartColor() || !this.getEndColor()) {
         return;
       }
 
       var styleImpl = this.__styleLinearBackgroundGradientAccordingToSpec;
       if (qx.core.Environment.get("css.gradient.legacywebkit")) {
         styleImpl = this.__styleLinearBackgroundGradientForLegacyWebkit;
-      } else if (!qx.core.Environment.get("css.gradient.linear") && qx.core.Environment.get("css.borderradius")) {
+      } else if (
+        !qx.core.Environment.get("css.gradient.linear") &&
+        qx.core.Environment.get("css.borderradius")
+      ) {
         styleImpl = this.__styleLinearBackgroundGradientWithCanvas;
       } else if (!qx.core.Environment.get("css.gradient.linear")) {
         styleImpl = this.__styleLinearBackgroundGradientWithMSFilter;
       }
 
-      var gradientProperties = ["startColor", "endColor", "colorPositionUnit", "orientation",
-        "startColorPosition", "endColorPosition"];
+      var gradientProperties = [
+        "startColor",
+        "endColor",
+        "colorPositionUnit",
+        "orientation",
+        "startColorPosition",
+        "endColorPosition"
+      ];
 
-      (function(startColors, endColors, units, orientations, startColorPositions, endColorPositions) {
-        for(var i=0;i<startColors.length;i++) {
+      (function (
+        startColors,
+        endColors,
+        units,
+        orientations,
+        startColorPositions,
+        endColorPositions
+      ) {
+        for (var i = 0; i < startColors.length; i++) {
           var startColor = this.__getColor(startColors[i]);
           var endColor = this.__getColor(endColors[i]);
           var unit = units[i];
@@ -170,22 +173,38 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           var startColorPosition = startColorPositions[i];
           var endColorPosition = endColorPositions[i];
 
-          if(!styleImpl(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle)) {
+          if (
+            !styleImpl(
+              startColor,
+              endColor,
+              unit,
+              orientation,
+              startColorPosition,
+              endColorPosition,
+              styles,
+              backgroundStyle
+            )
+          ) {
             break;
           }
         }
 
-        if("background" in styles) {
-          if(!qx.lang.Type.isArray(styles['background'])) {
-            styles['background'] = [styles['background']];
+        if ("background" in styles) {
+          if (!qx.lang.Type.isArray(styles["background"])) {
+            styles["background"] = [styles["background"]];
           }
         } else {
-          styles['background'] = [];
+          styles["background"] = [];
         }
-        var orderGradientsFront = 'getOrderGradientsFront' in this ? this.getOrderGradientsFront() : false;
-        var operation = orderGradientsFront ? Array.prototype.unshift : Array.prototype.push;
-        operation.apply(styles['background'], backgroundStyle);
-      }).apply(this, this._getExtendedPropertyValueArrays(gradientProperties));
+        var orderGradientsFront =
+          "getOrderGradientsFront" in this
+            ? this.getOrderGradientsFront()
+            : false;
+        var operation = orderGradientsFront
+          ? Array.prototype.unshift
+          : Array.prototype.push;
+        operation.apply(styles["background"], backgroundStyle);
+      }.apply(this, this._getExtendedPropertyValueArrays(gradientProperties)));
     },
 
     /**
@@ -204,23 +223,32 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
      */
-    __styleLinearBackgroundGradientForLegacyWebkit: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
+    __styleLinearBackgroundGradientForLegacyWebkit(
+      startColor,
+      endColor,
+      unit,
+      orientation,
+      startColorPosition,
+      endColorPosition,
+      styles,
+      backgroundStyle
+    ) {
       // webkit uses px values if non are given
       unit = unit === "px" ? "" : unit;
 
       if (orientation == "horizontal") {
-        var startPos = startColorPosition + unit +" 0" + unit;
+        var startPos = startColorPosition + unit + " 0" + unit;
         var endPos = endColorPosition + unit + " 0" + unit;
       } else {
         var startPos = "0" + unit + " " + startColorPosition + unit;
-        var endPos = "0" + unit +" " + endColorPosition + unit;
+        var endPos = "0" + unit + " " + endColorPosition + unit;
       }
 
-      var color =
-        "from(" + startColor +
-        "),to(" + endColor + ")";
+      var color = "from(" + startColor + "),to(" + endColor + ")";
 
-      backgroundStyle.push("-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")");
+      backgroundStyle.push(
+        "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")"
+      );
       return true;
     },
 
@@ -240,8 +268,19 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
      */
-    __styleLinearBackgroundGradientWithCanvas: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
-      const me = qx.ui.decoration.MLinearBackgroundGradient.__styleLinearBackgroundGradientWithCanvas;
+    __styleLinearBackgroundGradientWithCanvas(
+      startColor,
+      endColor,
+      unit,
+      orientation,
+      startColorPosition,
+      endColorPosition,
+      styles,
+      backgroundStyle
+    ) {
+      const me =
+        qx.ui.decoration.MLinearBackgroundGradient
+          .__styleLinearBackgroundGradientWithCanvas;
       if (!me.__canvas) {
         me.__canvas = document.createElement("canvas");
       }
@@ -261,7 +300,10 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         }
       } else {
         if (isVertical) {
-          height = Math.max(height, (endColorPosition - startColorPosition) * 2);
+          height = Math.max(
+            height,
+            (endColorPosition - startColorPosition) * 2
+          );
         } else {
           width = Math.max(width, (endColorPosition - startColorPosition) * 2);
         }
@@ -269,7 +311,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
       me.__canvas.width = width;
       me.__canvas.height = height;
-      var ctx = me.__canvas.getContext('2d');
+      var ctx = me.__canvas.getContext("2d");
 
       if (isVertical) {
         var lingrad = ctx.createLinearGradient(0, 0, 0, height);
@@ -279,11 +321,17 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
       // don't allow negative start values
       if (unit === "%") {
-        lingrad.addColorStop(Math.max(0, startColorPosition) / range, startColor);
+        lingrad.addColorStop(
+          Math.max(0, startColorPosition) / range,
+          startColor
+        );
         lingrad.addColorStop(endColorPosition / range, endColor);
       } else {
         var comp = isVertical ? height : width;
-        lingrad.addColorStop(Math.max(0, startColorPosition) / comp, startColor);
+        lingrad.addColorStop(
+          Math.max(0, startColorPosition) / comp,
+          startColor
+        );
         lingrad.addColorStop(endColorPosition / comp, endColor);
       }
 
@@ -319,9 +367,17 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @return {Boolean} Whether this implementation supports multiple gradients atop each other (false).
      */
-    __styleLinearBackgroundGradientWithMSFilter: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
+    __styleLinearBackgroundGradientWithMSFilter(
+      startColor,
+      endColor,
+      unit,
+      orientation,
+      startColorPosition,
+      endColorPosition,
+      styles,
+      backgroundStyle
+    ) {
       var type = orientation == "horizontal" ? 1 : 0;
-
 
       // convert rgb, hex3 and named colors to hex6
       if (!qx.util.ColorUtil.isHex6String(startColor)) {
@@ -337,10 +393,17 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       startColor = startColor.substring(1, startColor.length);
       endColor = endColor.substring(1, endColor.length);
 
-      var value = "progid:DXImageTransform.Microsoft.Gradient" +
-        "(GradientType=" + type + ", " +
-        "StartColorStr='#FF" + startColor + "', " +
-        "EndColorStr='#FF" + endColor + "';)";
+      var value =
+        "progid:DXImageTransform.Microsoft.Gradient" +
+        "(GradientType=" +
+        type +
+        ", " +
+        "StartColorStr='#FF" +
+        startColor +
+        "', " +
+        "EndColorStr='#FF" +
+        endColor +
+        "';)";
       if (styles["filter"]) {
         styles["filter"] += ", " + value;
       } else {
@@ -349,9 +412,10 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
       // Elements with transparent backgrounds will not receive receive pointer
       // events if a Gradient filter is set.
-      if (!styles["background-color"] ||
-          styles["background-color"] == "transparent")
-      {
+      if (
+        !styles["background-color"] ||
+        styles["background-color"] == "transparent"
+      ) {
         // We don't support alpha transparency for the gradient color stops
         // so it doesn't matter which color we set here.
         styles["background-color"] = "white";
@@ -375,7 +439,16 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      *
      * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
      */
-    __styleLinearBackgroundGradientAccordingToSpec: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
+    __styleLinearBackgroundGradientAccordingToSpec(
+      startColor,
+      endColor,
+      unit,
+      orientation,
+      startColorPosition,
+      endColorPosition,
+      styles,
+      backgroundStyle
+    ) {
       // WebKit, Opera and Gecko interpret 0deg as "to right"
       var deg = orientation == "horizontal" ? 0 : 270;
 
@@ -389,7 +462,9 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         deg = orientation == "horizontal" ? deg + 90 : deg - 90;
       }
 
-      backgroundStyle.push(prefixedName + "(" + deg + "deg, " + start + "," + end + ")");
+      backgroundStyle.push(
+        prefixedName + "(" + deg + "deg, " + start + "," + end + ")"
+      );
       return true;
     },
 
@@ -398,19 +473,19 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      * @param color {String} The color name
      * @return {Map} The resolved color
      */
-    __getColor : function(color) {
-      return qx.core.Environment.get("qx.theme") ?
-        qx.theme.manager.Color.getInstance().resolve(color) : color;
+    __getColor(color) {
+      return qx.core.Environment.get("qx.theme")
+        ? qx.theme.manager.Color.getInstance().resolve(color)
+        : color;
     },
 
-
     // property apply
-    _applyLinearBackgroundGradient : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyLinearBackgroundGradient() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     }

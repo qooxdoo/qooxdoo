@@ -24,11 +24,8 @@
  *
  * @childControl atom {qx.ui.basic.Atom} atom widget which represents the content of the tooltip
  */
-qx.Class.define("qx.ui.tooltip.ToolTip",
-{
-  extend : qx.ui.popup.Popup,
-
-
+qx.Class.define("qx.ui.tooltip.ToolTip", {
+  extend: qx.ui.popup.Popup,
 
   /*
   *****************************************************************************
@@ -41,9 +38,8 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
    * @param icon {String?null} Icon URL of the tooltip
    */
 
-  construct : function(label, icon)
-  {
-    this.base(arguments);
+  construct(label, icon) {
+    super();
 
     // Use static layout
     this.setLayout(new qx.ui.layout.HBox());
@@ -64,58 +60,49 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     this.addListener("pointerover", this._onPointerOver, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "tooltip"
+    appearance: {
+      refine: true,
+      init: "tooltip"
     },
 
     /** Interval after the tooltip is shown (in milliseconds) */
-    showTimeout :
-    {
-      check : "Integer",
-      init : 700,
-      themeable : true
+    showTimeout: {
+      check: "Integer",
+      init: 700,
+      themeable: true
     },
 
     /** Interval after the tooltip is hidden (in milliseconds) */
-    hideTimeout :
-    {
-      check : "Integer",
-      init : 4000,
-      themeable : true
+    hideTimeout: {
+      check: "Integer",
+      init: 4000,
+      themeable: true
     },
 
     /** The label/caption/text of the ToolTip's atom. */
-    label :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyLabel"
+    label: {
+      check: "String",
+      nullable: true,
+      apply: "_applyLabel"
     },
 
     /**
      * Any URI String supported by qx.ui.basic.Image to display an icon in
      * ToolTips's atom.
      */
-    icon :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyIcon",
-      themeable : true
+    icon: {
+      check: "String",
+      nullable: true,
+      apply: "_applyIcon",
+      themeable: true
     },
 
     /**
@@ -124,29 +111,24 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
      * available space is not enough. HTML mode (<code>true</code>) supports
      * multi-line content and all the markup features of HTML content.
      */
-    rich :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyRich"
+    rich: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyRich"
     },
-
 
     /** Widget that opened the tooltip */
-    opener :
-    {
-      check : "qx.ui.core.Widget",
-      nullable : true
+    opener: {
+      check: "qx.ui.core.Widget",
+      nullable: true
     },
 
-
     /** Position of the arrow pointing towards the opening widget **/
-    arrowPosition :
-    {
-      check : ["left", "right"],
-      init : "left",
-      themeable : true,
-      apply : "_applyArrowPosition"
+    arrowPosition: {
+      check: ["left", "right"],
+      init: "left",
+      themeable: true,
+      apply: "_applyArrowPosition"
     }
   },
 
@@ -156,47 +138,40 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      placementLeft : true
+    _forwardStates: {
+      placementLeft: true
     },
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "atom":
           control = new qx.ui.basic.Atom();
-          this._add(control, {flex: 1});
+          this._add(control, { flex: 1 });
           break;
         case "arrow":
           control = new qx.ui.basic.Image();
           this._add(control);
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * Listener method for "pointerover" event
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onPointerOver : function(e) {
+    _onPointerOver(e) {
       //this.hide();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -205,30 +180,25 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     */
 
     // property apply
-    _applyIcon : function(value, old)
-    {
+    _applyIcon(value, old) {
       var atom = this.getChildControl("atom");
       value == null ? atom.resetIcon() : atom.setIcon(value);
     },
 
-
     // property apply
-    _applyLabel : function(value, old)
-    {
+    _applyLabel(value, old) {
       var atom = this.getChildControl("atom");
       value == null ? atom.resetLabel() : atom.setLabel(value);
     },
 
     // property apply
-    _applyRich : function(value, old)
-    {
+    _applyRich(value, old) {
       var atom = this.getChildControl("atom");
       atom.setRich(value);
     },
 
     // property apply
-    _applyArrowPosition : function(value, old)
-    {
+    _applyArrowPosition(value, old) {
       this._getLayout().setReversed(value == "left");
     }
   }

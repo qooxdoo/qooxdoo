@@ -15,39 +15,33 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.Widget",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.Widget", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __widget : null,
+  members: {
+    __widget: null,
 
-
-    setUp : function() {
+    setUp() {
       this.__widget = new qx.ui.core.Widget();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.__widget.destroy();
     },
 
-
-    testAddState : function() {
+    testAddState() {
       this.__widget.addState("test");
       this.assertTrue(this.__widget.hasState("test"));
     },
 
-
-    testRemoveState : function() {
+    testRemoveState() {
       this.__widget.addState("test");
       this.assertTrue(this.__widget.hasState("test"));
       this.__widget.removeState("test");
       this.assertFalse(this.__widget.hasState("test"));
     },
 
-    testReplaceState : function() {
+    testReplaceState() {
       this.__widget.addState("test");
       this.assertTrue(this.__widget.hasState("test"));
       this.__widget.replaceState("test", "affe");
@@ -55,8 +49,10 @@ qx.Class.define("qx.test.ui.Widget",
       this.assertFalse(this.__widget.hasState("test"));
     },
 
-    testWidgetThatContainsItself: function () {
-      this.assertFalse(qx.ui.core.Widget.contains(this.__widget, this.__widget));
+    testWidgetThatContainsItself() {
+      this.assertFalse(
+        qx.ui.core.Widget.contains(this.__widget, this.__widget)
+      );
     }
   }
 });

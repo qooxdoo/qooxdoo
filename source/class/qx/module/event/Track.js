@@ -26,16 +26,13 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Track", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["track"],
+    TYPES: ["track"],
 
-
-    BIND_METHODS : [ "getDelta" ],
-
+    BIND_METHODS: ["getDelta"],
 
     /**
      * Returns a map with the calculated delta coordinates and axis,
@@ -44,10 +41,9 @@ qx.Bootstrap.define("qx.module.event.Track", {
      * @return {Map} a map with contains the delta as <code>x</code> and
      * <code>y</code> and the movement axis as <code>axis</code>.
      */
-    getDelta : function() {
+    getDelta() {
       return this._original.delta;
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -58,16 +54,16 @@ qx.Bootstrap.define("qx.module.event.Track", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
       // apply mouse event normalizations
       var bindMethods = qx.module.event.Track.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Track[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Track[bindMethods[i]].bind(event);
         }
       }
 
@@ -75,7 +71,10 @@ qx.Bootstrap.define("qx.module.event.Track", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Track.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Track.TYPES,
+      statics.normalize
+    );
   }
 });

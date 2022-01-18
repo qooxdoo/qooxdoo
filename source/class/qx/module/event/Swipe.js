@@ -26,15 +26,13 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Swipe", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["swipe"],
+    TYPES: ["swipe"],
 
-
-    BIND_METHODS : [
+    BIND_METHODS: [
       "getStartTime",
       "getDuration",
       "getAxis",
@@ -43,36 +41,32 @@ qx.Bootstrap.define("qx.module.event.Swipe", {
       "getDistance"
     ],
 
-
     /**
      * Returns the start time of the performed swipe.
      *
      * @return {Integer} the start time
      */
-    getStartTime : function() {
+    getStartTime() {
       return this._original.swipe.startTime;
     },
-
 
     /**
      * Returns the duration the performed swipe took.
      *
      * @return {Integer} the duration
      */
-    getDuration : function() {
+    getDuration() {
       return this._original.swipe.duration;
     },
-
 
     /**
      * Returns whether the performed swipe was on the x or y axis.
      *
      * @return {String} "x"/"y" axis
      */
-    getAxis : function() {
+    getAxis() {
       return this._original.swipe.axis;
     },
-
 
     /**
      * Returns the direction of the performed swipe in reference to the axis.
@@ -81,30 +75,27 @@ qx.Bootstrap.define("qx.module.event.Swipe", {
      *
      * @return {String} the direction
      */
-    getDirection : function() {
+    getDirection() {
       return this._original.swipe.direction;
     },
-
 
     /**
      * Returns the velocity of the performed swipe.
      *
      * @return {Number} the velocity
      */
-    getVelocity : function() {
+    getVelocity() {
       return this._original.swipe.velocity;
     },
-
 
     /**
      * Returns the distance of the performed swipe.
      *
      * @return {Integer} the distance
      */
-    getDistance : function() {
+    getDistance() {
       return this._original.swipe.distance;
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -115,16 +106,16 @@ qx.Bootstrap.define("qx.module.event.Swipe", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
       // apply mouse event normalizations
       var bindMethods = qx.module.event.Swipe.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Swipe[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Swipe[bindMethods[i]].bind(event);
         }
       }
 
@@ -132,7 +123,10 @@ qx.Bootstrap.define("qx.module.event.Swipe", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Swipe.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Swipe.TYPES,
+      statics.normalize
+    );
   }
 });

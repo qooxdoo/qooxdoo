@@ -25,23 +25,19 @@
  * @require(qx.bom.Stylesheet)
  *
  */
-qx.Class.define("qx.ui.virtual.cell.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-  implement : qx.ui.virtual.cell.ICell,
+qx.Class.define("qx.ui.virtual.cell.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
+  implement: qx.ui.virtual.cell.ICell,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // initialize stylesheet
     qx.ui.virtual.cell.CellStylesheet.getInstance();
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Get the css classes for the cell
      *
@@ -49,10 +45,9 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
      * @param states {Object} A map containing the cell's state names as map keys.
      * @return {String} Space separated list of CSS classes
      */
-    getCssClasses : function(value, states) {
+    getCssClasses(value, states) {
       return "qx-cell";
     },
-
 
     /**
      * Get the element attributes for the cell
@@ -62,10 +57,9 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
      * @return {String} Compiled string of cell attributes. e.g.
      *   <code>'tabIndex="1" readonly="false"'</code>
      */
-    getAttributes : function(value, states) {
+    getAttributes(value, states) {
       return "";
     },
-
 
     /**
      * Get the CSS styles for the cell
@@ -75,10 +69,9 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
      * @return {String} Compiled string of CSS styles. e.g.
      *   <code>'color="red; padding: 10px'</code>
      */
-    getStyles: function(value, states) {
+    getStyles(value, states) {
       return "";
     },
-
 
     /**
      * Get the cell's insets. Insets are the sum of the cell's padding and
@@ -89,10 +82,9 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
      * @return {Integer[]} An array containing the sum of horizontal insets at index
      *   <code>0</code> and the sum of vertical insets at index <code>1</code>.
      */
-    getInsets : function(value, states) {
+    getInsets(value, states) {
       return [0, 0];
     },
-
 
     /**
      * Get cell'S HTML content
@@ -101,18 +93,17 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
      * @param states {Object} A map containing the cell's state names as map keys.
      * @return {String} The cell's content as HTML fragment.
      */
-    getContent : function(value, states) {
+    getContent(value, states) {
       return value;
     },
 
-    getCellProperties : function(value, states)
-    {
+    getCellProperties(value, states) {
       return {
-        classes : this.getCssClasses(value, states),
-        style : this.getStyles(value, states),
-        attributes : this.getAttributes(value, states),
-        content : this.getContent(value, states),
-        insets : this.getInsets(value, states)
+        classes: this.getCssClasses(value, states),
+        style: this.getStyles(value, states),
+        attributes: this.getAttributes(value, states),
+        content: this.getContent(value, states),
+        insets: this.getInsets(value, states)
       };
     }
   }

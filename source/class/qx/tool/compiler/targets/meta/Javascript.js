@@ -27,27 +27,26 @@ const fs = qx.tool.utils.Promisify.fs;
  */
 qx.Class.define("qx.tool.compiler.targets.meta.Javascript", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
-  
+
   /**
    * Constructor
-   * 
+   *
    * @param appMeta {qx.tool.compiler.targets.meta.ApplicationMeta}
    * @param filename {String} the sourcefile
    * @param originalSourceFile {String?} the URI to give to the source map
    */
   construct(appMeta, filename, originalSourceFile) {
-    this.base(arguments, appMeta, filename, originalSourceFile);
+    super(appMeta, filename, originalSourceFile);
   },
-  
+
   members: {
-    
     /*
      * @Override
      */
     compile() {
       // Nothing
     },
-    
+
     /*
      * @Override
      */
@@ -59,7 +58,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Javascript", {
         rs.pipe(ws, { end: false });
       });
     },
-    
+
     /*
      * @Override
      */

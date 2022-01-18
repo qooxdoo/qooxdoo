@@ -23,12 +23,9 @@
  * display tooltips if the user hovers a widgets with a tooltip and hides all
  * other tooltips.
  */
-qx.Class.define("qx.ui.tooltip.Manager",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.ui.tooltip.Manager", {
+  type: "singleton",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -36,12 +33,17 @@ qx.Class.define("qx.ui.tooltip.Manager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Register events
-    qx.event.Registration.addListener(document.body, "pointerover", this.__onPointerOverRoot, this, true);
+    qx.event.Registration.addListener(
+      document.body,
+      "pointerover",
+      this.__onPointerOverRoot,
+      this,
+      true
+    );
 
     // Instantiate timers
     this.__showTimer = new qx.event.Timer();
@@ -54,42 +56,32 @@ qx.Class.define("qx.ui.tooltip.Manager",
     this.__pointerPosition = { left: 0, top: 0 };
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Holds the current ToolTip instance */
-    current :
-    {
-      check : "qx.ui.tooltip.ToolTip",
-      nullable : true,
-      apply : "_applyCurrent"
+    current: {
+      check: "qx.ui.tooltip.ToolTip",
+      nullable: true,
+      apply: "_applyCurrent"
     },
 
     /** Show all invalid form fields tooltips . */
-    showInvalidToolTips :
-    {
-      check : "Boolean",
-      init : true
+    showInvalidToolTips: {
+      check: "Boolean",
+      init: true
     },
 
     /** Show all tooltips. */
-    showToolTips :
-    {
-      check : "Boolean",
-      init : true
+    showToolTips: {
+      check: "Boolean",
+      init: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -97,14 +89,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
-    __pointerPosition : null,
-    __hideTimer : null,
-    __showTimer : null,
+  members: {
+    __pointerPosition: null,
+    __hideTimer: null,
+    __showTimer: null,
     __sharedToolTip: null,
     __sharedErrorToolTip: null,
-
 
     /**
      * Get the shared tooltip, which is used to display the
@@ -115,17 +105,14 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
-    getSharedTooltip : function()
-    {
-      if (!this.__sharedToolTip)
-      {
+    getSharedTooltip() {
+      if (!this.__sharedToolTip) {
         this.__sharedToolTip = new qx.ui.tooltip.ToolTip().set({
           rich: true
         });
       }
       return this.__sharedToolTip;
     },
-
 
     /**
      * Get the shared tooltip, which is used to display the
@@ -137,21 +124,19 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
-    getSharedErrorTooltip : function()
-    {
-      if (!this.__sharedErrorToolTip)
-      {
+    getSharedErrorTooltip() {
+      if (!this.__sharedErrorToolTip) {
         this.__sharedErrorToolTip = new qx.ui.tooltip.ToolTip().set({
           appearance: "tooltip-error",
           rich: true
         });
+
         this.__sharedErrorToolTip.setLabel(""); // trigger label widget creation
         this.__sharedErrorToolTip.syncAppearance();
       }
 
       return this.__sharedErrorToolTip;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -160,16 +145,14 @@ qx.Class.define("qx.ui.tooltip.Manager",
     */
 
     // property apply
-    _applyCurrent : function(value, old)
-    {
+    _applyCurrent(value, old) {
       // Return if the new tooltip is a child of the old one
       if (old && qx.ui.core.Widget.contains(old, value)) {
         return;
       }
 
       // If old tooltip existing, hide it and clear widget binding
-      if (old)
-      {
+      if (old) {
         if (!old.isDisposed()) {
           old.exclude();
         }
@@ -181,26 +164,56 @@ qx.Class.define("qx.ui.tooltip.Manager",
       var Registration = qx.event.Registration;
       var el = document.body;
       // If new tooltip is not null, set it up and start the timer
-      if (value)
-      {
+      if (value) {
         this.__showTimer.startWith(value.getShowTimeout());
 
         // Register hide handler
-        Registration.addListener(el, "pointerout", this.__onPointerOutRoot, this, true);
-        Registration.addListener(el, "focusout", this.__onFocusOutRoot, this, true);
-        Registration.addListener(el, "pointermove", this.__onPointerMoveRoot, this, true);
-      }
-      else
-      {
+        Registration.addListener(
+          el,
+          "pointerout",
+          this.__onPointerOutRoot,
+          this,
+          true
+        );
+        Registration.addListener(
+          el,
+          "focusout",
+          this.__onFocusOutRoot,
+          this,
+          true
+        );
+        Registration.addListener(
+          el,
+          "pointermove",
+          this.__onPointerMoveRoot,
+          this,
+          true
+        );
+      } else {
         // Deregister hide handler
-        Registration.removeListener(el, "pointerout", this.__onPointerOutRoot, this, true);
-        Registration.removeListener(el, "focusout", this.__onFocusOutRoot, this, true);
-        Registration.removeListener(el, "pointermove", this.__onPointerMoveRoot, this, true);
+        Registration.removeListener(
+          el,
+          "pointerout",
+          this.__onPointerOutRoot,
+          this,
+          true
+        );
+        Registration.removeListener(
+          el,
+          "focusout",
+          this.__onFocusOutRoot,
+          this,
+          true
+        );
+        Registration.removeListener(
+          el,
+          "pointermove",
+          this.__onPointerMoveRoot,
+          this,
+          true
+        );
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -213,11 +226,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @param e {qx.event.type.Event} Event object
      */
-    __onShowInterval : function(e)
-    {
+    __onShowInterval(e) {
       var current = this.getCurrent();
-      if (current && !current.isDisposed())
-      {
+      if (current && !current.isDisposed()) {
         this.__hideTimer.startWith(current.getHideTimeout());
 
         if (current.getPlaceMethod() == "widget") {
@@ -232,17 +243,15 @@ qx.Class.define("qx.ui.tooltip.Manager",
       this.__showTimer.stop();
     },
 
-
     /**
      * Event listener for the interval event of the hide timer.
      *
      * @param e {qx.event.type.Event} Event object
      */
-    __onHideInterval : function(e)
-    {
+    __onHideInterval(e) {
       var current = this.getCurrent();
 
-      if(current && !current.getAutoHide()) {
+      if (current && !current.getAutoHide()) {
         return;
       }
 
@@ -253,9 +262,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
       this.__hideTimer.stop();
       this.resetCurrent();
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -268,14 +274,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @param e {qx.event.type.Pointer} The move pointer event
      */
-    __onPointerMoveRoot : function(e)
-    {
+    __onPointerMoveRoot(e) {
       var pos = this.__pointerPosition;
 
       pos.left = Math.round(e.getDocumentLeft());
       pos.top = Math.round(e.getDocumentTop());
     },
-
 
     /**
      * Searches for the tooltip of the target widget. If any tooltip instance
@@ -284,38 +288,34 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @param e {qx.event.type.Pointer} pointerover event
      */
-    __onPointerOverRoot : function(e)
-    {
+    __onPointerOverRoot(e) {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
       // take first coordinates as backup if no move event will be fired (e.g. touch devices)
       this.__onPointerMoveRoot(e);
       this.showToolTip(target);
     },
 
-
     /**
      * Explicitly show tooltip for particular form item.
      *
      * @param target {Object | null} widget to show tooltip for
      */
-    showToolTip : function(target) {
-      if (!target){
+    showToolTip(target) {
+      if (!target) {
         return;
       }
 
-      var tooltip,
-          tooltipText,
-          tooltipIcon,
-          invalidMessage;
+      var tooltip, tooltipText, tooltipIcon, invalidMessage;
 
       // Search first parent which has a tooltip
-      while (target != null)
-      {
+      while (target != null) {
         tooltip = target.getToolTip();
         tooltipText = target.getToolTipText() || null;
         tooltipIcon = target.getToolTipIcon() || null;
-        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm)
-            && !target.isValid()) {
+        if (
+          qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) &&
+          !target.isValid()
+        ) {
           invalidMessage = target.getInvalidMessage();
         }
 
@@ -327,27 +327,26 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       //do nothing if
-      if (!target //don't have a target
-          // tooltip is disabled and the value of showToolTipWhenDisabled is false
-          || (!target.getEnabled() && !target.isShowToolTipWhenDisabled() )
-          //tooltip is blocked
-          || target.isBlockToolTip()
-          //an invalid message isn't set and tooltips are disabled
-          || (!invalidMessage && !this.getShowToolTips())
-          //an invalid message is set and invalid tooltips are disabled
-          || (invalidMessage && !this.getShowInvalidToolTips()))
-      {
+      if (
+        !target || //don't have a target
+        // tooltip is disabled and the value of showToolTipWhenDisabled is false
+        (!target.getEnabled() && !target.isShowToolTipWhenDisabled()) ||
+        //tooltip is blocked
+        target.isBlockToolTip() ||
+        //an invalid message isn't set and tooltips are disabled
+        (!invalidMessage && !this.getShowToolTips()) ||
+        //an invalid message is set and invalid tooltips are disabled
+        (invalidMessage && !this.getShowInvalidToolTips())
+      ) {
         return;
       }
 
-      if (invalidMessage)
-      {
+      if (invalidMessage) {
         tooltip = this.getSharedErrorTooltip().set({
           label: invalidMessage
         });
       }
-      if (!tooltip)
-      {
+      if (!tooltip) {
         tooltip = this.getSharedTooltip().set({
           label: tooltipText,
           icon: tooltipIcon
@@ -357,15 +356,13 @@ qx.Class.define("qx.ui.tooltip.Manager",
       tooltip.setOpener(target);
     },
 
-
     /**
      * Resets the property {@link #current} if there was a
      * tooltip and no new one is created.
      *
      * @param e {qx.event.type.Pointer} pointerout event
      */
-    __onPointerOutRoot : function(e)
-    {
+    __onPointerOutRoot(e) {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
       if (!target) {
         return;
@@ -382,7 +379,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
       // - the destination target is the current tooltip
       //   or
       // - the current tooltip contains the destination target
-      if (tooltip && (related == tooltip || qx.ui.core.Widget.contains(tooltip, related))) {
+      if (
+        tooltip &&
+        (related == tooltip || qx.ui.core.Widget.contains(tooltip, related))
+      ) {
         return;
       }
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
-      if(tooltip && !tooltip.getAutoHide()) {
+      if (tooltip && !tooltip.getAutoHide()) {
         return;
       }
 
@@ -403,15 +403,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       FOCUS EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Reset the property {@link #current} if the
@@ -419,8 +415,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
      *
      * @param e {qx.event.type.Focus} blur event
      */
-    __onFocusOutRoot : function(e)
-    {
+    __onFocusOutRoot(e) {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
       if (!target) {
         return;
@@ -428,7 +423,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       var tooltip = this.getCurrent();
 
-      if(tooltip && !tooltip.getAutoHide()) {
+      if (tooltip && !tooltip.getAutoHide()) {
         return;
       }
 
@@ -440,18 +435,21 @@ qx.Class.define("qx.ui.tooltip.Manager",
     }
   },
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     // Deregister events
-    qx.event.Registration.removeListener(document.body, "pointerover", this.__onPointerOverRoot, this, true);
+    qx.event.Registration.removeListener(
+      document.body,
+      "pointerover",
+      this.__onPointerOverRoot,
+      this,
+      true
+    );
 
     // Dispose timers
     this._disposeObjects("__showTimer", "__hideTimer", "__sharedToolTip");

@@ -32,13 +32,18 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Pointer", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["pointerdown", "pointerup", "pointermove", "pointercancel", "pointerover", "pointerout"],
-
+    TYPES: [
+      "pointerdown",
+      "pointerup",
+      "pointermove",
+      "pointercancel",
+      "pointerover",
+      "pointerout"
+    ],
 
     /**
      * Returns the device type which the event triggered. This can be one
@@ -47,11 +52,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {String} The type of the pointer.
      */
-    getPointerType : function() {
+    getPointerType() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the horizontal coordinate at which the event occurred relative
@@ -59,11 +63,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The horizontal mouse position
      */
-    getViewportLeft : function() {
+    getViewportLeft() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative
@@ -72,11 +75,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {Number} The vertical mouse position
      * @signature function()
      */
-    getViewportTop : function() {
+    getViewportTop() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the horizontal position at which the event occurred relative to the
@@ -85,11 +87,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The horizontal mouse position in the document.
      */
-    getDocumentLeft : function() {
+    getDocumentLeft() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the vertical position at which the event occurred relative to the
@@ -98,11 +99,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The vertical mouse position in the document.
      */
-    getDocumentTop : function() {
+    getDocumentTop() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the horizontal coordinate at which the event occurred relative to
@@ -113,11 +113,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The horizontal mouse position on the screen.
      */
-    getScreenLeft : function() {
+    getScreenLeft() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative to
@@ -128,11 +127,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The vertical mouse position on the screen.
      */
-    getScreenTop : function() {
+    getScreenTop() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
       return false;
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -143,8 +141,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
@@ -154,7 +151,10 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Pointer.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Pointer.TYPES,
+      statics.normalize
+    );
   }
 });

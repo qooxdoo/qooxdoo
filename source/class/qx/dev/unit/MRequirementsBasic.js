@@ -21,16 +21,12 @@
  * classes.
  */
 qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  members :
-  {
-
+  members: {
     /**
      * Verifies a list of infrastructure requirements by checking for
      * corresponding "has" methods. If no such method was found,
@@ -44,21 +40,19 @@ qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
      * @param featureList {String[]} List of infrastructure requirements
      * @lint environmentNonLiteralKey(feature)
      */
-    require : function(featureList) {
-
+    require(featureList) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertArray(featureList);
       }
 
-      for (var i=0,l=featureList.length; i<l; i++) {
+      for (var i = 0, l = featureList.length; i < l; i++) {
         var feature = featureList[i];
         var hasMethodName = "has" + qx.lang.String.capitalize(feature);
 
         if (this[hasMethodName]) {
           if (this[hasMethodName]() === true) {
             continue;
-          }
-          else {
+          } else {
             throw new qx.dev.unit.RequirementError(feature);
           }
         }
@@ -70,22 +64,33 @@ qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
           }
           if (envValue === false) {
             throw new qx.dev.unit.RequirementError(feature);
-          }
-          else {
-            throw new Error("The Environment key " + feature + " cannot be used"
-             + " as a Test Requirement since its value is not boolean!");
+          } else {
+            throw new Error(
+              "The Environment key " +
+                feature +
+                " cannot be used" +
+                " as a Test Requirement since its value is not boolean!"
+            );
           }
         }
 
         if (qx.core.Environment.getAsyncChecks()[feature]) {
-          throw new Error('Unable to verify requirement ' + feature + ': '
-          + 'Asynchronous environment checks are not supported!');
+          throw new Error(
+            "Unable to verify requirement " +
+              feature +
+              ": " +
+              "Asynchronous environment checks are not supported!"
+          );
         }
 
-        throw new Error('Unable to verify requirement: No method "'
-          + hasMethodName + '" or valid Environment key "' + feature + '" found');
+        throw new Error(
+          'Unable to verify requirement: No method "' +
+            hasMethodName +
+            '" or valid Environment key "' +
+            feature +
+            '" found'
+        );
       }
     }
   }
-
 });

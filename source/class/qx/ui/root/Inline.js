@@ -37,11 +37,9 @@
  * @ignore(qx.ui.popup, qx.ui.popup.Manager.*)
  * @ignore(qx.ui.menu, qx.ui.menu.Manager.*)
  */
-qx.Class.define("qx.ui.root.Inline",
-{
-  extend : qx.ui.root.Abstract,
-  include : [qx.ui.core.MLayoutHandling],
-
+qx.Class.define("qx.ui.root.Inline", {
+  extend: qx.ui.root.Abstract,
+  include: [qx.ui.core.MLayoutHandling],
 
   /*
   *****************************************************************************
@@ -59,11 +57,13 @@ qx.Class.define("qx.ui.root.Inline",
    *    determined by the DOM element's height. Otherwise the children's size hint
    *    is used.
    */
-  construct : function(el, dynamicX, dynamicY)
-  {
+  construct(el, dynamicX, dynamicY) {
     // check the parameter
     if (qx.core.Environment.get("qx.debug")) {
-      this.assertElement(el, "Please use a DOM element to create an inline root.");
+      this.assertElement(
+        el,
+        "Please use a DOM element to create an inline root."
+      );
     }
 
     // Temporary storage of element to use
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.root.Inline",
     this.__dynY = dynamicY || false;
     this.__initDynamicMode();
 
-    this.base(arguments);
+    super();
 
     // Use static layout
     this._setLayout(new qx.ui.layout.Basic());
@@ -92,18 +92,22 @@ qx.Class.define("qx.ui.root.Inline",
 
     // Avoid the automatically scroll in to view.
     // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3236 for details.
-    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
       this.setKeepFocus(true);
     }
 
     // Resize handling for the window
     var window = qx.dom.Node.getWindow(el);
-    qx.event.Registration.addListener(window, "resize", this._onWindowResize, this);
+    qx.event.Registration.addListener(
+      window,
+      "resize",
+      this._onWindowResize,
+      this
+    );
 
     // quick fix for [BUG #7680]
     this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
   },
-
 
   /*
   *****************************************************************************
@@ -111,55 +115,68 @@ qx.Class.define("qx.ui.root.Inline",
   *****************************************************************************
   */
 
-  members :
-  {
-    __dynX : false,
-    __dynY : false,
-    __elem : null,
-
+  members: {
+    __dynX: false,
+    __dynY: false,
+    __elem: null,
 
     /**
      * Performs several checks for dynamic mode and adds the "resize" listener
      */
-    __initDynamicMode : function()
-    {
-      if (this.__dynX || this.__dynY)
-      {
+    __initDynamicMode() {
+      if (this.__dynX || this.__dynY) {
         // Check the DOM element for an usable width and height
         var elementDimensions = qx.bom.element.Dimension.getSize(this.__elem);
 
         if (this.__dynX && elementDimensions.width < 1) {
-          throw new Error("The root element " + this.__elem + " of " + this +
-            " needs a width when its width size should be used!");
+          throw new Error(
+            "The root element " +
+              this.__elem +
+              " of " +
+              this +
+              " needs a width when its width size should be used!"
+          );
         }
 
-        if (this.__dynY)
-        {
+        if (this.__dynY) {
           if (elementDimensions.height < 1) {
-            throw new Error("The root element " + this.__elem + " of " + this +
-            " needs a height when its height size should be used!");
+            throw new Error(
+              "The root element " +
+                this.__elem +
+                " of " +
+                this +
+                " needs a height when its height size should be used!"
+            );
           }
 
           // check for implicit height. Set the height explicit to prevent that
           // the element grows indefinitely
-          if (elementDimensions.height >= 1 &&
-              qx.bom.element.Style.get(this.__elem, "height", 3) == "") {
-            qx.bom.element.Style.set(this.__elem, "height", elementDimensions.height + "px");
+          if (
+            elementDimensions.height >= 1 &&
+            qx.bom.element.Style.get(this.__elem, "height", 3) == ""
+          ) {
+            qx.bom.element.Style.set(
+              this.__elem,
+              "height",
+              elementDimensions.height + "px"
+            );
           }
         }
 
-        qx.event.Registration.addListener(this.__elem, "resize", this._onResize, this);
+        qx.event.Registration.addListener(
+          this.__elem,
+          "resize",
+          this._onResize,
+          this
+        );
       }
     },
 
-
     // overridden
-    _createContentElement : function()
-    {
+    _createContentElement() {
       var el = this.__elem;
 
-      if (this.__dynX || this.__dynY)
-      {
+      if (this.__dynX || this.__dynY) {
         var rootEl = document.createElement("div");
         el.appendChild(rootEl);
       } else {
@@ -177,35 +194,36 @@ qx.Class.define("qx.ui.root.Inline",
       // fire event asynchronously, otherwise the browser will fire the event
       // too early and no listener will be informed since they're not added
       // at this time
-      qx.event.Timer.once(function(e) {
-        this.fireEvent("appear");
-      }, this, 0);
+      qx.event.Timer.once(
+        function (e) {
+          this.fireEvent("appear");
+        },
+        this,
+        0
+      );
 
       return root;
     },
-
 
     /**
      * Listener for the element's resize event
      *
      * @param e {qx.event.type.Event} Event object
      */
-    _onResize : function(e)
-    {
+    _onResize(e) {
       var data = e.getData();
       if (
-        (data.oldWidth !== data.width) && this.__dynX ||
-        (data.oldHeight !== data.height) && this.__dynY
+        (data.oldWidth !== data.width && this.__dynX) ||
+        (data.oldHeight !== data.height && this.__dynY)
       ) {
         qx.ui.core.queue.Layout.add(this);
       }
     },
 
-
     /**
      * Listener for the window's resize event.
      */
-    _onWindowResize : function() {
+    _onWindowResize() {
       // close all popups
       if (qx.ui.popup && qx.ui.popup.Manager) {
         qx.ui.popup.Manager.getInstance().hideAll();
@@ -217,31 +235,27 @@ qx.Class.define("qx.ui.root.Inline",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var dynX = this.__dynX;
       var dynY = this.__dynY;
 
       if (!dynX || !dynY) {
-        var hint = this.base(arguments);
+        var hint = super._computeSizeHint();
       } else {
         hint = {};
       }
 
       var Dimension = qx.bom.element.Dimension;
 
-      if (dynX)
-      {
+      if (dynX) {
         var width = Dimension.getContentWidth(this.__elem);
         hint.width = width;
         hint.minWidth = width;
         hint.maxWidth = width;
       }
 
-      if (dynY)
-      {
+      if (dynY) {
         var height = Dimension.getContentHeight(this.__elem);
         hint.height = height;
         hint.minHeight = height;
@@ -252,20 +266,15 @@ qx.Class.define("qx.ui.root.Inline",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics, members) {
+  defer(statics, members) {
     qx.ui.core.MLayoutHandling.remap(members);
   },
-
 
   /*
   *****************************************************************************
@@ -273,9 +282,13 @@ qx.Class.define("qx.ui.root.Inline",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    qx.event.Registration.removeListener(this.__elem, "resize", this._onResize, this);
+  destruct() {
+    qx.event.Registration.removeListener(
+      this.__elem,
+      "resize",
+      this._onResize,
+      this
+    );
     this.__elem = null;
   }
 });

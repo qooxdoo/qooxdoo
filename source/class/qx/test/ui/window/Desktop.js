@@ -20,8 +20,8 @@ qx.Class.define("qx.test.ui.window.Desktop", {
   extend: qx.test.ui.LayoutTestCase,
 
   members: {
-    setUp: function () {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       var windowManager = new qx.ui.window.Manager();
       var desktop = new qx.ui.window.Desktop(windowManager);
@@ -30,13 +30,13 @@ qx.Class.define("qx.test.ui.window.Desktop", {
       this.desktop = desktop;
     },
 
-    tearDown: function () {
+    tearDown() {
       this.desktop.destroy();
-      this.base(arguments);
+      super.tearDown();
       this.flush();
     },
 
-    testEvents: function () {
+    testEvents() {
       var window = new qx.ui.window.Window("Window");
       window.set({
         width: 300,
@@ -44,16 +44,25 @@ qx.Class.define("qx.test.ui.window.Desktop", {
         showClose: false,
         showMinimize: false
       });
-      this.assertEventFired(this.desktop, "windowAdded", function () {
-        this.desktop.add(window);
-      }.bind(this));
 
-      this.assertEventFired(this.desktop, "windowRemoved", function () {
-        this.desktop.remove(window);
-      }.bind(this));
+      this.assertEventFired(
+        this.desktop,
+        "windowAdded",
+        function () {
+          this.desktop.add(window);
+        }.bind(this)
+      );
+
+      this.assertEventFired(
+        this.desktop,
+        "windowRemoved",
+        function () {
+          this.desktop.remove(window);
+        }.bind(this)
+      );
     },
 
-    destruct: function () {
+    destruct() {
       this.desktop = null;
     }
   }

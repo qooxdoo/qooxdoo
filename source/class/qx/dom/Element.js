@@ -20,10 +20,8 @@
  * Manages children structures of an element. Easy and convenient APIs
  * to insert, remove and replace children.
  */
-qx.Bootstrap.define("qx.dom.Element",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.dom.Element", {
+  statics: {
     /**
      * Whether the given <code>child</code> is a child of <code>parent</code>
      *
@@ -31,10 +29,9 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param child {Node} child node
      * @return {Boolean} true when the given <code>child</code> is a child of <code>parent</code>
      */
-    hasChild : function(parent, child) {
+    hasChild(parent, child) {
       return child.parentNode === parent;
     },
-
 
     /**
      * Whether the given <code>element</code> has children.
@@ -42,10 +39,9 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param element {Element} element to test
      * @return {Boolean} true when the given <code>element</code> has at least one child node
      */
-    hasChildren : function(element) {
+    hasChildren(element) {
       return !!element.firstChild;
     },
-
 
     /**
      * Whether the given <code>element</code> has any child elements.
@@ -53,12 +49,10 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param element {Element} element to test
      * @return {Boolean} true when the given <code>element</code> has at least one child element
      */
-    hasChildElements : function(element)
-    {
+    hasChildElements(element) {
       element = element.firstChild;
 
-      while(element)
-      {
+      while (element) {
         if (element.nodeType === 1) {
           return true;
         }
@@ -69,17 +63,15 @@ qx.Bootstrap.define("qx.dom.Element",
       return false;
     },
 
-
     /**
      * Returns the parent element of the given element.
      *
      * @param element {Element} Element to find the parent for
      * @return {Element} The parent element
      */
-    getParentElement : function(element) {
+    getParentElement(element) {
       return element.parentNode;
     },
-
 
     /**
      * Checks if the <code>element</code> is in the DOM, but note that
@@ -90,16 +82,14 @@ qx.Bootstrap.define("qx.dom.Element",
      * @return {Boolean} <code>true</code> if the <code>element</code> is in
      *          the DOM, <code>false</code> otherwise.
      */
-    isInDom :function(element, win)
-    {
+    isInDom(element, win) {
       if (!win) {
         win = window;
       }
 
       var domElements = win.document.getElementsByTagName(element.nodeName);
 
-      for (var i=0, l=domElements.length; i<l; i++)
-      {
+      for (var i = 0, l = domElements.length; i < l; i++) {
         if (domElements[i] === element) {
           return true;
         }
@@ -107,8 +97,6 @@ qx.Bootstrap.define("qx.dom.Element",
 
       return false;
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -125,8 +113,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param index {Integer} where to insert
      * @return {Boolean} returns true (successful)
      */
-    insertAt : function(node, parent, index)
-    {
+    insertAt(node, parent, index) {
       var ref = parent.childNodes[index];
 
       if (ref) {
@@ -138,7 +125,6 @@ qx.Bootstrap.define("qx.dom.Element",
       return true;
     },
 
-
     /**
      * Insert <code>node</code> into <code>parent</code> as first child.
      * Indexes of other children will be incremented by one.
@@ -147,8 +133,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param parent {Element} parent element node
      * @return {Boolean} returns true (successful)
      */
-    insertBegin : function(node, parent)
-    {
+    insertBegin(node, parent) {
       if (parent.firstChild) {
         this.insertBefore(node, parent.firstChild);
       } else {
@@ -157,7 +142,6 @@ qx.Bootstrap.define("qx.dom.Element",
       return true;
     },
 
-
     /**
      * Insert <code>node</code> into <code>parent</code> as last child.
      *
@@ -165,11 +149,10 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param parent {Element} parent element node
      * @return {Boolean} returns true (successful)
      */
-    insertEnd : function(node, parent) {
+    insertEnd(node, parent) {
       parent.appendChild(node);
       return true;
     },
-
 
     /**
      * Inserts <code>node</code> before <code>ref</code> in the same parent.
@@ -178,12 +161,10 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param ref {Node} Node which will be used as reference for insertion
      * @return {Boolean} returns true (successful)
      */
-    insertBefore : function(node, ref)
-    {
+    insertBefore(node, ref) {
       ref.parentNode.insertBefore(node, ref);
       return true;
     },
-
 
     /**
      * Inserts <code>node</code> after <code>ref</code> in the same parent.
@@ -192,8 +173,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param ref {Node} Node which will be used as reference for insertion
      * @return {Boolean} returns true (successful)
      */
-    insertAfter : function(node, ref)
-    {
+    insertAfter(node, ref) {
       var parent = ref.parentNode;
 
       if (ref == parent.lastChild) {
@@ -204,10 +184,6 @@ qx.Bootstrap.define("qx.dom.Element",
 
       return true;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -222,8 +198,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @return {Boolean} <code>true</code> when node was successfully removed,
      *   otherwise <code>false</code>
      */
-    remove : function(node)
-    {
+    remove(node) {
       if (!node.parentNode) {
         return false;
       }
@@ -231,7 +206,6 @@ qx.Bootstrap.define("qx.dom.Element",
       node.parentNode.removeChild(node);
       return true;
     },
-
 
     /**
      * Removes the given <code>node</code> from the <code>parent</code>.
@@ -241,8 +215,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @return {Boolean} <code>true</code> when node was successfully removed,
      *   otherwise <code>false</code>
      */
-    removeChild : function(node, parent)
-    {
+    removeChild(node, parent) {
       if (node.parentNode !== parent) {
         return false;
       }
@@ -250,7 +223,6 @@ qx.Bootstrap.define("qx.dom.Element",
       parent.removeChild(node);
       return true;
     },
-
 
     /**
      * Removes the node at the given <code>index</code>
@@ -261,8 +233,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @return {Boolean} <code>true</code> when node was successfully removed,
      *   otherwise <code>false</code>
      */
-    removeChildAt : function(index, parent)
-    {
+    removeChildAt(index, parent) {
       var child = parent.childNodes[index];
 
       if (!child) {
@@ -272,10 +243,6 @@ qx.Bootstrap.define("qx.dom.Element",
       parent.removeChild(child);
       return true;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -291,8 +258,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param oldNode {Node} DOM node to remove
      * @return {Boolean} <code>true</code> when node was successfully replaced
      */
-    replaceChild : function(newNode, oldNode)
-    {
+    replaceChild(newNode, oldNode) {
       if (!oldNode.parentNode) {
         return false;
       }
@@ -300,7 +266,6 @@ qx.Bootstrap.define("qx.dom.Element",
       oldNode.parentNode.replaceChild(newNode, oldNode);
       return true;
     },
-
 
     /**
      * Replaces the node at <code>index</code> with <code>newNode</code> in
@@ -311,8 +276,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param parent {Element} parent DOM element
      * @return {Boolean} <code>true</code> when node was successfully replaced
      */
-    replaceAt : function(newNode, index, parent)
-    {
+    replaceAt(newNode, index, parent) {
       var oldNode = parent.childNodes[index];
 
       if (!oldNode) {
@@ -323,15 +287,12 @@ qx.Bootstrap.define("qx.dom.Element",
       return true;
     },
 
-
     /**
      * Stores helper element for element creation in WebKit
      *
      * @internal
      */
-    __helperElement : {},
-
-
+    __helperElement: {},
 
     /**
      * Creates and returns a DOM helper element.
@@ -339,8 +300,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
      */
-    getHelperElement : function (win)
-    {
+    getHelperElement(win) {
       if (!win) {
         win = window;
       }
@@ -348,13 +308,12 @@ qx.Bootstrap.define("qx.dom.Element",
       // key is needed to allow using different windows
       var key = win.location.href;
 
-      if (!qx.dom.Element.__helperElement[key])
-      {
-        var helper = qx.dom.Element.__helperElement[key] = win.document.createElement("div");
+      if (!qx.dom.Element.__helperElement[key]) {
+        var helper = (qx.dom.Element.__helperElement[key] =
+          win.document.createElement("div"));
 
         // innerHTML will only parsed correctly if element is appended to document
-        if (qx.core.Environment.get("engine.name") == "webkit")
-        {
+        if (qx.core.Environment.get("engine.name") == "webkit") {
           helper.style.display = "none";
 
           win.document.body.appendChild(helper);
@@ -364,7 +323,6 @@ qx.Bootstrap.define("qx.dom.Element",
       return qx.dom.Element.__helperElement[key];
     },
 
-
     /**
      * Creates a DOM element.
      *
@@ -373,8 +331,7 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param win {Window?} Window to create the element for
      * @return {Element} The created element node
      */
-    create : function(name, attributes, win)
-    {
+    create(name, attributes, win) {
       if (!win) {
         win = window;
       }
@@ -385,14 +342,12 @@ qx.Bootstrap.define("qx.dom.Element",
 
       var element = win.document.createElement(name);
 
-      for (var key in attributes)
-      {
+      for (var key in attributes) {
         qx.bom.element.Attribute.set(element, key, attributes[key]);
       }
 
       return element;
     },
-
 
     /**
      * Removes all content from the given element
@@ -400,8 +355,8 @@ qx.Bootstrap.define("qx.dom.Element",
      * @param element {Element} element to clean
      * @return {String} empty string (new HTML content)
      */
-    empty : function(element) {
-      return element.innerHTML = "";
+    empty(element) {
+      return (element.innerHTML = "");
     }
   }
 });

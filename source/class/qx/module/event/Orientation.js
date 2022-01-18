@@ -24,21 +24,18 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Orientation", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["orientationchange"],
-
+    TYPES: ["orientationchange"],
 
     /**
      * List of qx.module.event.Orientation methods to be attached to native
      * event objects
      * @internal
      */
-    BIND_METHODS : ["getOrientation", "isLandscape", "isPortrait"],
-
+    BIND_METHODS: ["getOrientation", "isLandscape", "isPortrait"],
 
     /**
      * Returns the current orientation of the viewport in degrees.
@@ -52,10 +49,9 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      *
      * @return {Number} The current orientation in degrees
      */
-    getOrientation: function() {
+    getOrientation() {
       return this._orientation;
     },
-
 
     /**
      * Whether the viewport orientation is currently in landscape mode.
@@ -63,10 +59,9 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in landscape mode.
      */
-    isLandscape : function() {
+    isLandscape() {
       return this._mode == "landscape";
     },
-
 
     /**
      * Whether the viewport orientation is currently in portrait mode.
@@ -74,11 +69,9 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      * @return {Boolean} <code>true</code> when the viewport orientation
      *     is currently in portrait mode.
      */
-    isPortrait : function()
-    {
+    isPortrait() {
       return this._mode == "portrait";
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -90,17 +83,17 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element, type)
-    {
+    normalize(event, element, type) {
       if (!event) {
         return event;
       }
       event._type = type;
 
       var bindMethods = qx.module.event.Orientation.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Orientation[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Orientation[bindMethods[i]].bind(event);
         }
       }
 
@@ -108,7 +101,7 @@ qx.Bootstrap.define("qx.module.event.Orientation", {
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$registerEventNormalization(statics.TYPES, statics.normalize);
   }
 });

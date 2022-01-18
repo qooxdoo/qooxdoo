@@ -22,16 +22,14 @@
  * Static class, which contains functionality to localize the names of keyboard keys.
  */
 
-qx.Class.define("qx.locale.Key",
-{
+qx.Class.define("qx.locale.Key", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Return localized name of a key identifier
      * {@link qx.event.type.KeySequence}
@@ -42,18 +40,24 @@ qx.Class.define("qx.locale.Key",
      * @param locale {String} optional locale to be used
      * @return {String} localized key name
      */
-    getKeyName : function(size, keyIdentifier, locale)
-    {
+    getKeyName(size, keyIdentifier, locale) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertInArray(size, ["short", "full"]);
       }
 
       var key = "key_" + size + "_" + keyIdentifier;
       // Control is always named control on a mac and not Strg in German e.g.
-      if (qx.core.Environment.get("os.name") == "osx" && keyIdentifier == "Control") {
+      if (
+        qx.core.Environment.get("os.name") == "osx" &&
+        keyIdentifier == "Control"
+      ) {
         key += "_Mac";
       }
-      var localizedKey = qx.locale.Manager.getInstance().translate(key, [], locale);
+      var localizedKey = qx.locale.Manager.getInstance().translate(
+        key,
+        [],
+        locale
+      );
 
       if (localizedKey == key) {
         return qx.locale.Key._keyNames[key] || keyIdentifier;
@@ -63,15 +67,13 @@ qx.Class.define("qx.locale.Key",
     }
   },
 
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
+  defer(statics) {
     var keyNames = {};
     var Manager = qx.locale.Manager;
 

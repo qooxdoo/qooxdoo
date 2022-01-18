@@ -19,34 +19,30 @@
 /**
  * Clipping area for the table header and table pane.
  */
-qx.Class.define("qx.ui.table.pane.Clipper",
-{
-  extend : qx.ui.container.Composite,
+qx.Class.define("qx.ui.table.pane.Clipper", {
+  extend: qx.ui.container.Composite,
 
-  construct : function()
-  {
-    this.base(arguments, new qx.ui.layout.Grow());
+  construct() {
+    super(new qx.ui.layout.Grow());
     this.setMinWidth(0);
   },
 
-  members :
-  {
+  members: {
     /**
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
      */
-    scrollToX : function(value) {
+    scrollToX(value) {
       this.getContentElement().scrollToX(value, false);
     },
-
 
     /**
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
      */
-    scrollToY : function(value) {
+    scrollToY(value) {
       this.getContentElement().scrollToY(value, true);
     }
   }

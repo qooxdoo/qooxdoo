@@ -34,7 +34,7 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
      * Return the Yargs configuration object
      * @return {{}}
      */
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "migrate",
         describe: "migrate a library/application to a newer qooxdoo version",
@@ -42,9 +42,11 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
           "dry-run": {
             describe: "Do not apply migrations"
           },
+
           "qx-version": {
             check: argv => semver.valid(argv.qxVersion),
-            describe: "A semver string. If given, the maximum qooxdoo version for which to run migrations"
+            describe:
+              "A semver string. If given, the maximum qooxdoo version for which to run migrations"
           }
         }
       };
@@ -52,23 +54,27 @@ qx.Class.define("qx.tool.cli.commands.Migrate", {
   },
 
   members: {
-
     /**
      * Announces or applies a migration
      */
-    process: async function() {
+    async process() {
       let runner = new qx.tool.migration.Runner().set({
         dryRun: Boolean(this.argv.dryRun),
         verbose: Boolean(this.argv.verbose),
         qxVersion: this.argv.qxVersion || null
       });
-      let {applied, pending} = await runner.runMigrations();
-      qx.tool.compiler.Console.info(`Finished ${this.argv.dryRun?"checking":"running"} migrations: ${applied} migrations applied, ${pending} migrations pending.`);
+
+      let { applied, pending } = await runner.runMigrations();
+      qx.tool.compiler.Console.info(
+        `Finished ${
+          this.argv.dryRun ? "checking" : "running"
+        } migrations: ${applied} migrations applied, ${pending} migrations pending.`
+      );
     },
 
     /**
      * @override
      */
-    async checkMigrations(){}
+    async checkMigrations() {}
   }
 });

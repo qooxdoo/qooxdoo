@@ -42,16 +42,15 @@
  * @childControl atom {qx.ui.basic.Atom} shows the text and icon of the content
  * @childControl arrow {qx.ui.basic.Image} shows the arrow to open the popup
  */
-qx.Class.define("qx.ui.form.SelectBox",
-{
-  extend : qx.ui.form.AbstractSelectBox,
-  implement : [
+qx.Class.define("qx.ui.form.SelectBox", {
+  extend: qx.ui.form.AbstractSelectBox,
+  implement: [
     qx.ui.core.ISingleSelection,
     qx.ui.form.IModelSelection,
     qx.ui.form.IField
   ],
-  include : [qx.ui.core.MSingleSelectionHandling, qx.ui.form.MModelSelection],
 
+  include: [qx.ui.core.MSingleSelectionHandling, qx.ui.form.MModelSelection],
 
   /*
   *****************************************************************************
@@ -59,10 +58,8 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this._createChildControl("atom");
     this._createChildControl("spacer");
@@ -77,21 +74,17 @@ qx.Class.define("qx.ui.form.SelectBox",
     this.addListener("changeSelection", this.__onChangeSelection, this);
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "selectbox"
+    appearance: {
+      refine: true,
+      init: "selectbox"
     },
 
     rich: {
@@ -101,18 +94,15 @@ qx.Class.define("qx.ui.form.SelectBox",
     }
   },
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /** @type {qx.ui.basic.Atom} instance */
-    __preSelectedItem : null,
-
+    __preSelectedItem: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -120,12 +110,12 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-    _applyRich: function(value, oldValue) {
+    _applyRich(value, oldValue) {
       this.getChildControl("atom").setRich(value);
     },
 
     // overridden
-    _defaultFormat: function(item) {
+    _defaultFormat(item) {
       if (item) {
         if (typeof item.isRich == "function" && item.isRich()) {
           this.setRich(true);
@@ -136,15 +126,13 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "spacer":
           control = new qx.ui.core.Spacer();
-          this._add(control, {flex: 1});
+          this._add(control, { flex: 1 });
           break;
 
         case "atom":
@@ -152,7 +140,7 @@ qx.Class.define("qx.ui.form.SelectBox",
           control.setCenter(false);
           control.setAnonymous(true);
 
-          this._add(control, {flex:1});
+          this._add(control, { flex: 1 });
           break;
 
         case "arrow":
@@ -163,17 +151,16 @@ qx.Class.define("qx.ui.form.SelectBox",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true
+    _forwardStates: {
+      focused: true
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -181,13 +168,12 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns the list items for the selection.
      *
      * @return {qx.ui.basic.Atom[]} List items to select.
      */
-    _getItems : function() {
+    _getItems() {
       return this.getChildrenContainer().getChildren();
     },
 
@@ -197,7 +183,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      * @return {Boolean} <code>true</code> If selection could be empty,
      *    <code>false</code> otherwise.
      */
-    _isAllowEmptySelection: function() {
+    _isAllowEmptySelection() {
       return this.getChildrenContainer().getSelectionMode() !== "one";
     },
 
@@ -206,13 +192,12 @@ qx.Class.define("qx.ui.form.SelectBox",
      *
      * @param e {qx.event.type.Data} Data event.
      */
-    __onChangeSelection : function(e)
-    {
+    __onChangeSelection(e) {
       var listItem = e.getData()[0];
 
       var list = this.getChildControl("list");
       if (list.getSelection()[0] != listItem) {
-        if(listItem) {
+        if (listItem) {
           list.setSelection([listItem]);
         } else {
           list.resetSelection();
@@ -233,12 +218,10 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
 
-
     /**
      * Sets the icon inside the list to match the selected ListItem.
      */
-    __updateIcon : function()
-    {
+    __updateIcon() {
       var listItem = this.getChildControl("list").getSelection()[0];
       var atom = this.getChildControl("atom");
       var icon = listItem ? listItem.getIcon() : "";
@@ -248,8 +231,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     /**
      * Sets the label inside the list to match the selected ListItem.
      */
-    __updateLabel : function()
-    {
+    __updateLabel() {
       var listItem = this.getChildControl("list").getSelection()[0];
       var atom = this.getChildControl("atom");
       var label = listItem ? listItem.getLabel() : "";
@@ -265,13 +247,11 @@ qx.Class.define("qx.ui.form.SelectBox",
       label == null ? atom.resetLabel() : atom.setLabel(label);
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Listener method for "pointerover" event
@@ -282,21 +262,18 @@ qx.Class.define("qx.ui.form.SelectBox",
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
       }
 
-      if (this.hasState("abandoned"))
-      {
+      if (this.hasState("abandoned")) {
         this.removeState("abandoned");
         this.addState("pressed");
       }
 
       this.addState("hovered");
     },
-
 
     /**
      * Listener method for "pointerout" event
@@ -307,55 +284,45 @@ qx.Class.define("qx.ui.form.SelectBox",
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
       }
 
       this.removeState("hovered");
 
-      if (this.hasState("pressed"))
-      {
+      if (this.hasState("pressed")) {
         this.removeState("pressed");
         this.addState("abandoned");
       }
     },
-
 
     /**
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       this.toggle();
     },
 
-
     // overridden
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var iden = e.getKeyIdentifier();
       if ((iden == "Down" || iden == "Up") && e.isAltPressed()) {
         this.toggle();
         e.stop();
-      }
-      else if (iden == "Enter" || iden == "Space")
-      {
+      } else if (iden == "Enter" || iden == "Space") {
         // Apply pre-selected item (translate quick selection to real selection)
-        if (this.__preSelectedItem)
-        {
+        if (this.__preSelectedItem) {
           this.setSelection([this.__preSelectedItem]);
           this.__preSelectedItem = null;
         }
 
         this.toggle();
         e.stop();
-      }
-      else
-      {
-        this.base(arguments, e);
+      } else {
+        super._onKeyPress(e);
       }
     },
 
@@ -364,8 +331,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      *
      * @param e {qx.event.type.KeyInput} Key event
      */
-    _onKeyInput : function(e)
-    {
+    _onKeyInput(e) {
       // clone the event and re-calibrate the event
       var clone = e.clone();
       clone.setTarget(this._list);
@@ -375,47 +341,36 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.getChildControl("list").dispatchEvent(clone);
     },
 
-
     // overridden
-    _onListPointerDown : function(e)
-    {
+    _onListPointerDown(e) {
       // Apply pre-selected item (translate quick selection to real selection)
-      if (this.__preSelectedItem)
-      {
+      if (this.__preSelectedItem) {
         this.setSelection([this.__preSelectedItem]);
         this.__preSelectedItem = null;
       }
     },
 
-
     // overridden
-    _onListChangeSelection : function(e)
-    {
+    _onListChangeSelection(e) {
       var current = e.getData();
       var old = e.getOldData();
 
       // Remove old listeners for icon and label changes.
-      if (old && old.length > 0)
-      {
+      if (old && old.length > 0) {
         old[0].removeListener("changeIcon", this.__updateIcon, this);
         old[0].removeListener("changeLabel", this.__updateLabel, this);
       }
 
-
-      if (current.length > 0)
-      {
+      if (current.length > 0) {
         // Ignore quick context (e.g. pointerover)
         // and configure the new value when closing the popup afterwards
         var popup = this.getChildControl("popup");
         var list = this.getChildControl("list");
         var context = list.getSelectionContext();
 
-        if (popup.isVisible() && (context == "quick" || context == "key"))
-        {
+        if (popup.isVisible() && (context == "quick" || context == "key")) {
           this.__preSelectedItem = current[0];
-        }
-        else
-        {
+        } else {
           this.setSelection([current[0]]);
           this.__preSelectedItem = null;
         }
@@ -423,9 +378,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         // Add listeners for icon and label changes
         current[0].addListener("changeIcon", this.__updateIcon, this);
         current[0].addListener("changeLabel", this.__updateLabel, this);
-      }
-      else
-      {
+      } else {
         this.resetSelection();
       }
 
@@ -434,26 +387,28 @@ qx.Class.define("qx.ui.form.SelectBox",
       if (!contentEl) {
         return;
       }
-      const currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      const currentContentEl =
+        current && current[0] ? current[0].getContentElement() : null;
       if (currentContentEl) {
-        contentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
+        contentEl.setAttribute(
+          "aria-activedescendant",
+          currentContentEl.getAttribute("id")
+        );
       } else {
         contentEl.removeAttribute("aria-activedescendant");
       }
     },
 
     // overridden
-    _onPopupChangeVisibility : function(e)
-    {
-      this.base(arguments, e);
+    _onPopupChangeVisibility(e) {
+      super._onPopupChangeVisibility(e);
 
       // Synchronize the current selection to the list selection
       // when the popup is closed. The list selection may be invalid
       // because of the quick selection handling which is not
       // directly applied to the selectbox
       var popup = this.getChildControl("popup");
-      if (!popup.isVisible())
-      {
+      if (!popup.isVisible()) {
         var list = this.getChildControl("list");
 
         // check if the list has any children before selecting
@@ -479,9 +434,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
       }
     }
-
   },
-
 
   /*
   *****************************************************************************
@@ -489,8 +442,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-
-  destruct : function() {
+  destruct() {
     this.__preSelectedItem = null;
   }
 });

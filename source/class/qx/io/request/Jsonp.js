@@ -69,17 +69,14 @@
  *
  * Internally uses {@link qx.bom.request.Jsonp}.
  */
-qx.Class.define("qx.io.request.Jsonp",
-{
+qx.Class.define("qx.io.request.Jsonp", {
   extend: qx.io.request.AbstractRequest,
 
-  events:
-  {
-
+  events: {
     /**
      * Fired when request completes without error and data has been received.
      */
-    "success": "qx.event.type.Event",
+    success: "qx.event.type.Event",
 
     /**
      * Fired when request completes without error.
@@ -89,7 +86,7 @@ qx.Class.define("qx.io.request.Jsonp",
      * is fired. If you are only interested in the JSON data received, consider
      * listening to the {@link #success} event instead.
      */
-    "load": "qx.event.type.Event",
+    load: "qx.event.type.Event",
 
     /**
      * Fired when request completes without error but no data was received.
@@ -106,11 +103,10 @@ qx.Class.define("qx.io.request.Jsonp",
      * hard-coded callback, set a custom callback name with
      * {@link #setCallbackName}.
      */
-    "statusError": "qx.event.type.Event"
+    statusError: "qx.event.type.Event"
   },
 
-  properties:
-  {
+  properties: {
     /**
      * Whether to allow request to be answered from cache.
      *
@@ -125,8 +121,7 @@ qx.Class.define("qx.io.request.Jsonp",
     }
   },
 
-  members:
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       CONFIGURE TRANSPORT
@@ -138,7 +133,7 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * @return {qx.bom.request.Jsonp} Transport.
      */
-    _createTransport: function() {
+    _createTransport() {
       return new qx.bom.request.Jsonp();
     },
 
@@ -150,9 +145,9 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * @return {String} The configured URL.
      */
-    _getConfiguredUrl: function() {
+    _getConfiguredUrl() {
       var url = this.getUrl(),
-          serializedData;
+        serializedData;
 
       if (this.getRequestData()) {
         serializedData = this._serializeData(this.getRequestData());
@@ -161,7 +156,9 @@ qx.Class.define("qx.io.request.Jsonp",
 
       if (!this.getCache()) {
         // Make sure URL cannot be served from cache and new request is made
-        url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
+        url = qx.util.Uri.appendParamsToUrl(url, {
+          nocache: new Date().valueOf()
+        });
       }
 
       return url;
@@ -174,7 +171,7 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * @return {Object} The parsed response of the request.
      */
-    _getParsedResponse: function() {
+    _getParsedResponse() {
       return this._transport.responseJson;
     },
 
@@ -191,7 +188,7 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * @param param {String} Name of the callback parameter.
      */
-    setCallbackParam: function(param) {
+    setCallbackParam(param) {
       this._transport.setCallbackParam(param);
     },
 
@@ -202,7 +199,7 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * @param name {String} Name of the callback function.
      */
-    setCallbackName: function(name) {
+    setCallbackName(name) {
       this._transport.setCallbackName(name);
     }
   }

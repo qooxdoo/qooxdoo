@@ -20,7 +20,6 @@
  *
  * ************************************************************************/
 
-
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
@@ -31,7 +30,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
 
   construct(appMeta) {
-    this.base(arguments, appMeta, `${appMeta.getApplicationRoot()}index.js`);
+    super(appMeta, `${appMeta.getApplicationRoot()}index.js`);
     this.__embeddedJs = [];
     this.__embeddedJsLookup = {};
   },
@@ -100,12 +99,14 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
 
       var MAP = {
         EnvSettings: appMeta.getEnvironment(),
-        Libraries: appMeta.getLibraries().map(library => library.getNamespace()),
+        Libraries: appMeta
+          .getLibraries()
+          .map(library => library.getNamespace()),
         SourceUri: appMeta.getSourceUri(),
         ResourceUri: appMeta.getResourceUri(),
         Resources: appMeta.getResources(),
-        Translations: {"C": null},
-        Locales: {"C": null},
+        Translations: { C: null },
+        Locales: { C: null },
         Parts: {},
         Packages: {},
         UrisBefore: urisBefore,
@@ -119,20 +120,29 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
         TranspiledPath: undefined,
         PreBootCode: appMeta.getPreBootCode()
       };
+
       appMeta.getParts().forEach(part => part.serializeInto(MAP.Parts));
       appMeta.getPackages().forEach(pkg => pkg.serializeInto(MAP.Packages));
 
       if (application.getType() !== "browser") {
-        MAP.TranspiledPath = path.relative(appRootDir, path.join(target.getOutputDir(), "transpiled"));
+        MAP.TranspiledPath = path.relative(
+          appRootDir,
+          path.join(target.getOutputDir(), "transpiled")
+        );
       }
 
-      appMeta.getTarget().getLocales().forEach(localeId => {
-        MAP.Translations[localeId] = null;
-        MAP.Locales[localeId] = null;
-      });
+      appMeta
+        .getTarget()
+        .getLocales()
+        .forEach(localeId => {
+          MAP.Translations[localeId] = null;
+          MAP.Locales[localeId] = null;
+        });
       this.__sourceMapOffsets = [];
 
-      data = await fs.readFileAsync(application.getLoaderTemplate(), { encoding: "utf-8" });
+      data = await fs.readFileAsync(application.getLoaderTemplate(), {
+        encoding: "utf-8"
+      });
       var lines = data.split("\n");
       for (let i = 0; i < lines.length; i++) {
         var line = lines[i];
@@ -155,7 +165,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
             }
           }
 
-          var newLine = line.substring(0, match.index) + replace + line.substring(match.index + keyword.length + 3);
+          var newLine =
+            line.substring(0, match.index) +
+            replace +
+            line.substring(match.index + keyword.length + 3);
           line = newLine;
         }
         if (line.match(/^\s*delayDefer:\s*false\b/)) {
@@ -170,9 +183,14 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
      */
     async getSourceMap() {
       if (this.__sourceMapOffsets === null) {
-        throw new Error(`Cannot get the source map for ${this} until the stream has been written`);
+        throw new Error(
+          `Cannot get the source map for ${this} until the stream has been written`
+        );
       }
-      let res = await this._copySourceMap(this.__embeddedJs, this.__sourceMapOffsets);
+      let res = await this._copySourceMap(
+        this.__embeddedJs,
+        this.__sourceMapOffsets
+      );
       let target = this._appMeta.getTarget();
       for (let i = 0; i < res.sources.length; i++) {
         let s = path.relative("", res.sources[i]);

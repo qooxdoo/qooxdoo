@@ -20,10 +20,8 @@
  * Interface describes the methods which the {@link qx.ui.tree.provider.WidgetProvider}
  * uses for communication.
  */
-qx.Interface.define("qx.ui.tree.core.IVirtualTree",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.tree.core.IVirtualTree", {
+  members: {
     /**
      * Return whether top level items should have an open/close button. The top
      * level item item is normally the root item, but when the root is hidden,
@@ -32,8 +30,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @return {Boolean} Returns <code>true</code> when top level items should
      *   show open/close buttons, <code>false</code> otherwise.
      */
-    isShowTopLevelOpenCloseIcons : function() {},
-
+    isShowTopLevelOpenCloseIcons() {},
 
     /**
      * Returns the internal data structure. The Array index is the row and the
@@ -42,8 +39,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @internal
      * @return {qx.data.Array} The internal data structure.
      */
-    getLookupTable : function() {},
-
+    getLookupTable() {},
 
     /**
      * Returns if the passed item is a note or a leaf.
@@ -53,12 +49,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @return {Boolean} <code>True</code> when item is a node,
      *   </code>false</code> when item is a leaf.
      */
-    isNode : function(item)
-    {
+    isNode(item) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(item, qx.core.Object);
     },
-
 
     /**
      * Return whether the node is opened or closed.
@@ -67,12 +61,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @return {Boolean} Returns <code>true</code> when the node is opened,
      *   <code>false</code> otherwise.
      */
-    isNodeOpen : function(node)
-    {
+    isNodeOpen(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Returns the row's nesting level.
@@ -80,12 +72,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @param row {Integer} The row to get the nesting level.
      * @return {Integer} The row's nesting level or <code>null</code>.
      */
-    getLevel : function(row)
-    {
+    getLevel(row) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInteger(row);
     },
-
 
     /**
      * Return whether the node has visible children or not.
@@ -95,66 +85,56 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      * @return {Boolean} <code>True</code> when the node has visible children,
      *   <code>false</code> otherwise.
      */
-    hasChildren : function(node)
-    {
+    hasChildren(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Opens the passed node.
      *
      * @param node {qx.core.Object} Node to open.
      */
-    openNode : function(node)
-    {
+    openNode(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Opens the passed node without scrolling selected item into view.
      *
      * @param node {qx.core.Object} Node to open.
      */
-    openNodeWithoutScrolling : function(node)
-    {
+    openNodeWithoutScrolling(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Closes the passed node.
      *
      * @param node {qx.core.Object} Node to close.
      */
-    closeNode : function(node)
-    {
+    closeNode(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Closes the passed node without scrolling selected item into view.
      *
      * @param node {qx.core.Object} Node to close.
      */
-    closeNodeWithoutScrolling : function(node)
-    {
+    closeNodeWithoutScrolling(node) {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
     },
-
 
     /**
      * Returns the current selection.
      *
      * @return {qx.data.Array} The current selected elements.
      */
-    getSelection : function() {}
+    getSelection() {}
   }
 });

@@ -20,12 +20,10 @@
 /**
  * Abstract class to compute the position of an object on one axis.
  */
-qx.Bootstrap.define("qx.util.placement.AbstractAxis",
-{
-  extend : Object,
+qx.Bootstrap.define("qx.util.placement.AbstractAxis", {
+  extend: Object,
 
-  statics :
-  {
+  statics: {
     /**
      * Computes the start of the object on the axis
      *
@@ -46,10 +44,9 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      * @return {Integer} The computed start position of the object.
      * @abstract
      */
-    computeStart : function(size, target, offsets, areaSize, position) {
+    computeStart(size, target, offsets, areaSize, position) {
       throw new Error("abstract method call!");
     },
-
 
     /**
      * Computes the start of the object by taking only the attachment and
@@ -64,10 +61,8 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      *   argument of {@link #computeStart}.
      * @return {Integer} The computed start position of the object.
      */
-    _moveToEdgeAndAlign : function(size, target, offsets, position)
-    {
-      switch(position)
-      {
+    _moveToEdgeAndAlign(size, target, offsets, position) {
+      switch (position) {
         case "edge-start":
           return target.start - offsets.end - size;
 
@@ -78,13 +73,16 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
           return target.start + offsets.start;
 
         case "align-center":
-          return target.start + parseInt((target.end - target.start - size) / 2, 10) + offsets.start;
+          return (
+            target.start +
+            parseInt((target.end - target.start - size) / 2, 10) +
+            offsets.start
+          );
 
         case "align-end":
           return target.end - offsets.end - size;
       }
     },
-
 
     /**
      * Whether the object specified by <code>start</code> and <code>size</code>
@@ -95,7 +93,7 @@ qx.Bootstrap.define("qx.util.placement.AbstractAxis",
      * @param areaSize {Integer} The size of the axis
      * @return {Boolean} Whether the object is inside of the axis' range
      */
-    _isInRange : function(start, size, areaSize) {
+    _isInRange(start, size, areaSize) {
       return start >= 0 && start + size <= areaSize;
     }
   }

@@ -1,4 +1,3 @@
-
 /* ************************************************************************
 
    qooxdoo - the new era of web development
@@ -24,16 +23,14 @@
  *
  *  <em>Note: This class is only available in Internet Explorer!</em>
  */
-qx.Class.define("qx.bom.Vml",
-{
+qx.Class.define("qx.bom.Vml", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Create VML element
      *
@@ -43,13 +40,11 @@ qx.Class.define("qx.bom.Vml",
      *     should be created.
      * @return {Element} The VML element
      */
-    create : function(type, attributes, win)
-    {
+    create(type, attributes, win) {
       var win = win || window;
       var el = win.document.createElement("v:" + (type || "shape"));
 
-      if (attributes)
-      {
+      if (attributes) {
         for (var key in attributes) {
           el.setAttribute(key, attributes[key]);
         }
@@ -57,7 +52,6 @@ qx.Class.define("qx.bom.Vml",
 
       return el;
     },
-
 
     /**
      * Creates an VML image and configures it. The image is always tiled.
@@ -75,25 +69,40 @@ qx.Class.define("qx.bom.Vml",
      *     is required, when an yOffset is given.
      * @return {Element} the VML element of the image
      */
-    createImage : function(source, width, height, xOffset, yOffset, imageWidth, imageHeight)
-    {
+    createImage(
+      source,
+      width,
+      height,
+      xOffset,
+      yOffset,
+      imageWidth,
+      imageHeight
+    ) {
       var shape = qx.bom.Vml.create("rect", {
-        "stroked": "False"
+        stroked: "False"
       });
 
       var fill = qx.bom.Vml.create("fill", {
-        "type": "tile"
+        type: "tile"
       });
 
       shape.appendChild(fill);
 
       if (source || width || height) {
-        this.updateImage(shape, source, width, height, xOffset, yOffset, imageWidth, imageHeight);
+        this.updateImage(
+          shape,
+          source,
+          width,
+          height,
+          xOffset,
+          yOffset,
+          imageWidth,
+          imageHeight
+        );
       }
 
       return shape;
     },
-
 
     /**
      * Sets the image source and configures the image. The image element size
@@ -113,8 +122,16 @@ qx.Class.define("qx.bom.Vml",
      * @param imageHeight {Integer?null} The full height of the image. This value
      *     is required, when an yOffset is given.
      */
-    updateImage : function(image, source, width, height, xOffset, yOffset, imageWidth, imageHeight)
-    {
+    updateImage(
+      image,
+      source,
+      width,
+      height,
+      xOffset,
+      yOffset,
+      imageWidth,
+      imageHeight
+    ) {
       var Style = qx.bom.element.Style;
       var Attribute = qx.bom.element.Attribute;
 
@@ -124,15 +141,12 @@ qx.Class.define("qx.bom.Vml",
       var fill = image.firstChild;
       Attribute.set(fill, "src", source, false);
 
-      var xOrigin = xOffset ? (-xOffset) / (imageWidth) : 0;
-      var yOrigin = yOffset ? (-yOffset) / (imageHeight) : 0;
+      var xOrigin = xOffset ? -xOffset / imageWidth : 0;
+      var yOrigin = yOffset ? -yOffset / imageHeight : 0;
 
-      Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin ,false);
+      Attribute.set(fill, "origin", xOrigin.toFixed(2) + "," + yOrigin, false);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -140,11 +154,12 @@ qx.Class.define("qx.bom.Vml",
   *****************************************************************************
   */
 
-  defer : function()
-  {
-    qx.module.Event.ready(function() {
+  defer() {
+    qx.module.Event.ready(function () {
       if (qx.core.Environment.get("html.vml")) {
-        qx.bom.Stylesheet.createElement("v\\: * { behavior:url(#default#VML);display:inline-block; }");
+        qx.bom.Stylesheet.createElement(
+          "v\\: * { behavior:url(#default#VML);display:inline-block; }"
+        );
 
         if (!document.namespaces["v"]) {
           document.namespaces.add("v", "urn:schemas-microsoft-com:vml");

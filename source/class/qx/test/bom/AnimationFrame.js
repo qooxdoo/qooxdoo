@@ -16,39 +16,41 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.bom.AnimationFrame", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MMock],
 
-qx.Class.define("qx.test.bom.AnimationFrame",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MMock],
-
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__frame = new qx.bom.AnimationFrame();
     },
 
-
-    testStart : function() {
+    testStart() {
       var clb = this.spy();
       this.__frame.once("frame", clb);
       this.__frame.startSequence(300);
-      this.wait(500, function() {
-        this.assertCalledOnce(clb);
-        this.assertTrue(clb.args[0][0] >= 0);
-      }, this);
+      this.wait(
+        500,
+        function () {
+          this.assertCalledOnce(clb);
+          this.assertTrue(clb.args[0][0] >= 0);
+        },
+        this
+      );
     },
 
-
-    testCancel : function() {
+    testCancel() {
       var clb = this.spy();
       this.__frame.once("frame", clb);
       this.__frame.startSequence(300);
       this.__frame.cancelSequence();
-      this.wait(500, function() {
-        this.assertNotCalled(clb);
-      }, this);
+      this.wait(
+        500,
+        function () {
+          this.assertNotCalled(clb);
+        },
+        this
+      );
     }
   }
 });

@@ -26,41 +26,34 @@
  *
  * This class is e.g. used in the {@link qx.ui.form.RepeatButton} and
  * {@link qx.ui.form.HoverButton} widgets.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.AcceleratingTimer",
-{
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
+qx.Class.define("qx.event.AcceleratingTimer", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__timer = new qx.event.Timer(this.getInterval());
     this.__timer.addListener("interval", this._onInterval, this);
   },
 
-
-  events :
-  {
+  events: {
     /** This event if fired each time the interval time has elapsed */
-    "interval" : "qx.event.type.Event"
+    interval: "qx.event.type.Event"
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Interval used after the first run of the timer. Usually a smaller value
      * than the "firstInterval" property value to get a faster reaction.
      */
-    interval :
-    {
-      check : "Integer",
-      init  : 100
+    interval: {
+      check: "Integer",
+      init: 100
     },
 
     /**
@@ -68,58 +61,48 @@ qx.Class.define("qx.event.AcceleratingTimer",
      * than the "interval" property value to a little delayed reaction at the first
      * time.
      */
-    firstInterval :
-    {
-      check : "Integer",
-      init  : 500
+    firstInterval: {
+      check: "Integer",
+      init: 500
     },
 
     /** This configures the minimum value for the timer interval. */
-    minimum :
-    {
-      check : "Integer",
-      init  : 20
+    minimum: {
+      check: "Integer",
+      init: 20
     },
 
     /** Decrease of the timer on each interval (for the next interval) until minTimer reached. */
-    decrease :
-    {
-      check : "Integer",
-      init  : 2
+    decrease: {
+      check: "Integer",
+      init: 2
     }
   },
 
-
-  members :
-  {
-    __timer : null,
-    __currentInterval : null,
+  members: {
+    __timer: null,
+    __currentInterval: null,
 
     /**
      * Reset and start the timer.
      */
-    start : function()
-    {
+    start() {
       this.__timer.setInterval(this.getFirstInterval());
       this.__timer.start();
     },
 
-
     /**
      * Stop the timer
      */
-    stop : function()
-    {
+    stop() {
       this.__timer.stop();
       this.__currentInterval = null;
     },
 
-
     /**
      * Interval event handler
      */
-    _onInterval : function()
-    {
+    _onInterval() {
       this.__timer.stop();
 
       if (this.__currentInterval == null) {
@@ -138,8 +121,7 @@ qx.Class.define("qx.event.AcceleratingTimer",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this._disposeObjects("__timer");
   }
 });

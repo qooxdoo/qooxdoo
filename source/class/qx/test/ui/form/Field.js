@@ -17,40 +17,37 @@
 ************************************************************************ */
 
 /* ************************************************************************
-************************************************************************ */
+ ************************************************************************ */
 /**
  *
  * @asset(qx/test/webfonts/*)
  */
 
-qx.Class.define("qx.test.ui.form.Field",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Field", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
+  include: [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
 
-  members :
-  {
-    hasWebFontSupport : function()
-    {
+  members: {
+    hasWebFontSupport() {
       var browser = qx.core.Environment.get("browser.name");
       var version = qx.core.Environment.get("browser.version");
-      if ((browser == "firefox" && version < 3.5) ||
-          (browser == "opera" && version < 10))
-      {
+      if (
+        (browser == "firefox" && version < 3.5) ||
+        (browser == "opera" && version < 10)
+      ) {
         return false;
       }
       return true;
     },
 
-    tearDown : function() {
+    tearDown() {
       this.getSandbox().restore();
       qx.bom.webfonts.Manager.getInstance().dispose();
       delete qx.bom.webfonts.Manager.$$instance;
     },
 
-    testSelectTextAllBeforeFlush : function()
-    {
+    testSelectTextAllBeforeFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -61,15 +58,13 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(1000, function() {
+      this.wait(1000, function () {
         self.assertEquals("affe", textfield.getTextSelection());
         textfield.destroy();
       });
     },
 
-
-    testSelectAllTextAfterFlush : function()
-    {
+    testSelectAllTextAfterFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -80,15 +75,13 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(1000, function() {
+      this.wait(1000, function () {
         self.assertEquals("affe", textfield.getTextSelection());
         textfield.destroy();
       });
     },
 
-
-    testClearTextSelectionBeforeFlush : function()
-    {
+    testClearTextSelectionBeforeFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -100,15 +93,13 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(100, function() {
+      this.wait(100, function () {
         self.assertEquals("", textfield.getTextSelection());
         textfield.destroy();
       });
     },
 
-
-    testClearTextSelectionAfterFlush : function()
-    {
+    testClearTextSelectionAfterFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -117,7 +108,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(1000, function() {
+      this.wait(1000, function () {
         textfield.selectAllText();
         textfield.clearTextSelection();
         self.assertEquals("", textfield.getTextSelection());
@@ -125,9 +116,7 @@ qx.Class.define("qx.test.ui.form.Field",
       });
     },
 
-
-    testGetTextSelectionStartEndAfterFlush : function()
-    {
+    testGetTextSelectionStartEndAfterFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -136,7 +125,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(1000, function() {
+      this.wait(1000, function () {
         textfield.setTextSelection(1, 2);
         self.assertEquals(1, textfield.getTextSelectionStart());
         self.assertEquals(2, textfield.getTextSelectionEnd());
@@ -144,9 +133,7 @@ qx.Class.define("qx.test.ui.form.Field",
       });
     },
 
-
-    testGetTextSelectionStartEndBeforeFlush : function()
-    {
+    testGetTextSelectionStartEndBeforeFlush() {
       var textfield = new qx.ui.form.TextField("affe");
       this.getRoot().add(textfield);
 
@@ -157,14 +144,14 @@ qx.Class.define("qx.test.ui.form.Field",
 
       // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
-      this.wait(100, function() {
+      this.wait(100, function () {
         self.assertEquals(2, textfield.getTextSelectionStart());
         self.assertEquals(3, textfield.getTextSelectionEnd());
         textfield.destroy();
       });
     },
 
-    testApplyWebFont : function() {
+    testApplyWebFont() {
       this.require(["webFontSupport"]);
       var tf = new qx.ui.form.TextField("Laugh while you can, monkey boy!");
 
@@ -172,19 +159,35 @@ qx.Class.define("qx.test.ui.form.Field",
       f.set({
         size: 18,
         family: ["monospace"],
-        sources:
-        [
+        sources: [
           {
-            family : "FinelinerScriptRegular",
-            source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.woff"),
-                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.ttf"),
-                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.eot") ]
+            family: "FinelinerScriptRegular",
+            source: [
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/fineliner_script-webfont.woff"
+              ),
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/fineliner_script-webfont.ttf"
+              ),
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/fineliner_script-webfont.eot"
+              )
+            ]
           },
+
           {
-            family : "YanoneKaffeesatzRegular",
-            source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"),
-                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"),
-                      qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot") ]
+            family: "YanoneKaffeesatzRegular",
+            source: [
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
+              ),
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
+              ),
+              qx.util.ResourceManager.getInstance().toUri(
+                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
+              )
+            ]
           }
         ]
       });
@@ -192,13 +195,17 @@ qx.Class.define("qx.test.ui.form.Field",
       var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
       tf.setFont(f);
 
-      qx.event.Timer.once(function() {
-        this.resume(function() {
-          tf.dispose();
-          f.dispose();
-          this.assertCalledTwice(statusChangeSpy);
-        }, this);
-      }, this, 4000);
+      qx.event.Timer.once(
+        function () {
+          this.resume(function () {
+            tf.dispose();
+            f.dispose();
+            this.assertCalledTwice(statusChangeSpy);
+          }, this);
+        },
+        this,
+        4000
+      );
 
       this.wait(8000);
     }

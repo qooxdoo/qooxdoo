@@ -21,13 +21,10 @@
  * A item for a list. Could be added to all List like widgets but also
  * to the {@link qx.ui.form.SelectBox} and {@link qx.ui.form.ComboBox}.
  */
-qx.Class.define("qx.ui.form.ListItem",
-{
-  extend : qx.ui.basic.Atom,
-  implement : [qx.ui.form.IModel, qx.ui.form.IListItem],
-  include : [qx.ui.form.MModelProperty],
-
-
+qx.Class.define("qx.ui.form.ListItem", {
+  extend: qx.ui.basic.Atom,
+  implement: [qx.ui.form.IModel, qx.ui.form.IListItem],
+  include: [qx.ui.form.MModelProperty],
 
   /*
   *****************************************************************************
@@ -40,9 +37,8 @@ qx.Class.define("qx.ui.form.ListItem",
    * @param icon {String?null} Icon to use
    * @param model {String?null} The items value
    */
-  construct : function(label, icon, model)
-  {
-    this.base(arguments, label, icon);
+  construct(label, icon, model) {
+    super(label, icon);
 
     if (model != null) {
       this.setModel(model);
@@ -52,23 +48,16 @@ qx.Class.define("qx.ui.form.ListItem",
     this.addListener("pointerout", this._onPointerOut, this);
   },
 
-
-
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events:
-  {
+  events: {
     /** (Fired by {@link qx.ui.form.List}) */
-    "action" : "qx.event.type.Event"
+    action: "qx.event.type.Event"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -76,48 +65,42 @@ qx.Class.define("qx.ui.form.ListItem",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "listitem"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "listitem"
     }
   },
 
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      focused : true,
-      hovered : true,
-      selected : true,
-      dragover : true
+    _forwardStates: {
+      focused: true,
+      hovered: true,
+      selected: true,
+      dragover: true
     },
-
 
     /**
      * Event handler for the pointer over event.
      */
-    _onPointerOver : function() {
+    _onPointerOver() {
       this.addState("hovered");
     },
-
 
     /**
      * Event handler for the pointer out event.
      */
-    _onPointerOut : function() {
+    _onPointerOut() {
       this.removeState("hovered");
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.removeListener("pointerover", this._onPointerOver, this);
     this.removeListener("pointerout", this._onPointerOut, this);
   }

@@ -20,12 +20,12 @@
  * Simple color theme
  */
 qx.Theme.define("qx.theme.tangible.ColorDark", {
-  extend : qx.theme.tangible.ColorEngine,
+  extend: qx.theme.tangible.ColorEngine,
   colors: {
     // theme colors
-    "primary": "#26a69a",
-    "secondary": "#26c6da",
-    "surface": "#455a64",
-    "error": "#b00020"
+    primary: "#26a69a",
+    secondary: "#26c6da",
+    surface: "#455a64",
+    error: "#b00020"
   }
 });

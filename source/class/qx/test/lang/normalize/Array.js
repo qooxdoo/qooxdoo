@@ -19,23 +19,19 @@
 /**
  * @require(qx.lang.normalize.Array)
  */
-qx.Class.define("qx.test.lang.normalize.Array",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MMock],
+qx.Class.define("qx.test.lang.normalize.Array", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MMock],
 
-
-  members :
-  {
-    testShims: function() {
+  members: {
+    testShims() {
       var testArray = ["entry1", "entry2"];
       for (var index in testArray) {
         this.assertTrue(index == 0 || index == 1);
       }
     },
-    
-    testIndexOf : function()
-    {
+
+    testIndexOf() {
       var obj = {};
       var arr = [1, obj, "str", 1];
 
@@ -45,7 +41,7 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertEquals(-1, arr.indexOf(0));
     },
 
-    testLastIndexOf : function() {
+    testLastIndexOf() {
       var obj = {};
       var arr = [1, obj, "str", 1];
 
@@ -55,14 +51,14 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertEquals(-1, arr.lastIndexOf(0));
     },
 
-    testForEach : function() {
+    testForEach() {
       var obj = {};
       var arr = [1, obj, "str", 1];
       arr[10] = 12;
 
       var values = [];
       var indexes = [];
-      arr.forEach(function(element, index, array) {
+      arr.forEach(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -72,13 +68,13 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
     },
 
-    testFilter : function() {
+    testFilter() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var odd = arr.filter(function(element, index, array) {
+      var odd = arr.filter(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -91,13 +87,13 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals([2, 4], odd);
     },
 
-    testMap : function() {
+    testMap() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var result = arr.map(function(element, index, array) {
+      var result = arr.map(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -113,13 +109,13 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
     },
 
-    testSome : function() {
+    testSome() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var result = arr.some(function(element, index, array) {
+      var result = arr.some(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -129,22 +125,26 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals(arr, values);
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
 
-      this.assertTrue(arr.some(function(element) {
-        return element == 3;
-      }));
+      this.assertTrue(
+        arr.some(function (element) {
+          return element == 3;
+        })
+      );
 
-      this.assertFalse(arr.some(function(element, index) {
-        return index == 6;
-      }));
+      this.assertFalse(
+        arr.some(function (element, index) {
+          return index == 6;
+        })
+      );
     },
 
-    testFind : function() {
+    testFind() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var result = arr.find(function(element, index, array) {
+      var result = arr.find(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -154,22 +154,27 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals(arr, values);
       this.assertArrayEquals([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], indexes);
 
-      this.assertEquals(arr.find(function(element) {
-        return element == 3;
-      }), 3);
+      this.assertEquals(
+        arr.find(function (element) {
+          return element == 3;
+        }),
+        3
+      );
 
-      this.assertUndefined(arr.find(function(element, index) {
-        return index == 6;
-      }));
+      this.assertUndefined(
+        arr.find(function (element, index) {
+          return index == 6;
+        })
+      );
     },
 
-    testFindIndex : function() {
+    testFindIndex() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var result = arr.findIndex(function(element, index, array) {
+      var result = arr.findIndex(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -179,22 +184,28 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals(arr, values);
       this.assertArrayEquals([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], indexes);
 
-      this.assertEquals(arr.findIndex(function(element) {
-        return element == 3;
-      }), 2);
+      this.assertEquals(
+        arr.findIndex(function (element) {
+          return element == 3;
+        }),
+        2
+      );
 
-      this.assertEquals(arr.findIndex(function(element, index) {
-        return element == 6;
-      }), -1);
+      this.assertEquals(
+        arr.findIndex(function (element, index) {
+          return element == 6;
+        }),
+        -1
+      );
     },
 
-    testEvery : function() {
+    testEvery() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;
 
       var values = [];
       var indexes = [];
-      var result = arr.every(function(element, index, array) {
+      var result = arr.every(function (element, index, array) {
         values[index] = element;
         indexes.push(index);
         this.assertEquals(arr, array);
@@ -205,39 +216,77 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals(arr, values);
       this.assertArrayEquals([0, 1, 2, 3, 10], indexes);
 
-      this.assertFalse(arr.every(function(element) {
-        return element == 3;
-      }));
+      this.assertFalse(
+        arr.every(function (element) {
+          return element == 3;
+        })
+      );
 
-      this.assertTrue(arr.every(function(element, index) {
-        return element == index + 1;
-      }));
+      this.assertTrue(
+        arr.every(function (element, index) {
+          return element == index + 1;
+        })
+      );
     },
 
-    testReduce : function() {
-      this.assertEquals(10, [].reduce(function() {}, 10));
+    testReduce() {
+      this.assertEquals(
+        10,
+        [].reduce(function () {}, 10)
+      );
       var spy = this.spy();
       [1].reduce(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
-      this.assertEquals(6, [1,2,3].reduce(function(a, b) {return a + b;}, 0));
-      this.assertArrayEquals([0,1,2,3,4], [[1,2], [3,4]].reduce(
-        function(a, b) {return a.concat(b);}, [0]
-      ));
+      this.assertEquals(
+        6,
+        [1, 2, 3].reduce(function (a, b) {
+          return a + b;
+        }, 0)
+      );
+      this.assertArrayEquals(
+        [0, 1, 2, 3, 4],
+        [
+          [1, 2],
+          [3, 4]
+        ].reduce(
+          function (a, b) {
+            return a.concat(b);
+          },
+          [0]
+        )
+      );
     },
 
-    testReduceRight : function() {
-      this.assertEquals(10, [].reduceRight(function() {}, 10));
+    testReduceRight() {
+      this.assertEquals(
+        10,
+        [].reduceRight(function () {}, 10)
+      );
       var spy = this.spy();
       [1].reduceRight(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
-      this.assertEquals(6, [1,2,3].reduceRight(function(a, b) {return a + b;}, 0));
-      this.assertArrayEquals([0, 3,4,1,2], [[1,2], [3,4]].reduceRight(
-        function(a, b) {return a.concat(b);}, [0]
-      ));
+      this.assertEquals(
+        6,
+        [1, 2, 3].reduceRight(function (a, b) {
+          return a + b;
+        }, 0)
+      );
+      this.assertArrayEquals(
+        [0, 3, 4, 1, 2],
+        [
+          [1, 2],
+          [3, 4]
+        ].reduceRight(
+          function (a, b) {
+            return a.concat(b);
+          },
+          [0]
+        )
+      );
     },
 
-    testIncludes : function() {
-      var arr = ['one', 'two', 'three'];
+    testIncludes() {
+      var arr = ["one", "two", "three"];
       this.assertTrue(arr.includes("one"), "includes does not work!");
       this.assertTrue(arr.includes("two"), "includes does not work!");
       this.assertTrue(arr.includes("three"), "includes does not work!");

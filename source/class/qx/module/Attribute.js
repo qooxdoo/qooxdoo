@@ -22,21 +22,18 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Attribute", {
-
-  members :
-  {
+  members: {
     /**
      * Returns the HTML content of the first item in the collection
      * @attach {qxWeb}
      * @return {String|null} HTML content or null if the collection is empty
      */
-    getHtml : function() {
+    getHtml() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Attribute.get(this[0], "html");
       }
       return null;
     },
-
 
     /**
      * Sets the HTML content of each item in the collection
@@ -45,14 +42,13 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param html {String} HTML string
      * @return {qxWeb} The collection for chaining
      */
-    setHtml : function(html) {
+    setHtml(html) {
       html = qx.bom.Html.fixEmptyTags(html);
-      this._forEachElement(function(item) {
+      this._forEachElement(function (item) {
         qx.bom.element.Attribute.set(item, "html", html);
       });
       return this;
     },
-
 
     /**
      * Sets an HTML attribute on each item in the collection
@@ -62,13 +58,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param value {var} Attribute value
      * @return {qxWeb} The collection for chaining
      */
-    setAttribute : function(name, value) {
-      this._forEachElement(function(item) {
+    setAttribute(name, value) {
+      this._forEachElement(function (item) {
         qx.bom.element.Attribute.set(item, name, value);
       });
       return this;
     },
-
 
     /**
      * Returns the value of the given attribute for the first item in the
@@ -78,13 +73,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param name {String} Attribute name
      * @return {var} Attribute value
      */
-    getAttribute : function(name) {
+    getAttribute(name) {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Attribute.get(this[0], name);
       }
       return null;
     },
-
 
     /**
      * Removes the given attribute from all elements in the collection
@@ -93,13 +87,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param name {String} Attribute name
      * @return {qxWeb} The collection for chaining
      */
-    removeAttribute : function(name) {
-      this._forEachElement(function(item) {
+    removeAttribute(name) {
+      this._forEachElement(function (item) {
         qx.bom.element.Attribute.set(item, name, null);
       });
       return this;
     },
-
 
     /**
      * Sets multiple attributes for each item in the collection.
@@ -108,13 +101,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param attributes {Map} A map of attribute name/value pairs
      * @return {qxWeb} The collection for chaining
      */
-    setAttributes : function(attributes) {
+    setAttributes(attributes) {
       for (var name in attributes) {
         this.setAttribute(name, attributes[name]);
       }
       return this;
     },
-
 
     /**
      * Returns the values of multiple attributes for the first item in the collection
@@ -123,14 +115,13 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param names {String[]} List of attribute names
      * @return {Map} Map of attribute name/value pairs
      */
-    getAttributes : function(names) {
+    getAttributes(names) {
       var attributes = {};
-      for (var i=0; i < names.length; i++) {
+      for (var i = 0; i < names.length; i++) {
         attributes[names[i]] = this.getAttribute(names[i]);
       }
       return attributes;
     },
-
 
     /**
      * Removes multiple attributes from each item in the collection.
@@ -139,13 +130,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param attributes {String[]} List of attribute names
      * @return {qxWeb} The collection for chaining
      */
-    removeAttributes : function(attributes) {
-      for (var i=0, l=attributes.length; i<l; i++) {
+    removeAttributes(attributes) {
+      for (var i = 0, l = attributes.length; i < l; i++) {
         this.removeAttribute(attributes[i]);
       }
       return this;
     },
-
 
     /**
      * Sets a property on each item in the collection
@@ -155,13 +145,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param value {var} Property value
      * @return {qxWeb} The collection for chaining
      */
-    setProperty : function(name, value) {
-      for (var i=0; i < this.length; i++) {
+    setProperty(name, value) {
+      for (var i = 0; i < this.length; i++) {
         this[i][name] = value;
       }
       return this;
     },
-
 
     /**
      * Returns the value of the given property for the first item in the
@@ -171,13 +160,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param name {String} Property name
      * @return {var} Property value
      */
-    getProperty : function(name) {
+    getProperty(name) {
       if (this[0]) {
         return this[0][name];
       }
       return null;
     },
-
 
     /**
      * Sets multiple properties for each item in the collection.
@@ -186,13 +174,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param properties {Map} A map of property name/value pairs
      * @return {qxWeb} The collection for chaining
      */
-    setProperties : function(properties) {
+    setProperties(properties) {
       for (var name in properties) {
         this.setProperty(name, properties[name]);
       }
       return this;
     },
-
 
     /**
      * Removes multiple properties for each item in the collection.
@@ -201,13 +188,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param properties {String[]} An array of property names
      * @return {qxWeb} The collection for chaining
      */
-    removeProperties : function(properties) {
-      for (var i=0; i<properties.length; i++) {
+    removeProperties(properties) {
+      for (var i = 0; i < properties.length; i++) {
         this.removeProperty(properties[i]);
       }
       return this;
     },
-
 
     /**
      * Returns the values of multiple properties for the first item in the collection
@@ -216,14 +202,13 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param names {String[]} List of property names
      * @return {Map} Map of property name/value pairs
      */
-    getProperties : function(names) {
+    getProperties(names) {
       var properties = {};
-      for (var i=0; i < names.length; i++) {
+      for (var i = 0; i < names.length; i++) {
         properties[names[i]] = this.getProperty(names[i]);
       }
       return properties;
     },
-
 
     /**
      * Deletes a property from each item in the collection
@@ -232,13 +217,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param name {String} Property name
      * @return {qxWeb} The collection for chaining
      */
-    removeProperty : function(name) {
+    removeProperty(name) {
       if (this[0]) {
         this[0][name] = undefined;
       }
       return this;
     },
-
 
     /**
      * Returns the currently configured value for the first item in the collection.
@@ -249,13 +233,12 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @attach {qxWeb}
      * @return {String|String[]} String value or Array of string values (for multiselect)
      */
-    getValue : function() {
+    getValue() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.Input.getValue(this[0]);
       }
       return null;
     },
-
 
     /**
      * Applies the given value to each element in the collection.
@@ -272,9 +255,8 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @param value {String|Number|Array} The value to apply
      * @return {qxWeb} The collection for chaining
      */
-    setValue : function(value)
-    {
-      this._forEachElement(function(item) {
+    setValue(value) {
+      this._forEachElement(function (item) {
         qx.bom.Input.setValue(item, value);
       });
 
@@ -282,8 +264,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

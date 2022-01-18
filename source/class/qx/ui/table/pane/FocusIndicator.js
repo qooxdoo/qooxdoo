@@ -19,64 +19,56 @@
 /**
  * The focus indicator widget
  */
-qx.Class.define("qx.ui.table.pane.FocusIndicator",
-{
-  extend : qx.ui.container.Composite,
+qx.Class.define("qx.ui.table.pane.FocusIndicator", {
+  extend: qx.ui.container.Composite,
 
   /**
    * @param scroller {qx.ui.table.pane.Scroller} The scroller, which contains this focus indicator
    */
-  construct : function(scroller)
-  {
+  construct(scroller) {
     // use the grow layout to make sure that the editing control
     // always fills the focus indicator box.
-    this.base(arguments, new qx.ui.layout.Grow());
+    super(new qx.ui.layout.Grow());
     this.__scroller = scroller;
 
     this.setKeepActive(true);
     this.addListener("keypress", this._onKeyPress, this);
   },
 
-  properties :
-  {
+  properties: {
     // overridden
-    visibility :
-    {
-      refine : true,
-      init : "excluded"
+    visibility: {
+      refine: true,
+      init: "excluded"
     },
 
     /** Table row, where the indicator is placed. */
-    row : {
-      check : "Integer",
-      nullable : true
+    row: {
+      check: "Integer",
+      nullable: true
     },
 
     /** Table column, where the indicator is placed. */
-    column : {
-      check : "Integer",
-      nullable : true
+    column: {
+      check: "Integer",
+      nullable: true
     }
   },
 
-  members :
-  {
-    __scroller : null,
-
+  members: {
+    __scroller: null,
 
     /**
      * Keypress handler. Suppress all key events but "Enter" and "Escape"
      *
      * @param e {qx.event.type.KeySequence} key event
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var iden = e.getKeyIdentifier();
       if (iden !== "Escape" && iden !== "Enter") {
         e.stopPropagation();
       }
     },
-
 
     /**
      * Move the focus indicator to the given table cell.
@@ -85,8 +77,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
      * @param row {Integer?null} The table row
      * @param editing {Boolean?null} Whether or not the cell is being edited
      */
-    moveToCell : function(col, row, editing)
-    {
+    moveToCell(col, row, editing) {
       // check if the focus indicator is shown and if the new column is
       // editable. if not, just exclude the indicator because the pointer events
       // should go to the cell itself linked with HTML links [BUG #4250]
@@ -100,37 +91,32 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
         this.show();
       }
 
-      if (col == null)
-      {
+      if (col == null) {
         this.hide();
         this.setRow(null);
         this.setColumn(null);
-      }
-      else
-      {
+      } else {
         var xPos = this.__scroller.getTablePaneModel().getX(col);
 
-        if (xPos === -1)
-        {
+        if (xPos === -1) {
           this.hide();
           this.setRow(null);
           this.setColumn(null);
-        }
-        else
-        {
+        } else {
           var table = this.__scroller.getTable();
           var columnModel = table.getTableColumnModel();
           var paneModel = this.__scroller.getTablePaneModel();
 
           var firstRow = this.__scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
-          var wt=0;
-          var wr=0;
-          var wb=0;
-          var wl=0;
+          var wt = 0;
+          var wr = 0;
+          var wb = 0;
+          var wl = 0;
           var decoKey = this.getDecorator();
           if (decoKey) {
-            var deco=qx.theme.manager.Decoration.getInstance().resolve(decoKey);
+            var deco =
+              qx.theme.manager.Decoration.getInstance().resolve(decoKey);
             if (deco) {
               wt = deco.getWidthTop();
               wr = deco.getWidthRight();
@@ -138,19 +124,26 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
               wl = deco.getWidthLeft();
             }
           }
-          var userHeight = rowHeight + (wl+wr-2);
+          var userHeight = rowHeight + (wl + wr - 2);
           var userTop = (row - firstRow) * rowHeight - (wr - 1);
-          if (editing && this.__scroller.getMinCellEditHeight() && this.__scroller.getMinCellEditHeight() > userHeight) {
-            userTop -= Math.floor((this.__scroller.getMinCellEditHeight() - userHeight) / 2);
+          if (
+            editing &&
+            this.__scroller.getMinCellEditHeight() &&
+            this.__scroller.getMinCellEditHeight() > userHeight
+          ) {
+            userTop -= Math.floor(
+              (this.__scroller.getMinCellEditHeight() - userHeight) / 2
+            );
             userHeight = this.__scroller.getMinCellEditHeight();
           }
 
           this.setUserBounds(
             paneModel.getColumnLeft(col) - (wt - 1),
             userTop,
-            columnModel.getColumnWidth(col) + (wt+wb-3),
+            columnModel.getColumnWidth(col) + (wt + wb - 3),
             userHeight
           );
+
           this.show();
           this.setRow(row);
           this.setColumn(col);
@@ -159,7 +152,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
     }
   },
 
-  destruct : function () {
-     this.__scroller = null;
+  destruct() {
+    this.__scroller = null;
   }
 });

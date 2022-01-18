@@ -22,10 +22,8 @@
  * of the axis' range the object's start is adjusted so that the overlap between
  * the object and the axis is maximized.
  */
-qx.Bootstrap.define("qx.util.placement.BestFitAxis",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.util.placement.BestFitAxis", {
+  statics: {
     /**
      * Whether the object specified by <code>start</code> and <code>size</code>
      * is completely inside of the axis' range..
@@ -35,7 +33,7 @@ qx.Bootstrap.define("qx.util.placement.BestFitAxis",
      * @param areaSize {Integer} The size of the axis
      * @return {Boolean} Whether the object is inside of the axis' range
      */
-    _isInRange : qx.util.placement.AbstractAxis._isInRange,
+    _isInRange: qx.util.placement.AbstractAxis._isInRange,
 
     /**
      * Computes the start of the object by taking only the attachment and
@@ -50,7 +48,7 @@ qx.Bootstrap.define("qx.util.placement.BestFitAxis",
      *   argument of {@link #computeStart}.
      * @return {Integer} The computed start position of the object.
      */
-    _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
+    _moveToEdgeAndAlign: qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
 
     /**
      * Computes the start of the object on the axis
@@ -71,8 +69,7 @@ qx.Bootstrap.define("qx.util.placement.BestFitAxis",
      *   </ul>
      * @return {Integer} The computed start position of the object.
      */
-    computeStart : function(size, target, offsets, areaSize, position)
-    {
+    computeStart(size, target, offsets, areaSize, position) {
       var start = this._moveToEdgeAndAlign(size, target, offsets, position);
 
       if (this._isInRange(start, size, areaSize)) {

@@ -21,20 +21,20 @@
  * ************************************************************************/
 
 /**
- * ApplicationMeta collects all the data about an application being compiled by a target, 
- * in a form easily navigated and well documented.  
- * 
- * It provides an abstraction where the target can choose to restructure and reorganise the 
- * output as it progresses - for example, a target may start by assembling a number of 
- * javascript files, and then bundle them together, effectively replacing several files 
- * with just one intermediate file; the target can then replace the intermediate file with 
+ * ApplicationMeta collects all the data about an application being compiled by a target,
+ * in a form easily navigated and well documented.
+ *
+ * It provides an abstraction where the target can choose to restructure and reorganise the
+ * output as it progresses - for example, a target may start by assembling a number of
+ * javascript files, and then bundle them together, effectively replacing several files
+ * with just one intermediate file; the target can then replace the intermediate file with
  * a minified file etc.
  */
 qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
   extend: qx.core.Object,
-  
+
   construct(target, application) {
-    this.base(arguments);
+    super();
     this.__target = target;
     this.__application = application;
     this.__libraries = [];
@@ -42,23 +42,24 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       urisBefore: [],
       cssBefore: []
     };
+
     this.__preBootCode = [];
     this.__resources = {};
     this.__packages = [];
     this.__parts = [];
     this.__partsLookup = {};
   },
-  
+
   properties: {
     /** The environment for the build */
     environment: {
       // Any object
     },
-    
+
     /**
      * Whether to add timestamps to all URLs (cache busting)
      */
-     addTimestampsToUrls: {
+    addTimestampsToUrls: {
       init: true,
       check: "Boolean"
     },
@@ -66,51 +67,50 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     appLibrary: {
       check: "qx.tool.compiler.app.Library"
     },
-    
+
     bootMetaJs: {
       check: "qx.tool.compiler.targets.meta.AbstractJavascriptMeta"
     },
-    
+
     sourceUri: {
       check: "String"
     },
-    
+
     resourceUri: {
       check: "String"
     }
   },
-  
+
   members: {
     /** {qx.tool.compiler.targets.Target} the target */
     __target: null,
-    
+
     /** {qx.tool.compiler.app.Application} the application */
     __application: null,
-    
+
     /** {qx.tool.compiler.app.Libary[]} the libraries */
     __libraries: null,
-    
+
     /** {Map} uris and CSS to load */
     __preload: null,
-    
+
     /** {String[]} code to run before boot */
     __preBootCode: null,
-    
+
     /** {Map} list of resource paths, indexed by resource id */
     __resources: null,
-    
+
     /** {Package[]} list of packages */
     __packages: null,
-    
+
     /** {Part[]} list of parts */
     __parts: null,
-    
-    
+
     /**
      * Sets an environment variable
      *
      * @param key {String} the name of the variable
-     * @param value {Object} the value 
+     * @param value {Object} the value
      */
     setEnvironmentValue(key, value) {
       let env = this.getEnvironment();
@@ -120,7 +120,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
         env[key] = value;
       }
     },
-    
+
     /**
      * Returns an environment value
      *
@@ -139,16 +139,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       }
       return value;
     },
-    
+
     /**
      * Returns the application
      *
-     * @return {qx.tool.compiler.app.Application} 
+     * @return {qx.tool.compiler.app.Application}
      */
     getApplication() {
       return this.__application;
     },
-    
+
     /**
      * Returns the target
      *
@@ -157,7 +157,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     getTarget() {
       return this.__target;
     },
-    
+
     /**
      * Returns the application root
      *
@@ -166,7 +166,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     getApplicationRoot() {
       return this.__target.getApplicationRoot(this.__application);
     },
-    
+
     /**
      * Returns the Analyser
      *
@@ -175,14 +175,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     getAnalyser() {
       return this.__application.getAnalyser();
     },
-    
+
     /**
      * Syncs all assets into the output directory
      */
     async syncAssets() {
       for (let i = 0; i < this.__packages.length; i++) {
         let pkg = this.__packages[i];
-        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, asset => asset.sync(this.__target));
+        await qx.tool.utils.Promisify.poolEachOf(pkg.getAssets(), 10, asset =>
+          asset.sync(this.__target)
+        );
       }
     },
 
@@ -194,17 +196,19 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     addLibrary(library) {
       this.__libraries.push(library);
     },
-    
+
     /**
      * Returns the library that contains the application class
      *
      * @return {qx.tool.compiler.app.Library}
      */
     getAppLibrary() {
-      let appLibrary = this.__application.getAnalyser().getLibraryFromClassname(this.__application.getClassName());
+      let appLibrary = this.__application
+        .getAnalyser()
+        .getLibraryFromClassname(this.__application.getClassName());
       return appLibrary;
     },
-    
+
     /**
      * Returns the list of libraries
      *
@@ -213,7 +217,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     getLibraries() {
       return this.__libraries;
     },
-    
+
     /**
      * Adds an external resource (JS or CSS) to be loaded which is a http[s] URL
      *
@@ -223,7 +227,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     addExternal(type, uri) {
       this.__preload[type].push("__external__:" + uri);
     },
-    
+
     /**
      * Adds an external resource (JS or CSS) to be loaded, which is a resource path
      *
@@ -233,16 +237,16 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     addPreload(type, uri) {
       this.__preload[type].push(uri);
     },
-    
+
     /**
      * Returns the list of preloads, which is a map by type
-     * 
+     *
      * @return {Map}
      */
     getPreloads() {
       return this.__preload;
     },
-    
+
     /**
      * Adds code to be run before the boot code is run
      *
@@ -251,7 +255,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     addPreBootCode(code) {
       this.__preBootCode.push(code);
     },
-    
+
     /**
      * Returns the code to be run before the boot code
      *
@@ -260,62 +264,69 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
     getPreBootCode() {
       return this.__preBootCode.join("\n");
     },
-    
+
     /**
      * Creates a new Part and adds it
-     * 
+     *
      * @param name {String} identifier
      * @return {Part}
      */
     createPart(name) {
-      let part = new qx.tool.compiler.targets.meta.Part(this.getTarget(), name, this.__parts.length);
+      let part = new qx.tool.compiler.targets.meta.Part(
+        this.getTarget(),
+        name,
+        this.__parts.length
+      );
       this.__parts.push(part);
       this.__partsLookup[name] = part;
       return part;
     },
-    
+
     /**
      * Returns a list of all parts
-     * 
+     *
      * @return {Part[]}
      */
     getParts() {
       return this.__parts;
     },
-    
+
     /**
      * Returns a part with a given name
-     * 
+     *
      * @param name {String} the name to look for
      */
     getPart(name) {
-      return this.__partsLookup[name]||null;
+      return this.__partsLookup[name] || null;
     },
-    
+
     /**
      * Returns a list of all packages
-     * 
+     *
      * @return {Package[]}
      */
     getPackages() {
       return this.__packages;
     },
-    
+
     /**
      * Creates a package and adds it
-     * 
+     *
      * @return {Package}
      */
     createPackage() {
-      let pkg = new qx.tool.compiler.targets.meta.Package(this, this.__packages.length);
+      let pkg = new qx.tool.compiler.targets.meta.Package(
+        this,
+        this.__packages.length
+      );
       this.__packages.push(pkg);
       return pkg;
     },
-    
+
     /**
      * Gets a package for specific locale, creating a part with the name set to the localeId
      * if there isn't one already.  Used for when i18nAsParts == true
-     * 
+     *
      * @param localeId {String} the locale to look for
      * @return {Package}
      */
@@ -328,20 +339,20 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
       let pkg = part.getDefaultPackage();
       return pkg;
     },
-    
+
     /**
      * Adds a resource
-     * 
+     *
      * @param key {String} the resource identifier
      * @param path {String} the path to the resource
      */
     addResource(key, path) {
       this.__resources[key] = path;
     },
-    
+
     /**
      * Returns all of the resources
-     * 
+     *
      * @return {Map}
      */
     getResources() {

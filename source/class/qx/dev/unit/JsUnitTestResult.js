@@ -19,11 +19,8 @@
 /**
  * Test result class, which can export the results to JSUnit
  */
-qx.Class.define("qx.dev.unit.JsUnitTestResult",
-{
-  extend : qx.dev.unit.TestResult,
-
-
+qx.Class.define("qx.dev.unit.JsUnitTestResult", {
+  extend: qx.dev.unit.TestResult,
 
   /*
   *****************************************************************************
@@ -31,14 +28,10 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__testFunctionNames = [];
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -46,33 +39,28 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __testFunctionNames : null,
+  members: {
+    __testFunctionNames: null,
 
     /**
      * Run the test
      * @param test {qx.dev.unit.TestFunction} The test.
      * @param testFunction {Function} A reference to a test function.
      */
-    run : function(test, testFunction)
-    {
+    run(test, testFunction) {
       var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");
       this.__testFunctionNames.push(testFunctionName);
       window[testFunctionName] = testFunction;
     },
 
-
     /**
      * Export the test functions to JSUnit
      */
-    exportToJsUnit : function()
-    {
+    exportToJsUnit() {
       var self = this;
 
       // global
-      window.exposeTestFunctionNames = function() {
+      window.exposeTestFunctionNames = function () {
         return self.__testFunctionNames;
       };
 

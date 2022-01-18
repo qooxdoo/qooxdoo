@@ -25,20 +25,21 @@
  * @cldr()
  */
 
-qx.Class.define("qx.locale.Number",
-{
-  statics :
-  {
+qx.Class.define("qx.locale.Number", {
+  statics: {
     /**
      * Get decimal separator for number formatting
      *
      * @param locale {String} optional locale to be used
      * @return {String} decimal separator.
      */
-    getDecimalSeparator : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_number_decimal_separator", [], locale);
+    getDecimalSeparator(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_number_decimal_separator",
+        [],
+        locale
+      );
     },
-
 
     /**
      * Get thousand grouping separator for number formatting
@@ -46,10 +47,13 @@ qx.Class.define("qx.locale.Number",
      * @param locale {String} optional locale to be used
      * @return {String} group separator.
      */
-    getGroupSeparator : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_number_group_separator", [], locale);
+    getGroupSeparator(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_number_group_separator",
+        [],
+        locale
+      );
     },
-
 
     /**
      * Get percent format string
@@ -57,8 +61,12 @@ qx.Class.define("qx.locale.Number",
      * @param locale {String} optional locale to be used
      * @return {String} percent format string.
      */
-    getPercentFormat : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_number_percent_format", [], locale);
+    getPercentFormat(locale) {
+      return qx.locale.Manager.getInstance().localize(
+        "cldr_number_percent_format",
+        [],
+        locale
+      );
     }
   }
 });

@@ -20,81 +20,76 @@
 /**
  * Abstract class for all input fields.
  */
-qx.Class.define("qx.ui.mobile.form.Input",
-{
-  extend : qx.ui.mobile.core.Widget,
-  include : [
+qx.Class.define("qx.ui.mobile.form.Input", {
+  extend: qx.ui.mobile.core.Widget,
+  include: [
     qx.ui.form.MForm,
     qx.ui.form.MModelProperty,
     qx.ui.mobile.container.MScrollHandling,
     qx.ui.mobile.form.MState
   ],
-  implement : [
-    qx.ui.form.IForm,
-    qx.ui.form.IModel
-  ],
-  type : "abstract",
 
+  implement: [qx.ui.form.IForm, qx.ui.form.IModel],
 
-  construct : function()
-  {
-    this.base(arguments);
+  type: "abstract",
+
+  construct() {
+    super();
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
     this.addListener("focus", this._onSelected, this);
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "input";
     },
-
 
     /**
      * Returns the type of the input field. Override this method in the
      * specialized input class.
      */
-    _getType : function()
-    {
+    _getType() {
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
     },
 
-
     /**
      * Handles the <code>click</code> and <code>focus</code> event on this input widget.
      * @param evt {qx.event.type.Event} <code>click</code> or <code>focus</code> event
      */
-    _onSelected : function(evt) {
-      if (!(evt.getTarget() instanceof qx.ui.mobile.form.TextField) && !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)) {
+    _onSelected(evt) {
+      if (
+        !(evt.getTarget() instanceof qx.ui.mobile.form.TextField) &&
+        !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)
+      ) {
         return;
       }
 
       var scrollContainer = this._getParentScrollContainer();
-      if(scrollContainer === null) {
+      if (scrollContainer === null) {
         return;
       }
 
-      setTimeout(function() {
-        scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
+      setTimeout(
+        function () {
+          scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
 
-        // Refresh caret position after scrolling.
-        this._setStyle("position","relative");
-        qx.bom.AnimationFrame.request(function() {
-          this._setStyle("position",null);
-        }, this);
-      }.bind(this), 300);
+          // Refresh caret position after scrolling.
+          this._setStyle("position", "relative");
+          qx.bom.AnimationFrame.request(function () {
+            this._setStyle("position", null);
+          }, this);
+        }.bind(this),
+        300
+      );
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.removeListener("focus", this._onSelected, this);
   }
 });

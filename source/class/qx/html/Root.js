@@ -26,11 +26,8 @@
  * this element is always visible. In the easiest case, the root element
  * is identical to the document's body.
  */
-qx.Class.define("qx.html.Root",
-{
-  extend : qx.html.Element,
-
-
+qx.Class.define("qx.html.Root", {
+  extend: qx.html.Element,
 
   /*
   *****************************************************************************
@@ -43,17 +40,13 @@ qx.Class.define("qx.html.Root",
    *
    * @param elem {Element?null} DOM element to use
    */
-  construct : function(elem)
-  {
-    this.base(arguments);
+  construct(elem) {
+    super();
 
     if (elem != null) {
       this.useNode(elem);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -61,8 +54,7 @@ qx.Class.define("qx.html.Root",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Sets the element to an already existing node. It will be
      * assumed that this DOM element is already visible e.g.
@@ -71,10 +63,9 @@ qx.Class.define("qx.html.Root",
      * @param elem {Element} the dom element to set
      * @throws {Error} if the element is assigned again
      */
-    useNode : function(elem)
-    {
+    useNode(elem) {
       // Base call
-      this.base(arguments, elem);
+      super.useNode(elem);
 
       // Mark as root
       this.setRoot(true);

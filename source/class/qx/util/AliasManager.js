@@ -42,13 +42,9 @@
  * For resources, only aliases that resolve to proper resource id's can be __managed__
  * resources, and will be considered __unmanaged__ resources otherwise.
  */
-qx.Class.define("qx.util.AliasManager",
-{
-  type : "singleton",
-  extend : qx.util.ValueManager,
-
-
-
+qx.Class.define("qx.util.AliasManager", {
+  type: "singleton",
+  extend: qx.util.ValueManager,
 
   /*
   *****************************************************************************
@@ -56,9 +52,8 @@ qx.Class.define("qx.util.AliasManager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Contains defined aliases (like icons/, widgets/, application/, ...)
     this.__aliases = {};
@@ -67,19 +62,14 @@ qx.Class.define("qx.util.AliasManager",
     this.add("static", "qx/static");
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __aliases : null,
+  members: {
+    __aliases: null,
 
     /**
      * pre-process incoming dynamic value
@@ -87,18 +77,19 @@ qx.Class.define("qx.util.AliasManager",
      * @param value {String} incoming value
      * @return {String} pre processed value
      */
-    _preprocess : function(value)
-    {
+    _preprocess(value) {
       var dynamics = this._getDynamic();
 
-      if (dynamics[value] === false)
-      {
+      if (dynamics[value] === false) {
         return value;
-      }
-      else if (dynamics[value] === undefined)
-      {
-        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === "0" || value.indexOf("file://") === 0)
-        {
+      } else if (dynamics[value] === undefined) {
+        if (
+          value.charAt(0) === "/" ||
+          value.charAt(0) === "." ||
+          value.indexOf("http://") === 0 ||
+          value.indexOf("https://") === "0" ||
+          value.indexOf("file://") === 0
+        ) {
           dynamics[value] = false;
           return value;
         }
@@ -118,15 +109,13 @@ qx.Class.define("qx.util.AliasManager",
       return value;
     },
 
-
     /**
      * Define an alias to a resource path
      *
      * @param alias {String} alias name for the resource path/url
      * @param base {String} first part of URI for all images which use this alias
      */
-    add : function(alias, base)
-    {
+    add(alias, base) {
       // Store new alias value
       this.__aliases[alias] = base;
 
@@ -134,29 +123,24 @@ qx.Class.define("qx.util.AliasManager",
       var dynamics = this._getDynamic();
 
       // Update old entries which use this alias
-      for (var path in dynamics)
-      {
-        if (path.substring(0, path.indexOf("/")) === alias)
-        {
+      for (var path in dynamics) {
+        if (path.substring(0, path.indexOf("/")) === alias) {
           dynamics[path] = base + path.substring(alias.length);
         }
       }
     },
-
 
     /**
      * Remove a previously defined alias
      *
      * @param alias {String} alias name for the resource path/url
      */
-    remove : function(alias)
-    {
+    remove(alias) {
       delete this.__aliases[alias];
 
       // No signal for depending objects here. These
       // will informed with the new value using add().
     },
-
 
     /**
      * Resolves a given path
@@ -164,8 +148,7 @@ qx.Class.define("qx.util.AliasManager",
      * @param path {String} input path
      * @return {String} resulting path (with interpreted aliases)
      */
-    resolve : function(path)
-    {
+    resolve(path) {
       var dynamic = this._getDynamic();
 
       if (path != null) {
@@ -175,14 +158,12 @@ qx.Class.define("qx.util.AliasManager",
       return dynamic[path] || path;
     },
 
-
     /**
      * Get registered aliases
      *
      * @return {Map} the map of the currently registered alias:resolution pairs
      */
-    getAliases : function()
-    {
+    getAliases() {
       var res = {};
       for (var key in this.__aliases) {
         res[key] = this.__aliases[key];

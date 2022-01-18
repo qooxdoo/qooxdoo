@@ -16,27 +16,30 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.String",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.String", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    testToText_Break : function()
-    {
+  members: {
+    testToText_Break() {
       this.assertEquals(qx.bom.String.toText("<br>"), "\n");
       this.assertEquals(qx.bom.String.toText("<br />"), "\n");
     },
 
-    testToText_Advanced : function()
-    {
+    testToText_Advanced() {
       this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>"), "");
-      this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'>foo</div></div>"), "foo");
+      this.assertEquals(
+        qx.bom.String.toText("<div style='padding:5px;'>foo</div></div>"),
+        "foo"
+      );
 
-      this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> "), " ");
-      this.assertEquals(qx.bom.String.toText("<div style='padding:5px;'> foo </div></div>"), " foo ");
+      this.assertEquals(
+        qx.bom.String.toText("<div style='padding:5px;'> "),
+        " "
+      );
+      this.assertEquals(
+        qx.bom.String.toText("<div style='padding:5px;'> foo </div></div>"),
+        " foo "
+      );
     }
-
   }
 });

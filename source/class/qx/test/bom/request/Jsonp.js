@@ -33,20 +33,20 @@
  * @ignore(myExistingCallback)
  */
 /* global myExistingCallback */
-qx.Class.define("qx.test.bom.request.Jsonp",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.request.Jsonp", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.test.io.MRemoteTest,
-             qx.dev.unit.MRequirements,
-             qx.dev.unit.MMock],
+  include: [
+    qx.test.io.MRemoteTest,
+    qx.dev.unit.MRequirements,
+    qx.dev.unit.MMock
+  ],
 
-  members :
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.require(["php"]);
 
-      var req = this.req = new qx.bom.request.Jsonp();
+      var req = (this.req = new qx.bom.request.Jsonp());
       this.url = this.getUrl("qx/test/jsonp_primitive.php");
 
       // Assume timeout after 1s in Opera (no error!)
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       }
     },
 
-    tearDown: function() {
+    tearDown() {
       window.SCRIPT_LOADED = undefined;
       this.getSandbox().restore();
       this.req.dispose();
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     // Callback
     //
 
-    "test: setCallbackParam()": function() {
+    "test: setCallbackParam()"() {
       var req = this.req;
 
       req.setCallbackParam("myMethod");
@@ -75,7 +75,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.assertMatch(req._getUrl(), /(myMethod=)/);
     },
 
-    "test: setCallbackName()": function() {
+    "test: setCallbackName()"() {
       var req = this.req;
 
       req.setCallbackName("myCallback");
@@ -85,9 +85,9 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.assertMatch(req._getUrl(), /(=myCallback)/);
     },
 
-    "test: has default callback param and name": function() {
+    "test: has default callback param and name"() {
       var req = this.req,
-          regExp;
+        regExp;
 
       req.open("GET", this.url);
       req.send();
@@ -100,16 +100,18 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     /**
      * @ignore(myExistingCallback)
      */
-    "test: not overwrite existing callback": function() {
+    "test: not overwrite existing callback"() {
       var that = this;
 
       // User provided callback that must not be overwritten
-      window.myExistingCallback = function() { return "Affe"; };
+      window.myExistingCallback = function () {
+        return "Affe";
+      };
 
       this.req.setCallbackName("myExistingCallback");
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals("Affe", myExistingCallback());
           window.myExistingCallback = undefined;
         });
@@ -123,11 +125,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     // Properties
     //
 
-    "test: responseJson holds response with default callback": function() {
+    "test: responseJson holds response with default callback"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           var data = this.req.responseJson;
           that.assertObject(data);
           that.assertTrue(data["boolean"]);
@@ -138,12 +140,12 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
-    "test: reset responseJson when reopened": function() {
+    "test: reset responseJson when reopened"() {
       var req = this.req,
-          that = this;
+        that = this;
 
-      req.onload = function() {
-        that.resume(function() {
+      req.onload = function () {
+        that.resume(function () {
           req.open("GET", "/url");
           that.assertNull(req.responseJson);
         });
@@ -153,11 +155,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
-    "test: status indicates success when default callback called": function() {
+    "test: status indicates success when default callback called"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(200, that.req.status);
         });
       };
@@ -166,11 +168,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
-    "test: status indicates success when custom callback called": function() {
+    "test: status indicates success when custom callback called"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(200, that.req.status);
         });
       };
@@ -182,11 +184,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
     // Error handling
 
-    "test: status indicates failure when default callback not called": function() {
+    "test: status indicates failure when default callback not called"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(500, that.req.status);
         });
       };
@@ -195,11 +197,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
-    "test: status indicates failure when custom callback not called": function() {
+    "test: status indicates failure when custom callback not called"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(500, that.req.status);
         });
       };
@@ -209,16 +211,16 @@ qx.Class.define("qx.test.bom.request.Jsonp",
       this.wait();
     },
 
-    "test: status indicates failure when callback not called on second request": function() {
+    "test: status indicates failure when callback not called on second request"() {
       var count = 0,
-          req = this.req,
-          that = this;
+        req = this.req,
+        that = this;
 
-      req.onload = function() {
+      req.onload = function () {
         count += 1;
 
         if (count == 2) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertEquals(500, req.status);
           });
           return;
@@ -235,11 +237,11 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     // Event handlers
     //
 
-    "test: call onload": function() {
+    "test: call onload"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {});
+      this.req.onload = function () {
+        that.resume(function () {});
       };
 
       this.request();
@@ -248,44 +250,45 @@ qx.Class.define("qx.test.bom.request.Jsonp",
 
     // Error handling
 
-    "test: call onerror on network error": function() {
+    "test: call onerror on network error"() {
       var that = this;
 
       // For legacy IEs, timeout needs to be lower than browser timeout
       // or false "load" is fired. Alternatively, a false "load"
       // can be identified by checking status property.
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") < 9) {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9
+      ) {
         this.req.timeout = 2000;
       }
 
-      this.req.onerror = function() {
-        that.resume(function() {});
+      this.req.onerror = function () {
+        that.resume(function () {});
       };
 
       this.request("http://fail.tld");
       this.wait(15000 + 100);
     },
 
-    "test: call onloadend on network error": function() {
+    "test: call onloadend on network error"() {
       var that = this;
 
-      this.req.onloadend = function() {
-        that.resume(function() {});
+      this.req.onloadend = function () {
+        that.resume(function () {});
       };
 
       this.request("http://fail.tld");
       this.wait(15000 + 100);
     },
 
-    request: function(customUrl) {
+    request(customUrl) {
       this.req.open("GET", customUrl || this.url);
       this.req.send();
     },
 
-    skip: function(msg) {
+    skip(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     }
-
   }
 });

@@ -54,19 +54,11 @@
  * @childControl downbutton {qx.ui.form.Button} button to decrease the value
  *
  */
-qx.Class.define("qx.ui.form.Spinner",
-{
-  extend : qx.ui.core.Widget,
-  implement : [
-    qx.ui.form.INumberForm,
-    qx.ui.form.IRange,
-    qx.ui.form.IForm
-  ],
-  include : [
-    qx.ui.core.MContentPadding,
-    qx.ui.form.MForm
-  ],
+qx.Class.define("qx.ui.form.Spinner", {
+  extend: qx.ui.core.Widget,
+  implement: [qx.ui.form.INumberForm, qx.ui.form.IRange, qx.ui.form.IForm],
 
+  include: [qx.ui.core.MContentPadding, qx.ui.form.MForm],
 
   /*
   *****************************************************************************
@@ -79,15 +71,14 @@ qx.Class.define("qx.ui.form.Spinner",
    * @param value {Number} Current value
    * @param max {Number} Maximum value
    */
-  construct : function(min, value, max)
-  {
-    this.base(arguments);
+  construct(min, value, max) {
+    super();
 
     // MAIN LAYOUT
     var layout = new qx.ui.layout.Grid();
     layout.setColumnFlex(0, 1);
-    layout.setRowFlex(0,1);
-    layout.setRowFlex(1,1);
+    layout.setRowFlex(0, 1);
+    layout.setRowFlex(1, 1);
     this._setLayout(layout);
 
     // EVENTS
@@ -96,7 +87,11 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("roll", this._onRoll, this);
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
 
     // CREATE CONTROLS
@@ -121,17 +116,22 @@ qx.Class.define("qx.ui.form.Spinner",
 
     // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
-    this.addListener("focusin", function(e) {
-      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusin",
+      function (e) {
+        textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+      },
+      this
+    );
 
-    this.addListener("focusout", function(e) {
-      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusout",
+      function (e) {
+        textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+      },
+      this
+    );
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -139,97 +139,83 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  properties:
-  {
+  properties: {
     // overridden
-    appearance:
-    {
-      refine : true,
-      init : "spinner"
+    appearance: {
+      refine: true,
+      init: "spinner"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     /** The amount to increment on each event (keypress or pointerdown) */
-    singleStep:
-    {
-      check : "Number",
-      init : 1
+    singleStep: {
+      check: "Number",
+      init: 1
     },
 
     /** The amount to increment on each pageup/pagedown keypress */
-    pageStep:
-    {
-      check : "Number",
-      init : 10
+    pageStep: {
+      check: "Number",
+      init: 10
     },
 
     /** minimal value of the Range object */
-    minimum:
-    {
-      check : "Number",
-      apply : "_applyMinimum",
-      init : 0,
+    minimum: {
+      check: "Number",
+      apply: "_applyMinimum",
+      init: 0,
       event: "changeMinimum"
     },
 
     /** The value of the spinner. */
-    value:
-    {
-      check : "this._checkValue(value)",
-      nullable : true,
-      apply : "_applyValue",
-      init : 0,
-      event : "changeValue"
+    value: {
+      check: "this._checkValue(value)",
+      nullable: true,
+      apply: "_applyValue",
+      init: 0,
+      event: "changeValue"
     },
 
     /** maximal value of the Range object */
-    maximum:
-    {
-      check : "Number",
-      apply : "_applyMaximum",
-      init : 100,
+    maximum: {
+      check: "Number",
+      apply: "_applyMaximum",
+      init: 100,
       event: "changeMaximum"
     },
 
     /** whether the value should wrap around */
-    wrap:
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyWrap"
+    wrap: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyWrap"
     },
 
     /** Controls whether the textfield of the spinner is editable or not */
-    editable :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyEditable"
+    editable: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyEditable"
     },
 
     /** Controls the display of the number in the textfield */
-    numberFormat :
-    {
-      check : "qx.util.format.NumberFormat",
-      apply : "_applyNumberFormat",
-      nullable : true
+    numberFormat: {
+      check: "qx.util.format.NumberFormat",
+      apply: "_applyNumberFormat",
+      nullable: true
     },
 
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowShrinkY: {
+      refine: true,
+      init: false
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -237,17 +223,15 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** Saved last value in case invalid text is entered */
-    __lastValidValue : null,
+    __lastValidValue: null,
 
     /** Whether the page-up button has been pressed */
-    __pageUpMode : false,
+    __pageUpMode: false,
 
     /** Whether the page-down button has been pressed */
-    __pageDownMode : false,
-
+    __pageDownMode: false,
 
     /*
     ---------------------------------------------------------------------------
@@ -256,12 +240,10 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "textfield":
           control = new qx.ui.form.TextField();
           control.setFilter(this._getFilterRegExp());
@@ -270,7 +252,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setFocusable(false);
           control.addListener("changeValue", this._onTextChange, this);
 
-          this._add(control, {column: 0, row: 0, rowSpan: 2});
+          this._add(control, { column: 0, row: 0, rowSpan: 2 });
           break;
 
         case "upbutton":
@@ -278,7 +260,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.addState("inner");
           control.setFocusable(false);
           control.addListener("execute", this._countUp, this);
-          this._add(control, {column: 1, row: 0});
+          this._add(control, { column: 1, row: 0 });
           break;
 
         case "downbutton":
@@ -286,21 +268,19 @@ qx.Class.define("qx.ui.form.Spinner",
           control.addState("inner");
           control.setFocusable(false);
           control.addListener("execute", this._countDown, this);
-          this._add(control, {column:1, row: 1});
+          this._add(control, { column: 1, row: 1 });
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * Returns the regular expression used as the text field's filter
      *
      * @return {RegExp} The filter RegExp.
      */
-    _getFilterRegExp : function()
-    {
+    _getFilterRegExp() {
       var decimalSeparator, groupSeparator, locale;
 
       if (this.getNumberFormat() !== null) {
@@ -319,40 +299,34 @@ qx.Class.define("qx.ui.form.Spinner",
         postfix = this.getNumberFormat().getPostfix() || "";
       }
 
-      var filterRegExp = new RegExp("[0-9" +
-        qx.lang.String.escapeRegexpChars(decimalSeparator) +
-        qx.lang.String.escapeRegexpChars(groupSeparator) +
-        qx.lang.String.escapeRegexpChars(prefix) +
-        qx.lang.String.escapeRegexpChars(postfix) +
-        "\-]"
+      var filterRegExp = new RegExp(
+        "[0-9" +
+          qx.lang.String.escapeRegexpChars(decimalSeparator) +
+          qx.lang.String.escapeRegexpChars(groupSeparator) +
+          qx.lang.String.escapeRegexpChars(prefix) +
+          qx.lang.String.escapeRegexpChars(postfix) +
+          "-]"
       );
 
       return filterRegExp;
     },
 
-
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true,
-      invalid : true
+    _forwardStates: {
+      focused: true,
+      invalid: true
     },
 
-
     // overridden
-    tabFocus : function()
-    {
+    tabFocus() {
       var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
       field.selectAllText();
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -369,8 +343,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the min property
      * @param old {Number} The old value of the min property
      */
-    _applyMinimum : function(value, old)
-    {
+    _applyMinimum(value, old) {
       if (this.getMaximum() < value) {
         this.setMaximum(value);
       }
@@ -382,7 +355,6 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     },
 
-
     /**
      * Apply routine for the maximum property.
      *
@@ -392,8 +364,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the max property
      * @param old {Number} The old value of the max property
      */
-    _applyMaximum : function(value, old)
-    {
+    _applyMaximum(value, old) {
       if (this.getMinimum() > value) {
         this.setMinimum(value);
       }
@@ -405,15 +376,12 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     },
 
-
     // overridden
-    _applyEnabled : function(value, old)
-    {
-      this.base(arguments, value, old);
+    _applyEnabled(value, old) {
+      super._applyEnabled(value, old);
 
       this._updateButtons();
     },
-
 
     /**
      * Check whether the value being applied is allowed.
@@ -430,10 +398,13 @@ qx.Class.define("qx.ui.form.Spinner",
      *   <i>true</i> if the value is allowed;
      *   <i>false> otherwise.
      */
-    _checkValue : function(value) {
-      return typeof value === "number" && value >= this.getMinimum() && value <= this.getMaximum();
+    _checkValue(value) {
+      return (
+        typeof value === "number" &&
+        value >= this.getMinimum() &&
+        value <= this.getMaximum()
+      );
     },
-
 
     /**
      * Apply routine for the value property.
@@ -443,8 +414,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the spinner
      * @param old {Number} The former value of the spinner
      */
-    _applyValue: function(value, old)
-    {
+    _applyValue(value, old) {
       var textField = this.getChildControl("textfield");
 
       this._updateButtons();
@@ -464,7 +434,6 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     },
 
-
     /**
      * Apply routine for the editable property.<br/>
      * It sets the textfield of the spinner to not read only.
@@ -472,15 +441,13 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Boolean} The new value of the editable property
      * @param old {Boolean} The former value of the editable property
      */
-    _applyEditable : function(value, old)
-    {
+    _applyEditable(value, old) {
       var textField = this.getChildControl("textfield");
 
       if (textField) {
         textField.setReadOnly(!value);
       }
     },
-
 
     /**
      * Apply routine for the wrap property.<br/>
@@ -489,11 +456,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Boolean} The new value of the wrap property
      * @param old {Boolean} The former value of the wrap property
      */
-    _applyWrap : function(value, old)
-    {
+    _applyWrap(value, old) {
       this._updateButtons();
     },
-
 
     /**
      * Apply routine for the numberFormat property.<br/>
@@ -503,17 +468,25 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Boolean} The new value of the numberFormat property
      * @param old {Boolean} The former value of the numberFormat property
      */
-    _applyNumberFormat : function(value, old) {
+    _applyNumberFormat(value, old) {
       var textField = this.getChildControl("textfield");
       textField.setFilter(this._getFilterRegExp());
 
       if (old) {
-        old.removeListener("changeNumberFormat", this._onChangeNumberFormat, this);
+        old.removeListener(
+          "changeNumberFormat",
+          this._onChangeNumberFormat,
+          this
+        );
       }
 
       var numberFormat = this.getNumberFormat();
       if (numberFormat !== null) {
-        numberFormat.addListener("changeNumberFormat", this._onChangeNumberFormat, this);
+        numberFormat.addListener(
+          "changeNumberFormat",
+          this._onChangeNumberFormat,
+          this
+        );
       }
 
       this._applyValue(this.__lastValidValue, undefined);
@@ -524,7 +497,7 @@ qx.Class.define("qx.ui.form.Spinner",
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.getChildControl("textfield");
     },
 
@@ -532,27 +505,21 @@ qx.Class.define("qx.ui.form.Spinner",
      * Checks the min and max values, disables / enables the
      * buttons and handles the wrap around.
      */
-    _updateButtons : function() {
+    _updateButtons() {
       var upButton = this.getChildControl("upbutton");
       var downButton = this.getChildControl("downbutton");
       var value = this.getValue();
 
-      if (!this.getEnabled())
-      {
+      if (!this.getEnabled()) {
         // If Spinner is disabled -> disable buttons
         upButton.setEnabled(false);
         downButton.setEnabled(false);
-      }
-      else
-      {
-        if (this.getWrap())
-        {
+      } else {
+        if (this.getWrap()) {
           // If wraped -> always enable buttons
           upButton.setEnabled(true);
           downButton.setEnabled(true);
-        }
-        else
-        {
+        } else {
           // check max value
           if (value !== null && value < this.getMaximum()) {
             upButton.setEnabled(true);
@@ -585,31 +552,41 @@ qx.Class.define("qx.ui.form.Spinner",
      *
      * @param e {qx.event.type.KeySequence} keyDown event
      */
-    _onKeyDown: function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyDown(e) {
+      switch (e.getKeyIdentifier()) {
         case "PageUp":
           // mark that the spinner is in page mode and process further
           this.__pageUpMode = true;
-          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("textfield").fireNonBubblingEvent(
+            "changeValue",
+            qx.event.type.Data
+          );
           this.getChildControl("upbutton").press();
           break;
 
         case "Up":
-          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("textfield").fireNonBubblingEvent(
+            "changeValue",
+            qx.event.type.Data
+          );
           this.getChildControl("upbutton").press();
           break;
 
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this.__pageDownMode = true;
-          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("textfield").fireNonBubblingEvent(
+            "changeValue",
+            qx.event.type.Data
+          );
           this.getChildControl("downbutton").press();
           break;
 
         case "Down":
-          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("textfield").fireNonBubblingEvent(
+            "changeValue",
+            qx.event.type.Data
+          );
           this.getChildControl("downbutton").press();
           break;
 
@@ -622,7 +599,6 @@ qx.Class.define("qx.ui.form.Spinner",
       e.preventDefault();
     },
 
-
     /**
      * Callback for "keyUp" event.<br/>
      * Detecting "Up"/"Down" and "PageUp"/"PageDown" keys.<br/>
@@ -630,10 +606,8 @@ qx.Class.define("qx.ui.form.Spinner",
      *
      * @param e {qx.event.type.KeySequence} keyUp event
      */
-    _onKeyUp: function(e)
-    {
-      switch(e.getKeyIdentifier())
-      {
+    _onKeyUp(e) {
+      switch (e.getKeyIdentifier()) {
         case "PageUp":
           this.getChildControl("upbutton").release();
           this.__pageUpMode = false;
@@ -654,9 +628,6 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       OTHER EVENT HANDLERS
@@ -669,8 +640,7 @@ qx.Class.define("qx.ui.form.Spinner",
      *
      * @param e {qx.event.type.Roll} roll event
      */
-    _onRoll: function(e)
-    {
+    _onRoll(e) {
       // only wheel
       if (e.getPointerType() != "wheel") {
         return;
@@ -685,37 +655,32 @@ qx.Class.define("qx.ui.form.Spinner",
       e.stop();
     },
 
-
     /**
      * Callback method for the "change" event of the textfield.
      *
      * @param e {qx.event.type.Event} text change event or blur event
      */
-    _onTextChange : function(e)
-    {
+    _onTextChange(e) {
       var textField = this.getChildControl("textfield");
       var value;
 
       // if a number format is set
-      if (this.getNumberFormat())
-      {
+      if (this.getNumberFormat()) {
         // try to parse the current number using the number format
         try {
           value = this.getNumberFormat().parse(textField.getValue());
-        } catch(ex) {
+        } catch (ex) {
           // otherwise, process further
         }
       }
 
-      if (value === undefined)
-      {
+      if (value === undefined) {
         // try to parse the number as a float
         value = parseFloat(textField.getValue());
       }
 
       // if the result is a number
-      if (!isNaN(value))
-      {
+      if (!isNaN(value)) {
         // Fix value if invalid
         if (value > this.getMaximum()) {
           value = this.getMaximum();
@@ -729,14 +694,11 @@ qx.Class.define("qx.ui.form.Spinner",
         } else {
           this.setValue(value);
         }
-      }
-      else
-      {
+      } else {
         // otherwise, reset the last valid value
         this._applyValue(this.__lastValidValue, undefined);
       }
     },
-
 
     /**
      * Callback method for the locale Manager's "changeLocale" event.
@@ -744,8 +706,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param ev {qx.event.type.Event} locale change event
      */
 
-    _onChangeLocale : function(ev)
-    {
+    _onChangeLocale(ev) {
       if (this.getNumberFormat() !== null) {
         this.setNumberFormat(this.getNumberFormat());
         var textfield = this.getChildControl("textfield");
@@ -754,20 +715,16 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     },
 
-
     /**
      * Callback method for the number format's "changeNumberFormat" event.
      *
      * @param ev {qx.event.type.Event} number format change event
      */
-    _onChangeNumberFormat : function(ev) {
+    _onChangeNumberFormat(ev) {
       var textfield = this.getChildControl("textfield");
       textfield.setFilter(this._getFilterRegExp());
       textfield.setValue(this.getNumberFormat().format(this.getValue()));
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -780,8 +737,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * or page Step up.
      *
      */
-    _countUp: function()
-    {
+    _countUp() {
       if (this.__pageUpMode) {
         var newValue = this.getValue() + this.getPageStep();
       } else {
@@ -789,10 +745,8 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // handle the case where wrapping is enabled
-      if (this.getWrap())
-      {
-        if (newValue > this.getMaximum())
-        {
+      if (this.getWrap()) {
+        if (newValue > this.getMaximum()) {
           var diff = this.getMaximum() - newValue;
           newValue = this.getMinimum() - diff - 1;
         }
@@ -801,14 +755,12 @@ qx.Class.define("qx.ui.form.Spinner",
       this.gotoValue(newValue);
     },
 
-
     /**
      * Checks if the spinner is in page mode and counts either the single
      * or page Step down.
      *
      */
-    _countDown: function()
-    {
+    _countDown() {
       if (this.__pageDownMode) {
         var newValue = this.getValue() - this.getPageStep();
       } else {
@@ -816,10 +768,8 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // handle the case where wrapping is enabled
-      if (this.getWrap())
-      {
-        if (newValue < this.getMinimum())
-        {
+      if (this.getWrap()) {
+        if (newValue < this.getMinimum()) {
           var diff = this.getMinimum() + newValue;
           newValue = this.getMaximum() + diff + 1;
         }
@@ -828,7 +778,6 @@ qx.Class.define("qx.ui.form.Spinner",
       this.gotoValue(newValue);
     },
 
-
     /**
      * Normalizes the incoming value to be in the valid range and
      * applies it to the {@link #value} afterwards.
@@ -836,28 +785,31 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} Any number
      * @return {Number} The normalized number
      */
-    gotoValue : function(value) {
-      return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
+    gotoValue(value) {
+      return this.setValue(
+        Math.min(this.getMaximum(), Math.max(this.getMinimum(), value))
+      );
     },
 
     // overridden
-    focus : function()
-    {
-      this.base(arguments);
+    focus() {
+      super.focus();
       this.getChildControl("textfield").getFocusElement().focus();
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     var nf = this.getNumberFormat();
     if (nf) {
       nf.removeListener("changeNumberFormat", this._onChangeNumberFormat, this);
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   }
 });

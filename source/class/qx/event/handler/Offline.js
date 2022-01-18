@@ -18,16 +18,13 @@
 
 /**
  * This class provides a handler for the online event.
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.Offline",
-{
-  extend : qx.core.Object,
-  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-
-
+qx.Class.define("qx.event.handler.Offline", {
+  extend: qx.core.Object,
+  implement: [qx.event.IEventHandler, qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -40,9 +37,8 @@ qx.Class.define("qx.event.handler.Offline",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     this.__manager = manager;
     this.__window = manager.getWindow();
@@ -50,40 +46,28 @@ qx.Class.define("qx.event.handler.Offline",
     this._initObserver();
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      online : true,
-      offline : true
+    SUPPORTED_TYPES: {
+      online: true,
+      offline: true
     },
 
-
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
-
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_WINDOW,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE: true
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -91,12 +75,10 @@ qx.Class.define("qx.event.handler.Offline",
   *****************************************************************************
   */
 
-  members :
-  {
-    __manager : null,
-    __window : null,
-    __onNativeWrapper : null,
-
+  members: {
+    __manager: null,
+    __window: null,
+    __onNativeWrapper: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -105,55 +87,65 @@ qx.Class.define("qx.event.handler.Offline",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     },
-
 
     /**
      * Connects the native online and offline event listeners.
      */
-    _initObserver : function() {
+    _initObserver() {
       this.__onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
 
-      qx.bom.Event.addNativeListener(this.__window, "offline", this.__onNativeWrapper);
-      qx.bom.Event.addNativeListener(this.__window, "online", this.__onNativeWrapper);
+      qx.bom.Event.addNativeListener(
+        this.__window,
+        "offline",
+        this.__onNativeWrapper
+      );
+      qx.bom.Event.addNativeListener(
+        this.__window,
+        "online",
+        this.__onNativeWrapper
+      );
     },
-
 
     /**
      * Disconnects the native online and offline event listeners.
      */
-    _stopObserver : function() {
-      qx.bom.Event.removeNativeListener(this.__window, "offline", this.__onNativeWrapper);
-      qx.bom.Event.removeNativeListener(this.__window, "online", this.__onNativeWrapper);
+    _stopObserver() {
+      qx.bom.Event.removeNativeListener(
+        this.__window,
+        "offline",
+        this.__onNativeWrapper
+      );
+      qx.bom.Event.removeNativeListener(
+        this.__window,
+        "online",
+        this.__onNativeWrapper
+      );
     },
-
 
     /**
      * Native handler function which fires a qooxdoo event.
      * @signature function(domEvent)
      * @param domEvent {Event} Native DOM event
      */
-    _onNative : qx.event.GlobalError.observeMethod(function(domEvent) {
+    _onNative: qx.event.GlobalError.observeMethod(function (domEvent) {
       qx.event.Registration.fireEvent(
-          this.__window,
-          domEvent.type,
-          qx.event.type.Event,
-          []
+        this.__window,
+        domEvent.type,
+        qx.event.type.Event,
+        []
       );
     }),
-
 
     /*
     ---------------------------------------------------------------------------
@@ -161,19 +153,14 @@ qx.Class.define("qx.event.handler.Offline",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns whether the current window thinks its online or not.
      * @return {Boolean} <code>true</code> if its online
      */
-    isOnline : function() {
+    isOnline() {
       return !!this.__window.navigator.onLine;
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -181,8 +168,7 @@ qx.Class.define("qx.event.handler.Offline",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__manager = null;
     this._stopObserver();
 
@@ -190,16 +176,13 @@ qx.Class.define("qx.event.handler.Offline",
     delete qx.event.handler.Appear.__instances[this.toHashCode()];
   },
 
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

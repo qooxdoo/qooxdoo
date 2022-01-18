@@ -23,26 +23,19 @@
 /**
  * The tree folder is a tree element, which can have nested tree elements.
  */
-qx.Class.define("qx.ui.tree.TreeFolder",
-{
-  extend : qx.ui.tree.core.AbstractTreeItem,
+qx.Class.define("qx.ui.tree.TreeFolder", {
+  extend: qx.ui.tree.core.AbstractTreeItem,
 
-
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "tree-folder"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "tree-folder"
     }
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _addWidgets : function()
-    {
+    _addWidgets() {
       this.addSpacer();
       this.addOpenButton();
       this.addIcon();

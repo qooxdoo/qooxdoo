@@ -15,9 +15,8 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-qx.Class.define("qx.ui.virtual.cell.Boolean",
-{
-  extend : qx.ui.virtual.cell.AbstractImage,
+qx.Class.define("qx.ui.virtual.cell.Boolean", {
+  extend: qx.ui.virtual.cell.AbstractImage,
 
   /*
   *****************************************************************************
@@ -25,12 +24,10 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.__aliasManager = qx.util.AliasManager.getInstance();
   },
-
 
   /*
   *****************************************************************************
@@ -38,36 +35,30 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance:
-    {
-      refine : true,
-      init : "cell-boolean"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "cell-boolean"
     },
 
     /**
-    * The icon used to indicate the true state
-    */
-   iconTrue :
-   {
-     check : "String",
-     themeable : true,
-     apply : "_applyIconTrue"
-   },
+     * The icon used to indicate the true state
+     */
+    iconTrue: {
+      check: "String",
+      themeable: true,
+      apply: "_applyIconTrue"
+    },
 
-   /**
-   * The icon used to indicate the false state
-   */
-   iconFalse :
-   {
-     check : "String",
-     themeable : true,
-     apply : "_applyIconFalse"
-   }
+    /**
+     * The icon used to indicate the false state
+     */
+    iconFalse: {
+      check: "String",
+      themeable: true,
+      apply: "_applyIconFalse"
+    }
   },
-
-
 
   /*
   *****************************************************************************
@@ -75,27 +66,23 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   *****************************************************************************
   */
 
-  members :
-  {
-    __imageTrue : null,
-    __imageFalse : null,
-    __aliasManager : null,
-
+  members: {
+    __imageTrue: null,
+    __imageFalse: null,
+    __aliasManager: null,
 
     // property apply
-    _applyIconTrue : function(value) {
+    _applyIconTrue(value) {
       this.__imageTrue = this.__aliasManager.resolve(value);
     },
 
-
     // property apply
-    _applyIconFalse : function(value) {
+    _applyIconFalse(value) {
       this.__imageFalse = this.__aliasManager.resolve(value);
     },
 
-
     // overridden
-    _identifyImage : function(value) {
+    _identifyImage(value) {
       return value == true ? this.__imageTrue : this.__imageFalse;
     }
   }

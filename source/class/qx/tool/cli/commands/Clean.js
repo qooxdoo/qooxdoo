@@ -28,13 +28,13 @@ const rimraf = require("rimraf");
 qx.Class.define("qx.tool.cli.commands.Clean", {
   extend: qx.tool.cli.commands.Command,
   statics: {
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "clean",
         describe: "cleans generated files and caches.",
         builder: {
-          "verbose":{
-            alias : "v",
+          verbose: {
+            alias: "v",
             describe: "Verbose logging"
           }
         }
@@ -43,12 +43,11 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
   },
 
   members: {
-
     /**
      * Deletes all generated and cache files
      */
-    process: async function() {
-      this.base(arguments);
+    async process() {
+      super.process();
       let compileConfig = await qx.tool.config.Compile.getInstance().load();
       for (let target of compileConfig.getValue("targets")) {
         await this.__removePath(path.join(process.cwd(), target.outputPath));
@@ -56,13 +55,15 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
           await this.__removePath(path.join(process.cwd(), target.deployPath));
         }
       }
-      await this.__removePath(path.join(process.cwd(), qx.tool.cli.commands.Package.cache_dir));
-      
+      await this.__removePath(
+        path.join(process.cwd(), qx.tool.cli.commands.Package.cache_dir)
+      );
+
       // check if we have to migrate files
       await this.checkMigrations();
     },
 
-    __removePath: async function(pathToRemove) {
+    async __removePath(pathToRemove) {
       if (await fs.existsAsync(pathToRemove)) {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(`Removing ${pathToRemove}...`);

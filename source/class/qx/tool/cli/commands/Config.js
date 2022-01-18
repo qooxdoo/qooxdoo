@@ -28,42 +28,63 @@ qx.Class.define("qx.tool.cli.commands.Config", {
   extend: qx.tool.cli.commands.Command,
 
   statics: {
-
-    getYargsCommand: function() {
+    getYargsCommand() {
       function run(argv, name) {
         var cmd = new qx.tool.cli.commands.Config(argv);
-        return cmd[name](argv)
-          .catch(e => {
-            qx.tool.compiler.Console.error(e.stack || e.message);
-            process.exit(1);
-          });
+        return cmd[name](argv).catch(e => {
+          qx.tool.compiler.Console.error(e.stack || e.message);
+          process.exit(1);
+        });
       }
       return {
-        command   : "config <key> [value]",
-        describe  : "gets/sets persistent configuration",
-        builder   : function(yargs) {
+        command: "config <key> [value]",
+        describe: "gets/sets persistent configuration",
+        builder(yargs) {
           yargs
             .option("quiet", {
               alias: "q",
-              describe: "Suppresses warnings (eg about unknown configuration keys)",
+              describe:
+                "Suppresses warnings (eg about unknown configuration keys)",
               type: "boolean"
             })
-            .command("set <key> <value>", "Sets a configuration value", () => {}, argv => run(argv, "cmdSet"))
-            .command("get <key> [options]", "Gets a configuration value", {
-              "bare": {
-                type: "boolean",
-                describe: "Restricts output to just the value"
-              }
-            }, argv => run(argv, "cmdGet"))
-            .command("delete <key>", "Deletes a configuration value", () => {}, argv => run(argv, "cmdDelete"))
-            .command("list", "Lists all known configuration values", {
-              "all": {
-                type: "boolean",
-                describe: "Shows all keys, including unset"
-              }
-            }, argv => run(argv, "cmdList"));
+            .command(
+              "set <key> <value>",
+              "Sets a configuration value",
+              () => {},
+              argv => run(argv, "cmdSet")
+            )
+            .command(
+              "get <key> [options]",
+              "Gets a configuration value",
+              {
+                bare: {
+                  type: "boolean",
+                  describe: "Restricts output to just the value"
+                }
+              },
+
+              argv => run(argv, "cmdGet")
+            )
+            .command(
+              "delete <key>",
+              "Deletes a configuration value",
+              () => {},
+              argv => run(argv, "cmdDelete")
+            )
+            .command(
+              "list",
+              "Lists all known configuration values",
+              {
+                all: {
+                  type: "boolean",
+                  describe: "Shows all keys, including unset"
+                }
+              },
+
+              argv => run(argv, "cmdList")
+            );
         },
-        handler   : function(argv) {
+        handler(argv) {
           // Nothing
         }
       };
@@ -73,41 +94,53 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       "github.token": {
         desc: "The API token used to connect to GitHub"
       },
+
       "qx.translation.strictPoCompatibility": {
         desc: "Whether to write PO files with strict compatibility, i.e. include line numbers in output",
-        set: async function(value) {
-          return value === "true" ? true : value === "false" ? false : Boolean(value);
+        async set(value) {
+          return value === "true"
+            ? true
+            : value === "false"
+            ? false
+            : Boolean(value);
         }
       },
+
       "qx.default.color": {
-        desc: "The default color for console output (eg \"white bgRed bold\")"
+        desc: 'The default color for console output (eg "white bgRed bold")'
       },
+
       "qx.default.feedback": {
         desc: "Default value for compiler feedback (override with --[no-]feedback)",
-        set: async function(value) {
-          return value === "true" ? true : value === "false" ? false : undefined;
+        async set(value) {
+          return value === "true"
+            ? true
+            : value === "false"
+            ? false
+            : undefined;
         }
       }
     }
-
   },
 
   members: {
-    __describe: function(key) {
+    __describe(key) {
       var data = qx.tool.cli.commands.Config.KNOWN_VALUES[key];
       return data && data.desc;
     },
 
-    __checkKey: function(argv) {
+    __checkKey(argv) {
       if (!argv.quiet) {
         let desc = this.__describe(argv.key);
         if (!desc) {
-          qx.tool.compiler.Console.warn("Warning: Unrecognised configuration key " + argv.key);
+          qx.tool.compiler.Console.warn(
+            "Warning: Unrecognised configuration key " + argv.key
+          );
         }
       }
     },
 
-    __breakout: function(key) {
+    __breakout(key) {
       let pos = key.lastIndexOf(".");
       let parentKey = pos > -1 ? key.substring(0, pos) : "";
       let childKey = key.substring(pos + 1);
@@ -119,7 +152,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       };
     },
 
-    cmdSet: async function(argv) {
+    async cmdSet(argv) {
       this.__checkKey(argv);
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let setting = qx.tool.cli.commands.Config.KNOWN_VALUES[argv.key];
@@ -138,7 +171,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       await cfg.save();
     },
 
-    cmdDelete: async function(argv) {
+    async cmdDelete(argv) {
       this.__checkKey(argv);
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let keyInfo = this.__breakout(argv.key);
@@ -149,12 +182,12 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       await cfg.save();
     },
 
-    cmdGet: async function(argv) {
+    async cmdGet(argv) {
       this.__checkKey(argv);
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let value = cfg.db(argv.key);
       if (argv.bare) {
-        qx.tool.compiler.Console.info(value||"");
+        qx.tool.compiler.Console.info(value || "");
       } else if (value !== undefined) {
         qx.tool.compiler.Console.info(argv.key + "=" + value);
       } else {
@@ -162,7 +195,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       }
     },
 
-    cmdList: async function(argv) {
+    async cmdList(argv) {
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
 
       let keys = {};
@@ -189,7 +222,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       keys = keys.map(key => ({
         key: key,
         value: cfg.db(key),
-        description: this.__describe(key)||"Unrecognised key"
+        description: this.__describe(key) || "Unrecognised key"
       }));
 
       // Display each value

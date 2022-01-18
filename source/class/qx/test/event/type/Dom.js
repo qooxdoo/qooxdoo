@@ -16,16 +16,11 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.event.type.Dom", {
+  extend: qx.dev.unit.TestCase,
 
-qx.Class.define("qx.test.event.type.Dom",
-{
-  extend : qx.dev.unit.TestCase,
-
-
-  members :
-  {
-    testClone : function()
-    {
+  members: {
+    testClone() {
       var domEvent = {
         shiftKey: true,
         ctrlKey: true,
@@ -33,7 +28,13 @@ qx.Class.define("qx.test.event.type.Dom",
         metaKey: true
       };
 
-      var event = new qx.event.type.Dom().init(domEvent, document.body, document.body, true, true);
+      var event = new qx.event.type.Dom().init(
+        domEvent,
+        document.body,
+        document.body,
+        true,
+        true
+      );
 
       var reference = {
         shift: event.isShiftPressed(),

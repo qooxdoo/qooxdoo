@@ -15,25 +15,27 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.data.controller.Form",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.data.controller.Form", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __form : null,
-    __tf1 : null,
-    __tf2 : null,
-    __cb : null,
-    __model : null,
+  members: {
+    __form: null,
+    __tf1: null,
+    __tf2: null,
+    __cb: null,
+    __model: null,
 
-    setUp : function() {
+    setUp() {
       // create the objects
       this.__form = new qx.ui.form.Form();
       this.__tf1 = new qx.ui.form.TextField();
       this.__tf2 = new qx.ui.form.TextField("init");
       this.__cb = new qx.ui.form.CheckBox();
-      this.__model = qx.data.marshal.Json.createModel({tf1: null, tf2: null, cb: null});
+      this.__model = qx.data.marshal.Json.createModel({
+        tf1: null,
+        tf2: null,
+        cb: null
+      });
 
       // build the form
       this.__form.add(this.__tf1, "label1", null, "tf1");
@@ -41,7 +43,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__form.add(this.__cb, "label3", null, "cb");
     },
 
-    tearDown : function() {
+    tearDown() {
       this.__form.dispose();
       this.__model.dispose();
       this.__tf1.dispose();
@@ -49,8 +51,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__cb.destroy();
     },
 
-
-    testSetModelNull : function() {
+    testSetModelNull() {
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
       // set some values
@@ -69,8 +70,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testInitialResetter : function() {
+    testInitialResetter() {
       // create the controller which set the initial values and
       // saves them for resetting
       var c = new qx.data.controller.Form(this.__model, this.__form);
@@ -82,8 +82,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testUnidirectionalDeep: function() {
+    testUnidirectionalDeep() {
       this.__form.dispose();
       this.__form = new qx.ui.form.Form();
 
@@ -109,23 +108,32 @@ qx.Class.define("qx.test.data.controller.Form",
       model.dispose();
     },
 
-
-    testUnidirectionalSelectionOptions: function(){
+    testUnidirectionalSelectionOptions() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
       var sb = new qx.ui.form.SelectBox();
-      var i1 = new qx.ui.form.ListItem("a").set({model: "a"});
-      var i2 = new qx.ui.form.ListItem("b").set({model: "b"});
+      var i1 = new qx.ui.form.ListItem("a").set({ model: "a" });
+      var i2 = new qx.ui.form.ListItem("b").set({ model: "b" });
       sb.add(i1);
       sb.add(i2);
 
       this.__form.add(sb, "Sb");
       c.setModel(null);
-      c.addBindingOptions("Sb",
-        {converter : function(data) { return data && data.substr(0, 1);}},
-        {converter : function(data) { return data + "-item";}}
+      c.addBindingOptions(
+        "Sb",
+        {
+          converter(data) {
+            return data && data.substr(0, 1);
+          }
+        },
+        {
+          converter(data) {
+            return data + "-item";
+          }
+        }
       );
+
       var m = c.createModel();
 
       // check that the init value is set
@@ -143,14 +151,22 @@ qx.Class.define("qx.test.data.controller.Form",
       m.dispose();
     },
 
-
-    testUnidirectionalOptions: function(){
+    testUnidirectionalOptions() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
-      c.addBindingOptions("tf1",
-        {converter : function(data) { return data && data.substr(0, data.length - 1);}},
-        {converter : function(data) { return data + "a";}}
+      c.addBindingOptions(
+        "tf1",
+        {
+          converter(data) {
+            return data && data.substr(0, data.length - 1);
+          }
+        },
+        {
+          converter(data) {
+            return data + "a";
+          }
+        }
       );
 
       // check if the other direction does not work
@@ -165,14 +181,13 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testUnidirectionalSelection: function(){
+    testUnidirectionalSelection() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
       var sb = new qx.ui.form.SelectBox();
-      var i1 = new qx.ui.form.ListItem("a").set({model: "a"});
-      var i2 = new qx.ui.form.ListItem("b").set({model: "b"});
+      var i1 = new qx.ui.form.ListItem("a").set({ model: "a" });
+      var i2 = new qx.ui.form.ListItem("b").set({ model: "b" });
       sb.add(i1);
       sb.add(i2);
 
@@ -194,8 +209,7 @@ qx.Class.define("qx.test.data.controller.Form",
       m.dispose();
     },
 
-
-    testUnidirectional: function(){
+    testUnidirectional() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
@@ -215,8 +229,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testCreateEmpty : function() {
+    testCreateEmpty() {
       // just create the controller
       var c = new qx.data.controller.Form();
       // check the defaults for the properties
@@ -226,7 +239,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-    testCreateWithModel : function() {
+    testCreateWithModel() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model);
       // check for the properties
@@ -236,7 +249,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-    testCreateWithForm : function() {
+    testCreateWithForm() {
       // just create the controller
       var c = new qx.data.controller.Form(null, this.__form);
       // check for the properties
@@ -246,7 +259,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-    testCreateWithBoth : function() {
+    testCreateWithBoth() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
       // check for the properties
@@ -256,7 +269,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-    testBindingCreate : function() {
+    testBindingCreate() {
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
@@ -294,8 +307,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testBindingChangeModel : function() {
+    testBindingChangeModel() {
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
@@ -309,7 +321,11 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
       this.assertEquals(this.__cb.getValue(), this.__model.getCb());
 
-      var model2 = qx.data.marshal.Json.createModel({tf1: null, tf2: null, cb: null});
+      var model2 = qx.data.marshal.Json.createModel({
+        tf1: null,
+        tf2: null,
+        cb: null
+      });
 
       c.setModel(model2);
 
@@ -332,8 +348,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testBindingChangeForm : function() {
+    testBindingChangeForm() {
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
@@ -380,14 +395,13 @@ qx.Class.define("qx.test.data.controller.Form",
       c.dispose();
     },
 
-
-    testBindingDeep : function() {
+    testBindingDeep() {
       // a - b - cb
       // |   \
       // tf1  c
       //       \
       //        tf2
-      var data = {a: {tf1: null}, b:{c: {tf2: null}}, cb: null};
+      var data = { a: { tf1: null }, b: { c: { tf2: null } }, cb: null };
       var model = qx.data.marshal.Json.createModel(data);
 
       // create the form
@@ -432,8 +446,7 @@ qx.Class.define("qx.test.data.controller.Form",
       cb.destroy();
     },
 
-
-    testBindingModelSelection : function() {
+    testBindingModelSelection() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
       var i1 = new qx.ui.form.ListItem("a");
@@ -446,7 +459,12 @@ qx.Class.define("qx.test.data.controller.Form",
       // add the selectBox to the form
       this.__form.add(selectBox, "sb");
 
-      var model = qx.data.marshal.Json.createModel({tf1: null, tf2: null, cb: null, sb: null});
+      var model = qx.data.marshal.Json.createModel({
+        tf1: null,
+        tf2: null,
+        cb: null,
+        sb: null
+      });
 
       // create the controller
       var c = new qx.data.controller.Form(model, this.__form);
@@ -470,8 +488,7 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.destroy();
     },
 
-
-    testModelCreation : function() {
+    testModelCreation() {
       // set some initial values in the form
       this.__tf1.setValue("A");
       this.__tf2.setValue("B");
@@ -479,14 +496,20 @@ qx.Class.define("qx.test.data.controller.Form",
 
       // create the controller
       var c = new qx.data.controller.Form(null, this.__form);
-      c.addBindingOptions("tf1",
-        {converter : function(data) {
-          return data && data.substr(0, 1);
-        }},
-        {converter : function(data) {
-          return data + "-";
-        }}
+      c.addBindingOptions(
+        "tf1",
+        {
+          converter(data) {
+            return data && data.substr(0, 1);
+          }
+        },
+        {
+          converter(data) {
+            return data + "-";
+          }
+        }
       );
+
       var model = c.createModel();
 
       // check if the model and the form still have the initial value
@@ -532,8 +555,7 @@ qx.Class.define("qx.test.data.controller.Form",
       model.dispose();
     },
 
-
-    testModelCreationDeep : function() {
+    testModelCreationDeep() {
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");
       var tf2 = new qx.ui.form.TextField("B");
@@ -555,8 +577,7 @@ qx.Class.define("qx.test.data.controller.Form",
       form.dispose();
     },
 
-
-    testModelCreationWithList : function() {
+    testModelCreationWithList() {
       var form = new qx.ui.form.Form();
       var list = new qx.ui.form.List();
       var i1 = new qx.ui.form.ListItem("A");
@@ -587,8 +608,7 @@ qx.Class.define("qx.test.data.controller.Form",
       form.dispose();
     },
 
-
-    testModelCreationSpecialCaracter : function() {
+    testModelCreationSpecialCaracter() {
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");
 
@@ -606,13 +626,18 @@ qx.Class.define("qx.test.data.controller.Form",
       form.dispose();
     },
 
-
-    testModelCreationWithListController : function()
-    {
+    testModelCreationWithListController() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
-      var listModel = qx.data.marshal.Json.createModel([{name: "a"}, {name: "b"}]);
-      var listController = new qx.data.controller.List(listModel, selectBox, "name");
+      var listModel = qx.data.marshal.Json.createModel([
+        { name: "a" },
+        { name: "b" }
+      ]);
+      var listController = new qx.data.controller.List(
+        listModel,
+        selectBox,
+        "name"
+      );
 
       // add the selectBox to the form
       this.__form.add(selectBox, "sb");
@@ -646,8 +671,7 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.destroy();
     },
 
-
-    testModelCreationWithModelSelection : function() {
+    testModelCreationWithModelSelection() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
       var i1 = new qx.ui.form.ListItem("a");
@@ -690,8 +714,7 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.destroy();
     },
 
-
-    testRemoveTarget : function() {
+    testRemoveTarget() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
       var i1 = new qx.ui.form.ListItem("a");
@@ -705,7 +728,12 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__form.add(selectBox, "sb");
       this.__form.add(this.__tf1, "tf1");
 
-      var model = qx.data.marshal.Json.createModel({tf1: null, tf2: null, cb: null, sb: null});
+      var model = qx.data.marshal.Json.createModel({
+        tf1: null,
+        tf2: null,
+        cb: null,
+        sb: null
+      });
 
       // create the controller
       var c = new qx.data.controller.Form(model, this.__form);
@@ -761,19 +789,21 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.destroy();
     },
 
-
-    testOptions : function()
-    {
+    testOptions() {
       // create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
       // add the options
-      var tf2model = {converter : function(data) {
-        return "X" + data;
-      }};
-      var model2tf = {converter : function(data) {
-        return data && data.substring(1);
-      }};
+      var tf2model = {
+        converter(data) {
+          return "X" + data;
+        }
+      };
+      var model2tf = {
+        converter(data) {
+          return data && data.substring(1);
+        }
+      };
       c.addBindingOptions("tf1", model2tf, tf2model);
 
       // set values in the form
@@ -797,17 +827,23 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__model.setTf2("b");
 
       // check the binding
-      this.assertEquals(this.__tf1.getValue(), this.__model.getTf1().substring(1));
+      this.assertEquals(
+        this.__tf1.getValue(),
+        this.__model.getTf1().substring(1)
+      );
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
 
       // destroy the objects
       c.dispose();
     },
 
-
-    testConnectionWithListControllerSelection : function() {
+    testConnectionWithListControllerSelection() {
       // generate fake data
-      var data = [{name: "a", age: 1}, {name: "b", age: 2}, {name: "c", age: 3}];
+      var data = [
+        { name: "a", age: 1 },
+        { name: "b", age: 2 },
+        { name: "c", age: 3 }
+      ];
       var model = qx.data.marshal.Json.createModel(data);
 
       // list
@@ -861,7 +897,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(2, model.getItem(1).getAge());
       this.assertEquals(3, model.getItem(2).getAge());
 
-      for (var i=0; i<model.length; i++) {
+      for (var i = 0; i < model.length; i++) {
         model.getItem(i).dispose();
       }
       model.dispose();
@@ -873,8 +909,7 @@ qx.Class.define("qx.test.data.controller.Form",
       sp.dispose();
     },
 
-
-    testDispose : function() {
+    testDispose() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
       // destroy the objects
@@ -885,8 +920,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertNotEquals("AFFE", this.__tf1.getValue());
     },
 
-
-    testBindingCreateMissingOne : function() {
+    testBindingCreateMissingOne() {
       // add an unknown item
       var tf = new qx.ui.form.TextField();
       this.__form.add(tf, "Unknown");

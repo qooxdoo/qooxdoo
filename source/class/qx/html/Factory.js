@@ -22,63 +22,63 @@
 qx.Class.define("qx.html.Factory", {
   extend: qx.core.Object,
   type: "singleton",
-  
-  construct: function() {
-    this.base(arguments);
+
+  construct() {
+    super();
     this.__factoriesByTagName = {};
-    this.registerFactory("#text", function(tagName, attributes, styles) {
+    this.registerFactory("#text", function (tagName, attributes, styles) {
       return new qx.html.Text("");
     });
     this.registerFactory("img", qx.html.Image);
-    this.registerFactory("iframe", function(tagName, attributes, styles) {
+    this.registerFactory("iframe", function (tagName, attributes, styles) {
       return new qx.html.Iframe(attributes.src, attributes, styles);
     });
-    this.registerFactory("input", function(tagName, attributes, styles) {
-      return new qx.html.Input(attributes.type||"text", attributes, styles);
+    this.registerFactory("input", function (tagName, attributes, styles) {
+      return new qx.html.Input(attributes.type || "text", attributes, styles);
     });
   },
-  
+
   members: {
     __factoriesByTagName: null,
-    
+
     /**
-     * Registers a factory; a factory is either a class, or a function which is 
+     * Registers a factory; a factory is either a class, or a function which is
      * called with the parameters (tagName {String}, styles{Map?}, attributes {Map?}), and
      * which is expected to return an {Element}
-     * 
+     *
      * @param tagName {String} the name of the tag
      * @param factory {Class|Function} the function used to create instances for that tagName
      */
-    registerFactory: function(tagName, factory) {
+    registerFactory(tagName, factory) {
       tagName = tagName.toLowerCase();
       if (this.__factoriesByTagName[tagName] === undefined) {
         this.__factoriesByTagName[tagName] = [];
       }
       this.__factoriesByTagName[tagName].push(factory);
     },
-    
+
     /**
      * Called to create an {Element}
-     * 
+     *
      * @param tagName {String} the name of the tag
      * @param attributes {Map?} the attributes to create (including style etc)
      * @return {qx.html.Node}
      */
-    createElement: function(tagName, attributes) {
+    createElement(tagName, attributes) {
       tagName = tagName.toLowerCase();
-      
+
       if (attributes) {
         if (window.NamedNodeMap && attributes instanceof window.NamedNodeMap) {
           var newAttrs = {};
-          for(var i = attributes.length - 1; i >= 0; i--) {
+          for (var i = attributes.length - 1; i >= 0; i--) {
             newAttrs[attributes[i].name] = attributes[i].value;
           }
           attributes = newAttrs;
         }
-        
+
         var styles = {};
         if (attributes.style) {
-          attributes.style.split(/;/).forEach(function(seg) {
+          attributes.style.split(/;/).forEach(function (seg) {
             var pos = seg.indexOf(":");
             var key = seg.substring(0, pos);
             var value = seg.substring(pos + 1).trim();
@@ -88,25 +88,30 @@ qx.Class.define("qx.html.Factory", {
           });
           delete attributes.style;
         }
-        
+
         var classname = attributes["data-qx-classname"];
         if (classname) {
           var clazz = qx.Class.getByName(classname);
           if (qx.core.Environment.get("qx.debug")) {
-            this.assertTrue(clazz && qx.Class.isSubClassOf(clazz, qx.html.Element));
+            this.assertTrue(
+              clazz && qx.Class.isSubClassOf(clazz, qx.html.Element)
+            );
             return new clazz(tagName, styles, attributes);
           }
         }
       }
-      
+
       var factories = this.__factoriesByTagName[tagName];
       if (factories) {
         for (var i = factories.length - 1; i > -1; i--) {
           var factory = factories[i];
-          if (factory.classname && qx.Class.getByName(factory.classname) === factory) {
+          if (
+            factory.classname &&
+            qx.Class.getByName(factory.classname) === factory
+          ) {
             return new factory(tagName, styles, attributes);
           }
-          
+
           if (qx.core.Environment.get("qx.debug")) {
             this.assertTrue(typeof factory == "function");
           }
@@ -116,9 +121,8 @@ qx.Class.define("qx.html.Factory", {
           }
         }
       }
-      
+
       return new qx.html.Element(tagName, styles, attributes);
     }
-  
   }
 });

@@ -19,31 +19,25 @@
 /**
  * All widget used as scrollbars must implement this interface.
  */
-qx.Interface.define("qx.ui.core.scroll.IScrollBar",
-{
-  events :
-  {
+qx.Interface.define("qx.ui.core.scroll.IScrollBar", {
+  events: {
     /** Fired if the user scroll */
-    "scroll" : "qx.event.type.Data",
+    scroll: "qx.event.type.Data",
     /** Fired as soon as the scroll animation ended. */
-    "scrollAnimationEnd": 'qx.event.type.Event'
+    scrollAnimationEnd: "qx.event.type.Event"
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The scroll bar orientation
      */
-    orientation : {},
-
+    orientation: {},
 
     /**
      * The maximum value (difference between available size and
      * content size).
      */
-    maximum : {},
-
+    maximum: {},
 
     /**
      * Position of the scrollbar (which means the scroll left/top of the
@@ -53,19 +47,16 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * Does not apply any correction to the incoming value. If you depend
      * on this, please use {@link #scrollTo} instead.
      */
-    position : {},
-
+    position: {},
 
     /**
      * Factor to apply to the width/height of the knob in relation
      * to the dimension of the underlying area.
      */
-    knobFactor : {}
+    knobFactor: {}
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Scrolls to the given position.
      *
@@ -75,10 +66,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * @param position {Integer} Scroll to this position. Must be greater zero.
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollTo : function(position, duration) {
+    scrollTo(position, duration) {
       this.assertNumber(position);
     },
-
 
     /**
      * Scrolls by the given offset.
@@ -89,10 +79,9 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * @param offset {Integer} Scroll by this offset
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBy : function(offset, duration) {
+    scrollBy(offset, duration) {
       this.assertNumber(offset);
     },
-
 
     /**
      * Scrolls by the given number of steps.
@@ -103,7 +92,7 @@ qx.Interface.define("qx.ui.core.scroll.IScrollBar",
      * @param steps {Integer} Number of steps
      * @param duration {Number} The time in milliseconds the slide to should take.
      */
-    scrollBySteps : function(steps, duration) {
+    scrollBySteps(steps, duration) {
       this.assertNumber(steps);
     }
   }

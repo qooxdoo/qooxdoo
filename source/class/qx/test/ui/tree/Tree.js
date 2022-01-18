@@ -16,17 +16,14 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.tree.Tree",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.tree.Tree", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    _tree : null,
+  members: {
+    _tree: null,
 
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this._tree = new qx.ui.tree.Tree();
       this.getRoot().add(this._tree);
@@ -37,14 +34,12 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._disposeObjects("_tree");
     },
 
-    testGetPreviousSiblingOf : function()
-    {
+    testGetPreviousSiblingOf() {
       var tRoot = this._tree.getRoot();
       var item1 = new qx.ui.tree.TreeFile("1");
       tRoot.add(item1);
@@ -59,8 +54,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertIdentical(item1, this._tree.getPreviousSiblingOf(item2));
     },
 
-    testGetNextSiblingOf : function()
-    {
+    testGetNextSiblingOf() {
       var tRoot = this._tree.getRoot();
       var item1 = new qx.ui.tree.TreeFile("1");
       tRoot.add(item1);
@@ -75,8 +69,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertIdentical(item2, this._tree.getNextSiblingOf(item1));
     },
 
-    testGetNextNodeOf : function()
-    {
+    testGetNextNodeOf() {
       var tRoot = this._tree.getRoot();
       var item1 = new qx.ui.tree.TreeFile("1");
       tRoot.add(item1);
@@ -92,8 +85,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertNull(this._tree.getNextNodeOf(item2));
     },
 
-    testGetNextNodeOfInvisible : function()
-    {
+    testGetNextNodeOfInvisible() {
       var tRoot = this._tree.getRoot();
       tRoot.setOpen(true);
       var item1 = new qx.ui.tree.TreeFile("1");
@@ -110,8 +102,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertIdentical(item1_1, this._tree.getNextNodeOf(item1, false));
     },
 
-    testGetPreviousNodeOf : function()
-    {
+    testGetPreviousNodeOf() {
       var tRoot = this._tree.getRoot();
       var item1 = new qx.ui.tree.TreeFile("1");
       tRoot.add(item1);
@@ -127,8 +118,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertNull(this._tree.getPreviousNodeOf(tRoot));
     },
 
-    testGetPreviousNodeOfInvisible : function()
-    {
+    testGetPreviousNodeOfInvisible() {
       var tRoot = this._tree.getRoot();
       tRoot.setOpen(true);
       var item1 = new qx.ui.tree.TreeFile("1");
@@ -145,8 +135,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
       this.assertIdentical(item1_2, this._tree.getPreviousNodeOf(item2, false));
     },
 
-    testAddBefore : function()
-    {
+    testAddBefore() {
       /*
        * root  => add 2 before 3 =>  root
        *  - 1                        - 1
@@ -169,12 +158,19 @@ qx.Class.define("qx.test.ui.tree.Tree",
       tRoot.addBefore(item2, item3);
       //this.info("after addBefore: " + this.__printChildren(tRoot.getChildren()));
 
-      this.assertIdentical(item1, this._tree.getPreviousNodeOf(item2), "check: 1 before 2");
-      this.assertIdentical(item3, this._tree.getNextNodeOf(item2), "check: 3 after 2");
+      this.assertIdentical(
+        item1,
+        this._tree.getPreviousNodeOf(item2),
+        "check: 1 before 2"
+      );
+      this.assertIdentical(
+        item3,
+        this._tree.getNextNodeOf(item2),
+        "check: 3 after 2"
+      );
     },
 
-    testAddAfter : function()
-    {
+    testAddAfter() {
       /*
        * root  => add 2 after 1 =>  root
        *  - 1                        - 1
@@ -197,12 +193,19 @@ qx.Class.define("qx.test.ui.tree.Tree",
       tRoot.addAfter(item2, item1);
       //this.info("after addAfter: " + this.__printChildren(tRoot.getChildren()));
 
-      this.assertIdentical(item1, this._tree.getPreviousNodeOf(item2), "check: 1 before 2");
-      this.assertIdentical(item3, this._tree.getNextNodeOf(item2), "check: 3 after 2");
+      this.assertIdentical(
+        item1,
+        this._tree.getPreviousNodeOf(item2),
+        "check: 1 before 2"
+      );
+      this.assertIdentical(
+        item3,
+        this._tree.getNextNodeOf(item2),
+        "check: 3 after 2"
+      );
     },
 
-    testChangeOrderWithAddBefore : function()
-    {
+    testChangeOrderWithAddBefore() {
       /*
        * root  => add 1 before 3 =>  root
        *  - 1                         - 2
@@ -226,12 +229,19 @@ qx.Class.define("qx.test.ui.tree.Tree",
       tRoot.addBefore(item1, item3);
       //this.info("after addBefore: " + this.__printChildren(tRoot.getChildren()));
 
-      this.assertIdentical(item1, this._tree.getPreviousNodeOf(item3), "check: 1 before 3");
-      this.assertIdentical(item1, this._tree.getNextNodeOf(item2), "check: 1 after 2");
+      this.assertIdentical(
+        item1,
+        this._tree.getPreviousNodeOf(item3),
+        "check: 1 before 3"
+      );
+      this.assertIdentical(
+        item1,
+        this._tree.getNextNodeOf(item2),
+        "check: 1 after 2"
+      );
     },
 
-    testChangeOrderWithAddAfter : function()
-    {
+    testChangeOrderWithAddAfter() {
       /*
        * root  => add 1 after 3 =>  root
        *  - 1                         - 2
@@ -255,12 +265,19 @@ qx.Class.define("qx.test.ui.tree.Tree",
       tRoot.addAfter(item1, item3);
       //this.info("after addAfter: " + this.__printChildren(tRoot.getChildren()));
 
-      this.assertIdentical(item1, this._tree.getPreviousNodeOf(item4), "check: 1 before 4");
-      this.assertIdentical(item1, this._tree.getNextNodeOf(item3), "check: 1 after 3");
+      this.assertIdentical(
+        item1,
+        this._tree.getPreviousNodeOf(item4),
+        "check: 1 before 4"
+      );
+      this.assertIdentical(
+        item1,
+        this._tree.getNextNodeOf(item3),
+        "check: 1 after 3"
+      );
     },
 
-    __printChildren : function(children)
-    {
+    __printChildren(children) {
       var result = "";
       for (var i = 0; i < children.length; i++) {
         result += children[i].getLabel();

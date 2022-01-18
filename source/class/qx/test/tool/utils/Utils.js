@@ -14,11 +14,10 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.tool.utils.Utils", {
-  extend : qx.dev.unit.TestCase,
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testStripSourceMapWriteStreamWholeStream : async function() {
+  members: {
+    async testStripSourceMapWriteStreamWholeStream() {
       let ss = new qx.tool.utils.Utils.ToStringWriteStream();
       let ws = new qx.tool.utils.Utils.StripSourceMapTransform();
       ws.pipe(ss);
@@ -26,13 +25,15 @@ qx.Class.define("qx.test.tool.utils.Utils", {
         ws.on("finish", () => {
           resolve();
         });
-        ws.write("abc\ndef\n//# sourceMappingURL=IApplication.js.map?dt=1587127076441\nghi");
+        ws.write(
+          "abc\ndef\n//# sourceMappingURL=IApplication.js.map?dt=1587127076441\nghi"
+        );
         ws.end();
       });
       this.assertTrue(ss.toString() == "abc\ndef\nghi");
     },
 
-    testStripSourceMapWriteStreamChunked1 : async function() {
+    async testStripSourceMapWriteStreamChunked1() {
       let ss = new qx.tool.utils.Utils.ToStringWriteStream();
       let ws = new qx.tool.utils.Utils.StripSourceMapTransform();
       ws.pipe(ss);
@@ -48,11 +49,11 @@ qx.Class.define("qx.test.tool.utils.Utils", {
       this.assertTrue(ss.toString() == "abc\ndef\nghi\njkl");
     },
 
-    testStripSourceMapWriteStreamChunked2 : async function() {
+    async testStripSourceMapWriteStreamChunked2() {
       let ss = new qx.tool.utils.Utils.ToStringWriteStream();
       let ws = new qx.tool.utils.Utils.StripSourceMapTransform();
       ws.pipe(ss);
-      
+
       await new Promise(resolve => {
         ws.on("finish", () => {
           resolve();

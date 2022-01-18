@@ -37,8 +37,7 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Environment", {
-  statics :
-  {
+  statics: {
     /**
      * Get the value stored for the given key.
      *
@@ -47,7 +46,7 @@ qx.Bootstrap.define("qx.module.Environment", {
      * @return {var} The value stored for the given key.
      * @lint environmentNonLiteralKey(key)
      */
-    get : function(key) {
+    get(key) {
       return qx.core.Environment.get(key);
     },
 
@@ -59,14 +58,13 @@ qx.Bootstrap.define("qx.module.Environment", {
      * @param value {var} The value to store.
      * @return {qxWeb} The collection for chaining.
      */
-    add : function(key, value) {
+    add(key, value) {
       qx.core.Environment.add(key, value);
       return this;
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     // make sure the desired keys are available (browser.* and engine.*)
     qx.core.Environment.get("browser.name");
     qx.core.Environment.get("browser.version");

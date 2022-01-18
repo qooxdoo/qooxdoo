@@ -24,17 +24,20 @@ qx.Class.define("qx.test.log.Filters", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testFilters: function() {
+    testFilters() {
       qx.log.appender.Native;
 
       var Logger = qx.log.Logger;
       qx.Class.define("my.TestLogger", {
         statics: {
           count: 0,
-          process: function(entry) {
+          process(entry) {
             this.count++;
             var args = qx.log.appender.Util.toText(entry);
-            (console[entry.level] || console.log).call(console, "TestLogger: " + args);
+            (console[entry.level] || console.log).call(
+              console,
+              "TestLogger: " + args
+            );
           }
         }
       });

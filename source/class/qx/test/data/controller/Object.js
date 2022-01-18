@@ -15,19 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.data.controller.Object",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.data.controller.Object", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     __label1: null,
     __label2: null,
     __model: null,
     __controller: null,
 
-    setUp : function()
-    {
+    setUp() {
       this.__label1 = new qx.ui.basic.Label();
       this.__label2 = new qx.ui.basic.Label();
 
@@ -36,17 +33,14 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller = new qx.data.controller.Object(this.__model);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.__model.dispose();
       this.__label2.dispose();
       this.__label1.dispose();
       this.__controller.dispose();
     },
 
-
-    testOneToOne: function() {
+    testOneToOne() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex");
 
@@ -54,11 +48,14 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
     },
 
-
-    testOneToTwo: function() {
+    testOneToTwo() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex");
       // Tie the label2s content to the zindex of the model
@@ -68,12 +65,19 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("10", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "10",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
     },
 
-
-    testChangeModel: function() {
+    testChangeModel() {
       // Tie the labels content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex");
       this.__controller.addTarget(this.__label2, "value", "zIndex");
@@ -92,14 +96,21 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.setModel(newModel);
 
       // test for the binding
-      this.assertEquals("20", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("20", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "20",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "20",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       newModel.dispose();
     },
 
-
-    testRemoveOneBinding: function() {
+    testRemoveOneBinding() {
       // set a zIndex
       this.__model.setZIndex(20);
 
@@ -108,8 +119,16 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.addTarget(this.__label2, "value", "zIndex");
 
       // test for the binding
-      this.assertEquals("20", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("20", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "20",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "20",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       // remove one target
       this.__controller.removeTarget(this.__label1, "value", "zIndex");
@@ -118,12 +137,19 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(5);
 
       // test for the binding
-      this.assertEquals("20", this.__label1.getValue(), "Binding1 has not been removed!");
-      this.assertEquals("5", this.__label2.getValue(), "Binding2 has been removed!");
+      this.assertEquals(
+        "20",
+        this.__label1.getValue(),
+        "Binding1 has not been removed!"
+      );
+      this.assertEquals(
+        "5",
+        this.__label2.getValue(),
+        "Binding2 has been removed!"
+      );
     },
 
-
-    testRemoveUnexistantTarget: function() {
+    testRemoveUnexistantTarget() {
       // test some cases
       this.__controller.removeTarget(this.__label1, "value", "zIndex");
       this.__controller.removeTarget(null, "AFFE", "AFFEN");
@@ -136,8 +162,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.removeTarget(null, "AFFE", "AFFEN");
     },
 
-
-    testTowToTwo: function() {
+    testTowToTwo() {
       // set up two links
       this.__controller.addTarget(this.__label1, "value", "zIndex");
       this.__controller.addTarget(this.__label2, "value", "visibility");
@@ -147,20 +172,35 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setVisibility("visible");
 
       // test for the binding
-      this.assertEquals("11", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("visible", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "11",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "visible",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       // set new values
       this.__model.setZIndex(15);
       this.__model.setVisibility("hidden");
 
       // test again for the binding
-      this.assertEquals("15", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("hidden", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "15",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "hidden",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
     },
 
-
-    testOneToOneBi: function() {
+    testOneToOneBi() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
 
@@ -168,17 +208,24 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
 
       // set a new content
       this.__label1.setValue("20");
 
       // test the reverse binding
-      this.assertEquals(20, this.__model.getZIndex(), "Reverse-Binding does not work!");
+      this.assertEquals(
+        20,
+        this.__model.getZIndex(),
+        "Reverse-Binding does not work!"
+      );
     },
 
-
-    testOneToTwoBi: function() {
+    testOneToTwoBi() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
       // Tie the label2s content to the zindex of the model
@@ -188,26 +235,49 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("10", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "10",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       // change one label
       this.__label1.setValue("100");
 
       // test for the binding
-      this.assertEquals(100, this.__model.getZIndex(), "Reverse Binding does not work!");
-      this.assertEquals("100", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        100,
+        this.__model.getZIndex(),
+        "Reverse Binding does not work!"
+      );
+      this.assertEquals(
+        "100",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       // change the other label
       this.__label2.setValue("200");
 
       // test for the binding
-      this.assertEquals(200, this.__model.getZIndex(), "Reverse Binding does not work!");
-      this.assertEquals("200", this.__label1.getValue(), "Binding1 does not work!");
+      this.assertEquals(
+        200,
+        this.__model.getZIndex(),
+        "Reverse Binding does not work!"
+      );
+      this.assertEquals(
+        "200",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
     },
 
-
-    testChangeModelBi: function() {
+    testChangeModelBi() {
       // Tie the labels content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
       this.__controller.addTarget(this.__label2, "value", "zIndex", true);
@@ -223,25 +293,44 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.setModel(newModel);
 
       // test for the binding
-      this.assertEquals("20", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("20", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "20",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "20",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       // set the zIndex in a label
       this.__label2.setValue("11");
 
       // test for the bindings (working and should not work)
-      this.assertEquals("11", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals(11, newModel.getZIndex(), "Reverse-Binding does not work!");
-      this.assertEquals(10, this.__model.getZIndex(), "Binding has not been removed.");
+      this.assertEquals(
+        "11",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        11,
+        newModel.getZIndex(),
+        "Reverse-Binding does not work!"
+      );
+      this.assertEquals(
+        10,
+        this.__model.getZIndex(),
+        "Binding has not been removed."
+      );
 
       newModel.dispose();
     },
 
-
-    testConverting: function() {
+    testConverting() {
       // create the options map
       var opt = {
-        converter: function(value) {
+        converter(value) {
           if (value > 10) {
             return "A";
           }
@@ -254,19 +343,25 @@ qx.Class.define("qx.test.data.controller.Object",
 
       // set a zIndex and test it
       this.__model.setZIndex(11);
-      this.assertEquals("A", this.__label1.getValue(), "Converter does not work!");
+      this.assertEquals(
+        "A",
+        this.__label1.getValue(),
+        "Converter does not work!"
+      );
 
       // set a zIndex and test it
       this.__model.setZIndex(5);
-      this.assertEquals("B", this.__label1.getValue(), "Converter does not work!");
+      this.assertEquals(
+        "B",
+        this.__label1.getValue(),
+        "Converter does not work!"
+      );
     },
 
-
-
-    testConvertingBi: function() {
+    testConvertingBi() {
       // create the options map for source to target
       var opt = {
-        converter: function(value) {
+        converter(value) {
           if (value > 10) {
             return "A";
           }
@@ -276,8 +371,8 @@ qx.Class.define("qx.test.data.controller.Object",
 
       // create the options map for target to source
       var revOpt = {
-        converter: function(value) {
-          if (value  == "A") {
+        converter(value) {
+          if (value == "A") {
             return 11;
           }
           return 10;
@@ -285,28 +380,50 @@ qx.Class.define("qx.test.data.controller.Object",
       };
 
       // Tie the labels content to the zindex of the model
-      this.__controller.addTarget(this.__label1, "value", "zIndex", true, opt, revOpt);
+      this.__controller.addTarget(
+        this.__label1,
+        "value",
+        "zIndex",
+        true,
+        opt,
+        revOpt
+      );
 
       // set a zIndex and test it
       this.__model.setZIndex(11);
-      this.assertEquals("A", this.__label1.getValue(), "Converter does not work!");
+      this.assertEquals(
+        "A",
+        this.__label1.getValue(),
+        "Converter does not work!"
+      );
 
       // set a zIndex and test it
       this.__model.setZIndex(5);
-      this.assertEquals("B", this.__label1.getValue(), "Converter does not work!");
+      this.assertEquals(
+        "B",
+        this.__label1.getValue(),
+        "Converter does not work!"
+      );
 
       // change the target and check the model
       this.__label1.setValue("A");
-      this.assertEquals(11, this.__model.getZIndex(), "Back-Converter does not work!");
+      this.assertEquals(
+        11,
+        this.__model.getZIndex(),
+        "Back-Converter does not work!"
+      );
       this.__label1.setValue("B");
-      this.assertEquals(10, this.__model.getZIndex(), "Back-Converter does not work!");
+      this.assertEquals(
+        10,
+        this.__model.getZIndex(),
+        "Back-Converter does not work!"
+      );
     },
 
-
-    testChangeModelCon: function() {
+    testChangeModelCon() {
       // create the options map
       var opt = {
-        converter: function(value) {
+        converter(value) {
           if (value > 10) {
             return "A";
           }
@@ -329,14 +446,21 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.setModel(newModel);
 
       // test for the binding
-      this.assertEquals("A", this.__label1.getValue(), "Binding1 does not work!");
-      this.assertEquals("A", this.__label2.getValue(), "Binding2 does not work!");
+      this.assertEquals(
+        "A",
+        this.__label1.getValue(),
+        "Binding1 does not work!"
+      );
+      this.assertEquals(
+        "A",
+        this.__label2.getValue(),
+        "Binding2 does not work!"
+      );
 
       newModel.dispose();
     },
 
-
-    testSetLateModel: function() {
+    testSetLateModel() {
       this.__controller.dispose();
       // create a blank controller
       this.__controller = new qx.data.controller.Object();
@@ -351,11 +475,14 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
     },
 
-
-    testSetModelNull: function() {
+    testSetModelNull() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex");
 
@@ -373,11 +500,14 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
     },
 
-
-    testCreateWithoutModel: function() {
+    testCreateWithoutModel() {
       // create a new controller
       this.__controller.dispose();
       this.__controller = new qx.data.controller.Object();
@@ -391,17 +521,25 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.setModel(this.__model);
 
       // test for the binding
-      this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        "10",
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
     },
 
-
-    testTargetArrayBi : function() {
+    testTargetArrayBi() {
       var selectbox = new qx.ui.form.SelectBox();
       for (var i = 0; i < 10; i++) {
-        selectbox.add(new qx.ui.form.ListItem("item " + i).set({model: i}));
+        selectbox.add(new qx.ui.form.ListItem("item " + i).set({ model: i }));
       }
 
-      this.__controller.addTarget(selectbox, "modelSelection[0]", "zIndex", true);
+      this.__controller.addTarget(
+        selectbox,
+        "modelSelection[0]",
+        "zIndex",
+        true
+      );
 
       // selectbox --> model
       selectbox.setSelection([selectbox.getSelectables()[6]]);
@@ -414,8 +552,7 @@ qx.Class.define("qx.test.data.controller.Object",
       selectbox.dispose();
     },
 
-
-    testDispose : function() {
+    testDispose() {
       // Tie the label1s content to the zindex of the model
       this.__controller.addTarget(this.__label1, "value", "zIndex", true);
 
@@ -429,14 +566,21 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(10);
 
       // test if the binding has been removed and reseted
-      this.assertEquals(null, this.__label1.getValue(), "Binding does not work!");
+      this.assertEquals(
+        null,
+        this.__label1.getValue(),
+        "Binding does not work!"
+      );
 
       // set a new content
       this.__label1.setValue("20");
 
       // test the reverse binding
-      this.assertEquals(10, this.__model.getZIndex(), "Reverse-Binding does not work!");
+      this.assertEquals(
+        10,
+        this.__model.getZIndex(),
+        "Reverse-Binding does not work!"
+      );
     }
-
   }
 });

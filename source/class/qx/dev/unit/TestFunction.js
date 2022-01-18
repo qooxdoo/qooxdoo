@@ -20,11 +20,8 @@
 /**
  * Wrapper object for a method containing unit test code.
  */
-qx.Class.define("qx.dev.unit.TestFunction",
-{
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.dev.unit.TestFunction", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -42,8 +39,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
    * @param testFunction {Function?null} A reference to a test function. If this
    *    parameter is set the other parameters are ignored.
    */
-  construct : function(testCase, methodName, testFunction)
-  {
+  construct(testCase, methodName, testFunction) {
     if (testFunction) {
       this.setTestFunction(testFunction);
     }
@@ -56,39 +52,31 @@ qx.Class.define("qx.dev.unit.TestFunction",
     this.setName(methodName);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The test function */
-    testFunction : { check : "Function" },
+    testFunction: { check: "Function" },
 
     /** Name of the test */
-    name : { check : "String" },
+    name: { check: "String" },
 
     /** Name of the class containing the test */
-    className :
-    {
-      check : "String",
-      init  : ""
+    className: {
+      check: "String",
+      init: ""
     },
 
     /** The test class */
-    testClass :
-    {
-      check : "qx.dev.unit.TestCase",
-      init : null
+    testClass: {
+      check: "qx.dev.unit.TestCase",
+      init: null
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -96,16 +84,13 @@ qx.Class.define("qx.dev.unit.TestFunction",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
      * @param testResult {qx.dev.unit.TestResult} The class used to log the test result.
      */
-    run : function(testResult)
-    {
+    run(testResult) {
       var inst = this.getTestClass();
       var method = this.getName();
 
@@ -114,7 +99,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
         testResult: testResult
       });
 
-      testResult.run(this, function() {
+      testResult.run(this, function () {
         switch (inst[method].constructor.name) {
           case "Function":
             try {
@@ -125,27 +110,24 @@ qx.Class.define("qx.dev.unit.TestFunction",
             break;
           case "AsyncFunction":
             inst[method]()
-            .then(
-              function(){
-                inst.resume()
-              }
-            )
-            .catch(
-              function(ex){
-                inst.resume(function(){ throw ex });
-              }
-            );
+              .then(function () {
+                inst.resume();
+              })
+              .catch(function (ex) {
+                inst.resume(function () {
+                  throw ex;
+                });
+              });
+
             inst.wait();
         }
       });
-
     },
 
     /**
      * Call the test class' <code>setUp</code> method.
      */
-    setUp : function()
-    {
+    setUp() {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.setUp)) {
         inst.setUp();
@@ -155,22 +137,20 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /**
      * Call the test class' <code>tearDown</code> method.
      */
-    tearDown : function()
-    {
+    tearDown() {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.tearDown)) {
         inst.tearDown();
       }
     },
 
-
     /**
      * Get the full name of the test.
      *
      * @return {String} The test's full name
      */
-    getFullName : function() {
-      return [ this.getClassName(), this.getName() ].join(":");
+    getFullName() {
+      return [this.getClassName(), this.getName()].join(":");
     }
   }
 });

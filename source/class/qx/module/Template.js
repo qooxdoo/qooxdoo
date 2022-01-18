@@ -24,8 +24,7 @@
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */
 qx.Bootstrap.define("qx.module.Template", {
-  statics :
-  {
+  statics: {
     /**
      * Helper method which provides direct access to templates stored as HTML in
      * the DOM. The DOM node with the given ID will be treated as a template,
@@ -43,7 +42,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * @return {qxWeb} Collection containing a single DOM element with the parsed
      * template data.
      */
-    get : function(id, view, partials) {
+    get(id, view, partials) {
       var el = qx.bom.Template.get(id, view, partials);
       el = qx.module.Template.__wrap(el);
       return qxWeb.$init([el], qxWeb);
@@ -59,7 +58,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * @param partials {Object} Object holding parts of a template.
      * @return {String} The parsed template.
      */
-    render : function(template, view, partials) {
+    render(template, view, partials) {
       return qx.bom.Template.render(template, view, partials);
     },
 
@@ -77,12 +76,11 @@ qx.Bootstrap.define("qx.module.Template", {
      * @return {qxWeb} Collection containing a single DOM element with the parsed
      * template data.
      */
-    renderToNode : function(template, view, partials) {
+    renderToNode(template, view, partials) {
       var el = qx.bom.Template.renderToNode(template, view, partials);
       el = qx.module.Template.__wrap(el);
       return qxWeb.$init([el], qxWeb);
     },
-
 
     /**
      * If the given node is a DOM text node, wrap it in a span element and return
@@ -90,7 +88,7 @@ qx.Bootstrap.define("qx.module.Template", {
      * @param el {Node} a DOM node
      * @return {Element} Original element or wrapper
      */
-    __wrap : function(el) {
+    __wrap(el) {
       if (qxWeb.isTextNode(el)) {
         var wrapper = document.createElement("span");
         wrapper.appendChild(el);
@@ -100,8 +98,7 @@ qx.Bootstrap.define("qx.module.Template", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "template");
   }
 });

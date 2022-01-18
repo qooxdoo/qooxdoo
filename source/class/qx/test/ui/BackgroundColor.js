@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.BackgroundColor",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.BackgroundColor", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    testChangeColorInContainer : function()
-    {
+  members: {
+    testChangeColorInContainer() {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
 
@@ -42,15 +39,14 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       widget.destroy();
     },
 
-
-    testChangeColorInDecorator : function()
-    {
+    testChangeColorInDecorator() {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
 
       var deco = new qx.ui.decoration.Decorator().set({
-        width:  1
+        width: 1
       });
+
       widget.setDecorator(deco);
       this.assertStyle(widget, "backgroundColor", "transparent", "no bg color");
 
@@ -61,24 +57,28 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "green", "green bg color");
 
       widget.setBackgroundColor(null);
-      this.assertStyle(widget, "backgroundColor", "transparent", "null bg color");
+      this.assertStyle(
+        widget,
+        "backgroundColor",
+        "transparent",
+        "null bg color"
+      );
 
       this.getRoot().remove(widget);
       widget.dispose();
       deco.dispose();
     },
 
-
-    testChangeDecorator : function()
-    {
+    testChangeDecorator() {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
       this.assertStyle(widget, "backgroundColor", "transparent");
 
       // set decoration
       var deco = new qx.ui.decoration.Decorator().set({
-        width:  1
+        width: 1
       });
+
       widget.setDecorator(deco);
 
       // set background color
@@ -94,6 +94,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
         innerWidth: 1,
         innerColor: "black"
       });
+
       widget.setDecorator(repl);
       this.assertStyle(widget, "backgroundColor", "red");
 
@@ -102,9 +103,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       repl.dispose();
     },
 
-
-    testDecorationColor : function()
-    {
+    testDecorationColor() {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
       this.assertStyle(widget, "backgroundColor", "transparent");
@@ -117,6 +116,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
         width: 1,
         backgroundColor: "red"
       });
+
       widget.setDecorator(deco);
       // widget color takes precedence over decorator color
 
@@ -130,6 +130,5 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       widget.dispose();
       deco.dispose();
     }
-
   }
 });

@@ -18,40 +18,31 @@
 
 /**
  * For a basic, out-of-browser application (running e.g. on Node.js, Rhino).
- * 
+ *
  * @use(qx.core.BaseInit)
  */
-qx.Class.define("qx.application.Basic",
-{
-  extend : qx.core.Object,
-  implement : [qx.application.IApplication],
+qx.Class.define("qx.application.Basic", {
+  extend: qx.core.Object,
+  implement: [qx.application.IApplication],
 
-
-  members :
-  {
+  members: {
     // interface method
-    main : function()
-    {
-      // empty
-    },
-
-
-    // interface method
-    finalize : function()
-    {
-      // empty
-    },
-
-
-    // interface method
-    close : function()
-    {
+    main() {
       // empty
     },
 
     // interface method
-    terminate : function()
-    {
+    finalize() {
+      // empty
+    },
+
+    // interface method
+    close() {
+      // empty
+    },
+
+    // interface method
+    terminate() {
       // empty
     }
   }

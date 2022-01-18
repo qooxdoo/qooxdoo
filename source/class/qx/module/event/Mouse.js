@@ -27,43 +27,52 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Mouse", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["click", "dblclick", "mousedown", "mouseup", "mouseover", "mousemove",
-      "mouseout"],
-
+    TYPES: [
+      "click",
+      "dblclick",
+      "mousedown",
+      "mouseup",
+      "mouseover",
+      "mousemove",
+      "mouseout"
+    ],
 
     /**
      * List qx.module.event.Mouse methods to be attached to native mouse event
      * objects
      * @internal
      */
-    BIND_METHODS : ["getButton", "getViewportLeft", "getViewportTop",
-      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
-
+    BIND_METHODS: [
+      "getButton",
+      "getViewportLeft",
+      "getViewportTop",
+      "getDocumentLeft",
+      "getDocumentTop",
+      "getScreenLeft",
+      "getScreenTop"
+    ],
 
     /**
      * Standard mouse button mapping
      */
-    BUTTONS_DOM2 : {
-      0 : "left",
-      2 : "right",
-      1 : "middle"
+    BUTTONS_DOM2: {
+      0: "left",
+      2: "right",
+      1: "middle"
     },
-
 
     /**
      * Legacy Internet Explorer mouse button mapping
      */
-    BUTTONS_MSHTML : {
-      1 : "left",
-      2 : "right",
-      4 : "middle"
+    BUTTONS_MSHTML: {
+      1: "left",
+      2: "right",
+      4: "middle"
     },
-
 
     /**
      * Returns the identifier of the mouse button that change state when the
@@ -72,18 +81,17 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * @return {String} One of <code>left</code>, <code>right</code> or
      * <code>middle</code>
      */
-    getButton : function()
-    {
-      switch(this.type)
-      {
+    getButton() {
+      switch (this.type) {
         case "contextmenu":
           return "right";
 
         case "click":
           // IE does not support buttons on click --> assume left button
-          if (qxWeb.env.get("browser.name") === "ie" &&
-            qxWeb.env.get("browser.documentmode") < 9)
-          {
+          if (
+            qxWeb.env.get("browser.name") === "ie" &&
+            qxWeb.env.get("browser.documentmode") < 9
+          ) {
             return "left";
           }
 
@@ -96,17 +104,15 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
       }
     },
 
-
     /**
      * Get the horizontal coordinate at which the event occurred relative
      * to the viewport.
      *
      * @return {Number} The horizontal mouse position
      */
-    getViewportLeft : function() {
+    getViewportLeft() {
       return this.clientX;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative
@@ -115,10 +121,9 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * @return {Number} The vertical mouse position
      * @signature function()
      */
-    getViewportTop : function() {
+    getViewportTop() {
       return this.clientY;
     },
-
 
     /**
      * Get the horizontal position at which the event occurred relative to the
@@ -127,8 +132,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      *
      * @return {Number} The horizontal mouse position in the document.
      */
-    getDocumentLeft : function()
-    {
+    getDocumentLeft() {
       if (this.pageX !== undefined) {
         return this.pageX;
       } else {
@@ -137,7 +141,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
       }
     },
 
-
     /**
      * Get the vertical position at which the event occurred relative to the
      * top of the document. This property takes into account any scrolling of
@@ -145,8 +148,7 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      *
      * @return {Number} The vertical mouse position in the document.
      */
-    getDocumentTop : function()
-    {
+    getDocumentTop() {
       if (this.pageY !== undefined) {
         return this.pageY;
       } else {
@@ -154,7 +156,6 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
         return this.clientY + qx.bom.Viewport.getScrollTop(win);
       }
     },
-
 
     /**
      * Get the horizontal coordinate at which the event occurred relative to
@@ -165,10 +166,9 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      *
      * @return {Number} The horizontal mouse position on the screen.
      */
-    getScreenLeft : function() {
+    getScreenLeft() {
       return this.screenX;
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative to
@@ -179,10 +179,9 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      *
      * @return {Number} The vertical mouse position on the screen.
      */
-    getScreenTop : function() {
+    getScreenTop() {
       return this.screenY;
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -193,15 +192,15 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
       var bindMethods = qx.module.event.Mouse.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Mouse[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Mouse[bindMethods[i]].bind(event);
         }
       }
 
@@ -209,7 +208,10 @@ qx.Bootstrap.define("qx.module.event.Mouse", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Mouse.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Mouse.TYPES,
+      statics.normalize
+    );
   }
 });

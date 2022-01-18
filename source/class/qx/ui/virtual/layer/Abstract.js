@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base class for layers of a virtual pane.
  *
@@ -27,12 +26,11 @@
  * {@link #_updateLayerWindow} and {@link #_updateLayerData} may be implemented
  * to increase the performance.
  */
-qx.Class.define("qx.ui.virtual.layer.Abstract",
-{
-  extend : qx.ui.core.Widget,
-  type : "abstract",
+qx.Class.define("qx.ui.virtual.layer.Abstract", {
+  extend: qx.ui.core.Widget,
+  type: "abstract",
 
-  implement : [qx.ui.virtual.core.ILayer],
+  implement: [qx.ui.virtual.core.ILayer],
 
   /*
    *****************************************************************************
@@ -40,13 +38,11 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
    *****************************************************************************
    */
 
-   construct : function()
-   {
-     this.base(arguments);
+  construct() {
+    super();
 
-     this.__jobs = {};
-   },
-
+    this.__jobs = {};
+  },
 
   /*
   *****************************************************************************
@@ -54,16 +50,13 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    anonymous :
-    {
+    anonymous: {
       refine: true,
       init: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -71,60 +64,53 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
   *****************************************************************************
   */
 
-  members :
-  {
-    __jobs : null,
-    __arguments : null,
+  members: {
+    __jobs: null,
+    __arguments: null,
 
-    __firstRow : null,
-    __firstColumn : null,
-    __rowSizes : null,
-    __columnSizes : null,
-
+    __firstRow: null,
+    __firstColumn: null,
+    __rowSizes: null,
+    __columnSizes: null,
 
     /**
      * Get the first rendered row
      *
      * @return {Integer} The first rendered row
      */
-    getFirstRow : function() {
+    getFirstRow() {
       return this.__firstRow;
     },
-
 
     /**
      * Get the first rendered column
      *
      * @return {Integer} The first rendered column
      */
-    getFirstColumn : function() {
+    getFirstColumn() {
       return this.__firstColumn;
     },
-
 
     /**
      * Get the sizes of the rendered rows
      *
      * @return {Integer[]} List of row heights
      */
-    getRowSizes : function() {
+    getRowSizes() {
       return this.__rowSizes || [];
     },
-
 
     /**
      * Get the sizes of the rendered column
      *
      * @return {Integer[]} List of column widths
      */
-    getColumnSizes : function() {
+    getColumnSizes() {
       return this.__columnSizes || [];
     },
 
-
     // overridden
-    syncWidget : function(jobs)
-    {
+    syncWidget(jobs) {
       // return if the layer is not yet rendered
       // it will rendered in the appear event
       if (!this.getContentElement().getDomElement()) {
@@ -133,22 +119,16 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
 
       if (
         this.__jobs.fullUpdate ||
-        this.__jobs.updateLayerWindow && this.__jobs.updateLayerData
-      )
-      {
+        (this.__jobs.updateLayerWindow && this.__jobs.updateLayerData)
+      ) {
         this._fullUpdate.apply(this, this.__arguments);
-      }
-      else if (this.__jobs.updateLayerWindow)
-      {
+      } else if (this.__jobs.updateLayerWindow) {
         this._updateLayerWindow.apply(this, this.__arguments);
-      }
-      else if (this.__jobs.updateLayerData  && this.__rowSizes)
-      {
+      } else if (this.__jobs.updateLayerData && this.__rowSizes) {
         this._updateLayerData();
       }
 
-      if (this.__jobs.fullUpdate || this.__jobs.updateLayerWindow)
-      {
+      if (this.__jobs.fullUpdate || this.__jobs.updateLayerWindow) {
         var args = this.__arguments;
         this.__firstRow = args[0];
         this.__firstColumn = args[1];
@@ -159,21 +139,20 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       this.__jobs = {};
     },
 
-
     /**
      * Update the layer to reflect changes in the data the layer displays.
      *
      * Note: It is guaranteed that this method is only called after the layer
      * has been rendered.
      */
-    _updateLayerData : function()
-    {
+    _updateLayerData() {
       this._fullUpdate(
-        this.__firstRow, this.__firstColumn,
-        this.__rowSizes, this.__columnSizes
+        this.__firstRow,
+        this.__firstColumn,
+        this.__rowSizes,
+        this.__columnSizes
       );
     },
-
 
     /**
      * Do a complete update of the layer. All cached data should be discarded.
@@ -188,13 +167,9 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    ) {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       throw new Error("Abstract method '_fullUpdate' called!");
     },
-
 
     /**
      * Update the layer to display a different window of the virtual grid.
@@ -211,43 +186,25 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */
-    _updateLayerWindow : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
-      this._fullUpdate(
-        firstRow, firstColumn,
-        rowSizes, columnSizes
-      );
+    _updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
+      this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
     },
 
-
     // interface implementation
-    updateLayerData : function()
-    {
+    updateLayerData() {
       this.__jobs.updateLayerData = true;
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // interface implementation
-    fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+    fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       this.__arguments = arguments;
       this.__jobs.fullUpdate = true;
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     // interface implementation
-    updateLayerWindow : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    ) {
+    updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
       this.__arguments = arguments;
       this.__jobs.updateLayerWindow = true;
       qx.ui.core.queue.Widget.add(this);
@@ -260,7 +217,11 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this.__jobs = this.__arguments = this.__rowSizes = this.__columnSizes = null;
+  destruct() {
+    this.__jobs =
+      this.__arguments =
+      this.__rowSizes =
+      this.__columnSizes =
+        null;
   }
 });

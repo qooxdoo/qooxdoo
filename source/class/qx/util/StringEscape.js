@@ -22,10 +22,8 @@
  * {@link qx.bom.String} for (un)escaping of HTML strings.
  * {@link qx.xml.String} for (un)escaping of XML strings.
  */
-qx.Bootstrap.define("qx.util.StringEscape",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.util.StringEscape", {
+  statics: {
     /**
      * generic escaping method
      *
@@ -33,23 +31,20 @@ qx.Bootstrap.define("qx.util.StringEscape",
      * @param charCodeToEntities {Map} entity to charcode map
      * @return {String} escaped string
      */
-    escape : function(str, charCodeToEntities)
-    {
-      var entity, result = "";
+    escape(str, charCodeToEntities) {
+      var entity,
+        result = "";
 
-      for (var i=0, l=str.length; i<l; i++)
-      {
+      for (var i = 0, l = str.length; i < l; i++) {
         var chr = str.charAt(i);
         var code = str.codePointAt(i);
 
-        i += String.fromCodePoint(code).length-1;
+        i += String.fromCodePoint(code).length - 1;
 
         if (charCodeToEntities[code]) {
           entity = "&" + charCodeToEntities[code] + ";";
-        }
-        else
-        {
-          if (code > 0x7F) {
+        } else {
+          if (code > 0x7f) {
             entity = "&#" + code + ";";
           } else {
             entity = chr;
@@ -62,7 +57,6 @@ qx.Bootstrap.define("qx.util.StringEscape",
       return result;
     },
 
-
     /**
      * generic unescaping method
      *
@@ -70,32 +64,24 @@ qx.Bootstrap.define("qx.util.StringEscape",
      * @param entitiesToCharCode {Map} charcode to entity map
      * @return {String} unescaped string
      */
-    unescape : function(str, entitiesToCharCode)
-    {
-      return str.replace(/&[#\w]+;/gi, function(entity)
-      {
+    unescape(str, entitiesToCharCode) {
+      return str.replace(/&[#\w]+;/gi, function (entity) {
         var chr = entity;
         var entity = entity.substring(1, entity.length - 1);
         var code = entitiesToCharCode[entity];
 
         if (code) {
           chr = String.fromCharCode(code);
-        }
-        else
-        {
-          if (entity.charAt(0) == '#')
-          {
-            if (entity.charAt(1).toUpperCase() == 'X')
-            {
+        } else {
+          if (entity.charAt(0) == "#") {
+            if (entity.charAt(1).toUpperCase() == "X") {
               code = entity.substring(2);
 
               // match hex number
               if (code.match(/^[0-9A-Fa-f]+$/gi)) {
                 chr = String.fromCodePoint(parseInt(code, 16));
               }
-            }
-            else
-            {
+            } else {
               code = entity.substring(1);
 
               // match integer
