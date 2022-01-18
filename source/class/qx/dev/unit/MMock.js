@@ -91,15 +91,13 @@
  * Note that sinon.assert.xyz() translates as assertXyz().
  *
  */
-/* global sinon */
 qx.Mixin.define("qx.dev.unit.MMock",
 {
   construct: function()
   {
     var sinon = this.__getSinon();
     this.__exposeAssertions();
-
-    this.__sandbox = sinon.sandbox;
+    this.__sandbox = sinon.createSandbox();
   },
 
   members :
@@ -259,8 +257,12 @@ qx.Mixin.define("qx.dev.unit.MMock",
     *   that allow to define behaviour. See http://sinonjs.org/docs/#stubs.
     *
     */
-    stub: function(object, method) {
-      return this.__sandbox.stub.apply(this.__sandbox, arguments);
+    stub: function(object, method, func) {
+      let res = this.__sandbox.stub.bind(this.__sandbox)(object, method);
+      if (func && qx.lang.Type.isFunction(func)) {
+        res = res.callsFake(func);
+      }
+      return res;
     },
 
     /**
@@ -314,7 +316,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * @return {Object}
     */
     useFakeXMLHttpRequest: function() {
-      return this.__fakeXhr = this.__sandbox.useFakeXMLHttpRequest();
+      return this.__fakeXhr = this.__sandbox.useFakeServer();
     },
 
     /**

@@ -113,7 +113,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     "test: stub property": function() {
       qx.test.PROP = false;
 
-      this.stub(qx.test, "PROP", true);
+      this.stub(qx.test, "PROP").value(true);
       this.assertEquals(true, qx.test.PROP);
 
       qx.test.PROP = undefined;
@@ -121,8 +121,8 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
     "test: stub property in isolation": function() {
       qx.test.PROP = false;
-
-      this.stub(qx.test, "PROP", true);
+      this.stub(qx.test, "PROP").value(true);
+      this.assertEquals(true, qx.test.PROP);
       this.getSandbox().restore();
       this.assertEquals(false, qx.test.PROP);
 

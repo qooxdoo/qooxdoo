@@ -188,7 +188,8 @@ qx.Class.define("qx.tool.cli.commands.Test", {
           qx.tool.compiler.Console.info(`Running ${test.getName()}`);
           await test.execute();
         }
-        process.exit(this.getExitCode());
+        // for bash exitcode is not allowed to be more then 255!
+        process.exit(Math.min(255, this.getExitCode()));
       });
 
       if (this.__needsServer()) {

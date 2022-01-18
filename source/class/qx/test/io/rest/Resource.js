@@ -89,7 +89,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.configureRequest(qx.lang.Function.bind(function(req) {
         this.assertCalledWith(req.setMethod, "GET");
-        this.assertCalled(req.setUrl, "/photos");
+        this.assertCalled(req.setUrl);
         this.assertNotCalled(req.send);
       }, this));
 
@@ -779,7 +779,7 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       this.stub(req, "dispose");
       this.spy(res, "refresh");
-      this.stub(qx.io.rest.Resource, "POLL_THROTTLE_COUNT", "3");
+      this.stub(qx.io.rest.Resource, "POLL_THROTTLE_COUNT").value("3");
 
       res.longPoll("get");
 
