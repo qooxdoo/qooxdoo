@@ -13,11 +13,10 @@ qx.Class.define("qx.io.transport.Websocket", {
    * @param {String} url The URL of the http endpoint
    */
   construct(url) {
-    this.base(arguments, url);
+    super(url);
   },
 
   members: {
-
     /**
      * @type {WebSocket}
      */
@@ -63,13 +62,13 @@ qx.Class.define("qx.io.transport.Websocket", {
     _createTransportImpl() {
       let ws = new WebSocket(this.getEndpoint());
       ws.addEventListener("message", msgevt => {
-        this.fireDataEvent("message", msgevt.data)
+        this.fireDataEvent("message", msgevt.data);
       });
       ws.addEventListener("close", event => {
         let error_message;
         let error_code;
-        switch(event.code) {
-          case  1000:
+        switch (event.code) {
+          case 1000:
             // everything ok
             break;
           default:
@@ -78,6 +77,7 @@ qx.Class.define("qx.io.transport.Websocket", {
             error_message = "Error " + event.code;
             error_code = qx.io.exception.Transport.FAILED;
         }
+
         if (error_message) {
           throw new qx.io.exception.Transport(error_message, error_code, event);
         }

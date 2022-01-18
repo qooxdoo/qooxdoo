@@ -19,29 +19,24 @@
 /**
  * Test widget children handling
  */
-qx.Class.define("qx.test.ui.ChildrenHandling",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.ChildrenHandling", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    assertArrayEquals : function(expected, found, msg)
-    {
+  members: {
+    assertArrayEquals(expected, found, msg) {
       this.assertArray(expected, msg);
       this.assertArray(found, msg);
 
       this.assertEquals(expected.length, found.length, msg);
-      for (var i=0; i<expected.length; i++) {
+      for (var i = 0; i < expected.length; i++) {
         this.assertIdentical(expected[i], found[i], msg);
       }
     },
 
-
-    _setChildren : function(parent, children)
-    {
+    _setChildren(parent, children) {
       parent.removeAll();
 
-      for (var i=0; i<children.length; i++) {
+      for (var i = 0; i < children.length; i++) {
         parent.add(children[i]);
       }
 
@@ -49,9 +44,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       this.assertArrayEquals(children, parent.getChildren());
     },
 
-
-    testRemove : function()
-    {
+    testRemove() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var c1 = new qx.ui.core.Widget();
@@ -79,9 +72,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testRemoveAll : function()
-    {
+    testRemoveAll() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var c1 = new qx.ui.core.Widget();
@@ -104,13 +95,11 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testRemoveNonChild : function()
-    {
+    testRemoveNonChild() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       var w1 = new qx.ui.core.Widget();
 
-      this.assertException(function() {
+      this.assertException(function () {
         parent.remove(w1);
       });
 
@@ -118,9 +107,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testRemoveAt : function()
-    {
+    testRemoveAt() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var c1 = new qx.ui.core.Widget();
@@ -130,7 +117,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       var w1 = new qx.ui.core.Widget();
 
       var children = [c1, c2, c3];
-
 
       this._setChildren(parent, children);
       parent.removeAt(0);
@@ -144,20 +130,28 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.removeAt(2);
       this.assertArrayEquals([c1, c2], parent.getChildren(), "remove last");
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         this._setChildren(parent, children);
-        this.assertException(function() {
-          parent.removeAt(-1);
-        }, qx.core.AssertionError, "", "remove at negative index");
+        this.assertException(
+          function () {
+            parent.removeAt(-1);
+          },
+          qx.core.AssertionError,
+          "",
+          "remove at negative index"
+        );
       }
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         this._setChildren(parent, children);
-        this.assertException(function() {
-          parent.removeAt(-1);
-        }, qx.core.AssertionError, "", "remove at negative index");
+        this.assertException(
+          function () {
+            parent.removeAt(-1);
+          },
+          qx.core.AssertionError,
+          "",
+          "remove at negative index"
+        );
       }
 
       c1.destroy();
@@ -167,9 +161,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testAddBefore : function()
-    {
+    testAddBefore() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var c1 = new qx.ui.core.Widget();
@@ -182,42 +174,69 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       var children = [c1, c2, c3];
       this._setChildren(parent, children);
 
-
       parent.addBefore(w1, c1);
-      this.assertArrayEquals([w1, c1, c2, c3], parent.getChildren(), "add new widget at begin");
+      this.assertArrayEquals(
+        [w1, c1, c2, c3],
+        parent.getChildren(),
+        "add new widget at begin"
+      );
       this._setChildren(parent, children);
 
       parent.addBefore(w1, c3);
-      this.assertArrayEquals([c1, c2, w1, c3], parent.getChildren(), "add new widget in the middle");
+      this.assertArrayEquals(
+        [c1, c2, w1, c3],
+        parent.getChildren(),
+        "add new widget in the middle"
+      );
       this._setChildren(parent, children);
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         var self = this;
-        this.assertException(function() {
-          parent.addBefore(w1, w2);
-        }, qx.core.AssertionError, "", "add new widget before non child");
+        this.assertException(
+          function () {
+            parent.addBefore(w1, w2);
+          },
+          qx.core.AssertionError,
+          "",
+          "add new widget before non child"
+        );
         this._setChildren(parent, children);
       }
 
       parent.addBefore(c1, c1);
-      this.assertArrayEquals([c1, c2, c3], parent.getChildren(), "add existing before itself");
+      this.assertArrayEquals(
+        [c1, c2, c3],
+        parent.getChildren(),
+        "add existing before itself"
+      );
       this._setChildren(parent, children);
 
       parent.addBefore(c3, c1);
-      this.assertArrayEquals([c3, c1, c2], parent.getChildren(), "add existing before first");
+      this.assertArrayEquals(
+        [c3, c1, c2],
+        parent.getChildren(),
+        "add existing before first"
+      );
       this._setChildren(parent, children);
 
       parent.addBefore(c3, c2);
-      this.assertArrayEquals([c1, c3, c2], parent.getChildren(), "add existing in the middle");
+      this.assertArrayEquals(
+        [c1, c3, c2],
+        parent.getChildren(),
+        "add existing in the middle"
+      );
       this._setChildren(parent, children);
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         var self = this;
-        this.assertException(function() {
-          parent.addBefore(c3, w2);
-        }, qx.core.AssertionError, "", "add existing before non child");
+        this.assertException(
+          function () {
+            parent.addBefore(c3, w2);
+          },
+          qx.core.AssertionError,
+          "",
+          "add existing before non child"
+        );
         this._setChildren(parent, children);
       }
 
@@ -229,9 +248,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testAddAfter : function()
-    {
+    testAddAfter() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var c1 = new qx.ui.core.Widget();
@@ -244,42 +261,69 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       var children = [c1, c2, c3];
       this._setChildren(parent, children);
 
-
       parent.addAfter(w1, c3);
-      this.assertArrayEquals([c1, c2, c3, w1], parent.getChildren(), "add new widget ar end");
+      this.assertArrayEquals(
+        [c1, c2, c3, w1],
+        parent.getChildren(),
+        "add new widget ar end"
+      );
       this._setChildren(parent, children);
 
       parent.addAfter(w1, c1);
-      this.assertArrayEquals([c1, w1, c2, c3], parent.getChildren(), "add new widget in the middle");
+      this.assertArrayEquals(
+        [c1, w1, c2, c3],
+        parent.getChildren(),
+        "add new widget in the middle"
+      );
       this._setChildren(parent, children);
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         var self = this;
-        this.assertException(function() {
-          parent.addAfter(w1, w2);
-        }, qx.core.AssertionError, "", "add new widget after non child");
+        this.assertException(
+          function () {
+            parent.addAfter(w1, w2);
+          },
+          qx.core.AssertionError,
+          "",
+          "add new widget after non child"
+        );
         this._setChildren(parent, children);
       }
 
       parent.addAfter(c1, c1);
-      this.assertArrayEquals([c1, c2, c3], parent.getChildren(), "add existing before itself");
+      this.assertArrayEquals(
+        [c1, c2, c3],
+        parent.getChildren(),
+        "add existing before itself"
+      );
       this._setChildren(parent, children);
 
       parent.addAfter(c1, c3);
-      this.assertArrayEquals([c2, c3, c1], parent.getChildren(), "add existing before last");
+      this.assertArrayEquals(
+        [c2, c3, c1],
+        parent.getChildren(),
+        "add existing before last"
+      );
       this._setChildren(parent, children);
 
       parent.addAfter(c1, c2);
-      this.assertArrayEquals([c2, c1, c3], parent.getChildren(), "add existing in the middle");
+      this.assertArrayEquals(
+        [c2, c1, c3],
+        parent.getChildren(),
+        "add existing in the middle"
+      );
       this._setChildren(parent, children);
 
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         var self = this;
-        this.assertException(function() {
-          parent.addAfter(c1, w2);
-        }, qx.core.AssertionError, "", "add existing after non child");
+        this.assertException(
+          function () {
+            parent.addAfter(c1, w2);
+          },
+          qx.core.AssertionError,
+          "",
+          "add existing after non child"
+        );
         this._setChildren(parent, children);
       }
 
@@ -291,14 +335,11 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       parent.destroy();
     },
 
-
-    testDoubleAdd : function()
-    {
+    testDoubleAdd() {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
 
       var children = [];
-      for (var i=0; i<4; i++)
-      {
+      for (var i = 0; i < 4; i++) {
         children[i] = new qx.ui.core.Widget();
         parent.add(children[i]);
       }

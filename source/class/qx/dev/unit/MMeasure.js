@@ -20,10 +20,8 @@
  * Measures JavaScript execution and rendering time for singular or repeated
  * operations.
  */
-qx.Mixin.define("qx.dev.unit.MMeasure",
-{
-  members :
-  {
+qx.Mixin.define("qx.dev.unit.MMeasure", {
+  members: {
     /**
      * Repeatedly runs code and measures execution and rendering times
      *
@@ -35,11 +33,10 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * @param displayIterations {Number?} Iterations to be displayed instead of
      * <code>iterations</code>
      */
-    measureRepeated : function(msg, callback, finalize, iterations, displayIterations)
-    {
+    measureRepeated(msg, callback, finalize, iterations, displayIterations) {
       this.measure(
         msg,
-        function() {
+        function () {
           var i = iterations;
           while (i--) {
             callback(i);
@@ -63,11 +60,10 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * e.g. for cleanup. Will not be measured.
      * @param time {Number} Amount of time in milliseconds
      */
-    measureIterations : function(msg, prepare, callback, finalize, time)
-    {
+    measureIterations(msg, prepare, callback, finalize, time) {
       this.measure(
         msg,
-        function() {
+        function () {
           var i = 0;
           var testTime = 0;
           while (testTime < time) {
@@ -87,7 +83,6 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
       );
     },
 
-
     /**
      * Executes a given callback function once and measures JavaScript execution
      * and rendering time
@@ -102,20 +97,23 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * for {@link #measureIterations}. If undefined, the test will be aborted after
      * ten seconds.
      */
-    measure : function(msg, callback, finalize, displayIterations, maxTime)
-    {
+    measure(msg, callback, finalize, displayIterations, maxTime) {
       // profiling
       var profilingEnabled;
       try {
-        profilingEnabled = window.top.qx.core.Init.getApplication().runner.view.getNativeProfiling();
-      } catch(ex) {
+        profilingEnabled =
+          window.top.qx.core.Init.getApplication().runner.view.getNativeProfiling();
+      } catch (ex) {
         profilingEnabled = false;
       }
 
-      var profilingActive = (profilingEnabled && console &&
-        console.profile && typeof console.profile == "function" &&
-        console.profileEnd && typeof console.profileEnd == "function"
-      );
+      var profilingActive =
+        profilingEnabled &&
+        console &&
+        console.profile &&
+        typeof console.profile == "function" &&
+        console.profileEnd &&
+        typeof console.profileEnd == "function";
 
       if (profilingActive) {
         console.profile(msg);
@@ -130,26 +128,27 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         console.profileEnd(msg);
       }
 
-      var time = end-start;
+      var time = end - start;
 
       var renderStart = Date.now();
 
       var self = this;
-      setTimeout(function() { self.resume(function()
-      {
-        var renderTime = Date.now() - renderStart;
-        self.log(
-          msg,
-          iterations || displayIterations,
-          maxTime || time,
-          renderTime
-        );
-        finalize.call(self);
-      }); }, 0);
+      setTimeout(function () {
+        self.resume(function () {
+          var renderTime = Date.now() - renderStart;
+          self.log(
+            msg,
+            iterations || displayIterations,
+            maxTime || time,
+            renderTime
+          );
+
+          finalize.call(self);
+        });
+      }, 0);
 
       this.wait(maxTime ? maxTime + 5000 : 10000);
     },
-
 
     /**
      * Logs a single measurement result
@@ -159,14 +158,24 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * @param ownTime {Number} JavaScript execution time in ms
      * @param renderTime {Number} Dom rendering time in ms
      */
-    log : function(msg, iterations, ownTime, renderTime)
-    {
+    log(msg, iterations, ownTime, renderTime) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.debug([msg, "Iterations: " + iterations, "Time: " + ownTime + "ms",
-          "Render time: " + renderTime + "ms"].join("; "));
+        this.debug(
+          [
+            msg,
+            "Iterations: " + iterations,
+            "Time: " + ownTime + "ms",
+            "Render time: " + renderTime + "ms"
+          ].join("; ")
+        );
       }
 
-      throw new qx.dev.unit.MeasurementResult(msg, iterations, ownTime, renderTime);
+      throw new qx.dev.unit.MeasurementResult(
+        msg,
+        iterations,
+        ownTime,
+        renderTime
+      );
     }
   }
 });

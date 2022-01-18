@@ -20,8 +20,9 @@ qx.Class.define("qx.test.event.util.Keyboard", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testCommaAsValidKeyIdentifier: function () {
-      var isValidKeyIdentifier = qx.event.util.Keyboard.isValidKeyIdentifier(',');
+    testCommaAsValidKeyIdentifier() {
+      var isValidKeyIdentifier =
+        qx.event.util.Keyboard.isValidKeyIdentifier(",");
 
       this.assertTrue(isValidKeyIdentifier);
     }

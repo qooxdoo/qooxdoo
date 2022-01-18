@@ -19,13 +19,10 @@
 /**
  * This mixin offers the basic logging features offered by {@link qx.log.Logger}.
  */
-qx.Mixin.define("qx.core.MLogging",
-{
-  members :
-  {
+qx.Mixin.define("qx.core.MLogging", {
+  members: {
     /** @type {Class} Pointer to the regular logger class */
-    __Logger : qx.log.Logger,
-
+    __Logger: qx.log.Logger,
 
     /**
      * Logs a debug message.
@@ -34,10 +31,9 @@ qx.Mixin.define("qx.core.MLogging",
      * supported. If an argument is not a string, the object dump will be
      * logged.
      */
-    debug : function(varargs) {
+    debug(varargs) {
       this.__logMessage("debug", arguments);
     },
-
 
     /**
      * Logs an info message.
@@ -46,10 +42,9 @@ qx.Mixin.define("qx.core.MLogging",
      * supported. If an argument is not a string, the object dump will be
      * logged.
      */
-    info : function(varargs) {
+    info(varargs) {
       this.__logMessage("info", arguments);
     },
-
 
     /**
      * Logs a warning message.
@@ -58,10 +53,9 @@ qx.Mixin.define("qx.core.MLogging",
      * supported. If an argument is not a string, the object dump will be
      * logged.
      */
-    warn : function(varargs) {
+    warn(varargs) {
       this.__logMessage("warn", arguments);
     },
-
 
     /**
      * Logs an error message.
@@ -70,10 +64,9 @@ qx.Mixin.define("qx.core.MLogging",
      * supported. If an argument is not a string, the object dump will be
      * logged.
      */
-    error : function(varargs) {
+    error(varargs) {
       this.__logMessage("error", arguments);
     },
-
 
     /**
      * Logs an error message with the current stack trace
@@ -82,10 +75,9 @@ qx.Mixin.define("qx.core.MLogging",
      * supported. If an argument is not a string, the object dump will be
      * logged.
      */
-    trace : function(varargs) {
+    trace(varargs) {
       this.__logMessage("trace", arguments);
     },
-
 
     /**
      * Helper that calls the appropriate logger function with the current object
@@ -94,8 +86,7 @@ qx.Mixin.define("qx.core.MLogging",
      * @param level {String} The log level of the message
      * @param varargs {arguments} Arguments list to be logged
      */
-    __logMessage : function(level, varargs)
-    {
+    __logMessage(level, varargs) {
       var argumentsArray = qx.lang.Array.fromArguments(varargs);
       argumentsArray.unshift(this);
       this.__Logger[level].apply(this.__Logger, argumentsArray);

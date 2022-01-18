@@ -25,10 +25,8 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.Inline",
-{
-  extend : qx.application.AbstractGui,
-
+qx.Class.define("qx.application.Inline", {
+  extend: qx.application.AbstractGui,
 
   /*
   *****************************************************************************
@@ -36,9 +34,8 @@ qx.Class.define("qx.application.Inline",
   *****************************************************************************
   */
 
-  members :
-  {
-    _createRootWidget : function() {
+  members: {
+    _createRootWidget() {
       return new qx.ui.root.Page(document);
     }
   }

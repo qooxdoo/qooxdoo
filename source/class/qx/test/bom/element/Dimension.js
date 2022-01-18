@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.element.Dimension",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.element.Dimension", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__inlineElement = document.createElement("span");
       document.body.appendChild(this.__inlineElement);
 
@@ -41,9 +38,7 @@ qx.Class.define("qx.test.bom.element.Dimension",
       document.body.appendChild(this.__blockElementWithPadding);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       document.body.removeChild(this.__inlineElement);
       this.__inlineElement = null;
 
@@ -57,31 +52,40 @@ qx.Class.define("qx.test.bom.element.Dimension",
       this.__blockElementWithPadding = null;
     },
 
-
-    testContentWidthOfInlineElement : function() {
-      this.assertEquals(0, qx.bom.element.Dimension.getContentWidth(this.__inlineElement));
+    testContentWidthOfInlineElement() {
+      this.assertEquals(
+        0,
+        qx.bom.element.Dimension.getContentWidth(this.__inlineElement)
+      );
     },
 
-
-    testContentWidthOfInlineElementWithPadding : function() {
-      this.assertEquals(0, qx.bom.element.Dimension.getContentWidth(this.__inlineElementWithPadding));
+    testContentWidthOfInlineElementWithPadding() {
+      this.assertEquals(
+        0,
+        qx.bom.element.Dimension.getContentWidth(
+          this.__inlineElementWithPadding
+        )
+      );
     },
 
-
-    testContentWidthOfBlockElement : function() {
-      this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElement));
+    testContentWidthOfBlockElement() {
+      this.assertEquals(
+        200,
+        qx.bom.element.Dimension.getContentWidth(this.__blockElement)
+      );
     },
 
-
-    testContentWidthOfBlockElementWithPadding : function() {
-      this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElementWithPadding));
+    testContentWidthOfBlockElementWithPadding() {
+      this.assertEquals(
+        200,
+        qx.bom.element.Dimension.getContentWidth(this.__blockElementWithPadding)
+      );
     },
 
-    testRoundingErrorInWidthAndHeightGetters : function() {
+    testRoundingErrorInWidthAndHeightGetters() {
       // width = left - right = height = bottom - top = 38.416656494140625
-      var mockElement1 =
-      {
-        getBoundingClientRect : function() {
+      var mockElement1 = {
+        getBoundingClientRect() {
           return {
             right: 91.58332824707031,
             left: 53.16667175292969,
@@ -90,10 +94,10 @@ qx.Class.define("qx.test.bom.element.Dimension",
           };
         }
       };
+
       // exactly same width and height as mockElement1
-      var mockElement2 =
-      {
-        getBoundingClientRect : function() {
+      var mockElement2 = {
+        getBoundingClientRect() {
           return {
             right: 91.58332824707031,
             left: 53.16667175292969,
@@ -102,16 +106,31 @@ qx.Class.define("qx.test.bom.element.Dimension",
           };
         }
       };
+
       // make sure both mock objects have the same width
-      this.assertEquals(mockElement1.getBoundingClientRect().right - mockElement1.getBoundingClientRect().left,
-       mockElement2.getBoundingClientRect().right - mockElement2.getBoundingClientRect().left);
+      this.assertEquals(
+        mockElement1.getBoundingClientRect().right -
+          mockElement1.getBoundingClientRect().left,
+        mockElement2.getBoundingClientRect().right -
+          mockElement2.getBoundingClientRect().left
+      );
       // ... and the same height
-      this.assertEquals(mockElement1.getBoundingClientRect().bottom - mockElement1.getBoundingClientRect().top,
-       mockElement2.getBoundingClientRect().bottom - mockElement2.getBoundingClientRect().top);
+      this.assertEquals(
+        mockElement1.getBoundingClientRect().bottom -
+          mockElement1.getBoundingClientRect().top,
+        mockElement2.getBoundingClientRect().bottom -
+          mockElement2.getBoundingClientRect().top
+      );
 
       // the width and height calculation for both objects should return the same
-      this.assertEquals(qx.bom.element.Dimension.getWidth(mockElement1), qx.bom.element.Dimension.getWidth(mockElement2));
-      this.assertEquals(qx.bom.element.Dimension.getHeight(mockElement1), qx.bom.element.Dimension.getHeight(mockElement2));
+      this.assertEquals(
+        qx.bom.element.Dimension.getWidth(mockElement1),
+        qx.bom.element.Dimension.getWidth(mockElement2)
+      );
+      this.assertEquals(
+        qx.bom.element.Dimension.getHeight(mockElement1),
+        qx.bom.element.Dimension.getHeight(mockElement2)
+      );
     }
   }
 });

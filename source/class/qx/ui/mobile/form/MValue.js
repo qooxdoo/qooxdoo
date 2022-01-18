@@ -22,9 +22,7 @@
  *
  * @require(qx.event.handler.Input)
  */
-qx.Mixin.define("qx.ui.mobile.form.MValue",
-{
-
+qx.Mixin.define("qx.ui.mobile.form.MValue", {
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -34,23 +32,29 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   /**
    * @param value {var?null} The value of the widget.
    */
-  construct : function(value)
-  {
+  construct(value) {
     if (value) {
       this.setValue(value);
     }
 
     if (this._getTagName() == "input" || this._getTagName() == "textarea") {
-      qx.event.Registration.addListener(this.getContentElement(), "change", this._onChangeContent, this);
-      qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
+      qx.event.Registration.addListener(
+        this.getContentElement(),
+        "change",
+        this._onChangeContent,
+        this
+      );
+      qx.event.Registration.addListener(
+        this.getContentElement(),
+        "input",
+        this._onInput,
+        this
+      );
     }
 
-    this.addListener("focus", this._onFocus,this);
-    this.addListener("blur", this._onBlur,this);
+    this.addListener("focus", this._onFocus, this);
+    this.addListener("blur", this._onBlur, this);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -58,16 +62,14 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * The event is fired on every keystroke modifying the value of the field.
      *
      * The method {@link qx.event.type.Data#getData} returns the
      * current value of the text field.
      */
-    "input" : "qx.event.type.Data",
-
+    input: "qx.event.type.Data",
 
     /**
      * The event is fired each time the text field looses focus and the
@@ -80,11 +82,8 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * The method {@link qx.event.type.Data#getData} returns the
      * current text value of the field.
      */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -92,23 +91,17 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Whether the {@link #changeValue} event should be fired on every key
      * input. If set to true, the changeValue event is equal to the
      * {@link #input} event.
      */
-    liveUpdate :
-    {
-      check : "Boolean",
-      init : false
+    liveUpdate: {
+      check: "Boolean",
+      init: false
     }
-
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -116,12 +109,10 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   *****************************************************************************
   */
 
-  members :
-  {
-    __oldValue : null,
-    __inputTimeoutHandle : null,
-    __hasFocus : null,
-
+  members: {
+    __oldValue: null,
+    __inputTimeoutHandle: null,
+    __hasFocus: null,
 
     /**
      * Converts the incoming value.
@@ -129,58 +120,46 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * @param value {var} The value to convert
      * @return {var} The converted value
      */
-    _convertValue : function(value)
-    {
-      if(typeof value === 'boolean')
-      {
+    _convertValue(value) {
+      if (typeof value === "boolean") {
         return value;
-      }
-      else if (typeof value === 'number')
-      {
+      } else if (typeof value === "number") {
         return value;
-      }
-      else
-      {
+      } else {
         return value || "";
       }
     },
 
-
     /**
-    * Handler for <code>focus</code> event.
-    */
-    _onFocus : function() {
+     * Handler for <code>focus</code> event.
+     */
+    _onFocus() {
       this.__hasFocus = true;
     },
 
-
     /**
-    * Handler for <code>blur</code> event.
-    */
-    _onBlur : function() {
+     * Handler for <code>blur</code> event.
+     */
+    _onBlur() {
       this.__hasFocus = false;
     },
 
-
     /**
-    * Returns whether this widget has focus or not.
-    * @return {Boolean} <code>true</code> or <code>false</code>
-    */
-    hasFocus : function() {
+     * Returns whether this widget has focus or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+    hasFocus() {
       return this.__hasFocus;
     },
-
 
     /**
      * Sets the value.
      *
      * @param value {var} The value to set
      */
-    setValue : function(value)
-    {
+    setValue(value) {
       value = this._convertValue(value);
-      if (this.__oldValue != value)
-      {
+      if (this.__oldValue != value) {
         if (this._setValue) {
           this._setValue(value);
         } else {
@@ -195,39 +174,34 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      *
      * @return {var} The set value
      */
-    getValue : function()
-    {
-      return this._convertValue(this._getValue ? this._getValue() : this._getAttribute("value"));
+    getValue() {
+      return this._convertValue(
+        this._getValue ? this._getValue() : this._getAttribute("value")
+      );
     },
-
 
     /**
      * Resets the value.
      */
-    resetValue : function()
-    {
+    resetValue() {
       this.setValue(null);
     },
-
 
     /**
      * Event handler. Called when the {@link #changeValue} event occurs.
      *
      * @param evt {qx.event.type.Data} The event, containing the changed content.
      */
-    _onChangeContent : function(evt)
-    {
+    _onChangeContent(evt) {
       this.__fireChangeValue(this._convertValue(evt.getData()));
     },
-
 
     /**
      * Event handler. Called when the {@link #input} event occurs.
      *
      * @param evt {qx.event.type.Data} The event, containing the changed content.
      */
-    _onInput : function(evt)
-    {
+    _onInput(evt) {
       var data = evt.getData();
       this.fireDataEvent("input", data, true);
       if (this.getLiveUpdate()) {
@@ -239,52 +213,49 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       }
     },
 
-
     /**
-    * Returns the caret position of this widget.
-    * @return {Integer} the caret position.
-    */
-    _getCaretPosition : function() {
+     * Returns the caret position of this widget.
+     * @return {Integer} the caret position.
+     */
+    _getCaretPosition() {
       var val = this.getContentElement().value;
-      if(val && this._getAttribute("type") !== "number") {
+      if (val && this._getAttribute("type") !== "number") {
         return val.slice(0, this.getContentElement().selectionStart).length;
       } else {
         return val.length;
       }
     },
 
-
     /**
      * Sets the caret position on this widget.
      * @param position {Integer} the caret position.
      */
-    _setCaretPosition: function(position) {
+    _setCaretPosition(position) {
       if (position != null && this.hasFocus()) {
-        if (this._getAttribute("type") !== "number" && this.getContentElement().setSelectionRange) {
+        if (
+          this._getAttribute("type") !== "number" &&
+          this.getContentElement().setSelectionRange
+        ) {
           this.getContentElement().setSelectionRange(position, position);
         }
       }
     },
-
 
     /**
      * Fires the {@link #changeValue} event.
      *
      * @param value {var} The current value to fire.
      */
-    __fireChangeValue : function(value)
-    {
-      if (this.__oldValue != value)
-      {
+    __fireChangeValue(value) {
+      if (this.__oldValue != value) {
         this.__oldValue = value;
         this.fireDataEvent("changeValue", value);
       }
     }
   },
 
-
-  destruct : function() {
-    this.removeListener("focus", this._onFocus,this);
-    this.removeListener("blur", this._onBlur,this);
+  destruct() {
+    this.removeListener("focus", this._onFocus, this);
+    this.removeListener("blur", this._onBlur, this);
   }
 });

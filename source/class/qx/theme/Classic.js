@@ -20,16 +20,14 @@
 /**
  * Classic Windows Theme
  */
-qx.Theme.define("qx.theme.Classic",
-{
-  title : "Classic Windows",
+qx.Theme.define("qx.theme.Classic", {
+  title: "Classic Windows",
 
-  meta :
-  {
-    color : qx.theme.classic.Color,
-    decoration : qx.theme.classic.Decoration,
-    font : qx.theme.classic.Font,
-    appearance : qx.theme.classic.Appearance,
-    icon : qx.theme.icon.Oxygen
+  meta: {
+    color: qx.theme.classic.Color,
+    decoration: qx.theme.classic.Decoration,
+    font: qx.theme.classic.Font,
+    appearance: qx.theme.classic.Appearance,
+    icon: qx.theme.icon.Oxygen
   }
 });

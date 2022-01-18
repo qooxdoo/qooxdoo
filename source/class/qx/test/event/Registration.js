@@ -20,20 +20,16 @@
  * @ignore(Foo)
  */
 
- /* global Foo */
-qx.Class.define("qx.test.event.Registration",
-{
-  extend : qx.dev.unit.TestCase,
+/* global Foo */
+qx.Class.define("qx.test.event.Registration", {
+  extend: qx.dev.unit.TestCase,
 
-  events :
-  {
-    "$test" : "qx.event.type.Event"
+  events: {
+    $test: "qx.event.type.Event"
   },
 
-  members :
-  {
-    testAddRemoveListener : function()
-    {
+  members: {
+    testAddRemoveListener() {
       var target = this;
       var type = "$test";
       var capture = false;
@@ -45,9 +41,12 @@ qx.Class.define("qx.test.event.Registration",
       this.assertInstance(handler, qx.test.event.MockHandler);
 
       var fired = [false, false];
-      var listener1 = function(e) { fired[0] = true; };
-      var listener2 = function(e) { fired[1] = true; };
-
+      var listener1 = function (e) {
+        fired[0] = true;
+      };
+      var listener2 = function (e) {
+        fired[1] = true;
+      };
 
       // first add with this type/target
       handler.calls = [];
@@ -55,11 +54,13 @@ qx.Class.define("qx.test.event.Registration",
       Reg.addListener(target, type, listener1, this, capture);
 
       this.assertEquals(1, handler.calls.length);
-      this.assertArrayEquals(["registerEvent", target, type, capture], handler.calls[0]);
+      this.assertArrayEquals(
+        ["registerEvent", target, type, capture],
+        handler.calls[0]
+      );
 
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([true, false], fired);
-
 
       // second add with this type/target
       handler.calls = [];
@@ -71,7 +72,6 @@ qx.Class.define("qx.test.event.Registration",
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([true, true], fired);
 
-
       // remove first handler
       handler.calls = [];
       fired = [false, false];
@@ -82,7 +82,6 @@ qx.Class.define("qx.test.event.Registration",
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([false, true], fired);
 
-
       // remove second handler
       handler.calls = [];
       fired = [false, false];
@@ -90,15 +89,16 @@ qx.Class.define("qx.test.event.Registration",
       Reg.removeListener(target, type, listener2, this, capture);
 
       this.assertEquals(1, handler.calls.length);
-      this.assertArrayEquals(["unregisterEvent", target, type, capture], handler.calls[0]);
+      this.assertArrayEquals(
+        ["unregisterEvent", target, type, capture],
+        handler.calls[0]
+      );
 
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([false, false], fired);
     },
 
-
-    testAddRemoveListenerById : function()
-    {
+    testAddRemoveListenerById() {
       var target = this;
       var type = "$test";
       var capture = false;
@@ -109,8 +109,12 @@ qx.Class.define("qx.test.event.Registration",
       var handler = mgr.findHandler(target, type);
 
       var fired = [false, false];
-      var listener1 = function(e) { fired[0] = true; };
-      var listener2 = function(e) { fired[1] = true; };
+      var listener1 = function (e) {
+        fired[0] = true;
+      };
+      var listener2 = function (e) {
+        fired[1] = true;
+      };
 
       var id1 = Reg.addListener(target, type, listener1, this, capture);
       this.assertNotNull(id1);
@@ -128,7 +132,6 @@ qx.Class.define("qx.test.event.Registration",
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([false, true], fired);
 
-
       // remove second handler
       handler.calls = [];
       fired = [false, false];
@@ -136,24 +139,27 @@ qx.Class.define("qx.test.event.Registration",
       Reg.removeListenerById(target, id2);
 
       this.assertEquals(1, handler.calls.length);
-      this.assertArrayEquals(["unregisterEvent", target, type, capture], handler.calls[0]);
+      this.assertArrayEquals(
+        ["unregisterEvent", target, type, capture],
+        handler.calls[0]
+      );
 
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([false, false], fired);
     },
 
-
     /**
      * @ignore(Foo)
      */
-    "test addListenerOnce: same callback": function() {
+    "test addListenerOnce: same callback"() {
       qx.Class.define("Foo", {
         extend: qx.core.Object,
         events: {
-          "bar": "qx.event.type.Event"
+          bar: "qx.event.type.Event"
         },
+
         members: {
-          fireBar: function() {
+          fireBar() {
             this.fireDataEvent("bar");
           }
         }
@@ -166,7 +172,7 @@ qx.Class.define("qx.test.event.Registration",
       called[f1.toHashCode()] = 0;
       called[f2.toHashCode()] = 0;
 
-      var callback = function(e) {
+      var callback = function (e) {
         called[this.toHashCode()]++;
       };
 

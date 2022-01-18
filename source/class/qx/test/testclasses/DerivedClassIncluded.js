@@ -1,14 +1,14 @@
 qx.Class.define("qx.test.testclasses.DerivedClassIncluded", {
   extend: qx.test.testclasses.BaseClassIncluded,
-  
-  construct: function() {
-    this.base(arguments);
+
+  construct() {
+    super();
     this.state.push("derived");
   },
-  
+
   members: {
-    getSomething: function() {
-      return this.base(arguments) + ":derived";
+    getSomething() {
+      return super.getSomething() + ":derived";
     }
   }
 });

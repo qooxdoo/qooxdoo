@@ -1,19 +1,17 @@
-qx.Mixin.define("qx.test.io.MRemoteTest",
-{
-  members :
-  {
-    getUrl : function(path) {
+qx.Mixin.define("qx.test.io.MRemoteTest", {
+  members: {
+    getUrl(path) {
       return qx.util.ResourceManager.getInstance().toUri(path);
     },
 
-
-    isLocal : function() {
+    isLocal() {
       return window.location.protocol == "file:";
     },
 
-
-    needsPHPWarning : function() {
-      this.warn("This test can only be run from a web server with PHP support.");
+    needsPHPWarning() {
+      this.warn(
+        "This test can only be run from a web server with PHP support."
+      );
     }
   }
 });

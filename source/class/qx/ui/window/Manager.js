@@ -19,12 +19,9 @@
 /**
  * The default window manager implementation
  */
-qx.Class.define("qx.ui.window.Manager",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.window.IWindowManager,
-
-
+qx.Class.define("qx.ui.window.Manager", {
+  extend: qx.core.Object,
+  implement: qx.ui.window.IWindowManager,
 
   /*
   *****************************************************************************
@@ -32,40 +29,34 @@ qx.Class.define("qx.ui.window.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
-    __desktop : null,
-
+  members: {
+    __desktop: null,
 
     // interface implementation
-    setDesktop : function(desktop)
-    {
+    setDesktop(desktop) {
       this.__desktop = desktop;
-        
-      if(desktop) {
+
+      if (desktop) {
         this.updateStack();
-      }
-      else {
-         // the window manager should be removed
-         // from the widget queue if the desktop
-         // was set to null
-         qx.ui.core.queue.Widget.remove(this);
+      } else {
+        // the window manager should be removed
+        // from the widget queue if the desktop
+        // was set to null
+        qx.ui.core.queue.Widget.remove(this);
       }
     },
-
 
     /**
      * Returns the connected desktop
      *
      * @return {qx.ui.window.IDesktop} The desktop
      */
-    getDesktop : function() {
+    getDesktop() {
       return this.__desktop;
     },
 
-
     // interface implementation
-    changeActiveWindow : function(active, oldActive) {
+    changeActiveWindow(active, oldActive) {
       if (active) {
         this.bringToFront(active);
         active.setActive(true);
@@ -75,26 +66,21 @@ qx.Class.define("qx.ui.window.Manager",
       }
     },
 
-
     /** @type {Integer} Minimum zIndex to start with for windows */
-    _minZIndex : 1e5,
-
+    _minZIndex: 1e5,
 
     // interface implementation
-    updateStack : function()
-    {
+    updateStack() {
       // we use the widget queue to do the sorting one before the queues are
       // flushed. The queue will call "syncWidget"
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     /**
      * This method is called during the flush of the
      * {@link qx.ui.core.queue.Widget widget queue}.
      */
-    syncWidget : function()
-    {
+    syncWidget() {
       this.__desktop.forceUnblock();
 
       var windows = this.__desktop.getWindows();
@@ -105,8 +91,7 @@ qx.Class.define("qx.ui.window.Manager",
       // marker if there is an active window
       var active = null;
 
-      for (var i = 0, l = windows.length; i < l; i++)
-      {
+      for (var i = 0, l = windows.length; i < l; i++) {
         var win = windows[i];
         // ignore invisible windows
         if (!win.isVisible()) {
@@ -122,23 +107,22 @@ qx.Class.define("qx.ui.window.Manager",
         if (win.isModal()) {
           win.setZIndex(zIndexModal);
           this.__desktop.blockContent(zIndexModal - 1);
-          zIndexModal +=2;
+          zIndexModal += 2;
           //just activate it if it's modal
           active = win;
-
         } else if (win.isAlwaysOnTop()) {
           win.setZIndex(zIndexOnTop);
-          zIndexOnTop +=2;
-
+          zIndexOnTop += 2;
         } else {
           win.setZIndex(zIndex);
-          zIndex +=2;
+          zIndex += 2;
         }
 
         // store the active window
-        if (!active.isModal() &&
-            win.isActive() ||
-            win.getZIndex() > active.getZIndex()) {
+        if (
+          (!active.isModal() && win.isActive()) ||
+          win.getZIndex() > active.getZIndex()
+        ) {
           active = win;
         }
       }
@@ -147,38 +131,28 @@ qx.Class.define("qx.ui.window.Manager",
       this.__desktop.setActiveWindow(active);
     },
 
-
     // interface implementation
-    bringToFront : function(win)
-    {
+    bringToFront(win) {
       var windows = this.__desktop.getWindows();
 
       var removed = qx.lang.Array.remove(windows, win);
-      if (removed)
-      {
+      if (removed) {
         windows.push(win);
         this.updateStack();
       }
     },
 
-
     // interface implementation
-    sendToBack : function(win)
-    {
+    sendToBack(win) {
       var windows = this.__desktop.getWindows();
 
       var removed = qx.lang.Array.remove(windows, win);
-      if (removed)
-      {
+      if (removed) {
         windows.unshift(win);
         this.updateStack();
       }
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -186,7 +160,7 @@ qx.Class.define("qx.ui.window.Manager",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._disposeObjects("__desktop");
   }
 });

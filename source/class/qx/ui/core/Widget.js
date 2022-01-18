@@ -39,12 +39,10 @@
  *
  * @ignore(qx.ui.root.Inline)
  */
-qx.Class.define("qx.ui.core.Widget",
-{
-  extend : qx.ui.core.LayoutItem,
-  include : [qx.locale.MTranslation],
-  implement: [ qx.core.IDisposable ],
-
+qx.Class.define("qx.ui.core.Widget", {
+  extend: qx.ui.core.LayoutItem,
+  include: [qx.locale.MTranslation],
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -52,9 +50,8 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Create basic element
     this.__contentElement = this.__createContentElement();
@@ -65,47 +62,42 @@ qx.Class.define("qx.ui.core.Widget",
     this.initNativeContextMenu();
   },
 
-
-
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /**
      * Fired after the widget appears on the screen.
      */
-    appear : "qx.event.type.Event",
+    appear: "qx.event.type.Event",
 
     /**
      * Fired after the widget disappears from the screen.
      */
-    disappear : "qx.event.type.Event",
+    disappear: "qx.event.type.Event",
 
     /**
      * Fired after the creation of a child control. The passed data is the
      * newly created child widget.
      */
-    createChildControl : "qx.event.type.Data",
-
+    createChildControl: "qx.event.type.Data",
 
     /**
      * Fired on resize (after layout) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
-    resize : "qx.event.type.Data",
+    resize: "qx.event.type.Data",
 
     /**
      * Fired on move (after layout) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
-    move : "qx.event.type.Data",
+    move: "qx.event.type.Data",
 
     /**
      * Fired after the appearance has been applied. This happens before the
@@ -113,132 +105,130 @@ qx.Class.define("qx.ui.core.Widget",
      * contains the state map. This can be used to react on state changes or to
      * read properties set by the appearance.
      */
-    syncAppearance : "qx.event.type.Data",
-
-
+    syncAppearance: "qx.event.type.Data",
 
     /** Fired if the mouse cursor moves over the widget.
      *  The data property of the event contains the widget's computed location
      *  and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
-    mousemove : "qx.event.type.Mouse",
+    mousemove: "qx.event.type.Mouse",
 
     /**
      * Fired if the mouse cursor enters the widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
-    mouseover : "qx.event.type.Mouse",
+    mouseover: "qx.event.type.Mouse",
 
     /**
      * Fired if the mouse cursor leaves widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
-    mouseout : "qx.event.type.Mouse",
+    mouseout: "qx.event.type.Mouse",
 
     /** Mouse button is pressed on the widget. */
-    mousedown : "qx.event.type.Mouse",
+    mousedown: "qx.event.type.Mouse",
 
     /** Mouse button is released on the widget. */
-    mouseup : "qx.event.type.Mouse",
+    mouseup: "qx.event.type.Mouse",
 
     /** Widget is clicked using left or middle button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
-    click : "qx.event.type.Mouse",
+    click: "qx.event.type.Mouse",
 
     /** Widget is clicked using a non primary button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
-    auxclick : "qx.event.type.Mouse",
+    auxclick: "qx.event.type.Mouse",
 
     /** Widget is double clicked using left or middle button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
-    dblclick : "qx.event.type.Mouse",
+    dblclick: "qx.event.type.Mouse",
 
     /** Widget is clicked using the right mouse button. */
-    contextmenu : "qx.event.type.Mouse",
+    contextmenu: "qx.event.type.Mouse",
 
     /** Fired before the context menu is opened. */
-    beforeContextmenuOpen : "qx.event.type.Data",
+    beforeContextmenuOpen: "qx.event.type.Data",
 
     /** Fired if the mouse wheel is used over the widget. */
-    mousewheel : "qx.event.type.MouseWheel",
+    mousewheel: "qx.event.type.MouseWheel",
 
     /** Fired if a touch at the screen is started. */
-    touchstart : "qx.event.type.Touch",
+    touchstart: "qx.event.type.Touch",
 
     /** Fired if a touch at the screen has ended. */
-    touchend : "qx.event.type.Touch",
+    touchend: "qx.event.type.Touch",
 
     /** Fired during a touch at the screen. */
-    touchmove : "qx.event.type.Touch",
+    touchmove: "qx.event.type.Touch",
 
     /** Fired if a touch at the screen is canceled. */
-    touchcancel : "qx.event.type.Touch",
+    touchcancel: "qx.event.type.Touch",
 
     /** Fired when a pointer taps on the screen. */
-    tap : "qx.event.type.Tap",
+    tap: "qx.event.type.Tap",
 
     /** Fired when a pointer holds on the screen. */
-    longtap : "qx.event.type.Tap",
+    longtap: "qx.event.type.Tap",
 
     /** Fired when a pointer taps twice on the screen. */
-    dbltap : "qx.event.type.Tap",
+    dbltap: "qx.event.type.Tap",
 
     /** Fired when a pointer swipes over the screen. */
-    swipe : "qx.event.type.Touch",
+    swipe: "qx.event.type.Touch",
 
     /** Fired when two pointers performing a rotate gesture on the screen. */
-    rotate : "qx.event.type.Rotate",
+    rotate: "qx.event.type.Rotate",
 
     /** Fired when two pointers performing a pinch in/out gesture on the screen. */
-    pinch : "qx.event.type.Pinch",
+    pinch: "qx.event.type.Pinch",
 
     /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
-    track : "qx.event.type.Track",
+    track: "qx.event.type.Track",
 
     /** Fired when an active pointer moves on the screen or the mouse wheel is used. */
-    roll : "qx.event.type.Roll",
+    roll: "qx.event.type.Roll",
 
     /** Fired if a pointer (mouse/touch/pen) moves or changes any of it's values. */
-    pointermove : "qx.event.type.Pointer",
+    pointermove: "qx.event.type.Pointer",
 
     /** Fired if a pointer (mouse/touch/pen) hovers the widget. */
-    pointerover : "qx.event.type.Pointer",
+    pointerover: "qx.event.type.Pointer",
 
     /** Fired if a pointer (mouse/touch/pen) leaves this widget. */
-    pointerout : "qx.event.type.Pointer",
+    pointerout: "qx.event.type.Pointer",
 
     /**
      * Fired if a pointer (mouse/touch/pen) button is pressed or
      * a finger touches the widget.
      */
-    pointerdown : "qx.event.type.Pointer",
+    pointerdown: "qx.event.type.Pointer",
 
     /**
      * Fired if all pointer (mouse/touch/pen) buttons are released or
      * the finger is lifted from the widget.
      */
-    pointerup : "qx.event.type.Pointer",
+    pointerup: "qx.event.type.Pointer",
 
     /** Fired if a pointer (mouse/touch/pen) action is canceled. */
-    pointercancel : "qx.event.type.Pointer",
+    pointercancel: "qx.event.type.Pointer",
 
     /** This event if fired if a keyboard key is released. */
-    keyup : "qx.event.type.KeySequence",
+    keyup: "qx.event.type.KeySequence",
 
     /**
      * This event if fired if a keyboard key is pressed down. This event is
      * only fired once if the user keeps the key pressed for a while.
      */
-    keydown : "qx.event.type.KeySequence",
+    keydown: "qx.event.type.KeySequence",
 
     /**
      * This event is fired any time a key is pressed. It will be repeated if
      * the user keeps the key pressed. The pressed key can be determined using
      * {@link qx.event.type.KeySequence#getKeyIdentifier}.
      */
-    keypress : "qx.event.type.KeySequence",
+    keypress: "qx.event.type.KeySequence",
 
     /**
      * This event is fired if the pressed key or keys result in a printable
@@ -249,56 +239,50 @@ qx.Class.define("qx.ui.core.Widget",
      * The unicode code of the pressed key can be read using
      * {@link qx.event.type.KeyInput#getCharCode}.
      */
-    keyinput : "qx.event.type.KeyInput",
-
-
+    keyinput: "qx.event.type.KeyInput",
 
     /**
      * The event is fired when the widget gets focused. Only widgets which are
      * {@link #focusable} receive this event.
      */
-    focus : "qx.event.type.Focus",
+    focus: "qx.event.type.Focus",
 
     /**
      * The event is fired when the widget gets blurred. Only widgets which are
      * {@link #focusable} receive this event.
      */
-    blur : "qx.event.type.Focus",
+    blur: "qx.event.type.Focus",
 
     /**
      * When the widget itself or any child of the widget receive the focus.
      */
-    focusin : "qx.event.type.Focus",
+    focusin: "qx.event.type.Focus",
 
     /**
      * When the widget itself or any child of the widget lost the focus.
      */
-    focusout : "qx.event.type.Focus",
+    focusout: "qx.event.type.Focus",
 
     /**
      * When the widget gets active (receives keyboard events etc.)
      */
-    activate : "qx.event.type.Focus",
+    activate: "qx.event.type.Focus",
 
     /**
      * When the widget gets inactive
      */
-    deactivate : "qx.event.type.Focus",
-
-
+    deactivate: "qx.event.type.Focus",
 
     /**
      * Fired if the widget becomes the capturing widget by a call to {@link #capture}.
      */
-    capture : "qx.event.type.Event",
+    capture: "qx.event.type.Event",
 
     /**
      * Fired if the widget looses the capturing mode by a call to
      * {@link #releaseCapture} or a mouse click.
      */
-    losecapture : "qx.event.type.Event",
-
-
+    losecapture: "qx.event.type.Event",
 
     /**
      * Fired on the drop target when the drag&drop action is finished
@@ -308,7 +292,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    drop : "qx.event.type.Drag",
+    drop: "qx.event.type.Drag",
 
     /**
      * Fired on a potential drop target when leaving it.
@@ -316,7 +300,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    dragleave : "qx.event.type.Drag",
+    dragleave: "qx.event.type.Drag",
 
     /**
      * Fired on a potential drop target when reaching it via the pointer.
@@ -326,7 +310,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    dragover : "qx.event.type.Drag",
+    dragover: "qx.event.type.Drag",
 
     /**
      * Fired during the drag. Contains the current pointer coordinates
@@ -336,7 +320,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    drag : "qx.event.type.Drag",
+    drag: "qx.event.type.Drag",
 
     /**
      * Initiate the drag-and-drop operation. This event is cancelable
@@ -345,12 +329,12 @@ qx.Class.define("qx.ui.core.Widget",
      * Modeled after the WHATWG specification of Drag&Drop:
      * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    dragstart : "qx.event.type.Drag",
+    dragstart: "qx.event.type.Drag",
 
     /**
      * Fired on the source (drag) target every time a drag session was ended.
      */
-    dragend : "qx.event.type.Drag",
+    dragend: "qx.event.type.Drag",
 
     /**
      * Fired when the drag configuration has been modified e.g. the user
@@ -359,7 +343,7 @@ qx.Class.define("qx.ui.core.Widget",
      * droppable element, you can cancel the event and prevent a drop based on
      * e.g. the current action.
      */
-    dragchange : "qx.event.type.Drag",
+    dragchange: "qx.event.type.Drag",
 
     /**
      * Fired when the drop was successfully done and the target widget
@@ -367,12 +351,8 @@ qx.Class.define("qx.ui.core.Widget",
      * respecting the selected action, to the event. This can be done using
      * the event's {@link qx.event.type.Drag#addData} method.
      */
-    droprequest : "qx.event.type.Drag"
+    droprequest: "qx.event.type.Drag"
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -380,8 +360,7 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PADDING
@@ -389,44 +368,36 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /** Padding of the widget (top) */
-    paddingTop :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyPadding",
-      themeable : true
+    paddingTop: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyPadding",
+      themeable: true
     },
-
 
     /** Padding of the widget (right) */
-    paddingRight :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyPadding",
-      themeable : true
+    paddingRight: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyPadding",
+      themeable: true
     },
-
 
     /** Padding of the widget (bottom) */
-    paddingBottom :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyPadding",
-      themeable : true
+    paddingBottom: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyPadding",
+      themeable: true
     },
-
 
     /** Padding of the widget (left) */
-    paddingLeft :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyPadding",
-      themeable : true
+    paddingLeft: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyPadding",
+      themeable: true
     },
-
 
     /**
      * The 'padding' property is a shorthand property for setting 'paddingTop',
@@ -436,17 +407,11 @@ qx.Class.define("qx.ui.core.Widget",
      * If there is only one value, it applies to all sides, if there are two or three,
      * the missing values are taken from the opposite side.
      */
-    padding :
-    {
-      group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ],
-      mode  : "shorthand",
-      themeable : true
+    padding: {
+      group: ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"],
+      mode: "shorthand",
+      themeable: true
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -458,16 +423,14 @@ qx.Class.define("qx.ui.core.Widget",
      * The z-index property sets the stack order of an element. An element with
      * greater stack order is always in front of another element with lower stack order.
      */
-    zIndex :
-    {
-      nullable : true,
-      init : 10,
-      apply : "_applyZIndex",
-      event : "changeZIndex",
-      check : "Integer",
-      themeable : true
+    zIndex: {
+      nullable: true,
+      init: 10,
+      apply: "_applyZIndex",
+      event: "changeZIndex",
+      check: "Integer",
+      themeable: true
     },
-
 
     /**
      * The decorator property points to an object, which is responsible
@@ -476,59 +439,51 @@ qx.Class.define("qx.ui.core.Widget",
      * This can be a decorator object or a string pointing to a decorator
      * defined in the decoration theme.
      */
-    decorator :
-    {
-      nullable : true,
-      init : null,
-      apply : "_applyDecorator",
-      event : "changeDecorator",
-      check : "Decorator",
-      themeable : true
+    decorator: {
+      nullable: true,
+      init: null,
+      apply: "_applyDecorator",
+      event: "changeDecorator",
+      check: "Decorator",
+      themeable: true
     },
-
 
     /**
      * The background color the rendered widget.
      */
-    backgroundColor :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
-      themeable : true
+    backgroundColor: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyBackgroundColor",
+      event: "changeBackgroundColor",
+      themeable: true
     },
-
 
     /**
      * The text color the rendered widget.
      */
-    textColor :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyTextColor",
-      event : "changeTextColor",
-      themeable : true,
-      inheritable : true
+    textColor: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyTextColor",
+      event: "changeTextColor",
+      themeable: true,
+      inheritable: true
     },
-
 
     /**
      * The widget's font. The value is either a font name defined in the font
      * theme or an instance of {@link qx.bom.Font}.
      */
-    font :
-    {
-      nullable : true,
-      apply : "_applyFont",
-      check : "Font",
-      event : "changeFont",
-      themeable : true,
-      inheritable : true,
-      dereference : true
+    font: {
+      nullable: true,
+      apply: "_applyFont",
+      check: "Font",
+      event: "changeFont",
+      themeable: true,
+      inheritable: true,
+      dereference: true
     },
-
 
     /**
      * Mapping to native style property opacity.
@@ -538,15 +493,13 @@ qx.Class.define("qx.ui.core.Widget",
      * Any values outside the range 0.0 (fully transparent) to 1.0
      * (fully opaque) will be clamped to this range.
      */
-    opacity :
-    {
-      check : "Number",
-      apply : "_applyOpacity",
-      themeable : true,
-      nullable : true,
-      init : null
+    opacity: {
+      check: "Number",
+      apply: "_applyOpacity",
+      themeable: true,
+      nullable: true,
+      init: null
     },
-
 
     /**
      * Mapping to native style property cursor.
@@ -574,16 +527,14 @@ qx.Class.define("qx.ui.core.Widget",
      * <li>help </li>
      * </ul>
      */
-    cursor :
-    {
-      check : "String",
-      apply : "_applyCursor",
-      themeable : true,
-      inheritable : true,
-      nullable : true,
-      init : null
+    cursor: {
+      check: "String",
+      apply: "_applyCursor",
+      themeable: true,
+      inheritable: true,
+      nullable: true,
+      init: null
     },
-
 
     /**
      * Sets the tooltip instance to use for this widget. If only the tooltip
@@ -594,12 +545,10 @@ qx.Class.define("qx.ui.core.Widget",
      * If this property is set the {@link #toolTipText} and {@link #toolTipIcon}
      * properties are ignored.
      */
-    toolTip :
-    {
-      check : "qx.ui.tooltip.ToolTip",
-      nullable : true
+    toolTip: {
+      check: "qx.ui.tooltip.ToolTip",
+      nullable: true
     },
-
 
     /**
      * The text of the widget's tooltip. This text can contain HTML markup.
@@ -607,46 +556,40 @@ qx.Class.define("qx.ui.core.Widget",
      * must be customized beyond the text and an icon {@link #toolTipIcon}, the
      * {@link #toolTip} property has to be used
      */
-    toolTipText :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeToolTipText",
-      apply : "_applyToolTipText"
+    toolTipText: {
+      check: "String",
+      nullable: true,
+      event: "changeToolTipText",
+      apply: "_applyToolTipText"
     },
 
-
     /**
-    * The icon URI of the widget's tooltip. This icon is displayed using a shared
-    * tooltip instance. If the tooltip must be customized beyond the tooltip text
-    * {@link #toolTipText} and the icon, the {@link #toolTip} property has to be
-    * used.
-    */
-    toolTipIcon :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeToolTipText"
+     * The icon URI of the widget's tooltip. This icon is displayed using a shared
+     * tooltip instance. If the tooltip must be customized beyond the tooltip text
+     * {@link #toolTipText} and the icon, the {@link #toolTip} property has to be
+     * used.
+     */
+    toolTipIcon: {
+      check: "String",
+      nullable: true,
+      event: "changeToolTipText"
     },
 
     /**
      * Controls if a tooltip should shown or not.
      */
-    blockToolTip :
-    {
-      check : "Boolean",
-      init : false
+    blockToolTip: {
+      check: "Boolean",
+      init: false
     },
 
     /**
      * Forces to show tooltip when widget is disabled.
      */
-    showToolTipWhenDisabled:
-    {
-      check : "Boolean",
-      init : false
+    showToolTipWhenDisabled: {
+      check: "Boolean",
+      init: false
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -664,14 +607,12 @@ qx.Class.define("qx.ui.core.Widget",
      *     widget was not a child of its parent.</li>
      * </ul>
      */
-    visibility :
-    {
-      check : ["visible", "hidden", "excluded"],
-      init : "visible",
-      apply : "_applyVisibility",
-      event : "changeVisibility"
+    visibility: {
+      check: ["visible", "hidden", "excluded"],
+      init: "visible",
+      apply: "_applyVisibility",
+      event: "changeVisibility"
     },
-
 
     /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
@@ -679,15 +620,13 @@ qx.Class.define("qx.ui.core.Widget",
      * user input events are blocked. Only the {@link #pointerover} and
      * {@link #pointerout} events will be dispatched.
      */
-    enabled :
-    {
-      init : true,
-      check : "Boolean",
-      inheritable : true,
-      apply : "_applyEnabled",
-      event : "changeEnabled"
+    enabled: {
+      init: true,
+      check: "Boolean",
+      inheritable: true,
+      apply: "_applyEnabled",
+      event: "changeEnabled"
     },
-
 
     /**
      * Whether the widget is anonymous.
@@ -698,13 +637,11 @@ qx.Class.define("qx.ui.core.Widget",
      * especially true for widgets like checkboxes or buttons where the text
      * or icon are handled synchronously for state changes to the outer widget.
      */
-    anonymous :
-    {
-      init : false,
-      check : "Boolean",
-      apply : "_applyAnonymous"
+    anonymous: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyAnonymous"
     },
-
 
     /**
      * Defines the tab index of an widget. If widgets with tab indexes are part
@@ -713,13 +650,11 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Please note: The value must be between 1 and 32000.
      */
-    tabIndex :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyTabIndex"
+    tabIndex: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyTabIndex"
     },
-
 
     /**
      * Whether the widget is focusable e.g. rendering a focus border and visualize
@@ -729,13 +664,11 @@ qx.Class.define("qx.ui.core.Widget",
      * <code>isChecked</code> or other stuff to test whether the widget is
      * reachable via the TAB key.
      */
-    focusable :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyFocusable"
+    focusable: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyFocusable"
     },
-
 
     /**
      * If this property is enabled, the widget and all of its child widgets
@@ -746,13 +679,11 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This is mainly useful for widget authors. Please use with caution!
      */
-    keepFocus :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyKeepFocus"
+    keepFocus: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyKeepFocus"
     },
-
 
     /**
      * If this property if enabled, the widget and all of its child widgets
@@ -761,31 +692,25 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This is mainly useful for widget authors. Please use with caution!
      */
-    keepActive :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyKeepActive"
+    keepActive: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyKeepActive"
     },
-
 
     /** Whether the widget acts as a source for drag&drop operations */
-    draggable :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyDraggable"
+    draggable: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyDraggable"
     },
-
 
     /** Whether the widget acts as a target for drag&drop operations */
-    droppable :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyDroppable"
+    droppable: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyDroppable"
     },
-
 
     /**
      * Whether the widget contains content which may be selected by the user.
@@ -794,26 +719,22 @@ qx.Class.define("qx.ui.core.Widget",
      * be used for text selection. But it is normally useful for
      * forms fields, longer texts/documents, editors, etc.
      */
-    selectable :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeSelectable",
-      apply : "_applySelectable"
+    selectable: {
+      check: "Boolean",
+      init: false,
+      event: "changeSelectable",
+      apply: "_applySelectable"
     },
-
 
     /**
      * Whether to show a context menu and which one
      */
-    contextMenu :
-    {
-      check : "qx.ui.menu.Menu",
-      apply : "_applyContextMenu",
-      nullable : true,
-      event : "changeContextMenu"
+    contextMenu: {
+      check: "qx.ui.menu.Menu",
+      apply: "_applyContextMenu",
+      nullable: true,
+      event: "changeContextMenu"
     },
-
 
     /**
      * Whether the native context menu should be enabled for this widget. To
@@ -821,29 +742,25 @@ qx.Class.define("qx.ui.core.Widget",
      * property of the root widget ({@link qx.ui.root.Abstract}) to
      * <code>true</code>.
      */
-    nativeContextMenu :
-    {
-      check : "Boolean",
-      init : false,
-      themeable : true,
-      event : "changeNativeContextMenu",
-      apply : "_applyNativeContextMenu"
+    nativeContextMenu: {
+      check: "Boolean",
+      init: false,
+      themeable: true,
+      event: "changeNativeContextMenu",
+      apply: "_applyNativeContextMenu"
     },
-
 
     /**
      * The appearance ID. This ID is used to identify the appearance theme
      * entry to use for this widget. This controls the styling of the element.
      */
-    appearance :
-    {
-      check : "String",
-      init : "widget",
-      apply : "_applyAppearance",
-      event : "changeAppearance"
+    appearance: {
+      check: "String",
+      init: "widget",
+      apply: "_applyAppearance",
+      event: "changeAppearance"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -851,13 +768,12 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** Whether the widget should print out hints and debug messages */
-    DEBUG : false,
+    DEBUG: false,
 
     /** Whether to throw an error on focus/blur if the widget is unfocusable */
-    UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR : true,
+    UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR: true,
 
     /**
      * Returns the widget, which contains the given DOM element.
@@ -867,21 +783,23 @@ qx.Class.define("qx.ui.core.Widget",
      *   will not be returned.
      * @return {qx.ui.core.Widget} The widget containing the element.
      */
-    getWidgetByElement : function(element, considerAnonymousState)
-    {
-      while(element)
-      {
-      	if (qx.core.Environment.get("qx.debug")) {
-      		qx.core.Assert.assertTrue((!element.$$qxObjectHash && !element.$$qxObject) ||
-      				(element.$$qxObject && element.$$qxObjectHash && element.$$qxObject.toHashCode() === element.$$qxObjectHash));
-      	}
+    getWidgetByElement(element, considerAnonymousState) {
+      while (element) {
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.core.Assert.assertTrue(
+            (!element.$$qxObjectHash && !element.$$qxObject) ||
+              (element.$$qxObject &&
+                element.$$qxObjectHash &&
+                element.$$qxObject.toHashCode() === element.$$qxObjectHash)
+          );
+        }
         var widget = element.$$qxObject;
 
         // check for anonymous widgets
         if (widget) {
-	        if (!considerAnonymousState || !widget.getAnonymous()) {
-	          return widget;
-	        }
+          if (!considerAnonymousState || !widget.getAnonymous()) {
+            return widget;
+          }
         }
 
         // Fix for FF, which occasionally breaks (BUG#3525)
@@ -894,7 +812,6 @@ qx.Class.define("qx.ui.core.Widget",
       return null;
     },
 
-
     /**
      * Whether the "parent" widget contains the "child" widget.
      *
@@ -902,10 +819,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {qx.ui.core.Widget} The child widget
      * @return {Boolean} Whether one of the "child"'s parents is "parent"
      */
-    contains : function(parent, child)
-    {
-      while (child)
-      {
+    contains(parent, child) {
+      while (child) {
         child = child.getLayoutParent();
 
         if (parent == child) {
@@ -917,13 +832,8 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
     /** @type {Map} Contains all pooled separators for reuse */
-    __separatorPool : new qx.util.ObjectPool()
+    __separatorPool: new qx.util.ObjectPool()
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -931,12 +841,10 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  members :
-  {
-    __contentElement : null,
-    __initialAppearanceApplied : null,
-    __toolTipTextListenerId : null,
-
+  members: {
+    __contentElement: null,
+    __initialAppearanceApplied: null,
+    __toolTipTextListenerId: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -947,14 +855,12 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * @type {qx.ui.layout.Abstract} The connected layout manager
      */
-    __layoutManager : null,
-
+    __layoutManager: null,
 
     // overridden
-    _getLayout : function() {
+    _getLayout() {
       return this.__layoutManager;
     },
-
 
     /**
      * Set a layout manager for the widget. A a layout manager can only be connected
@@ -964,8 +870,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      */
-    _setLayout : function(layout)
-    {
+    _setLayout(layout) {
       if (qx.core.Environment.get("qx.debug")) {
         if (layout) {
           this.assertInstance(layout, qx.ui.layout.Abstract);
@@ -984,10 +889,8 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     // overridden
-    setLayoutParent : function(parent)
-    {
+    setLayoutParent(parent) {
       if (this.$$parent === parent) {
         return;
       }
@@ -1011,15 +914,12 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Visibility.add(this);
     },
 
-
     /** @type {Boolean} Whether insets have changed and must be updated */
-    _updateInsets : null,
-
+    _updateInsets: null,
 
     // overridden
-    renderLayout : function(left, top, width, height)
-    {
-      var changes = this.base(arguments, left, top, width, height);
+    renderLayout(left, top, width, height) {
+      var changes = super.renderLayout(left, top, width, height);
 
       // Directly return if superclass has detected that no
       // changes needs to be applied
@@ -1037,14 +937,12 @@ qx.Class.define("qx.ui.core.Widget",
 
       var contentStyles = {};
       // Move content to new position
-      if (changes.position)
-      {
+      if (changes.position) {
         contentStyles.left = left + pixel;
         contentStyles.top = top + pixel;
       }
 
-      if (inner || changes.margin)
-      {
+      if (inner || changes.margin) {
         contentStyles.width = width + pixel;
         contentStyles.height = height + pixel;
       }
@@ -1053,17 +951,17 @@ qx.Class.define("qx.ui.core.Widget",
         content.setStyles(contentStyles);
       }
 
-      if (inner || changes.local || changes.margin)
-      {
+      if (inner || changes.local || changes.margin) {
         if (this.__layoutManager && this.hasLayoutChildren()) {
           var inset = this.getInsets();
           var innerWidth = width - inset.left - inset.right;
           var innerHeight = height - inset.top - inset.bottom;
 
           var decorator = this.getDecorator();
-          var decoratorPadding = {left: 0, right: 0, top: 0, bottom: 0};
+          var decoratorPadding = { left: 0, right: 0, top: 0, bottom: 0 };
           if (decorator) {
-            decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+            decorator =
+              qx.theme.manager.Decoration.getInstance().resolve(decorator);
             decoratorPadding = decorator.getPadding();
           }
 
@@ -1071,14 +969,16 @@ qx.Class.define("qx.ui.core.Widget",
             top: this.getPaddingTop() + decoratorPadding.top,
             right: this.getPaddingRight() + decoratorPadding.right,
             bottom: this.getPaddingBottom() + decoratorPadding.bottom,
-            left : this.getPaddingLeft() + decoratorPadding.left
+            left: this.getPaddingLeft() + decoratorPadding.left
           };
 
           this.__layoutManager.renderLayout(innerWidth, innerHeight, padding);
         } else if (this.hasLayoutChildren()) {
-          throw new Error("At least one child in control " +
-            this._findTopControl() +
-            " requires a layout, but no one was defined!");
+          throw new Error(
+            "At least one child in control " +
+              this._findTopControl() +
+              " requires a layout, but no one was defined!"
+          );
         }
       }
 
@@ -1097,26 +997,16 @@ qx.Class.define("qx.ui.core.Widget",
       return changes;
     },
 
-
-
-
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       SEPARATOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
-    __separators : null,
+    __separators: null,
 
     // overridden
-    clearSeparators : function()
-    {
+    clearSeparators() {
       var reg = this.__separators;
       if (!reg) {
         return;
@@ -1126,8 +1016,7 @@ qx.Class.define("qx.ui.core.Widget",
       var content = this.getContentElement();
       var widget;
 
-      for (var i=0, l=reg.length; i<l; i++)
-      {
+      for (var i = 0, l = reg.length; i < l; i++) {
         widget = reg[i];
         pool.poolObject(widget);
         content.remove(widget.getContentElement());
@@ -1137,15 +1026,16 @@ qx.Class.define("qx.ui.core.Widget",
       reg.length = 0;
     },
 
-
     // overridden
-    renderSeparator : function(separator, bounds)
-    {
+    renderSeparator(separator, bounds) {
       // Insert
-      var widget = qx.ui.core.Widget.__separatorPool.getObject(qx.ui.core.Widget);
+      var widget = qx.ui.core.Widget.__separatorPool.getObject(
+        qx.ui.core.Widget
+      );
       widget.set({
         decorator: separator
       });
+
       var elem = widget.getContentElement();
       this.getContentElement().add(elem);
 
@@ -1160,10 +1050,10 @@ qx.Class.define("qx.ui.core.Widget",
         domEl.style.height = bounds.height + "px";
       } else {
         elem.setStyles({
-          left : bounds.left + "px",
-          top : bounds.top + "px",
-          width : bounds.width + "px",
-          height : bounds.height + "px"
+          left: bounds.left + "px",
+          top: bounds.top + "px",
+          width: bounds.width + "px",
+          height: bounds.height + "px"
         });
       }
 
@@ -1174,12 +1064,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.__separators.push(widget);
     },
 
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       SIZE HINTS
@@ -1187,8 +1071,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       // Start with the user defined values
       var width = this.getWidth();
       var minWidth = this.getMinWidth();
@@ -1198,13 +1081,18 @@ qx.Class.define("qx.ui.core.Widget",
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (minWidth !== null && maxWidth !== null) {
-          this.assert(minWidth <= maxWidth, "minWidth is larger than maxWidth!");
+          this.assert(
+            minWidth <= maxWidth,
+            "minWidth is larger than maxWidth!"
+          );
         }
         if (minHeight !== null && maxHeight !== null) {
-          this.assert(minHeight <= maxHeight, "minHeight is larger than maxHeight!");
+          this.assert(
+            minHeight <= maxHeight,
+            "minHeight is larger than maxHeight!"
+          );
         }
       }
 
@@ -1223,8 +1111,7 @@ qx.Class.define("qx.ui.core.Widget",
         height = contentHint.height + insetY;
       }
 
-      if (minWidth == null)
-      {
+      if (minWidth == null) {
         minWidth = insetX;
 
         if (contentHint.minWidth != null) {
@@ -1236,8 +1123,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (minHeight == null)
-      {
+      if (minHeight == null) {
         minHeight = insetY;
 
         if (contentHint.minHeight != null) {
@@ -1249,8 +1135,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (maxWidth == null)
-      {
+      if (maxWidth == null) {
         if (contentHint.maxWidth == null) {
           maxWidth = Infinity;
         } else {
@@ -1262,8 +1147,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (maxHeight == null)
-      {
+      if (maxHeight == null) {
         if (contentHint.maxHeight == null) {
           maxHeight = Infinity;
         } else {
@@ -1277,26 +1161,23 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Build size hint and return
       return {
-        width : width,
-        minWidth : minWidth,
-        maxWidth : maxWidth,
-        height : height,
-        minHeight : minHeight,
-        maxHeight : maxHeight
+        width: width,
+        minWidth: minWidth,
+        maxWidth: maxWidth,
+        height: height,
+        minHeight: minHeight,
+        maxHeight: maxHeight
       };
     },
 
-
     // overridden
-    invalidateLayoutCache : function()
-    {
-      this.base(arguments);
+    invalidateLayoutCache() {
+      super.invalidateLayoutCache();
 
       if (this.__layoutManager) {
         this.__layoutManager.invalidateLayoutCache();
       }
     },
-
 
     /**
      * Returns the recommended/natural dimensions of the widget's content.
@@ -1310,46 +1191,38 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Map}
      */
-    _getContentHint : function()
-    {
+    _getContentHint() {
       var layout = this.__layoutManager;
-      if (layout)
-      {
-        if (this.hasLayoutChildren())
-        {
+      if (layout) {
+        if (this.hasLayoutChildren()) {
           var hint = layout.getSizeHint();
 
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            var msg = "The layout of the widget" + this.toString() +
+          if (qx.core.Environment.get("qx.debug")) {
+            var msg =
+              "The layout of the widget" +
+              this.toString() +
               " returned an invalid size hint!";
             this.assertInteger(hint.width, "Wrong 'left' argument. " + msg);
             this.assertInteger(hint.height, "Wrong 'top' argument. " + msg);
           }
 
           return hint;
-        }
-        else
-        {
+        } else {
           return {
-            width : 0,
-            height : 0
+            width: 0,
+            height: 0
           };
         }
-      }
-      else
-      {
+      } else {
         return {
-          width : 100,
-          height : 50
+          width: 100,
+          height: 50
         };
       }
     },
 
-
     // overridden
-    _getHeightForWidth : function(width)
-    {
+    _getHeightForWidth(width) {
       // Prepare insets
       var insets = this.getInsets();
 
@@ -1360,7 +1233,7 @@ qx.Class.define("qx.ui.core.Widget",
       var contentWidth = width - insetX;
 
       // Compute height
-      var contentHeight =  0;
+      var contentHeight = 0;
       var layout = this._getLayout();
       if (layout && layout.hasHeightForWidth()) {
         contentHeight = layout.getHeightForWidth(contentWidth);
@@ -1374,7 +1247,6 @@ qx.Class.define("qx.ui.core.Widget",
       return height;
     },
 
-
     /**
      * Returns the computed height for the given width.
      *
@@ -1382,14 +1254,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @param width {Integer} Incoming width (as limitation)
      * @return {Integer} Computed height while respecting the given width.
      */
-    _getContentHeightForWidth : function(width) {
+    _getContentHeightForWidth(width) {
       throw new Error("Abstract method call: _getContentHeightForWidth()!");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1403,30 +1270,33 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Map} Contains the keys <code>top</code>, <code>right</code>,
      *   <code>bottom</code> and <code>left</code>. All values are integers.
      */
-    getInsets : function()
-    {
+    getInsets() {
       var top = this.getPaddingTop();
       var right = this.getPaddingRight();
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
       if (this.getDecorator()) {
-        var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
+        var decorator = qx.theme.manager.Decoration.getInstance().resolve(
+          this.getDecorator()
+        );
         var inset = decorator.getInsets();
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
+        if (qx.core.Environment.get("qx.debug")) {
           this.assertNumber(
             inset.top,
             "Invalid top decorator inset detected: " + inset.top
           );
+
           this.assertNumber(
             inset.right,
             "Invalid right decorator inset detected: " + inset.right
           );
+
           this.assertNumber(
             inset.bottom,
             "Invalid bottom decorator inset detected: " + inset.bottom
           );
+
           this.assertNumber(
             inset.left,
             "Invalid left decorator inset detected: " + inset.left
@@ -1440,16 +1310,12 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       return {
-        "top" : top,
-        "right" : right,
-        "bottom" : bottom,
-        "left" : left
+        top: top,
+        right: right,
+        bottom: bottom,
+        left: left
       };
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1467,8 +1333,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Map} The widget inner dimension in pixel (if the layout is
      *    valid). Contains the keys <code>width</code> and <code>height</code>.
      */
-    getInnerSize : function()
-    {
+    getInnerSize() {
       var computed = this.getBounds();
       if (!computed) {
         return null;
@@ -1477,14 +1342,10 @@ qx.Class.define("qx.ui.core.Widget",
       // Return map data
       var insets = this.getInsets();
       return {
-        width : computed.width - insets.left - insets.right,
-        height : computed.height - insets.top - insets.bottom
+        width: computed.width - insets.left - insets.right,
+        height: computed.height - insets.top - insets.bottom
       };
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1498,7 +1359,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeOut : function(duration) {
+    fadeOut(duration) {
       return this.getContentElement().fadeOut(duration);
     },
 
@@ -1508,10 +1369,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.bom.element.AnimationHandle} The animation handle to react for
      *   the fade animation.
      */
-    fadeIn : function(duration) {
+    fadeIn(duration) {
       return this.getContentElement().fadeIn(duration);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1520,7 +1380,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyAnonymous : function(value) {
+    _applyAnonymous(value) {
       if (value) {
         this.getContentElement().setAttribute("qxanonymous", "true");
       } else {
@@ -1528,33 +1388,29 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     /**
      * Make this widget visible.
      *
      */
-    show : function() {
+    show() {
       this.setVisibility("visible");
     },
-
 
     /**
      * Hide this widget.
      *
      */
-    hide : function() {
+    hide() {
       this.setVisibility("hidden");
     },
-
 
     /**
      * Hide this widget and exclude it from the underlying layout.
      *
      */
-    exclude : function() {
+    exclude() {
       this.setVisibility("excluded");
     },
-
 
     /**
      * Whether the widget is locally visible.
@@ -1563,10 +1419,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
-    isVisible : function() {
+    isVisible() {
       return this.getVisibility() === "visible";
     },
-
 
     /**
      * Whether the widget is locally hidden.
@@ -1575,10 +1430,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Returns <code>true</code> when the widget is hidden
      */
-    isHidden : function() {
+    isHidden() {
       return this.getVisibility() !== "visible";
     },
-
 
     /**
      * Whether the widget is locally excluded.
@@ -1587,10 +1441,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Returns <code>true</code> when the widget is excluded
      */
-    isExcluded : function() {
+    isExcluded() {
       return this.getVisibility() === "excluded";
     },
-
 
     /**
      * Detects if the widget and all its parents are visible.
@@ -1600,8 +1453,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} true, if the widget is currently on the screen
      */
-    isSeeable : function()
-    {
+    isSeeable() {
       // Flush the queues because to detect if the widget ins visible, the
       // queues need to be flushed (see bug #5254)
       qx.ui.core.queue.Manager.flush();
@@ -1615,41 +1467,34 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       CREATION OF HTML ELEMENTS
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Create the widget's content HTML element.
      *
      * @return {qx.html.Element} The content HTML element
      */
-    __createContentElement : function()
-    {
+    __createContentElement() {
       var el = this._createContentElement();
       el.connectObject(this);
 
       // make sure to allow all pointer events
-      el.setStyles({"touch-action": "none", "-ms-touch-action" : "none"});
+      el.setStyles({ "touch-action": "none", "-ms-touch-action": "none" });
 
       if (qx.core.Environment.get("qx.debug")) {
         el.setAttribute("qxClass", this.classname);
       }
 
       var styles = {
-        "zIndex": 10,
-        "boxSizing": "border-box"
+        zIndex: 10,
+        boxSizing: "border-box"
       };
 
-      if (!qx.ui.root.Inline ||
-        !(this instanceof qx.ui.root.Inline))
-      {
+      if (!qx.ui.root.Inline || !(this instanceof qx.ui.root.Inline)) {
         styles.position = "absolute";
       }
 
@@ -1657,7 +1502,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       return el;
     },
-
 
     /**
      * Creates the content element. The style properties
@@ -1669,14 +1513,12 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {qx.html.Element} The widget's content element
      */
-    _createContentElement : function()
-    {
+    _createContentElement() {
       return new qx.html.Element("div", {
         overflowX: "hidden",
         overflowY: "hidden"
       });
     },
-
 
     /**
      * Returns the element wrapper of the widget's content element.
@@ -1684,10 +1526,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {qx.html.Element} The widget's content element
      */
-    getContentElement : function() {
+    getContentElement() {
       return this.__contentElement;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1696,8 +1537,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /** @type {qx.ui.core.LayoutItem[]} List of all child widgets */
-    __widgetChildren : null,
-
+    __widgetChildren: null,
 
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
@@ -1706,19 +1546,16 @@ qx.Class.define("qx.ui.core.Widget",
      * @internal
      * @return {qx.ui.core.Widget[]} All layout relevant children.
      */
-    getLayoutChildren : function()
-    {
+    getLayoutChildren() {
       var children = this.__widgetChildren;
       if (!children) {
         return this.__emptyChildren;
       }
 
       var layoutChildren;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
-        if (child.hasUserBounds() || child.isExcluded())
-        {
+        if (child.hasUserBounds() || child.isExcluded()) {
           if (layoutChildren == null) {
             layoutChildren = children.concat();
           }
@@ -1730,21 +1567,18 @@ qx.Class.define("qx.ui.core.Widget",
       return layoutChildren || children;
     },
 
-
     /**
      * Marks the layout of this widget as invalid and triggers a layout update.
      * This is a shortcut for <code>qx.ui.core.queue.Layout.add(this);</code>.
      */
-    scheduleLayoutUpdate : function() {
+    scheduleLayoutUpdate() {
       qx.ui.core.queue.Layout.add(this);
     },
-
 
     /**
      * Resets the cache for children which should be laid out.
      */
-    invalidateLayoutChildren : function()
-    {
+    invalidateLayoutChildren() {
       var layout = this.__layoutManager;
       if (layout) {
         layout.invalidateChildrenCache();
@@ -1753,7 +1587,6 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     /**
      * Returns whether the layout has children, which are layout relevant. This
      * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
@@ -1761,16 +1594,14 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Whether the layout has layout relevant children
      */
-    hasLayoutChildren : function()
-    {
+    hasLayoutChildren() {
       var children = this.__widgetChildren;
       if (!children) {
         return false;
       }
 
       var child;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         if (!child.hasUserBounds() && !child.isExcluded()) {
           return true;
@@ -1780,7 +1611,6 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
-
     /**
      * Returns the widget which contains the children and
      * is relevant for laying them out. This is from the user point of
@@ -1788,10 +1618,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {qx.ui.core.Widget} Widget which contains the children.
      */
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this;
     },
-
 
     /**
      * @type {Array} Placeholder for children list in empty widgets.
@@ -1799,8 +1628,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @lint ignoreReferenceField(__emptyChildren)
      */
-    __emptyChildren : [],
-
+    __emptyChildren: [],
 
     /**
      * Returns the children list
@@ -1808,10 +1636,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.core.LayoutItem[]} The children array (Arrays are
      *   reference types, so please do not modify it in-place).
      */
-    _getChildren : function() {
+    _getChildren() {
       return this.__widgetChildren || this.__emptyChildren;
     },
-
 
     /**
      * Returns the index position of the given widget if it is
@@ -1821,8 +1648,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
-    _indexOf : function(child)
-    {
+    _indexOf(child) {
       var children = this.__widgetChildren;
       if (!children) {
         return -1;
@@ -1831,41 +1657,35 @@ qx.Class.define("qx.ui.core.Widget",
       return children.indexOf(child);
     },
 
-
     /**
      * Whether the widget contains children.
      *
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
-    _hasChildren : function()
-    {
+    _hasChildren() {
       var children = this.__widgetChildren;
-      return children != null && (!!children[0]);
+      return children != null && !!children[0];
     },
-
 
     /**
      * Recursively adds all children to the given queue
      *
      * @param queue {Array} The queue to add widgets to
      */
-    addChildrenToQueue : function(queue)
-    {
+    addChildrenToQueue(queue) {
       var children = this.__widgetChildren;
       if (!children) {
         return;
       }
 
       var child;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         queue.push(child);
 
         child.addChildrenToQueue(queue);
       }
     },
-
 
     /**
      * Adds a new child widget.
@@ -1877,10 +1697,13 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {qx.ui.core.LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      */
-    _add : function(child, options)
-    {
+    _add(child, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!");
+        this.assertInstance(
+          child,
+          qx.ui.core.LayoutItem.constructor,
+          "'Child' must be an instance of qx.ui.core.LayoutItem!"
+        );
       }
 
       // When moving in the same widget, remove widget first
@@ -1891,12 +1714,11 @@ qx.Class.define("qx.ui.core.Widget",
       if (this.__widgetChildren) {
         this.__widgetChildren.push(child);
       } else {
-        this.__widgetChildren = [ child ];
+        this.__widgetChildren = [child];
       }
 
       this.__addHelper(child, options);
     },
-
 
     /**
      * Add a child widget at the specified index
@@ -1907,8 +1729,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   current list of children.
      * @param options {Map?null} Optional layout data for widget.
      */
-    _addAt : function(child, index, options)
-    {
+    _addAt(child, index, options) {
       if (!this.__widgetChildren) {
         this.__widgetChildren = [];
       }
@@ -1933,7 +1754,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.__addHelper(child, options);
     },
 
-
     /**
      * Add a widget before another already inserted widget
      *
@@ -1941,11 +1761,13 @@ qx.Class.define("qx.ui.core.Widget",
      * @param before {qx.ui.core.LayoutItem} widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
      */
-    _addBefore : function(child, before, options)
-    {
+    _addBefore(child, before, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInArray(before, this._getChildren(),
-          "The 'before' widget is not a child of this widget!");
+        this.assertInArray(
+          before,
+          this._getChildren(),
+          "The 'before' widget is not a child of this widget!"
+        );
       }
 
       if (child == before) {
@@ -1966,7 +1788,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.__addHelper(child, options);
     },
 
-
     /**
      * Add a widget after another already inserted widget
      *
@@ -1975,11 +1796,13 @@ qx.Class.define("qx.ui.core.Widget",
      *   be inserted
      * @param options {Map?null} Optional layout data for widget.
      */
-    _addAfter : function(child, after, options)
-    {
+    _addAfter(child, after, options) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInArray(after, this._getChildren(),
-          "The 'after' widget is not a child of this widget!");
+        this.assertInArray(
+          after,
+          this._getChildren(),
+          "The 'after' widget is not a child of this widget!"
+        );
       }
 
       if (child == after) {
@@ -2000,14 +1823,12 @@ qx.Class.define("qx.ui.core.Widget",
       this.__addHelper(child, options);
     },
 
-
     /**
      * Remove the given child widget.
      *
      * @param child {qx.ui.core.LayoutItem} the widget to remove
      */
-    _remove : function(child)
-    {
+    _remove(child) {
       if (!this.__widgetChildren) {
         throw new Error("This widget has no children!");
       }
@@ -2016,15 +1837,13 @@ qx.Class.define("qx.ui.core.Widget",
       this.__removeHelper(child);
     },
 
-
     /**
      * Remove the widget at the specified index.
      *
      * @param index {Integer} Index of the widget to remove.
      * @return {qx.ui.core.LayoutItem} The removed item.
      */
-    _removeAt : function(index)
-    {
+    _removeAt(index) {
       if (!this.__widgetChildren) {
         throw new Error("This widget has no children!");
       }
@@ -2037,14 +1856,12 @@ qx.Class.define("qx.ui.core.Widget",
       return child;
     },
 
-
     /**
      * Remove all children.
      *
      * @return {Array} An array containing the removed children.
      */
-    _removeAll : function()
-    {
+    _removeAll() {
       if (!this.__widgetChildren) {
         return [];
       }
@@ -2054,7 +1871,7 @@ qx.Class.define("qx.ui.core.Widget",
       var children = this.__widgetChildren.concat();
       this.__widgetChildren.length = 0;
 
-      for (var i=children.length-1; i>=0; i--) {
+      for (var i = children.length - 1; i >= 0; i--) {
         this.__removeHelper(children[i]);
       }
 
@@ -2062,9 +1879,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       return children;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2079,8 +1893,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @signature function(child)
      * @param child {qx.ui.core.LayoutItem} The added child.
      */
-    _afterAddChild : null,
-
+    _afterAddChild: null,
 
     /**
      * This method gets called each time after a child widget was removed and
@@ -2089,10 +1902,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @signature function(child)
      * @param child {qx.ui.core.LayoutItem} The removed child.
      */
-    _afterRemoveChild : null,
-
-
-
+    _afterRemoveChild: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -2107,12 +1917,18 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {qx.ui.core.LayoutItem} The child to add.
      * @param options {Map|null} Optional layout data for the widget.
      */
-    __addHelper : function(child, options)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        this.assertInstance(child, qx.ui.core.LayoutItem, "Invalid widget to add: " + child);
-        this.assertNotIdentical(child, this, "Could not add widget to itself: " + child);
+    __addHelper(child, options) {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertInstance(
+          child,
+          qx.ui.core.LayoutItem,
+          "Invalid widget to add: " + child
+        );
+        this.assertNotIdentical(
+          child,
+          this,
+          "Could not add widget to itself: " + child
+        );
 
         if (options != null) {
           this.assertType(options, "object", "Invalid layout data: " + options);
@@ -2143,21 +1959,21 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     /**
      * Convenience function to remove a child widget. It will remove it
      * from the parent widget and schedule a layout update.
      *
      * @param child {qx.ui.core.LayoutItem} The child to remove.
      */
-    __removeHelper : function(child)
-    {
+    __removeHelper(child) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertNotUndefined(child);
       }
 
       if (child.getLayoutParent() !== this) {
-        throw new Error("Remove Error: " + child + " is not a child of this widget!");
+        throw new Error(
+          "Remove Error: " + child + " is not a child of this widget!"
+        );
       }
 
       // Clear parent connection
@@ -2177,9 +1993,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENTS
@@ -2197,25 +2010,23 @@ qx.Class.define("qx.ui.core.Widget",
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */
-    capture : function(capture) {
+    capture(capture) {
       this.getContentElement().capture(capture);
     },
-
 
     /**
      * Disables pointer capture mode enabled by {@link #capture}.
      */
-    releaseCapture : function() {
+    releaseCapture() {
       this.getContentElement().releaseCapture();
     },
-
 
     /**
      * Checks if pointer event capturing is enabled for this widget.
      *
      * @return {Boolean} <code>true</code> if capturing is active
      */
-    isCapturing : function() {
+    isCapturing() {
       var el = this.getContentElement().getDomElement();
       if (!el) {
         return false;
@@ -2225,9 +2036,6 @@ qx.Class.define("qx.ui.core.Widget",
       return el == dispatcher.getCaptureElement();
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       PADDING SUPPORT
@@ -2235,14 +2043,12 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyPadding : function(value, old, name)
-    {
+    _applyPadding(value, old, name) {
       this._updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
 
       this.__updateContentPadding(name, value);
     },
-
 
     /**
      * Helper to updated the css padding of the content element considering the
@@ -2250,7 +2056,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param style {String} The name of the css padding property e.g. <code>paddingTop</code>
      * @param value {Number} The value to set.
      */
-    __updateContentPadding : function(style, value) {
+    __updateContentPadding(style, value) {
       var content = this.getContentElement();
       var decorator = this.getDecorator();
       decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
@@ -2261,7 +2067,6 @@ qx.Class.define("qx.ui.core.Widget",
       content.setStyle(style, value + "px");
     },
 
-
     /*
     ---------------------------------------------------------------------------
       DECORATION SUPPORT
@@ -2269,8 +2074,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyDecorator : function(value, old)
-    {
+    _applyDecorator(value, old) {
       var content = this.getContentElement();
 
       if (old) {
@@ -2282,13 +2086,10 @@ qx.Class.define("qx.ui.core.Widget",
         value = qx.theme.manager.Decoration.getInstance().addCssClass(value);
         content.addClass(value);
       }
-      if (value || old){
+      if (value || old) {
         qx.ui.core.queue.Layout.add(this);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2297,40 +2098,37 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyToolTipText : function(value, old)
-    {
-      if (qx.core.Environment.get("qx.dynlocale"))
-      {
+    _applyToolTipText(value, old) {
+      if (qx.core.Environment.get("qx.dynlocale")) {
         if (this.__toolTipTextListenerId) {
           return;
         }
         var manager = qx.locale.Manager.getInstance();
-        this.__toolTipTextListenerId = manager.addListener("changeLocale",
-          function() {
+        this.__toolTipTextListenerId = manager.addListener(
+          "changeLocale",
+          function () {
             var toolTipText = this.getToolTipText();
             if (toolTipText && toolTipText.translate) {
               this.setToolTipText(toolTipText.translate());
             }
-          }
-        , this);
+          },
+          this
+        );
       }
     },
 
     // property apply
-    _applyTextColor : function(value, old) {
+    _applyTextColor(value, old) {
       // empty template
     },
 
-
     // property apply
-    _applyZIndex : function(value, old) {
+    _applyZIndex(value, old) {
       this.getContentElement().setStyle("zIndex", value == null ? 0 : value);
     },
 
-
     // property apply
-    _applyVisibility : function(value, old)
-    {
+    _applyVisibility(value, old) {
       var content = this.getContentElement();
 
       if (value === "visible") {
@@ -2341,7 +2139,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this.$$parent;
-      if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
+      if (
+        parent &&
+        (old == null ||
+          value == null ||
+          old === "excluded" ||
+          value === "excluded")
+      ) {
         parent.invalidateLayoutChildren();
       }
 
@@ -2349,16 +2153,13 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Visibility.add(this);
     },
 
-
     // property apply
-    _applyOpacity : function(value, old) {
+    _applyOpacity(value, old) {
       this.getContentElement().setStyle("opacity", value == 1 ? null : value);
     },
 
-
     // property apply
-    _applyCursor : function(value, old)
-    {
+    _applyCursor(value, old) {
       if (value == null && !this.isSelectable()) {
         value = "default";
       }
@@ -2366,13 +2167,14 @@ qx.Class.define("qx.ui.core.Widget",
       // In Opera the cursor must be set directly.
       // http://bugzilla.qooxdoo.org/show_bug.cgi?id=1729
       this.getContentElement().setStyle(
-        "cursor", value, qx.core.Environment.get("engine.name") == "opera"
+        "cursor",
+        value,
+        qx.core.Environment.get("engine.name") == "opera"
       );
     },
 
-
     // property apply
-    _applyBackgroundColor : function(value, old) {
+    _applyBackgroundColor(value, old) {
       var color = this.getBackgroundColor();
       var content = this.getContentElement();
 
@@ -2380,12 +2182,10 @@ qx.Class.define("qx.ui.core.Widget",
       content.setStyle("backgroundColor", resolved);
     },
 
-
     // property apply
-    _applyFont : function(value, old) {
+    _applyFont(value, old) {
       // empty template
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2394,12 +2194,12 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // overridden
-    _onChangeTheme : function() {
+    _onChangeTheme() {
       if (this.isDisposed()) {
         return;
       }
 
-      this.base(arguments);
+      super._onChangeTheme();
 
       // update the appearance
       this.updateAppearance();
@@ -2428,8 +2228,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-
     /*
     ---------------------------------------------------------------------------
       STATE HANDLING
@@ -2437,16 +2235,13 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /** @type {Map} The current widget states */
-    __states : null,
-
+    __states: null,
 
     /** @type {Boolean} Whether the widget has state changes which are not yet queued */
-    $$stateChanges : null,
-
+    $$stateChanges: null,
 
     /** @type {Map} Can be overridden to forward states to the child controls. */
-    _forwardStates : null,
-
+    _forwardStates: null,
 
     /**
      * Returns whether a state is set.
@@ -2454,20 +2249,17 @@ qx.Class.define("qx.ui.core.Widget",
      * @param state {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
-    hasState : function(state)
-    {
+    hasState(state) {
       var states = this.__states;
       return !!states && !!states[state];
     },
-
 
     /**
      * Sets a state.
      *
      * @param state {String} The state to add
      */
-    addState : function(state)
-    {
+    addState(state) {
       // Dynamically create state map
       var states = this.__states;
       if (!states) {
@@ -2494,11 +2286,9 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
 
-      if (forward && forward[state] && controls)
-      {
+      if (forward && forward[state] && controls) {
         var control;
-        for (var id in controls)
-        {
+        for (var id in controls) {
           control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
             controls[id].addState(state);
@@ -2507,14 +2297,12 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     /**
      * Clears a state.
      *
      * @param state {String} the state to clear.
      */
-    removeState : function(state)
-    {
+    removeState(state) {
       // Check for existing state
       var states = this.__states;
       if (!states || !states[state]) {
@@ -2537,10 +2325,8 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
 
-      if (forward && forward[state] && controls)
-      {
-        for (var id in controls)
-        {
+      if (forward && forward[state] && controls) {
+        for (var id in controls) {
           var control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
             control.removeState(state);
@@ -2548,7 +2334,6 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
     },
-
 
     /**
      * Replaces the first state with the second one.
@@ -2558,8 +2343,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {String} Previous state
      * @param value {String} New state
      */
-    replaceState : function(old, value)
-    {
+    replaceState(old, value) {
       var states = this.__states;
       if (!states) {
         states = this.__states = {};
@@ -2583,10 +2367,8 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
 
-      if (forward && forward[value] && controls)
-      {
-        for (var id in controls)
-        {
+      if (forward && forward[value] && controls) {
+        for (var id in controls) {
           var control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
             control.replaceState(old, value);
@@ -2595,10 +2377,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       APPEARANCE SUPPORT
@@ -2606,20 +2384,17 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /** @type {String} The currently compiled selector to lookup the matching appearance */
-    __appearanceSelector : null,
-
+    __appearanceSelector: null,
 
     /** @type {Boolean} Whether the selectors needs to be recomputed before updating appearance */
-    __updateSelector : null,
-
+    __updateSelector: null,
 
     /**
      * Renders the appearance using the current widget states.
      *
      * Used exclusively by {qx.ui.core.queue.Appearance}.
      */
-    syncAppearance : function()
-    {
+    syncAppearance() {
       var states = this.__states;
       var selector = this.__appearanceSelector;
       var manager = qx.theme.manager.Appearance.getInstance();
@@ -2629,16 +2404,19 @@ qx.Class.define("qx.ui.core.Widget",
       var unstyler = qx.core.Property.$$method.resetThemed;
 
       // Check for requested selector update
-      if (this.__updateSelector)
-      {
+      if (this.__updateSelector) {
         // Clear flag
         delete this.__updateSelector;
 
         // Check if the selector was created previously
-        if (selector)
-        {
+        if (selector) {
           // Query old selector
-          var oldData = manager.styleFrom(selector, states, null, this.getAppearance());
+          var oldData = manager.styleFrom(
+            selector,
+            states,
+            null,
+            this.getAppearance()
+          );
 
           // Clear current selector (to force recompute)
           selector = null;
@@ -2646,29 +2424,33 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Build selector
-      if (!selector)
-      {
+      if (!selector) {
         var obj = this;
         var id = [];
 
         do {
-          id.push(obj.$$subcontrol||obj.getAppearance());
-        } while (obj = obj.$$subparent);
+          id.push(obj.$$subcontrol || obj.getAppearance());
+        } while ((obj = obj.$$subparent));
 
         // Combine parent control IDs, add top level appearance, filter result
         // to not include positioning information anymore (e.g. #3)
-        selector = id.reverse().join("/").replace(/#[0-9]+/g, "");
+        selector = id
+          .reverse()
+          .join("/")
+          .replace(/#[0-9]+/g, "");
         this.__appearanceSelector = selector;
       }
 
       // Query current selector
-      var newData = manager.styleFrom(selector, states, null, this.getAppearance());
-      if (newData)
-      {
-        if (oldData)
-        {
-          for (var prop in oldData)
-          {
+      var newData = manager.styleFrom(
+        selector,
+        states,
+        null,
+        this.getAppearance()
+      );
+      if (newData) {
+        if (oldData) {
+          for (var prop in oldData) {
             if (newData[prop] === undefined) {
               this[unstyler[prop]]();
             }
@@ -2676,25 +2458,27 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Check property availability of new data
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          for (var prop in newData)
-          {
+        if (qx.core.Environment.get("qx.debug")) {
+          for (var prop in newData) {
             if (!this[styler[prop]]) {
-              throw new Error(this.classname +
-                ' has no themeable property "' + prop +
-                '" while styling ' + selector);
+              throw new Error(
+                this.classname +
+                  ' has no themeable property "' +
+                  prop +
+                  '" while styling ' +
+                  selector
+              );
             }
           }
         }
 
         // Apply new data
         for (var prop in newData) {
-          newData[prop] === undefined ? this[unstyler[prop]]() : this[styler[prop]](newData[prop]);
+          newData[prop] === undefined
+            ? this[unstyler[prop]]()
+            : this[styler[prop]](newData[prop]);
         }
-      }
-      else if (oldData)
-      {
+      } else if (oldData) {
         // Clear old data
         for (var prop in oldData) {
           this[unstyler[prop]]();
@@ -2704,12 +2488,10 @@ qx.Class.define("qx.ui.core.Widget",
       this.fireDataEvent("syncAppearance", this.__states);
     },
 
-
     // property apply
-    _applyAppearance : function(value, old) {
+    _applyAppearance(value, old) {
       this.updateAppearance();
     },
-
 
     /**
      * Helper method called from the visibility queue to detect outstanding changes
@@ -2717,12 +2499,10 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @internal
      */
-    checkAppearanceNeeds : function()
-    {
+    checkAppearanceNeeds() {
       // CASE 1: Widget has never got an appearance already because it was never
       // visible before. Normally add it to the queue is the easiest way to update it.
-      if (!this.__initialAppearanceApplied)
-      {
+      if (!this.__initialAppearanceApplied) {
         qx.ui.core.queue.Appearance.add(this);
         this.__initialAppearanceApplied = true;
       }
@@ -2732,20 +2512,17 @@ qx.Class.define("qx.ui.core.Widget",
       // In this case the widget is already queued in the appearance. This is basically
       // what all addState/removeState do, but the queue itself may not have been registered
       // to be flushed
-      else if (this.$$stateChanges)
-      {
+      else if (this.$$stateChanges) {
         qx.ui.core.queue.Appearance.add(this);
         delete this.$$stateChanges;
       }
     },
 
-
     /**
      * Refreshes the appearance of this widget and all
      * registered child controls.
      */
-    updateAppearance : function()
-    {
+    updateAppearance() {
       // Clear selector
       this.__updateSelector = true;
 
@@ -2754,11 +2531,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Update child controls
       var controls = this.__childControls;
-      if (controls)
-      {
+      if (controls) {
         var obj;
-        for (var id in controls)
-        {
+        for (var id in controls) {
           obj = controls[id];
 
           if (obj instanceof qx.ui.core.Widget) {
@@ -2767,10 +2542,6 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2784,13 +2555,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param jobs {Map} A map of jobs.
      */
-    syncWidget : function(jobs) {
+    syncWidget(jobs) {
       // empty implementation
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -2805,12 +2572,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.core.Widget} A working event target of this widget.
      *    May be <code>null</code> as well.
      */
-    getEventTarget : function()
-    {
+    getEventTarget() {
       var target = this;
 
-      while (target.getAnonymous())
-      {
+      while (target.getAnonymous()) {
         target = target.getLayoutParent();
         if (!target) {
           return null;
@@ -2820,7 +2585,6 @@ qx.Class.define("qx.ui.core.Widget",
       return target;
     },
 
-
     /**
      * Returns the next focus target in the parent chain. May
      * also return the widget itself if it is not anonymous and focusable.
@@ -2828,16 +2592,14 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.core.Widget} A working focus target of this widget.
      *    May be <code>null</code> as well.
      */
-    getFocusTarget : function()
-    {
+    getFocusTarget() {
       var target = this;
 
       if (!target.getEnabled()) {
         return null;
       }
 
-      while (target.getAnonymous() || !target.getFocusable())
-      {
+      while (target.getAnonymous() || !target.getFocusable()) {
         target = target.getLayoutParent();
         if (!target || !target.getEnabled()) {
           return null;
@@ -2847,16 +2609,14 @@ qx.Class.define("qx.ui.core.Widget",
       return target;
     },
 
-
     /**
      * Returns the element which should be focused.
      *
      * @return {qx.html.Element} The html element to focus.
      */
-    getFocusElement : function() {
+    getFocusElement() {
       return this.getContentElement();
     },
-
 
     /**
      * Whether the widget is reachable by pressing the TAB key.
@@ -2867,19 +2627,16 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Whether the element is tabable.
      */
-    isTabable : function() {
-      return (!!this.getContentElement().getDomElement()) && this.isFocusable();
+    isTabable() {
+      return !!this.getContentElement().getDomElement() && this.isFocusable();
     },
 
-
     // property apply
-    _applyFocusable : function(value, old)
-    {
+    _applyFocusable(value, old) {
       var target = this.getFocusElement();
 
       // Apply native tabIndex attribute
-      if (value)
-      {
+      if (value) {
         var tabIndex = this.getTabIndex();
         if (tabIndex == null) {
           tabIndex = 1;
@@ -2889,9 +2646,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Omit native dotted outline border
         target.setStyle("outline", "none");
-      }
-      else
-      {
+      } else {
         if (target.isNativelyFocusable()) {
           target.setAttribute("tabIndex", -1);
         } else if (old) {
@@ -2900,26 +2655,20 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     // property apply
-    _applyKeepFocus : function(value)
-    {
+    _applyKeepFocus(value) {
       var target = this.getFocusElement();
       target.setAttribute("qxKeepFocus", value ? "on" : null);
     },
 
-
     // property apply
-    _applyKeepActive : function(value)
-    {
+    _applyKeepActive(value) {
       var target = this.getContentElement();
       target.setAttribute("qxKeepActive", value ? "on" : null);
     },
 
-
     // property apply
-    _applyTabIndex : function(value)
-    {
+    _applyTabIndex(value) {
       if (value == null) {
         value = 1;
       } else if (value < 1 || value > 32000) {
@@ -2931,10 +2680,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     // property apply
-    _applySelectable : function(value, old)
-    {
+    _applySelectable(value, old) {
       // Re-apply cursor if not in "initSelectable"
       if (old !== null) {
         this._applyCursor(this.getCursor());
@@ -2944,12 +2691,9 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContentElement().setSelectable(value);
     },
 
-
     // property apply
-    _applyEnabled : function(value, old)
-    {
-      if (value===false)
-      {
+    _applyEnabled(value, old) {
+      if (value === false) {
         this.addState("disabled");
 
         // hovered not configured in widget, but as this is a
@@ -2958,8 +2702,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.removeState("hovered");
 
         // Blur when focused
-        if (this.isFocusable())
-        {
+        if (this.isFocusable()) {
           // Remove focused state
           this.removeState("focused");
 
@@ -2976,9 +2719,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (this.isDroppable()) {
           this._applyDroppable(false, true);
         }
-      }
-      else
-      {
+      } else {
         this.removeState("disabled");
 
         // Re-add tabIndex
@@ -2998,9 +2739,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       CONTEXT MENU
@@ -3008,52 +2746,52 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyNativeContextMenu : function(value, old, name) {
+    _applyNativeContextMenu(value, old, name) {
       // empty body to allow overriding
     },
 
-
     // property apply
-    _applyContextMenu : function(value, old)
-    {
-      if (old)
-      {
+    _applyContextMenu(value, old) {
+      if (old) {
         old.removeState("contextmenu");
 
         if (old.getOpener() == this) {
           old.resetOpener();
         }
 
-        if (!value)
-        {
+        if (!value) {
           this.removeListener("contextmenu", this._onContextMenuOpen);
           this.removeListener("longtap", this._onContextMenuOpen);
-          old.removeListener("changeVisibility", this._onBeforeContextMenuOpen, this);
+          old.removeListener(
+            "changeVisibility",
+            this._onBeforeContextMenuOpen,
+            this
+          );
         }
       }
 
-      if (value)
-      {
+      if (value) {
         value.setOpener(this);
         value.addState("contextmenu");
 
-        if (!old)
-        {
+        if (!old) {
           this.addListener("contextmenu", this._onContextMenuOpen);
           this.addListener("longtap", this._onContextMenuOpen);
-          value.addListener("changeVisibility", this._onBeforeContextMenuOpen, this);
+          value.addListener(
+            "changeVisibility",
+            this._onBeforeContextMenuOpen,
+            this
+          );
         }
       }
     },
-
 
     /**
      * Event listener for <code>contextmenu</code> event
      *
      * @param e {qx.event.type.Pointer} The event object
      */
-    _onContextMenuOpen : function(e)
-    {
+    _onContextMenuOpen(e) {
       // only allow long tap context menu on touch interactions
       if (e.getType() == "longtap") {
         if (e.getPointerType() !== "touch") {
@@ -3067,21 +2805,19 @@ qx.Class.define("qx.ui.core.Widget",
       e.stop();
     },
 
-
     /**
      * Event listener for <code>beforeContextmenuOpen</code> event
      *
      * @param e {qx.event.type.Data} The data event
      */
-    _onBeforeContextMenuOpen : function(e)
-    {
-      if (e.getData() == "visible" && this.hasListener("beforeContextmenuOpen")) {
+    _onBeforeContextMenuOpen(e) {
+      if (
+        e.getData() == "visible" &&
+        this.hasListener("beforeContextmenuOpen")
+      ) {
         this.fireDataEvent("beforeContextmenuOpen", e);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3095,13 +2831,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Event} Any bubbling event
      */
-    _onStopEvent : function(e) {
+    _onStopEvent(e) {
       e.stopPropagation();
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3115,13 +2847,12 @@ qx.Class.define("qx.ui.core.Widget",
      * and return your custom instance.
      * @return {qx.ui.core.DragDropCursor} A drag drop cursor implementation.
      */
-    _getDragDropCursor : function() {
+    _getDragDropCursor() {
       return qx.ui.core.DragDropCursor.getInstance();
     },
 
     // property apply
-    _applyDraggable : function(value, old)
-    {
+    _applyDraggable(value, old) {
       if (!this.isEnabled() && value === true) {
         value = false;
       }
@@ -3130,15 +2861,12 @@ qx.Class.define("qx.ui.core.Widget",
       this._getDragDropCursor();
 
       // Process listeners
-      if (value)
-      {
+      if (value) {
         this.addListener("dragstart", this._onDragStart);
         this.addListener("drag", this._onDrag);
         this.addListener("dragend", this._onDragEnd);
         this.addListener("dragchange", this._onDragChange);
-      }
-      else
-      {
+      } else {
         this.removeListener("dragstart", this._onDragStart);
         this.removeListener("drag", this._onDrag);
         this.removeListener("dragend", this._onDragEnd);
@@ -3149,10 +2877,8 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContentElement().setAttribute("qxDraggable", value ? "on" : null);
     },
 
-
     // property apply
-    _applyDroppable : function(value, old)
-    {
+    _applyDroppable(value, old) {
       if (!this.isEnabled() && value === true) {
         value = false;
       }
@@ -3161,57 +2887,45 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContentElement().setAttribute("qxDroppable", value ? "on" : null);
     },
 
-
     /**
      * Event listener for own <code>dragstart</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragStart : function(e)
-    {
+    _onDragStart(e) {
       this._getDragDropCursor().placeToPointer(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
-
 
     /**
      * Event listener for own <code>drag</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDrag : function(e) {
+    _onDrag(e) {
       this._getDragDropCursor().placeToPointer(e);
     },
-
 
     /**
      * Event listener for own <code>dragend</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragEnd : function(e)
-    {
+    _onDragEnd(e) {
       this._getDragDropCursor().moveTo(-1000, -1000);
       this.getApplicationRoot().resetGlobalCursor();
     },
-
 
     /**
      * Event listener for own <code>dragchange</code> event.
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragChange : function(e)
-    {
+    _onDragChange(e) {
       var cursor = this._getDragDropCursor();
       var action = e.getCurrentAction();
       action ? cursor.setAction(action) : cursor.resetAction();
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3227,10 +2941,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @internal
      */
-    visualizeFocus : function() {
+    visualizeFocus() {
       this.addState("focused");
     },
-
 
     /**
      * Event handler which is executed when the widget lost the focus.
@@ -3240,14 +2953,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @internal
      */
-    visualizeBlur : function() {
+    visualizeBlur() {
       this.removeState("focused");
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3270,8 +2978,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param direct {Boolean?true} Whether the execution should be made
      *   directly when possible
      */
-    scrollChildIntoView : function(child, alignX, alignY, direct)
-    {
+    scrollChildIntoView(child, alignX, alignY, direct) {
       // Scroll directly on default
       direct = typeof direct == "undefined" ? true : direct;
 
@@ -3299,7 +3006,7 @@ qx.Class.define("qx.ui.core.Widget",
 
           // Siblings
           if (direct) {
-            parent.getChildren().forEach(function(sibling) {
+            parent.getChildren().forEach(function (sibling) {
               direct = direct && !Layout.isScheduled(sibling);
             });
           }
@@ -3309,7 +3016,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.scrollChildIntoViewX(child, alignX, direct);
       this.scrollChildIntoViewY(child, alignY, direct);
     },
-
 
     /**
      * The method scrolls the given item into view (x-axis only).
@@ -3322,10 +3028,13 @@ qx.Class.define("qx.ui.core.Widget",
      * @param direct {Boolean?true} Whether the execution should be made
      *   directly when possible
      */
-    scrollChildIntoViewX : function(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewX(child.getContentElement(), align, direct);
+    scrollChildIntoViewX(child, align, direct) {
+      this.getContentElement().scrollChildIntoViewX(
+        child.getContentElement(),
+        align,
+        direct
+      );
     },
-
 
     /**
      * The method scrolls the given item into view (y-axis only).
@@ -3338,13 +3047,13 @@ qx.Class.define("qx.ui.core.Widget",
      * @param direct {Boolean?true} Whether the execution should be made
      *   directly when possible
      */
-    scrollChildIntoViewY : function(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewY(child.getContentElement(), align, direct);
+    scrollChildIntoViewY(child, align, direct) {
+      this.getContentElement().scrollChildIntoViewY(
+        child.getContentElement(),
+        align,
+        direct
+      );
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3356,8 +3065,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Focus this widget.
      *
      */
-    focus : function()
-    {
+    focus() {
       if (this.isFocusable()) {
         this.getFocusElement().focus();
       } else if (qx.ui.core.Widget.UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR) {
@@ -3365,13 +3073,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     /**
      * Remove focus from this widget.
      *
      */
-    blur : function()
-    {
+    blur() {
       if (this.isFocusable()) {
         this.getFocusElement().blur();
       } else if (qx.ui.core.Widget.UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR) {
@@ -3379,24 +3085,21 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
     /**
      * Activate this widget e.g. for keyboard events.
      *
      */
-    activate : function() {
+    activate() {
       this.getContentElement().activate();
     },
-
 
     /**
      * Deactivate this widget e.g. for keyboard events.
      *
      */
-    deactivate : function() {
+    deactivate() {
       this.getContentElement().deactivate();
     },
-
 
     /**
      * Focus this widget when using the keyboard. This is
@@ -3405,13 +3108,9 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @internal
      */
-    tabFocus : function() {
+    tabFocus() {
       this.getFocusElement().focus();
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -3425,8 +3124,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is registered.
      */
-    hasChildControl : function(id)
-    {
+    hasChildControl(id) {
       if (!this.__childControls) {
         return false;
       }
@@ -3434,20 +3132,17 @@ qx.Class.define("qx.ui.core.Widget",
       return !!this.__childControls[id];
     },
 
-
     /** @type {Map} Map of instantiated child controls */
-    __childControls : null,
-
+    __childControls: null,
 
     /**
      * Returns a map of all already created child controls
      *
      * @return {Map} mapping of child control id to the child widget.
      */
-    _getCreatedChildControls : function() {
+    _getCreatedChildControls() {
       return this.__childControls;
     },
-
 
     /**
      * Returns the child control from the given ID. Returns
@@ -3467,10 +3162,8 @@ qx.Class.define("qx.ui.core.Widget",
      *    should not be created dynamically if not yet available.
      * @return {qx.ui.core.Widget} Child control
      */
-    getChildControl : function(id, notcreate)
-    {
-      if (!this.__childControls)
-      {
+    getChildControl(id, notcreate) {
+      if (!this.__childControls) {
         if (notcreate) {
           return null;
         }
@@ -3490,34 +3183,29 @@ qx.Class.define("qx.ui.core.Widget",
       return this._createChildControl(id);
     },
 
-
     /**
      * Shows the given child control by ID
      *
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} the child control
      */
-    _showChildControl : function(id)
-    {
+    _showChildControl(id) {
       var control = this.getChildControl(id);
       control.show();
       return control;
     },
-
 
     /**
      * Excludes the given child control by ID
      *
      * @param id {String} ID of the child control
      */
-    _excludeChildControl : function(id)
-    {
+    _excludeChildControl(id) {
       var control = this.getChildControl(id, true);
       if (control) {
         control.exclude();
       }
     },
-
 
     /**
      * Whether the given child control is visible.
@@ -3525,8 +3213,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is visible.
      */
-    _isChildControlVisible : function(id)
-    {
+    _isChildControlVisible(id) {
       var control = this.getChildControl(id, true);
       if (control) {
         return control.isVisible();
@@ -3535,7 +3222,6 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
-
     /**
      * Release the child control by ID and decouple the
      * child from the parent. This method does not dispose the child control.
@@ -3543,8 +3229,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} The released control
      */
-    _releaseChildControl : function(id)
-    {
+    _releaseChildControl(id) {
       var control = this.getChildControl(id, false);
       if (!control) {
         throw new Error("Unsupported control: " + id);
@@ -3571,7 +3256,6 @@ qx.Class.define("qx.ui.core.Widget",
       return control;
     },
 
-
     /**
      * Force the creation of the given child control by ID.
      *
@@ -3582,8 +3266,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.core.Widget} The created control
      * @throws {Error} when the control was created before
      */
-    _createChildControl : function(id)
-    {
+    _createChildControl(id) {
       if (!this.__childControls) {
         this.__childControls = {};
       } else if (this.__childControls[id]) {
@@ -3596,12 +3279,18 @@ qx.Class.define("qx.ui.core.Widget",
           var control = this._createChildControlImpl(id);
         } else {
           var control = this._createChildControlImpl(
-            id.substring(0, pos), id.substring(pos + 1, id.length)
+            id.substring(0, pos),
+            id.substring(pos + 1, id.length)
           );
         }
-      } catch(exc) {
-        exc.message = "Exception while creating child control '" + id +
-        "' of widget " + this.toString() + ": " + exc.message;
+      } catch (exc) {
+        exc.message =
+          "Exception while creating child control '" +
+          id +
+          "' of widget " +
+          this.toString() +
+          ": " +
+          exc.message;
         throw exc;
       }
 
@@ -3617,10 +3306,8 @@ qx.Class.define("qx.ui.core.Widget",
       var states = this.__states;
       var forward = this._forwardStates;
 
-      if (states && forward && control instanceof qx.ui.core.Widget)
-      {
-        for (var state in states)
-        {
+      if (states && forward && control instanceof qx.ui.core.Widget) {
+        for (var state in states) {
           if (forward[state]) {
             control.addState(state);
           }
@@ -3638,9 +3325,8 @@ qx.Class.define("qx.ui.core.Widget",
       this.fireDataEvent("createChildControl", control);
 
       // Register control and return
-      return this.__childControls[id] = control;
+      return (this.__childControls[id] = control);
     },
-
 
     /**
      * Internal method to create child controls. This method
@@ -3653,18 +3339,16 @@ qx.Class.define("qx.ui.core.Widget",
      *   all text following the # will be the hash argument.
      * @return {qx.ui.core.Widget} The created control or <code>null</code>
      */
-    _createChildControlImpl : function(id, hash) {
+    _createChildControlImpl(id, hash) {
       return null;
     },
-
 
     /**
      * Dispose all registered controls. This is automatically
      * executed by the widget.
      *
      */
-    _disposeChildControls : function()
-    {
+    _disposeChildControls() {
       var controls = this.__childControls;
       if (!controls) {
         return;
@@ -3672,8 +3356,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var Widget = qx.ui.core.Widget;
 
-      for (var id in controls)
-      {
+      for (var id in controls) {
         var control = controls[id];
         if (!Widget.contains(this, control)) {
           control.destroy();
@@ -3685,18 +3368,15 @@ qx.Class.define("qx.ui.core.Widget",
       delete this.__childControls;
     },
 
-
     /**
      * Finds and returns the top level control. This is the first
      * widget which is not a child control of any other widget.
      *
      * @return {qx.ui.core.Widget} The top control
      */
-    _findTopControl : function()
-    {
+    _findTopControl() {
       var obj = this;
-      while (obj)
-      {
+      while (obj) {
         if (!obj.$$subparent) {
           return obj;
         }
@@ -3707,7 +3387,6 @@ qx.Class.define("qx.ui.core.Widget",
       return null;
     },
 
-
     /**
      * Return the ID (name) if this instance was a created as a child control of another widget.
      *
@@ -3715,19 +3394,15 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {String|null} ID of the current widget or null if it was not created as a subcontrol
      */
-    getSubcontrolId : function()
-    {
+    getSubcontrolId() {
       return this.$$subcontrol || null;
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
       LOWER LEVEL ACCESS
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Computes the location of the content element in context of the document
@@ -3751,12 +3426,10 @@ qx.Class.define("qx.ui.core.Widget",
      *   <code>right</code> and <code>bottom</code> which contains the distance
      *   of the element relative to the document.
      */
-    getContentLocation : function(mode)
-    {
+    getContentLocation(mode) {
       var domEl = this.getContentElement().getDomElement();
       return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
     },
-
 
     /**
      * Directly modifies the relative left position in relation
@@ -3768,8 +3441,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param value {Integer} Left position
      */
-    setDomLeft : function(value)
-    {
+    setDomLeft(value) {
       var domEl = this.getContentElement().getDomElement();
       if (domEl) {
         domEl.style.left = value + "px";
@@ -3777,7 +3449,6 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("DOM element is not yet created!");
       }
     },
-
 
     /**
      * Directly modifies the relative top position in relation
@@ -3789,8 +3460,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param value {Integer} Top position
      */
-    setDomTop : function(value)
-    {
+    setDomTop(value) {
       var domEl = this.getContentElement().getDomElement();
       if (domEl) {
         domEl.style.top = value + "px";
@@ -3798,7 +3468,6 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("DOM element is not yet created!");
       }
     },
-
 
     /**
      * Directly modifies the relative left and top position in relation
@@ -3811,34 +3480,28 @@ qx.Class.define("qx.ui.core.Widget",
      * @param left {Integer} Left position
      * @param top {Integer} Top position
      */
-    setDomPosition : function(left, top)
-    {
+    setDomPosition(left, top) {
       var domEl = this.getContentElement().getDomElement();
-      if (domEl)
-      {
+      if (domEl) {
         domEl.style.left = left + "px";
         domEl.style.top = top + "px";
-      }
-      else
-      {
+      } else {
         throw new Error("DOM element is not yet created!");
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
       ARIA attrs support
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Sets the string which labels this widget. This will be read out by screenreaders. Needed if there is no
      * readable text/label in this widget which would automatically act as aria-label.
      * @param label {String} Labelling Text
      */
-    setAriaLabel: function(label) {
+    setAriaLabel(label) {
       this.getContentElement().setAttribute("aria-label", label);
     },
 
@@ -3849,7 +3512,7 @@ qx.Class.define("qx.ui.core.Widget",
      * widgets can be added.
      * @param labelWidgets {qx.ui.core.Widget[]} Indefinite Number of labelling Widgets
      */
-    addAriaLabelledBy: function(...labelWidgets) {
+    addAriaLabelledBy(...labelWidgets) {
       this.__addAriaXBy(labelWidgets, "aria-labelledby");
     },
 
@@ -3858,7 +3521,7 @@ qx.Class.define("qx.ui.core.Widget",
      * information. Multiple Widgets possible.
      * @param describingWidgets {qx.ui.core.Widget[]} Indefinite Number of describing Widgets
      */
-    addAriaDescribedBy: function(...describingWidgets) {
+    addAriaDescribedBy(...describingWidgets) {
       this.__addAriaXBy(describingWidgets, "aria-describedby");
     },
 
@@ -3867,14 +3530,18 @@ qx.Class.define("qx.ui.core.Widget",
      * @param widgets {qx.ui.core.Widget[]} Indefinite Number of widgets
      * @param ariaAttr {String} aria-labelledby | aria-describedby
      */
-    __addAriaXBy: function(widgets, ariaAttr) {
+    __addAriaXBy(widgets, ariaAttr) {
       if (!["aria-labelledby", "aria-describedby"].includes(ariaAttr)) {
         throw new Error("Only aria-labelledby or aria-describedby allowed!");
       }
       let idArr = [];
       for (const widget of widgets) {
         if (!(widget instanceof qx.ui.core.Widget)) {
-          throw new Error("Given widget " + widget + " is not an instance of qx.ui.core.Widget!");
+          throw new Error(
+            "Given widget " +
+              widget +
+              " is not an instance of qx.ui.core.Widget!"
+          );
         }
         const contentEl = widget.getContentElement();
         let widgetId = contentEl.getAttribute("id");
@@ -3896,8 +3563,6 @@ qx.Class.define("qx.ui.core.Widget",
       contentEl.setAttribute(ariaAttr, res);
     },
 
-
-
     /*
     ---------------------------------------------------------------------------
       ENHANCED DISPOSE SUPPORT
@@ -3911,8 +3576,7 @@ qx.Class.define("qx.ui.core.Widget",
      * real dispose happens after the next queue flush.
      *
      */
-    destroy : function()
-    {
+    destroy() {
       if (this.$$disposed) {
         return;
       }
@@ -3930,10 +3594,6 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Dispose.add(this);
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       CLONE SUPPORT
@@ -3941,26 +3601,19 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // overridden
-    clone : function()
-    {
-      var clone = this.base(arguments);
+    clone() {
+      var clone = super.clone();
 
-      if (this.getChildren)
-      {
+      if (this.getChildren) {
         var children = this.getChildren();
-        for (var i=0, l=children.length; i<l; i++) {
+        for (var i = 0, l = children.length; i < l; i++) {
           clone.add(children[i].clone());
         }
       }
 
       return clone;
     }
-
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -3968,16 +3621,12 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     // Some dispose stuff is not needed in global shutdown, otherwise
     // it just slows down things a bit, so do not do them.
-    if (!qx.core.ObjectRegistry.inShutDown)
-    {
-      if (qx.core.Environment.get("qx.dynlocale"))
-      {
-        if (this.__toolTipTextListenerId)
-        {
+    if (!qx.core.ObjectRegistry.inShutDown) {
+      if (qx.core.Environment.get("qx.dynlocale")) {
+        if (this.__toolTipTextListenerId) {
           qx.locale.Manager.getInstance().removeListenerById(
             this.__toolTipTextListenerId
           );
@@ -3987,7 +3636,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Remove widget pointer from DOM
       var contentEl = this.getContentElement();
       if (contentEl) {
-      	contentEl.disconnectWidget(this);
+        contentEl.disconnectWidget(this);
       }
 
       // Clean up all child controls
@@ -4005,28 +3654,20 @@ qx.Class.define("qx.ui.core.Widget",
     }
 
     // pool decorators if not in global shutdown
-    if (!qx.core.ObjectRegistry.inShutDown)
-    {
+    if (!qx.core.ObjectRegistry.inShutDown) {
       this.clearSeparators();
       this.__separators = null;
-    }
-    else
-    {
+    } else {
       this._disposeArray("__separators");
     }
 
     // Clear children array
     this._disposeArray("__widgetChildren");
 
-
     // Cleanup map of appearance states
     this.__states = this.__childControls = null;
 
-
     // Dispose layout manager and HTML elements
-    this._disposeObjects(
-      "__layoutManager",
-      "__contentElement"
-    );
+    this._disposeObjects("__layoutManager", "__contentElement");
   }
 });

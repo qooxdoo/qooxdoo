@@ -19,56 +19,72 @@
 /**
  * testResolve-Class for testResolveing the single value binding
  */
-qx.Class.define("qx.test.data.singlevalue.Resolve",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.data.singlevalue.Resolve", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testResolveDepth1 : function() {
-      var model = qx.data.marshal.Json.createModel({a: 12});
-      this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "a"));
+  members: {
+    testResolveDepth1() {
+      var model = qx.data.marshal.Json.createModel({ a: 12 });
+      this.assertEquals(
+        12,
+        qx.data.SingleValueBinding.resolvePropertyChain(model, "a")
+      );
       model.dispose();
     },
 
-
-    testResolveDepth2 : function() {
-      var model = qx.data.marshal.Json.createModel({a: {b:12}});
-      this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b"));
+    testResolveDepth2() {
+      var model = qx.data.marshal.Json.createModel({ a: { b: 12 } });
+      this.assertEquals(
+        12,
+        qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b")
+      );
       model.dispose();
     },
 
-
-    testResolveDepthHuge : function() {
-      var model = qx.data.marshal.Json.createModel({a: {b: {c: {d: {e: {f: 12}}}}}});
-      this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b.c.d.e.f"));
+    testResolveDepthHuge() {
+      var model = qx.data.marshal.Json.createModel({
+        a: { b: { c: { d: { e: { f: 12 } } } } }
+      });
+      this.assertEquals(
+        12,
+        qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b.c.d.e.f")
+      );
       model.dispose();
     },
 
-    testResolveArrayIndex : function() {
+    testResolveArrayIndex() {
       var arr = new qx.data.Array([23]);
-      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(arr,"[0]"));
+      this.assertEquals(
+        23,
+        qx.data.SingleValueBinding.resolvePropertyChain(arr, "[0]")
+      );
     },
 
-
-    testResolveWithArray : function() {
-      var model = qx.data.marshal.Json.createModel({a: {b: [{c: 12}]}});
-      this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b[0].c"));
+    testResolveWithArray() {
+      var model = qx.data.marshal.Json.createModel({ a: { b: [{ c: 12 }] } });
+      this.assertEquals(
+        12,
+        qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b[0].c")
+      );
       model.dispose();
     },
 
-
-    testResolveNestedArray : function() {
-      var model = qx.data.marshal.Json.createModel({a: [[23]]});
-      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(model, "a[0][0]"));
+    testResolveNestedArray() {
+      var model = qx.data.marshal.Json.createModel({ a: [[23]] });
+      this.assertEquals(
+        23,
+        qx.data.SingleValueBinding.resolvePropertyChain(model, "a[0][0]")
+      );
       model.dispose();
     },
 
-
-    testResolveNotExistant : function() {
-      var model = qx.data.marshal.Json.createModel({a: 12});
-      this.assertException(function() {
-        this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "b"));
+    testResolveNotExistant() {
+      var model = qx.data.marshal.Json.createModel({ a: 12 });
+      this.assertException(function () {
+        this.assertEquals(
+          12,
+          qx.data.SingleValueBinding.resolvePropertyChain(model, "b")
+        );
       });
       model.dispose();
     }

@@ -22,7 +22,6 @@
  * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Function", {
-
   statics: {
     /**
      * Returns a debounced version of the given callback. The execution of the callback
@@ -60,7 +59,7 @@ qx.Bootstrap.define("qx.module.util.Function", {
     throttle: qx.util.Function.throttle
   },
 
-  defer: function (statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "func");
   }
 });

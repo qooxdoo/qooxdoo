@@ -39,14 +39,11 @@
  * |         |       |        |X       |updateData|
  * </pre>
  */
-qx.Class.define("qx.test.ui.virtual.PaneUpdate",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.pane = new qx.ui.virtual.core.Pane(100, 30, 20, 60);
 
       this.layer1 = new qx.test.ui.virtual.layer.LayerMock();
@@ -58,32 +55,24 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.getRoot().add(this.pane);
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.pane.destroy();
     },
 
-
-    assertCalls : function(methodNames, calls, msg)
-    {
+    assertCalls(methodNames, calls, msg) {
       this.assertEquals(methodNames.length, calls.length);
-      for (var i=0; i<methodNames.length; i++) {
+      for (var i = 0; i < methodNames.length; i++) {
         this.assertEquals(methodNames[i], calls[i][0]);
       }
     },
 
-
-    resetCalls : function()
-    {
+    resetCalls() {
       this.layer1.calls = [];
       this.layer2.calls = [];
     },
 
-
-    testNoUpdateBeforeAppear : function()
-    {
+    testNoUpdateBeforeAppear() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
 
@@ -117,9 +106,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testInitial : function()
-    {
+    testInitial() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.flush();
@@ -127,22 +114,24 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testInitialData : function()
-    {
+    testInitialData() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
       this.layer1.updateLayerData();
       this.layer2.updateLayerData();
       this.flush();
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer2.calls);
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer1.calls
+      );
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer2.calls
+      );
     },
 
-
-    testInitialWindow : function()
-    {
+    testInitialWindow() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
@@ -153,9 +142,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testInitialWindowData : function()
-    {
+    testInitialWindowData() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
@@ -164,13 +151,17 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.pane.setScrollX(20);
       this.pane.setScrollY(30);
       this.flush();
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer2.calls);
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer1.calls
+      );
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer2.calls
+      );
     },
 
-
-    testInitialAxis : function()
-    {
+    testInitialAxis() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
@@ -179,22 +170,24 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testInitialAxisData : function()
-    {
+    testInitialAxisData() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
       this.layer1.updateLayerData();
       this.layer2.updateLayerData();
       this.flush();
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer2.calls);
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer1.calls
+      );
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer2.calls
+      );
     },
 
-
-    testInitialAxisWindow : function()
-    {
+    testInitialAxisWindow() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
@@ -205,9 +198,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testInitialAxisWindowData : function()
-    {
+    testInitialAxisWindowData() {
       this.assertCalls([], this.layer1.calls);
       this.assertCalls([], this.layer2.calls);
       this.pane.getRowConfig().setItemCount(123);
@@ -216,13 +207,17 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.layer1.updateLayerData();
       this.layer2.updateLayerData();
       this.flush();
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["updateLayerData", "fullUpdate", "_fullUpdate"], this.layer2.calls);
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer1.calls
+      );
+      this.assertCalls(
+        ["updateLayerData", "fullUpdate", "_fullUpdate"],
+        this.layer2.calls
+      );
     },
 
-
-    testAxis : function()
-    {
+    testAxis() {
       this.flush();
       this.resetCalls();
 
@@ -235,51 +230,11 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testAxisData : function()
-    {
+    testAxisData() {
       this.flush();
       this.resetCalls();
 
       this.pane.getRowConfig().setItemCount(123);
-      this.layer1.updateLayerData();
-      this.layer2.updateLayerData();
-
-      this.assertCalls(["updateLayerData"], this.layer1.calls);
-      this.assertCalls(["updateLayerData"], this.layer2.calls);
-      this.resetCalls();
-      this.flush();
-      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
-    },
-
-
-    testAxisWindow : function()
-    {
-      this.flush();
-      this.resetCalls();
-
-      this.pane.getRowConfig().setItemCount(123);
-      this.pane.setScrollX(20);
-      this.pane.setScrollY(30);
-
-      this.assertCalls([], this.layer1.calls);
-      this.assertCalls([], this.layer2.calls);
-      this.resetCalls();
-      this.flush();
-      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer1.calls);
-      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
-    },
-
-
-    testAxisWindowData : function()
-    {
-      this.flush();
-      this.resetCalls();
-
-      this.pane.getRowConfig().setItemCount(123);
-      this.pane.setScrollX(20);
-      this.pane.setScrollY(30);
       this.layer1.updateLayerData();
       this.layer2.updateLayerData();
 
@@ -291,9 +246,41 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
     },
 
+    testAxisWindow() {
+      this.flush();
+      this.resetCalls();
 
-    testWindow : function()
-    {
+      this.pane.getRowConfig().setItemCount(123);
+      this.pane.setScrollX(20);
+      this.pane.setScrollY(30);
+
+      this.assertCalls([], this.layer1.calls);
+      this.assertCalls([], this.layer2.calls);
+      this.resetCalls();
+      this.flush();
+      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer1.calls);
+      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
+    },
+
+    testAxisWindowData() {
+      this.flush();
+      this.resetCalls();
+
+      this.pane.getRowConfig().setItemCount(123);
+      this.pane.setScrollX(20);
+      this.pane.setScrollY(30);
+      this.layer1.updateLayerData();
+      this.layer2.updateLayerData();
+
+      this.assertCalls(["updateLayerData"], this.layer1.calls);
+      this.assertCalls(["updateLayerData"], this.layer2.calls);
+      this.resetCalls();
+      this.flush();
+      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer1.calls);
+      this.assertCalls(["fullUpdate", "_fullUpdate"], this.layer2.calls);
+    },
+
+    testWindow() {
       this.flush();
       this.resetCalls();
 
@@ -304,13 +291,17 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls([], this.layer2.calls);
       this.resetCalls();
       this.flush();
-      this.assertCalls(["updateLayerWindow", "_updateLayerWindow"], this.layer1.calls);
-      this.assertCalls(["updateLayerWindow", "_updateLayerWindow"], this.layer2.calls);
+      this.assertCalls(
+        ["updateLayerWindow", "_updateLayerWindow"],
+        this.layer1.calls
+      );
+      this.assertCalls(
+        ["updateLayerWindow", "_updateLayerWindow"],
+        this.layer2.calls
+      );
     },
 
-
-    testWindowData : function()
-    {
+    testWindowData() {
       this.flush();
       this.resetCalls();
 
@@ -327,9 +318,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate",
       this.assertCalls(["updateLayerWindow", "_fullUpdate"], this.layer2.calls);
     },
 
-
-    testData : function()
-    {
+    testData() {
       this.flush();
       this.resetCalls();
 

@@ -27,10 +27,8 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.data.marshal.IMarshalerDelegate", {
+  members: {
     /**
      * Gives the possibility to ignore parts of the marshaled data and store the
      * original data.
@@ -42,8 +40,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param depth {Number} The depth level of the data.
      * @return {Boolean} <code>true</code> if the set should be ignored
      */
-    ignore : function(properties, parentProperty, depth) {},
-
+    ignore(properties, parentProperty, depth) {},
 
     /**
      * Gives the possibility to change the names given in the data to convert
@@ -55,8 +52,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @return {String} The new property name which should be used for that property in
      *   the model.
      */
-    getPropertyMapping : function(property, properties) {},
-
+    getPropertyMapping(property, properties) {},
 
     /**
      * Determines the user defined class for the given properties string.
@@ -79,8 +75,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the marshaler will create a class.
      */
-    getModelClass : function(properties, object, parentProperty, depth) {},
-
+    getModelClass(properties, object, parentProperty, depth) {},
 
     /**
      * Returns the class which the created model class uses as superclass.
@@ -94,8 +89,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, {@link qx.core.Object} will be used as superclass.
      */
-    getModelSuperClass : function(properties, parentProperty, depth) {},
-
+    getModelSuperClass(properties, parentProperty, depth) {},
 
     /**
      * Returns the mixins which should be included to the class, created by the
@@ -111,8 +105,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   given in the parameter. If <code>null</code> will be returned, no mixin
      *   will be included.
      */
-    getModelMixins : function(properties, parentProperty, depth) {},
-
+    getModelMixins(properties, parentProperty, depth) {},
 
     /**
      * Returns the validation rules which should be added to the created class
@@ -126,8 +119,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   be included into the property definition as validator.
      *   {@link qx.core.Property} for more details.
      */
-    getValidationRule : function(properties, propertyName) {},
-
+    getValidationRule(properties, propertyName) {},
 
     /**
      * Returns the array class which should be used by the marshaler. The passed
@@ -140,7 +132,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @return {Class|null} Returns the class which should be used as array class.
      *   If <code>null</code> will be returned, {@link qx.data.Array} will be used as array class.
      */
-    getArrayClass : function(parentProperty, depth) {},
+    getArrayClass(parentProperty, depth) {},
 
     /**
      * Converts a given object into a hash which will be used to identify the
@@ -152,6 +144,6 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   support the bubbling of change events or not.
      * @return {String} The hash representation of the given JavaScript object.
      */
-    getJsonHash : function(data, includeBubbleEvents) {}
+    getJsonHash(data, includeBubbleEvents) {}
   }
 });

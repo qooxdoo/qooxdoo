@@ -21,41 +21,37 @@
  * @ignore(qx.ui.tooltip)
  * @ignore(qx.ui.tooltip.Manager.*)
  */
-qx.Class.define("qx.ui.form.validation.Manager",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.form.validation.Manager", {
+  extend: qx.core.Object,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // storage for all form items
     this.__formItems = [];
     // storage for all results of async validation calls
     this.__asyncResults = {};
     // set the default required field message
-    this.setRequiredFieldMessage(qx.locale.Manager.tr("This field is required"));
+    this.setRequiredFieldMessage(
+      qx.locale.Manager.tr("This field is required")
+    );
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Change event for the valid state.
      */
-    "changeValid" : "qx.event.type.Data",
+    changeValid: "qx.event.type.Data",
 
     /**
      * Signals that the validation is done. This is not needed on synchronous
      * validation (validation is done right after the call) but very important
      * in the case an asynchronous validator will be used.
      */
-    "complete" : "qx.event.type.Event"
+    complete: "qx.event.type.Event"
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The validator of the form itself. You can set a function (for
      * synchronous validation) or a {@link qx.ui.form.validation.AsyncValidator}.
@@ -67,11 +63,11 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * validation in the context of the whole form.
      * @type {Function | AsyncValidator}
      */
-    validator :
-    {
-      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
-      init : null,
-      nullable : true
+    validator: {
+      check:
+        "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
+      init: null,
+      nullable: true
     },
 
     /**
@@ -79,41 +75,33 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * failed. It will be added to the array returned by
      * {@link #getInvalidMessages}.
      */
-    invalidMessage :
-    {
-      check : "String",
+    invalidMessage: {
+      check: "String",
       init: ""
     },
-
 
     /**
      * This message will be shown if a required field is empty and no individual
      * {@link qx.ui.form.MForm#requiredInvalidMessage} is given.
      */
-    requiredFieldMessage :
-    {
-      check : "String",
-      init : ""
+    requiredFieldMessage: {
+      check: "String",
+      init: ""
     },
-
 
     /**
      * The context for the form validation.
      */
-    context :
-    {
-      nullable : true
+    context: {
+      nullable: true
     }
   },
 
-
-  members :
-  {
-    __formItems : null,
-    __valid : null,
-    __asyncResults : null,
-    __syncValid : null,
-
+  members: {
+    __formItems: null,
+    __valid: null,
+    __asyncResults: null,
+    __syncValid: null,
 
     /**
      * Add a form item to the validation manager.
@@ -143,7 +131,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *   The validator.
      * @param context {var?null} The context of the validator.
      */
-    add: function(formItem, validator, context) {
+    add(formItem, validator, context) {
       // check for the form API
       if (!this.__supportsInvalid(formItem)) {
         throw new Error("Added widget not supported.");
@@ -152,20 +140,21 @@ qx.Class.define("qx.ui.form.validation.Manager",
       if (this.__supportsSingleSelection(formItem) && !formItem.getValue) {
         // check for a validator
         if (validator != null) {
-          throw new Error("Widgets supporting selection can only be validated " +
-          "in the form validator");
+          throw new Error(
+            "Widgets supporting selection can only be validated " +
+              "in the form validator"
+          );
         }
       }
-      var dataEntry =
-      {
-        item : formItem,
-        validator : validator,
-        valid : null,
-        context : context
+      var dataEntry = {
+        item: formItem,
+        validator: validator,
+        valid: null,
+        context: context
       };
+
       this.__formItems.push(dataEntry);
     },
-
 
     /**
      * Remove a form item from the validation manager.
@@ -174,14 +163,11 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {qx.ui.core.Widget?null} The removed form item or
      *  <code>null</code> if the item could not be found.
      */
-    remove : function(formItem)
-    {
+    remove(formItem) {
       var items = this.__formItems;
 
-      for (var i = 0, len = items.length; i < len; i++)
-      {
-        if (formItem === items[i].item)
-        {
+      for (var i = 0, len = items.length; i < len; i++) {
+        if (formItem === items[i].item) {
           items.splice(i, 1);
           return formItem;
         }
@@ -190,21 +176,18 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return null;
     },
 
-
     /**
      * Returns registered form items from the validation manager.
      *
      * @return {Array} The form items which will be validated.
      */
-    getItems : function()
-    {
+    getItems() {
       var items = [];
-      for (var i=0; i < this.__formItems.length; i++) {
+      for (var i = 0; i < this.__formItems.length; i++) {
         items.push(this.__formItems[i].item);
       }
       return items;
     },
-
 
     /**
      * Invokes the validation. If only synchronous validators are set, the
@@ -217,7 +200,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @return {Boolean|undefined} The validation result, if available.
      */
-    validate : function() {
+    validate() {
       var valid = true;
       this.__syncValid = true; // collaboration of all synchronous validations
       var items = [];
@@ -240,8 +223,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
         }
 
         var validatorResult = this._validateItem(
-          this.__formItems[i], formItem.getValue()
+          this.__formItems[i],
+          formItem.getValue()
         );
+
         // keep that order to ensure that null is returned on async cases
         valid = validatorResult && valid;
         if (validatorResult != null) {
@@ -265,7 +250,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return valid;
     },
 
-
     /**
      * Checks if the form item is required. If so, the value is checked
      * and the result will be returned. If the form item is not required, true
@@ -274,29 +258,28 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param formItem {qx.ui.core.Widget} The form item to check.
      * @return {var} Validation result
      */
-    _validateRequired : function(formItem) {
+    _validateRequired(formItem) {
       if (formItem.getRequired()) {
         var validatorResult;
         // if its a widget supporting the selection
         if (this.__supportsSingleSelection(formItem)) {
           validatorResult = !!formItem.getSelection()[0];
-
         } else if (this.__supportsDataBindingSelection(formItem)) {
-          validatorResult = (formItem.getSelection().getLength() > 0);
-
+          validatorResult = formItem.getSelection().getLength() > 0;
         } else {
           var value = formItem.getValue();
           validatorResult = !!value || value === 0;
         }
         formItem.setValid(validatorResult);
         var individualMessage = formItem.getRequiredInvalidMessage();
-        var message = individualMessage ? individualMessage : this.getRequiredFieldMessage();
+        var message = individualMessage
+          ? individualMessage
+          : this.getRequiredFieldMessage();
         formItem.setInvalidMessage(message);
         return validatorResult;
       }
       return true;
     },
-
 
     /**
      * Validates a form item. This method handles the differences of
@@ -309,7 +292,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {Boolean|null} Validation result or <code>null</code> for async
      * validation
      */
-    _validateItem : function(dataEntry, value) {
+    _validateItem(dataEntry, value) {
       var formItem = dataEntry.item;
       var context = dataEntry.context;
       var validator = dataEntry.validator;
@@ -329,7 +312,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
         if (validatorResult === undefined) {
           validatorResult = true;
         }
-
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           validatorResult = false;
@@ -350,7 +332,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return validatorResult;
     },
 
-
     /**
      * Validates the form. It checks for asynchronous validation and handles
      * the differences to synchronous validation. If no form validator is given,
@@ -361,7 +342,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param items {qx.ui.core.Widget[]} An array of all form items.
      * @return {Boolean|null} description
      */
-    __validateForm: function(items) {
+    __validateForm(items) {
       var formValidator = this.getValidator();
       var context = this.getContext() || this;
 
@@ -400,7 +381,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return formValid;
     },
 
-
     /**
      * Helper function which checks, if the given validator is synchronous
      * or asynchronous.
@@ -409,16 +389,16 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *   The validator to check.
      * @return {Boolean} True, if the given validator is asynchronous.
      */
-    __isAsyncValidator : function(validator) {
+    __isAsyncValidator(validator) {
       var async = false;
       if (!qx.lang.Type.isFunction(validator)) {
         async = qx.Class.isSubClassOf(
-          validator.constructor, qx.ui.form.validation.AsyncValidator
+          validator.constructor,
+          qx.ui.form.validation.AsyncValidator
         );
       }
       return async;
     },
-
 
     /**
      * Returns true, if the given item implements the {@link qx.ui.form.IForm}
@@ -428,11 +408,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
-    __supportsInvalid : function(formItem) {
+    __supportsInvalid(formItem) {
       var clazz = formItem.constructor;
       return qx.Class.hasInterface(clazz, qx.ui.form.IForm);
     },
-
 
     /**
      * Returns true, if the given item implements the
@@ -442,11 +421,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
-    __supportsSingleSelection : function(formItem) {
+    __supportsSingleSelection(formItem) {
       var clazz = formItem.constructor;
       return qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection);
     },
-
 
     /**
      * Returns true, if the given item implements the
@@ -456,11 +434,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {Boolean} true, if the given item implements the
      *   necessary interface.
      */
-    __supportsDataBindingSelection : function(formItem) {
+    __supportsDataBindingSelection(formItem) {
       var clazz = formItem.constructor;
       return qx.Class.hasInterface(clazz, qx.data.controller.ISelection);
     },
-
 
     /**
      * Sets the valid state of the manager. It generates the event if
@@ -468,7 +445,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @param value {Boolean|null} The new valid state of the manager.
      */
-    _setValid: function(value) {
+    _setValid(value) {
       this._showToolTip(value);
       var oldValue = this.__valid;
       this.__valid = value;
@@ -478,13 +455,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
     },
 
-
     /**
      * Responsible for showing a tooltip in case the validation is done for
      * widgets based on qx.ui.core.Widget.
      * @param valid {Boolean} <code>false</code>, if the tooltip should be shown
      */
-    _showToolTip : function(valid) {
+    _showToolTip(valid) {
       // ignore if we don't have a tooltip manager e.g. mobile apps
       if (!qx.ui.tooltip || !qx.ui.tooltip.Manager) {
         return;
@@ -498,7 +474,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
           if (!item.isValid()) {
             firstInvalid = item;
             // only for desktop widgets
-            if (!(item.getContentLocation)) {
+            if (!item.getContentLocation) {
               return;
             }
             // only consider items on the screen
@@ -511,7 +487,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
             if (tooltip.getPlaceMethod() == "mouse") {
               var location = item.getContentLocation();
               var top = location.top - tooltip.getOffsetTop();
-              tooltip.placeToPoint({left: location.right, top: top});
+              tooltip.placeToPoint({ left: location.right, top: top });
             } else {
               tooltip.placeToWidget(item);
             }
@@ -525,26 +501,23 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
     },
 
-
     /**
      * Returns the valid state of the manager.
      *
      * @return {Boolean|null} The valid state of the manager.
      */
-    getValid: function() {
+    getValid() {
       return this.__valid;
     },
 
-
     /**
      * Returns the valid state of the manager.
      *
      * @return {Boolean|null} The valid state of the manager.
      */
-    isValid: function() {
+    isValid() {
       return this.getValid();
     },
-
 
     /**
      * Returns an array of all invalid messages of the invalid form items and
@@ -552,7 +525,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @return {String[]} All invalid messages.
      */
-    getInvalidMessages: function() {
+    getInvalidMessages() {
       var messages = [];
       // combine the messages of all form items
       for (var i = 0; i < this.__formItems.length; i++) {
@@ -569,13 +542,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return messages;
     },
 
-
     /**
      * Selects invalid form items
      *
      * @return {Array} invalid form items
      */
-    getInvalidFormItems : function() {
+    getInvalidFormItems() {
       var res = [];
       for (var i = 0; i < this.__formItems.length; i++) {
         var formItem = this.__formItems[i].item;
@@ -587,11 +559,10 @@ qx.Class.define("qx.ui.form.validation.Manager",
       return res;
     },
 
-
     /**
      * Resets the validator.
      */
-    reset: function() {
+    reset() {
       // reset all form items
       for (var i = 0; i < this.__formItems.length; i++) {
         var dataEntry = this.__formItems[i];
@@ -602,7 +573,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       this.__valid = null;
       this._showToolTip(true);
     },
-
 
     /**
      * Internal helper method to set the given item to valid for asynchronous
@@ -616,13 +586,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @internal
      */
-    setItemValid: function(formItem, valid) {
+    setItemValid(formItem, valid) {
       // store the result
       this.__asyncResults[formItem.toHashCode()] = valid;
       formItem.setValid(valid);
       this.__checkValidationComplete();
     },
-
 
     /**
      * Internal helper method to set the form manager to valid for asynchronous
@@ -635,18 +604,17 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *
      * @internal
      */
-    setFormValid : function(valid) {
+    setFormValid(valid) {
       this.__asyncResults[this.toHashCode()] = valid;
       this.__checkValidationComplete();
     },
-
 
     /**
      * Checks if all asynchronous validators have validated so the result
      * is final and the {@link #complete} event can be fired. If that's not
      * the case, nothing will happen in the method.
      */
-    __checkValidationComplete : function() {
+    __checkValidationComplete() {
       var valid = this.__syncValid;
 
       // check if all async validators are done
@@ -667,14 +635,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-  destruct : function()
-  {
+  destruct() {
     this._showToolTip(true);
     this.__formItems = null;
   }

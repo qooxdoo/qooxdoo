@@ -24,7 +24,7 @@ const semver = require("semver");
 qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
   extend: qx.tool.cli.commands.Package,
   statics: {
-    getYargsCommand: function () {
+    getYargsCommand() {
       return {
         command: "upgrade [library_uri]",
         describe:
@@ -34,30 +34,38 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
             alias: "q",
             describe: "No output"
           },
-          "verbose": {
+
+          verbose: {
             alias: "v",
             describe: "Verbose logging"
           },
+
           "releases-only": {
             alias: "r",
-            describe: "Upgrade regular releases only (this leaves versions based on branches, commits etc. untouched)",
+            describe:
+              "Upgrade regular releases only (this leaves versions based on branches, commits etc. untouched)",
             default: true
           },
-          "reinstall": {
+
+          reinstall: {
             alias: "R",
             describe: "Do not upgrade, reinstall current version"
           },
-          "prereleases": {
+
+          prereleases: {
             alias: "p",
             describe: "Use prereleases if available"
           },
-          "dry-run":{
+
+          "dry-run": {
             alias: "d",
             describe: "Show result only, do not actually upgrade"
           },
+
           "qx-version": {
             check: argv => semver.valid(argv.qxVersion),
-            describe: "A semver string. If given, the qooxdoo version for which to upgrade the package"
+            describe:
+              "A semver string. If given, the qooxdoo version for which to upgrade the package"
           }
         }
       };
@@ -65,25 +73,26 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
   },
 
   members: {
-
     /**
      * Process the command
      * @return {Promise<void>}
      */
     async process() {
-      await this.base(arguments);
+      await super.process();
       let qxVersion = await this.getAppQxVersion();
-      await (new qx.tool.cli.commands.package.Update({
-        quiet:true,
+      await new qx.tool.cli.commands.package.Update({
+        quiet: true,
         prereleases: this.argv.prereleases
-      })).process();
-      await (new qx.tool.cli.commands.package.List({
-        quiet:true,
+      }).process();
+      await new qx.tool.cli.commands.package.List({
+        quiet: true,
         prereleases: this.argv.prereleases,
         qxVersion
-      })).process();
+      }).process();
       if (!this.argv.quiet) {
-        qx.tool.compiler.Console.info(`Upgrading project dependencies to the latest available release for qooxdoo version ${qxVersion}:`);
+        qx.tool.compiler.Console.info(
+          `Upgrading project dependencies to the latest available release for qooxdoo version ${qxVersion}:`
+        );
       }
       let data = await this.getLockfileData();
       let found = false;
@@ -92,6 +101,7 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
         verbose: this.argv.verbose,
         qxVersion
       });
+
       for (const library of data.libraries) {
         // do not upggrade libraries that are not from a repository
         if (!library.repo_name || !library.repo_tag) {
@@ -105,14 +115,22 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
           continue;
         }
         found = true;
-        if (this.argv.releasesOnly && (!qx.lang.Type.isString(library.repo_tag) || !library.repo_tag.startsWith("v"))) {
+        if (
+          this.argv.releasesOnly &&
+          (!qx.lang.Type.isString(library.repo_tag) ||
+            !library.repo_tag.startsWith("v"))
+        ) {
           if (!this.argv.quiet) {
-            qx.tool.compiler.Console.info(`Skipping ${library.library_name} (${library.uri}@${library.repo_tag}) since it is not a release.`);
+            qx.tool.compiler.Console.info(
+              `Skipping ${library.library_name} (${library.uri}@${library.repo_tag}) since it is not a release.`
+            );
           }
           continue;
         }
         if (this.argv.dryRun) {
-          qx.tool.compiler.Console.info(`Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`);
+          qx.tool.compiler.Console.info(
+            `Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`
+          );
           continue;
         }
         if (library.repo_tag && this.argv.reinstall) {
@@ -123,7 +141,9 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
       }
       if (!found) {
         if (this.argv.library_uri) {
-          throw new qx.tool.utils.Utils.UserError(`Library '${this.argv.library_uri}' is not installed.`);
+          throw new qx.tool.utils.Utils.UserError(
+            `Library '${this.argv.library_uri}' is not installed.`
+          );
         } else {
           qx.tool.compiler.Console.info("No packages to upgrade.");
         }

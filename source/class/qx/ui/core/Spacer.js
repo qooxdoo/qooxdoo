@@ -44,11 +44,8 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/spacer.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.core.Spacer",
-{
-  extend : qx.ui.core.LayoutItem,
-
-
+qx.Class.define("qx.ui.core.Spacer", {
+  extend: qx.ui.core.LayoutItem,
 
   /*
   *****************************************************************************
@@ -56,20 +53,17 @@ qx.Class.define("qx.ui.core.Spacer",
   *****************************************************************************
   */
 
- /**
-  * @param width {Integer?null} the initial width
-  * @param height {Integer?null} the initial height
-  */
-  construct : function(width, height)
-  {
-    this.base(arguments);
+  /**
+   * @param width {Integer?null} the initial width
+   * @param height {Integer?null} the initial height
+   */
+  construct(width, height) {
+    super();
 
     // Initialize dimensions
     this.setWidth(width != null ? width : 0);
     this.setHeight(height != null ? height : 0);
   },
-
-
 
   /*
   *****************************************************************************
@@ -77,28 +71,25 @@ qx.Class.define("qx.ui.core.Spacer",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Helper method called from the visibility queue to detect outstanding changes
      * to the appearance.
      *
      * @internal
      */
-    checkAppearanceNeeds : function() {
+    checkAppearanceNeeds() {
       // placeholder to improve compatibility with Widget.
     },
-
 
     /**
      * Recursively adds all children to the given queue
      *
      * @param queue {Map} The queue to add widgets to
      */
-    addChildrenToQueue : function(queue) {
+    addChildrenToQueue(queue) {
       // placeholder to improve compatibility with Widget.
     },
-
 
     /**
      * Removes this widget from its parent and dispose it.
@@ -107,8 +98,7 @@ qx.Class.define("qx.ui.core.Spacer",
      * real dispose happens after the next queue flush.
      *
      */
-    destroy : function()
-    {
+    destroy() {
       if (this.$$disposed) {
         return;
       }

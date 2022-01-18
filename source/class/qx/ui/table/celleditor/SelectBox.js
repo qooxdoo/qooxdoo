@@ -19,42 +19,33 @@
 /**
  * A cell editor factory creating select boxes.
  */
-qx.Class.define("qx.ui.table.celleditor.SelectBox",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
+qx.Class.define("qx.ui.table.celleditor.SelectBox", {
+  extend: qx.core.Object,
+  implement: qx.ui.table.ICellEditorFactory,
 
-
-  properties :
-  {
+  properties: {
     /**
      * function that validates the result
      * the function will be called with the new value and the old value and is
      * supposed to return the value that is set as the table value.
      **/
-    validationFunction :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
+    validationFunction: {
+      check: "Function",
+      nullable: true,
+      init: null
     },
 
     /** array of data to construct ListItem widgets with */
-    listData :
-    {
-      check : "Array",
-      init : null,
-      nullable : true
+    listData: {
+      check: "Array",
+      init: null,
+      nullable: true
     }
-
   },
 
-
-  members :
-  {
+  members: {
     // interface implementation
-    createCellEditor : function(cellInfo)
-    {
+    createCellEditor(cellInfo) {
       var cellEditor = new qx.ui.form.SelectBox().set({
         appearance: "table-editor-selectbox"
       });
@@ -63,26 +54,26 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       cellEditor.originalValue = value;
 
       // check if renderer does something with value
-      var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
+      var cellRenderer = cellInfo.table
+        .getTableColumnModel()
+        .getDataCellRenderer(cellInfo.col);
       var label = cellRenderer._getContentHtml(cellInfo);
-      if ( value != label ) {
+      if (value != label) {
         value = label;
       }
 
       // replace null values
-      if ( value === null ) {
+      if (value === null) {
         value = "";
       }
 
       var list = this.getListData();
-      if (list)
-      {
+      if (list) {
         var item;
 
-        for (var i=0,l=list.length; i<l; i++)
-        {
+        for (var i = 0, l = list.length; i < l; i++) {
           var row = list[i];
-          if ( row instanceof Array ) {
+          if (row instanceof Array) {
             item = new qx.ui.form.ListItem(row[0], row[1]);
             item.setUserData("row", row[2]);
             if (value == row[2]) {
@@ -97,7 +88,9 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       }
 
       if (label != null) {
-        var itemToSelect = cellEditor.getChildrenContainer().findItem(label + "");
+        var itemToSelect = cellEditor
+          .getChildrenContainer()
+          .findItem(label + "");
       }
 
       if (itemToSelect) {
@@ -105,17 +98,15 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       } else {
         cellEditor.resetSelection();
       }
-      cellEditor.addListener("appear", function() {
+      cellEditor.addListener("appear", function () {
         cellEditor.open();
       });
 
       return cellEditor;
     },
 
-
     // interface implementation
-    getCellEditorValue : function(cellEditor)
-    {
+    getCellEditorValue(cellEditor) {
       var selection = cellEditor.getSelection();
       var value = "";
 
@@ -126,8 +117,8 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if (validationFunc ) {
-         value = validationFunc( value, cellEditor.originalValue );
+      if (validationFunc) {
+        value = validationFunc(value, cellEditor.originalValue);
       }
 
       if (typeof cellEditor.originalValue == "number") {

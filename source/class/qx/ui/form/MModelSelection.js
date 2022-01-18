@@ -21,42 +21,38 @@
  * {@link qx.ui.core.ISingleSelection} interface and the selectables implement
  * the {@link qx.ui.form.IModel} interface.
  */
-qx.Mixin.define("qx.ui.form.MModelSelection",
-{
-
-  construct : function() {
+qx.Mixin.define("qx.ui.form.MModelSelection", {
+  construct() {
     // create the selection array
     this.__modelSelection = new qx.data.Array();
 
     // listen to the changes
-    this.__modelSelection.addListener("change", this.__onModelSelectionArrayChange, this);
+    this.__modelSelection.addListener(
+      "change",
+      this.__onModelSelectionArrayChange,
+      this
+    );
     this.addListener("changeSelection", this.__onModelSelectionChange, this);
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Pseudo event. It will never be fired because the array itself can not
      * be changed. But the event description is needed for the data binding.
      */
-    changeModelSelection : "qx.event.type.Data"
+    changeModelSelection: "qx.event.type.Data"
   },
 
-
-  members :
-  {
-
-    __modelSelection : null,
-    __inSelectionChange : false,
-
+  members: {
+    __modelSelection: null,
+    __inSelectionChange: false,
 
     /**
      * Handler for the selection change of the including class e.g. SelectBox,
      * List, ...
      * It sets the new modelSelection via {@link #setModelSelection}.
      */
-    __onModelSelectionChange : function() {
+    __onModelSelectionChange() {
       if (this.__inSelectionChange) {
         return;
       }
@@ -77,16 +73,16 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         this.setModelSelection(modelSelection);
       } catch (e) {
         throw new Error(
-          "Could not set the model selection. Maybe your models are not unique? " + e
+          "Could not set the model selection. Maybe your models are not unique? " +
+            e
         );
       }
     },
 
-
     /**
      * Listener for the change of the internal model selection data array.
      */
-    __onModelSelectionArrayChange : function() {
+    __onModelSelectionArrayChange() {
       this.__inSelectionChange = true;
       var selectables = this.getSelectables(true);
       var itemSelection = [];
@@ -97,7 +93,9 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         for (var j = 0; j < selectables.length; j++) {
           var selectable = selectables[j];
           // fallback if getModel is not implemented
-          var selectableModel = selectable.getModel ? selectable.getModel() : null;
+          var selectableModel = selectable.getModel
+            ? selectable.getModel()
+            : null;
           if (model === selectableModel) {
             itemSelection.push(selectable);
             break;
@@ -115,7 +113,6 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       }
     },
 
-
     /**
      * Returns always an array of the models of the selected items. If no
      * item is selected or no model is given, the array will be empty.
@@ -125,11 +122,9 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      *
      * @return {qx.data.Array} An array of the models of the selected items.
      */
-    getModelSelection : function()
-    {
+    getModelSelection() {
       return this.__modelSelection;
     },
-
 
     /**
      * Takes the given models in the array and searches for the corresponding
@@ -144,11 +139,9 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      * @param modelSelection {Array} An array of models, which should be
      *   selected.
      */
-    setModelSelection : function(modelSelection)
-    {
+    setModelSelection(modelSelection) {
       // check for null values
-      if (!modelSelection)
-      {
+      if (!modelSelection) {
         this.__modelSelection.removeAll();
         return;
       }
@@ -159,14 +152,17 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
 
       // add the first two parameter
       modelSelection.unshift(this.__modelSelection.getLength()); // remove index
-      modelSelection.unshift(0);  // start index
+      modelSelection.unshift(0); // start index
 
-      var returnArray = this.__modelSelection.splice.apply(this.__modelSelection, modelSelection);
+      var returnArray = this.__modelSelection.splice.apply(
+        this.__modelSelection,
+        modelSelection
+      );
       returnArray.dispose();
     }
   },
 
-  destruct : function() {
+  destruct() {
     this._disposeObjects("__modelSelection");
   }
 });

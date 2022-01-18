@@ -27,8 +27,8 @@ var log = qx.tool.utils.LogManager.createLog("resource-manager");
 qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
   extend: qx.tool.compiler.resources.ResourceLoader,
 
-  construct: function() {
-    this.base(arguments, [ ".png", ".gif", ".jpg", ".jpeg", ".svg" ]);
+  construct() {
+    super([".png", ".gif", ".jpg", ".jpeg", ".svg"]);
   },
 
   members: {
@@ -36,26 +36,35 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
      * @Override
      */
     needsLoad(filename, fileInfo, stat) {
-      if (!fileInfo || fileInfo.width === undefined || fileInfo.height === undefined) {
+      if (
+        !fileInfo ||
+        fileInfo.width === undefined ||
+        fileInfo.height === undefined
+      ) {
         return true;
       }
-      return this.base(arguments, filename, fileInfo, stat);
+      return super.needsLoad(filename, fileInfo, stat);
     },
 
     /**
      * @Override
      */
-    matches: function(filename, library) {
+    matches(filename, library) {
       if (filename.endsWith("svg")) {
-        let isWebFont = library.getWebFonts() && library.getWebFonts().find(webFont => webFont.getResources().find(resource => resource == filename));
+        let isWebFont =
+          library.getWebFonts() &&
+          library
+            .getWebFonts()
+            .find(webFont =>
+              webFont.getResources().find(resource => resource == filename)
+            );
         if (isWebFont) {
           return false;
         }
       }
 
-      return this.base(arguments, filename, library);
+      return super.matches(filename, library);
     },
-
 
     /**
      * @Override

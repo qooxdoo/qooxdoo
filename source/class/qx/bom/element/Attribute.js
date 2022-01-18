@@ -55,7 +55,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Attribute/Property handling for DOM HTML elements.
  *
@@ -67,133 +66,122 @@
  * Supports applying text and HTML content using the attribute names
  * <code>text</code> and <code>html</code>.
  */
-qx.Bootstrap.define("qx.bom.element.Attribute",
-{
+qx.Bootstrap.define("qx.bom.element.Attribute", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
-
+  statics: {
     /** Internal map of attribute conversions */
-    __hints :
-    {
+    __hints: {
       // Name translation table (camelcase is important for some attributes)
-      names :
-      {
-        "class"     : "className",
-        "for"       : "htmlFor",
-        html        : "innerHTML",
-        text        : qx.core.Environment.get("html.element.textcontent") ? "textContent" : "innerText",
-        colspan     : "colSpan",
-        rowspan     : "rowSpan",
-        valign      : "vAlign",
-        datetime    : "dateTime",
-        accesskey   : "accessKey",
-        tabindex    : "tabIndex",
-        maxlength   : "maxLength",
-        readonly    : "readOnly",
-        longdesc    : "longDesc",
-        cellpadding : "cellPadding",
-        cellspacing : "cellSpacing",
-        frameborder : "frameBorder",
-        usemap      : "useMap"
+      names: {
+        class: "className",
+        for: "htmlFor",
+        html: "innerHTML",
+        text: qx.core.Environment.get("html.element.textcontent")
+          ? "textContent"
+          : "innerText",
+        colspan: "colSpan",
+        rowspan: "rowSpan",
+        valign: "vAlign",
+        datetime: "dateTime",
+        accesskey: "accessKey",
+        tabindex: "tabIndex",
+        maxlength: "maxLength",
+        readonly: "readOnly",
+        longdesc: "longDesc",
+        cellpadding: "cellPadding",
+        cellspacing: "cellSpacing",
+        frameborder: "frameBorder",
+        usemap: "useMap"
       },
 
       // Attributes which are only applyable on a DOM element (not using compile())
-      runtime :
-      {
-        "html" : 1,
-        "text" : 1
+      runtime: {
+        html: 1,
+        text: 1
       },
 
       // Attributes which are (forced) boolean
-      bools :
-      {
-        compact  : 1,
-        nowrap   : 1,
-        ismap    : 1,
-        declare  : 1,
-        noshade  : 1,
-        checked  : 1,
-        disabled : 1,
-        readOnly : 1,
-        multiple : 1,
-        selected : 1,
-        noresize : 1,
-        defer    : 1,
-        allowTransparency : 1
+      bools: {
+        compact: 1,
+        nowrap: 1,
+        ismap: 1,
+        declare: 1,
+        noshade: 1,
+        checked: 1,
+        disabled: 1,
+        readOnly: 1,
+        multiple: 1,
+        selected: 1,
+        noresize: 1,
+        defer: 1,
+        allowTransparency: 1
       },
 
       // Interpreted as property (element.property)
-      property :
-      {
+      property: {
         // Used by qx.html.Element
-        $$element       : 1,
-        $$elementObject : 1,
+        $$element: 1,
+        $$elementObject: 1,
 
         // Used by qx.ui.core.Widget
-        $$qxObjectHash  : 1,
-        $$qxObject      : 1,
+        $$qxObjectHash: 1,
+        $$qxObject: 1,
 
         // Native properties
-        checked     : 1,
-        readOnly    : 1,
-        multiple    : 1,
-        selected    : 1,
-        value       : 1,
-        maxLength   : 1,
-        className   : 1,
-        innerHTML   : 1,
-        innerText   : 1,
-        textContent : 1,
-        htmlFor     : 1,
-        tabIndex    : 1
+        checked: 1,
+        readOnly: 1,
+        multiple: 1,
+        selected: 1,
+        value: 1,
+        maxLength: 1,
+        className: 1,
+        innerHTML: 1,
+        innerText: 1,
+        textContent: 1,
+        htmlFor: 1,
+        tabIndex: 1
       },
 
-      qxProperties :
-      {
-        $$qxObjectHash : 1,
-        $$qxObject : 1,
-        $$element : 1,
-        $$elementObject : 1
+      qxProperties: {
+        $$qxObjectHash: 1,
+        $$qxObject: 1,
+        $$element: 1,
+        $$elementObject: 1
       },
 
       // Default values when "null" is given to a property
-      propertyDefault :
-      {
-        disabled : false,
-        checked : false,
-        readOnly : false,
-        multiple : false,
-        selected : false,
-        value : "",
-        className : "",
-        innerHTML : "",
-        innerText : "",
-        textContent : "",
-        htmlFor : "",
-        tabIndex : 0,
+      propertyDefault: {
+        disabled: false,
+        checked: false,
+        readOnly: false,
+        multiple: false,
+        selected: false,
+        value: "",
+        className: "",
+        innerHTML: "",
+        innerText: "",
+        textContent: "",
+        htmlFor: "",
+        tabIndex: 0,
         maxLength: qx.core.Environment.select("engine.name", {
-          "mshtml" : 2147483647,
-          "webkit": 524288,
-          "default": -1
+          mshtml: 2147483647,
+          webkit: 524288,
+          default: -1
         })
       },
 
-
       // Properties which can be removed to reset them
-      removeableProperties :
-      {
+      removeableProperties: {
         disabled: 1,
         multiple: 1,
         maxLength: 1
       }
     },
-
 
     /**
      * Compiles an incoming attribute map to a string which
@@ -205,13 +193,11 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param map {Map} Map of attributes. The key is the name of the attribute.
      * @return {String} Returns a compiled string ready for usage.
      */
-    compile : function(map)
-    {
+    compile(map) {
       var html = [];
       var runtime = this.__hints.runtime;
 
-      for (var key in map)
-      {
+      for (var key in map) {
         if (!runtime[key]) {
           html.push(key, "='", map[key], "'");
         }
@@ -220,7 +206,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       return html.join("");
     },
 
-
     /**
      * Returns the value of the given HTML attribute
      *
@@ -228,8 +213,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param name {String} Name of the attribute
      * @return {var} The value of the attribute
      */
-    get : function(element, name)
-    {
+    get(element, name) {
       var hints = this.__hints;
       var value;
 
@@ -237,13 +221,13 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       name = hints.names[name] || name;
 
       // respect properties
-      if (hints.property[name])
-      {
+      if (hints.property[name]) {
         value = element[name];
 
-        if (typeof hints.propertyDefault[name] !== "undefined" &&
-            value == hints.propertyDefault[name])
-        {
+        if (
+          typeof hints.propertyDefault[name] !== "undefined" &&
+          value == hints.propertyDefault[name]
+        ) {
           // only return null for all non-boolean properties
           if (typeof hints.bools[name] === "undefined") {
             return null;
@@ -251,12 +235,18 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
             return value;
           }
         }
-      } else { // fallback to attribute
+      } else {
+        // fallback to attribute
         value = element.getAttribute(name);
 
         // All modern browsers interpret "" as true but not IE8, which set the property to "" reset
-        if (hints.bools[name] && !(qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) <= 8 )) {
+        if (
+          hints.bools[name] &&
+          !(
+            qx.core.Environment.get("engine.name") == "mshtml" &&
+            parseInt(qx.core.Environment.get("browser.documentmode"), 10) <= 8
+          )
+        ) {
           return qx.Bootstrap.isString(value); // also respect empty strings as true
         }
       }
@@ -268,7 +258,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       return value;
     },
 
-
     /**
      * Sets an HTML attribute on the given DOM element
      *
@@ -276,8 +265,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
      */
-    set : function(element, name, value)
-    {
+    set(element, name, value) {
       if (typeof value === "undefined") {
         return;
       }
@@ -295,14 +283,14 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       // apply attribute
       // only properties which can be applied by the browser or qxProperties
       // otherwise use the attribute methods
-      if (hints.property[name] && (!(element[name] === undefined) || hints.qxProperties[name]))
-      {
+      if (
+        hints.property[name] &&
+        (!(element[name] === undefined) || hints.qxProperties[name])
+      ) {
         // resetting the attribute/property
-        if (value == null)
-        {
+        if (value == null) {
           // for properties which need to be removed for a correct reset
-          if (hints.removeableProperties[name])
-          {
+          if (hints.removeableProperties[name]) {
             element.removeAttribute(name);
             return;
           } else if (typeof hints.propertyDefault[name] !== "undefined") {
@@ -311,27 +299,23 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         }
 
         element[name] = value;
-      }
-      else
-      {
-        if ((hints.bools[name] || value === null) &&
-          name.indexOf("data-") !== 0)
-        {
+      } else {
+        if (
+          (hints.bools[name] || value === null) &&
+          name.indexOf("data-") !== 0
+        ) {
           if (value === true) {
-          element.setAttribute(name, name);
+            element.setAttribute(name, name);
           } else if (value === false || value === null) {
             element.removeAttribute(name);
           }
-        }
-        else if (value === null) {
+        } else if (value === null) {
           element.removeAttribute(name);
-        }
-        else {
+        } else {
           element.setAttribute(name, value);
         }
       }
     },
-
 
     /**
      * Serializes an HTML attribute into a writer; the `writer` function accepts
@@ -341,8 +325,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
      */
-    serialize : function(writer, name, value)
-    {
+    serialize(writer, name, value) {
       if (typeof value === "undefined") {
         return;
       }
@@ -360,15 +343,17 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       }
 
       // apply attribute
-      if ((hints.bools[name] || value === null) && name.indexOf("data-") !== 0) {
+      if (
+        (hints.bools[name] || value === null) &&
+        name.indexOf("data-") !== 0
+      ) {
         if (value === true) {
           writer(name, "=", name);
         }
       } else if (value !== null) {
-        writer(name, "=\"", value, "\"");
+        writer(name, '="', value, '"');
       }
     },
-
 
     /**
      * Resets an HTML attribute on the given DOM element
@@ -376,7 +361,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      */
-    reset : function(element, name) {
+    reset(element, name) {
       if (name.indexOf("data-") === 0) {
         element.removeAttribute(name);
       } else {

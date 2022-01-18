@@ -21,21 +21,17 @@
  *
  * It contains functionality to load parts and to retrieve part instances.
  */
-qx.Class.define("qx.io.PartLoader",
-{
-  type : "singleton",
-  extend : qx.core.Object,
+qx.Class.define("qx.io.PartLoader", {
+  type: "singleton",
+  extend: qx.core.Object,
 
+  construct() {
+    super();
 
-  construct : function()
-  {
-    this.base(arguments);
-
-
-    var loader = this._loader = qx.Part.getInstance();
+    var loader = (this._loader = qx.Part.getInstance());
 
     var self = this;
-    loader.onpart = function(part) {
+    loader.onpart = function (part) {
       if (part.getReadyState() == "complete") {
         self.fireDataEvent("partLoaded", part);
       } else {
@@ -44,26 +40,22 @@ qx.Class.define("qx.io.PartLoader",
     };
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Fired if a parts was loaded. The data of the event instance point to the
      * loaded part instance.
      */
-    "partLoaded" : "qx.event.type.Data",
+    partLoaded: "qx.event.type.Data",
 
     /**
      * Fired if a part could not be loaded. The event's
      * {@link qx.event.type.Data#getData} method returns the name of the failed
      * part.
      */
-    "partLoadingError" : "qx.event.type.Data"
+    partLoadingError: "qx.event.type.Data"
   },
 
-
-  statics :
-  {
+  statics: {
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -76,14 +68,12 @@ qx.Class.define("qx.io.PartLoader",
      *   the parts specified in the partNames argument.
      * @param self {Object?window} Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require(partNames, callback, self) {
       this.getInstance().require(partNames, callback, self);
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -95,10 +85,9 @@ qx.Class.define("qx.io.PartLoader",
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require(partNames, callback, self) {
       this._loader.require(partNames, callback, self);
     },
-
 
     /**
      * Get the part instance of the part with the given name.
@@ -107,10 +96,9 @@ qx.Class.define("qx.io.PartLoader",
      *    compile time.
      * @return {qx.io.part.Part} The corresponding part instance
      */
-    getPart : function(name) {
+    getPart(name) {
       return this.getParts()[name];
     },
-
 
     /**
      * Checks if a part with the given name is available.
@@ -118,16 +106,15 @@ qx.Class.define("qx.io.PartLoader",
      *    compile time.
      * @return {Boolean} <code>true</code>, if the part is available
      */
-    hasPart : function(name) {
+    hasPart(name) {
       return this.getPart(name) !== undefined;
     },
-
 
     /**
      * Returns a map of all known parts.
      * @return {Map} Map containing all parts.
      */
-    getParts : function() {
+    getParts() {
       return this._loader.getParts();
     }
   }

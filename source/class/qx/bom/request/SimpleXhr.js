@@ -53,23 +53,21 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.request.SimpleXhr",
-{
-
+qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
   extend: qx.event.Emitter,
-  implement: [ qx.core.IDisposable ],
+  implement: [qx.core.IDisposable],
 
   /**
    * @param url {String?} The URL of the resource to request.
    * @param method {String?"GET"} The HTTP method.
    */
-  construct: function(url, method) {
+  construct(url, method) {
     if (url !== undefined) {
       this.setUrl(url);
     }
 
     this.useCaching(true);
-    this.setMethod((method !== undefined) ? method : "GET");
+    this.setMethod(method !== undefined ? method : "GET");
     this._transport = this._registerTransportListener(this._createTransport());
 
     qx.core.ObjectRegistry.register(this);
@@ -78,8 +76,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     this.__parser = this._createResponseParser();
   },
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       PUBLIC
@@ -93,7 +90,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param value {String} Value of the header.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    setRequestHeader: function(key, value) {
+    setRequestHeader(key, value) {
       this.__requestHeaders[key] = value;
       return this;
     },
@@ -104,10 +101,9 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param key {String} Key of the header.
      * @return {String} The value of the header.
      */
-    getRequestHeader: function(key) {
+    getRequestHeader(key) {
       return this.__requestHeaders[key];
     },
-
 
     /**
      * Returns a single response header
@@ -115,16 +111,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param header {String} Name of the header to get.
      * @return {String} Response header
      */
-    getResponseHeader: function(header) {
+    getResponseHeader(header) {
       return this._transport.getResponseHeader(header);
     },
-
 
     /**
      * Returns all response headers
      * @return {String} String of response headers
      */
-    getAllResponseHeaders: function() {
+    getAllResponseHeaders() {
       return this._transport.getAllResponseHeaders();
     },
 
@@ -134,7 +129,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param url {String} URL to be requested.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    setUrl: function(url) {
+    setUrl(url) {
       if (qx.lang.Type.isString(url)) {
         this.__url = url;
       }
@@ -146,7 +141,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {String} URL to be requested.
      */
-    getUrl: function() {
+    getUrl() {
       return this.__url;
     },
 
@@ -156,7 +151,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param method {String} The method.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    setMethod: function(method) {
+    setMethod(method) {
       if (qx.util.Request.isMethod(method)) {
         this.__method = method;
       }
@@ -168,7 +163,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {String} The method.
      */
-    getMethod: function() {
+    getMethod() {
       return this.__method;
     },
 
@@ -181,9 +176,14 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param data {String|Object} The request data.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    setRequestData: function(data) {
-      if (qx.lang.Type.isString(data) || qx.lang.Type.isObject(data) ||
-         ["ArrayBuffer", "Blob", "FormData"].indexOf(qx.lang.Type.getClass(data)) !== -1) {
+    setRequestData(data) {
+      if (
+        qx.lang.Type.isString(data) ||
+        qx.lang.Type.isObject(data) ||
+        ["ArrayBuffer", "Blob", "FormData"].indexOf(
+          qx.lang.Type.getClass(data)
+        ) !== -1
+      ) {
         this.__requestData = data;
       }
       return this;
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {String} The request data.
      */
-    getRequestData: function() {
+    getRequestData() {
       return this.__requestData;
     },
 
@@ -205,11 +205,13 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {String|null} The parsed response of the request.
      */
-    getResponse: function() {
+    getResponse() {
       if (this.__response !== null) {
         return this.__response;
       } else {
-        return (this._transport.responseXML !== null) ? this._transport.responseXML : this._transport.responseText;
+        return this._transport.responseXML !== null
+          ? this._transport.responseXML
+          : this._transport.responseText;
       }
     },
 
@@ -226,15 +228,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Object} An instance of a class found in
      *  <code>qx.bom.request.*</code>
      */
-     // This method mainly exists so that some methods found in the
-     // low-level transport can be deliberately omitted here,
-     // but still be accessed should it be absolutely necessary.
-     //
-     // Valid use cases include to query the transport’s responseXML
-     // property if performance is critical and any extra parsing
-     // should be avoided at all costs.
-     //
-    getTransport: function() {
+    // This method mainly exists so that some methods found in the
+    // low-level transport can be deliberately omitted here,
+    // but still be accessed should it be absolutely necessary.
+    //
+    // Valid use cases include to query the transport’s responseXML
+    // property if performance is critical and any extra parsing
+    // should be avoided at all costs.
+    //
+    getTransport() {
       return this._transport;
     },
 
@@ -246,7 +248,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param parser {String|Function}
      * @return {Function} The parser function
      */
-    setParser: function(parser) {
+    setParser(parser) {
       return this.__parser.setParser(parser);
     },
 
@@ -256,7 +258,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param millis {Number} limit in milliseconds.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    setTimeout: function(millis) {
+    setTimeout(millis) {
       if (qx.lang.Type.isNumber(millis)) {
         this.__timeout = millis;
       }
@@ -268,7 +270,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {Number} The current timeout in milliseconds.
      */
-    getTimeout: function() {
+    getTimeout() {
       return this.__timeout;
     },
 
@@ -306,7 +308,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param value {Boolean}
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    useCaching: function(value) {
+    useCaching(value) {
       if (qx.lang.Type.isBoolean(value)) {
         this.__cache = value;
       }
@@ -318,17 +320,17 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {Boolean} Whether requests are cached.
      */
-    isCaching: function() {
+    isCaching() {
       return this.__cache;
     },
 
     /**
      * Whether request completed (is done).
-
      * @return {Boolean} Whether request is completed.
      */
-    isDone: function() {
-      return (this._transport.readyState === qx.bom.request.Xhr.DONE);
+
+    isDone() {
+      return this._transport.readyState === qx.bom.request.Xhr.DONE;
     },
 
     /**
@@ -336,7 +338,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {Integer} unique hash code of the object
      */
-    toHashCode : function() {
+    toHashCode() {
       return this.$$hash;
     },
 
@@ -345,7 +347,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {Boolean} Whether the object has been disposed
      */
-    isDisposed: function() {
+    isDisposed() {
       return !!this.__disposed;
     },
 
@@ -358,23 +360,35 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * * optional request headers
      * * optional request data
      */
-    send: function() {
+    send() {
       var curTimeout = this.getTimeout(),
-          hasRequestData = (this.getRequestData() !== null),
-          hasCacheControlHeader = this.__requestHeaders.hasOwnProperty("Cache-Control"),
-          isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
-          curContentType = this.getRequestHeader("Content-Type"),
-          serializedData = this._serializeData(this.getRequestData(), curContentType);
+        hasRequestData = this.getRequestData() !== null,
+        hasCacheControlHeader =
+          this.__requestHeaders.hasOwnProperty("Cache-Control"),
+        isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(
+          this.getMethod()
+        ),
+        curContentType = this.getRequestHeader("Content-Type"),
+        serializedData = this._serializeData(
+          this.getRequestData(),
+          curContentType
+        );
 
       // add GET params if needed
       if (this.getMethod() === "GET" && hasRequestData) {
-        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData));
+        this.setUrl(
+          qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData)
+        );
       }
 
       // cache prevention
       if (this.isCaching() === false && !hasCacheControlHeader) {
         // Make sure URL cannot be served from cache and new request is made
-        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), {nocache: new Date().valueOf()}));
+        this.setUrl(
+          qx.util.Uri.appendParamsToUrl(this.getUrl(), {
+            nocache: new Date().valueOf()
+          })
+        );
       }
 
       // set timeout
@@ -396,9 +410,17 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         this._transport.send();
       } else {
         // POST & PUT ...
-        if (typeof curContentType === "undefined" && ["ArrayBuffer", "Blob", "FormData"].indexOf(qx.Bootstrap.getClass(serializedData)) === -1) {
+        if (
+          typeof curContentType === "undefined" &&
+          ["ArrayBuffer", "Blob", "FormData"].indexOf(
+            qx.Bootstrap.getClass(serializedData)
+          ) === -1
+        ) {
           // by default, set content-type urlencoded for requests with body
-          this._transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          this._transport.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
         }
 
         this._transport.send(serializedData);
@@ -411,7 +433,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * Cancels any network activity.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
-    abort: function() {
+    abort() {
       this._transport.abort();
       return this;
     },
@@ -420,7 +442,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * Disposes object and wrapped transport.
      * @return {Boolean} <code>true</code> if the object was successfully disposed
      */
-    dispose: function() {
+    dispose() {
       if (this._transport.dispose()) {
         this.__parser = null;
         this.__disposed = true;
@@ -446,7 +468,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * May be overridden to change type of resource.
      * @return {qx.bom.request.IRequest} Transport.
      */
-    _createTransport: function() {
+    _createTransport() {
       return new qx.bom.request.Xhr();
     },
 
@@ -456,8 +478,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param transport {qx.bom.request.IRequest} Transport.
      * @return {qx.bom.request.IRequest} Transport.
      */
-    _registerTransportListener: function(transport) {
-      transport.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
+    _registerTransportListener(transport) {
+      transport.onreadystatechange = qx.lang.Function.bind(
+        this._onReadyStateChange,
+        this
+      );
       transport.onloadend = qx.lang.Function.bind(this._onLoadEnd, this);
       transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
       transport.onerror = qx.lang.Function.bind(this._onError, this);
@@ -471,8 +496,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @return {qx.util.ResponseParser} parser.
      */
-    _createResponseParser: function() {
-        return new qx.util.ResponseParser();
+    _createResponseParser() {
+      return new qx.util.ResponseParser();
     },
 
     /**
@@ -480,7 +505,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      *
      * @param response {String} The parsed response of the request.
      */
-    _setResponse: function(response) {
+    _setResponse(response) {
       this.__response = response;
     },
 
@@ -491,9 +516,9 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param contentType {String?} Content-Type which influences the serialization.
      * @return {String|null} Serialized data.
      */
-    _serializeData: function(data, contentType) {
+    _serializeData(data, contentType) {
       var isPost = this.getMethod() === "POST",
-          isJson = (/application\/.*\+?json/).test(contentType);
+        isJson = /application\/.*\+?json/.test(contentType);
 
       if (!data) {
         return null;
@@ -503,7 +528,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         return data;
       }
 
-      if (isJson && (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))) {
+      if (
+        isJson &&
+        (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))
+      ) {
         return qx.lang.Json.stringify(data);
       }
 
@@ -511,7 +539,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         return qx.util.Uri.toParameter(data, isPost);
       }
 
-      if (["ArrayBuffer", "Blob", "FormData"].indexOf(qx.Bootstrap.getClass(data)) !== -1) {
+      if (
+        ["ArrayBuffer", "Blob", "FormData"].indexOf(
+          qx.Bootstrap.getClass(data)
+        ) !== -1
+      ) {
         return data;
       }
 
@@ -575,7 +607,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param ctx {var?} The context of the listener.
      * @return {qx.bom.request.Xhr} Self for chaining.
      */
-    addListenerOnce: function(name, listener, ctx) {
+    addListenerOnce(name, listener, ctx) {
       this.once(name, listener, ctx);
       return this;
     },
@@ -588,7 +620,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param ctx {var?} The context of the listener.
      * @return {qx.bom.request.Xhr} Self for chaining.
      */
-    addListener: function(name, listener, ctx) {
+    addListener(name, listener, ctx) {
       this._transport._emitter.on(name, listener, ctx);
       return this;
     },
@@ -596,7 +628,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Handles "readyStateChange" event.
      */
-    _onReadyStateChange: function() {
+    _onReadyStateChange() {
       if (qx.core.Environment.get("qx.debug.io")) {
         qx.Bootstrap.debug("Fire readyState: " + this._transport.readyState);
       }
@@ -609,9 +641,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Called internally when readyState is DONE.
      */
-    __onReadyStateDone: function() {
+    __onReadyStateDone() {
       if (qx.core.Environment.get("qx.debug.io")) {
-        qx.Bootstrap.debug("Request completed with HTTP status: " + this._transport.status);
+        qx.Bootstrap.debug(
+          "Request completed with HTTP status: " + this._transport.status
+        );
       }
 
       var response = this._transport.responseText;
@@ -619,7 +653,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this._transport.status)) {
-
         // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug("Response is of type: '" + contentType + "'");
@@ -629,9 +662,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
         this.emit("success");
 
-      // Erroneous HTTP status
+        // Erroneous HTTP status
       } else {
-
         try {
           this._setResponse(this.__parser.parse(response, contentType));
         } catch (e) {
@@ -648,21 +680,21 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Handles "loadEnd" event.
      */
-    _onLoadEnd: function() {
+    _onLoadEnd() {
       this.emit("loadEnd");
     },
 
     /**
      * Handles "abort" event.
      */
-    _onAbort: function() {
+    _onAbort() {
       this.emit("abort");
     },
 
     /**
      * Handles "timeout" event.
      */
-    _onTimeout: function() {
+    _onTimeout() {
       this.emit("timeout");
 
       // A network error failure
@@ -672,7 +704,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Handles "error" event.
      */
-    _onError: function() {
+    _onError() {
       this.emit("error");
 
       // A network error failure
@@ -682,9 +714,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Handles "error" event.
      */
-    _onProgress: function() {
+    _onProgress() {
       this.emit("progress");
     }
-
   }
 });

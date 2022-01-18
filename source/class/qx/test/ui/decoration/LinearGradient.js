@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.decoration.LinearGradient",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.decoration.LinearGradient", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.__w = new qx.ui.core.Widget();
       this.__w.setHeight(100);
       this.__dec = new qx.ui.decoration.Decorator();
@@ -30,68 +28,74 @@ qx.Class.define("qx.test.ui.decoration.LinearGradient",
         startColor: "red",
         endColor: "black"
       });
+
       this.getRoot().add(this.__w);
     },
 
-    tearDown : function() {
+    tearDown() {
       this.__w.destroy();
       this.__dec.dispose();
     },
 
-
-    testDefault : function() {
+    testDefault() {
       this.__dec.set({
         startColorPosition: 0,
         endColorPosition: 100
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     },
 
-    testDefaultPx : function() {
+    testDefaultPx() {
       this.__dec.set({
         startColorPosition: 0,
         endColorPosition: 200,
         colorPositionUnit: "px"
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     },
 
-    testNegativeStart : function() {
+    testNegativeStart() {
       this.__dec.set({
         startColorPosition: -100,
         endColorPosition: 100
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     },
 
-    testBigEnd : function() {
+    testBigEnd() {
       this.__dec.set({
         startColorPosition: 0,
         endColorPosition: 200
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     },
 
-    testBigEndPx : function() {
+    testBigEndPx() {
       this.__dec.set({
         startColorPosition: 0,
         endColorPosition: 200,
         colorPositionUnit: "px"
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     },
 
-    testNegativeStartPx : function() {
+    testNegativeStartPx() {
       this.__dec.set({
         startColorPosition: 0,
         endColorPosition: 200,
         colorPositionUnit: "px"
       });
+
       this.__w.setDecorator(this.__dec);
       this.flush();
     }

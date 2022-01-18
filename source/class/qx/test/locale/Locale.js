@@ -16,23 +16,20 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.locale.Locale",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.locale.MTranslation,
+qx.Class.define("qx.test.locale.Locale", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.locale.MTranslation,
 
-  members :
-  {
-    __defaultLocale : null,
-    __listenerId : null,
+  members: {
+    __defaultLocale: null,
+    __listenerId: null,
 
-    setUp : function() {
+    setUp() {
       var manager = qx.locale.Manager.getInstance();
       this.__defaultLocale = manager.getLocale();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       var manager = qx.locale.Manager.getInstance();
       manager.setLocale(this.__defaultLocale);
       if (this.__listenerId) {
@@ -40,9 +37,7 @@ qx.Class.define("qx.test.locale.Locale",
       }
     },
 
-
-    testTranslation : function()
-    {
+    testTranslation() {
       this.assertNotUndefined(qx.locale.Manager);
       var manager = qx.locale.Manager.getInstance();
 
@@ -55,6 +50,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test one car": "test one car",
         "test %1 cars": "test %1 cars"
       });
+
       manager.addTranslation("de_QX", {
         "test one": "Eins",
         "test two": "Zwei",
@@ -63,6 +59,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test one car": "Ein Auto",
         "test %1 cars": "%1 Autos"
       });
+
       manager.setLocale("en_QX");
 
       this.assertEquals("en", manager.getLanguage());
@@ -77,7 +74,10 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("test Hello Fabian!", hello);
 
       // tr(): format string with namedArg
-      var hello = this.tr("test Hello %{firstName} %{lastName}!", { firstName: "Fabian", lastName: "Jonny"});
+      var hello = this.tr("test Hello %{firstName} %{lastName}!", {
+        firstName: "Fabian",
+        lastName: "Jonny"
+      });
       this.assertEquals("test Hello Fabian Jonny!", hello);
 
       // tr(): format string with translated arguments
@@ -99,7 +99,11 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("test one", one);
       hello = this.trc("comment format", "test Hello %1!", "Fabian");
       this.assertEquals("test Hello Fabian!", hello);
-      hiJonny = this.trc("comment format args", "test Hello %1!", this.tr("test Jonny"));
+      hiJonny = this.trc(
+        "comment format args",
+        "test Hello %1!",
+        this.tr("test Jonny")
+      );
       this.assertEquals("test Hello test Jonny!", hiJonny);
 
       // trnc(): comments and plural
@@ -113,7 +117,7 @@ qx.Class.define("qx.test.locale.Locale",
       // check listener
       var fired = false;
       var evtLocale = "";
-      this.__listenerId = manager.addListener("changeLocale", function(e) {
+      this.__listenerId = manager.addListener("changeLocale", function (e) {
         fired = true;
         evtLocale = e.getData();
       });
@@ -122,7 +126,6 @@ qx.Class.define("qx.test.locale.Locale",
       manager.setLocale("de_QX");
       this.assertTrue(fired);
       this.assertEquals("de_QX", evtLocale);
-
 
       // simple case
       one = one.translate();
@@ -144,9 +147,7 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("5 Autos", cars);
     },
 
-
-    testInvalidMessage : function()
-    {
+    testInvalidMessage() {
       this.assertNotUndefined(qx.locale.Manager);
       var manager = qx.locale.Manager.getInstance();
 
@@ -155,10 +156,12 @@ qx.Class.define("qx.test.locale.Locale",
         "test one": "one!",
         "test two": "two!"
       });
+
       manager.addTranslation("de_QX", {
         "test one": "Eins!",
         "test two": "Zwei!"
       });
+
       manager.setLocale("en_QX");
 
       var textField = new qx.ui.form.TextField();
@@ -175,24 +178,36 @@ qx.Class.define("qx.test.locale.Locale",
       textField.dispose();
     },
 
-
-    testMacCtrl : function()
-    {
+    testMacCtrl() {
       // check if the translation is working
-      this.assertEquals("Links", qx.locale.Key.getKeyName("short", "Left", "de_DE"));
+      this.assertEquals(
+        "Links",
+        qx.locale.Key.getKeyName("short", "Left", "de_DE")
+      );
       // is the localized version
       if (qx.core.Environment.get("os.name") == "osx") {
         // there is no strg on macs, only ctrl
-        this.assertEquals("Ctrl", qx.locale.Key.getKeyName("short", "Control", "de_DE"));
-        this.assertEquals("Control", qx.locale.Key.getKeyName("full", "Control", "de_DE"));
+        this.assertEquals(
+          "Ctrl",
+          qx.locale.Key.getKeyName("short", "Control", "de_DE")
+        );
+        this.assertEquals(
+          "Control",
+          qx.locale.Key.getKeyName("full", "Control", "de_DE")
+        );
       } else {
-        this.assertEquals("Strg", qx.locale.Key.getKeyName("short", "Control", "de_DE"));
-        this.assertEquals("Steuerung", qx.locale.Key.getKeyName("full", "Control", "de_DE"));
+        this.assertEquals(
+          "Strg",
+          qx.locale.Key.getKeyName("short", "Control", "de_DE")
+        );
+        this.assertEquals(
+          "Steuerung",
+          qx.locale.Key.getKeyName("full", "Control", "de_DE")
+        );
       }
     },
 
-    testResetLocale : function()
-    {
+    testResetLocale() {
       var locale = qx.core.Environment.get("locale");
       var variant = qx.core.Environment.get("locale.variant");
       if (variant !== "") {
@@ -205,6 +220,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test one": "one!",
         "test two": "two!"
       });
+
       manager.setLocale("en_QX");
 
       // try the reset of the locale
@@ -214,6 +230,5 @@ qx.Class.define("qx.test.locale.Locale",
       // make sure we set the locale which was there before the test
       manager.setLocale(oldLocale);
     }
-
   }
 });

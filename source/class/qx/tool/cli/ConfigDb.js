@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 const path = require("path");
 
 /**
@@ -24,9 +23,9 @@ const path = require("path");
  */
 qx.Class.define("qx.tool.cli.ConfigDb", {
   extend: qx.core.Object,
-  
-  construct: function() {
-    this.base(arguments);
+
+  construct() {
+    super();
     this.__overrides = {};
   },
 
@@ -46,25 +45,26 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
      * Apply for path property
      * @returns
      */
-    _applyPath: async function(value, oldValue) {
+    async _applyPath(value, oldValue) {
       this.__db = {};
     },
 
     /**
      * Loads the configuration
      */
-    load: async function() {
-      this.__db = (await qx.tool.utils.Json.loadJsonAsync(this.getPath())) || {};
+    async load() {
+      this.__db =
+        (await qx.tool.utils.Json.loadJsonAsync(this.getPath())) || {};
     },
 
     /**
      * Saves the configuration
      */
-    save: async function() {
+    async save() {
       await qx.tool.utils.Utils.makeParentDir(this.getPath());
       await qx.tool.utils.Json.saveJsonAsync(this.getPath(), this.__db);
     },
-    
+
     /**
      * Sets a temporary override
      */
@@ -85,7 +85,7 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
      * @param defaultValue {Object?} optional value to assign if it does not exist.
      * @return {Object?} the value
      */
-    db: function(path, defaultValue) {
+    db(path, defaultValue) {
       if (path) {
         let override = this.__overrides[path];
         if (override) {
@@ -114,7 +114,7 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
     }
   },
 
-  defer: function(statics) {
+  defer(statics) {
     statics.__directory = path.join(require("os").homedir(), ".qooxdoo/");
   },
 
@@ -130,11 +130,13 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
      *
      * @returns {ConfigDb}
      */
-    getInstance: async function() {
+    async getInstance() {
       let db = qx.tool.cli.ConfigDb.__instance;
       if (!db) {
         db = qx.tool.cli.ConfigDb.__instance = new qx.tool.cli.ConfigDb();
-        db.setPath(path.join(qx.tool.cli.ConfigDb.getDirectory(), "config.json"));
+        db.setPath(
+          path.join(qx.tool.cli.ConfigDb.getDirectory(), "config.json")
+        );
         await db.load();
       }
       return db;
@@ -143,7 +145,7 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
     /**
      * Returns the local directory, where cache and configuration are kept
      */
-    getDirectory: function() {
+    getDirectory() {
       return this.__directory;
     },
 
@@ -152,7 +154,7 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
      *
      * @see qx.tool.cli.ConfigDb.db
      */
-    db: function(path, defaultValue) {
+    db(path, defaultValue) {
       return qx.tool.cli.ConfigDb.getInstance().db(path, defaultValue);
     }
   }

@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.util.Wheel", {
      * @return {Integer} Scroll wheel movement for the given axis. If no axis
      *   is given, the y axis is used.
      */
-    getDelta: function (domEvent, axis) {
+    getDelta(domEvent, axis) {
       // default case
       if (axis === undefined) {
         // default case
@@ -75,11 +75,16 @@ qx.Bootstrap.define("qx.util.Wheel", {
         var x = 0;
         if (domEvent.wheelDelta !== undefined) {
           if (domEvent.wheelDeltaX !== undefined) {
-            x = domEvent.wheelDeltaX ? this.__normalize(-domEvent.wheelDeltaX) : 0;
+            x = domEvent.wheelDeltaX
+              ? this.__normalize(-domEvent.wheelDeltaX)
+              : 0;
           }
         } else {
-          if (domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS &&
-            (domEvent.detail !== undefined) && (domEvent.detail > 0)
+          if (
+            domEvent.axis &&
+            domEvent.axis == domEvent.HORIZONTAL_AXIS &&
+            domEvent.detail !== undefined &&
+            domEvent.detail > 0
           ) {
             x = this.__normalize(domEvent.detail);
           } else if (domEvent.deltaX !== undefined) {
@@ -94,13 +99,17 @@ qx.Bootstrap.define("qx.util.Wheel", {
         var y = 0;
         if (domEvent.wheelDelta !== undefined) {
           if (domEvent.wheelDeltaY !== undefined) {
-            y = domEvent.wheelDeltaY ? this.__normalize(-domEvent.wheelDeltaY) : 0;
+            y = domEvent.wheelDeltaY
+              ? this.__normalize(-domEvent.wheelDeltaY)
+              : 0;
           } else {
             y = this.__normalize(-domEvent.wheelDelta);
           }
         } else {
-          if (!(domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS) &&
-            (domEvent.detail !== undefined) && (domEvent.detail > 0)
+          if (
+            !(domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS) &&
+            domEvent.detail !== undefined &&
+            domEvent.detail > 0
           ) {
             y = this.__normalize(domEvent.detail);
           } else if (domEvent.deltaY !== undefined) {
@@ -113,14 +122,13 @@ qx.Bootstrap.define("qx.util.Wheel", {
       return 0;
     },
 
-
     /**
      * Normalizer for the mouse wheel data.
      *
      * @param delta {Number} The mouse delta.
      * @return {Number} The normalized delta value
      */
-    __normalize: function (delta) {
+    __normalize(delta) {
       if (qx.util.Wheel.IS_TOUCHPAD) {
         // Reset normalization values that may be re-computed once a real mouse is plugged.
         qx.util.Wheel.MINSCROLL = null;
@@ -138,7 +146,7 @@ qx.Bootstrap.define("qx.util.Wheel", {
       if (
         qx.util.Wheel.MINSCROLL == null ||
         qx.util.Wheel.MINSCROLL > absDelta
-        ) {
+      ) {
         qx.util.Wheel.MINSCROLL = absDelta;
         this.__recalculateMultiplicator();
       }
@@ -147,7 +155,7 @@ qx.Bootstrap.define("qx.util.Wheel", {
       if (
         qx.util.Wheel.MAXSCROLL == null ||
         qx.util.Wheel.MAXSCROLL < absDelta
-        ) {
+      ) {
         qx.util.Wheel.MAXSCROLL = absDelta;
         this.__recalculateMultiplicator();
       }
@@ -156,23 +164,21 @@ qx.Bootstrap.define("qx.util.Wheel", {
       if (
         qx.util.Wheel.MAXSCROLL === absDelta &&
         qx.util.Wheel.MINSCROLL === absDelta
-        ) {
+      ) {
         return 2 * (delta / absDelta);
       }
 
-      var range =
-        qx.util.Wheel.MAXSCROLL - qx.util.Wheel.MINSCROLL;
+      var range = qx.util.Wheel.MAXSCROLL - qx.util.Wheel.MINSCROLL;
       var ret = (delta / range) * Math.log(range) * qx.util.Wheel.FACTOR;
 
       // return at least 1 or -1
       return ret < 0 ? Math.min(ret, -1) : Math.max(ret, 1);
     },
 
-
     /**
      * Recalculates the factor with which the calculated delta is normalized.
      */
-    __recalculateMultiplicator: function () {
+    __recalculateMultiplicator() {
       var max = qx.util.Wheel.MAXSCROLL || 0;
       var min = qx.util.Wheel.MINSCROLL || max;
       if (max <= min) {

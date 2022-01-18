@@ -19,19 +19,15 @@
 /**
  * @require(qx.lang.normalize.Function)
  */
-qx.Class.define("qx.test.lang.normalize.Function",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.normalize.Function", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testBind : function()
-    {
+  members: {
+    testBind() {
       var context = null;
       var result = 0;
 
-      var add = function(a, b)
-      {
+      var add = function (a, b) {
         context = this;
         return a + b;
       };
@@ -55,11 +51,9 @@ qx.Class.define("qx.test.lang.normalize.Function",
       this.assertEquals(5, result);
     },
 
-
-    testBindWithUndefinedArguments : function()
-    {
+    testBindWithUndefinedArguments() {
       var undef;
-      var callback = function(undef, arg) {
+      var callback = function (undef, arg) {
         this.assertTrue(arg);
       };
       var bound = callback.bind(this, undef, true);

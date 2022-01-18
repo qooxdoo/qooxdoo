@@ -19,10 +19,9 @@
 /**
  * Abstract structure definition for Progressive
  */
-qx.Class.define("qx.ui.progressive.structure.Abstract",
-{
-  type       : "abstract",
-  extend     : qx.core.Object,
+qx.Class.define("qx.ui.progressive.structure.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /**
    * The abstract structure for use by Progressive.  It defines the pane
@@ -33,18 +32,14 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
    *   structure.  If null, a qx.ui.core.Widget will be instantiated for
    *   use as the pane.
    */
-  construct : function(pane)
-  {
-    this.base(arguments);
+  construct(pane) {
+    super();
 
     // If no pane was specified. Create one.
-    if (! pane)
-    {
+    if (!pane) {
       this.__container = new qx.ui.core.Widget();
       this.__pane = this.__container;
-    }
-    else
-    {
+    } else {
       this.__container = null;
       this.__pane = pane;
     }
@@ -52,11 +47,9 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     this.__pane.getContentElement().setStyle("overflowY", "auto");
   },
 
-  members :
-  {
-
-    __container : null,
-    __pane : null,
+  members: {
+    __container: null,
+    __pane: null,
 
     /**
      * Apply the structure typically defined in the constructor to the
@@ -65,27 +58,22 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
      * @param progressive {qx.ui.progressive.Progressive}
      *   The Progressive to which the structure is to be applied.
      */
-    applyStructure : function(progressive)
-    {
+    applyStructure(progressive) {
       throw new Error("applyStructure() is abstract");
     },
-
 
     /**
      * Get the pane in which this Progressive renders.
      *
      * @return {qx.ui.core.Widget}
      */
-    getPane : function()
-    {
+    getPane() {
       return this.__pane;
     }
   },
 
-  destruct : function()
-  {
-    if (this.__container)
-    {
+  destruct() {
+    if (this.__container) {
       this.__container.dispose();
     }
 

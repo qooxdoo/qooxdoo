@@ -24,33 +24,26 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.menu.MenuSlideBar",
-{
-  extend : qx.ui.container.SlideBar,
+qx.Class.define("qx.ui.menu.MenuSlideBar", {
+  extend: qx.ui.container.SlideBar,
 
-  construct : function()
-  {
-    this.base(arguments, "vertical");
+  construct() {
+    super("vertical");
   },
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "menu-slidebar"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "menu-slidebar"
     }
   },
 
-  members :
-  {
+  members: {
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "button-forward":
           control = new qx.ui.form.HoverButton();
           control.addListener("execute", this._onExecuteForward, this);
@@ -64,7 +57,7 @@ qx.Class.define("qx.ui.menu.MenuSlideBar",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     }
   }
 });

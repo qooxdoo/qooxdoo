@@ -22,11 +22,8 @@
 /**
  * The TextField is a multi-line text input field.
  */
-qx.Class.define("qx.ui.form.TextArea",
-{
-  extend : qx.ui.form.AbstractField,
-
-
+qx.Class.define("qx.ui.form.TextArea", {
+  extend: qx.ui.form.AbstractField,
 
   /*
   *****************************************************************************
@@ -37,17 +34,13 @@ qx.Class.define("qx.ui.form.TextArea",
   /**
    * @param value {String?""} The text area's initial value
    */
-  construct : function(value)
-  {
-    this.base(arguments, value);
+  construct(value) {
+    super(value);
     this.initWrap();
 
     this.addListener("roll", this._onRoll, this);
     this.addListener("resize", this._onResize, this);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -55,59 +48,49 @@ qx.Class.define("qx.ui.form.TextArea",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Controls whether text wrap is activated or not. */
-    wrap :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyWrap"
+    wrap: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyWrap"
     },
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "textarea"
+    appearance: {
+      refine: true,
+      init: "textarea"
     },
 
     /** Factor for scrolling the <code>TextArea</code> with the mouse wheel. */
-    singleStep :
-    {
-      check : "Integer",
-      init : 20
+    singleStep: {
+      check: "Integer",
+      init: 20
     },
 
     /** Minimal line height. On default this is set to four lines. */
-    minimalLineHeight :
-    {
-      check : "Integer",
-      apply : "_applyMinimalLineHeight",
-      init : 4
+    minimalLineHeight: {
+      check: "Integer",
+      apply: "_applyMinimalLineHeight",
+      init: 4
     },
 
     /**
-    * Whether the <code>TextArea</code> should automatically adjust to
-    * the height of the content.
-    *
-    * To set the initial height, modify {@link #minHeight}. If you wish
-    * to set a minHeight below four lines of text, also set
-    * {@link #minimalLineHeight}. In order to limit growing to a certain
-    * height, set {@link #maxHeight} respectively. Please note that
-    * autoSize is ignored when the {@link #height} property is in use.
-    */
-    autoSize :
-    {
-      check : "Boolean",
-      apply : "_applyAutoSize",
-      init : false
+     * Whether the <code>TextArea</code> should automatically adjust to
+     * the height of the content.
+     *
+     * To set the initial height, modify {@link #minHeight}. If you wish
+     * to set a minHeight below four lines of text, also set
+     * {@link #minimalLineHeight}. In order to limit growing to a certain
+     * height, set {@link #maxHeight} respectively. Please note that
+     * autoSize is ignored when the {@link #height} property is in use.
+     */
+    autoSize: {
+      check: "Boolean",
+      apply: "_applyAutoSize",
+      init: false
     }
-
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -115,16 +98,14 @@ qx.Class.define("qx.ui.form.TextArea",
   *****************************************************************************
   */
 
-  members :
-  {
-    __areaClone : null,
-    __areaHeight : null,
-    __originalAreaHeight : null,
+  members: {
+    __areaClone: null,
+    __areaHeight: null,
+    __originalAreaHeight: null,
 
     // overridden
-    setValue : function(value)
-    {
-      value = this.base(arguments, value);
+    setValue(value) {
+      value = super.setValue(value);
       this.__autoSize();
 
       return value;
@@ -135,7 +116,7 @@ qx.Class.define("qx.ui.form.TextArea",
      *
      * @param e {qx.event.type.Roll} roll event.
      */
-    _onRoll : function(e) {
+    _onRoll(e) {
       // only wheel
       if (e.getPointerType() != "wheel") {
         return;
@@ -143,7 +124,9 @@ qx.Class.define("qx.ui.form.TextArea",
       var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
-      contentElement.scrollToY(scrollY + (e.getDelta().y / 30) * this.getSingleStep());
+      contentElement.scrollToY(
+        scrollY + (e.getDelta().y / 30) * this.getSingleStep()
+      );
 
       var newScrollY = contentElement.getScrollY();
 
@@ -151,15 +134,14 @@ qx.Class.define("qx.ui.form.TextArea",
         e.stop();
       }
     },
-	
-	
+
     /**
      * When the element resizes we throw away the clone and trigger autosize again, otherwise the clone would have
      * another width and the autosize calculation would be faulty.
-     * 
+     *
      * @param e {qx.event.type.Data} resize event.
      */
-    _onResize : function(e) {
+    _onResize(e) {
       if (this.__areaClone) {
         this.__areaClone.dispose();
         this.__areaClone = null;
@@ -174,61 +156,69 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     /**
-    * Adjust height of <code>TextArea</code> so that content fits without scroll bar.
-    *
-    */
-    __autoSize: function() {
+     * Adjust height of <code>TextArea</code> so that content fits without scroll bar.
+     *
+     */
+    __autoSize() {
       if (this.isAutoSize()) {
         var clone = this.__getAreaClone();
 
         if (clone && this.getBounds()) {
-
           // Remember original area height
-          this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
+          this.__originalAreaHeight =
+            this.__originalAreaHeight || this._getAreaHeight();
 
           var scrolledHeight = Math.round(this._getScrolledAreaHeight());
 
           // Show scroll-bar when above maxHeight, if defined
           if (this.getMaxHeight()) {
             var insets = this.getInsets();
-            var innerMaxHeight = -insets.top + this.getMaxHeight() - insets.bottom;
+            var innerMaxHeight =
+              -insets.top + this.getMaxHeight() - insets.bottom;
             if (scrolledHeight > innerMaxHeight) {
-                this.getContentElement().setStyle("overflowY", "auto");
+              this.getContentElement().setStyle("overflowY", "auto");
             } else {
-                this.getContentElement().setStyle("overflowY", "hidden");
+              this.getContentElement().setStyle("overflowY", "hidden");
             }
           }
 
           // Never shrink below original area height
-          var desiredHeight = Math.max(scrolledHeight, this.__originalAreaHeight);
+          var desiredHeight = Math.max(
+            scrolledHeight,
+            this.__originalAreaHeight
+          );
 
           // Set new height
           this._setAreaHeight(desiredHeight);
 
-        // On init, the clone is not yet present. Try again on appear.
+          // On init, the clone is not yet present. Try again on appear.
         } else {
-          this.getContentElement().addListenerOnce("appear", function() {
-            this.__autoSize();
-          }, this);
+          this.getContentElement().addListenerOnce(
+            "appear",
+            function () {
+              this.__autoSize();
+            },
+            this
+          );
         }
       }
     },
 
     /**
-    * Get actual height of <code>TextArea</code>
-    *
-    * @return {Integer} Height of <code>TextArea</code>
-    */
-    _getAreaHeight: function() {
+     * Get actual height of <code>TextArea</code>
+     *
+     * @return {Integer} Height of <code>TextArea</code>
+     */
+    _getAreaHeight() {
       return this.getInnerSize().height;
     },
 
     /**
-    * Set actual height of <code>TextArea</code>
-    *
-    * @param height {Integer} Desired height of <code>TextArea</code>
-    */
-    _setAreaHeight: function(height) {
+     * Set actual height of <code>TextArea</code>
+     *
+     * @param height {Integer} Desired height of <code>TextArea</code>
+     */
+    _setAreaHeight(height) {
       if (this._getAreaHeight() !== height) {
         this.__areaHeight = height;
 
@@ -245,17 +235,16 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Get scrolled area height. Equals the total height of the <code>TextArea</code>,
-    * as if no scroll-bar was visible.
-    *
-    * @return {Integer} Height of scrolled area
-    */
-    _getScrolledAreaHeight: function() {
+     * Get scrolled area height. Equals the total height of the <code>TextArea</code>,
+     * as if no scroll-bar was visible.
+     *
+     * @return {Integer} Height of scrolled area
+     */
+    _getScrolledAreaHeight() {
       var clone = this.__getAreaClone();
       var cloneDom = clone.getDomElement();
 
       if (cloneDom) {
-
         // Clone created but not yet in DOM. Try again.
         if (!cloneDom.parentNode) {
           qx.html.Element.flush();
@@ -266,22 +255,28 @@ qx.Class.define("qx.ui.form.TextArea",
         // "off" can disable wrapping. To fix, make sure wrap is toggled.
         // Otherwise, the height of an auto-size text area with wrapping
         // disabled initially is incorrectly computed as if wrapping was enabled.
-        if (qx.core.Environment.get("engine.name") === "webkit" ||
-            (qx.core.Environment.get("engine.name") == "mshtml")) {
+        if (
+          qx.core.Environment.get("engine.name") === "webkit" ||
+          qx.core.Environment.get("engine.name") == "mshtml"
+        ) {
           clone.setWrap(!this.getWrap(), true);
         }
 
         clone.setWrap(this.getWrap(), true);
 
         // Webkit needs overflow "hidden" in order to correctly compute height
-        if (qx.core.Environment.get("engine.name") === "webkit" ||
-            (qx.core.Environment.get("engine.name") == "mshtml")) {
+        if (
+          qx.core.Environment.get("engine.name") === "webkit" ||
+          qx.core.Environment.get("engine.name") == "mshtml"
+        ) {
           cloneDom.style.overflow = "hidden";
         }
 
         // IE >= 8 needs overflow "visible" in order to correctly compute height
-        if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") >= 8) {
+        if (
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") >= 8
+        ) {
           cloneDom.style.overflow = "visible";
           cloneDom.style.overflowX = "hidden";
         }
@@ -299,8 +294,10 @@ qx.Class.define("qx.ui.form.TextArea",
         // Recompute
         this.__scrollCloneToBottom(clone);
 
-        if (qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("browser.documentmode") == 8) {
+        if (
+          qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") == 8
+        ) {
           // Flush required for scrollTop to return correct value
           // when initial value should be taken into consideration
           if (!cloneDom.scrollTop) {
@@ -313,26 +310,23 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Returns the area clone.
-    *
-    * @return {Element|null} DOM Element or <code>null</code> if there is no
-    * original element
-    */
-    __getAreaClone: function() {
+     * Returns the area clone.
+     *
+     * @return {Element|null} DOM Element or <code>null</code> if there is no
+     * original element
+     */
+    __getAreaClone() {
       this.__areaClone = this.__areaClone || this.__createAreaClone();
       return this.__areaClone;
     },
 
     /**
-    * Creates and prepares the area clone.
-    *
-    * @return {Element} Element
-    */
-    __createAreaClone: function() {
-      var orig,
-          clone,
-          cloneDom,
-          cloneHtml;
+     * Creates and prepares the area clone.
+     *
+     * @return {Element} Element
+     */
+    __createAreaClone() {
+      var orig, clone, cloneDom, cloneHtml;
 
       orig = this.getContentElement();
 
@@ -351,17 +345,20 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // Push out of view
       // Zero height (i.e. scrolled area equals height)
-      clone.setStyles({
-        position: "absolute",
-        top: 0,
-        left: "-9999px",
-        height: 0,
-        overflow: "hidden"
-      }, true);
+      clone.setStyles(
+        {
+          position: "absolute",
+          top: 0,
+          left: "-9999px",
+          height: 0,
+          overflow: "hidden"
+        },
+        true
+      );
 
       // Fix attributes
-      clone.removeAttribute('id');
-      clone.removeAttribute('name');
+      clone.removeAttribute("id");
+      clone.removeAttribute("name");
       clone.setAttribute("tabIndex", "-1");
 
       // Copy value
@@ -377,12 +374,12 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-    * Scroll <code>TextArea</code> to bottom. That way, scrollTop reflects the height
-    * of the <code>TextArea</code>.
-    *
-    * @param clone {Element} The <code>TextArea</code> to scroll
-    */
-    __scrollCloneToBottom: function(clone) {
+     * Scroll <code>TextArea</code> to bottom. That way, scrollTop reflects the height
+     * of the <code>TextArea</code>.
+     *
+     * @param clone {Element} The <code>TextArea</code> to scroll
+     */
+    __scrollCloneToBottom(clone) {
       clone = clone.getDomElement();
       if (clone) {
         clone.scrollTop = 10000;
@@ -396,14 +393,12 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     // overridden
-    _createInputElement : function()
-    {
+    _createInputElement() {
       return new qx.html.Input("textarea", {
         overflowX: "auto",
         overflowY: "auto"
       });
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -412,7 +407,7 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     // property apply
-    _applyWrap : function(value, old) {
+    _applyWrap(value, old) {
       this.getContentElement().setWrap(value);
       if (this._placeholder) {
         var whiteSpace = value ? "normal" : "nowrap";
@@ -422,12 +417,12 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     // property apply
-    _applyMinimalLineHeight : function() {
+    _applyMinimalLineHeight() {
       qx.ui.core.queue.Layout.add(this);
     },
 
     // property apply
-    _applyAutoSize: function(value, old) {
+    _applyAutoSize(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
         this.__warnAutoSizeAndHeight();
       }
@@ -440,23 +435,21 @@ qx.Class.define("qx.ui.form.TextArea",
         // otherwise be overridden by the DOM changes queued in the
         // property apply for wrap. See [BUG #4493] for more details.
         if (!this.getBounds()) {
-          this.addListenerOnce("appear", function() {
+          this.addListenerOnce("appear", function () {
             this.getContentElement().setStyle("overflowY", "hidden");
           });
         } else {
           this.getContentElement().setStyle("overflowY", "hidden");
         }
-
       } else {
         this.removeListener("input", this.__autoSize);
         this.getContentElement().setStyle("overflowY", "auto");
       }
     },
 
-
     // property apply
-    _applyDimension : function(value) {
-      this.base(arguments);
+    _applyDimension(value) {
+      super._applyDimension();
 
       if (qx.core.Environment.get("qx.debug")) {
         this.__warnAutoSizeAndHeight();
@@ -476,7 +469,7 @@ qx.Class.define("qx.ui.form.TextArea",
      *
      * This method is called on change of the area's size.
      */
-    __forceRewrap : function() {
+    __forceRewrap() {
       var content = this.getContentElement();
       var element = content.getDomElement();
 
@@ -497,11 +490,13 @@ qx.Class.define("qx.ui.form.TextArea",
      * Warn when both autoSize and height property are set.
      *
      */
-    __warnAutoSizeAndHeight: function() {
+    __warnAutoSizeAndHeight() {
       if (this.isAutoSize() && this.getHeight()) {
-        this.warn("autoSize is ignored when the height property is set. " +
-                  "If you want to set an initial height, use the minHeight " +
-                  "property instead.");
+        this.warn(
+          "autoSize is ignored when the height property is set. " +
+            "If you want to set an initial height, use the minHeight " +
+            "property instead."
+        );
       }
     },
 
@@ -512,9 +507,8 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     // overridden
-    _getContentHint : function()
-    {
-      var hint = this.base(arguments);
+    _getContentHint() {
+      var hint = super._getContentHint();
 
       // lines of text
       hint.height = hint.height * this.getMinimalLineHeight();
@@ -530,8 +524,7 @@ qx.Class.define("qx.ui.form.TextArea",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.setAutoSize(false);
     if (this.__areaClone) {
       this.__areaClone.dispose();

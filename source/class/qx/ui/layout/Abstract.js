@@ -24,11 +24,9 @@
  * this class and implement the methods {@link #invalidateLayoutCache},
  * {@link #renderLayout} and {@link #getSizeHint}.
  */
-qx.Class.define("qx.ui.layout.Abstract",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-
+qx.Class.define("qx.ui.layout.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -36,20 +34,17 @@ qx.Class.define("qx.ui.layout.Abstract",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** @type {Map} The cached size hint */
-    __sizeHint : null,
+    __sizeHint: null,
 
     /** @type {Boolean} Whether the children cache is valid. This field is protected
      *    because sub classes must be able to access it quickly.
      */
-    _invalidChildrenCache : null,
+    _invalidChildrenCache: null,
 
     /** @type {qx.ui.core.Widget} The connected widget */
-    __widget : null,
-
-
+    __widget: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -62,10 +57,9 @@ qx.Class.define("qx.ui.layout.Abstract",
      *
      * @abstract
      */
-    invalidateLayoutCache : function() {
+    invalidateLayoutCache() {
       this.__sizeHint = null;
     },
-
 
     /**
      * Applies the children layout.
@@ -76,10 +70,9 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @param padding {Map} Map containing the padding values. Keys:
      * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    renderLayout : function(availWidth, availHeight, padding) {
+    renderLayout(availWidth, availHeight, padding) {
       this.warn("Missing renderLayout() implementation!");
     },
-
 
     /**
      * Computes the layout dimensions and possible ranges of these.
@@ -89,25 +82,22 @@ qx.Class.define("qx.ui.layout.Abstract",
      *   is required. Can also return <code>null</code> when this detection
      *   is not supported by the layout.
      */
-    getSizeHint : function()
-    {
+    getSizeHint() {
       if (this.__sizeHint) {
         return this.__sizeHint;
       }
 
-      return this.__sizeHint = this._computeSizeHint();
+      return (this.__sizeHint = this._computeSizeHint());
     },
-
 
     /**
      * Whether the layout manager supports height for width.
      *
      * @return {Boolean} Whether the layout manager supports height for width
      */
-    hasHeightForWidth : function() {
+    hasHeightForWidth() {
       return false;
     },
-
 
     /**
      * If layout wants to trade height for width it has to implement this
@@ -118,12 +108,10 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @param width {Integer} The computed width
      * @return {Integer} The desired height
      */
-    getHeightForWidth : function(width)
-    {
+    getHeightForWidth(width) {
       this.warn("Missing getHeightForWidth() implementation!");
       return null;
     },
-
 
     /**
      * This computes the size hint of the layout and returns it.
@@ -131,10 +119,9 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @abstract
      * @return {Map} The size hint.
      */
-    _computeSizeHint : function() {
+    _computeSizeHint() {
       return null;
     },
-
 
     /**
      * This method is called, on each child "add" and "remove" action and
@@ -142,10 +129,9 @@ qx.Class.define("qx.ui.layout.Abstract",
      * to clear any children relevant cached data.
      *
      */
-    invalidateChildrenCache : function() {
+    invalidateChildrenCache() {
       this._invalidChildrenCache = true;
     },
-
 
     /**
      * Verifies the value of a layout property.
@@ -157,21 +143,18 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @param name {Object} Name of the layout property
      * @param value {Object} Value of the layout property
      */
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value) {
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
         // empty implementation
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Remove all currently visible separators
      */
-    _clearSeparators : function()
-    {
+    _clearSeparators() {
       // It may be that the widget do not implement clearSeparators which is especially true
       // when it do not inherit from LayoutItem.
       var widget = this.__widget;
@@ -180,7 +163,6 @@ qx.Class.define("qx.ui.layout.Abstract",
       }
     },
 
-
     /**
      * Renders a separator between two children
      *
@@ -188,20 +170,20 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
      */
-    _renderSeparator : function(separator, bounds) {
+    _renderSeparator(separator, bounds) {
       this.__widget.renderSeparator(separator, bounds);
     },
-
 
     /**
      * This method is called by the widget to connect the widget with the layout.
      *
      * @param widget {qx.ui.core.Widget} The widget to connect to.
      */
-    connectToWidget : function(widget)
-    {
+    connectToWidget(widget) {
       if (widget && this.__widget) {
-        throw new Error("It is not possible to manually set the connected widget.");
+        throw new Error(
+          "It is not possible to manually set the connected widget."
+        );
       }
 
       this.__widget = widget;
@@ -215,8 +197,7 @@ qx.Class.define("qx.ui.layout.Abstract",
      *
      * @return {qx.ui.core.Widget} The widget connected to this layout.
      */
-    _getWidget : function()
-    {
+    _getWidget() {
       return this.__widget;
     },
 
@@ -226,27 +207,21 @@ qx.Class.define("qx.ui.layout.Abstract",
      *
      * Also a generic property apply method for all layout relevant properties.
      */
-    _applyLayoutChange : function()
-    {
+    _applyLayoutChange() {
       if (this.__widget) {
         this.__widget.scheduleLayoutUpdate();
       }
     },
-
 
     /**
      * Returns the list of all layout relevant children.
      *
      * @return {Array} List of layout relevant children.
      */
-    _getLayoutChildren : function() {
+    _getLayoutChildren() {
       return this.__widget.getLayoutChildren();
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -254,7 +229,7 @@ qx.Class.define("qx.ui.layout.Abstract",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__widget = this.__sizeHint = null;
   }
 });

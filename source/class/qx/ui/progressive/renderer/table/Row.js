@@ -1,42 +1,33 @@
- /* ************************************************************************
-
+/* ************************************************************************
    qooxdoo - the new era of web development
-
    http://qooxdoo.org
-
    Copyright:
-     2008 Derrell Lipman
-
+    2008 Derrell Lipman
    License:
-     MIT: https://opensource.org/licenses/MIT
-     See the LICENSE file in the project's top-level directory for details.
-
+    MIT: https://opensource.org/licenses/MIT
+    See the LICENSE file in the project's top-level directory for details.
    Authors:
-     * Derrell Lipman (derrell)
-
+    * Derrell Lipman (derrell)
 ************************************************************************ */
 
 /**
  * Table Row renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.Row",
-{
-  extend     : qx.ui.progressive.renderer.Abstract,
-
+qx.Class.define("qx.ui.progressive.renderer.table.Row", {
+  extend: qx.ui.progressive.renderer.Abstract,
 
   /**
    * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
    *   Information that indicates how to resize each of the column widths
    */
-  construct : function(columnWidths)
-  {
-    this.base(arguments);
+  construct(columnWidths) {
+    super();
 
     // Save the column widths
     this.__columnWidths = columnWidths;
 
     // Create space to store renderers for each column
-    this.__renderers = { };
+    this.__renderers = {};
 
     // We need a default cell renderer to use if none is specified
     this.__defaultCellRenderer =
@@ -61,98 +52,93 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().addListener(
-        "changeTheme", this.__linkColors, this
+        "changeTheme",
+        this.__linkColors,
+        this
       );
     }
   },
 
-
-  statics :
-  {
+  statics: {
     /**
      * Storage for each progressive.
      *
      * @internal
      */
-    __clazz : null,
+    __clazz: null,
 
     /**
      * Default row padding.
      *
      * @internal
      */
-    __padding : 6, // modify padding parameter below too if this changes
+    __padding: 6, // modify padding parameter below too if this changes
 
     /**
      * Default style sheet for table cells.
      *
      * @internal
      */
-    __tableCellStyleSheet :
-        "  position: absolute;" +
-        "  top: 0px;" +
-        "  height: 100%;" +
-        "  overflow:hidden;" +
-        (qx.core.Environment.get("css.textoverflow") ?
-        qx.bom.Style.getCssName(qx.core.Environment.get("css.textoverflow")) +
-        ':ellipsis;' : "") +
-        "  white-space:nowrap;" +
-        "  border-right:1px solid #f2f2f2;" +
-        "  border-bottom:1px solid #eeeeee;" +
-        "  padding : 0px 6px 0px 6px;" +
-        "  cursor:default;" +
-        "  font-size: 11px;" +
-        "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
-        (qx.core.Environment.get("css.userselect") ?
-        qx.bom.Style.getCssName(qx.core.Environment.get("css.userselect")) +
-        ':' + qx.core.Environment.get("css.userselect.none") + ';'
-        : '')
+    __tableCellStyleSheet:
+      "  position: absolute;" +
+      "  top: 0px;" +
+      "  height: 100%;" +
+      "  overflow:hidden;" +
+      (qx.core.Environment.get("css.textoverflow")
+        ? qx.bom.Style.getCssName(qx.core.Environment.get("css.textoverflow")) +
+          ":ellipsis;"
+        : "") +
+      "  white-space:nowrap;" +
+      "  border-right:1px solid #f2f2f2;" +
+      "  border-bottom:1px solid #eeeeee;" +
+      "  padding : 0px 6px 0px 6px;" +
+      "  cursor:default;" +
+      "  font-size: 11px;" +
+      "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
+      (qx.core.Environment.get("css.userselect")
+        ? qx.bom.Style.getCssName(qx.core.Environment.get("css.userselect")) +
+          ":" +
+          qx.core.Environment.get("css.userselect.none") +
+          ";"
+        : "")
   },
 
-
-  properties :
-  {
+  properties: {
     /** The default height of a row, if not altered by a cell renderer. */
-    defaultRowHeight :
-    {
-      init : 16
+    defaultRowHeight: {
+      init: 16
     }
   },
 
-
-  members :
-  {
-
-    __progressive : null,
-    __name : null,
-    __hash : null,
-    __columnWidths : null,
-    __renderers : null,
-    __defaultCellRenderer : null,
-    __colors : null,
-    __layout : null,
-
+  members: {
+    __progressive: null,
+    __name: null,
+    __hash: null,
+    __columnWidths: null,
+    __renderers: null,
+    __defaultCellRenderer: null,
+    __colors: null,
+    __layout: null,
 
     /**
      * Helper to link the theme colors to the current class
      */
-    __linkColors : function() {
+    __linkColors() {
       // link to color theme
       var colorMgr = qx.theme.manager.Color.getInstance();
       this.__colors.bgcol = [];
-      this.__colors.bgcol[0] =
-        colorMgr.resolve("progressive-table-row-background-even");
-      this.__colors.bgcol[1] =
-        colorMgr.resolve("progressive-table-row-background-odd");
+      this.__colors.bgcol[0] = colorMgr.resolve(
+        "progressive-table-row-background-even"
+      );
+      this.__colors.bgcol[1] = colorMgr.resolve(
+        "progressive-table-row-background-odd"
+      );
     },
 
-
     // overridden
-    join : function(progressive, name)
-    {
+    join(progressive, name) {
       // Are we already joined?
-      if (this.__progressive)
-      {
+      if (this.__progressive) {
         // Yup.  Let 'em know they can't do that.
         throw new Error("Renderer is already joined to a Progressive.");
       }
@@ -165,34 +151,32 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // If we haven't created style sheets for this table yet...
       var tr = qx.ui.progressive.renderer.table.Row;
-      if (!tr.__clazz)
-      {
-        tr.__clazz = { };
+      if (!tr.__clazz) {
+        tr.__clazz = {};
       }
 
       var hash = progressive.toHashCode();
-      if (!tr.__clazz[hash])
-      {
+      if (!tr.__clazz[hash]) {
         // ... then do it now.
-        tr.__clazz[hash] =
-          {
-            rowstylesheet  : null,
-            cellstylesheet : [ ]
-          };
+        tr.__clazz[hash] = {
+          rowstylesheet: null,
+          cellstylesheet: []
+        };
 
         var stylesheet =
-          ".qx-progressive-" + hash + "-row {" +
-          "  width : 100%;" +
-          "}";
+          ".qx-progressive-" + hash + "-row {" + "  width : 100%;" + "}";
         tr.__clazz[hash].rowstylesheet =
           qx.bom.Stylesheet.createElement(stylesheet);
 
         var columnData = this.__columnWidths.getData();
 
-        for (var i = 0; i < columnData.length; i++)
-        {
+        for (var i = 0; i < columnData.length; i++) {
           var stylesheet =
-            ".qx-progressive-" + hash + "-col-" + i + " {" +
+            ".qx-progressive-" +
+            hash +
+            "-col-" +
+            i +
+            " {" +
             tr.__tableCellStyleSheet +
             "}";
           tr.__clazz[hash].cellstylesheet[i] =
@@ -206,7 +190,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // can set each style sheet's left and width field appropriately.
         var pane = progressive.getStructure().getPane();
         pane.addListener("resize", this._resizeColumns, this);
-
       }
     },
 
@@ -221,16 +204,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      *   The cell renderer for the specified column.
      *
      */
-    addRenderer : function(column, renderer)
-    {
+    addRenderer(column, renderer) {
       var columnData = this.__columnWidths.getData();
-      if (column < 0 || column >= columnData.length)
-      {
-        throw new Error("Column " +
-                        column +
-                        " out of range (max: " +
-                        (columnData.length - 1) +
-                        ")");
+      if (column < 0 || column >= columnData.length) {
+        throw new Error(
+          "Column " +
+            column +
+            " out of range (max: " +
+            (columnData.length - 1) +
+            ")"
+        );
       }
 
       this.__renderers[column] = renderer;
@@ -243,20 +226,19 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      *   The column for which the cell renderer is to be removed.
      *
      */
-    removeRenderer : function(column)
-    {
+    removeRenderer(column) {
       var columnData = this.__columnWidths.getData();
-      if (column < 0 || column >= columnData.length)
-      {
-        throw new Error("Column " +
-                        column +
-                        " out of range (max: " +
-                        (columnData.length - 1) +
-                        ")");
+      if (column < 0 || column >= columnData.length) {
+        throw new Error(
+          "Column " +
+            column +
+            " out of range (max: " +
+            (columnData.length - 1) +
+            ")"
+        );
       }
 
-      if (! this.__renderers[column])
-      {
+      if (!this.__renderers[column]) {
         throw new Error("No existing renderer for column " + column);
       }
 
@@ -264,10 +246,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     },
 
     // overridden
-    render : function(state, element)
-    {
+    render(state, element) {
       var data = element.data;
-      var html = [ ];
+      var html = [];
       var cellInfo;
       var renderer;
       var height = 0;
@@ -275,52 +256,47 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       // Initialize row counter, if necessary.  We'll use this for shading
       // alternate rows.
 
-      if (state.getRendererData()[this.__name].end === undefined)
-      {
-        state.getRendererData()[this.__name] =
-          {
-            end         : 0,
-            start       : 1,
-            rows        : 0,
-            totalHeight : 0
-          };
+      if (state.getRendererData()[this.__name].end === undefined) {
+        state.getRendererData()[this.__name] = {
+          end: 0,
+          start: 1,
+          rows: 0,
+          totalHeight: 0
+        };
       }
 
       // Create the div for this row
       var div = document.createElement("div");
 
       // For each cell...
-      for (var i = 0; i < data.length; i++)
-      {
+      for (var i = 0; i < data.length; i++) {
         var stylesheet = "qx-progressive-" + this.__hash + "-col-" + i;
 
         // Determine what renderer to use for this column
         renderer = this.__renderers[i] || this.__defaultCellRenderer;
 
         // Specify information that cell renderer will need
-        cellInfo =
-        {
-          state      : state,
-          rowDiv     : div,
-          stylesheet : stylesheet,
-          element    : element,
-          dataIndex  : i,
-          cellData   : data[i],
-          height     : height
+        cellInfo = {
+          state: state,
+          rowDiv: div,
+          stylesheet: stylesheet,
+          element: element,
+          dataIndex: i,
+          cellData: data[i],
+          height: height
         };
 
         // Render this cell
         html.push(renderer.render(cellInfo));
 
         // If this cell's height was greater than our current maximum...
-        if (cellInfo.height > height)
-        {
+        if (cellInfo.height > height) {
           // ... then it becomes our row height
           height = cellInfo.height;
         }
       }
 
-      height = (height > 0 ? height : this.getDefaultRowHeight());
+      height = height > 0 ? height : this.getDefaultRowHeight();
 
       // Get a reference to our renderer data
       var rendererData = state.getRendererData()[this.__name];
@@ -335,54 +311,50 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       div.innerHTML = html.join("");
 
       // Add this row to the table
-      switch(element.location)
-      {
-      case "end":
-        // Determine color of row based on state of last added row
-        var index = rendererData.end || 0;
-
-        // Set the background color of this row
-        div.style.backgroundColor = this.__colors.bgcol[index];
-
-        // Update state for next time
-        rendererData.end = (index == 0 ? 1 : 0);
-
-        // Append our new row to the pane.
-        state.getPane().getContentElement().getDomElement().appendChild(div);
-        break;
-
-      case "start":
-        // Get the pane element
-        var elem = state.getPane().getContentElement().getDomElement();
-
-        // Get its children array
-        var children = elem.childNodes;
-
-        // Are there any children?
-        if (children.length > 0)
-        {
-          // Yup.  Determine color of row based on state of last added row
-          var index = rendererData.start;
+      switch (element.location) {
+        case "end":
+          // Determine color of row based on state of last added row
+          var index = rendererData.end || 0;
 
           // Set the background color of this row
           div.style.backgroundColor = this.__colors.bgcol[index];
 
           // Update state for next time
-          rendererData.start = (index == 0 ? 1 : 0);
+          rendererData.end = index == 0 ? 1 : 0;
 
-          // Insert our new row before the first child.
-          elem.insertBefore(div, children[0]);
+          // Append our new row to the pane.
+          state.getPane().getContentElement().getDomElement().appendChild(div);
           break;
-        }
-        else
-        {
-          /* No children yet.  We can append our new row. */
-          elem.appendChild(div);
-        }
-        break;
 
-      default:
-        throw new Error("Invalid location: " + element.location);
+        case "start":
+          // Get the pane element
+          var elem = state.getPane().getContentElement().getDomElement();
+
+          // Get its children array
+          var children = elem.childNodes;
+
+          // Are there any children?
+          if (children.length > 0) {
+            // Yup.  Determine color of row based on state of last added row
+            var index = rendererData.start;
+
+            // Set the background color of this row
+            div.style.backgroundColor = this.__colors.bgcol[index];
+
+            // Update state for next time
+            rendererData.start = index == 0 ? 1 : 0;
+
+            // Insert our new row before the first child.
+            elem.insertBefore(div, children[0]);
+            break;
+          } else {
+            /* No children yet.  We can append our new row. */
+            elem.appendChild(div);
+          }
+          break;
+
+        default:
+          throw new Error("Invalid location: " + element.location);
       }
 
       // Increment row count
@@ -394,11 +366,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      * to relayout.
      * @return {Array} Array of column data.
      */
-    getLayoutChildren : function()
-    {
+    getLayoutChildren() {
       return this.__columnWidths.getData();
     },
-
 
     /**
      * Event handler for the "resize" event.  We recalculate the
@@ -409,8 +379,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      *   Ignored
      *
      */
-    _resizeColumns : function(e)
-    {
+    _resizeColumns(e) {
       var pane = this.__progressive.getStructure().getPane();
 
       var width =
@@ -421,123 +390,127 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // Remove the style rule for this row
       var tr = qx.ui.progressive.renderer.table.Row;
-      qx.bom.Stylesheet.removeRule(tr.__clazz[this.__hash].rowstylesheet,
-                                    stylesheet);
-
+      qx.bom.Stylesheet.removeRule(
+        tr.__clazz[this.__hash].rowstylesheet,
+        stylesheet
+      );
 
       // Create the new rule for this row
       var rule = "width: " + width + "px;";
 
-
       // Apply the new rule
-      qx.bom.Stylesheet.addRule(tr.__clazz[this.__hash].rowstylesheet,
-                                 stylesheet,
-                                 rule);
+      qx.bom.Stylesheet.addRule(
+        tr.__clazz[this.__hash].rowstylesheet,
+        stylesheet,
+        rule
+      );
 
       // Compute the column widths
-      this.__layout.renderLayout(width, 100, {top: 0, right: 0, bottom: 0, left: 0});
+      this.__layout.renderLayout(width, 100, {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      });
 
       // Get the column data
       var columnData = this.__columnWidths.getData();
 
       // Reset each of the column style sheets to deal with width changes
-      for (var i = 0,
-             left = 0;
-           i < columnData.length;
-           i++,
-             left += width)
-      {
+      for (var i = 0, left = 0; i < columnData.length; i++, left += width) {
         // Get the style sheet rule name for this cell
         var stylesheet = ".qx-progressive-" + this.__hash + "-col-" + i;
 
         // Remove the style rule for this column
         var tr = qx.ui.progressive.renderer.table.Row;
-        qx.bom.Stylesheet.removeRule(tr.__clazz[this.__hash].cellstylesheet[i],
-                                      stylesheet);
+        qx.bom.Stylesheet.removeRule(
+          tr.__clazz[this.__hash].cellstylesheet[i],
+          stylesheet
+        );
 
         // Get this column width.
         width = columnData[i].getComputedWidth();
 
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          if (qx.core.Environment.get("qx.tableResizeDebug"))
-          {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (qx.core.Environment.get("qx.tableResizeDebug")) {
             this.debug("col " + i + ": width=" + width);
           }
         }
 
         // Make our width calculations box-model independent
         var inset;
-        if (qx.core.Environment.get("css.boxmodel") == "content")
-        {
+        if (qx.core.Environment.get("css.boxmodel") == "content") {
           inset = qx.ui.progressive.renderer.table.Row.__padding * 2;
-        }
-        else
-        {
+        } else {
           inset = -1;
         }
 
         // Create the new rule, based on calculated widths
-        var widthRule = (width - inset) + "px;";
+        var widthRule = width - inset + "px;";
 
         var paddingRule =
-          "0px " + qx.ui.progressive.renderer.table.Row.__padding + "px " +
-          "0px " + qx.ui.progressive.renderer.table.Row.__padding + "px;";
+          "0px " +
+          qx.ui.progressive.renderer.table.Row.__padding +
+          "px " +
+          "0px " +
+          qx.ui.progressive.renderer.table.Row.__padding +
+          "px;";
 
         var leftRule = left + "px;";
 
         var rule =
           tr.__tableCellStyleSheet +
-          "width: " + widthRule +
-          "left: " + leftRule +
-          "padding: " + paddingRule;
+          "width: " +
+          widthRule +
+          "left: " +
+          leftRule +
+          "padding: " +
+          paddingRule;
 
         // Apply the new rule
-        qx.bom.Stylesheet.addRule(tr.__clazz[this.__hash].cellstylesheet[i],
-                                   stylesheet,
-                                   rule);
+        qx.bom.Stylesheet.addRule(
+          tr.__clazz[this.__hash].cellstylesheet[i],
+          stylesheet,
+          rule
+        );
       }
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     // remove dynamic theme listener
     qx.theme.manager.Meta.getInstance().removeListener(
-      "changeTheme", this.__linkColors, this
+      "changeTheme",
+      this.__linkColors,
+      this
     );
 
     var name;
 
-    for (name in this.__renderers)
-    {
+    for (name in this.__renderers) {
       this.__renderers[name] = null;
     }
 
     // Remove any style sheets that we had added
     var tr = qx.ui.progressive.renderer.table.Row;
     var hash = this.__progressive.toHashCode();
-    if (tr.__clazz && tr.__clazz[hash])
-    {
+    if (tr.__clazz && tr.__clazz[hash]) {
       // Remove the row stylesheet
-      if (tr.__clazz[hash].rowstylesheet)
-      {
+      if (tr.__clazz[hash].rowstylesheet) {
         // Get the style sheet rule name for this row
         var stylesheet = ".qx-progressive-" + this.__hash + "-row";
 
         // Remove the style rule for this row
         var tr = qx.ui.progressive.renderer.table.Row;
-        qx.bom.Stylesheet.removeRule(tr.__clazz[this.__hash].rowstylesheet,
-                                      stylesheet);
-
+        qx.bom.Stylesheet.removeRule(
+          tr.__clazz[this.__hash].rowstylesheet,
+          stylesheet
+        );
       }
 
       // Remove each of the column style sheets
-      if (tr.__clazz[hash].cellstylesheet)
-      {
-        for (var i = tr.__clazz[hash].cellstylesheet.length - 1; i >= 0; i--)
-        {
+      if (tr.__clazz[hash].cellstylesheet) {
+        for (var i = tr.__clazz[hash].cellstylesheet.length - 1; i >= 0; i--) {
           // Get the style sheet rule name for this cell
           var stylesheet = ".qx-progressive-" + this.__hash + "-col-" + i;
           var rule = tr.__clazz[this.__hash].cellstylesheet[i];
@@ -549,24 +522,23 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     }
 
-    if (this.__progressive && this.__progressive.getRendererData)
-    {
+    if (this.__progressive && this.__progressive.getRendererData) {
       var rendererData = this.__progressive.getRendererData();
-      if (rendererData &&
-          rendererData[this.__name] &&
-          rendererData[this.__name].end !== undefined)
-      {
+      if (
+        rendererData &&
+        rendererData[this.__name] &&
+        rendererData[this.__name].end !== undefined
+      ) {
         rendererData[this.__name] = null;
       }
     }
 
-    this.__colors = this.__renderers = this.__progressive =
-      this.__columnWidths = null;
+    this.__colors =
+      this.__renderers =
+      this.__progressive =
+      this.__columnWidths =
+        null;
 
-
-    this._disposeObjects(
-      "__layout",
-      "__defaultCellRenderer",
-      "__columnData");
+    this._disposeObjects("__layout", "__defaultCellRenderer", "__columnData");
   }
 });

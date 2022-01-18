@@ -20,7 +20,7 @@
 /**
  * High-performance, high-level DOM element creation and management.
  *
- * Mirrors the DOM structure of Node (see also Element and Text) so to provide 
+ * Mirrors the DOM structure of Node (see also Element and Text) so to provide
  * DOM insertion and modification with advanced logic to reduce the real transactions.
  *
  * Each child itself also has got some powerful methods to control its
@@ -33,27 +33,20 @@
  *
  * @require(qx.module.Animation)
  */
-qx.Class.define("qx.html.Node",
-{
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
-  
-  
+qx.Class.define("qx.html.Node", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
+
   /**
    * Creates a new Element
    *
    * @param nodeName {String} name of the node; will be a tag name for Elements, otherwise it's a reserved
    * name eg "#text"
    */
-  construct : function(nodeName)
-  {
-    this.base(arguments);
+  construct(nodeName) {
+    super();
     this._nodeName = nodeName;
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -61,19 +54,19 @@ qx.Class.define("qx.html.Node",
   *****************************************************************************
   */
 
-  statics :
-  {
-
+  statics: {
     /**
      * Finds the Widget for a given DOM element
      *
      * @param domElement {DOM} the DOM element
      * @return {qx.ui.core.Widget} the Widget that created the DOM element
      */
-    fromDomNode: function(domNode) {
+    fromDomNode(domNode) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertTrue((!domNode.$$element && !domNode.$$elementObject) ||
-            domNode.$$element === domNode.$$elementObject.toHashCode());
+        qx.core.Assert.assertTrue(
+          (!domNode.$$element && !domNode.$$elementObject) ||
+            domNode.$$element === domNode.$$elementObject.toHashCode()
+        );
       }
       return domNode.$$elementObject;
     },
@@ -81,8 +74,8 @@ qx.Class.define("qx.html.Node",
     /**
      * Converts a DOM node into a qx.html.Node, providing the existing instance if
      * there is one
-     * 
-     * @param {Node} domNode 
+     *
+     * @param {Node} domNode
      * @returns {qx.html.Node}
      */
     toVirtualNode(domNode) {
@@ -90,14 +83,14 @@ qx.Class.define("qx.html.Node",
         return domNode.$$elementObject;
       }
 
-      let html = qx.html.Factory.getInstance().createElement(domNode.nodeName, domNode.attributes);
+      let html = qx.html.Factory.getInstance().createElement(
+        domNode.nodeName,
+        domNode.attributes
+      );
       html.useNode(domNode);
       return html;
     }
-
   },
-
-
 
   /*
   *****************************************************************************
@@ -105,17 +98,17 @@ qx.Class.define("qx.html.Node",
   *****************************************************************************
   */
 
-  properties : {
+  properties: {
     /**
      * Controls whether the element is visible which means that a previously applied
-     * CSS style of display=none gets removed and the element will inserted into the DOM, 
+     * CSS style of display=none gets removed and the element will inserted into the DOM,
      * when this had not already happened before.
-     * 
-     * If the element already exists in the DOM then it will kept in DOM, but configured 
+     *
+     * If the element already exists in the DOM then it will kept in DOM, but configured
      * hidden using a CSS style of display=none.
-     * 
+     *
      * Please note: This does not control the visibility or parent inclusion recursively.
-     * 
+     *
      * @type {Boolean} Whether the element should be visible in the render result
      */
     visible: {
@@ -127,17 +120,13 @@ qx.Class.define("qx.html.Node",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       PROTECTED HELPERS/DATA
@@ -145,29 +134,28 @@ qx.Class.define("qx.html.Node",
     */
 
     /** @type {String} the name of the node */
-    _nodeName : null,
+    _nodeName: null,
 
     /** @type {Node} DOM node of this object */
-    _domNode : null,
+    _domNode: null,
 
     /** @type {qx.html.Element} parent element */
-    _parent : null,
-    
+    _parent: null,
+
     /** @type {qx.core.Object} the Qooxdoo object this node is attached to */
-    _qxObject : null,
+    _qxObject: null,
 
     /** @type {Boolean} Whether the element should be included in the render result */
-    _included : true,
+    _included: true,
 
-    _children : null,
-    _modifiedChildren : null,
+    _children: null,
+    _modifiedChildren: null,
 
-    _propertyJobs : null,
-    _properties : null,
-    
+    _propertyJobs: null,
+    _properties: null,
+
     /** @type {Map} map of event handlers */
     __eventValues: null,
-
 
     /**
      * Connects a widget to this element, and to the DOM element in this Element.  They
@@ -175,16 +163,21 @@ qx.Class.define("qx.html.Node",
      *
      * @param qxObject {qx.core.Object} the object to associate
      */
-    connectObject: function(qxObject) {
+    connectObject(qxObject) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertTrue(!this._qxObject || this._qxObject === qxObject);
+        qx.core.Assert.assertTrue(
+          !this._qxObject || this._qxObject === qxObject
+        );
       }
 
       this._qxObject = qxObject;
       if (this._domNode) {
         if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue((!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
-              (this._domNode.$$qxObject === qxObject && this._domNode.$$qxObjectHash === qxObject.toHashCode()));
+          qx.core.Assert.assertTrue(
+            (!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
+              (this._domNode.$$qxObject === qxObject &&
+                this._domNode.$$qxObjectHash === qxObject.toHashCode())
+          );
         }
 
         this._domNode.$$qxObjectHash = qxObject.toHashCode();
@@ -196,14 +189,13 @@ qx.Class.define("qx.html.Node",
       }
     },
 
-
     /**
      * Disconnects a widget from this element and the DOM element.  The DOM element remains
      * untouched, except that it can no longer be used to find the Widget.
      *
      * @param qxObject {qx.core.Object} the Widget
      */
-    disconnectObject: function(qxObject) {
+    disconnectObject(qxObject) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertTrue(this._qxObject === qxObject);
       }
@@ -211,14 +203,17 @@ qx.Class.define("qx.html.Node",
       delete this._qxObject;
       if (this._domNode) {
         if (qx.core.Environment.get("qx.debug")) {
-          qx.core.Assert.assertTrue((!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
-              (this._domNode.$$qxObject === qxObject && this._domNode.$$qxObjectHash === qxObject.toHashCode()));
+          qx.core.Assert.assertTrue(
+            (!this._domNode.$$qxObjectHash && !this._domNode.$$qxObject) ||
+              (this._domNode.$$qxObject === qxObject &&
+                this._domNode.$$qxObjectHash === qxObject.toHashCode())
+          );
         }
 
         this._domNode.$$qxObjectHash = "";
         delete this._domNode.$$qxObject;
       }
-      
+
       if (qx.core.Environment.get("module.objectid")) {
         this.updateObjectId();
       }
@@ -229,21 +224,23 @@ qx.Class.define("qx.html.Node",
      *
      * @return {Element} DOM element
      */
-    _createDomElement : function() {
-      throw new Error("No implementation for " + this.classname + "._createDomElement");
+    _createDomElement() {
+      throw new Error(
+        "No implementation for " + this.classname + "._createDomElement"
+      );
     },
-    
+
     /**
      * Serializes the virtual DOM element to a writer; the `writer` function accepts
      *  an varargs, which can be joined with an empty string or streamed.
-     *  
+     *
      * If writer is null, the element will be serialised to a string which is returned;
      * note that if writer is not null, the return value will be null
-     * 
+     *
      * @param writer {Function?} the writer
      * @return {String?} the serialised version if writer is null
      */
-    serialize: function(writer) {
+    serialize(writer) {
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
@@ -253,37 +250,39 @@ qx.Class.define("qx.html.Node",
       if (isIdRoot) {
         qx.core.Id.getInstance().register(this);
       }
-      
+
       var result = undefined;
       if (writer) {
         this._serializeImpl(writer);
       } else {
         var buffer = [];
-        this._serializeImpl(function() {
+        this._serializeImpl(function () {
           var args = qx.lang.Array.fromArguments(arguments);
           qx.lang.Array.append(buffer, args);
         });
-        result = buffer.join(""); 
+        result = buffer.join("");
       }
-      
+
       if (isIdRoot) {
         qx.core.Id.getInstance().unregister(this);
       }
       if (temporaryQxObjectId) {
         this.setQxObjectId(null);
       }
-      
+
       return result;
     },
 
     /**
      * Serializes the virtual DOM element to a writer; the `writer` function accepts
      *  an varargs, which can be joined with an empty string or streamed.
-     * 
+     *
      * @param writer {Function} the writer
      */
-    _serializeImpl: function(writer) {
-      throw new Error("No implementation for " + this.classname + ".serializeImpl");
+    _serializeImpl(writer) {
+      throw new Error(
+        "No implementation for " + this.classname + ".serializeImpl"
+      );
     },
 
     /**
@@ -292,7 +291,7 @@ qx.Class.define("qx.html.Node",
      *
      * @param domNode {Node} DOM Node to reuse
      */
-    useNode: function(domNode) {
+    useNode(domNode) {
       var id = domNode.getAttribute("data-qx-object-id");
       if (id) {
         this.setQxObjectId(id);
@@ -306,89 +305,91 @@ qx.Class.define("qx.html.Node",
       if (isIdRoot) {
         qx.core.Id.getInstance().register(this);
       }
-      
+
       /*
        * When merging children, we want to keep the original DOM nodes in
        * domNode no matter what - however, where the DOM nodes have a qxObjectId
        * we must reuse the original instances.
-       * 
+       *
        * The crucial thing is that the qxObjectId hierarchy and the DOM hierarchy
        * are not the same (although they are often similar, the DOM will often have
        * extra Nodes).
-       * 
-       * However, because the objects in the qxObjectId space will typically already 
+       *
+       * However, because the objects in the qxObjectId space will typically already
        * exist (eg accessed via the constructor) we do not want to discard the original
-       * instance of qx.html.Element because there are probably references to them in 
+       * instance of qx.html.Element because there are probably references to them in
        * code.
-       * 
+       *
        * In the code below, we map the DOM heirarchy into a temporary Javascript
        * hierarchy, where we can either use existing qx.html.Element instances (found
        * by looking up the qxObjectId) or fabricate new ones.
-       * 
+       *
        * Once the temporary hierarchy is ready, we go back and synchronise each
        * qx.html.Element with the DOM node and our new array of children.
-       * 
+       *
        * The only rule to this is that if you are going to call this `useNode`, then
        * you must not keep references to objects *unless* you also access them via
        * the qxObjectId mechanism.
        */
-      
+
       var self = this;
       function convert(domNode) {
         var children = qx.lang.Array.fromCollection(domNode.childNodes);
-        children = children
-          .map(function(domChild) {
-            var child = null;
-            if (domChild.nodeType == window.Node.ELEMENT_NODE) {
-              var id = domChild.getAttribute("data-qx-object-id");
-              if (id) {
-                var owningQxObjectId = null;
-                var qxObjectId = null;
-                var owningQxObject = null;
-                var pos = id.lastIndexOf('/');
-                if (pos > -1) {
-                  owningQxObjectId = id.substring(0, pos);
-                  qxObjectId = id.substring(pos + 1);
-                  owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
-                  child = owningQxObject.getQxObject(qxObjectId);
-                } else {
-                  qxObjectId = id;
-                  owningQxObject = self;
-                  child = self.getQxObject(id);
-                }
+        children = children.map(function (domChild) {
+          var child = null;
+          if (domChild.nodeType == window.Node.ELEMENT_NODE) {
+            var id = domChild.getAttribute("data-qx-object-id");
+            if (id) {
+              var owningQxObjectId = null;
+              var qxObjectId = null;
+              var owningQxObject = null;
+              var pos = id.lastIndexOf("/");
+              if (pos > -1) {
+                owningQxObjectId = id.substring(0, pos);
+                qxObjectId = id.substring(pos + 1);
+                owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
+                child = owningQxObject.getQxObject(qxObjectId);
+              } else {
+                qxObjectId = id;
+                owningQxObject = self;
+                child = self.getQxObject(id);
               }
             }
-            if (!child) {
-              child = qx.html.Factory.getInstance().createElement(domChild.nodeName, domChild.attributes);
-            }
-            return {
-              htmlNode: child,
-              domNode: domChild,
-              children: convert(domChild)
-            };
-          });
+          }
+          if (!child) {
+            child = qx.html.Factory.getInstance().createElement(
+              domChild.nodeName,
+              domChild.attributes
+            );
+          }
+          return {
+            htmlNode: child,
+            domNode: domChild,
+            children: convert(domChild)
+          };
+        });
         return children;
       }
-      
+
       function install(map) {
-        var htmlChildren = map.children.map(function(mapEntry) {
+        var htmlChildren = map.children.map(function (mapEntry) {
           install(mapEntry);
           return mapEntry.htmlNode;
         });
         map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
       }
-      
+
       var rootMap = {
-          htmlNode: this,
-          domNode: domNode,
-          children: convert(domNode)
+        htmlNode: this,
+        domNode: domNode,
+        children: convert(domNode)
       };
-      
+
       install(rootMap);
-      
+
       this.flush();
       this._insertChildren();
-      
+
       if (isIdRoot) {
         qx.core.Id.getInstance().unregister(this);
       }
@@ -396,35 +397,37 @@ qx.Class.define("qx.html.Node",
         this.setQxObjectId(null);
       }
     },
-    
+
     /**
      * Called internally to complete the connection to an existing DOM node
-     * 
-     * @param domNode {DOMNode} the node we're syncing to 
+     *
+     * @param domNode {DOMNode} the node we're syncing to
      * @param newChildren {qx.html.Node[]} the new children
      */
-    _useNodeImpl: function(domNode, newChildren) {
+    _useNodeImpl(domNode, newChildren) {
       if (this._domNode) {
         throw new Error("Could not overwrite existing element!");
       }
 
       // Use incoming element
       this._connectDomNode(domNode);
-      
+
       // Copy currently existing data over to element
       this._copyData(true, true);
-      
+
       // Add children
       var lookup = {};
-      var oldChildren = this._children ? qx.lang.Array.clone(this._children) : null;
-      newChildren.forEach(function(child) {
+      var oldChildren = this._children
+        ? qx.lang.Array.clone(this._children)
+        : null;
+      newChildren.forEach(function (child) {
         lookup[child.toHashCode()] = child;
       });
       this._children = newChildren;
-      
+
       // Make sure that unused children are disconnected
       if (oldChildren) {
-        oldChildren.forEach(function(child) {
+        oldChildren.forEach(function (child) {
           if (!lookup[child.toHashCode()]) {
             if (child._domNode && child._domNode.parentElement) {
               child._domNode.parentElement.removeChild(child._domNode);
@@ -433,9 +436,9 @@ qx.Class.define("qx.html.Node",
           }
         });
       }
-      
+
       var self = this;
-      this._children.forEach(function(child) {
+      this._children.forEach(function (child) {
         child._parent = self;
         if (child._domNode && child._domNode.parentElement !== self._domNode) {
           child._domNode.parentElement.removeChild(child._domNode);
@@ -444,7 +447,7 @@ qx.Class.define("qx.html.Node",
           }
         }
       });
-      
+
       if (this._domNode) {
         this._scheduleChildrenUpdate();
       }
@@ -456,12 +459,15 @@ qx.Class.define("qx.html.Node",
      *
      * @param domNode {DOM} the DOM Node to associate
      */
-    _connectDomNode: function(domNode) {
+    _connectDomNode(domNode) {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertTrue(!this._domNode || this._domNode === domNode);
-        qx.core.Assert.assertTrue((domNode.$$elementObject === this && domNode.$$element === this.toHashCode()) ||
-            (!domNode.$$elementObject && !domNode.$$element));
-      };
+        qx.core.Assert.assertTrue(
+          (domNode.$$elementObject === this &&
+            domNode.$$element === this.toHashCode()) ||
+            (!domNode.$$elementObject && !domNode.$$element)
+        );
+      }
 
       this._domNode = domNode;
       domNode.$$elementObject = this;
@@ -471,16 +477,19 @@ qx.Class.define("qx.html.Node",
         domNode.$$qxObject = this._qxObject;
       }
     },
-    
-    
+
     /**
      * Detects whether the DOM node has been created and is in the document
-     * 
+     *
      * @return {Boolean}
      */
-    isInDocument: function() {
+    isInDocument() {
       if (document.body) {
-        for (var domNode = this._domNode; domNode != null; domNode = domNode.parentElement) {
+        for (
+          var domNode = this._domNode;
+          domNode != null;
+          domNode = domNode.parentElement
+        ) {
           if (domNode === document.body) {
             return true;
           }
@@ -488,12 +497,11 @@ qx.Class.define("qx.html.Node",
       }
       return false;
     },
-    
-    
+
     /**
      * Updates the Object ID on the element to match the QxObjectId
      */
-    updateObjectId: function() {
+    updateObjectId() {
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
         var id = this.getQxObjectId();
@@ -504,14 +512,13 @@ qx.Class.define("qx.html.Node",
         this.setAttribute("data-qx-object-id", id, true);
       }
     },
-    
-    _cascadeQxObjectIdChanges: function() {
+
+    _cascadeQxObjectIdChanges() {
       if (qx.core.Environment.get("module.objectid")) {
         this.updateObjectId();
       }
-      this.base(arguments);
+      super._cascadeQxObjectIdChanges();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -523,8 +530,7 @@ qx.Class.define("qx.html.Node",
      * Add the element to the global modification list.
      *
      */
-    _scheduleChildrenUpdate : function()
-    {
+    _scheduleChildrenUpdate() {
       if (this._modifiedChildren) {
         return;
       }
@@ -535,27 +541,23 @@ qx.Class.define("qx.html.Node",
       qx.html.Element._scheduleFlush("element");
     },
 
-
     /**
      * Syncs data of an HtmlElement object to the DOM.
-     * 
+     *
      * This is just a public wrapper around `flush`, because the scope has changed
-     * 
+     *
      * @deprecated {6.0} Please use `.flush()` instead
      */
-    _flush : function() {
+    _flush() {
       this.flush();
     },
-
 
     /**
      * Syncs data of an HtmlElement object to the DOM.
      *
      */
-    flush : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    flush() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this.DEBUG) {
           this.debug("Flush: " + this.getAttribute("id"));
         }
@@ -563,12 +565,10 @@ qx.Class.define("qx.html.Node",
 
       var length;
       var children = this._children;
-      if (children)
-      {
+      if (children) {
         length = children.length;
         var child;
-        for (var i=0; i<length; i++)
-        {
+        for (var i = 0; i < length; i++) {
           child = children[i];
 
           if (child.isVisible() && child._included && !child._domNode) {
@@ -577,8 +577,7 @@ qx.Class.define("qx.html.Node",
         }
       }
 
-      if (!this._domNode)
-      {
+      if (!this._domNode) {
         this._connectDomNode(this._createDomElement());
 
         this._copyData(false, false);
@@ -586,9 +585,7 @@ qx.Class.define("qx.html.Node",
         if (children && length > 0) {
           this._insertChildren();
         }
-      }
-      else
-      {
+      } else {
         this._syncData();
 
         if (this._modifiedChildren) {
@@ -601,19 +598,19 @@ qx.Class.define("qx.html.Node",
 
     /**
      * Returns this element's root flag
-     * 
+     *
      * @return {Boolean}
      */
-    isRoot : function() {
+    isRoot() {
       throw new Error("No implementation for " + this.classname + ".isRoot");
     },
 
     /**
      * Detects whether this element is inside a root element
-     * 
+     *
      * @return {Boolean}
      */
-    isInRoot: function() {
+    isInRoot() {
       var tmp = this;
       while (tmp) {
         if (tmp.isRoot()) {
@@ -632,16 +629,14 @@ qx.Class.define("qx.html.Node",
      * really walks up recursively.
      * @return {Boolean} <code>true</code> if the element will be seeable
      */
-    _willBeSeeable : function()
-    {
+    _willBeSeeable() {
       if (!qx.html.Element._hasRoots) {
         return false;
       }
       var pa = this;
 
       // Any chance to cache this information in the parents?
-      while(pa)
-      {
+      while (pa) {
         if (pa.isRoot()) {
           return true;
         }
@@ -656,10 +651,6 @@ qx.Class.define("qx.html.Node",
       return false;
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       SUPPORT FOR CHILDREN FLUSH
@@ -673,8 +664,7 @@ qx.Class.define("qx.html.Node",
      * instead.
      *
      */
-    _insertChildren : function()
-    {
+    _insertChildren() {
       var children = this._children;
       if (!children) {
         return;
@@ -682,11 +672,9 @@ qx.Class.define("qx.html.Node",
       var length = children.length;
       var child;
 
-      if (length > 2)
-      {
+      if (length > 2) {
         var domElement = document.createDocumentFragment();
-        for (var i=0; i<length; i++)
-        {
+        for (var i = 0; i < length; i++) {
           child = children[i];
           if (child._domNode && child._included) {
             domElement.appendChild(child._domNode);
@@ -694,12 +682,9 @@ qx.Class.define("qx.html.Node",
         }
 
         this._domNode.appendChild(domElement);
-      }
-      else
-      {
+      } else {
         var domElement = this._domNode;
-        for (var i=0; i<length; i++)
-        {
+        for (var i = 0; i < length; i++) {
           child = children[i];
           if (child._domNode && child._included) {
             domElement.appendChild(child._domNode);
@@ -708,16 +693,14 @@ qx.Class.define("qx.html.Node",
       }
     },
 
-
     /**
      * Synchronize internal children hierarchy to the DOM. This is used
      * for further runtime updates after the element has been created
      * initially.
      *
      */
-    _syncChildren : function()
-    {
-      var dataChildren = this._children||[];
+    _syncChildren() {
+      var dataChildren = this._children || [];
       var dataLength = dataChildren.length;
       var dataChild;
       var dataEl;
@@ -732,13 +715,11 @@ qx.Class.define("qx.html.Node",
       }
 
       // Remove children from DOM which are excluded or remove first
-      for (var i=domChildren.length-1; i>=0; i--)
-      {
+      for (var i = domChildren.length - 1; i >= 0; i--) {
         domEl = domChildren[i];
         dataEl = qx.html.Node.fromDomNode(domEl);
 
-        if (!dataEl || !dataEl._included || dataEl._parent !== this)
-        {
+        if (!dataEl || !dataEl._included || dataEl._parent !== this) {
           domParent.removeChild(domEl);
 
           if (qx.core.Environment.get("qx.debug")) {
@@ -749,13 +730,11 @@ qx.Class.define("qx.html.Node",
 
       // Start from beginning and bring DOM in sync
       // with the data structure
-      for (var i=0; i<dataLength; i++)
-      {
+      for (var i = 0; i < dataLength; i++) {
         dataChild = dataChildren[i];
 
         // Only process visible childs
-        if (dataChild._included)
-        {
+        if (dataChild._included) {
           dataEl = dataChild._domNode;
           domEl = domChildren[domPos];
 
@@ -766,8 +745,7 @@ qx.Class.define("qx.html.Node",
           // Only do something when out of sync
           // If the data element is not there it may mean that it is still
           // marked as visible=false
-          if (dataEl != domEl)
-          {
+          if (dataEl != domEl) {
             if (domEl) {
               domParent.insertBefore(dataEl, domEl);
             } else {
@@ -785,15 +763,13 @@ qx.Class.define("qx.html.Node",
       }
 
       // User feedback
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (qx.html.Element.DEBUG) {
           this.debug("Synced DOM with " + domOperations + " operations");
         }
       }
     },
-    
-    
+
     /**
      * Copies data between the internal representation and the DOM. This
      * simply copies all the data and only works well directly after
@@ -804,14 +780,12 @@ qx.Class.define("qx.html.Node",
      * @param propertiesFromDom {Boolean} whether the copy should respect the property
      *  values in the dom
      */
-    _copyData : function(fromMarkup, propertiesFromDom)
-    {
+    _copyData(fromMarkup, propertiesFromDom) {
       var elem = this._domNode;
-      
+
       // Attach events
       var data = this.__eventValues;
-      if (data)
-      {
+      if (data) {
         // Import listeners
         let domEvents = {};
         let manager = qx.event.Registration.getManager(elem);
@@ -829,7 +803,7 @@ qx.Class.define("qx.html.Node",
         // through the complete runtime of the application.
         delete this.__eventValues;
       }
-      
+
       // Copy properties
       if (this._properties) {
         for (var key in this._properties) {
@@ -845,15 +819,13 @@ qx.Class.define("qx.html.Node",
       }
     },
 
-
     /**
      * Synchronizes data between the internal representation and the DOM. This
      * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *
      */
-    _syncData : function()
-    {
+    _syncData() {
       // Sync misc
       var jobs = this._propertyJobs;
       if (jobs && this._properties) {
@@ -868,13 +840,6 @@ qx.Class.define("qx.html.Node",
       }
     },
 
-
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       PRIVATE HELPERS/DATA
@@ -888,8 +853,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is already a child
      *     of this element
      */
-    _addChildImpl : function(child)
-    {
+    _addChildImpl(child) {
       if (child._parent === this) {
         throw new Error("Child is already in: " + child);
       }
@@ -917,7 +881,6 @@ qx.Class.define("qx.html.Node",
       }
     },
 
-
     /**
      * Internal helper for all children removal needs
      *
@@ -925,8 +888,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is not a child
      *     of this element
      */
-    _removeChildImpl : function(child)
-    {
+    _removeChildImpl(child) {
       if (child._parent !== this) {
         throw new Error("Has no child: " + child);
       }
@@ -940,7 +902,6 @@ qx.Class.define("qx.html.Node",
       delete child._parent;
     },
 
-
     /**
      * Internal helper for all children move needs
      *
@@ -948,8 +909,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} if the given element is not a child
      *     of this element
      */
-    _moveChildImpl : function(child)
-    {
+    _moveChildImpl(child) {
       if (child._parent !== this) {
         throw new Error("Has no child: " + child);
       }
@@ -959,9 +919,6 @@ qx.Class.define("qx.html.Node",
         this._scheduleChildrenUpdate();
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -978,10 +935,9 @@ qx.Class.define("qx.html.Node",
      *
      * @return {Array} the children list
      */
-    getChildren : function() {
+    getChildren() {
       return this._children || null;
     },
-
 
     /**
      * Get a child element at the given index
@@ -990,24 +946,20 @@ qx.Class.define("qx.html.Node",
      * @return {qx.html.Element|null} The child element or <code>null</code> if
      *     no child is found at that index.
      */
-    getChild : function(index)
-    {
+    getChild(index) {
       var children = this._children;
-      return children && children[index] || null;
+      return (children && children[index]) || null;
     },
-
 
     /**
      * Returns whether the element has any child nodes
      *
      * @return {Boolean} Whether the element has any child nodes
      */
-    hasChildren : function()
-    {
+    hasChildren() {
       var children = this._children;
       return children && children[0] !== undefined;
     },
-
 
     /**
      * Find the position of the given child
@@ -1016,12 +968,10 @@ qx.Class.define("qx.html.Node",
      * @return {Integer} returns the position. If the element
      *     is not a child <code>-1</code> will be returned.
      */
-    indexOf : function(child)
-    {
+    indexOf(child) {
       var children = this._children;
       return children ? children.indexOf(child) : -1;
     },
-
 
     /**
      * Whether the given element is a child of this element.
@@ -1030,12 +980,10 @@ qx.Class.define("qx.html.Node",
      * @return {Boolean} Returns <code>true</code> when the given
      *    element is a child of this element.
      */
-    hasChild : function(child)
-    {
+    hasChild(child) {
       var children = this._children;
       return children && children.indexOf(child) !== -1;
     },
-
 
     /**
      * Append all given children at the end of this element.
@@ -1043,10 +991,10 @@ qx.Class.define("qx.html.Node",
      * @param varargs {qx.html.Element} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
-    add : function(varargs) {
+    add(varargs) {
       var self = this;
       function addImpl(arr) {
-        arr.forEach(function(child) {
+        arr.forEach(function (child) {
           if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
             addImpl(child);
           } else {
@@ -1061,7 +1009,6 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Inserts a new element into this element at the given position.
      *
@@ -1071,8 +1018,7 @@ qx.Class.define("qx.html.Node",
      *     children will be increased by one)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    addAt : function(child, index)
-    {
+    addAt(child, index) {
       this._addChildImpl(child);
       qx.lang.Array.insertAt(this._children, child, index);
 
@@ -1080,14 +1026,13 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Removes all given children
      *
      * @param childs {qx.html.Element} children to remove
      * @return {qx.html.Element} this object (for chaining support)
      */
-    remove : function(childs) {
+    remove(childs) {
       var children = this._children;
       if (!children) {
         return this;
@@ -1095,7 +1040,7 @@ qx.Class.define("qx.html.Node",
 
       var self = this;
       function removeImpl(arr) {
-        arr.forEach(function(child) {
+        arr.forEach(function (child) {
           if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
             removeImpl(child);
           } else {
@@ -1105,11 +1050,10 @@ qx.Class.define("qx.html.Node",
         });
       }
       removeImpl(qx.lang.Array.fromArguments(arguments));
-      
+
       // Chaining support
       return this;
     },
-
 
     /**
      * Removes the child at the given index
@@ -1118,8 +1062,7 @@ qx.Class.define("qx.html.Node",
      *     child (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeAt : function(index)
-    {
+    removeAt(index) {
       var children = this._children;
       if (!children) {
         throw new Error("Has no children!");
@@ -1137,18 +1080,15 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Remove all children from this element.
      *
      * @return {qx.html.Element} A reference to this.
      */
-    removeAll : function()
-    {
+    removeAll() {
       var children = this._children;
-      if (children)
-      {
-        for (var i=0, l=children.length; i<l; i++) {
+      if (children) {
+        for (var i = 0, l = children.length; i < l; i++) {
           this._removeChildImpl(children[i]);
         }
 
@@ -1159,11 +1099,6 @@ qx.Class.define("qx.html.Node",
       // Chaining support
       return this;
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1176,10 +1111,9 @@ qx.Class.define("qx.html.Node",
      *
      * @return {qx.html.Element|null} The parent of this element
      */
-    getParent : function() {
+    getParent() {
       return this._parent || null;
     },
-
 
     /**
      * Insert self into the given parent. Normally appends self to the end,
@@ -1190,8 +1124,7 @@ qx.Class.define("qx.html.Node",
      * @param index {Integer?null} Optional position
      * @return {qx.html.Element} this object (for chaining support)
      */
-    insertInto : function(parent, index)
-    {
+    insertInto(parent, index) {
       parent._addChildImpl(this);
 
       if (index == null) {
@@ -1203,15 +1136,13 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Insert self before the given (related) element
      *
      * @param rel {qx.html.Element} the related element
      * @return {qx.html.Element} this object (for chaining support)
      */
-    insertBefore : function(rel)
-    {
+    insertBefore(rel) {
       var parent = rel._parent;
 
       parent._addChildImpl(this);
@@ -1220,15 +1151,13 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Insert self after the given (related) element
      *
      * @param rel {qx.html.Element} the related element
      * @return {qx.html.Element} this object (for chaining support)
      */
-    insertAfter : function(rel)
-    {
+    insertAfter(rel) {
       var parent = rel._parent;
 
       parent._addChildImpl(this);
@@ -1236,7 +1165,6 @@ qx.Class.define("qx.html.Node",
 
       return this;
     },
-
 
     /**
      * Move self to the given index in the current parent.
@@ -1246,8 +1174,7 @@ qx.Class.define("qx.html.Node",
      * @throws {Error} when the given element is not child
      *      of this element.
      */
-    moveTo : function(index)
-    {
+    moveTo(index) {
       var parent = this._parent;
 
       parent._moveChildImpl(this);
@@ -1266,19 +1193,16 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Move self before the given (related) child.
      *
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
-    moveBefore : function(rel)
-    {
+    moveBefore(rel) {
       var parent = this._parent;
       return this.moveTo(parent._children.indexOf(rel));
     },
-
 
     /**
      * Move self after the given (related) child.
@@ -1286,20 +1210,17 @@ qx.Class.define("qx.html.Node",
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
-    moveAfter : function(rel)
-    {
+    moveAfter(rel) {
       var parent = this._parent;
       return this.moveTo(parent._children.indexOf(rel) + 1);
     },
-
 
     /**
      * Remove self from the current parent.
      *
      * @return {qx.html.Element} this object (for chaining support)
      */
-    free : function()
-    {
+    free() {
       var parent = this._parent;
       if (!parent) {
         throw new Error("Has no parent to remove from.");
@@ -1315,11 +1236,6 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       DOM ELEMENT ACCESS
@@ -1330,25 +1246,24 @@ qx.Class.define("qx.html.Node",
      * Returns the DOM element (if created). Please use this with caution.
      * It is better to make all changes to the object itself using the public
      * API rather than to the underlying DOM element.
-     * 
+     *
      * @param create {Boolean?} if true, the DOM node will be created if it does
      * not exist
      * @return {Element|null} The DOM element node, if available.
      */
-    getDomElement : function(create) {
+    getDomElement(create) {
       if (create && !this._domNode) {
         this.flush();
       }
       return this._domNode || null;
     },
 
-
     /**
      * Returns the nodeName of the DOM element.
      *
      * @return {String} The node name
      */
-    getNodeName : function() {
+    getNodeName() {
       return this._nodeName;
     },
 
@@ -1357,16 +1272,17 @@ qx.Class.define("qx.html.Node",
      *
      * @param name {String} The node name
      */
-    setNodeName : function(name) {
-      if (this._domNode && name.toLowerCase() !== this._nodeName.toLowerCase()) {
-        throw new Error("Cannot change the name of the node after the DOM node has been created");
+    setNodeName(name) {
+      if (
+        this._domNode &&
+        name.toLowerCase() !== this._nodeName.toLowerCase()
+      ) {
+        throw new Error(
+          "Cannot change the name of the node after the DOM node has been created"
+        );
       }
       this._nodeName = name;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1380,8 +1296,7 @@ qx.Class.define("qx.html.Node",
      *
      * @return {Node} this object (for chaining support)
      */
-    include : function()
-    {
+    include() {
       if (this._included) {
         return this;
       }
@@ -1395,15 +1310,13 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Marks the element as excluded which means it will be removed
      * from the DOM and ignored for updates until it gets included again.
      *
      * @return {qx.html.Element} this object (for chaining support)
      */
-    exclude : function()
-    {
+    exclude() {
       if (!this._included) {
         return this;
       }
@@ -1417,24 +1330,21 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Whether the element is part of the DOM
      *
      * @return {Boolean} Whether the element is part of the DOM.
      */
-    isIncluded : function() {
+    isIncluded() {
       return this._included === true;
     },
-    
+
     /**
      * Apply method for visible property
      */
-    _applyVisible: function(value) {
+    _applyVisible(value) {
       // Nothing - to be overridden
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1446,51 +1356,64 @@ qx.Class.define("qx.html.Node",
      * Registers a property and the implementations used to read the property value
      * from the DOM and to set the property value onto the DOM.  This allows the element
      * to have a simple `setProperty` method that knows how to read and write the value.
-     * 
+     *
      * You do not have to specify a getter or a setter - by default the setter will use
      * `_applyProperty` for backwards compatibility, and there is no getter implementation.
-     * 
+     *
      * The functions are called with `this` set to this Element.  The getter takes
      * the property name as a parameter and is expected to return a value, the setter takes
-     * the property name and value as parameters, and returns nothing. 
-     * 
+     * the property name and value as parameters, and returns nothing.
+     *
      * @param key {String} the property name
      * @param getter {Function?} function to read from the DOM
      * @param setter {Function?} function to copy to the DOM
      * @param serialize {Function?} function to serialize the value to HTML
      */
-    registerProperty: function(key, get, set, serialize) {
+    registerProperty(key, get, set, serialize) {
       if (!this._properties) {
         this._properties = {};
       }
       if (this._properties[key]) {
-        this.debug("Overridding property " + key + " in " + this + "[" + this.classname + "]");
+        this.debug(
+          "Overridding property " +
+            key +
+            " in " +
+            this +
+            "[" +
+            this.classname +
+            "]"
+        );
       }
       if (!set) {
-        set = qx.lang.Function.bind(function(value, key) {
+        set = qx.lang.Function.bind(function (value, key) {
           this._applyProperty(key, value);
         }, this);
-        qx.log.Logger.deprecatedMethodWarning(this._applyProperty, "The method '_applyProperty' is deprecated.  Please use `registerProperty` instead (property '" + key + "' in " + this.classname + ")");
+        qx.log.Logger.deprecatedMethodWarning(
+          this._applyProperty,
+          "The method '_applyProperty' is deprecated.  Please use `registerProperty` instead (property '" +
+            key +
+            "' in " +
+            this.classname +
+            ")"
+        );
       }
       this._properties[key] = {
-          get: get,
-          set: set,
-          serialize: serialize,
-          value: undefined
-      }
+        get: get,
+        set: set,
+        serialize: serialize,
+        value: undefined
+      };
     },
 
-
-    
     /**
      * Applies a special property with the given value.
      *
      * This property apply routine can be easily overwritten and
      * extended by sub classes to add new low level features which
      * are not easily possible using styles and attributes.
-     * 
+     *
      * Note that this implementation is for backwards compatibility and
-     * implementations 
+     * implementations
      *
      * @param name {String} Unique property identifier
      * @param value {var} Any valid value (depends on the property)
@@ -1498,10 +1421,9 @@ qx.Class.define("qx.html.Node",
      * @abstract
      * @deprecated {6.0} please use `registerProperty` instead
      */
-    _applyProperty : function(name, value) {
+    _applyProperty(name, value) {
       // empty implementation
     },
-
 
     /**
      * Set up the given property.
@@ -1512,7 +1434,7 @@ qx.Class.define("qx.html.Node",
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    _setProperty : function(key, value, direct) {
+    _setProperty(key, value, direct) {
       if (!this._properties || !this._properties[key]) {
         this.registerProperty(key, null, null);
       }
@@ -1549,7 +1471,6 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Removes the given misc
      *
@@ -1558,10 +1479,9 @@ qx.Class.define("qx.html.Node",
      *    directly (without queuing)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    _removeProperty : function(key, direct) {
+    _removeProperty(key, direct) {
       return this._setProperty(key, null, direct);
     },
-
 
     /**
      * Get the value of the given misc.
@@ -1570,11 +1490,11 @@ qx.Class.define("qx.html.Node",
      * @param direct {Boolean?false} Whether the value should be obtained directly (without queuing)
      * @return {var} the value of the misc
      */
-    _getProperty : function(key, direct) {
+    _getProperty(key, direct) {
       if (!this._properties || !this._properties[key]) {
         return null;
       }
-      
+
       var value = this._properties[key].value;
       if (this._domNode) {
         if (direct || value === undefined) {
@@ -1587,10 +1507,6 @@ qx.Class.define("qx.html.Node",
 
       return value === undefined || value == null ? null : value;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1612,15 +1528,19 @@ qx.Class.define("qx.html.Node",
      * @return {var} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
-    addListener : function(type, listener, self, capture)
-    {
+    addListener(type, listener, self, capture) {
       if (this.$$disposed) {
         return null;
       }
 
       if (qx.core.Environment.get("qx.debug")) {
-        var msg = "Failed to add event listener for type '" + type + "'" +
-          " to the target '" + this + "': ";
+        var msg =
+          "Failed to add event listener for type '" +
+          type +
+          "'" +
+          " to the target '" +
+          this +
+          "': ";
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
@@ -1633,10 +1553,16 @@ qx.Class.define("qx.html.Node",
           this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-      
+
       const registerDomEvent = () => {
         if (this._domNode) {
-          return qx.event.Registration.addListener(this._domNode, type, listener, self, capture);
+          return qx.event.Registration.addListener(
+            this._domNode,
+            type,
+            listener,
+            self,
+            capture
+          );
         }
 
         if (!this.__eventValues) {
@@ -1650,28 +1576,25 @@ qx.Class.define("qx.html.Node",
         var unique = qx.event.Manager.getNextUniqueId();
         var id = type + (capture ? "|capture|" : "|bubble|") + unique;
 
-        this.__eventValues[id] =
-        {
-          type : type,
-          listener : listener,
-          self : self,
-          capture : capture,
-          unique : unique
+        this.__eventValues[id] = {
+          type: type,
+          listener: listener,
+          self: self,
+          capture: capture,
+          unique: unique
         };
 
         return id;
       };
-      
+
       if (qx.Class.supportsEvent(this, type)) {
-        let id = this.base(arguments, type, listener, self, capture);
+        let id = super.addListener(type, listener, self, capture);
         id.domEventId = registerDomEvent();
         return id;
       }
-      
+
       return registerDomEvent();
-
     },
-
 
     /**
      * Removes an event listener from the element.
@@ -1682,16 +1605,19 @@ qx.Class.define("qx.html.Node",
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeListener : function(type, listener, self, capture)
-    {
+    removeListener(type, listener, self, capture) {
       if (this.$$disposed) {
         return null;
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        var msg = "Failed to remove event listener for type '" + type + "'" +
-          " from the target '" + this + "': ";
+      if (qx.core.Environment.get("qx.debug")) {
+        var msg =
+          "Failed to remove event listener for type '" +
+          type +
+          "'" +
+          " from the target '" +
+          this +
+          "': ";
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
@@ -1704,22 +1630,28 @@ qx.Class.define("qx.html.Node",
           this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-      
+
       if (qx.Class.supportsEvent(this, type)) {
-        this.base(arguments, type, listener, self, capture);
+        super.removeListener(type, listener, self, capture);
       }
 
-      if (this._domNode)
-      {
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.toHashCode()]) {
+      if (this._domNode) {
+        if (
+          listener.$$wrapped_callback &&
+          listener.$$wrapped_callback[type + this.toHashCode()]
+        ) {
           var callback = listener.$$wrapped_callback[type + this.toHashCode()];
           delete listener.$$wrapped_callback[type + this.toHashCode()];
           listener = callback;
         }
-        qx.event.Registration.removeListener(this._domNode, type, listener, self, capture);
-      }
-      else
-      {
+        qx.event.Registration.removeListener(
+          this._domNode,
+          type,
+          listener,
+          self,
+          capture
+        );
+      } else {
         var values = this.__eventValues;
         var entry;
 
@@ -1727,13 +1659,16 @@ qx.Class.define("qx.html.Node",
           capture = false;
         }
 
-        for (var key in values)
-        {
+        for (var key in values) {
           entry = values[key];
 
           // Optimized for performance: Testing references first
-          if (entry.listener === listener && entry.self === self && entry.capture === capture && entry.type === type)
-          {
+          if (
+            entry.listener === listener &&
+            entry.self === self &&
+            entry.capture === capture &&
+            entry.type === type
+          ) {
             delete values[key];
             break;
           }
@@ -1743,7 +1678,6 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Removes an event listener from an event target by an id returned by
      * {@link #addListener}
@@ -1751,19 +1685,20 @@ qx.Class.define("qx.html.Node",
      * @param id {var} The id returned by {@link #addListener}
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeListenerById : function(id)
-    {
+    removeListenerById(id) {
       if (this.$$disposed) {
         return null;
       }
-      
+
       if (id.domEventId) {
         if (this._domNode) {
-          qx.event.Registration.removeListenerById(this._domNode, id.domEventId);
+          qx.event.Registration.removeListenerById(
+            this._domNode,
+            id.domEventId
+          );
         }
         delete id.domEventId;
-        this.base(arguments, id);
-        
+        super.removeListenerById(id);
       } else {
         if (this._domNode) {
           qx.event.Registration.removeListenerById(this._domNode, id);
@@ -1775,7 +1710,6 @@ qx.Class.define("qx.html.Node",
       return this;
     },
 
-
     /**
      * Check if there are one or more listeners for an event type.
      *
@@ -1784,14 +1718,13 @@ qx.Class.define("qx.html.Node",
      *         the bubbling or of the capturing phase.
      * @return {Boolean} Whether the object has a listener of the given type.
      */
-    hasListener : function(type, capture)
-    {
+    hasListener(type, capture) {
       if (this.$$disposed) {
         return false;
       }
 
       if (qx.Class.supportsEvent(this, type)) {
-        let has = this.base(arguments, type, capture);
+        let has = super.hasListener(type, capture);
         if (has) {
           return true;
         }
@@ -1801,18 +1734,17 @@ qx.Class.define("qx.html.Node",
         if (qx.event.Registration.hasListener(this._domNode, type, capture)) {
           return true;
         }
-        
       } else {
         var values = this.__eventValues;
         var entry;
-  
+
         if (capture == null) {
           capture = false;
         }
-  
+
         for (var key in values) {
           entry = values[key];
-  
+
           // Optimized for performance: Testing fast types first
           if (entry.capture === capture && entry.type === type) {
             return true;
@@ -1822,7 +1754,6 @@ qx.Class.define("qx.html.Node",
 
       return false;
     },
-
 
     /**
      * Serializes and returns all event listeners attached to this element
@@ -1836,15 +1767,21 @@ qx.Class.define("qx.html.Node",
      * attached to the capturing phase</li>
      * </ul>
      */
-    getListeners : function() {
+    getListeners() {
       if (this.$$disposed) {
         return null;
       }
 
       var listeners = [];
-      qx.lang.Array.append(listeners, qx.event.Registration.serializeListeners(this)||[]);
+      qx.lang.Array.append(
+        listeners,
+        qx.event.Registration.serializeListeners(this) || []
+      );
       if (this._domNode) {
-        qx.lang.Array.append(listeners, qx.event.Registration.serializeListeners(this._domNode)||[]);
+        qx.lang.Array.append(
+          listeners,
+          qx.event.Registration.serializeListeners(this._domNode) || []
+        );
       }
 
       for (var id in this.__eventValues) {
@@ -1861,21 +1798,15 @@ qx.Class.define("qx.html.Node",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      DESTRUCT
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     var el = this._domNode;
-    if (el)
-    {
+    if (el) {
       qx.event.Registration.getManager(el).removeAllListeners(el);
       el.$$element = "";
       delete el.$$elementObject;
@@ -1883,8 +1814,7 @@ qx.Class.define("qx.html.Node",
       delete el.$$qxObject;
     }
 
-    if (!qx.core.ObjectRegistry.inShutDown)
-    {
+    if (!qx.core.ObjectRegistry.inShutDown) {
       var parent = this._parent;
       if (parent && !parent.$$disposed) {
         parent.remove(this);
@@ -1893,6 +1823,11 @@ qx.Class.define("qx.html.Node",
 
     this._disposeArray("_children");
 
-    this._properties = this._propertyJobs = this._domNode = this._parent = this.__eventValues = null;
+    this._properties =
+      this._propertyJobs =
+      this._domNode =
+      this._parent =
+      this.__eventValues =
+        null;
   }
 });

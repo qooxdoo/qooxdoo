@@ -23,11 +23,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
+qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -40,9 +38,8 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     this.__manager = manager;
     this.__targets = {};
@@ -51,43 +48,33 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     qx.ui.mobile.core.DomUpdatedHandler.__instances[this.toHashCode()] = this;
   },
 
-
-
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
-
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES :
-    {
-      domupdated : 1
+    SUPPORTED_TYPES: {
+      domupdated: 1
     },
 
-
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false,
-
+    IGNORE_CAN_HANDLE: false,
 
     /** @type {Map} Stores all domUpdated manager instances */
-    __instances : {},
-
+    __instances: {},
 
     /**
      * Informs all handlers. Useful after massive DOM manipulations e.g.
      * through {@link qx.ui.mobile.core.Widget}.
      *
      */
-    refresh : function()
-    {
+    refresh() {
       var all = this.__instances;
       for (var hash in all) {
         all[hash].refresh();
@@ -95,19 +82,15 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    __manager : null,
-    __targets : null,
+  members: {
+    __manager: null,
+    __targets: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -116,27 +99,22 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return target instanceof qx.ui.mobile.core.Widget;
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
+    registerEvent(target, type, capture) {
       var hash = target.toHashCode();
       var targets = this.__targets;
 
-      if (targets && !targets[hash])
-      {
+      if (targets && !targets[hash]) {
         targets[hash] = target;
       }
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
+    unregisterEvent(target, type, capture) {
       var hash = target.toHashCode();
       var targets = this.__targets;
       if (!targets) {
@@ -147,9 +125,6 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
         delete targets[hash];
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -162,15 +137,12 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
      * to inform the widgets.
      *
      */
-    refresh : function()
-    {
+    refresh() {
       var targets = this.__targets;
       var target;
-      for (var hash in targets)
-      {
+      for (var hash in targets) {
         target = targets[hash];
-        if (target && !target.$$disposed && target.isSeeable())
-        {
+        if (target && !target.$$disposed && target.isSeeable()) {
           var evt = qx.event.Registration.createEvent("domupdated");
           this.__manager.dispatchEvent(target, evt);
         }
@@ -178,26 +150,18 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__manager = this.__targets = null;
 
     // Deregister
     delete qx.ui.mobile.core.DomUpdatedHandler.__instances[this.toHashCode()];
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -205,7 +169,7 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

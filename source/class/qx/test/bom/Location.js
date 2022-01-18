@@ -16,25 +16,22 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("qx.test.bom.Location",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Location", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __el : null,
-    __bodyStyles : null,
-    __marginTop : null,
-    __marginLeft : null,
-    __left : null,
-    __top : null,
-    __position : null,
-    __border : null,
-    __padding : null,
+  members: {
+    __el: null,
+    __bodyStyles: null,
+    __marginTop: null,
+    __marginLeft: null,
+    __left: null,
+    __top: null,
+    __position: null,
+    __border: null,
+    __padding: null,
 
-    setUp : function()
-    {
-      this.__el = qx.dom.Element.create("div", { "id": "testRoot" });
+    setUp() {
+      this.__el = qx.dom.Element.create("div", { id: "testRoot" });
       document.body.appendChild(this.__el);
 
       this.__bodyStyles = document.body.style;
@@ -55,8 +52,7 @@ qx.Class.define("qx.test.bom.Location",
       this.__bodyStyles.padding = "0px";
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       this.__bodyStyles.marginTop = this.__marginTop;
       this.__bodyStyles.marginLeft = this.__marginLeft;
       this.__bodyStyles.top = this.__top;
@@ -69,16 +65,14 @@ qx.Class.define("qx.test.bom.Location",
       this.__el = null;
     },
 
-    testBodyLocationDefault : function()
-    {
+    testBodyLocationDefault() {
       // check the defaults
       var pos = qx.bom.element.Location.get(document.body);
       this.assertEquals(0, pos.left);
       this.assertEquals(0, pos.top);
     },
 
-    testBodyLocationMargins : function()
-    {
+    testBodyLocationMargins() {
       // set the defaults
       this.__bodyStyles.marginLeft = "10px";
       this.__bodyStyles.marginTop = "20px";
@@ -88,8 +82,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(20, pos.top);
     },
 
-    testBodyLocationBorder : function()
-    {
+    testBodyLocationBorder() {
       this.__bodyStyles.border = "5px solid black";
 
       var pos = qx.bom.element.Location.get(document.body);
@@ -97,8 +90,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(0, pos.top);
     },
 
-    testBodyLocationPadding : function()
-    {
+    testBodyLocationPadding() {
       this.__bodyStyles.padding = "5px";
 
       var pos = qx.bom.element.Location.get(document.body);
@@ -106,8 +98,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(0, pos.top);
     },
 
-    testBodyLocationMode : function()
-    {
+    testBodyLocationMode() {
       this.__bodyStyles.marginLeft = "10px";
       this.__bodyStyles.marginTop = "20px";
       this.__bodyStyles.border = "5px solid black";
@@ -134,15 +125,13 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(55, pos.top);
     },
 
-
-    testDivStatic : function()
-    {
+    testDivStatic() {
       this.__el.innerHTML =
         '<div id="div1" style=" position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
-          '<div id="div2" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
-            '<div id="div3" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
-          '</div>' +
-        '</div>';
+        '<div id="div2" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
+        '<div id="div3" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
+        "</div>" +
+        "</div>";
 
       var div1 = document.getElementById("div1");
       var pos = qx.bom.element.Location.get(div1);
@@ -160,15 +149,13 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(15 + 5 + 2 + 3, pos.top, "top3");
     },
 
-
-    testDivRelative : function()
-    {
+    testDivRelative() {
       this.__el.innerHTML =
-      '<div id="div1" style="position: relative; top: 5px; left: 5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
+        '<div id="div1" style="position: relative; top: 5px; left: 5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
         '<div id="div2" style="position: relative; top: 5px; left: 5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
-          '<div id="div3" style="position: relative; top: -5px; left: -5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
-        '</div>' +
-      '</div>';
+        '<div id="div3" style="position: relative; top: -5px; left: -5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
+        "</div>" +
+        "</div>";
 
       var div1 = document.getElementById("div1");
       var pos = qx.bom.element.Location.get(div1);
@@ -186,15 +173,13 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(25 - 5 + 5 + 2 + 3, pos.top, "top3");
     },
 
-
-    testDivAbsolute : function()
-    {
+    testDivAbsolute() {
       this.__el.innerHTML =
-      '<div id="div1" style="position: absolute; top: 200px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
+        '<div id="div1" style="position: absolute; top: 200px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
         '<div id="div2" style="position: absolute; top: -100px; left: -10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
-          '<div id="div3" style="position: absolute; top: 100px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
-        '</div>' +
-      '</div>';
+        '<div id="div3" style="position: absolute; top: 100px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
+        "</div>" +
+        "</div>";
 
       var div1 = document.getElementById("div1");
       var pos = qx.bom.element.Location.get(div1);
@@ -212,22 +197,20 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(112 + 100 + 5 + 2, pos.top);
     },
 
-
-    testDivMixedPositions : function()
-    {
+    testDivMixedPositions() {
       this.__el.innerHTML =
-      '<div id="absolute1" style="position: absolute; top: 300px; left: 400px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;">' +
-      ' <div id="relative1" style="position: relative; top: 50px; left: 50px; margin: 5px; border: 2px solid #000; padding: 3px; width: 300px; height: 300px;">' +
-      '   <div id="static1" style="overflow: hidden; position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px;">' +
-      '     <div id="relative2" style="overflow: auto; position: relative; top: 10px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
-      '       <div id="absolute2" style="position: absolute; top: 30px; left: -90px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
-      '         <div id="static2" style="position: static; margin: 10px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px;">' +
-      '         </div>' +
-      '       </div>' +
-      '     </div>' +
-      '   </div>' +
-      '  </div>' +
-      '</div>';
+        '<div id="absolute1" style="position: absolute; top: 300px; left: 400px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;">' +
+        ' <div id="relative1" style="position: relative; top: 50px; left: 50px; margin: 5px; border: 2px solid #000; padding: 3px; width: 300px; height: 300px;">' +
+        '   <div id="static1" style="overflow: hidden; position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px;">' +
+        '     <div id="relative2" style="overflow: auto; position: relative; top: 10px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
+        '       <div id="absolute2" style="position: absolute; top: 30px; left: -90px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
+        '         <div id="static2" style="position: static; margin: 10px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px;">' +
+        "         </div>" +
+        "       </div>" +
+        "     </div>" +
+        "   </div>" +
+        "  </div>" +
+        "</div>";
 
       var absolute1 = document.getElementById("absolute1");
       var pos = qx.bom.element.Location.get(absolute1);
@@ -260,9 +243,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(432 + 3 + 2 + 10, pos.top, "top5");
     },
 
-
-    testDivWithBodyMargin : function()
-    {
+    testDivWithBodyMargin() {
       this.__bodyStyles.marginLeft = "10px";
       this.__bodyStyles.marginTop = "20px";
 
@@ -274,9 +255,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(20, pos.top);
     },
 
-
-    testDivWithBodyPadding : function()
-    {
+    testDivWithBodyPadding() {
       this.__bodyStyles.padding = "10px";
       this.__el.innerHTML = '<div id="div"></div>';
 
@@ -287,9 +266,7 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(10, pos.top);
     },
 
-
-    testDivWithBodyBorder : function()
-    {
+    testDivWithBodyBorder() {
       this.__bodyStyles.border = "10px solid black";
       this.__el.innerHTML = '<div id="div">juhu</div>';
 
@@ -297,23 +274,21 @@ qx.Class.define("qx.test.bom.Location",
       var pos = qx.bom.element.Location.get(div);
 
       // IE quirks mode puts the border outside of the body
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.quirksmode"))
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.quirksmode")
+      ) {
         this.assertEquals(0, pos.left);
         this.assertEquals(0, pos.top);
-      }
-      else
-      {
+      } else {
         this.assertEquals(10, pos.left);
         this.assertEquals(10, pos.top);
       }
     },
 
-
-    testDivLocationMode : function()
-    {
-      this.__el.innerHTML = '<div id="div" style="margin: 5px; padding: 10px; border: 3px solid green;"></div>';
+    testDivLocationMode() {
+      this.__el.innerHTML =
+        '<div id="div" style="margin: 5px; padding: 10px; border: 3px solid green;"></div>';
 
       var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div, "margin");
@@ -337,14 +312,12 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(18, pos.top);
     },
 
-
-    testDivInline : function()
-    {
+    testDivInline() {
       this.__el.innerHTML =
-      '<div style="width:100px">' +
-       '<span id="span1" style="margin-left: 10px"><img src="about:blank" width="10px" height="10px" style="border: 0px"></img></span>' +
-       '<span id="span2" style="margin-left: 10px">a</span>' +
-       '</div>';
+        '<div style="width:100px">' +
+        '<span id="span1" style="margin-left: 10px"><img src="about:blank" width="10px" height="10px" style="border: 0px"></img></span>' +
+        '<span id="span2" style="margin-left: 10px">a</span>' +
+        "</div>";
 
       var span1 = document.getElementById("span1");
       var pos = qx.bom.element.Location.get(span1);
@@ -355,13 +328,11 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(30, pos.left);
     },
 
-
-    testDivFixed : function()
-    {
+    testDivFixed() {
       this.__el.innerHTML =
-      '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 2000px;"></div>' +
-      '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';
-      window.scrollTo(0,100);
+        '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 2000px;"></div>' +
+        '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';
+      window.scrollTo(0, 100);
       var pos = qx.bom.element.Location.get(document.getElementById("test"));
       this.assertEquals(150, pos.top);
     }

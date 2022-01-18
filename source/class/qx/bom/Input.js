@@ -34,34 +34,30 @@
 /**
  * Cross browser abstractions to work with input elements.
  */
-qx.Bootstrap.define("qx.bom.Input",
-{
+qx.Bootstrap.define("qx.bom.Input", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Map} Internal data structures with all supported input types */
-    __types :
-    {
-      text : 1,
-      textarea : 1,
-      select : 1,
-      checkbox : 1,
-      radio : 1,
-      password : 1,
-      hidden : 1,
-      submit : 1,
-      image : 1,
-      file : 1,
-      search : 1,
-      reset : 1,
-      button : 1
+    __types: {
+      text: 1,
+      textarea: 1,
+      select: 1,
+      checkbox: 1,
+      radio: 1,
+      password: 1,
+      hidden: 1,
+      submit: 1,
+      image: 1,
+      file: 1,
+      search: 1,
+      reset: 1,
+      button: 1
     },
-
 
     /**
      * Creates an DOM input/textarea/select element.
@@ -78,10 +74,13 @@ qx.Bootstrap.define("qx.bom.Input",
      * @param win {Window} Window to create the element for
      * @return {Element} The created input node
      */
-    create : function(type, attributes, win)
-    {
+    create(type, attributes, win) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertKeyInMap(type, this.__types, "Unsupported input type.");
+        qx.core.Assert.assertKeyInMap(
+          type,
+          this.__types,
+          "Unsupported input type."
+        );
       }
 
       // Work on a copy to not modify given attributes map
@@ -89,19 +88,15 @@ qx.Bootstrap.define("qx.bom.Input",
 
       var tag;
 
-      if (type === "textarea" || type === "select")
-      {
+      if (type === "textarea" || type === "select") {
         tag = type;
-      }
-      else
-      {
+      } else {
         tag = "input";
         attributes.type = type;
       }
 
       return qx.dom.Element.create(tag, attributes, win);
     },
-
 
     /**
      * Applies the given value to the element.
@@ -119,8 +114,7 @@ qx.Bootstrap.define("qx.bom.Input",
      * @param element {Element} element to update
      * @param value {String|Number|Array} the value to apply
      */
-    setValue : function(element, value)
-    {
+    setValue(element, value) {
       var tag = element.nodeName.toLowerCase();
       var type = element.type;
       var Type = qx.lang.Type;
@@ -129,39 +123,34 @@ qx.Bootstrap.define("qx.bom.Input",
         value += "";
       }
 
-      if ((type === "checkbox" || type === "radio"))
-      {
+      if (type === "checkbox" || type === "radio") {
         if (Type.isArray(value)) {
           element.checked = value.includes(element.value);
         } else {
           element.checked = element.value == value;
         }
-      }
-      else if (tag === "select")
-      {
+      } else if (tag === "select") {
         var isArray = Type.isArray(value);
         var options = element.options;
         var subel, subval;
 
-        for (var i=0, l=options.length; i<l; i++)
-        {
+        for (var i = 0, l = options.length; i < l; i++) {
           subel = options[i];
           subval = subel.getAttribute("value");
           if (subval == null) {
             subval = subel.text;
           }
 
-          subel.selected = isArray ?
-            value.includes(subval) : value == subval;
+          subel.selected = isArray ? value.includes(subval) : value == subval;
         }
 
         if (isArray && value.length == 0) {
           element.selectedIndex = -1;
         }
-      }
-      else if ((type === "text" || type === "textarea") &&
-        (qx.core.Environment.get("engine.name") == "mshtml"))
-      {
+      } else if (
+        (type === "text" || type === "textarea") &&
+        qx.core.Environment.get("engine.name") == "mshtml"
+      ) {
         // These flags are required to detect self-made property-change
         // events during value modification. They are used by the Input
         // event handler to filter events.
@@ -172,7 +161,6 @@ qx.Bootstrap.define("qx.bom.Input",
         element.value = value;
       }
     },
-
 
     /**
      * Returns the currently configured value.
@@ -186,16 +174,16 @@ qx.Bootstrap.define("qx.bom.Input",
      * @param element {Element} DOM element to query
      * @return {String|Array} The value of the given element
      */
-    getValue : function(element)
-    {
+    getValue(element) {
       var tag = element.nodeName.toLowerCase();
 
       if (tag === "option") {
-        return (element.attributes.value || {}).specified ? element.value : element.text;
+        return (element.attributes.value || {}).specified
+          ? element.value
+          : element.text;
       }
 
-      if (tag === "select")
-      {
+      if (tag === "select") {
         var index = element.selectedIndex;
 
         // Nothing was selected
@@ -210,12 +198,14 @@ qx.Bootstrap.define("qx.bom.Input",
         var value;
 
         // Loop through all the selected options
-        for (var i=one ? index : 0, max=one ? index+1 : options.length; i<max; i++)
-        {
+        for (
+          var i = one ? index : 0, max = one ? index + 1 : options.length;
+          i < max;
+          i++
+        ) {
           var option = options[i];
 
-          if (option.selected)
-          {
+          if (option.selected) {
             // Get the specific value for the option
             value = clazz.getValue(option);
 
@@ -230,13 +220,10 @@ qx.Bootstrap.define("qx.bom.Input",
         }
 
         return values;
-      }
-      else
-      {
+      } else {
         return (element.value || "").replace(/\r/g, "");
       }
     },
-
 
     /**
      * Sets the text wrap behaviour of a text area element.
@@ -247,9 +234,8 @@ qx.Bootstrap.define("qx.bom.Input",
      * @param element {Element} DOM element to modify
      * @param wrap {Boolean} Whether to turn text wrap on or off.
      */
-    setWrap : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element, wrap) {
+    setWrap: qx.core.Environment.select("engine.name", {
+      mshtml(element, wrap) {
         var wrapValue = wrap ? "soft" : "off";
 
         // Explicitly set overflow-y CSS property to auto when wrapped,
@@ -260,8 +246,7 @@ qx.Bootstrap.define("qx.bom.Input",
         element.style.overflowY = styleValue;
       },
 
-      "gecko" : function(element, wrap)
-      {
+      gecko(element, wrap) {
         var wrapValue = wrap ? "soft" : "off";
         var styleValue = wrap ? "" : "auto";
 
@@ -269,8 +254,7 @@ qx.Bootstrap.define("qx.bom.Input",
         element.style.overflow = styleValue;
       },
 
-      "webkit" : function(element, wrap)
-      {
+      webkit(element, wrap) {
         var wrapValue = wrap ? "soft" : "off";
         var styleValue = wrap ? "" : "auto";
 
@@ -278,7 +262,7 @@ qx.Bootstrap.define("qx.bom.Input",
         element.style.overflow = styleValue;
       },
 
-      "default" : function(element, wrap) {
+      default(element, wrap) {
         element.style.whiteSpace = wrap ? "normal" : "nowrap";
       }
     })

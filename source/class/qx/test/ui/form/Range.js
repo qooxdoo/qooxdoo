@@ -15,56 +15,89 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Range",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Range", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget) {
+  members: {
+    __test(widget) {
       // min
       widget.setMinimum(10);
-      this.assertEquals(10, widget.getMinimum(), "Set or get does not work. (min)");
+      this.assertEquals(
+        10,
+        widget.getMinimum(),
+        "Set or get does not work. (min)"
+      );
 
       var self = this;
-      this.assertEventFired(widget, "changeMinimum", function() {
-        widget.setMinimum(11);
-      }, function(e) {
-        self.assertEquals(11, e.getData(), "Not the right number in the event.");
-        self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeMinimum",
+        function () {
+          widget.setMinimum(11);
+        },
+        function (e) {
+          self.assertEquals(
+            11,
+            e.getData(),
+            "Not the right number in the event."
+          );
+          self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
+        },
+        "Event is wrong!"
+      );
 
       // max
       widget.setMaximum(20);
-      this.assertEquals(20, widget.getMaximum(), "Set or get does not work. (max)");
+      this.assertEquals(
+        20,
+        widget.getMaximum(),
+        "Set or get does not work. (max)"
+      );
 
       var self = this;
-      this.assertEventFired(widget, "changeMaximum", function() {
-        widget.setMaximum(21);
-      }, function(e) {
-        self.assertEquals(21, e.getData(), "Not the right number in the event.");
-        self.assertEquals(20, e.getOldData(), "Wrong old data in the event.");
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeMaximum",
+        function () {
+          widget.setMaximum(21);
+        },
+        function (e) {
+          self.assertEquals(
+            21,
+            e.getData(),
+            "Not the right number in the event."
+          );
+          self.assertEquals(20, e.getOldData(), "Wrong old data in the event.");
+        },
+        "Event is wrong!"
+      );
 
       // singleStep
       widget.setSingleStep(2);
-      this.assertEquals(2, widget.getSingleStep(), "Set or get does not work. (singleStep)");
+      this.assertEquals(
+        2,
+        widget.getSingleStep(),
+        "Set or get does not work. (singleStep)"
+      );
 
       // pageStep
       widget.setPageStep(11);
-      this.assertEquals(11, widget.getPageStep(), "Set or get does not work. (pageStep)");
+      this.assertEquals(
+        11,
+        widget.getPageStep(),
+        "Set or get does not work. (pageStep)"
+      );
 
       // get rid of the widget
       widget.destroy();
     },
 
-    testSpinner: function() {
-     this.__test(new qx.ui.form.Spinner());
+    testSpinner() {
+      this.__test(new qx.ui.form.Spinner());
     },
 
-    testSlider: function() {
-     this.__test(new qx.ui.form.Slider());
+    testSlider() {
+      this.__test(new qx.ui.form.Slider());
     }
-
   }
 });

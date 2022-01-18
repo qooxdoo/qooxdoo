@@ -8,8 +8,8 @@
  * Here is a schematic drawing to illustrate that:
  *
  * <pre>
- *    +-----------------------------------------+ 
- *    | Widget (Container Element)              | 
+ *    +-----------------------------------------+
+ *    | Widget (Container Element)              |
  *    | +-----------------------------------+   |
  *    | | Decoration                        |   |
  *    | | +-----------------------------------+ |

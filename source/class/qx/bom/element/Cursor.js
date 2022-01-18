@@ -16,23 +16,19 @@
 
 ************************************************************************ */
 
-
 /**
  * Contains methods to control and query the element's cursor property
  */
-qx.Bootstrap.define("qx.bom.element.Cursor",
-{
+qx.Bootstrap.define("qx.bom.element.Cursor", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** Internal helper structure to map cursor values to supported ones */
-    __map : {},
-
+    __map: {},
 
     /**
      * Compiles the given cursor into a CSS compatible string.
@@ -40,10 +36,9 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      * @param cursor {String} Valid CSS cursor name
      * @return {String} CSS string
      */
-    compile : function(cursor) {
+    compile(cursor) {
       return "cursor:" + (this.__map[cursor] || cursor) + ";";
     },
-
 
     /**
      * Returns the computed cursor style for the given element.
@@ -54,10 +49,9 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      *   The computed mode is the default one.
      * @return {String} Computed cursor value of the given element.
      */
-    get : function(element, mode) {
+    get(element, mode) {
       return qx.bom.element.Style.get(element, "cursor", mode, false);
     },
-
 
     /**
      * Applies a new cursor style to the given element
@@ -65,28 +59,27 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
      * @param element {Element} The element to modify
      * @param value {String} New cursor value to set
      */
-    set : function(element, value) {
+    set(element, value) {
       element.style.cursor = this.__map[value] || value;
     },
-
 
     /**
      * Removes the local cursor style applied to the element
      *
      * @param element {Element} The element to modify
      */
-    reset : function(element) {
+    reset(element) {
       element.style.cursor = "";
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     // < IE 9
-    if (qx.core.Environment.get("engine.name") == "mshtml" &&
-         ((parseFloat(qx.core.Environment.get("engine.version")) < 9 ||
-          qx.core.Environment.get("browser.documentmode") < 9) &&
-          !qx.core.Environment.get("browser.quirksmode"))
+    if (
+      qx.core.Environment.get("engine.name") == "mshtml" &&
+      (parseFloat(qx.core.Environment.get("engine.version")) < 9 ||
+        qx.core.Environment.get("browser.documentmode") < 9) &&
+      !qx.core.Environment.get("browser.quirksmode")
     ) {
       statics.__map["nesw-resize"] = "ne-resize";
       statics.__map["nwse-resize"] = "nw-resize";

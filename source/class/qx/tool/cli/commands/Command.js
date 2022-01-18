@@ -26,8 +26,8 @@ const process = require("process");
 qx.Class.define("qx.tool.cli.commands.Command", {
   extend: qx.core.Object,
 
-  construct: function(argv) {
-    this.base(arguments);
+  construct(argv) {
+    super();
     this.argv = argv;
   },
 
@@ -50,14 +50,16 @@ qx.Class.define("qx.tool.cli.commands.Command", {
       let argv = this.argv;
       if (argv.set) {
         let configDb = await qx.tool.cli.ConfigDb.getInstance();
-        argv.set.forEach(function(kv) {
+        argv.set.forEach(function (kv) {
           var m = kv.match(/^([^=\s]+)(=(.+))?$/);
           if (m) {
             var key = m[1];
             var value = m[3];
             configDb.setOverride(key, value);
           } else {
-            throw new qx.tool.utils.Utils.UserError(`Failed to parse environment setting commandline option '--set ${kv}'`);
+            throw new qx.tool.utils.Utils.UserError(
+              `Failed to parse environment setting commandline option '--set ${kv}'`
+            );
           }
         });
       }
@@ -71,7 +73,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
      * @param {*} argv : args to process
      *
      */
-    processArgs: function(argv) {
+    processArgs(argv) {
       // Nothing
     },
 
@@ -86,7 +88,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     /**
      * Check if the current application needs to be migrated
      */
-    async checkMigrations(){
+    async checkMigrations() {
       let appQxVersion;
       try {
         appQxVersion = await this.getAppQxVersion();
@@ -97,28 +99,31 @@ qx.Class.define("qx.tool.cli.commands.Command", {
       const semaphore = path.join(process.cwd(), ".qxmigrationcheck");
       try {
         await fsp.stat(semaphore);
-        this.debug(`Not checking migration because check is already in progress.`);
+        this.debug(
+          `Not checking migration because check is already in progress.`
+        );
       } catch (e) {
         // run migration in dry-run mode
-        await fsp.writeFile(semaphore,"");
+        await fsp.writeFile(semaphore, "");
         let runner = new qx.tool.migration.Runner().set({
           dryRun: true
         });
-        let {pending, applied} = await runner.runMigrations();
+
+        let { pending, applied } = await runner.runMigrations();
         await fsp.unlink(semaphore);
         if (pending) {
           qx.tool.compiler.Console.warn(
             `*** There are ${pending} pending migrations. \n` +
-            `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n`+
-            `*** and '(npx) qx migrate' to apply the changes.`
+              `*** Please run '(npx) qx migrate --dry-run --verbose' for details, \n` +
+              `*** and '(npx) qx migrate' to apply the changes.`
           );
+
           if (!process.env.IGNORE_MIGRATION_WARNING) {
             process.exit(1);
           }
           return;
         }
         this.debug("No migrations necessary.");
-
       }
     },
 
@@ -147,7 +152,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
     getQxVersion() {
       try {
         return this.argv.qxVersion || qx.tool.config.Utils.getQxVersion();
-      } catch(e) {
+      } catch (e) {
         throw new qx.tool.utils.Utils.UserError(e.message);
       }
     },

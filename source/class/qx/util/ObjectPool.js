@@ -27,13 +27,9 @@
  * It is the client's responsibility to ensure that pooled objects are not
  * referenced or used from anywhere else in the application.
  */
-qx.Class.define("qx.util.ObjectPool",
-{
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
-
-
-
+qx.Class.define("qx.util.ObjectPool", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -44,9 +40,8 @@ qx.Class.define("qx.util.ObjectPool",
   /**
    * @param size {Integer} Size of each class pool
    */
-  construct : function(size)
-  {
-    this.base(arguments);
+  construct(size) {
+    super();
 
     this.__pool = {};
 
@@ -55,17 +50,13 @@ qx.Class.define("qx.util.ObjectPool",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PROPERTIES
@@ -77,15 +68,11 @@ qx.Class.define("qx.util.ObjectPool",
      *
      * A size of "null" represents an unlimited pool.
      */
-    size :
-    {
-      check : "Integer",
-      init : Infinity
+    size: {
+      check: "Integer",
+      init: Infinity
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -93,11 +80,9 @@ qx.Class.define("qx.util.ObjectPool",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** @type {Map} Stores arrays of instances for all managed classes */
-    __pool : null,
-
+    __pool: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -115,10 +100,9 @@ qx.Class.define("qx.util.ObjectPool",
      * @return {Object} An instance of the requested type. If non existed in the pool a new
      *   one is transparently created and returned.
      */
-    getObject : function(clazz)
-    {
+    getObject(clazz) {
       if (this.$$disposed) {
-        return new clazz;
+        return new clazz();
       }
 
       if (!clazz) {
@@ -135,12 +119,11 @@ qx.Class.define("qx.util.ObjectPool",
       if (obj) {
         obj.$$pooled = false;
       } else {
-        obj = new clazz;
+        obj = new clazz();
       }
 
       return obj;
     },
-
 
     /**
      * This method places an Object in a pool of Objects of its type. Note that
@@ -153,8 +136,7 @@ qx.Class.define("qx.util.ObjectPool",
      *
      * @param obj {Object} An Object instance to pool.
      */
-    poolObject : function(obj)
-    {
+    poolObject(obj) {
       // Dispose check
       if (!this.__pool) {
         return;
@@ -172,8 +154,7 @@ qx.Class.define("qx.util.ObjectPool",
       }
 
       // Check to see whether the pool for this type is already full
-      if (pool.length > this.getSize())
-      {
+      if (pool.length > this.getSize()) {
         // Use enhanced destroy() method instead of simple dispose
         // when available to work together with queues etc.
         if (obj.destroy) {
@@ -190,26 +171,19 @@ qx.Class.define("qx.util.ObjectPool",
     }
   },
 
-
-
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     var pool = this.__pool;
     var classname, list, i, l;
 
-    for (classname in pool)
-    {
+    for (classname in pool) {
       list = pool[classname];
-      for (i=0, l=list.length; i<l; i++) {
+      for (i = 0, l = list.length; i < l; i++) {
         list[i].dispose();
       }
     }

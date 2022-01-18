@@ -21,14 +21,11 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.AbstractGui",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-  implement : [qx.application.IApplication],
-  include : qx.locale.MTranslation,
-
-
+qx.Class.define("qx.application.AbstractGui", {
+  type: "abstract",
+  extend: qx.core.Object,
+  implement: [qx.application.IApplication],
+  include: qx.locale.MTranslation,
 
   /*
   *****************************************************************************
@@ -36,11 +33,9 @@ qx.Class.define("qx.application.AbstractGui",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** @type {qx.ui.core.Widget} The root widget */
-    __root : null,
-
+    __root: null,
 
     /**
      * Create the root widget. This method is abstract and must be overridden
@@ -49,10 +44,9 @@ qx.Class.define("qx.application.AbstractGui",
      * @return {qx.ui.core.Widget} The root widget. This widget must be configured
      *     with a {@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas} layout.
      */
-    _createRootWidget : function() {
+    _createRootWidget() {
       throw new Error("Abstract method call");
     },
-
 
     /**
      * Returns the application's root widget. The root widgets can act as container
@@ -65,24 +59,24 @@ qx.Class.define("qx.application.AbstractGui",
      *
      * @return {qx.ui.core.Widget} The application's root widget.
      */
-    getRoot : function() {
+    getRoot() {
       return this.__root;
     },
 
-
     // interface method
-    main : function()
-    {
+    main() {
       // Initialize themes
       qx.theme.manager.Meta.getInstance().initialize();
 
       // Initialize tooltip manager
       qx.ui.tooltip.Manager.getInstance();
 
-      var rule = ["-webkit-touch-callout: none;",
-      "-ms-touch-select: none;",
-      "-webkit-tap-highlight-color: rgba(0,0,0,0);",
-      "-webkit-tap-highlight-color: transparent;"].join("");
+      var rule = [
+        "-webkit-touch-callout: none;",
+        "-ms-touch-select: none;",
+        "-webkit-tap-highlight-color: rgba(0,0,0,0);",
+        "-webkit-tap-highlight-color: transparent;"
+      ].join("");
       qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
 
       this.__root = this._createRootWidget();
@@ -91,32 +85,26 @@ qx.Class.define("qx.application.AbstractGui",
       window.scrollTo(0, 0);
     },
 
-
     // interface method
-    finalize : function() {
+    finalize() {
       this.render();
     },
-
 
     /**
      * Updates the GUI rendering
      *
      */
-    render : function() {
+    render() {
       qx.ui.core.queue.Manager.flush();
     },
 
-
     // interface method
-    close : function(val)
-    {
+    close(val) {
       // empty
     },
 
-
     // interface method
-    terminate : function()
-    {
+    terminate() {
       // empty
     }
   }

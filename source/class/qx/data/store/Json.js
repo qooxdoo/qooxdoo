@@ -37,15 +37,13 @@
  *
  * you probably need to change the implementation of your delegate to configure
  * the {@link qx.io.request.Xhr} request.
- * 
+ *
  * This class only needs to be disposed if you want to abort any current I/O
  * request
  *
  */
-qx.Class.define("qx.data.store.Json",
-{
-  extend : qx.core.Object,
-
+qx.Class.define("qx.data.store.Json", {
+  extend: qx.core.Object,
 
   /**
    * @param url {String|null} The url where to find the data. The store starts
@@ -55,10 +53,8 @@ qx.Class.define("qx.data.store.Json",
    * @param delegate {Object?null} The delegate containing one of the methods
    *   specified in {@link qx.data.store.IStoreDelegate}.
    */
-  construct : function(url, delegate)
-  {
-    this.base(arguments);
-
+  construct(url, delegate) {
+    super();
 
     // store the marshaler and the delegate
     this._marshaler = new qx.data.marshal.Json(delegate);
@@ -69,61 +65,62 @@ qx.Class.define("qx.data.store.Json",
     }
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Data event fired after the model has been created. The data will be the
      * created model.
      */
-    "loaded" : "qx.event.type.Data",
+    loaded: "qx.event.type.Data",
 
     /**
      * Fired when a parse error (i.e. broken JSON) occurred
      * during the load. The data contains a hash of the original
      * response and the parser error (exception object).
      */
-    "parseError" : "qx.event.type.Data",
+    parseError: "qx.event.type.Data",
 
     /**
      * Fired when an error (aborted, timeout or failed) occurred
      * during the load. The data contains the response of the request.
      * If you want more details, use the {@link #changeState} event.
      */
-    "error" : "qx.event.type.Data"
+    error: "qx.event.type.Data"
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Property for holding the loaded model instance.
      */
-    model : {
+    model: {
       nullable: true,
       event: "changeModel"
     },
-
 
     /**
      * The state of the request as an url. If you want to check if the request
      * did it’s job, use, the {@link #changeState} event and check for one of the
      * listed values.
      */
-    state : {
-      check : [
-        "configured", "queued", "sending", "receiving",
-        "completed", "aborted", "timeout", "failed"
+    state: {
+      check: [
+        "configured",
+        "queued",
+        "sending",
+        "receiving",
+        "completed",
+        "aborted",
+        "timeout",
+        "failed"
       ],
-      init : "configured",
-      event : "changeState"
-    },
 
+      init: "configured",
+      event: "changeState"
+    },
 
     /**
      * The url where the request should go to.
      */
-    url : {
+    url: {
       check: "String",
       apply: "_applyUrl",
       event: "changeUrl",
@@ -131,16 +128,14 @@ qx.Class.define("qx.data.store.Json",
     }
   },
 
+  members: {
+    _marshaler: null,
+    _delegate: null,
 
-  members :
-  {
-    _marshaler : null,
-    _delegate : null,
-
-    __request : null,
+    __request: null,
 
     // apply function
-    _applyUrl: function(value, old) {
+    _applyUrl(value, old) {
       if (value != null) {
         // take care of the resource management
         value = qx.util.AliasManager.getInstance().resolve(value);
@@ -155,20 +150,18 @@ qx.Class.define("qx.data.store.Json",
      *
      * @return {Object} The request.
      */
-    _getRequest: function() {
+    _getRequest() {
       return this.__request;
     },
-
 
     /**
      * Set request.
      *
      * @param request {Object} The request.
      */
-    _setRequest: function(request) {
+    _setRequest(request) {
       this.__request = request;
     },
-
 
     /**
      * Creates and sends a GET request with the given url.
@@ -178,7 +171,7 @@ qx.Class.define("qx.data.store.Json",
      *
      * @param url {String} The url for the request.
      */
-    _createRequest: function(url) {
+    _createRequest(url) {
       // dispose old request
       if (this.__request) {
         this.__request.dispose();
@@ -214,7 +207,6 @@ qx.Class.define("qx.data.store.Json",
       req.send();
     },
 
-
     /**
      * Handler called when request phase changes.
      *
@@ -222,19 +214,19 @@ qx.Class.define("qx.data.store.Json",
      *
      * @param ev {qx.event.type.Data} The request’s changePhase event.
      */
-    _onChangePhase : function(ev) {
+    _onChangePhase(ev) {
       var requestPhase = ev.getData(),
-          requestPhaseToStorePhase = {},
-          state;
+        requestPhaseToStorePhase = {},
+        state;
 
       requestPhaseToStorePhase = {
-        "opened": "configured",
-        "sent": "sending",
-        "loading": "receiving",
-        "success": "completed",
-        "abort": "aborted",
-        "timeout": "timeout",
-        "statusError": "failed"
+        opened: "configured",
+        sent: "sending",
+        loading: "receiving",
+        success: "completed",
+        abort: "aborted",
+        timeout: "timeout",
+        statusError: "failed"
       };
 
       state = requestPhaseToStorePhase[requestPhase];
@@ -243,17 +235,15 @@ qx.Class.define("qx.data.store.Json",
       }
     },
 
-
     /**
      * Handler called when not completing the request successfully.
      *
      * @param ev {qx.event.type.Event} The request’s fail event.
      */
-    _onFail : function(ev) {
+    _onFail(ev) {
       var req = ev.getTarget();
       this.fireDataEvent("error", req);
     },
-
 
     /**
      * Handler called when not completing the request successfully because
@@ -262,10 +252,9 @@ qx.Class.define("qx.data.store.Json",
      * @param ev {qx.event.type.Data} Hash map containing the original 'request'
      *                                and the original parser 'error' exception object.
      */
-    _onParseError : function(ev) {
+    _onParseError(ev) {
       this.fireDataEvent("parseError", ev.getData());
     },
-
 
     /**
      * Handler for the completion of the requests. It invokes the creation of
@@ -274,49 +263,47 @@ qx.Class.define("qx.data.store.Json",
      *
      * @param ev {qx.event.type.Event} The request’s success event.
      */
-    _onSuccess : function(ev)
-    {
+    _onSuccess(ev) {
       if (this.isDisposed()) {
         return;
       }
 
-       var req = ev.getTarget(),
-           data = req.getResponse();
+      var req = ev.getTarget(),
+        data = req.getResponse();
 
-       // check for the data manipulation hook
-       var del = this._delegate;
-       if (del && qx.lang.Type.isFunction(del.manipulateData)) {
-         data = this._delegate.manipulateData(data);
-       }
+      // check for the data manipulation hook
+      var del = this._delegate;
+      if (del && qx.lang.Type.isFunction(del.manipulateData)) {
+        data = this._delegate.manipulateData(data);
+      }
 
-       // create the class
-       this._marshaler.toClass(data, true);
+      // create the class
+      this._marshaler.toClass(data, true);
 
-       var oldModel = this.getModel();
+      var oldModel = this.getModel();
 
-       // set the initial data
-       this.setModel(this._marshaler.toModel(data));
+      // set the initial data
+      this.setModel(this._marshaler.toModel(data));
 
-       // get rid of the old model
-       if (oldModel && oldModel.dispose) {
-         oldModel.dispose();
-       }
+      // get rid of the old model
+      if (oldModel && oldModel.dispose) {
+        oldModel.dispose();
+      }
 
-       // fire complete event
-       this.fireDataEvent("loaded", this.getModel());
+      // fire complete event
+      this.fireDataEvent("loaded", this.getModel());
 
-       // get rid of the request object
-       if (this.__request) {
-         this.__request.dispose();
-         this.__request = null;
-       }
+      // get rid of the request object
+      if (this.__request) {
+        this.__request.dispose();
+        this.__request = null;
+      }
     },
-
 
     /**
      * Reloads the data with the url set in the {@link #url} property.
      */
-    reload: function() {
+    reload() {
       var url = this.getUrl();
       if (url != null) {
         this._createRequest(url);
@@ -330,8 +317,7 @@ qx.Class.define("qx.data.store.Json",
    *****************************************************************************
    */
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__request != null) {
       this._disposeObjects("__request");
     }

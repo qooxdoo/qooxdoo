@@ -20,23 +20,22 @@
  * This class provides a JSON-RPC client object with auto-configuration of the
  * transport used (based on the URI passed).
  */
-qx.Class.define("qx.io.jsonrpc.Client",
-{
-  extend : qx.io.transport.AbstractClient,
+qx.Class.define("qx.io.jsonrpc.Client", {
+  extend: qx.io.transport.AbstractClient,
 
   statics: {
     // statics are not inherited from parent class
-    registerTransport : qx.io.transport.AbstractClient.registerTransport
+    registerTransport: qx.io.transport.AbstractClient.registerTransport
   },
 
-  events : {
+  events: {
     /**
      * Event fired before a request message is sent to the server.
      * Event data is the {@link qx.io.jsonrpc.protocol.Message} to
      * be sent. This also allows listeners to configure the transport
      * object beforehand.
      */
-    "outgoingRequest": "qx.event.type.Data",
+    outgoingRequest: "qx.event.type.Data",
 
     /**
      * Event fired when a request results in an error. Event data is an instance of
@@ -45,7 +44,7 @@ qx.Class.define("qx.io.jsonrpc.Client",
      * Event fired when a message is received from the endpoint. Event data
      * is an UTF-8 encoded string
      */
-    "error" : "qx.event.type.Data",
+    error: "qx.event.type.Data",
 
     /**
      * Event fired when a peer-originated JSON-RPC message has been
@@ -53,7 +52,7 @@ qx.Class.define("qx.io.jsonrpc.Client",
      * qx.io.jsonrpc.message.Batch}, {@link qx.io.jsonrpc.message.Request}
      * or {@link qx.io.jsonrpc.protocol.Notification}.
      */
-    "incomingRequest" : "qx.event.type.Data"
+    incomingRequest: "qx.event.type.Data"
   },
 
   /**
@@ -66,11 +65,13 @@ qx.Class.define("qx.io.jsonrpc.Client",
    * @param {qx.io.jsonrpc.protocol.Parser?} parser
    *    Optional parser object, which needs to be an instance of a subclass of {@link qx.io.jsonrpc.protocol.Parser}
    */
-  construct : function(transportOrUri, methodPrefix, parser) {
-    this.base(arguments);
+  construct(transportOrUri, methodPrefix, parser) {
+    super();
     this.selectTransport(transportOrUri);
     // listen for incoming messages
-    this.getTransport().addListener("message", evt => this.handleIncoming(evt.getData()));
+    this.getTransport().addListener("message", evt =>
+      this.handleIncoming(evt.getData())
+    );
     if (!methodPrefix) {
       methodPrefix = "";
     }
@@ -82,33 +83,29 @@ qx.Class.define("qx.io.jsonrpc.Client",
     this.__requests = [];
   },
 
-  properties :
-  {
+  properties: {
     /**
      * An optional string which is prepended to the method name by the {@link #sendRequest}
      * and {@link #sendNotification} methods
      */
-    methodPrefix :
-    {
-      check : "String",
-      nullable : true
+    methodPrefix: {
+      check: "String",
+      nullable: true
     },
 
     /**
      * The parser object, which must be a subclass of {@link qx.io.jsonrpc.protocol.Parser}
-      */
+     */
     parser: {
-      check : "qx.io.jsonrpc.protocol.Parser"
+      check: "qx.io.jsonrpc.protocol.Parser"
     }
   },
 
-  members :
-  {
-
+  members: {
     /**
      * A cache of the requests which have been sent out and are still pending
      */
-    __requests : null,
+    __requests: null,
 
     /**
      * If a service name has been configured, prepend it to the method name,
@@ -151,19 +148,35 @@ qx.Class.define("qx.io.jsonrpc.Client",
      * when there is an error or a cancellation up to that point.
      */
     async send(message) {
-      if (!(message instanceof qx.io.jsonrpc.protocol.Message || message instanceof qx.io.jsonrpc.protocol.Batch)) {
-        throw new Error("Argument must be instanceof qx.io.jsonrpc.protocol.Message or qx.io.jsonrpc.protocol.Batch");
+      if (
+        !(
+          message instanceof qx.io.jsonrpc.protocol.Message ||
+          message instanceof qx.io.jsonrpc.protocol.Batch
+        )
+      ) {
+        throw new Error(
+          "Argument must be instanceof qx.io.jsonrpc.protocol.Message or qx.io.jsonrpc.protocol.Batch"
+        );
       }
 
       // filter by type
-      let messages = message instanceof qx.io.jsonrpc.protocol.Batch ? message.getBatch().toArray() : [message];
-      let requests = messages.filter(message => message instanceof qx.io.jsonrpc.protocol.Request);
+      let messages =
+        message instanceof qx.io.jsonrpc.protocol.Batch
+          ? message.getBatch().toArray()
+          : [message];
+      let requests = messages.filter(
+        message => message instanceof qx.io.jsonrpc.protocol.Request
+      );
 
       // store requests
       requests.forEach(request => {
         let id = request.getId();
         if (this.__requests[id] !== undefined) {
-          throw new qx.io.exception.Transport(`Request ID ${id} is already in use`, qx.io.exception.Transport.INVALID_ID, {request: message.toObject()});
+          throw new qx.io.exception.Transport(
+            `Request ID ${id} is already in use`,
+            qx.io.exception.Transport.INVALID_ID,
+            { request: message.toObject() }
+          );
         }
         this.__requests[id] = request;
       });
@@ -189,7 +202,10 @@ qx.Class.define("qx.io.jsonrpc.Client",
      * and rejects with an exception in the {@link qx.io.jsonrpc.exception} namespace.
      */
     async sendRequest(method, params) {
-      const request = new qx.io.jsonrpc.protocol.Request(this._prependMethodPrefix(method), params);
+      const request = new qx.io.jsonrpc.protocol.Request(
+        this._prependMethodPrefix(method),
+        params
+      );
       await this.send(request);
       return await request.getPromise();
     },
@@ -202,7 +218,10 @@ qx.Class.define("qx.io.jsonrpc.Client",
      * notification has been sent out (which is synchronous)
      */
     async sendNotification(method, params) {
-      const notification = new qx.io.jsonrpc.protocol.Notification(this._prependMethodPrefix(method), params);
+      const notification = new qx.io.jsonrpc.protocol.Notification(
+        this._prependMethodPrefix(method),
+        params
+      );
       await this.send(notification);
     },
 
@@ -215,7 +234,11 @@ qx.Class.define("qx.io.jsonrpc.Client",
     async sendBatch(batch) {
       qx.core.Assert.assertInstance(batch, qx.io.jsonrpc.protocol.Batch);
       if (this.getMethodPrefix()) {
-        batch.getBatch().forEach(message => message.setMethod(this._prependMethodPrefix(message.getMethod())));
+        batch
+          .getBatch()
+          .forEach(message =>
+            message.setMethod(this._prependMethodPrefix(message.getMethod()))
+          );
       }
       await this.send(batch);
       return await qx.Promise.all(batch.getPromises());
@@ -269,7 +292,10 @@ qx.Class.define("qx.io.jsonrpc.Client",
       qx.core.Assert.assertInstance(message, qx.io.jsonrpc.protocol.Message);
       let request;
       let id;
-      if (message instanceof qx.io.jsonrpc.protocol.Result || message instanceof qx.io.jsonrpc.protocol.Error) {
+      if (
+        message instanceof qx.io.jsonrpc.protocol.Result ||
+        message instanceof qx.io.jsonrpc.protocol.Error
+      ) {
         // handle results and errors, which are responses to sent requests
         id = message.getId();
         request = this.__requests[id];
@@ -284,9 +310,9 @@ qx.Class.define("qx.io.jsonrpc.Client",
         if (request === true) {
           // the request has already been responded to
           throw new qx.io.exception.Transport(
-              `Invalid jsonrpc response data: multiple responses with same id ${id}.`,
-              qx.io.exception.Transport.DUPLICATE_ID,
-              message.toObject()
+            `Invalid jsonrpc response data: multiple responses with same id ${id}.`,
+            qx.io.exception.Transport.DUPLICATE_ID,
+            message.toObject()
           );
         }
       }
@@ -295,18 +321,21 @@ qx.Class.define("qx.io.jsonrpc.Client",
         // resolve the individual promise
         request.getPromise().resolve(message.getResult());
       } else if (message instanceof qx.io.jsonrpc.protocol.Error) {
-
         let error = message.getError();
         let ex = new qx.io.exception.Protocol(
           error.message,
           error.code,
           message.toObject()
         );
+
         // inform listeners
         this.fireDataEvent("error", ex);
         // reject the individual promise
         request.getPromise().reject(ex);
-      } else if (message instanceof qx.io.jsonrpc.protocol.Request || message instanceof qx.io.jsonrpc.protocol.Notification) {
+      } else if (
+        message instanceof qx.io.jsonrpc.protocol.Request ||
+        message instanceof qx.io.jsonrpc.protocol.Notification
+      ) {
         // handle peer-originated requests and notifications
         this.fireDataEvent("incomingRequest", message);
       } else {
@@ -318,6 +347,6 @@ qx.Class.define("qx.io.jsonrpc.Client",
   },
 
   environment: {
-    "qx.io.jsonrpc.debug" : false
+    "qx.io.jsonrpc.debug": false
   }
 });

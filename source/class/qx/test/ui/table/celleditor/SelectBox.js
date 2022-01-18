@@ -16,35 +16,29 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.table.celleditor.SelectBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.factory = new qx.ui.table.celleditor.SelectBox();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.factory.dispose();
     },
 
-
-    _getCellInfo : function(value) {
+    _getCellInfo(value) {
       return {
         value: value,
         col: 0,
         table: {
-          getTableColumnModel: function() {
+          getTableColumnModel() {
             return {
-              getDataCellRenderer: function(col) {
+              getDataCellRenderer(col) {
                 return {
-                  _getContentHtml : function(cellInfo) {
+                  _getContentHtml(cellInfo) {
                     return cellInfo.value;
                   }
                 };
@@ -55,9 +49,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       };
     },
 
-
-    testCreateCellEditor : function()
-    {
+    testCreateCellEditor() {
       var editor = this.factory.createCellEditor(this._getCellInfo());
 
       this.assertInstance(editor, qx.ui.core.Widget);
@@ -66,9 +58,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       editor.destroy();
     },
 
-
-    testCreateCellEditorWithValue : function()
-    {
+    testCreateCellEditorWithValue() {
       this.factory.setListData(["juhu", "kinners"]);
       var editor = this.factory.createCellEditor(this._getCellInfo("juhu"));
 
@@ -77,9 +67,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       editor.destroy();
     },
 
-
-    testGetCellEditorValue : function()
-    {
+    testGetCellEditorValue() {
       this.factory.setListData(["juhu", "kinners"]);
       var editor = this.factory.createCellEditor(this._getCellInfo());
 
@@ -89,14 +77,12 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       editor.destroy();
     },
 
-
-    testValidationFunction : function()
-    {
+    testValidationFunction() {
       this.factory.setListData(["juhu", "kinners"]);
 
       var called = false;
 
-      this.factory.setValidationFunction(function(value) {
+      this.factory.setValidationFunction(function (value) {
         called = true;
         return "_" + value + "_";
       });
@@ -114,9 +100,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
       this.assertEquals("_kinners_", value);
     },
 
-
-    testAutoconvertToNumber : function()
-    {
+    testAutoconvertToNumber() {
       this.factory.setListData(["10.0", "-12.5"]);
       var editor = this.factory.createCellEditor(this._getCellInfo(10.0));
 

@@ -23,14 +23,14 @@
  * Parser for JSDoc "@return"
  */
 qx.Class.define("qx.tool.compiler.jsdoc.ThrowsParser", {
-  extend:qx.tool.compiler.jsdoc.CommandParser,
+  extend: qx.tool.compiler.jsdoc.CommandParser,
 
   members: {
-    parseCommand: function(pdoc, classname, analyser) {
+    parseCommand(pdoc, classname, analyser) {
       var m = pdoc.body.match(/^(\{([^}]+)\}([\s\S]+)?)?$/);
       if (m) {
-        pdoc.type = this.resolveType((m[2]||"").trim(), classname, analyser);
-        pdoc.description = m[3]||"";
+        pdoc.type = this.resolveType((m[2] || "").trim(), classname, analyser);
+        pdoc.description = m[3] || "";
       } else {
         delete pdoc.type;
         delete pdoc.description;

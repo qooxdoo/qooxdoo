@@ -22,11 +22,8 @@
  * @ignore(qx.data, qx.data.IListData)
  * @ignore(qx.locale, qx.locale.LocalizedString)
  */
-qx.Class.define("qx.util.Serializer",
-{
-  statics :
-  {
-
+qx.Class.define("qx.util.Serializer", {
+  statics: {
     /**
      * Serializes the properties of the given qooxdoo object. To get the
      * serialization working, every property needs to have a string
@@ -43,10 +40,11 @@ qx.Class.define("qx.util.Serializer",
      *   objects into strings.
      * @return {String} The serialized object.
      */
-    toUriParameter : function(object, qxSerializer, dateFormat)
-    {
+    toUriParameter(object, qxSerializer, dateFormat) {
       var result = "";
-      var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
+      var properties = qx.util.PropertyUtil.getAllProperties(
+        object.constructor
+      );
 
       for (var name in properties) {
         // ignore property groups
@@ -57,15 +55,22 @@ qx.Class.define("qx.util.Serializer",
 
         // handle arrays
         if (qx.lang.Type.isArray(value)) {
-          var isdataArray = qx.data && qx.data.IListData &&
-            qx.Class.hasInterface(value && value.constructor, qx.data.IListData);
+          var isdataArray =
+            qx.data &&
+            qx.data.IListData &&
+            qx.Class.hasInterface(
+              value && value.constructor,
+              qx.data.IListData
+            );
           for (var i = 0; i < value.length; i++) {
             var valueAtI = isdataArray ? value.getItem(i) : value[i];
             result += this.__toUriParameter(name, valueAtI, qxSerializer);
           }
         } else if (qx.lang.Type.isDate(value) && dateFormat != null) {
           result += this.__toUriParameter(
-            name, dateFormat.format(value), qxSerializer
+            name,
+            dateFormat.format(value),
+            qxSerializer
           );
         } else {
           result += this.__toUriParameter(name, value, qxSerializer);
@@ -73,7 +78,6 @@ qx.Class.define("qx.util.Serializer",
       }
       return result.substring(0, result.length - 1);
     },
-
 
     /**
      * Helper method for {@link #toUriParameter}. Check for qooxdoo objects
@@ -84,9 +88,7 @@ qx.Class.define("qx.util.Serializer",
      * @param qxSerializer {Function?} The serializer for qooxdoo objects.
      * @return {String} The serialized name value pair.
      */
-    __toUriParameter : function(name, value, qxSerializer)
-    {
-
+    __toUriParameter(name, value, qxSerializer) {
       if (value && value.$$type == "Class") {
         value = value.classname;
       }
@@ -105,7 +107,6 @@ qx.Class.define("qx.util.Serializer",
       }
       return encodeURIComponent(name) + "=" + encValue + "&";
     },
-
 
     /**
      * Serializes the properties of the given qooxdoo object into a native
@@ -126,24 +127,28 @@ qx.Class.define("qx.util.Serializer",
      *   The serialized object. Depending on the input qooxdoo object, the returning
      *   type will vary.
      */
-    toNativeObject : function(object, qxSerializer, dateFormat)
-    {
+    toNativeObject(object, qxSerializer, dateFormat) {
       var result;
 
       // null or undefined
-      if (object == null)
-      {
+      if (object == null) {
         return null;
       }
 
       // data array
-      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData))
-      {
+      if (
+        qx.data &&
+        qx.data.IListData &&
+        qx.Class.hasInterface(object.constructor, qx.data.IListData)
+      ) {
         result = [];
-        for (var i = 0; i < object.getLength(); i++)
-        {
-          result.push(qx.util.Serializer.toNativeObject(
-            object.getItem(i), qxSerializer, dateFormat)
+        for (var i = 0; i < object.getLength(); i++) {
+          result.push(
+            qx.util.Serializer.toNativeObject(
+              object.getItem(i),
+              qxSerializer,
+              dateFormat
+            )
           );
         }
 
@@ -151,13 +156,15 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // other arrays
-      if (qx.lang.Type.isArray(object))
-      {
+      if (qx.lang.Type.isArray(object)) {
         result = [];
-        for (var i = 0; i < object.length; i++)
-        {
-          result.push(qx.util.Serializer.toNativeObject(
-            object[i], qxSerializer, dateFormat)
+        for (var i = 0; i < object.length; i++) {
+          result.push(
+            qx.util.Serializer.toNativeObject(
+              object[i],
+              qxSerializer,
+              dateFormat
+            )
           );
         }
 
@@ -175,15 +182,12 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // qooxdoo object
-      if (object instanceof qx.core.Object)
-      {
-        if (qxSerializer != null)
-        {
+      if (object instanceof qx.core.Object) {
+        if (qxSerializer != null) {
           var returnValue = qxSerializer(object);
 
           // if we have something returned, return that
-          if (returnValue != undefined)
-          {
+          if (returnValue != undefined) {
             return returnValue;
           }
 
@@ -192,20 +196,21 @@ qx.Class.define("qx.util.Serializer",
 
         result = {};
 
-        var properties =
-          qx.util.PropertyUtil.getAllProperties(object.constructor);
+        var properties = qx.util.PropertyUtil.getAllProperties(
+          object.constructor
+        );
 
-        for (var name in properties)
-        {
+        for (var name in properties) {
           // ignore property groups
-          if (properties[name].group != undefined)
-          {
+          if (properties[name].group != undefined) {
             continue;
           }
 
           var value = object["get" + qx.lang.String.firstUp(name)]();
           result[name] = qx.util.Serializer.toNativeObject(
-            value, qxSerializer, dateFormat
+            value,
+            qxSerializer,
+            dateFormat
           );
         }
 
@@ -218,19 +223,23 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // localized strings
-      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
+      if (
+        qx.locale &&
+        qx.locale.LocalizedString &&
+        object instanceof qx.locale.LocalizedString
+      ) {
         return object.toString();
       }
 
       // JavaScript objects
-      if (qx.lang.Type.isObject(object))
-      {
+      if (qx.lang.Type.isObject(object)) {
         result = {};
 
-        for (var key in object)
-        {
+        for (var key in object) {
           result[key] = qx.util.Serializer.toNativeObject(
-            object[key], qxSerializer, dateFormat
+            object[key],
+            qxSerializer,
+            dateFormat
           );
         }
 
@@ -240,7 +249,6 @@ qx.Class.define("qx.util.Serializer",
       // all other stuff, including String, Date, RegExp
       return object;
     },
-
 
     /**
      * Serializes the properties of the given qooxdoo object into a json object.
@@ -255,7 +263,7 @@ qx.Class.define("qx.util.Serializer",
      *   objects into strings.
      * @return {String} The serialized object.
      */
-    toJson : function(object, qxSerializer, dateFormat) {
+    toJson(object, qxSerializer, dateFormat) {
       var result = "";
 
       // null or undefined
@@ -264,10 +272,19 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // data array
-      if (qx.data && qx.data.IListData && qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
+      if (
+        qx.data &&
+        qx.data.IListData &&
+        qx.Class.hasInterface(object.constructor, qx.data.IListData)
+      ) {
         result += "[";
         for (var i = 0; i < object.getLength(); i++) {
-          result += qx.util.Serializer.toJson(object.getItem(i), qxSerializer, dateFormat) + ",";
+          result +=
+            qx.util.Serializer.toJson(
+              object.getItem(i),
+              qxSerializer,
+              dateFormat
+            ) + ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -279,7 +296,9 @@ qx.Class.define("qx.util.Serializer",
       if (qx.lang.Type.isArray(object)) {
         result += "[";
         for (var i = 0; i < object.length; i++) {
-          result += qx.util.Serializer.toJson(object[i], qxSerializer, dateFormat) + ",";
+          result +=
+            qx.util.Serializer.toJson(object[i], qxSerializer, dateFormat) +
+            ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -297,7 +316,6 @@ qx.Class.define("qx.util.Serializer",
         return '"' + object.name + '"';
       }
 
-
       // qooxdoo object
       if (object instanceof qx.core.Object) {
         if (qxSerializer != null) {
@@ -309,14 +327,21 @@ qx.Class.define("qx.util.Serializer",
           // continue otherwise
         }
         result += "{";
-        var properties = qx.util.PropertyUtil.getAllProperties(object.constructor);
+        var properties = qx.util.PropertyUtil.getAllProperties(
+          object.constructor
+        );
         for (var name in properties) {
           // ignore property groups
           if (properties[name].group != undefined) {
             continue;
           }
           var value = object["get" + qx.lang.String.firstUp(name)]();
-          result += '"' + name + '":' + qx.util.Serializer.toJson(value, qxSerializer, dateFormat) + ",";
+          result +=
+            '"' +
+            name +
+            '":' +
+            qx.util.Serializer.toJson(value, qxSerializer, dateFormat) +
+            ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
@@ -325,7 +350,11 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // localized strings
-      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
+      if (
+        qx.locale &&
+        qx.locale.LocalizedString &&
+        object instanceof qx.locale.LocalizedString
+      ) {
         object = object.toString();
         // no return here because we want to have the string checks as well!
       }
@@ -339,8 +368,12 @@ qx.Class.define("qx.util.Serializer",
       if (qx.lang.Type.isObject(object)) {
         result += "{";
         for (var key in object) {
-          result += '"' + key + '":' +
-                    qx.util.Serializer.toJson(object[key], qxSerializer, dateFormat) + ",";
+          result +=
+            '"' +
+            key +
+            '":' +
+            qx.util.Serializer.toJson(object[key], qxSerializer, dateFormat) +
+            ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
@@ -351,13 +384,13 @@ qx.Class.define("qx.util.Serializer",
       // strings
       if (qx.lang.Type.isString(object)) {
         // escape
-        object = object.replace(/([\\])/g, '\\\\');
+        object = object.replace(/([\\])/g, "\\\\");
         object = object.replace(/(["])/g, '\\"');
-        object = object.replace(/([\r])/g, '\\r');
-        object = object.replace(/([\f])/g, '\\f');
-        object = object.replace(/([\n])/g, '\\n');
-        object = object.replace(/([\t])/g, '\\t');
-        object = object.replace(/([\b])/g, '\\b');
+        object = object.replace(/([\r])/g, "\\r");
+        object = object.replace(/([\f])/g, "\\f");
+        object = object.replace(/([\n])/g, "\\n");
+        object = object.replace(/([\t])/g, "\\t");
+        object = object.replace(/([\b])/g, "\\b");
 
         return '"' + object + '"';
       }

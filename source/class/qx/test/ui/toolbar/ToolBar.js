@@ -15,33 +15,27 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.toolbar.ToolBar",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.toolbar.ToolBar", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-     setUp : function()
-    {
-      this.base(arguments);
+  members: {
+    setUp() {
+      super.setUp();
       this.__toolbar = new qx.ui.toolbar.ToolBar();
       this.__b1 = new qx.ui.toolbar.Button("b1");
       this.__b2 = new qx.ui.toolbar.Button("b2");
       this.__b3 = new qx.ui.toolbar.Button("b3");
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__b1.dispose();
       this.__b2.dispose();
       this.__b3.dispose();
       this.__toolbar.dispose();
     },
 
-
-    testShowSyncing : function() {
+    testShowSyncing() {
       // setup toolbar with two buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);
@@ -56,8 +50,7 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       this.assertEquals("label", this.__b3.getShow());
     },
 
-
-    testPositionStates : function() {
+    testPositionStates() {
       var part = new qx.ui.toolbar.Part();
       part.add(this.__b1);
       part.add(this.__b2);
@@ -74,8 +67,7 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       part.dispose();
     },
 
-
-    testPositionStatesAdd : function() {
+    testPositionStatesAdd() {
       var part = new qx.ui.toolbar.Part();
       part.add(this.__b1);
       part.add(this.__b3);
@@ -97,8 +89,7 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       part.dispose();
     },
 
-
-    testPositionStatesRemove : function() {
+    testPositionStatesRemove() {
       var part = new qx.ui.toolbar.Part();
       part.add(this.__b1);
       part.add(this.__b2);
@@ -121,8 +112,7 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       part.dispose();
     },
 
-
-    testShowUserValueShouldTakePrecedence : function() {
+    testShowUserValueShouldTakePrecedence() {
       // setup toolbar with two buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);
@@ -150,10 +140,10 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       this.assertEquals("both", this.__b2.getShow());
       this.assertEquals("both", this.__b3.getShow());
     },
-    
-    testRemoveChildByIndex : function() {
+
+    testRemoveChildByIndex() {
       this.__toolbar.removeAll();
-      
+
       // setup toolbar with three buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);
@@ -166,15 +156,15 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       // assert removing child at index 1
       var childB2 = this.__toolbar.removeAt(1);
       this.assertEquals(childB2, this.__b2);
-      
+
       // assert length of remaining and removed children array being now 2
       var children = this.__toolbar.removeAll();
       this.assertEquals(2, children.length);
     },
-    
-    testRemoveAllChildren : function() {
+
+    testRemoveAllChildren() {
       this.__toolbar.removeAll();
-      
+
       // setup toolbar with two buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);

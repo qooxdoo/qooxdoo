@@ -21,10 +21,8 @@
  * A widget cell renderer manages a pool of widgets to render cells in a
  * {@link qx.ui.virtual.layer.WidgetCell} layer.
  */
-qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.virtual.cell.IWidgetCell", {
+  members: {
     /**
      * Get a widget instance to render the cell
      *
@@ -34,8 +32,7 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      *
      * @return {qx.ui.core.LayoutItem} The cell widget
      */
-    getCellWidget : function(data, states) {},
-
+    getCellWidget(data, states) {},
 
     /**
      * Release the given widget instance.
@@ -44,8 +41,7 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to pool
      */
-    pool : function(widget) {},
-
+    pool(widget) {},
 
     /**
      * Update the states of the given widget.
@@ -53,8 +49,7 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
      * @param states {Map} The cell widget's states
      */
-    updateStates : function(widget, states) {},
-
+    updateStates(widget, states) {},
 
     /**
      * Update the data the cell widget should display
@@ -62,6 +57,6 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
      * @param data {var} The data to display
      */
-    updateData : function(widget, data) {}
+    updateData(widget, data) {}
   }
 });

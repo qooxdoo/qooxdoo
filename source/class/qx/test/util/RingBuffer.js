@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.RingBuffer",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.RingBuffer", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testAdd : function()
-    {
+  members: {
+    testAdd() {
       var max = 3;
       var buf = new qx.util.RingBuffer(max);
 
@@ -46,14 +43,12 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(allEntries[2], 4);
     },
 
-
-    testAddMany : function()
-    {
+    testAddMany() {
       var max = 3;
       var buf = new qx.util.RingBuffer(max);
 
-      for (var i=0; i<=1003; i++){
-         buf.addEntry(i);
+      for (var i = 0; i <= 1003; i++) {
+        buf.addEntry(i);
       }
 
       var allEntries = buf.getAllEntries();
@@ -64,9 +59,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(allEntries[2], 1003);
     },
 
-
-    testGet : function()
-    {
+    testGet() {
       var max = 7;
       var buf = new qx.util.RingBuffer(max);
 
@@ -89,9 +82,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(entries[3], 10);
     },
 
-
-    testMark : function()
-    {
+    testMark() {
       var max = 3;
       var buf = new qx.util.RingBuffer(max);
 
@@ -108,9 +99,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(entriesSinceMark[1], 4);
     },
 
-
-    testClear : function()
-    {
+    testClear() {
       var max = 3;
       var buf = new qx.util.RingBuffer(max);
 
@@ -126,9 +115,7 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(0, buf.getAllEntries().length);
     },
 
-
-    testDataTypes : function()
-    {
+    testDataTypes() {
       var max = 6;
       var buf = new qx.util.RingBuffer(max);
 
@@ -139,9 +126,9 @@ qx.Class.define("qx.test.util.RingBuffer",
       buf.addEntry(null);
       buf.addEntry(buf);
       buf.addEntry("Some string");
-      buf.addEntry({"some":"map"});
+      buf.addEntry({ some: "map" });
       buf.addEntry(["Some array"]);
-      buf.addEntry(function(){});
+      buf.addEntry(function () {});
 
       var allEntries = buf.getAllEntries();
       this.assertEquals(6, allEntries.length);

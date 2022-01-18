@@ -73,14 +73,8 @@
  * <a href='https://qooxdoo.org/documentation/#/desktop/layout/grid.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Grid",
-{
-  extend : qx.ui.layout.Abstract,
-
-
-
-
-
+qx.Class.define("qx.ui.layout.Grid", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -94,9 +88,8 @@ qx.Class.define("qx.ui.layout.Grid",
    * @param spacingY {Integer?0} The vertical spacing between grid cells.
    *     Sets {@link #spacingY}.
    */
-  construct : function(spacingX, spacingY)
-  {
-    this.base(arguments);
+  construct(spacingX, spacingY) {
+    super();
 
     this.__rowData = [];
     this.__colData = [];
@@ -110,38 +103,30 @@ qx.Class.define("qx.ui.layout.Grid",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * The horizontal spacing between grid cells.
      */
-    spacingX :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingX: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * The vertical spacing between grid cells.
      */
-    spacingY :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingY: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Allow growing of spanning cells' widths beyond the accumulated widths of the columns.
@@ -150,16 +135,12 @@ qx.Class.define("qx.ui.layout.Grid",
      * Setting this property to true lets the cell width grow as needed to show
      * the widget in the spanning cell, which also enlarges the width of the spanned columns.
      */
-    allowGrowSpannedCellWidth :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyLayoutChange"
+    allowGrowSpannedCellWidth: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyLayoutChange"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -167,51 +148,48 @@ qx.Class.define("qx.ui.layout.Grid",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /** @type {Array} 2D array of grid cell data */
-    __grid : null,
-    __rowData : null,
-    __colData : null,
+    __grid: null,
+    __rowData: null,
+    __colData: null,
 
-    __colSpans : null,
-    __rowSpans : null,
-    __maxRowIndex : null,
-    __maxColIndex : null,
+    __colSpans: null,
+    __rowSpans: null,
+    __maxRowIndex: null,
+    __maxColIndex: null,
 
     /** @type {Array} cached row heights */
-    __rowHeights : null,
+    __rowHeights: null,
 
     /** @type {Array} cached column widths */
-    __colWidths : null,
-
-
+    __colWidths: null,
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value)
-      {
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
         var layoutProperties = {
-          "row" : 1,
-          "column" : 1,
-          "rowSpan" : 1,
-          "colSpan" : 1
+          row: 1,
+          column: 1,
+          rowSpan: 1,
+          colSpan: 1
         };
-        this.assert(layoutProperties[name] == 1, "The property '"+name+"' is not supported by the Grid layout!");
+
+        this.assert(
+          layoutProperties[name] == 1,
+          "The property '" + name + "' is not supported by the Grid layout!"
+        );
         this.assertInteger(value);
         this.assert(value >= 0, "Value must be positive");
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Rebuild the internal representation of the grid
      */
-    __buildGrid : function()
-    {
+    __buildGrid() {
       var grid = [];
       var colSpans = [];
       var rowSpans = [];
@@ -221,8 +199,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var children = this._getLayoutChildren();
 
-      for (var i=0,l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         var props = child.getLayoutProperties();
 
@@ -236,24 +213,32 @@ qx.Class.define("qx.ui.layout.Grid",
         if (row == null || column == null) {
           throw new Error(
             "The layout properties 'row' and 'column' of the child widget '" +
-            child + "' must be defined!"
+              child +
+              "' must be defined!"
           );
         }
 
         if (grid[row] && grid[row][column]) {
           throw new Error(
-            "Cannot add widget '" + child + "'!. " +
-            "There is already a widget '" + grid[row][column] +
-            "' in this cell (" + row + ", " + column + ") for '" + this + "'"
+            "Cannot add widget '" +
+              child +
+              "'!. " +
+              "There is already a widget '" +
+              grid[row][column] +
+              "' in this cell (" +
+              row +
+              ", " +
+              column +
+              ") for '" +
+              this +
+              "'"
           );
         }
 
-        for (var x=column; x<column+props.colSpan; x++)
-        {
-          for (var y=row; y<row+props.rowSpan; y++)
-          {
+        for (var x = column; x < column + props.colSpan; x++) {
+          for (var y = row; y < row + props.rowSpan; y++) {
             if (grid[y] == undefined) {
-               grid[y] = [];
+              grid[y] = [];
             }
 
             grid[y][x] = child;
@@ -274,9 +259,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
       // make sure all columns are defined so that accessing the grid using
       // this.__grid[column][row] will never raise an exception
-      for (var y=0; y<=maxRowIndex; y++) {
+      for (var y = 0; y <= maxRowIndex; y++) {
         if (grid[y] == undefined) {
-           grid[y] = [];
+          grid[y] = [];
         }
       }
 
@@ -295,7 +280,6 @@ qx.Class.define("qx.ui.layout.Grid",
       delete this._invalidChildrenCache;
     },
 
-
     /**
      * Stores data for a grid row
      *
@@ -303,21 +287,16 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param key {String} The key under which the data should be stored
      * @param value {var} data to store
      */
-    _setRowData : function(row, key, value)
-    {
+    _setRowData(row, key, value) {
       var rowData = this.__rowData[row];
 
-      if (!rowData)
-      {
+      if (!rowData) {
         this.__rowData[row] = {};
         this.__rowData[row][key] = value;
-      }
-      else
-      {
+      } else {
         rowData[key] = value;
       }
     },
-
 
     /**
      * Stores data for a grid column
@@ -326,21 +305,16 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param key {String} The key under which the data should be stored
      * @param value {var} data to store
      */
-    _setColumnData : function(column, key, value)
-    {
+    _setColumnData(column, key, value) {
       var colData = this.__colData[column];
 
-      if (!colData)
-      {
+      if (!colData) {
         this.__colData[column] = {};
         this.__colData[column][key] = value;
-      }
-      else
-      {
+      } else {
         colData[key] = value;
       }
     },
-
 
     /**
      * Shortcut to set both horizontal and vertical spacing between grid cells
@@ -349,13 +323,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param spacing {Integer} new horizontal and vertical spacing
      * @return {qx.ui.layout.Grid} This object (for chaining support).
      */
-    setSpacing : function(spacing)
-    {
+    setSpacing(spacing) {
       this.setSpacingY(spacing);
       this.setSpacingX(spacing);
       return this;
     },
-
 
     /**
      * Set the default cell alignment for a column. This alignment can be
@@ -373,10 +345,8 @@ qx.Class.define("qx.ui.layout.Grid",
      *    "top", "middle", "bottom"
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setColumnAlign : function(column, hAlign, vAlign)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setColumnAlign(column, hAlign, vAlign) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(column, "Invalid parameter 'column'");
         this.assertInArray(hAlign, ["left", "center", "right"]);
         this.assertInArray(vAlign, ["top", "middle", "bottom"]);
@@ -390,7 +360,6 @@ qx.Class.define("qx.ui.layout.Grid",
       return this;
     },
 
-
     /**
      * Get a map of the column's alignment.
      *
@@ -398,16 +367,14 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Map} A map with the keys <code>vAlign</code> and <code>hAlign</code>
      *     containing the vertical and horizontal column alignment.
      */
-    getColumnAlign : function(column)
-    {
+    getColumnAlign(column) {
       var colData = this.__colData[column] || {};
 
       return {
-        vAlign : colData.vAlign || "top",
-        hAlign : colData.hAlign || "left"
+        vAlign: colData.vAlign || "top",
+        hAlign: colData.hAlign || "left"
       };
     },
-
 
     /**
      * Set the default cell alignment for a row. This alignment can be
@@ -425,10 +392,8 @@ qx.Class.define("qx.ui.layout.Grid",
      *    "top", "middle", "bottom"
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setRowAlign : function(row, hAlign, vAlign)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    setRowAlign(row, hAlign, vAlign) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInteger(row, "Invalid parameter 'row'");
         this.assertInArray(hAlign, ["left", "center", "right"]);
         this.assertInArray(vAlign, ["top", "middle", "bottom"]);
@@ -442,7 +407,6 @@ qx.Class.define("qx.ui.layout.Grid",
       return this;
     },
 
-
     /**
      * Get a map of the row's alignment.
      *
@@ -450,16 +414,14 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Map} A map with the keys <code>vAlign</code> and <code>hAlign</code>
      *     containing the vertical and horizontal row alignment.
      */
-    getRowAlign : function(row)
-    {
+    getRowAlign(row) {
       var rowData = this.__rowData[row] || {};
 
       return {
-        vAlign : rowData.vAlign || "top",
-        hAlign : rowData.hAlign || "left"
+        vAlign: rowData.vAlign || "top",
+        hAlign: rowData.hAlign || "left"
       };
     },
-
 
     /**
      * Get the widget located in the cell. If a the cell is empty or the widget
@@ -470,24 +432,21 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The cell's column index
      * @return {qx.ui.core.Widget|null}The cell's widget. The value may be null.
      */
-    getCellWidget : function(row, column)
-    {
+    getCellWidget(row, column) {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
 
       var row = this.__grid[row] || {};
-      return row[column] ||  null;
+      return row[column] || null;
     },
-
 
     /**
      * Get the number of rows in the grid layout.
      *
      * @return {Integer} The number of rows in the layout
      */
-    getRowCount : function()
-    {
+    getRowCount() {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
@@ -495,21 +454,18 @@ qx.Class.define("qx.ui.layout.Grid",
       return this.__maxRowIndex + 1;
     },
 
-
     /**
      * Get the number of columns in the grid layout.
      *
      * @return {Integer} The number of columns in the layout
      */
-    getColumnCount : function()
-    {
+    getColumnCount() {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
 
       return this.__maxColIndex + 1;
     },
-
 
     /**
      * Get a map of the cell's alignment. For vertical alignment the row alignment
@@ -523,8 +479,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Map} A map with the keys <code>vAlign</code> and <code>hAlign</code>
      *     containing the vertical and horizontal cell alignment.
      */
-    getCellAlign : function(row, column)
-    {
+    getCellAlign(row, column) {
       var vAlign = "top";
       var hAlign = "left";
 
@@ -532,15 +487,12 @@ qx.Class.define("qx.ui.layout.Grid",
       var colData = this.__colData[column];
 
       var widget = this.__grid[row][column];
-      if (widget)
-      {
+      if (widget) {
         var widgetProps = {
-          vAlign : widget.getAlignY(),
-          hAlign : widget.getAlignX()
+          vAlign: widget.getAlignY(),
+          hAlign: widget.getAlignX()
         };
-      }
-      else
-      {
+      } else {
         widgetProps = {};
       }
 
@@ -565,11 +517,10 @@ qx.Class.define("qx.ui.layout.Grid",
       }
 
       return {
-        vAlign : vAlign,
-        hAlign : hAlign
+        vAlign: vAlign,
+        hAlign: hAlign
       };
     },
-
 
     /**
      * Set the flex value for a grid column.
@@ -579,13 +530,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param flex {Integer} The column's flex value
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setColumnFlex : function(column, flex)
-    {
+    setColumnFlex(column, flex) {
       this._setColumnData(column, "flex", flex);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the flex value of a grid column.
@@ -593,12 +542,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The column index
      * @return {Integer} The column's flex value
      */
-    getColumnFlex : function(column)
-    {
+    getColumnFlex(column) {
       var colData = this.__colData[column] || {};
       return colData.flex !== undefined ? colData.flex : 0;
     },
-
 
     /**
      * Set the flex value for a grid row.
@@ -608,13 +555,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param flex {Integer} The row's flex value
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setRowFlex : function(row, flex)
-    {
+    setRowFlex(row, flex) {
       this._setRowData(row, "flex", flex);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the flex value of a grid row.
@@ -622,13 +567,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param row {Integer} The row index
      * @return {Integer} The row's flex value
      */
-    getRowFlex : function(row)
-    {
+    getRowFlex(row) {
       var rowData = this.__rowData[row] || {};
       var rowFlex = rowData.flex !== undefined ? rowData.flex : 0;
       return rowFlex;
     },
-
 
     /**
      * Set the maximum width of a grid column.
@@ -638,13 +581,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param maxWidth {Integer} The column's maximum width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setColumnMaxWidth : function(column, maxWidth)
-    {
+    setColumnMaxWidth(column, maxWidth) {
       this._setColumnData(column, "maxWidth", maxWidth);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the maximum width of a grid column.
@@ -652,12 +593,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The column index
      * @return {Integer} The column's maximum width
      */
-    getColumnMaxWidth : function(column)
-    {
+    getColumnMaxWidth(column) {
       var colData = this.__colData[column] || {};
       return colData.maxWidth !== undefined ? colData.maxWidth : Infinity;
     },
-
 
     /**
      * Set the preferred width of a grid column.
@@ -667,13 +606,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param width {Integer} The column's width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setColumnWidth : function(column, width)
-    {
+    setColumnWidth(column, width) {
       this._setColumnData(column, "width", width);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the preferred width of a grid column.
@@ -681,12 +618,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The column index
      * @return {Integer} The column's width
      */
-    getColumnWidth : function(column)
-    {
+    getColumnWidth(column) {
       var colData = this.__colData[column] || {};
       return colData.width !== undefined ? colData.width : null;
     },
-
 
     /**
      * Set the minimum width of a grid column.
@@ -696,13 +631,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param minWidth {Integer} The column's minimum width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setColumnMinWidth : function(column, minWidth)
-    {
+    setColumnMinWidth(column, minWidth) {
       this._setColumnData(column, "minWidth", minWidth);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the minimum width of a grid column.
@@ -710,12 +643,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param column {Integer} The column index
      * @return {Integer} The column's minimum width
      */
-    getColumnMinWidth : function(column)
-    {
+    getColumnMinWidth(column) {
       var colData = this.__colData[column] || {};
       return colData.minWidth || 0;
     },
-
 
     /**
      * Set the maximum height of a grid row.
@@ -725,13 +656,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param maxHeight {Integer} The row's maximum width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setRowMaxHeight : function(row, maxHeight)
-    {
+    setRowMaxHeight(row, maxHeight) {
       this._setRowData(row, "maxHeight", maxHeight);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the maximum height of a grid row.
@@ -739,12 +668,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param row {Integer} The row index
      * @return {Integer} The row's maximum width
      */
-    getRowMaxHeight : function(row)
-    {
+    getRowMaxHeight(row) {
       var rowData = this.__rowData[row] || {};
       return rowData.maxHeight || Infinity;
     },
-
 
     /**
      * Set the preferred height of a grid row.
@@ -754,13 +681,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param height {Integer} The row's width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setRowHeight : function(row, height)
-    {
+    setRowHeight(row, height) {
       this._setRowData(row, "height", height);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the preferred height of a grid row.
@@ -768,12 +693,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param row {Integer} The row index
      * @return {Integer} The row's width
      */
-    getRowHeight : function(row)
-    {
+    getRowHeight(row) {
       var rowData = this.__rowData[row] || {};
       return rowData.height !== undefined ? rowData.height : null;
     },
-
 
     /**
      * Set the minimum height of a grid row.
@@ -783,13 +706,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param minHeight {Integer} The row's minimum width
      * @return {qx.ui.layout.Grid} This object (for chaining support)
      */
-    setRowMinHeight : function(row, minHeight)
-    {
+    setRowMinHeight(row, minHeight) {
       this._setRowData(row, "minHeight", minHeight);
       this._applyLayoutChange();
       return this;
     },
-
 
     /**
      * Get the minimum height of a grid row.
@@ -797,12 +718,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param row {Integer} The row index
      * @return {Integer} The row's minimum width
      */
-    getRowMinHeight : function(row)
-    {
+    getRowMinHeight(row) {
       var rowData = this.__rowData[row] || {};
       return rowData.minHeight || 0;
     },
-
 
     /**
      * Computes the widget's size hint including the widget's margins
@@ -810,8 +729,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param widget {qx.ui.core.LayoutItem} The widget to get the size for
      * @return {Map} a size hint map
      */
-    _getOuterSize : function(widget)
-    {
+    _getOuterSize(widget) {
       var hint = widget.getSizeHint();
       var hMargins = widget.getMarginLeft() + widget.getMarginRight();
       var vMargins = widget.getMarginTop() + widget.getMarginBottom();
@@ -828,7 +746,6 @@ qx.Class.define("qx.ui.layout.Grid",
       return outerSize;
     },
 
-
     /**
      * Check whether all row spans fit with their preferred height into the
      * preferred row heights. If there is not enough space, the preferred
@@ -842,12 +759,10 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param rowHeights {Map[]} The current row height array as computed by
      *     {@link #_getRowHeights}.
      */
-    _fixHeightsRowSpan : function(rowHeights)
-    {
+    _fixHeightsRowSpan(rowHeights) {
       var vSpacing = this.getSpacingY();
 
-      for (var i=0, l=this.__rowSpans.length; i<l; i++)
-      {
+      for (var i = 0, l = this.__rowSpans.length; i < l; i++) {
         var widget = this.__rowSpans[i];
 
         var hint = this._getOuterSize(widget);
@@ -860,20 +775,17 @@ qx.Class.define("qx.ui.layout.Grid",
 
         var rowFlexes = {};
 
-        for (var j=0; j<widgetProps.rowSpan; j++)
-        {
-          var row = widgetProps.row+j;
+        for (var j = 0; j < widgetProps.rowSpan; j++) {
+          var row = widgetProps.row + j;
           var rowHeight = rowHeights[row];
           var rowFlex = this.getRowFlex(row);
 
-          if (rowFlex > 0)
-          {
+          if (rowFlex > 0) {
             // compute flex array for the preferred height
-            rowFlexes[row] =
-            {
-              min : rowHeight.minHeight,
-              value : rowHeight.height,
-              max : rowHeight.maxHeight,
+            rowFlexes[row] = {
+              min: rowHeight.minHeight,
+              value: rowHeight.height,
+              max: rowHeight.maxHeight,
               flex: rowFlex
             };
           }
@@ -884,27 +796,30 @@ qx.Class.define("qx.ui.layout.Grid",
 
         // If there is not enough space for the preferred size
         // increment the preferred row sizes.
-        if (prefSpanHeight < hint.height)
-        {
+        if (prefSpanHeight < hint.height) {
           if (!qx.lang.Object.isEmpty(rowFlexes)) {
             var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-              rowFlexes, hint.height, prefSpanHeight
+              rowFlexes,
+              hint.height,
+              prefSpanHeight
             );
 
-            for (var k=0; k<widgetProps.rowSpan; k++)
-            {
-              var offset = rowIncrements[widgetRow+k] ? rowIncrements[widgetRow+k].offset : 0;
-              rowHeights[widgetRow+k].height += offset;
+            for (var k = 0; k < widgetProps.rowSpan; k++) {
+              var offset = rowIncrements[widgetRow + k]
+                ? rowIncrements[widgetRow + k].offset
+                : 0;
+              rowHeights[widgetRow + k].height += offset;
             }
-          // row is too small and we have no flex value set
+            // row is too small and we have no flex value set
           } else {
             var totalSpacing = vSpacing * (widgetProps.rowSpan - 1);
             var availableHeight = hint.height - totalSpacing;
 
             // get the row height which every child would need to share the
             // available hight equally
-            var avgRowHeight =
-              Math.floor(availableHeight / widgetProps.rowSpan);
+            var avgRowHeight = Math.floor(
+              availableHeight / widgetProps.rowSpan
+            );
 
             // get the hight already used and the number of children which do
             // not have at least that avg row height
@@ -920,8 +835,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
             // the difference of available and used needs to be shared among
             // those not having the min size
-            var additionalRowHeight =
-              Math.floor((availableHeight - usedHeight) / rowsNeedAddition);
+            var additionalRowHeight = Math.floor(
+              (availableHeight - usedHeight) / rowsNeedAddition
+            );
 
             // add the extra height to the too small children
             for (var k = 0; k < widgetProps.rowSpan; k++) {
@@ -934,21 +850,22 @@ qx.Class.define("qx.ui.layout.Grid",
 
         // If there is not enough space for the min size
         // increment the min row sizes.
-        if (minSpanHeight < hint.minHeight)
-        {
+        if (minSpanHeight < hint.minHeight) {
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            rowFlexes, hint.minHeight, minSpanHeight
+            rowFlexes,
+            hint.minHeight,
+            minSpanHeight
           );
 
-          for (var j=0; j<widgetProps.rowSpan; j++)
-          {
-            var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
-            rowHeights[widgetRow+j].minHeight += offset;
+          for (var j = 0; j < widgetProps.rowSpan; j++) {
+            var offset = rowIncrements[widgetRow + j]
+              ? rowIncrements[widgetRow + j].offset
+              : 0;
+            rowHeights[widgetRow + j].minHeight += offset;
           }
         }
       }
     },
-
 
     /**
      * Check whether all col spans fit with their preferred width into the
@@ -963,13 +880,11 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param colWidths {Map[]} The current column width array as computed by
      *     {@link #_getColWidths}.
      */
-    _fixWidthsColSpan : function(colWidths)
-    {
+    _fixWidthsColSpan(colWidths) {
       var hSpacing = this.getSpacingX();
       var colSpans = this._getColSpans();
 
-      for (var i=0, l=colSpans.length; i<l; i++)
-      {
+      for (var i = 0, l = colSpans.length; i < l; i++) {
         var widget = colSpans[i];
 
         var hint = this._getOuterSize(widget);
@@ -984,20 +899,17 @@ qx.Class.define("qx.ui.layout.Grid",
 
         var offset;
 
-        for (var j=0; j<widgetProps.colSpan; j++)
-        {
-          var col = widgetProps.column+j;
+        for (var j = 0; j < widgetProps.colSpan; j++) {
+          var col = widgetProps.column + j;
           var colWidth = colWidths[col];
           var colFlex = this.getColumnFlex(col);
 
           // compute flex array for the preferred width
-          if (colFlex > 0)
-          {
-            colFlexes[col] =
-            {
-              min : colWidth.minWidth,
-              value : colWidth.width,
-              max : colWidth.maxWidth,
+          if (colFlex > 0) {
+            colFlexes[col] = {
+              min: colWidth.minWidth,
+              value: colWidth.width,
+              max: colWidth.maxWidth,
               flex: colFlex
             };
           }
@@ -1008,23 +920,28 @@ qx.Class.define("qx.ui.layout.Grid",
 
         // If there is not enough space for the preferred size
         // increment the preferred column sizes.
-        if (prefSpanWidth < hint.width)
-        {
+        if (prefSpanWidth < hint.width) {
           // Do not adapt column widths to the width
           // of the spanning cell if allowGrowSpannedCellWidth property
           // is set to false
           // See https://github.com/qooxdoo/qooxdoo/issues/9871
-          if (!this.getAllowGrowSpannedCellWidth() || !qx.lang.Object.isEmpty(colFlexes)) {
+          if (
+            !this.getAllowGrowSpannedCellWidth() ||
+            !qx.lang.Object.isEmpty(colFlexes)
+          ) {
             var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-              colFlexes, hint.width, prefSpanWidth
+              colFlexes,
+              hint.width,
+              prefSpanWidth
             );
 
-            for (var j=0; j<widgetProps.colSpan; j++)
-            {
-              offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
-              colWidths[widgetColumn+j].width += offset;
+            for (var j = 0; j < widgetProps.colSpan; j++) {
+              offset = colIncrements[widgetColumn + j]
+                ? colIncrements[widgetColumn + j].offset
+                : 0;
+              colWidths[widgetColumn + j].width += offset;
             }
-          // col is too small and we have no flex value set
+            // col is too small and we have no flex value set
           } else {
             var totalSpacing = hSpacing * (widgetProps.colSpan - 1);
             var availableWidth = hint.width - totalSpacing;
@@ -1047,7 +964,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
             // the difference of available and used needs to be shared among
             // those not having the min size
-            var additionalColWidth = Math.floor((availableWidth - usedWidth) / colsNeedAddition);
+            var additionalColWidth = Math.floor(
+              (availableWidth - usedWidth) / colsNeedAddition
+            );
 
             // add the extra width to the too small children
             for (var k = 0; k < widgetProps.colSpan; k++) {
@@ -1060,21 +979,22 @@ qx.Class.define("qx.ui.layout.Grid",
 
         // If there is not enough space for the min size
         // increment the min column sizes.
-        if (minSpanWidth < hint.minWidth)
-        {
+        if (minSpanWidth < hint.minWidth) {
           var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            colFlexes, hint.minWidth, minSpanWidth
+            colFlexes,
+            hint.minWidth,
+            minSpanWidth
           );
 
-          for (var j=0; j<widgetProps.colSpan; j++)
-          {
-            offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
-            colWidths[widgetColumn+j].minWidth += offset;
+          for (var j = 0; j < widgetProps.colSpan; j++) {
+            offset = colIncrements[widgetColumn + j]
+              ? colIncrements[widgetColumn + j].offset
+              : 0;
+            colWidths[widgetColumn + j].minWidth += offset;
           }
         }
       }
     },
-
 
     /**
      * Compute the min/pref/max row heights.
@@ -1083,8 +1003,7 @@ qx.Class.define("qx.ui.layout.Grid",
      *     entries have the keys <code>minHeight</code>, <code>maxHeight</code> and
      *     <code>height</code>.
      */
-    _getRowHeights : function()
-    {
+    _getRowHeights() {
       if (this.__rowHeights != null) {
         return this.__rowHeights;
       }
@@ -1094,14 +1013,12 @@ qx.Class.define("qx.ui.layout.Grid",
       var maxRowIndex = this.__maxRowIndex;
       var maxColIndex = this.__maxColIndex;
 
-      for (var row=0; row<=maxRowIndex; row++)
-      {
+      for (var row = 0; row <= maxRowIndex; row++) {
         var minHeight = 0;
         var height = 0;
         var maxHeight = 0;
 
-        for (var col=0; col<=maxColIndex; col++)
-        {
+        for (var col = 0; col <= maxColIndex; col++) {
           var widget = this.__grid[row][col];
           if (!widget) {
             continue;
@@ -1135,9 +1052,9 @@ qx.Class.define("qx.ui.layout.Grid",
         }
 
         rowHeights[row] = {
-          minHeight : minHeight,
-          height : height,
-          maxHeight : maxHeight
+          minHeight: minHeight,
+          height: height,
+          maxHeight: maxHeight
         };
       }
 
@@ -1149,7 +1066,6 @@ qx.Class.define("qx.ui.layout.Grid",
       return rowHeights;
     },
 
-
     /**
      * Compute the min/pref/max column widths.
      *
@@ -1157,8 +1073,7 @@ qx.Class.define("qx.ui.layout.Grid",
      *     entries have the keys <code>minWidth</code>, <code>maxWidth</code> and
      *     <code>width</code>.
      */
-    _getColWidths : function()
-    {
+    _getColWidths() {
       if (this.__colWidths != null) {
         return this.__colWidths;
       }
@@ -1168,14 +1083,12 @@ qx.Class.define("qx.ui.layout.Grid",
       var maxColIndex = this.__maxColIndex;
       var maxRowIndex = this.__maxRowIndex;
 
-      for (var col=0; col<=maxColIndex; col++)
-      {
+      for (var col = 0; col <= maxColIndex; col++) {
         var width = 0;
         var minWidth = 0;
         var maxWidth = Infinity;
 
-        for (var row=0; row<=maxRowIndex; row++)
-        {
+        for (var row = 0; row <= maxRowIndex; row++) {
           var widget = this.__grid[row][col];
           if (!widget) {
             continue;
@@ -1206,8 +1119,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
         colWidths[col] = {
           minWidth: minWidth,
-          width : width,
-          maxWidth : maxWidth
+          width: width,
+          maxWidth: maxWidth
         };
       }
 
@@ -1219,7 +1132,6 @@ qx.Class.define("qx.ui.layout.Grid",
       return colWidths;
     },
 
-
     /**
      * Computes for each column by how many pixels it must grow or shrink, taking
      * the column flex values and min/max widths into account.
@@ -1228,8 +1140,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Integer[]} Sparse array of offsets to add to each column width. If
      *     an array entry is empty nothing should be added to the column.
      */
-    _getColumnFlexOffsets : function(width)
-    {
+    _getColumnFlexOffsets(width) {
       var hint = this.getSizeHint();
       var diff = width - hint.width;
 
@@ -1241,30 +1152,28 @@ qx.Class.define("qx.ui.layout.Grid",
       var colWidths = this._getColWidths();
       var flexibles = {};
 
-      for (var i=0, l=colWidths.length; i<l; i++)
-      {
+      for (var i = 0, l = colWidths.length; i < l; i++) {
         var col = colWidths[i];
         var colFlex = this.getColumnFlex(i);
 
         if (
-          (colFlex <= 0) ||
+          colFlex <= 0 ||
           (col.width == col.maxWidth && diff > 0) ||
           (col.width == col.minWidth && diff < 0)
         ) {
           continue;
         }
 
-        flexibles[i] ={
-          min : col.minWidth,
-          value : col.width,
-          max : col.maxWidth,
-          flex : colFlex
+        flexibles[i] = {
+          min: col.minWidth,
+          value: col.width,
+          max: col.maxWidth,
+          flex: colFlex
         };
       }
 
       return qx.ui.layout.Util.computeFlexOffsets(flexibles, width, hint.width);
     },
-
 
     /**
      * Computes for each row by how many pixels it must grow or shrink, taking
@@ -1274,8 +1183,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Integer[]} Sparse array of offsets to add to each row height. If
      *     an array entry is empty nothing should be added to the row.
      */
-    _getRowFlexOffsets : function(height)
-    {
+    _getRowFlexOffsets(height) {
       var hint = this.getSizeHint();
       var diff = height - hint.height;
 
@@ -1287,13 +1195,12 @@ qx.Class.define("qx.ui.layout.Grid",
       var rowHeights = this._getRowHeights();
       var flexibles = {};
 
-      for (var i=0, l=rowHeights.length; i<l; i++)
-      {
+      for (var i = 0, l = rowHeights.length; i < l; i++) {
         var row = rowHeights[i];
         var rowFlex = this.getRowFlex(i);
 
         if (
-          (rowFlex <= 0) ||
+          rowFlex <= 0 ||
           (row.height == row.maxHeight && diff > 0) ||
           (row.height == row.minHeight && diff < 0)
         ) {
@@ -1301,16 +1208,19 @@ qx.Class.define("qx.ui.layout.Grid",
         }
 
         flexibles[i] = {
-          min : row.minHeight,
-          value : row.height,
-          max : row.maxHeight,
-          flex : rowFlex
+          min: row.minHeight,
+          value: row.height,
+          max: row.maxHeight,
+          flex: rowFlex
         };
       }
 
-      return qx.ui.layout.Util.computeFlexOffsets(flexibles, height, hint.height);
+      return qx.ui.layout.Util.computeFlexOffsets(
+        flexibles,
+        height,
+        hint.height
+      );
     },
-
 
     /**
      * Returns the internal private __colSpans array in order
@@ -1319,14 +1229,12 @@ qx.Class.define("qx.ui.layout.Grid",
      *
      * @return {Array} the __colSpans array
      */
-    _getColSpans : function() {
+    _getColSpans() {
       return this.__colSpans;
     },
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
@@ -1346,8 +1254,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var offset;
 
-      for (var col=0; col<=maxColIndex; col++)
-      {
+      for (var col = 0; col <= maxColIndex; col++) {
         offset = colStretchOffsets[col] ? colStretchOffsets[col].offset : 0;
         colWidths[col] = prefWidths[col].width + offset;
       }
@@ -1358,25 +1265,21 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var rowHeights = [];
 
-      for (var row=0; row<=maxRowIndex; row++)
-      {
+      for (var row = 0; row <= maxRowIndex; row++) {
         offset = rowStretchOffsets[row] ? rowStretchOffsets[row].offset : 0;
         rowHeights[row] = prefHeights[row].height + offset;
       }
 
       // do the layout
       var left = 0;
-      for (var col=0; col<=maxColIndex; col++)
-      {
+      for (var col = 0; col <= maxColIndex; col++) {
         var top = 0;
 
-        for (var row=0; row<=maxRowIndex; row++)
-        {
+        for (var row = 0; row <= maxRowIndex; row++) {
           var widget = this.__grid[row][col];
 
           // ignore empty cells
-          if (!widget)
-          {
+          if (!widget) {
             top += rowHeights[row] + vSpacing;
             continue;
           }
@@ -1385,21 +1288,20 @@ qx.Class.define("qx.ui.layout.Grid",
 
           // ignore cells, which have cell spanning but are not the origin
           // of the widget
-          if(widgetProps.row !== row || widgetProps.column !== col)
-          {
+          if (widgetProps.row !== row || widgetProps.column !== col) {
             top += rowHeights[row] + vSpacing;
             continue;
           }
 
           // compute sizes width including cell spanning
           var spanWidth = hSpacing * (widgetProps.colSpan - 1);
-          for (var i=0; i<widgetProps.colSpan; i++) {
-            spanWidth += colWidths[col+i];
+          for (var i = 0; i < widgetProps.colSpan; i++) {
+            spanWidth += colWidths[col + i];
           }
 
           var spanHeight = vSpacing * (widgetProps.rowSpan - 1);
-          for (var i=0; i<widgetProps.rowSpan; i++) {
-            spanHeight += rowHeights[row+i];
+          for (var i = 0; i < widgetProps.rowSpan; i++) {
+            spanHeight += rowHeights[row + i];
           }
 
           var cellHint = widget.getSizeHint();
@@ -1408,12 +1310,34 @@ qx.Class.define("qx.ui.layout.Grid",
           var marginBottom = widget.getMarginBottom();
           var marginRight = widget.getMarginRight();
 
-          var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth-marginLeft-marginRight, cellHint.maxWidth));
-          var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight-marginTop-marginBottom, cellHint.maxHeight));
+          var cellWidth = Math.max(
+            cellHint.minWidth,
+            Math.min(spanWidth - marginLeft - marginRight, cellHint.maxWidth)
+          );
+          var cellHeight = Math.max(
+            cellHint.minHeight,
+            Math.min(spanHeight - marginTop - marginBottom, cellHint.maxHeight)
+          );
 
           var cellAlign = this.getCellAlign(row, col);
-          var cellLeft = left + Util.computeHorizontalAlignOffset(cellAlign.hAlign, cellWidth, spanWidth, marginLeft, marginRight);
-          var cellTop = top + Util.computeVerticalAlignOffset(cellAlign.vAlign, cellHeight, spanHeight, marginTop, marginBottom);
+          var cellLeft =
+            left +
+            Util.computeHorizontalAlignOffset(
+              cellAlign.hAlign,
+              cellWidth,
+              spanWidth,
+              marginLeft,
+              marginRight
+            );
+          var cellTop =
+            top +
+            Util.computeVerticalAlignOffset(
+              cellAlign.vAlign,
+              cellHeight,
+              spanHeight,
+              marginTop,
+              marginBottom
+            );
 
           widget.renderLayout(
             cellLeft + padding.left,
@@ -1429,20 +1353,16 @@ qx.Class.define("qx.ui.layout.Grid",
       }
     },
 
-
     // overridden
-    invalidateLayoutCache : function()
-    {
-      this.base(arguments);
+    invalidateLayoutCache() {
+      super.invalidateLayoutCache();
 
       this.__colWidths = null;
       this.__rowHeights = null;
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
       }
@@ -1450,10 +1370,10 @@ qx.Class.define("qx.ui.layout.Grid",
       // calculate col widths
       var colWidths = this._getColWidths();
 
-      var minWidth=0, width=0;
+      var minWidth = 0,
+        width = 0;
 
-      for (var i=0, l=colWidths.length; i<l; i++)
-      {
+      for (var i = 0, l = colWidths.length; i < l; i++) {
         var col = colWidths[i];
         if (this.getColumnFlex(i) > 0) {
           minWidth += col.minWidth;
@@ -1467,9 +1387,9 @@ qx.Class.define("qx.ui.layout.Grid",
       // calculate row heights
       var rowHeights = this._getRowHeights();
 
-      var minHeight=0, height=0;
-      for (var i=0, l=rowHeights.length; i<l; i++)
-      {
+      var minHeight = 0,
+        height = 0;
+      for (var i = 0, l = rowHeights.length; i < l; i++) {
         var row = rowHeights[i];
 
         if (this.getRowFlex(i) > 0) {
@@ -1485,18 +1405,15 @@ qx.Class.define("qx.ui.layout.Grid",
       var spacingY = this.getSpacingY() * (rowHeights.length - 1);
 
       var hint = {
-        minWidth : minWidth + spacingX,
-        width : width + spacingX,
-        minHeight : minHeight + spacingY,
-        height : height + spacingY
+        minWidth: minWidth + spacingX,
+        width: width + spacingX,
+        minHeight: minHeight + spacingY,
+        height: height + spacingY
       };
 
       return hint;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -1504,9 +1421,14 @@ qx.Class.define("qx.ui.layout.Grid",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this.__grid = this.__rowData = this.__colData = this.__colSpans =
-      this.__rowSpans = this.__colWidths = this.__rowHeights = null;
+  destruct() {
+    this.__grid =
+      this.__rowData =
+      this.__colData =
+      this.__colSpans =
+      this.__rowSpans =
+      this.__colWidths =
+      this.__rowHeights =
+        null;
   }
 });

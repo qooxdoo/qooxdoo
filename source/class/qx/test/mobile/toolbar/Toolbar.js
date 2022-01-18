@@ -16,25 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.toolbar.Toolbar",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.toolbar.Toolbar", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    __createToolbar : function() {
+  members: {
+    __createToolbar() {
       var toolBar = new qx.ui.mobile.toolbar.ToolBar();
       this.getRoot().add(toolBar);
       return toolBar;
     },
 
-    __assertChildNodesLength : function(toolBar, toolbarKidsNumber) {
+    __assertChildNodesLength(toolBar, toolbarKidsNumber) {
       var childrenLength = toolBar.getContentElement().childNodes.length;
       this.assertEquals(toolbarKidsNumber, childrenLength);
     },
 
-    testAdd : function()
-    {
+    testAdd() {
       var toolBar = this.__createToolbar();
 
       var button1 = new qx.ui.mobile.toolbar.Button("Button 1");
@@ -49,8 +46,14 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar",
       toolBar.add(button3);
       this.__assertChildNodesLength(toolBar, 3);
 
-      this.assertEquals(qx.bom.element.Dimension.getWidth(button1.getContainerElement()), qx.bom.element.Dimension.getWidth(button2.getContainerElement()));
-      this.assertEquals(qx.bom.element.Dimension.getWidth(button3.getContainerElement()), qx.bom.element.Dimension.getWidth(button2.getContainerElement()));
+      this.assertEquals(
+        qx.bom.element.Dimension.getWidth(button1.getContainerElement()),
+        qx.bom.element.Dimension.getWidth(button2.getContainerElement())
+      );
+      this.assertEquals(
+        qx.bom.element.Dimension.getWidth(button3.getContainerElement()),
+        qx.bom.element.Dimension.getWidth(button2.getContainerElement())
+      );
 
       button1.destroy();
       button2.destroy();
@@ -58,9 +61,7 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar",
       toolBar.destroy();
     },
 
-
-    testRemove : function()
-    {
+    testRemove() {
       var toolBar = this.__createToolbar();
 
       var button1 = new qx.ui.mobile.toolbar.Button("Button 1");
@@ -86,7 +87,5 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar",
       button3.destroy();
       toolBar.destroy();
     }
-
   }
-
 });

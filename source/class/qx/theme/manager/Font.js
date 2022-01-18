@@ -24,11 +24,10 @@
  *
  * @ignore(qx.$$fontBootstrap)
  */
-qx.Class.define("qx.theme.manager.Font",
-{
-  type : "singleton",
-  extend : qx.util.ValueManager,
-  implement : [ qx.core.IDisposable ],
+qx.Class.define("qx.theme.manager.Font", {
+  type: "singleton",
+  extend: qx.util.ValueManager,
+  implement: [qx.core.IDisposable],
 
   /*
   *****************************************************************************
@@ -36,9 +35,8 @@ qx.Class.define("qx.theme.manager.Font",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Grab bootstrap info
     if (qx.$$fontBootstrap) {
@@ -47,28 +45,21 @@ qx.Class.define("qx.theme.manager.Font",
     }
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** the currently selected font theme */
-    theme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+    theme: {
+      check: "Theme",
+      nullable: true,
+      apply: "_applyTheme",
+      event: "changeTheme"
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -76,9 +67,8 @@ qx.Class.define("qx.theme.manager.Font",
   *****************************************************************************
   */
 
-  members :
-  {
-    _manifestFonts : null,
+  members: {
+    _manifestFonts: null,
 
     /**
      * Returns the dynamically interpreted result for the incoming value
@@ -86,12 +76,10 @@ qx.Class.define("qx.theme.manager.Font",
      * @param value {String} dynamically interpreted identifier
      * @return {var} return the (translated) result of the incoming value
      */
-    resolveDynamic : function(value)
-    {
+    resolveDynamic(value) {
       var dynamic = this._dynamic;
       return value instanceof qx.bom.Font ? value : dynamic[value];
     },
-
 
     /**
      * Returns the dynamically interpreted result for the incoming value,
@@ -100,8 +88,7 @@ qx.Class.define("qx.theme.manager.Font",
      * @return {var} either returns the (translated) result of the incoming
      * value or the value itself
      */
-    resolve : function(value)
-    {
+    resolve(value) {
       var cache = this._dynamic;
       var resolved = cache[value];
 
@@ -114,10 +101,9 @@ qx.Class.define("qx.theme.manager.Font",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme !== null && theme.fonts[value])
-      {
+      if (theme !== null && theme.fonts[value]) {
         var font = this.__getFontClass(theme.fonts[value]);
-        var fo = (new font);
+        var fo = new font();
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
@@ -125,7 +111,7 @@ qx.Class.define("qx.theme.manager.Font",
           fo.setComparisonString(theme.fonts[value].comparisonString);
         }
 
-        return cache[value] = fo.set(theme.fonts[value]);
+        return (cache[value] = fo.set(theme.fonts[value]));
       }
       if (qx.core.Environment.get("qx.debug")) {
         if (theme) {
@@ -134,7 +120,11 @@ qx.Class.define("qx.theme.manager.Font",
           }
           if (!this.__warnedMissingFonts[value]) {
             this.__warnedMissingFonts[value] = true;
-            this.debug(`Cannot resolve a font named ${value} - available fonts are ${Object.keys(theme.fonts).join(", ")}`);
+            this.debug(
+              `Cannot resolve a font named ${value} - available fonts are ${Object.keys(
+                theme.fonts
+              ).join(", ")}`
+            );
           }
         }
       }
@@ -142,19 +132,19 @@ qx.Class.define("qx.theme.manager.Font",
       return value;
     },
 
-
     /**
      * Whether a value is interpreted dynamically
      *
      * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
-    isDynamic : function(value)
-    {
+    isDynamic(value) {
       var cache = this._dynamic;
 
-      if (value && (value instanceof qx.bom.Font || cache[value] !== undefined))
-      {
+      if (
+        value &&
+        (value instanceof qx.bom.Font || cache[value] !== undefined)
+      ) {
         return true;
       }
 
@@ -163,10 +153,9 @@ qx.Class.define("qx.theme.manager.Font",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme !== null && value && theme.fonts[value])
-      {
+      if (theme !== null && value && theme.fonts[value]) {
         var font = this.__getFontClass(theme.fonts[value]);
-        var fo = (new font);
+        var fo = new font();
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
@@ -181,17 +170,14 @@ qx.Class.define("qx.theme.manager.Font",
       return false;
     },
 
-
     /**
      * Checks for includes and resolves them recursively
      *
      * @param fonts {Map} all fonts of the theme
      * @param fontName {String} font name to include
      */
-    __resolveInclude : function(fonts, fontName)
-    {
-      if (fonts[fontName].include)
-      {
+    __resolveInclude(fonts, fontName) {
+      if (fonts[fontName].include) {
         // get font infos out of the font theme
         var fontToInclude = fonts[fonts[fontName].include];
 
@@ -199,39 +185,39 @@ qx.Class.define("qx.theme.manager.Font",
         fonts[fontName].include = null;
         delete fonts[fontName].include;
 
-        fonts[fontName] = qx.lang.Object.mergeWith(fonts[fontName], fontToInclude, false);
+        fonts[fontName] = qx.lang.Object.mergeWith(
+          fonts[fontName],
+          fontToInclude,
+          false
+        );
 
         this.__resolveInclude(fonts, fontName);
       }
     },
 
-
     // apply method
-    _applyTheme : function(value)
-    {
-      var dest = this._dynamic = {};
+    _applyTheme(value) {
+      var dest = (this._dynamic = {});
 
-      for (var key in dest)
-      {
-        if (dest[key].themed)
-        {
+      for (var key in dest) {
+        if (dest[key].themed) {
           dest[key].dispose();
           delete dest[key];
         }
       }
 
-      if (value)
-      {
-        var source = this._manifestFonts ? Object.assign(value.fonts, this._manifestFonts) : value.fonts;
+      if (value) {
+        var source = this._manifestFonts
+          ? Object.assign(value.fonts, this._manifestFonts)
+          : value.fonts;
 
-        for (var key in source)
-        {
+        for (var key in source) {
           if (source[key].include && source[source[key].include]) {
             this.__resolveInclude(source, key);
           }
 
           var font = this.__getFontClass(source[key]);
-          var fo = (new font);
+          var fo = new font();
 
           // Inject information about custom charcter set tests before we apply the
           // complete blob in one.
@@ -252,8 +238,7 @@ qx.Class.define("qx.theme.manager.Font",
      * @param config {Map} The font's configuration map
      * @return {Class}
      */
-    __getFontClass : function(config)
-    {
+    __getFontClass(config) {
       if (config.sources) {
         return qx.bom.webfonts.WebFont;
       }
@@ -261,14 +246,13 @@ qx.Class.define("qx.theme.manager.Font",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._disposeMap("_dynamic");
   }
 });

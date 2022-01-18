@@ -16,23 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Flow",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.layout.Flow", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    _container : null,
+  members: {
+    _container: null,
 
-    setUp : function() {
+    setUp() {
       this.root = new qx.test.ui.layout.LayoutRoot();
       this.flush();
     },
 
-    tearDown : function() {
+    tearDown() {
       this.root.dispose();
       var children = this._container.getLayoutChildren();
-      for (var i=0, l=children.length; i<l; i++) {
+      for (var i = 0, l = children.length; i < l; i++) {
         this._container.remove(children[i]);
         children[i].dispose();
       }
@@ -41,12 +39,12 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this._container.dispose();
     },
 
-    flush : function() {
+    flush() {
       qx.ui.core.queue.Manager.flush();
     },
 
     // test for bug #6818
-    testChangeThemeFromFlow : function() {
+    testChangeThemeFromFlow() {
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
 
       this._container = new qx.test.ui.layout.LayoutItem(200, 200);
@@ -58,13 +56,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this._container.setLayout(new qx.ui.layout.HBox());
     },
 
-
-    testChildrenFitInLine : function()
-    {
+    testChildrenFitInLine() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(400, 50).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        400,
+        50
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -76,35 +76,46 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
       this.flush();
 
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 100,
-        height: 50
-      }, c1.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 100,
+          height: 50
+        },
+        c1.bounds
+      );
 
-      this.assertJsonEquals({
-        left: 100,
-        top: 0,
-        width: 100,
-        height: 50
-      }, c2.bounds);
+      this.assertJsonEquals(
+        {
+          left: 100,
+          top: 0,
+          width: 100,
+          height: 50
+        },
+        c2.bounds
+      );
 
-      this.assertJsonEquals({
-        left: 200,
-        top: 0,
-        width: 100,
-        height: 50
-      }, c3.bounds);
+      this.assertJsonEquals(
+        {
+          left: 200,
+          top: 0,
+          width: 100,
+          height: 50
+        },
+        c3.bounds
+      );
     },
 
-
-    testAutoSize : function()
-    {
+    testAutoSize() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
@@ -113,12 +124,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
       this.flush();
 
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 300,
-        height: 50
-      }, container.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 300,
+          height: 50
+        },
+        container.bounds
+      );
 
       // resize first
       container.getLayoutChildren()[0].setHeight(60);
@@ -129,13 +143,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(50, container.getLayoutChildren()[1].bounds.height);
     },
 
-
-    testWrapThirdChild : function()
-    {
+    testWrapThirdChild() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(250, 300).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        250,
+        300
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
@@ -153,13 +169,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(0, children[2].bounds.left);
     },
 
-
-    testAlignX : function()
-    {
+    testAlignX() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(500, 300).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        500,
+        300
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
@@ -188,13 +206,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(300, children[2].bounds.left, "align center");
     },
 
-
-    testAlignXWithWrapping : function()
-    {
+    testAlignXWithWrapping() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(80, 300).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        80,
+        300
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(50, 50));
@@ -216,13 +236,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(5, children[2].bounds.left);
     },
 
-
-    testLayoutAlignY : function()
-    {
+    testLayoutAlignY() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(100, 60));
@@ -254,26 +276,31 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(120, children[2].bounds.top);
     },
 
-
-    testChildAlignY : function()
-    {
+    testChildAlignY() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 60).set({
         alignY: "top"
       });
+
       container.add(c1);
       var c2 = new qx.test.ui.layout.LayoutItem(100, 100).set({
         alignY: "middle"
       });
+
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 40).set({
         alignY: "bottom"
       });
+
       container.add(c3);
 
       // reference
@@ -285,15 +312,18 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(120, c3.bounds.top);
     },
 
-
-    testReversed : function()
-    {
+    testReversed() {
       var layout = new qx.ui.layout.Flow().set({
         reversed: false
       });
-      var container = this._container = new qx.test.ui.layout.LayoutItem(400, 50).set({
+
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        400,
+        50
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -314,26 +344,33 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(0, c3.bounds.left);
     },
 
-
-    testLineBreakAutoSize : function()
-    {
+    testLineBreakAutoSize() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
-      container.add(new qx.test.ui.layout.LayoutItem(100, 50), {lineBreak : true});
+      container.add(new qx.test.ui.layout.LayoutItem(100, 50), {
+        lineBreak: true
+      });
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
 
       this.flush();
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 200,
-        height: 100
-      }, container.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 200,
+          height: 100
+        },
+        container.bounds
+      );
 
       var children = container.getLayoutChildren();
       this.assertEquals(0, children[0].bounds.top);
@@ -342,13 +379,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(0, children[2].bounds.left);
     },
 
-
-    testMargins : function()
-    {
+    testMargins() {
       var layout = new qx.ui.layout.Flow().set();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -356,71 +395,88 @@ qx.Class.define("qx.test.ui.layout.Flow",
       var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [10, 20, 30, 40]
       });
+
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 50);
       container.add(c3);
 
       this.flush();
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 360,
-        height: 90
-      }, container.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 360,
+          height: 90
+        },
+        container.bounds
+      );
 
-      this.assertJsonEquals({
-        left: 140,
-        top: 10,
-        width: 100,
-        height: 50
-      }, c2.bounds);
+      this.assertJsonEquals(
+        {
+          left: 140,
+          top: 10,
+          width: 100,
+          height: 50
+        },
+        c2.bounds
+      );
 
       this.assertEquals(260, c3.bounds.left);
     },
 
-
-    testMarginXCollapse : function()
-    {
+    testMarginXCollapse() {
       var layout = new qx.ui.layout.Flow().set();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(300, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        300,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [5, 10, 15, 20]
       });
+
       container.add(c1);
       var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [10, 20, 30, 40]
       });
+
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [15]
       });
+
       container.add(c3);
 
       this.flush();
 
       // no Y collapsing of margins
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 300,
-        height: 50+40 + 50+30
-      }, container.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 300,
+          height: 50 + 40 + 50 + 30
+        },
+        container.bounds
+      );
 
       this.assertEquals(20, c1.bounds.left);
       this.assertEquals(160, c2.bounds.left);
     },
 
-
-    testSpacingX : function()
-    {
+    testSpacingX() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -440,44 +496,51 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(220, c3.bounds.left);
     },
 
-
-    testSpacingXAndMarginCollapsing : function()
-    {
+    testSpacingXAndMarginCollapsing() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(null, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        null,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: 5
       });
+
       container.add(c1);
       var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: 5
       });
+
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: 15
       });
+
       container.add(c3);
 
       layout.setSpacingX(10);
 
       this.flush();
-      this.assertEquals(5+100+10+100+15+100, container.bounds.width);
+      this.assertEquals(5 + 100 + 10 + 100 + 15 + 100, container.bounds.width);
       this.assertEquals(5, c1.bounds.left);
-      this.assertEquals(5+100+10, c2.bounds.left);
-      this.assertEquals(5+100+10+100+15, c3.bounds.left);
+      this.assertEquals(5 + 100 + 10, c2.bounds.left);
+      this.assertEquals(5 + 100 + 10 + 100 + 15, c3.bounds.left);
     },
 
-
-    testSpacingY : function()
-    {
+    testSpacingY() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(110, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        110,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -497,13 +560,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(120, c3.bounds.top);
     },
 
-
-    testHeightForWidth : function()
-    {
+    testHeightForWidth() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(110, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        110,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
@@ -515,25 +580,30 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
       this.flush();
 
-      this.assertJsonEquals({
-        left: 0,
-        top: 0,
-        width: 110,
-        height: 150
-      }, container.bounds);
+      this.assertJsonEquals(
+        {
+          left: 0,
+          top: 0,
+          width: 110,
+          height: 150
+        },
+        container.bounds
+      );
 
       this.assertEquals(0, c1.bounds.top);
       this.assertEquals(50, c2.bounds.top);
       this.assertEquals(100, c3.bounds.top);
     },
 
-
-    testLargeChildInLine : function()
-    {
+    testLargeChildInLine() {
       var layout = new qx.ui.layout.Flow();
-      var container = this._container = new qx.test.ui.layout.LayoutItem(100, null).set({
+      var container = (this._container = new qx.test.ui.layout.LayoutItem(
+        100,
+        null
+      ).set({
         layout: layout
-      });
+      }));
+
       this.root.add(container);
 
       var c1 = new qx.test.ui.layout.LayoutItem(150, 50);
@@ -549,7 +619,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.root = null;
   }
 });

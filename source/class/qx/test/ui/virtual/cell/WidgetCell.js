@@ -25,40 +25,35 @@
  * @asset(qx/icon/${qx.icontheme}/22/emotes/face-angel.png)
  */
 
-qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.virtual.cell.WidgetCell", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __cell : null,
+  members: {
+    __cell: null,
 
-    setUp : function() {
+    setUp() {
       this.__cell = new qx.ui.virtual.cell.WidgetCell();
     },
 
-    tearDown : function() {
+    tearDown() {
       this.__cell.dispose();
       this.__cell = null;
     },
 
-    testCreateWidget : function()
-    {
+    testCreateWidget() {
       var item = this.__cell.getCellWidget();
       this.assertQxWidget(item);
       item.dispose();
     },
 
-    testCreateWidgetWithDelegate : function()
-    {
+    testCreateWidgetWithDelegate() {
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       this.assertInterface(item, qx.ui.form.ListItem);
       item.dispose();
     },
 
-    testPoolOnDelegateChange : function()
-    {
+    testPoolOnDelegateChange() {
       var item1 = this.__cell.getCellWidget();
       this.assertQxWidget(item1);
 
@@ -77,29 +72,37 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       item2.dispose();
     },
 
-    testEvent : function()
-    {
+    testEvent() {
       var that = this;
       var widget = null;
-      this.assertEventFired(this.__cell, "created", function() {
-        widget = that.__cell.getCellWidget();
-      }, function(e) {
-        that.assertQxWidget(e.getData());
-      });
+      this.assertEventFired(
+        this.__cell,
+        "created",
+        function () {
+          widget = that.__cell.getCellWidget();
+        },
+        function (e) {
+          that.assertQxWidget(e.getData());
+        }
+      );
 
       this.__cell.pool(widget);
 
-      this.assertEventNotFired(this.__cell, "created", function() {
-        that.__cell.getCellWidget();
-      }, function(e) {
-        that.assertQxWidget(e.getData());
-      });
+      this.assertEventNotFired(
+        this.__cell,
+        "created",
+        function () {
+          that.__cell.getCellWidget();
+        },
+        function (e) {
+          that.assertQxWidget(e.getData());
+        }
+      );
 
       widget.dispose();
     },
 
-    testUpdateData : function()
-    {
+    testUpdateData() {
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
       var data = {
@@ -113,8 +116,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       item.dispose();
     },
 
-    testUpdateEmptyData : function()
-    {
+    testUpdateEmptyData() {
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
 
@@ -124,27 +126,24 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       item.dispose();
     },
 
-    testUpdateWrongData : function()
-    {
+    testUpdateWrongData() {
       var item = this.__cell.getCellWidget();
       var data = {
-        banana : "joe"
+        banana: "joe"
       };
 
       var that = this;
-      this.assertException(function() {
+      this.assertException(function () {
         that.__cell.updateData(item, data);
       });
       item.dispose();
     },
 
-    __setUpDelegate : function()
-    {
-      this.__cell.setDelegate(
-      {
-        createWidget : function() {
+    __setUpDelegate() {
+      this.__cell.setDelegate({
+        createWidget() {
           return new qx.ui.form.ListItem();
-       }
+        }
       });
     }
   }

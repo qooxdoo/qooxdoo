@@ -15,120 +15,150 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Executable",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Executable", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget) {
+  members: {
+    __test(widget) {
       // check if the interface is implemented
       this.assertTrue(
-        qx.Class.hasInterface(
-          widget.constructor, qx.ui.form.IExecutable
-        ), "Interface is not implemented."
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IExecutable),
+        "Interface is not implemented."
       );
 
       var command = new qx.ui.command.Command();
 
       // check if the setter works
       widget.setCommand(command);
-      this.assertEquals(command, widget.getCommand(), "Setter / Getter not working.");
+      this.assertEquals(
+        command,
+        widget.getCommand(),
+        "Setter / Getter not working."
+      );
 
       // check the event and execute method
-      this.assertEventFired(widget, "execute", function() {
-        widget.execute();
-      }, function(e) {
-        // do nothing
-      }, "Execute event on the widget is wrong! (1)");
+      this.assertEventFired(
+        widget,
+        "execute",
+        function () {
+          widget.execute();
+        },
+        function (e) {
+          // do nothing
+        },
+        "Execute event on the widget is wrong! (1)"
+      );
 
-      this.assertEventFired(command, "execute", function() {
-        widget.execute();
-      }, function(e) {
-        // do nothing
-      }, "Execute event on the command is wrong! (2)");
+      this.assertEventFired(
+        command,
+        "execute",
+        function () {
+          widget.execute();
+        },
+        function (e) {
+          // do nothing
+        },
+        "Execute event on the command is wrong! (2)"
+      );
 
-      this.assertEventFired(command, "execute", function() {
-        command.execute();
-      }, function(e) {
-        // do nothing
-      }, "Execute event on the command is wrong! (3)");
+      this.assertEventFired(
+        command,
+        "execute",
+        function () {
+          command.execute();
+        },
+        function (e) {
+          // do nothing
+        },
+        "Execute event on the command is wrong! (3)"
+      );
 
-      this.assertEventFired(widget, "execute", function() {
-        command.execute();
-      }, function(e) {
-        // do nothing
-      }, "Execute event on the widget is wrong! (4)");
+      this.assertEventFired(
+        widget,
+        "execute",
+        function () {
+          command.execute();
+        },
+        function (e) {
+          // do nothing
+        },
+        "Execute event on the widget is wrong! (4)"
+      );
 
       // test removing of the command
       widget.setCommand(null);
 
       // check if the listener has been removed
-      this.assertEventNotFired(widget, "execute", function() {
-        command.execute();
-      }, function(e) {
-        // do nothing
-      }, "Execute event on the widget is wrong! (5)");
+      this.assertEventNotFired(
+        widget,
+        "execute",
+        function () {
+          command.execute();
+        },
+        function (e) {
+          // do nothing
+        },
+        "Execute event on the widget is wrong! (5)"
+      );
 
       command.dispose();
       widget.destroy();
     },
 
-    testToggleButton: function() {
-     this.__test(new qx.ui.form.ToggleButton());
+    testToggleButton() {
+      this.__test(new qx.ui.form.ToggleButton());
     },
 
-    testCheckBox: function() {
-     this.__test(new qx.ui.form.CheckBox());
+    testCheckBox() {
+      this.__test(new qx.ui.form.CheckBox());
     },
 
-    testButton: function() {
-     this.__test(new qx.ui.form.Button());
+    testButton() {
+      this.__test(new qx.ui.form.Button());
     },
 
-    testRepeatButton: function() {
-     this.__test(new qx.ui.form.RepeatButton());
+    testRepeatButton() {
+      this.__test(new qx.ui.form.RepeatButton());
     },
 
-    testMenuButton: function() {
-     this.__test(new qx.ui.form.MenuButton());
+    testMenuButton() {
+      this.__test(new qx.ui.form.MenuButton());
     },
 
-    testRadioButton: function() {
-     this.__test(new qx.ui.form.RadioButton());
+    testRadioButton() {
+      this.__test(new qx.ui.form.RadioButton());
     },
 
-    testToolbarButton: function() {
-     this.__test(new qx.ui.toolbar.Button());
+    testToolbarButton() {
+      this.__test(new qx.ui.toolbar.Button());
     },
 
-    testSplitButton: function() {
-     this.__test(new qx.ui.toolbar.SplitButton());
+    testSplitButton() {
+      this.__test(new qx.ui.toolbar.SplitButton());
     },
 
-    testMenuCheckBox: function() {
-     this.__test(new qx.ui.menu.CheckBox());
+    testMenuCheckBox() {
+      this.__test(new qx.ui.menu.CheckBox());
     },
 
-    testMenuRadioButton: function() {
-     this.__test(new qx.ui.menu.RadioButton());
+    testMenuRadioButton() {
+      this.__test(new qx.ui.menu.RadioButton());
     },
 
-    testButtonInMenu: function() {
-     this.__test(new qx.ui.menu.Button());
+    testButtonInMenu() {
+      this.__test(new qx.ui.menu.Button());
     },
 
-    testCheckGroupBox: function() {
-     this.__test(new qx.ui.groupbox.CheckGroupBox());
+    testCheckGroupBox() {
+      this.__test(new qx.ui.groupbox.CheckGroupBox());
     },
 
-    testRadioGroupBox: function() {
-     this.__test(new qx.ui.groupbox.RadioGroupBox());
+    testRadioGroupBox() {
+      this.__test(new qx.ui.groupbox.RadioGroupBox());
     },
 
-    testDateChooser: function() {
-     this.__test(new qx.ui.control.DateChooser());
+    testDateChooser() {
+      this.__test(new qx.ui.control.DateChooser());
     }
-
   }
 });

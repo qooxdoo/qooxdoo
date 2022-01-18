@@ -23,27 +23,27 @@
  *
  * It fixes a background position issue in Firefox 2.
  */
-qx.Class.define("qx.bom.element.Background",
-{
-  statics :
-  {
+qx.Class.define("qx.bom.element.Background", {
+  statics: {
     /** @type {Array} Internal helper to improve compile performance */
-    __tmpl :
-    [
-      "background-image:url(", null, ");",
-      "background-position:", null, ";",
-      "background-repeat:", null, ";"
+    __tmpl: [
+      "background-image:url(",
+      null,
+      ");",
+      "background-position:",
+      null,
+      ";",
+      "background-repeat:",
+      null,
+      ";"
     ],
 
-
     /** @type {Map} Empty styles when no image is given */
-    __emptyStyles :
-    {
-      backgroundImage : null,
-      backgroundPosition : null,
-      backgroundRepeat : null
+    __emptyStyles: {
+      backgroundImage: null,
+      backgroundPosition: null,
+      backgroundRepeat: null
     },
-
 
     /**
      * Computes the background position CSS value
@@ -54,30 +54,33 @@ qx.Class.define("qx.bom.element.Background",
      *    string value
      * @return {String} The background position CSS value
      */
-    __computePosition : function(left, top)
-    {
+    __computePosition(left, top) {
       // Correcting buggy Firefox background-position implementation
       // Have problems with identical values
       var engine = qx.core.Environment.get("engine.name");
       var version = qx.core.Environment.get("engine.version");
-      if (engine == "gecko" && version < 1.9 && left == top && typeof left == "number") {
+      if (
+        engine == "gecko" &&
+        version < 1.9 &&
+        left == top &&
+        typeof left == "number"
+      ) {
         top += 0.01;
       }
 
       if (left) {
-        var leftCss = (typeof left == "number") ? left + "px" : left;
+        var leftCss = typeof left == "number" ? left + "px" : left;
       } else {
         leftCss = "0";
       }
       if (top) {
-        var topCss = (typeof top == "number") ? top + "px" : top;
+        var topCss = typeof top == "number" ? top + "px" : top;
       } else {
         topCss = "0";
       }
 
       return leftCss + " " + topCss;
     },
-
 
     /**
      * Compiles the background into a CSS compatible string.
@@ -96,21 +99,20 @@ qx.Class.define("qx.bom.element.Background",
      *      CSS the values are "top", "bottom" and "center"
      * @return {String} CSS string
      */
-    compile : function(source, repeat, left, top)
-    {
+    compile(source, repeat, left, top) {
       var position = this.__computePosition(left, top);
-      var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
+      var backgroundImageUrl =
+        qx.util.ResourceManager.getInstance().toUri(source);
 
       // Updating template
       var tmpl = this.__tmpl;
 
-      tmpl[1] = "'" + backgroundImageUrl + "'";  // Put in quotes so spaces work
+      tmpl[1] = "'" + backgroundImageUrl + "'"; // Put in quotes so spaces work
       tmpl[4] = position;
       tmpl[7] = repeat;
 
       return tmpl.join("");
     },
-
 
     /**
      * Get standard css background styles
@@ -129,19 +131,19 @@ qx.Class.define("qx.bom.element.Background",
      *      CSS the values are "top", "bottom" and "center"
      * @return {Map} A map of CSS styles
      */
-    getStyles : function(source, repeat, left, top)
-    {
+    getStyles(source, repeat, left, top) {
       if (!source) {
         return this.__emptyStyles;
       }
 
       var position = this.__computePosition(left, top);
-      var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
+      var backgroundImageUrl =
+        qx.util.ResourceManager.getInstance().toUri(source);
 
       var backgroundImageCssString = "url('" + backgroundImageUrl + "')"; // Put in quotes so spaces work
       var map = {
-        backgroundPosition : position,
-        backgroundImage : backgroundImageCssString
+        backgroundPosition: position,
+        backgroundImage: backgroundImageCssString
       };
 
       if (repeat != null) {
@@ -149,7 +151,6 @@ qx.Class.define("qx.bom.element.Background",
       }
       return map;
     },
-
 
     /**
      * Set the background on the given DOM element
@@ -164,8 +165,7 @@ qx.Class.define("qx.bom.element.Background",
      * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
      */
-    set : function(element, source, repeat, left, top)
-    {
+    set(element, source, repeat, left, top) {
       var styles = this.getStyles(source, repeat, left, top);
       for (var prop in styles) {
         element.style[prop] = styles[prop];

@@ -16,15 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Element",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Element", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var div = document.createElement("div");
       div.id = "el";
 
@@ -32,57 +28,65 @@ qx.Class.define("qx.test.bom.Element",
       document.body.appendChild(div);
     },
 
-
-    tearDown : function() {
+    tearDown() {
       document.body.removeChild(this._el);
     },
 
-
-    testAddListener : function()
-    {
-      var listener = function() {};
+    testAddListener() {
+      var listener = function () {};
       qx.bom.Element.addListener(this._el, "click", listener, this, false);
       this.assertTrue(qx.bom.Element.hasListener(this._el, "click", false));
       qx.bom.Element.removeListener(this._el, "click", listener, this, false);
       this.assertFalse(qx.bom.Element.hasListener(this._el, "click", false));
     },
 
-
-    testRemoveListenerById : function()
-    {
-      var id = qx.bom.Element.addListener(this._el, "click", function() {}, this, false);
+    testRemoveListenerById() {
+      var id = qx.bom.Element.addListener(
+        this._el,
+        "click",
+        function () {},
+        this,
+        false
+      );
       this.assertTrue(qx.bom.Element.hasListener(this._el, "click", false));
       qx.bom.Element.removeListenerById(this._el, id);
       this.assertFalse(qx.bom.Element.hasListener(this._el, "click", false));
     },
 
-
-    testFocus : function()
-    {
-      qx.event.Registration.addListener(this._el, "focus", function() {
-        this.resume(function() {
-          this.info("Element focused.");
-        }, this);
-      },this);
+    testFocus() {
+      qx.event.Registration.addListener(
+        this._el,
+        "focus",
+        function () {
+          this.resume(function () {
+            this.info("Element focused.");
+          }, this);
+        },
+        this
+      );
 
       var self = this;
-      window.setTimeout(function(){
+      window.setTimeout(function () {
         qx.bom.Element.focus(self._el);
       }, 100);
 
       this.wait();
     },
 
-    testBlur : function()
-    {
-      qx.event.Registration.addListener(this._el, "blur", function() {
-        this.resume(function() {
-          this.info("Element blurred.");
-        }, this);
-      },this);
+    testBlur() {
+      qx.event.Registration.addListener(
+        this._el,
+        "blur",
+        function () {
+          this.resume(function () {
+            this.info("Element blurred.");
+          }, this);
+        },
+        this
+      );
 
       var self = this;
-      window.setTimeout(function(){
+      window.setTimeout(function () {
         qx.bom.Element.focus(self._el);
         qx.bom.Element.blur(self._el);
       }, 100);
@@ -90,38 +94,40 @@ qx.Class.define("qx.test.bom.Element",
       this.wait();
     },
 
-    testActivate : function()
-    {
+    testActivate() {
       qx.bom.Element.activate(this._el);
       this.warn("needs better test!");
     },
 
-    testDeactivate : function()
-    {
+    testDeactivate() {
       qx.bom.Element.deactivate(this._el);
       this.warn("needs better test!");
     },
 
-    testCapture : function()
-    {
+    testCapture() {
       qx.bom.Element.capture(this._el);
       this.warn("needs better test!");
     },
 
-    testReleaseCapture : function()
-    {
+    testReleaseCapture() {
       qx.bom.Element.releaseCapture(this._el);
       this.warn("needs better test!");
     },
 
-    testClone : function()
-    {
+    testClone() {
       var clone = qx.bom.Element.clone(this._el);
 
       this.assertElement(clone, "Cloning of the element failed!");
-      this.assertEquals(clone.id, "el",  "Cloning of the element failed! Attribute 'id' was not cloned.");
-      this.assertEquals(clone.nodeName.toLowerCase(), "div",  "Cloning of the element failed! Different node name.");
+      this.assertEquals(
+        clone.id,
+        "el",
+        "Cloning of the element failed! Attribute 'id' was not cloned."
+      );
+      this.assertEquals(
+        clone.nodeName.toLowerCase(),
+        "div",
+        "Cloning of the element failed! Different node name."
+      );
     }
   }
-
 });

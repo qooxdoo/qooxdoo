@@ -19,11 +19,8 @@
 /**
  * Superclass for formatters and parsers.
  */
-qx.Interface.define("qx.util.format.IFormat",
-{
-
-  members :
-  {
+qx.Interface.define("qx.util.format.IFormat", {
+  members: {
     /**
      * Formats an object.
      *
@@ -32,8 +29,7 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {String} the formatted object.
      * @throws {Error} the abstract function warning.
      */
-    format : function(obj) {},
-
+    format(obj) {},
 
     /**
      * Parses an object.
@@ -43,6 +39,6 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {var} the parsed object.
      * @throws {Error} the abstract function warning.
      */
-    parse : function(str) {}
+    parse(str) {}
   }
 });

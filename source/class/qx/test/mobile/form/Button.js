@@ -16,30 +16,32 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Button",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.form.Button", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testLabel : function()
-    {
+  members: {
+    testLabel() {
       var button = new qx.ui.mobile.form.Button("affe");
       this.getRoot().add(button);
 
       this.assertString(button.getLabel());
-      this.assertEquals("affe", button.getLabel() );
-      this.assertEquals(button.getLabel(), button.getLabelWidget().getContentElement().innerHTML);
+      this.assertEquals("affe", button.getLabel());
+      this.assertEquals(
+        button.getLabel(),
+        button.getLabelWidget().getContentElement().innerHTML
+      );
 
-      this.assertEventFired(button, "changeLabel", function() {
+      this.assertEventFired(button, "changeLabel", function () {
         button.setLabel("");
       });
 
       this.assertEquals("", button.getLabel());
-      this.assertEquals(button.getLabel(), button.getLabelWidget().getContentElement().innerHTML);
+      this.assertEquals(
+        button.getLabel(),
+        button.getLabelWidget().getContentElement().innerHTML
+      );
 
       button.destroy();
     }
   }
-
 });

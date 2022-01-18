@@ -24,10 +24,8 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.EcmaScript",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.EcmaScript", {
+  statics: {
     /**
      * Returns the name of the Error object property that holds stack trace
      * information or null if the client does not provide any.
@@ -36,8 +34,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @return {String|null} <code>stack</code>, <code>stacktrace</code> or
      * <code>null</code>
      */
-    getStackTrace : function()
-    {
+    getStackTrace() {
       var propName;
       var e = new Error("e");
       propName = e.stack ? "stack" : e.stacktrace ? "stacktrace" : null;
@@ -46,7 +43,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       if (!propName) {
         try {
           throw e;
-        } catch(ex) {
+        } catch (ex) {
           e = ex;
         }
       }
@@ -54,137 +51,123 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return e.stacktrace ? "stacktrace" : e.stack ? "stack" : null;
     },
 
-
     /**
      * Checks if 'MutationObserver' is supported.
      * @internal
      * @ignore(MutationObserver)
      * @return {Boolean} <code>true</code>, if MutationObserver is available.
      */
-    getMutationObserver : function() {
+    getMutationObserver() {
       return typeof MutationObserver != "undefined";
     },
-
 
     /**
      * Checks if 'indexOf' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayIndexOf : function() {
+    getArrayIndexOf() {
       return !!Array.prototype.indexOf;
     },
-
 
     /**
      * Checks if 'lastIndexOf' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayLastIndexOf : function() {
+    getArrayLastIndexOf() {
       return !!Array.prototype.lastIndexOf;
     },
-
 
     /**
      * Checks if 'forEach' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayForEach : function() {
+    getArrayForEach() {
       return !!Array.prototype.forEach;
     },
-
 
     /**
      * Checks if 'filter' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayFilter : function() {
+    getArrayFilter() {
       return !!Array.prototype.filter;
     },
-
 
     /**
      * Checks if 'map' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayMap : function() {
+    getArrayMap() {
       return !!Array.prototype.map;
     },
-
 
     /**
      * Checks if 'some' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArraySome : function() {
+    getArraySome() {
       return !!Array.prototype.some;
     },
-
 
     /**
      * Checks if 'find' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayFind : function() {
+    getArrayFind() {
       return !!Array.prototype.find;
     },
-
 
     /**
      * Checks if 'findIndex' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayFindIndex : function() {
+    getArrayFindIndex() {
       return !!Array.prototype.findIndex;
     },
-
 
     /**
      * Checks if 'every' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayEvery : function() {
+    getArrayEvery() {
       return !!Array.prototype.every;
     },
-
 
     /**
      * Checks if 'reduce' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayReduce : function() {
+    getArrayReduce() {
       return !!Array.prototype.reduce;
     },
-
 
     /**
      * Checks if 'reduceRight' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayReduceRight : function() {
+    getArrayReduceRight() {
       return !!Array.prototype.reduceRight;
     },
-
 
     /**
      * Checks if 'includes' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getArrayIncludes : function() {
+    getArrayIncludes() {
       return !!Array.prototype.includes;
     },
-
 
     /**
      * Checks if 'toString' is supported on the Error object and
@@ -192,18 +175,19 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getErrorToString : function() {
-      return typeof Error.prototype.toString == "function" &&
-        Error.prototype.toString() !== "[object Error]";
+    getErrorToString() {
+      return (
+        typeof Error.prototype.toString == "function" &&
+        Error.prototype.toString() !== "[object Error]"
+      );
     },
-
 
     /**
      * Checks if 'bind' is supported on the Function object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getFunctionBind : function() {
+    getFunctionBind() {
       return typeof Function.prototype.bind === "function";
     },
 
@@ -215,9 +199,13 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if async functions are supported
      */
-    getAsyncFunction : function() {
+    getAsyncFunction() {
       var f;
-      try { eval("f = async function(){};") } catch(e) { return false; };
+      try {
+        eval("f = async function(){};");
+      } catch (e) {
+        return false;
+      }
       return qx.Bootstrap.getClass(f) === "AsyncFunction";
     },
 
@@ -226,7 +214,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getObjectKeys : function() {
+    getObjectKeys() {
       return !!Object.keys;
     },
 
@@ -235,7 +223,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getObjectValues : function() {
+    getObjectValues() {
       return !!Object.values;
     },
 
@@ -244,7 +232,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getObjectIs : function() {
+    getObjectIs() {
       return !!Object.is;
     },
 
@@ -253,7 +241,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getObjectAssign : function() {
+    getObjectAssign() {
       return !!Object.assign;
     },
 
@@ -262,10 +250,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getDateNow : function() {
+    getDateNow() {
       return !!Date.now;
     },
-
 
     /**
      * Checks if 'parse' is supported on the Date object and whether it
@@ -276,63 +263,58 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @return {Boolean} <code>true</code>, if the method supports ISO-8601
      *   dates.
      */
-    getDateParse : function ()
-    {
-      return typeof Date.parse === "function"     // Date.parse() is present...
-         && (Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
-             Date.parse("2001-02-03T04:05:06.007Z")); // dates as expected
+    getDateParse() {
+      return (
+        typeof Date.parse === "function" && // Date.parse() is present...
+        Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
+          Date.parse("2001-02-03T04:05:06.007Z")
+      ); // dates as expected
     },
-
 
     /**
      * Checks if 'startsWith' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getStringStartsWith : function() {
+    getStringStartsWith() {
       return typeof String.prototype.startsWith === "function";
     },
-
 
     /**
      * Checks if 'endsWith' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getStringEndsWith : function() {
+    getStringEndsWith() {
       return typeof String.prototype.endsWith === "function";
     },
-
 
     /**
      * Checks if 'trim' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getStringTrim : function() {
+    getStringTrim() {
       return typeof String.prototype.trim === "function";
     },
-
 
     /**
      * Checks if 'codePointAt' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getStringCodePointAt : function() {
+    getStringCodePointAt() {
       return typeof String.prototype.codePointAt === "function";
     },
-
 
     /**
      * Checks if 'fromCodePoint' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
      */
-    getStringFromCodePoint : function() {
+    getStringFromCodePoint() {
       return !!String.fromCodePoint;
     },
-
 
     /**
      * Checks if 'BigInt' type is supported.
@@ -340,10 +322,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @ignore(BigInt)
      * @return {Boolean} <code>true</code>, if BigInt is available.
      */
-    getBigInt : function() {
+    getBigInt() {
       return typeof BigInt !== "undefined";
     },
-
 
     /**
      * Checks if 'toLocaleString' is supported on the BigInt object and whether
@@ -354,86 +335,148 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @return {Boolean} <code>true</code>, if the method is supported and
      *   works at least rudimentary.
      */
-    getBigIntToLocaleString : function()
-    {
-      return typeof BigInt !== "undefined"                         // BigInt type supported...
-          && typeof BigInt.prototype.toLocaleString === "function"// ...method is present...
-          && (BigInt(1234).toLocaleString("de-DE") === "1,234"); // ...and works as expected
-    },
-
-
-    /**
-     * Checks whether Native promises are available
-     */
-    getPromiseNative: function() {
-      return typeof window.Promise !== "undefined" && window.Promise.toString().indexOf("[native code]") !== -1;
+    getBigIntToLocaleString() {
+      return (
+        typeof BigInt !== "undefined" && // BigInt type supported...
+        typeof BigInt.prototype.toLocaleString === "function" && // ...method is present...
+        BigInt(1234).toLocaleString("de-DE") === "1,234"
+      ); // ...and works as expected
     },
 
     /**
      * Checks whether Native promises are available
      */
-    getEpsilon: function() {
+    getPromiseNative() {
+      return (
+        typeof window.Promise !== "undefined" &&
+        window.Promise.toString().indexOf("[native code]") !== -1
+      );
+    },
+
+    /**
+     * Checks whether Native promises are available
+     */
+    getEpsilon() {
       return typeof Number.prototype.EPSILON !== "undefined";
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     // array polyfill
-    qx.core.Environment.add("ecmascript.array.indexof", statics.getArrayIndexOf);
-    qx.core.Environment.add("ecmascript.array.lastindexof", statics.getArrayLastIndexOf);
-    qx.core.Environment.add("ecmascript.array.foreach", statics.getArrayForEach);
+    qx.core.Environment.add(
+      "ecmascript.array.indexof",
+      statics.getArrayIndexOf
+    );
+    qx.core.Environment.add(
+      "ecmascript.array.lastindexof",
+      statics.getArrayLastIndexOf
+    );
+    qx.core.Environment.add(
+      "ecmascript.array.foreach",
+      statics.getArrayForEach
+    );
     qx.core.Environment.add("ecmascript.array.filter", statics.getArrayFilter);
     qx.core.Environment.add("ecmascript.array.map", statics.getArrayMap);
     qx.core.Environment.add("ecmascript.array.some", statics.getArraySome);
     qx.core.Environment.add("ecmascript.array.find", statics.getArrayFind);
-    qx.core.Environment.add("ecmascript.array.findIndex", statics.getArrayFindIndex);
+    qx.core.Environment.add(
+      "ecmascript.array.findIndex",
+      statics.getArrayFindIndex
+    );
     qx.core.Environment.add("ecmascript.array.every", statics.getArrayEvery);
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
-    qx.core.Environment.add("ecmascript.array.reduceright", statics.getArrayReduceRight);
-    qx.core.Environment.add("ecmascript.array.includes", statics.getArrayIncludes);
+    qx.core.Environment.add(
+      "ecmascript.array.reduceright",
+      statics.getArrayReduceRight
+    );
+    qx.core.Environment.add(
+      "ecmascript.array.includes",
+      statics.getArrayIncludes
+    );
 
     // date polyfill
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
     qx.core.Environment.add("ecmascript.date.parse", statics.getDateParse);
 
     // error bugfix
-    qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToString);
-    qx.core.Environment.add("ecmascript.error.stacktrace", statics.getStackTrace);
+    qx.core.Environment.add(
+      "ecmascript.error.toString",
+      statics.getErrorToString
+    );
+    qx.core.Environment.add(
+      "ecmascript.error.stacktrace",
+      statics.getStackTrace
+    );
 
     // function polyfill
-    qx.core.Environment.add("ecmascript.function.bind", statics.getFunctionBind);
+    qx.core.Environment.add(
+      "ecmascript.function.bind",
+      statics.getFunctionBind
+    );
 
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
-    qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
+    qx.core.Environment.add(
+      "ecmascript.object.values",
+      statics.getObjectValues
+    );
     qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
-    qx.core.Environment.add("ecmascript.object.assign", statics.getObjectAssign);
+    qx.core.Environment.add(
+      "ecmascript.object.assign",
+      statics.getObjectAssign
+    );
 
     // number polyfill
     qx.core.Environment.add("ecmascript.number.EPSILON", statics.getEpsilon);
 
     // string polyfill
-    qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
-    qx.core.Environment.add("ecmascript.string.endsWith", statics.getStringEndsWith);
+    qx.core.Environment.add(
+      "ecmascript.string.startsWith",
+      statics.getStringStartsWith
+    );
+    qx.core.Environment.add(
+      "ecmascript.string.endsWith",
+      statics.getStringEndsWith
+    );
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
-    qx.core.Environment.add("ecmascript.string.codePointAt", statics.getStringCodePointAt);
-    qx.core.Environment.add("ecmascript.string.fromCodePoint", statics.getStringFromCodePoint);
+    qx.core.Environment.add(
+      "ecmascript.string.codePointAt",
+      statics.getStringCodePointAt
+    );
+    qx.core.Environment.add(
+      "ecmascript.string.fromCodePoint",
+      statics.getStringFromCodePoint
+    );
 
     // Promises
-    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
+    qx.core.Environment.add(
+      "ecmascript.promise.native",
+      statics.getPromiseNative
+    );
 
     // ES7 async function support
-    qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
+    qx.core.Environment.add(
+      "ecmascript.function.async",
+      statics.getAsyncFunction
+    );
 
     // MutationObserver
-    qx.core.Environment.add("ecmascript.mutationobserver", statics.getMutationObserver);
+    qx.core.Environment.add(
+      "ecmascript.mutationobserver",
+      statics.getMutationObserver
+    );
 
     // BigInt
     qx.core.Environment.add("ecmascript.bigint", statics.getBigInt);
-    qx.core.Environment.add("ecmascript.bigint.tolocalestring", statics.getBigIntToLocaleString);
+    qx.core.Environment.add(
+      "ecmascript.bigint.tolocalestring",
+      statics.getBigIntToLocaleString
+    );
 
     // Promises
-    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
+    qx.core.Environment.add(
+      "ecmascript.promise.native",
+      statics.getPromiseNative
+    );
   }
 });

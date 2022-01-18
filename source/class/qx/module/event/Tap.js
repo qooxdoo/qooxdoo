@@ -32,20 +32,25 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Tap", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["tap", "longtap", "dbltap"],
+    TYPES: ["tap", "longtap", "dbltap"],
 
     /**
      * List methods to be attached to gesture event
      * objects
      * @internal
      */
-    BIND_METHODS : ["getViewportLeft", "getViewportTop",
-      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
+    BIND_METHODS: [
+      "getViewportLeft",
+      "getViewportTop",
+      "getDocumentLeft",
+      "getDocumentTop",
+      "getScreenLeft",
+      "getScreenTop"
+    ],
 
     /**
      * Get the horizontal coordinate at which the event occurred relative
@@ -53,10 +58,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      *
      * @return {Number} The horizontal contact position
      */
-    getViewportLeft : function() {
+    getViewportLeft() {
       return this._original.getViewportLeft();
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative
@@ -65,10 +69,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      * @return {Number} The vertical contact position
      * @signature function()
      */
-    getViewportTop : function() {
+    getViewportTop() {
       return this._original.getViewportTop();
     },
-
 
     /**
      * Get the horizontal position at which the event occurred relative to the
@@ -77,11 +80,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      *
      * @return {Number} The horizontal contact position in the document.
      */
-    getDocumentLeft : function()
-    {
+    getDocumentLeft() {
       return this._original.getDocumentLeft();
     },
-
 
     /**
      * Get the vertical position at which the event occurred relative to the
@@ -90,11 +91,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      *
      * @return {Number} The vertical contact position in the document.
      */
-    getDocumentTop : function()
-    {
+    getDocumentTop() {
       return this._original.getDocumentTop();
     },
-
 
     /**
      * Get the horizontal coordinate at which the event occurred relative to
@@ -105,10 +104,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      *
      * @return {Number} The horizontal contact position on the screen.
      */
-    getScreenLeft : function() {
+    getScreenLeft() {
       return this._original.getScreenLeft();
     },
-
 
     /**
      * Get the vertical coordinate at which the event occurred relative to
@@ -119,10 +117,9 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      *
      * @return {Number} The vertical contact position on the screen.
      */
-    getScreenTop : function() {
+    getScreenTop() {
       return this._original.getScreenTop();
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -133,16 +130,16 @@ qx.Bootstrap.define("qx.module.event.Tap", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
 
       var bindMethods = qx.module.event.Tap.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Tap[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Tap[bindMethods[i]].bind(event);
         }
       }
 
@@ -150,7 +147,10 @@ qx.Bootstrap.define("qx.module.event.Tap", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Tap.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Tap.TYPES,
+      statics.normalize
+    );
   }
 });

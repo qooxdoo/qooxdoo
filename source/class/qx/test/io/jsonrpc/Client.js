@@ -20,17 +20,12 @@
 /**
  * Tests for qx.io.jsonrpc.Client with a qx.test.io.request.Xhr transport
  */
-qx.Class.define("qx.test.io.jsonrpc.Client",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.io.jsonrpc.Client", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [
-    qx.dev.unit.MMock,
-    qx.test.io.MAssert
-  ],
+  include: [qx.dev.unit.MMock, qx.test.io.MAssert],
 
-  members : {
-
+  members: {
     setUp() {
       this.sinon = qx.dev.unit.Sinon.getSinon();
       this.setUpRequest();
@@ -38,21 +33,24 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
       qx.io.jsonrpc.protocol.Request.resetId();
     },
 
-    setUpRequest: function () {
+    setUpRequest() {
       this.req && this.req.dispose();
       this.req = new qx.io.request.Xhr();
       this.req.setUrl("url");
     },
 
-    setUpFakeTransport: function () {
+    setUpFakeTransport() {
       if (this.transport && this.transport.send.restore) {
         return;
       }
-      this.transport = this.injectStub(qx.io.request.Xhr.prototype, "_createTransport");
+      this.transport = this.injectStub(
+        qx.io.request.Xhr.prototype,
+        "_createTransport"
+      );
       this.setUpRequest();
     },
 
-    setUpFakeXhr: function () {
+    setUpFakeXhr() {
       // Not fake transport
       this.getSandbox().restore();
       this.useFakeXMLHttpRequest();
@@ -63,15 +61,17 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
      * Sets up the fake server and instructs it to send the given response(s)
      * @param {String} response The server response to the first request
      */
-    setUpFakeServer: function (response) {
+    setUpFakeServer(response) {
       // Not fake transport
       this.getSandbox().restore();
       this.useFakeServer();
       this.setUpRequest();
-      this.getServer().respondWith(
-        "POST", /.*/,
-        [200, {"Content-Type": "application/json; charset=utf-8"}, response]
-      );
+      this.getServer().respondWith("POST", /.*/, [
+        200,
+        { "Content-Type": "application/json; charset=utf-8" },
+        response
+      ]);
+
       this.getServer().autoRespond = true;
     },
 
@@ -81,12 +81,19 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
      * @param {Class|Number} exception If class, the exception class, which must
      * be a subclass of qx.io.exception.Exception. If number, the error number
      */
-    assertExceptionThrown: function (response, exception) {
-      if (!(qx.lang.Type.isNumber(exception) || qx.Class.isSubClassOf(exception, qx.io.exception.Exception))) {
-        throw new Error("Second argument must be a Number or a subclass of qx.io.exception.Exception");
+    assertExceptionThrown(response, exception) {
+      if (
+        !(
+          qx.lang.Type.isNumber(exception) ||
+          qx.Class.isSubClassOf(exception, qx.io.exception.Exception)
+        )
+      ) {
+        throw new Error(
+          "Second argument must be a Number or a subclass of qx.io.exception.Exception"
+        );
       }
       this.setUpFakeServer(response);
-      const message_out = new qx.io.jsonrpc.protocol.Request("foo",[1,2,3]);
+      const message_out = new qx.io.jsonrpc.protocol.Request("foo", [1, 2, 3]);
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
       const errorCallback = this.spy(err => {
         //console.warn(err);
@@ -94,10 +101,13 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
           if (!(err instanceof qx.io.exception.Exception)) {
             throw err;
           }
-          this.assertEquals(exception, err.code,`Error code does not match`);
+          this.assertEquals(exception, err.code, `Error code does not match`);
         } else {
-          this.assertInstance(err, exception,
-            `Exception class does not match. Expected ${exception.classname}, got ${err}.`);
+          this.assertInstance(
+            err,
+            exception,
+            `Exception class does not match. Expected ${exception.classname}, got ${err}.`
+          );
         }
       });
       // check message promise
@@ -109,23 +119,24 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
       this.wait(100, () => {
         if (
           // the request promise will not be called since the promise is already rejected
-          exception === qx.io.exception.Transport.DUPLICATE_ID
+          exception === qx.io.exception.Transport.DUPLICATE_ID ||
           // or the send promise will not be rejected because we have a server-side error
-          || exception === qx.io.exception.Protocol) {
-          this.assertCalledTwice(errorCallback)
+          exception === qx.io.exception.Protocol
+        ) {
+          this.assertCalledTwice(errorCallback);
         } else {
           // the error handler will be called three times
-          this.assertCalledThrice(errorCallback)
+          this.assertCalledThrice(errorCallback);
         }
       });
     },
 
-    tearDown: function () {
+    tearDown() {
       this.getSandbox().restore();
       this.req.dispose();
     },
 
-    resetId(){
+    resetId() {
       qx.io.jsonrpc.protocol.Request.resetId();
     },
 
@@ -133,10 +144,14 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
     // Auth, should be moved into qx.test.io.request.Xhr
     //
 
-    "test: Bearer authentication": function () {
+    "test: Bearer authentication"() {
       this.setUpFakeTransport();
 
-      var transport = this.transport, auth, call, key, credentials;
+      var transport = this.transport,
+        auth,
+        call,
+        key,
+        credentials;
 
       auth = new qx.io.request.authentication.Bearer("TOKEN");
       this.req.setAuthentication(auth);
@@ -153,26 +168,40 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
     // JSON-RPC
     //
 
-    "test: throw on invalid response id" : function() {
+    "test: throw on invalid response id"() {
       this.resetId();
-      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "result": 19, "id": 2});
-      this.assertExceptionThrown(response, qx.io.exception.Transport.UNKNOWN_ID);
+      var response = qx.lang.Json.stringify({
+        jsonrpc: "2.0",
+        result: 19,
+        id: 2
+      });
+      this.assertExceptionThrown(
+        response,
+        qx.io.exception.Transport.UNKNOWN_ID
+      );
     },
 
-    "test: throw on duplicate response id" : function() {
+    "test: throw on duplicate response id"() {
       this.resetId();
       var response = qx.lang.Json.stringify([
-        {"jsonrpc": "2.0", "result": 19, "id": 1},
-        {"jsonrpc": "2.0", "result": 19, "id": 1}
+        { jsonrpc: "2.0", result: 19, id: 1 },
+        { jsonrpc: "2.0", result: 19, id: 1 }
       ]);
-      this.assertExceptionThrown(response, qx.io.exception.Transport.DUPLICATE_ID);
+
+      this.assertExceptionThrown(
+        response,
+        qx.io.exception.Transport.DUPLICATE_ID
+      );
     },
 
-    "test: call jsonrpc method and receive response with single result" : async function() {
+    async "test: call jsonrpc method and receive response with single result"() {
       this.resetId();
       let message_out = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
       let result = "Hello World!";
-      let message_in  = new qx.io.jsonrpc.protocol.Result(message_out.getId(), result);
+      let message_in = new qx.io.jsonrpc.protocol.Result(
+        message_out.getId(),
+        result
+      );
       this.setUpFakeServer(message_in.toString());
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
       let spy = this.spy(value => this.assertEquals(result, value));
@@ -181,11 +210,11 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
       this.assertCalled(spy);
     },
 
-    "test: call jsonrpc method and receive batched response" : async function() {
+    async "test: call jsonrpc method and receive batched response"() {
       this.resetId();
       let message_out = new qx.io.jsonrpc.protocol.Request("foo", ["bar"]);
       let result = "Hello World!";
-      let response = (new qx.io.jsonrpc.protocol.Batch())
+      let response = new qx.io.jsonrpc.protocol.Batch()
         .add(new qx.io.jsonrpc.protocol.Result(message_out.getId(), result))
         .addRequest("foo", ["bar"])
         .addNotification("logout")
@@ -199,57 +228,81 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
     },
 
     "test: call jsonrpc method and expect error on invalid reponse "() {
-      this.assertExceptionThrown("helloworld!", qx.io.exception.Transport.INVALID_JSON);
+      this.assertExceptionThrown(
+        "helloworld!",
+        qx.io.exception.Transport.INVALID_JSON
+      );
     },
 
-    "test: call jsonrpc method and expect error on invalid reponse - missing result" () {
+    "test: call jsonrpc method and expect error on invalid reponse - missing result"() {
       this.assertExceptionThrown("null", qx.io.exception.Transport.NO_DATA);
     },
 
     "test: call jsonrpc method and expect error response"() {
       this.resetId();
-      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "error" : {"code": -32600, "message": "Division by zero!"}, "id": 1});
+      var response = qx.lang.Json.stringify({
+        jsonrpc: "2.0",
+        error: { code: -32600, message: "Division by zero!" },
+        id: 1
+      });
       this.assertExceptionThrown(response, qx.io.exception.Protocol);
     },
 
     "test: send batched requests"() {
       this.resetId();
       var response = qx.lang.Json.stringify([
-        {"jsonrpc": "2.0", "result": 7, "id": 1},
-        {"jsonrpc": "2.0", "result": "foo", "id": 2},
-        {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": 3},
-        {"jsonrpc": "2.0", "error": {"code": -32601, "message": "Method not found"}, "id": 4},
-        {"jsonrpc": "2.0", "result": ["hello", 5], "id": 5}]);
+        { jsonrpc: "2.0", result: 7, id: 1 },
+        { jsonrpc: "2.0", result: "foo", id: 2 },
+        {
+          jsonrpc: "2.0",
+          error: { code: -32600, message: "Invalid Request" },
+          id: 3
+        },
+        {
+          jsonrpc: "2.0",
+          error: { code: -32601, message: "Method not found" },
+          id: 4
+        },
+        { jsonrpc: "2.0", result: ["hello", 5], id: 5 }
+      ]);
       this.setUpFakeServer(response);
       var client = new qx.io.jsonrpc.Client("http://jsonrpc");
       var spies = [];
       var batch = new qx.io.jsonrpc.protocol.Batch();
-      for( var i=1; i < 6; i++) {
+      for (var i = 1; i < 6; i++) {
         spies[i] = { result: this.spy(), error: this.spy() };
         let request = new qx.io.jsonrpc.protocol.Request("someMethod", []);
-        request.getPromise()
-          .then(spies[i].result)
-          .catch(spies[i].error);
+        request.getPromise().then(spies[i].result).catch(spies[i].error);
         batch.add(request);
       }
       client.sendBatch(batch).catch(err => {
         this.assertInstance(err, qx.io.exception.Protocol);
       });
-      this.wait(100, function(){
-        this.assertCalledWith(spies[1].result, 7);
-        this.assertCalledWith(spies[2].result, "foo");
-        this.assertCalled(spies[3].error);
-        this.assertCalled(spies[4].error);
-        this.assertCalledWith(spies[5].result, ["hello", 5]);
-      },this);
+      this.wait(
+        100,
+        function () {
+          this.assertCalledWith(spies[1].result, 7);
+          this.assertCalledWith(spies[2].result, "foo");
+          this.assertCalled(spies[3].error);
+          this.assertCalled(spies[4].error);
+          this.assertCalledWith(spies[5].result, ["hello", 5]);
+        },
+        this
+      );
     },
 
-    "test: receive jsonrpc requests from server" : function() {
+    "test: receive jsonrpc requests from server"() {
       this.resetId();
       var response = [
-        {"jsonrpc": "2.0", "method": "clientMethod", "params": ["foo", "bar"], "id": 1},
-        {"jsonrpc": "2.0", "method": "clientNotification", "params": []}
+        {
+          jsonrpc: "2.0",
+          method: "clientMethod",
+          params: ["foo", "bar"],
+          id: 1
+        },
+        { jsonrpc: "2.0", method: "clientNotification", params: [] }
       ];
+
       this.setUpFakeServer(qx.lang.Json.stringify(response));
       var client = new qx.io.jsonrpc.Client("http://jsonrpc");
       var spy = this.spy();
@@ -259,9 +312,13 @@ qx.Class.define("qx.test.io.jsonrpc.Client",
         spy(message);
       });
       client.sendNotification("ping");
-      this.wait(100, function(){
-        this.assertCalledTwice(spy);
-      },this);
+      this.wait(
+        100,
+        function () {
+          this.assertCalledTwice(spy);
+        },
+        this
+      );
     }
   }
 });

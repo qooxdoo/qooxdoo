@@ -25,20 +25,17 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Event",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.Event", {
+  statics: {
     /**
      * Checks if touch events are supported.
      *
      * @internal
      * @return {Boolean} <code>true</code> if touch events are supported.
      */
-    getTouch : function() {
-      return ("ontouchstart" in window);
+    getTouch() {
+      return "ontouchstart" in window;
     },
-
 
     /**
      * Checks if MSPointer events are available.
@@ -46,8 +43,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @internal
      * @return {Boolean} <code>true</code> if pointer events are supported.
      */
-    getMsPointer : function()
-    {
+    getMsPointer() {
       // Fixes issue #9182: new unified pointer input model since Chrome 55
       // see https://github.com/qooxdoo/qooxdoo/issues/9182
       if ("PointerEvent" in window) {
@@ -63,18 +59,15 @@ qx.Bootstrap.define("qx.bom.client.Event",
       return false;
     },
 
-
     /**
      * Checks if the proprietary <code>help</code> event is available.
      *
      * @internal
      * @return {Boolean} <code>true</code> if the "help" event is supported.
      */
-    getHelp : function()
-    {
-      return ("onhelp" in document);
+    getHelp() {
+      return "onhelp" in document;
     },
-
 
     /**
      * Checks if the <code>hashchange</code> event is available
@@ -82,25 +75,26 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @internal
      * @return {Boolean} <code>true</code> if the "hashchange" event is supported.
      */
-    getHashChange : function()
-    {
+    getHashChange() {
       // avoid false positive in IE7
       var engine = qx.bom.client.Engine.getName();
       var hashchange = "onhashchange" in window;
-      return (engine !== "mshtml" && hashchange) ||
-      (engine === "mshtml" && "documentMode" in document &&
-       document.documentMode >= 8 && hashchange);
+      return (
+        (engine !== "mshtml" && hashchange) ||
+        (engine === "mshtml" &&
+          "documentMode" in document &&
+          document.documentMode >= 8 &&
+          hashchange)
+      );
     },
-
 
     /**
      * Checks if the DOM2 dispatchEvent method is available
      * @return {Boolean} <code>true</code> if dispatchEvent is supported.
      */
-    getDispatchEvent : function() {
+    getDispatchEvent() {
       return typeof document.dispatchEvent == "function";
     },
-
 
     /**
      * Checks if the CustomEvent constructor is available and supports
@@ -108,14 +102,14 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {Boolean} <code>true</code> if Custom Events are available
      */
-    getCustomEvent : function() {
+    getCustomEvent() {
       if (!window.CustomEvent) {
         return false;
       }
       try {
         new window.CustomEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -126,14 +120,14 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {Boolean} <code>true</code> if Mouse Events are available
      */
-    getMouseEvent : function() {
+    getMouseEvent() {
       if (!window.MouseEvent) {
         return false;
       }
       try {
         new window.MouseEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
@@ -143,7 +137,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {String} Either <code>MouseEvents</code> or <code>UIEvents</code>
      */
-    getMouseCreateEvent : function() {
+    getMouseCreateEvent() {
       /* For instance, in IE9, the pageX property of synthetic MouseEvents is
       always 0 and cannot be overridden, so plain UIEvents have to be used with
       mouse event properties added accordingly. */
@@ -151,14 +145,29 @@ qx.Bootstrap.define("qx.bom.client.Event",
         var e = document.createEvent("MouseEvents");
         var orig = e.pageX;
 
-        e.initMouseEvent("click", false, false, window, 0, 0, 0, orig+1, 0,
-            false, false, false, false, 0, null);
+        e.initMouseEvent(
+          "click",
+          false,
+          false,
+          window,
+          0,
+          0,
+          0,
+          orig + 1,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
 
-        if(e.pageX !== orig) {
+        if (e.pageX !== orig) {
           return "MouseEvents";
         }
         return "UIEvents";
-      } catch(ex) {
+      } catch (ex) {
         return "UIEvents";
       }
     },
@@ -169,7 +178,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @param win {Window ? null} An optional window instance to check.
      * @return {Map} A map containing two values: type and target.
      */
-    getMouseWheel : function(win) {
+    getMouseWheel(win) {
       if (!win) {
         win = window;
       }
@@ -192,9 +201,9 @@ qx.Bootstrap.define("qx.bom.client.Event",
           target = targets[i];
           break;
         }
-      };
+      }
 
-      return {type: type, target: target};
+      return { type: type, target: target };
     },
 
     /**
@@ -204,26 +213,26 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {Boolean} <code>true</code> if auxclick events are supported.
      */
-    getAuxclickEvent : function() {
+    getAuxclickEvent() {
       var hasAuxclick = false;
       try {
-        hasAuxclick = ("onauxclick" in document.documentElement);
-      }
-      catch(ex) {};
+        hasAuxclick = "onauxclick" in document.documentElement;
+      } catch (ex) {}
 
-      return (hasAuxclick ? true : false);
+      return hasAuxclick ? true : false;
     },
 
     /**
      * Checks whether the browser supports passive event handlers.
      */
-    getPassive: function () {
+    getPassive() {
       var passiveSupported = false;
       try {
         var options = Object.defineProperties(
-          {}, {
+          {},
+          {
             passive: {
-              get: function () {
+              get() {
                 // this function will be called when the browser
                 // attempts to access the passive property.
                 passiveSupported = true;
@@ -231,21 +240,23 @@ qx.Bootstrap.define("qx.bom.client.Event",
             }
           }
         );
+
         window.addEventListener("test", options, options);
         window.removeEventListener("test", options, options);
-      }
-      catch (err) {
-          passiveSupported = false;
+      } catch (err) {
+        passiveSupported = false;
       }
       return passiveSupported;
     }
-
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("event.touch", statics.getTouch);
     qx.core.Environment.add("event.mouseevent", statics.getMouseEvent);
-    qx.core.Environment.add("event.mousecreateevent", statics.getMouseCreateEvent);
+    qx.core.Environment.add(
+      "event.mousecreateevent",
+      statics.getMouseCreateEvent
+    );
     qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
     qx.core.Environment.add("event.customevent", statics.getCustomEvent);
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);

@@ -19,12 +19,9 @@
 /**
  * A menu item.
  */
-qx.Class.define("qx.ui.table.columnmenu.MenuItem",
-{
-  extend     : qx.ui.menu.CheckBox,
-  implement  : qx.ui.table.IColumnMenuItem,
-
-
+qx.Class.define("qx.ui.table.columnmenu.MenuItem", {
+  extend: qx.ui.menu.CheckBox,
+  implement: qx.ui.table.IColumnMenuItem,
 
   /*
   *****************************************************************************
@@ -40,16 +37,13 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
    *   Text for the menu item, most typically the name of the column in the
    *   table.
    */
-  construct : function(text)
-  {
-    this.base(arguments, text);
+  construct(text) {
+    super(text);
 
     // Two way binding this.columnVisible <--> this.value
     this.bind("value", this, "columnVisible");
     this.bind("columnVisible", this, "value");
   },
-
-
 
   /*
   *****************************************************************************
@@ -57,13 +51,11 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   *****************************************************************************
   */
 
-  properties :
-  {
-    columnVisible :
-    {
-      check : "Boolean",
-      init  : true,
-      event : "changeColumnVisible"
+  properties: {
+    columnVisible: {
+      check: "Boolean",
+      init: true,
+      event: "changeColumnVisible"
     }
   }
 });

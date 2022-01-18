@@ -22,8 +22,8 @@
 qx.Class.define("qx.tool.utils.Logger", {
   extend: qx.core.Object,
 
-  construct: function(id, minLevel) {
-    this.base(arguments);
+  construct(id, minLevel) {
+    super();
     this.set({ id: id, minLevel: minLevel });
   },
 
@@ -38,46 +38,45 @@ qx.Class.define("qx.tool.utils.Logger", {
   },
 
   members: {
-    is: function(level) {
+    is(level) {
       if (typeof level == "string") {
         level = qx.tool.utils.LogManager.getInstance()._levels[level];
       }
       return this.getMinLevel() <= level;
     },
 
-    log: function(level, msg) {
+    log(level, msg) {
       if (this.is(level)) {
         this._output(level, msg);
       }
     },
 
-    _output: function(level, msg) {
+    _output(level, msg) {
       qx.tool.utils.LogManager.getInstance().output(this, level, msg);
     },
 
-    trace: function(msg) {
+    trace(msg) {
       return this.log("trace", msg);
     },
 
-    debug: function(msg) {
+    debug(msg) {
       return this.log("debug", msg);
     },
 
-    info: function(msg) {
+    info(msg) {
       return this.log("info", msg);
     },
 
-    warn: function(msg) {
+    warn(msg) {
       return this.log("warn", msg);
     },
 
-    error: function(msg) {
+    error(msg) {
       return this.log("error", msg);
     },
 
-    fatal: function(msg) {
+    fatal(msg) {
       return this.log("fatal", msg);
     }
-
   }
 });

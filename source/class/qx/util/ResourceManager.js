@@ -21,10 +21,9 @@
  * Contains information about images (size, format, clipping, ...) and
  * other resources like CSS files, local data, ...
  */
-qx.Class.define("qx.util.ResourceManager",
-{
-  extend  : qx.core.Object,
-  type    : "singleton",
+qx.Class.define("qx.util.ResourceManager", {
+  extend: qx.core.Object,
+  type: "singleton",
 
   /*
   *****************************************************************************
@@ -32,9 +31,8 @@ qx.Class.define("qx.util.ResourceManager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
   /*
@@ -43,13 +41,12 @@ qx.Class.define("qx.util.ResourceManager",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Map} the shared image registry */
-    __registry : qx.$$resources || {},
+    __registry: qx.$$resources || {},
 
     /** @type {Map} prefix per library used in HTTPS mode for IE */
-    __urlPrefix : {}
+    __urlPrefix: {}
   },
 
   /*
@@ -58,8 +55,7 @@ qx.Class.define("qx.util.ResourceManager",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Detects whether there is a high-resolution image available.
      * A high-resolution image is assumed to have the same file name as
@@ -71,12 +67,14 @@ qx.Class.define("qx.util.ResourceManager",
      * @param factor {Number} Factor to find the right image. If not set calculated by getDevicePixelRatio()
      * @return {String|Boolean} If a high-resolution image source.
      */
-     findHighResolutionSource: function(lowResImgSrc, factor) {
+    findHighResolutionSource(lowResImgSrc, factor) {
       var pixelRatioCandidates = ["3", "2", "1.5"];
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
       if (!factor) {
-        factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
+        factor = parseFloat(
+          qx.bom.client.Device.getDevicePixelRatio().toFixed(2)
+        );
       }
       if (factor <= 1) {
         return false;
@@ -90,7 +88,10 @@ qx.Class.define("qx.util.ResourceManager",
 
       // Search for best img with a higher resolution.
       for (k = i; k >= 0; k--) {
-        hiResImgSrc = this.getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        hiResImgSrc = this.getHighResolutionSource(
+          lowResImgSrc,
+          pixelRatioCandidates[k]
+        );
         if (hiResImgSrc) {
           return hiResImgSrc;
         }
@@ -98,7 +99,10 @@ qx.Class.define("qx.util.ResourceManager",
 
       // Search for best img with a lower resolution.
       for (k = i + 1; k < pixelRatioCandidates.length; k++) {
-        hiResImgSrc = this.getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        hiResImgSrc = this.getHighResolutionSource(
+          lowResImgSrc,
+          pixelRatioCandidates[k]
+        );
         if (hiResImgSrc) {
           return hiResImgSrc;
         }
@@ -114,13 +118,16 @@ qx.Class.define("qx.util.ResourceManager",
      * @param pixelRatio {Number} the pixel ratio of the high-resolution image.
      * @return {String} the high-resolution source name or null if no source could be found.
      */
-    getHighResolutionSource : function(source, pixelRatio) {
-      var fileExtIndex = source.lastIndexOf('.');
+    getHighResolutionSource(source, pixelRatio) {
+      var fileExtIndex = source.lastIndexOf(".");
       if (fileExtIndex > -1) {
         var pixelRatioIdentifier = "@" + pixelRatio + "x";
-        var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+        var candidate =
+          source.slice(0, fileExtIndex) +
+          pixelRatioIdentifier +
+          source.slice(fileExtIndex);
 
-        if(this.has(candidate)) {
+        if (this.has(candidate)) {
           return candidate;
         }
       }
@@ -133,12 +140,12 @@ qx.Class.define("qx.util.ResourceManager",
      * @param pathfragment{String|null|undefined} an optional path fragment to check against with id.indexOf(pathfragment)
      * @return {Array|null} an array containing the IDs or null if the registry is not initialized
      */
-    getIds : function(pathfragment) {
+    getIds(pathfragment) {
       var registry = this.self(arguments).__registry;
-      if(!registry) {
+      if (!registry) {
         return null;
       }
-      return Object.keys(registry).filter(function(key){
+      return Object.keys(registry).filter(function (key) {
         return !pathfragment || key.indexOf(pathfragment) != -1;
       });
     },
@@ -149,10 +156,9 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} The resource to get the information for
      * @return {Boolean} <code>true</code> when the resource is known.
      */
-    has : function(id) {
+    has(id) {
       return !!this.self(arguments).__registry[id];
     },
-
 
     /**
      * Get information about an resource.
@@ -160,10 +166,9 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} The resource to get the information for
      * @return {Array} Registered data or <code>null</code>
      */
-    getData : function(id) {
+    getData(id) {
       return this.self(arguments).__registry[id] || null;
     },
-
 
     /**
      * Returns the width of the given resource ID,
@@ -173,24 +178,22 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} Resource identifier
      * @return {Integer} The image width, maybe <code>null</code> when the width is unknown
      */
-    getImageWidth : function(id)
-    {
+    getImageWidth(id) {
       var size;
       if (id && id.startsWith("@")) {
         var part = id.split("/");
-        size = parseInt(part[2],10);
+        size = parseInt(part[2], 10);
         if (size) {
-          id = part[0]+"/"+part[1];
+          id = part[0] + "/" + part[1];
         }
       }
       var entry = this.self(arguments).__registry[id]; // [ width, height, codepoint ]
       if (size && entry) {
-        var width = Math.ceil(size / entry[1] * entry[0]);
+        var width = Math.ceil((size / entry[1]) * entry[0]);
         return width;
       }
       return entry ? entry[0] : null;
     },
-
 
     /**
      * Returns the height of the given resource ID,
@@ -200,11 +203,10 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} Resource identifier
      * @return {Integer} The image height, maybe <code>null</code> when the height is unknown
      */
-    getImageHeight : function(id)
-    {
+    getImageHeight(id) {
       if (id && id.startsWith("@")) {
         var part = id.split("/");
-        var size = parseInt(part[2],10);
+        var size = parseInt(part[2], 10);
         if (size) {
           return size;
         }
@@ -212,7 +214,6 @@ qx.Class.define("qx.util.ResourceManager",
       var entry = this.self(arguments).__registry[id];
       return entry ? entry[1] : null;
     },
-
 
     /**
      * Returns the format of the given resource ID,
@@ -222,8 +223,7 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} Resource identifier
      * @return {String} File format of the image
      */
-    getImageFormat : function(id)
-    {
+    getImageFormat(id) {
       if (id && id.startsWith("@")) {
         return "font";
       }
@@ -240,20 +240,21 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} Resource identifier
      * @return {String} The type of the combined image containing id
      */
-    getCombinedFormat : function(id)
-    {
+    getCombinedFormat(id) {
       var clippedtype = "";
       var entry = this.self(arguments).__registry[id];
-      var isclipped = entry && entry.length > 4 && typeof(entry[4]) == "string"
-        && this.constructor.__registry[entry[4]];
-      if (isclipped){
-        var combId  = entry[4];
+      var isclipped =
+        entry &&
+        entry.length > 4 &&
+        typeof entry[4] == "string" &&
+        this.constructor.__registry[entry[4]];
+      if (isclipped) {
+        var combId = entry[4];
         var combImg = this.constructor.__registry[combId];
         clippedtype = combImg[2];
       }
       return clippedtype;
     },
-
 
     /**
      * Converts the given resource ID to a full qualified URI
@@ -261,8 +262,7 @@ qx.Class.define("qx.util.ResourceManager",
      * @param id {String} Resource ID
      * @return {String} Resulting URI
      */
-    toUri : function(id)
-    {
+    toUri(id) {
       if (id == null) {
         return id;
       }
@@ -274,9 +274,7 @@ qx.Class.define("qx.util.ResourceManager",
 
       if (typeof entry === "string") {
         var lib = entry;
-      }
-      else
-      {
+      } else {
         var lib = entry[3];
 
         // no lib reference
@@ -287,12 +285,19 @@ qx.Class.define("qx.util.ResourceManager",
       }
 
       var urlPrefix = "";
-      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-          qx.core.Environment.get("io.ssl")) {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("io.ssl")
+      ) {
         urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
 
-      return urlPrefix + qx.util.LibraryManager.getInstance().get(lib, "resourceUri") + "/" + id;
+      return (
+        urlPrefix +
+        qx.util.LibraryManager.getInstance().get(lib, "resourceUri") +
+        "/" +
+        id
+      );
     },
 
     /**
@@ -306,17 +311,20 @@ qx.Class.define("qx.util.ResourceManager",
      * @param resid {String} resource id of the image
      * @return {String} "data:" or "http:" URI
      */
-    toDataUri : function (resid)
-    {
+    toDataUri(resid) {
       var resentry = this.constructor.__registry[resid];
       var combined = resentry ? this.constructor.__registry[resentry[4]] : null;
       var uri;
       if (combined) {
         var resstruct = combined[4][resid];
-        uri = "data:image/" + resstruct["type"] + ";" + resstruct["encoding"] +
-              "," + resstruct["data"];
-      }
-      else {
+        uri =
+          "data:image/" +
+          resstruct["type"] +
+          ";" +
+          resstruct["encoding"] +
+          "," +
+          resstruct["data"];
+      } else {
         uri = this.toUri(resid);
       }
       return uri;
@@ -328,22 +336,20 @@ qx.Class.define("qx.util.ResourceManager",
      * @param resid {String} resource id of the image
      * @return {Boolean} True if it's a font URI
      */
-    isFontUri : function (resid)
-    {
+    isFontUri(resid) {
       return resid ? resid.startsWith("@") : false;
     },
 
     /**
      * Returns the correct char code, ignoring scale postfix.
-     * 
-     * The resource ID can be a ligature name (eg `@FontAwesome/heart` or `@MaterialIcons/home/16`), 
+     *
+     * The resource ID can be a ligature name (eg `@FontAwesome/heart` or `@MaterialIcons/home/16`),
      * or a hex character code (eg `@FontAwesome/f004` or `@FontAwesome/f004/16`)
-     * 
+     *
      * @param source {String} resource id of the image
      * @returns charCode of the glyph
      */
-    fromFontUriToCharCode : function (source)
-    {
+    fromFontUriToCharCode(source) {
       var sparts = source.split("/");
       var fontSource = source;
       if (sparts.length > 2) {
@@ -353,7 +359,6 @@ qx.Class.define("qx.util.ResourceManager",
       var charCode = null;
       if (resource) {
         charCode = resource[2];
-
       } else {
         let hexString = source.match(/@([^/]+)\/(.*)$/)[2];
         if (hexString) {
@@ -370,27 +375,23 @@ qx.Class.define("qx.util.ResourceManager",
     }
   },
 
-
-  defer : function(statics)
-  {
-    if ((qx.core.Environment.get("engine.name") == "mshtml"))
-    {
+  defer(statics) {
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
       // To avoid a "mixed content" warning in IE when the application is
       // delivered via HTTPS a prefix has to be added. This will transform the
       // relative URL to an absolute one in IE.
       // Though this warning is only displayed in conjunction with images which
       // are referenced as a CSS "background-image", every resource path is
       // changed when the application is served with HTTPS.
-      if (qx.core.Environment.get("io.ssl"))
-      {
-        for (var lib in qx.$$libraries)
-        {
+      if (qx.core.Environment.get("io.ssl")) {
+        for (var lib in qx.$$libraries) {
           var resourceUri;
           if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri")) {
-            resourceUri = qx.util.LibraryManager.getInstance().get(lib, "resourceUri");
-          }
-          else
-          {
+            resourceUri = qx.util.LibraryManager.getInstance().get(
+              lib,
+              "resourceUri"
+            );
+          } else {
             // default for libraries without a resourceUri set
             statics.__urlPrefix[lib] = "";
             continue;
@@ -411,46 +412,42 @@ qx.Class.define("qx.util.ResourceManager",
           }
           // If the resourceUri begins with a single slash, include the current
           // hostname
-          else if (resourceUri.match(/^\//) != null)
-          {
-            if (href)
-            {
+          else if (resourceUri.match(/^\//) != null) {
+            if (href) {
               statics.__urlPrefix[lib] = href;
-            }
-            else
-            {
-              statics.__urlPrefix[lib] = window.location.protocol + "//" + window.location.host;
+            } else {
+              statics.__urlPrefix[lib] =
+                window.location.protocol + "//" + window.location.host;
             }
           }
           // If the resolved URL begins with "./" the final URL has to be
           // put together using the document.URL property.
           // IMPORTANT: this is only applicable for the source version
-          else if (resourceUri.match(/^\.\//) != null)
-          {
+          else if (resourceUri.match(/^\.\//) != null) {
             var url = document.URL;
-            statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/") + 1);
+            statics.__urlPrefix[lib] = url.substring(
+              0,
+              url.lastIndexOf("/") + 1
+            );
           } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
             statics.__urlPrefix[lib] = "";
-          }
-          else
-          {
-            if (!href)
-            {
+          } else {
+            if (!href) {
               // check for parameters with URLs as value
               var index = window.location.href.indexOf("?");
 
-              if (index == -1)
-              {
+              if (index == -1) {
                 href = window.location.href;
-              }
-              else
-              {
+              } else {
                 href = window.location.href.substring(0, index);
               }
             }
 
-            statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
+            statics.__urlPrefix[lib] = href.substring(
+              0,
+              href.lastIndexOf("/") + 1
+            );
           }
         }
       }

@@ -24,10 +24,8 @@
  * The pane computes, which cells of the virtual area is visible and instructs
  * the layers to render these cells.
  */
-qx.Class.define("qx.ui.virtual.core.Pane",
-{
-  extend : qx.ui.core.Widget,
-
+qx.Class.define("qx.ui.virtual.core.Pane", {
+  extend: qx.ui.core.Widget,
 
   /**
    * @param rowCount {Integer?0} The number of rows of the virtual grid.
@@ -35,16 +33,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
    * @param cellHeight {Integer?10} The default cell height.
    * @param cellWidth {Integer?10} The default cell width.
    */
-  construct : function(rowCount, columnCount, cellHeight, cellWidth)
-  {
-    this.base(arguments);
+  construct(rowCount, columnCount, cellHeight, cellWidth) {
+    super();
 
     this.__rowConfig = new qx.ui.virtual.core.Axis(cellHeight, rowCount);
     this.__columnConfig = new qx.ui.virtual.core.Axis(cellWidth, columnCount);
 
     this.__scrollTop = 0;
     this.__scrollLeft = 0;
-
 
     this.__paneHeight = 0;
     this.__paneWidth = 0;
@@ -72,65 +68,55 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.addListener("contextmenu", this._onContextmenu, this);
   },
 
-
-  events :
-  {
+  events: {
     /** Fired if a cell is tapped. */
-    cellTap : "qx.ui.virtual.core.CellEvent",
+    cellTap: "qx.ui.virtual.core.CellEvent",
 
     /** Fired if a cell is right-clicked. */
-    cellContextmenu : "qx.ui.virtual.core.CellEvent",
+    cellContextmenu: "qx.ui.virtual.core.CellEvent",
 
     /** Fired if a cell is double-tapped. */
-    cellDbltap : "qx.ui.virtual.core.CellEvent",
+    cellDbltap: "qx.ui.virtual.core.CellEvent",
 
     /** Fired on resize of either the container or the (virtual) content. */
-    update : "qx.event.type.Event",
+    update: "qx.event.type.Event",
 
     /** Fired if the pane is scrolled horizontally. */
-    scrollX : "qx.event.type.Data",
+    scrollX: "qx.event.type.Data",
 
     /** Fired if the pane is scrolled vertically. */
-    scrollY : "qx.event.type.Data"
+    scrollY: "qx.event.type.Data"
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    width :
-    {
-      refine : true,
-      init : 400
+    width: {
+      refine: true,
+      init: 400
     },
 
-
     // overridden
-    height :
-    {
-      refine : true,
-      init : 300
+    height: {
+      refine: true,
+      init: 300
     }
   },
 
-
-  members :
-  {
-    __rowConfig : null,
-    __columnConfig : null,
-    __scrollTop : null,
-    __scrollLeft : null,
-    __paneHeight : null,
-    __paneWidth : null,
-    __layerWindow : null,
-    __jobs : null,
-    __layerContainer : null,
-    __layers : null,
-    __dontFireUpdate : null,
-    __columnSizes : null,
-    __rowSizes : null,
-    __pointerDownCoords : null,
-
+  members: {
+    __rowConfig: null,
+    __columnConfig: null,
+    __scrollTop: null,
+    __scrollLeft: null,
+    __paneHeight: null,
+    __paneWidth: null,
+    __layerWindow: null,
+    __jobs: null,
+    __layerContainer: null,
+    __layers: null,
+    __dontFireUpdate: null,
+    __columnSizes: null,
+    __rowSizes: null,
+    __pointerDownCoords: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -138,26 +124,23 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get the axis object, which defines the row numbers and the row sizes.
      *
      * @return {qx.ui.virtual.core.Axis} The row configuration.
      */
-    getRowConfig : function() {
+    getRowConfig() {
       return this.__rowConfig;
     },
-
 
     /**
      * Get the axis object, which defines the column numbers and the column sizes.
      *
      * @return {qx.ui.virtual.core.Axis} The column configuration.
      */
-    getColumnConfig : function() {
+    getColumnConfig() {
       return this.__columnConfig;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -165,24 +148,21 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns an array containing the layer container.
      *
      * @return {Object[]} The layer container array.
      */
-    getChildren : function() {
+    getChildren() {
       return [this.__layerContainer];
     },
-
 
     /**
      * Add a layer to the layer container.
      *
      * @param layer {qx.ui.virtual.core.ILayer} The layer to add.
      */
-    addLayer : function(layer)
-    {
+    addLayer(layer) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInterface(layer, qx.ui.virtual.core.ILayer);
       }
@@ -192,27 +172,23 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.__layerContainer.add(layer);
     },
 
-
     /**
      * Get a list of all layers.
      *
      * @return {qx.ui.virtual.core.ILayer[]} List of the pane's layers.
      */
-    getLayers : function() {
+    getLayers() {
       return this.__layers;
     },
-
 
     /**
      * Get a list of all visible layers.
      *
      * @return {qx.ui.virtual.core.ILayer[]} List of the pane's visible layers.
      */
-    getVisibleLayers : function()
-    {
+    getVisibleLayers() {
       var layers = [];
-      for (var i=0; i<this.__layers.length; i++)
-      {
+      for (var i = 0; i < this.__layers.length; i++) {
         var layer = this.__layers[i];
         if (layer.isVisible()) {
           layers.push(layer);
@@ -221,21 +197,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       return layers;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * The maximum horizontal scroll position.
      *
      * @return {Integer} Maximum horizontal scroll position.
      */
-    getScrollMaxX : function()
-    {
+    getScrollMaxX() {
       var paneSize = this.getInnerSize();
 
       if (paneSize) {
@@ -245,14 +218,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       return 0;
     },
 
-
     /**
      * The maximum vertical scroll position.
      *
      * @return {Integer} Maximum vertical scroll position.
      */
-    getScrollMaxY : function()
-    {
+    getScrollMaxY() {
       var paneSize = this.getInnerSize();
 
       if (paneSize) {
@@ -262,14 +233,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       return 0;
     },
 
-
     /**
      * Scrolls the content to the given left coordinate.
      *
      * @param value {Integer} The vertical position to scroll to.
      */
-    setScrollY : function(value)
-    {
+    setScrollY(value) {
       var max = this.getScrollMaxY();
 
       if (value < 0) {
@@ -278,8 +247,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         value = max;
       }
 
-      if (this.__scrollTop !== value)
-      {
+      if (this.__scrollTop !== value) {
         var old = this.__scrollTop;
         this.__scrollTop = value;
         this._deferredUpdateScrollPosition();
@@ -287,24 +255,21 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /**
      * Returns the vertical scroll offset.
      *
      * @return {Integer} The vertical scroll offset.
      */
-    getScrollY : function() {
+    getScrollY() {
       return this.__scrollTop;
     },
-
 
     /**
      * Scrolls the content to the given top coordinate.
      *
      * @param value {Integer} The horizontal position to scroll to.
      */
-    setScrollX : function(value)
-    {
+    setScrollX(value) {
       var max = this.getScrollMaxX();
 
       if (value < 0) {
@@ -313,8 +278,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         value = max;
       }
 
-      if (value !== this.__scrollLeft)
-      {
+      if (value !== this.__scrollLeft) {
         var old = this.__scrollLeft;
         this.__scrollLeft = value;
         this._deferredUpdateScrollPosition();
@@ -323,16 +287,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /**
      * Returns the horizontal scroll offset.
      *
      * @return {Integer} The horizontal scroll offset.
      */
-    getScrollX : function() {
+    getScrollX() {
       return this.__scrollLeft;
     },
-
 
     /**
      * The (virtual) size of the content.
@@ -340,14 +302,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @return {Map} Size of the content (keys: <code>width</code> and
      *     <code>height</code>).
      */
-    getScrollSize : function()
-    {
+    getScrollSize() {
       return {
         width: this.__columnConfig.getTotalSize(),
         height: this.__rowConfig.getTotalSize()
       };
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -355,24 +315,28 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Scrolls a row into the visible area of the pane.
      *
      * @param row {Integer} The row's index.
      */
-    scrollRowIntoView : function(row)
-    {
+    scrollRowIntoView(row) {
       var bounds = this.getBounds();
-      if (!bounds)
-      {
-        this.addListenerOnce("appear", function()
-        {
-          // It's important that the registered events are first dispatched.
-          qx.event.Timer.once(function() {
-            this.scrollRowIntoView(row);
-          }, this, 0);
-        }, this);
+      if (!bounds) {
+        this.addListenerOnce(
+          "appear",
+          function () {
+            // It's important that the registered events are first dispatched.
+            qx.event.Timer.once(
+              function () {
+                this.scrollRowIntoView(row);
+              },
+              this,
+              0
+            );
+          },
+          this
+        );
         return;
       }
 
@@ -387,24 +351,28 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /**
      * Scrolls a column into the visible area of the pane.
      *
      * @param column {Integer} The column's index.
      */
-    scrollColumnIntoView : function(column)
-    {
+    scrollColumnIntoView(column) {
       var bounds = this.getBounds();
-      if (!bounds)
-      {
-        this.addListenerOnce("appear", function()
-        {
-          // It's important that the registered events are first dispatched.
-          qx.event.Timer.once(function() {
-            this.scrollColumnIntoView(column);
-          }, this, 0);
-        }, this);
+      if (!bounds) {
+        this.addListenerOnce(
+          "appear",
+          function () {
+            // It's important that the registered events are first dispatched.
+            qx.event.Timer.once(
+              function () {
+                this.scrollColumnIntoView(column);
+              },
+              this,
+              0
+            );
+          },
+          this
+        );
         return;
       }
 
@@ -419,25 +387,29 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /**
      * Scrolls a grid cell into the visible area of the pane.
      *
      * @param row {Integer} The cell's row index.
      * @param column {Integer} The cell's column index.
      */
-    scrollCellIntoView : function(column, row)
-    {
+    scrollCellIntoView(column, row) {
       var bounds = this.getBounds();
-      if (!bounds)
-      {
-        this.addListenerOnce("appear", function()
-        {
-          // It's important that the registered events are first dispatched.
-          qx.event.Timer.once(function() {
-            this.scrollCellIntoView(column, row);
-          }, this, 0);
-        }, this);
+      if (!bounds) {
+        this.addListenerOnce(
+          "appear",
+          function () {
+            // It's important that the registered events are first dispatched.
+            qx.event.Timer.once(
+              function () {
+                this.scrollCellIntoView(column, row);
+              },
+              this,
+              0
+            );
+          },
+          this
+        );
         return;
       }
 
@@ -445,13 +417,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.scrollRowIntoView(row);
     },
 
-
     /*
     ---------------------------------------------------------------------------
       CELL SUPPORT
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Get the grid cell at the given absolute document coordinates. This method
@@ -467,8 +437,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *    of the found cell. If the coordinate is outside of the pane's bounds
      *    or there is no cell at the coordinate <code>null</code> is returned.
      */
-    getCellAtPosition: function(documentX, documentY)
-    {
+    getCellAtPosition(documentX, documentY) {
       var rowData, columnData;
       var paneLocation = this.getContentLocation();
 
@@ -495,18 +464,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       return {
-        row : rowData.index,
-        column : columnData.index
+        row: rowData.index,
+        column: columnData.index
       };
     },
-
 
     /*
     ---------------------------------------------------------------------------
       PREFETCH SUPPORT
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Increase the layers width beyond the needed width to improve
@@ -522,8 +489,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @param maxRight {Integer} The amount of pixel the layers should reach
      *    right of the pane window.
      */
-    prefetchX : function(minLeft, maxLeft, minRight, maxRight)
-    {
+    prefetchX(minLeft, maxLeft, minRight, maxRight) {
       var layers = this.getVisibleLayers();
       if (layers.length == 0) {
         return;
@@ -537,10 +503,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var paneRight = this.__scrollLeft + bounds.width;
       var rightAvailable = this.__paneWidth - paneRight;
       if (
-        this.__scrollLeft - this.__layerWindow.left  < Math.min(this.__scrollLeft, minLeft) ||
-        this.__layerWindow.right - paneRight < Math.min(rightAvailable, minRight)
-      )
-      {
+        this.__scrollLeft - this.__layerWindow.left <
+          Math.min(this.__scrollLeft, minLeft) ||
+        this.__layerWindow.right - paneRight <
+          Math.min(rightAvailable, minRight)
+      ) {
         var left = Math.min(this.__scrollLeft, maxLeft);
         var right = Math.min(rightAvailable, maxRight);
         this._setLayerWindow(
@@ -553,7 +520,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         );
       }
     },
-
 
     /**
      * Increase the layers height beyond the needed height to improve
@@ -569,8 +535,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @param maxBelow {Integer} The amount of pixel the layers should reach
      *    below the pane window.
      */
-    prefetchY : function(minAbove, maxAbove, minBelow, maxBelow)
-    {
+    prefetchY(minAbove, maxAbove, minBelow, maxBelow) {
       var layers = this.getVisibleLayers();
       if (layers.length == 0) {
         return;
@@ -584,10 +549,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var paneBottom = this.__scrollTop + bounds.height;
       var belowAvailable = this.__paneHeight - paneBottom;
       if (
-        this.__scrollTop - this.__layerWindow.top  < Math.min(this.__scrollTop, minAbove) ||
-        this.__layerWindow.bottom - paneBottom < Math.min(belowAvailable, minBelow)
-      )
-      {
+        this.__scrollTop - this.__layerWindow.top <
+          Math.min(this.__scrollTop, minAbove) ||
+        this.__layerWindow.bottom - paneBottom <
+          Math.min(belowAvailable, minBelow)
+      ) {
         var above = Math.min(this.__scrollTop, maxAbove);
         var below = Math.min(belowAvailable, maxBelow);
         this._setLayerWindow(
@@ -601,23 +567,19 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENER
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Resize event handler.
      *
      * Updates the visible window.
      */
-    _onResize : function()
-    {
-      if (this.getContentElement().getDomElement())
-      {
+    _onResize() {
+      if (this.getContentElement().getDomElement()) {
         this.__dontFireUpdate = true;
         this._updateScrollPosition();
         this.__dontFireUpdate = null;
@@ -625,11 +587,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
     /**
      * Resize event handler. Do a full update on first appear.
      */
-    _onAppear : function() {
+    _onAppear() {
       this.fullUpdate();
     },
 
@@ -638,8 +599,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *
      * @param e {qx.event.type.Pointer} The incoming pointer event.
      */
-    _onPointerDown : function(e) {
-      this.__pointerDownCoords = this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+    _onPointerDown(e) {
+      this.__pointerDownCoords = this.getCellAtPosition(
+        e.getDocumentLeft(),
+        e.getDocumentTop()
+      );
     },
 
     /**
@@ -647,28 +611,26 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *
      * @param e {qx.event.type.Pointer} The incoming pointer event.
      */
-    _onTap : function(e) {
+    _onTap(e) {
       this.__handlePointerCellEvent(e, "cellTap");
     },
-
 
     /**
      * Event listener for context menu taps. Fires an cellContextmenu event.
      *
      * @param e {qx.event.type.Pointer} The incoming pointer event.
      */
-    _onContextmenu : function(e) {
+    _onContextmenu(e) {
       this.__handlePointerCellEvent(e, "cellContextmenu");
     },
-
 
     /**
      * Event listener for double taps. Fires an cellDbltap event.
      *
      * @param e {qx.event.type.Pointer} The incoming pointer event.
      */
-    _onDbltap : function(e) {
-       this.__handlePointerCellEvent(e, "cellDbltap");
+    _onDbltap(e) {
+      this.__handlePointerCellEvent(e, "cellDbltap");
     },
 
     /**
@@ -676,19 +638,17 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * it can happen when removing an item from the list reducing
      * the max value for scrollY #8976
      */
-    _checkScrollBounds: function() {
+    _checkScrollBounds() {
       var maxx = this.getScrollMaxX();
       var maxy = this.getScrollMaxY();
       if (this.__scrollLeft < 0) {
         this.__scrollLeft = 0;
-      }
-      else if (this.__scrollLeft > maxx) {
+      } else if (this.__scrollLeft > maxx) {
         this.__scrollLeft = maxx;
       }
       if (this.__scrollTop < 0) {
         this.__scrollTop = 0;
-      }
-      else if (this.__scrollTop > maxy) {
+      } else if (this.__scrollTop > maxy) {
         this.__scrollTop = maxy;
       }
     },
@@ -700,25 +660,31 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @param e {qx.event.type.Pointer} The pointer event.
      * @param cellEventType {String} The name of the cell event to fire.
      */
-    __handlePointerCellEvent : function(e, cellEventType)
-    {
-      var coords = this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+    __handlePointerCellEvent(e, cellEventType) {
+      var coords = this.getCellAtPosition(
+        e.getDocumentLeft(),
+        e.getDocumentTop()
+      );
       if (!coords) {
         return;
       }
 
       var pointerDownCoords = this.__pointerDownCoords;
-      if (pointerDownCoords == null || pointerDownCoords.row !== coords.row || pointerDownCoords.column !== coords.column) {
+      if (
+        pointerDownCoords == null ||
+        pointerDownCoords.row !== coords.row ||
+        pointerDownCoords.column !== coords.column
+      ) {
         return;
       }
 
-      this.fireNonBubblingEvent(
-        cellEventType,
-        qx.ui.virtual.core.CellEvent,
-        [this, e, coords.row, coords.column]
-      );
+      this.fireNonBubblingEvent(cellEventType, qx.ui.virtual.core.CellEvent, [
+        this,
+        e,
+        coords.row,
+        coords.column
+      ]);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -726,10 +692,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    syncWidget : function(jobs)
-    {
+    syncWidget(jobs) {
       if (this.__jobs._fullUpdate) {
         this._checkScrollBounds();
         this._fullUpdate();
@@ -739,7 +703,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       this.__jobs = {};
     },
-
 
     /**
      * Sets the size of the layers to contain the cells at the pixel position
@@ -757,19 +720,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @param doFullUpdate {Boolean?false} Whether a full update on the layer
      *    should be performed of if only the layer window should be updated.
      */
-    _setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
-    {
+    _setLayerWindow(layers, left, top, minWidth, minHeight, doFullUpdate) {
       var rowCellData = this.__rowConfig.getItemAtPosition(top);
-      if (rowCellData)
-      {
+      if (rowCellData) {
         var firstRow = rowCellData.index;
-        var rowSizes = this.__rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
+        var rowSizes = this.__rowConfig.getItemSizes(
+          firstRow,
+          minHeight + rowCellData.offset
+        );
         var layerHeight = qx.lang.Array.sum(rowSizes);
         var layerTop = top - rowCellData.offset;
         var layerBottom = top - rowCellData.offset + layerHeight;
-      }
-      else
-      {
+      } else {
         var firstRow = 0;
         var rowSizes = [];
         var layerHeight = 0;
@@ -778,16 +740,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       var columnCellData = this.__columnConfig.getItemAtPosition(left);
-      if (columnCellData)
-      {
+      if (columnCellData) {
         var firstColumn = columnCellData.index;
-        var columnSizes = this.__columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
+        var columnSizes = this.__columnConfig.getItemSizes(
+          firstColumn,
+          minWidth + columnCellData.offset
+        );
         var layerWidth = qx.lang.Array.sum(columnSizes);
         var layerLeft = left - columnCellData.offset;
         var layerRight = left - columnCellData.offset + layerWidth;
-      }
-      else
-      {
+      } else {
         var firstColumn = 0;
         var columnSizes = [];
         var layerWidth = 0;
@@ -803,16 +765,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       };
 
       this.__layerContainer.setUserBounds(
-        (this.getPaddingLeft() || 0) + (this.__layerWindow.left - this.__scrollLeft),
-        (this.getPaddingTop() || 0) + (this.__layerWindow.top - this.__scrollTop),
-        layerWidth, layerHeight
+        (this.getPaddingLeft() || 0) +
+          (this.__layerWindow.left - this.__scrollLeft),
+        (this.getPaddingTop() || 0) +
+          (this.__layerWindow.top - this.__scrollTop),
+        layerWidth,
+        layerHeight
       );
 
       this.__columnSizes = columnSizes;
       this.__rowSizes = rowSizes;
 
-      for (var i=0; i<this.__layers.length; i++)
-      {
+      for (var i = 0; i < this.__layers.length; i++) {
         var layer = this.__layers[i];
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
 
@@ -824,14 +788,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
-
-
     /**
      * Check whether the pane was resized and fire an {@link #update} event if
      * it was.
      */
-    __checkPaneResize : function()
-    {
+    __checkPaneResize() {
       if (this.__dontFireUpdate) {
         return;
       }
@@ -840,44 +801,37 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       if (
         this.__paneHeight !== scrollSize.height ||
         this.__paneWidth !== scrollSize.width
-      )
-      {
+      ) {
         this.__paneHeight = scrollSize.height;
         this.__paneWidth = scrollSize.width;
         this.fireEvent("update");
       }
     },
 
-
     /**
      * Schedule a full update on all visible layers.
      */
-    fullUpdate : function()
-    {
+    fullUpdate() {
       this.__jobs._fullUpdate = 1;
       qx.ui.core.queue.Widget.add(this);
     },
-
 
     /**
      * Whether a full update is scheduled.
      *
      * @return {Boolean} Whether a full update is scheduled.
      */
-    isUpdatePending : function() {
+    isUpdatePending() {
       return !!this.__jobs._fullUpdate;
     },
-
 
     /**
      * Perform a full update on all visible layers. All cached data will be
      * discarded.
      */
-    _fullUpdate : function()
-    {
+    _fullUpdate() {
       var layers = this.getVisibleLayers();
-      if (layers.length == 0)
-      {
+      if (layers.length == 0) {
         this.__checkPaneResize();
         return;
       }
@@ -888,39 +842,34 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return; // the pane has not yet been rendered -> wait for the appear event
       }
 
-
-
       this._setLayerWindow(
         layers,
-        this.__scrollLeft, this.__scrollTop,
-        bounds.width, bounds.height,
+        this.__scrollLeft,
+        this.__scrollTop,
+        bounds.width,
+        bounds.height,
         true
       );
 
       this.__checkPaneResize();
     },
 
-
     /**
      * Schedule an update the visible window of the grid according to the top
      * and left scroll positions.
      */
-    _deferredUpdateScrollPosition : function()
-    {
+    _deferredUpdateScrollPosition() {
       this.__jobs._updateScrollPosition = 1;
       qx.ui.core.queue.Widget.add(this);
     },
-
 
     /**
      * Update the visible window of the grid according to the top and left scroll
      * positions.
      */
-    _updateScrollPosition : function()
-    {
+    _updateScrollPosition() {
       var layers = this.getVisibleLayers();
-      if (layers.length == 0)
-      {
+      if (layers.length == 0) {
         this.__checkPaneResize();
         return;
       }
@@ -943,22 +892,23 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.bottom >= paneWindow.bottom &&
         this.__layerWindow.left <= paneWindow.left &&
         this.__layerWindow.right >= paneWindow.right
-      )
-      {
+      ) {
         // only update layer container offset
         this.__layerContainer.setUserBounds(
-          (this.getPaddingLeft() || 0) + (this.__layerWindow.left - paneWindow.left),
-          (this.getPaddingTop() || 0) + (this.__layerWindow.top - paneWindow.top),
+          (this.getPaddingLeft() || 0) +
+            (this.__layerWindow.left - paneWindow.left),
+          (this.getPaddingTop() || 0) +
+            (this.__layerWindow.top - paneWindow.top),
           this.__layerWindow.right - this.__layerWindow.left,
           this.__layerWindow.bottom - this.__layerWindow.top
         );
-      }
-      else
-      {
+      } else {
         this._setLayerWindow(
           layers,
-          this.__scrollLeft, this.__scrollTop,
-          bounds.width, bounds.height,
+          this.__scrollLeft,
+          this.__scrollTop,
+          bounds.width,
+          bounds.height,
           false
         );
       }
@@ -967,12 +917,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this._disposeArray("__layers");
     this._disposeObjects("__rowConfig", "__columnConfig", "__layerContainer");
-    this.__layerWindow = this.__jobs = this.__columnSizes =
-      this.__rowSizes = null;
+    this.__layerWindow =
+      this.__jobs =
+      this.__columnSizes =
+      this.__rowSizes =
+        null;
   }
 });

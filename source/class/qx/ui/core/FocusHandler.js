@@ -20,13 +20,9 @@
 /**
  * Each focus root delegates the focus handling to instances of the FocusHandler.
  */
-qx.Class.define("qx.ui.core.FocusHandler",
-{
-  extend : qx.core.Object,
-  type : "singleton",
-
-
-
+qx.Class.define("qx.ui.core.FocusHandler", {
+  extend: qx.core.Object,
+  type: "singleton",
 
   /*
   *****************************************************************************
@@ -34,14 +30,12 @@ qx.Class.define("qx.ui.core.FocusHandler",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Create data structure
     this.__roots = {};
   },
-
 
   /*
   ***********************************************
@@ -53,11 +47,10 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * Activate changing focus with the tab key (default: true)
      */
     useTabNavigation: {
-      check: 'Boolean',
+      check: "Boolean",
       init: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -65,13 +58,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
   *****************************************************************************
   */
 
-  members :
-  {
-    __roots : null,
-    __activeChild : null,
-    __focusedChild : null,
-    __currentRoot : null,
-
+  members: {
+    __roots: null,
+    __activeChild: null,
+    __focusedChild: null,
+    __currentRoot: null,
 
     /**
      * Connects to a top-level root element (which initially receives
@@ -81,8 +72,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      *
      * @param root {qx.ui.root.Abstract} Any root
      */
-    connectTo : function(root)
-    {
+    connectTo(root) {
       // this.debug("Connect to: " + root);
       root.addListener("keypress", this.__onKeyPress, this);
       root.addListener("focusin", this._onFocusIn, this, true);
@@ -97,24 +87,20 @@ qx.Class.define("qx.ui.core.FocusHandler",
      *
      * @param widget {qx.ui.core.Widget} The widget to register
      */
-    addRoot : function(widget)
-    {
+    addRoot(widget) {
       // this.debug("Add focusRoot: " + widget);
       this.__roots[widget.toHashCode()] = widget;
     },
-
 
     /**
      * Deregisters a previous added widget.
      *
      * @param widget {qx.ui.core.Widget} The widget to deregister
      */
-    removeRoot : function(widget)
-    {
+    removeRoot(widget) {
       // this.debug("Remove focusRoot: " + widget);
       delete this.__roots[widget.toHashCode()];
     },
-
 
     /**
      * Get the active widget
@@ -122,10 +108,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {qx.ui.core.Widget|null} The active widget or <code>null</code>
      *    if no widget is active
      */
-    getActiveWidget : function() {
+    getActiveWidget() {
       return this.__activeChild;
     },
-
 
     /**
      * Whether the given widget is the active one
@@ -133,10 +118,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      * @return {Boolean} <code>true</code> if the given widget is active
      */
-    isActive : function(widget) {
+    isActive(widget) {
       return this.__activeChild == widget;
     },
-
 
     /**
      * Get the focused widget
@@ -144,10 +128,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {qx.ui.core.Widget|null} The focused widget or <code>null</code>
      *    if no widget has the focus
      */
-    getFocusedWidget : function() {
+    getFocusedWidget() {
       return this.__focusedChild;
     },
-
 
     /**
      * Whether the given widget is the focused one.
@@ -155,10 +138,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      * @return {Boolean} <code>true</code> if the given widget is focused
      */
-    isFocused : function(widget) {
+    isFocused(widget) {
       return this.__focusedChild == widget;
     },
-
 
     /**
      * Whether the given widgets acts as a focus root.
@@ -166,13 +148,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      * @return {Boolean} <code>true</code> if the given widget is a focus root
      */
-    isFocusRoot : function(widget) {
+    isFocusRoot(widget) {
       return !!this.__roots[widget.toHashCode()];
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -185,8 +163,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      *
      * @param e {qx.event.type.Focus} Focus event
      */
-    _onActivate : function(e)
-    {
+    _onActivate(e) {
       var target = e.getTarget();
       this.__activeChild = target;
       //this.debug("active: " + target);
@@ -197,60 +174,50 @@ qx.Class.define("qx.ui.core.FocusHandler",
       }
     },
 
-
     /**
      * Internal event handler for deactivate event.
      *
      * @param e {qx.event.type.Focus} Focus event
      */
-    _onDeactivate : function(e)
-    {
+    _onDeactivate(e) {
       var target = e.getTarget();
       if (this.__activeChild == target) {
         this.__activeChild = null;
       }
     },
 
-
     /**
      * Internal event handler for focusin event.
      *
      * @param e {qx.event.type.Focus} Focus event
      */
-    _onFocusIn : function(e)
-    {
+    _onFocusIn(e) {
       var target = e.getTarget();
-      if (target != this.__focusedChild)
-      {
+      if (target != this.__focusedChild) {
         this.__focusedChild = target;
         target.visualizeFocus();
       }
     },
-
 
     /**
      * Internal event handler for focusout event.
      *
      * @param e {qx.event.type.Focus} Focus event
      */
-    _onFocusOut : function(e)
-    {
+    _onFocusOut(e) {
       var target = e.getTarget();
-      if (target == this.__focusedChild)
-      {
+      if (target == this.__focusedChild) {
         this.__focusedChild = null;
         target.visualizeBlur();
       }
     },
-
 
     /**
      * Internal event handler for TAB key.
      *
      * @param e {qx.event.type.KeySequence} Key event
      */
-    __onKeyPress : function(e)
-    {
+    __onKeyPress(e) {
       if (e.getKeyIdentifier() != "Tab" || !this.isUseTabNavigation()) {
         return;
       }
@@ -266,9 +233,13 @@ qx.Class.define("qx.ui.core.FocusHandler",
       // Support shift key to reverse widget detection order
       var current = this.__focusedChild;
       if (!e.isShiftPressed()) {
-        var next = current ? this.__getWidgetAfter(current) : this.__getFirstWidget();
+        var next = current
+          ? this.__getWidgetAfter(current)
+          : this.__getFirstWidget();
       } else {
-        var next = current ? this.__getWidgetBefore(current) : this.__getLastWidget();
+        var next = current
+          ? this.__getWidgetBefore(current)
+          : this.__getLastWidget();
       }
 
       // If there was a widget found, focus it
@@ -276,9 +247,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
         next.tabFocus();
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -293,11 +261,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {qx.ui.core.Widget|null} The focus root for the given widget or
      * <code>true</code> if no focus root could be found
      */
-    __findFocusRoot : function(widget)
-    {
+    __findFocusRoot(widget) {
       var roots = this.__roots;
-      while (widget)
-      {
+      while (widget) {
         if (roots[widget.toHashCode()]) {
           return widget;
         }
@@ -307,10 +273,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
       return null;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -326,8 +288,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {Integer} A sort() compatible integer with values
      *   small than 0, exactly 0 or bigger than 0.
      */
-    __compareTabOrder : function(widget1, widget2)
-    {
+    __compareTabOrder(widget1, widget2) {
       if (widget1 === widget2) {
         return 0;
       }
@@ -370,17 +331,15 @@ qx.Class.define("qx.ui.core.FocusHandler",
       return 0;
     },
 
-
     /**
      * Returns the first widget.
      *
      * @return {qx.ui.core.Widget} Returns the first (positioned) widget from
      *    the current root.
      */
-    __getFirstWidget : function() {
+    __getFirstWidget() {
       return this.__getFirst(this.__currentRoot, null);
     },
-
 
     /**
      * Returns the last widget.
@@ -388,10 +347,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {qx.ui.core.Widget} Returns the last (positioned) widget from
      *    the current root.
      */
-    __getLastWidget : function() {
+    __getLastWidget() {
       return this.__getLast(this.__currentRoot, null);
     },
-
 
     /**
      * Returns the widget after the given one.
@@ -399,8 +357,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} Widget to start with
      * @return {qx.ui.core.Widget} The found widget.
      */
-    __getWidgetAfter : function(widget)
-    {
+    __getWidgetAfter(widget) {
       var root = this.__currentRoot;
       if (root == widget) {
         return this.__getFirstWidget();
@@ -422,15 +379,13 @@ qx.Class.define("qx.ui.core.FocusHandler",
       return len > 0 ? result[0] : this.__getFirstWidget();
     },
 
-
     /**
      * Returns the widget before the given one.
      *
      * @param widget {qx.ui.core.Widget} Widget to start with
      * @return {qx.ui.core.Widget} The found widget.
      */
-    __getWidgetBefore : function(widget)
-    {
+    __getWidgetBefore(widget) {
       var root = this.__currentRoot;
       if (root == widget) {
         return this.__getLastWidget();
@@ -452,11 +407,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
       return len > 0 ? result[len - 1] : this.__getLastWidget();
     },
 
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       INTERNAL API USED BY METHODS ABOVE
@@ -472,13 +422,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
      */
-    __collectAllAfter : function(parent, widget, result)
-    {
+    __collectAllAfter(parent, widget, result) {
       var children = parent.getLayoutChildren();
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         // Filter spacers etc.
@@ -486,8 +434,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
-        {
+        if (
+          !this.isFocusRoot(child) &&
+          child.isEnabled() &&
+          child.isVisible()
+        ) {
           if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
             result.push(child);
           }
@@ -496,7 +447,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
       }
     },
-
 
     /**
      * Collects all widgets which are before the given widget in
@@ -507,13 +457,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
      */
-    __collectAllBefore : function(parent, widget, result)
-    {
+    __collectAllBefore(parent, widget, result) {
       var children = parent.getLayoutChildren();
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         // Filter spacers etc.
@@ -521,8 +469,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
-        {
+        if (
+          !this.isFocusRoot(child) &&
+          child.isEnabled() &&
+          child.isVisible()
+        ) {
           if (child.isTabable() && this.__compareTabOrder(widget, child) > 0) {
             result.push(child);
           }
@@ -532,7 +483,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
       }
     },
 
-
     /**
      * Find first (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
@@ -540,13 +490,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param firstWidget {qx.ui.core.Widget?null} Current first widget
      * @return {qx.ui.core.Widget} The first (positioned) widget
      */
-    __getFirst : function(parent, firstWidget)
-    {
+    __getFirst(parent, firstWidget) {
       var children = parent.getLayoutChildren();
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         // Filter spacers etc.
@@ -555,11 +503,16 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
-        {
-          if (child.isTabable())
-          {
-            if (firstWidget == null || this.__compareTabOrder(child, firstWidget) < 0) {
+        if (
+          !this.isFocusRoot(child) &&
+          child.isEnabled() &&
+          child.isVisible()
+        ) {
+          if (child.isTabable()) {
+            if (
+              firstWidget == null ||
+              this.__compareTabOrder(child, firstWidget) < 0
+            ) {
               firstWidget = child;
             }
           }
@@ -572,7 +525,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
       return firstWidget;
     },
 
-
     /**
      * Find last (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
@@ -580,13 +532,11 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param lastWidget {qx.ui.core.Widget?null} Current last widget
      * @return {qx.ui.core.Widget} The last (positioned) widget
      */
-    __getLast : function(parent, lastWidget)
-    {
+    __getLast(parent, lastWidget) {
       var children = parent.getLayoutChildren();
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
         // Filter spacers etc.
@@ -595,11 +545,16 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
-        {
-          if (child.isTabable())
-          {
-            if (lastWidget == null || this.__compareTabOrder(child, lastWidget) > 0) {
+        if (
+          !this.isFocusRoot(child) &&
+          child.isEnabled() &&
+          child.isVisible()
+        ) {
+          if (child.isTabable()) {
+            if (
+              lastWidget == null ||
+              this.__compareTabOrder(child, lastWidget) > 0
+            ) {
               lastWidget = child;
             }
           }
@@ -613,17 +568,13 @@ qx.Class.define("qx.ui.core.FocusHandler",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this._disposeMap("__roots");
     this.__focusedChild = this.__activeChild = this.__currentRoot = null;
   }

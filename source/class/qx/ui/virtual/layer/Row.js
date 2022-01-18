@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-
 /**
  * The Row layer renders row background colors.
  */
-qx.Class.define("qx.ui.virtual.layer.Row",
-{
-  extend : qx.ui.virtual.layer.AbstractBackground,
-
+qx.Class.define("qx.ui.virtual.layer.Row", {
+  extend: qx.ui.virtual.layer.AbstractBackground,
 
   /*
   *****************************************************************************
@@ -31,16 +28,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "row-layer"
+    appearance: {
+      refine: true,
+      init: "row-layer"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -48,11 +42,9 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
 
       var width = qx.lang.Array.sum(columnSizes);
@@ -61,26 +53,34 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       var row = firstRow;
       var childIndex = 0;
 
-      for (var y=0; y<rowSizes.length; y++)
-      {
+      for (var y = 0; y < rowSizes.length; y++) {
         var color = this.getColor(row);
         var backgroundColor = color ? "background-color:" + color + ";" : "";
 
         var decorator = this.getBackground(row);
-        var styles = decorator ? qx.bom.element.Style.compile(decorator.getStyles()) : "";
+        var styles = decorator
+          ? qx.bom.element.Style.compile(decorator.getStyles())
+          : "";
 
         html.push(
           "<div style='",
           "position: absolute;",
           "left: 0;",
-          "top:", top, "px;",
-          "height:", rowSizes[y], "px;",
-          "width:", width, "px;",
+          "top:",
+          top,
+          "px;",
+          "height:",
+          rowSizes[y],
+          "px;",
+          "width:",
+          width,
+          "px;",
           backgroundColor,
           styles,
           "'>",
           "</div>"
         );
+
         childIndex++;
 
         top += rowSizes[y];
@@ -97,10 +97,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       this._width = width;
     },
 
-
     // overridden
-    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {
+    _updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes) {
       if (
         firstRow !== this.getFirstRow() ||
         rowSizes.length !== this.getRowSizes().length ||
@@ -110,27 +108,22 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       }
     },
 
-
     // overridden
-    setColor : function(index, color)
-    {
-      this.base(arguments, index, color);
+    setColor(index, color) {
+      super.setColor(index, color);
 
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }
     },
 
-
     // overridden
-    setBackground : function(index, decorator)
-    {
-      this.base(arguments, index, decorator);
+    setBackground(index, decorator) {
+      super.setBackground(index, decorator);
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }
     },
-
 
     /**
      * Whether the row with the given index is currently rendered (i.e. in the
@@ -139,8 +132,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
      * @param index {Integer} The row's index
      * @return {Boolean} Whether the row is rendered
      */
-    __isRowRendered : function(index)
-    {
+    __isRowRendered(index) {
       var firstRow = this.getFirstRow();
       var lastRow = firstRow + this.getRowSizes().length - 1;
       return index >= firstRow && index <= lastRow;

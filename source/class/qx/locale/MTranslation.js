@@ -24,10 +24,8 @@
  *
  * @ignore(qx.locale.Manager)
  */
-qx.Mixin.define("qx.locale.MTranslation",
-{
-  members:
-  {
+qx.Mixin.define("qx.locale.MTranslation", {
+  members: {
     /**
      * Translate a message
      * Mark the message for translation.
@@ -36,16 +34,16 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
-    tr : function(messageId, varargs)
-    {
+    tr(messageId, varargs) {
       var nlsManager = qx.locale.Manager;
       if (nlsManager) {
         return nlsManager.tr.apply(nlsManager, arguments);
       }
 
-      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+      throw new Error(
+        "To enable localization please include qx.locale.Manager into your build!"
+      );
     },
-
 
     /**
      * Translate a plural message
@@ -59,16 +57,16 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
-    trn : function(singularMessageId, pluralMessageId, count, varargs)
-    {
+    trn(singularMessageId, pluralMessageId, count, varargs) {
       var nlsManager = qx.locale.Manager;
       if (nlsManager) {
         return nlsManager.trn.apply(nlsManager, arguments);
       }
 
-      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+      throw new Error(
+        "To enable localization please include qx.locale.Manager into your build!"
+      );
     },
-
 
     /**
      * Translate a message with translation hint
@@ -79,16 +77,16 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
-    trc : function(hint, messageId, varargs)
-    {
+    trc(hint, messageId, varargs) {
       var nlsManager = qx.locale.Manager;
       if (nlsManager) {
         return nlsManager.trc.apply(nlsManager, arguments);
       }
 
-      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+      throw new Error(
+        "To enable localization please include qx.locale.Manager into your build!"
+      );
     },
-
 
     /**
      * Translate a plural message with translation hint
@@ -103,16 +101,16 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
-    trnc : function(hint, singularMessageId, pluralMessageId, count, varargs)
-    {
+    trnc(hint, singularMessageId, pluralMessageId, count, varargs) {
       var nlsManager = qx.locale.Manager;
       if (nlsManager) {
         return nlsManager.trnc.apply(nlsManager, arguments);
       }
 
-      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+      throw new Error(
+        "To enable localization please include qx.locale.Manager into your build!"
+      );
     },
-
 
     /**
      * Mark the message for translation but return the original message.
@@ -120,14 +118,15 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param messageId {String} the message ID
      * @return {String} messageId
      */
-    marktr : function(messageId)
-    {
+    marktr(messageId) {
       var nlsManager = qx.locale.Manager;
       if (nlsManager) {
         return nlsManager.marktr.apply(nlsManager, arguments);
       }
 
-      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+      throw new Error(
+        "To enable localization please include qx.locale.Manager into your build!"
+      );
     }
   }
 });

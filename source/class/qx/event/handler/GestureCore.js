@@ -22,38 +22,52 @@
  * for gestures like "tap" or "swipe"
  */
 qx.Bootstrap.define("qx.event.handler.GestureCore", {
-  extend : Object,
-  implement: [ qx.core.IDisposable ],
+  extend: Object,
+  implement: [qx.core.IDisposable],
 
-  statics : {
+  statics: {
+    TYPES: [
+      "tap",
+      "swipe",
+      "longtap",
+      "dbltap",
+      "track",
+      "trackstart",
+      "trackend",
+      "rotate",
+      "pinch",
+      "roll"
+    ],
 
-    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch", "roll"],
-
-    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove", "gesturecancel"],
+    GESTURE_EVENTS: [
+      "gesturebegin",
+      "gesturefinish",
+      "gesturemove",
+      "gesturecancel"
+    ],
 
     /** @type {Map} Maximum distance between a pointer-down and pointer-up event, values are configurable */
-    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 5, "pen": 20}, // values are educated guesses
+    TAP_MAX_DISTANCE: { touch: 40, mouse: 5, pen: 20 }, // values are educated guesses
 
     /** @type {Map} Maximum distance between two subsequent taps, values are configurable */
-    DOUBLETAP_MAX_DISTANCE : {"touch": 10, "mouse": 4, "pen": 10}, // values are educated guesses
+    DOUBLETAP_MAX_DISTANCE: { touch: 10, mouse: 4, pen: 10 }, // values are educated guesses
 
     /** @type {Map} The direction of a swipe relative to the axis */
-    SWIPE_DIRECTION :
-    {
-      x : ["left", "right"],
-      y : ["up", "down"]
+    SWIPE_DIRECTION: {
+      x: ["left", "right"],
+      y: ["up", "down"]
     },
 
     /**
      * @type {Integer} The time delta in milliseconds to fire a long tap event.
      */
-    LONGTAP_TIME : qx.core.Environment.get("device.touch")? 500: 99999,
+    LONGTAP_TIME: qx.core.Environment.get("device.touch") ? 500 : 99999,
 
     /**
      * @type {Integer} Maximum time between two tap events that will still trigger a
      * dbltap event.
      */
-    DOUBLETAP_TIME : 500,
+    DOUBLETAP_TIME: 500,
 
     /**
      * @type {Integer} Factor which is used for adapting the delta of the mouse wheel
@@ -91,7 +105,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
    * @param emitter {qx.event.Emitter?} Event emitter (used if dispatchEvent
    * is not supported, e.g. in IE8)
    */
-  construct : function(target, emitter) {
+  construct(target, emitter) {
     this.__defaultTarget = target;
     this.__emitter = emitter;
     this.__gesture = {};
@@ -102,36 +116,43 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     this._initObserver();
   },
 
-  members : {
-    __defaultTarget : null,
-    __emitter : null,
-    __gesture : null,
-    __eventName : null,
-    __primaryTarget : null,
-    __isMultiPointerGesture : null,
-    __initialAngle : null,
-    __lastTap : null,
-    __rollImpulseId : null,
-    __stopMomentum : null,
-    __initialDistance : null,
-    __momentum : null,
-    __rollEvents : null,
-    __rollEventsCountStart : 0,
-    __rollEventsCount : 0,
-    __touchPadDetectionPerformed : false,
+  members: {
+    __defaultTarget: null,
+    __emitter: null,
+    __gesture: null,
+    __eventName: null,
+    __primaryTarget: null,
+    __isMultiPointerGesture: null,
+    __initialAngle: null,
+    __lastTap: null,
+    __rollImpulseId: null,
+    __stopMomentum: null,
+    __initialDistance: null,
+    __momentum: null,
+    __rollEvents: null,
+    __rollEventsCountStart: 0,
+    __rollEventsCount: 0,
+    __touchPadDetectionPerformed: false,
     __lastRollEventTime: 0,
 
     /**
      * Register pointer event listeners
      */
-    _initObserver : function() {
-      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(function(gestureType) {
-        qxWeb(this.__defaultTarget).on(gestureType, this.checkAndFireGesture, this);
-      }.bind(this));
+    _initObserver() {
+      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(
+        function (gestureType) {
+          qxWeb(this.__defaultTarget).on(
+            gestureType,
+            this.checkAndFireGesture,
+            this
+          );
+        }.bind(this)
+      );
 
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") < 9)
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9
+      ) {
         qxWeb(this.__defaultTarget).on("dblclick", this._onDblClick, this);
       }
 
@@ -140,25 +161,30 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       qxWeb(data.target).on(data.type, this._fireRoll, this);
     },
 
-
     /**
      * Remove native pointer event listeners.
      */
-    _stopObserver : function() {
-      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(function(pointerType) {
-        qxWeb(this.__defaultTarget).off(pointerType, this.checkAndFireGesture, this);
-      }.bind(this));
+    _stopObserver() {
+      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(
+        function (pointerType) {
+          qxWeb(this.__defaultTarget).off(
+            pointerType,
+            this.checkAndFireGesture,
+            this
+          );
+        }.bind(this)
+      );
 
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        qx.core.Environment.get("browser.documentmode") < 9)
-      {
+      if (
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9
+      ) {
         qxWeb(this.__defaultTarget).off("dblclick", this._onDblClick, this);
       }
 
       var data = qx.core.Environment.get("event.mousewheel");
       qxWeb(data.target).off(data.type, this._fireRoll, this);
     },
-
 
     /**
      * Checks if a gesture was made and fires the gesture event.
@@ -167,7 +193,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
      */
-    checkAndFireGesture : function(domEvent, type, target) {
+    checkAndFireGesture(domEvent, type, target) {
       if (!type) {
         type = domEvent.type;
       }
@@ -193,7 +219,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureBegin : function(domEvent, target) {
+    gestureBegin(domEvent, target) {
       if (this.__gesture[domEvent.pointerId]) {
         this.__stopLongTapTimer(this.__gesture[domEvent.pointerId]);
         delete this.__gesture[domEvent.pointerId];
@@ -209,36 +235,35 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       this.__gesture[domEvent.pointerId] = {
-        "startTime" : new Date().getTime(),
-        "lastEventTime" : new Date().getTime(),
-        "startX" : domEvent.clientX,
-        "startY" : domEvent.clientY,
-        "clientX" : domEvent.clientX,
-        "clientY" : domEvent.clientY,
-        "velocityX" : 0,
-        "velocityY" : 0,
-        "target" : target,
-        "isTap" : true,
-        "isPrimary" : domEvent.isPrimary,
-        "longTapTimer" : window.setTimeout(
+        startTime: new Date().getTime(),
+        lastEventTime: new Date().getTime(),
+        startX: domEvent.clientX,
+        startY: domEvent.clientY,
+        clientX: domEvent.clientX,
+        clientY: domEvent.clientY,
+        velocityX: 0,
+        velocityY: 0,
+        target: target,
+        isTap: true,
+        isPrimary: domEvent.isPrimary,
+        longTapTimer: window.setTimeout(
           this.__fireLongTap.bind(this, domEvent, target),
           qx.event.handler.GestureCore.LONGTAP_TIME
         )
       };
 
-      if(domEvent.isPrimary) {
+      if (domEvent.isPrimary) {
         this.__isMultiPointerGesture = false;
         this.__primaryTarget = target;
         this.__fireTrack("trackstart", domEvent, target);
       } else {
         this.__isMultiPointerGesture = true;
-        if(Object.keys(this.__gesture).length === 2) {
+        if (Object.keys(this.__gesture).length === 2) {
           this.__initialAngle = this._calcAngle();
           this.__initialDistance = this._calcDistance();
         }
       }
     },
-
 
     /**
      * Helper method for gesture move.
@@ -246,7 +271,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureMove : function(domEvent, target) {
+    gestureMove(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
 
       if (gesture) {
@@ -257,10 +282,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         gesture.clientY = domEvent.clientY;
         gesture.lastEventTime = new Date().getTime();
 
-        if(oldClientX) {
+        if (oldClientX) {
           gesture.velocityX = gesture.clientX - oldClientX;
         }
-        if(oldClientY) {
+        if (oldClientY) {
           gesture.velocityY = gesture.clientY - oldClientY;
         }
 
@@ -269,7 +294,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           this.__firePinch(domEvent, gesture.target);
         }
 
-        if(!this.__isMultiPointerGesture) {
+        if (!this.__isMultiPointerGesture) {
           this.__fireTrack("track", domEvent, gesture.target);
           this._fireRoll(domEvent, "touch", gesture.target);
         }
@@ -284,7 +309,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
     },
 
-
     /**
      * Checks if a DOM element located between the target of a gesture
      * event and the element this handler is attached to has a gesture
@@ -293,7 +317,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} The gesture event's target
      * @return {Boolean}
      */
-    _hasIntermediaryHandler: function(target) {
+    _hasIntermediaryHandler(target) {
       while (target && target !== this.__defaultTarget) {
         if (target.$$gestureHandler) {
           return true;
@@ -303,14 +327,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       return false;
     },
 
-
     /**
      * Helper method for gesture end.
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureFinish : function(domEvent, target) {
+    gestureFinish(domEvent, target) {
       // If no start position is available for this pointerup event, cancel gesture recognition.
       if (!this.__gesture[domEvent.pointerId]) {
         return;
@@ -341,7 +364,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       if (gesture.isTap) {
         if (target !== gesture.target) {
-
           delete this.__gesture[domEvent.pointerId];
           return;
         }
@@ -353,7 +375,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           // delete old tap entries
           var limit = Date.now() - qx.event.handler.GestureCore.DOUBLETAP_TIME;
           for (var time in this.__lastTap) {
-
             if (time < limit) {
               delete this.__lastTap[time];
             } else {
@@ -365,6 +386,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
                 domEvent.clientY,
                 domEvent.getPointerType()
               );
+
               var isSameTarget = lastTap.target === (domEvent.target || target);
               var isSameButton = lastTap.button === domEvent.button;
 
@@ -385,7 +407,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             button: domEvent.button
           };
         }
-
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
@@ -397,22 +418,20 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       delete this.__gesture[domEvent.pointerId];
     },
 
-
     /**
      * Stops the momentum scrolling currently running.
      *
      * @param id {Integer} The timeoutId of a 'roll' event
      */
-    stopMomentum : function(id) {
+    stopMomentum(id) {
       this.__stopMomentum[id] = true;
     },
-
 
     /**
      * Cancels the gesture if running.
      * @param id {Number} The pointer Id.
      */
-    gestureCancel : function(id) {
+    gestureCancel(id) {
       if (this.__gesture[id]) {
         this.__stopLongTapTimer(this.__gesture[id]);
         delete this.__gesture[id];
@@ -423,7 +442,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
     },
 
-
     /**
      * Update the target of a running gesture. This is used in virtual widgets
      * when the DOM element changes.
@@ -432,10 +450,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} The new target element.
      * @internal
      */
-    updateGestureTarget : function(id, target) {
+    updateGestureTarget(id, target) {
       this.__gesture[id].target = target;
     },
-
 
     /**
      * Method which will be called recursively to provide a momentum scrolling.
@@ -445,14 +462,18 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} The target of the momentum roll events
      * @param time {Number ?} The time in ms between the last two calls
      */
-    __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
+    __handleRollImpulse(deltaX, deltaY, domEvent, target, time) {
       var oldTimeoutId = domEvent.timeoutId;
       if (!time && this.__momentum[domEvent.pointerId]) {
         // new roll impulse started, stop the old one
         this.stopMomentum(this.__momentum[domEvent.pointerId]);
       }
       // do nothing if we don't need to scroll
-      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId] || !this.getWindow()) {
+      if (
+        (Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) ||
+        this.__stopMomentum[oldTimeoutId] ||
+        !this.getWindow()
+      ) {
         delete this.__stopMomentum[oldTimeoutId];
         delete this.__momentum[domEvent.pointerId];
         return;
@@ -472,10 +493,16 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       // set up a new timer with the new delta
       var timeoutId = qx.bom.AnimationFrame.request(
         qx.lang.Function.bind(
-          function(deltaX, deltaY, domEvent, target, time) {
+          function (deltaX, deltaY, domEvent, target, time) {
             this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time);
           },
-          this, deltaX, deltaY, domEvent, target, time)
+          this,
+          deltaX,
+          deltaY,
+          domEvent,
+          target,
+          time
+        )
       );
 
       deltaX = Math.round(deltaX * 100) / 100;
@@ -486,18 +513,18 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         x: -deltaX,
         y: -deltaY
       };
+
       domEvent.momentum = true;
       domEvent.timeoutId = timeoutId;
       this.__momentum[domEvent.pointerId] = timeoutId;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
-
     /**
-    * Calculates the angle of the primary and secondary pointer.
-    * @return {Number} the rotation angle of the 2 pointers.
-    */
-    _calcAngle : function() {
+     * Calculates the angle of the primary and secondary pointer.
+     * @return {Number} the rotation angle of the 2 pointers.
+     */
+    _calcAngle() {
       var pointerA = null;
       var pointerB = null;
 
@@ -513,15 +540,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var x = pointerA.clientX - pointerB.clientX;
       var y = pointerA.clientY - pointerB.clientY;
 
-      return (360 + Math.atan2(y, x) * (180/Math.PI)) % 360;
+      return (360 + Math.atan2(y, x) * (180 / Math.PI)) % 360;
     },
-
 
     /**
      * Calculates the scaling distance between two pointers.
      * @return {Number} the calculated distance.
      */
-    _calcDistance : function() {
+    _calcDistance() {
       var pointerA = null;
       var pointerB = null;
 
@@ -534,10 +560,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }
 
-      var scale = Math.sqrt( Math.pow(pointerA.clientX - pointerB.clientX, 2) + Math.pow(pointerA.clientY - pointerB.clientY, 2));
+      var scale = Math.sqrt(
+        Math.pow(pointerA.clientX - pointerB.clientX, 2) +
+          Math.pow(pointerA.clientY - pointerB.clientY, 2)
+      );
       return scale;
     },
-
 
     /**
      * Checks if the distance between the x/y coordinates of DOM event
@@ -546,17 +574,20 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} The DOM event from the browser.
      * @return {Boolean|null} true if distance is below TAP_MAX_DISTANCE.
      */
-    _isBelowTapMaxDistance: function(domEvent) {
+    _isBelowTapMaxDistance(domEvent) {
       var delta = this._getDeltaCoordinates(domEvent);
-      var maxDistance = qx.event.handler.GestureCore.TAP_MAX_DISTANCE[domEvent.getPointerType()];
+      var maxDistance =
+        qx.event.handler.GestureCore.TAP_MAX_DISTANCE[
+          domEvent.getPointerType()
+        ];
       if (!delta) {
         return null;
       }
 
-      return (Math.abs(delta.x) <= maxDistance &&
-              Math.abs(delta.y) <= maxDistance);
+      return (
+        Math.abs(delta.x) <= maxDistance && Math.abs(delta.y) <= maxDistance
+      );
     },
-
 
     /**
      * Checks if the distance between the x1/y1 and x2/y2 is
@@ -569,7 +600,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param type {String} The pointer type e.g. "mouse"
      * @return {Boolean} <code>true</code>, if points are in range
      */
-    __isBelowDoubleTapDistance : function(x1, y1, x2, y2, type) {
+    __isBelowDoubleTapDistance(x1, y1, x2, y2, type) {
       var clazz = qx.event.handler.GestureCore;
 
       var inX = Math.abs(x1 - x2) < clazz.DOUBLETAP_MAX_DISTANCE[type];
@@ -578,13 +609,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       return inX && inY;
     },
 
-
     /**
-    * Calculates the delta coordinates in relation to the position on <code>pointerstart</code> event.
-    * @param domEvent {Event} The DOM event from the browser.
-    * @return {Map} containing the deltaX as x, and deltaY as y.
-    */
-    _getDeltaCoordinates : function(domEvent) {
+     * Calculates the delta coordinates in relation to the position on <code>pointerstart</code> event.
+     * @param domEvent {Event} The DOM event from the browser.
+     * @return {Map} containing the deltaX as x, and deltaY as y.
+     */
+    _getDeltaCoordinates(domEvent) {
       var gesture = this.__gesture[domEvent.pointerId];
       if (!gesture) {
         return null;
@@ -599,12 +629,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       return {
-        "x": deltaX,
-        "y": deltaY,
-        "axis": axis
+        x: deltaX,
+        y: deltaY,
+        axis: axis
       };
     },
-
 
     /**
      * Fire a gesture event with the given parameters
@@ -614,7 +643,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
-    _fireEvent : function(domEvent, type, target) {
+    _fireEvent(domEvent, type, target) {
       // The target may have been removed, e.g. menu hide on tap
       if (!this.__defaultTarget) {
         return;
@@ -628,26 +657,26 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           angle: domEvent.angle,
           delta: domEvent.delta,
           pointerType: domEvent.pointerType,
-          momentum : domEvent.momentum
+          momentum: domEvent.momentum
         });
+
         return target.dispatchEvent(evt);
       } else if (this.__emitter) {
         evt = new qx.event.type.dom.Custom(type, domEvent, {
-          target : this.__defaultTarget,
-          currentTarget : this.__defaultTarget,
-          srcElement : this.__defaultTarget,
+          target: this.__defaultTarget,
+          currentTarget: this.__defaultTarget,
+          srcElement: this.__defaultTarget,
           swipe: domEvent.swipe,
           scale: domEvent.scale,
           angle: domEvent.angle,
           delta: domEvent.delta,
           pointerType: domEvent.pointerType,
-          momentum : domEvent.momentum
+          momentum: domEvent.momentum
         });
 
         this.__emitter.emit(type, domEvent);
       }
     },
-
 
     /**
      * Fire "tap" and "dbltap" events after a native "dblclick"
@@ -655,12 +684,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param domEvent {Event} dblclick event
      */
-    _onDblClick : function(domEvent) {
+    _onDblClick(domEvent) {
       var target = qx.bom.Event.getTarget(domEvent);
       this._fireEvent(domEvent, "tap", target);
       this._fireEvent(domEvent, "dbltap", target);
     },
-
 
     /**
      * Returns the swipe gesture when the user performed a swipe.
@@ -669,7 +697,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      * @return {Map|null} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
      */
-    __getSwipeGesture : function(domEvent, target) {
+    __getSwipeGesture(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
       if (!gesture) {
         return null;
@@ -678,10 +706,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var clazz = qx.event.handler.GestureCore;
       var deltaCoordinates = this._getDeltaCoordinates(domEvent);
       var duration = new Date().getTime() - gesture.startTime;
-      var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
+      var axis =
+        Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)
+          ? "x"
+          : "y";
       var distance = deltaCoordinates[axis];
       var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
-      var velocity = (duration !== 0) ? distance / duration : 0;
+      var velocity = duration !== 0 ? distance / duration : 0;
 
       var swipe = {
         startTime: gesture.startTime,
@@ -695,7 +726,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       return swipe;
     },
 
-
     /**
      * Fires a track event.
      *
@@ -703,11 +733,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    __fireTrack : function(type, domEvent, target) {
+    __fireTrack(type, domEvent, target) {
       domEvent.delta = this._getDeltaCoordinates(domEvent);
       this._fireEvent(domEvent, type, domEvent.target || target);
     },
-
 
     /**
      * Fires a roll event.
@@ -716,12 +745,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      * @param rollFactor {Integer} the roll factor to apply
      */
-    __fireRollEvent: function (domEvent, target, rollFactor) {
+    __fireRollEvent(domEvent, target, rollFactor) {
       domEvent.delta = {
         x: qx.util.Wheel.getDelta(domEvent, "x") * rollFactor,
         y: qx.util.Wheel.getDelta(domEvent, "y") * rollFactor
       };
-      domEvent.delta.axis = Math.abs(domEvent.delta.x / domEvent.delta.y) < 1 ? "y" : "x";
+
+      domEvent.delta.axis =
+        Math.abs(domEvent.delta.x / domEvent.delta.y) < 1 ? "y" : "x";
       domEvent.pointerType = "wheel";
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
@@ -731,7 +762,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param target {Element} event target
      */
-    __performAdaptativeRollScrolling: function (target) {
+    __performAdaptativeRollScrolling(target) {
       var rollFactor = qx.event.handler.GestureCore.ROLL_FACTOR;
       if (qx.util.Wheel.IS_TOUCHPAD) {
         // The domEvent was generated by a touchpad
@@ -749,8 +780,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * Ends touch pad detection process.
      */
-    __endTouchPadDetection: function () {
-      if (this.__rollEvents.length > qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_THRESHOLD) {
+    __endTouchPadDetection() {
+      if (
+        this.__rollEvents.length >
+        qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_THRESHOLD
+      ) {
         qx.util.Wheel.IS_TOUCHPAD = true;
       } else {
         qx.util.Wheel.IS_TOUCHPAD = false;
@@ -766,8 +800,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @return {boolean} true if touchpad detection should occur.
      * @internal
      */
-    _isTouchPadDetectionEnabled: function () {
-      return qx.core.Environment.get("os.name") == "osx" && qx.core.Environment.get("os.version") >= 10.12;
+    _isTouchPadDetectionEnabled() {
+      return (
+        qx.core.Environment.get("os.name") == "osx" &&
+        qx.core.Environment.get("os.version") >= 10.12
+      );
     },
 
     /**
@@ -779,14 +816,18 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param type {String} The type of the dom event
      * @param target {Element} event target
      */
-    _fireRoll : function(domEvent, type, target) {
+    _fireRoll(domEvent, type, target) {
       var now;
       var detectionTimeout;
       if (domEvent.type === qx.core.Environment.get("event.mousewheel").type) {
         if (this._isTouchPadDetectionEnabled()) {
           now = new Date().getTime();
-          detectionTimeout = qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_TIMEOUT;
-          if (this.__lastRollEventTime > 0 && now - this.__lastRollEventTime > detectionTimeout) {
+          detectionTimeout =
+            qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_TIMEOUT;
+          if (
+            this.__lastRollEventTime > 0 &&
+            now - this.__lastRollEventTime > detectionTimeout
+          ) {
             // The detection timeout was reached. A new detection step should occur.
             this.__touchPadDetectionPerformed = false;
             this.__rollEvents = [];
@@ -799,18 +840,25 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             if (this.__rollEvents.length === 0) {
               // detection starts
               this.__rollEventsCountStart = now;
-              qx.event.Timer.once(function () {
-                if (!this.__touchPadDetectionPerformed) {
-                  // There were not enough events during the TOUCHPAD_WHEEL_EVENTS_PERIOD to actually
-                  // trigger a scrolling. Trigger it manually.
-                  this.__endTouchPadDetection();
-                  this.__performAdaptativeRollScrolling(target);
-                }
-              }, this, qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_PERIOD + 50)
+              qx.event.Timer.once(
+                function () {
+                  if (!this.__touchPadDetectionPerformed) {
+                    // There were not enough events during the TOUCHPAD_WHEEL_EVENTS_PERIOD to actually
+                    // trigger a scrolling. Trigger it manually.
+                    this.__endTouchPadDetection();
+                    this.__performAdaptativeRollScrolling(target);
+                  }
+                },
+                this,
+                qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_PERIOD + 50
+              );
             }
             this.__rollEvents.push(domEvent);
             this.__rollEventsCount++;
-            if (now - this.__rollEventsCountStart > qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_PERIOD) {
+            if (
+              now - this.__rollEventsCountStart >
+              qx.event.handler.GestureCore.TOUCHPAD_WHEEL_EVENTS_PERIOD
+            ) {
               this.__endTouchPadDetection();
             }
           }
@@ -823,19 +871,23 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             this.__performAdaptativeRollScrolling(target);
           }
         } else {
-          this.__fireRollEvent(domEvent, target, qx.event.handler.GestureCore.ROLL_FACTOR);
+          this.__fireRollEvent(
+            domEvent,
+            target,
+            qx.event.handler.GestureCore.ROLL_FACTOR
+          );
         }
       } else {
         var gesture = this.__gesture[domEvent.pointerId];
         domEvent.delta = {
           x: -gesture.velocityX,
           y: -gesture.velocityY,
-          axis : Math.abs(gesture.velocityX / gesture.velocityY) < 1 ? "y" : "x"
+          axis: Math.abs(gesture.velocityX / gesture.velocityY) < 1 ? "y" : "x"
         };
+
         this._fireEvent(domEvent, "roll", domEvent.target || target);
       }
     },
-
 
     /**
      * Fires a rotate event.
@@ -843,14 +895,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    __fireRotate : function(domEvent, target) {
-      if(!domEvent.isPrimary) {
+    __fireRotate(domEvent, target) {
+      if (!domEvent.isPrimary) {
         var angle = this._calcAngle();
         domEvent.angle = Math.round((angle - this.__initialAngle) % 360);
         this._fireEvent(domEvent, "rotate", this.__primaryTarget);
       }
     },
-
 
     /**
      * Fires a pinch event.
@@ -858,15 +909,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    __firePinch: function(domEvent, target) {
+    __firePinch(domEvent, target) {
       if (!domEvent.isPrimary) {
         var distance = this._calcDistance();
         var scale = distance / this.__initialDistance;
-        domEvent.scale = (Math.round(scale * 100) / 100);
+        domEvent.scale = Math.round(scale * 100) / 100;
         this._fireEvent(domEvent, "pinch", this.__primaryTarget);
       }
     },
-
 
     /**
      * Fires the long tap event.
@@ -874,7 +924,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    __fireLongTap : function(domEvent, target) {
+    __fireLongTap(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
       if (gesture) {
         this._fireEvent(domEvent, "longtap", domEvent.target || target);
@@ -883,12 +933,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
     },
 
-
     /**
      * Stops the time for the long tap event.
      * @param gesture {Map} Data may representing the gesture.
      */
-    __stopLongTapTimer : function(gesture) {
+    __stopLongTapTimer(gesture) {
       if (gesture.longTapTimer) {
         window.clearTimeout(gesture.longTapTimer);
         gesture.longTapTimer = null;
@@ -898,8 +947,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * Dispose the current instance
      */
-    dispose : function() {
-      for(var gesture in this.__gesture) {
+    dispose() {
+      for (var gesture in this.__gesture) {
         this.__stopLongTapTimer(gesture);
       }
 

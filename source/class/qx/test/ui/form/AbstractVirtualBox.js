@@ -15,26 +15,22 @@
      * Alexander Steitz (aback)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.AbstractVirtualBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.__selectBox = new qx.ui.form.VirtualSelectBox;
+  members: {
+    setUp() {
+      this.__selectBox = new qx.ui.form.VirtualSelectBox();
       this.getRoot().add(this.__selectBox);
 
-      this.__comboBox = new qx.ui.form.VirtualComboBox;
+      this.__comboBox = new qx.ui.form.VirtualComboBox();
       this.getRoot().add(this.__comboBox);
 
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.__selectBox.dispose();
       this.__selectBox = null;
 
@@ -42,8 +38,7 @@ qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
       this.__comboBox = null;
     },
 
-    testStatePopupOpen : function()
-    {
+    testStatePopupOpen() {
       this.__selectBox.open();
       this.flush();
       this.assertTrue(this.__selectBox.hasState("popupOpen"));
@@ -61,8 +56,7 @@ qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
       this.assertFalse(this.__comboBox.hasState("popupOpen"));
     },
 
-    testListLengthAfterModelChangeSelectBox : function()
-    {
+    testListLengthAfterModelChangeSelectBox() {
       var model = new qx.data.Array(["a", "b", "c"]);
       this.__selectBox.setModel(model);
       this.__selectBox.open();
@@ -84,8 +78,7 @@ qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
       this.__selectBox.resetModel();
     },
 
-    testListLengthAfterModelChangeComboBox : function()
-    {
+    testListLengthAfterModelChangeComboBox() {
       var model = new qx.data.Array(["a", "b", "c"]);
       this.__comboBox.setModel(model);
       this.__comboBox.open();

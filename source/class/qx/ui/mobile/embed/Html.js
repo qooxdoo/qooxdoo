@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * The Html widget embeds plain HTML code into the application
  *
@@ -30,10 +29,8 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.embed.Html",
-{
-  extend : qx.ui.mobile.core.Widget,
-
+qx.Class.define("qx.ui.mobile.embed.Html", {
+  extend: qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
@@ -44,16 +41,12 @@ qx.Class.define("qx.ui.mobile.embed.Html",
   /**
    * @param html {String?null} Initial HTML content
    */
-  construct : function(html)
-  {
-    this.base(arguments);
+  construct(html) {
+    super();
     if (html) {
       this.setHtml(html);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -61,21 +54,16 @@ qx.Class.define("qx.ui.mobile.embed.Html",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Any text string which can contain HTML, too */
-    html :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      event : "changeHtml",
-      apply : "_applyHtml"
+    html: {
+      check: "String",
+      init: null,
+      nullable: true,
+      event: "changeHtml",
+      apply: "_applyHtml"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -83,11 +71,9 @@ qx.Class.define("qx.ui.mobile.embed.Html",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyHtml : function(value, old)
-    {
+    _applyHtml(value, old) {
       this._setHtml(value);
     }
   }

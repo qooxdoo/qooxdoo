@@ -31,20 +31,16 @@
  * you like to act with a widget instead of a pure logic coupling of the
  * widgets, take a look at the {@link qx.ui.form.RadioButtonGroup} widget.
  */
-qx.Class.define("qx.ui.form.RadioGroup",
-{
-  extend : qx.core.Object,
-  implement : [
+qx.Class.define("qx.ui.form.RadioGroup", {
+  extend: qx.core.Object,
+  implement: [
     qx.ui.core.ISingleSelection,
     qx.ui.form.IField,
     qx.ui.form.IForm,
     qx.ui.form.IModelSelection
   ],
-  include : [
-    qx.ui.core.MSingleSelectionHandling,
-    qx.ui.form.MModelSelection
-  ],
 
+  include: [qx.ui.core.MSingleSelectionHandling, qx.ui.form.MModelSelection],
 
   /*
   *****************************************************************************
@@ -52,14 +48,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
   *****************************************************************************
   */
 
-
   /**
    * @param varargs {qx.core.Object} A variable number of items, which are
    *     initially added to the radio group, the first item will be selected.
    */
-  construct : function(varargs)
-  {
-    this.base(arguments);
+  construct(varargs) {
+    super();
 
     // create item array
     this.__items = [];
@@ -72,46 +66,40 @@ qx.Class.define("qx.ui.form.RadioGroup",
     }
   },
 
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-
-  properties :
-  {
+  properties: {
     /**
      * The property name in each of the added widgets that is grouped
      */
-    groupedProperty :
-    {
-      check : "String",
-      apply : "_applyGroupedProperty",
-      event : "changeGroupedProperty",
-      init  : "value"
+    groupedProperty: {
+      check: "String",
+      apply: "_applyGroupedProperty",
+      event: "changeGroupedProperty",
+      init: "value"
     },
 
     /**
      * The property name in each of the added widgets that is informed of the
      * RadioGroup object it is a member of
      */
-    groupProperty :
-    {
-      check : "String",
-      event : "changeGroupProperty",
-      init  : "group"
+    groupProperty: {
+      check: "String",
+      event: "changeGroupProperty",
+      init: "group"
     },
 
     /**
      * Whether the radio group is enabled
      */
-    enabled :
-    {
-      check : "Boolean",
-      apply : "_applyEnabled",
-      event : "changeEnabled",
+    enabled: {
+      check: "Boolean",
+      apply: "_applyEnabled",
+      event: "changeEnabled",
       init: true
     },
 
@@ -119,9 +107,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * Whether the selection should wrap around. This means that the successor of
      * the last item is the first item.
      */
-    wrap :
-    {
-      check : "Boolean",
+    wrap: {
+      check: "Boolean",
       init: true
     },
 
@@ -129,55 +116,52 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * If is set to <code>true</code> the selection could be empty,
      * otherwise is always one <code>RadioButton</code> selected.
      */
-    allowEmptySelection :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyAllowEmptySelection"
+    allowEmptySelection: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyAllowEmptySelection"
     },
 
     /**
      * Flag signaling if the group at all is valid. All children will have the
      * same state.
      */
-    valid : {
-      check : "Boolean",
-      init : true,
-      apply : "_applyValid",
-      event : "changeValid"
+    valid: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyValid",
+      event: "changeValid"
     },
 
     /**
      * Flag signaling if the group is required.
      */
-    required : {
-      check : "Boolean",
-      init : false,
-      event : "changeRequired"
+    required: {
+      check: "Boolean",
+      init: false,
+      event: "changeRequired"
     },
 
     /**
      * Message which is shown in an invalid tooltip.
      */
-    invalidMessage : {
-      check : "String",
+    invalidMessage: {
+      check: "String",
       init: "",
-      event : "changeInvalidMessage",
-      apply : "_applyInvalidMessage"
+      event: "changeInvalidMessage",
+      apply: "_applyInvalidMessage"
     },
-
 
     /**
      * Message which is shown in an invalid tooltip if the {@link #required} is
      * set to true.
      */
-    requiredInvalidMessage : {
-      check : "String",
-      nullable : true,
-      event : "changeInvalidMessage"
+    requiredInvalidMessage: {
+      check: "String",
+      nullable: true,
+      event: "changeInvalidMessage"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -185,12 +169,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.form.IRadioItem[]} The items of the radio group */
-    __items : null,
-
+    __items: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -198,16 +179,14 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get all managed items
      *
      * @return {qx.ui.form.IRadioItem[]} All managed items.
      */
-    getItems : function() {
+    getItems() {
       return this.__items;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -215,21 +194,18 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Add the passed items to the radio group.
      *
      * @param varargs {qx.ui.form.IRadioItem} A variable number of items to add.
      */
-    add : function(varargs)
-    {
+    add(varargs) {
       var items = this.__items;
       var item;
       var groupedProperty = this.getGroupedProperty();
       var groupedPropertyUp = qx.lang.String.firstUp(groupedProperty);
 
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
+      for (var i = 0, l = arguments.length; i < l; i++) {
         item = arguments[i];
 
         if (items.includes(item)) {
@@ -238,7 +214,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         // Register listeners
         item.addListener(
-          "change" + groupedPropertyUp, this._onItemChangeChecked, this);
+          "change" + groupedPropertyUp,
+          this._onItemChangeChecked,
+          this
+        );
 
         // Push RadioButton to array
         items.push(item);
@@ -253,7 +232,11 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
 
       // Select first item when only one is registered
-      if (!this.isAllowEmptySelection() && items.length > 0 && !this.getSelection()[0]) {
+      if (
+        !this.isAllowEmptySelection() &&
+        items.length > 0 &&
+        !this.getSelection()[0]
+      ) {
         this.setSelection([items[0]]);
       }
     },
@@ -263,14 +246,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
      *
      * @param item {qx.ui.form.IRadioItem} The item to remove.
      */
-    remove : function(item)
-    {
+    remove(item) {
       var items = this.__items;
       var groupedProperty = this.getGroupedProperty();
       var groupedPropertyUp = qx.lang.String.firstUp(groupedProperty);
 
-      if (items.includes(item))
-      {
+      if (items.includes(item)) {
         // Remove RadioButton from array
         qx.lang.Array.remove(items, item);
 
@@ -281,7 +262,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         // Deregister listeners
         item.removeListener(
-          "change" + groupedPropertyUp, this._onItemChangeChecked, this);
+          "change" + groupedPropertyUp,
+          this._onItemChangeChecked,
+          this
+        );
 
         // if the radio was checked, set internal selection to null
         if (item.get(groupedProperty)) {
@@ -290,17 +274,14 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
-
     /**
      * Returns an array containing the group's items.
      *
      * @return {qx.ui.form.IRadioItem[]} The item array
      */
-    getChildren : function()
-    {
+    getChildren() {
       return this.__items;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -308,14 +289,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event listener for <code>changeValue</code> event of every managed item.
      *
      * @param e {qx.event.type.Data} Data event
      */
-    _onItemChangeChecked : function(e)
-    {
+    _onItemChangeChecked(e) {
       var item = e.getTarget();
       var groupedProperty = this.getGroupedProperty();
 
@@ -326,7 +305,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -334,7 +312,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     */
 
     // property apply
-    _applyGroupedProperty : function(value, old) {
+    _applyGroupedProperty(value, old) {
       var item;
       var oldFirstUp = qx.lang.String.firstUp(old);
       var newFirstUp = qx.lang.String.firstUp(value);
@@ -344,54 +322,54 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         // remove the listener for the old change event
         item.removeListener(
-          "change" + oldFirstUp, this._onItemChangeChecked, this);
+          "change" + oldFirstUp,
+          this._onItemChangeChecked,
+          this
+        );
 
         // add the listener for the new change event
         item.removeListener(
-          "change" + newFirstUp, this._onItemChangeChecked, this);
+          "change" + newFirstUp,
+          this._onItemChangeChecked,
+          this
+        );
       }
     },
 
     // property apply
-    _applyInvalidMessage : function(value, old) {
+    _applyInvalidMessage(value, old) {
       for (var i = 0; i < this.__items.length; i++) {
         this.__items[i].setInvalidMessage(value);
       }
     },
 
     // property apply
-    _applyValid: function(value, old) {
+    _applyValid(value, old) {
       for (var i = 0; i < this.__items.length; i++) {
         this.__items[i].setValid(value);
       }
     },
 
     // property apply
-    _applyEnabled : function(value, old)
-    {
+    _applyEnabled(value, old) {
       var items = this.__items;
-      if (value == null)
-      {
-        for (var i=0, l=items.length; i<l; i++) {
+      if (value == null) {
+        for (var i = 0, l = items.length; i < l; i++) {
           items[i].resetEnabled();
         }
-      }
-      else
-      {
-        for (var i=0, l=items.length; i<l; i++) {
+      } else {
+        for (var i = 0, l = items.length; i < l; i++) {
           items[i].setEnabled(value);
         }
       }
     },
 
     // property apply
-    _applyAllowEmptySelection : function(value, old)
-    {
+    _applyAllowEmptySelection(value, old) {
       if (!value && this.isSelectionEmpty()) {
         this.resetSelection();
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -399,12 +377,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Select the item following the given item.
      */
-    selectNext : function()
-    {
+    selectNext() {
       var item = this.getSelection()[0];
       var items = this.__items;
       var index = items.indexOf(item);
@@ -422,8 +398,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
         index = Math.min(index + 1, length - 1);
       }
 
-      while (i < length && !items[index].getEnabled())
-      {
+      while (i < length && !items[index].getEnabled()) {
         index = (index + 1) % length;
         i++;
       }
@@ -431,12 +406,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
       this.setSelection([items[index]]);
     },
 
-
     /**
      * Select the item previous the given item.
      */
-    selectPrevious : function()
-    {
+    selectPrevious() {
       var item = this.getSelection()[0];
       var items = this.__items;
       var index = items.indexOf(item);
@@ -454,8 +427,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
         index = Math.max(index - 1, 0);
       }
 
-      while (i < length && !items[index].getEnabled())
-      {
+      while (i < length && !items[index].getEnabled()) {
         index = (index - 1 + length) % length;
         i++;
       }
@@ -463,20 +435,18 @@ qx.Class.define("qx.ui.form.RadioGroup",
       this.setSelection([items[index]]);
     },
 
-
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS FOR SELECTION API
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns the items for the selection.
      *
      * @return {qx.ui.form.IRadioItem[]} Items to select.
      */
-    _getItems : function() {
+    _getItems() {
       return this.getItems();
     },
 
@@ -486,10 +456,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * @return {Boolean} <code>true</code> If selection could be empty,
      *    <code>false</code> otherwise.
      */
-    _isAllowEmptySelection: function() {
+    _isAllowEmptySelection() {
       return this.isAllowEmptySelection();
     },
-
 
     /**
      * Returns whether the item is selectable. In opposite to the default
@@ -500,18 +469,16 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * @return {Boolean} <code>true</code> if the item is part of the radio group
      *    <code>false</code> otherwise.
      */
-    _isItemSelectable : function(item) {
+    _isItemSelectable(item) {
       return this.__items.indexOf(item) != -1;
     },
-
 
     /**
      * Event handler for <code>changeSelection</code>.
      *
      * @param e {qx.event.type.Data} Data event.
      */
-    __onChangeSelection : function(e)
-    {
+    __onChangeSelection(e) {
       var value = e.getData()[0];
       var old = e.getOldData()[0];
       var groupedProperty = this.getGroupedProperty();
@@ -534,7 +501,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * Checks if this group is focused by checking focused state of each item
      * @returns {Boolean} result
      */
-    __isGroupFocused: function () {
+    __isGroupFocused() {
       const focusHandler = qx.ui.core.FocusHandler.getInstance();
       for (const item of this._getItems()) {
         if (focusHandler.isFocused(item)) {
@@ -545,15 +512,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-
-  destruct : function() {
+  destruct() {
     this._disposeArray("__items");
   }
 });

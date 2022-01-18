@@ -20,7 +20,4 @@
  * This is a marker interface for classes which can act as a children of
  * {@link qx.ui.form.List}
  */
-qx.Interface.define("qx.ui.form.IListItem", {
-  
-});
-
+qx.Interface.define("qx.ui.form.IListItem", {});

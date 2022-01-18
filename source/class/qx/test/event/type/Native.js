@@ -16,18 +16,19 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.event.type.Native", {
+  extend: qx.dev.unit.TestCase,
 
-qx.Class.define("qx.test.event.type.Native",
-{
-  extend : qx.dev.unit.TestCase,
-
-
-  members :
-  {
-    testClone : function()
-    {
+  members: {
+    testClone() {
       var domEvent = {};
-      var event = new qx.event.type.Native().init(domEvent, document.body, document.body, true, true);
+      var event = new qx.event.type.Native().init(
+        domEvent,
+        document.body,
+        document.body,
+        true,
+        true
+      );
 
       var clone = event.clone();
 

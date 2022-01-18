@@ -24,13 +24,10 @@
  * @childControl button {qx.ui.form.Button} button to execute action
  * @childControl arrow {qx.ui.form.MenuButton} arrow to open the popup
  */
-qx.Class.define("qx.ui.form.SplitButton",
-{
-  extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MExecutable],
-  implement : [qx.ui.form.IExecutable],
-
-
+qx.Class.define("qx.ui.form.SplitButton", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MExecutable],
+  implement: [qx.ui.form.IExecutable],
 
   /*
   *****************************************************************************
@@ -44,14 +41,13 @@ qx.Class.define("qx.ui.form.SplitButton",
    * @param menu {qx.ui.menu.Menu} Connect to menu instance
    * @param command {qx.ui.command.Command} Command instance to connect with
    */
-  construct : function(label, icon, menu, command)
-  {
-    this.base(arguments);
+  construct(label, icon, menu, command) {
+    super();
 
     // ARIA attrs
     this.getContentElement().setAttribute("role", "button");
 
-    this._setLayout(new qx.ui.layout.HBox);
+    this._setLayout(new qx.ui.layout.HBox());
 
     // Force arrow creation
     this._createChildControl("arrow");
@@ -82,76 +78,61 @@ qx.Class.define("qx.ui.form.SplitButton",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "splitbutton"
+    appearance: {
+      refine: true,
+      init: "splitbutton"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
-
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
-    label :
-    {
-      apply : "_applyLabel",
-      nullable : true,
-      check : "String"
+    label: {
+      apply: "_applyLabel",
+      nullable: true,
+      check: "String"
     },
-
 
     /** Any URI String supported by qx.ui.basic.Image to display an icon */
-    icon :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      nullable : true,
-      themeable : true
+    icon: {
+      check: "String",
+      apply: "_applyIcon",
+      nullable: true,
+      themeable: true
     },
-
 
     /**
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, text, icon
      */
-    show :
-    {
-      init : "both",
-      check : [ "both", "label", "icon" ],
-      themeable : true,
-      inheritable : true,
-      apply : "_applyShow",
-      event : "changeShow"
+    show: {
+      init: "both",
+      check: ["both", "label", "icon"],
+      themeable: true,
+      inheritable: true,
+      apply: "_applyShow",
+      event: "changeShow"
     },
 
-
     /** The menu instance to show when tapping on the button */
-    menu :
-    {
-      check : "qx.ui.menu.Menu",
-      nullable : true,
-      apply : "_applyMenu",
-      event : "changeMenu"
+    menu: {
+      check: "qx.ui.menu.Menu",
+      nullable: true,
+      apply: "_applyMenu",
+      event: "changeMenu"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -159,10 +140,8 @@ qx.Class.define("qx.ui.form.SplitButton",
   *****************************************************************************
   */
 
-  members :
-  {
-    __cursorIsOut : null,
-
+  members: {
+    __cursorIsOut: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -171,17 +150,15 @@ qx.Class.define("qx.ui.form.SplitButton",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "button":
-          control = new qx.ui.form.Button;
+          control = new qx.ui.form.Button();
           control.addListener("execute", this._onButtonExecute, this);
           control.setFocusable(false);
-          this._addAt(control, 0, {flex: 1});
+          this._addAt(control, 0, { flex: 1 });
           break;
 
         case "arrow":
@@ -192,21 +169,17 @@ qx.Class.define("qx.ui.form.SplitButton",
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      hovered : 1,
-      focused : 1
+    _forwardStates: {
+      hovered: 1,
+      focused: 1
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -215,51 +188,50 @@ qx.Class.define("qx.ui.form.SplitButton",
     */
 
     // property apply
-    _applyLabel : function(value, old)
-    {
+    _applyLabel(value, old) {
       var button = this.getChildControl("button");
       value == null ? button.resetLabel() : button.setLabel(value);
     },
 
     // property apply
-    _applyIcon : function(value, old)
-    {
+    _applyIcon(value, old) {
       var button = this.getChildControl("button");
       value == null ? button.resetIcon() : button.setIcon(value);
     },
 
     // property apply
-    _applyMenu : function(value, old)
-    {
+    _applyMenu(value, old) {
       var arrow = this.getChildControl("arrow");
 
-      if (value)
-      {
+      if (value) {
         arrow.resetEnabled();
         arrow.setMenu(value);
         value.setOpener(this);
 
-        value.addListener("changeVisibility", this._onChangeMenuVisibility, this);
-      }
-      else
-      {
+        value.addListener(
+          "changeVisibility",
+          this._onChangeMenuVisibility,
+          this
+        );
+      } else {
         arrow.setEnabled(false);
         arrow.resetMenu();
       }
 
-      if (old)
-      {
-        old.removeListener("changeVisibility", this._onChangeMenuVisibility, this);
+      if (old) {
+        old.removeListener(
+          "changeVisibility",
+          this._onChangeMenuVisibility,
+          this
+        );
         old.resetOpener();
       }
     },
 
     // property apply
-    _applyShow : function(value, old) {
+    _applyShow(value, old) {
       // pass: is already inherited to the button
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -272,8 +244,7 @@ qx.Class.define("qx.ui.form.SplitButton",
      *
      * @param e {qx.event.type.Pointer} pointerover event
      */
-    _onPointerOver : function(e)
-    {
+    _onPointerOver(e) {
       // Captured listener
       // Whole stop for event, do not let the
       // inner buttons know about this event.
@@ -286,14 +257,12 @@ qx.Class.define("qx.ui.form.SplitButton",
       delete this.__cursorIsOut;
     },
 
-
     /**
      * Listener for <code>pointerout</code> event
      *
      * @param e {qx.event.type.Pointer} pointerout event
      */
-    _onPointerOut : function(e)
-    {
+    _onPointerOut(e) {
       // Captured listener
       // Whole stop for event, do not let the
       // inner buttons know about this event.
@@ -313,8 +282,7 @@ qx.Class.define("qx.ui.form.SplitButton",
       // When the menu is visible (cursor moved to the menu)
       // keep the hover state on the whole button
       var menu = this.getMenu();
-      if (menu && menu.isVisible())
-      {
+      if (menu && menu.isVisible()) {
         this.__cursorIsOut = true;
         return;
       }
@@ -323,17 +291,14 @@ qx.Class.define("qx.ui.form.SplitButton",
       this.removeState("hovered");
     },
 
-
     /**
      * Event listener for all keyboard events
      *
      * @param e {qx.event.type.KeySequence} Event object
      */
-    _onKeyDown : function(e)
-    {
+    _onKeyDown(e) {
       var button = this.getChildControl("button");
-      switch(e.getKeyIdentifier())
-      {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
           button.removeState("abandoned");
@@ -341,21 +306,17 @@ qx.Class.define("qx.ui.form.SplitButton",
       }
     },
 
-
     /**
      * Event listener for all keyboard events
      *
      * @param e {qx.event.type.KeySequence} Event object
      */
-    _onKeyUp : function(e)
-    {
+    _onKeyUp(e) {
       var button = this.getChildControl("button");
-      switch(e.getKeyIdentifier())
-      {
+      switch (e.getKeyIdentifier()) {
         case "Enter":
         case "Space":
-          if (button.hasState("pressed"))
-          {
+          if (button.hasState("pressed")) {
             button.removeState("abandoned");
             button.removeState("pressed");
             button.execute();
@@ -363,26 +324,22 @@ qx.Class.define("qx.ui.form.SplitButton",
       }
     },
 
-
     /**
      * Event listener for button's execute event.
      *
      * @param e {qx.event.type.Event} execute event of the button
      */
-    _onButtonExecute : function(e)
-    {
+    _onButtonExecute(e) {
       // forward execute event
       this.execute();
     },
-
 
     /**
      * Event listener for visibility changes of the menu
      *
      * @param e {qx.event.type.Data} property change event
      */
-    _onChangeMenuVisibility : function(e)
-    {
+    _onChangeMenuVisibility(e) {
       if (!this.getMenu().isVisible() && this.__cursorIsOut) {
         this.removeState("hovered");
       }

@@ -19,31 +19,26 @@
 /**
  * Column width array for a whole set of columns
  */
-qx.Class.define("qx.ui.progressive.renderer.table.Widths",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.progressive.renderer.table.Widths", {
+  extend: qx.core.Object,
 
   /**
    * @param numColumns {Integer}
    *   The number of columns being used.
    */
-  construct : function(numColumns)
-  {
-    this.base(arguments);
+  construct(numColumns) {
+    super();
 
     // Create an array of the specified number of columns, and use the default
     // column data.
-    this.__columnData = [ ];
-    for (var i = 0; i < numColumns; i++)
-    {
+    this.__columnData = [];
+    for (var i = 0; i < numColumns; i++) {
       this.__columnData[i] = new qx.ui.core.ColumnData();
     }
   },
 
-  members :
-  {
-
-    __columnData : null,
+  members: {
+    __columnData: null,
 
     /**
      * Get the array of column data.
@@ -52,8 +47,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *   Array of column data
      *
      */
-    getData : function()
-    {
+    getData() {
       return this.__columnData;
     },
 
@@ -71,26 +65,23 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      *   respectively.
      *
      */
-    set : function(column, map)
-    {
-      for (var key in map)
-      {
-        switch(key)
-        {
-        case "width":
-          this.setWidth(column, map[key]);
-          break;
+    set(column, map) {
+      for (var key in map) {
+        switch (key) {
+          case "width":
+            this.setWidth(column, map[key]);
+            break;
 
-        case "minWidth":
-          this.setMinWidth(column, map[key]);
-          break;
+          case "minWidth":
+            this.setMinWidth(column, map[key]);
+            break;
 
-        case "maxWidth":
-          this.setMaxWidth(column, map[key]);
-          break;
+          case "maxWidth":
+            this.setMaxWidth(column, map[key]);
+            break;
 
-        default:
-          throw new Error("Unrecognized key: " + key);
+          default:
+            throw new Error("Unrecognized key: " + key);
         }
       }
     },
@@ -111,10 +102,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setWidth : function(column, width)
-    {
-      if (column > this.__columnData.length - 1 || column < 0)
-      {
+    setWidth(column, width) {
+      if (column > this.__columnData.length - 1 || column < 0) {
         throw new Error("Column number out of range");
       }
 
@@ -135,10 +124,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setMinWidth : function(column, width)
-    {
-      if (column > this.__columnData.length - 1 || column < 0)
-      {
+    setMinWidth(column, width) {
+      if (column > this.__columnData.length - 1 || column < 0) {
         throw new Error("Column number out of range");
       }
 
@@ -159,10 +146,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setMaxWidth : function(column, width)
-    {
-      if (column > this.__columnData.length - 1 || column < 0)
-      {
+    setMaxWidth(column, width) {
+      if (column > this.__columnData.length - 1 || column < 0) {
         throw new Error("Column number out of range");
       }
 

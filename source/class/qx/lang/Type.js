@@ -20,10 +20,8 @@
  * Utility class with type check for all native JavaScript data types.
  *
  */
-qx.Bootstrap.define("qx.lang.Type",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.lang.Type", {
+  statics: {
     /**
      * Get the internal class of the value. See
      * http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/
@@ -33,8 +31,7 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} value to get the class for
      * @return {String} the internal class of the value
      */
-    getClass : qx.Bootstrap.getClass,
-
+    getClass: qx.Bootstrap.getClass,
 
     /**
      * Whether the value is a string.
@@ -43,8 +40,7 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a string.
      */
-    isString : qx.Bootstrap.isString,
-
+    isString: qx.Bootstrap.isString,
 
     /**
      * Whether the value is an array.
@@ -53,8 +49,7 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is an array.
      */
-    isArray : qx.Bootstrap.isArray,
-
+    isArray: qx.Bootstrap.isArray,
 
     /**
      * Whether the value is an object. Note that built-in types like Window are
@@ -64,8 +59,7 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is an object.
      */
-     isObject : qx.Bootstrap.isObject,
-
+    isObject: qx.Bootstrap.isObject,
 
     /**
      * Whether the value is a function.
@@ -74,8 +68,7 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a function.
      */
-    isFunction : qx.Bootstrap.isFunction,
-
+    isFunction: qx.Bootstrap.isFunction,
 
     /**
      * Whether the value is a function or an async function.
@@ -84,65 +77,58 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a function or an async function.
      */
-    isFunctionOrAsyncFunction : qx.Bootstrap.isFunctionOrAsyncFunction,
-
+    isFunctionOrAsyncFunction: qx.Bootstrap.isFunctionOrAsyncFunction,
 
     /**
-    * Whether the value is a regular expression.
-    *
-    * @param value {var} Value to check.
-    * @return {Boolean} Whether the value is a regular expression.
-    */
-    isRegExp : function(value) {
+     * Whether the value is a regular expression.
+     *
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a regular expression.
+     */
+    isRegExp(value) {
       return this.getClass(value) === "RegExp";
     },
 
-
     /**
-    * Whether the value is a number.
-    *
-    * This function checks if the _type_ of the value is Number.
-    * Global properties *NaN*, *-Infinity*, *+Infinity*,
-    * *Number.POSITIVE_INFINITY* and *Number.NEGATIVE_INFINITY*
-    * return true.
-    *
-    * @param value {var} Value to check.
-    * @return {Boolean} Whether the value is a number.
-    */
-    isNumber : function(value) {
+     * Whether the value is a number.
+     *
+     * This function checks if the _type_ of the value is Number.
+     * Global properties *NaN*, *-Infinity*, *+Infinity*,
+     * *Number.POSITIVE_INFINITY* and *Number.NEGATIVE_INFINITY*
+     * return true.
+     *
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a number.
+     */
+    isNumber(value) {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Number" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
-        this.getClass(value) === "Number" ||
-        value instanceof Number)
+        value !== null &&
+        (this.getClass(value) === "Number" || value instanceof Number)
       );
     },
 
-
     /**
-    * Whether the value is a boolean.
-    *
-    * @param value {var} Value to check.
-    * @return {Boolean} Whether the value is a boolean.
-    */
-    isBoolean : function(value)
-    {
+     * Whether the value is a boolean.
+     *
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a boolean.
+     */
+    isBoolean(value) {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Boolean" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
-        this.getClass(value) === "Boolean" ||
-        value instanceof Boolean)
+        value !== null &&
+        (this.getClass(value) === "Boolean" || value instanceof Boolean)
       );
     },
-
 
     /**
      * Whether the value is a date.
@@ -150,20 +136,17 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a date.
      */
-    isDate : function(value)
-    {
+    isDate(value) {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Date" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
-        this.getClass(value) === "Date" ||
-        value instanceof Date)
+        value !== null &&
+        (this.getClass(value) === "Date" || value instanceof Date)
       );
     },
-
 
     /**
      * Whether the value is a Error.
@@ -171,20 +154,17 @@ qx.Bootstrap.define("qx.lang.Type",
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a Error.
      */
-    isError : function(value)
-    {
+    isError(value) {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Error" if value is a DOM element that
       // doesn't exist. It seems that there is an internal different between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
-        this.getClass(value) === "Error" ||
-        value instanceof Error)
+        value !== null &&
+        (this.getClass(value) === "Error" || value instanceof Error)
       );
     },
-
 
     /**
      * Whether the value is a Promise.
@@ -195,9 +175,8 @@ qx.Bootstrap.define("qx.lang.Type",
      * @return {Boolean} Whether the value is a Promise.
      *
      */
-     isPromise : function(value)
-     {
-      return (value != null) && this.isFunction(value.then);
-     }
+    isPromise(value) {
+      return value != null && this.isFunction(value.then);
+    }
   }
 });

@@ -16,121 +16,195 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.Group",
-  {
-    extend: qx.test.ui.list.AbstractListTest,
-    construct: function () {
-      this.base(arguments);
-      this.__names = ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
-        "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
-        "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
-        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"];
+qx.Class.define("qx.test.ui.list.Group", {
+  extend: qx.test.ui.list.AbstractListTest,
+  construct() {
+    super();
+    this.__names = [
+      "Luise Siemer",
+      "Trauhard Franke",
+      "Sarina Wilde",
+      "Florine Bähr",
+      "Sigurd Adolph",
+      "Sigmund Kurz",
+      "Pankratius Hill",
+      "Gerlinda Seel",
+      "Trixi Clauß",
+      "Cecilia Hemmer",
+      "Rosely Fröhlich",
+      "Annemargret Hunger",
+      "Dietgar Münster",
+      "Bertwin Joseph",
+      "Edwina Schwarz",
+      "Riana Dirks"
+    ];
+  },
+
+  members: {
+    __names: null,
+
+    createModelData() {
+      return qx.data.marshal.Json.createModel(this.__names);
     },
 
-    members:
-    {
-      __names: null,
+    testGroup() {
+      var groupedModel = qx.data.marshal.Json.createModel([
+        "L",
+        "Luise Siemer",
+        "T",
+        "Trauhard Franke",
+        "Trixi Clauß",
+        "S",
+        "Sarina Wilde",
+        "Sigurd Adolph",
+        "Sigmund Kurz",
+        "F",
+        "Florine Bähr",
+        "P",
+        "Pankratius Hill",
+        "G",
+        "Gerlinda Seel",
+        "C",
+        "Cecilia Hemmer",
+        "R",
+        "Rosely Fröhlich",
+        "Riana Dirks",
+        "A",
+        "Annemargret Hunger",
+        "D",
+        "Dietgar Münster",
+        "B",
+        "Bertwin Joseph",
+        "E",
+        "Edwina Schwarz"
+      ]);
 
-      createModelData: function () {
-        return qx.data.marshal.Json.createModel(this.__names);
-      },
+      var delegate = {
+        group(item) {
+          return item.charAt(0).toUpperCase();
+        }
+      };
 
+      this._list.setDelegate(delegate);
+      this.flush();
 
-      testGroup: function () {
-        var groupedModel = qx.data.marshal.Json.createModel([
-          "L", "Luise Siemer",
-          "T", "Trauhard Franke", "Trixi Clauß",
-          "S", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz",
-          "F", "Florine Bähr",
-          "P", "Pankratius Hill",
-          "G", "Gerlinda Seel",
-          "C", "Cecilia Hemmer",
-          "R", "Rosely Fröhlich", "Riana Dirks",
-          "A", "Annemargret Hunger",
-          "D", "Dietgar Münster",
-          "B", "Bertwin Joseph",
-          "E", "Edwina Schwarz"
-        ]);
+      this.assertModelEqualsRowData(groupedModel, this._list);
+      this.assertEquals(
+        groupedModel.getLength(),
+        this._list.getPane().getRowConfig().getItemCount(),
+        "On Layer"
+      );
+      this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
+    },
 
-        var delegate = {
-          group: function (item) {
-            return item.charAt(0).toUpperCase();
+    testDefaultGroup() {
+      var groupedModel = qx.data.marshal.Json.createModel([
+        "L",
+        "Luise Siemer",
+        "T",
+        "Trauhard Franke",
+        "Trixi Clauß",
+        "???",
+        "Sarina Wilde",
+        "Sigurd Adolph",
+        "Sigmund Kurz",
+        "F",
+        "Florine Bähr",
+        "P",
+        "Pankratius Hill",
+        "G",
+        "Gerlinda Seel",
+        "C",
+        "Cecilia Hemmer",
+        "R",
+        "Rosely Fröhlich",
+        "Riana Dirks",
+        "A",
+        "Annemargret Hunger",
+        "D",
+        "Dietgar Münster",
+        "B",
+        "Bertwin Joseph",
+        "E",
+        "Edwina Schwarz"
+      ]);
+
+      var delegate = {
+        group(item) {
+          var group = item.charAt(0).toUpperCase();
+          if (group == "S") {
+            return null;
           }
-        };
-        this._list.setDelegate(delegate);
-        this.flush();
+          return item.charAt(0).toUpperCase();
+        }
+      };
 
-        this.assertModelEqualsRowData(groupedModel, this._list);
-        this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
-        this.assertEquals(12, this._list.getGroups().getLength(), "On List");
-        groupedModel.dispose();
-      },
+      this._list.setDelegate(delegate);
+      this.flush();
 
-      testDefaultGroup: function () {
-        var groupedModel = qx.data.marshal.Json.createModel([
-          "L", "Luise Siemer",
-          "T", "Trauhard Franke", "Trixi Clauß",
-          "???", "Sarina Wilde", "Sigurd Adolph", "Sigmund Kurz",
-          "F", "Florine Bähr",
-          "P", "Pankratius Hill",
-          "G", "Gerlinda Seel",
-          "C", "Cecilia Hemmer",
-          "R", "Rosely Fröhlich", "Riana Dirks",
-          "A", "Annemargret Hunger",
-          "D", "Dietgar Münster",
-          "B", "Bertwin Joseph",
-          "E", "Edwina Schwarz"
-        ]);
+      this.assertModelEqualsRowData(groupedModel, this._list);
+      this.assertEquals(
+        groupedModel.getLength(),
+        this._list.getPane().getRowConfig().getItemCount(),
+        "On Layer"
+      );
+      this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
+    },
 
-        var delegate = {
-          group: function (item) {
-            var group = item.charAt(0).toUpperCase();
-            if (group == "S") {
-              return null;
-            }
-            return item.charAt(0).toUpperCase();
-          }
-        };
-        this._list.setDelegate(delegate);
-        this.flush();
+    testGroupWithSorter() {
+      var groupedModel = qx.data.marshal.Json.createModel([
+        "T",
+        "Trixi Clauß",
+        "Trauhard Franke",
+        "S",
+        "Sigurd Adolph",
+        "Sigmund Kurz",
+        "Sarina Wilde",
+        "R",
+        "Rosely Fröhlich",
+        "Riana Dirks",
+        "P",
+        "Pankratius Hill",
+        "L",
+        "Luise Siemer",
+        "G",
+        "Gerlinda Seel",
+        "F",
+        "Florine Bähr",
+        "E",
+        "Edwina Schwarz",
+        "D",
+        "Dietgar Münster",
+        "C",
+        "Cecilia Hemmer",
+        "B",
+        "Bertwin Joseph",
+        "A",
+        "Annemargret Hunger"
+      ]);
 
-        this.assertModelEqualsRowData(groupedModel, this._list);
-        this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
-        this.assertEquals(12, this._list.getGroups().getLength(), "On List");
-        groupedModel.dispose();
-      },
+      var delegate = {
+        sorter(a, b) {
+          return a < b ? 1 : a > b ? -1 : 0;
+        },
+        group(item) {
+          return item.charAt(0).toUpperCase();
+        }
+      };
 
-      testGroupWithSorter: function () {
-        var groupedModel = qx.data.marshal.Json.createModel([
-          "T", "Trixi Clauß", "Trauhard Franke",
-          "S", "Sigurd Adolph", "Sigmund Kurz", "Sarina Wilde",
-          "R", "Rosely Fröhlich", "Riana Dirks",
-          "P", "Pankratius Hill",
-          "L", "Luise Siemer",
-          "G", "Gerlinda Seel",
-          "F", "Florine Bähr",
-          "E", "Edwina Schwarz",
-          "D", "Dietgar Münster",
-          "C", "Cecilia Hemmer",
-          "B", "Bertwin Joseph",
-          "A", "Annemargret Hunger"
-        ]);
+      this._list.setDelegate(delegate);
+      this.flush();
 
-        var delegate = {
-          sorter: function (a, b) {
-            return a < b ? 1 : a > b ? -1 : 0;
-          },
-          group: function (item) {
-            return item.charAt(0).toUpperCase();
-          }
-        };
-        this._list.setDelegate(delegate);
-        this.flush();
-
-        this.assertModelEqualsRowData(groupedModel, this._list);
-        this.assertEquals(groupedModel.getLength(), this._list.getPane().getRowConfig().getItemCount(), "On Layer");
-        this.assertEquals(12, this._list.getGroups().getLength(), "On List");
-        groupedModel.dispose();
-      }
+      this.assertModelEqualsRowData(groupedModel, this._list);
+      this.assertEquals(
+        groupedModel.getLength(),
+        this._list.getPane().getRowConfig().getItemCount(),
+        "On Layer"
+      );
+      this.assertEquals(12, this._list.getGroups().getLength(), "On List");
+      groupedModel.dispose();
     }
-  });
+  }
+});

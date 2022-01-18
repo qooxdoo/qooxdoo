@@ -34,8 +34,8 @@ var log = qx.tool.utils.LogManager.createLog("library");
 qx.Class.define("qx.tool.compiler.app.Library", {
   extend: qx.core.Object,
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.__knownSymbols = {};
     this.__sourceFileExtensions = {};
     this.__environmentChecks = {};
@@ -114,7 +114,6 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     requires: {
       init: null
     }
-
   },
 
   members: {
@@ -129,7 +128,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @returns {*}
      * @private
      */
-    _transformRootDir: function(value) {
+    _transformRootDir(value) {
       //      if (value)
       //        value = path.resolve(value);
       return value;
@@ -140,22 +139,29 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * properties
      * @param loadFromDir {String} directory
      */
-    loadManifest: function(loadFromDir) {
+    loadManifest(loadFromDir) {
       if (this.__promiseLoadManifest) {
         return this.__promiseLoadManifest;
       }
-      return this.__promiseLoadManifest = this.__loadManifestImpl(loadFromDir);
+      return (this.__promiseLoadManifest =
+        this.__loadManifestImpl(loadFromDir));
     },
 
     async __loadManifestImpl(loadFromDir) {
       var Console = qx.tool.compiler.Console.getInstance();
       let rootDir = loadFromDir;
 
-      rootDir = await qx.tool.utils.files.Utils.correctCase(path.resolve(loadFromDir));
+      rootDir = await qx.tool.utils.files.Utils.correctCase(
+        path.resolve(loadFromDir)
+      );
       this.setRootDir(rootDir);
-      let data = await qx.tool.utils.Json.loadJsonAsync(rootDir + "/Manifest.json");
+      let data = await qx.tool.utils.Json.loadJsonAsync(
+        rootDir + "/Manifest.json"
+      );
       if (!data) {
-        throw new Error(Console.decode("qx.tool.compiler.library.emptyManifest", rootDir));
+        throw new Error(
+          Console.decode("qx.tool.compiler.library.emptyManifest", rootDir)
+        );
       }
       this.setNamespace(data.provides.namespace);
       this.setVersion(data.info.version);
@@ -181,17 +187,31 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       const fixLibraryPath = async dir => {
         let d = path.resolve(rootDir, dir);
         if (!fs.existsSync(d)) {
-          this.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", this.getNamespace(), dir));
+          this.warn(
+            Console.decode(
+              "qx.tool.compiler.library.cannotFindPath",
+              this.getNamespace(),
+              dir
+            )
+          );
           return dir;
         }
         let correctedDir = await qx.tool.utils.files.Utils.correctCase(d);
-        if (correctedDir.substring(0, rootDir.length + 1) != rootDir + path.sep) {
-          this.warn(Console.decode("qx.tool.compiler.library.cannotCorrectCase", rootDir));
+        if (
+          correctedDir.substring(0, rootDir.length + 1) !=
+          rootDir + path.sep
+        ) {
+          this.warn(
+            Console.decode(
+              "qx.tool.compiler.library.cannotCorrectCase",
+              rootDir
+            )
+          );
           return dir;
         }
         correctedDir = correctedDir.substring(rootDir.length + 1);
         return correctedDir;
-      }
+      };
 
       let sourcePath = await fixLibraryPath(data.provides["class"]);
       this.setSourcePath(sourcePath);
@@ -233,7 +253,10 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         this.setRequires(data.requires);
       }
       if (data.provides && data.provides.boot) {
-        qx.tool.compiler.Console.print("qx.tool.cli.compile.deprecatedProvidesBoot", rootDir);
+        qx.tool.compiler.Console.print(
+          "qx.tool.cli.compile.deprecatedProvidesBoot",
+          rootDir
+        );
       }
     },
 
@@ -243,11 +266,11 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * files and also to prepopulate the known symbols list
      * @param cb {Function} (err, classes) returns an array of class names
      */
-    scanForClasses: function(cb) {
+    scanForClasses(cb) {
       var t = this;
       var classes = [];
       function scanDir(folder, packageName, cb) {
-        fs.readdir(folder, function(err, filenames) {
+        fs.readdir(folder, function (err, filenames) {
           if (err) {
             cb(err);
             return;
@@ -255,12 +278,12 @@ qx.Class.define("qx.tool.compiler.app.Library", {
 
           async.each(
             filenames,
-            function(filename, cb) {
+            function (filename, cb) {
               if (filename[0] == ".") {
                 cb();
                 return;
               }
-              fs.stat(path.join(folder, filename), function(err, stat) {
+              fs.stat(path.join(folder, filename), function (err, stat) {
                 if (err || !stat) {
                   cb(err);
                   return;
@@ -315,18 +338,25 @@ qx.Class.define("qx.tool.compiler.app.Library", {
                 cb();
               });
             },
-            cb);
+            cb
+          );
         });
       }
 
       let rootDir = path.join(t.getRootDir(), t.getSourcePath());
       if (!fs.existsSync(rootDir)) {
         let Console = qx.tool.compiler.Console.getInstance();
-        qx.tool.compiler.Console.warn(Console.decode("qx.tool.compiler.library.cannotFindPath", t.getNamespace(), rootDir));
+        qx.tool.compiler.Console.warn(
+          Console.decode(
+            "qx.tool.compiler.library.cannotFindPath",
+            t.getNamespace(),
+            rootDir
+          )
+        );
         cb(null, []);
         return;
       }
-      scanDir(rootDir, "", function(err) {
+      scanDir(rootDir, "", function (err) {
         cb(err, classes);
       });
     },
@@ -337,7 +367,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @param {String} name
      * @return {{symbolType,name,className}?}
      */
-    getSymbolType: function(name) {
+    getSymbolType(name) {
       if (!name.length) {
         return null;
       }
@@ -417,7 +447,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     /**
      * Returns all known symbols as a map indexed by symbol name
      */
-    getKnownSymbols: function() {
+    getKnownSymbols() {
       return this.__knownSymbols;
     },
 
@@ -427,7 +457,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      *
      * @param {String} className
      */
-    getSourceFileExtension: function(className) {
+    getSourceFileExtension(className) {
       return this.__sourceFileExtensions[className];
     },
 
@@ -437,7 +467,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @param filename {String} the filename relative to this library
      * @return {String} the full filename
      */
-    getFilename: function(filename) {
+    getFilename(filename) {
       return path.join(this.getRootDir(), this.getSourcePath(), filename);
     },
 
@@ -447,7 +477,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @param filename {String} the filename relative to this library
      * @return {String} the full filename
      */
-    getResourceFilename: function(filename) {
+    getResourceFilename(filename) {
       return path.join(this.getRootDir(), this.getResourcePath(), filename);
     },
 
@@ -457,7 +487,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * @param filename {String} the filename relative to this library
      * @return {String} the full filename
      */
-    getThemeFilename: function(filename) {
+    getThemeFilename(filename) {
       return path.join(this.getRootDir(), this.getThemePath(), filename);
     }
   },

@@ -19,11 +19,8 @@
 /**
  * Static helpers for parsing and modifying URIs.
  */
-qx.Bootstrap.define("qx.util.Uri",
-{
-
-  statics:
-  {
+qx.Bootstrap.define("qx.util.Uri", {
+  statics: {
     /**
      * Split URL
      *
@@ -37,24 +34,41 @@ qx.Bootstrap.define("qx.util.Uri",
      * @param strict {Boolean} Whether to parse strictly by the rules
      * @return {Object} Map with parts of URI as properties
      */
-    parseUri: function(str, strict) {
-
+    parseUri(str, strict) {
       var options = {
-        key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
-        q:   {
-          name:   "queryKey",
+        key: [
+          "source",
+          "protocol",
+          "authority",
+          "userInfo",
+          "user",
+          "password",
+          "host",
+          "port",
+          "relative",
+          "path",
+          "directory",
+          "file",
+          "query",
+          "anchor"
+        ],
+        q: {
+          name: "queryKey",
           parser: /(?:^|&)([^&=]*)=?([^&]*)/g
         },
+
         parser: {
-          strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@?]*)(?::([^:@?]*))?)?@)?((?:\[[0-9A-Fa-f:]+\])|(?:[^:\/?#\[\]]*))(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-          loose:  /^(?:(?![^:@?]+:[^:@?\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@?]*)(?::([^:@?]*))?)?@)?((?:\[[0-9A-Fa-f:]+\])|(?:[^:\/?#\[\]]*))(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+          strict:
+            /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@?]*)(?::([^:@?]*))?)?@)?((?:\[[0-9A-Fa-f:]+\])|(?:[^:\/?#\[\]]*))(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+          loose:
+            /^(?:(?![^:@?]+:[^:@?\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@?]*)(?::([^:@?]*))?)?@)?((?:\[[0-9A-Fa-f:]+\])|(?:[^:\/?#\[\]]*))(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
         }
       };
 
       var o = options,
-          m = options.parser[strict ? "strict" : "loose"].exec(str),
-          uri = {},
-          i = 14;
+        m = options.parser[strict ? "strict" : "loose"].exec(str),
+        uri = {},
+        i = 14;
 
       while (i--) {
         uri[o.key[i]] = m[i] || "";
@@ -76,8 +90,7 @@ qx.Bootstrap.define("qx.util.Uri",
      * @param params {String} Parameters to append to URL.
      * @return {String} URL with string appended in query part.
      */
-    appendParamsToUrl: function(url, params) {
-
+    appendParamsToUrl(url, params) {
       if (params === undefined) {
         return url;
       }
@@ -96,9 +109,8 @@ qx.Bootstrap.define("qx.util.Uri",
         return url;
       }
 
-      return url += (/\?/).test(url) ? "&" + params : "?" + params;
+      return (url += /\?/.test(url) ? "&" + params : "?" + params);
     },
-
 
     /**
      * Serializes an object to URI parameters (also known as query string).
@@ -116,16 +128,15 @@ qx.Bootstrap.define("qx.util.Uri",
      * @return {String}      Serialized object. Safe to append to URIs or send as
      *                       URL encoded string.
      */
-    toParameter: function(obj, post)
-    {
+    toParameter(obj, post) {
       var key,
-          parts = [];
+        parts = [];
 
       for (key in obj) {
         if (obj.hasOwnProperty(key)) {
           var value = obj[key];
           if (value instanceof Array) {
-            for (var i=0; i<value.length; i++) {
+            for (var i = 0; i < value.length; i++) {
               this.__toParameterPair(key, value[i], parts, post);
             }
           } else {
@@ -137,7 +148,6 @@ qx.Bootstrap.define("qx.util.Uri",
       return parts.join("&");
     },
 
-
     /**
      * Encodes key/value to URI safe string and pushes to given array.
      *
@@ -146,16 +156,18 @@ qx.Bootstrap.define("qx.util.Uri",
      * @param parts {Array} Array to push to.
      * @param post {Boolean} Whether spaces should be encoded with "+".
      */
-    __toParameterPair : function(key, value, parts, post) {
+    __toParameterPair(key, value, parts, post) {
       var encode = window.encodeURIComponent;
       if (post) {
-        parts.push(encode(key).replace(/%20/g, "+") + "=" +
-          encode(value).replace(/%20/g, "+"));
+        parts.push(
+          encode(key).replace(/%20/g, "+") +
+            "=" +
+            encode(value).replace(/%20/g, "+")
+        );
       } else {
         parts.push(encode(key) + "=" + encode(value));
       }
     },
-
 
     /**
      * Takes a relative URI and returns an absolute one.
@@ -163,8 +175,7 @@ qx.Bootstrap.define("qx.util.Uri",
      * @param uri {String} relative URI
      * @return {String} absolute URI
      */
-    getAbsolute : function(uri)
-    {
+    getAbsolute(uri) {
       var div = document.createElement("div");
       div.innerHTML = '<a href="' + uri + '">0</a>';
       return div.firstChild.href;

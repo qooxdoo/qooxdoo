@@ -30,12 +30,9 @@
  * @childControl button {qx.ui.form.Button} button to open the list popup
  * @childControl list {qx.ui.form.List} list inside the popup
  */
-qx.Class.define("qx.ui.form.ComboBox",
-{
-  extend  : qx.ui.form.AbstractSelectBox,
-  implement : [qx.ui.form.IStringForm],
-
-
+qx.Class.define("qx.ui.form.ComboBox", {
+  extend: qx.ui.form.AbstractSelectBox,
+  implement: [qx.ui.form.IStringForm],
 
   /*
   *****************************************************************************
@@ -43,9 +40,8 @@ qx.Class.define("qx.ui.form.ComboBox",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var textField = this._createChildControl("textfield");
     this._createChildControl("button");
@@ -57,16 +53,22 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
-    this.addListener("focusin", function(e) {
-      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusin",
+      function (e) {
+        textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+      },
+      this
+    );
 
-    this.addListener("focusout", function(e) {
-      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
-    }, this);
+    this.addListener(
+      "focusout",
+      function (e) {
+        textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+      },
+      this
+    );
   },
-
-
 
   /*
   *****************************************************************************
@@ -74,30 +76,24 @@ qx.Class.define("qx.ui.form.ComboBox",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "combobox"
+    appearance: {
+      refine: true,
+      init: "combobox"
     },
-
 
     /**
      * String value which will be shown as a hint if the field is all of:
      * unset, unfocused and enabled. Set to null to not show a placeholder
      * text.
      */
-    placeholder :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyPlaceholder"
+    placeholder: {
+      check: "String",
+      nullable: true,
+      apply: "_applyPlaceholder"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -105,17 +101,13 @@ qx.Class.define("qx.ui.form.ComboBox",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Whenever the value is changed this event is fired
      *
      *  Event data: The new text value of the field.
      */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -123,14 +115,12 @@ qx.Class.define("qx.ui.form.ComboBox",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    __preSelectedItem : null,
-    __onInputId : null,
-
+  members: {
+    __preSelectedItem: null,
+    __onInputId: null,
 
     // property apply
-    _applyPlaceholder : function(value, old) {
+    _applyPlaceholder(value, old) {
       this.getChildControl("textfield").setPlaceholder(value);
     },
 
@@ -141,19 +131,21 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "textfield":
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
           control.addState("inner");
-          control.addListener("changeValue", this._onTextFieldChangeValue, this);
+          control.addListener(
+            "changeValue",
+            this._onTextFieldChangeValue,
+            this
+          );
           control.addListener("blur", this.close, this);
-          this._add(control, {flex: 1});
+          this._add(control, { flex: 1 });
           break;
 
         case "button":
@@ -167,48 +159,41 @@ qx.Class.define("qx.ui.form.ComboBox",
 
         case "list":
           // Get the list from the AbstractSelectBox
-          control = this.base(arguments, id);
+          control = super._createChildControlImpl(id);
 
           // Change selection mode
           control.setSelectionMode("single");
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      focused : true,
-      invalid : true
+    _forwardStates: {
+      focused: true,
+      invalid: true
     },
 
-
     // overridden
-    tabFocus : function()
-    {
+    tabFocus() {
       var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
       field.selectAllText();
     },
 
-
     // overridden
-    focus : function()
-    {
-      this.base(arguments);
+    focus() {
+      super.focus();
       this.getChildControl("textfield").getFocusElement().focus();
     },
 
-
     // interface implementation
-    setValue : function(value)
-    {
+    setValue(value) {
       var textfield = this.getChildControl("textfield");
       if (textfield.getValue() == value) {
         return;
@@ -218,20 +203,15 @@ qx.Class.define("qx.ui.form.ComboBox",
       textfield.setValue(value);
     },
 
-
     // interface implementation
-    getValue : function() {
+    getValue() {
       return this.getChildControl("textfield").getValue();
     },
 
-
     // interface implementation
-    resetValue : function() {
+    resetValue() {
       this.getChildControl("textfield").setValue(null);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -240,20 +220,26 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
 
     // overridden
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var popup = this.getChildControl("popup");
       var iden = e.getKeyIdentifier();
 
       if (popup.isVisible()) {
-        const listIdentifier = ["Up", "Down", "PageUp", "PageDown", "Escape", "Tab"];
+        const listIdentifier = [
+          "Up",
+          "Down",
+          "PageUp",
+          "PageDown",
+          "Escape",
+          "Tab"
+        ];
         if (iden == "Enter") {
           this._setPreselectedItem();
           this.resetAllTextSelection();
           this.close();
           e.stop();
         } else if (listIdentifier.includes(iden)) {
-          this.base(arguments, e);
+          super._onKeyPress(e);
         } else {
           this.close();
         }
@@ -266,32 +252,28 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
     },
 
-
     /**
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Pointer} Pointer tap event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       this.close();
     },
 
-
     // overridden
-    _onListPointerDown : function(e) {
+    _onListPointerDown(e) {
       this._setPreselectedItem();
     },
-
 
     /**
      * Apply pre-selected item
      */
-    _setPreselectedItem: function() {
-      if (this.__preSelectedItem)
-      {
+    _setPreselectedItem() {
+      if (this.__preSelectedItem) {
         var label = this.__preSelectedItem.getLabel();
 
-        if (this.getFormat()!= null) {
+        if (this.getFormat() != null) {
           label = this.getFormat().call(this, this.__preSelectedItem);
         }
 
@@ -304,26 +286,20 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
     },
 
-
     // overridden
-    _onListChangeSelection : function(e)
-    {
+    _onListChangeSelection(e) {
       var current = e.getData();
-      if (current.length > 0)
-      {
+      if (current.length > 0) {
         // Ignore quick context (e.g. pointerover)
         // and configure the new value when closing the popup afterwards
         var list = this.getChildControl("list");
         var ctx = list.getSelectionContext();
-        if (ctx == "quick" || ctx == "key" )
-        {
+        if (ctx == "quick" || ctx == "key") {
           this.__preSelectedItem = current[0];
-        }
-        else
-        {
+        } else {
           var label = current[0].getLabel();
 
-          if (this.getFormat()!= null) {
+          if (this.getFormat() != null) {
             label = this.getFormat().call(this, current[0]);
           }
 
@@ -337,23 +313,26 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       // Set aria-activedescendant
-      const textFieldContentEl = this.getChildControl("textfield").getContentElement();
+      const textFieldContentEl =
+        this.getChildControl("textfield").getContentElement();
       if (!textFieldContentEl) {
         return;
       }
-      const currentContentEl = current && current[0] ? current[0].getContentElement() : null;
+      const currentContentEl =
+        current && current[0] ? current[0].getContentElement() : null;
       if (currentContentEl) {
-        textFieldContentEl.setAttribute("aria-activedescendant", currentContentEl.getAttribute("id"));
+        textFieldContentEl.setAttribute(
+          "aria-activedescendant",
+          currentContentEl.getAttribute("id")
+        );
       } else {
         textFieldContentEl.removeAttribute("aria-activedescendant");
       }
     },
 
-
     // overridden
-    _onPopupChangeVisibility : function(e)
-    {
-      this.base(arguments, e);
+    _onPopupChangeVisibility(e) {
+      super._onPopupChangeVisibility(e);
 
       // Synchronize the list with the current value on every
       // opening of the popup. This is useful because through
@@ -361,8 +340,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       // selection on close or the user may enter text while
       // the combobox is closed and reopen it afterwards.
       var popup = this.getChildControl("popup");
-      if (popup.isVisible())
-      {
+      if (popup.isVisible()) {
         var list = this.getChildControl("list");
         var value = this.getValue();
         var item = null;
@@ -382,15 +360,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.getChildControl("button").removeState("selected");
     },
 
-
     /**
      * Reacts on value changes of the text field and syncs the
      * value to the combobox.
      *
      * @param e {qx.event.type.Data} Change event
      */
-    _onTextFieldChangeValue : function(e)
-    {
+    _onTextFieldChangeValue(e) {
       var value = e.getData();
 
       var list = this.getChildControl("list");
@@ -420,7 +396,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.fireDataEvent("changeValue", value, e.getOldData());
     },
 
-
     /*
     ---------------------------------------------------------------------------
       TEXTFIELD SELECTION API
@@ -434,10 +409,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @return {String|null}
      */
-    getTextSelection : function() {
+    getTextSelection() {
       return this.getChildControl("textfield").getTextSelection();
     },
-
 
     /**
      * Returns the current selection length.
@@ -446,10 +420,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @return {Integer|null}
      */
-    getTextSelectionLength : function() {
+    getTextSelectionLength() {
       return this.getChildControl("textfield").getTextSelectionLength();
     },
-
 
     /**
      * Set the selection to the given start and end (zero-based).
@@ -461,10 +434,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
      */
-    setTextSelection : function(start, end) {
+    setTextSelection(start, end) {
       this.getChildControl("textfield").setTextSelection(start, end);
     },
-
 
     /**
      * Clears the current selection.
@@ -472,25 +444,23 @@ qx.Class.define("qx.ui.form.ComboBox",
      * added to the document.
      *
      */
-    clearTextSelection : function() {
+    clearTextSelection() {
       this.getChildControl("textfield").clearTextSelection();
     },
-
 
     /**
      * Selects the whole content
      *
      */
-    selectAllText : function() {
+    selectAllText() {
       this.getChildControl("textfield").selectAllText();
     },
-
 
     /**
      * Clear any text selection, then select all text
      *
      */
-    resetAllTextSelection: function() {
+    resetAllTextSelection() {
       this.clearTextSelection();
       this.selectAllText();
     }

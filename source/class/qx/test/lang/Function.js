@@ -20,32 +20,26 @@
  * @ignore(qx.test.Name.*)
  */
 
-qx.Class.define("qx.test.lang.Function",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.Function", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testGlobalEval : function()
-    {
+  members: {
+    testGlobalEval() {
       qx.lang.Function.globalEval("var JUHU=12;");
       this.assertEquals(12, window.JUHU);
 
       try {
         delete window.JUHU;
-      } catch(e) {
+      } catch (e) {
         window.JUHU = null;
       }
     },
 
-
-    testFunctionWrap : function()
-    {
+    testFunctionWrap() {
       var context = null;
       var result = 0;
 
-      var add = function(a, b)
-      {
+      var add = function (a, b) {
         context = this;
         return a + b;
       };
@@ -69,44 +63,40 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals(5, result);
     },
 
-
-    testBindWithDisposedContext : function()
-    {
+    testBindWithDisposedContext() {
       if (!this.isDebugOn()) {
         return;
       }
 
       var obj = new qx.core.Object();
       obj.dispose();
-      var callback = function() {};
+      var callback = function () {};
 
       var bound = qx.lang.Function.bind(callback, obj);
-      this.assertException(function() {
+      this.assertException(function () {
         bound();
       }, qx.core.AssertionError);
     },
 
-
-    testBindWithUndefinedArguments : function()
-    {
+    testBindWithUndefinedArguments() {
       var undef;
-      var callback = function(undef, arg) {
+      var callback = function (undef, arg) {
         this.assertTrue(arg);
       };
       var bound = qx.lang.Function.bind(callback, this, undef, true);
       bound();
     },
 
-
-    testCreateDelayGlobalError : function()
-    {
-      var fail = function() {
+    testCreateDelayGlobalError() {
+      var fail = function () {
         throw new Error("fail");
       };
 
-      var onError = function() { this.resume(function() {
-        qx.event.GlobalError.setErrorHandler(null, null);
-      });};
+      var onError = function () {
+        this.resume(function () {
+          qx.event.GlobalError.setErrorHandler(null, null);
+        });
+      };
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       var delayed = qx.lang.Function.create(fail, {
@@ -118,42 +108,60 @@ qx.Class.define("qx.test.lang.Function",
       this.wait(100);
     },
 
+    testGetName() {
+      qx.Class.define("qx.test.Name", {
+        extend: qx.core.Object,
+        construct() {},
 
-    testGetName : function()
-    {
-      qx.Class.define("qx.test.Name",
-      {
-        extend : qx.core.Object,
-        construct : function() {},
-
-        properties : {
-          prop : {}
+        properties: {
+          prop: {}
         },
 
-        statics : {
-          foo : function() {}
+        statics: {
+          foo() {}
         },
 
-        members : {
-          bar : function() {}
+        members: {
+          bar() {}
         },
 
-        destruct : function() {}
+        destruct() {}
       });
 
       var name = new qx.test.Name();
-      this.assertEquals("qx.test.Name.constructor()", qx.lang.Function.getName(qx.test.Name));
-      this.assertEquals("qx.test.Name.destruct()", qx.lang.Function.getName(qx.test.Name.$$destructor));
+      this.assertEquals(
+        "qx.test.Name.constructor()",
+        qx.lang.Function.getName(qx.test.Name)
+      );
+      this.assertEquals(
+        "qx.test.Name.destruct()",
+        qx.lang.Function.getName(qx.test.Name.$$destructor)
+      );
 
       name.setProp(1);
       name.getProp();
-      this.assertEquals("qx.test.Name.prototype.setProp()", qx.lang.Function.getName(name.setProp));
-      this.assertEquals("qx.test.Name.prototype.getProp()", qx.lang.Function.getName(name.getProp));
+      this.assertEquals(
+        "qx.test.Name.prototype.setProp()",
+        qx.lang.Function.getName(name.setProp)
+      );
+      this.assertEquals(
+        "qx.test.Name.prototype.getProp()",
+        qx.lang.Function.getName(name.getProp)
+      );
 
-      this.assertEquals("qx.test.Name.foo()", qx.lang.Function.getName(qx.test.Name.foo));
-      this.assertEquals("qx.test.Name.prototype.bar()", qx.lang.Function.getName(name.bar));
+      this.assertEquals(
+        "qx.test.Name.foo()",
+        qx.lang.Function.getName(qx.test.Name.foo)
+      );
+      this.assertEquals(
+        "qx.test.Name.prototype.bar()",
+        qx.lang.Function.getName(name.bar)
+      );
 
-      this.assertEquals("anonymous()", qx.lang.Function.getName(function() {}));
+      this.assertEquals(
+        "anonymous()",
+        qx.lang.Function.getName(function () {})
+      );
 
       function named() {}
       // the variable optimizer renames the "named" function. Only perform this

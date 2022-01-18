@@ -29,11 +29,10 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    __isInput : function(el) {
+    __isInput(el) {
       var tag = el.tagName ? el.tagName.toLowerCase() : null;
-      return (tag === "input" || tag === "textarea");
+      return tag === "input" || tag === "textarea";
     },
-
 
     /**
      * Returns the first text child node of the given element
@@ -43,8 +42,8 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    __getTextNode : function(el) {
-      for (var i=0, l=el.childNodes.length; i<l; i++) {
+    __getTextNode(el) {
+      for (var i = 0, l = el.childNodes.length; i < l; i++) {
         if (el.childNodes[i].nodeType === 3) {
           return el.childNodes[i];
         }
@@ -53,14 +52,13 @@ qx.Bootstrap.define("qx.module.TextSelection", {
     }
   },
 
-  members :
-  {
+  members: {
     /**
      * Get the text selection of the first element.
      *
      * @return {String|null}
      */
-    getTextSelection : function() {
+    getTextSelection() {
       var el = this[0];
       if (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
@@ -72,7 +70,6 @@ qx.Bootstrap.define("qx.module.TextSelection", {
       return null;
     },
 
-
     /**
      * Get the length of the text selection of the first element.
      *
@@ -81,7 +78,7 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    getTextSelectionLength : function() {
+    getTextSelectionLength() {
       var el = this[0];
       if (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
@@ -93,7 +90,6 @@ qx.Bootstrap.define("qx.module.TextSelection", {
       return null;
     },
 
-
     /**
      * Get the start of the text selection of the first element.
      *
@@ -101,7 +97,7 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    getTextSelectionStart : function() {
+    getTextSelectionStart() {
       var el = this[0];
       if (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
@@ -113,7 +109,6 @@ qx.Bootstrap.define("qx.module.TextSelection", {
       return null;
     },
 
-
     /**
      * Get the end of the text selection of the first element.
      *
@@ -121,7 +116,7 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    getTextSelectionEnd : function() {
+    getTextSelectionEnd() {
       var el = this[0];
       if (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
@@ -132,7 +127,6 @@ qx.Bootstrap.define("qx.module.TextSelection", {
 
       return null;
     },
-
 
     /**
      * Set the text selection of the first element in the collection
@@ -145,7 +139,7 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    setTextSelection : function(start, end) {
+    setTextSelection(start, end) {
       var el = this[0];
       if (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
@@ -159,7 +153,6 @@ qx.Bootstrap.define("qx.module.TextSelection", {
       return this;
     },
 
-
     /**
      * Clears the text selection of all elements.
      *
@@ -167,8 +160,8 @@ qx.Bootstrap.define("qx.module.TextSelection", {
      *
      * @attach {qxWeb}
      */
-    clearTextSelection : function() {
-      this._forEachElement(function(el) {
+    clearTextSelection() {
+      this._forEachElement(function (el) {
         if (!qx.module.TextSelection.__isInput(el)) {
           el = qx.module.TextSelection.__getTextNode(el);
         }
@@ -180,8 +173,7 @@ qx.Bootstrap.define("qx.module.TextSelection", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

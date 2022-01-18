@@ -26,34 +26,28 @@
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.data.store.Jsonp",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.data.store.Jsonp", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.dev.unit.MRequirements,
-             qx.dev.unit.MMock],
+  include: [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
 
-  members :
-  {
-    __store : null,
+  members: {
+    __store: null,
 
-    setUp : function()
-    {
+    setUp() {
       this.require(["php"]);
       this.__store = new qx.data.store.Jsonp();
 
-      this.url = qx.util.ResourceManager.getInstance().
-        toUri("qx/test/jsonp_primitive.php");
+      this.url = qx.util.ResourceManager.getInstance().toUri(
+        "qx/test/jsonp_primitive.php"
+      );
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.getSandbox().restore();
       this.__store.dispose();
 
       if (this.request) {
-
         // From prototype
         delete this.request.dispose;
 
@@ -70,21 +64,17 @@ qx.Class.define("qx.test.data.store.Jsonp",
       }
     },
 
-
-    isLocal : function() {
+    isLocal() {
       return window.location.protocol == "file:";
     },
 
-
-    setUpFakeRequest : function()
-    {
-      var req = this.request = new qx.io.request.Jsonp();
-      req.send = req.dispose = function() {};
+    setUpFakeRequest() {
+      var req = (this.request = new qx.io.request.Jsonp());
+      req.send = req.dispose = function () {};
       this.stub(qx.io.request, "Jsonp").returns(this.stub(req));
     },
 
-
-    testSetCallbackParam: function() {
+    testSetCallbackParam() {
       this.setUpFakeRequest();
 
       var store = new qx.data.store.Jsonp();
@@ -95,8 +85,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       store.dispose();
     },
 
-
-    testSetCallbackName: function() {
+    testSetCallbackName() {
       this.setUpFakeRequest();
 
       var store = new qx.data.store.Jsonp();
@@ -107,17 +96,35 @@ qx.Class.define("qx.test.data.store.Jsonp",
       store.dispose();
     },
 
-
-    testWholePrimitive: function() {
-      this.__store.addListener("loaded", function() {
-        this.resume(function() {
-          var model = this.__store.getModel();
-          this.assertEquals("String", model.getString(), "The model is not created how it should!");
-          this.assertEquals(12, model.getNumber(), "The model is not created how it should!");
-          this.assertEquals(true, model.getBoolean(), "The model is not created how it should!");
-          this.assertNull(model.getNull(), "The model is not created how it should!");
-        }, this);
-      }, this);
+    testWholePrimitive() {
+      this.__store.addListener(
+        "loaded",
+        function () {
+          this.resume(function () {
+            var model = this.__store.getModel();
+            this.assertEquals(
+              "String",
+              model.getString(),
+              "The model is not created how it should!"
+            );
+            this.assertEquals(
+              12,
+              model.getNumber(),
+              "The model is not created how it should!"
+            );
+            this.assertEquals(
+              true,
+              model.getBoolean(),
+              "The model is not created how it should!"
+            );
+            this.assertNull(
+              model.getNull(),
+              "The model is not created how it should!"
+            );
+          }, this);
+        },
+        this
+      );
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -125,21 +132,26 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.wait();
     },
 
-
-    testManipulatePrimitive: function() {
+    testManipulatePrimitive() {
       var manipulated = false;
-      var delegate = {manipulateData : function(data) {
-        manipulated = true;
-        return data;
-      }};
+      var delegate = {
+        manipulateData(data) {
+          manipulated = true;
+          return data;
+        }
+      };
 
       var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      store.addListener("loaded", function() {
-        this.resume(function() {
-          this.assertTrue(manipulated);
-        }, this);
-      }, this);
+      store.addListener(
+        "loaded",
+        function () {
+          this.resume(function () {
+            this.assertTrue(manipulated);
+          }, this);
+        },
+        this
+      );
 
       var url = this.url;
       store.setUrl(url);
@@ -148,24 +160,29 @@ qx.Class.define("qx.test.data.store.Jsonp",
       store.dispose();
     },
 
-
-    testConfigureRequestPrimitive: function() {
+    testConfigureRequestPrimitive() {
       var delegate,
-          self = this;
+        self = this;
 
-      delegate = {configureRequest : function(request) {
-        self.assertInstance(request, qx.io.request.Jsonp);
-      }};
+      delegate = {
+        configureRequest(request) {
+          self.assertInstance(request, qx.io.request.Jsonp);
+        }
+      };
 
       this.spy(delegate, "configureRequest");
 
       var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      store.addListener("loaded", function() {
-        this.resume(function() {
-          this.assertCalled(delegate.configureRequest);
-        }, this);
-      }, this);
+      store.addListener(
+        "loaded",
+        function () {
+          this.resume(function () {
+            this.assertCalled(delegate.configureRequest);
+          }, this);
+        },
+        this
+      );
 
       var url = this.url;
       store.setUrl(url);
@@ -173,8 +190,7 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.wait();
     },
 
-
-    testDisposeRequest: function() {
+    testDisposeRequest() {
       this.setUpFakeRequest();
 
       var store = new qx.data.store.Jsonp(this.url);
@@ -183,30 +199,36 @@ qx.Class.define("qx.test.data.store.Jsonp",
       this.assertCalled(this.request.dispose);
     },
 
-
-    testDisposeRequestDone: function() {
+    testDisposeRequestDone() {
       this.setUpFakeRequest();
       var url = this.url;
-      this.__store.addListener("loaded", function() {
-        this.resume(function() {
-          this.__store.dispose();
-          this.assertCalled(this.request.dispose);
-        }, this);
-      }, this);
+      this.__store.addListener(
+        "loaded",
+        function () {
+          this.resume(function () {
+            this.__store.dispose();
+            this.assertCalled(this.request.dispose);
+          }, this);
+        },
+        this
+      );
       this.__store.setUrl(url);
     },
 
-
-    testErrorEvent : function() {
+    testErrorEvent() {
       // do not test that for IE and Opera because of the missing
       // error handler for script tags
       if (
         !(qx.core.Environment.get("browser.name") == "ie") &&
-        !(qx.core.Environment.get("browser.name") == "opera"))
-        {
-        this.__store.addListener("error", function() {
-          this.resume(function() {}, this);
-        }, this);
+        !(qx.core.Environment.get("browser.name") == "opera")
+      ) {
+        this.__store.addListener(
+          "error",
+          function () {
+            this.resume(function () {}, this);
+          },
+          this
+        );
 
         this.__store.setUrl("affe");
 

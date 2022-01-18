@@ -20,22 +20,16 @@
  * @use(qx.test.event.MockBubblingHandler)
  */
 
-qx.Class.define("qx.test.event.Bubbling",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.event.Bubbling", {
+  extend: qx.dev.unit.TestCase,
 
-
-  events :
-  {
-    "nonBubble" : "qx.event.type.Event"
+  events: {
+    nonBubble: "qx.event.type.Event"
   },
 
-
-  members :
-  {
-    setUp : function()
-    {
-      var root = qx.dom.Element.create("div", {id: "root"});
+  members: {
+    setUp() {
+      var root = qx.dom.Element.create("div", { id: "root" });
       document.body.appendChild(root);
 
       // root
@@ -54,9 +48,7 @@ qx.Class.define("qx.test.event.Bubbling",
       this.c_2 = document.getElementById("c_2");
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       var Reg = qx.event.Registration;
 
       Reg.removeAllListeners(this.c_1);
@@ -66,20 +58,60 @@ qx.Class.define("qx.test.event.Bubbling",
       document.body.removeChild(document.getElementById("root"));
     },
 
-
-    testBubbling : function()
-    {
+    testBubbling() {
       var Reg = qx.event.Registration;
       var called;
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1a");
+        },
+        this
+      );
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1a");
+        },
+        this
+      );
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2a");
+        },
+        this
+      );
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2b");
+        },
+        this
+      );
 
       // fire event on c_1
       called = [];
@@ -97,25 +129,28 @@ qx.Class.define("qx.test.event.Bubbling",
       this.assertJsonEquals(["c_2a", "c_2b"], called);
     },
 
-
-    testContext : function()
-    {
+    testContext() {
       var Reg = qx.event.Registration;
       var called;
       var contexts;
 
-      Reg.addListener(this.c_1, "bubble", function() {
+      Reg.addListener(this.c_1, "bubble", function () {
         called.push("c_1");
         contexts.push(this);
       });
-      Reg.addListener(this.c_1_1, "bubble", function() {
+      Reg.addListener(this.c_1_1, "bubble", function () {
         called.push("c_1_1a");
         contexts.push(this);
       });
-      Reg.addListener(this.c_1_1, "bubble", function() {
-        called.push("c_1_1b");
-        contexts.push(this);
-      }, this);
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1b");
+          contexts.push(this);
+        },
+        this
+      );
 
       called = [];
       contexts = [];
@@ -129,20 +164,63 @@ qx.Class.define("qx.test.event.Bubbling",
       this.assertEquals(this.c_1, contexts[2]);
     },
 
-
-    testCapture : function()
-    {
+    testCapture() {
       var Reg = qx.event.Registration;
       var called;
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this, true);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this, true);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this, true);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2b");
+        },
+        this
+      );
 
       // fire event on c_1
       called = [];
@@ -160,29 +238,70 @@ qx.Class.define("qx.test.event.Bubbling",
       this.assertJsonEquals(["c_2a", "c_2b"], called);
     },
 
-
-    _stopPropagation : function(e)
-    {
+    _stopPropagation(e) {
       e.stopPropagation();
     },
 
-
-    testStopPropagation : function()
-    {
+    testStopPropagation() {
       var Reg = qx.event.Registration;
       var called;
 
       // stop is first handler (capturing) -> handlers on the same level must be called
       Reg.addListener(this.c_1, "bubble", this._stopPropagation, this, true);
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this, true);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this, true);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1b");
+        },
+        this
+      );
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this, true);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2a");
+        },
+        this,
+        true
+      );
+      Reg.addListener(
+        this.c_2,
+        "bubble",
+        function () {
+          called.push("c_2b");
+        },
+        this
+      );
 
       // fire event on c_1
       called = [];
@@ -198,7 +317,6 @@ qx.Class.define("qx.test.event.Bubbling",
       called = [];
       Reg.fireEvent(this.c_2, "bubble", qx.event.type.Event, [true, true]);
       this.assertJsonEquals(["c_2a", "c_2b"], called);
-
 
       // stop is on target (capturing)
       Reg.removeListener(this.c_1, "bubble", this._stopPropagation, this, true);
@@ -219,9 +337,14 @@ qx.Class.define("qx.test.event.Bubbling",
       Reg.fireEvent(this.c_2, "bubble", qx.event.type.Event, [true, true]);
       this.assertJsonEquals(["c_2a", "c_2b"], called);
 
-
       // stop is on target (bubbling)
-      Reg.removeListener(this.c_1_1, "bubble", this._stopPropagation, this, true);
+      Reg.removeListener(
+        this.c_1_1,
+        "bubble",
+        this._stopPropagation,
+        this,
+        true
+      );
       Reg.addListener(this.c_1_1, "bubble", this._stopPropagation, this, false);
 
       // fire event on c_1
@@ -240,73 +363,102 @@ qx.Class.define("qx.test.event.Bubbling",
       this.assertJsonEquals(["c_2a", "c_2b"], called);
     },
 
-
-    _preventDefault : function(e) {
+    _preventDefault(e) {
       e.preventDefault();
     },
 
-
-    testPreventDefault : function()
-    {
+    testPreventDefault() {
       var Reg = qx.event.Registration;
       var called;
 
       // baseline: no prevent default
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this);
+      Reg.addListener(
+        this.c_1,
+        "bubble",
+        function () {
+          called.push("c_1a");
+        },
+        this
+      );
+      Reg.addListener(
+        this.c_1_1,
+        "bubble",
+        function () {
+          called.push("c_1_1a");
+        },
+        this
+      );
       called = [];
-      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
+      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [
+        true,
+        true
+      ]);
       this.assertTrue(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
-
 
       // prevent default on parent
       Reg.addListener(this.c_1, "bubble", this._preventDefault, this);
       called = [];
-      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
+      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [
+        true,
+        true
+      ]);
       this.assertFalse(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
-
 
       // stop propagation before prevent default can be called
       Reg.addListener(this.c_1_1, "bubble", this._stopPropagation, this);
       called = [];
-      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
+      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [
+        true,
+        true
+      ]);
       this.assertTrue(prevent);
       this.assertJsonEquals(["c_1_1a"], called);
       Reg.removeListener(this.c_1_1, "bubble", this._stopPropagation, this);
-
 
       // prevent default on target
       Reg.removeListener(this.c_1, "bubble", this._preventDefault, this);
       Reg.addListener(this.c_1_1, "bubble", this._preventDefault, this);
       called = [];
-      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
+      var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [
+        true,
+        true
+      ]);
       this.assertFalse(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
 
-
       // test on non bubbling events
       this.addListener("nonBubble", this._preventDefault, this);
-      var prevent = Reg.fireEvent(this, "nonBubble", qx.event.type.Event, [false, true]);
+      var prevent = Reg.fireEvent(this, "nonBubble", qx.event.type.Event, [
+        false,
+        true
+      ]);
       this.assertFalse(prevent);
       this.removeListener("nonBubble", this._preventDefault, this);
-
 
       // assert that non cancelable event raise an exception
       this.addListener("nonBubble", this._preventDefault, this);
       var self = this;
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
-          Reg.fireEvent(self, "nonBubble", qx.event.type.Event, [false, false]);
-        }, qx.core.AssertionError, "Cannot prevent default action on a non cancelable event.*");
+      if (this.isDebugOn()) {
+        this.assertException(
+          function () {
+            Reg.fireEvent(self, "nonBubble", qx.event.type.Event, [
+              false,
+              false
+            ]);
+          },
+          qx.core.AssertionError,
+          "Cannot prevent default action on a non cancelable event.*"
+        );
       }
       this.removeListener("nonBubble", this._preventDefault, this);
 
-
       // fire event with no listener -> should never be prevented
-      var prevent = Reg.fireEvent(this, "nonBubble", qx.event.type.Event, [false, true]);
+      var prevent = Reg.fireEvent(this, "nonBubble", qx.event.type.Event, [
+        false,
+        true
+      ]);
       this.assertTrue(prevent);
     }
   }

@@ -20,12 +20,8 @@
 /**
  * Event object for data holding event or data changes.
  */
-qx.Class.define("qx.event.type.Data",
-{
-  extend : qx.event.type.Event,
-
-
-
+qx.Class.define("qx.event.type.Data", {
+  extend: qx.event.type.Event,
 
   /*
   *****************************************************************************
@@ -33,11 +29,9 @@ qx.Class.define("qx.event.type.Data",
   *****************************************************************************
   */
 
-  members :
-  {
-    __data : null,
-    __old : null,
-
+  members: {
+    __data: null,
+    __old: null,
 
     /**
      * Initializes an event object.
@@ -52,16 +46,14 @@ qx.Class.define("qx.event.type.Data",
      *     {@link qx.event.type.Event#preventDefault}
      * @return {qx.event.type.Data} the initialized instance.
      */
-    init : function(data, old, cancelable)
-    {
-      this.base(arguments, false, cancelable);
+    init(data, old, cancelable) {
+      super.init(false, cancelable);
 
       this.__data = data;
       this.__old = old;
 
       return this;
     },
-
 
     /**
      * Get a copy of this object
@@ -72,9 +64,8 @@ qx.Class.define("qx.event.type.Data",
      *     a new pooled instance is created.
      * @return {qx.event.type.Data} a copy of this object
      */
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
 
       clone.__data = this.__data;
       clone.__old = this.__old;
@@ -82,17 +73,15 @@ qx.Class.define("qx.event.type.Data",
       return clone;
     },
 
-
     /**
      * The new data of the event sending this data event.
      * The return data type is the same as the event data type.
      *
      * @return {var} The new data of the event
      */
-    getData : function() {
+    getData() {
       return this.__data;
     },
-
 
     /**
      * The old data of the event sending this data event.
@@ -100,7 +89,7 @@ qx.Class.define("qx.event.type.Data",
      *
      * @return {var} The old data of the event
      */
-    getOldData : function() {
+    getOldData() {
       return this.__old;
     }
   }

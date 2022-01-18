@@ -19,14 +19,11 @@
 /**
  * Data Model for Progressive renderer.
  */
-qx.Class.define("qx.ui.progressive.model.Abstract",
-{
-  type       : "abstract",
-  extend     : qx.core.Object,
+qx.Class.define("qx.ui.progressive.model.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
-
-  events :
-  {
+  events: {
     /**
      * This event is fired when new data has been added to the data model.  It
      * typically informs Progressive to begin its rendering process.
@@ -34,20 +31,17 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
      * The event data is an integer: the number of elements now available on
      * the element queue.
      */
-    "dataAvailable" : "qx.event.type.Data"
+    dataAvailable: "qx.event.type.Data"
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Get the number of data elements currently available.
      *
      * @throws {Error} An error if this method is called.
      * @return {Integer}
      */
-    getElementCount : function()
-    {
+    getElementCount() {
       throw new Error("getElementCount() is abstract");
     },
 
@@ -76,8 +70,7 @@ qx.Class.define("qx.ui.progressive.model.Abstract",
      *     </dd>
      *   </dl>
      */
-    getNextElement : function()
-    {
+    getNextElement() {
       throw new Error("getNextElement() is abstract");
     }
   }

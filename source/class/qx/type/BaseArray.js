@@ -54,10 +54,8 @@
  * @require(qx.bom.client.Engine)
  * @require(qx.lang.normalize.Array)
  */
-qx.Bootstrap.define("qx.type.BaseArray",
-{
-  extend : Array,
-
+qx.Bootstrap.define("qx.type.BaseArray", {
+  extend: Array,
 
   /*
   *****************************************************************************
@@ -86,8 +84,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
    * @param length_or_items {Integer|var?null} The initial length of the array
    *        OR an argument list of values.
    */
-  construct : function(length_or_items) {},
-
+  construct(length_or_items) {},
 
   /*
   *****************************************************************************
@@ -95,15 +92,14 @@ qx.Bootstrap.define("qx.type.BaseArray",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Converts a base array to a native Array
      *
      * @signature function()
      * @return {Array} The native array
      */
-    toArray : null,
+    toArray: null,
 
     /**
      * Returns the current number of items stored in the Array
@@ -111,7 +107,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @signature function()
      * @return {Integer} number of items
      */
-    valueOf : null,
+    valueOf: null,
 
     /**
      * Removes the last element from an array and returns that element.
@@ -121,7 +117,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @signature function()
      * @return {var} The last element of the array.
      */
-    pop : null,
+    pop: null,
 
     /**
      * Adds one or more elements to the end of an array and returns the new length of the array.
@@ -132,7 +128,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param varargs {var} The elements to add to the end of the array.
      * @return {Integer} The new array's length
      */
-    push : null,
+    push: null,
 
     /**
      * Reverses the order of the elements of an array -- the first becomes the last, and the last becomes the first.
@@ -142,7 +138,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @signature function()
      * @return {Array} Returns the modified array (works in place)
      */
-    reverse : null,
+    reverse: null,
 
     /**
      * Removes the first element from an array and returns that element.
@@ -152,7 +148,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @signature function()
      * @return {var} The first element of the array.
      */
-    shift : null,
+    shift: null,
 
     /**
      * Sorts the elements of an array.
@@ -164,7 +160,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   the array is sorted lexicographically (in dictionary order) according to the string conversion of each element.
      * @return {Array} Returns the modified array (works in place)
      */
-    sort : null,
+    sort: null,
 
     /**
      * Adds and/or removes elements from an array.
@@ -179,7 +175,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   splice simply removes elements from the array.
      * @return {qx.type.BaseArray} New array with the removed elements.
      */
-    splice : null,
+    splice: null,
 
     /**
      * Adds one or more elements to the front of an array and returns the new length of the array.
@@ -190,7 +186,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param varargs {var} The elements to add to the front of the array.
      * @return {Integer} The new array's length
      */
-    unshift : null,
+    unshift: null,
 
     /**
      * Returns a new array comprised of this array joined with other array(s) and/or value(s).
@@ -201,7 +197,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param varargs {Array|var} Arrays and/or values to concatenate to the resulting array.
      * @return {qx.type.BaseArray} New array built of the given arrays or values.
      */
-    concat : null,
+    concat: null,
 
     /**
      * Joins all elements of an array into a string.
@@ -211,7 +207,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   converted to a string if necessary. If omitted, the array elements are separated with a comma.
      * @return {String} The stringified values of all elements divided by the given separator.
      */
-    join : null,
+    join: null,
 
     /**
      * Extracts a section of an array and returns a new array.
@@ -226,7 +222,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   If end is omitted, slice extracts to the end of the sequence.
      * @return {qx.type.BaseArray} An new array which contains a copy of the given region.
      */
-    slice : null,
+    slice: null,
 
     /**
      * Returns a string representing the array and its elements. Overrides the Object.prototype.toString method.
@@ -234,7 +230,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @signature function()
      * @return {String} The string representation of the array.
      */
-    toString : null,
+    toString: null,
 
     /**
      * Returns the first (least) index of an element within the array equal to the specified value, or -1 if none is found.
@@ -249,7 +245,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   array will be searched.
      * @return {Integer} The index of the given element
      */
-    indexOf : null,
+    indexOf: null,
 
     /**
      * Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
@@ -264,7 +260,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      *   less than 0, -1 is returned, i.e. the array will not be searched.
      * @return {Integer} The index of the given element
      */
-    lastIndexOf : null,
+    lastIndexOf: null,
 
     /**
      * Executes a provided function once per array element.
@@ -294,7 +290,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param callback {Function} Function to execute for each element.
      * @param obj {Object} Object to use as this when executing callback.
      */
-    forEach : null,
+    forEach: null,
 
     /**
      * Creates a new array with all elements that pass the test implemented by the provided
@@ -329,7 +325,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {qx.type.BaseArray} The newly created array with all matching elements
      */
-    filter : null,
+    filter: null,
 
     /**
      * Creates a new array with the results of calling a provided function on every element in this array.
@@ -359,7 +355,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {qx.type.BaseArray} A new array which contains the return values of every item executed through the given function
      */
-    map : null,
+    map: null,
 
     /**
      * Tests whether some element in the array passes the test implemented by the provided function.
@@ -392,7 +388,7 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {Boolean} Whether at least one elements passed the test
      */
-    some : null,
+    some: null,
 
     /**
      * Tests whether all elements in the array pass the test implemented by the provided function.
@@ -424,140 +420,129 @@ qx.Bootstrap.define("qx.type.BaseArray",
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
      * @return {Boolean} Whether all elements passed the test
      */
-    every : null
+    every: null
   }
 });
 
-(function() {
+(function () {
+  function createStackConstructor(stack) {
+    // In IE don't inherit from Array but use an empty object as prototype
+    // and copy the methods from Array
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
+      Stack.prototype = {
+        length: 0,
+        $$isArray: true
+      };
 
-function createStackConstructor(stack)
-{
-  // In IE don't inherit from Array but use an empty object as prototype
-  // and copy the methods from Array
-  if ((qx.core.Environment.get("engine.name") == "mshtml"))
-  {
-    Stack.prototype = {
-      length : 0,
-      $$isArray : true
-    };
+      var args = "pop.push.reverse.shift.sort.splice.unshift.join.slice".split(
+        "."
+      );
 
-    var args = "pop.push.reverse.shift.sort.splice.unshift.join.slice".split(".");
-
-    for (var length = args.length; length;) {
-      Stack.prototype[args[--length]] = Array.prototype[args[length]];
+      for (var length = args.length; length; ) {
+        Stack.prototype[args[--length]] = Array.prototype[args[length]];
+      }
     }
-  };
 
-  // Remember Array's slice method
-  var slice = Array.prototype.slice;
+    // Remember Array's slice method
+    var slice = Array.prototype.slice;
 
-  // Fix "concat" method
-  Stack.prototype.concat = function()
-  {
-    var constructor = this.slice(0);
+    // Fix "concat" method
+    Stack.prototype.concat = function () {
+      var constructor = this.slice(0);
 
-    for (var i=0, length=arguments.length; i<length; i++)
-    {
-      var copy;
+      for (var i = 0, length = arguments.length; i < length; i++) {
+        var copy;
 
-      if (arguments[i] instanceof Stack) {
-        copy = slice.call(arguments[i], 0);
-      } else if (arguments[i] instanceof Array) {
-        copy = arguments[i];
-      } else {
-        copy = [arguments[i]];
+        if (arguments[i] instanceof Stack) {
+          copy = slice.call(arguments[i], 0);
+        } else if (arguments[i] instanceof Array) {
+          copy = arguments[i];
+        } else {
+          copy = [arguments[i]];
+        }
+
+        constructor.push.apply(constructor, copy);
       }
 
-      constructor.push.apply(constructor, copy);
-    }
+      return constructor;
+    };
 
-    return constructor;
-  };
+    // Fix "toString" method
+    Stack.prototype.toString = function () {
+      return slice.call(this, 0).toString();
+    };
 
-  // Fix "toString" method
-  Stack.prototype.toString = function(){
-    return slice.call(this, 0).toString();
-  };
+    // Fix "toLocaleString"
+    Stack.prototype.toLocaleString = function () {
+      return slice.call(this, 0).toLocaleString();
+    };
 
-  // Fix "toLocaleString"
-  Stack.prototype.toLocaleString = function() {
-    return slice.call(this, 0).toLocaleString();
-  };
+    // Fix constructor
+    Stack.prototype.constructor = Stack;
 
-  // Fix constructor
-  Stack.prototype.constructor = Stack;
+    // Add JS 1.6 Array features
+    Stack.prototype.indexOf = Array.prototype.indexOf;
+    Stack.prototype.lastIndexOf = Array.prototype.lastIndexOf;
+    Stack.prototype.forEach = Array.prototype.forEach;
+    Stack.prototype.some = Array.prototype.some;
+    Stack.prototype.every = Array.prototype.every;
 
+    var filter = Array.prototype.filter;
+    var map = Array.prototype.map;
 
-  // Add JS 1.6 Array features
-  Stack.prototype.indexOf = Array.prototype.indexOf;
-  Stack.prototype.lastIndexOf = Array.prototype.lastIndexOf;
-  Stack.prototype.forEach = Array.prototype.forEach;
-  Stack.prototype.some = Array.prototype.some;
-  Stack.prototype.every = Array.prototype.every;
+    // Fix methods which generates a new instance
+    // to return an instance of the same class
+    Stack.prototype.filter = function () {
+      var ret = new this.constructor();
+      ret.push.apply(ret, filter.apply(this, arguments));
+      return ret;
+    };
 
-  var filter = Array.prototype.filter;
-  var map = Array.prototype.map;
+    Stack.prototype.map = function () {
+      var ret = new this.constructor();
+      ret.push.apply(ret, map.apply(this, arguments));
+      return ret;
+    };
 
+    Stack.prototype.slice = function () {
+      var ret = new this.constructor();
+      ret.push.apply(ret, Array.prototype.slice.apply(this, arguments));
+      return ret;
+    };
 
-  // Fix methods which generates a new instance
-  // to return an instance of the same class
-  Stack.prototype.filter = function()
-  {
-    var ret = new this.constructor;
-    ret.push.apply(ret, filter.apply(this, arguments));
-    return ret;
-  };
+    Stack.prototype.splice = function () {
+      var ret = new this.constructor();
+      ret.push.apply(ret, Array.prototype.splice.apply(this, arguments));
+      return ret;
+    };
 
-  Stack.prototype.map = function()
-  {
-    var ret = new this.constructor;
-    ret.push.apply(ret, map.apply(this, arguments));
-    return ret;
-  };
+    // Add new "toArray" method for convert a base array to a native Array
+    Stack.prototype.toArray = function () {
+      return Array.prototype.slice.call(this, 0);
+    };
 
-  Stack.prototype.slice = function()
-  {
-    var ret = new this.constructor;
-    ret.push.apply(ret, Array.prototype.slice.apply(this, arguments));
-    return ret;
-  };
+    // Add valueOf() to return the length
+    Stack.prototype.valueOf = function () {
+      return this.length;
+    };
 
-  Stack.prototype.splice = function()
-  {
-    var ret = new this.constructor;
-    ret.push.apply(ret, Array.prototype.splice.apply(this, arguments));
-    return ret;
-  };
-
-  // Add new "toArray" method for convert a base array to a native Array
-  Stack.prototype.toArray = function() {
-    return Array.prototype.slice.call(this, 0);
-  };
-
-  // Add valueOf() to return the length
-  Stack.prototype.valueOf = function(){
-    return this.length;
-  };
-
-  // Return final class
-  return Stack;
-}
-
-
-function Stack(length)
-{
-  if(arguments.length === 1 && typeof length === "number") {
-    this.length = -1 < length && length === length >> .5 ? length : this.push(length);
-  } else if(arguments.length) {
-    this.push.apply(this, arguments);
+    // Return final class
+    return Stack;
   }
-};
 
-function PseudoArray(){};
-PseudoArray.prototype = [];
-Stack.prototype = new PseudoArray;
-Stack.prototype.length = 0;
+  function Stack(length) {
+    if (arguments.length === 1 && typeof length === "number") {
+      this.length =
+        -1 < length && length === length >> 0.5 ? length : this.push(length);
+    } else if (arguments.length) {
+      this.push.apply(this, arguments);
+    }
+  }
 
-qx.type.BaseArray = createStackConstructor(Stack);
+  function PseudoArray() {}
+  PseudoArray.prototype = [];
+  Stack.prototype = new PseudoArray();
+  Stack.prototype.length = 0;
 
+  qx.type.BaseArray = createStackConstructor(Stack);
 })();

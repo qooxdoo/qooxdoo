@@ -17,16 +17,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive",
-{
-  extend : qx.ui.virtual.layer.Abstract,
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive", {
+  extend: qx.ui.virtual.layer.Abstract,
 
-  construct : function(htmlCellProvider)
-  {
-    this.base(arguments);
+  construct(htmlCellProvider) {
+    super();
     this._cellProvider = htmlCellProvider;
   },
-
 
   /*
   *****************************************************************************
@@ -34,37 +31,37 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive",
   *****************************************************************************
   */
 
-  members :
-  {
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+  members: {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
       var left = 0;
       var top = 0;
       var row = firstRow;
       var column = firstColumn;
 
-      html.push('<table style="border-collapse: collapse; margin: 0px; padding: 0px;">');
+      html.push(
+        '<table style="border-collapse: collapse; margin: 0px; padding: 0px;">'
+      );
 
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[x];
 
-        html.push('<tr style="border-collapse: collapse; margin: 0px; padding: 0px;">');
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        html.push(
+          '<tr style="border-collapse: collapse; margin: 0px; padding: 0px;">'
+        );
+        for (var y = 0; y < columnSizes.length; y++) {
           var width = columnSizes[y];
 
           html.push(
             this._cellProvider.getCellHtml(
-              row, column,
-              left, top,
-              width, height
+              row,
+              column,
+              left,
+              top,
+              width,
+              height
             )
           );
 

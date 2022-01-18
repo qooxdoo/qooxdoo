@@ -22,7 +22,6 @@
 
 var path = require("upath");
 
-
 /**
  * Base class for makers; does not include anything about targets, locales, etc (see AbstractAppMaker)
  */
@@ -30,8 +29,8 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
   extend: qx.core.Object,
   type: "abstract",
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
     this._compiledClasses = {};
   },
 
@@ -69,14 +68,14 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
       init: false,
       check: "Boolean"
     },
-    
+
     /** Whether the make has succeeded, null during/before make */
     success: {
       init: null,
       nullable: true,
       check: "Boolean"
     },
-    
+
     /** Whether the make has any warnings, null during/before make */
     hasWarnings: {
       init: null,
@@ -86,12 +85,12 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
   },
 
   events: {
-    "making": "qx.event.type.Event",
-    "made": "qx.event.type.Event",
-    "writingApplications": "qx.event.type.Event",
-    "writingApplication": "qx.event.type.Data",
-    "writtenApplication": "qx.event.type.Data",
-    "writtenApplications" :"qx.event.type.Event"
+    making: "qx.event.type.Event",
+    made: "qx.event.type.Event",
+    writingApplications: "qx.event.type.Event",
+    writingApplication: "qx.event.type.Data",
+    writtenApplication: "qx.event.type.Data",
+    writtenApplications: "qx.event.type.Event"
   },
 
   members: {
@@ -108,7 +107,7 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
      *
      * @abstract
      */
-    make: async function() {
+    async make() {
       throw new Error("No implementation for " + this.classname + ".make");
     },
 
@@ -118,18 +117,22 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
      * @returns {String}
      * @abstract
      */
-    getOutputDir: function() {
-      throw new Error("No implementation for " + this.classname + ".getOutputDir");
+    getOutputDir() {
+      throw new Error(
+        "No implementation for " + this.classname + ".getOutputDir"
+      );
     },
 
     /**
      * Erases the output directory
      */
-    eraseOutputDir: async function() {
+    async eraseOutputDir() {
       var dir = path.resolve(this.getOutputDir());
       var pwd = path.resolve(process.cwd());
       if (pwd.startsWith(dir) && dir.length <= pwd.length) {
-        throw new Error("Output directory (" + dir + ") is a parent directory of PWD");
+        throw new Error(
+          "Output directory (" + dir + ") is a parent directory of PWD"
+        );
       }
       await qx.tool.utils.files.Utils.deleteRecursive(this.getOutputDir());
     },
@@ -140,9 +143,11 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
      * @param oldValue
      * @private
      */
-    __applyDbFilename: function(value, oldValue) {
+    __applyDbFilename(value, oldValue) {
       if (this._analyser) {
-        throw new Error("Cannot change the database filename once an Analyser has been created");
+        throw new Error(
+          "Cannot change the database filename once an Analyser has been created"
+        );
       }
     },
 
@@ -150,7 +155,7 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
      * Gets the analyser, creating it if necessary
      * @returns {Analyser}
      */
-    getAnalyser: function() {
+    getAnalyser() {
       if (this._analyser) {
         return this._analyser;
       }
@@ -181,8 +186,10 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
      * @returns {Analyser}
      * @protected
      */
-    _createAnalyser: function() {
-      var analyser = this._analyser = new qx.tool.compiler.Analyser(path.join(this.getOutputDir(), (this.getDbFilename()||"db.json")));
+    _createAnalyser() {
+      var analyser = (this._analyser = new qx.tool.compiler.Analyser(
+        path.join(this.getOutputDir(), this.getDbFilename() || "db.json")
+      ));
       analyser.setOutputDir(this.getOutputDir());
       return analyser;
     }

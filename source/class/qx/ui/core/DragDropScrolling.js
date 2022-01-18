@@ -19,24 +19,19 @@
 /**
  * Provides scrolling ability during drag session to the widget.
  */
-qx.Class.define("qx.ui.core.DragDropScrolling",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.core.DragDropScrolling", {
+  extend: qx.core.Object,
 
-  include : [qx.ui.core.MDragDropScrolling],
+  include: [qx.ui.core.MDragDropScrolling],
 
-
-  construct : function(widget)
-  {
-    this.base(arguments);
+  construct(widget) {
+    super();
 
     this._widget = widget;
   },
 
-  members :
-  {
-    _widget : null,
-
+  members: {
+    _widget: null,
 
     /**
      * Returns the root widget whose children will have scroll on drag session
@@ -46,8 +41,7 @@ qx.Class.define("qx.ui.core.DragDropScrolling",
      * @return {qx.ui.core.Widget} The root widget whose children will have
      * scroll on drag session
      */
-    _getWidget : function()
-    {
+    _getWidget() {
       return this._widget || qx.core.Init.getApplication().getRoot();
     }
   }

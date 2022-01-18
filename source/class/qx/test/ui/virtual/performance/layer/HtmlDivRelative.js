@@ -16,10 +16,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
-{
-  extend : qx.ui.virtual.layer.Abstract,
-
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative", {
+  extend: qx.ui.virtual.layer.Abstract,
 
   /*
   *****************************************************************************
@@ -27,35 +25,33 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
   *****************************************************************************
   */
 
-  members :
-  {
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+  members: {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
       var left = 0;
       var top = 0;
       var row = firstRow;
       var col = firstColumn;
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var col = firstColumn;
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        for (var y = 0; y < columnSizes.length; y++) {
           var content = col + " / " + row;
 
           html.push(
             "<div style='",
             "float: left;",
-            "width:", columnSizes[y], "px;",
-            "height:", rowSizes[x], "px;",
+            "width:",
+            columnSizes[y],
+            "px;",
+            "height:",
+            rowSizes[x],
+            "px;",
             "'>",
             content,
             "</div>"
           );
+
           col++;
           left += columnSizes[y];
         }

@@ -19,7 +19,7 @@
 /**
  * This is the main application class of the compiler; it does nothing
  * during startup so that it can be used as a library
- * 
+ *
  * @asset(qx/tool/*)
  * @use qx.tool.cli.Cli
  */

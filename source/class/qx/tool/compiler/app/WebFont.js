@@ -27,16 +27,14 @@ const fontkit = require("@foliojs-fork/fontkit");
 
 var log = qx.tool.utils.LogManager.createLog("font");
 
-
-
 /**
  * Represents a WebFont provided by a Library
  */
 qx.Class.define("qx.tool.compiler.app.WebFont", {
   extend: qx.core.Object,
 
-  construct: function(library) {
-    this.base(arguments);
+  construct(library) {
+    super();
     this.__library = library;
   },
 
@@ -92,9 +90,12 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param filename {String} Filename for the local font
      * @return {Promise}
      */
-    _loadLocalFont : function(filename) {
+    _loadLocalFont(filename) {
       return new Promise((resolve, reject) => {
-        let fontpath = path.join(this.__library.getRootDir(), path.join(this.__library.getResourcePath(), filename));
+        let fontpath = path.join(
+          this.__library.getRootDir(),
+          path.join(this.__library.getResourcePath(), filename)
+        );
         this.__processFontFile(fontpath, resolve, reject);
       });
     },
@@ -105,49 +106,67 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param url {String} URL for the font download
      * @return {Promise}
      */
-    _loadRemoteFont : function(url) {
-      return new Promise(function(resolve, reject) {
-        http.get(url, function(res) {
-          let error;
-          const { statusCode } = res;
-          const contentType = res.headers["content-type"];
+    _loadRemoteFont(url) {
+      return new Promise(
+        function (resolve, reject) {
+          http
+            .get(
+              url,
+              function (res) {
+                let error;
+                const { statusCode } = res;
+                const contentType = res.headers["content-type"];
 
-          if (statusCode !== 200) {
-            error = new Error(`Request Failed.\nStatus Code: ${statusCode}`);
-          } else if (!/^font\/(ttf|svg|eot|woff|woff2)$/.test(contentType)) {
-            error = new Error("Invalid content-type.\n" +
-              `Expected font/ttf, font/svg, font/eot, font/woff or font/woff2 but received ${contentType}`);
-          }
+                if (statusCode !== 200) {
+                  error = new Error(
+                    `Request Failed.\nStatus Code: ${statusCode}`
+                  );
+                } else if (
+                  !/^font\/(ttf|svg|eot|woff|woff2)$/.test(contentType)
+                ) {
+                  error = new Error(
+                    "Invalid content-type.\n" +
+                      `Expected font/ttf, font/svg, font/eot, font/woff or font/woff2 but received ${contentType}`
+                  );
+                }
 
-          if (error) {
-            res.resume();
-            reject(error);
-            return;
-          }
+                if (error) {
+                  res.resume();
+                  reject(error);
+                  return;
+                }
 
-          tmp.tmpName(function _tempNameGenerated(err, tmpFilename) {
-            if (err) {
-              reject(err);
-              return;
-            }
+                tmp.tmpName(
+                  function _tempNameGenerated(err, tmpFilename) {
+                    if (err) {
+                      reject(err);
+                      return;
+                    }
 
-            let outFile =fs.createWriteStream(tmpFilename);
-            outFile.on("close", function() {
-              this.__processFontFile(tmpFilename, resolve, reject);
-              fs.unlink(tmpFilename);
-            }.bind(this));
+                    let outFile = fs.createWriteStream(tmpFilename);
+                    outFile.on(
+                      "close",
+                      function () {
+                        this.__processFontFile(tmpFilename, resolve, reject);
+                        fs.unlink(tmpFilename);
+                      }.bind(this)
+                    );
 
-            res.on("data", chunk => {
-              outFile.write(chunk);
+                    res.on("data", chunk => {
+                      outFile.write(chunk);
+                    });
+                    res.on("end", function () {
+                      outFile.end();
+                    });
+                  }.bind(this)
+                );
+              }.bind(this)
+            )
+            .on("error", e => {
+              reject(e);
             });
-            res.on("end", function() {
-              outFile.end();
-            });
-          }.bind(this));
-        }.bind(this)).on("error", e => {
-          reject(e);
-        });
-      }.bind(this));
+        }.bind(this)
+      );
     },
 
     /**
@@ -159,118 +178,136 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param resolve {Function} External promise resolve
      * @param reject {Function} External promise reject
      */
-    __processFontFile : function(filename, resolve, reject) {
-      fontkit.open(filename, null, function(err, font) {
-        if (err) {
-          reject(err);
-          return;
-        }
+    __processFontFile(filename, resolve, reject) {
+      fontkit.open(
+        filename,
+        null,
+        function (err, font) {
+          if (err) {
+            reject(err);
+            return;
+          }
 
-        let resources = {};
+          let resources = {};
 
-        // If we have a mapping file, take qx.tool.compiler.Console.information instead
-        // of anaylzing the font.
-        if (this.getMapping()) {
-          let mapPath = path.join(this.__library.getRootDir(), path.join(this.__library.getResourcePath(), this.getMapping()));
-          fs.readFile(mapPath, {encoding: "utf-8"}, (err, data) => {
-            if (err) {
-              log.error(`Cannot read mapping file '${mapPath}': ${err.code}`);
-              reject(err);
+          // If we have a mapping file, take qx.tool.compiler.Console.information instead
+          // of anaylzing the font.
+          if (this.getMapping()) {
+            let mapPath = path.join(
+              this.__library.getRootDir(),
+              path.join(this.__library.getResourcePath(), this.getMapping())
+            );
+            fs.readFile(mapPath, { encoding: "utf-8" }, (err, data) => {
+              if (err) {
+                log.error(`Cannot read mapping file '${mapPath}': ${err.code}`);
+                reject(err);
+                return;
+              }
+
+              let map = JSON.parse(data);
+              Object.keys(map).forEach(key => {
+                let codePoint = parseInt(map[key], 16);
+                let glyph = font.glyphForCodePoint(codePoint);
+                if (!glyph.id) {
+                  qx.tool.compiler.Console.trace(
+                    `WARN: no glyph found in ${filename} ${key}: ${codePoint}`
+                  );
+                  return;
+                }
+                resources["@" + this.getName() + "/" + key] = [
+                  Math.ceil(
+                    (this.getDefaultSize() * glyph.advanceWidth) /
+                      glyph.advanceHeight
+                  ), // width
+                  this.getDefaultSize(), // height
+                  codePoint
+                ];
+              }, this);
+
+              resolve(resources);
+              return;
+            });
+
+            return;
+          }
+
+          if (!font.GSUB) {
+            qx.tool.compiler.Console.error(
+              `The webfont in ${filename} does not have any ligatures`
+            );
+            resolve(resources);
+            return;
+          }
+
+          // some IconFonts (MaterialIcons for example) use ligatures
+          // to name their icons. This code extracts the ligatures
+          // hat tip to Jossef Harush https://stackoverflow.com/questions/54721774/extracting-ttf-font-ligature-mappings/54728584
+          let ligatureName = {};
+          let lookupList = font.GSUB.lookupList.toArray();
+          let lookupListIndexes =
+            font.GSUB.featureList[0].feature.lookupListIndexes;
+          lookupListIndexes.forEach(index => {
+            let subTable = lookupList[index].subTables[0];
+            let leadingCharacters = [];
+            subTable.coverage.rangeRecords.forEach(coverage => {
+              for (let i = coverage.start; i <= coverage.end; i++) {
+                let character = font.stringsForGlyph(i)[0];
+                leadingCharacters.push(character);
+              }
+            });
+            let ligatureSets = subTable.ligatureSets.toArray();
+            ligatureSets.forEach((ligatureSet, ligatureSetIndex) => {
+              let leadingCharacter = leadingCharacters[ligatureSetIndex];
+              ligatureSet.forEach(ligature => {
+                let character = font.stringsForGlyph(ligature.glyph)[0];
+                if (!character) {
+                  // qx.tool.compiler.Console.log(`WARN: ${this.getName()} no character ${ligature}`);
+                  return;
+                }
+                let ligatureText =
+                  leadingCharacter +
+                  ligature.components
+                    .map(x => font.stringsForGlyph(x)[0])
+                    .join("");
+                var hexId = character.charCodeAt(0).toString(16);
+                if (ligatureName[hexId] == undefined) {
+                  ligatureName[hexId] = [ligatureText];
+                } else {
+                  ligatureName[hexId].push(ligatureText);
+                }
+              });
+            });
+          });
+
+          let defaultSize = this.getDefaultSize();
+          font.characterSet.forEach(codePoint => {
+            let glyph = font.glyphForCodePoint(codePoint);
+            if (glyph.path.commands.length < 1 && !glyph.layers) {
               return;
             }
 
-            let map = JSON.parse(data);
-            Object.keys(map).forEach(key => {
-              let codePoint = parseInt(map[key], 16);
-              let glyph = font.glyphForCodePoint(codePoint);
-              if (!glyph.id) {
-                qx.tool.compiler.Console.trace(`WARN: no glyph found in ${filename} ${key}: ${codePoint}`);
-                return;
-              }
-              resources["@" + this.getName() + "/" + key] = [
-                Math.ceil(this.getDefaultSize() * glyph.advanceWidth / glyph.advanceHeight), // width
-                this.getDefaultSize(), // height
+            const found = gName => {
+              resources["@" + this.getName() + "/" + gName] = [
+                Math.ceil(
+                  (this.getDefaultSize() * glyph.advanceWidth) /
+                    glyph.advanceHeight
+                ), // width
+                defaultSize, // height
                 codePoint
               ];
-            }, this);
-
-            resolve(resources);
-            return;
-          });
-
-          return;
-        }
-
-        if (!font.GSUB) {
-          qx.tool.compiler.Console.error(`The webfont in ${filename} does not have any ligatures`);
-          resolve(resources);
-          return;
-        }
-
-        // some IconFonts (MaterialIcons for example) use ligatures
-        // to name their icons. This code extracts the ligatures
-        // hat tip to Jossef Harush https://stackoverflow.com/questions/54721774/extracting-ttf-font-ligature-mappings/54728584
-        let ligatureName = {};
-        let lookupList = font.GSUB.lookupList.toArray();
-        let lookupListIndexes = font.GSUB.featureList[0].feature.lookupListIndexes;
-        lookupListIndexes.forEach(index => {
-          let subTable = lookupList[index].subTables[0];
-          let leadingCharacters = [];
-          subTable.coverage.rangeRecords.forEach(coverage => {
-            for (let i = coverage.start; i <= coverage.end; i++) {
-              let character = font.stringsForGlyph(i)[0];
-              leadingCharacters.push(character);
+            };
+            if (glyph.name) {
+              found(glyph.name);
             }
-          });
-          let ligatureSets = subTable.ligatureSets.toArray();
-          ligatureSets.forEach((ligatureSet, ligatureSetIndex) => {
-            let leadingCharacter = leadingCharacters[ligatureSetIndex];
-            ligatureSet.forEach(ligature => {
-              let character = font.stringsForGlyph(ligature.glyph)[0];
-              if (!character) {
-                // qx.tool.compiler.Console.log(`WARN: ${this.getName()} no character ${ligature}`);
-                return;
-              }
-              let ligatureText = leadingCharacter + ligature
-                .components
-                .map(x => font.stringsForGlyph(x)[0])
-                .join("");
-              var hexId = character.charCodeAt(0).toString(16);
-              if (ligatureName[hexId] == undefined) {
-                ligatureName[hexId] = [ ligatureText ];
-              } else {
-                ligatureName[hexId].push(ligatureText);
-              }
-            });
-          });
-        });
+            var names = ligatureName[codePoint.toString(16)];
+            if (names) {
+              names.forEach(found);
+            }
+          }, this);
 
-        let defaultSize = this.getDefaultSize();
-        font.characterSet.forEach(codePoint => {
-          let glyph = font.glyphForCodePoint(codePoint);
-          if (glyph.path.commands.length < 1 && !glyph.layers) {
-            return;
-          }
-
-          const found = gName => {
-            resources["@" + this.getName() + "/" + gName] = [
-              Math.ceil(this.getDefaultSize() * glyph.advanceWidth / glyph.advanceHeight), // width
-              defaultSize, // height
-              codePoint
-            ];
-          };
-          if (glyph.name) {
-            found(glyph.name);
-          }
-          var names = ligatureName[codePoint.toString(16)];
-          if (names) {
-            names.forEach(found);
-          }
-        }, this);
-
-
-        resolve(resources);
-      }.bind(this));
+          resolve(resources);
+        }.bind(this)
+      );
     },
 
     /**
@@ -281,7 +318,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param initial {Boolean} true if this is the first pass
      * @return {String}
      */
-    getBootstrapCode : function(target, application, initial) {
+    getBootstrapCode(target, application, initial) {
       let res = "";
 
       if (initial) {
@@ -304,7 +341,12 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
         font.comparisonString = this.getComparisonString();
       }
 
-      return res += "qx.$$fontBootstrap['" + this.getName() + "']=" + JSON.stringify(font) + ";";
+      return (res +=
+        "qx.$$fontBootstrap['" +
+        this.getName() +
+        "']=" +
+        JSON.stringify(font) +
+        ";");
     },
 
     /**
@@ -314,7 +356,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param target  {qx.tool.compiler.targets.Target} the target
      * @return {Promise}
      */
-    generateForTarget: function(target) {
+    generateForTarget(target) {
       if (this.__generateForTargetPromise) {
         return this.__generateForTargetPromise;
       }
@@ -330,26 +372,30 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
           // We support http/https and local files, check for URLs
           // first.
           if (resource.match(/^https?:\/\//)) {
-            this._loadRemoteFont(resource).then(data => {
+            this._loadRemoteFont(resource)
+              .then(data => {
+                this.__fontData = data;
+                resolve();
+              })
+              .catch(err => {
+                reject(err);
+              });
+            return;
+          }
+          // handle local file
+          this._loadLocalFont(resource)
+            .then(data => {
               this.__fontData = data;
               resolve();
             })
             .catch(err => {
               reject(err);
             });
-            return;
-          }
-          // handle local file
-          this._loadLocalFont(resource).then(data => {
-            this.__fontData = data;
-            resolve();
-          })
-          .catch(err => {
-            reject(err);
-          });
           return;
         }
-        reject(`Failed to load/validate FontMap for webfont (expected ttf, otf, woff or woff2) ${this.getName()}`);
+        reject(
+          `Failed to load/validate FontMap for webfont (expected ttf, otf, woff or woff2) ${this.getName()}`
+        );
       });
 
       return this.__generateForTargetPromise;
@@ -362,8 +408,8 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      * @param application  {qx.tool.compiler.app.Application} the application being built
      * @return {Promise}
      */
-    generateForApplication: async function(target, application) {
-      return this.__fontData||null;
+    async generateForApplication(target, application) {
+      return this.__fontData || null;
     },
 
     /**
@@ -371,7 +417,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      *
      * @return {String} the name or resource of this font
      */
-    toString: function() {
+    toString() {
       var str = this.getName();
       if (!str) {
         str = JSON.stringify(this.getResources());

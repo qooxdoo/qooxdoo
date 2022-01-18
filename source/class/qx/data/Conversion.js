@@ -22,27 +22,23 @@
  * itself if it can determinate which types should be used. In all other cases,
  * you can you this methods / options for the default conversion.
  */
-qx.Class.define("qx.data.Conversion",
-{
-  statics :
-  {
+qx.Class.define("qx.data.Conversion", {
+  statics: {
     /**
      * Converts the given value to a string via <code> + ""</code>.
      *
      * @param value {var} The value to convert.
      * @return {String} The converted value.
      */
-    toString : function(value) {
+    toString(value) {
       return value + "";
     },
-
 
     /**
      * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toString} converter.
      */
-    TOSTRINGOPTIONS : { converter : null },
-
+    TOSTRINGOPTIONS: { converter: null },
 
     /**
      * Converts the given value to a number via <code>parseFloat</code>.
@@ -50,17 +46,15 @@ qx.Class.define("qx.data.Conversion",
      * @param value {var} The value to convert.
      * @return {Number} The converted value.
      */
-    toNumber : function(value) {
+    toNumber(value) {
       return parseFloat(value);
     },
-
 
     /**
      * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toNumber} converter.
      */
-    TONUMBEROPTIONS : { converter : null },
-
+    TONUMBEROPTIONS: { converter: null },
 
     /**
      * Converts the given value to a boolean via <code>!!value</code>.
@@ -68,24 +62,23 @@ qx.Class.define("qx.data.Conversion",
      * @param value {var} The value to convert.
      * @return {Boolean} The converted value.
      */
-    toBoolean : function(value) {
+    toBoolean(value) {
       return !!value;
     },
-
 
     /**
      * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toBoolean} converter.
      */
-    TOBOOLEANOPTIONS : { converter : null }
+    TOBOOLEANOPTIONS: { converter: null }
   },
 
-
-  defer : function() {
+  defer() {
     // the converter need to be set in the defer because the reference to
     // the converter function is not available during the class create
     qx.data.Conversion.TOSTRINGOPTIONS.converter = qx.data.Conversion.toString;
     qx.data.Conversion.TONUMBEROPTIONS.converter = qx.data.Conversion.toNumber;
-    qx.data.Conversion.TOBOOLEANOPTIONS.converter = qx.data.Conversion.toBoolean;
+    qx.data.Conversion.TOBOOLEANOPTIONS.converter =
+      qx.data.Conversion.toBoolean;
   }
 });

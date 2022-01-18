@@ -23,72 +23,63 @@
  *
  * @ignore(qx.bom.element.AnimationJs)
  */
-qx.Bootstrap.define("qx.bom.element.AnimationHandle",
-{
-  extend : qx.event.Emitter,
+qx.Bootstrap.define("qx.bom.element.AnimationHandle", {
+  extend: qx.event.Emitter,
 
-
-  construct : function() {
+  construct() {
     var css = qx.core.Environment.get("css.animation");
     this.__playState = css && css["play-state"];
     this.__playing = true;
     this.addListenerOnce("end", this.__setEnded, this);
   },
 
-
   events: {
     /** Fired when the animation started via {@link qx.bom.element.Animation}. */
-    "start" : "Element",
+    start: "Element",
 
     /**
      * Fired when the animation started via {@link qx.bom.element.Animation} has
      * ended.
      */
-    "end" : "Element",
+    end: "Element",
 
     /** Fired on every iteration of the animation. */
-    "iteration" : "Element"
+    iteration: "Element"
   },
 
-
-  members :
-  {
-    __playState : null,
-    __playing : false,
-    __ended : false,
-
+  members: {
+    __playState: null,
+    __playing: false,
+    __ended: false,
 
     /**
      * Accessor of the playing state.
      * @return {Boolean} <code>true</code>, if the animations is playing.
      */
-    isPlaying : function() {
+    isPlaying() {
       return this.__playing;
     },
-
 
     /**
      * Accessor of the ended state.
      * @return {Boolean} <code>true</code>, if the animations has ended.
      */
-    isEnded : function() {
+    isEnded() {
       return this.__ended;
     },
-
 
     /**
      * Accessor of the paused state.
      * @return {Boolean} <code>true</code>, if the animations is paused.
      */
-    isPaused : function() {
+    isPaused() {
       return this.el.style[this.__playState] == "paused";
     },
-
 
     /**
      * Pauses the animation, if running. If not running, it will be ignored.
      */
-    pause : function() {
+    pause() {
       if (this.el) {
         this.el.style[this.__playState] = "paused";
         this.el.$$animation.__playing = false;
@@ -99,12 +90,11 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       }
     },
 
-
     /**
      * Resumes an animation. This does not start the animation once it has ended.
      * In this case you need to start a new Animation.
      */
-    play : function() {
+    play() {
       if (this.el) {
         this.el.style[this.__playState] = "running";
         this.el.$$animation.__playing = true;
@@ -115,12 +105,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       }
     },
 
-
     /**
      * Stops the animation if running.
      */
-    stop : function() {
-      if (this.el && qx.core.Environment.get("css.animation") && !this.jsAnimation) {
+    stop() {
+      if (
+        this.el &&
+        qx.core.Environment.get("css.animation") &&
+        !this.jsAnimation
+      ) {
         this.el.style[this.__playState] = "";
         this.el.style[qx.core.Environment.get("css.animation").name] = "";
         this.el.$$animation.__playing = false;
@@ -136,7 +129,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     /**
      * Set the animation state to ended
      */
-    __setEnded : function(){
+    __setEnded() {
       this.__playing = false;
       this.__ended = true;
     }

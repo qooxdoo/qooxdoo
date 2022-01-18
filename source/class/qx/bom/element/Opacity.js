@@ -55,7 +55,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Cross-browser opacity support.
  *
@@ -63,10 +62,8 @@
  * in some browsers). Reduced class dependencies for optimal size and
  * performance.
  */
-qx.Bootstrap.define("qx.bom.element.Opacity",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.element.Opacity", {
+  statics: {
     /**
      * Compiles the given opacity value into a cross-browser CSS string.
      * Accepts numbers between zero and one
@@ -76,10 +73,8 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      * @param opacity {Float} A float number between 0 and 1
      * @return {String} CSS compatible string
      */
-    compile : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(opacity)
-      {
+    compile: qx.core.Environment.select("engine.name", {
+      mshtml(opacity) {
         if (opacity >= 1) {
           opacity = 1;
         }
@@ -91,16 +86,14 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         if (qx.core.Environment.get("css.opacity")) {
           return "opacity:" + opacity + ";";
         } else {
-          return "zoom:1;filter:alpha(opacity=" + (opacity * 100) + ");";
+          return "zoom:1;filter:alpha(opacity=" + opacity * 100 + ");";
         }
       },
 
-      "default" : function(opacity)
-      {
+      default(opacity) {
         return "opacity:" + opacity + ";";
       }
     }),
-
 
     /**
      * Sets opacity of given element. Accepts numbers between zero and one
@@ -110,15 +103,18 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      * @param opacity {Float} A float number between 0 and 1
      * @signature function(element, opacity)
      */
-    set : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element, opacity)
-      {
+    set: qx.core.Environment.select("engine.name", {
+      mshtml(element, opacity) {
         if (qx.core.Environment.get("css.opacity")) {
           element.style.opacity = opacity;
         } else {
           // Read in computed filter
-          var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+          var filter = qx.bom.element.Style.get(
+            element,
+            "filter",
+            qx.bom.element.Style.COMPUTED_MODE,
+            false
+          );
 
           if (opacity >= 1) {
             opacity = 1;
@@ -135,15 +131,18 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
           }
 
           // Remove old alpha filter and add new one
-          element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
+          element.style.filter =
+            filter.replace(/alpha\([^\)]*\)/gi, "") +
+            "alpha(opacity=" +
+            opacity * 100 +
+            ")";
         }
       },
 
-      "default" : function(element, opacity) {
+      default(element, opacity) {
         element.style.opacity = opacity;
       }
     }),
-
 
     /**
      * Resets opacity of given element.
@@ -151,27 +150,28 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      * @param element {Element} DOM element to modify
      * @signature function(element)
      */
-    reset : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element)
-      {
-        if (qx.core.Environment.get("css.opacity"))
-        {
+    reset: qx.core.Environment.select("engine.name", {
+      mshtml(element) {
+        if (qx.core.Environment.get("css.opacity")) {
           element.style.opacity = "";
         } else {
           // Read in computed filter
-          var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+          var filter = qx.bom.element.Style.get(
+            element,
+            "filter",
+            qx.bom.element.Style.COMPUTED_MODE,
+            false
+          );
 
           // Remove old alpha filter
           element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
         }
       },
 
-      "default" : function(element) {
+      default(element) {
         element.style.opacity = "";
       }
     }),
-
 
     /**
      * Gets computed opacity of given element. Accepts numbers between zero and one
@@ -184,26 +184,25 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
      * @return {Float} A float number between 0 and 1
      * @signature function(element, mode)
      */
-    get : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element, mode)
-      {
-        if (qx.core.Environment.get("css.opacity"))
-        {
-          var opacity = qx.bom.element.Style.get(element, "opacity", mode, false);
+    get: qx.core.Environment.select("engine.name", {
+      mshtml(element, mode) {
+        if (qx.core.Environment.get("css.opacity")) {
+          var opacity = qx.bom.element.Style.get(
+            element,
+            "opacity",
+            mode,
+            false
+          );
 
           if (opacity != null) {
             return parseFloat(opacity);
           }
 
           return 1.0;
-        }
-        else
-        {
+        } else {
           var filter = qx.bom.element.Style.get(element, "filter", mode, false);
 
-          if (filter)
-          {
+          if (filter) {
             var opacity = filter.match(/alpha\(opacity=(.*)\)/);
 
             if (opacity && opacity[1]) {
@@ -215,8 +214,7 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         }
       },
 
-      "default" : function(element, mode)
-      {
+      default(element, mode) {
         var opacity = qx.bom.element.Style.get(element, "opacity", mode, false);
 
         if (opacity != null) {

@@ -21,47 +21,39 @@
 /**
  * This mixin is included by all widgets which supports native overflowing.
  */
-qx.Mixin.define("qx.ui.core.MNativeOverflow",
-{
+qx.Mixin.define("qx.ui.core.MNativeOverflow", {
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Whether the widget should have horizontal scrollbars.
      */
-    overflowX :
-    {
-      check : ["hidden", "visible", "scroll", "auto"],
-      nullable : true,
-      apply : "_applyOverflowX"
+    overflowX: {
+      check: ["hidden", "visible", "scroll", "auto"],
+      nullable: true,
+      apply: "_applyOverflowX"
     },
 
     /**
      * Whether the widget should have vertical scrollbars.
      */
-    overflowY :
-    {
-      check : ["hidden", "visible", "scroll", "auto"],
-      nullable : true,
-      apply : "_applyOverflowY"
+    overflowY: {
+      check: ["hidden", "visible", "scroll", "auto"],
+      nullable: true,
+      apply: "_applyOverflowY"
     },
 
     /**
      * Overflow group property
      */
-    overflow : {
-      group : [ "overflowX", "overflowY" ]
+    overflow: {
+      group: ["overflowX", "overflowY"]
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -69,16 +61,14 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyOverflowX : function(value) {
+    _applyOverflowX(value) {
       this.getContentElement().setStyle("overflowX", value);
     },
 
-
     // property apply
-    _applyOverflowY : function(value) {
+    _applyOverflowY(value) {
       this.getContentElement().setStyle("overflowY", value);
     }
   }

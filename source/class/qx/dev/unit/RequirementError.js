@@ -22,9 +22,7 @@
  * the test as not having been executed.
  */
 qx.Class.define("qx.dev.unit.RequirementError", {
-
-  extend : Error,
-
+  extend: Error,
 
   /*
   *****************************************************************************
@@ -36,8 +34,7 @@ qx.Class.define("qx.dev.unit.RequirementError", {
    * @param requirement {String?} The requirement ID, e.g. "SSL"
    * @param message {String?} Optional error message
    */
-  construct : function(requirement, message) {
-
+  construct(requirement, message) {
     this.__message = message || "Requirement not met";
     this.__requirement = requirement;
 
@@ -51,36 +48,30 @@ qx.Class.define("qx.dev.unit.RequirementError", {
     }
   },
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  members :
-  {
-    __message : null,
-    __requirement : null,
-
+  members: {
+    __message: null,
+    __requirement: null,
 
     /**
      * Returns the ID of the requirement that was not satisfied.
      *
      * @return {String} The requirement ID
      */
-    getRequirement : function()
-    {
+    getRequirement() {
       return this.__requirement;
     },
-
 
     /**
      * Returns a string representation of the error.
      *
      * @return {String} Error message
      */
-    toString : function()
-    {
+    toString() {
       var msg = this.__message;
       if (this.__requirement) {
         msg += ": " + this.__requirement;

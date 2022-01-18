@@ -29,21 +29,18 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Keyboard", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["keydown", "keypress", "keyup"],
-
+    TYPES: ["keydown", "keypress", "keyup"],
 
     /**
      * List qx.module.event.Keyboard methods to be attached to native mouse event
      * objects
      * @internal
      */
-    BIND_METHODS : ["getKeyIdentifier"],
-
+    BIND_METHODS: ["getKeyIdentifier"],
 
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
@@ -96,16 +93,17 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      *
      * @return {String} The key identifier
      */
-    getKeyIdentifier : function()
-    {
-      if (this.type == "keypress" &&
-      (qxWeb.env.get("engine.name") != "gecko" || this.charCode !== 0))
-      {
-        return qx.event.util.Keyboard.charCodeToIdentifier(this.charCode || this.keyCode);
+    getKeyIdentifier() {
+      if (
+        this.type == "keypress" &&
+        (qxWeb.env.get("engine.name") != "gecko" || this.charCode !== 0)
+      ) {
+        return qx.event.util.Keyboard.charCodeToIdentifier(
+          this.charCode || this.keyCode
+        );
       }
       return qx.event.util.Keyboard.keyCodeToIdentifier(this.keyCode);
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -116,20 +114,20 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element) {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
       var bindMethods = qx.module.event.Keyboard.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Keyboard[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Keyboard[bindMethods[i]].bind(event);
         }
       }
 
       return event;
     },
-
 
     /**
      * IE9 will not fire an "input" event on text input elements if the user changes
@@ -139,15 +137,20 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      * @param element {Element} Target element
      * @internal
      */
-    registerInputFix : function(element) {
-      if (element.type === "text" || element.type === "password" || element.type === "textarea")
-      {
+    registerInputFix(element) {
+      if (
+        element.type === "text" ||
+        element.type === "password" ||
+        element.type === "textarea"
+      ) {
         if (!element.__inputFix) {
-          element.__inputFix = qxWeb(element).on("keyup", qx.module.event.Keyboard._inputFix);
+          element.__inputFix = qxWeb(element).on(
+            "keyup",
+            qx.module.event.Keyboard._inputFix
+          );
         }
       }
     },
-
 
     /**
      * Removes the IE9 input event fix
@@ -155,20 +158,19 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      * @param element {Element} target element
      * @internal
      */
-    unregisterInputFix : function(element) {
+    unregisterInputFix(element) {
       if (element.__inputFix && !qxWeb(element).hasListener("input")) {
         qxWeb(element).off("keyup", qx.module.event.Keyboard._inputFix);
         element.__inputFix = null;
       }
     },
 
-
     /**
      * IE9 fix: Emits an "input" event if a text input element's value was changed
      * using the Backspace key
      * @param ev {Event} Keyup event
      */
-    _inputFix : function(ev) {
+    _inputFix(ev) {
       if (ev.getKeyIdentifier() !== "Backspace") {
         return;
       }
@@ -183,12 +185,21 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Keyboard.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Keyboard.TYPES,
+      statics.normalize
+    );
 
-    if (qxWeb.env.get("engine.name") === "mshtml" && qxWeb.env.get("browser.documentmode") === 9)
-    {
-      qxWeb.$registerEventHook("input", statics.registerInputFix, statics.unregisterInputFix);
+    if (
+      qxWeb.env.get("engine.name") === "mshtml" &&
+      qxWeb.env.get("browser.documentmode") === 9
+    ) {
+      qxWeb.$registerEventHook(
+        "input",
+        statics.registerInputFix,
+        statics.unregisterInputFix
+      );
     }
   }
 });

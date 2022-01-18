@@ -23,10 +23,8 @@
  *
  * @childControl pane {qx.ui.virtual.core.Pane} Virtual pane.
  */
-qx.Class.define("qx.ui.virtual.core.Scroller",
-{
-  extend : qx.ui.core.scroll.AbstractScrollArea,
-
+qx.Class.define("qx.ui.virtual.core.Scroller", {
+  extend: qx.ui.core.scroll.AbstractScrollArea,
 
   /**
    * @param rowCount {Integer?0} The number of rows of the virtual grid.
@@ -34,28 +32,29 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
    * @param cellHeight {Integer?10} The default cell height.
    * @param cellWidth {Integer?10} The default cell width.
    */
-  construct : function(rowCount, columnCount, cellHeight, cellWidth)
-  {
-    this.base(arguments);
+  construct(rowCount, columnCount, cellHeight, cellWidth) {
+    super();
 
-    this.__pane = new qx.ui.virtual.core.Pane(rowCount, columnCount, cellHeight, cellWidth);
+    this.__pane = new qx.ui.virtual.core.Pane(
+      rowCount,
+      columnCount,
+      cellHeight,
+      cellWidth
+    );
     this.__pane.addListener("update", this._computeScrollbars, this);
     this.__pane.addListener("scrollX", this._onScrollPaneX, this);
     this.__pane.addListener("scrollY", this._onScrollPaneY, this);
 
     if (qx.core.Environment.get("os.scrollBarOverlayed")) {
-      this._add(this.__pane, {edge: 0});
+      this._add(this.__pane, { edge: 0 });
     } else {
-      this._add(this.__pane, {row: 0, column: 0});
+      this._add(this.__pane, { row: 0, column: 0 });
     }
   },
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.virtual.core.Pane} Virtual pane. */
-    __pane : null,
-
+    __pane: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -63,16 +62,14 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get the scroller's virtual pane.
      *
      * @return {qx.ui.virtual.core.Pane} The scroller's pane.
      */
-    getPane : function() {
+    getPane() {
       return this.__pane;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -80,17 +77,14 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       if (id === "pane") {
         return this.__pane;
       } else {
-        return this.base(arguments, id);
+        return super._createChildControlImpl(id);
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -98,7 +92,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * NOT IMPLEMENTED
      *
@@ -106,12 +99,10 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      * @return {Integer} Top offset.
      * @abstract
      */
-    getItemTop : function(item)
-    {
+    getItemTop(item) {
       throw new Error("The method 'getItemTop' is not implemented!");
     },
 
-
     /**
      * NOT IMPLEMENTED
      *
@@ -119,12 +110,10 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      * @return {Integer} Top offset.
      * @abstract
      */
-    getItemBottom : function(item)
-    {
+    getItemBottom(item) {
       throw new Error("The method 'getItemBottom' is not implemented!");
     },
 
-
     /**
      * NOT IMPLEMENTED
      *
@@ -132,11 +121,9 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      * @return {Integer} Top offset.
      * @abstract
      */
-    getItemLeft : function(item)
-    {
+    getItemLeft(item) {
       throw new Error("The method 'getItemLeft' is not implemented!");
     },
-
 
     /**
      * NOT IMPLEMENTED
@@ -145,11 +132,9 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      * @return {Integer} Right offset.
      * @abstract
      */
-    getItemRight : function(item)
-    {
+    getItemRight(item) {
       throw new Error("The method 'getItemRight' is not implemented!");
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -157,22 +142,18 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    _onScrollBarX : function(e) {
+    _onScrollBarX(e) {
       this.__pane.setScrollX(e.getData());
     },
 
-
     // overridden
-    _onScrollBarY : function(e) {
+    _onScrollBarY(e) {
       this.__pane.setScrollY(e.getData());
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.__pane.dispose();
     this.__pane = null;
   }

@@ -33,45 +33,52 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
      * and the value are an array of objects, one for each entry that was found.  The individual entries
      * consist of the name, the body of the JSDoc entry, and optional, key-specific parsed data (where supported)
      */
-    parseComment: function(comment) {
+    parseComment(comment) {
       /* 
          JSDoc starts with /**
          babel parses this to * - the comment starting end ending is striped
          So whe have to test for valid JSDoc comment.
       */
       comment = comment.trim();
-      if (!(comment.startsWith("* ") || comment.startsWith("*\n") || comment.startsWith("*\r"))) {
+      if (
+        !(
+          comment.startsWith("* ") ||
+          comment.startsWith("*\n") ||
+          comment.startsWith("*\r")
+        )
+      ) {
         return {};
       }
       var current = { name: "@description", body: "" };
-      var cmds = [ current ];
+      var cmds = [current];
 
       // special handling for code section
       comment = comment.replace(/`([^`]*)`/gm, "<code>$1</code>");
-      // Strip optional leading * 
-      comment = comment.replace(/^[ \t]*\*/mg, "");
+      // Strip optional leading *
+      comment = comment.replace(/^[ \t]*\*/gm, "");
       // special handling for as markdown lists - * in qooxdoo
-      comment = comment.replace(/^\s*\*/mg, "*");
-      comment = comment.replace(/^\s*\*\*\*\*/mg, "\t\t\t*");
-      comment = comment.replace(/^\s*\*\*\*/mg, "\t\t*");
-      comment = comment.replace(/^\s*\*\*/mg, "\t*");
-      
+      comment = comment.replace(/^\s*\*/gm, "*");
+      comment = comment.replace(/^\s*\*\*\*\*/gm, "\t\t\t*");
+      comment = comment.replace(/^\s*\*\*\*/gm, "\t\t*");
+      comment = comment.replace(/^\s*\*\*/gm, "\t*");
+
       comment = comment.split("\n");
-      comment.forEach(function(line) {
+      comment.forEach(function (line) {
         line = line.trimRight();
         if (!line) {
           return;
         }
-        
+
         // Strip trailing single line comment
         let m = line.match(/(^.*)([^:]\/\/.*)$/);
         if (m) {
           line = m[1].trimRight();
         }
-        
+
         // Look for command at the beginning of the line
         m = line.match(/^\s*(\@[a-zA-Z0-9_]+)(.*)$/);
-        if (!m) { // Clean starting * as markdown lists
+        if (!m) {
+          // Clean starting * as markdown lists
           if (current.body.length) {
             current.body += "\n";
           }
@@ -96,7 +103,7 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
       });
       var result = {};
       let converter = new showdown.Converter();
-      cmds.forEach(function(cmd) {
+      cmds.forEach(function (cmd) {
         if (cmd.name === "@description") {
           try {
             cmd.body = converter.makeHtml(cmd.body);
@@ -121,17 +128,19 @@ qx.Class.define("qx.tool.compiler.jsdoc.Parser", {
         if (result[cmd.name]) {
           result[cmd.name].push(cmd);
         } else {
-          result[cmd.name] = [ cmd ];
+          result[cmd.name] = [cmd];
         }
       });
       return result;
     },
 
-    parseJsDoc: function(jsdoc, classname, analyser) {
+    parseJsDoc(jsdoc, classname, analyser) {
       for (var key in jsdoc) {
         var parser = this.__PARSERS[key];
         if (parser) {
-          jsdoc[key].forEach(pdoc => parser.parseCommand(pdoc, classname, analyser));
+          jsdoc[key].forEach(pdoc =>
+            parser.parseCommand(pdoc, classname, analyser)
+          );
         }
       }
     },

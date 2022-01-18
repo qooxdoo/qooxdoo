@@ -18,80 +18,70 @@
 
 ************************************************************************ */
 
-
 /**
  *
  * GeoPosition event used by GeoLocation class.
  *
  *
  */
-qx.Class.define("qx.event.type.GeoPosition",
-{
-  extend : qx.event.type.Event,
+qx.Class.define("qx.event.type.GeoPosition", {
+  extend: qx.event.type.Event,
 
   /**
    * Create a new instance.
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      *  The time when the position was acquired.
      */
-    timestamp :
-    {
-      check : "Number"
+    timestamp: {
+      check: "Number"
     },
 
     /**
      * The angular distance north or south of the earth's equator, measured in
      * decimal degrees along a meridian
      */
-    latitude : {
-      check : "Number"
+    latitude: {
+      check: "Number"
     },
-
 
     /**
      * The angular distance on the earth's surface, measured east or west from
      * the prime meridian at Greenwich, England, in decimal degrees
      */
-    longitude : {
-      check : "Number"
+    longitude: {
+      check: "Number"
     },
-
 
     /**
      * The height of the position, specified in meters above the earth's
      * surface.
      */
-    altitude : {
-      check : "Number",
-      nullable : true
+    altitude: {
+      check: "Number",
+      nullable: true
     },
-
 
     /**
      * The accuracy level of the latitude and longitude coordinates specified
      * in meters.
      */
-    accuracy : {
-      check : "Number"
+    accuracy: {
+      check: "Number"
     },
 
     /**
      * The accuracy level of the altitude specified in meters.
      */
-    altitudeAccuracy : {
-      check : "Number",
-      nullable : true
+    altitudeAccuracy: {
+      check: "Number",
+      nullable: true
     },
-
 
     /**
      * The direction of travel of the hosting device specified in degrees in a
@@ -102,10 +92,9 @@ qx.Class.define("qx.event.type.GeoPosition",
      * the value of the speed attribute is 0), then the value of the heading
      * property must be NaN.
      */
-    heading : {
-      nullable : true
+    heading: {
+      nullable: true
     },
-
 
     /**
      * The current ground speed of the hosting device specified in meters per
@@ -114,19 +103,21 @@ qx.Class.define("qx.event.type.GeoPosition",
      * If the implementation cannot provide speed information, the value of
      * this property must be null.
      */
-    speed : {
-      check : function(data) {return qx.lang.Type.isNumber(data);},
-      nullable : true
+    speed: {
+      check(data) {
+        return qx.lang.Type.isNumber(data);
+      },
+      nullable: true
     }
   },
 
   members: {
     /**
-    * Initialize the fields of the event.
-    *
-    * @param position {Map} a position map.
-    */
-    init: function(position) {
+     * Initialize the fields of the event.
+     *
+     * @param position {Map} a position map.
+     */
+    init(position) {
       this.setTimestamp(position.timestamp);
       this.setLatitude(position.coords.latitude);
       this.setLongitude(position.coords.longitude);

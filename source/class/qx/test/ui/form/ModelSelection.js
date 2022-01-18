@@ -15,14 +15,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ModelSelection",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.ModelSelection", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __testGetSingle : function(widget, children)
-    {
+  members: {
+    __testGetSingle(widget, children) {
       var children = children || widget.getChildren();
 
       // check the model selection
@@ -34,9 +31,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.assertEquals(3, widget.getModelSelection().getItem(0));
     },
 
-
-    __testGetMulti : function(widget, children)
-    {
+    __testGetMulti(widget, children) {
       var children = children || widget.getChildren();
 
       // check the model selection
@@ -45,14 +40,16 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the model selection again
       widget.setSelection([children[1], children[2]]);
-      this.assertEquals(2, widget.getModelSelection().getLength(), "Wrong length");
+      this.assertEquals(
+        2,
+        widget.getModelSelection().getLength(),
+        "Wrong length"
+      );
       this.assertTrue(widget.getModelSelection().contains(2));
       this.assertTrue(widget.getModelSelection().contains(3));
     },
 
-
-    __testSetSingle : function(widget, children)
-    {
+    __testSetSingle(widget, children) {
       var children = children || widget.getChildren();
 
       // check the set selection
@@ -64,9 +61,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.assertEquals(children[2], widget.getSelection()[0]);
     },
 
-
-    __testSetMulti : function(widget, children)
-    {
+    __testSetMulti(widget, children) {
       var children = children || widget.getChildren();
 
       // check the set selection
@@ -80,25 +75,19 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       this.assertTrue(widget.getSelection().includes(children[2]));
     },
 
-
-
-    __createSelectBox : function()
-    {
+    __createSelectBox() {
       var box = new qx.ui.form.SelectBox();
       this.__addListItems(box);
       return box;
     },
 
-
-    __createList : function()
-    {
+    __createList() {
       var list = new qx.ui.form.List();
       this.__addListItems(list);
       return list;
     },
 
-
-    __addListItems : function(widget) {
+    __addListItems(widget) {
       for (var i = 0; i < 3; i++) {
         var l = new qx.ui.form.ListItem("I" + (i + 1));
         l.setModel(i + 1);
@@ -106,22 +95,19 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       }
     },
 
-
-    __createRadioGroup : function() {
+    __createRadioGroup() {
       var group = new qx.ui.form.RadioGroup();
       this.__addRadioButton(group);
       return group;
     },
 
-
-    __createRadioButtonGroup : function() {
+    __createRadioButtonGroup() {
       var group = new qx.ui.form.RadioButtonGroup();
       this.__addRadioButton(group);
       return group;
     },
 
-
-    __addRadioButton : function(widget) {
+    __addRadioButton(widget) {
       for (var i = 0; i < 3; i++) {
         var r = new qx.ui.form.RadioButton();
         r.setModel(i + 1);
@@ -129,13 +115,11 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       }
     },
 
-
-    __createTree : function()
-    {
+    __createTree() {
       var tree = new qx.ui.tree.Tree();
-      var t2 = new qx.ui.tree.TreeFolder().set({model: 3});
-      var t1 = new qx.ui.tree.TreeFolder().set({model: 2});
-      var t0 = new qx.ui.tree.TreeFolder().set({model: 1});
+      var t2 = new qx.ui.tree.TreeFolder().set({ model: 3 });
+      var t1 = new qx.ui.tree.TreeFolder().set({ model: 2 });
+      var t0 = new qx.ui.tree.TreeFolder().set({ model: 1 });
       tree.setRoot(t0);
       t0.add(t1);
       t1.add(t2);
@@ -145,9 +129,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       return tree;
     },
 
-
-    __getRidOf : function (box)
-    {
+    __getRidOf(box) {
       var children = box.getChildren();
       for (var i = 0; i < children.length; i++) {
         children[i].dispose();
@@ -155,109 +137,83 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       box.dispose();
     },
 
-
-    testSelectBoxGetSingle : function()
-    {
+    testSelectBoxGetSingle() {
       var box = this.__createSelectBox();
       this.__testGetSingle(box);
       this.__getRidOf(box);
     },
 
-
-    testSelectBoxSetSingle : function()
-    {
+    testSelectBoxSetSingle() {
       var box = this.__createSelectBox();
       this.__testSetSingle(box);
       this.__getRidOf(box);
     },
 
-
-    testListGetSingle : function()
-    {
+    testListGetSingle() {
       var list = this.__createList();
       this.__testGetSingle(list);
       this.__getRidOf(list);
     },
 
-
-    testListSetSingle : function()
-    {
+    testListSetSingle() {
       var list = this.__createList();
       this.__testSetSingle(list);
       this.__getRidOf(list);
     },
 
-
-    testListGetMulti : function()
-    {
+    testListGetMulti() {
       var list = this.__createList();
       list.setSelectionMode("multi");
       this.__testGetMulti(list);
       this.__getRidOf(list);
     },
 
-
-    testListSetMulti : function()
-    {
+    testListSetMulti() {
       var list = this.__createList();
       list.setSelectionMode("multi");
       this.__testSetMulti(list);
       this.__getRidOf(list);
     },
 
-
-    testRadioGroupGetSingle : function()
-    {
+    testRadioGroupGetSingle() {
       var group = this.__createRadioGroup();
       this.__testGetSingle(group);
       this.__getRidOf(group);
     },
 
-
-    testRadioGroupSetSingle : function()
-    {
+    testRadioGroupSetSingle() {
       var group = this.__createRadioGroup();
       this.__testSetSingle(group);
       this.__getRidOf(group);
     },
 
-
-    testRadioButtonGroupGetSingle : function()
-    {
+    testRadioButtonGroupGetSingle() {
       var group = this.__createRadioButtonGroup();
       this.__testGetSingle(group);
       this.__getRidOf(group);
     },
 
-
-    testRadioButtonGroupSetSingle : function()
-    {
+    testRadioButtonGroupSetSingle() {
       var group = this.__createRadioButtonGroup();
       this.__testSetSingle(group);
       this.__getRidOf(group);
     },
 
-
-    testTreeGetSingle : function()
-    {
+    testTreeGetSingle() {
       var widget = this.__createTree();
       var children = widget.getItems(true);
       this.__testGetSingle(widget, children);
       widget.destroy();
     },
 
-
-    testTreeSetSingle : function()
-    {
+    testTreeSetSingle() {
       var widget = this.__createTree();
       var children = widget.getItems(true);
       this.__testSetSingle(widget, children);
       widget.destroy();
     },
 
-
-    testTreeGetMulti : function()
-    {
+    testTreeGetMulti() {
       var widget = this.__createTree();
       widget.setSelectionMode("multi");
       var children = widget.getItems(true);
@@ -265,9 +221,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       widget.destroy();
     },
 
-
-    testTreeSetMulti : function()
-    {
+    testTreeSetMulti() {
       var widget = this.__createTree();
       widget.setSelectionMode("multi");
       var children = widget.getItems(true);

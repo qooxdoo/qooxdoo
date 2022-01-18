@@ -19,20 +19,21 @@
  * Renderer using the placeholder property of {@link qx.ui.form.AbstractField}
  * to visualize the name.
  */
-qx.Class.define("qx.ui.form.renderer.SinglePlaceholder",
-{
-  extend : qx.ui.form.renderer.Single,
-  implement : qx.ui.form.renderer.IFormRenderer,
+qx.Class.define("qx.ui.form.renderer.SinglePlaceholder", {
+  extend: qx.ui.form.renderer.Single,
+  implement: qx.ui.form.renderer.IFormRenderer,
 
-  members :
-  {
+  members: {
     // overridden
-    addItems : function(items, names, title) {
+    addItems(items, names, title) {
       // add the header
       if (title != null) {
-        this._add(
-          this._createHeader(title), {row: this._row, column: 0, colSpan: 2}
-        );
+        this._add(this._createHeader(title), {
+          row: this._row,
+          column: 0,
+          colSpan: 2
+        });
+
         this._row++;
       }
 
@@ -42,7 +43,7 @@ qx.Class.define("qx.ui.form.renderer.SinglePlaceholder",
           throw new Error("Only widgets with placeholders supported.");
         }
         items[i].setPlaceholder(names[i]);
-        this._add(items[i], {row: this._row, column: 0});
+        this._add(items[i], { row: this._row, column: 0 });
         this._row++;
       }
     }

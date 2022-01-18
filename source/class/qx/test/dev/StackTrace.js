@@ -13,101 +13,107 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dev.StackTrace",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.dev.StackTrace", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    tearDown : function()
-    {
+  members: {
+    tearDown() {
       qx.dev.StackTrace.FILENAME_TO_CLASSNAME = null;
       qx.dev.StackTrace.FORMAT_STACKTRACE = null;
     },
 
-
-    testGetStackTraceFromError : function()
-    {
+    testGetStackTraceFromError() {
       if (!qx.core.Environment.get("ecmascript.error.stacktrace")) {
         this.skip("Test skipped since the client doesn't provide stack traces");
       }
       var trace = [];
       try {
         throw new Error("Expected exception");
-      } catch(ex) {
+      } catch (ex) {
         trace = qx.dev.StackTrace.getStackTraceFromError(ex);
       }
-      qx.core.Assert.assertNotEquals(0, trace.length, "No stack trace information returned!");
+      qx.core.Assert.assertNotEquals(
+        0,
+        trace.length,
+        "No stack trace information returned!"
+      );
     },
 
-
-    testGetStackTraceFromErrorQx : function()
-    {
+    testGetStackTraceFromErrorQx() {
       if (!qx.core.Environment.get("ecmascript.error.stacktrace")) {
         this.skip("Test skipped since the client doesn't provide stack traces");
       }
-      var qxErrorClasses = [qx.type.BaseError, qx.core.GlobalError,
-        qx.core.WindowError, qx.dev.unit.RequirementError];
-      for (var i=0, l=qxErrorClasses.length; i<l; i++) {
+      var qxErrorClasses = [
+        qx.type.BaseError,
+        qx.core.GlobalError,
+        qx.core.WindowError,
+        qx.dev.unit.RequirementError
+      ];
+      for (var i = 0, l = qxErrorClasses.length; i < l; i++) {
         var cls = qxErrorClasses[i];
         var e;
         if (cls.toString().indexOf("GlobalError") > 0) {
           e = new cls(new Error());
-        }
-        else {
+        } else {
           e = new cls();
         }
         try {
           throw e;
-        }
-        catch(ex) {
+        } catch (ex) {
           var trace = qx.dev.StackTrace.getStackTraceFromError(ex);
-          this.assertNotIdentical(0, trace.length, "Didn't get stack trace from " + cls.toString());
+          this.assertNotIdentical(
+            0,
+            trace.length,
+            "Didn't get stack trace from " + cls.toString()
+          );
         }
       }
     },
 
-
-    testFilenameConverterDefault : function()
-    {
+    testFilenameConverterDefault() {
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
-      for (var i=0, l=stack.length; i<l; i++) {
-        this.assertMatch(stack[i], /((?:qx\.)|(?:qxl\.testtapper)|(?:qxl\.testrunner)|(?:testrunner\.js)|(?:tests\.js)|(?:qooxdoo-adapter\.js))/);
+      for (var i = 0, l = stack.length; i < l; i++) {
+        this.assertMatch(
+          stack[i],
+          /((?:qx\.)|(?:qxl\.testtapper)|(?:qxl\.testrunner)|(?:testrunner\.js)|(?:tests\.js)|(?:qooxdoo-adapter\.js))/
+        );
       }
     },
 
-
-    testFilenameConverterCustom : function()
-    {
-      var converter = function(fileName) {
+    testFilenameConverterCustom() {
+      var converter = function (fileName) {
         this.assertString(fileName);
         return "FOO";
       };
 
-      qx.dev.StackTrace.FILENAME_TO_CLASSNAME = qx.lang.Function.bind(converter, this);
+      qx.dev.StackTrace.FILENAME_TO_CLASSNAME = qx.lang.Function.bind(
+        converter,
+        this
+      );
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
-      for (var i=0, l=stack.length; i<l; i++) {
+      for (var i = 0, l = stack.length; i < l; i++) {
         this.assertMatch(stack[i], /FOO/);
       }
     },
 
-
-    testFormatStackTrace : function()
-    {
-      var formatter = function(trace) {
+    testFormatStackTrace() {
+      var formatter = function (trace) {
         this.assertArray(trace);
-        for (var i=0, l=trace.length; i<l; i++) {
+        for (var i = 0, l = trace.length; i < l; i++) {
           trace[i] = "BAR " + trace[i];
         }
         return trace;
       };
 
-      qx.dev.StackTrace.FORMAT_STACKTRACE = qx.lang.Function.bind(formatter, this);
+      qx.dev.StackTrace.FORMAT_STACKTRACE = qx.lang.Function.bind(
+        formatter,
+        this
+      );
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
-      for (var i=0, l=stack.length; i<l; i++) {
+      for (var i = 0, l = stack.length; i < l; i++) {
         this.assertMatch(stack[i], /^BAR/);
       }
     }

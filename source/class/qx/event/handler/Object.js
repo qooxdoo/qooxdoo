@@ -20,14 +20,9 @@
 /**
  * This class provides qooxdoo object event support.
  */
-qx.Class.define("qx.event.handler.Object",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
-
+qx.Class.define("qx.event.handler.Object", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -35,24 +30,19 @@ qx.Class.define("qx.event.handler.Object",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_LAST,
+    PRIORITY: qx.event.Registration.PRIORITY_LAST,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : null,
+    SUPPORTED_TYPES: null,
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_OBJECT,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_OBJECT,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -60,8 +50,7 @@ qx.Class.define("qx.event.handler.Object",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -69,27 +58,20 @@ qx.Class.define("qx.event.handler.Object",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return qx.Class.supportsEvent(target.constructor, type);
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     }
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -97,7 +79,7 @@ qx.Class.define("qx.event.handler.Object",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

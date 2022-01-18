@@ -22,10 +22,9 @@
  * edit when the tree node editing is turned on and the open/close button
  * is tapped quickly
  */
-qx.Class.define("qx.ui.treevirtual.pane.Scroller",
-{
-  extend : qx.ui.table.pane.Scroller,
-  include : [qx.ui.core.scroll.MScrollBarFactory],
+qx.Class.define("qx.ui.treevirtual.pane.Scroller", {
+  extend: qx.ui.table.pane.Scroller,
+  include: [qx.ui.core.scroll.MScrollBarFactory],
 
   /*
   *****************************************************************************
@@ -33,15 +32,13 @@ qx.Class.define("qx.ui.treevirtual.pane.Scroller",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Event handler. Called when the user double tapped a pointer button over the pane.
      *
      * @param e {Map} the event.
      */
-    _onDbltapPane : function(e)
-    {
+    _onDbltapPane(e) {
       var pageX = e.getDocumentLeft();
       var pageY = e.getDocumentTop();
       var col = this._getColumnForPageX(pageX);
@@ -52,7 +49,10 @@ qx.Class.define("qx.ui.treevirtual.pane.Scroller",
         var tree = this.getTable();
         var tableModel = tree.getTableModel();
 
-        if (tableModel instanceof qx.ui.treevirtual.SimpleTreeDataModel && col === tableModel.getTreeColumn()) {
+        if (
+          tableModel instanceof qx.ui.treevirtual.SimpleTreeDataModel &&
+          col === tableModel.getTreeColumn()
+        ) {
           // Was the click on the open/close button? We get the position and add a bit of
           // latitude to that
           var x = e.getViewportLeft();
@@ -62,12 +62,15 @@ qx.Class.define("qx.ui.treevirtual.pane.Scroller",
           var node = tree.getDataModel().getNode(row);
 
           var buttonPos = tree.getOpenCloseButtonPosition(node);
-          if (x >= buttonPos.left - latitude && x <= buttonPos.left + buttonPos.width + latitude) {
+          if (
+            x >= buttonPos.left - latitude &&
+            x <= buttonPos.left + buttonPos.width + latitude
+          ) {
             return;
           }
         }
       }
-      this.base(arguments, e);
+      super._onDbltapPane(e);
     }
   }
 });

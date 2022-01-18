@@ -16,18 +16,15 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Label",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Label", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__boldStyle = { fontWeight: "bold" };
       this.__italicStyle = { fontStyle: "italic" };
       this.__boldItalicStyle = { fontWeight: "bold", fontStyle: "italic" };
-      this.__familyStyle = { fontFamily: [ "Verdana" ] };
+      this.__familyStyle = { fontFamily: ["Verdana"] };
       this.__fontSizeStyle = { fontSize: "20px" };
       this.__paddingStyle = { padding: "10px" };
       this.__marginStyle = { margin: "10px" };
@@ -42,8 +39,7 @@ qx.Class.define("qx.test.bom.Label",
       qx.lang.Object.mergeWith(this.__allTogetherStyle, this.__marginStyle);
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       this.__boldStyle = null;
       this.__italicStyle = null;
       this.__familyStyle = null;
@@ -56,12 +52,12 @@ qx.Class.define("qx.test.bom.Label",
     // test only XUL labels under windows to get comparable results
     // to ensure the change of bug #5011 does not break anything
 
-    testMeasureSizeTextNormal : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextNormal() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
@@ -88,182 +84,155 @@ qx.Class.define("qx.test.bom.Label",
         size = qx.bom.Label.getTextSize(text, this.__allTogetherStyle);
         this.assertEquals(125, size.width);
         this.assertEquals(25, size.height);
-      }
-      else
-      {
+      } else {
         this.skip();
       }
     },
 
-    testMeasureSizeTextBold : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextBold() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__boldStyle);
         this.assertEquals(61, size.width);
         this.assertEquals(14, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextItalic : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextItalic() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__italicStyle);
         this.assertEquals(56, size.width);
         this.assertEquals(14, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextBoldItalic : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextBoldItalic() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__boldItalicStyle);
         this.assertEquals(64, size.width);
         this.assertEquals(13, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextFontSize : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextFontSize() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__fontSize);
         this.assertEquals(53, size.width);
         this.assertEquals(14, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextFontFamily : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextFontFamily() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__familyStyle);
         this.assertEquals(64, size.width);
         this.assertEquals(13, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextPadding : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextPadding() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__paddingStyle);
         this.assertEquals(53, size.width);
         this.assertEquals(14, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextMargin : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextMargin() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__marginStyle);
         this.assertEquals(53, size.width);
         this.assertEquals(14, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testMeasureSizeTextAllTogether : function()
-    {
-      if (!qx.core.Environment.get("css.textoverflow") &&
-          qx.core.Environment.get("html.xul") &&
-          qx.core.Environment.get("os.name") == "win")
-      {
+    testMeasureSizeTextAllTogether() {
+      if (
+        !qx.core.Environment.get("css.textoverflow") &&
+        qx.core.Environment.get("html.xul") &&
+        qx.core.Environment.get("os.name") == "win"
+      ) {
         var text = "vanillebaer";
         var size = null;
 
         size = qx.bom.Label.getTextSize(text, this.__allTogetherStyle);
         this.assertEquals(125, size.width);
         this.assertEquals(25, size.height);
-      }
-      else
-      {
+      } else {
         this.assertTrue(true);
       }
     },
 
-
-    testSanitizer : function()
-    {
+    testSanitizer() {
       var element = document.createElement("div");
       element.useHtml = true;
 
       // function to sanitize string
-      qx.bom.Label.setSanitizer(function(html) {
+      qx.bom.Label.setSanitizer(function (html) {
         if (html.indexOf("<script") > -1) {
-          return '';
+          return "";
         }
 
         return html;
@@ -277,7 +246,7 @@ qx.Class.define("qx.test.bom.Label",
       // test dirty string
       value = "foo<script></script>";
       qx.bom.Label.setValue(element, value);
-      this.assertEquals(qx.bom.Label.getValue(element), '');
+      this.assertEquals(qx.bom.Label.getValue(element), "");
 
       // reset function to sanitize string
       qx.bom.Label.setSanitizer(null);

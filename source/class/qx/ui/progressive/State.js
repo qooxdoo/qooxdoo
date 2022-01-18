@@ -19,10 +19,8 @@
 /**
  * State of rendering by Progressive.
  */
-qx.Class.define("qx.ui.progressive.State",
-{
-  extend     : qx.core.Object,
-
+qx.Class.define("qx.ui.progressive.State", {
+  extend: qx.core.Object,
 
   /**
    * @param initialState {Map}
@@ -42,9 +40,8 @@ qx.Class.define("qx.ui.progressive.State",
    *       <dd>see {@link #userData}</dd>
    *   </dl>
    */
-  construct : function(initialState)
-  {
-    this.base(arguments);
+  construct(initialState) {
+    super();
 
     this.setProgressive(initialState.progressive);
     this.setModel(initialState.model);
@@ -54,32 +51,30 @@ qx.Class.define("qx.ui.progressive.State",
     this.setUserData(initialState.userData);
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The {@link qx.ui.progressive.Progressive} with which this {@link
      * State} is associated. This property should be treated as read-only.
      */
-    progressive    : { nullable : true },
+    progressive: { nullable: true },
 
     /**
      * The data model being used. This property should be treated as
      * read-only.
      */
-    model          : { nullable : true },
+    model: { nullable: true },
 
     /**
      * The widget in which the element data should be rendered.  This property
      * should be treated as read-only.
      */
-    pane           : { nullable : true },
+    pane: { nullable: true },
 
     /**
      * How many elements are rendered at a time, before yielding to the
      * browser.  This property should be treated as read-only.
      */
-    batchSize      : { },
+    batchSize: {},
 
     /**
      * Add a place for renderers' private data.  If multiple renderers are
@@ -94,7 +89,7 @@ qx.Class.define("qx.ui.progressive.State",
      *                  also add an event listener for "renderEnd" so that it
      *                  can clean up.
      */
-    rendererData   : { },
+    rendererData: {},
 
     /**
      * User data.  This is useful, for example, by communication between
@@ -105,12 +100,10 @@ qx.Class.define("qx.ui.progressive.State",
      *                  also add an event listener for "renderEnd" to
      *                  dispose any objects you placed here.
      */
-    userData       : { }
+    userData: {}
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     // Remove references to other objects
     this.setProgressive(null);
     this.setModel(null);

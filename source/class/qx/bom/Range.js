@@ -16,23 +16,19 @@
 
 ************************************************************************ */
 
-
-
 /**
  * Low-level Range API which is used together with the low-level Selection API.
  * This is especially useful whenever a developer want to work on text level,
  * e.g. for an editor.
  */
-qx.Bootstrap.define("qx.bom.Range",
-{
+qx.Bootstrap.define("qx.bom.Range", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Returns the range object of the given node.
      *
@@ -40,22 +36,16 @@ qx.Bootstrap.define("qx.bom.Range",
      * @param node {Node} node to get the range of
      * @return {Range} valid range of given selection
      */
-    get : qx.core.Environment.select("html.selection",
-    {
-      "selection" : function(node)
-      {
+    get: qx.core.Environment.select("html.selection", {
+      selection(node) {
         // check for the type of the given node
         // for legacy IE the nodes input, textarea, button and body
         // have access to own TextRange objects. Everything else is
         // gathered via the selection object.
-        if (qx.dom.Node.isElement(node))
-        {
-          switch(node.nodeName.toLowerCase())
-          {
+        if (qx.dom.Node.isElement(node)) {
+          switch (node.nodeName.toLowerCase()) {
             case "input":
-
-              switch(node.type)
-              {
+              switch (node.type) {
                 case "text":
                 case "password":
                 case "hidden":
@@ -66,7 +56,9 @@ qx.Bootstrap.define("qx.bom.Range",
                   return node.createTextRange();
 
                 default:
-                  return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
+                  return qx.bom.Selection.getSelectionObject(
+                    qx.dom.Node.getDocument(node)
+                  ).createRange();
               }
 
             case "textarea":
@@ -75,34 +67,32 @@ qx.Bootstrap.define("qx.bom.Range",
               return node.createTextRange();
 
             default:
-              return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
+              return qx.bom.Selection.getSelectionObject(
+                qx.dom.Node.getDocument(node)
+              ).createRange();
           }
-        }
-        else
-        {
+        } else {
           if (node == null) {
             node = window;
           }
 
           // need to pass the document node to work with multi-documents
-          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
+          return qx.bom.Selection.getSelectionObject(
+            qx.dom.Node.getDocument(node)
+          ).createRange();
         }
       },
 
       // suitable for gecko, opera and webkit
-      "default" : function(node)
-      {
+      default(node) {
         var doc = qx.dom.Node.getDocument(node);
 
         // get the selection object of the corresponding document
         var sel = qx.bom.Selection.getSelectionObject(doc);
 
-        if (sel.rangeCount > 0)
-        {
+        if (sel.rangeCount > 0) {
           return sel.getRangeAt(0);
-        }
-        else
-        {
+        } else {
           return doc.createRange();
         }
       }

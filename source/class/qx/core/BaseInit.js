@@ -21,36 +21,31 @@
 /**
  * This is the base class for non-browser qooxdoo applications.
  */
-qx.Class.define("qx.core.BaseInit",
-{
+qx.Class.define("qx.core.BaseInit", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
-    __application : null,
-
+  statics: {
+    __application: null,
 
     /**
      * Returns the instantiated qooxdoo application.
      *
      * @return {qx.core.Object} The application instance.
      */
-    getApplication : function() {
+    getApplication() {
       return this.__application || null;
     },
-
 
     /**
      * Runs when the application is loaded. Automatically creates an instance
      * of the class defined by the setting <code>qx.application</code>.
      *
      */
-    ready : function()
-    {
+    ready() {
       if (this.__application) {
         return;
       }
@@ -66,36 +61,41 @@ qx.Class.define("qx.core.BaseInit",
       }
 
       if (qx.core.Environment.get("qx.debug.startupTimings")) {
-        qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+        qx.log.Logger.debug(
+          this,
+          "Load runtime: " + (new Date() - qx.Bootstrap.LOADSTART) + "ms"
+        );
       }
 
       var app = qx.core.Environment.get("qx.application");
       var clazz = qx.Class.getByName(app);
 
-      if (clazz)
-      {
-        this.__application = new clazz;
+      if (clazz) {
+        this.__application = new clazz();
 
-        var start = new Date;
+        var start = new Date();
         this.__application.main();
         if (qx.core.Environment.get("qx.debug.startupTimings")) {
-          qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
+          qx.log.Logger.debug(
+            this,
+            "Main runtime: " + (new Date() - start) + "ms"
+          );
         }
 
-        var start = new Date;
+        var start = new Date();
         this.__application.finalize();
         if (qx.core.Environment.get("qx.debug.startupTimings")) {
-          qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
+          qx.log.Logger.debug(
+            this,
+            "Finalize runtime: " + (new Date() - start) + "ms"
+          );
         }
-        
+
         qx.event.handler.Application.onAppInstanceInitialized();
-      }
-      else
-      {
+      } else {
         qx.log.Logger.warn("Missing application class: " + app);
       }
     },
-
 
     /**
      * Runs before the document is unloaded. Calls the application's close
@@ -103,22 +103,19 @@ qx.Class.define("qx.core.BaseInit",
      *
      * @param e {qx.event.type.Native} Incoming beforeunload event.
      */
-    __close : function(e)
-    {
+    __close(e) {
       var app = this.__application;
       if (app) {
         app.close();
       }
     },
 
-
     /**
      * Runs when the document is unloaded. Automatically terminates a previously
      * created application instance.
      *
      */
-    __shutdown : function()
-    {
+    __shutdown() {
       var app = this.__application;
 
       if (app) {

@@ -16,11 +16,10 @@
  * test the parser
  */
 qx.Class.define("qx.test.compiler.jsdoc.Parser", {
-  extend : qx.dev.unit.TestCase,
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testCheckConstructor: function() {
+  members: {
+    testCheckConstructor() {
       let text = `
          /*
          *************
@@ -31,24 +30,24 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
       var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
       this.assert(qx.lang.Object.equals(test, {}));
     },
-    
-    testCheckParams: function() {
+
+    testCheckParams() {
       let text = `*
          @param {String} json jsdoc style
          @param json {String}   qooxdoo style
-    `;  
+    `;
       var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
       qx.tool.compiler.jsdoc.Parser.parseJsDoc(test, "test", null);
       console.log(test["@description"][0].body);
       this.assert(test["@description"][0].body === "");
       this.assert(test["@param"].length === 2);
     },
-     
-    testCheckIssue633: function() {
+
+    testCheckIssue633() {
       {
         let text = `*
         // [Constructor]
-        `;  
+        `;
         var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
         console.log(test["@description"][0].body);
         this.assert(test["@description"][0].body === "");
@@ -62,14 +61,14 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
          * 
          * @return {Object}
          *
-        `;  
+        `;
         test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
         console.log(test["@description"][0].body);
         this.assert(test["@description"][0].body !== "");
       }
     },
-    
-    testCheckRpc: function() {
+
+    testCheckRpc() {
       let text = `
        * <p>This namespace provides an API implementing the
        * <a href="https://www.jsonrpc.org/specification">JSON Remote Procedure Call (JSON-RPC) version 2 specification</a>
@@ -142,19 +141,19 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
        * with urls that start with "http" will use that custom behavior.
        *
        */
-      `;  
+      `;
       var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
       console.log(test["@description"][0].body);
       this.assert(test["@description"][0].body !== "");
     },
-    
-    testCheckInlineMarkdown: function() {
+
+    testCheckInlineMarkdown() {
       let text = `
     * *strong*
     * __emphasis__
     * {@link Resource}     -> link?
     * @ignore(qx.*)
-    `;  
+    `;
       var test = qx.tool.compiler.jsdoc.Parser.parseComment(text);
       console.log(test["@description"][0].body);
       this.assert(test["@description"][0].body !== "");
@@ -162,20 +161,21 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
       this.assert(test["@description"][0].body.includes("<em>"));
       this.assert(test["@ignore"].length === 1);
     },
-    
+
     testHiResSyntax() {
       let data = qx.tool.compiler.jsdoc.Parser.parseComment(
-        " *\n" + 
-        " * @asset(qx/test/webfonts/fontawesome-webfont.*)\n" + 
-        " * @asset(qx/icon/Tango/48/places/folder.png)\n" + 
-        " * @asset(qx/icon/Tango/32/places/folder.png)\n" +
-        " * @asset(qx/static/blank.gif)\n" +
-        " * @asset(qx/static/drawer.png)\n" +
-        " * @asset(qx/static/drawer@2x.png)");
+        " *\n" +
+          " * @asset(qx/test/webfonts/fontawesome-webfont.*)\n" +
+          " * @asset(qx/icon/Tango/48/places/folder.png)\n" +
+          " * @asset(qx/icon/Tango/32/places/folder.png)\n" +
+          " * @asset(qx/static/blank.gif)\n" +
+          " * @asset(qx/static/drawer.png)\n" +
+          " * @asset(qx/static/drawer@2x.png)"
+      );
       this.assert(Boolean(data["@asset"] && data["@asset"].length == 6));
     },
-    
-    testIgnore: function() {
+
+    testIgnore() {
       let text = `*
      @ignore(process.*)
      @ignore(global.*)
@@ -189,8 +189,8 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
       this.assert(test["@description"][0].body === "");
       this.assert(test["@ignore"].length === 4);
     },
-    
-    testCheckMarkdown: function() {
+
+    testCheckMarkdown() {
       let text = `
     *
     * The \`qx.bom.rest\` package consists of only one class: {@link Resource}.
@@ -236,8 +236,8 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
       this.assert(test["@description"][0].body.includes("<ul>"));
       this.assert(test["@description"][0].body.includes("<li>"));
     },
-    
-    testCheckInlineCode: function() {
+
+    testCheckInlineCode() {
       let text = `
       * // Start a 5-second recurrent timer.
       * @require(qx.event.type.Pointer) TEST // load-time dependency for early native events
@@ -250,96 +250,117 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
       console.log(test["@require"][0].docComment);
       this.assert(test["@require"][0].docComment !== "");
     },
-    
-    
-    testChecksJsdocParamParser: function() {
+
+    testChecksJsdocParamParser() {
       var parser = new qx.tool.compiler.jsdoc.ParamParser();
-      var pdoc = { name: "@param", body: "value {Boolean}, the new value of the widget" };
+      var pdoc = {
+        name: "@param",
+        body: "value {Boolean}, the new value of the widget"
+      };
       parser.parseCommand(pdoc, "abc.def.Ghi", null);
       delete pdoc.name;
       delete pdoc.body;
-      this.assert(qx.lang.Object.equals(pdoc, {
-        "paramName": "value",
-        "type": "Boolean",
-        "description": ", the new value of the widget"
-      }));
-    
-      pdoc = { name: "@param", body: "cellInfo {Map}\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>" };
+      this.assert(
+        qx.lang.Object.equals(pdoc, {
+          paramName: "value",
+          type: "Boolean",
+          description: ", the new value of the widget"
+        })
+      );
+
+      pdoc = {
+        name: "@param",
+        body: "cellInfo {Map}\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>"
+      };
       parser.parseCommand(pdoc, "abc.def.Ghi", null);
       delete pdoc.name;
       delete pdoc.body;
-      this.assert(qx.lang.Object.equals(pdoc, {
-        "paramName": "cellInfo",
-        "type": "Map",
-        "description": "\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>"
-      }));
+      this.assert(
+        qx.lang.Object.equals(pdoc, {
+          paramName: "cellInfo",
+          type: "Map",
+          description:
+            "\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>"
+        })
+      );
     },
-    
-    testChecksJsdocInlineCommentsAndUrls: function() {
+
+    testChecksJsdocInlineCommentsAndUrls() {
       let result;
-      
+
       result = qx.tool.compiler.jsdoc.Parser.parseComment(
         `
          * @ignore(abc,
          *    def,
          *    ghi)
-        `);
-      this.assert(qx.lang.Object.equals(result, {
-        "@description": [
-          {
-            "name": "@description",
-            "body": ""
-          }
-        ],
-        "@ignore": [
-          {
-            "name": "@ignore",
-            "body": "abc,\n    def,\n    ghi"
-          }
-        ]
-      }));
-          
+        `
+      );
+      this.assert(
+        qx.lang.Object.equals(result, {
+          "@description": [
+            {
+              name: "@description",
+              body: ""
+            }
+          ],
+
+          "@ignore": [
+            {
+              name: "@ignore",
+              body: "abc,\n    def,\n    ghi"
+            }
+          ]
+        })
+      );
+
       result = qx.tool.compiler.jsdoc.Parser.parseComment(
         `
          * @ignore(abc, // abc comment
          *    def, // def comment
          *    ghi)
-        `);
-      this.assert(qx.lang.Object.equals(result, {
-        "@description": [
-          {
-            "name": "@description",
-            "body": ""
-          }
-        ],
-        "@ignore": [
-          {
-            "name": "@ignore",
-            "body": "abc,\n    def,\n    ghi"
-          }
-        ]
-      }));
-      
+        `
+      );
+      this.assert(
+        qx.lang.Object.equals(result, {
+          "@description": [
+            {
+              name: "@description",
+              body: ""
+            }
+          ],
+
+          "@ignore": [
+            {
+              name: "@ignore",
+              body: "abc,\n    def,\n    ghi"
+            }
+          ]
+        })
+      );
+
       result = qx.tool.compiler.jsdoc.Parser.parseComment(`
          * @ignore(stuff) // comment about ignore stuff
          * http://abc.com // comment about url
          * http://dev.com 
          * 
          `);
-      this.assert(qx.lang.Object.equals(result, {
-        "@description": [
-          {
-            "name": "@description",
-            "body": ""
-          }
-        ],
-        "@ignore": [
-          {
-            "name": "@ignore",
-            "body": "stuff"
-          }
-        ]
-      }));
+      this.assert(
+        qx.lang.Object.equals(result, {
+          "@description": [
+            {
+              name: "@description",
+              body: ""
+            }
+          ],
+
+          "@ignore": [
+            {
+              name: "@ignore",
+              body: "stuff"
+            }
+          ]
+        })
+      );
     }
   }
 });

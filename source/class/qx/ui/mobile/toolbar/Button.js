@@ -20,9 +20,8 @@
  * A button used in toolbars.
  *
  */
-qx.Class.define("qx.ui.mobile.toolbar.Button",
-{
-  extend : qx.ui.mobile.form.Button,
+qx.Class.define("qx.ui.mobile.toolbar.Button", {
+  extend: qx.ui.mobile.form.Button,
 
   /*
   *****************************************************************************
@@ -30,14 +29,11 @@ qx.Class.define("qx.ui.mobile.toolbar.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "toolbar-button"
+    defaultCssClass: {
+      refine: true,
+      init: "toolbar-button"
     }
   }
-
 });

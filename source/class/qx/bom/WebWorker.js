@@ -17,7 +17,6 @@
 
 ************************************************************************ */
 
-
 /**
  *
  * Web Workers allows us to run JavaScript in parallel on a web page,
@@ -29,57 +28,59 @@
  * For more information see:
  * http://www.w3.org/TR/workers/
  */
-qx.Class.define("qx.bom.WebWorker",
-{
-  extend : qx.core.Object,
-  implement: [ qx.core.IDisposable ],
-
+qx.Class.define("qx.bom.WebWorker", {
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
   /**
    * Create a new instance.
    *
    * @param src {String} The path to worker as an URL
    */
-  construct: function(src)
-  {
-    this.base(arguments);
+  construct(src) {
+    super();
     this.__isNative = qx.core.Environment.get("html.webworker");
     this.__isNative ? this.__initNative(src) : this.__initFake(src);
   },
 
-
-  events :
-  {
+  events: {
     /** Fired when worker sends a message */
-    "message": "qx.event.type.Data",
+    message: "qx.event.type.Data",
 
     /** Fired when an error occurs */
-    "error": "qx.event.type.Data"
+    error: "qx.event.type.Data"
   },
 
+  members: {
+    _worker: null,
+    _handleErrorBound: null,
+    _handleMessageBound: null,
 
-  members :
-  {
-    _worker : null,
-    _handleErrorBound : null,
-    _handleMessageBound : null,
-
-    __isNative : true,
-    __fake : null,
-
-
+    __isNative: true,
+    __fake: null,
 
     /**
      * Initialize the native worker
      * @param src {String} The path to worker as an URL
      */
-    __initNative: function(src) {
+    __initNative(src) {
       this._worker = new window.Worker(src);
-      this._handleMessageBound = qx.lang.Function.bind(this._handleMessage, this);
+      this._handleMessageBound = qx.lang.Function.bind(
+        this._handleMessage,
+        this
+      );
       this._handleErrorBound = qx.lang.Function.bind(this._handleError, this);
 
-      qx.bom.Event.addNativeListener(this._worker, "message", this._handleMessageBound);
-      qx.bom.Event.addNativeListener(this._worker, "error", this._handleErrorBound);
+      qx.bom.Event.addNativeListener(
+        this._worker,
+        "message",
+        this._handleMessageBound
+      );
+      qx.bom.Event.addNativeListener(
+        this._worker,
+        "error",
+        this._handleErrorBound
+      );
     },
 
     /**
@@ -87,17 +88,21 @@ qx.Class.define("qx.bom.WebWorker",
      * @param src {String} The path to worker as an URL
      * @lint ignoreDeprecated(eval)
      */
-    __initFake: function(src) {
+    __initFake(src) {
       var that = this;
       var req = new qx.bom.request.Xhr();
-      req.onload = function() {
-        that.__fake = (function() {
-          var postMessage = function(e) {
-            that.fireDataEvent('message', e);
+      req.onload = function () {
+        that.__fake = (function () {
+          var postMessage = function (e) {
+            that.fireDataEvent("message", e);
           };
           //set up context vars before evaluating the code
-          eval("var onmessage = null, postMessage = " + postMessage + ";" +
-            req.responseText);
+          eval(
+            "var onmessage = null, postMessage = " +
+              postMessage +
+              ";" +
+              req.responseText
+          );
 
           //pick the right onmessage because of the uglyfier
           return {
@@ -111,20 +116,19 @@ qx.Class.define("qx.bom.WebWorker",
       req.send();
     },
 
-
     /**
      * Send a message to the worker.
      * @param msg {String} the message
      */
-    postMessage: function(msg) {
+    postMessage(msg) {
       var that = this;
 
       if (this.__isNative) {
         this._worker.postMessage(msg);
       } else {
-        setTimeout(function() {
+        setTimeout(function () {
           try {
-            that.__fake.onmessage && that.__fake.onmessage({data: msg});
+            that.__fake.onmessage && that.__fake.onmessage({ data: msg });
           } catch (ex) {
             that.fireDataEvent("error", ex);
           }
@@ -132,33 +136,36 @@ qx.Class.define("qx.bom.WebWorker",
       }
     },
 
-
     /**
      * Message handler
      * @param e {Event} message event
      */
-    _handleMessage: function(e) {
+    _handleMessage(e) {
       this.fireDataEvent("message", e.data);
     },
-
 
     /**
      * Error handler
      * @param e {Event} error event
      */
-    _handleError: function(e) {
+    _handleError(e) {
       this.fireDataEvent("error", e.message);
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     if (this.__isNative) {
-      qx.bom.Event.removeNativeListener(this._worker, "message", this._handleMessageBound);
-      qx.bom.Event.removeNativeListener(this._worker, "error", this._handleErrorBound);
-      if (this._worker)
-      {
+      qx.bom.Event.removeNativeListener(
+        this._worker,
+        "message",
+        this._handleMessageBound
+      );
+      qx.bom.Event.removeNativeListener(
+        this._worker,
+        "error",
+        this._handleErrorBound
+      );
+      if (this._worker) {
         this._worker.terminate();
         this._worker = null;
       }

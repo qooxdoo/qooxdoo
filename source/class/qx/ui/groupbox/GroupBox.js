@@ -25,18 +25,16 @@
  * @childControl frame {qx.ui.container.Composite} frame for the content widgets
  * @childControl legend {qx.ui.basic.Atom} legend to show at top of the groupbox
  */
-qx.Class.define("qx.ui.groupbox.GroupBox",
-{
-  extend : qx.ui.core.Widget,
-  include : [
+qx.Class.define("qx.ui.groupbox.GroupBox", {
+  extend: qx.ui.core.Widget,
+  include: [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.core.MContentPadding,
     qx.ui.form.MForm
   ],
-  implement : [qx.ui.form.IForm],
 
-
+  implement: [qx.ui.form.IForm],
 
   /*
   *****************************************************************************
@@ -48,11 +46,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
    * @param legend {String?""} The group boxes legend
    * @param icon {String?""} The icon of the legend
    */
-  construct : function(legend, icon)
-  {
-    this.base(arguments);
+  construct(legend, icon) {
+    super();
 
-    this._setLayout(new qx.ui.layout.Canvas);
+    this._setLayout(new qx.ui.layout.Canvas());
 
     // Sub widgets
     this._createChildControl("frame");
@@ -68,29 +65,23 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init   : "groupbox"
+    appearance: {
+      refine: true,
+      init: "groupbox"
     },
 
     /**
      * Label of the legend sub widget. Set if the given string is
      * valid. Otherwise the legend sub widget is not being displayed.
      */
-    legend:
-    {
+    legend: {
       check: "String",
       apply: "_applyLegend",
       event: "changeLegend",
@@ -100,18 +91,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     /**
      * Property for setting the position of the legend.
      */
-    legendPosition :
-    {
-      check     : ["top", "middle"],
-      init      : "middle",
-      apply     : "_applyLegendPosition",
-      themeable : true
+    legendPosition: {
+      check: ["top", "middle"],
+      init: "middle",
+      apply: "_applyLegendPosition",
+      themeable: true
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -119,50 +105,43 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      invalid : true
+    _forwardStates: {
+      invalid: true
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "frame":
           control = new qx.ui.container.Composite();
-          this._add(control, {left: 0, top: 6, right: 0, bottom: 0});
+          this._add(control, { left: 0, top: 6, right: 0, bottom: 0 });
           break;
 
         case "legend":
           control = new qx.ui.basic.Atom();
           control.addListener("resize", this._repositionFrame, this);
-          this._add(control, {left: 0, right: 0});
+          this._add(control, { left: 0, right: 0 });
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
-
 
     /**
      * Returns the element, to which the content padding should be applied.
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.getChildControl("frame");
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -171,40 +150,32 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     */
 
     // property apply
-    _applyLegend : function(value, old)
-    {
+    _applyLegend(value, old) {
       var control = this.getChildControl("legend");
 
-      if (value !== null)
-      {
+      if (value !== null) {
         control.setLabel(value);
         control.show();
-      }
-      else
-      {
+      } else {
         control.exclude();
       }
     },
-
 
     /**
      * Apply method for applying the legend position. It calls the
      * {@link #_repositionFrame} method.
      */
-    _applyLegendPosition: function(e)
-    {
+    _applyLegendPosition(e) {
       if (this.getChildControl("legend").getBounds()) {
         this._repositionFrame();
       }
     },
 
-
     /**
      * Repositions the frame of the group box dependent on the
      * {@link #legendPosition} property.
      */
-    _repositionFrame: function()
-    {
+    _repositionFrame() {
       var legend = this.getChildControl("legend");
       var frame = this.getChildControl("frame");
 
@@ -213,15 +184,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
-        frame.setLayoutProperties({"top": Math.round(height / 2)});
+        frame.setLayoutProperties({ top: Math.round(height / 2) });
       } else if (this.getLegendPosition() == "top") {
-        frame.setLayoutProperties({"top": height});
+        frame.setLayoutProperties({ top: height });
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -229,20 +196,15 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
      * mixin
      *
      * @return {qx.ui.container.Composite} pane sub widget
      */
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.getChildControl("frame");
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -255,17 +217,16 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      *
      * @param icon {String} source of the new icon of the legend sub widget
      */
-    setIcon : function(icon) {
+    setIcon(icon) {
       this.getChildControl("legend").setIcon(icon);
     },
-
 
     /**
      * Accessor method for the icon of the legend sub widget
      *
      * @return {String} source of the new icon of the legend sub widget
      */
-    getIcon : function() {
+    getIcon() {
       return this.getChildControl("legend").getIcon();
     }
   }

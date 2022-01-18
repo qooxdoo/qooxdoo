@@ -27,38 +27,29 @@
  * @childControl icon {qx.ui.basic.Image} icon of the tree item
  * @childControl open {qx.ui.tree.core.FolderOpenButton} button to open/close a subtree
  */
-qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
-{
-  extend : qx.ui.tree.core.AbstractItem,
-  type : "abstract",
+qx.Class.define("qx.ui.tree.core.AbstractTreeItem", {
+  extend: qx.ui.tree.core.AbstractItem,
+  type: "abstract",
 
-
-  construct : function(label)
-  {
-    this.base(arguments, label);
+  construct(label) {
+    super(label);
 
     this.__children = [];
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The parent tree folder.
      */
-    parent :
-    {
-      check : "qx.ui.tree.core.AbstractTreeItem",
-      nullable : true
+    parent: {
+      check: "qx.ui.tree.core.AbstractTreeItem",
+      nullable: true
     }
   },
 
-
-  members :
-  {
-    __children : null,
-    __childrenContainer : null,
-
+  members: {
+    __children: null,
+    __childrenContainer: null,
 
     /**
      * Returns the tree the tree item is connected to. If the item is not part of
@@ -66,29 +57,30 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *
      * @return {qx.ui.tree.Tree|null} The item's tree or <code>null</code>.
      */
-    getTree : function()
-    {
+    getTree() {
       var treeItem = this;
       while (treeItem.getParent()) {
         treeItem = treeItem.getParent();
       }
 
-      var tree = treeItem.getLayoutParent() ? treeItem.getLayoutParent().getLayoutParent() : 0;
+      var tree = treeItem.getLayoutParent()
+        ? treeItem.getLayoutParent().getLayoutParent()
+        : 0;
       if (tree && tree instanceof qx.ui.core.scroll.ScrollPane) {
         return tree.getLayoutParent();
       }
       return null;
     },
 
-
     // property apply
-    _applyOpen : function(value, old)
-    {
+    _applyOpen(value, old) {
       if (this.hasChildren()) {
-        this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
+        this.getChildrenContainer().setVisibility(
+          value ? "visible" : "excluded"
+        );
       }
 
-      this.base(arguments, value, old);
+      super._applyOpen(value, old);
     },
 
     /*
@@ -98,24 +90,19 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     */
 
     // overridden
-    _shouldShowOpenSymbol : function()
-    {
+    _shouldShowOpenSymbol() {
       var open = this.getChildControl("open", true);
       if (!open) {
         return false;
       }
 
       var tree = this.getTree();
-      if (!tree.getRootOpenClose())
-      {
-        if (tree.getHideRoot())
-        {
+      if (!tree.getRootOpenClose()) {
+        if (tree.getHideRoot()) {
           if (tree.getRoot() == this.getParent()) {
             return false;
           }
-        }
-        else
-        {
+        } else {
           if (tree.getRoot() == this) {
             return false;
           }
@@ -125,21 +112,17 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       return this.isOpenable();
     },
 
-
     // overridden
-    _updateIndent : function()
-    {
+    _updateIndent() {
       if (!this.getTree()) {
         return;
       }
 
-      this.base(arguments);
+      super._updateIndent();
     },
 
-
     // overridden
-    getLevel : function()
-    {
+    getLevel() {
       var tree = this.getTree();
       if (!tree) {
         return;
@@ -148,8 +131,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       var treeItem = this;
       var level = -1;
 
-      while (treeItem)
-      {
+      while (treeItem) {
         treeItem = treeItem.getParent();
         level += 1;
       }
@@ -166,7 +148,6 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       return level;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       STATE HANDLING
@@ -174,13 +155,11 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     */
 
     // overridden
-    addState : function(state)
-    {
-      this.base(arguments, state);
+    addState(state) {
+      super.addState(state);
 
       var children = this._getChildren();
-      for (var i=0,l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         if (child.addState) {
           children[i].addState(state);
@@ -188,22 +167,18 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       }
     },
 
-
     // overridden
-    removeState : function(state)
-    {
-      this.base(arguments, state);
+    removeState(state) {
+      super.removeState(state);
 
       var children = this._getChildren();
-      for (var i=0,l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var child = children[i];
         if (child.removeState) {
           children[i].removeState(state);
         }
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -217,28 +192,26 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *
      * @return {qx.ui.core.Widget} The children container
      */
-    getChildrenContainer : function()
-    {
-      if (!this.__childrenContainer)
-      {
-        this.__childrenContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-          visibility : this.isOpen() ? "visible" : "excluded"
+    getChildrenContainer() {
+      if (!this.__childrenContainer) {
+        this.__childrenContainer = new qx.ui.container.Composite(
+          new qx.ui.layout.VBox()
+        ).set({
+          visibility: this.isOpen() ? "visible" : "excluded"
         });
       }
 
       return this.__childrenContainer;
     },
 
-
     /**
      * Whether the tree item has a children container
      *
      * @return {Boolean} Whether it has a children container
      */
-    hasChildrenContainer : function() {
+    hasChildrenContainer() {
       return this.__childrenContainer;
     },
-
 
     /**
      * Get the children container of the item's parent. This function will return
@@ -247,8 +220,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *
      * @return {qx.ui.core.Widget} The parent's children container.
      */
-    getParentChildrenContainer : function()
-    {
+    getParentChildrenContainer() {
       if (this.getParent()) {
         return this.getParent().getChildrenContainer();
       } else if (this.getLayoutParent()) {
@@ -257,7 +229,6 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
         return null;
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -273,16 +244,14 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *
      * @return {qx.ui.tree.core.AbstractTreeItem[]} An array of all child items.
      */
-    getChildren : function() {
+    getChildren() {
       return this.__children;
     },
 
-
     // overridden
-    hasChildren : function() {
+    hasChildren() {
       return this.__children ? this.__children.length > 0 : false;
     },
-
 
     /**
      * Returns all children of the folder.
@@ -295,8 +264,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *     be excluded from the list.
      * @return {qx.ui.tree.core.AbstractTreeItem[]} list of children
      */
-    getItems : function(recursive, invisible, ignoreFirst)
-    {
+    getItems(recursive, invisible, ignoreFirst) {
       if (ignoreFirst !== false) {
         var items = [];
       } else {
@@ -304,26 +272,22 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       }
 
       var addChildren =
-        this.hasChildren() &&
-        (invisible !== false || this.isOpen());
+        this.hasChildren() && (invisible !== false || this.isOpen());
 
-      if (addChildren)
-      {
+      if (addChildren) {
         var children = this.getChildren();
-        if (recursive === false)
-        {
+        if (recursive === false) {
           items = items.concat(children);
-        }
-        else
-        {
-          for (var i=0, chl=children.length; i<chl; i++) {
-            items = items.concat(children[i].getItems(recursive, invisible, false));
+        } else {
+          for (var i = 0, chl = children.length; i < chl; i++) {
+            items = items.concat(
+              children[i].getItems(recursive, invisible, false)
+            );
           }
         }
       }
       return items;
     },
-
 
     /**
      * Adds this item and recursively all sub items to the widget queue to
@@ -331,39 +295,35 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *
      * @internal
      */
-    recursiveAddToWidgetQueue : function()
-    {
+    recursiveAddToWidgetQueue() {
       var children = this.getItems(true, true, false);
-      for (var i=0, l=children.length; i<l; i++) {
+      for (var i = 0, l = children.length; i < l; i++) {
         qx.ui.core.queue.Widget.add(children[i]);
       }
     },
 
-
     /**
      * Adds the item's children container to the parent's children container.
      */
-    __addChildrenToParent : function()
-    {
+    __addChildrenToParent() {
       if (this.getParentChildrenContainer()) {
-        this.getParentChildrenContainer()._addAfter(this.getChildrenContainer(), this);
+        this.getParentChildrenContainer()._addAfter(
+          this.getChildrenContainer(),
+          this
+        );
       }
     },
-
 
     /**
      * Adds the passed tree items to the end of this item's children list.
      *
      * @param varargs {qx.ui.tree.core.AbstractTreeItem} variable number of tree items to add
      */
-    add : function(varargs)
-    {
+    add(varargs) {
       var container = this.getChildrenContainer();
       var tree = this.getTree();
 
-
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
+      for (var i = 0, l = arguments.length; i < l; i++) {
         var treeItem = arguments[i];
 
         var oldParent = treeItem.getParent();
@@ -385,8 +345,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
           this.__addChildrenToParent();
         }
 
-        if (tree)
-        {
+        if (tree) {
           treeItem.recursiveAddToWidgetQueue();
           tree.fireNonBubblingEvent("addItem", qx.event.type.Data, [treeItem]);
         }
@@ -396,15 +355,13 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       }
     },
 
-
     /**
      * Adds the tree item to the current item, at the given index.
      *
      * @param treeItem {qx.ui.tree.core.AbstractTreeItem} new tree item to insert
      * @param index {Integer} position to insert into
      */
-    addAt : function(treeItem, index)
-    {
+    addAt(treeItem, index) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assert(
           index <= this.__children.length && index >= 0,
@@ -412,8 +369,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
         );
       }
 
-      if (index == this.__children.length)
-      {
+      if (index == this.__children.length) {
         this.add(treeItem);
         return;
       }
@@ -440,13 +396,11 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
         this.__addChildrenToParent();
       }
 
-      if (this.getTree())
-      {
+      if (this.getTree()) {
         treeItem.recursiveAddToWidgetQueue();
         qx.ui.core.queue.Widget.add(this);
       }
     },
-
 
     /**
      * Add a tree item to this item before the existing child <code>before</code>.
@@ -454,8 +408,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
      * @param before {qx.ui.tree.core.AbstractTreeItem} existing child to add the item before
      */
-    addBefore : function(treeItem, before)
-    {
+    addBefore(treeItem, before) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assert(this.__children.indexOf(before) >= 0);
       }
@@ -470,15 +423,13 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       this.addAt(treeItem, this.__children.indexOf(before));
     },
 
-
     /**
      * Add a tree item to this item after the existing child <code>before</code>.
      *
      * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
      * @param after {qx.ui.tree.core.AbstractTreeItem} existing child to add the item after
      */
-    addAfter : function(treeItem, after)
-    {
+    addAfter(treeItem, after) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assert(this.__children.indexOf(after) >= 0);
       }
@@ -490,32 +441,32 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
         oldParent.remove(treeItem);
       }
 
-      this.addAt(treeItem, this.__children.indexOf(after)+1);
+      this.addAt(treeItem, this.__children.indexOf(after) + 1);
     },
-
 
     /**
      * Add a tree item as the first child of this item.
      *
      * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
      */
-    addAtBegin : function(treeItem) {
+    addAtBegin(treeItem) {
       this.addAt(treeItem, 0);
     },
-
 
     /**
      * Removes the passed tree items from this item.
      *
      * @param varargs {qx.ui.tree.core.AbstractTreeItem} variable number of tree items to remove
      */
-    remove : function(varargs)
-    {
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
+    remove(varargs) {
+      for (var i = 0, l = arguments.length; i < l; i++) {
         var treeItem = arguments[i];
         if (this.__children.indexOf(treeItem) == -1) {
-          this.warn("Cannot remove treeitem '"+treeItem+"'. It is not a child of this tree item.");
+          this.warn(
+            "Cannot remove treeitem '" +
+              treeItem +
+              "'. It is not a child of this tree item."
+          );
           return;
         }
 
@@ -542,38 +493,32 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     /**
      * Remove the child with the given child index.
      *
      * @param index {Integer} Index of the child to remove
      */
-    removeAt : function(index)
-    {
+    removeAt(index) {
       var item = this.__children[index];
       if (item) {
         this.remove(item);
       }
     },
 
-
     /**
      * Remove all child items from this item.
      */
-    removeAll : function()
-    {
+    removeAll() {
       // create a copy for returning
       var children = this.__children.concat();
-      for (var i=this.__children.length-1; i>=0; i--) {
+      for (var i = this.__children.length - 1; i >= 0; i--) {
         this.remove(this.__children[i]);
       }
       return children;
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this._disposeArray("__children");
     this._disposeObjects("__childrenContainer");
   }

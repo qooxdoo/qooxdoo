@@ -24,9 +24,8 @@
  * @require(qx.bom.Stylesheet)
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssAnimation",
-{
-  statics : {
+qx.Bootstrap.define("qx.bom.client.CssAnimation", {
+  statics: {
     /**
      * Main check method which returns an object if CSS animations are
      * supported. This object contains all necessary keys to work with CSS
@@ -45,22 +44,21 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {Object|null} The described object or null, if animations are
      *   not supported.
      */
-    getSupport : function() {
+    getSupport() {
       var name = qx.bom.client.CssAnimation.getName();
       if (name != null) {
         return {
-          "name" : name,
-          "play-state" : qx.bom.client.CssAnimation.getPlayState(),
-          "start-event" : qx.bom.client.CssAnimation.getAnimationStart(),
-          "iteration-event" : qx.bom.client.CssAnimation.getAnimationIteration(),
-          "end-event" : qx.bom.client.CssAnimation.getAnimationEnd(),
-          "fill-mode" : qx.bom.client.CssAnimation.getFillMode(),
-          "keyframes" : qx.bom.client.CssAnimation.getKeyFrames()
+          name: name,
+          "play-state": qx.bom.client.CssAnimation.getPlayState(),
+          "start-event": qx.bom.client.CssAnimation.getAnimationStart(),
+          "iteration-event": qx.bom.client.CssAnimation.getAnimationIteration(),
+          "end-event": qx.bom.client.CssAnimation.getAnimationEnd(),
+          "fill-mode": qx.bom.client.CssAnimation.getFillMode(),
+          keyframes: qx.bom.client.CssAnimation.getKeyFrames()
         };
       }
       return null;
     },
-
 
     /**
      * Checks for the 'animation-fill-mode' CSS style.
@@ -68,11 +66,9 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
-    getFillMode : function() {
+    getFillMode() {
       return qx.bom.Style.getPropertyName("AnimationFillMode");
     },
-
-
 
     /**
      * Checks for the 'animation-play-state' CSS style.
@@ -80,10 +76,9 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
-    getPlayState : function() {
+    getPlayState() {
       return qx.bom.Style.getPropertyName("AnimationPlayState");
     },
-
 
     /**
      * Checks for the style name used for animations.
@@ -91,76 +86,72 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String|null} The name of the style or null, if the style is
      *   not supported.
      */
-    getName : function() {
+    getName() {
       return qx.bom.Style.getPropertyName("animation");
     },
-
 
     /**
      * Checks for the event name of animation start.
      * @internal
      * @return {String} The name of the event.
      */
-    getAnimationStart : function() {
+    getAnimationStart() {
       // special handling for mixed prefixed / unprefixed implementations
       if (qx.bom.Event.supportsEvent(window, "webkitanimationstart")) {
         return "webkitAnimationStart";
       }
       var mapping = {
-        "msAnimation" : "MSAnimationStart",
-        "WebkitAnimation" : "webkitAnimationStart",
-        "MozAnimation" : "animationstart",
-        "OAnimation" : "oAnimationStart",
-        "animation" : "animationstart"
+        msAnimation: "MSAnimationStart",
+        WebkitAnimation: "webkitAnimationStart",
+        MozAnimation: "animationstart",
+        OAnimation: "oAnimationStart",
+        animation: "animationstart"
       };
 
       return mapping[this.getName()];
     },
-
 
     /**
      * Checks for the event name of animation end.
      * @internal
      * @return {String} The name of the event.
      */
-    getAnimationIteration : function() {
+    getAnimationIteration() {
       // special handling for mixed prefixed / unprefixed implementations
       if (qx.bom.Event.supportsEvent(window, "webkitanimationiteration")) {
         return "webkitAnimationIteration";
       }
       var mapping = {
-        "msAnimation" : "MSAnimationIteration",
-        "WebkitAnimation" : "webkitAnimationIteration",
-        "MozAnimation" : "animationiteration",
-        "OAnimation" : "oAnimationIteration",
-        "animation" : "animationiteration"
+        msAnimation: "MSAnimationIteration",
+        WebkitAnimation: "webkitAnimationIteration",
+        MozAnimation: "animationiteration",
+        OAnimation: "oAnimationIteration",
+        animation: "animationiteration"
       };
 
       return mapping[this.getName()];
     },
-
 
     /**
      * Checks for the event name of animation end.
      * @internal
      * @return {String} The name of the event.
      */
-    getAnimationEnd : function() {
+    getAnimationEnd() {
       // special handling for mixed prefixed / unprefixed implementations
       if (qx.bom.Event.supportsEvent(window, "webkitanimationend")) {
         return "webkitAnimationEnd";
       }
       var mapping = {
-        "msAnimation" : "MSAnimationEnd",
-        "WebkitAnimation" : "webkitAnimationEnd",
-        "MozAnimation" : "animationend",
-        "OAnimation" : "oAnimationEnd",
-        "animation" : "animationend"
+        msAnimation: "MSAnimationEnd",
+        WebkitAnimation: "webkitAnimationEnd",
+        MozAnimation: "animationend",
+        OAnimation: "oAnimationEnd",
+        animation: "animationend"
       };
 
       return mapping[this.getName()];
     },
-
 
     /**
      * Checks what selector should be used to add keyframes to stylesheets.
@@ -168,17 +159,17 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String|null} The name of the selector or null, if the selector
      *   is not supported.
      */
-    getKeyFrames : function() {
+    getKeyFrames() {
       var prefixes = qx.bom.Style.VENDOR_PREFIXES;
       var keyFrames = [];
-      for (var i=0; i < prefixes.length; i++) {
+      for (var i = 0; i < prefixes.length; i++) {
         var key = "@" + qx.bom.Style.getCssName(prefixes[i]) + "-keyframes";
         keyFrames.push(key);
       }
       keyFrames.unshift("@keyframes");
 
       var sheet = qx.bom.Stylesheet.createElement();
-      for (var i=0; i < keyFrames.length; i++) {
+      for (var i = 0; i < keyFrames.length; i++) {
         try {
           qx.bom.Stylesheet.addRule(sheet, keyFrames[i] + " name", "");
           return keyFrames[i];
@@ -188,14 +179,13 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       return null;
     },
 
-
     /**
      * Checks for the requestAnimationFrame method and return the prefixed name.
      * @internal
      * @return {String|null} A string the method name or null, if the method
      *   is not supported.
      */
-    getRequestAnimationFrame : function() {
+    getRequestAnimationFrame() {
       var choices = [
         "requestAnimationFrame",
         "msRequestAnimationFrame",
@@ -203,7 +193,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         "mozRequestAnimationFrame",
         "oRequestAnimationFrame" // currently unspecified, so we guess the name!
       ];
-      for (var i=0; i < choices.length; i++) {
+      for (var i = 0; i < choices.length; i++) {
         if (window[choices[i]] != undefined) {
           return choices[i];
         }
@@ -213,9 +203,11 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("css.animation", statics.getSupport);
-    qx.core.Environment.add("css.animation.requestframe", statics.getRequestAnimationFrame);
+    qx.core.Environment.add(
+      "css.animation.requestframe",
+      statics.getRequestAnimationFrame
+    );
   }
 });

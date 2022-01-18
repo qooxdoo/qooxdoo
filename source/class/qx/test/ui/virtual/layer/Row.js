@@ -17,24 +17,20 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.Row",
-{
-  extend : qx.test.ui.virtual.layer.LayerTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.Row", {
+  extend: qx.test.ui.virtual.layer.LayerTestCase,
 
-  members :
-  {
-    _createLayer : function() {
+  members: {
+    _createLayer() {
       return new qx.ui.virtual.layer.Row("red", "green");
     },
 
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
-    {
+    _assertCells(firstRow, firstColumn, rowCount, columnCount, msg) {
       var children = this.layer.getContentElement().getDomElement().childNodes;
 
       this.assertEquals(rowCount, children.length);
 
-      for (var i=0; i<rowCount; i++)
-      {
+      for (var i = 0; i < rowCount; i++) {
         var row = firstRow + i;
         if (row % 2 == 0) {
           this.assertCssColor("red", children[i].style.backgroundColor);

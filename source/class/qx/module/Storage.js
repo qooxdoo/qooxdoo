@@ -24,8 +24,7 @@
  * of course, not persistent.
  */
 qx.Bootstrap.define("qx.module.Storage", {
-  statics :
-  {
+  statics: {
     /**
      * Store an item in the storage.
      *
@@ -33,10 +32,9 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param key {String} The identifier key.
      * @param value {var} The data, which will be stored as JSON.
      */
-    setLocalItem : function(key, value) {
+    setLocalItem(key, value) {
       qx.bom.Storage.getLocal().setItem(key, value);
     },
-
 
     /**
      * Returns the stored item.
@@ -45,30 +43,27 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param key {String} The identifier to get the data.
      * @return {var} The stored data.
      */
-    getLocalItem : function(key) {
+    getLocalItem(key) {
       return qx.bom.Storage.getLocal().getItem(key);
     },
-
 
     /**
      * Removes an item form the storage.
      * @attachStatic {qxWeb, localStorage.removeItem}
      * @param key {String} The identifier.
      */
-    removeLocalItem : function(key) {
+    removeLocalItem(key) {
       qx.bom.Storage.getLocal().removeItem(key);
     },
-
 
     /**
      * Returns the amount of key-value pairs stored.
      * @attachStatic {qxWeb, localStorage.getLength}
      * @return {Number} The length of the storage.
      */
-    getLocalLength : function() {
+    getLocalLength() {
       return qx.bom.Storage.getLocal().getLength();
     },
-
 
     /**
      * Returns the named key at the given index.
@@ -76,19 +71,17 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
-    getLocalKey : function(index) {
+    getLocalKey(index) {
       return qx.bom.Storage.getLocal().getKey(index);
     },
-
 
     /**
      * Deletes every stored item in the storage.
      * @attachStatic {qxWeb, localStorage.clear}
      */
-    clearLocal : function() {
+    clearLocal() {
       qx.bom.Storage.getLocal().clear();
     },
-
 
     /**
      * Helper to access every stored item.
@@ -99,10 +92,9 @@ qx.Bootstrap.define("qx.module.Storage", {
      *    of the stored data.
      * @param scope {var} The scope of the function.
      */
-    forEachLocal : function(callback, scope) {
+    forEachLocal(callback, scope) {
       qx.bom.Storage.getLocal().forEach(callback, scope);
     },
-
 
     /**
      * Store an item in the storage.
@@ -111,10 +103,9 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param key {String} The identifier key.
      * @param value {var} The data, which will be stored as JSON.
      */
-    setSessionItem : function(key, value) {
+    setSessionItem(key, value) {
       qx.bom.Storage.getSession().setItem(key, value);
     },
-
 
     /**
      * Returns the stored item.
@@ -123,30 +114,27 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param key {String} The identifier to get the data.
      * @return {var} The stored data.
      */
-    getSessionItem : function(key) {
+    getSessionItem(key) {
       return qx.bom.Storage.getSession().getItem(key);
     },
-
 
     /**
      * Removes an item form the storage.
      * @attachStatic {qxWeb, sessionStorage.removeItem}
      * @param key {String} The identifier.
      */
-    removeSessionItem : function(key) {
+    removeSessionItem(key) {
       qx.bom.Storage.getSession().removeItem(key);
     },
-
 
     /**
      * Returns the amount of key-value pairs stored.
      * @attachStatic {qxWeb, sessionStorage.getLength}
      * @return {Number} The length of the storage.
      */
-    getSessionLength : function() {
+    getSessionLength() {
       return qx.bom.Storage.getSession().getLength();
     },
-
 
     /**
      * Returns the named key at the given index.
@@ -154,19 +142,17 @@ qx.Bootstrap.define("qx.module.Storage", {
      * @param index {Number} The index in the storage.
      * @return {String} The key stored at the given index.
      */
-    getSessionKey : function(index) {
+    getSessionKey(index) {
       return qx.bom.Storage.getSession().getKey(index);
     },
-
 
     /**
      * Deletes every stored item in the storage.
      * @attachStatic {qxWeb, sessionStorage.clear}
      */
-    clearSession : function() {
+    clearSession() {
       qx.bom.Storage.getSession().clear();
     },
-
 
     /**
      * Helper to access every stored item.
@@ -177,31 +163,31 @@ qx.Bootstrap.define("qx.module.Storage", {
      *    of the stored data.
      * @param scope {var} The scope of the function.
      */
-    forEachSession : function(callback, scope) {
+    forEachSession(callback, scope) {
       qx.bom.Storage.getSession().forEach(callback, scope);
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachStatic({
-      "localStorage" : {
-        setItem : statics.setLocalItem,
-        getItem : statics.getLocalItem,
-        removeItem : statics.removeLocalItem,
-        getLength : statics.getLocalLength,
-        getKey : statics.getLocalKey,
-        clear : statics.clearLocal,
-        forEach : statics.forEachLocal
+      localStorage: {
+        setItem: statics.setLocalItem,
+        getItem: statics.getLocalItem,
+        removeItem: statics.removeLocalItem,
+        getLength: statics.getLocalLength,
+        getKey: statics.getLocalKey,
+        clear: statics.clearLocal,
+        forEach: statics.forEachLocal
       },
-      "sessionStorage" : {
-        setItem : statics.setSessionItem,
-        getItem : statics.getSessionItem,
-        removeItem : statics.removeSessionItem,
-        getLength : statics.getSessionLength,
-        getKey : statics.getSessionKey,
-        clear : statics.clearSession,
-        forEach : statics.forEachSession
+
+      sessionStorage: {
+        setItem: statics.setSessionItem,
+        getItem: statics.getSessionItem,
+        removeItem: statics.removeSessionItem,
+        getLength: statics.getSessionLength,
+        getKey: statics.getSessionKey,
+        clear: statics.clearSession,
+        forEach: statics.forEachSession
       }
     });
   }

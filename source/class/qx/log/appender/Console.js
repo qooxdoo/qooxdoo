@@ -28,86 +28,81 @@
  * * Clearing the console using a button.
  * * Display of offset (time after loading) of each message
  * * Supports keyboard shortcuts F7 or Ctrl+D to toggle the visibility
- * 
+ *
  * Note this class must be disposed of after use
  *
  * @require(qx.event.handler.Window)
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Gesture)
  */
-qx.Class.define("qx.log.appender.Console",
-{
-  statics :
-  {
+qx.Class.define("qx.log.appender.Console", {
+  statics: {
     /*
     ---------------------------------------------------------------------------
       INITIALIZATION AND SHUTDOWN
     ---------------------------------------------------------------------------
     */
 
-   __main : null,
+    __main: null,
 
-   __log : null,
+    __log: null,
 
-   __cmd : null,
+    __cmd: null,
 
-   __lastCommand : null,
+    __lastCommand: null,
 
     /**
      * Initializes the console, building HTML and pushing last
      * log messages to the output window.
      *
      */
-    init : function()
-    {
+    init() {
       // Build style sheet content
-      var style =
-      [
-        '.qxconsole{z-index:10000;width:600px;height:300px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
+      var style = [
+        ".qxconsole{z-index:10000;width:600px;height:300px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}",
 
-        '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
-        '.qxconsole .control a{text-decoration:none;color:black;}',
+        ".qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}",
+        ".qxconsole .control a{text-decoration:none;color:black;}",
 
-        '.qxconsole .messages{background:white;height:100%;width:100%;overflow:auto;}',
-        '.qxconsole .messages div{padding:0px 4px;}',
+        ".qxconsole .messages{background:white;height:100%;width:100%;overflow:auto;}",
+        ".qxconsole .messages div{padding:0px 4px;}",
 
-        '.qxconsole .messages .user-command{color:blue}',
-        '.qxconsole .messages .user-result{background:white}',
-        '.qxconsole .messages .user-error{background:#FFE2D5}',
-        '.qxconsole .messages .level-debug{background:white}',
-        '.qxconsole .messages .level-info{background:#DEEDFA}',
-        '.qxconsole .messages .level-warn{background:#FFF7D5}',
-        '.qxconsole .messages .level-error{background:#FFE2D5}',
-        '.qxconsole .messages .level-user{background:#E3EFE9}',
-        '.qxconsole .messages .type-string{color:black;font-weight:normal;}',
-        '.qxconsole .messages .type-number{color:#155791;font-weight:normal;}',
-        '.qxconsole .messages .type-boolean{color:#15BC91;font-weight:normal;}',
-        '.qxconsole .messages .type-array{color:#CC3E8A;font-weight:bold;}',
-        '.qxconsole .messages .type-map{color:#CC3E8A;font-weight:bold;}',
-        '.qxconsole .messages .type-key{color:#565656;font-style:italic}',
-        '.qxconsole .messages .type-class{color:#5F3E8A;font-weight:bold}',
-        '.qxconsole .messages .type-instance{color:#565656;font-weight:bold}',
-        '.qxconsole .messages .type-stringify{color:#565656;font-weight:bold}',
+        ".qxconsole .messages .user-command{color:blue}",
+        ".qxconsole .messages .user-result{background:white}",
+        ".qxconsole .messages .user-error{background:#FFE2D5}",
+        ".qxconsole .messages .level-debug{background:white}",
+        ".qxconsole .messages .level-info{background:#DEEDFA}",
+        ".qxconsole .messages .level-warn{background:#FFF7D5}",
+        ".qxconsole .messages .level-error{background:#FFE2D5}",
+        ".qxconsole .messages .level-user{background:#E3EFE9}",
+        ".qxconsole .messages .type-string{color:black;font-weight:normal;}",
+        ".qxconsole .messages .type-number{color:#155791;font-weight:normal;}",
+        ".qxconsole .messages .type-boolean{color:#15BC91;font-weight:normal;}",
+        ".qxconsole .messages .type-array{color:#CC3E8A;font-weight:bold;}",
+        ".qxconsole .messages .type-map{color:#CC3E8A;font-weight:bold;}",
+        ".qxconsole .messages .type-key{color:#565656;font-style:italic}",
+        ".qxconsole .messages .type-class{color:#5F3E8A;font-weight:bold}",
+        ".qxconsole .messages .type-instance{color:#565656;font-weight:bold}",
+        ".qxconsole .messages .type-stringify{color:#565656;font-weight:bold}",
 
-        '.qxconsole .command{background:white;padding:2px 4px;border-top:1px solid black;}',
-        '.qxconsole .command input{width:100%;border:0 none;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
-        '.qxconsole .command input:focus{outline:none;}'
+        ".qxconsole .command{background:white;padding:2px 4px;border-top:1px solid black;}",
+        ".qxconsole .command input{width:100%;border:0 none;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}",
+        ".qxconsole .command input:focus{outline:none;}"
       ];
 
       // Include stylesheet
       qx.bom.Stylesheet.createElement(style.join(""));
 
       // Build markup
-      var markup =
-      [
+      var markup = [
         '<div class="qxconsole">',
         '<div class="control"><a href="javascript:qx.log.appender.Console.clear()">Clear</a> | <a href="javascript:qx.log.appender.Console.toggle()">Hide</a></div>',
         '<div class="messages">',
-        '</div>',
+        "</div>",
         '<div class="command">',
         '<input type="text"/>',
-        '</div>',
-        '</div>'
+        "</div>",
+        "</div>"
       ];
 
       // Insert HTML to access DOM node
@@ -131,20 +126,19 @@ qx.Class.define("qx.log.appender.Console",
       qx.core.ObjectRegistry.register(this);
     },
 
-
     /**
      * Used by the object registry to dispose this instance e.g. remove listeners etc.
      *
      */
-    dispose : function()
-    {
-      qx.event.Registration.removeListener(document.documentElement, "keypress", this.__onKeyPress, this);
+    dispose() {
+      qx.event.Registration.removeListener(
+        document.documentElement,
+        "keypress",
+        this.__onKeyPress,
+        this
+      );
       qx.log.Logger.unregister(this);
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -156,12 +150,10 @@ qx.Class.define("qx.log.appender.Console",
      * Clears the current console output.
      *
      */
-    clear : function()
-    {
+    clear() {
       // Remove all messages
       this.__log.innerHTML = "";
     },
-
 
     /**
      * Processes a single log entry
@@ -169,8 +161,7 @@ qx.Class.define("qx.log.appender.Console",
      * @signature function(entry)
      * @param entry {Map} The entry to process
      */
-    process : function(entry)
-    {
+    process(entry) {
       // Append new content
       var formatter = qx.log.appender.Formatter.getFormatter();
       this.__log.appendChild(formatter.toHtml(entry));
@@ -179,17 +170,12 @@ qx.Class.define("qx.log.appender.Console",
       this.__scrollDown();
     },
 
-
     /**
      * Automatically scroll down to the last line
      */
-    __scrollDown : function() {
+    __scrollDown() {
       this.__log.scrollTop = this.__log.scrollHeight;
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -198,36 +184,27 @@ qx.Class.define("qx.log.appender.Console",
     */
 
     /** @type {Boolean} Flag to store last visibility status */
-    __visible : true,
-
+    __visible: true,
 
     /**
      * Toggles the visibility of the console between visible and hidden.
      *
      */
-    toggle : function()
-    {
-      if (!this.__main)
-      {
+    toggle() {
+      if (!this.__main) {
         this.init();
-      }
-      else if (this.__main.style.display == "none")
-      {
+      } else if (this.__main.style.display == "none") {
         this.show();
-      }
-      else
-      {
+      } else {
         this.__main.style.display = "none";
       }
     },
-
 
     /**
      * Shows the console.
      *
      */
-    show : function()
-    {
+    show() {
       if (!this.__main) {
         this.init();
       } else {
@@ -236,7 +213,6 @@ qx.Class.define("qx.log.appender.Console",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       COMMAND LINE SUPPORT
@@ -244,15 +220,13 @@ qx.Class.define("qx.log.appender.Console",
     */
 
     /** @type {Array} List of all previous commands. */
-    __history : [],
-
+    __history: [],
 
     /**
      * Executes the currently given command
      *
      */
-    execute : function()
-    {
+    execute() {
       var value = this.__cmd.value;
       if (value == "") {
         return;
@@ -275,8 +249,7 @@ qx.Class.define("qx.log.appender.Console",
 
       try {
         var ret = window.eval(value);
-      }
-      catch (ex) {
+      } catch (ex) {
         qx.log.Logger.error(ex);
       }
 
@@ -284,9 +257,6 @@ qx.Class.define("qx.log.appender.Console",
         qx.log.Logger.debug(ret);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -299,21 +269,31 @@ qx.Class.define("qx.log.appender.Console",
      *
      * @param e {Event} Event object
      */
-    __onResize : function(e) {
-      this.__log.style.height = (this.__main.clientHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight) + "px";
+    __onResize(e) {
+      this.__log.style.height =
+        this.__main.clientHeight -
+        this.__main.firstChild.offsetHeight -
+        this.__main.lastChild.offsetHeight +
+        "px";
     },
-
 
     /**
      * Event handler for keydown listener
      *
      * @param e {Event} Event object
      */
-    __onKeyPress : function(e)
-    {
-      if (e instanceof qx.event.type.Tap || e instanceof qx.event.type.Pointer) {
+    __onKeyPress(e) {
+      if (
+        e instanceof qx.event.type.Tap ||
+        e instanceof qx.event.type.Pointer
+      ) {
         var target = e.getTarget();
-        if (target && target.className && target.className.indexOf && target.className.indexOf("navigationbar") != -1) {
+        if (
+          target &&
+          target.className &&
+          target.className.indexOf &&
+          target.className.indexOf("navigationbar") != -1
+        ) {
           this.toggle();
         }
         return;
@@ -322,8 +302,7 @@ qx.Class.define("qx.log.appender.Console",
       var iden = e.getKeyIdentifier();
 
       // Console toggling
-      if ((iden == "F7") || (iden == "D" && e.isCtrlPressed()))
-      {
+      if (iden == "F7" || (iden == "D" && e.isCtrlPressed())) {
         this.toggle();
         e.preventDefault();
       }
@@ -339,17 +318,18 @@ qx.Class.define("qx.log.appender.Console",
       }
 
       // Command execution
-      if (iden == "Enter" && this.__cmd.value != "")
-      {
+      if (iden == "Enter" && this.__cmd.value != "") {
         this.execute();
         this.__cmd.value = "";
       }
 
       // History management
-      if (iden == "Up" || iden == "Down")
-      {
+      if (iden == "Up" || iden == "Down") {
         this.__lastCommand += iden == "Up" ? -1 : 1;
-        this.__lastCommand = Math.min(Math.max(0, this.__lastCommand), this.__history.length);
+        this.__lastCommand = Math.min(
+          Math.max(0, this.__lastCommand),
+          this.__history.length
+        );
 
         var entry = this.__history[this.__lastCommand];
         this.__cmd.value = entry || "";
@@ -358,17 +338,24 @@ qx.Class.define("qx.log.appender.Console",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics) {
-    qx.event.Registration.addListener(document.documentElement, "keypress", statics.__onKeyPress, statics);
-    qx.event.Registration.addListener(document.documentElement, "longtap", statics.__onKeyPress, statics);
+  defer(statics) {
+    qx.event.Registration.addListener(
+      document.documentElement,
+      "keypress",
+      statics.__onKeyPress,
+      statics
+    );
+    qx.event.Registration.addListener(
+      document.documentElement,
+      "longtap",
+      statics.__onKeyPress,
+      statics
+    );
   }
 });

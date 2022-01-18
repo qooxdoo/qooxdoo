@@ -20,11 +20,9 @@
  * For editing boolean data in a checkbox. It is advisable to use this in
  * conjunction with {@link qx.ui.table.cellrenderer.Boolean}.
  */
-qx.Class.define("qx.ui.table.celleditor.CheckBox",
-{
-  extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
-
+qx.Class.define("qx.ui.table.celleditor.CheckBox", {
+  extend: qx.core.Object,
+  implement: qx.ui.table.ICellEditorFactory,
 
   /*
   *****************************************************************************
@@ -32,30 +30,31 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // interface implementation
-    createCellEditor : function(cellInfo)
-    {
-      var editor = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
-        alignX: "center",
-        alignY: "middle"
-      })).set({
+    createCellEditor(cellInfo) {
+      var editor = new qx.ui.container.Composite(
+        new qx.ui.layout.HBox().set({
+          alignX: "center",
+          alignY: "middle"
+        })
+      ).set({
         focusable: true
       });
 
       var checkbox = new qx.ui.form.CheckBox().set({
         value: cellInfo.value
       });
+
       editor.add(checkbox);
 
       // propagate focus
-      editor.addListener("focus", function() {
+      editor.addListener("focus", function () {
         checkbox.focus();
       });
 
       // propagate active state
-      editor.addListener("activate", function() {
+      editor.addListener("activate", function () {
         checkbox.activate();
       });
 
@@ -63,7 +62,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
     },
 
     // interface implementation
-    getCellEditorValue : function(cellEditor) {
+    getCellEditorValue(cellEditor) {
       return cellEditor.getChildren()[0].getValue();
     }
   }

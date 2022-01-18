@@ -18,9 +18,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.cell.Image",
-{
-  extend : qx.ui.virtual.cell.AbstractImage,
+qx.Class.define("qx.ui.virtual.cell.Image", {
+  extend: qx.ui.virtual.cell.AbstractImage,
 
   /*
   *****************************************************************************
@@ -28,16 +27,12 @@ qx.Class.define("qx.ui.virtual.cell.Image",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance:
-    {
-      refine : true,
-      init : "cell-image"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "cell-image"
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -45,10 +40,9 @@ qx.Class.define("qx.ui.virtual.cell.Image",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _identifyImage : function(value) {
+    _identifyImage(value) {
       return value;
     }
   }

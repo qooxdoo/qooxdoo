@@ -20,9 +20,8 @@
  * A separator widget used to separate widgets in a toolbar.
  *
  */
-qx.Class.define("qx.ui.mobile.toolbar.Separator",
-{
-  extend : qx.ui.mobile.core.Widget,
+qx.Class.define("qx.ui.mobile.toolbar.Separator", {
+  extend: qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
@@ -30,10 +29,9 @@ qx.Class.define("qx.ui.mobile.toolbar.Separator",
   *****************************************************************************
   */
 
-    construct : function()
-    {
-      this.base(arguments);
-    },
+  construct() {
+    super();
+  },
 
   /*
   *****************************************************************************
@@ -41,13 +39,11 @@ qx.Class.define("qx.ui.mobile.toolbar.Separator",
   *****************************************************************************
   */
 
-    properties :
-    {
-      // overridden
-      defaultCssClass :
-      {
-        refine : true,
-        init : "toolbar-separator"
-      }
+  properties: {
+    // overridden
+    defaultCssClass: {
+      refine: true,
+      init: "toolbar-separator"
     }
+  }
 });

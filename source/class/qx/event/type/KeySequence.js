@@ -24,12 +24,8 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/#events-keyboardevents
  */
-qx.Class.define("qx.event.type.KeySequence",
-{
-  extend : qx.event.type.Dom,
-
-
-
+qx.Class.define("qx.event.type.KeySequence", {
+  extend: qx.event.type.Dom,
 
   /*
   *****************************************************************************
@@ -37,8 +33,7 @@ qx.Class.define("qx.event.type.KeySequence",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Initialize the fields of the event.
      *
@@ -47,9 +42,8 @@ qx.Class.define("qx.event.type.KeySequence",
      * @param identifier {String} Key identifier
      * @return {qx.event.type.KeySequence} The initialized key event instance
      */
-    init : function(domEvent, target, identifier)
-    {
-      this.base(arguments, domEvent, target, null, true, true);
+    init(domEvent, target, identifier) {
+      super.init(domEvent, target, null, true, true);
 
       this._keyCode = domEvent.keyCode;
       this._identifier = identifier;
@@ -57,18 +51,15 @@ qx.Class.define("qx.event.type.KeySequence",
       return this;
     },
 
-
     // overridden
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
 
       clone._keyCode = this._keyCode;
       clone._identifier = this._identifier;
 
       return clone;
     },
-
 
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
@@ -121,10 +112,9 @@ qx.Class.define("qx.event.type.KeySequence",
      *
      * @return {String} The key identifier
      */
-    getKeyIdentifier : function() {
+    getKeyIdentifier() {
       return this._identifier;
     },
-
 
     /**
      * Returns the native keyCode and is best used on keydown/keyup events to
@@ -140,17 +130,16 @@ qx.Class.define("qx.event.type.KeySequence",
      *
      * @return {Number} The key code.
      */
-    getKeyCode : function() {
+    getKeyCode() {
       return this._keyCode;
     },
-
 
     /**
      * Checks whether the pressed key is printable.
      *
      * @return {Boolean} Whether the pressed key is printable.
      */
-    isPrintable : function() {
+    isPrintable() {
       return qx.event.util.Keyboard.isPrintableKeyIdentifier(this._identifier);
     }
   }

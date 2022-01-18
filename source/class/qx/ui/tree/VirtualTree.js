@@ -32,7 +32,7 @@
  * after five seconds.
  *
  * <pre class="javascript">
- *   var nodes = 
+ *   var nodes =
  *   [
  *     {
  *       name : "Root",
@@ -130,14 +130,10 @@
  *     5000);
  * </pre>
  */
-qx.Class.define("qx.ui.tree.VirtualTree",
-{
-  extend : qx.ui.virtual.core.Scroller,
-  implement : [qx.ui.tree.core.IVirtualTree, qx.data.controller.ISelection],
-  include : [
-    qx.ui.virtual.selection.MModel,
-    qx.ui.core.MContentPadding
-  ],
+qx.Class.define("qx.ui.tree.VirtualTree", {
+  extend: qx.ui.virtual.core.Scroller,
+  implement: [qx.ui.tree.core.IVirtualTree, qx.data.controller.ISelection],
+  include: [qx.ui.virtual.selection.MModel, qx.ui.core.MContentPadding],
 
   /**
    * @param rootModel {qx.core.Object?null} The model structure representing
@@ -148,13 +144,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
    * @param childProperty {String?null} The name of the child property, for
    *   more details have a look at the 'childProperty' property.
    * @param openProperty {String|null} the name of the model property which
-   *   represents the open state of a branch. If this value is provided, so, 
+   *   represents the open state of a branch. If this value is provided, so,
    *   too, must be rootModel.
    */
-  construct : function(
-    rootModel, labelPath, childProperty, openProperty)
-  {
-    this.base(arguments, 0, 1, 20, 100);
+  construct(rootModel, labelPath, childProperty, openProperty) {
+    super(0, 1, 20, 100);
 
     this._init();
 
@@ -166,7 +160,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setChildProperty(childProperty);
     }
 
-    if(rootModel != null) {
+    if (rootModel != null) {
       this.initModel(rootModel);
     }
 
@@ -181,71 +175,56 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
   },
 
-  events :
-  {
+  events: {
     /**
      * Fired when a node is opened.
      */
-    open : "qx.event.type.Data",
-
+    open: "qx.event.type.Data",
 
     /**
      * Fired when a node is closed.
      */
-    close : "qx.event.type.Data"
+    close: "qx.event.type.Data"
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
+    appearance: {
       refine: true,
       init: "virtual-tree"
     },
 
-
     // overridden
-    focusable :
-    {
+    focusable: {
       refine: true,
       init: true
     },
 
-
     // overridden
-    width :
-    {
-      refine : true,
-      init : 100
+    width: {
+      refine: true,
+      init: 100
     },
 
-
     // overridden
-    height :
-    {
-      refine : true,
-      init : 200
+    height: {
+      refine: true,
+      init: 200
     },
-
 
     /** Default item height. */
-    itemHeight :
-    {
-      check : "Integer",
-      init : 25,
-      apply : "_applyRowHeight",
-      themeable : true
+    itemHeight: {
+      check: "Integer",
+      init: 25,
+      apply: "_applyRowHeight",
+      themeable: true
     },
 
-
-     /**
+    /**
      * Control whether tap or double tap should open or close the tapped
      * item.
      */
-    openMode :
-    {
+    openMode: {
       check: ["tap", "dbltap", "none"],
       init: "dbltap",
       apply: "_applyOpenMode",
@@ -253,123 +232,103 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       themeable: true
     },
 
-    
     /**
      * Hides *only* the root node, not the node's children when the property is
      * set to <code>true</code>.
      */
-    hideRoot :
-    {
+    hideRoot: {
       check: "Boolean",
       init: false,
-      apply:"_applyHideRoot"
+      apply: "_applyHideRoot"
     },
-
 
     /**
      * Whether top level items should have an open/close button. The top level
      * item item is normally the root item, but when the root is hidden, the
      * root children are the top level items.
      */
-    showTopLevelOpenCloseIcons :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyShowTopLevelOpenCloseIcons"
+    showTopLevelOpenCloseIcons: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyShowTopLevelOpenCloseIcons"
     },
-
 
     /**
      * Configures the tree to show also the leafs. When the property is set to
      * <code>false</code> *only* the nodes are shown.
      */
-    showLeafs :
-    {
+    showLeafs: {
       check: "Boolean",
       init: true,
       apply: "_applyShowLeafs"
     },
-
 
     /**
      * The name of the property, where the children are stored in the model.
      * Instead of the {@link #labelPath} must the child property a direct
      * property form the model instance.
      */
-    childProperty :
-    {
+    childProperty: {
       check: "String",
       apply: "_applyChildProperty",
       nullable: true
     },
 
-
     /**
      * The name of the property, where the value for the tree folders label
      * is stored in the model classes.
      */
-    labelPath :
-    {
+    labelPath: {
       check: "String",
       apply: "_applyLabelPath",
       nullable: true
     },
 
-
     /**
      * The path to the property which holds the information that should be
      * shown as an icon.
      */
-    iconPath :
-    {
+    iconPath: {
       check: "String",
       apply: "_applyIconPath",
       nullable: true
     },
 
-
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    labelOptions :
-    {
+    labelOptions: {
       apply: "_applyLabelOptions",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    iconOptions :
-    {
+    iconOptions: {
       apply: "_applyIconOptions",
       nullable: true
     },
-
 
     /**
      * The model containing the data (nodes and/or leafs) which should be shown
      * in the tree.
      */
-    model :
-    {
-      check : "qx.core.Object",
-      apply : "_applyModel",
+    model: {
+      check: "qx.core.Object",
+      apply: "_applyModel",
       event: "changeModel",
-      nullable : true,
-      deferredInit : true
+      nullable: true,
+      deferredInit: true
     },
-
 
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link qx.ui.tree.core.IVirtualTreeDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       event: "changeDelegate",
       apply: "_applyDelegate",
       init: null,
@@ -377,54 +336,45 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
   },
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.tree.provider.WidgetProvider} Provider for widget rendering. */
-    _provider : null,
-
+    _provider: null,
 
     /** @type {qx.ui.virtual.layer.Abstract} Layer which contains the items. */
-    _layer : null,
-
+    _layer: null,
 
     /**
      * @type {qx.data.Array} The internal lookup table data structure to get the model item
      * from a row.
      */
-    __lookupTable : null,
-
+    __lookupTable: null,
 
     /** @type {Array} HashMap which contains all open nodes. */
-    __openNodes : null,
-
+    __openNodes: null,
 
     /**
      * @type {Array} The internal data structure to get the nesting level from a
      * row.
      */
-    __nestingLevel : null,
-
+    __nestingLevel: null,
 
     /**
      * @type {qx.util.DeferredCall} Adds this instance to the widget queue on a
      * deferred call.
      */
-    __deferredCall : null,
-
+    __deferredCall: null,
 
     /** @type {Integer} Holds the max item width from a rendered widget. */
-    _itemWidth : 0,
-
+    _itemWidth: 0,
 
     /** @type {Array} internal parent chain form the last selected node */
-    __parentChain : null,
+    __parentChain: null,
 
-    /** 
+    /**
      * @type {String|null} the name of the model property which represents the
      *   open state of a branch.
      */
-    __openProperty : null,
+    __openProperty: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -432,36 +382,34 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    syncWidget : function(jobs)
-    {
+    syncWidget(jobs) {
       var firstRow = this._layer.getFirstRow();
       var rowSize = this._layer.getRowSizes().length;
 
-      for (var row = firstRow; row < firstRow + rowSize; row++)
-      {
+      for (var row = firstRow; row < firstRow + rowSize; row++) {
         var widget = this._layer.getRenderedCellWidget(row, 0);
         if (widget != null) {
-          this._itemWidth = Math.max(this._itemWidth, widget.getSizeHint().width);
+          this._itemWidth = Math.max(
+            this._itemWidth,
+            widget.getSizeHint().width
+          );
         }
       }
       var paneWidth = this.getPane().getInnerSize().width;
-      this.getPane().getColumnConfig().setItemSize(0, Math.max(this._itemWidth, paneWidth));
+      this.getPane()
+        .getColumnConfig()
+        .setItemSize(0, Math.max(this._itemWidth, paneWidth));
     },
 
-
     // Interface implementation
-    openNode : function(node)
-    {
+    openNode(node) {
       this.__openNode(node);
       this.buildLookupTable();
     },
 
-
     // Interface implementation
-    openNodeWithoutScrolling : function(node)
-    {
+    openNodeWithoutScrolling(node) {
       var autoscroll = this.getAutoScrollIntoView();
       // suspend automatically scrolling selection into view
       this.setAutoScrollIntoView(false);
@@ -472,14 +420,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setAutoScrollIntoView(autoscroll);
     },
 
-
     /**
      * Trigger a rebuild from the internal data structure.
      */
-    refresh : function() {
+    refresh() {
       this.buildLookupTable();
     },
-
 
     /**
      * Opens the passed node and all his parents. *Note!* The algorithm
@@ -488,28 +434,22 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @param node {qx.core.Object} Node to open.
      */
-    openNodeAndParents : function(node)
-    {
+    openNodeAndParents(node) {
       this.__openNodeAndAllParents(this.getModel(), node);
       this.buildLookupTable();
     },
 
-
     // Interface implementation
-    closeNode : function(node)
-    {
-      if (this.__openNodes.includes(node))
-      {
+    closeNode(node) {
+      if (this.__openNodes.includes(node)) {
         qx.lang.Array.remove(this.__openNodes, node);
         this.fireDataEvent("close", node);
         this.buildLookupTable();
       }
     },
 
-
     // Interface implementation
-    closeNodeWithoutScrolling : function(node)
-    {
+    closeNodeWithoutScrolling(node) {
       var autoscroll = this.getAutoScrollIntoView();
       // suspend automatically scrolling selection into view
       this.setAutoScrollIntoView(false);
@@ -520,27 +460,25 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.setAutoScrollIntoView(autoscroll);
     },
 
-
     // Interface implementation
-    isNodeOpen : function(node) {
+    isNodeOpen(node) {
       return this.__openNodes.includes(node);
     },
 
-
     /**
      * Open and close branches via changes to a property in the model.
-     * 
-     * @param openProperty {String|null} 
+     *
+     * @param openProperty {String|null}
      *   The name of the open property, which determines the open state of a
      *   branch in the tree. If null, turn off opening and closing branches
      *   via changes to the model.
      */
-    openViaModelChanges : function(openProperty) {
+    openViaModelChanges(openProperty) {
       // Save the open property
       this.__openProperty = openProperty;
 
       // if no name is provided, just remove any prior open-close controller
-      if (! openProperty) {
+      if (!openProperty) {
         if (this._openCloseController) {
           this._openCloseController.dispose();
           this._openCloseController = null;
@@ -550,19 +488,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       // we have a property name, so create controller
-      this._openCloseController =
-        new qx.ui.tree.core.OpenCloseController(this, this.getModel(), openProperty);
+      this._openCloseController = new qx.ui.tree.core.OpenCloseController(
+        this,
+        this.getModel(),
+        openProperty
+      );
     },
-
 
     /**
      * Getter for the open property
      */
-    getOpenProperty : function()
-    {
+    getOpenProperty() {
       return this.__openProperty;
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -570,41 +508,39 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Initializes the virtual tree.
      */
-    _init : function()
-    {
+    _init() {
       this.__lookupTable = new qx.data.Array();
       this.__openNodes = [];
       this.__nestingLevel = [];
       this._initLayer();
     },
 
-
     /**
      * Initializes the virtual tree layer.
      */
-    _initLayer : function()
-    {
+    _initLayer() {
       this._provider = new qx.ui.tree.provider.WidgetProvider(this);
       this._layer = this._provider.createLayer();
       this._layer.addListener("updated", this._onUpdated, this);
       this.getPane().addLayer(this._layer);
-      this.getPane().addListenerOnce("resize", function(e) {
-        // apply width to pane on first rendering pass
-        // to avoid visible flickering
-        this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
-      }, this);
+      this.getPane().addListenerOnce(
+        "resize",
+        function (e) {
+          // apply width to pane on first rendering pass
+          // to avoid visible flickering
+          this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
+        },
+        this
+      );
     },
-
 
     // Interface implementation
-    getLookupTable : function() {
+    getLookupTable() {
       return this.__lookupTable;
     },
-    
 
     /**
      * Performs a lookup from model index to row.
@@ -613,10 +549,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @return {Number} The row or <code>-1</code>
      *  if the index is not a model index.
      */
-    _reverseLookup : function(index) {
+    _reverseLookup(index) {
       return index;
     },
-
 
     /**
      * Returns the model data for the given row.
@@ -624,7 +559,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param row {Integer} row to get data for.
      * @return {var|null} the row's model data.
      */
-    _getDataFromRow : function(row) {
+    _getDataFromRow(row) {
       return this.__lookupTable.getItem(row);
     },
 
@@ -633,10 +568,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @return {qx.data.Array} The selectable items.
      */
-    _getSelectables : function() {
+    _getSelectables() {
       return this.__lookupTable;
     },
-
 
     /**
      * Returns all open nodes.
@@ -644,38 +578,37 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @internal
      * @return {Array} All open nodes.
      */
-    getOpenNodes : function() {
+    getOpenNodes() {
       return this.__openNodes;
     },
 
-
     // Interface implementation
-    isNode : function(item) {
+    isNode(item) {
       return qx.ui.tree.core.Util.isNode(item, this.getChildProperty());
     },
 
-
     // Interface implementation
-    getLevel : function(row) {
+    getLevel(row) {
       return this.__nestingLevel[row];
     },
 
-
     // Interface implementation
-    hasChildren : function(node) {
-      return qx.ui.tree.core.Util.hasChildren(node, this.getChildProperty(), !this.isShowLeafs());
+    hasChildren(node) {
+      return qx.ui.tree.core.Util.hasChildren(
+        node,
+        this.getChildProperty(),
+        !this.isShowLeafs()
+      );
     },
-
 
     /**
      * Returns the element, to which the content padding should be applied.
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.getPane();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -683,16 +616,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
-
     // property apply
-    _applyRowHeight : function(value, old) {
+    _applyRowHeight(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
 
-
     // property apply
-    _applyOpenMode : function(value, old)
-    {
+    _applyOpenMode(value, old) {
       var pane = this.getPane();
 
       //"tap", "dbltap", "none"
@@ -709,76 +639,69 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     },
 
-
     // property apply
-    _applyHideRoot : function(value, old) {
+    _applyHideRoot(value, old) {
       this.buildLookupTable();
     },
 
-
     // property apply
-    _applyShowTopLevelOpenCloseIcons : function(value, old) {
+    _applyShowTopLevelOpenCloseIcons(value, old) {
       // force rebuild of the lookup table
       // fixes https://github.com/qooxdoo/qooxdoo/issues/9128
       this.getLookupTable().removeAll();
       this.buildLookupTable();
     },
 
-
     // property apply
-    _applyShowLeafs : function(value, old) {
+    _applyShowLeafs(value, old) {
       // force rebuild of the lookup table
       // fixes https://github.com/qooxdoo/qooxdoo/issues/9128
       this.getLookupTable().removeAll();
       this.buildLookupTable();
     },
 
-
     // property apply
-    _applyChildProperty : function(value, old) {
+    _applyChildProperty(value, old) {
       this._provider.setChildProperty(value);
     },
 
-
     // property apply
-    _applyLabelPath : function(value, old) {
+    _applyLabelPath(value, old) {
       this._provider.setLabelPath(value);
     },
 
-
     // property apply
-    _applyIconPath : function(value, old) {
+    _applyIconPath(value, old) {
       this._provider.setIconPath(value);
     },
 
-
     // property apply
-    _applyLabelOptions : function(value, old) {
+    _applyLabelOptions(value, old) {
       this._provider.setLabelOptions(value);
     },
 
-
     // property apply
-    _applyIconOptions : function(value, old) {
+    _applyIconOptions(value, old) {
       this._provider.setIconOptions(value);
     },
 
-
     // property apply
-    _applyModel : function(value, old)
-    {
+    _applyModel(value, old) {
       this.__openNodes = [];
 
-      if (value != null)
-      {
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          if (!qx.Class.hasMixin(value.constructor,
-                qx.data.marshal.MEventBubbling))
-          {
-            this.warn("The model item doesn't support the Mixin 'qx.data." +
-              "marshal.MEventBubbling'. Therefore the tree can not update " +
-              "the view automatically on model changes.");
+      if (value != null) {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (
+            !qx.Class.hasMixin(
+              value.constructor,
+              qx.data.marshal.MEventBubbling
+            )
+          ) {
+            this.warn(
+              "The model item doesn't support the Mixin 'qx.data." +
+                "marshal.MEventBubbling'. Therefore the tree can not update " +
+                "the view automatically on model changes."
+            );
           }
         }
         value.addListener("changeBubble", this._onChangeBubble, this);
@@ -799,14 +722,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this.__applyModelChanges();
     },
 
-
     // property apply
-    _applyDelegate : function(value, old)
-    {
+    _applyDelegate(value, old) {
       this._provider.setDelegate(value);
       this.buildLookupTable();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -814,15 +734,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event handler for the changeBubble event. The handler rebuild the lookup
      * table when the child structure changed.
      *
      * @param event {qx.event.type.Data} The data event.
      */
-    _onChangeBubble : function(event)
-    {
+    _onChangeBubble(event) {
       var data = event.getData();
       var propertyName = data.name;
       var index = propertyName.lastIndexOf(".");
@@ -832,20 +750,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       // only continue when the effected property is the child property
-      if ( propertyName.startsWith(this.getChildProperty()) )
-      {
+      if (propertyName.startsWith(this.getChildProperty())) {
         var item = data.item;
 
-        if (qx.Class.isSubClassOf(item.constructor, qx.data.Array))
-        {
-          if (index === -1)
-          {
+        if (qx.Class.isSubClassOf(item.constructor, qx.data.Array)) {
+          if (index === -1) {
             item = this.getModel();
-          }
-          else
-          {
+          } else {
             var propertyChain = data.name.substr(0, index);
-            item = qx.data.SingleValueBinding.resolvePropertyChain(this.getModel(), propertyChain);
+            item = qx.data.SingleValueBinding.resolvePropertyChain(
+              this.getModel(),
+              propertyChain
+            );
           }
         }
 
@@ -855,35 +771,30 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     },
 
-
     /**
      * Event handler for the update event.
      *
      * @param event {qx.event.type.Event} The event.
      */
-    _onUpdated : function(event)
-    {
+    _onUpdated(event) {
       if (this.__deferredCall == null) {
-        this.__deferredCall = new qx.util.DeferredCall(function() {
+        this.__deferredCall = new qx.util.DeferredCall(function () {
           qx.ui.core.queue.Widget.add(this);
         }, this);
       }
       this.__deferredCall.schedule();
     },
 
-
     /**
      * Event handler to open/close tapped nodes.
      *
      * @param event {qx.ui.virtual.core.CellEvent} The cell tap event.
      */
-    _onOpen : function(event)
-    {
+    _onOpen(event) {
       var row = event.getRow();
       var item = this.__lookupTable.getItem(row);
 
-      if (this.isNode(item))
-      {
+      if (this.isNode(item)) {
         if (this.isNodeOpen(item)) {
           this.closeNode(item);
         } else {
@@ -892,7 +803,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     },
 
-
     /**
      * Event handler for key press events. Open and close the current selected
      * item on key left and right press. Jump to parent on key left if already
@@ -900,17 +810,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @param e {qx.event.type.KeySequence} key event.
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var selection = this.getSelection();
 
-      if (selection.getLength() > 0)
-      {
+      if (selection.getLength() > 0) {
         var item = selection.getItem(0);
         var isNode = this.isNode(item);
 
-        switch(e.getKeyIdentifier())
-        {
+        switch (e.getKeyIdentifier()) {
           case "Left":
             if (isNode && this.isNodeOpen(item)) {
               this.closeNode(item);
@@ -925,11 +832,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           case "Right":
             if (isNode && !this.isNodeOpen(item)) {
               this.openNode(item);
-            }
-            else
-            {
-              if (isNode)
-              {
+            } else {
+              if (isNode) {
                 var children = item.get(this.getChildProperty());
                 if (children != null && children.getLength() > 0) {
                   selection.splice(0, 1, children.getItem(0));
@@ -966,11 +870,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @param newSelection {Array} The newSelection which will be set to the selection manager.
      */
-    _beforeApplySelection : function(newSelection)
-    {
-      if (newSelection.length === 0 &&
-          this.getSelectionMode() === "one")
-      {
+    _beforeApplySelection(newSelection) {
+      if (newSelection.length === 0 && this.getSelectionMode() === "one") {
         var visibleParent = this.__getVisibleParent();
         var row = this.getLookupTable().indexOf(visibleParent);
 
@@ -980,23 +881,19 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     },
 
-
     /**
      * Hook method which is called from the {@link qx.ui.virtual.selection.MModel}.
      * The hook method builds the parent chain form the current selected item.
      */
-    _afterApplySelection : function()
-    {
+    _afterApplySelection() {
       var selection = this.getSelection();
 
-      if (selection.getLength() > 0 &&
-          this.getSelectionMode() === "one") {
+      if (selection.getLength() > 0 && this.getSelectionMode() === "one") {
         this.__buildParentChain(selection.getItem(0));
       } else {
         this.__parentChain = [];
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -1004,32 +901,29 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Helper method to apply model changes. Normally build the lookup table and
      * apply the default selection.
      */
-    __applyModelChanges : function()
-    {
+    __applyModelChanges() {
       this.buildLookupTable();
       this._applyDefaultSelection();
     },
-
 
     /**
      * Helper method to build the internal data structure.
      *
      * @internal
      */
-    buildLookupTable : function()
-    {
+    buildLookupTable() {
       if (
         this.getModel() != null &&
         (this.getChildProperty() == null || this.getLabelPath() == null)
-      )
-      {
-        throw new Error("Could not build tree, because 'childProperty' and/" +
-          "or 'labelPath' is 'null'!");
+      ) {
+        throw new Error(
+          "Could not build tree, because 'childProperty' and/" +
+            "or 'labelPath' is 'null'!"
+        );
       }
 
       this._itemWidth = 0;
@@ -1038,24 +932,23 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var nestedLevel = -1;
 
       var root = this.getModel();
-      if (root != null)
-      {
-        if (!this.isHideRoot())
-        {
+      if (root != null) {
+        if (!this.isHideRoot()) {
           nestedLevel++;
           lookupTable.push(root);
           this.__nestingLevel.push(nestedLevel);
         }
 
-        if (this.isNodeOpen(root))
-        {
-          var visibleChildren = this.__getVisibleChildrenFrom(root, nestedLevel);
+        if (this.isNodeOpen(root)) {
+          var visibleChildren = this.__getVisibleChildrenFrom(
+            root,
+            nestedLevel
+          );
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
 
-      if (!qx.lang.Array.equals(this.__lookupTable.toArray(), lookupTable))
-      {
+      if (!qx.lang.Array.equals(this.__lookupTable.toArray(), lookupTable)) {
         this._provider.removeBindings();
         this.__lookupTable.removeAll();
         this.__lookupTable.append(lookupTable);
@@ -1063,7 +956,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         this._updateSelection();
       }
     },
-
 
     /**
      * Helper method to get all visible children form the passed parent node.
@@ -1074,8 +966,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @param nestedLevel {Integer} The nested level from the start node.
      * @return {Array} All visible children form the parent.
      */
-    __getVisibleChildrenFrom : function(node, nestedLevel)
-    {
+    __getVisibleChildrenFrom(node, nestedLevel) {
       var visible = [];
       nestedLevel++;
 
@@ -1099,29 +990,26 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         children.sort(sorter);
       }
 
-      for (var i = 0; i < children.getLength(); i++)
-      {
+      for (var i = 0; i < children.getLength(); i++) {
         var child = children.getItem(i);
 
         if (filter && !filter(child)) {
           continue;
         }
 
-        if (this.isNode(child))
-        {
+        if (this.isNode(child)) {
           this.__nestingLevel.push(nestedLevel);
           visible.push(child);
 
-          if (this.isNodeOpen(child))
-          {
-            var visibleChildren = this.__getVisibleChildrenFrom(child, nestedLevel);
+          if (this.isNodeOpen(child)) {
+            var visibleChildren = this.__getVisibleChildrenFrom(
+              child,
+              nestedLevel
+            );
             visible = visible.concat(visibleChildren);
           }
-        }
-        else
-        {
-          if (this.isShowLeafs())
-          {
+        } else {
+          if (this.isShowLeafs()) {
             this.__nestingLevel.push(nestedLevel);
             visible.push(child);
           }
@@ -1134,21 +1022,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return visible;
     },
 
-
     /**
      * Helper method to set the node to the open nodes data structure when it
      * is not included.
      *
      * @param node {qx.core.Object} Node to set to open nodes.
      */
-    __openNode : function(node)
-    {
+    __openNode(node) {
       if (!this.__openNodes.includes(node)) {
         this.__openNodes.push(node);
         this.fireDataEvent("open", node);
       }
     },
-
 
     /**
      * Helper method to set the target node and all his parents to the open
@@ -1160,10 +1045,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      * @return {Boolean} <code>True</code> when the targetNode and his
      *  parents could opened, <code>false</code> otherwise.
      */
-    __openNodeAndAllParents : function(startNode, targetNode)
-    {
-      if (startNode === targetNode)
-      {
+    __openNodeAndAllParents(startNode, targetNode) {
+      if (startNode === targetNode) {
         this.__openNode(targetNode);
         return true;
       }
@@ -1177,13 +1060,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         return false;
       }
 
-      for (var i = 0; i < children.getLength(); i++)
-      {
+      for (var i = 0; i < children.getLength(); i++) {
         var child = children.getItem(i);
         var result = this.__openNodeAndAllParents(child, targetNode);
 
-        if (result === true)
-        {
+        if (result === true) {
           this.__openNode(child);
           return true;
         }
@@ -1192,16 +1073,15 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return false;
     },
 
-
     /**
      * Helper method to update the row count.
      */
-    __updateRowCount : function()
-    {
-      this.getPane().getRowConfig().setItemCount(this.__lookupTable.getLength());
+    __updateRowCount() {
+      this.getPane()
+        .getRowConfig()
+        .setItemCount(this.__lookupTable.getLength());
       this.getPane().fullUpdate();
     },
-
 
     /**
      * Helper method to get the parent node. Node! This only works with leaf and
@@ -1213,16 +1093,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *
      * @internal
      */
-    getParent : function(item)
-    {
+    getParent(item) {
       var index = this.__lookupTable.indexOf(item);
       if (index < 0) {
         return null;
       }
 
       var level = this.__nestingLevel[index];
-      while(index > 0)
-      {
+      while (index > 0) {
         index--;
         var levelBefore = this.__nestingLevel[index];
         if (levelBefore < level) {
@@ -1233,31 +1111,26 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return null;
     },
 
-
     /**
      * Builds the parent chain form the passed item.
      *
      * @param item {var} Item to build parent chain.
      */
-    __buildParentChain : function(item)
-    {
+    __buildParentChain(item) {
       this.__parentChain = [];
       var parent = this.getParent(item);
-      while(parent != null)
-      {
+      while (parent != null) {
         this.__parentChain.unshift(parent);
         parent = this.getParent(parent);
       }
     },
-
 
     /**
      * Return the first visible parent node from the last selected node.
      *
      * @return {var} The first visible node.
      */
-    __getVisibleParent : function()
-    {
+    __getVisibleParent() {
       if (this.__parentChain == null) {
         return this.getModel();
       }
@@ -1265,8 +1138,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       var lookupTable = this.getLookupTable();
       var parent = this.__parentChain.pop();
 
-      while(parent != null)
-      {
+      while (parent != null) {
         if (lookupTable.contains(parent)) {
           return parent;
         }
@@ -1276,16 +1148,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     if (this._openCloseController) {
       this._openCloseController.dispose();
     }
 
     var pane = this.getPane();
-    if (pane != null)
-    {
+    if (pane != null) {
       if (pane.hasListener("cellDbltap")) {
         pane.removeListener("cellDbltap", this._onOpen, this);
       }
@@ -1294,8 +1163,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
     }
 
-    if (!qx.core.ObjectRegistry.inShutDown && this.__deferredCall != null)
-    {
+    if (!qx.core.ObjectRegistry.inShutDown && this.__deferredCall != null) {
       this.__deferredCall.cancel();
       this.__deferredCall.dispose();
     }
@@ -1310,7 +1178,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     this._provider.dispose();
     this.__lookupTable.dispose();
 
-    this._layer = this._provider = this.__lookupTable = this.__openNodes =
-      this.__deferredCall = null;
+    this._layer =
+      this._provider =
+      this.__lookupTable =
+      this.__openNodes =
+      this.__deferredCall =
+        null;
   }
 });

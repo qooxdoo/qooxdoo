@@ -21,26 +21,25 @@
 
 /**
  * A list of items. Displays an automatically scrolling list for all
- * added {@link qx.ui.form.IListItem} instances (typically this would be instances of 
- * {@link qx.ui.form.ListItem} but can also be other Atoms, such as {@link qx.ui.form.CheckBox}). 
+ * added {@link qx.ui.form.IListItem} instances (typically this would be instances of
+ * {@link qx.ui.form.ListItem} but can also be other Atoms, such as {@link qx.ui.form.CheckBox}).
  * Supports various selection options: single, multi, ...
  */
-qx.Class.define("qx.ui.form.List",
-{
-  extend : qx.ui.core.scroll.AbstractScrollArea,
-  implement : [
+qx.Class.define("qx.ui.form.List", {
+  extend: qx.ui.core.scroll.AbstractScrollArea,
+  implement: [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
     qx.ui.form.IField,
     qx.ui.form.IModelSelection
   ],
-  include : [
+
+  include: [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MMultiSelectionHandling,
     qx.ui.form.MForm,
     qx.ui.form.MModelSelection
   ],
-
 
   /*
   *****************************************************************************
@@ -51,9 +50,8 @@ qx.Class.define("qx.ui.form.List",
   /**
    * @param horizontal {Boolean?false} Whether the list should be horizontal.
    */
-  construct : function(horizontal)
-  {
-    this.base(arguments);
+  construct(horizontal) {
+    super();
 
     // Create content
     this.__content = this._createListItemContainer();
@@ -80,31 +78,27 @@ qx.Class.define("qx.ui.form.List",
     this.__pressedString = "";
   },
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-
-  events :
-  {
+  events: {
     /**
      * This event is fired after a list item was added to the list. The
      * {@link qx.event.type.Data#getData} method of the event returns the
      * added item.
      */
-    addItem : "qx.event.type.Data",
+    addItem: "qx.event.type.Data",
 
     /**
      * This event is fired after a list item has been removed from the list.
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed item.
      */
-    removeItem : "qx.event.type.Data"
+    removeItem: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -112,66 +106,56 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "list"
+    appearance: {
+      refine: true,
+      init: "list"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     },
 
     // overridden
-    width :
-    {
-      refine : true,
-      init : 100
+    width: {
+      refine: true,
+      init: 100
     },
 
     // overridden
-    height :
-    {
-      refine : true,
-      init : 200
+    height: {
+      refine: true,
+      init: 200
     },
 
     /**
      * Whether the list should be rendered horizontal or vertical.
      */
-    orientation :
-    {
-      check : ["horizontal", "vertical"],
-      init : "vertical",
-      apply : "_applyOrientation"
+    orientation: {
+      check: ["horizontal", "vertical"],
+      init: "vertical",
+      apply: "_applyOrientation"
     },
 
     /** Spacing between the items */
-    spacing :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applySpacing",
-      themeable : true
+    spacing: {
+      check: "Integer",
+      init: 0,
+      apply: "_applySpacing",
+      themeable: true
     },
 
     /** Controls whether the inline-find feature is activated or not */
-    enableInlineFind :
-    {
-      check : "Boolean",
-      init : true
+    enableInlineFind: {
+      check: "Boolean",
+      init: true
     },
-    
+
     /** Whether the list is read only when enabled */
-    readOnly: 
-    {
+    readOnly: {
       check: "Boolean",
       init: false,
       event: "changeReadOnly",
@@ -179,25 +163,21 @@ qx.Class.define("qx.ui.form.List",
     }
   },
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-
-  members :
-  {
-    __pressedString : null,
-    __lastKeyPress : null,
+  members: {
+    __pressedString: null,
+    __lastKeyPress: null,
 
     /** @type {qx.ui.core.Widget} The children container */
-    __content : null,
+    __content: null,
 
     /** @type {Class} Pointer to the selection manager to use */
-    SELECTION_MANAGER : qx.ui.core.selection.ScrollArea,
-
+    SELECTION_MANAGER: qx.ui.core.selection.ScrollArea,
 
     /*
     ---------------------------------------------------------------------------
@@ -205,9 +185,8 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.__content;
     },
 
@@ -216,7 +195,7 @@ qx.Class.define("qx.ui.form.List",
      *
      * @param e {qx.event.type.Data} the event instance
      */
-    _onAddChild : function(e) {
+    _onAddChild(e) {
       this.fireDataEvent("addItem", e.getData());
     },
 
@@ -225,10 +204,9 @@ qx.Class.define("qx.ui.form.List",
      *
      * @param e {qx.event.type.Data} the event instance
      */
-    _onRemoveChild : function(e) {
+    _onRemoveChild(e) {
       this.fireDataEvent("removeItem", e.getData());
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -236,21 +214,17 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Used to route external <code>keypress</code> events to the list
      * handling (in fact the manager of the list)
      *
      * @param e {qx.event.type.KeySequence} KeyPress event
      */
-    handleKeyPress : function(e)
-    {
+    handleKeyPress(e) {
       if (!this._onKeyPress(e)) {
         this._getManager().handleKeyPress(e);
       }
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -263,8 +237,8 @@ qx.Class.define("qx.ui.form.List",
      *
      * @return {qx.ui.container.Composite} Container for the list item widgets
      */
-    _createListItemContainer : function() {
-      return new qx.ui.container.Composite;
+    _createListItemContainer() {
+      return new qx.ui.container.Composite();
     },
 
     /*
@@ -273,10 +247,8 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-
     // property apply
-    _applyOrientation : function(value, old)
-    {
+    _applyOrientation(value, old) {
       // ARIA attrs
       this.getContentElement().setAttribute("aria-orientation", value);
 
@@ -284,10 +256,12 @@ qx.Class.define("qx.ui.form.List",
 
       // save old layout for disposal
       var oldLayout = content.getLayout();
-      
+
       // Create new layout
       var horizontal = value === "horizontal";
-      var layout = horizontal ? new qx.ui.layout.HBox() : new qx.ui.layout.VBox();
+      var layout = horizontal
+        ? new qx.ui.layout.HBox()
+        : new qx.ui.layout.VBox();
 
       // Configure content
       content.setLayout(layout);
@@ -296,25 +270,25 @@ qx.Class.define("qx.ui.form.List",
 
       // Configure spacing
       this._applySpacing(this.getSpacing());
-      
+
       // dispose old layout
-      if(oldLayout) {
+      if (oldLayout) {
         oldLayout.dispose();
       }
     },
 
     // property apply
-    _applySpacing : function(value, old) {
+    _applySpacing(value, old) {
       this.__content.getLayout().setSpacing(value);
     },
-    
+
     // property readOnly
-    _applyReadOnly : function(value) {
+    _applyReadOnly(value) {
       this._getManager().setReadOnly(value);
       if (value) {
         this.addState("readonly");
         this.addState("disabled");
-        
+
         // Remove draggable
         if (this.isDraggable()) {
           this._applyDraggable(false, true);
@@ -326,15 +300,15 @@ qx.Class.define("qx.ui.form.List",
         }
       } else {
         this.removeState("readonly");
-        
+
         if (this.isEnabled()) {
           this.removeState("disabled");
-          
+
           // Re-add draggable
           if (this.isDraggable()) {
             this._applyDraggable(true, false);
           }
-  
+
           // Re-add droppable
           if (this.isDroppable()) {
             this._applyDroppable(true, false);
@@ -342,15 +316,15 @@ qx.Class.define("qx.ui.form.List",
         }
       }
     },
-    
+
     // override
-    _applyEnabled : function(value, old) {
-      this.base(arguments, value, old);
-      
-      // If editable has just been turned on, we need to correct for readOnly status 
+    _applyEnabled(value, old) {
+      super._applyEnabled(value, old);
+
+      // If editable has just been turned on, we need to correct for readOnly status
       if (value && this.isReadOnly()) {
         this.addState("disabled");
-        
+
         // Remove draggable
         if (this.isDraggable()) {
           this._applyDraggable(false, true);
@@ -363,13 +337,11 @@ qx.Class.define("qx.ui.form.List",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Event listener for <code>keypress</code> events.
@@ -377,13 +349,11 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.KeySequence} KeyPress event
      * @return {Boolean} Whether the event was processed
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       // Execute action on press <ENTER>
-      if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
-      {
+      if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed()) {
         var items = this.getSelection();
-        for (var i=0; i<items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
           items[i].fireEvent("action");
         }
 
@@ -393,21 +363,18 @@ qx.Class.define("qx.ui.form.List",
       return false;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       FIND SUPPORT
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Handles the inline find - if enabled
      *
      * @param e {qx.event.type.KeyInput} key input event
      */
-    _onKeyInput : function(e)
-    {
+    _onKeyInput(e) {
       // do nothing if the find is disabled
       if (!this.getEnableInlineFind()) {
         return;
@@ -420,7 +387,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Reset string after a second of non pressed key
-      if (((new Date).valueOf() - this.__lastKeyPress) > 1000) {
+      if (new Date().valueOf() - this.__lastKeyPress > 1000) {
         this.__pressedString = "";
       }
 
@@ -436,7 +403,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Store timestamp
-      this.__lastKeyPress = (new Date).valueOf();
+      this.__lastKeyPress = new Date().valueOf();
     },
 
     /**
@@ -448,8 +415,7 @@ qx.Class.define("qx.ui.form.List",
      * @param search {String} The text with which the label of the ListItem should start with
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    findItemByLabelFuzzy : function(search)
-    {
+    findItemByLabelFuzzy(search) {
       // lower case search text
       search = search.toLowerCase();
 
@@ -457,14 +423,12 @@ qx.Class.define("qx.ui.form.List",
       var items = this.getChildren();
 
       // go threw all items
-      for (var i=0, l=items.length; i<l; i++)
-      {
+      for (var i = 0, l = items.length; i < l; i++) {
         // get the label of the current item
         var currentLabel = items[i].getLabel();
 
         // if the label fits with the search text (ignore case, begins with)
-        if (currentLabel && currentLabel.toLowerCase().indexOf(search) == 0)
-        {
+        if (currentLabel && currentLabel.toLowerCase().indexOf(search) == 0) {
           // just return the first found element
           return items[i];
         }
@@ -481,8 +445,7 @@ qx.Class.define("qx.ui.form.List",
      * @param ignoreCase {Boolean?true} description
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    findItem : function(search, ignoreCase)
-    {
+    findItem(search, ignoreCase) {
       // lowercase search
       if (ignoreCase !== false) {
         search = search.toLowerCase();
@@ -493,8 +456,7 @@ qx.Class.define("qx.ui.form.List",
       var item;
 
       // go through all items
-      for (var i=0, l=items.length; i<l; i++)
-      {
+      for (var i = 0, l = items.length; i < l; i++) {
         item = items[i];
 
         // get the content of the label; text content when rich
@@ -508,7 +470,6 @@ qx.Class.define("qx.ui.form.List",
               label = qx.bom.element.Attribute.get(labelNode, "text");
             }
           }
-
         } else {
           label = item.getLabel();
         }
@@ -531,14 +492,13 @@ qx.Class.define("qx.ui.form.List",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this._disposeObjects("__content");
   }
 });

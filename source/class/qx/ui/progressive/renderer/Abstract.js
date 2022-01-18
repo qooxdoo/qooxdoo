@@ -19,14 +19,11 @@
 /**
  * Abstract renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.Abstract",
-{
-  type       : "abstract",
-  extend     : qx.core.Object,
+qx.Class.define("qx.ui.progressive.renderer.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
-
-  members :
-  {
+  members: {
     /**
      * Render the provided element in the renderer's unique way.
      *
@@ -55,8 +52,7 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
      *   </dl>
      *
      */
-    render : function(state, element)
-    {
+    render(state, element) {
       throw new Error("render() is abstract");
     },
 
@@ -74,8 +70,7 @@ qx.Class.define("qx.ui.progressive.renderer.Abstract",
      *   state.getRendererData()[element.renderer] where element.renderer will
      *   be the name provided here.
      */
-    join : function(progressive, name)
-    {
+    join(progressive, name) {
       // nothing to do in the default case
     }
   }

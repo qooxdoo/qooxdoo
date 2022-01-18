@@ -19,11 +19,8 @@
 /**
  * A factory creating widgets to use for editing table cells.
  */
-qx.Interface.define("qx.ui.table.ICellEditorFactory",
-{
-
-  members :
-  {
+qx.Interface.define("qx.ui.table.ICellEditorFactory", {
+  members: {
     /**
      * Creates a cell editor.
      *
@@ -41,10 +38,9 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      *      create.
      * @return {qx.ui.core.Widget} the widget that should be used as cell editor.
      */
-    createCellEditor : function(cellInfo) {
+    createCellEditor(cellInfo) {
       return true;
     },
-
 
     /**
      * Returns the current value of a cell editor.
@@ -54,7 +50,7 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      *      {@link #createCellEditor}.
      * @return {var} the current value from the editor.
      */
-    getCellEditorValue : function(cellEditor) {
+    getCellEditorValue(cellEditor) {
       return true;
     }
   }

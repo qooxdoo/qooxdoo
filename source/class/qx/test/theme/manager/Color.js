@@ -16,51 +16,49 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Color",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.theme.manager.Color", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __formerTheme : null,
+  members: {
+    __formerTheme: null,
     __formerListener: null,
 
-    setUp : function() {
+    setUp() {
       this.manager = qx.theme.manager.Color.getInstance();
       this.__formerTheme = this.manager.getTheme();
 
-      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      this.__formerListener = {...listener[hash]};
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      this.__formerListener = { ...listener[hash] };
       delete listener[hash];
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       qx.test.Theme.themes = null;
       this.manager.setTheme(this.__formerTheme);
       this.__formerTheme = null;
 
-      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
       listener[hash] = this.__formerListener;
       this.__formerListener = null;
       qx.ui.core.queue.Manager.flush();
     },
 
+    testInclude() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        extend: qx.theme.indigo.Color,
 
-    testInclude : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A",
-      {
-        extend : qx.theme.indigo.Color,
-
-        colors :
-        {
-          "a" : "#111111",
-          "b" : "#222222",
-          "c" : "#333333"
+        colors: {
+          a: "#111111",
+          b: "#222222",
+          c: "#333333"
         }
       });
 
@@ -73,20 +71,17 @@ qx.Class.define("qx.test.theme.manager.Color",
       this.assertEquals("#333333", theme.colors["c"]);
     },
 
+    testResolve() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        extend: qx.theme.indigo.Color,
 
-    testResolve : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A",
-      {
-        extend : qx.theme.indigo.Color,
-
-        colors :
-        {
-          "a" : "#111111",
-          "b" : "#222222",
-          "c" : "#333333"
+        colors: {
+          a: "#111111",
+          b: "#222222",
+          c: "#333333"
         }
       });
+
       this.manager.setTheme(qx.test.Theme.themes.A);
 
       this.assertEquals("#111111", this.manager.resolve("a"));
@@ -95,20 +90,17 @@ qx.Class.define("qx.test.theme.manager.Color",
       this.assertEquals("d", this.manager.resolve("d"));
     },
 
+    testResolveSelfReference() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        extend: qx.theme.indigo.Color,
 
-    testResolveSelfReference : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A",
-      {
-        extend : qx.theme.indigo.Color,
-
-        colors :
-        {
-          "a" : "#111111",
-          "b" : "a",
-          "c" : "b"
+        colors: {
+          a: "#111111",
+          b: "a",
+          c: "b"
         }
       });
+
       this.manager.setTheme(qx.test.Theme.themes.A);
 
       this.assertEquals("#111111", this.manager.resolve("a"));
@@ -116,37 +108,31 @@ qx.Class.define("qx.test.theme.manager.Color",
       this.assertEquals("#111111", this.manager.resolve("c"));
     },
 
+    testResolveException() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        extend: qx.theme.indigo.Color,
 
-    testResolveException : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A",
-      {
-        extend : qx.theme.indigo.Color,
-
-        colors :
-        {
-          "d" : "xyz"
+        colors: {
+          d: "xyz"
         }
       });
 
       var self = this;
-      this.assertException(function() {
+      this.assertException(function () {
         self.manager.setTheme(qx.test.Theme.themes.A);
       });
 
-      qx.Theme.define("qx.test.Theme.themes.A",
-      {
-        extend : qx.theme.indigo.Color,
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        extend: qx.theme.indigo.Color,
 
-        colors :
-        {
-          "b" : "a",
-          "c" : "b"
+        colors: {
+          b: "a",
+          c: "b"
         }
       });
 
       var self = this;
-      this.assertException(function() {
+      this.assertException(function () {
         self.manager.setTheme(qx.test.Theme.themes.A);
       });
     }

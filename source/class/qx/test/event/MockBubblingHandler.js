@@ -16,34 +16,29 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.MockBubblingHandler",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+qx.Class.define("qx.test.event.MockBubblingHandler", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_LAST
+    PRIORITY: qx.event.Registration.PRIORITY_LAST
   },
 
-  members :
-  {
+  members: {
     // interface implementation
-    canHandleEvent : function(target, type) {
+    canHandleEvent(target, type) {
       return target.nodeType !== undefined;
     },
 
+    // interface implementation
+    registerEvent(target, type, capture) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {},
-
-
-    // interface implementation
-    unregisterEvent : function(target, type, capture) {}
+    unregisterEvent(target, type, capture) {}
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

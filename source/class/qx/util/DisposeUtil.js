@@ -29,10 +29,8 @@
  * @ignore(qx.ui.mobile.container.Composite)
  * @ignore(qx.ui.mobile.core.Widget)
  */
-qx.Class.define("qx.util.DisposeUtil",
-{
-  statics :
-  {
+qx.Class.define("qx.util.DisposeUtil", {
+  statics: {
     /**
      * Disconnects and disposes given objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
@@ -41,34 +39,36 @@ qx.Class.define("qx.util.DisposeUtil",
      * @param arr {Array} List of fields (which store objects) to dispose
      * @param disposeSingletons {Boolean?} true, if singletons should be disposed
      */
-    disposeObjects : function(obj, arr, disposeSingletons)
-    {
+    disposeObjects(obj, arr, disposeSingletons) {
       var name;
-      for (var i=0, l=arr.length; i<l; i++)
-      {
+      for (var i = 0, l = arr.length; i < l; i++) {
         name = arr[i];
         if (obj[name] == null || !obj.hasOwnProperty(name)) {
           continue;
         }
 
-        if (!qx.core.ObjectRegistry.inShutDown)
-        {
+        if (!qx.core.ObjectRegistry.inShutDown) {
           if (obj[name].dispose) {
             // singletons
             if (!disposeSingletons && obj[name].constructor.$$instance) {
-              throw new Error("The object stored in key " + name + " is a singleton! Please use disposeSingleton instead.");
+              throw new Error(
+                "The object stored in key " +
+                  name +
+                  " is a singleton! Please use disposeSingleton instead."
+              );
             } else {
               obj[name].dispose();
             }
           } else {
-            throw new Error("Has no disposable object under key: " + name + "!");
+            throw new Error(
+              "Has no disposable object under key: " + name + "!"
+            );
           }
         }
 
         obj[name] = null;
       }
     },
-
 
     /**
      * Disposes all members of the given array and deletes
@@ -77,34 +77,36 @@ qx.Class.define("qx.util.DisposeUtil",
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
      */
-    disposeArray : function(obj, field)
-    {
+    disposeArray(obj, field) {
       var data = obj[field];
       if (!data) {
         return;
       }
 
       // Fast path for application shutdown
-      if (qx.core.ObjectRegistry.inShutDown)
-      {
+      if (qx.core.ObjectRegistry.inShutDown) {
         obj[field] = null;
         return;
       }
 
       // Dispose all content
-      try
-      {
+      try {
         var entry;
-        for (var i=data.length-1; i>=0; i--)
-        {
+        for (var i = data.length - 1; i >= 0; i--) {
           entry = data[i];
           if (entry) {
             entry.dispose();
           }
         }
-      }
-      catch(ex) {
-        throw new Error("The array field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
+      } catch (ex) {
+        throw new Error(
+          "The array field: " +
+            field +
+            " of object: " +
+            obj +
+            " has non disposable entries: " +
+            ex
+        );
       }
 
       // Reduce array size to zero
@@ -114,7 +116,6 @@ qx.Class.define("qx.util.DisposeUtil",
       obj[field] = null;
     },
 
-
     /**
      * Disposes all members of the given map and deletes
      * the field which refers to the map afterwards.
@@ -122,34 +123,36 @@ qx.Class.define("qx.util.DisposeUtil",
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
      */
-    disposeMap : function(obj, field)
-    {
+    disposeMap(obj, field) {
       var data = obj[field];
       if (!data) {
         return;
       }
 
       // Fast path for application shutdown
-      if (qx.core.ObjectRegistry.inShutDown)
-      {
+      if (qx.core.ObjectRegistry.inShutDown) {
         obj[field] = null;
         return;
       }
 
       // Dispose all content
-      try
-      {
+      try {
         var entry;
-        for (var key in data)
-        {
+        for (var key in data) {
           entry = data[key];
           if (data.hasOwnProperty(key) && entry) {
             entry.dispose();
           }
         }
-      }
-      catch(ex) {
-        throw new Error("The map field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
+      } catch (ex) {
+        throw new Error(
+          "The map field: " +
+            field +
+            " of object: " +
+            obj +
+            " has non disposable entries: " +
+            ex
+        );
       }
 
       // Finally remove field
@@ -163,60 +166,59 @@ qx.Class.define("qx.util.DisposeUtil",
      * @param trigger {Object} Other object
      *
      */
-    disposeTriggeredBy : function(disposeMe, trigger)
-    {
+    disposeTriggeredBy(disposeMe, trigger) {
       var triggerDispose = trigger.dispose;
-      trigger.dispose = function(){
+      trigger.dispose = function () {
         triggerDispose.call(trigger);
         disposeMe.dispose();
       };
     },
-
 
     /**
      * Destroys a container and all of its children recursively.
      * @param container {qx.ui.container.Composite | qx.ui.container.Scroll |
      *   qx.ui.container.SlideBar | qx.ui.container.Stack} Container to be destroyed
      */
-    destroyContainer : function(container)
-    {
-      if(qx.core.Environment.get("qx.debug"))
-      {
-        if(qx.ui.mobile && container instanceof qx.ui.mobile.core.Widget) {
-          qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
-          "Container must be an instance of qx.ui.mobile.container.Composite.");
+    destroyContainer(container) {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.ui.mobile && container instanceof qx.ui.mobile.core.Widget) {
+          qx.core.Assert.assertTrue(
+            this.__isChildrenContainer(container),
+            "Container must be an instance of qx.ui.mobile.container.Composite."
+          );
         } else {
-          qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
-          qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
-          "Container must be an instance of qx.ui.container.Composite or " +
-          "qx.ui.container.Scroll or qx.ui.container.Resizer or " +
-          "qx.ui.container.SlideBar or qx.ui.container.Stack!");
+          qx.core.Assert.assertQxWidget(
+            container,
+            "First argument must be a container widget!"
+          );
+          qx.core.Assert.assertTrue(
+            this.__isChildrenContainer(container),
+            "Container must be an instance of qx.ui.container.Composite or " +
+              "qx.ui.container.Scroll or qx.ui.container.Resizer or " +
+              "qx.ui.container.SlideBar or qx.ui.container.Stack!"
+          );
         }
       }
 
-      var arr=[];
+      var arr = [];
       this._collectContainerChildren(container, arr);
 
       var len = arr.length;
-      for(var i=len-1; i>=0; i--)
-      {
+      for (var i = len - 1; i >= 0; i--) {
         arr[i].destroy();
       }
       container.destroy();
     },
-
 
     /**
      * Helper function to collect all children widgets of an container recursively.
      * @param container {qx.ui.container.Composite | qx.ui.container.Scroll | qx.ui.container.SlideBar | qx.ui.container.Stack} Container to be destroyed
      * @param arr {Array} Array which holds all children widgets
      */
-    _collectContainerChildren : function(container, arr)
-    {
+    _collectContainerChildren(container, arr) {
       var children = container.getChildren();
 
-      for(var i=0; i<children.length; i++)
-      {
+      for (var i = 0; i < children.length; i++) {
         var item = children[i];
         arr.push(item);
 
@@ -226,7 +228,6 @@ qx.Class.define("qx.util.DisposeUtil",
       }
     },
 
-
     /**
      * Checks if the given object is a qx container widget
      *
@@ -234,20 +235,24 @@ qx.Class.define("qx.util.DisposeUtil",
      * @return {Boolean} <code>true</code> if the object is a container for
      * child widgets
      */
-    __isChildrenContainer : function(obj)
-    {
+    __isChildrenContainer(obj) {
       var classes = [];
-      if(qx.ui.mobile && obj instanceof qx.ui.mobile.core.Widget) {
+      if (qx.ui.mobile && obj instanceof qx.ui.mobile.core.Widget) {
         classes = [qx.ui.mobile.container.Composite];
       } else {
-        classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
-        qx.ui.container.SlideBar, qx.ui.container.Stack];
+        classes = [
+          qx.ui.container.Composite,
+          qx.ui.container.Scroll,
+          qx.ui.container.SlideBar,
+          qx.ui.container.Stack
+        ];
       }
 
-      for (var i=0,l=classes.length; i<l; i++) {
-        if (typeof classes[i] !== "undefined" &&
-          qx.Class.isSubClassOf(obj.constructor, classes[i]))
-        {
+      for (var i = 0, l = classes.length; i < l; i++) {
+        if (
+          typeof classes[i] !== "undefined" &&
+          qx.Class.isSubClassOf(obj.constructor, classes[i])
+        ) {
           return true;
         }
       }

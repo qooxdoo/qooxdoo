@@ -16,73 +16,71 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.LocaleSwitch",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  include : qx.locale.MTranslation,
+qx.Class.define("qx.test.ui.LocaleSwitch", {
+  extend: qx.test.ui.LayoutTestCase,
+  include: qx.locale.MTranslation,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.manager = qx.locale.Manager.getInstance();
   },
 
-
-
-  members :
-  {
+  members: {
     manager: null,
-    __translationAdded : null,
+    __translationAdded: null,
 
-    setUp : function() {
+    setUp() {
       if (!this.__translationAdded) {
         // add dummy translations
         this.manager.addTranslation("en_QX", {
-          "test one"        : "test one",
-          "test two"        : "test two",
-          "test Hello %1!"  : "test Hello %1!",
-          "test Jonny"      : "test Jonny",
-          "test One car"    : "test One car",
-          "test %1 cars"    : "test %1 cars",
-          "key_short_Shift" : "Shift"
+          "test one": "test one",
+          "test two": "test two",
+          "test Hello %1!": "test Hello %1!",
+          "test Jonny": "test Jonny",
+          "test One car": "test One car",
+          "test %1 cars": "test %1 cars",
+          key_short_Shift: "Shift"
         });
+
         this.manager.addTranslation("de_QX", {
-          "test one"        : "Eins",
-          "test two"        : "Zwei",
-          "test Hello %1!"  : "Servus %1!",
-          "test Jonny"      : "Jonathan",
-          "test One car"    : "Ein Auto",
-          "test %1 cars"    : "%1 Autos",
-          "key_short_Shift" : "Umschalt"
+          "test one": "Eins",
+          "test two": "Zwei",
+          "test Hello %1!": "Servus %1!",
+          "test Jonny": "Jonathan",
+          "test One car": "Ein Auto",
+          "test %1 cars": "%1 Autos",
+          key_short_Shift: "Umschalt"
         });
+
         this.__translationAdded = true;
       }
       this.manager.setLocale("en_QX");
     },
 
-    tearDown : function() {
+    tearDown() {
       this.manager.resetLocale();
     },
 
-
-    testCommandInMenuButton : function()
-    {
+    testCommandInMenuButton() {
       var command = new qx.ui.command.Command("Shift-A");
       var menuButton = new qx.ui.menu.Button("Juhu", null, command);
       this.assertEquals("Shift+A", command.toString());
-      this.assertEquals("Shift+A", menuButton.getChildControl("shortcut").getValue());
+      this.assertEquals(
+        "Shift+A",
+        menuButton.getChildControl("shortcut").getValue()
+      );
 
       this.manager.setLocale("de_QX");
       this.assertEquals("Umschalt+A", command.toString());
-      this.assertEquals("Umschalt+A", menuButton.getChildControl("shortcut").getValue());
+      this.assertEquals(
+        "Umschalt+A",
+        menuButton.getChildControl("shortcut").getValue()
+      );
       menuButton.dispose();
       command.dispose();
     },
 
-
-    testLabel : function()
-    {
+    testLabel() {
       var label = new qx.ui.basic.Label(this.tr("test one"));
       this.getRoot().add(label);
 
@@ -105,10 +103,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       label.destroy();
     },
 
-
-    testToolTipText : function()
-    {
-
+    testToolTipText() {
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 

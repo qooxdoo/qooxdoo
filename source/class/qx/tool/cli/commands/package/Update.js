@@ -31,35 +31,43 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
   extend: qx.tool.cli.commands.Package,
 
   statics: {
-
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
         command: "update [repository]",
-        describe: "updates information on packages from github. Has to be called before the other commands. If a package URI is supplied, only update information on that package",
+        describe:
+          "updates information on packages from github. Has to be called before the other commands. If a package URI is supplied, only update information on that package",
         builder: {
-          "file": {
+          file: {
             alias: "f",
             describe: "Output result to a file"
           },
-          "search": {
+
+          search: {
             alias: "S",
-            describe: "Search GitHub for repos (as opposed to using the cached nightly data)"
+            describe:
+              "Search GitHub for repos (as opposed to using the cached nightly data)"
           },
+
           "all-versions": {
             alias: "a",
-            describe: "Retrieve all releases (as opposed to the latest minor/patch release of each major release)"
+            describe:
+              "Retrieve all releases (as opposed to the latest minor/patch release of each major release)"
           },
-          "verbose": {
+
+          verbose: {
             alias: "v",
             describe: "Verbose logging"
           },
-          "quiet": {
+
+          quiet: {
             alias: "q",
             describe: "No output"
           },
+
           "export-only": {
             alias: "E",
-            describe: "Export the current cache without updating it first (requires --file)"
+            describe:
+              "Export the current cache without updating it first (requires --file)"
           }
         }
       };
@@ -67,15 +75,13 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
   },
 
   members: {
-
-    __names : null,
+    __names: null,
 
     /**
      * Updates the cache with information from GitHub.
      */
-    process: async function() {
-
-      this.base(arguments);
+    async process() {
+      super.process();
 
       // init
       this.__names = [];
@@ -103,13 +109,20 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
         await this.updateFromRepository();
       } else {
         if (!github.token) {
-          let response = await inquirer.prompt([{
-            type: "input",
-            name: "token",
-            message: "Searching GitHub requires an API token - visit https://github.com/settings/tokens to obtain one " + "(you do not need to assign any permissions, just create a token);\nWhat is your GitHub API Token ? "
-          }]);
+          let response = await inquirer.prompt([
+            {
+              type: "input",
+              name: "token",
+              message:
+                "Searching GitHub requires an API token - visit https://github.com/settings/tokens to obtain one " +
+                "(you do not need to assign any permissions, just create a token);\nWhat is your GitHub API Token ? "
+            }
+          ]);
+
           if (!response.token) {
-            qx.tool.compiler.Console.error("You have not provided a GitHub token.");
+            qx.tool.compiler.Console.error(
+              "You have not provided a GitHub token."
+            );
             return;
           }
           github.token = response.token;
@@ -122,8 +135,12 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
       let num_libraries = this.getCache().num_libraries;
       if (num_libraries && !this.argv.quiet) {
-        qx.tool.compiler.Console.info(`Found ${num_libraries} releases of libraries.`);
-        qx.tool.compiler.Console.info(`Run 'qx package list' in the root dir of your project to see which versions of these libraries are compatible.`);
+        qx.tool.compiler.Console.info(
+          `Found ${num_libraries} releases of libraries.`
+        );
+        qx.tool.compiler.Console.info(
+          `Run 'qx package list' in the root dir of your project to see which versions of these libraries are compatible.`
+        );
       }
 
       // save cache and export it if requested
@@ -160,25 +177,28 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       const auth = {
         token
       };
+
       const search = new Search({}, auth);
       let num_libraries = 0;
 
       // repositories
       if (!this.argv.quiet) {
-        qx.tool.compiler.Console.info("Searching for package repositories on GitHub...");
+        qx.tool.compiler.Console.info(
+          "Searching for package repositories on GitHub..."
+        );
       }
 
       let query = "topic:qooxdoo-package fork:true";
       if (this.argv.repository) {
-        query += " " +this.argv.repository;
+        query += " " + this.argv.repository;
       }
-      let result = await search.forRepositories({q: query});
+      let result = await search.forRepositories({ q: query });
       // backwards-compatibility
       query = "topic:qooxdoo-contrib fork:true";
       if (this.argv.repository) {
-        query += " " +this.argv.repository;
+        query += " " + this.argv.repository;
       }
-      let result2 = await search.forRepositories({q: query});
+      let result2 = await search.forRepositories({ q: query });
       let repos = result.data.concat(result2.data);
       let repo_lookup = {};
 
@@ -193,7 +213,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
         }
         repo_lookup[name] = repo;
         // if a repository name has been given, only update this repo
-        if (this.argv.repository && name !==this.argv.repository) {
+        if (this.argv.repository && name !== this.argv.repository) {
           continue;
         }
         if (this.argv.verbose) {
@@ -220,8 +240,10 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
 
         // filter releases to speed up updates
         let releases = releases_data.data
-        // filter out invalid release names unless "--all-versions"
-          .filter(r => this.argv["all-versions"] ? true : semver.valid(r.tag_name, true))
+          // filter out invalid release names unless "--all-versions"
+          .filter(r =>
+            this.argv["all-versions"] ? true : semver.valid(r.tag_name, true)
+          )
           // attach a clean version number
           .map(r => {
             r.version = semver.valid(r.tag_name, true) || "0.0.0";
@@ -230,11 +252,22 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           // sort by version number
           .sort((a, b) => semver.compare(a.version, b.version))
           // use only the latest minor/patch unless "--all-versions"
-          .filter((r, i, a) => r.version !== "0.0.0" && (this.argv["all-versions"] ? true : (i === a.length-1 || semver.major(a[i+1].version) > semver.major(r.version))));
+          .filter(
+            (r, i, a) =>
+              r.version !== "0.0.0" &&
+              (this.argv["all-versions"]
+                ? true
+                : i === a.length - 1 ||
+                  semver.major(a[i + 1].version) > semver.major(r.version))
+          );
 
         let versions = releases.map(r => r.version);
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`>>> Retrieved ${releases.length} release(s) of ${name}: ${versions.join(", ")}.`);
+          qx.tool.compiler.Console.info(
+            `>>> Retrieved ${
+              releases.length
+            } release(s) of ${name}: ${versions.join(", ")}.`
+          );
         }
 
         // get Manifest.json of each release to determine compatible qooxdoo versions
@@ -243,16 +276,22 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           let releases = repos_data[name].releases;
 
           // list of paths to manifest files, default is Manifest.json in the root dir
-          let manifests = [{path: "."}];
+          let manifests = [{ path: "." }];
 
           // can be overridden by a qoxdoo.json in the root dir
           let qooxdoo_data;
           if (this.argv.verbose) {
-            this.debug(`>>> Trying to retrieve 'qooxdoo.json' for ${name} ${tag_name}...`);
+            this.debug(
+              `>>> Trying to retrieve 'qooxdoo.json' for ${name} ${tag_name}...`
+            );
           }
           try {
             // @todo check if the method can return JSON to save parsing
-            qooxdoo_data = await repository.getContents(tag_name, "qooxdoo.json", true);
+            qooxdoo_data = await repository.getContents(
+              tag_name,
+              "qooxdoo.json",
+              true
+            );
             if (this.argv.verbose) {
               this.debug(`>>>  File exists, checking for libraries...`);
             }
@@ -262,7 +301,9 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 data = qx.tool.utils.Json.parseJson(data);
               } catch (e) {
                 if (this.argv.verbose) {
-                  qx.tool.compiler.Console.warn(`!!!  Parse error: ${e.message}`);
+                  qx.tool.compiler.Console.warn(
+                    `!!!  Parse error: ${e.message}`
+                  );
                 }
               }
             }
@@ -280,14 +321,23 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           }
 
           // create a list of libraries via their manifests
-          for (let [index, {path:manifest_path}] of manifests.entries()) {
+          for (let [index, { path: manifest_path }] of manifests.entries()) {
             let manifest_data;
-            manifest_path = path.join(manifest_path, qx.tool.config.Manifest.config.fileName);
+            manifest_path = path.join(
+              manifest_path,
+              qx.tool.config.Manifest.config.fileName
+            );
             try {
               if (this.argv.verbose) {
-                this.debug(`>>> Retrieving Manifest file '${manifest_path}' for ${name} ${tag_name}...`);
+                this.debug(
+                  `>>> Retrieving Manifest file '${manifest_path}' for ${name} ${tag_name}...`
+                );
               }
-              manifest_data = await repository.getContents(tag_name, manifest_path, true);
+              manifest_data = await repository.getContents(
+                tag_name,
+                manifest_path,
+                true
+              );
             } catch (e) {
               if (e.message.match(/404/)) {
                 if (this.argv.verbose) {
@@ -306,24 +356,31 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                 data = qx.tool.utils.Json.parseJson(data);
               } catch (e) {
                 if (this.argv.verbose) {
-                  qx.tool.compiler.Console.warn(`!!! Parse error: ${e.message}`);
+                  qx.tool.compiler.Console.warn(
+                    `!!! Parse error: ${e.message}`
+                  );
                   this.debug(data);
                 }
                 continue;
               }
             }
 
-            var qx_version_range = data.requires && data.requires["@qooxdoo/framework"];
+            var qx_version_range =
+              data.requires && data.requires["@qooxdoo/framework"];
             if (!qx_version_range) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(`!!! No valid qooxdoo version information in the manifest, skipping...`);
+                qx.tool.compiler.Console.warn(
+                  `!!! No valid qooxdoo version information in the manifest, skipping...`
+                );
               }
               continue;
             }
 
-            if (!semver.validRange(qx_version_range, {loose: true})) {
+            if (!semver.validRange(qx_version_range, { loose: true })) {
               if (this.argv.verbose) {
-                qx.tool.compiler.Console.warn(`!!! Invalid qooxdoo version information in the Manifest, skipping...`);
+                qx.tool.compiler.Console.warn(
+                  `!!! Invalid qooxdoo version information in the Manifest, skipping...`
+                );
               }
               continue;
             }
@@ -336,9 +393,12 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
               requires: data.requires,
               provides: data.provides
             };
+
             num_libraries++;
             if (this.argv.verbose) {
-              this.debug(`>>> ${name} ${tag_name}: Found package '${data.info.name}' (compatible with ${qx_version_range})`);
+              this.debug(
+                `>>> ${name} ${tag_name}: Found package '${data.info.name}' (compatible with ${qx_version_range})`
+              );
             } else if (!this.argv.quiet) {
               process.stdout.write("."); // output dots to indicate progress
             }
@@ -359,7 +419,8 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
       } // end iteration over repos
 
       // wrap-up
-      this.getCache().version = qx.tool.config.Lockfile.getInstance().getVersion();
+      this.getCache().version =
+        qx.tool.config.Lockfile.getInstance().getVersion();
       this.getCache().num_libraries = num_libraries;
       if (!this.argv.repository) {
         this.getCache().repos.list = this.__names.sort();

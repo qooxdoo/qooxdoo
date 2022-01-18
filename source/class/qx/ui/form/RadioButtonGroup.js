@@ -28,25 +28,22 @@
  * take full control of the layout and just use the selection behavior,
  * take a look at the {@link qx.ui.form.RadioGroup} object for a loose coupling.
  */
-qx.Class.define("qx.ui.form.RadioButtonGroup",
-{
-  extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
-  implement : [
+qx.Class.define("qx.ui.form.RadioButtonGroup", {
+  extend: qx.ui.core.Widget,
+  include: [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
+  implement: [
     qx.ui.form.IForm,
     qx.ui.form.IField,
     qx.ui.core.ISingleSelection,
     qx.ui.form.IModelSelection
   ],
 
-
   /**
    * @param layout {qx.ui.layout.Abstract} The new layout or
    *     <code>null</code> to reset the layout.
    */
-  construct : function(layout)
-  {
-    this.base(arguments);
+  construct(layout) {
+    super();
 
     // if no layout is given, use the default layout (VBox)
     if (layout == null) {
@@ -62,71 +59,67 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     this.__radioGroup = new qx.ui.form.RadioGroup();
 
     // attach the listener
-    this.__radioGroup.addListener("changeSelection", this._onChangeSelection, this);
+    this.__radioGroup.addListener(
+      "changeSelection",
+      this._onChangeSelection,
+      this
+    );
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Flag signaling if the group at all is valid. All children will have the
      * same state.
      */
-    valid : {
-      check : "Boolean",
-      init : true,
-      apply : "_applyValid",
-      event : "changeValid"
+    valid: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyValid",
+      event: "changeValid"
     },
 
     /**
      * Flag signaling if the group is required.
      */
-    required : {
-      check : "Boolean",
-      init : false,
-      event : "changeRequired"
+    required: {
+      check: "Boolean",
+      init: false,
+      event: "changeRequired"
     },
 
     /**
      * Message which is shown in an invalid tooltip.
      */
-    invalidMessage : {
-      check : "String",
+    invalidMessage: {
+      check: "String",
       init: "",
-      event : "changeInvalidMessage",
-      apply : "_applyInvalidMessage"
+      event: "changeInvalidMessage",
+      apply: "_applyInvalidMessage"
     },
-
 
     /**
      * Message which is shown in an invalid tooltip if the {@link #required} is
      * set to true.
      */
-    requiredInvalidMessage : {
-      check : "String",
-      nullable : true,
-      event : "changeInvalidMessage"
+    requiredInvalidMessage: {
+      check: "String",
+      nullable: true,
+      event: "changeInvalidMessage"
     }
   },
 
-
-  events :
-  {
+  events: {
     /** Fires after the value was modified */
-    "changeValue" : "qx.event.type.Data",
+    changeValue: "qx.event.type.Data",
 
     /**
      * Fires after the selection was modified
      */
-    "changeSelection" : "qx.event.type.Data"
+    changeSelection: "qx.event.type.Data"
   },
 
-
-  members :
-  {
-    __radioGroup : null,
-
+  members: {
+    __radioGroup: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -134,22 +127,20 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     ---------------------------------------------------------------------------
     */
     // property apply
-    _applyInvalidMessage : function(value, old) {
+    _applyInvalidMessage(value, old) {
       var children = this._getChildren();
       for (var i = 0; i < children.length; i++) {
         children[i].setInvalidMessage(value);
       }
     },
 
-
     // property apply
-    _applyValid: function(value, old) {
+    _applyValid(value, old) {
       var children = this._getChildren();
       for (var i = 0; i < children.length; i++) {
         children[i].setValid(value);
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -162,20 +153,18 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      *
      * @return {qx.ui.form.RadioGroup} Returns the used RadioGroup instance.
      */
-    getRadioGroup : function() {
+    getRadioGroup() {
       return this.__radioGroup;
     },
-
 
     /**
      * Returns the children list
      *
      * @return {qx.ui.core.LayoutItem[]} The children array.
      */
-    getChildren : function() {
+    getChildren() {
       return this._getChildren();
     },
-
 
     /**
      * Adds a new child widget.
@@ -187,31 +176,27 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @param child {qx.ui.core.LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      */
-    add : function(child, options) {
+    add(child, options) {
       this.__radioGroup.add(child);
       this._add(child, options);
     },
-
 
     /**
      * Remove the given child widget.
      *
      * @param child {qx.ui.core.LayoutItem} the widget to remove
      */
-    remove : function(child)
-    {
+    remove(child) {
       this.__radioGroup.remove(child);
       this._remove(child);
     },
-
 
     /**
      * Remove all children.
      *
      * @return {Array} An array of {@link qx.ui.core.LayoutItem}'s.
      */
-    removeAll : function()
-    {
+    removeAll() {
       // remove all children from the radio group
       var radioItems = this.__radioGroup.getItems();
       for (var i = radioItems.length - 1; i >= 0; i--) {
@@ -220,8 +205,6 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
 
       return this._removeAll();
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -237,10 +220,9 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      *
      * @return {qx.ui.core.Widget[]} List of items.
      */
-    getSelection : function() {
+    getSelection() {
       return this.__radioGroup.getSelection();
     },
-
 
     /**
      * Replaces current selection with the given items.
@@ -248,18 +230,16 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @param items {qx.ui.core.Widget[]} Items to select.
      * @throws {Error} if the item is not a child element.
      */
-    setSelection : function(items) {
+    setSelection(items) {
       this.__radioGroup.setSelection(items);
     },
-
 
     /**
      * Clears the whole selection at once.
      */
-    resetSelection : function() {
+    resetSelection() {
       this.__radioGroup.resetSelection();
     },
-
 
     /**
      * Detects whether the given item is currently selected.
@@ -268,20 +248,18 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @return {Boolean} Whether the item is selected.
      * @throws {Error} if the item is not a child element.
      */
-    isSelected : function(item) {
+    isSelected(item) {
       return this.__radioGroup.isSelected(item);
     },
-
 
     /**
      * Whether the selection is empty.
      *
      * @return {Boolean} Whether the selection is empty.
      */
-    isSelectionEmpty : function() {
+    isSelectionEmpty() {
       return this.__radioGroup.isSelectionEmpty();
     },
-
 
     /**
      * Returns all elements which are selectable.
@@ -290,10 +268,9 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */
-    getSelectables: function(all) {
+    getSelectables(all) {
       return this.__radioGroup.getSelectables(all);
     },
-
 
     /**
      * Select given value.
@@ -301,46 +278,53 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @param item {null|var} Item to set as selected value.
      * @return {null|Error} The status of this operation.
      */
-    setValue : function(item) {
-      if (item && 'object' === typeof item && item instanceof qx.ui.form.IRadioItem) {
+    setValue(item) {
+      if (
+        item &&
+        "object" === typeof item &&
+        item instanceof qx.ui.form.IRadioItem
+      ) {
         return this.__radioGroup.setValue(item);
       } else {
         return new Error("can not select radio item from value");
       }
     },
 
-
     /**
      * @return {null|var} Returns the selected value.
      */
-    getValue : function() {
+    getValue() {
       return this.__radioGroup.getValue();
     },
-
 
     /**
      * Reset radio item selection.
      */
-    resetValue : function() {
+    resetValue() {
       this.__radioGroup.resetValue();
     },
-
 
     /**
      * Called on {@link qx.ui.form.RadioGroup} selection change event.
      *
      * @param event {qx.event.type.Data} Event containing the {@link qx.ui.form.RadioGroup} selection data.
      */
-    _onChangeSelection : function(event) {
+    _onChangeSelection(event) {
       this.fireDataEvent("changeValue", event.getData(), event.getOldData());
-      this.fireDataEvent("changeSelection", event.getData(), event.getOldData());
+      this.fireDataEvent(
+        "changeSelection",
+        event.getData(),
+        event.getOldData()
+      );
     }
   },
 
-
-  destruct : function()
-  {
-    this.__radioGroup.removeListener("changeSelection", this._onChangeSelection, this);
+  destruct() {
+    this.__radioGroup.removeListener(
+      "changeSelection",
+      this._onChangeSelection,
+      this
+    );
     this._disposeObjects("__radioGroup");
   }
 });

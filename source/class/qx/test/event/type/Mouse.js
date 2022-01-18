@@ -16,16 +16,11 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.event.type.Mouse", {
+  extend: qx.dev.unit.TestCase,
 
-qx.Class.define("qx.test.event.type.Mouse",
-{
-  extend : qx.dev.unit.TestCase,
-
-
-  members :
-  {
-    testClone : function()
-    {
+  members: {
+    testClone() {
       var domEvent = {
         button: 2, // right button in IE and all other browsers
         clientX: 20,
@@ -39,7 +34,13 @@ qx.Class.define("qx.test.event.type.Mouse",
         detail: 20
       };
 
-      var event = new qx.event.type.MouseWheel().init(domEvent, document.body, document.body, true, true);
+      var event = new qx.event.type.MouseWheel().init(
+        domEvent,
+        document.body,
+        document.body,
+        true,
+        true
+      );
 
       var reference = {
         button: event.getButton(),

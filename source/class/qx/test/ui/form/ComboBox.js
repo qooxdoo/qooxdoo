@@ -15,48 +15,58 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ComboBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.ComboBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  include : qx.dev.unit.MMock,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    testWithSetValueWithArbitraryValue: function() {
+  members: {
+    testWithSetValueWithArbitraryValue() {
       var combobox = this.__createComboBox("arbitrary value");
       this.getRoot().add(combobox);
       this.flush();
 
-      this.assertIdentical("arbitrary value", combobox.getValue(),
-        "Wrong result from getValue()");
+      this.assertIdentical(
+        "arbitrary value",
+        combobox.getValue(),
+        "Wrong result from getValue()"
+      );
 
       combobox.open();
       this.flush();
 
-      this.assertIdentical(0, combobox.getChildrenContainer().getSelection().length,
-        "The pop-up list has an item selected!");
+      this.assertIdentical(
+        0,
+        combobox.getChildrenContainer().getSelection().length,
+        "The pop-up list has an item selected!"
+      );
 
       this.getRoot().removeAll();
       combobox.dispose();
       this.flush();
     },
 
-    testWithSetValueWith: function() {
+    testWithSetValueWith() {
       var combobox = this.__createComboBox("Item 0");
       this.getRoot().add(combobox);
       this.flush();
 
-      this.assertIdentical("Item 0", combobox.getValue(),
-        "Wrong result from getValue()");
+      this.assertIdentical(
+        "Item 0",
+        combobox.getValue(),
+        "Wrong result from getValue()"
+      );
 
       combobox.open();
       this.flush();
 
       var list = combobox.getChildrenContainer();
       var item = list.findItem("Item 0");
-      this.assertIdentical(item, list.getSelection()[0],
-        "The wrong item selected in pop-up list!");
+      this.assertIdentical(
+        item,
+        list.getSelection()[0],
+        "The wrong item selected in pop-up list!"
+      );
 
       // check if the combobox is case sensitive, [BUG #3024]
       combobox.setValue("item 2");
@@ -68,27 +78,32 @@ qx.Class.define("qx.test.ui.form.ComboBox",
       this.flush();
     },
 
-    testWithoutSetValue: function() {
+    testWithoutSetValue() {
       var combobox = this.__createComboBox();
       this.getRoot().add(combobox);
       this.flush();
 
-      this.assertIdentical(null, combobox.getValue(),
-        "Wrong result from getValue()");
+      this.assertIdentical(
+        null,
+        combobox.getValue(),
+        "Wrong result from getValue()"
+      );
 
       combobox.open();
       this.flush();
 
-      this.assertIdentical(0, combobox.getChildrenContainer().getSelection().length,
-        "The pop-up list has an item selected!");
+      this.assertIdentical(
+        0,
+        combobox.getChildrenContainer().getSelection().length,
+        "The pop-up list has an item selected!"
+      );
 
       this.getRoot().removeAll();
       combobox.dispose();
       this.flush();
     },
 
-    __createComboBox : function(initValue)
-    {
+    __createComboBox(initValue) {
       var comboBox = new qx.ui.form.ComboBox();
 
       if (initValue) {
@@ -101,6 +116,5 @@ qx.Class.define("qx.test.ui.form.ComboBox",
 
       return comboBox;
     }
-
   }
 });

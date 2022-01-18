@@ -16,34 +16,34 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io.request.XhrWithRemote",
-{
+qx.Class.define("qx.test.io.request.XhrWithRemote", {
   extend: qx.dev.unit.TestCase,
 
-  include: [qx.test.io.MRemoteTest,
-            qx.dev.unit.MRequirements],
+  include: [qx.test.io.MRemoteTest, qx.dev.unit.MRequirements],
 
-  members:
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.req = new qx.io.request.Xhr();
       this.require(["http", "php"]);
     },
 
-    tearDown: function() {
+    tearDown() {
       this.req.dispose();
     },
 
-    "test: fetch resource": function() {
-
+    "test: fetch resource"() {
       var req = this.req,
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
+        url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt"));
 
-      req.addListener("success", function(e) {
-        this.resume(function() {
-          this.assertEquals("SAMPLE", e.getTarget().getResponseText());
-        }, this);
-      }, this);
+      req.addListener(
+        "success",
+        function (e) {
+          this.resume(function () {
+            this.assertEquals("SAMPLE", e.getTarget().getResponseText());
+          }, this);
+        },
+        this
+      );
 
       req.setUrl(url);
       req.send();
@@ -51,22 +51,26 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: recycle request": function() {
+    "test: recycle request"() {
       var req = new qx.io.request.Xhr(),
-          url1 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?1"),
-          url2 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?2"),
-          count = 0;
+        url1 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?1"),
+        url2 = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt") + "?2"),
+        count = 0;
 
-      req.addListener("success", function() {
-        count++;
+      req.addListener(
+        "success",
+        function () {
+          count++;
 
-        if (count == 2) {
-          this.resume();
-        } else {
-          req.setUrl(url2);
-          req.send();
-        }
-      }, this);
+          if (count == 2) {
+            this.resume();
+          } else {
+            req.setUrl(url2);
+            req.send();
+          }
+        },
+        this
+      );
 
       req.setUrl(url1);
       req.send();
@@ -74,22 +78,25 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: progress phases": function() {
+    "test: progress phases"() {
       var req = this.req,
-          phases = [],
-          expectedPhases = ["opened", "sent", "loading", "load", "success"],
-          url = this.getUrl("qx/test/xmlhttp/sample.txt");
+        phases = [],
+        expectedPhases = ["opened", "sent", "loading", "load", "success"],
+        url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
-      req.addListener("changePhase", function() {
-        phases.push(req.getPhase());
+      req.addListener(
+        "changePhase",
+        function () {
+          phases.push(req.getPhase());
 
-        if (req.getPhase() === "success") {
-          this.resume(function() {
-            this.assertArrayEquals(expectedPhases, phases);
-          }, this);
-        }
-
-      }, this);
+          if (req.getPhase() === "success") {
+            this.resume(function () {
+              this.assertArrayEquals(expectedPhases, phases);
+            }, this);
+          }
+        },
+        this
+      );
 
       req.setUrl(url);
       req.send();
@@ -97,27 +104,30 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
-    "test: progress phases when abort after send": function() {
+    "test: progress phases when abort after send"() {
       var req = this.req,
-          phases = [],
-          expectedPhases = ["opened", "sent", "abort"],
-          url = this.getUrl("qx/test/xmlhttp/sample.txt");
+        phases = [],
+        expectedPhases = ["opened", "sent", "abort"],
+        url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
-      req.addListener("changePhase", function() {
-        phases.push(req.getPhase());
+      req.addListener(
+        "changePhase",
+        function () {
+          phases.push(req.getPhase());
 
-        if (req.getPhase() === "abort") {
-          this.assertArrayEquals(expectedPhases, phases);
-        }
-
-      }, this);
+          if (req.getPhase() === "abort") {
+            this.assertArrayEquals(expectedPhases, phases);
+          }
+        },
+        this
+      );
 
       req.setUrl(url);
       req.send();
       req.abort();
     },
 
-    "test: progress phases when abort after loading": function() {
+    "test: progress phases when abort after loading"() {
       // Note:
       //   * Breaks on Windows 7 and OS X in every browser because the loading phase
       //     is never entered
@@ -125,63 +135,84 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.require(["noIe", "noWin7", "noOsx", "noWin10"]);
 
       var req = this.req,
-          phases = [],
-          expectedPhases = ["opened", "sent", "loading", "abort"],
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+        phases = [],
+        expectedPhases = ["opened", "sent", "loading", "abort"],
+        url =
+          this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) +
+          "&duration=100";
 
-      req.addListener("changePhase", function() {
-        phases.push(req.getPhase());
+      req.addListener(
+        "changePhase",
+        function () {
+          phases.push(req.getPhase());
 
-        if (req.getPhase() === "abort") {
-          this.resume(function() {
-            this.assertArrayEquals(expectedPhases, phases);
-          });
-        }
-
-      }, this);
+          if (req.getPhase() === "abort") {
+            this.resume(function () {
+              this.assertArrayEquals(expectedPhases, phases);
+            });
+          }
+        },
+        this
+      );
 
       req.setUrl(url);
       req.send();
 
       // Abort loading. Give remote some time to respond.
-      qx.event.Timer.once(function() {
-        req.abort();
-      }, this, 500);
+      qx.event.Timer.once(
+        function () {
+          req.abort();
+        },
+        this,
+        500
+      );
 
       this.wait();
     },
 
-    "test: timeout": function() {
+    "test: timeout"() {
       var req = this.req,
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+        url =
+          this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) +
+          "&duration=100";
 
-      req.addListener("timeout", function() {
-        this.resume(function() {
-          this.assertEquals("timeout", req.getPhase());
-        });
-      }, this);
+      req.addListener(
+        "timeout",
+        function () {
+          this.resume(function () {
+            this.assertEquals("timeout", req.getPhase());
+          });
+        },
+        this
+      );
 
       req.setUrl(url);
-      req.setTimeout(1/1000);
+      req.setTimeout(1 / 1000);
       req.send();
       this.wait();
     },
 
-    "test: timeout with header call": function() {
+    "test: timeout with header call"() {
       var req = this.req,
-          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+        url =
+          this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) +
+          "&duration=100";
 
-      req.addListener("timeout", function() {
-        this.resume(function() {
-          try {
-            req.getResponseHeader("X-UI-My-Header");
-            throw new Error("DOM exception expected!");
-          } catch (ex) {}
-        });
-      }, this);
+      req.addListener(
+        "timeout",
+        function () {
+          this.resume(function () {
+            try {
+              req.getResponseHeader("X-UI-My-Header");
+              throw new Error("DOM exception expected!");
+            } catch (ex) {}
+          });
+        },
+        this
+      );
 
       req.setUrl(url);
-      req.setTimeout(1/1000);
+      req.setTimeout(1 / 1000);
       req.send();
       this.wait();
     },
@@ -221,13 +252,15 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     //   this.wait(60000 + 1000);
     // },
 
-    noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+    noCache(url) {
+      return qx.util.Uri.appendParamsToUrl(
+        url,
+        "nocache=" + new Date().valueOf()
+      );
     },
 
-    hasNoIe: function() {
+    hasNoIe() {
       return !(qx.core.Environment.get("engine.name") == "mshtml");
     }
-
   }
 });

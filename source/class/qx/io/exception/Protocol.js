@@ -20,7 +20,6 @@
  * A class for representing errors that occurred on server and are handled
  * according to the service protocol (JSON-RPC, GraphQL, etc.)
  */
-qx.Class.define("qx.io.exception.Protocol",
-{
-  extend : qx.io.exception.Exception
+qx.Class.define("qx.io.exception.Protocol", {
+  extend: qx.io.exception.Exception
 });

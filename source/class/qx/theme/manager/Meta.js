@@ -20,38 +20,30 @@
 /**
  * Manager for meta themes
  */
-qx.Class.define("qx.theme.manager.Meta",
-{
-  type : "singleton",
-  extend : qx.core.Object,
+qx.Class.define("qx.theme.manager.Meta", {
+  type: "singleton",
+  extend: qx.core.Object,
 
-  events :
-  {
+  events: {
     /** Fires if any theme manager has been changed. */
-    "changeTheme" : "qx.event.type.Event"
+    changeTheme: "qx.event.type.Event"
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * Meta theme. Applies the defined color, decoration, ... themes to
      * the corresponding managers.
      */
-    theme :
-    {
-      check : "Theme",
-      nullable : false,
-      apply : "_applyTheme"
+    theme: {
+      check: "Theme",
+      nullable: false,
+      apply: "_applyTheme"
     }
   },
 
-
-  members :
-  {
+  members: {
     // property apply
-    _applyTheme : function(value, old)
-    {
+    _applyTheme(value, old) {
       // collect changes
       var colorChanged = true;
       var decorationChanged = true;
@@ -67,7 +59,6 @@ qx.Class.define("qx.theme.manager.Meta",
         appearanceChanged = value.meta.appearance !== old.meta.appearance;
       }
 
-
       var colorMgr = qx.theme.manager.Color.getInstance();
       var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
@@ -76,7 +67,6 @@ qx.Class.define("qx.theme.manager.Meta",
 
       // suspend listeners
       this._suspendEvents();
-
 
       // apply meta changes
       if (colorChanged) {
@@ -93,7 +83,13 @@ qx.Class.define("qx.theme.manager.Meta",
       appearanceMgr.setTheme(value.meta.appearance);
 
       // fire change event only if at least one theme manager changed
-      if (colorChanged || decorationChanged || fontChanged || iconChanged || appearanceChanged) {
+      if (
+        colorChanged ||
+        decorationChanged ||
+        fontChanged ||
+        iconChanged ||
+        appearanceChanged
+      ) {
         this.fireEvent("changeTheme");
       }
 
@@ -101,17 +97,14 @@ qx.Class.define("qx.theme.manager.Meta",
       this._activateEvents();
     },
 
-
-    __timer : null,
-
+    __timer: null,
 
     /**
      * Fires <code>changeTheme</code> event.
      *
      * @param e {qx.event.type.Data} Data event.
      */
-    _fireEvent : function(e)
-    {
+    _fireEvent(e) {
       if (e.getTarget() === qx.theme.manager.Color.getInstance()) {
         // force clearing all previously created CSS rules, to be able to
         // re-create decorator rules with changed color theme
@@ -121,13 +114,11 @@ qx.Class.define("qx.theme.manager.Meta",
       this.fireEvent("changeTheme");
     },
 
-
     /**
      * Removes listeners for <code>changeTheme</code> event of all
      * related theme managers.
      */
-    _suspendEvents : function()
-    {
+    _suspendEvents() {
       var colorMgr = qx.theme.manager.Color.getInstance();
       var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
@@ -156,13 +147,11 @@ qx.Class.define("qx.theme.manager.Meta",
       }
     },
 
-
     /**
      * Activates listeners for <code>changeTheme</code> event of all related
      * theme managers, to forwards the event to this meta manager instance.
      */
-    _activateEvents : function()
-    {
+    _activateEvents() {
       var colorMgr = qx.theme.manager.Color.getInstance();
       var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
@@ -191,19 +180,16 @@ qx.Class.define("qx.theme.manager.Meta",
       }
     },
 
-
     /**
      * Initialize the themes which were selected using the settings. Should only
      * be called from qooxdoo based application.
      */
-    initialize : function()
-    {
+    initialize() {
       var env = qx.core.Environment;
       var theme, obj;
 
       theme = env.get("qx.theme");
-      if (theme)
-      {
+      if (theme) {
         obj = qx.Theme.getByName(theme);
         if (!obj) {
           throw new Error("The theme to use is not available: " + theme);
@@ -214,16 +200,13 @@ qx.Class.define("qx.theme.manager.Meta",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      ENVIRONMENT SETTINGS
   *****************************************************************************
   */
 
-  environment : {
-    "qx.theme" : "qx.theme.Modern"
+  environment: {
+    "qx.theme": "qx.theme.Modern"
   }
 });

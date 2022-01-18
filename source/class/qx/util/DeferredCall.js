@@ -22,17 +22,14 @@
  * the browser. The wrapped function will at most be called once after the control
  * has been given back to the browser, independent of the number of {@link #call}
  * calls.
- * 
+ *
  * This class does not need to be disposed, although doing so will cancel any
  * pending call
  *
  * @require(qx.util.DeferredCallManager)
  */
-qx.Class.define("qx.util.DeferredCall",
-{
-  extend : qx.core.Object,
-
-
+qx.Class.define("qx.util.DeferredCall", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -44,16 +41,13 @@ qx.Class.define("qx.util.DeferredCall",
    * @param callback {Function} The callback
    * @param context {Object?window} the context in which the function will be called.
    */
-  construct : function(callback, context)
-  {
-    this.base(arguments);
+  construct(callback, context) {
+    super();
 
     this.__callback = callback;
     this.__context = context || null;
     this.__manager = qx.util.DeferredCallManager.getInstance();
   },
-
-
 
   /*
   *****************************************************************************
@@ -61,50 +55,48 @@ qx.Class.define("qx.util.DeferredCall",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    __callback : null,
-    __context : null,
-    __manager : null,
+  members: {
+    __callback: null,
+    __context: null,
+    __manager: null,
 
     /**
      * Prevent the callback from being called.
      */
-    cancel : function() {
+    cancel() {
       this.__manager.cancel(this);
     },
-
 
     /**
      * Issue a deferred call of the callback.
      */
-    schedule : function() {
+    schedule() {
       this.__manager.schedule(this);
     },
-
 
     /**
      * Calls the callback directly.
      */
-    call : function() {
-
+    call() {
       if (qx.core.Environment.get("qx.debug")) {
         // warn if the context is disposed
         var context = this.__context;
         if (context && context.isDisposed && context.isDisposed()) {
           this.warn(
-            "The context object '" + context + "' of the defered call '" +
-            this + "'is already disposed."
+            "The context object '" +
+              context +
+              "' of the defered call '" +
+              this +
+              "'is already disposed."
           );
         }
       }
 
-      this.__context ? this.__callback.apply(this.__context) : this.__callback();
+      this.__context
+        ? this.__callback.apply(this.__context)
+        : this.__callback();
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -112,8 +104,7 @@ qx.Class.define("qx.util.DeferredCall",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.cancel();
     this.__context = this.__callback = this.__manager = null;
   }

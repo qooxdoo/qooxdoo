@@ -18,14 +18,14 @@
  *    Authors:
  *      * John Spackman (john.spackman@zenesis.com, @johnspackman)
  *
- * 
+ *
  * *********************************************************************** */
- 
+
 /**
  * @require(qx.tool.utils.Logger)
  */
 
-var LEVELS = [ "trace", "debug", "info", "warn", "error", "fatal" ];
+var LEVELS = ["trace", "debug", "info", "warn", "error", "fatal"];
 
 function zeropad2(val) {
   if (val < 10) {
@@ -60,8 +60,8 @@ function rpad(str, len) {
 qx.Class.define("qx.tool.utils.LogManager", {
   extend: qx.core.Object,
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
     var t = this;
     this._loggers = {};
     this._levels = {};
@@ -69,7 +69,7 @@ qx.Class.define("qx.tool.utils.LogManager", {
     this._config = {};
     this._defaultSink = qx.tool.utils.LogManager.consoleSink;
     this.addSink(this._defaultSink);
-    LEVELS.forEach(function(levelId, index) {
+    LEVELS.forEach(function (levelId, index) {
       t._levels[levelId] = index;
     });
     this._defaultLevel = this._levels.info;
@@ -77,13 +77,13 @@ qx.Class.define("qx.tool.utils.LogManager", {
 
   statics: {
     __instance: null,
-    
+
     /**
      * create a logger for a specified category
-     * 
-     * @param {*} categoryName 
+     *
+     * @param {*} categoryName
      */
-    createLog: function(categoryName) {
+    createLog(categoryName) {
       if (!categoryName) {
         categoryName = "generic";
       }
@@ -94,27 +94,47 @@ qx.Class.define("qx.tool.utils.LogManager", {
      * Returns the global instance
      * @returns {null}
      */
-    getInstance: function() {
+    getInstance() {
       if (!this.__instance) {
         this.__instance = new qx.tool.utils.LogManager();
       }
       return this.__instance;
     },
 
-    nullSink: function(logger, level, msg) {
+    nullSink(logger, level, msg) {
       // Nothing
     },
 
-    consoleSink: function(logger, level, msg) {
+    consoleSink(logger, level, msg) {
       var dt = new Date();
-      var str = dt.getFullYear() + "-" + zeropad2(dt.getMonth() + 1) + "-" + zeropad2(dt.getDate()) + " " +
-          zeropad2(dt.getHours()) + ":" + zeropad2(dt.getMinutes()) + ":" + zeropad2(dt.getSeconds()) + "." + zeropad3(dt.getMilliseconds());
-      console.log(str + " [" + rpad(level, 5) + "] " + rpad(logger.getId(), 15, true) + " " + msg);
+      var str =
+        dt.getFullYear() +
+        "-" +
+        zeropad2(dt.getMonth() + 1) +
+        "-" +
+        zeropad2(dt.getDate()) +
+        " " +
+        zeropad2(dt.getHours()) +
+        ":" +
+        zeropad2(dt.getMinutes()) +
+        ":" +
+        zeropad2(dt.getSeconds()) +
+        "." +
+        zeropad3(dt.getMilliseconds());
+      console.log(
+        str +
+          " [" +
+          rpad(level, 5) +
+          "] " +
+          rpad(logger.getId(), 15, true) +
+          " " +
+          msg
+      );
     }
   },
 
   members: {
-    loadConfig: async function(config) {
+    async loadConfig(config) {
       if (typeof config == "string") {
         config = await qx.tool.utils.Json.loadJsonAsync(config);
       }
@@ -128,16 +148,20 @@ qx.Class.define("qx.tool.utils.LogManager", {
       }
     },
 
-    getLogger: function(id) {
+    getLogger(id) {
       var logger = this._loggers[id];
       if (!logger) {
-        logger = this._loggers[id] = new qx.tool.utils.Logger(id, this.getLoggerLevel(id));
+        logger = this._loggers[id] = new qx.tool.utils.Logger(
+          id,
+          this.getLoggerLevel(id)
+        );
       }
       return logger;
     },
 
-    getLoggerLevel: function(id, defaultLevel) {
-      var cat = this._config && this._config.categories && this._config.categories[id];
+    getLoggerLevel(id, defaultLevel) {
+      var cat =
+        this._config && this._config.categories && this._config.categories[id];
       var level = cat && cat.level;
       if (level) {
         level = this._levels[level];
@@ -151,27 +175,27 @@ qx.Class.define("qx.tool.utils.LogManager", {
       return this._defaultLevel;
     },
 
-    addSink: function(sink) {
+    addSink(sink) {
       this._sinks.push(sink);
     },
 
-    removeSink: function(sink) {
+    removeSink(sink) {
       var index = this._sinks.indexOf(sink);
       if (index > -1) {
         this._sinks.splice(index, 1);
       }
     },
 
-    output: function(logger, level, msg) {
+    output(logger, level, msg) {
       if (typeof level != "string") {
         level = LEVELS[level];
       }
-      this._sinks.forEach(function(sink) {
+      this._sinks.forEach(function (sink) {
         sink.call(this, logger, level, msg);
       });
     },
 
-    setDefaultSink: function(sink) {
+    setDefaultSink(sink) {
       var oldSink = this._defaultSink;
       if (this._defaultSink) {
         this.removeSink(this._defaultSink);
