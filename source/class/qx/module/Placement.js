@@ -25,7 +25,6 @@
  * @require(qx.util.placement.DirectAxis#computeStart)
  */
 qx.Bootstrap.define("qx.module.Placement", {
-
   statics: {
     /**
      * Returns the appropriate axis implementation for the given placement
@@ -34,10 +33,8 @@ qx.Bootstrap.define("qx.module.Placement", {
      * @param mode {String} Placement mode
      * @return {Object} Placement axis class
      */
-    _getAxis : function(mode)
-    {
-      switch(mode)
-      {
+    _getAxis(mode) {
+      switch (mode) {
         case "keep-align":
           return qx.util.placement.KeepAlignAxis;
 
@@ -69,20 +66,19 @@ qx.Bootstrap.define("qx.module.Placement", {
      * @return {Map} Map with the keys <code>left</code> and <code>top</code>
      * containing the computed coordinates to which the element should be moved
      */
-    _computePlacement : function(axes, size, area, target, offsets, position)
-    {
+    _computePlacement(axes, size, area, target, offsets, position) {
       var left = axes.x.computeStart(
         size.width,
-        {start: target.left, end: target.right},
-        {start: offsets.left, end: offsets.right},
+        { start: target.left, end: target.right },
+        { start: offsets.left, end: offsets.right },
         area.width,
         position.x
       );
 
       var top = axes.y.computeStart(
         size.height,
-        {start: target.top, end: target.bottom},
-        {start: offsets.top, end: offsets.bottom},
+        { start: target.top, end: target.bottom },
+        { start: offsets.top, end: offsets.bottom },
         area.height,
         position.y
       );
@@ -93,7 +89,6 @@ qx.Bootstrap.define("qx.module.Placement", {
       };
     },
 
-
     /**
      * Returns the X axis positioning type for the given edge and alignment
      * values
@@ -102,8 +97,7 @@ qx.Bootstrap.define("qx.module.Placement", {
      * @param align {String} align value
      * @return {String} X positioning type
      */
-    _getPositionX : function(edge, align)
-    {
+    _getPositionX(edge, align) {
       if (edge == "left") {
         return "edge-start";
       } else if (edge == "right") {
@@ -117,7 +111,6 @@ qx.Bootstrap.define("qx.module.Placement", {
       }
     },
 
-
     /**
      * Returns the Y axis positioning type for the given edge and alignment
      * values
@@ -126,8 +119,7 @@ qx.Bootstrap.define("qx.module.Placement", {
      * @param align {String} align value
      * @return {String} Y positioning type
      */
-    _getPositionY : function(edge, align)
-    {
+    _getPositionY(edge, align) {
       if (edge == "top") {
         return "edge-start";
       } else if (edge == "bottom") {
@@ -142,8 +134,7 @@ qx.Bootstrap.define("qx.module.Placement", {
     }
   },
 
-  members :
-  {
+  members: {
     /**
      * Moves the first element in the collection, aligning it with the given
      * target.
@@ -188,7 +179,7 @@ qx.Bootstrap.define("qx.module.Placement", {
      *   the 'modeX' argument.
      * @return {qxWeb} The collection for chaining
      */
-    placeTo : function(target, position, offsets, modeX, modeY) {
+    placeTo(target, position, offsets, modeX, modeY) {
       if (!this[0] || !target) {
         return this;
       }
@@ -198,7 +189,10 @@ qx.Bootstrap.define("qx.module.Placement", {
       // make sure the DOM elements are rendered so we can get the size of them.
       // It's not necessary to move them out of the viewport - just out of the
       // layout flow.
-      var visible = this.isRendered() && this[0].offsetWidth > 0 && this[0].offsetHeight > 0;
+      var visible =
+        this.isRendered() &&
+        this[0].offsetWidth > 0 &&
+        this[0].offsetHeight > 0;
       var displayStyleValue = null;
       var visibilityStyleValue = null;
       if (!visible) {
@@ -214,8 +208,8 @@ qx.Bootstrap.define("qx.module.Placement", {
       }
 
       var axes = {
-        x : qx.module.Placement._getAxis(modeX),
-        y : qx.module.Placement._getAxis(modeY)
+        x: qx.module.Placement._getAxis(modeX),
+        y: qx.module.Placement._getAxis(modeY)
       };
 
       var size = {
@@ -225,8 +219,8 @@ qx.Bootstrap.define("qx.module.Placement", {
 
       var parent = this.getParents();
       var area = {
-        width : parent.getWidth(),
-        height : parent.getHeight()
+        width: parent.getWidth(),
+        height: parent.getHeight()
       };
 
       offsets = offsets || {
@@ -241,8 +235,8 @@ qx.Bootstrap.define("qx.module.Placement", {
       var align = split[1];
 
       var newPosition = {
-        x : qx.module.Placement._getPositionX(edge,align),
-        y : qx.module.Placement._getPositionY(edge,align)
+        x: qx.module.Placement._getPositionX(edge, align),
+        y: qx.module.Placement._getPositionY(edge, align)
       };
 
       var targetLocation;
@@ -259,15 +253,22 @@ qx.Bootstrap.define("qx.module.Placement", {
         };
       }
 
-      var newLocation = qx.module.Placement._computePlacement(axes, size, area, targetLocation, offsets, newPosition);
+      var newLocation = qx.module.Placement._computePlacement(
+        axes,
+        size,
+        area,
+        targetLocation,
+        offsets,
+        newPosition
+      );
 
       while (parent.length > 0) {
-        if (parent.getStyle("position") == "relative" ) {
+        if (parent.getStyle("position") == "relative") {
           var offset = parent.getOffset();
           var borderTop = parseInt(parent.getStyle("border-top-width")) || 0;
           var borderLeft = parseInt(parent.getStyle("border-left-width")) || 0;
-          newLocation.left -= (offset.left + borderLeft);
-          newLocation.top -= (offset.top + borderTop);
+          newLocation.left -= offset.left + borderLeft;
+          newLocation.top -= offset.top + borderTop;
           parent = [];
         } else {
           parent = parent.getParents();
@@ -290,8 +291,7 @@ qx.Bootstrap.define("qx.module.Placement", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

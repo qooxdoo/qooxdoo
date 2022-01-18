@@ -26,15 +26,13 @@
  * @ignore(qx.bom.Font)
  * @ignore(qx.theme.manager.Font)
  */
-qx.Class.define("qx.dev.Debug",
-{
-  statics :
-  {
+qx.Class.define("qx.dev.Debug", {
+  statics: {
     /**
      * Flag that shows whether dispose profiling is currently active
      * @internal
      */
-    disposeProfilingActive : false,
+    disposeProfilingActive: false,
 
     /**
      * Recursively display an object (as a debug message)
@@ -51,14 +49,12 @@ qx.Class.define("qx.dev.Debug",
      *   be displayed.
      *
      */
-    debugObject : function(obj, initialMessage, maxLevel)
-    {
+    debugObject(obj, initialMessage, maxLevel) {
       // We've compiled the complete message.  Give 'em what they came for!
-      qx.log.Logger.debug(this,
-                          qx.dev.Debug.debugObjectToString(obj,
-                                                           initialMessage,
-                                                           maxLevel,
-                                                           false));
+      qx.log.Logger.debug(
+        this,
+        qx.dev.Debug.debugObjectToString(obj, initialMessage, maxLevel, false)
+      );
     },
 
     /**
@@ -84,11 +80,9 @@ qx.Class.define("qx.dev.Debug",
      *
      * @lint ignoreUnused(prop)
      */
-    debugObjectToString : function(obj, initialMessage, maxLevel, bHtml)
-    {
+    debugObjectToString(obj, initialMessage, maxLevel, bHtml) {
       // If a maximum recursion level was not specified...
-      if (!maxLevel)
-      {
+      if (!maxLevel) {
         // ... then create one arbitrarily
         maxLevel = 10;
       }
@@ -96,22 +90,16 @@ qx.Class.define("qx.dev.Debug",
       // If they want html, the differences are "<br>" instead of "\n"
       // and how we do the indentation.  Define the end-of-line string
       // and a start-of-line function.
-      var eol = (bHtml ? "</span><br>" : "\n");
-      var sol = function(currentLevel)
-      {
+      var eol = bHtml ? "</span><br>" : "\n";
+      var sol = function (currentLevel) {
         var indentStr;
-        if (! bHtml)
-        {
+        if (!bHtml) {
           indentStr = "";
-          for (var i = 0; i < currentLevel; i++)
-          {
+          for (var i = 0; i < currentLevel; i++) {
             indentStr += "  ";
           }
-        }
-        else
-        {
-          indentStr =
-            "<span style='padding-left:" + (currentLevel * 8) + "px;'>";
+        } else {
+          indentStr = "<span style='padding-left:" + currentLevel * 8 + "px;'>";
         }
         return indentStr;
       };
@@ -120,66 +108,47 @@ qx.Class.define("qx.dev.Debug",
       var message = "";
 
       // Function to recursively display an object
-      var displayObj = function(obj, level, maxLevel)
-      {
+      var displayObj = function (obj, level, maxLevel) {
         // If we've exceeded the maximum recursion level...
-        if (level > maxLevel)
-        {
+        if (level > maxLevel) {
           // ... then tell 'em so, and get outta dodge.
-          message += (
-            sol(level) +
-              "*** TOO MUCH RECURSION: not displaying ***" +
-              eol);
+          message +=
+            sol(level) + "*** TOO MUCH RECURSION: not displaying ***" + eol;
           return;
         }
 
         // Is this an ordinary non-recursive item?
-        if (typeof (obj) != "object")
-        {
+        if (typeof obj != "object") {
           // Yup.  Just add it to the message.
           message += sol(level) + obj + eol;
           return;
         }
 
         // We have an object  or array.  For each child...
-        for (var prop in obj)
-        {
+        for (var prop in obj) {
           // Is this child a recursive item?
-          if (typeof (obj[prop]) == "object")
-          {
-            try
-            {
+          if (typeof obj[prop] == "object") {
+            try {
               // Yup.  Determine the type and add it to the message
-              if (obj[prop] instanceof Array)
-              {
+              if (obj[prop] instanceof Array) {
                 message += sol(level) + prop + ": " + "Array" + eol;
-              }
-              else if (obj[prop] === null)
-              {
+              } else if (obj[prop] === null) {
                 message += sol(level) + prop + ": " + "null" + eol;
                 continue;
-              }
-              else if (obj[prop] === undefined)
-              {
+              } else if (obj[prop] === undefined) {
                 message += sol(level) + prop + ": " + "undefined" + eol;
                 continue;
-              }
-              else
-              {
+              } else {
                 message += sol(level) + prop + ": " + "Object" + eol;
               }
 
               // Recurse into it to display its children.
               displayObj(obj[prop], level + 1, maxLevel);
-            }
-            catch (e)
-            {
+            } catch (e) {
               message +=
                 sol(level) + prop + ": EXCEPTION expanding property" + eol;
             }
-          }
-          else
-          {
+          } else {
             // We have an ordinary non-recursive item.  Add it to the message.
             message += sol(level) + prop + ": " + obj[prop] + eol;
           }
@@ -187,21 +156,16 @@ qx.Class.define("qx.dev.Debug",
       };
 
       // Was an initial message provided?
-      if (initialMessage)
-      {
+      if (initialMessage) {
         // Yup.  Add it to the displayable message.
         message += sol(0) + initialMessage + eol;
       }
 
-      if (obj instanceof Array)
-      {
+      if (obj instanceof Array) {
         message += sol(0) + "Array, length=" + obj.length + ":" + eol;
-      }
-      else if (typeof(obj) == "object")
-      {
+      } else if (typeof obj == "object") {
         var count = 0;
-        for (var prop in obj)
-        {
+        for (var prop in obj) {
           count++;
         }
         message += sol(0) + "Object, count=" + count + ":" + eol;
@@ -212,13 +176,10 @@ qx.Class.define("qx.dev.Debug",
         "------------------------------------------------------------" +
         eol;
 
-      try
-      {
+      try {
         // Recursively display this object
         displayObj(obj, 0, maxLevel);
-      }
-      catch(ex)
-      {
+      } catch (ex) {
         message += sol(0) + "*** EXCEPTION (" + ex + ") ***" + eol;
       }
 
@@ -229,7 +190,6 @@ qx.Class.define("qx.dev.Debug",
 
       return message;
     },
-
 
     /**
      * Get the name of a member/static function or constructor defined using the new style class definition.
@@ -242,20 +202,18 @@ qx.Class.define("qx.dev.Debug",
      * @param functionType {String?"all"} Where to look for the function. Possible values are "members", "statics", "constructor", "all"
      * @return {String|null} Name of the function (null if not found).
      */
-    getFunctionName: function(func, functionType)
-    {
+    getFunctionName(func, functionType) {
       var clazz = func.self;
       if (!clazz) {
         return null;
       }
 
       // unwrap
-      while(func.wrapper) {
+      while (func.wrapper) {
         func = func.wrapper;
       }
 
-      switch (functionType)
-      {
+      switch (functionType) {
         case "construct":
           return func == clazz ? "construct" : null;
 
@@ -279,7 +237,6 @@ qx.Class.define("qx.dev.Debug",
       }
     },
 
-
     /**
      * Returns a string representing the given model. The string will include
      * all model objects to a given recursive depth.
@@ -293,7 +250,7 @@ qx.Class.define("qx.dev.Debug",
      *
      * @return {String} A string representation of the given model.
      */
-    debugProperties: function(model, maxLevel, html, indent) {
+    debugProperties(model, maxLevel, html, indent) {
       // set the default max depth of the recursion
       if (maxLevel == null) {
         maxLevel = 10;
@@ -304,19 +261,18 @@ qx.Class.define("qx.dev.Debug",
       }
 
       var newLine = "";
-      html ? newLine = "<br>" : newLine = "\r\n";
+      html ? (newLine = "<br>") : (newLine = "\r\n");
 
       var message = "";
 
       if (
-        qx.lang.Type.isNumber(model)
-        || qx.lang.Type.isString(model)
-        || qx.lang.Type.isBoolean(model)
-        || model == null
-        || maxLevel <= 0
+        qx.lang.Type.isNumber(model) ||
+        qx.lang.Type.isString(model) ||
+        qx.lang.Type.isBoolean(model) ||
+        model == null ||
+        maxLevel <= 0
       ) {
         return model;
-
       } else if (qx.Class.hasInterface(model.constructor, qx.data.IListData)) {
         // go threw the data structure
         for (var i = 0; i < model.length; i++) {
@@ -324,12 +280,19 @@ qx.Class.define("qx.dev.Debug",
           for (var j = 0; j < indent; j++) {
             message += "-";
           }
-          message += "index(" + i + "): "
-            + this.debugProperties(model.getItem(i), maxLevel - 1, html, indent + 1)
-            + newLine;
+          message +=
+            "index(" +
+            i +
+            "): " +
+            this.debugProperties(
+              model.getItem(i),
+              maxLevel - 1,
+              html,
+              indent + 1
+            ) +
+            newLine;
         }
         return message + newLine;
-
       } else if (model.constructor != null) {
         // go threw all properties
         var properties = model.constructor.$$properties;
@@ -339,15 +302,21 @@ qx.Class.define("qx.dev.Debug",
           for (var j = 0; j < indent; j++) {
             message += "-";
           }
-          message += " " + key + ": " + this.debugProperties(
-            model["get" + qx.lang.String.firstUp(key)](), maxLevel - 1, html, indent + 1
-          );
+          message +=
+            " " +
+            key +
+            ": " +
+            this.debugProperties(
+              model["get" + qx.lang.String.firstUp(key)](),
+              maxLevel - 1,
+              html,
+              indent + 1
+            );
         }
         return message;
       }
       return "";
     },
-
 
     /**
      * Starts a dispose profiling session. Use {@link #stopDisposeProfiling} to
@@ -357,16 +326,15 @@ qx.Class.define("qx.dev.Debug",
      *   Returns a handle which may be passed to {@link #stopDisposeProfiling}
      *   indicating the start point for searching for undisposed objects.
      */
-    startDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
-      "true" : function() {
+    startDisposeProfiling: qx.core.Environment.select("qx.debug.dispose", {
+      true() {
         this.disposeProfilingActive = true;
         this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
         return this.__nextHashFirst;
       },
 
-      "default" : (function() {})
+      default() {}
     }),
-
 
     /**
      * Returns a list of any (qx) objects that were created but not disposed
@@ -383,23 +351,28 @@ qx.Class.define("qx.dev.Debug",
      * @return {Map[]} List of maps. Each map contains two keys:
      * <code>object</code> and <code>stackTrace</code>
      */
-    stopDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
-      "true" : function(checkFunction, startHandle) {
+    stopDisposeProfiling: qx.core.Environment.select("qx.debug.dispose", {
+      true(checkFunction, startHandle) {
         if (!this.__nextHashFirst) {
-          qx.log.Logger.error("Call " + this.classname + ".startDisposeProfiling first.");
+          qx.log.Logger.error(
+            "Call " + this.classname + ".startDisposeProfiling first."
+          );
           return [];
         }
 
         //qx.core.ObjectRegistry.saveStackTraces = false;
         this.disposeProfilingActive = false;
 
-        var undisposedObjects = this.showDisposeProfiling(checkFunction, startHandle || this.__nextHashFirst);
+        var undisposedObjects = this.showDisposeProfiling(
+          checkFunction,
+          startHandle || this.__nextHashFirst
+        );
 
         delete this.__nextHashFirst;
         return undisposedObjects;
       },
 
-      "default" : (function() {})
+      default() {}
     }),
 
     /**
@@ -418,8 +391,8 @@ qx.Class.define("qx.dev.Debug",
      * @return {Map[]} List of maps. Each map contains two keys:
      * <code>object</code> and <code>stackTrace</code>
      */
-    showDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
-      "true" : function(checkFunction) {
+    showDisposeProfiling: qx.core.Environment.select("qx.debug.dispose", {
+      true(checkFunction) {
         var undisposedObjects = [];
         // If destroy calls another destroy, flushing the queue once is not enough
         if (qx.Class.getByName("qx.ui.core.queue.Dispose")) {
@@ -430,13 +403,16 @@ qx.Class.define("qx.dev.Debug",
         var nextHashLast = qx.core.ObjectRegistry.getNextHash();
         var postId = qx.core.ObjectRegistry.getPostId();
         var traces = qx.core.ObjectRegistry.getStackTraces();
-        for (var hash = this.__nextHashFirst; hash<nextHashLast; hash++) {
+        for (var hash = this.__nextHashFirst; hash < nextHashLast; hash++) {
           var obj = qx.core.ObjectRegistry.fromHashCode(hash + postId);
           if (obj && obj.isDisposed && !obj.isDisposed()) {
             // User-defined check
-            if (checkFunction && typeof checkFunction == "function" &&
-              !checkFunction(obj)) {
-                continue;
+            if (
+              checkFunction &&
+              typeof checkFunction == "function" &&
+              !checkFunction(obj)
+            ) {
+              continue;
             }
             // Singleton instances
             if (obj.constructor.$$instance === obj) {
@@ -451,10 +427,12 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic decorators
-            if (qx.Interface.getByName("qx.ui.decoration.IDecorator") &&
-                qx.Class.getByName("qx.theme.manager.Decoration") && 
-                qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
-              qx.theme.manager.Decoration.getInstance().isCached(obj)) {
+            if (
+              qx.Interface.getByName("qx.ui.decoration.IDecorator") &&
+              qx.Class.getByName("qx.theme.manager.Decoration") &&
+              qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
+              qx.theme.manager.Decoration.getInstance().isCached(obj)
+            ) {
               continue;
             }
             // ignored objects
@@ -462,15 +440,17 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic fonts
-            if (qx.Class.getByName("qx.bom.Font") && 
-                obj instanceof qx.bom.Font &&
-                qx.Class.getByName("qx.theme.manager.Font") &&
-                qx.theme.manager.Font.getInstance().isDynamic(obj)) {
+            if (
+              qx.Class.getByName("qx.bom.Font") &&
+              obj instanceof qx.bom.Font &&
+              qx.Class.getByName("qx.theme.manager.Font") &&
+              qx.theme.manager.Font.getInstance().isDynamic(obj)
+            ) {
               continue;
             }
             undisposedObjects.push({
-              object : obj,
-              stackTrace : traces[hash + postId] ? traces[hash + postId] : null
+              object: obj,
+              stackTrace: traces[hash + postId] ? traces[hash + postId] : null
             });
           }
         }
@@ -478,7 +458,7 @@ qx.Class.define("qx.dev.Debug",
         return undisposedObjects;
       },
 
-      "default" : (function() {})
+      default() {}
     })
   }
 });

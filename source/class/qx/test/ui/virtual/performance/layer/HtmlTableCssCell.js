@@ -17,51 +17,40 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
-{
-  extend : qx.ui.virtual.layer.Abstract,
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell", {
+  extend: qx.ui.virtual.layer.Abstract,
 
-  construct : function(htmlCellProvider)
-  {
-    this.base(arguments);
+  construct(htmlCellProvider) {
+    super();
     this._cellProvider = htmlCellProvider;
 
     var clazz = qx.test.ui.virtual.performance.layer.HtmlTableCssCell;
-    if (!clazz.__style)
-    {
+    if (!clazz.__style) {
       var stylesheet =
         "table.qooxdoo-table {" +
-        qx.bom.element.Style.compile(
-        {
-          "tableLayout" : "fixed",
-          "borderCollapse" : "collapse",
-          "margin" : "0px",
-          "padding" : "0px"
+        qx.bom.element.Style.compile({
+          tableLayout: "fixed",
+          borderCollapse: "collapse",
+          margin: "0px",
+          padding: "0px"
         }) +
         "} " +
-
         "table.qooxdoo-table tr {" +
-        qx.bom.element.Style.compile(
-        {
-          "margin": "0px",
-          "padding": "0px"
+        qx.bom.element.Style.compile({
+          margin: "0px",
+          padding: "0px"
         }) +
         "} " +
-
         "table.qooxdoo-table tr td {" +
-        qx.bom.element.Style.compile(
-        {
-          "margin" : "0px",
-          "padding" : "0px"
+        qx.bom.element.Style.compile({
+          margin: "0px",
+          padding: "0px"
         }) +
         "} ";
 
       clazz.__style = qx.bom.Stylesheet.createElement(stylesheet);
     }
-
-
   },
-
 
   /*
   *****************************************************************************
@@ -69,13 +58,8 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
   *****************************************************************************
   */
 
-  members :
-  {
-    _fullUpdate : function(
-      firstRow, firstColumn,
-      rowSizes, columnSizes
-    )
-    {
+  members: {
+    _fullUpdate(firstRow, firstColumn, rowSizes, columnSizes) {
       var html = [];
       var left = 0;
       var top = 0;
@@ -83,28 +67,29 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
       var column = firstColumn;
 
       html.push('<table class="qooxdoo-table">');
-      html.push('<colgroup>');
-      for(var y=0; y<columnSizes.length; y++) {
-       html.push('<col width=' + columnSizes[y] + '>');
+      html.push("<colgroup>");
+      for (var y = 0; y < columnSizes.length; y++) {
+        html.push("<col width=" + columnSizes[y] + ">");
       }
-      html.push('</colgroup>');
+      html.push("</colgroup>");
 
-      for (var x=0; x<rowSizes.length; x++)
-      {
+      for (var x = 0; x < rowSizes.length; x++) {
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[x];
 
-        html.push('<tr height=' + height + '>');
-        for(var y=0; y<columnSizes.length; y++)
-        {
+        html.push("<tr height=" + height + ">");
+        for (var y = 0; y < columnSizes.length; y++) {
           var width = columnSizes[y];
 
           html.push(
             this._cellProvider.getCellHtml(
-              row, column,
-              left, top,
-              width, height
+              row,
+              column,
+              left,
+              top,
+              width,
+              height
             )
           );
 

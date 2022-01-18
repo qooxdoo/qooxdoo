@@ -19,14 +19,11 @@
 /**
  * @require(qx.lang.normalize.Error)
  */
-qx.Class.define("qx.test.lang.normalize.Error",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.normalize.Error", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testToString : function()
-    {
+  members: {
+    testToString() {
       var msg = "Dummer Fehler";
       var error = new Error(msg);
       this.assertTrue(qx.lang.String.contains(error.toString(), msg));

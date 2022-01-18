@@ -23,13 +23,11 @@
  * @childControl sort-icon {qx.ui.basic.Image} sort icon of the header cell
  * @childControl icon {qx.ui.basic.Image} icon of the header cell
  */
-qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
-{
-  extend : qx.ui.container.Composite,
+qx.Class.define("qx.ui.table.headerrenderer.HeaderCell", {
+  extend: qx.ui.container.Composite,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var layout = new qx.ui.layout.Grid();
     layout.setRowFlex(0, 1);
@@ -41,48 +39,41 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     this.getContentElement().setAttribute("role", "columnheader");
   },
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "table-header-cell"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "table-header-cell"
     },
 
     /** header cell label */
-    label :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applyLabel"
+    label: {
+      check: "String",
+      init: null,
+      nullable: true,
+      apply: "_applyLabel"
     },
 
     /** The icon URL of the sorting indicator */
-    sortIcon :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applySortIcon",
-      themeable : true
+    sortIcon: {
+      check: "String",
+      init: null,
+      nullable: true,
+      apply: "_applySortIcon",
+      themeable: true
     },
 
     /** Icon URL */
-    icon :
-    {
-      check : "String",
-      init : null,
-      nullable : true,
-      apply : "_applyIcon"
+    icon: {
+      check: "String",
+      init: null,
+      nullable: true,
+      apply: "_applyIcon"
     }
   },
 
-  members :
-  {
+  members: {
     // property apply
-    _applyLabel : function(value, old)
-    {
+    _applyLabel(value, old) {
       if (value) {
         this._showChildControl("label").setValue(value);
       } else {
@@ -90,10 +81,8 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       }
     },
 
-
     // property apply
-    _applySortIcon : function(value, old)
-    {
+    _applySortIcon(value, old) {
       if (value) {
         this._showChildControl("sort-icon").setSource(value);
       } else {
@@ -101,10 +90,8 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       }
     },
 
-
     // property apply
-    _applyIcon : function(value, old)
-    {
+    _applyIcon(value, old) {
       if (value) {
         this._showChildControl("icon").setSource(value);
       } else {
@@ -112,27 +99,24 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       }
     },
 
-
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "label":
           control = new qx.ui.basic.Label(this.getLabel()).set({
             anonymous: true,
             allowShrinkX: true
           });
 
-          this._add(control, {row: 0, column: 1});
+          this._add(control, { row: 0, column: 1 });
           break;
 
         case "sort-icon":
           control = new qx.ui.basic.Image(this.getSortIcon());
           control.setAnonymous(true);
-          this._add(control, {row: 0, column: 2});
+          this._add(control, { row: 0, column: 2 });
           break;
 
         case "icon":
@@ -140,11 +124,12 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
             anonymous: true,
             allowShrinkX: true
           });
-          this._add(control, {row: 0, column: 0});
+
+          this._add(control, { row: 0, column: 0 });
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     }
   }
 });

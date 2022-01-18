@@ -42,10 +42,8 @@
  * This example create a widget to display the label.
  *
  */
-qx.Class.define("qx.ui.mobile.form.Label",
-{
-  extend : qx.ui.mobile.core.Widget,
-
+qx.Class.define("qx.ui.mobile.form.Label", {
+  extend: qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
@@ -56,28 +54,32 @@ qx.Class.define("qx.ui.mobile.form.Label",
   /**
    * @param value {String?null} Text or HTML content to display
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
     if (value) {
       this.setValue(value);
     }
 
     this.addCssClass("gap");
-    this._setLayout(new qx.ui.mobile.layout.HBox().set({
-      "alignY": "middle",
-      "alignX": "left"
-    }));
+    this._setLayout(
+      new qx.ui.mobile.layout.HBox().set({
+        alignY: "middle",
+        alignX: "left"
+      })
+    );
+
     this.initWrap();
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
 
     this.addListener("tap", this._onTap, this);
   },
-
-
 
   /*
   *****************************************************************************
@@ -85,49 +87,38 @@ qx.Class.define("qx.ui.mobile.form.Label",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "label"
+    defaultCssClass: {
+      refine: true,
+      init: "label"
     },
-
 
     /**
      * Text or HTML content to display
      */
-    value :
-    {
-      nullable : true,
-      init : null,
-      apply : "_applyValue",
-      event : "changeValue"
+    value: {
+      nullable: true,
+      init: null,
+      apply: "_applyValue",
+      event: "changeValue"
     },
-
 
     // overridden
-    anonymous :
-    {
-      refine : true,
-      init : false
+    anonymous: {
+      refine: true,
+      init: false
     },
-
 
     /**
      * Controls whether text wrap is activated or not.
      */
-    wrap :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyWrap"
+    wrap: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyWrap"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -135,21 +126,16 @@ qx.Class.define("qx.ui.mobile.form.Label",
   *****************************************************************************
   */
 
-  members :
-  {
-    __forWidget : null,
+  members: {
+    __forWidget: null,
 
-
-     // overridden
-    _getTagName : function()
-    {
+    // overridden
+    _getTagName() {
       return "label";
     },
 
-
     // property apply
-    _applyValue : function(value, old)
-    {
+    _applyValue(value, old) {
       var html = value;
 
       // [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout.
@@ -159,10 +145,8 @@ qx.Class.define("qx.ui.mobile.form.Label",
       this._setHtml(html);
     },
 
-
     // property apply
-    _applyWrap : function(value, old)
-    {
+    _applyWrap(value, old) {
       if (value) {
         this.removeCssClass("no-wrap");
       } else {
@@ -170,17 +154,15 @@ qx.Class.define("qx.ui.mobile.form.Label",
       }
     },
 
-
     /**
-    * Event handler for the <code>changeEnabled</code> event on the target.
-    * @param evt {qx.event.type.Data} the changeEnabled event.
-    */
-    _changeEnabled: function(evt) {
+     * Event handler for the <code>changeEnabled</code> event on the target.
+     * @param evt {qx.event.type.Data} the changeEnabled event.
+     */
+    _changeEnabled(evt) {
       if (evt) {
         this.setEnabled(evt.getData());
       }
     },
-
 
     /**
      * Setter for the "for" attribute of this label.
@@ -189,37 +171,45 @@ qx.Class.define("qx.ui.mobile.form.Label",
      * @param elementId {String} The id of the element the label is bound to.
      *
      */
-    setLabelFor: function(elementId) {
+    setLabelFor(elementId) {
       if (this.__forWidget) {
-        this.__forWidget.removeListener("changeEnabled", this._changeEnabled, this);
+        this.__forWidget.removeListener(
+          "changeEnabled",
+          this._changeEnabled,
+          this
+        );
       }
 
       this.__forWidget = qx.ui.mobile.core.Widget.getWidgetById(elementId);
 
       if (this.__forWidget) {
-        this.__forWidget.addListener("changeEnabled", this._changeEnabled, this);
+        this.__forWidget.addListener(
+          "changeEnabled",
+          this._changeEnabled,
+          this
+        );
         this.setEnabled(this.__forWidget.getEnabled());
       }
 
       this._setAttribute("for", elementId);
     },
 
-
     /**
      * Handler for <code>tap</code> event on the Label. This event will be delegated to target widget.
      * @param evt {qx.event.type.Pointer} The tap event.
      */
-    _onTap: function(evt) {
+    _onTap(evt) {
       if (this.__forWidget && qx.core.Environment.get("event.dispatchevent")) {
         var target = this.__forWidget.getContentElement();
-        qx.event.Registration.fireEvent(
+        qx.event.Registration.fireEvent(target, "tap", qx.event.type.Tap, [
+          evt.getNativeEvent(),
           target,
-          "tap",
-          qx.event.type.Tap, [evt.getNativeEvent(), target, null, true, true]
-        );
+          null,
+          true,
+          true
+        ]);
       }
     },
-
 
     /**
      * Locale change event handler
@@ -227,30 +217,35 @@ qx.Class.define("qx.ui.mobile.form.Label",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e)
-      {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         var content = this.getValue();
         if (content && content.translate) {
           this.setValue(content.translate());
         }
       },
 
-      "false" : null
+      false: null
     })
   },
 
-
-  destruct : function() {
+  destruct() {
     this.removeListener("tap", this._onTap, this);
 
     if (this.__forWidget) {
-      this.__forWidget.removeListener("changeEnabled", this._changeEnabled, this);
+      this.__forWidget.removeListener(
+        "changeEnabled",
+        this._changeEnabled,
+        this
+      );
       this.__forWidget = null;
     }
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   }
 });

@@ -15,14 +15,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.Browser",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.Browser", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    testForIn : function()
-    {
+  members: {
+    testForIn() {
       var map = {};
 
       map["234"] = 234;
@@ -36,13 +33,13 @@ qx.Class.define("qx.test.Browser",
         qx.core.Environment.get("browser.name").indexOf("chrome") != -1 ||
         qx.core.Environment.get("browser.name") == "edge" ||
         (qx.core.Environment.get("browser.name") == "opera" &&
-         qx.core.Environment.get("browser.version") >= 10.5) ||
+          qx.core.Environment.get("browser.version") >= 10.5) ||
         (qx.core.Environment.get("browser.name") == "ie" &&
-         qx.core.Environment.get("browser.documentmode") >= 9) ||
+          qx.core.Environment.get("browser.documentmode") >= 9) ||
         (qx.core.Environment.get("browser.name") == "firefox" &&
-         qx.core.Environment.get("browser.version") >= 21) ||
+          qx.core.Environment.get("browser.version") >= 21) ||
         (qx.core.Environment.get("browser.name") == "safari" &&
-         qx.core.Environment.get("browser.version") >= 7)
+          qx.core.Environment.get("browser.version") >= 7)
       ) {
         var i = 0;
         // is in a sorted order

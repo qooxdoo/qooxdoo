@@ -16,46 +16,46 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Icon",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.theme.manager.Icon", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __formerTheme : null,
+  members: {
+    __formerTheme: null,
     __formerListener: null,
 
-    setUp : function() {
+    setUp() {
       this.manager = qx.theme.manager.Icon.getInstance();
       this.__formerTheme = this.manager.getTheme();
 
-      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-      this.__formerListener = {...listener[hash]};
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      this.__formerListener = { ...listener[hash] };
       delete listener[hash];
-
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       qx.test.Theme.themes = null;
       this.manager.setTheme(this.__formerTheme);
       this.__formerTheme = null;
 
-      let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-      let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
       listener[hash] = this.__formerListener;
       this.__formerListener = null;
       qx.ui.core.queue.Manager.flush();
     },
 
-
-    testAlias : function()
-    {
+    testAlias() {
       qx.Theme.define("qx.test.Theme.themes.A", {
-        aliases : {
+        aliases: {
           icon: "test/icon",
-          custom : "test/custom"
+          custom: "test/custom"
         }
       });
 
@@ -67,18 +67,16 @@ qx.Class.define("qx.test.theme.manager.Icon",
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
 
-
-    testAliasExtend : function()
-    {
+    testAliasExtend() {
       qx.Theme.define("qx.test.Theme.themes.A", {
-        aliases : {
+        aliases: {
           icon: "test/icon",
-          custom : "test/custom"
+          custom: "test/custom"
         }
       });
 
       qx.Theme.define("qx.test.Theme.themes.B", {
-        extend : qx.test.Theme.themes.A
+        extend: qx.test.Theme.themes.A
       });
 
       this.manager.setTheme(qx.test.Theme.themes.B);
@@ -89,19 +87,17 @@ qx.Class.define("qx.test.theme.manager.Icon",
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
 
-
-    testAliasOverride : function()
-    {
+    testAliasOverride() {
       qx.Theme.define("qx.test.Theme.themes.A", {
-        aliases : {
+        aliases: {
           icon: "test/icon",
-          custom : "test/custom"
+          custom: "test/custom"
         }
       });
 
       qx.Theme.define("qx.test.Theme.themes.B", {
-        extend : qx.test.Theme.themes.A,
-        aliases : {
+        extend: qx.test.Theme.themes.A,
+        aliases: {
           icon: "juhu/icon"
         }
       });
@@ -114,21 +110,28 @@ qx.Class.define("qx.test.theme.manager.Icon",
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
 
-
-    testChangeThemeEventFired : function()
-    {
+    testChangeThemeEventFired() {
       qx.Theme.define("qx.test.Theme.themes.A", {
-        aliases : {
-          "icon" : "my/icon/Theme"
+        aliases: {
+          icon: "my/icon/Theme"
         }
       });
 
       var that = this;
-      this.assertEventFired(this.manager, "changeTheme", function() {
-        that.manager.setTheme(qx.test.Theme.themes.A);
-      }, function(e) {
-        that.assertIdentical(e.getData(), qx.test.Theme.themes.A, "Setting theme failed!");
-      });
+      this.assertEventFired(
+        this.manager,
+        "changeTheme",
+        function () {
+          that.manager.setTheme(qx.test.Theme.themes.A);
+        },
+        function (e) {
+          that.assertIdentical(
+            e.getData(),
+            qx.test.Theme.themes.A,
+            "Setting theme failed!"
+          );
+        }
+      );
     }
   }
 });

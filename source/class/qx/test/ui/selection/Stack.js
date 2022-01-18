@@ -16,31 +16,28 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.Stack",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
+qx.Class.define("qx.test.ui.selection.Stack", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
 
-  members :
-  {
-    __radioButtons : null,
+  members: {
+    __radioButtons: null,
 
-    setUp : function()
-    {
+    setUp() {
       var length = 10;
       this._notInSelection = [];
       this._mode = "";
 
       var colors = [
-        {background: "blue", textColor: "white"},
-        {background: "red", textColor: "black"},
-        {background: "green", textColor: "black"},
-        {background: "yellow", textColor: "black"},
-        {background: "brown", textColor: "white"},
-        {background: "aqua", textColor: "black"},
-        {background: "fuchsia", textColor: "black"},
-        {background: "silver", textColor: "white"},
-        {background: "black", textColor: "white"},
-        {background: "white", textColor: "black"}
+        { background: "blue", textColor: "white" },
+        { background: "red", textColor: "black" },
+        { background: "green", textColor: "black" },
+        { background: "yellow", textColor: "black" },
+        { background: "brown", textColor: "white" },
+        { background: "aqua", textColor: "black" },
+        { background: "fuchsia", textColor: "black" },
+        { background: "silver", textColor: "white" },
+        { background: "black", textColor: "white" },
+        { background: "white", textColor: "black" }
       ];
 
       this._widget = new qx.ui.container.Stack();
@@ -61,9 +58,8 @@ qx.Class.define("qx.test.ui.selection.Stack",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -71,8 +67,7 @@ qx.Class.define("qx.test.ui.selection.Stack",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getChildren();
       } else {
@@ -80,12 +75,11 @@ qx.Class.define("qx.test.ui.selection.Stack",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.tabview.Page(name);
     },
 
-    __createItem : function(name, colors)
-    {
+    __createItem(name, colors) {
       var item = new qx.ui.basic.Label(name).set({
         width: 300,
         height: 300,
@@ -95,6 +89,7 @@ qx.Class.define("qx.test.ui.selection.Stack",
         textColor: colors.textColor,
         padding: 10
       });
+
       return item;
     }
   }

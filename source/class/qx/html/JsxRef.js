@@ -21,7 +21,7 @@
  */
 qx.Class.define("qx.html.JsxRef", {
   extend: qx.core.Object,
-  
+
   properties: {
     value: {
       init: null,
@@ -30,8 +30,6 @@ qx.Class.define("qx.html.JsxRef", {
       event: "changeValue"
     }
   },
-  
-  members: {
-    
-  }
+
+  members: {}
 });

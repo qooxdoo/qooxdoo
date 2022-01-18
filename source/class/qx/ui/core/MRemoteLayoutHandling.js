@@ -26,16 +26,14 @@
  * which has to return the widget, to which the layout should be set.
  */
 
-qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling",
-{
+qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling", {
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Set a layout manager for the widget. A a layout manager can only be connected
      * with one widget. Reset the connection with a previous widget first, if you
@@ -44,17 +42,16 @@ qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling",
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      */
-    setLayout : function(layout) {
+    setLayout(layout) {
       this.getChildrenContainer().setLayout(layout);
     },
-
 
     /**
      * Get the widget's layout manager.
      *
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    getLayout : function() {
+    getLayout() {
       return this.getChildrenContainer().getLayout();
     }
   }

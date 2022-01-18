@@ -16,30 +16,24 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  type : "abstract",
+qx.Class.define("qx.test.ui.table.celleditor.AbstractField", {
+  extend: qx.test.ui.LayoutTestCase,
+  type: "abstract",
 
-
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       throw new Error("Abstract method call!");
     },
 
-    tearDown : function() {
+    tearDown() {
       this.flush();
     },
 
-
-    _getCellInfo : function(value) {
-      return {value: value};
+    _getCellInfo(value) {
+      return { value: value };
     },
 
-
-    testCreateCellEditor : function()
-    {
+    testCreateCellEditor() {
       var editor = this.factory.createCellEditor(this._getCellInfo());
 
       this.assertInstance(editor, qx.ui.core.Widget);
@@ -48,18 +42,14 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       editor.destroy();
     },
 
-
-    testCreateCellEditorWithValue : function()
-    {
+    testCreateCellEditorWithValue() {
       var editor = this.factory.createCellEditor(this._getCellInfo("juhu"));
       this.assertEquals("juhu", editor.getValue());
 
       editor.destroy();
     },
 
-
-    testGetCellEditorValue : function()
-    {
+    testGetCellEditorValue() {
       var editor = this.factory.createCellEditor(this._getCellInfo());
 
       editor.setValue("Kinners");
@@ -68,12 +58,10 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       editor.destroy();
     },
 
-
-    testValidationFunction : function()
-    {
+    testValidationFunction() {
       var called = false;
 
-      this.factory.setValidationFunction(function(value) {
+      this.factory.setValidationFunction(function (value) {
         called = true;
         return "_" + value + "_";
       });
@@ -91,9 +79,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
       this.assertEquals("_kinners_", value);
     },
 
-
-    testAutoconvertToNumber : function()
-    {
+    testAutoconvertToNumber() {
       var editor = this.factory.createCellEditor(this._getCellInfo(10.0));
 
       editor.setValue("-12.5");

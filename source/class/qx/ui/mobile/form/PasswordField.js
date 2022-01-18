@@ -19,10 +19,8 @@
 /**
  * The PasswordField is a single-line password input field.
  */
-qx.Class.define("qx.ui.mobile.form.PasswordField",
-{
-  extend : qx.ui.mobile.form.TextField,
-
+qx.Class.define("qx.ui.mobile.form.PasswordField", {
+  extend: qx.ui.mobile.form.TextField,
 
   /*
   *****************************************************************************
@@ -30,13 +28,11 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "password-field"
+    defaultCssClass: {
+      refine: true,
+      init: "password-field"
     }
   },
 
@@ -46,11 +42,9 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getType : function()
-    {
+    _getType() {
       return "password";
     }
   }

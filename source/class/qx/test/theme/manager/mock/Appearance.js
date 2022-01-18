@@ -1,48 +1,42 @@
-qx.Theme.define("qx.test.theme.manager.mock.Appearance",
-{
-  extend : qx.theme.simple.Appearance,
+qx.Theme.define("qx.test.theme.manager.mock.Appearance", {
+  extend: qx.theme.simple.Appearance,
 
-  appearances :
-  {
+  appearances: {
     "test-button-gradient": {
       alias: "button",
-      style: function(states){
+      style(states) {
         return {
-          padding: [30,80],
+          padding: [30, 80],
           decorator: "test-button-gradient"
-        };        
+        };
       }
     },
 
     "test-button-gradient/label": {
-      style: function(states) {
+      style(states) {
         return {
           textColor: "red"
         };
       }
     },
-    
-    "button-frame" :
-    {
-      alias : "atom",
 
-      style : function(states)
-      {
+    "button-frame": {
+      alias: "atom",
+
+      style(states) {
         return {
-          decorator : "button-box",
-          padding : [30, 80]
+          decorator: "button-box",
+          padding: [30, 80]
         };
       }
     },
 
+    "button-frame/label": {
+      alias: "atom/label",
 
-    "button-frame/label" : {
-      alias : "atom/label",
-
-      style : function(states)
-      {
+      style(states) {
         return {
-          textColor : "text"
+          textColor: "text"
         };
       }
     }

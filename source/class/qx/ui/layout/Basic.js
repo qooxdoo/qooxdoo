@@ -59,11 +59,8 @@
  * <a href='https://qooxdoo.org/documentation/#/desktop/layout/basic.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Basic",
-{
-  extend : qx.ui.layout.Abstract,
-
-
+qx.Class.define("qx.ui.layout.Basic", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -71,8 +68,7 @@ qx.Class.define("qx.ui.layout.Basic",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -80,27 +76,25 @@ qx.Class.define("qx.ui.layout.Basic",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value)
-      {
-        this.assert(name == "left" || name == "top", "The property '"+name+"' is not supported by the Basic layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assert(
+          name == "left" || name == "top",
+          "The property '" + name + "' is not supported by the Basic layout!"
+        );
         this.assertInteger(value);
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var children = this._getLayoutChildren();
       var child, size, props, left, top;
 
       // Render children
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         size = child.getSizeHint();
         props = child.getLayoutProperties();
@@ -112,25 +106,30 @@ qx.Class.define("qx.ui.layout.Basic",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var child, size, props;
-      var neededWidth=0, neededHeight=0;
+      var neededWidth = 0,
+        neededHeight = 0;
       var localWidth, localHeight;
 
-
       // Iterate over children
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         size = child.getSizeHint();
         props = child.getLayoutProperties();
 
-        localWidth = size.width + (props.left || 0) + child.getMarginLeft() + child.getMarginRight();
-        localHeight = size.height + (props.top || 0) + child.getMarginTop() + child.getMarginBottom();
+        localWidth =
+          size.width +
+          (props.left || 0) +
+          child.getMarginLeft() +
+          child.getMarginRight();
+        localHeight =
+          size.height +
+          (props.top || 0) +
+          child.getMarginTop() +
+          child.getMarginBottom();
 
         if (localWidth > neededWidth) {
           neededWidth = localWidth;
@@ -141,11 +140,10 @@ qx.Class.define("qx.ui.layout.Basic",
         }
       }
 
-
       // Return hint
       return {
-        width : neededWidth,
-        height : neededHeight
+        width: neededWidth,
+        height: neededHeight
       };
     }
   }

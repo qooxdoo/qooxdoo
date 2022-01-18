@@ -21,18 +21,11 @@
 /**
  * A check box widget with an optional label.
  */
-qx.Class.define("qx.ui.form.CheckBox",
-{
-  extend : qx.ui.form.ToggleButton,
-  include : [
-    qx.ui.form.MForm,
-    qx.ui.form.MModelProperty
-  ],
-  implement : [
-    qx.ui.form.IForm,
-    qx.ui.form.IModel,
-    qx.ui.form.IListItem
-  ],
+qx.Class.define("qx.ui.form.CheckBox", {
+  extend: qx.ui.form.ToggleButton,
+  include: [qx.ui.form.MForm, qx.ui.form.MModelProperty],
+
+  implement: [qx.ui.form.IForm, qx.ui.form.IModel, qx.ui.form.IListItem],
 
   /*
   *****************************************************************************
@@ -43,13 +36,12 @@ qx.Class.define("qx.ui.form.CheckBox",
   /**
    * @param label {String?null} An optional label for the check box.
    */
-  construct : function(label)
-  {
+  construct(label) {
     if (qx.core.Environment.get("qx.debug")) {
       this.assertArgumentsCount(arguments, 0, 1);
     }
 
-    this.base(arguments, label);
+    super(label);
 
     // Initialize the checkbox to a valid value (the default is null which
     // is invalid)
@@ -62,61 +54,47 @@ qx.Class.define("qx.ui.form.CheckBox",
     contentEl.setAttribute("aria-checked", false);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "checkbox"
+    appearance: {
+      refine: true,
+      init: "checkbox"
     },
 
     // overridden
-    allowGrowX :
-    {
-      refine : true,
-      init : false
+    allowGrowX: {
+      refine: true,
+      init: false
     }
   },
+
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      invalid : true,
-      focused : true,
-      undetermined : true,
-      checked : true,
-      hovered : true
+    _forwardStates: {
+      invalid: true,
+      focused: true,
+      undetermined: true,
+      checked: true,
+      hovered: true
     },
 
     /**
      * overridden (from MExecutable to keep the icon out of the binding)
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties :
-    [
-      "enabled",
-      "label",
-      "toolTipText",
-      "value",
-      "menu"
-    ],
-    
+    _bindableProperties: ["enabled", "label", "toolTipText", "value", "menu"],
+
     // overridden
-    _applyValue : function(value, old) {
+    _applyValue(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
 
       let ariaChecked = Boolean(value);
@@ -131,6 +109,6 @@ qx.Class.define("qx.ui.form.CheckBox",
 
       // ARIA attrs
       this.getContentElement().setAttribute("aria-checked", ariaChecked);
-    },
+    }
   }
 });

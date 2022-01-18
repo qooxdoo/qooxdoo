@@ -15,46 +15,51 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Slider",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.Slider", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.__slider = new qx.ui.form.Slider().set({
         width: 100,
         appearance: "test-slider"
       });
+
       this.getRoot().add(this.__slider);
       this.flush();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.__slider.destroy();
     },
 
-
-    testKnobPositionAfterBlur : function() {
+    testKnobPositionAfterBlur() {
       this.__slider.setValue(0);
       this.flush();
-      var pos0 = this.__slider.getChildControl("knob").getContentElement().getStyle("left");
+      var pos0 = this.__slider
+        .getChildControl("knob")
+        .getContentElement()
+        .getStyle("left");
 
       this.__slider.setValue(30);
       this.flush();
-      var pos30 = this.__slider.getChildControl("knob").getContentElement().getStyle("left");
+      var pos30 = this.__slider
+        .getChildControl("knob")
+        .getContentElement()
+        .getStyle("left");
 
       this.__slider.focus();
       this.flush();
-      var posFocus = this.__slider.getChildControl("knob").getContentElement().getStyle("left");
+      var posFocus = this.__slider
+        .getChildControl("knob")
+        .getContentElement()
+        .getStyle("left");
 
       this.assertNotEquals(pos0, posFocus);
       this.assertEquals(pos30, posFocus);
     },
 
-
-    testInitOrientation : function() {
+    testInitOrientation() {
       var newSlider1 = new qx.ui.form.Slider();
       this.assertIdentical(newSlider1.getOrientation(), "horizontal");
 
@@ -65,8 +70,7 @@ qx.Class.define("qx.test.ui.form.Slider",
       this.assertIdentical(newSlider3.getOrientation(), "vertical");
     },
 
-
-    testSlideMethods : function() {
+    testSlideMethods() {
       var min = this.__slider.getMinimum();
       var max = this.__slider.getMaximum();
 
@@ -80,21 +84,33 @@ qx.Class.define("qx.test.ui.form.Slider",
 
       var before = this.__slider.getValue();
       this.__slider.slideForward();
-      this.assertIdentical(this.__slider.getValue(), Math.min(before + singleStep, max));
+      this.assertIdentical(
+        this.__slider.getValue(),
+        Math.min(before + singleStep, max)
+      );
 
       before = this.__slider.getValue();
       this.__slider.slideBack();
-      this.assertIdentical(this.__slider.getValue(), Math.max(before - singleStep, min));
+      this.assertIdentical(
+        this.__slider.getValue(),
+        Math.max(before - singleStep, min)
+      );
 
       var pageStep = this.__slider.getPageStep();
 
       before = this.__slider.getValue();
       this.__slider.slidePageForward();
-      this.assertIdentical(this.__slider.getValue(), Math.min(before + pageStep, max));
+      this.assertIdentical(
+        this.__slider.getValue(),
+        Math.min(before + pageStep, max)
+      );
 
       before = this.__slider.getValue();
       this.__slider.slidePageBack();
-      this.assertIdentical(this.__slider.getValue(), Math.max(before - pageStep, min));
+      this.assertIdentical(
+        this.__slider.getValue(),
+        Math.max(before - pageStep, min)
+      );
     }
   }
 });

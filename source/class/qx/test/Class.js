@@ -24,93 +24,84 @@
 
  */
 
-qx.Class.define("qx.test.Class",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MRequirements],
+qx.Class.define("qx.test.Class", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    testAnonymous : function() {
-      var clazz = qx.Class.define(null, {statics : {
-        test : function() {
-          return true;
+  members: {
+    testAnonymous() {
+      var clazz = qx.Class.define(null, {
+        statics: {
+          test() {
+            return true;
+          }
         }
-      }});
+      });
 
       this.assertTrue(clazz.test());
     },
 
-
-    testOverridePropertyMethod : function() {
+    testOverridePropertyMethod() {
       this.require(["qx.debug"]);
-      
+
       var C = qx.Class.define(null, {
-        extend : qx.core.Object,
-        properties : {
+        extend: qx.core.Object,
+        properties: {
           prop: {
-          	init: "unset",
-            check : "String",
+            init: "unset",
+            check: "String",
             inheritable: true,
             themeable: true
           }
         }
       });
-      
+
       var D = qx.Class.define(null, {
-      	extend: C,
-      	members: {
-      		setProp: function(value) {
-      			return this.base(arguments, value + "-set");
-      		},
-      		getProp: function() {
-      			return this.base(arguments) + "-get";
-      		}
-      	}
+        extend: C,
+        members: {
+          setProp(value) {
+            return super.setProp(value + "-set");
+          },
+          getProp() {
+            return super.getProp() + "-get";
+          }
+        }
       });
-      
+
       var d = new D();
       d.setProp("hello");
       this.assertEquals("hello-set-get", d.getProp());
     },
 
-
-    testEmptyClass : function()
-    {
-      qx.Class.define("qx.Empty",
-      {
-        extend    : Object,
-        construct : function() {}
+    testEmptyClass() {
+      qx.Class.define("qx.Empty", {
+        extend: Object,
+        construct() {}
       });
 
       var empty = new qx.Empty();
-      this.assertEquals("object", typeof (empty));
+      this.assertEquals("object", typeof empty);
       this.assertTrue(empty instanceof qx.Empty);
     },
 
+    testSuperClassCall() {
+      qx.Class.define("qx.Car", {
+        extend: qx.core.Object,
 
-
-    testSuperClassCall : function()
-    {
-      qx.Class.define("qx.Car",
-      {
-        extend : qx.core.Object,
-
-        construct : function(name) {
+        construct(name) {
           this._name = name;
         },
 
-        members :
-        {
-          startEngine : function() {
+        members: {
+          startEngine() {
             return "start";
           },
 
-          stopEngine : function() {
+          stopEngine() {
             return "stop";
           },
 
-          getName : function() {
+          getName() {
             return this._name;
           }
         }
@@ -121,40 +112,35 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("stop", car.stopEngine());
       this.assertEquals("Audi", car.getName());
 
-      qx.Class.define("qx.Bmw",
-      {
-        extend : qx.Car,
+      qx.Class.define("qx.Bmw", {
+        extend: qx.Car,
 
-        construct : function(name, prize) {
-          this.base(arguments, name);
+        construct(name, prize) {
+          super(name);
         },
 
-        members :
-        {
-          startEngine : function()
-          {
-            var ret = this.base(arguments);
+        members: {
+          startEngine() {
+            var ret = super.startEngine();
             return "brrr " + ret;
           },
 
-          stopEngine : function()
-          {
-            var ret = this.base(arguments);
+          stopEngine() {
+            var ret = super.stopEngine();
             return "brrr " + ret;
           },
 
-          getWheels : function() {
+          getWheels() {
             return this.self(arguments).WHEELS;
           },
 
-          getMaxSpeed : function()
-          {
+          getMaxSpeed() {
             // call base in non overridden method
-            this.base(arguments);
+            super.getMaxSpeed();
           }
         },
 
-        statics : { WHEELS : 4 }
+        statics: { WHEELS: 4 }
       });
 
       var bmw = new qx.Bmw("bmw", 44000);
@@ -163,46 +149,44 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
 
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
+      if (this.isDebugOn()) {
+        this.assertException(function () {
           bmw.getMaxSpeed();
         }, Error);
       }
     },
 
+    testAbstract() {
+      qx.Class.define("qx.AbstractCar", {
+        extend: qx.core.Object,
+        type: "abstract",
 
-    testAbstract : function()
-    {
-      qx.Class.define("qx.AbstractCar",
-      {
-        extend : qx.core.Object,
-        type : "abstract",
-
-        construct : function(color) {
+        construct(color) {
           this._color = color;
         },
 
-        members : {
-          startEngine : function() {}
+        members: {
+          startEngine() {}
         }
       });
 
       // instantiating abstract classes should fail
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
-          new qx.AbstractCar("blue");
-        }, Error, new RegExp("The class .* is abstract"));
+      if (this.isDebugOn()) {
+        this.assertException(
+          function () {
+            new qx.AbstractCar("blue");
+          },
+          Error,
+          new RegExp("The class .* is abstract")
+        );
       }
 
       // check if subclasses of abstract classes work
-      qx.Class.define("qx.ConcreteCar",
-      {
-        extend : qx.AbstractCar,
+      qx.Class.define("qx.ConcreteCar", {
+        extend: qx.AbstractCar,
 
-        construct : function(color) {
-          this.base(arguments, color);
+        construct(color) {
+          super(color);
         }
       });
 
@@ -211,74 +195,72 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("red", car._color);
     },
 
+    testSingleton() {
+      qx.Class.define("qx.Single1", {
+        extend: Object,
+        type: "singleton",
 
-    testSingleton : function()
-    {
-      qx.Class.define("qx.Single1",
-      {
-        extend : Object,
-        type : "singleton",
-
-        construct : function() {
+        construct() {
           this._date = new Date().toString();
         }
       });
 
       // direct instantiation should fail
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
-          new qx.Single1();
-        }, Error, new RegExp("The class .* is a singleton"));
-      };
+      if (this.isDebugOn()) {
+        this.assertException(
+          function () {
+            new qx.Single1();
+          },
+          Error,
+          new RegExp("The class .* is a singleton")
+        );
+      }
 
-      this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance should always return the same object!");
+      this.assertEquals(
+        qx.Single1.getInstance()._date,
+        qx.Single1.getInstance()._date,
+        "getInstance should always return the same object!"
+      );
 
       qx.Class.undefine("qx.Single1");
     },
 
-    testInvalidImplicitStatic : function()
-    {
+    testInvalidImplicitStatic() {
       // different error message if no "extend" key was configured
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
-          qx.Class.define("qx.MyClass1",
-          {
-            include : [
-              qx.ui.core.MChildrenHandling
-            ]
-          });
-        }, Error, new RegExp('Assumed static class.*'));
+      if (this.isDebugOn()) {
+        this.assertException(
+          function () {
+            qx.Class.define("qx.MyClass1", {
+              include: [qx.ui.core.MChildrenHandling]
+            });
+          },
+          Error,
+          new RegExp("Assumed static class.*")
+        );
       }
     },
 
-    testEnvironment : function()
-    {
-      qx.Class.define("qx.Setting1", { environment : { "qx.juhu" : "kinners" } });
+    testEnvironment() {
+      qx.Class.define("qx.Setting1", { environment: { "qx.juhu": "kinners" } });
 
       this.assertEquals("kinners", qx.core.Environment.get("qx.juhu"));
 
       qx.Class.undefine("qx.Setting1");
     },
 
-
-    testDefer : function()
-    {
+    testDefer() {
       // this is BAD practice, don't code like this!
-      qx.Class.define("qx.Defer",
-      {
-        extend : qx.core.Object,
+      qx.Class.define("qx.Defer", {
+        extend: qx.core.Object,
 
-        defer : function(statics, members, properties)
-        {
+        defer(statics, members, properties) {
           statics.FOO = 12;
 
-          statics.sayHello = function() {
+          statics.sayHello = function () {
             return "Hello";
           };
 
-          members.sayJuhu = function() {
+          members.sayJuhu = function () {
             return "Juhu";
           };
 
@@ -297,40 +279,36 @@ qx.Class.define("qx.test.Class",
       defer.dispose();
     },
 
-
-    testSubClassOf : function()
-    {
+    testSubClassOf() {
       this.assertTrue(qx.Class.isSubClassOf(qx.ui.core.Widget, qx.core.Object));
     },
 
-
-    testClassUndefine : function() {
+    testClassUndefine() {
       qx.Class.define("qx.test.u.u.Undefine", {
-        extend : qx.core.Object
+        extend: qx.core.Object
       });
+
       this.assertNotUndefined(qx.test.u.u.Undefine);
 
       qx.Class.undefine("qx.test.u.u.Undefine");
       this.assertUndefined(qx.test["u"]);
     },
 
-
-    testPatch : function()
-    {
+    testPatch() {
       qx.Mixin.define("qx.MyMixin", {
-        properties : {
-          "property" : {init: "p"}
+        properties: {
+          property: { init: "p" }
         },
 
-        members : {
-          getP : function() {
+        members: {
+          getP() {
             return "p";
           }
         }
       });
 
       qx.Class.define("qx.MyClass", {
-        extend  : qx.core.Object
+        extend: qx.core.Object
       });
 
       qx.Class.patch(qx.MyClass, qx.MyMixin);
@@ -347,26 +325,24 @@ qx.Class.define("qx.test.Class",
       qx.Class.undefine("qx.MyMixin");
     },
 
-
-    testPatchWithConstructor : function()
-    {
+    testPatchWithConstructor() {
       qx.Mixin.define("qx.MyMixin", {
-        construct : function() {
+        construct() {
           this.__p = "p";
         },
-        properties : {
-          "property" : {init: "p"}
+        properties: {
+          property: { init: "p" }
         },
 
-        members : {
-          getP : function() {
+        members: {
+          getP() {
             return this.__p;
           }
         }
       });
 
       qx.Class.define("qx.MyClass", {
-        extend  : qx.core.Object
+        extend: qx.core.Object
       });
 
       qx.Class.patch(qx.MyClass, qx.MyMixin);
@@ -383,22 +359,21 @@ qx.Class.define("qx.test.Class",
       qx.Class.undefine("qx.MyMixin");
     },
 
-
-    testInclude : function() {
+    testInclude() {
       qx.Mixin.define("qx.MyMixin", {
-        properties : {
-          "property" : {init: "p"}
+        properties: {
+          property: { init: "p" }
         },
 
-        members : {
-          getP : function() {
+        members: {
+          getP() {
             return "p";
           }
         }
       });
 
       qx.Class.define("qx.MyClass", {
-        extend  : qx.core.Object
+        extend: qx.core.Object
       });
 
       qx.Class.include(qx.MyClass, qx.MyMixin);
@@ -415,25 +390,24 @@ qx.Class.define("qx.test.Class",
       qx.Class.undefine("qx.MyMixin");
     },
 
-
-    testIncludeWithConstructor : function() {
+    testIncludeWithConstructor() {
       qx.Mixin.define("qx.MyMixin", {
-        construct : function() {
+        construct() {
           this.__p = "p";
         },
-        properties : {
-          "property" : {init: "p"}
+        properties: {
+          property: { init: "p" }
         },
 
-        members : {
-          getP : function() {
+        members: {
+          getP() {
             return this.__p;
           }
         }
       });
 
       qx.Class.define("qx.MyClass", {
-        extend  : qx.core.Object
+        extend: qx.core.Object
       });
 
       qx.Class.include(qx.MyClass, qx.MyMixin);
@@ -450,60 +424,52 @@ qx.Class.define("qx.test.Class",
       qx.Class.undefine("qx.MyMixin");
     },
 
-
-    testSubclasses : function()
-    {
-      qx.Class.define("qx.Insect",
-      {
-        extend : qx.core.Object
+    testSubclasses() {
+      qx.Class.define("qx.Insect", {
+        extend: qx.core.Object
       });
 
-      qx.Class.define("qx.Butterfly",
-      {
-        extend : qx.Insect
+      qx.Class.define("qx.Butterfly", {
+        extend: qx.Insect
       });
 
-      qx.Class.define("qx.Firefly",
-      {
-        extend : qx.Insect
+      qx.Class.define("qx.Firefly", {
+        extend: qx.Insect
       });
 
-      qx.Class.define("qx.Grasshopper",
-      {
-        extend : qx.Insect
+      qx.Class.define("qx.Grasshopper", {
+        extend: qx.Insect
       });
 
       var subclasses = qx.Class.getSubclasses(qx.Insect);
-      
+
       // we should find 3 subclasses of qx.Insect
-      this.assertEquals(Object.keys(subclasses).length,3);
+      this.assertEquals(Object.keys(subclasses).length, 3);
 
       // qx.Firefly should be a subclass of qx.Insect
-      this.assertEquals(subclasses["qx.Firefly"],qx.Firefly);
+      this.assertEquals(subclasses["qx.Firefly"], qx.Firefly);
 
       subclasses = qx.Class.getSubclasses(qx.Firefly);
 
       // there should be no subclasses for qx.Firefly
-      this.assertEquals(Object.keys(subclasses).length,0);
-      
+      this.assertEquals(Object.keys(subclasses).length, 0);
+
       subclasses = qx.Class.getSubclasses(qx.Bug);
 
       // there should be no class qx.Bug
-      this.assertEquals(subclasses,null);
-
+      this.assertEquals(subclasses, null);
     },
 
-
-    "test: instantiate class in defer and access property" : function()
-    {
+    "test: instantiate class in defer and access property"() {
       var self = this;
 
       qx.Class.define("qx.DeferFoo", {
         extend: qx.core.Object,
-        properties : {
-          juhu : {}
+        properties: {
+          juhu: {}
         },
-        defer : function() {
+
+        defer() {
           var df = new qx.DeferFoo();
 
           df.setJuhu("23");

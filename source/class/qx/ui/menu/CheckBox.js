@@ -23,12 +23,9 @@
  * a normal {@link qx.ui.form.CheckBox} and shows a check icon when
  * checked; normally shows no icon when not checked (depends on the theme).
  */
-qx.Class.define("qx.ui.menu.CheckBox",
-{
-  extend : qx.ui.menu.AbstractButton,
-  implement : [qx.ui.form.IBooleanForm],
-
-
+qx.Class.define("qx.ui.menu.CheckBox", {
+  extend: qx.ui.menu.AbstractButton,
+  implement: [qx.ui.form.IBooleanForm],
 
   /*
   *****************************************************************************
@@ -40,9 +37,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
    * @param label {String} Initial label
    * @param menu {qx.ui.menu.Menu} Initial sub menu
    */
-  construct : function(label, menu)
-  {
-    this.base(arguments);
+  construct(label, menu) {
+    super();
 
     // ARIA attrs
     const contenEl = this.getContentElement();
@@ -66,37 +62,28 @@ qx.Class.define("qx.ui.menu.CheckBox",
     this.addListener("execute", this._onExecute, this);
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menu-checkbox"
+    appearance: {
+      refine: true,
+      init: "menu-checkbox"
     },
 
     /** Whether the button is checked */
-    value :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyValue",
-      event : "changeValue",
-      nullable : true
+    value: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyValue",
+      event: "changeValue",
+      nullable: true
     }
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -104,39 +91,27 @@ qx.Class.define("qx.ui.menu.CheckBox",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden (from MExecutable to keep the icon out of the binding)
     /**
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties :
-    [
-      "enabled",
-      "label",
-      "toolTipText",
-      "value",
-      "menu"
-    ],
+    _bindableProperties: ["enabled", "label", "toolTipText", "value", "menu"],
 
     // property apply
-    _applyValue : function(value, old)
-    {
-      value ?
-        this.addState("checked") :
-        this.removeState("checked");
-      
+    _applyValue(value, old) {
+      value ? this.addState("checked") : this.removeState("checked");
+
       // ARIA attrs
       this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
-
 
     /**
      * Handler for the execute event.
      *
      * @param e {qx.event.type.Event} The execute event.
      */
-    _onExecute : function(e) {
+    _onExecute(e) {
       this.toggleValue();
     }
   }

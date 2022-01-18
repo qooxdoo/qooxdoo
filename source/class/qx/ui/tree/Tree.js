@@ -36,22 +36,21 @@
  * handles more coarse-grained issues like providing {@link #selectAll} and
  * {@link #resetSelection} methods.
  */
-qx.Class.define("qx.ui.tree.Tree",
-{
-  extend : qx.ui.core.scroll.AbstractScrollArea,
-  implement : [
+qx.Class.define("qx.ui.tree.Tree", {
+  extend: qx.ui.core.scroll.AbstractScrollArea,
+  implement: [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IModelSelection,
     qx.ui.form.IField,
     qx.ui.form.IForm
   ],
-  include : [
+
+  include: [
     qx.ui.core.MMultiSelectionHandling,
     qx.ui.core.MContentPadding,
     qx.ui.form.MModelSelection,
     qx.ui.form.MForm
   ],
-
 
   /*
   *****************************************************************************
@@ -59,15 +58,15 @@ qx.Class.define("qx.ui.tree.Tree",
   *****************************************************************************
   */
 
+  construct() {
+    super();
 
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-      allowShrinkY: false,
-      allowGrowX: true
-    });
+    this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set(
+      {
+        allowShrinkY: false,
+        allowGrowX: true
+      }
+    );
 
     this.getChildControl("pane").add(this.__content);
 
@@ -78,31 +77,27 @@ qx.Class.define("qx.ui.tree.Tree",
     this.addListener("keypress", this._onKeyPress, this);
   },
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-
-  events :
-  {
+  events: {
     /**
      * This event is fired after a tree item was added to the tree. The
      * {@link qx.event.type.Data#getData} method of the event returns the
      * added item.
      */
-    addItem : "qx.event.type.Data",
+    addItem: "qx.event.type.Data",
 
     /**
      * This event is fired after a tree item has been removed from the tree.
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed item.
      */
-    removeItem : "qx.event.type.Data"
+    removeItem: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -110,42 +105,38 @@ qx.Class.define("qx.ui.tree.Tree",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Control whether tap or double tap should open or close the tapped
      * folder.
      */
-    openMode :
-    {
-      check : ["tap", "dbltap", "none"],
-      init : "dbltap",
-      apply : "_applyOpenMode",
-      event : "changeOpenMode",
-      themeable : true
+    openMode: {
+      check: ["tap", "dbltap", "none"],
+      init: "dbltap",
+      apply: "_applyOpenMode",
+      event: "changeOpenMode",
+      themeable: true
     },
 
     /**
      * The root tree item of the tree to display
      */
-    root :
-    {
-      check : "qx.ui.tree.core.AbstractTreeItem",
-      init : null,
-      nullable : true,
-      event : "changeRoot",
-      apply : "_applyRoot"
+    root: {
+      check: "qx.ui.tree.core.AbstractTreeItem",
+      init: null,
+      nullable: true,
+      event: "changeRoot",
+      apply: "_applyRoot"
     },
 
     /**
      * Hide the root (Tree) node.  This differs from the visibility property in
      * that this property hides *only* the root node, not the node's children.
      */
-    hideRoot :
-    {
-      check : "Boolean",
-      init : false,
-      apply :"_applyHideRoot"
+    hideRoot: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyHideRoot"
     },
 
     /**
@@ -155,28 +146,24 @@ qx.Class.define("qx.ui.tree.Tree",
      * expanded programmatically, since there will be no open/close button for the
      * user to open them.
      */
-    rootOpenClose :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyRootOpenClose"
+    rootOpenClose: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyRootOpenClose"
     },
 
     // overridden
-    appearance :
-    {
+    appearance: {
       refine: true,
       init: "tree"
     },
 
     // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
+    focusable: {
+      refine: true,
+      init: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -184,13 +171,11 @@ qx.Class.define("qx.ui.tree.Tree",
   *****************************************************************************
   */
 
-  members :
-  {
-    __content : null,
+  members: {
+    __content: null,
 
     /** @type {Class} Pointer to the selection manager to use */
-    SELECTION_MANAGER : qx.ui.tree.selection.SelectionManager,
-
+    SELECTION_MANAGER: qx.ui.tree.selection.SelectionManager,
 
     /*
     ---------------------------------------------------------------------------
@@ -198,33 +183,28 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get the widget, which contains the root tree item. This widget must
      * have a vertical box layout.
      *
      * @return {qx.ui.core.Widget} the children container
      */
-    getChildrenContainer : function() {
+    getChildrenContainer() {
       return this.__content;
     },
 
-
     // property apply
-    _applyRoot : function(value, old)
-    {
+    _applyRoot(value, old) {
       var container = this.getChildrenContainer();
 
-      if (old && !old.isDisposed())
-      {
+      if (old && !old.isDisposed()) {
         container.remove(old);
         if (old.hasChildren()) {
           container.remove(old.getChildrenContainer());
         }
       }
 
-      if (value)
-      {
+      if (value) {
         container.add(value);
         if (value.hasChildren()) {
           container.add(value.getChildrenContainer());
@@ -235,10 +215,8 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     // property apply
-    _applyHideRoot : function(value, old)
-    {
+    _applyHideRoot(value, old) {
       var root = this.getRoot();
       if (!root) {
         return;
@@ -248,10 +226,8 @@ qx.Class.define("qx.ui.tree.Tree",
       root.recursiveAddToWidgetQueue();
     },
 
-
     // property apply
-    _applyRootOpenClose : function(value, old)
-    {
+    _applyRootOpenClose(value, old) {
       var root = this.getRoot();
       if (!root) {
         return;
@@ -259,23 +235,20 @@ qx.Class.define("qx.ui.tree.Tree",
       root.recursiveAddToWidgetQueue();
     },
 
-
     /**
      * Returns the element, to which the content padding should be applied.
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.__content;
     },
-
 
     /*
     ---------------------------------------------------------------------------
       SELECTION MANAGER API
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Get the tree item following the given item in the tree hierarchy.
@@ -287,31 +260,30 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.tree.core.AbstractTreeItem?null} The item after the given item. May be
      *     <code>null</code> if the item is the last item.
      */
-    getNextNodeOf : function(treeItem, invisible)
-    {
-      if ((invisible !== false || treeItem.isOpen()) && treeItem.hasChildren()) {
+    getNextNodeOf(treeItem, invisible) {
+      if (
+        (invisible !== false || treeItem.isOpen()) &&
+        treeItem.hasChildren()
+      ) {
         return treeItem.getChildren()[0];
       }
 
-      while (treeItem)
-      {
+      while (treeItem) {
         var parent = treeItem.getParent();
         if (!parent) {
           return null;
         }
 
-
         var parentChildren = parent.getChildren();
         var index = parentChildren.indexOf(treeItem);
-        if (index > -1 && index < parentChildren.length-1) {
-          return parentChildren[index+1];
+        if (index > -1 && index < parentChildren.length - 1) {
+          return parentChildren[index + 1];
         }
 
         treeItem = parent;
       }
       return null;
     },
-
 
     /**
      * Get the tree item preceding the given item in the tree hierarchy.
@@ -323,24 +295,19 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.tree.core.AbstractTreeItem?null} The item before the given item. May be
      *     <code>null</code> if the given item is the tree's root.
      */
-    getPreviousNodeOf : function(treeItem, invisible)
-    {
+    getPreviousNodeOf(treeItem, invisible) {
       var parent = treeItem.getParent();
       if (!parent) {
         return null;
       }
 
-      if (this.getHideRoot())
-      {
-        if (parent == this.getRoot())
-        {
+      if (this.getHideRoot()) {
+        if (parent == this.getRoot()) {
           if (parent.getChildren()[0] == treeItem) {
             return null;
           }
         }
-      }
-      else
-      {
+      } else {
         if (treeItem == this.getRoot()) {
           return null;
         }
@@ -348,22 +315,20 @@ qx.Class.define("qx.ui.tree.Tree",
 
       var parentChildren = parent.getChildren();
       var index = parentChildren.indexOf(treeItem);
-      if (index > 0)
-      {
-        var folder = parentChildren[index-1];
-        while ((invisible !== false || folder.isOpen()) && folder.hasChildren())
-        {
+      if (index > 0) {
+        var folder = parentChildren[index - 1];
+        while (
+          (invisible !== false || folder.isOpen()) &&
+          folder.hasChildren()
+        ) {
           var children = folder.getChildren();
-          folder = children[children.length-1];
+          folder = children[children.length - 1];
         }
         return folder;
-      }
-      else
-      {
+      } else {
         return parent;
       }
     },
-
 
     /**
      * Get the tree item's next sibling.
@@ -375,8 +340,7 @@ qx.Class.define("qx.ui.tree.Tree",
      *     <code>null</code> if the given item is the last in it's nesting
      *     level.
      */
-    getNextSiblingOf : function(treeItem)
-    {
+    getNextSiblingOf(treeItem) {
       if (treeItem == this.getRoot()) {
         return null;
       }
@@ -385,13 +349,12 @@ qx.Class.define("qx.ui.tree.Tree",
       var siblings = parent.getChildren();
       var index = siblings.indexOf(treeItem);
 
-      if (index < siblings.length-1) {
-        return siblings[index+1];
+      if (index < siblings.length - 1) {
+        return siblings[index + 1];
       }
 
       return null;
     },
-
 
     /**
      * Get the tree item's previous sibling.
@@ -403,8 +366,7 @@ qx.Class.define("qx.ui.tree.Tree",
      *     <code>null</code> if the given item is the first in it's nesting
      *     level.
      */
-    getPreviousSiblingOf : function(treeItem)
-    {
+    getPreviousSiblingOf(treeItem) {
       if (treeItem == this.getRoot()) {
         return null;
       }
@@ -414,12 +376,11 @@ qx.Class.define("qx.ui.tree.Tree",
       var index = siblings.indexOf(treeItem);
 
       if (index > 0) {
-        return siblings[index-1];
+        return siblings[index - 1];
       }
 
       return null;
     },
-
 
     /**
      * Returns all children of the tree.
@@ -430,37 +391,36 @@ qx.Class.define("qx.ui.tree.Tree",
      *     included
      * @return {qx.ui.tree.core.AbstractTreeItem[]} list of children
      */
-    getItems : function(recursive, invisible) {
+    getItems(recursive, invisible) {
       if (this.getRoot() != null) {
-        return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
-      }
-      else {
+        return this.getRoot().getItems(
+          recursive,
+          invisible,
+          this.getHideRoot()
+        );
+      } else {
         return [];
       }
     },
-
 
     /**
      * Returns the tree's only "external" child, namely the root node.
      *
      * @return {qx.ui.tree.core.AbstractTreeItem[]} Array containing the root node
      */
-    getChildren : function() {
+    getChildren() {
       if (this.getRoot() != null) {
         return [this.getRoot()];
-      }
-      else {
+      } else {
         return [];
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
       POINTER EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Returns the tree item, which contains the given widget.
@@ -470,10 +430,8 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.tree.core.AbstractTreeItem|null} The tree item containing the widget. If the
      *     widget is not inside of any tree item <code>null</code> is returned.
      */
-    getTreeItem : function(widget)
-    {
-      while (widget)
-      {
+    getTreeItem(widget) {
+      while (widget) {
         if (widget == this) {
           return null;
         }
@@ -488,10 +446,8 @@ qx.Class.define("qx.ui.tree.Tree",
       return null;
     },
 
-
     // property apply
-    _applyOpenMode : function(value, old)
-    {
+    _applyOpenMode(value, old) {
       if (old == "tap") {
         this.removeListener("tap", this._onOpen, this);
       } else if (old == "dbltap") {
@@ -505,17 +461,15 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     /**
      * Event handler for tap events, which could change a tree item's open
      * state.
      *
      * @param e {qx.event.type.Pointer} The tap event object
      */
-    _onOpen : function(e)
-    {
+    _onOpen(e) {
       var treeItem = this.getTreeItem(e.getTarget());
-      if (!treeItem ||!treeItem.isOpenable()) {
+      if (!treeItem || !treeItem.isOpenable()) {
         return;
       }
 
@@ -523,14 +477,13 @@ qx.Class.define("qx.ui.tree.Tree",
       e.stopPropagation();
     },
 
-
     /**
      * Event handler for changeSelection events, which opens all parent folders
      * of the selected folders.
      *
      * @param e {qx.event.type.Data} The selection data event.
      */
-    _onChangeSelection : function(e) {
+    _onChangeSelection(e) {
       var selection = e.getData();
       // for every selected folder
       for (var i = 0; i < selection.length; i++) {
@@ -543,7 +496,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     /**
      * Event handler for key press events. Open and close the current selected
      * item on key left and right press. Jump to parent on key left if already
@@ -551,14 +503,11 @@ qx.Class.define("qx.ui.tree.Tree",
      *
      * @param e {qx.event.type.KeySequence} key event.
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress(e) {
       var item = this._getLeadItem();
 
-      if (item !== null)
-      {
-        switch(e.getKeyIdentifier())
-        {
+      if (item !== null) {
+        switch (e.getKeyIdentifier()) {
           case "Left":
             if (item.isOpenable() && item.isOpen()) {
               item.setOpen(false);
@@ -584,15 +533,13 @@ qx.Class.define("qx.ui.tree.Tree",
     }
   },
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-
-  destruct : function() {
+  destruct() {
     this._disposeObjects("__content");
   }
 });

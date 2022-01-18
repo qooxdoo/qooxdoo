@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.navigationbar.NavigationBar",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.navigationbar.NavigationBar", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testCreate : function()
-    {
+  members: {
+    testCreate() {
       var bar = new qx.ui.mobile.navigationbar.NavigationBar();
       this.getRoot().add(bar);
 
@@ -44,5 +41,4 @@ qx.Class.define("qx.test.mobile.navigationbar.NavigationBar",
       bar.destroy();
     }
   }
-
 });

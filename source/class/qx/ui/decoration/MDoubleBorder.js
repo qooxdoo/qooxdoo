@@ -20,16 +20,14 @@
  * independent of each other.
  * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
-qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
-{
-  include : [qx.ui.decoration.MSingleBorder, qx.ui.decoration.MBackgroundImage],
+qx.Mixin.define("qx.ui.decoration.MDoubleBorder", {
+  include: [qx.ui.decoration.MSingleBorder, qx.ui.decoration.MBackgroundImage],
 
-  construct : function() {
+  construct() {
     // override the methods of single border and background image
     this._getDefaultInsetsForBorder = this.__getDefaultInsetsForDoubleBorder;
     this._styleBorder = this.__styleDoubleBorder;
   },
-
 
   /*
   *****************************************************************************
@@ -37,8 +35,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       PROPERTY: INNER WIDTH
@@ -46,46 +43,43 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     */
 
     /** top width of border */
-    innerWidthTop :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyDoubleBorder"
+    innerWidthTop: {
+      check: "Number",
+      init: 0,
+      apply: "_applyDoubleBorder"
     },
 
     /** right width of border */
-    innerWidthRight :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyDoubleBorder"
+    innerWidthRight: {
+      check: "Number",
+      init: 0,
+      apply: "_applyDoubleBorder"
     },
 
     /** bottom width of border */
-    innerWidthBottom :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyDoubleBorder"
+    innerWidthBottom: {
+      check: "Number",
+      init: 0,
+      apply: "_applyDoubleBorder"
     },
 
     /** left width of border */
-    innerWidthLeft :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyDoubleBorder"
+    innerWidthLeft: {
+      check: "Number",
+      init: 0,
+      apply: "_applyDoubleBorder"
     },
 
     /** Property group to set the inner border width of all sides */
-    innerWidth :
-    {
-      group : [ "innerWidthTop", "innerWidthRight", "innerWidthBottom", "innerWidthLeft" ],
-      mode : "shorthand"
+    innerWidth: {
+      group: [
+        "innerWidthTop",
+        "innerWidthRight",
+        "innerWidthBottom",
+        "innerWidthLeft"
+      ],
+      mode: "shorthand"
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -94,61 +88,57 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     */
 
     /** top inner color of border */
-    innerColorTop :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyDoubleBorder"
+    innerColorTop: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyDoubleBorder"
     },
 
     /** right inner color of border */
-    innerColorRight :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyDoubleBorder"
+    innerColorRight: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyDoubleBorder"
     },
 
     /** bottom inner color of border */
-    innerColorBottom :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyDoubleBorder"
+    innerColorBottom: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyDoubleBorder"
     },
 
     /** left inner color of border */
-    innerColorLeft :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyDoubleBorder"
+    innerColorLeft: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyDoubleBorder"
     },
 
     /**
      * Property group for the inner color properties.
      */
-    innerColor :
-    {
-      group : [ "innerColorTop", "innerColorRight", "innerColorBottom", "innerColorLeft" ],
-      mode : "shorthand"
+    innerColor: {
+      group: [
+        "innerColorTop",
+        "innerColorRight",
+        "innerColorBottom",
+        "innerColorLeft"
+      ],
+      mode: "shorthand"
     },
 
     /**
      * The opacity of the inner border.
      */
-    innerOpacity :
-    {
-      check : "Number",
-      init : 1,
-      apply : "_applyDoubleBorder"
+    innerOpacity: {
+      check: "Number",
+      init: 1,
+      apply: "_applyDoubleBorder"
     }
   },
 
-
-  members :
-  {
-
+  members: {
     /**
      * Takes a styles map and adds the outer border styles in place
      * to the given map. This is the needed behavior for
@@ -156,74 +146,72 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      *
      * @param styles {Map} A map to add the styles.
      */
-    __styleDoubleBorder : function(styles)
-    {
+    __styleDoubleBorder(styles) {
       var propName = qx.core.Environment.get("css.boxshadow");
 
-      var color,
-          innerColor,
-          innerWidth;
-      if (qx.core.Environment.get("qx.theme"))
-      {
+      var color, innerColor, innerWidth;
+      if (qx.core.Environment.get("qx.theme")) {
         var Color = qx.theme.manager.Color.getInstance();
 
         color = {
-          top : Color.resolve(this.getColorTop()),
-          right : Color.resolve(this.getColorRight()),
-          bottom : Color.resolve(this.getColorBottom()),
-          left : Color.resolve(this.getColorLeft())
+          top: Color.resolve(this.getColorTop()),
+          right: Color.resolve(this.getColorRight()),
+          bottom: Color.resolve(this.getColorBottom()),
+          left: Color.resolve(this.getColorLeft())
         };
 
         innerColor = {
-          top : Color.resolve(this.getInnerColorTop()),
-          right : Color.resolve(this.getInnerColorRight()),
-          bottom : Color.resolve(this.getInnerColorBottom()),
-          left : Color.resolve(this.getInnerColorLeft())
+          top: Color.resolve(this.getInnerColorTop()),
+          right: Color.resolve(this.getInnerColorRight()),
+          bottom: Color.resolve(this.getInnerColorBottom()),
+          left: Color.resolve(this.getInnerColorLeft())
         };
-      }
-      else
-      {
+      } else {
         color = {
-          top : this.getColorTop(),
-          right : this.getColorRight(),
-          bottom : this.getColorBottom(),
-          left : this.getColorLeft()
+          top: this.getColorTop(),
+          right: this.getColorRight(),
+          bottom: this.getColorBottom(),
+          left: this.getColorLeft()
         };
 
         innerColor = {
-          top : this.getInnerColorTop(),
-          right : this.getInnerColorRight(),
-          bottom : this.getInnerColorBottom(),
-          left : this.getInnerColorLeft()
+          top: this.getInnerColorTop(),
+          right: this.getInnerColorRight(),
+          bottom: this.getInnerColorBottom(),
+          left: this.getInnerColorLeft()
         };
       }
 
       innerWidth = {
-        top : this.getInnerWidthTop(),
-        right : this.getInnerWidthRight(),
-        bottom : this.getInnerWidthBottom(),
-        left : this.getInnerWidthLeft()
+        top: this.getInnerWidthTop(),
+        right: this.getInnerWidthRight(),
+        bottom: this.getInnerWidthBottom(),
+        left: this.getInnerWidthLeft()
       };
 
       // Add outer borders
       var width = this.getWidthTop();
       if (width > 0) {
-        styles["border-top"] = width + "px " + this.getStyleTop() + " " + color.top;
+        styles["border-top"] =
+          width + "px " + this.getStyleTop() + " " + color.top;
       }
 
       width = this.getWidthRight();
       if (width > 0) {
-        styles["border-right"] = width + "px " + this.getStyleRight() + " " + color.right;
+        styles["border-right"] =
+          width + "px " + this.getStyleRight() + " " + color.right;
       }
 
       width = this.getWidthBottom();
       if (width > 0) {
-        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + color.bottom;
+        styles["border-bottom"] =
+          width + "px " + this.getStyleBottom() + " " + color.bottom;
       }
 
       width = this.getWidthLeft();
       if (width > 0) {
-        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + color.left;
+        styles["border-left"] =
+          width + "px " + this.getStyleLeft() + " " + color.left;
       }
 
       var innerOpacity = this.getInnerOpacity();
@@ -232,7 +220,6 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         this.__processInnerOpacity(innerColor, innerOpacity);
       }
 
-
       // inner border
       if (
         innerWidth.top > 0 ||
@@ -240,25 +227,29 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         innerWidth.bottom > 0 ||
         innerWidth.left > 0
       ) {
-
         var borderTop = (innerWidth.top || 0) + "px solid " + innerColor.top;
-        var borderRight = (innerWidth.right || 0) + "px solid " + innerColor.right;
-        var borderBottom = (innerWidth.bottom || 0) + "px solid " + innerColor.bottom;
+        var borderRight =
+          (innerWidth.right || 0) + "px solid " + innerColor.right;
+        var borderBottom =
+          (innerWidth.bottom || 0) + "px solid " + innerColor.bottom;
         var borderLeft = (innerWidth.left || 0) + "px solid " + innerColor.left;
 
         styles[":before"] = {
-          "width" : "100%",
-          "height" : "100%",
-          "position" : "absolute",
-          "content" : '""',
-          "border-top" : borderTop,
-          "border-right" : borderRight,
-          "border-bottom" : borderBottom,
-          "border-left" : borderLeft,
-          "left": 0,
-          "top" : 0
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          content: '""',
+          "border-top": borderTop,
+          "border-right": borderRight,
+          "border-bottom": borderBottom,
+          "border-left": borderLeft,
+          left: 0,
+          top: 0
         };
-        var boxSizingKey = qx.bom.Style.getCssName(qx.core.Environment.get("css.boxsizing"));
+
+        var boxSizingKey = qx.bom.Style.getCssName(
+          qx.core.Environment.get("css.boxsizing")
+        );
         styles[":before"][boxSizingKey] = "border-box";
 
         // make sure to apply the border radius as well
@@ -271,28 +262,39 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         // Add inner borders as shadows
         var shadowStyle = [];
 
-        if (innerColor.top && innerWidth.top &&
-            innerColor.top == innerColor.bottom &&
-            innerColor.top == innerColor.right &&
-            innerColor.top == innerColor.left &&
-            innerWidth.top == innerWidth.bottom &&
-            innerWidth.top == innerWidth.right &&
-            innerWidth.top == innerWidth.left)
-        {
-          shadowStyle.push("inset 0 0 0 " + innerWidth.top + "px " + innerColor.top);
-        }
-        else {
+        if (
+          innerColor.top &&
+          innerWidth.top &&
+          innerColor.top == innerColor.bottom &&
+          innerColor.top == innerColor.right &&
+          innerColor.top == innerColor.left &&
+          innerWidth.top == innerWidth.bottom &&
+          innerWidth.top == innerWidth.right &&
+          innerWidth.top == innerWidth.left
+        ) {
+          shadowStyle.push(
+            "inset 0 0 0 " + innerWidth.top + "px " + innerColor.top
+          );
+        } else {
           if (innerColor.top) {
-            shadowStyle.push("inset 0 " + (innerWidth.top || 0) + "px " + innerColor.top);
+            shadowStyle.push(
+              "inset 0 " + (innerWidth.top || 0) + "px " + innerColor.top
+            );
           }
           if (innerColor.right) {
-            shadowStyle.push("inset -" + (innerWidth.right || 0) + "px 0 " + innerColor.right);
+            shadowStyle.push(
+              "inset -" + (innerWidth.right || 0) + "px 0 " + innerColor.right
+            );
           }
           if (innerColor.bottom) {
-            shadowStyle.push("inset 0 -" + (innerWidth.bottom || 0) + "px " + innerColor.bottom);
+            shadowStyle.push(
+              "inset 0 -" + (innerWidth.bottom || 0) + "px " + innerColor.bottom
+            );
           }
           if (innerColor.left) {
-            shadowStyle.push("inset " + (innerWidth.left || 0) + "px 0 " + innerColor.left);
+            shadowStyle.push(
+              "inset " + (innerWidth.left || 0) + "px 0 " + innerColor.left
+            );
           }
         }
 
@@ -312,18 +314,18 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       }
     },
 
-
     /**
      * Converts the inner border's colors to rgba.
      *
      * @param innerColor {Map} map of top, right, bottom and left colors
      * @param innerOpacity {Number} alpha value
      */
-    __processInnerOpacity : function(innerColor, innerOpacity)
-    {
+    __processInnerOpacity(innerColor, innerOpacity) {
       if (!qx.core.Environment.get("css.rgba")) {
-          if (qx.core.Environment.get("qx.debug")) {
-          qx.log.Logger.warn("innerOpacity is configured but the browser doesn't support RGBA colors.");
+        if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn(
+            "innerOpacity is configured but the browser doesn't support RGBA colors."
+          );
         }
         return;
       }
@@ -336,31 +338,28 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       }
     },
 
-
-    _applyDoubleBorder : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyDoubleBorder() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     },
 
-
-   /**
-    * Implementation of the interface for the double border.
-    *
-    * @return {Map} A map containing the default insets.
-    *   (top, right, bottom, left)
-    */
-    __getDefaultInsetsForDoubleBorder : function()
-    {
+    /**
+     * Implementation of the interface for the double border.
+     *
+     * @return {Map} A map containing the default insets.
+     *   (top, right, bottom, left)
+     */
+    __getDefaultInsetsForDoubleBorder() {
       return {
-        top : this.getWidthTop() + this.getInnerWidthTop(),
-        right : this.getWidthRight() + this.getInnerWidthRight(),
-        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
-        left : this.getWidthLeft() + this.getInnerWidthLeft()
+        top: this.getWidthTop() + this.getInnerWidthTop(),
+        right: this.getWidthRight() + this.getInnerWidthRight(),
+        bottom: this.getWidthBottom() + this.getInnerWidthBottom(),
+        left: this.getWidthLeft() + this.getInnerWidthLeft()
       };
     }
   }

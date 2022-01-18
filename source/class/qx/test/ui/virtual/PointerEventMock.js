@@ -16,33 +16,30 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.PointerEventMock",
-{
-  extend : qx.event.type.Pointer,
+qx.Class.define("qx.test.ui.virtual.PointerEventMock", {
+  extend: qx.event.type.Pointer,
 
-  construct : function(type, config)
-  {
-    this.base(arguments);
+  construct(type, config) {
+    super();
     this.setType(type);
     this.__config = config;
   },
 
-  members :
-  {
-    clone : function() {
+  members: {
+    clone() {
       return this;
     },
 
-    getDocumentLeft : function() {
+    getDocumentLeft() {
       return this.__config.documentLeft || 0;
     },
 
-    getDocumentTop : function() {
+    getDocumentTop() {
       return this.__config.documentTop || 0;
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__config = null;
   }
 });

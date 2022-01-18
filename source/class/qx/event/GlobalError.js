@@ -28,28 +28,25 @@
  *
  * @ignore(qx.core, qx.core.Environment)
  */
-qx.Bootstrap.define("qx.event.GlobalError",
-{
-  statics :
-  {
-    __callback : null,
+qx.Bootstrap.define("qx.event.GlobalError", {
+  statics: {
+    __callback: null,
 
-    __originalOnError : null,
+    __originalOnError: null,
 
-    __context : null,
+    __context: null,
 
     /**
      * Little helper to check if the global error handling is enabled.
      * @return {Boolean} <code>true</code>, if it is enabled.
      */
-    __isGlobalErrorHandlingEnabled : function() {
+    __isGlobalErrorHandlingEnabled() {
       if (qx.core && qx.core.Environment) {
         return qx.core.Environment.get("qx.globalErrorHandling");
       } else {
         return !!qx.Bootstrap.getEnvironmentSetting("qx.globalErrorHandling");
       }
     },
-
 
     /**
      * Set the global fallback error handler
@@ -58,13 +55,11 @@ qx.Bootstrap.define("qx.event.GlobalError",
      *    exception, which caused the error
      * @param context {Object?window} The "this" context of the callback function
      */
-    setErrorHandler : function(callback, context)
-    {
+    setErrorHandler(callback, context) {
       this.__callback = callback || null;
       this.__context = context || window;
 
-      if (this.__isGlobalErrorHandlingEnabled())
-      {
+      if (this.__isGlobalErrorHandlingEnabled()) {
         // wrap the original onerror
         if (callback && window.onerror) {
           var wrappedHandler = qx.Bootstrap.bind(this.__onErrorWindow, this);
@@ -72,7 +67,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
             this.__originalOnError = window.onerror;
           }
           var self = this;
-          window.onerror = function(msg, uri, lineNumber) {
+          window.onerror = function (msg, uri, lineNumber) {
             self.__originalOnError(msg, uri, lineNumber);
             wrappedHandler(msg, uri, lineNumber);
           };
@@ -94,7 +89,6 @@ qx.Bootstrap.define("qx.event.GlobalError",
       }
     },
 
-
     /**
      * Catches all errors of the <code>window.onerror</code> handler
      * and passes an {@link qx.core.WindowError} object to the error
@@ -106,14 +100,13 @@ qx.Bootstrap.define("qx.event.GlobalError",
      * @param columnNumber {Integer} column number of error
      * @param exception {Error} orginal error
      */
-    __onErrorWindow : function(msg, uri, lineNumber, columnNumber, exception)
-    {
-      if (this.__callback)
-      {
-        this.handleError(new qx.core.WindowError(msg, uri, lineNumber, columnNumber, exception));
+    __onErrorWindow(msg, uri, lineNumber, columnNumber, exception) {
+      if (this.__callback) {
+        this.handleError(
+          new qx.core.WindowError(msg, uri, lineNumber, columnNumber, exception)
+        );
       }
     },
-
 
     /**
      * Wraps a method with error handling code. Only methods, which are called
@@ -122,47 +115,38 @@ qx.Bootstrap.define("qx.event.GlobalError",
      * @param method {Function} method to wrap
      * @return {Function} The function wrapped with error handling code
      */
-    observeMethod : function(method)
-    {
-      if (this.__isGlobalErrorHandlingEnabled())
-      {
+    observeMethod(method) {
+      if (this.__isGlobalErrorHandlingEnabled()) {
         var self = this;
-        return function()
-        {
+        return function () {
           if (!self.__callback) {
             return method.apply(this, arguments);
           }
 
           try {
             return method.apply(this, arguments);
-          } catch(ex) {
+          } catch (ex) {
             self.handleError(new qx.core.GlobalError(ex, arguments));
-         }
+          }
         };
-      }
-      else
-      {
+      } else {
         return method;
       }
     },
-
 
     /**
      * Delegates every given exception to the registered error handler
      *
      * @param ex {qx.core.WindowError|Error} Exception to delegate
      */
-    handleError : function(ex)
-    {
+    handleError(ex) {
       if (this.__callback) {
         this.__callback.call(this.__context, ex);
       }
     }
   },
 
-
-  defer : function(statics)
-  {
+  defer(statics) {
     // only use the environment class if already loaded
     if (qx.core && qx.core.Environment) {
       qx.core.Environment.add("qx.globalErrorHandling", true);

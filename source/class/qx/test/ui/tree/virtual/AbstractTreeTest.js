@@ -21,61 +21,49 @@
  * @ignore(qx.test.ui.tree.virtual.Node)
  */
 
-qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
-{
-  type : "abstract",
-  extend : qx.test.ui.LayoutTestCase,
-  include : [
-    qx.dev.unit.MMock,
-    qx.test.ui.list.MAssert
-  ],
+qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
+  type: "abstract",
+  extend: qx.test.ui.LayoutTestCase,
+  include: [qx.dev.unit.MMock, qx.test.ui.list.MAssert],
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
-    qx.Class.define("qx.test.ui.tree.virtual.Leaf",
-    {
-      extend : qx.core.Object,
-      include : qx.data.marshal.MEventBubbling,
+    qx.Class.define("qx.test.ui.tree.virtual.Leaf", {
+      extend: qx.core.Object,
+      include: qx.data.marshal.MEventBubbling,
 
-      construct : function(name)
-      {
-        this.base(arguments);
+      construct(name) {
+        super();
 
         this.setName(name);
       },
 
-      properties :
-      {
-        name :
-        {
-          check : "String",
-          event : "changeName",
-          apply : "_applyEventPropagation",
-          nullable : true
+      properties: {
+        name: {
+          check: "String",
+          event: "changeName",
+          apply: "_applyEventPropagation",
+          nullable: true
         }
       },
 
-      members :
-      {
-        toString : function() {
+      members: {
+        toString() {
           return this.getName();
         },
 
-        equals : function(item) {
+        equals(item) {
           return this.getName() === item.getName();
         }
       }
     });
 
-    qx.Class.define("qx.test.ui.tree.virtual.Node",
-    {
-      extend : qx.test.ui.tree.virtual.Leaf,
+    qx.Class.define("qx.test.ui.tree.virtual.Node", {
+      extend: qx.test.ui.tree.virtual.Leaf,
 
-      construct : function(name, children)
-      {
-        this.base(arguments, name);
+      construct(name, children) {
+        super(name);
 
         if (children == null) {
           children = new qx.data.Array();
@@ -83,23 +71,19 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
         this.setChildren(children);
       },
 
-      properties :
-      {
-        children :
-        {
-          check : "qx.data.Array",
-          event : "changeChildren",
-          apply : "_applyEventPropagation",
-          nullable : true
+      properties: {
+        children: {
+          check: "qx.data.Array",
+          event: "changeChildren",
+          apply: "_applyEventPropagation",
+          nullable: true
         }
       },
 
-      destruct : function()
-      {
-        if (!qx.core.ObjectRegistry.inShutDown)
-        {
+      destruct() {
+        if (!qx.core.ObjectRegistry.inShutDown) {
           var children = this.getChildren();
-          for (var i = 0; i  < children.getLength(); i++) {
+          for (var i = 0; i < children.getLength(); i++) {
             children.getItem(i).dispose();
           }
           children.dispose();
@@ -109,24 +93,18 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     });
   },
 
+  members: {
+    tree: null,
 
-  members :
-  {
-    tree : null,
-
-
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this.tree = new qx.ui.tree.VirtualTree();
       this.getRoot().add(this.tree);
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       this.tree.dispose();
       this.tree = null;
@@ -137,18 +115,14 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
       }
     },
 
-
-    createModel : function(level)
-    {
+    createModel(level) {
       var root = new qx.test.ui.tree.virtual.Node("Root node");
       this._createNodes(root, level);
 
       return root;
     },
 
-
-    createModelAndSetModel : function(level)
-    {
+    createModelAndSetModel(level) {
       this.model = this.createModel(level);
       this.tree.setLabelPath("name");
       this.tree.setChildProperty("children");
@@ -156,20 +130,15 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
       return this.model;
     },
 
-
-    getVisibleItemsFrom : function(parent, openNodes)
-    {
+    getVisibleItemsFrom(parent, openNodes) {
       var expected = [];
 
-      if (parent.getChildren() != null)
-      {
-        for (var i = 0; i < parent.getChildren().getLength(); i++)
-        {
+      if (parent.getChildren() != null) {
+        for (var i = 0; i < parent.getChildren().getLength(); i++) {
           var child = parent.getChildren().getItem(i);
           expected.push(child);
 
-          if (openNodes.indexOf(child) > -1)
-          {
+          if (openNodes.indexOf(child) > -1) {
             var otherExpected = this.getVisibleItemsFrom(child, openNodes);
             expected = expected.concat(otherExpected);
           }
@@ -179,20 +148,18 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
       return expected;
     },
 
-
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS TO CREATE A TREE STRUCTURE
     ---------------------------------------------------------------------------
     */
 
-
-    _createNodes : function(parent, level) {
-      if (level > 0)
-      {
-        for (var i = 0; i < 5; i++)
-        {
-          var item = new qx.test.ui.tree.virtual.Node("Node " + this.__getPrefix(parent) + i);
+    _createNodes(parent, level) {
+      if (level > 0) {
+        for (var i = 0; i < 5; i++) {
+          var item = new qx.test.ui.tree.virtual.Node(
+            "Node " + this.__getPrefix(parent) + i
+          );
           parent.getChildren().push(item);
 
           this._createNodes(item, level - 1);
@@ -201,19 +168,16 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
       }
     },
 
-
-    _createLeafs : function(parent)
-    {
-      for (var i = 0; i < 5; i++)
-      {
-        var child = new qx.test.ui.tree.virtual.Leaf("Leaf " + this.__getPrefix(parent) + i);
+    _createLeafs(parent) {
+      for (var i = 0; i < 5; i++) {
+        var child = new qx.test.ui.tree.virtual.Leaf(
+          "Leaf " + this.__getPrefix(parent) + i
+        );
         parent.getChildren().push(child);
       }
     },
 
-
-    __getPrefix : function(item)
-    {
+    __getPrefix(item) {
       var name = item.getName();
       var prefix = "";
       if (name.startsWith("Node")) {
@@ -223,8 +187,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     if (qx.Class.isDefined("qx.test.ui.tree.virtual.Leaf")) {
       qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
     }

@@ -34,9 +34,8 @@
  * Target, you have to use a DOM element e.g. a plain DIV element. Make sure
  * you have the template you are referencing in the DOM.
  */
-qx.Class.define("qx.data.controller.website.List",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.data.controller.website.List", {
+  extend: qx.core.Object,
 
   /**
    * @param model {qx.data.IListData|Array?} The mode which can either be a
@@ -45,9 +44,8 @@ qx.Class.define("qx.data.controller.website.List",
    *   the generation.
    * @param templateId {String?} The id of the template.
    */
-  construct : function(model, target, templateId)
-  {
-    this.base(arguments);
+  construct(model, target, templateId) {
+    super();
 
     if (templateId != null) {
       this.setTemplateId(templateId);
@@ -60,11 +58,9 @@ qx.Class.define("qx.data.controller.website.List",
     }
   },
 
-
-  properties : {
+  properties: {
     /** Array containing the data which should be shown in the list. */
-    model :
-    {
+    model: {
       check: "Array",
       apply: "_applyModel",
       event: "changeModel",
@@ -72,10 +68,8 @@ qx.Class.define("qx.data.controller.website.List",
       dereference: true
     },
 
-
     /** The target DOM node which should show the data. */
-    target :
-    {
+    target: {
       check: "Element",
       apply: "_applyTarget",
       event: "changeTarget",
@@ -84,27 +78,23 @@ qx.Class.define("qx.data.controller.website.List",
       dereference: true
     },
 
-
     /**
      * The id of the template which should be use. Check out
      * {@link qx.bom.Template} for details on templating.
      */
-    templateId :
-    {
+    templateId: {
       apply: "_applyTemplateId",
       event: "changeTemplateId",
       nullable: true,
       init: null
     },
 
-
     /**
      * The delegate for the list controller which supports almost all methods
      * documented in {@link qx.data.controller.IControllerDelegate} except
      * <code>bindItem</code>.
      */
-    delegate :
-    {
+    delegate: {
       apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
@@ -112,14 +102,12 @@ qx.Class.define("qx.data.controller.website.List",
     }
   },
 
-
-  members :
-  {
-    __changeModelListenerId : null,
-    __changeBubbleModelListenerId : null,
+  members: {
+    __changeModelListenerId: null,
+    __changeBubbleModelListenerId: null,
 
     // property apply
-    _applyModel : function(value, old) {
+    _applyModel(value, old) {
       // remove the old listener
       if (old != undefined) {
         if (this.__changeModelListenerId != undefined) {
@@ -135,10 +123,16 @@ qx.Class.define("qx.data.controller.website.List",
         // only for qooxdoo models
         if (value instanceof qx.core.Object) {
           // add new listeners
-          this.__changeModelListenerId =
-            value.addListener("change", this.update, this);
-          this.__changeBubbleModelListenerId =
-            value.addListener("changeBubble", this.update, this);
+          this.__changeModelListenerId = value.addListener(
+            "change",
+            this.update,
+            this
+          );
+          this.__changeBubbleModelListenerId = value.addListener(
+            "changeBubble",
+            this.update,
+            this
+          );
         }
       } else {
         var target = this.getTarget();
@@ -151,38 +145,33 @@ qx.Class.define("qx.data.controller.website.List",
       this.update();
     },
 
-
     // property apply
-    _applyTarget : function(value, old) {
+    _applyTarget(value, old) {
       this.update();
     },
 
-
     // property apply
-    _applyTemplateId : function(value, old) {
+    _applyTemplateId(value, old) {
       this.update();
     },
 
-
     // property apply
-    _applyDelegate : function(value, old) {
+    _applyDelegate(value, old) {
       this.update();
     },
-
 
     /**
      * Responsible for removing all items from the target element.
      */
-    __emptyTarget : function() {
+    __emptyTarget() {
       var target = this.getTarget();
-      for (var i= target.children.length -1; i >= 0; i--) {
+      for (var i = target.children.length - 1; i >= 0; i--) {
         var el = target.children[i];
         el.$$model = null;
         qx.dom.Element.remove(el);
       }
       target.innerHTML = "";
     },
-
 
     /**
      * This is the main method which will take the data from the model and
@@ -193,7 +182,7 @@ qx.Class.define("qx.data.controller.website.List",
      * This method also attaches to every created DOM element the model object
      * which was used to create it at <code>.$$model</code>.
      */
-    update : function() {
+    update() {
       var target = this.getTarget();
 
       // get the plain data
@@ -212,12 +201,13 @@ qx.Class.define("qx.data.controller.website.List",
       this.__emptyTarget();
 
       // delegate methods
-      var configureItem = this.getDelegate() && this.getDelegate().configureItem;
+      var configureItem =
+        this.getDelegate() && this.getDelegate().configureItem;
       var filter = this.getDelegate() && this.getDelegate().filter;
       var createItem = this.getDelegate() && this.getDelegate().createItem;
 
       // get all items in the model
-      for (var i=0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         var entry = data[i];
         // filter delegate
         if (filter && !filter(entry)) {
@@ -226,7 +216,7 @@ qx.Class.define("qx.data.controller.website.List",
 
         // special case for printing the content of the array
         if (typeof entry != "object") {
-          entry = {"." : data[i]};
+          entry = { ".": data[i] };
         }
 
         // create the DOM object

@@ -17,29 +17,24 @@
 
 ************************************************************************ */
 
-
 /**
  *
  * Media object for playing sounds.
- * 
+ *
  * NOTE: Instances of this class must be disposed of to free resources
  */
-qx.Class.define("qx.bom.media.Audio",
-{
-  extend : qx.bom.media.Abstract,
+qx.Class.define("qx.bom.media.Audio", {
+  extend: qx.bom.media.Abstract,
 
   /**
    * @param source {String} the source url to the sound file.
    */
-  construct : function(source)
-  {
+  construct(source) {
     this._audio = new window.Audio(source ? source : "");
-    this.base(arguments, this._audio);
+    super(this._audio);
   },
 
-
-  members : {
-    _audio : null
+  members: {
+    _audio: null
   }
 });
-

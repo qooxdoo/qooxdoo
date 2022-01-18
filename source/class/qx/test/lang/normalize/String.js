@@ -19,54 +19,45 @@
 /**
  * @require(qx.lang.normalize.String)
  */
-qx.Class.define("qx.test.lang.normalize.String",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MMock],
+qx.Class.define("qx.test.lang.normalize.String", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MMock],
 
-
-  members :
-  {
-    "test trim()" : function ()
-    {
+  members: {
+    "test trim()"() {
       this.assertEquals("y", "   y".trim());
       this.assertEquals("y", "y   ".trim());
       this.assertEquals("y", " y  ".trim());
     },
 
-
-    "test startsWith()" : function ()
-    {
+    "test startsWith()"() {
       var str = "To be, or not to be, that is the question.";
 
-      this.assertTrue ( str.startsWith("To be")         ); // true
-      this.assertFalse( str.startsWith("not to be")     ); // false
-      this.assertTrue ( str.startsWith("not to be", 10) ); // true
+      this.assertTrue(str.startsWith("To be")); // true
+      this.assertFalse(str.startsWith("not to be")); // false
+      this.assertTrue(str.startsWith("not to be", 10)); // true
     },
 
-
-    "test endsWith()" : function ()
-    {
+    "test endsWith()"() {
       var str = "To be, or not to be, that is the question.";
 
-      this.assertTrue ( str.endsWith("question.") ); // true
-      this.assertFalse( str.endsWith("to be")     ); // false
-      this.assertTrue ( str.endsWith("to be", 19) ); // true
+      this.assertTrue(str.endsWith("question.")); // true
+      this.assertFalse(str.endsWith("to be")); // false
+      this.assertTrue(str.endsWith("to be", 19)); // true
 
       //
       // Increase test covarage
       //
 
       // not finite
-      this.assertTrue ( str.endsWith("question.", Number.POSITIVE_INFINITY) );
-      this.assertFalse( str.endsWith("to be"    , Number.POSITIVE_INFINITY) );
+      this.assertTrue(str.endsWith("question.", Number.POSITIVE_INFINITY));
+      this.assertFalse(str.endsWith("to be", Number.POSITIVE_INFINITY));
       // float
-      this.assertTrue ( str.endsWith("question.", 42.2) );
-      this.assertFalse( str.endsWith("to be"    , 42.2) );
+      this.assertTrue(str.endsWith("question.", 42.2));
+      this.assertFalse(str.endsWith("to be", 42.2));
       // len > str.length
-      this.assertTrue ( str.endsWith("question.", 43) );
-      this.assertFalse( str.endsWith("to be"    , 43) );
-
+      this.assertTrue(str.endsWith("question.", 43));
+      this.assertFalse(str.endsWith("to be", 43));
     }
   }
 });

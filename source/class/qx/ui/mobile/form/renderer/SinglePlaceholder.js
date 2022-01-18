@@ -21,33 +21,25 @@
  * It presents a label into the placeholder of the form elements
  *
  */
-qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
-{
-
-  extend : qx.ui.mobile.form.renderer.Single,
+qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder", {
+  extend: qx.ui.mobile.form.renderer.Single,
 
   /**
    * @param form {qx.ui.mobile.form.Form} The target form of this renderer
    */
-  construct : function(form)
-  {
-    this.base(arguments,form);
+  construct(form) {
+    super(form);
     this.removeCssClass("single");
     this.addCssClass("single-placeholder");
   },
 
-
-  members :
-  {
-
+  members: {
     // override
-    addItems : function(items, names, title) {
-      if(title != null)
-      {
+    addItems(items, names, title) {
+      if (title != null) {
         this._addGroupHeader(title);
       }
       for (var i = 0, l = items.length; i < l; i++) {
-
         var item = items[i];
         var name = names[i];
 
@@ -66,6 +58,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
             row.add(item, {
               flex: 1
             });
+
             this._add(row);
           }
         }
@@ -75,6 +68,5 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
         }
       }
     }
-
   }
 });

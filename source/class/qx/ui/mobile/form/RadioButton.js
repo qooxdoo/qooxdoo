@@ -40,10 +40,9 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.form.RadioButton",
-{
-  extend : qx.ui.mobile.form.Input,
-  include : [qx.ui.mobile.form.MValue],
+qx.Class.define("qx.ui.mobile.form.RadioButton", {
+  extend: qx.ui.mobile.form.Input,
+  include: [qx.ui.mobile.form.MValue],
   implement: [qx.ui.form.IField],
 
   /*
@@ -55,88 +54,72 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   /**
    * @param value {Boolean?null} The value of the checkbox.
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
     this.addListener("tap", this._onTap, this);
   },
-
 
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
-  events :
-  {
+  events: {
     /**
      * Fired when the selection value is changed.
      */
-    changeValue : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "radio"
+    defaultCssClass: {
+      refine: true,
+      init: "radio"
     },
 
-
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
-    group :
-    {
-      check  : "qx.ui.mobile.form.RadioGroup",
-      nullable : true,
-      apply : "_applyGroup"
+    group: {
+      check: "qx.ui.mobile.form.RadioGroup",
+      nullable: true,
+      apply: "_applyGroup"
     }
   },
 
-
-  members :
-  {
-    _state : null,
+  members: {
+    _state: null,
 
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "span";
     },
 
-
     // overridden
-    _getType : function()
-    {
+    _getType() {
       return null;
     },
-
 
     /**
      * Reacts on tap on radio button.
      */
-    _onTap : function() {
+    _onTap() {
       this.fireDataEvent("changeValue", {});
 
       // Toggle State.
       this.setValue(true);
     },
 
-
     /**
      * The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons
      * @param value {qx.ui.form.RadioGroup} the new radio group to which this radio button belongs.
      * @param old {qx.ui.form.RadioGroup} the old radio group of this radio button.
      */
-    _applyGroup : function(value, old)
-    {
+    _applyGroup(value, old) {
       if (old) {
         old.remove(this);
       }
@@ -146,14 +129,13 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       }
     },
 
-
     /**
      * Sets the value [true/false] of this radio button.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
      * @param value {Boolean} the new value of the radio button
      */
-    _setValue : function(value) {
-      if(value == true) {
+    _setValue(value) {
+      if (value == true) {
         this.addCssClass("checked");
       } else {
         this.removeCssClass("checked");
@@ -162,25 +144,22 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       this._state = value;
     },
 
-
     /**
      * Gets the value [true/false] of this radio button.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
      * @return {Boolean} the value of the radio button
      */
-    _getValue : function() {
+    _getValue() {
       return this._state;
     }
   },
-
 
   /*
   *****************************************************************************
       DESTRUCTOR
   *****************************************************************************
   */
-  destruct : function()
-  {
+  destruct() {
     qx.event.Registration.removeListener(this, "tap", this._onTap, this);
   }
 });

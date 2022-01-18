@@ -16,183 +16,206 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Decoration",
-  {
-    extend: qx.dev.unit.TestCase,
+qx.Class.define("qx.test.theme.manager.Decoration", {
+  extend: qx.dev.unit.TestCase,
 
-    members:
-    {
-      __formerTheme : null,
-      __formerListener: null,
+  members: {
+    __formerTheme: null,
+    __formerListener: null,
 
-      setUp: function () {
-        this.manager = qx.theme.manager.Decoration.getInstance();
-        this.__formerTheme = this.manager.getTheme();
+    setUp() {
+      this.manager = qx.theme.manager.Decoration.getInstance();
+      this.__formerTheme = this.manager.getTheme();
 
-        let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-        let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-        this.__formerListener = {...listener[hash]};
-        delete listener[hash];
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      this.__formerListener = { ...listener[hash] };
+      delete listener[hash];
+    },
+
+    tearDown() {
+      qx.test.Theme.themes = null;
+      this.manager.setTheme(this.__formerTheme);
+      this.__formerTheme = null;
+
+      let listener = qx.event.Registration.getManager(
+        this.manager
+      ).getAllListeners();
+      let hash =
+        this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
+      listener[hash] = this.__formerListener;
+      this.__formerListener = null;
+      qx.ui.core.queue.Manager.flush();
+    },
+
+    testAlias() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        aliases: {
+          decoration: "test/decoration",
+          custom: "test/custom"
         },
 
-      tearDown: function () {
-        qx.test.Theme.themes = null;
-        this.manager.setTheme(this.__formerTheme);
-        this.__formerTheme = null;
+        decorations: {
+          main: {
+            style: {}
+          },
 
-        let listener = qx.event.Registration.getManager(this.manager).getAllListeners();
-        let hash = this.manager.$$hash || qx.core.ObjectRegistry.toHashCode(this.manager);
-        listener[hash] = this.__formerListener;
-        this.__formerListener = null;
-        qx.ui.core.queue.Manager.flush();
+          window: {
+            style: {}
+          }
+        }
+      });
+
+      this.manager.setTheme(qx.test.Theme.themes.A);
+
+      // make sure the decoration alias is set
+      var alias = qx.util.AliasManager.getInstance();
+      this.assertEquals("test/decoration", alias.resolve("decoration"));
+      this.assertEquals("test/custom", alias.resolve("custom"));
+    },
+
+    testAliasExtend() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        aliases: {
+          decoration: "test/decoration",
+          custom: "test/custom"
         },
 
-
-      testAlias: function () {
-        qx.Theme.define("qx.test.Theme.themes.A", {
-          aliases: {
-            decoration: "test/decoration",
-            custom: "test/custom"
+        decorations: {
+          main: {
+            style: {}
           },
-          decorations: {
-            "main": {
-              style: {}
-            },
-            "window": {
-              style: {}
-            }
+
+          window: {
+            style: {}
           }
-        });
+        }
+      });
 
-        this.manager.setTheme(qx.test.Theme.themes.A);
+      qx.Theme.define("qx.test.Theme.themes.B", {
+        extend: qx.test.Theme.themes.A,
+        decorations: {}
+      });
 
-        // make sure the decoration alias is set
-        var alias = qx.util.AliasManager.getInstance();
-        this.assertEquals("test/decoration", alias.resolve("decoration"));
-        this.assertEquals("test/custom", alias.resolve("custom"));
-      },
+      this.manager.setTheme(qx.test.Theme.themes.B);
 
+      // make sure the decoration alias is set
+      var alias = qx.util.AliasManager.getInstance();
+      this.assertEquals("test/decoration", alias.resolve("decoration"));
+      this.assertEquals("test/custom", alias.resolve("custom"));
+    },
 
-      testAliasExtend: function () {
-        qx.Theme.define("qx.test.Theme.themes.A", {
-          aliases: {
-            decoration: "test/decoration",
-            custom: "test/custom"
+    testAliasOverride() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        aliases: {
+          decoration: "test/decoration",
+          custom: "test/custom"
+        },
+
+        decorations: {
+          main: {
+            style: {}
           },
-          decorations: {
-            "main": {
-              style: {}
-            },
-            "window": {
-              style: {}
-            }
+
+          window: {
+            style: {}
           }
-        });
+        }
+      });
 
-        qx.Theme.define("qx.test.Theme.themes.B", {
-          extend: qx.test.Theme.themes.A,
-          decorations: {
-          }
-        });
+      qx.Theme.define("qx.test.Theme.themes.B", {
+        extend: qx.test.Theme.themes.A,
+        aliases: {
+          decoration: "juhu/decoration"
+        },
 
-        this.manager.setTheme(qx.test.Theme.themes.B);
+        decorations: {}
+      });
 
-        // make sure the decoration alias is set
-        var alias = qx.util.AliasManager.getInstance();
-        this.assertEquals("test/decoration", alias.resolve("decoration"));
-        this.assertEquals("test/custom", alias.resolve("custom"));
-      },
+      this.manager.setTheme(qx.test.Theme.themes.B);
 
+      // make sure the decoration alias is set
+      var alias = qx.util.AliasManager.getInstance();
+      this.assertEquals("juhu/decoration", alias.resolve("decoration"));
+      this.assertEquals("test/custom", alias.resolve("custom"));
+    },
 
-      testAliasOverride: function () {
-        qx.Theme.define("qx.test.Theme.themes.A", {
-          aliases: {
-            decoration: "test/decoration",
-            custom: "test/custom"
+    testChangeThemeEventFired() {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        aliases: {
+          decoration: "test/decoration",
+          custom: "test/custom"
+        },
+
+        decorations: {
+          main: {
+            style: {}
           },
-          decorations: {
-            "main": {
-              style: {}
-            },
-            "window": {
-              style: {}
-            }
+
+          window: {
+            style: {}
           }
-        });
+        }
+      });
 
-        qx.Theme.define("qx.test.Theme.themes.B", {
-          extend: qx.test.Theme.themes.A,
-          aliases: {
-            decoration: "juhu/decoration"
-          },
-          decorations: {
-          }
-        });
-
-        this.manager.setTheme(qx.test.Theme.themes.B);
-
-        // make sure the decoration alias is set
-        var alias = qx.util.AliasManager.getInstance();
-        this.assertEquals("juhu/decoration", alias.resolve("decoration"));
-        this.assertEquals("test/custom", alias.resolve("custom"));
-      },
-
-
-      testChangeThemeEventFired: function () {
-        qx.Theme.define("qx.test.Theme.themes.A", {
-          aliases: {
-            decoration: "test/decoration",
-            custom: "test/custom"
-          },
-          decorations: {
-            "main": {
-              style: {}
-            },
-            "window": {
-              style: {}
-            }
-          }
-        });
-
-        var that = this;
-        this.assertEventFired(this.manager, "changeTheme", function () {
+      var that = this;
+      this.assertEventFired(
+        this.manager,
+        "changeTheme",
+        function () {
           that.manager.setTheme(qx.test.Theme.themes.A);
-        }, function (e) {
-          that.assertIdentical(e.getData(), qx.test.Theme.themes.A, "Setting theme failed!");
-        });
-      },
+        },
+        function (e) {
+          that.assertIdentical(
+            e.getData(),
+            qx.test.Theme.themes.A,
+            "Setting theme failed!"
+          );
+        }
+      );
+    },
 
+    testAddCssClass() {
+      qx.Theme.define("qx.test.Theme.themes.B", {
+        aliases: {
+          decoration: "test/decoration",
+          custom: "test/custom"
+        },
 
-      testAddCssClass: function () {
-        qx.Theme.define("qx.test.Theme.themes.B", {
-          aliases: {
-            decoration: "test/decoration",
-            custom: "test/custom"
+        decorations: {
+          main: {
+            style: {}
           },
-          decorations: {
-            "main": {
-              style: {}
-            },
-            "window": {
-              style: {}
-            },
-            "test-add-css": {
-              style: {
-                backgroundColor: "red",
-                backgroundImage: "icon/16/places/folder-open.png"
-              }
+
+          window: {
+            style: {}
+          },
+
+          "test-add-css": {
+            style: {
+              backgroundColor: "red",
+              backgroundImage: "icon/16/places/folder-open.png"
             }
           }
-        });
+        }
+      });
 
-        this.manager.setTheme(qx.test.Theme.themes.B);
-        var selector = this.manager.addCssClass("test-add-css");
-        var sheet = qx.ui.style.Stylesheet.getInstance();
-        var elem = document.createElement("div");
-        elem.setAttribute("class", selector);
-        document.body.appendChild(elem);
-        var compStyle = window.getComputedStyle(elem);
-        this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb(compStyle.getPropertyValue("background-color")));
-      }
+      this.manager.setTheme(qx.test.Theme.themes.B);
+      var selector = this.manager.addCssClass("test-add-css");
+      var sheet = qx.ui.style.Stylesheet.getInstance();
+      var elem = document.createElement("div");
+      elem.setAttribute("class", selector);
+      document.body.appendChild(elem);
+      var compStyle = window.getComputedStyle(elem);
+      this.assertEquals(
+        "255,0,0",
+        qx.util.ColorUtil.cssStringToRgb(
+          compStyle.getPropertyValue("background-color")
+        )
+      );
     }
-  });
+  }
+});

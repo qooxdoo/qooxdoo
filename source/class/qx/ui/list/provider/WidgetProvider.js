@@ -23,26 +23,23 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.list.provider.WidgetProvider",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.list.provider.WidgetProvider", {
+  extend: qx.core.Object,
 
-  implement : [
-   qx.ui.virtual.core.IWidgetCellProvider,
-   qx.ui.list.provider.IListProvider
+  implement: [
+    qx.ui.virtual.core.IWidgetCellProvider,
+    qx.ui.list.provider.IListProvider
   ],
 
-  include : [qx.ui.list.core.MWidgetController],
-
+  include: [qx.ui.list.core.MWidgetController],
 
   /**
    * Creates the <code>WidgetProvider</code>
    *
    * @param list {qx.ui.list.List} list to provide.
    */
-  construct : function(list)
-  {
-    this.base(arguments);
+  construct(list) {
+    super();
 
     this._list = list;
 
@@ -54,16 +51,12 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     this._list.addListener("changeDelegate", this._onChangeDelegate, this);
   },
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.virtual.cell.WidgetCell} the used item renderer */
-    _itemRenderer : null,
-
+    _itemRenderer: null,
 
     /** @type {qx.ui.virtual.cell.WidgetCell} the used group renderer */
-    _groupRenderer : null,
-
+    _groupRenderer: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -71,26 +64,21 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     ---------------------------------------------------------------------------
     */
 
-
     // interface implementation
-    getCellWidget : function(row, column)
-    {
+    getCellWidget(row, column) {
       var widget = null;
 
-      if (!this._list._isGroup(row))
-      {
+      if (!this._list._isGroup(row)) {
         widget = this._itemRenderer.getCellWidget();
         widget.setUserData("cell.type", "item");
         this._bindItem(widget, this._list._lookup(row));
 
-        if(this._list._manager.isItemSelected(row)) {
+        if (this._list._manager.isItemSelected(row)) {
           this._styleSelectabled(widget);
         } else {
           this._styleUnselectabled(widget);
         }
-      }
-      else
-      {
+      } else {
         widget = this._groupRenderer.getCellWidget();
         widget.setUserData("cell.type", "group");
         this._bindGroupItem(widget, this._list._lookupGroup(row));
@@ -99,9 +87,8 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       return widget;
     },
 
-
     // interface implementation
-    poolCellWidget : function(widget) {
+    poolCellWidget(widget) {
       this._removeBindingsFrom(widget);
 
       if (widget.getUserData("cell.type") == "item") {
@@ -112,41 +99,41 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       this._onPool(widget);
     },
 
-
     // interface implementation
-    createLayer : function() {
+    createLayer() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
-
     // interface implementation
-    createItemRenderer : function()
-    {
-      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createItem");
+    createItemRenderer() {
+      var createWidget = qx.util.Delegate.getMethod(
+        this.getDelegate(),
+        "createItem"
+      );
 
       if (createWidget == null) {
-        createWidget = function() {
+        createWidget = function () {
           return new qx.ui.form.ListItem();
         };
       }
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
-        createWidget : createWidget
+        createWidget: createWidget
       });
 
       return renderer;
     },
 
-
     // interface implementation
-    createGroupRenderer : function() {
-      var createWidget = qx.util.Delegate.getMethod(this.getDelegate(), "createGroupItem");
+    createGroupRenderer() {
+      var createWidget = qx.util.Delegate.getMethod(
+        this.getDelegate(),
+        "createGroupItem"
+      );
 
-      if (createWidget == null)
-      {
-        createWidget = function()
-        {
+      if (createWidget == null) {
+        createWidget = function () {
           var group = new qx.ui.basic.Label();
           group.setAppearance("group-item");
 
@@ -156,32 +143,26 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
-        createWidget : createWidget
+        createWidget: createWidget
       });
 
       return renderer;
     },
 
-
     // interface implementation
-    styleSelectabled : function(row)
-    {
+    styleSelectabled(row) {
       var widget = this.__getWidgetFrom(row);
       this._styleSelectabled(widget);
     },
 
-
     // interface implementation
-    styleUnselectabled : function(row)
-    {
+    styleUnselectabled(row) {
       var widget = this.__getWidgetFrom(row);
       this._styleUnselectabled(widget);
     },
 
-
     // interface implementation
-    isSelectable : function(row)
-    {
+    isSelectable(row) {
       if (this._list._isGroup(row)) {
         return false;
       }
@@ -195,33 +176,29 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Styles a selected item.
      *
      * @param widget {qx.ui.core.Widget} widget to style.
      */
-    _styleSelectabled : function(widget) {
-      this.__updateStates(widget, {selected: 1});
+    _styleSelectabled(widget) {
+      this.__updateStates(widget, { selected: 1 });
     },
-
 
     /**
      * Styles a not selected item.
      *
      * @param widget {qx.ui.core.Widget} widget to style.
      */
-    _styleUnselectabled : function(widget) {
+    _styleUnselectabled(widget) {
       this.__updateStates(widget, {});
     },
-
 
     /**
      * Calls the delegate <code>onPool</code> method when it is used in the
@@ -229,8 +206,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    _onPool : function(item)
-    {
+    _onPool(item) {
       var onPool = qx.util.Delegate.getMethod(this.getDelegate(), "onPool");
 
       if (onPool != null) {
@@ -238,55 +214,51 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event handler for the created item widget event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onItemCreated : function(event)
-    {
+    _onItemCreated(event) {
       var widget = event.getData();
       this._configureItem(widget);
     },
 
-
     /**
      * Event handler for the created item widget event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onGroupItemCreated : function(event)
-    {
+    _onGroupItemCreated(event) {
       var widget = event.getData();
       this._configureGroupItem(widget);
     },
-
 
     /**
      * Event handler for the change delegate event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onChangeDelegate : function(event)
-    {
+    _onChangeDelegate(event) {
       this._itemRenderer.dispose();
       this._itemRenderer = this.createItemRenderer();
       this._itemRenderer.addListener("created", this._onItemCreated, this);
       this._groupRenderer.dispose();
       this._groupRenderer = this.createGroupRenderer();
-      this._groupRenderer.addListener("created", this._onGroupItemCreated, this);
+      this._groupRenderer.addListener(
+        "created",
+        this._onGroupItemCreated,
+        this
+      );
       this.removeBindings();
       this._list.getPane().fullUpdate();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -294,17 +266,15 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Helper method to get the widget from the passed row.
      *
      * @param row {Integer} row to search.
      * @return {qx.ui.core.Widget|null} The found widget or <code>null</code> when no widget found.
      */
-    __getWidgetFrom : function(row) {
+    __getWidgetFrom(row) {
       return this._list._layer.getRenderedCellWidget(row, 0);
     },
-
 
     /**
      * Helper method to update the states from a widget.
@@ -312,9 +282,8 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
      * @param widget {qx.ui.core.Widget} widget to set states.
      * @param states {Map} the state to set.
      */
-    __updateStates : function(widget, states)
-    {
-      if(widget == null) {
+    __updateStates(widget, states) {
+      if (widget == null) {
         return;
       }
 
@@ -322,9 +291,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this._itemRenderer.dispose();
     this._groupRenderer.dispose();
     this._itemRenderer = this._groupRenderer = null;

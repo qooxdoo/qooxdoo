@@ -21,29 +21,27 @@
  * Singleton wrapper for the stylesheet containing the CSS rules for HTML cells.
  *
  */
-qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
-{
-  extend : qx.core.Object,
-  type : "singleton",
+qx.Class.define("qx.ui.virtual.cell.CellStylesheet", {
+  extend: qx.core.Object,
+  type: "singleton",
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     var stylesheet =
       ".qx-cell {" +
-      qx.bom.element.Style.compile(
-      {
-        position : "absolute",
+      qx.bom.element.Style.compile({
+        position: "absolute",
         overflow: "hidden",
-        cursor : "default",
-        textOverflow : "ellipsis",
-        userSelect : "none"
+        cursor: "default",
+        textOverflow: "ellipsis",
+        userSelect: "none"
       }) +
       "} ";
 
     if (qx.core.Environment.get("css.boxsizing")) {
-      stylesheet += ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
+      stylesheet +=
+        ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
     }
 
     this.__stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
@@ -52,23 +50,19 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     this.__styles = {};
   },
 
-
-  members :
-  {
-    __stylesheet : null,
-    __classes : null,
-    __styles : null,
-
+  members: {
+    __stylesheet: null,
+    __classes: null,
+    __styles: null,
 
     /**
      * Get the DOM stylesheet element
      *
      * @return {StyleSheet} The DOM stylesheet element
      */
-    getStylesheet : function() {
+    getStylesheet() {
       return this.__stylesheet;
     },
-
 
     /**
      * Get the CSS class stored under the given key
@@ -77,10 +71,9 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
      * @return {String|null} The CSS class stored under the given key or
      *   <code>null</code>.
      */
-    getCssClass : function(key) {
+    getCssClass(key) {
       return this.__classes[key] || null;
     },
-
 
     /**
      * Dynamically create a CSS rule for the given style string. The selector is
@@ -91,14 +84,16 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
      * @param styleString {String} A compiled string of CSS rules.
      * @return {String} The CSS class name.
      */
-    computeClassForStyles : function(key, styleString)
-    {
+    computeClassForStyles(key, styleString) {
       var cssClass = this.__styles[styleString];
-      if (!cssClass)
-      {
+      if (!cssClass) {
         // generate stylesheet rule
         var cssClass = this.__getNextClassname();
-        qx.bom.Stylesheet.addRule(this.__stylesheet, "." + cssClass, styleString);
+        qx.bom.Stylesheet.addRule(
+          this.__stylesheet,
+          "." + cssClass,
+          styleString
+        );
         this.__styles[styleString] = cssClass;
       }
 
@@ -106,21 +101,18 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
       return cssClass;
     },
 
-
     /**
      * Get the next unique CSS class name
      *
      * @return {String} The next unique CSS class name
      */
-    __getNextClassname : function() {
-      return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);
+    __getNextClassname() {
+      return "qx-cell-" + this.toHashCode() + "-" + this.__classCounter++;
     },
-    __classCounter : 0
-
+    __classCounter: 0
   },
 
-
-  destruct : function() {
+  destruct() {
     this.__stylesheet = this.__classes = this.__styles = null;
   }
 });

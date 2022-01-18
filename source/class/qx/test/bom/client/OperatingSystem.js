@@ -16,25 +16,22 @@
 
  ************************************************************************ */
 
-qx.Class.define("qx.test.bom.client.OperatingSystem",
-  {
-    extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.client.OperatingSystem", {
+  extend: qx.dev.unit.TestCase,
 
-    members :
-    {
+  members: {
+    testUsageOfGetName() {
+      var osName = qx.bom.client.OperatingSystem.getName();
+      this.assertString(osName);
+      this.assertNotEquals("", osName);
+    },
 
-      testUsageOfGetName: function () {
-        var osName = qx.bom.client.OperatingSystem.getName();
-        this.assertString(osName);
-        this.assertNotEquals("", osName);
-      },
-
-      testUsageOfGetVersion: function () {
-        if (qx.bom.client.OperatingSystem.getName() !== "linux") {
-          var osVersion = qx.bom.client.OperatingSystem.getVersion();
-          this.assertString(osVersion);
-          this.assertNotEquals("", osVersion);
-        }
+    testUsageOfGetVersion() {
+      if (qx.bom.client.OperatingSystem.getName() !== "linux") {
+        var osVersion = qx.bom.client.OperatingSystem.getVersion();
+        this.assertString(osVersion);
+        this.assertNotEquals("", osVersion);
       }
     }
-  });
+  }
+});

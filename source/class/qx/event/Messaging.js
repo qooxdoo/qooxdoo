@@ -39,22 +39,17 @@
  *   m.emit("get", "/address/1234");
  * </pre>
  */
-qx.Bootstrap.define("qx.event.Messaging",
-{
-  construct : function()
-  {
+qx.Bootstrap.define("qx.event.Messaging", {
+  construct() {
     this._listener = {};
     this.__listenerIdCount = 0;
     this.__channelToIdMapping = {};
   },
 
-
-  members :
-  {
-    _listener : null,
-    __listenerIdCount : null,
-    __channelToIdMapping : null,
-
+  members: {
+    _listener: null,
+    __listenerIdCount: null,
+    __channelToIdMapping: null,
 
     /**
      * Adds a route handler for the given channel. The route is called
@@ -66,11 +61,9 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
-    on : function(channel, type, handler, scope) {
+    on(channel, type, handler, scope) {
       return this._addListener(channel, type, handler, scope);
     },
-
-
 
     /**
      * Adds a handler for the "any" channel. The "any" channel is called
@@ -81,10 +74,9 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
-    onAny : function(type, handler, scope) {
+    onAny(type, handler, scope) {
       return this._addListener("any", type, handler, scope);
     },
-
 
     /**
      * Adds a listener for a certain channel.
@@ -95,41 +87,43 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param scope {var ? null} The scope of the handler.
      * @return {String} The id of the route used to remove the route.
      */
-    _addListener : function(channel, type, handler, scope) {
-      var listeners = this._listener[channel] = this._listener[channel] || {};
+    _addListener(channel, type, handler, scope) {
+      var listeners = (this._listener[channel] = this._listener[channel] || {});
       var id = this.__listenerIdCount++;
       var params = [];
       var param = null;
 
       // Convert the route to a regular expression.
-      if (qx.lang.Type.isString(type))
-      {
+      if (qx.lang.Type.isString(type)) {
         var paramsRegexp = /\{([\w\d]+)\}/g;
 
         while ((param = paramsRegexp.exec(type)) !== null) {
           params.push(param[1]);
         }
-        type = new RegExp("^" + type.replace(paramsRegexp, "([^\/]+)") + "$");
+        type = new RegExp("^" + type.replace(paramsRegexp, "([^/]+)") + "$");
       }
 
-      listeners[id] = {regExp:type, params:params, handler:handler, scope:scope};
+      listeners[id] = {
+        regExp: type,
+        params: params,
+        handler: handler,
+        scope: scope
+      };
       this.__channelToIdMapping[id] = channel;
       return id;
     },
-
 
     /**
      * Removes a registered listener by the given id.
      *
      * @param id {String} The id of the registered listener.
      */
-    remove : function(id) {
+    remove(id) {
       var channel = this.__channelToIdMapping[id];
       var listener = this._listener[channel];
       delete listener[id];
       delete this.__channelToIdMapping[id];
     },
-
 
     /**
      * Checks if a listener is registered for the given path in the given channel.
@@ -138,14 +132,13 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param path {String} The path to check.
      * @return {Boolean} Whether a listener is registered.
      */
-    has : function(channel, path) {
+    has(channel, path) {
       var listeners = this._listener[channel];
       if (!listeners || qx.lang.Object.isEmpty(listeners)) {
         return false;
       }
 
-      for (var id in listeners)
-      {
+      for (var id in listeners) {
         var listener = listeners[id];
         if (listener.regExp.test(path)) {
           return true;
@@ -163,10 +156,9 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
      */
-    emit : function(channel, path, params, customData) {
+    emit(channel, path, params, customData) {
       this._emit(channel, path, params, customData);
     },
-
 
     /**
      * Executes a certain channel with a given path. Informs all
@@ -177,21 +169,31 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param params {Map} The given parameters that should be propagated
      * @param customData {var} The given custom data that should be propagated
      */
-    _emit : function(channel, path, params, customData)
-    {
+    _emit(channel, path, params, customData) {
       var listenerMatchedAny = false;
       var listener = this._listener["any"];
-      listenerMatchedAny = this._emitListeners(channel, path, listener, params, customData);
+      listenerMatchedAny = this._emitListeners(
+        channel,
+        path,
+        listener,
+        params,
+        customData
+      );
 
       var listenerMatched = false;
       listener = this._listener[channel];
-      listenerMatched = this._emitListeners(channel, path, listener, params, customData);
+      listenerMatched = this._emitListeners(
+        channel,
+        path,
+        listener,
+        params,
+        customData
+      );
 
       if (!listenerMatched && !listenerMatchedAny) {
         qx.Bootstrap.info("No listener found for " + path);
       }
     },
-
 
     /**
      * Executes all given listener for a certain channel. Checks all listeners if they match
@@ -205,20 +207,23 @@ qx.Bootstrap.define("qx.event.Messaging",
      *
      * @return {Boolean} Whether the route has been executed
      */
-    _emitListeners : function(channel, path, listeners, params, customData)
-    {
+    _emitListeners(channel, path, listeners, params, customData) {
       if (!listeners || qx.lang.Object.isEmpty(listeners)) {
         return false;
       }
       var listenerMatched = false;
-      for (var id in listeners)
-      {
+      for (var id in listeners) {
         var listener = listeners[id];
-        listenerMatched |= this._emitRoute(channel, path, listener, params, customData);
+        listenerMatched |= this._emitRoute(
+          channel,
+          path,
+          listener,
+          params,
+          customData
+        );
       }
       return listenerMatched;
     },
-
 
     /**
      * Executes a certain listener. Checks if the listener matches the given path and
@@ -232,17 +237,14 @@ qx.Bootstrap.define("qx.event.Messaging",
      *
      * @return {Boolean} Whether the route has been executed
      */
-    _emitRoute : function(channel, path, listener, params, customData)
-    {
+    _emitRoute(channel, path, listener, params, customData) {
       var match = listener.regExp.exec(path);
-      if (match)
-      {
+      if (match) {
         var params = params || {};
         var param = null;
         var value = null;
         match.shift(); // first match is the whole path
-        for (var i=0; i < match.length; i++)
-        {
+        for (var i = 0; i < match.length; i++) {
           value = match[i];
           param = listener.params[i];
           if (param) {
@@ -251,7 +253,11 @@ qx.Bootstrap.define("qx.event.Messaging",
             params[i] = value;
           }
         }
-        listener.handler.call(listener.scope, {path:path, params:params, customData:customData});
+        listener.handler.call(listener.scope, {
+          path: path,
+          params: params,
+          customData: customData
+        });
       }
 
       return match != undefined;

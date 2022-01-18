@@ -25,17 +25,15 @@
  * @ignore(process.*)
  */
 qx.Class.define("qx.log.appender.NodeConsole", {
-
-  statics:
-  {
+  statics: {
     /**
      * process.stdout
      */
-    __OUT : null,
+    __OUT: null,
     /**
      * process.stderr
      */
-    __ERR : null,
+    __ERR: null,
 
     /**
      * Whether to use color codes
@@ -46,11 +44,11 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      * Which ANSI color codes to use for which log level
      */
     __colorCodes: {
-      debug: '\u001b[38;5;3m', // yellow
+      debug: "\u001b[38;5;3m", // yellow
       info: "\u001b[38;5;12m", // light blue
-      warn: '\u001b[38;5;9m',  // light right
-      error: '\u001b[38;5;1m', // red
-      reset: '\u001b[0m'
+      warn: "\u001b[38;5;9m", // light right
+      error: "\u001b[38;5;1m", // red
+      reset: "\u001b[0m"
     },
 
     /**
@@ -69,15 +67,15 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      * @param logMessage {String} Message to be logged
      * @param level {String} Log level. One of "debug", "info", "warn", "error"
      */
-    log : function(logMessage, level)
-    {
+    log(logMessage, level) {
       if (this.__useColors && this.__colorCodes[level]) {
-        logMessage = this.__colorCodes[level] + logMessage + this.__colorCodes.reset;
+        logMessage =
+          this.__colorCodes[level] + logMessage + this.__colorCodes.reset;
       }
       if (level === "error") {
-        this.__ERR.write(logMessage+'\n');
+        this.__ERR.write(logMessage + "\n");
       } else {
-        this.__OUT.write(logMessage+'\n');
+        this.__OUT.write(logMessage + "\n");
       }
     },
 
@@ -86,8 +84,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    debug : function(logMessage)
-    {
+    debug(logMessage) {
       this.log(logMessage, "debug");
     },
 
@@ -96,8 +93,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    info : function(logMessage)
-    {
+    info(logMessage) {
       this.log(logMessage, "info");
     },
 
@@ -106,8 +102,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    warn : function(logMessage)
-    {
+    warn(logMessage) {
       this.log(logMessage, "warn");
     },
 
@@ -116,8 +111,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      *
      * @param logMessage {String} Message to be logged
      */
-    error : function(logMessage)
-    {
+    error(logMessage) {
       this.log(logMessage, "error");
     },
 
@@ -126,13 +120,12 @@ qx.Class.define("qx.log.appender.NodeConsole", {
      *
      * @param entry {Map} Log entry object
      */
-    process : function(entry)
-    {
+    process(entry) {
       let level = entry.level || "info";
       for (let prop of Object.keys(entry)) {
         if (prop === "items") {
           let items = entry[prop];
-          for (var p=0; p<items.length; p++) {
+          for (var p = 0; p < items.length; p++) {
             let item = items[p];
             this[level](item.text);
           }
@@ -144,9 +137,8 @@ qx.Class.define("qx.log.appender.NodeConsole", {
   /**
    * @ignore(process.*)
    */
-  defer : function(statics)
-  {
-    if (typeof(process) !== "undefined") {
+  defer(statics) {
+    if (typeof process !== "undefined") {
       statics.__OUT = process.stdout;
       statics.__ERR = process.stderr;
       qx.log.Logger.register(statics);

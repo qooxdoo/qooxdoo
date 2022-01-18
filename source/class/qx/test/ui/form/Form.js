@@ -15,68 +15,104 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Form",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.form.Form", {
+  extend: qx.test.ui.LayoutTestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-
-    __testRequired: function(widget) {
+  members: {
+    __testRequired(widget) {
       // check if the interface is implemented
-      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      this.assert(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm),
+        "Interface not implemented."
+      );
       // test for the default (false)
-      this.assertFalse(widget.getRequired(), "Default required state is wrong.");
+      this.assertFalse(
+        widget.getRequired(),
+        "Default required state is wrong."
+      );
 
       // check for the event
       var self = this;
       widget.setRequired(false);
-      this.assertEventFired(widget, "changeRequired", function () {
-        widget.setRequired(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event!");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeRequired",
+        function () {
+          widget.setRequired(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event!");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       // check if the state is set
-      this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
+      this.assertTrue(
+        widget.getRequired(),
+        "Setting of the required flag did not work."
+      );
 
       widget.dispose();
     },
 
-    __testValid: function(widget, where) {
+    __testValid(widget, where) {
       // check if the interface is implemented
-      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      this.assert(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm),
+        "Interface not implemented."
+      );
 
       this.getRoot().add(widget);
 
       // test for the default (true)
       this.assertTrue(widget.getValid(), "Default valid state is wrong.");
-      this.assertFalse(!!widget.hasState("invalid"), "Should not have the invalid state.");
+      this.assertFalse(
+        !!widget.hasState("invalid"),
+        "Should not have the invalid state."
+      );
 
       widget.setValid(false);
 
       // check if the state is set
-      this.assertFalse(widget.getValid(), "Setting of the valid flag did not work.");
-      this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
+      this.assertFalse(
+        widget.getValid(),
+        "Setting of the valid flag did not work."
+      );
+      this.assertTrue(
+        widget.hasState("invalid"),
+        "Should have the invalid state."
+      );
 
       // check for the event
       var self = this;
-      this.assertEventFired(widget, "changeValid", function () {
-        widget.setValid(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event.");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeValid",
+        function () {
+          widget.setValid(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event.");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // check for the event
-      this.assertEventFired(widget, "changeInvalidMessage", function () {
-        widget.setInvalidMessage("affe");
-      }, function(e) {
-        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
-        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        widget,
+        "changeInvalidMessage",
+        function () {
+          widget.setInvalidMessage("affe");
+        },
+        function (e) {
+          self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+          self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // set the widget to invalid
       widget.setValid(false);
@@ -84,8 +120,8 @@ qx.Class.define("qx.test.ui.form.Form",
       if (where !== "dont") {
         // needs to be tests async because of a strange behavior in opera 9
         var self = this;
-        window.setTimeout(function() {
-          self.resume(function() {
+        window.setTimeout(function () {
+          self.resume(function () {
             this.__testInvalidBorder(widget);
 
             widget.destroy();
@@ -97,153 +133,164 @@ qx.Class.define("qx.test.ui.form.Form",
       widget.destroy();
     },
 
-    __testInvalidBorder: function(widget) {
+    __testInvalidBorder(widget) {
       this.flush();
 
       // check for the invalid decorator
-      this.assertNotEquals(-1, widget.getDecorator().indexOf("invalid"), "Decorator not set!");
+      this.assertNotEquals(
+        -1,
+        widget.getDecorator().indexOf("invalid"),
+        "Decorator not set!"
+      );
 
       // check the focus
       widget.focus();
       this.flush();
-      this.assertNotEquals(-1, widget.getDecorator().indexOf("invalid"), "Decorator not set!");
+      this.assertNotEquals(
+        -1,
+        widget.getDecorator().indexOf("invalid"),
+        "Decorator not set!"
+      );
     },
 
-    testRequiredSpinner: function() {
+    testRequiredSpinner() {
       this.__testRequired(new qx.ui.form.Spinner());
     },
 
-    testValidSpinner: function() {
-     this.__testValid(new qx.ui.form.Spinner());
+    testValidSpinner() {
+      this.__testValid(new qx.ui.form.Spinner());
     },
 
-    testRequiredSlider: function() {
+    testRequiredSlider() {
       this.__testRequired(new qx.ui.form.Slider());
     },
 
-    testValidSlider: function() {
-     this.__testValid(new qx.ui.form.Slider());
+    testValidSlider() {
+      this.__testValid(new qx.ui.form.Slider());
     },
 
-    testRequiredTextField: function() {
+    testRequiredTextField() {
       this.__testRequired(new qx.ui.form.TextField());
     },
 
-    testValidTextField: function() {
-     this.__testValid(new qx.ui.form.TextField());
+    testValidTextField() {
+      this.__testValid(new qx.ui.form.TextField());
     },
 
-    testRequiredTextArea: function() {
+    testRequiredTextArea() {
       this.__testRequired(new qx.ui.form.TextArea());
     },
 
-    testValidTextArea: function() {
-     this.__testValid(new qx.ui.form.TextArea());
+    testValidTextArea() {
+      this.__testValid(new qx.ui.form.TextArea());
     },
 
-    testRequiredPasswordField: function() {
+    testRequiredPasswordField() {
       this.__testRequired(new qx.ui.form.PasswordField());
     },
 
-    testValidPasswordField: function() {
-     this.__testValid(new qx.ui.form.PasswordField());
+    testValidPasswordField() {
+      this.__testValid(new qx.ui.form.PasswordField());
     },
 
-    testRequiredComboBox: function() {
+    testRequiredComboBox() {
       this.__testRequired(new qx.ui.form.ComboBox());
     },
 
-    testValidComboBox: function() {
-     this.__testValid(new qx.ui.form.ComboBox());
+    testValidComboBox() {
+      this.__testValid(new qx.ui.form.ComboBox());
     },
 
-    testRequiredSelectBox: function() {
+    testRequiredSelectBox() {
       this.__testRequired(new qx.ui.form.SelectBox());
     },
 
-    testValidSelectBox: function() {
+    testValidSelectBox() {
       this.__testValid(new qx.ui.form.SelectBox());
     },
 
-    testRequiredCheckBox: function() {
+    testRequiredCheckBox() {
       this.__testRequired(new qx.ui.form.CheckBox());
     },
 
-    testValidCheckBox: function() {
-     this.__testValid(new qx.ui.form.CheckBox(), "dont");
+    testValidCheckBox() {
+      this.__testValid(new qx.ui.form.CheckBox(), "dont");
     },
 
-    testValidRadioButton: function() {
-     this.__testValid(new qx.ui.form.RadioButton(), "dont");
+    testValidRadioButton() {
+      this.__testValid(new qx.ui.form.RadioButton(), "dont");
     },
 
-    testRequiredRadioButton: function() {
+    testRequiredRadioButton() {
       this.__testRequired(new qx.ui.form.RadioButton());
     },
 
-    testValidGroupBox: function() {
-     this.__testValid(new qx.ui.groupbox.GroupBox(), "dont");
+    testValidGroupBox() {
+      this.__testValid(new qx.ui.groupbox.GroupBox(), "dont");
     },
 
-    testRequiredGroupBox: function() {
+    testRequiredGroupBox() {
       this.__testRequired(new qx.ui.groupbox.GroupBox());
     },
 
-    testValidRadioGroupBox: function() {
-     this.__testValid(new qx.ui.groupbox.RadioGroupBox(), "dont");
+    testValidRadioGroupBox() {
+      this.__testValid(new qx.ui.groupbox.RadioGroupBox(), "dont");
     },
 
-    testRequiredRadioGroupBox: function() {
+    testRequiredRadioGroupBox() {
       this.__testRequired(new qx.ui.groupbox.RadioGroupBox());
     },
 
-    testValidCheckGroupBox: function() {
-     this.__testValid(new qx.ui.groupbox.CheckGroupBox(), "dont");
+    testValidCheckGroupBox() {
+      this.__testValid(new qx.ui.groupbox.CheckGroupBox(), "dont");
     },
 
-    testRequiredCheckGroupBox: function() {
+    testRequiredCheckGroupBox() {
       this.__testRequired(new qx.ui.groupbox.CheckGroupBox());
     },
 
-    testValidList: function() {
-     this.__testValid(new qx.ui.form.List());
+    testValidList() {
+      this.__testValid(new qx.ui.form.List());
     },
 
-    testRequiredList: function() {
+    testRequiredList() {
       this.__testRequired(new qx.ui.form.List());
     },
 
-    testValidTree: function() {
-     this.__testValid(new qx.ui.tree.Tree());
+    testValidTree() {
+      this.__testValid(new qx.ui.tree.Tree());
     },
 
-    testRequiredTree: function() {
+    testRequiredTree() {
       this.__testRequired(new qx.ui.tree.Tree());
     },
 
-    testRequiredDateField: function() {
+    testRequiredDateField() {
       this.__testRequired(new qx.ui.form.DateField());
     },
 
-    testValidDateField: function() {
-     this.__testValid(new qx.ui.form.DateField());
+    testValidDateField() {
+      this.__testValid(new qx.ui.form.DateField());
     },
 
-    testRequiredDateChooser: function() {
+    testRequiredDateChooser() {
       this.__testRequired(new qx.ui.form.DateField());
     },
 
-    testValidDateChooser: function() {
-     this.__testValid(new qx.ui.form.DateField());
+    testValidDateChooser() {
+      this.__testValid(new qx.ui.form.DateField());
     },
 
-    testValidRadioGroup : function() {
+    testValidRadioGroup() {
       var group = new qx.ui.form.RadioGroup();
       var rb = new qx.ui.form.RadioButton();
       group.add(rb);
 
       // check if the interface is implemented
-      this.assert(qx.Class.hasInterface(group.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      this.assert(
+        qx.Class.hasInterface(group.constructor, qx.ui.form.IForm),
+        "Interface not implemented."
+      );
 
       // test for the default (true)
       this.assertTrue(group.getValid(), "Default valid state is wrong.");
@@ -251,24 +298,39 @@ qx.Class.define("qx.test.ui.form.Form",
       group.setValid(false);
 
       // check if the state is set
-      this.assertFalse(group.getValid(), "Setting of the valid flag did not work.");
+      this.assertFalse(
+        group.getValid(),
+        "Setting of the valid flag did not work."
+      );
 
       // check for the event
       var self = this;
-      this.assertEventFired(group, "changeValid", function () {
-        group.setValid(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event.");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        group,
+        "changeValid",
+        function () {
+          group.setValid(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event.");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // check for the event
-      this.assertEventFired(group, "changeInvalidMessage", function () {
-        group.setInvalidMessage("affe");
-      }, function(e) {
-        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
-        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        group,
+        "changeInvalidMessage",
+        function () {
+          group.setInvalidMessage("affe");
+        },
+        function (e) {
+          self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+          self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // set the widget to invalid
       group.setValid(false);
@@ -276,27 +338,34 @@ qx.Class.define("qx.test.ui.form.Form",
       // check if the child is invalid
       this.assertFalse(rb.getValid(), "Child is valid!");
       // check the invalid message of the child
-      this.assertEquals("affe", rb.getInvalidMessage(), "Invalid messages not set on child.");
+      this.assertEquals(
+        "affe",
+        rb.getInvalidMessage(),
+        "Invalid messages not set on child."
+      );
 
       group.dispose();
       rb.destroy();
     },
 
-    testRequiredRadioGroup : function() {
+    testRequiredRadioGroup() {
       this.__testRequired(new qx.ui.form.RadioGroup());
     },
 
-    testRequiredRadioButtonGroup: function() {
+    testRequiredRadioButtonGroup() {
       this.__testRequired(new qx.ui.form.RadioButtonGroup());
     },
 
-    testValidRadioButtonGroup: function() {
+    testValidRadioButtonGroup() {
       var cont = new qx.ui.form.RadioButtonGroup();
       var rb = new qx.ui.form.RadioButton();
       cont.add(rb);
 
       // check if the interface is implemented
-      this.assert(qx.Class.hasInterface(cont.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      this.assert(
+        qx.Class.hasInterface(cont.constructor, qx.ui.form.IForm),
+        "Interface not implemented."
+      );
 
       // test for the default (true)
       this.assertTrue(cont.getValid(), "Default valid state is wrong.");
@@ -304,24 +373,39 @@ qx.Class.define("qx.test.ui.form.Form",
       cont.setValid(false);
 
       // check if the state is set
-      this.assertFalse(cont.getValid(), "Setting of the valid flag did not work.");
+      this.assertFalse(
+        cont.getValid(),
+        "Setting of the valid flag did not work."
+      );
 
       // check for the event
       var self = this;
-      this.assertEventFired(cont, "changeValid", function () {
-        cont.setValid(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event.");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        cont,
+        "changeValid",
+        function () {
+          cont.setValid(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event.");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // check for the event
-      this.assertEventFired(cont, "changeInvalidMessage", function () {
-        cont.setInvalidMessage("affe");
-      }, function(e) {
-        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
-        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        cont,
+        "changeInvalidMessage",
+        function () {
+          cont.setInvalidMessage("affe");
+        },
+        function (e) {
+          self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+          self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+        },
+        "Change event not fired!"
+      );
 
       // set the widget to invalid
       cont.setValid(false);
@@ -329,14 +413,17 @@ qx.Class.define("qx.test.ui.form.Form",
       // check if the child is invalid
       this.assertFalse(rb.getValid(), "Child is valid!");
       // check the invalid message of the child
-      this.assertEquals("affe", rb.getInvalidMessage(), "Invalid messages not set on child.");
+      this.assertEquals(
+        "affe",
+        rb.getInvalidMessage(),
+        "Invalid messages not set on child."
+      );
 
       cont.dispose();
       rb.destroy();
     },
 
-
-    testRedefineItem : function() {
+    testRedefineItem() {
       var form = new qx.ui.form.Form();
       var resetter = form._resetter;
       resetter.redefineItem = this.spy(resetter.redefineItem);
@@ -350,6 +437,5 @@ qx.Class.define("qx.test.ui.form.Form",
       item.dispose();
       form.dispose();
     }
-
   }
 });

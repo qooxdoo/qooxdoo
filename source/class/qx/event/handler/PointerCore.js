@@ -24,11 +24,10 @@
  * @require(qx.bom.client.Device)
  */
 qx.Bootstrap.define("qx.event.handler.PointerCore", {
+  extend: Object,
+  implement: [qx.core.IDisposable],
 
-  extend : Object,
-  implement: [ qx.core.IDisposable ],
-
-  statics : {
+  statics: {
     MOUSE_TO_POINTER_MAPPING: {
       mousedown: "pointerdown",
       mouseup: "pointerup",
@@ -45,29 +44,32 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
     MSPOINTER_TO_POINTER_MAPPING: {
-      MSPointerDown : "pointerdown",
-      MSPointerMove : "pointermove",
-      MSPointerUp : "pointerup",
-      MSPointerCancel : "pointercancel",
-      MSPointerLeave : "pointerleave",
+      MSPointerDown: "pointerdown",
+      MSPointerMove: "pointermove",
+      MSPointerUp: "pointerup",
+      MSPointerCancel: "pointercancel",
+      MSPointerLeave: "pointerleave",
       MSPointerEnter: "pointerenter",
-      MSPointerOver : "pointerover",
-      MSPointerOut : "pointerout"
+      MSPointerOver: "pointerover",
+      MSPointerOut: "pointerout"
     },
 
-    POINTER_TO_GESTURE_MAPPING : {
-      pointerdown : "gesturebegin",
-      pointerup : "gesturefinish",
-      pointercancel : "gesturecancel",
-      pointermove : "gesturemove"
+    POINTER_TO_GESTURE_MAPPING: {
+      pointerdown: "gesturebegin",
+      pointerup: "gesturefinish",
+      pointercancel: "gesturecancel",
+      pointermove: "gesturemove"
     },
 
-    LEFT_BUTTON : (qx.core.Environment.get("engine.name") == "mshtml" &&
-      qx.core.Environment.get("browser.documentmode") <= 8) ? 1 : 0,
+    LEFT_BUTTON:
+      qx.core.Environment.get("engine.name") == "mshtml" &&
+      qx.core.Environment.get("browser.documentmode") <= 8
+        ? 1
+        : 0,
 
-    SIM_MOUSE_DISTANCE : 25,
+    SIM_MOUSE_DISTANCE: 25,
 
-    SIM_MOUSE_DELAY : 2500,
+    SIM_MOUSE_DELAY: 2500,
 
     /**
      * Coordinates of the last touch. This needs to be static because the target could
@@ -76,7 +78,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * a delay which causes another target and with that, another instance of this handler.
      * last touch was.
      */
-    __lastTouch : null
+    __lastTouch: null
   },
 
   /**
@@ -86,13 +88,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
    * @param emitter {qx.event.Emitter?} Event emitter (used if dispatchEvent
    * is not supported, e.g. in IE8)
    */
-  construct : function(target, emitter) {
+  construct(target, emitter) {
     this.__defaultTarget = target;
     this.__emitter = emitter;
     this.__eventNames = [];
     this.__buttonStates = [];
     this.__activeTouches = [];
-    this._processedFlag = "$$qx" +
+    this._processedFlag =
+      "$$qx" +
       this.classname.substr(this.classname.lastIndexOf(".") + 1) +
       "Processed";
 
@@ -101,52 +104,78 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     if (engineName == "mshtml" && docMode == 10) {
       // listen to native prefixed events and custom unprefixed (see bug #8921)
       this.__eventNames = [
-        "MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut",
-        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+        "MSPointerDown",
+        "MSPointerMove",
+        "MSPointerUp",
+        "MSPointerCancel",
+        "MSPointerOver",
+        "MSPointerOut",
+        "pointerdown",
+        "pointermove",
+        "pointerup",
+        "pointercancel",
+        "pointerover",
+        "pointerout"
       ];
+
       this._initPointerObserver();
     } else {
       if (qx.core.Environment.get("event.mspointer")) {
         this.__nativePointerEvents = true;
       }
       this.__eventNames = [
-        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+        "pointerdown",
+        "pointermove",
+        "pointerup",
+        "pointercancel",
+        "pointerover",
+        "pointerout"
       ];
+
       this._initPointerObserver();
     }
     if (!qx.core.Environment.get("event.mspointer")) {
       if (qx.core.Environment.get("device.touch")) {
-        this.__eventNames = ["touchstart", "touchend", "touchmove", "touchcancel"];
+        this.__eventNames = [
+          "touchstart",
+          "touchend",
+          "touchmove",
+          "touchcancel"
+        ];
         this._initObserver(this._onTouchEvent);
       }
 
       this.__eventNames = [
-        "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"
+        "mousedown",
+        "mouseup",
+        "mousemove",
+        "mouseover",
+        "mouseout",
+        "contextmenu"
       ];
+
       this._initObserver(this._onMouseEvent);
     }
   },
 
-
-  members : {
-    __defaultTarget : null,
-    __emitter : null,
-    __eventNames : null,
-    __nativePointerEvents : false,
-    __wrappedListener : null,
-    __lastButtonState : 0,
-    __buttonStates : null,
-    __primaryIdentifier : null,
-    __activeTouches : null,
-    _processedFlag : null,
+  members: {
+    __defaultTarget: null,
+    __emitter: null,
+    __eventNames: null,
+    __nativePointerEvents: false,
+    __wrappedListener: null,
+    __lastButtonState: 0,
+    __buttonStates: null,
+    __primaryIdentifier: null,
+    __activeTouches: null,
+    _processedFlag: null,
 
     /**
      * Adds listeners to native pointer events if supported
      */
-    _initPointerObserver : function() {
+    _initPointerObserver() {
       this._initObserver(this._onPointerEvent);
     },
-
 
     /**
      * Register native event listeners
@@ -154,52 +183,62 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param useEmitter {Boolean} attach listener to Emitter instead of
      * native event
      */
-    _initObserver : function(callback, useEmitter) {
+    _initObserver(callback, useEmitter) {
       this.__wrappedListener = qx.lang.Function.listener(callback, this);
-      this.__eventNames.forEach(function(type) {
-        if (useEmitter && qx.dom.Node.isDocument(this.__defaultTarget)) {
-          if (!this.__defaultTarget.$$emitter) {
-            this.__defaultTarget.$$emitter = new qx.event.Emitter();
+      this.__eventNames.forEach(
+        function (type) {
+          if (useEmitter && qx.dom.Node.isDocument(this.__defaultTarget)) {
+            if (!this.__defaultTarget.$$emitter) {
+              this.__defaultTarget.$$emitter = new qx.event.Emitter();
+            }
+            this.__defaultTarget.$$emitter.on(type, this.__wrappedListener);
+          } else {
+            qx.bom.Event.addNativeListener(
+              this.__defaultTarget,
+              type,
+              this.__wrappedListener
+            );
           }
-          this.__defaultTarget.$$emitter.on(type, this.__wrappedListener);
-        } else {
-          qx.bom.Event.addNativeListener(this.__defaultTarget, type, this.__wrappedListener);
-        }
-      }.bind(this));
+        }.bind(this)
+      );
     },
 
     /**
      * Handler for native pointer events
      * @param domEvent {Event}  Native DOM event
      */
-    _onPointerEvent : function(domEvent) {
-      if (!qx.core.Environment.get("event.mspointer") ||
-          // workaround for bug #8533
-          (qx.core.Environment.get("browser.documentmode") === 10 && domEvent.type.toLowerCase().indexOf("ms") == -1)
-        )
-      {
+    _onPointerEvent(domEvent) {
+      if (
+        !qx.core.Environment.get("event.mspointer") ||
+        // workaround for bug #8533
+        (qx.core.Environment.get("browser.documentmode") === 10 &&
+          domEvent.type.toLowerCase().indexOf("ms") == -1)
+      ) {
         return;
       }
       if (!this.__nativePointerEvents) {
         domEvent.stopPropagation();
       }
-      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
+      var type =
+        qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[
+          domEvent.type
+        ] || domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
     },
 
-
     /**
      * Handler for touch events
      * @param domEvent {Event} Native DOM event
      */
-    _onTouchEvent: function(domEvent) {
+    _onTouchEvent(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
       domEvent[this._processedFlag] = true;
-      var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
+      var type =
+        qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var changedTouches = domEvent.changedTouches;
 
       this._determineActiveTouches(domEvent.type, changedTouches);
@@ -208,12 +247,16 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (domEvent.touches.length < this.__activeTouches.length) {
         // Firing pointer cancel for previously active touches.
         for (var i = this.__activeTouches.length - 1; i >= 0; i--) {
-          var cancelEvent = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
-            identifier: this.__activeTouches[i].identifier,
-            target: domEvent.target,
-            pointerType: "touch",
-            pointerId: this.__activeTouches[i].identifier + 2
-          });
+          var cancelEvent = new qx.event.type.dom.Pointer(
+            "pointercancel",
+            domEvent,
+            {
+              identifier: this.__activeTouches[i].identifier,
+              target: domEvent.target,
+              pointerType: "touch",
+              pointerId: this.__activeTouches[i].identifier + 2
+            }
+          );
 
           this._fireEvent(cancelEvent, "pointercancel", domEvent.target);
         }
@@ -235,7 +278,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       for (var i = 0, l = changedTouches.length; i < l; i++) {
         var touch = changedTouches[i];
 
-        var touchTarget = domEvent.view.document.elementFromPoint(touch.clientX,touch.clientY) || domEvent.target;
+        var touchTarget =
+          domEvent.view.document.elementFromPoint(
+            touch.clientX,
+            touch.clientY
+          ) || domEvent.target;
 
         var touchProps = {
           clientX: touch.clientX,
@@ -252,7 +299,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         if (domEvent.type == "touchstart") {
           // Fire pointerenter before pointerdown
-          var overEvt = new qx.event.type.dom.Pointer("pointerover", domEvent, touchProps);
+          var overEvt = new qx.event.type.dom.Pointer(
+            "pointerover",
+            domEvent,
+            touchProps
+          );
           this._fireEvent(overEvt, "pointerover", touchProps.target);
         }
 
@@ -262,9 +313,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           touchProps.button = 0;
           touchProps.buttons = 1;
           qx.event.handler.PointerCore.__lastTouch = {
-            "x": touch.clientX,
-            "y": touch.clientY,
-            "time": new Date().getTime()
+            x: touch.clientX,
+            y: touch.clientY,
+            time: new Date().getTime()
           };
         }
 
@@ -274,7 +325,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           // Fire pointerout after pointerup
-          var outEvt = new qx.event.type.dom.Pointer("pointerout", domEvent, touchProps);
+          var outEvt = new qx.event.type.dom.Pointer(
+            "pointerout",
+            domEvent,
+            touchProps
+          );
           // fire on the original target to make sure over / out event are on the same target
           this._fireEvent(outEvt, "pointerout", domEvent.target);
 
@@ -285,12 +340,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
     },
 
-
     /**
-    * Handler for touch events
-    * @param domEvent {Event} Native DOM event
-    */
-    _onMouseEvent : function(domEvent) {
+     * Handler for touch events
+     * @param domEvent {Event} Native DOM event
+     */
+    _onMouseEvent(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
@@ -307,7 +361,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (domEvent.type == "mousedown") {
         this.__buttonStates[domEvent.which] = 1;
       } else if (domEvent.type == "mouseup") {
-        if (qx.core.Environment.get("os.name") == "osx" && qx.core.Environment.get("engine.name") == "gecko") {
+        if (
+          qx.core.Environment.get("os.name") == "osx" &&
+          qx.core.Environment.get("engine.name") == "gecko"
+        ) {
           if (this.__buttonStates[domEvent.which] != 1 && domEvent.ctrlKey) {
             this.__buttonStates[1] = 0;
           }
@@ -316,16 +373,25 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__buttonStates[domEvent.which] = 0;
       }
 
-      var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
+      var type =
+        qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
 
       var buttonsPressed = qx.lang.Array.sum(this.__buttonStates);
 
-      var mouseProps = {pointerType : "mouse", pointerId: 1};
+      var mouseProps = { pointerType: "mouse", pointerId: 1 };
 
       // if the button state changes but not from or to zero
-      if (this.__lastButtonState != buttonsPressed && buttonsPressed !== 0 && this.__lastButtonState !== 0) {
-        var moveEvt = new qx.event.type.dom.Pointer("pointermove", domEvent, mouseProps);
+      if (
+        this.__lastButtonState != buttonsPressed &&
+        buttonsPressed !== 0 &&
+        this.__lastButtonState !== 0
+      ) {
+        var moveEvt = new qx.event.type.dom.Pointer(
+          "pointermove",
+          domEvent,
+          mouseProps
+        );
         this._fireEvent(moveEvt, "pointermove", target);
       }
       this.__lastButtonState = buttonsPressed;
@@ -349,13 +415,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this._fireEvent(evt, type, target);
     },
 
-
     /**
      * Determines the current active touches.
      * @param type {String} the DOM event type.
      * @param changedTouches {Array} the current changed touches.
      */
-    _determineActiveTouches: function(type, changedTouches) {
+    _determineActiveTouches(type, changedTouches) {
       if (type == "touchstart") {
         for (var i = 0; i < changedTouches.length; i++) {
           this.__activeTouches.push(changedTouches[i]);
@@ -366,7 +431,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         for (var i = 0; i < this.__activeTouches.length; i++) {
           var add = true;
           for (var j = 0; j < changedTouches.length; j++) {
-            if (this.__activeTouches[i].identifier == changedTouches[j].identifier) {
+            if (
+              this.__activeTouches[i].identifier == changedTouches[j].identifier
+            ) {
               add = false;
               break;
             }
@@ -380,7 +447,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
     },
 
-
     /**
      * Detects whether the given MouseEvent position is identical to the previously fired TouchEvent position.
      * If <code>true</code> the corresponding event can be identified as simulated.
@@ -388,7 +454,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param y {Integer} current mouse y
      * @return {Boolean} <code>true</code> if passed mouse position is a synthetic MouseEvent.
      */
-    _isSimulatedMouseEvent: function(x, y) {
+    _isSimulatedMouseEvent(x, y) {
       var touch = qx.event.handler.PointerCore.__lastTouch;
       if (touch) {
         var timeSinceTouch = new Date().getTime() - touch.time;
@@ -404,13 +470,16 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       return false;
     },
 
-
     /**
      * Removes native pointer event listeners.
      */
-    _stopObserver : function() {
+    _stopObserver() {
       for (var i = 0; i < this.__eventNames.length; i++) {
-        qx.bom.Event.removeNativeListener(this.__defaultTarget, this.__eventNames[i], this.__wrappedListener);
+        qx.bom.Event.removeNativeListener(
+          this.__defaultTarget,
+          this.__eventNames[i],
+          this.__wrappedListener
+        );
       }
     },
 
@@ -422,23 +491,24 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param target {Element ? null} event target
      * @return {qx.Promise?} a promise, if one was returned by event handlers
      */
-    _fireEvent : function(domEvent, type, target)
-    {
+    _fireEvent(domEvent, type, target) {
       target = target || domEvent.target;
       type = type || domEvent.type;
 
       var gestureEvent;
-      if ((domEvent.pointerType !== "mouse" ||
-           domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
-        (type == "pointerdown" || type == "pointerup" || type == "pointermove"))
-      {
+      if (
+        (domEvent.pointerType !== "mouse" ||
+          domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
+        (type == "pointerdown" || type == "pointerup" || type == "pointermove")
+      ) {
         gestureEvent = new qx.event.type.dom.Pointer(
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-          domEvent);
+          domEvent
+        );
         qx.event.type.dom.Pointer.normalize(gestureEvent);
         try {
           gestureEvent.srcElement = target;
-        }catch(ex) {
+        } catch (ex) {
           // Nothing - strict mode prevents writing to read only properties
         }
       }
@@ -446,22 +516,25 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (qx.core.Environment.get("event.dispatchevent")) {
         var tracker = {};
         if (!this.__nativePointerEvents) {
-          qx.event.Utils.then(tracker, function() {
+          qx.event.Utils.then(tracker, function () {
             return target.dispatchEvent(domEvent);
           });
         }
         if (gestureEvent) {
-          qx.event.Utils.then(tracker, function() {
+          qx.event.Utils.then(tracker, function () {
             return target.dispatchEvent(gestureEvent);
           });
         }
         return tracker.promise;
       } else {
-        if (qx.core.Environment.get("browser.name") === "msie" && qx.core.Environment.get("browser.version") < 9) {
+        if (
+          qx.core.Environment.get("browser.name") === "msie" &&
+          qx.core.Environment.get("browser.version") < 9
+        ) {
           // ensure compatibility with native events for IE8
           try {
             domEvent.srcElement = target;
-          }catch(ex) {
+          } catch (ex) {
             // Nothing - strict mode prevents writing to read only properties
           }
         }
@@ -485,7 +558,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     /**
      * Dispose this object
      */
-    dispose : function() {
+    dispose() {
       this._stopObserver();
       this.__defaultTarget = this.__emitter = null;
     }

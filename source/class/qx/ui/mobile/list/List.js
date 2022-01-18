@@ -67,17 +67,14 @@
  * This example creates a list with a delegate that configures the list item with
  * the given data. A listener for the event {@link #changeSelection} is added.
  */
-qx.Class.define("qx.ui.mobile.list.List",
-{
-  extend : qx.ui.mobile.core.Widget,
-
+qx.Class.define("qx.ui.mobile.list.List", {
+  extend: qx.ui.mobile.core.Widget,
 
   /**
    * @param delegate {qx.ui.mobile.list.IListDelegate?null} The {@link #delegate} to use
    */
-  construct : function(delegate)
-  {
-    this.base(arguments);
+  construct(delegate) {
+    super();
     this.__provider = new qx.ui.mobile.list.provider.Provider(this);
 
     this.addListener("tap", this._onTap, this);
@@ -92,109 +89,95 @@ qx.Class.define("qx.ui.mobile.list.List",
     }
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   },
 
-
-  events :
-  {
+  events: {
     /**
      * Fired when the selection is changed.
      */
-    changeSelection : "qx.event.type.Data",
-
+    changeSelection: "qx.event.type.Data",
 
     /**
      * Fired when the group selection is changed.
      */
-    changeGroupSelection : "qx.event.type.Data",
-
+    changeGroupSelection: "qx.event.type.Data",
 
     /**
      * Fired when an item should be removed from list.
      */
-    removeItem : "qx.event.type.Data"
+    removeItem: "qx.event.type.Data"
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "list"
+    defaultCssClass: {
+      refine: true,
+      init: "list"
     },
-
 
     /**
      * Delegation object which can have one or more functions defined by the
      * {@link qx.ui.mobile.list.IListDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
       nullable: true
     },
 
-
     /**
      * The model to use to render the list.
      */
-    model :
-    {
-      check : "qx.data.Array",
-      apply : "_applyModel",
+    model: {
+      check: "qx.data.Array",
+      apply: "_applyModel",
       event: "changeModel",
-      nullable : true,
-      init : null
+      nullable: true,
+      init: null
     },
-
 
     /**
      * Number of items to display. Auto set by model.
      * Reset to limit the amount of data that should be displayed.
      */
-    itemCount : {
-      check : "Integer",
-      init : 0
+    itemCount: {
+      check: "Integer",
+      init: 0
     },
 
-
     /**
-    * The height of a list item.
-    */
-    itemHeight : {
-      check : "Number",
-      init : null,
-      nullable : true
+     * The height of a list item.
+     */
+    itemHeight: {
+      check: "Number",
+      init: null,
+      nullable: true
     }
   },
 
+  /*
+   *****************************************************************************
+      MEMBERS
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    __provider : null,
-    __minDeleteDistance : null,
-    __isScrollingBlocked : null,
-    __trackElement : null,
-
+  members: {
+    __provider: null,
+    __minDeleteDistance: null,
+    __isScrollingBlocked: null,
+    __trackElement: null,
 
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "ul";
     },
-
 
     /**
      * Default list delegate. Expects a map which contains an image, a subtitle, and a title:
@@ -204,54 +187,53 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param data {var} The data of the row. Can be used to configure the given item.
      * @param row {Integer} The row index.
      */
-    configureItem: function(item, data, row) {
-      if(typeof data.image != "undefined") {
+    configureItem(item, data, row) {
+      if (typeof data.image != "undefined") {
         item.setImage(data.image);
       }
-      if(typeof data.subtitle != "undefined") {
+      if (typeof data.subtitle != "undefined") {
         item.setSubtitle(data.subtitle);
       }
-      if(typeof data.title != "undefined") {
+      if (typeof data.title != "undefined") {
         item.setTitle(data.title);
       }
-      if(typeof data.enabled != "undefined") {
+      if (typeof data.enabled != "undefined") {
         item.setEnabled(data.enabled);
       }
-      if(typeof data.removable != "undefined") {
+      if (typeof data.removable != "undefined") {
         item.setRemovable(data.removable);
       }
-      if(typeof data.selectable != "undefined") {
+      if (typeof data.selectable != "undefined") {
         item.setSelectable(data.selectable);
       }
-      if(typeof data.activatable != "undefined") {
+      if (typeof data.activatable != "undefined") {
         item.setActivatable(data.activatable);
       }
-      if(typeof data.arrow != "undefined") {
+      if (typeof data.arrow != "undefined") {
         item.setShowArrow(data.arrow);
       }
-      if(typeof data.selected != "undefined") {
+      if (typeof data.selected != "undefined") {
         item.setSelected(data.selected);
       }
     },
-
 
     /**
      * Event handler for the "tap" event.
      *
      * @param evt {qx.event.type.Tap} The tap event
      */
-    _onTap : function(evt)
-    {
-
+    _onTap(evt) {
       var element = this._getElement(evt);
-      if(!element) {
+      if (!element) {
         return;
       }
 
       var row = -1;
       if (qx.bom.element.Class.has(element, "list-item")) {
-        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false" &&
-            qx.dom.Element.hasChild(this.getContainerElement(), element)) {
+        if (
+          qx.bom.element.Attribute.get(element, "data-selectable") != "false" &&
+          qx.dom.Element.hasChild(this.getContainerElement(), element)
+        ) {
           row = parseInt(element.getAttribute("data-row"), 10);
         }
         if (row != -1) {
@@ -259,38 +241,41 @@ qx.Class.define("qx.ui.mobile.list.List",
         }
       } else {
         var group = parseInt(element.getAttribute("data-group"), 10);
-        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false") {
+        if (
+          qx.bom.element.Attribute.get(element, "data-selectable") != "false"
+        ) {
           this.fireDataEvent("changeGroupSelection", group);
         }
       }
     },
 
-
     /**
-    * Event handler for <code>trackstart</code> event.
-    * @param evt {qx.event.type.Track} the <code>trackstart</code> event
-    */
-    _onTrackStart : function(evt) {
+     * Event handler for <code>trackstart</code> event.
+     * @param evt {qx.event.type.Track} the <code>trackstart</code> event
+     */
+    _onTrackStart(evt) {
       this.__isScrollingBlocked = null;
       this.__trackElement = null;
 
       var element = this._getElement(evt);
-      if (element &&
-          qx.bom.element.Class.has(element, "list-item") &&
-          qx.bom.element.Class.has(element, "removable")) {
+      if (
+        element &&
+        qx.bom.element.Class.has(element, "list-item") &&
+        qx.bom.element.Class.has(element, "removable")
+      ) {
         this.__trackElement = element;
 
-        this.__minDeleteDistance = qx.bom.element.Dimension.getWidth(element) / 2;
+        this.__minDeleteDistance =
+          qx.bom.element.Dimension.getWidth(element) / 2;
         qx.bom.element.Class.add(element, "track");
       }
     },
 
-
     /**
-    * Event handler for <code>track</code> event.
-    * @param evt {qx.event.type.Track} the <code>track</code> event
-    */
-    _onTrack : function(evt) {
+     * Event handler for <code>track</code> event.
+     * @param evt {qx.event.type.Track} the <code>track</code> event
+     */
+    _onTrack(evt) {
       if (!this.__trackElement) {
         return;
       }
@@ -299,29 +284,32 @@ qx.Class.define("qx.ui.mobile.list.List",
 
       var deltaX = Math.round(delta.x * 0.1) / 0.1;
 
-      if(this.__isScrollingBlocked === null) {
-        this.__isScrollingBlocked = (delta.axis == "x");
+      if (this.__isScrollingBlocked === null) {
+        this.__isScrollingBlocked = delta.axis == "x";
       }
 
       if (!this.__isScrollingBlocked) {
         return;
       }
 
-      var opacity = 1 - (Math.abs(deltaX) / this.__minDeleteDistance);
+      var opacity = 1 - Math.abs(deltaX) / this.__minDeleteDistance;
       opacity = Math.round(opacity * 100) / 100;
 
-      qx.bom.element.Style.set(element, "transform", "translate3d(" + deltaX + "px,0,0)");
+      qx.bom.element.Style.set(
+        element,
+        "transform",
+        "translate3d(" + deltaX + "px,0,0)"
+      );
       qx.bom.element.Style.set(element, "opacity", opacity);
 
       evt.preventDefault();
     },
 
-
     /**
-    * Event handler for <code>trackend</code> event.
-    * @param evt {qx.event.type.Track} the <code>trackend</code> event
-    */
-    _onTrackEnd : function(evt) {
+     * Event handler for <code>trackend</code> event.
+     * @param evt {qx.event.type.Track} the <code>trackend</code> event
+     */
+    _onTrackEnd(evt) {
       if (!this.__trackElement) {
         return;
       }
@@ -331,25 +319,30 @@ qx.Class.define("qx.ui.mobile.list.List",
         var row = parseInt(element.getAttribute("data-row"), 10);
         this.fireDataEvent("removeItem", row);
       } else {
-        qx.bom.AnimationFrame.request(function() {
-          qx.bom.element.Style.set(element, "transform", "translate3d(0,0,0)");
-          qx.bom.element.Style.set(element, "opacity", "1");
-          qx.bom.element.Class.remove(element, "track");
-        }.bind(this));
+        qx.bom.AnimationFrame.request(
+          function () {
+            qx.bom.element.Style.set(
+              element,
+              "transform",
+              "translate3d(0,0,0)"
+            );
+            qx.bom.element.Style.set(element, "opacity", "1");
+            qx.bom.element.Class.remove(element, "track");
+          }.bind(this)
+        );
       }
     },
 
-
     /**
-    * Returns the target list item.
-    * @param evt {Event} the input event
-    * @return {Element} the target list item.
-    */
-    _getElement : function(evt) {
+     * Returns the target list item.
+     * @param evt {Event} the input event
+     * @return {Element} the target list item.
+     */
+    _getElement(evt) {
       var element = evt.getOriginalTarget();
 
       // Click on border: do nothing.
-      if(element.tagName == "UL") {
+      if (element.tagName == "UL") {
         return null;
       }
 
@@ -360,10 +353,8 @@ qx.Class.define("qx.ui.mobile.list.List",
       return element;
     },
 
-
     // property apply
-    _applyModel : function(value, old)
-    {
+    _applyModel(value, old) {
       if (old != null) {
         old.removeListener("changeBubble", this.__onModelChangeBubble, this);
       }
@@ -388,21 +379,18 @@ qx.Class.define("qx.ui.mobile.list.List",
       this.__render();
     },
 
-
     // property apply
-    _applyDelegate : function(value, old) {
+    _applyDelegate(value, old) {
       this.__provider.setDelegate(value);
     },
-
 
     /**
      * Listen on model 'changeLength' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
-    __onModelChangeLength : function(evt) {
+    __onModelChangeLength(evt) {
       this.__render();
     },
-
 
     /**
      * Locale change event handler
@@ -410,37 +398,33 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e)
-      {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         this.__render();
       },
 
-      "false" : null
+      false: null
     }),
-
 
     /**
      * Reacts on model 'change' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
-    __onModelChange : function(evt) {
-      if(evt && evt.getData() && evt.getData().type == "order") {
+    __onModelChange(evt) {
+      if (evt && evt.getData() && evt.getData().type == "order") {
         this.__render();
       }
     },
-
 
     /**
      * Reacts on model 'changeBubble' event.
      * @param evt {qx.event.type.Data} data event which contains model changeBubble data.
      */
-    __onModelChangeBubble : function(evt)
-    {
-      if(evt) {
+    __onModelChangeBubble(evt) {
+      if (evt) {
         var data = evt.getData();
-        var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
+        var isArray =
+          qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value);
         if (!isArray || (isArray && data.old.length == data.value.length)) {
           var rows = this._extractRowsToRender(data.name);
 
@@ -451,7 +435,6 @@ qx.Class.define("qx.ui.mobile.list.List",
       }
     },
 
-
     /**
      * Extracts all rows, which should be rendered from "changeBubble" event's
      * data.name.
@@ -460,33 +443,33 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @return {Integer[]} An array with integer values, representing the rows which should
      *  be rendered.
      */
-    _extractRowsToRender : function(name) {
+    _extractRowsToRender(name) {
       var rows = [];
 
-      if(!name) {
+      if (!name) {
         return rows;
       }
 
       // "[0-2].propertyName" | "[0].propertyName" | "0"
-      var containsPoint = (name.indexOf(".")!=-1);
-      if(containsPoint) {
+      var containsPoint = name.indexOf(".") != -1;
+      if (containsPoint) {
         // "[0-2].propertyName" | "[0].propertyName"
         var candidate = name.split(".")[0];
 
         // Normalize
-        candidate = candidate.replace("[","");
-        candidate = candidate.replace("]","");
+        candidate = candidate.replace("[", "");
+        candidate = candidate.replace("]", "");
         // "[0-2]" | "[0]"
-        var isRange = (candidate.indexOf("-") != -1);
+        var isRange = candidate.indexOf("-") != -1;
 
-        if(isRange) {
+        if (isRange) {
           var rangeMembers = candidate.split("-");
           // 0
-          var startRange = parseInt(rangeMembers[0],10);
+          var startRange = parseInt(rangeMembers[0], 10);
           // 2
-          var endRange = parseInt(rangeMembers[1],10);
+          var endRange = parseInt(rangeMembers[1], 10);
 
-          for(var i = startRange; i <= endRange; i++) {
+          for (var i = startRange; i <= endRange; i++) {
             rows.push(i);
           }
         } else {
@@ -496,7 +479,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       } else {
         // "0"
         var match = name.match(/\d+/);
-        if(match.length == 1) {
+        if (match.length == 1) {
           rows.push(parseInt(match[0], 10));
         }
       }
@@ -504,42 +487,47 @@ qx.Class.define("qx.ui.mobile.list.List",
       return rows;
     },
 
-
     /**
      * Renders a specific row identified by its index.
      * @param index {Integer} index of the row which should be rendered.
      */
-    __renderRow : function(index) {
-      var renderedItems = qx.bom.Selector.query(".list-item",this.getContentElement());
+    __renderRow(index) {
+      var renderedItems = qx.bom.Selector.query(
+        ".list-item",
+        this.getContentElement()
+      );
       var oldNode = renderedItems[index];
-      var newNode = this.__provider.getItemElement(this.getModel().getItem(index), index);
+      var newNode = this.__provider.getItemElement(
+        this.getModel().getItem(index),
+        index
+      );
 
       this.getContentElement().replaceChild(newNode, oldNode);
 
       this._domUpdated();
     },
 
-
     /**
-    * @internal
-    * Returns the height of one single list item.
-    * @return {Integer} the height of a list item in px.
-    */
-    getListItemHeight : function() {
+     * @internal
+     * Returns the height of one single list item.
+     * @return {Integer} the height of a list item in px.
+     */
+    getListItemHeight() {
       var listItemHeight = 0;
       if (this.getModel() != null && this.getModel().length > 0) {
-        var listHeight = qx.bom.element.Style.get(this.getContentElement(), "height");
+        var listHeight = qx.bom.element.Style.get(
+          this.getContentElement(),
+          "height"
+        );
         listItemHeight = parseInt(listHeight) / this.getModel().length;
       }
       return listItemHeight;
     },
 
-
     /**
      * Renders the list.
      */
-    __render : function()
-    {
+    __render() {
       this._setHtml("");
 
       var model = this.getModel();
@@ -572,23 +560,21 @@ qx.Class.define("qx.ui.mobile.list.List",
       this._domUpdated();
     },
 
-
     /**
      * Triggers a re-rendering of this list.
      */
-    render : function() {
+    render() {
       this.__render();
     },
 
-
     /**
-    * Renders a group header.
-    *
-    * @param itemIndex {Integer} the current list item index.
-    * @param groupIndex {Integer} the group index.
-    * @return {Element} the group element or <code>null</code> if no group was needed.
-    */
-    _renderGroup: function(itemIndex, groupIndex) {
+     * Renders a group header.
+     *
+     * @param itemIndex {Integer} the current list item index.
+     * @param groupIndex {Integer} the group index.
+     * @return {Element} the group element or <code>null</code> if no group was needed.
+     */
+    _renderGroup(itemIndex, groupIndex) {
       var group = this.__getGroup(itemIndex);
 
       if (itemIndex === 0) {
@@ -602,36 +588,35 @@ qx.Class.define("qx.ui.mobile.list.List",
       }
     },
 
-
     /**
-    * Checks whether the delegate support group rendering.
-    * @return {Boolean} true if the delegate object supports grouping function.
-    */
-    __hasGroup : function() {
+     * Checks whether the delegate support group rendering.
+     * @return {Boolean} true if the delegate object supports grouping function.
+     */
+    __hasGroup() {
       return qx.util.Delegate.getMethod(this.getDelegate(), "group") !== null;
     },
-
 
     /**
      * Returns the group for this item, identified by its index
      * @param index {Integer} the item index.
      * @return {Object} the group object, to which the item belongs to.
      */
-    __getGroup : function(index)
-    {
+    __getGroup(index) {
       var item = this.getModel().getItem(index);
       var group = qx.util.Delegate.getMethod(this.getDelegate(), "group");
       return group(item, index);
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.__trackElement = null;
     this._disposeObjects("__provider");
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   }
 });

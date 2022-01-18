@@ -1,4 +1,4 @@
-/** 
+/**
  * Low-level Browser Object Model layer.
  *
  * This is a low-level layer providing a cross-browser abstraction for object

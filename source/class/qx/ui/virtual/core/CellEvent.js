@@ -21,46 +21,38 @@
  * A cell event instance contains all data for pointer events related to cells in
  * a pane.
  **/
-qx.Class.define("qx.ui.virtual.core.CellEvent",
-{
-  extend : qx.event.type.Pointer,
+qx.Class.define("qx.ui.virtual.core.CellEvent", {
+  extend: qx.event.type.Pointer,
 
-
-  properties :
-  {
+  properties: {
     /** The table row of the event target. */
-    row :
-    {
-      check : "Integer",
+    row: {
+      check: "Integer",
       nullable: true
     },
 
     /** The table column of the event target. */
-    column :
-    {
-      check : "Integer",
+    column: {
+      check: "Integer",
       nullable: true
     }
   },
 
+  members: {
+    /**
+     * Initialize the event.
+     *
+     * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller.
+     * @param me {qx.event.type.Pointer} The original pointer event.
+     * @param row {Integer?null} The cell's row index.
+     * @param column {Integer?null} The cell's column index.
+     */
+    init(scroller, me, row, column) {
+      me.clone(this);
+      this.setBubbles(false);
 
-  members :
-  {
-     /**
-      * Initialize the event.
-      *
-      * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller.
-      * @param me {qx.event.type.Pointer} The original pointer event.
-      * @param row {Integer?null} The cell's row index.
-      * @param column {Integer?null} The cell's column index.
-      */
-     init : function(scroller, me, row, column)
-     {
-       me.clone(this);
-       this.setBubbles(false);
-
-       this.setRow(row);
-       this.setColumn(column);
-     }
+      this.setRow(row);
+      this.setColumn(column);
+    }
   }
 });

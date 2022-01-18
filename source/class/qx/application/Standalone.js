@@ -27,12 +27,8 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.Standalone",
-{
-  extend : qx.application.AbstractGui,
-
-
-
+qx.Class.define("qx.application.Standalone", {
+  extend: qx.application.AbstractGui,
 
   /*
   *****************************************************************************
@@ -40,9 +36,8 @@ qx.Class.define("qx.application.Standalone",
   *****************************************************************************
   */
 
-  members :
-  {
-    _createRootWidget : function() {
+  members: {
+    _createRootWidget() {
       return new qx.ui.root.Application(document);
     }
   }

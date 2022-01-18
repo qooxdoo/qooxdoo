@@ -25,13 +25,11 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.OrientationHandler", {
-
-  statics :
-  {
+  statics: {
     /**
      * List of events that require an orientation handler
      */
-    TYPES : ["orientationchange"],
+    TYPES: ["orientationchange"],
 
     /**
      * Creates an orientation handler for the given window when an
@@ -39,10 +37,11 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
      *
      * @param element {Window} DOM Window
      */
-    register : function(element)
-    {
+    register(element) {
       if (!qx.dom.Node.isWindow(element)) {
-        throw new Error("The 'orientationchange' event is only available on window objects!");
+        throw new Error(
+          "The 'orientationchange' event is only available on window objects!"
+        );
       }
 
       if (!element.__orientationHandler) {
@@ -50,26 +49,26 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
           element.$$emitter = new qx.event.Emitter();
         }
 
-        element.__orientationHandler = new qx.event.handler.OrientationCore(element, element.$$emitter);
+        element.__orientationHandler = new qx.event.handler.OrientationCore(
+          element,
+          element.$$emitter
+        );
       }
     },
-
 
     /**
      * Removes the orientation event handler from the element if there are no more
      * orientationchange event listeners attached to it
      * @param element {Element} DOM element
      */
-    unregister : function(element)
-    {
+    unregister(element) {
       if (element.__orientationHandler) {
         if (!element.$$emitter) {
           element.__orientationHandler = null;
-        }
-        else {
+        } else {
           var hasListener = false;
           var listeners = element.$$emitter.getListeners();
-          qx.module.event.OrientationHandler.TYPES.forEach(function(type) {
+          qx.module.event.OrientationHandler.TYPES.forEach(function (type) {
             if (type in listeners && listeners[type].length > 0) {
               hasListener = true;
             }
@@ -82,8 +81,11 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
     }
   },
 
-  defer : function(statics)
-  {
-    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+  defer(statics) {
+    qxWeb.$registerEventHook(
+      statics.TYPES,
+      statics.register,
+      statics.unregister
+    );
   }
 });

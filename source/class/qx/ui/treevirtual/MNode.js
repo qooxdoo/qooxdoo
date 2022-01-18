@@ -20,10 +20,8 @@
  * Utility functions for working with nodes.  These methods allow reference
  * to a node by either the object itself or the object's node id.
  */
-qx.Mixin.define("qx.ui.treevirtual.MNode",
-{
-  members :
-  {
+qx.Mixin.define("qx.ui.treevirtual.MNode", {
+  members: {
     /**
      * Get a node object given its node id.
      *
@@ -37,22 +35,15 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   is returned (identity).  Otherwise, the node object is looked up
      *   using the specified node id.
      */
-    nodeGet : function(nodeReference)
-    {
-      if (typeof(nodeReference) == "object")
-      {
+    nodeGet(nodeReference) {
+      if (typeof nodeReference == "object") {
         return nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         return this.getTableModel().getData()[nodeReference];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
     },
-
 
     /**
      * Toggle the opened state of the node: if the node is opened, close
@@ -64,29 +55,22 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   been returned by addBranch(), addLeaf(), etc.)
      *
      */
-    nodeToggleOpened : function(nodeReference)
-    {
+    nodeToggleOpened(nodeReference) {
       var node;
       var nodeId;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
         nodeId = node.nodeId;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
         node = this.getTableModel().getData()[nodeId];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
-      this.getTableModel().setState(nodeId, { bOpened : ! node.bOpened });
+      this.getTableModel().setState(nodeId, { bOpened: !node.bOpened });
     },
-
 
     /**
      * Set state attributes of a tree node.
@@ -102,26 +86,19 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
      *
      */
-    nodeSetState : function(nodeReference, attributes)
-    {
+    nodeSetState(nodeReference, attributes) {
       var nodeId;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         nodeId = nodeReference.nodeId;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         nodeId = nodeReference;
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
       this.getTableModel().setState(nodeId, attributes);
     },
-
 
     /**
      * Set the label for a node.
@@ -135,11 +112,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The new label for the specified node
      *
      */
-    nodeSetLabel : function(nodeReference, label)
-    {
-      this.nodeSetState(nodeReference, { label : label });
+    nodeSetLabel(nodeReference, label) {
+      this.nodeSetState(nodeReference, { label: label });
     },
-
 
     /**
      * Get the label for a node.
@@ -152,12 +127,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @return {String}
      *   The label for the specified node
      */
-    nodeGetLabel : function(nodeReference)
-    {
+    nodeGetLabel(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.label;
     },
-
 
     /**
      * Set the selected state for a node.
@@ -171,11 +144,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The new selected state for the specified node.
      *
      */
-    nodeSetSelected : function(nodeReference, b)
-    {
-      this.nodeSetState(nodeReference, { bSelected : b });
+    nodeSetSelected(nodeReference, b) {
+      this.nodeSetState(nodeReference, { bSelected: b });
     },
-
 
     /**
      * Get the selected state for a node.
@@ -188,12 +159,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @return {Boolean}
      *   The selected state for the specified node.
      */
-    nodeGetSelected : function(nodeReference)
-    {
+    nodeGetSelected(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.bSelected;
     },
-
 
     /**
      * Set the opened state for a node.  (Note that this method has no effect
@@ -208,31 +177,23 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The new opened state for the specified node.
      *
      */
-    nodeSetOpened : function(nodeReference, b)
-    {
+    nodeSetOpened(nodeReference, b) {
       var node;
 
-      if (typeof(nodeReference) == "object")
-      {
+      if (typeof nodeReference == "object") {
         node = nodeReference;
-      }
-      else if (typeof(nodeReference) == "number")
-      {
+      } else if (typeof nodeReference == "number") {
         node = this.getTableModel().getData()[nodeReference];
-      }
-      else
-      {
+      } else {
         throw new Error("Expected node object or node id");
       }
 
       // Only set new state if not already in the requested state, since
       // setting new state involves dispatching events.
-      if (b != node.bOpened)
-      {
+      if (b != node.bOpened) {
         this.nodeToggleOpened(node);
       }
     },
-
 
     /**
      * Get the opened state for a node.
@@ -245,12 +206,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @return {Boolean}
      *   The opened state for the specified node.
      */
-    nodeGetOpened : function(nodeReference)
-    {
+    nodeGetOpened(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.bOpened;
     },
-
 
     /**
      * Set the hideOpenClose state for a node.
@@ -264,11 +223,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The new hideOpenClose state for the specified node.
      *
      */
-    nodeSetHideOpenClose : function(nodeReference, b)
-    {
-      this.nodeSetState(nodeReference, { bHideOpenClose : b });
+    nodeSetHideOpenClose(nodeReference, b) {
+      this.nodeSetState(nodeReference, { bHideOpenClose: b });
     },
-
 
     /**
      * Get the hideOpenClose state for a node.
@@ -281,12 +238,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @return {Boolean}
      *   The new hideOpenClose state for the specified node.
      */
-    nodeGetHideOpenClose : function(nodeReference)
-    {
+    nodeGetHideOpenClose(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.bHideOpenClose;
     },
-
 
     /**
      * Set the icon for a node when in its unselected (normal) state.
@@ -300,11 +255,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The path to the icon to be used when the node is not selected
      *
      */
-    nodeSetIcon : function(nodeReference, path)
-    {
-      this.nodeSetState(nodeReference, { icon : path });
+    nodeSetIcon(nodeReference, path) {
+      this.nodeSetState(nodeReference, { icon: path });
     },
-
 
     /**
      * Get the icon for a node when in its unselected (normal) state.
@@ -318,12 +271,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The path to the icon to be used when the node is not selected, if a
      *   path has been previously provided (i.e. not using the default icon).
      */
-    nodeGetIcon : function(nodeReference)
-    {
+    nodeGetIcon(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.icon;
     },
-
 
     /**
      * Set the icon for a node when in its selected state.
@@ -348,11 +299,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The path to the icon to be used when the node is selected
      *
      */
-    nodeSetSelectedIcon : function(nodeReference, path)
-    {
-      this.nodeSetState(nodeReference, { iconSelected : path });
+    nodeSetSelectedIcon(nodeReference, path) {
+      this.nodeSetState(nodeReference, { iconSelected: path });
     },
-
 
     /**
      * Get the icon for a node when in its selected state.
@@ -366,12 +315,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The path to the icon to be used when the node is selected, if a path
      *   has been previously provided (i.e. not using the default icon).
      */
-    nodeGetSelectedIcon : function(nodeReference)
-    {
+    nodeGetSelectedIcon(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.iconSelected;
     },
-
 
     /**
      * Set the cell style for a node
@@ -382,17 +329,15 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @param style {String}
-
      *   The CSS style to be applied for the tree column cell for this node,
      *   if a style has been previously provided (i.e. not using the default
      *   style).
      *
      */
-    nodeSetCellStyle : function(nodeReference, style)
-    {
-      this.nodeSetState(nodeReference, { cellStyle : style });
-    },
 
+    nodeSetCellStyle(nodeReference, style) {
+      this.nodeSetState(nodeReference, { cellStyle: style });
+    },
 
     /**
      * Get the cell style for a node
@@ -405,12 +350,10 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @return {String}
      *   The CSS style being applied for the tree column cell for this node.
      */
-    nodeGetCellStyle : function(nodeReference)
-    {
+    nodeGetCellStyle(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.cellStyle;
     },
-
 
     /**
      * Set the label style for a node
@@ -424,11 +367,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The CSS style to be applied for the label for this node.
      *
      */
-    nodeSetLabelStyle : function(nodeReference, style)
-    {
-      this.nodeSetState(nodeReference, { labelStyle : style });
+    nodeSetLabelStyle(nodeReference, style) {
+      this.nodeSetState(nodeReference, { labelStyle: style });
     },
-
 
     /**
      * Get the label style for a node
@@ -442,8 +383,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      *   The CSS style being applied for the label for this node, if a style
      *   has been previously provided (i.e. not using the default style).
      */
-    nodeGetLabelStyle : function(nodeReference)
-    {
+    nodeGetLabelStyle(nodeReference) {
       var node = this.nodeGet(nodeReference);
       return node.cellStyle;
     }

@@ -21,26 +21,28 @@
  * indicating a failure during the processing of the request on the server.
  * @see https://www.jsonrpc.org/specification#error_object
  */
-qx.Class.define("qx.io.jsonrpc.protocol.Error",{
+qx.Class.define("qx.io.jsonrpc.protocol.Error", {
   extend: qx.io.jsonrpc.protocol.Message,
   properties: {
-
     /**
      * The integer id of the request
      * @var {Number}
      */
-    id : {
-      check: value => qx.lang.Type.isNumber(value) && parseInt(value, 10) === value
+    id: {
+      check: value =>
+        qx.lang.Type.isNumber(value) && parseInt(value, 10) === value
     },
 
     /**
      * The error object
      * @var {Object}
      */
-    error : {
-      check : value => qx.lang.Type.isObject(value) && "code" in value && "message" in value
+    error: {
+      check: value =>
+        qx.lang.Type.isObject(value) && "code" in value && "message" in value
     }
   },
+
   /**
    * The response messsage constructor
    * @param {Number} id^
@@ -49,12 +51,12 @@ qx.Class.define("qx.io.jsonrpc.protocol.Error",{
    * @param {*?} data
    */
   construct(id, code, message, data) {
-    this.base(arguments);
+    super();
     this.setId(id);
-    if (!qx.lang.Type.isNumber(code) || parseInt(code, 10) !== code ) {
+    if (!qx.lang.Type.isNumber(code) || parseInt(code, 10) !== code) {
       throw new Error("Code must be an integer");
     }
-    let errorObj = {code, message};
+    let errorObj = { code, message };
     if (data) {
       errorObj.data = data;
     }

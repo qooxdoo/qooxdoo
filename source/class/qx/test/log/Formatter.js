@@ -20,7 +20,7 @@ qx.Class.define("qx.test.log.Formatter", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testToTextWithObject: function() {
+    testToTextWithObject() {
       var time = new Date(1000);
       var obj = new qx.core.Object();
       qx.core.ObjectRegistry.register(obj);
@@ -39,7 +39,7 @@ qx.Class.define("qx.test.log.Formatter", {
       obj.dispose();
     },
 
-    testToTextAsDate: function() {
+    testToTextAsDate() {
       var time = new Date(2019, 9, 10, 1, 2, 3);
       var obj = new qx.core.Object();
       qx.core.ObjectRegistry.register(obj);
@@ -52,13 +52,18 @@ qx.Class.define("qx.test.log.Formatter", {
         object: obj.$$hash
       };
 
-      var formatter = new qx.log.appender.Formatter().set({ formatTimeAs: "datetime" });
+      var formatter = new qx.log.appender.Formatter().set({
+        formatTimeAs: "datetime"
+      });
       var text = formatter.toText(entry);
-      this.assertEquals("2019-10-10 01:02:03 qx.core.Object[" + obj.$$hash + "]:", text);
+      this.assertEquals(
+        "2019-10-10 01:02:03 qx.core.Object[" + obj.$$hash + "]:",
+        text
+      );
       obj.dispose();
     },
 
-    testToTextWithClass: function() {
+    testToTextWithClass() {
       var time = new Date(1000);
       var entry = {
         time: time,
@@ -73,6 +78,5 @@ qx.Class.define("qx.test.log.Formatter", {
       var text = formatter.toText(entry);
       this.assertEquals("000900 qx.core.Object:", text);
     }
-
   }
 });

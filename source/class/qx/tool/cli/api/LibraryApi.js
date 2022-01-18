@@ -24,7 +24,7 @@
  */
 qx.Class.define("qx.tool.cli.api.LibraryApi", {
   extend: qx.tool.cli.api.AbstractApi,
-  
+
   properties: {
     /** The Compiler API */
     compilerApi: {
@@ -32,15 +32,15 @@ qx.Class.define("qx.tool.cli.api.LibraryApi", {
       check: "qx.tool.cli.api.CompilerApi"
     }
   },
-  
+
   members: {
     /**
      * Called to load any library-specific configuration and update the compilerConfig
-     * 
+     *
      * @overridden
      */
     async load() {
-      return this.base(arguments);
+      return super.load();
     },
 
     /**
@@ -49,7 +49,5 @@ qx.Class.define("qx.tool.cli.api.LibraryApi", {
     async afterLibrariesLoaded() {
       // Nothing
     }
-    
-    
   }
 });

@@ -23,17 +23,14 @@
  * <code>scrollbar-y</code> to get the handler working. Also, you have to
  * attach the listener yourself.
  */
-qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
-{
-  members :
-  {
+qx.Mixin.define("qx.ui.core.scroll.MWheelHandling", {
+  members: {
     /**
      * Mouse wheel event handler
      *
      * @param e {qx.event.type.Mouse} Mouse event
      */
-    _onMouseWheel : function(e)
-    {
+    _onMouseWheel(e) {
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
 
@@ -48,7 +45,6 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 
       // y case
       if (scrollbarY) {
-
         var steps = parseInt(deltaY);
         if (steps !== 0) {
           scrollbarY.scrollBySteps(steps);
@@ -58,7 +54,7 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
         var max = scrollbarY.getMaximum();
 
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if ((steps < 0 && position <= 0) || (steps > 0 && position >= max)) {
           endY = true;
         }
       }
@@ -73,15 +69,17 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
         var position = scrollbarX.getPosition();
         var max = scrollbarX.getMaximum();
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if ((steps < 0 && position <= 0) || (steps > 0 && position >= max)) {
           endX = true;
         }
       }
 
       // pass the event to the parent if both scrollbars are at the end
-      if ((!endY && deltaX === 0) ||
-          (!endX && deltaY === 0) ||
-          ((!endX || !endY ) && deltaX !== 0 && deltaY !== 0)) {
+      if (
+        (!endY && deltaX === 0) ||
+        (!endX && deltaY === 0) ||
+        ((!endX || !endY) && deltaX !== 0 && deltaY !== 0)
+      ) {
         // Stop bubbling and native event only if a scrollbar is visible
         e.stop();
       }

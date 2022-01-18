@@ -1,11 +1,11 @@
 qx.Mixin.define("qx.test.testclasses.MMixinOne", {
-  construct: function() {
+  construct() {
     qx.core.Assert.assertTrue(this.state !== null);
     this.state.push("mixin-one");
   },
-  
+
   members: {
-    getSomething: function() {
+    getSomething() {
       return "mixin-one";
     }
   }

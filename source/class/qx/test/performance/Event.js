@@ -15,140 +15,147 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.performance.Event",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMeasure,
+qx.Class.define("qx.test.performance.Event", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMeasure,
 
-  events : {
-    "plain" : "qx.event.type.Event",
-    "data" : "qx.event.type.Data"
+  events: {
+    plain: "qx.event.type.Event",
+    data: "qx.event.type.Data"
   },
 
-  members :
-  {
-    FIRE_ITERATIONS : 10000,
-    ADD_ITERATIONS : 5000,
+  members: {
+    FIRE_ITERATIONS: 10000,
+    ADD_ITERATIONS: 5000,
 
-
-    testFireEvent : function() {
+    testFireEvent() {
       var that = this;
       this.measureRepeated(
-        "fire plain events", function() {
+        "fire plain events",
+        function () {
           that.fireEvent("plain");
         },
-        function() {}, this.FIRE_ITERATIONS
+        function () {},
+        this.FIRE_ITERATIONS
       );
     },
 
-
-    testFireDataEvent : function() {
+    testFireDataEvent() {
       var that = this;
       this.measureRepeated(
-        "fire data events", function() {
+        "fire data events",
+        function () {
           that.fireDataEvent("data", true, false);
         },
-        function() {}, this.FIRE_ITERATIONS
+        function () {},
+        this.FIRE_ITERATIONS
       );
     },
 
-
-    testFireDataEventCancelable : function() {
+    testFireDataEventCancelable() {
       var that = this;
       this.measureRepeated(
-        "fire cancelable data events", function() {
+        "fire cancelable data events",
+        function () {
           that.fireDataEvent("data", true, false, true);
         },
-        function() {}, this.FIRE_ITERATIONS
+        function () {},
+        this.FIRE_ITERATIONS
       );
     },
 
-
-    testAddListener : function() {
+    testAddListener() {
       var that = this;
       var handler = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
-        handler.push(function() {});
+        handler.push(function () {});
       }
       this.measureRepeated(
-        "addListener", function(i) {
+        "addListener",
+        function (i) {
           that.addListener("plain", handler[i]);
         },
-        function() {
+        function () {
           for (var i = 0; i < handler.length; i++) {
             that.removeListener("plain", handler[i]);
           }
-        }, this.ADD_ITERATIONS
+        },
+        this.ADD_ITERATIONS
       );
     },
 
-
-    testRemoveListener : function()
-    {
+    testRemoveListener() {
       var handler = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
-        handler.push(function() {});
+        handler.push(function () {});
         this.addListener("plain", handler[i]);
       }
       var that = this;
       this.measureRepeated(
-        "remove listeners", function(i) {
+        "remove listeners",
+        function (i) {
           that.removeListener("plain", handler[i]);
         },
-        function() {}, this.ADD_ITERATIONS
+        function () {},
+        this.ADD_ITERATIONS
       );
     },
 
-
-    testRemoveListenerById : function() {
+    testRemoveListenerById() {
       var listeners = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
-        listeners.push(this.addListener("plain", function() {}));
+        listeners.push(this.addListener("plain", function () {}));
       }
       var that = this;
       this.measureRepeated(
-        "remove listeners by id", function(i) {
+        "remove listeners by id",
+        function (i) {
           that.removeListenerById(listeners[i]);
         },
-        function() {}, this.ADD_ITERATIONS
+        function () {},
+        this.ADD_ITERATIONS
       );
     },
 
-
-    testExecutePlainListener : function() {
+    testExecutePlainListener() {
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
-        listeners.push(this.addListener("plain", function() {}));
+        listeners.push(this.addListener("plain", function () {}));
       }
       var that = this;
       this.measureRepeated(
-        "execute plain listeners", function() {
+        "execute plain listeners",
+        function () {
           that.fireEvent("plain");
         },
-        function() {
+        function () {
           for (var i = 0; i < listeners.length; i++) {
             that.removeListenerById(listeners[i]);
           }
-        }, 1, this.FIRE_ITERATIONS
+        },
+        1,
+        this.FIRE_ITERATIONS
       );
     },
 
-
-    testExecuteDataListener : function() {
+    testExecuteDataListener() {
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
-        listeners.push(this.addListener("data", function() {}));
+        listeners.push(this.addListener("data", function () {}));
       }
       var that = this;
       this.measureRepeated(
-        "execute data listeners", function() {
+        "execute data listeners",
+        function () {
           that.fireDataEvent("data", true, false);
         },
-        function() {
+        function () {
           for (var i = 0; i < listeners.length; i++) {
             that.removeListenerById(listeners[i]);
           }
-        }, 1, this.FIRE_ITERATIONS
+        },
+        1,
+        this.FIRE_ITERATIONS
       );
     }
   }

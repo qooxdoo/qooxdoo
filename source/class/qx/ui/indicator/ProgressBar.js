@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * The Progress bar is designed to simply display the current % complete
  * for a process.
@@ -48,17 +47,15 @@
  *
  * @childControl progress {qx.ui.container.Composite} The progress bar
  */
-qx.Class.define("qx.ui.indicator.ProgressBar",
-{
+qx.Class.define("qx.ui.indicator.ProgressBar", {
   extend: qx.ui.container.Composite,
-
 
   /**
    * @param value {Number ? 0} Progress bar value
    * @param maximum {Number ? 100} Progress bar maximum value
    */
-  construct: function(value, maximum) {
-    this.base(arguments);
+  construct(value, maximum) {
+    super();
 
     this._createChildControl("progress");
 
@@ -71,43 +68,34 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
     if (value != null) {
       this.setValue(value);
     }
-
   },
 
-
-  properties:
-  {
-    appearance:
-    {
+  properties: {
+    appearance: {
       refine: true,
       init: "progressbar"
     },
 
     /** Maximum value of the progress bar */
-    maximum :
-    {
-      init : 100,
-      event : "changeMaximum",
-      apply : "_applyMaximum"
+    maximum: {
+      init: 100,
+      event: "changeMaximum",
+      apply: "_applyMaximum"
     },
 
     /** Current value of the progress bar */
-    value :
-    {
-      init : 0,
-      event : "changeValue",
-      apply : "_applyValue"
+    value: {
+      init: 0,
+      event: "changeValue",
+      apply: "_applyValue"
     }
   },
 
-
-  events:
-  {
+  events: {
     /**
      * Fired when the process is complete (value === maximum value)
      */
     complete: "qx.event.type.Event",
-
 
     /**
      * Fired when the % complete value is changed.
@@ -115,11 +103,9 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
     change: "qx.event.type.Data"
   },
 
-
-  members:
-  {
-  // property apply
-    _applyValue: function(value, old) {
+  members: {
+    // property apply
+    _applyValue(value, old) {
       var max = this.getMaximum();
 
       //do nothing if is not a number
@@ -142,9 +128,8 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       this._changeProgress(value / max);
     },
 
-
     // property apply
-    _applyMaximum: function(value, old) {
+    _applyMaximum(value, old) {
       var max = value;
       var val = this.getValue();
 
@@ -165,33 +150,31 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       this._changeProgress(val / max);
     },
 
-
     //overridden
-    _createChildControlImpl: function(id, hash) {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch (id)
-      {
+      switch (id) {
         case "progress":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           this._add(control, { width: "0%" });
           break;
       }
-      return control || this.base(arguments, id);
+
+      return control || super._createChildControlImpl(id);
     },
 
-
-  /**
-   * Update the progress bar.
-   *
-   * @param value {Number} future value of progress bar
-   */
-    _changeProgress: function(value) {
+    /**
+     * Update the progress bar.
+     *
+     * @param value {Number} future value of progress bar
+     */
+    _changeProgress(value) {
       var bar = this.getChildControl("progress");
       var to = Math.floor(value * 100);
       var from = parseInt(bar.getLayoutProperties().width, 10);
 
-      bar.setLayoutProperties({width: to + "%"});
+      bar.setLayoutProperties({ width: to + "%" });
 
       //fire change event
       if (to != from) {

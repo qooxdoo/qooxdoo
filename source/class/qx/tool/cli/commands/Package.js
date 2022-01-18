@@ -43,55 +43,57 @@ qx.Class.define("qx.tool.cli.commands.Package", {
     lockfile: {
       filename: "qx-lock.json"
     },
+
     /**
      * The URL of the cached repository data
      */
-    repository_cache_url: "https://raw.githubusercontent.com/qooxdoo/package-cache/master/cache.json",
+    repository_cache_url:
+      "https://raw.githubusercontent.com/qooxdoo/package-cache/master/cache.json",
 
     /**
      * The yargs command data
      * @return {{}}
      */
-    getYargsCommand: function() {
+    getYargsCommand() {
       return {
-        command : "package <command> [options]",
-        desc : "manages qooxdoo packages",
-        builder : yargs => {
-          qx.tool.cli.Cli.addYargsCommands(yargs, [
-            "Install",
-            "List",
-            "Publish",
-            "Remove",
-            "Update",
-            "Upgrade",
-            "Migrate"
-          ], "qx.tool.cli.commands.package");
-          return yargs
-            .showHelpOnFail()
-            .help();
+        command: "package <command> [options]",
+        desc: "manages qooxdoo packages",
+        builder: yargs => {
+          qx.tool.cli.Cli.addYargsCommands(
+            yargs,
+            [
+              "Install",
+              "List",
+              "Publish",
+              "Remove",
+              "Update",
+              "Upgrade",
+              "Migrate"
+            ],
+            "qx.tool.cli.commands.package"
+          );
+          return yargs.showHelpOnFail().help();
         }
       };
     }
   },
 
   members: {
-
     /**
      * The current cache object
      */
-    __cache : null,
+    __cache: null,
 
     /**
      * @override
      */
-    async checkMigrations(){},
-
+    async checkMigrations() {},
 
     /**
      * Returns the absolute path to the lockfile.
      * @return {String}
      */
-    getLockfilePath: function() {
+    getLockfilePath() {
       return path.join(process.cwd(), qx.tool.config.Lockfile.config.fileName);
     },
 
@@ -133,10 +135,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * @return {Array} containing [{qx.tool.config.Manifest}, {qx.tool.config.Lockfile}, {qx.tool.config.Compile}]
      */
     async _getConfigData() {
-      return [
-        await this.getManifestModel(),
-        await this.getLockfileModel()
-      ];
+      return [await this.getManifestModel(), await this.getLockfileModel()];
     },
 
     /**
@@ -149,13 +148,17 @@ qx.Class.define("qx.tool.cli.commands.Package", {
       if (this.argv.save && manifestModel.isDirty()) {
         await manifestModel.save();
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`>>> Saved dependency data to ${manifestModel.getRelativeDataPath()}`);
+          qx.tool.compiler.Console.info(
+            `>>> Saved dependency data to ${manifestModel.getRelativeDataPath()}`
+          );
         }
       }
       if (lockfileModel.isDirty()) {
         await lockfileModel.save();
         if (this.argv.verbose) {
-          qx.tool.compiler.Console.info(`>>> Saved library data to ${lockfileModel.getRelativeDataPath()}`);
+          qx.tool.compiler.Console.info(
+            `>>> Saved library data to ${lockfileModel.getRelativeDataPath()}`
+          );
         }
       }
     },
@@ -170,7 +173,10 @@ qx.Class.define("qx.tool.cli.commands.Package", {
     async getInstalledLibraryTag(repo_name, library_name) {
       let library = (await this.getLockfileModel())
         .getValue("libraries")
-        .find(lib => lib.repo_name === repo_name && lib.library_name === library_name);
+        .find(
+          lib =>
+            lib.repo_name === repo_name && lib.library_name === library_name
+        );
       return library ? library.repo_tag : false;
     },
 
@@ -190,15 +196,18 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * Returns the absolute path to the file that persists the cache object
      * @return {String}
      */
-    getCachePath : function() {
-      return path.join(qx.tool.cli.ConfigDb.getDirectory(), this.self(arguments).package_cache_name);
+    getCachePath() {
+      return path.join(
+        qx.tool.cli.ConfigDb.getDirectory(),
+        this.self(arguments).package_cache_name
+      );
     },
 
     /**
      * Returns the URL of the package registry data on GitHub
      * @return {String}
      */
-    getRepositoryCacheUrl : function() {
+    getRepositoryCacheUrl() {
       return this.self(arguments).repository_cache_url;
     },
 
@@ -207,19 +216,22 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * @return {Object}
      * @todo use config model API for cache file
      */
-    getCache : function(readFromFile = false) {
+    getCache(readFromFile = false) {
       if (!readFromFile && this.__cache && typeof this.__cache == "object") {
         return this.__cache;
       }
       try {
-        this.__cache = JSON.parse(fs.readFileSync(this.getCachePath(), "UTF-8"));
+        this.__cache = JSON.parse(
+          fs.readFileSync(this.getCachePath(), "UTF-8")
+        );
       } catch (e) {
         this.__cache = {
-          repos : {
-            list : [],
-            data : {}
+          repos: {
+            list: [],
+            data: {}
           },
-          compat : {}
+
+          compat: {}
         };
       }
       return this.__cache;
@@ -230,7 +242,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * @param data {Object}
      * @return {void}
      */
-    setCache : function(data) {
+    setCache(data) {
       this.__cache = data;
     },
 
@@ -238,9 +250,13 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * Saves the cache to a hidden local file
      * @return {void}
      */
-    saveCache : async function() {
+    async saveCache() {
       await qx.tool.utils.Utils.makeParentDir(this.getCachePath());
-      await fs.writeFileAsync(this.getCachePath(), JSON.stringify(this.__cache, null, 2), "UTF-8");
+      await fs.writeFileAsync(
+        this.getCachePath(),
+        JSON.stringify(this.__cache, null, 2),
+        "UTF-8"
+      );
     },
 
     /**
@@ -249,13 +265,15 @@ qx.Class.define("qx.tool.cli.commands.Package", {
      * @param path {String}
      * @return {void}
      */
-    exportCache : async function(path) {
+    async exportCache(path) {
       try {
         let cache = this.__cache || this.getCache(true);
-        let data = stringify(cache, {space: 2});
+        let data = stringify(cache, { space: 2 });
         await fs.writeFileAsync(path, data, "UTF-8");
       } catch (e) {
-        qx.tool.compiler.Console.error(`Error exporting cache to ${path}:` + e.message);
+        qx.tool.compiler.Console.error(
+          `Error exporting cache to ${path}:` + e.message
+        );
         process.exit(1);
       }
     },
@@ -263,7 +281,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
     /**
      * Clears the cache
      */
-    clearCache : function() {
+    clearCache() {
       this.__cache = null;
       try {
         fs.unlinkSync(this.getCachePath());

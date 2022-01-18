@@ -16,15 +16,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Pane",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.virtual.Pane", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.base(arguments);
+  members: {
+    setUp() {
+      super.setUp();
 
       this.defaultWidth = 30;
       this.defaultHeight = 10;
@@ -32,56 +29,47 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.colCount = 200;
 
       var pane = new qx.ui.virtual.core.Pane(
-        this.rowCount, this.colCount,
-        this.defaultHeight, this.defaultWidth
+        this.rowCount,
+        this.colCount,
+        this.defaultHeight,
+        this.defaultWidth
       );
 
       this.getRoot().add(pane);
       this.pane = pane;
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.pane.destroy();
-      this.base(arguments);
+      super.tearDown();
       this.flush();
     },
 
-
-    assertUpdateArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
-    {
+    assertUpdateArgs(rowIndex, colIndex, rowSizes, colSizes, args, msg) {
       this.assertEquals(rowIndex, args[0], msg);
       this.assertEquals(colIndex, args[1], msg);
       this.assertArrayEquals(rowSizes, args[2], msg);
       this.assertArrayEquals(colSizes, args[3], msg);
     },
 
-
-    assertScrollArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
-    {
+    assertScrollArgs(rowIndex, colIndex, rowSizes, colSizes, args, msg) {
       this.assertEquals(rowIndex, args[0], msg);
       this.assertEquals(colIndex, args[1], msg);
       this.assertArrayEquals(rowSizes, args[2], msg);
       this.assertArrayEquals(colSizes, args[3], msg);
     },
 
-
-    assertScroll : function(scrollTop, scrollLeft, pane, msg)
-    {
+    assertScroll(scrollTop, scrollLeft, pane, msg) {
       var layerContainer = this.pane._getChildren()[0];
       this.assertEquals(-scrollTop, layerContainer.getBounds().top, msg);
       this.assertEquals(-scrollLeft, layerContainer.getBounds().left, msg);
     },
 
-
-    testConstructor : function() {
+    testConstructor() {
       this.assertNotUndefined(this.pane);
     },
 
-
-    testScrollProperties : function()
-    {
+    testScrollProperties() {
       this.flush();
       this.pane.setScrollY(30);
       this.assertEquals(30, this.pane.getScrollY());
@@ -90,9 +78,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(40, this.pane.getScrollX());
     },
 
-
-    testGetScrollSize : function()
-    {
+    testGetScrollSize() {
       var size = this.pane.getScrollSize();
       this.assertEquals(this.defaultWidth * this.colCount, size.width);
       this.assertEquals(this.defaultHeight * this.rowCount, size.height);
@@ -104,21 +90,23 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(50 * 123 - 20, this.pane.getScrollSize().height);
     },
 
-
-    testLayerAdd : function()
-    {
+    testLayerAdd() {
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.assertEquals(layer, this.pane.getLayers()[0]);
     },
 
-
-    testUpdateEvent : function()
-    {
+    testUpdateEvent() {
       var called = 0;
 
       var pane = new qx.ui.virtual.core.Pane(100, 20, 10, 50);
-      pane.addListener("update", function() { called ++;}, this);
+      pane.addListener(
+        "update",
+        function () {
+          called++;
+        },
+        this
+      );
       pane.set({
         width: 300,
         height: 200
@@ -149,20 +137,23 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       pane.getRowConfig().setItemCount(300);
       pane.setWidth(500);
       this.flush();
-      this.assertEquals(2, called, "Expect two updates after data and pane resize");
+      this.assertEquals(
+        2,
+        called,
+        "Expect two updates after data and pane resize"
+      );
 
       pane.destroy();
     },
 
-
-    testFullUpdate : function()
-    {
+    testFullUpdate() {
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.set({
         width: 100,
         height: 50
       });
+
       this.flush();
 
       layer.calls = [];
@@ -180,7 +171,13 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.fullUpdate();
       this.flush();
       var args = layer.calls[0][1];
-      this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertUpdateArgs(
+        0,
+        0,
+        [10, 10, 10, 10, 10, 10],
+        [30, 30, 30, 30],
+        args
+      );
       this.assertScroll(4, 0, this.pane);
 
       this.pane.setScrollY(10);
@@ -196,9 +193,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.fullUpdate();
       this.flush();
       var args = layer.calls[0][1];
-      this.assertUpdateArgs(1, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertUpdateArgs(
+        1,
+        0,
+        [10, 10, 10, 10, 10, 10],
+        [30, 30, 30, 30],
+        args
+      );
       this.assertScroll(6, 0, this.pane);
-
 
       this.pane.setScrollY(0);
       this.flush();
@@ -228,9 +230,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 6, this.pane);
     },
 
-
-    testNoRows : function()
-    {
+    testNoRows() {
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
 
@@ -256,9 +256,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testNoColumns : function()
-    {
+    testNoColumns() {
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
 
@@ -284,13 +282,11 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchYAtTop : function()
-    {
+    testPrefetchYAtTop() {
       var layerHeight = 400;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: 300, height: layerHeight});
+      this.pane.set({ width: 300, height: layerHeight });
       this.flush();
 
       // scroll top is 0 and prefetch above
@@ -300,30 +296,26 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchYLimitedAtTop : function()
-    {
+    testPrefetchYLimitedAtTop() {
       var layerHeight = 400;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: 300, height: layerHeight});
+      this.pane.set({ width: 300, height: layerHeight });
       this.flush();
 
       // scroll top is 100 and prefetch above 200
       this.pane.setScrollY(100);
       this.pane.prefetchY(100, 200, 0, 0);
       this.flush();
-      this.assertEquals(layerHeight+100, layer.getBounds().height);
+      this.assertEquals(layerHeight + 100, layer.getBounds().height);
       this.assertScroll(100, 0, this.pane);
     },
 
-
-    testPrefetchYAtBottom : function()
-    {
+    testPrefetchYAtBottom() {
       var layerHeight = 400;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: 300, height: layerHeight});
+      this.pane.set({ width: 300, height: layerHeight });
       this.flush();
 
       // scroll top to bottom and prefetch below 200
@@ -334,37 +326,33 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchYLimitedAtBottom : function()
-    {
+    testPrefetchYLimitedAtBottom() {
       var layerHeight = 400;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: 300, height: layerHeight});
+      this.pane.set({ width: 300, height: layerHeight });
       this.flush();
 
       // scroll top to bottom and prefetch below 200
-      this.pane.setScrollY(this.pane.getScrollMaxY()-100);
+      this.pane.setScrollY(this.pane.getScrollMaxY() - 100);
       this.pane.prefetchY(0, 0, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+100, layer.getBounds().height);
+      this.assertEquals(layerHeight + 100, layer.getBounds().height);
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchYInMiddle : function()
-    {
+    testPrefetchYInMiddle() {
       var layerHeight = 400;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: 300, height: layerHeight});
+      this.pane.set({ width: 300, height: layerHeight });
       this.flush();
 
       // scroll top is 500 and prefetch above 200
       this.pane.setScrollY(500);
       this.pane.prefetchY(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+400, layer.getBounds().height);
+      this.assertEquals(layerHeight + 400, layer.getBounds().height);
       this.assertScroll(200, 0, this.pane);
 
       // already prefetched 200 pixel above. Scrolling up 20px and prefetching
@@ -372,14 +360,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollY(480);
       this.pane.prefetchY(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+400, layer.getBounds().height);
+      this.assertEquals(layerHeight + 400, layer.getBounds().height);
       this.assertScroll(180, 0, this.pane);
 
       // scroll more than minAbove up. Prefetching should update the layers
       this.pane.setScrollY(390);
       this.pane.prefetchY(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+400, layer.getBounds().height);
+      this.assertEquals(layerHeight + 400, layer.getBounds().height);
       this.assertScroll(200, 0, this.pane);
 
       // already prefetched 200 pixel below. Scrolling down 20px and prefetching
@@ -387,24 +375,22 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollY(410);
       this.pane.prefetchY(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+400, layer.getBounds().height);
+      this.assertEquals(layerHeight + 400, layer.getBounds().height);
       this.assertScroll(220, 0, this.pane);
 
       // scroll more than minBelow down. Prefetching should update the layers
       this.pane.setScrollY(520);
       this.pane.prefetchY(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerHeight+400, layer.getBounds().height);
+      this.assertEquals(layerHeight + 400, layer.getBounds().height);
       this.assertScroll(200, 0, this.pane);
     },
 
-
-    testPrefetchXAtLeft : function()
-    {
+    testPrefetchXAtLeft() {
       var layerWidth = 300;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: layerWidth, height: 400});
+      this.pane.set({ width: layerWidth, height: 400 });
       this.flush();
 
       // scroll left is 0 and prefetch left
@@ -414,32 +400,28 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchXLimitedAtLeft : function()
-    {
+    testPrefetchXLimitedAtLeft() {
       var layerWidth = 300;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.getColumnConfig().setDefaultItemSize(10);
-      this.pane.set({width: layerWidth, height: 400});
+      this.pane.set({ width: layerWidth, height: 400 });
       this.flush();
 
       // scroll top is 100 and prefetch above 200
       this.pane.setScrollX(100);
       this.pane.prefetchX(100, 200, 0, 0);
       this.flush();
-      this.assertEquals(layerWidth+100, layer.getBounds().width);
+      this.assertEquals(layerWidth + 100, layer.getBounds().width);
       this.assertScroll(0, 100, this.pane);
     },
 
-
-    testPrefetchXAtBottom : function()
-    {
+    testPrefetchXAtBottom() {
       var layerWidth = 300;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.getColumnConfig().setDefaultItemSize(10);
-      this.pane.set({width: layerWidth, height: 400});
+      this.pane.set({ width: layerWidth, height: 400 });
       this.flush();
 
       // scroll left to right and prefetch right 200
@@ -450,31 +432,27 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchXLimitedAtBottom : function()
-    {
+    testPrefetchXLimitedAtBottom() {
       var layerWidth = 300;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.getColumnConfig().setDefaultItemSize(10);
-      this.pane.set({width: layerWidth, height: 400});
+      this.pane.set({ width: layerWidth, height: 400 });
       this.flush();
 
       // scroll left to right-100 and prefetch right 200
-      this.pane.setScrollX(this.pane.getScrollMaxX()-100);
+      this.pane.setScrollX(this.pane.getScrollMaxX() - 100);
       this.pane.prefetchX(0, 0, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+100, layer.getBounds().width);
+      this.assertEquals(layerWidth + 100, layer.getBounds().width);
       this.assertScroll(0, 0, this.pane);
     },
 
-
-    testPrefetchXInMiddle : function()
-    {
+    testPrefetchXInMiddle() {
       var layerWidth = 300;
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.set({width: layerWidth, height: 400});
+      this.pane.set({ width: layerWidth, height: 400 });
       this.pane.getColumnConfig().setDefaultItemSize(10);
       this.flush();
 
@@ -482,7 +460,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollX(500);
       this.pane.prefetchX(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertEquals(layerWidth + 400, layer.getBounds().width);
       this.assertScroll(0, 200, this.pane);
 
       // already prefetched 200 pixel at the left. Scrolling left 20px and prefetching
@@ -490,14 +468,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollX(480);
       this.pane.prefetchX(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertEquals(layerWidth + 400, layer.getBounds().width);
       this.assertScroll(0, 180, this.pane);
 
       // scroll more than minLeft left. Prefetching should update the layers
       this.pane.setScrollX(390);
       this.pane.prefetchX(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertEquals(layerWidth + 400, layer.getBounds().width);
       this.assertScroll(0, 200, this.pane);
 
       // already prefetched 200 pixel right. Scrolling right 20px and prefetching
@@ -505,26 +483,25 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollX(410);
       this.pane.prefetchX(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertEquals(layerWidth + 400, layer.getBounds().width);
       this.assertScroll(0, 220, this.pane);
 
       // scroll more than minRight right. Prefetching should update the layers
       this.pane.setScrollX(520);
       this.pane.prefetchX(100, 200, 100, 200);
       this.flush();
-      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertEquals(layerWidth + 400, layer.getBounds().width);
       this.assertScroll(0, 200, this.pane);
     },
 
-
-    testUpdateLayerWindow : function()
-    {
+    testUpdateLayerWindow() {
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.set({
         width: 100,
         height: 50
       });
+
       this.flush();
 
       layer.calls = [];
@@ -532,7 +509,13 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.flush();
       this.assertEquals("updateLayerWindow", layer.calls[0][0]);
       var args = layer.calls[0][1];
-      this.assertScrollArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertScrollArgs(
+        0,
+        0,
+        [10, 10, 10, 10, 10, 10],
+        [30, 30, 30, 30],
+        args
+      );
       this.assertScroll(4, 0, this.pane);
 
       layer.calls = [];
@@ -552,9 +535,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.flush();
       this.assertEquals("updateLayerWindow", layer.calls[0][0]);
       var args = layer.calls[0][1];
-      this.assertScrollArgs(1, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertScrollArgs(
+        1,
+        0,
+        [10, 10, 10, 10, 10, 10],
+        [30, 30, 30, 30],
+        args
+      );
       this.assertScroll(6, 0, this.pane);
-
 
       this.pane.setScrollY(0);
       this.flush();
@@ -580,13 +568,12 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 6, this.pane);
     },
 
-
-    testSrollRowIntoView : function()
-    {
+    testSrollRowIntoView() {
       this.pane.set({
-        width : 400,
-        height : 305
+        width: 400,
+        height: 305
       });
+
       this.pane.getColumnConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
@@ -600,16 +587,15 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       this.assertScroll(5, 0, this.pane);
       this.assertEquals("70 / 0", children[0].innerHTML);
-      this.assertEquals("100 / 0", children[children.length-1].innerHTML);
+      this.assertEquals("100 / 0", children[children.length - 1].innerHTML);
     },
 
-
-    testSrollColumnIntoView : function()
-    {
+    testSrollColumnIntoView() {
       this.pane.set({
-        width : 405,
-        height : 305
+        width: 405,
+        height: 305
       });
+
       this.pane.getRowConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
@@ -623,16 +609,15 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       this.assertScroll(0, 15, this.pane);
       this.assertEquals("0 / 87", children[0].innerHTML);
-      this.assertEquals("0 / 100", children[children.length-1].innerHTML);
+      this.assertEquals("0 / 100", children[children.length - 1].innerHTML);
     },
 
-
-    _testSrollRowIntoViewEdgeCase : function()
-    {
+    _testSrollRowIntoViewEdgeCase() {
       this.pane.set({
-        width : 400,
-        height : 305
+        width: 400,
+        height: 305
       });
+
       this.pane.getColumnConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
@@ -646,16 +631,15 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       this.assertScroll(5, 0, this.pane);
       this.assertEquals("0 / 969", children[0].innerHTML);
-      this.assertEquals("0 / 999", children[children.length-1].innerHTML);
+      this.assertEquals("0 / 999", children[children.length - 1].innerHTML);
     },
 
-
-    _testSrollColumnIntoViewEdgeCase : function()
-    {
+    _testSrollColumnIntoViewEdgeCase() {
       this.pane.set({
-        width : 405,
-        height : 305
+        width: 405,
+        height: 305
       });
+
       this.pane.getRowConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
@@ -669,12 +653,10 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       this.assertScroll(0, 15, this.pane);
       this.assertEquals("186 / 0", children[0].innerHTML);
-      this.assertEquals("199 / 0", children[children.length-1].innerHTML);
+      this.assertEquals("199 / 0", children[children.length - 1].innerHTML);
     },
 
-
-    testGetCellAtPosition : function()
-    {
+    testGetCellAtPosition() {
       this.pane.getRowConfig().setItemCount(3);
       this.pane.getColumnConfig().setItemCount(3);
 
@@ -682,16 +664,20 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(0, 0));
+      this.assertJsonEquals(
+        { row: 0, column: 0 },
+        this.pane.getCellAtPosition(0, 0)
+      );
       this.assertEquals(null, this.pane.getCellAtPosition(400, 0));
       this.assertEquals(null, this.pane.getCellAtPosition(0, 300));
       this.assertEquals(null, this.pane.getCellAtPosition(400, 300));
-      this.assertJsonEquals({row : 2, column : 2}, this.pane.getCellAtPosition(89, 29));
+      this.assertJsonEquals(
+        { row: 2, column: 2 },
+        this.pane.getCellAtPosition(89, 29)
+      );
     },
 
-
-    testGetItemAtPositionEmptySpace : function()
-    {
+    testGetItemAtPositionEmptySpace() {
       var pane = this.pane;
 
       pane.setHeight(100);
@@ -700,32 +686,35 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.getRowConfig().setDefaultItemSize(50);
       this.flush();
 
-      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(1, 49));
+      this.assertJsonEquals(
+        { row: 0, column: 0 },
+        this.pane.getCellAtPosition(1, 49)
+      );
       this.assertEquals(null, this.pane.getCellAtPosition(1, 50));
       this.assertEquals(null, this.pane.getCellAtPosition(1, 70));
     },
 
-
-    testMouseCellEvents : function()
-    {
+    testMouseCellEvents() {
       var rowCount = 2;
       var colCount = 2;
       var defaultHeight = 10;
       var defaultWidth = 50;
 
       var pane = new qx.ui.virtual.core.Pane(
-        rowCount, colCount,
-        defaultHeight, defaultWidth
+        rowCount,
+        colCount,
+        defaultHeight,
+        defaultWidth
       ).set({
         width: 150,
         height: 30
       });
 
-      this.getRoot().add(pane, {left: 100, top: 100});
+      this.getRoot().add(pane, { left: 100, top: 100 });
       this.flush();
 
       var calls = [];
-      var listener = function(e) {
+      var listener = function (e) {
         calls.push(e);
       };
       pane.addListener("cellTap", listener);
@@ -734,57 +723,126 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       var PointerEventMock = qx.test.ui.virtual.PointerEventMock;
       var eventPointerToCellEvents = {
-        "tap" : "cellTap",
-        "dbltap" : "cellDbltap",
-        "contextmenu" : "cellContextmenu"
+        tap: "cellTap",
+        dbltap: "cellDbltap",
+        contextmenu: "cellContextmenu"
       };
 
-      for (var pointerEvent in eventPointerToCellEvents)
-      {
+      for (var pointerEvent in eventPointerToCellEvents) {
         var cellEvent = eventPointerToCellEvents[pointerEvent];
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 99, documentTop: 99}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 99, documentTop: 99}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 99,
+            documentTop: 99
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 99,
+            documentTop: 99
+          })
+        );
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 100, documentTop: 100}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 100,
+            documentTop: 100
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 100,
+            documentTop: 100
+          })
+        );
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 160, documentTop: 103}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 160, documentTop: 103}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 160,
+            documentTop: 103
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 160,
+            documentTop: 103
+          })
+        );
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(1, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 105, documentTop: 110}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 105, documentTop: 110}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 105,
+            documentTop: 110
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 105,
+            documentTop: 110
+          })
+        );
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(1, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 105, documentTop: 125}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 105, documentTop: 125}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 105,
+            documentTop: 125
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 105,
+            documentTop: 125
+          })
+        );
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 275, documentTop: 105}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 275,
+            documentTop: 105
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 275,
+            documentTop: 105
+          })
+        );
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 275, documentTop: 105}));
-        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(
+          new PointerEventMock("pointerdown", {
+            documentLeft: 275,
+            documentTop: 105
+          })
+        );
+        pane.dispatchEvent(
+          new PointerEventMock(pointerEvent, {
+            documentLeft: 275,
+            documentTop: 105
+          })
+        );
         this.assertEquals(0, calls.length);
       }
 
@@ -792,26 +850,27 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.flush();
     },
 
-    "test mouse click bug #6695" : function()
-    {
+    "test mouse click bug #6695"() {
       var rowCount = 2;
       var colCount = 2;
       var defaultHeight = 10;
       var defaultWidth = 50;
 
       var pane = new qx.ui.virtual.core.Pane(
-        rowCount, colCount,
-        defaultHeight, defaultWidth
+        rowCount,
+        colCount,
+        defaultHeight,
+        defaultWidth
       ).set({
         width: 150,
         height: 30
       });
 
-      this.getRoot().add(pane, {left: 100, top: 100});
+      this.getRoot().add(pane, { left: 100, top: 100 });
       this.flush();
 
       var calls = [];
-      var listener = function(e) {
+      var listener = function (e) {
         calls.push(e);
       };
       pane.addListener("cellTap", listener);
@@ -819,33 +878,46 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var PointerEventMock = qx.test.ui.virtual.PointerEventMock;
 
       calls = [];
-      pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
-      pane.dispatchEvent(new PointerEventMock("tap", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(
+        new PointerEventMock("pointerdown", {
+          documentLeft: 100,
+          documentTop: 100
+        })
+      );
+      pane.dispatchEvent(
+        new PointerEventMock("tap", { documentLeft: 100, documentTop: 100 })
+      );
       this.assertEquals(1, calls.length);
       this.assertEquals(0, calls[0].getRow());
       this.assertEquals(0, calls[0].getColumn());
       this.assertEquals("cellTap", calls[0].getType());
 
       calls = [];
-      pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
-      pane.dispatchEvent(new PointerEventMock("tap", {documentLeft: 160, documentTop: 103}));
+      pane.dispatchEvent(
+        new PointerEventMock("pointerdown", {
+          documentLeft: 100,
+          documentTop: 100
+        })
+      );
+      pane.dispatchEvent(
+        new PointerEventMock("tap", { documentLeft: 160, documentTop: 103 })
+      );
       this.assertEquals(0, calls.length);
 
       pane.destroy();
       this.flush();
     },
 
-
-    testDestroy : function()
-    {
+    testDestroy() {
       this.pane.destroy();
       this.flush();
 
-      this.assertDestroy(function()
-      {
+      this.assertDestroy(function () {
         var pane = new qx.ui.virtual.core.Pane(
-          this.rowCount, this.colCount,
-          this.defaultHeight, this.defaultWidth
+          this.rowCount,
+          this.colCount,
+          this.defaultHeight,
+          this.defaultWidth
         );
 
         this.getRoot().add(pane);
@@ -854,7 +926,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.pane = null;
   }
 });

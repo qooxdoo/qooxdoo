@@ -30,12 +30,12 @@ qx.Class.define("qx.html.Text", {
 
   /**
    * Creates a new Text
-   * 
+   *
    * @param value
    *          {String?} the value of the text
    */
-  construct: function(text) {
-    this.base(arguments, "#text");
+  construct(text) {
+    super("#text");
     if (text) {
       this.__text = text;
     }
@@ -53,72 +53,72 @@ qx.Class.define("qx.html.Text", {
     /*
      * @Override
      */
-    _createDomElement: function() {
+    _createDomElement() {
       return window.document.createTextNode(this.__text || "");
     },
 
     /*
      * @Override
      */
-    isRoot : function() {
+    isRoot() {
       return false;
     },
-    
+
     /*
      * @Override
      */
-    _copyData: function(fromMarkup, propertiesFromDom) {
-      this.base(arguments, fromMarkup, propertiesFromDom);
+    _copyData(fromMarkup, propertiesFromDom) {
+      super._copyData(fromMarkup, propertiesFromDom);
       var elem = this._domNode;
       elem.nodeValue = this.__text || "";
     },
-    
+
     /*
      * @Override
      */
-    _useNode: function(domNode) {
+    _useNode(domNode) {
       this.setText(domNode.nodeValue);
     },
 
     /*
      * @Override
      */
-    _useNodeImpl: function(domNode) {
+    _useNodeImpl(domNode) {
       this.setText(domNode.nodeValue);
     },
 
     /**
      * @Override
      */
-    _syncData : function() {
-      this.base(arguments);
+    _syncData() {
+      super._syncData();
       var elem = this._domNode;
       elem.nodeValue = this.__text || "";
     },
-    
+
     /*
      * @Override
      */
-    _serializeImpl: function(writer) {
+    _serializeImpl(writer) {
       if (this.__text !== null) {
         writer(this.__text);
       }
     },
-    
+
     /**
      * @Override
      */
-    useMarkup: function(html) {
+    useMarkup(html) {
       throw new Error("Could not overwrite existing text node!");
     },
-    
+
     /**
      * Sets the text value
-     * 
+     *
      * @param value {String?} the text value of for the text node
-     * @param direct {Boolean?} whether to set the DOM node immediately if there is one 
+     * @param direct {Boolean?} whether to set the DOM node immediately if there is one
      */
-    setText: function(value, direct) {
+    setText(value, direct) {
       this.__text = value;
       if (direct && this._domNode) {
         this._domNode.nodeValue = value;
@@ -127,13 +127,13 @@ qx.Class.define("qx.html.Text", {
         qx.html.Element._scheduleFlush("element");
       }
     },
-    
+
     /**
      * Returns the value of the node
-     * 
+     *
      * @return {String} the text node
      */
-    getText: function() {
+    getText() {
       return this.__text;
     }
   },
@@ -144,7 +144,7 @@ qx.Class.define("qx.html.Text", {
    * ****************************************************************************
    */
 
-  defer: function(statics) {
+  defer(statics) {
     statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
   },
 
@@ -154,12 +154,19 @@ qx.Class.define("qx.html.Text", {
    * ****************************************************************************
    */
 
-  destruct: function() {
+  destruct() {
     if (this.toHashCode()) {
       delete qx.html.Element._modified[this.toHashCode()];
       delete qx.html.Element._scroll[this.toHashCode()];
     }
 
-    this.__attribValues = this.__styleValues = this.__eventValues = this.__attribJobs = this.__styleJobs = this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
+    this.__attribValues =
+      this.__styleValues =
+      this.__eventValues =
+      this.__attribJobs =
+      this.__styleJobs =
+      this.__lazyScrollIntoViewX =
+      this.__lazyScrollIntoViewY =
+        null;
   }
 });

@@ -17,89 +17,71 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
-{
-  extend : qx.test.ui.virtual.layer.LayerTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.WidgetCell", {
+  extend: qx.test.ui.virtual.layer.LayerTestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this._pool = [];
 
-      this.base(arguments);
+      super.setUp();
     },
 
-
-    tearDown : function()
-    {
-      for (var i=0; i<this._pool.length; i++) {
+    tearDown() {
+      for (var i = 0; i < this._pool.length; i++) {
         this._pool[i].destroy();
       }
       this.flush();
 
       this._pool = null;
-      this.base(arguments);
+      super.tearDown();
     },
 
-
-    _createLayer : function() {
+    _createLayer() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
-
-    getCellWidget : function(row, column)
-    {
+    getCellWidget(row, column) {
       var widget = this._pool.pop() || new qx.ui.core.Widget();
       widget.setBackgroundColor((row + column) % 2 == 0 ? "red" : "green");
       return widget;
     },
 
-
-    poolCellWidget : function(widget)
-    {
+    poolCellWidget(widget) {
       widget.setUserData("row", -1);
       widget.setUserData("column", -1);
       this._pool.push(widget);
     },
 
-
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
-    {
+    _assertCells(firstRow, firstColumn, rowCount, columnCount, msg) {
       var children = this.layer._getChildren();
 
       this.assertEquals(rowCount * columnCount, children.length);
 
-      for (var y=0; y<rowCount; y++)
-      {
-        for (var x=0; x<columnCount; x++)
-        {
+      for (var y = 0; y < rowCount; y++) {
+        for (var x = 0; x < columnCount; x++) {
           var row = firstRow + y;
           var column = firstColumn + x;
 
-          var widget = children[y*columnCount + x];
+          var widget = children[y * columnCount + x];
           this.assertEquals(row, widget.getUserData("cell.row"));
           this.assertEquals(column, widget.getUserData("cell.column"));
         }
       }
     },
 
-
-    testGetRenderedCellWidget : function()
-    {
+    testGetRenderedCellWidget() {
       var pool = new qx.data.Array();
       pool.setAutoDisposeItems(true);
       var layer = new qx.ui.virtual.layer.WidgetCell({
-        getCellWidget: function(row, column)
-        {
+        getCellWidget(row, column) {
           var widget = new qx.ui.core.Widget();
-          widget.setUserData("test", row+"/"+column);
+          widget.setUserData("test", row + "/" + column);
           pool.push(widget);
           return row == 2 && column == 2 ? null : widget;
         },
 
-        poolCellWidget : function(widget) {
-        }
+        poolCellWidget(widget) {}
       });
 
       this.getRoot().add(layer);
@@ -116,24 +98,34 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this.assertEquals(null, layer.getRenderedCellWidget(1, 4));
       this.assertEquals(null, layer.getRenderedCellWidget(4, 4));
 
-      this.assertEquals("1/1", layer.getRenderedCellWidget(1, 1).getUserData("test"));
-      this.assertEquals("1/3", layer.getRenderedCellWidget(1, 3).getUserData("test"));
-      this.assertEquals("3/1", layer.getRenderedCellWidget(3, 1).getUserData("test"));
-      this.assertEquals("3/3", layer.getRenderedCellWidget(3, 3).getUserData("test"));
+      this.assertEquals(
+        "1/1",
+        layer.getRenderedCellWidget(1, 1).getUserData("test")
+      );
+      this.assertEquals(
+        "1/3",
+        layer.getRenderedCellWidget(1, 3).getUserData("test")
+      );
+      this.assertEquals(
+        "3/1",
+        layer.getRenderedCellWidget(3, 1).getUserData("test")
+      );
+      this.assertEquals(
+        "3/3",
+        layer.getRenderedCellWidget(3, 3).getUserData("test")
+      );
 
       layer.destroy();
       pool.dispose();
     },
 
-
-    testEmptyCells : function()
-    {
+    testEmptyCells() {
       var layer = new qx.ui.virtual.layer.WidgetCell({
-        getCellWidget: function(row, column) {
+        getCellWidget(row, column) {
           return column === 0 ? new qx.ui.core.Widget() : null;
         },
 
-        poolCellWidget : function(widget) {
+        poolCellWidget(widget) {
           widget.destroy();
         }
       });
@@ -146,11 +138,9 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
 
       var children = layer.getChildren();
 
-      for (var y=0; y<=5; y++)
-      {
-        for (var x=0; x<=2; x++)
-        {
-          var child = children[y*3 + x];
+      for (var y = 0; y <= 5; y++) {
+        for (var x = 0; x <= 2; x++) {
+          var child = children[y * 3 + x];
           if (x === 0) {
             this.assertInstance(child, qx.ui.core.Widget);
           } else {

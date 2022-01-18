@@ -21,12 +21,12 @@
  */
 
 qx.Theme.define("qx.theme.tangible.ColorLight", {
-    extend : qx.theme.tangible.ColorEngine,
-    colors: {
+  extend: qx.theme.tangible.ColorEngine,
+  colors: {
     // theme colors
-    "primary": "#6200ee",
-    "secondary": "#018786",
-    "surface": "#ffffff",
-    "error": "#b00020"
-   }
+    primary: "#6200ee",
+    secondary: "#018786",
+    surface: "#ffffff",
+    error: "#b00020"
+  }
 });

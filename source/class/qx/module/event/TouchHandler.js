@@ -25,13 +25,11 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.TouchHandler", {
-
-  statics :
-  {
+  statics: {
     /**
      * List of events that require a touch handler
      */
-    TYPES : ["touchstart", "touchend", "touchmove", "touchcancel"],
+    TYPES: ["touchstart", "touchend", "touchmove", "touchcancel"],
 
     /**
      * Creates a touch handler for the given element when a touch event listener
@@ -39,32 +37,31 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
      *
      * @param element {Element} DOM element
      */
-    register : function(element)
-    {
+    register(element) {
       if (!element.__touchHandler) {
         if (!element.$$emitter) {
           element.$$emitter = new qx.event.Emitter();
         }
-        element.__touchHandler = new qx.event.handler.TouchCore(element, element.$$emitter);
+        element.__touchHandler = new qx.event.handler.TouchCore(
+          element,
+          element.$$emitter
+        );
       }
     },
-
 
     /**
      * Removes the touch event handler from the element if there are no more
      * touch event listeners attached to it
      * @param element {Element} DOM element
      */
-    unregister : function(element)
-    {
+    unregister(element) {
       if (element.__touchHandler) {
         if (!element.$$emitter) {
           element.__touchHandler = null;
-        }
-        else {
+        } else {
           var hasTouchListener = false;
           var listeners = element.$$emitter.getListeners();
-          qx.module.event.TouchHandler.TYPES.forEach(function(type) {
+          qx.module.event.TouchHandler.TYPES.forEach(function (type) {
             if (type in listeners && listeners[type].length > 0) {
               hasTouchListener = true;
             }
@@ -77,8 +74,11 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     }
   },
 
-  defer : function(statics)
-  {
-    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+  defer(statics) {
+    qxWeb.$registerEventHook(
+      statics.TYPES,
+      statics.register,
+      statics.unregister
+    );
   }
 });

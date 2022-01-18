@@ -17,320 +17,671 @@
 
 ************************************************************************ */
 
+qx.Class.define("qx.test.util.placement.Placement", {
+  extend: qx.dev.unit.TestCase,
 
-qx.Class.define("qx.test.util.placement.Placement",
-{
-  extend : qx.dev.unit.TestCase,
-
-  members :
-  {
-    testEnoughSpace : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 1000, height: 1000};
-      var target = {left: 500, top: 500, right: 600, bottom: 550};
-      var offsets = {top: 0, left: 0, bottom: 0, right: 0};
+  members: {
+    testEnoughSpace() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 1000, height: 1000 };
+      var target = { left: 500, top: 500, right: 600, bottom: 550 };
+      var offsets = { top: 0, left: 0, bottom: 0, right: 0 };
 
       var modes = ["direct", "keep-align", "best-fit"];
-      for (var i=0; i<modes.length; i++)
-      {
+      for (var i = 0; i < modes.length; i++) {
         var mode = modes[i];
 
         this.assertJsonEquals(
-          {left: 500, top: 200},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "top-left", mode, mode),
+          { left: 500, top: 200 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "top-left",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 450, top: 200},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "top-center", mode, mode),
+          { left: 450, top: 200 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "top-center",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 400, top: 200},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "top-right", mode, mode),
+          { left: 400, top: 200 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "top-right",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 500, top: 550},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", mode, mode),
+          { left: 500, top: 550 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "bottom-left",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 450, top: 550},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-center", mode, mode),
+          { left: 450, top: 550 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "bottom-center",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 400, top: 550},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-right", mode, mode),
+          { left: 400, top: 550 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "bottom-right",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 300, top: 500},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "left-top", mode, mode),
+          { left: 300, top: 500 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "left-top",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 300, top: 375},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "left-middle", mode, mode),
+          { left: 300, top: 375 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "left-middle",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 300, top: 250},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "left-bottom", mode, mode),
+          { left: 300, top: 250 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "left-bottom",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 600, top: 500},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", mode, mode),
+          { left: 600, top: 500 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "right-top",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 600, top: 375},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", mode, mode),
+          { left: 600, top: 375 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "right-middle",
+            mode,
+            mode
+          ),
           mode
         );
 
         this.assertJsonEquals(
-          {left: 600, top: 250},
-          qx.util.placement.Placement.compute(size, area, target, offsets, "right-bottom", mode, mode),
+          { left: 600, top: 250 },
+          qx.util.placement.Placement.compute(
+            size,
+            area,
+            target,
+            offsets,
+            "right-bottom",
+            mode,
+            mode
+          ),
           mode
         );
       }
     },
 
-
-    testRestrictedBottomKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 1000, height: 600};
-      var target = {left: 500, top: 500, right: 600, bottom: 550};
-      var offsets = {top: 0, left: 0, bottom: 0, right: 0};
+    testRestrictedBottomKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 1000, height: 600 };
+      var target = { left: 500, top: 500, right: 600, bottom: 550 };
+      var offsets = { top: 0, left: 0, bottom: 0, right: 0 };
 
       this.assertJsonEquals(
-        {left: 500, top: 200},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", "keep-align", "keep-align")
+        { left: 500, top: 200 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-left",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 450, top: 200},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-center", "keep-align", "keep-align")
+        { left: 450, top: 200 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-center",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 400, top: 200},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-right", "keep-align", "keep-align")
+        { left: 400, top: 200 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-right",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 300, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-top", "keep-align", "keep-align")
+        { left: 300, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-top",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 300, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-middle", "keep-align", "keep-align")
+        { left: 300, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-middle",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
+        { left: 600, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-top",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 600, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", "keep-align", "keep-align")
-      );
-    },
-
-
-    testRestrictedTopKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 1000, height: 1000};
-      var target = {left: 500, top: 100, right: 600, bottom: 150};
-      var offsets = {top: 0, left: 0, bottom: 0, right: 0};
-
-      this.assertJsonEquals(
-        {left: 500, top: 150},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "top-left", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 450, top: 150},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "top-center", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 400, top: 150},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "top-right", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 300, top: 100},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-middle", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 300, top: 100},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-bottom", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 600, top: 100},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 600, top: 100},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-bottom", "keep-align", "keep-align")
-      );
-    },
-
-
-    testRestrictedRightKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 700, height: 1000};
-      var target = {left: 500, top: 500, right: 600, bottom: 550};
-      var offsets = {top: 0, left: 0, bottom: 0, right: 0};
-
-      this.assertJsonEquals(
-        {left: 300, top: 500},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 300, top: 375},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 300, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-bottom", "keep-align", "keep-align")
+        { left: 600, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-middle",
+          "keep-align",
+          "keep-align"
+        )
       );
     },
 
-
-    testRestrictedLeftKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 1000, height: 1000};
-      var target = {left: 100, top: 500, right: 200, bottom: 550};
-      var offsets = {top: 0, left: 0, bottom: 0, right: 0};
+    testRestrictedTopKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 1000, height: 1000 };
+      var target = { left: 500, top: 100, right: 600, bottom: 150 };
+      var offsets = { top: 0, left: 0, bottom: 0, right: 0 };
 
       this.assertJsonEquals(
-        {left: 200, top: 500},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-top", "keep-align", "keep-align")
+        { left: 500, top: 150 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "top-left",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 200, top: 375},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-middle", "keep-align", "keep-align")
+        { left: 450, top: 150 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "top-center",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 200, top: 250},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-bottom", "keep-align", "keep-align")
+        { left: 400, top: 150 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "top-right",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 300, top: 100 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-middle",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 300, top: 100 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-bottom",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 600, top: 100 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-middle",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 600, top: 100 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-bottom",
+          "keep-align",
+          "keep-align"
+        )
       );
     },
 
-
-    testRestrictedBottomAndTopWithBetterBottomKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 1000, height: 440};
-      var target = {left: 500, top: 100, right: 600, bottom: 150};
-      var offsets = {top: 10, bottom: 20, left: 0, right: 0};
+    testRestrictedRightKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 700, height: 1000 };
+      var target = { left: 500, top: 500, right: 600, bottom: 550 };
+      var offsets = { top: 0, left: 0, bottom: 0, right: 0 };
 
       this.assertJsonEquals(
-        {left: 500, top: 160},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", "keep-align", "keep-align")
+        { left: 300, top: 500 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-top",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 450, top: 160},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-center", "keep-align", "keep-align")
+        { left: 300, top: 375 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-middle",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 500, top: 160},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "top-left", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 450, top: 160},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "top-center", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 600, top: 110},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 600, top: 110},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", "keep-align", "keep-align")
-      );
-
-      this.assertJsonEquals(
-        {left: 600, top: 110},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-bottom", "keep-align", "keep-align")
+        { left: 300, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-bottom",
+          "keep-align",
+          "keep-align"
+        )
       );
     },
 
-
-    testRestrictedLeftAndRightWithBetterLeftKeepAlign : function()
-    {
-      var size = {width: 200, height: 300};
-      var area = {width: 650, height: 1000};
-      var target = {left: 500, top: 500, right: 600, bottom: 550};
-      var offsets = {top: 0, bottom: 0, left: 10, right: 20};
+    testRestrictedLeftKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 1000, height: 1000 };
+      var target = { left: 100, top: 500, right: 200, bottom: 550 };
+      var offsets = { top: 0, left: 0, bottom: 0, right: 0 };
 
       this.assertJsonEquals(
-        {left: 280, top: 500},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-top", "keep-align", "keep-align")
+        { left: 200, top: 500 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-top",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 280, top: 375},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "left-middle", "keep-align", "keep-align")
+        { left: 200, top: 375 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-middle",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 280, top: 500},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-top", "keep-align", "keep-align")
+        { left: 200, top: 250 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-bottom",
+          "keep-align",
+          "keep-align"
+        )
+      );
+    },
+
+    testRestrictedBottomAndTopWithBetterBottomKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 1000, height: 440 };
+      var target = { left: 500, top: 100, right: 600, bottom: 150 };
+      var offsets = { top: 10, bottom: 20, left: 0, right: 0 };
+
+      this.assertJsonEquals(
+        { left: 500, top: 160 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-left",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 280, top: 375},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "right-middle", "keep-align", "keep-align")
+        { left: 450, top: 160 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-center",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 380, top: 550},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-left", "keep-align", "keep-align")
+        { left: 500, top: 160 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "top-left",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 380, top: 550},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-center", "keep-align", "keep-align")
+        { left: 450, top: 160 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "top-center",
+          "keep-align",
+          "keep-align"
+        )
       );
 
       this.assertJsonEquals(
-        {left: 380, top: 550},
-        qx.util.placement.Placement.compute(size, area, target, offsets, "bottom-right", "keep-align", "keep-align")
+        { left: 600, top: 110 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-top",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 600, top: 110 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-middle",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 600, top: 110 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-bottom",
+          "keep-align",
+          "keep-align"
+        )
+      );
+    },
+
+    testRestrictedLeftAndRightWithBetterLeftKeepAlign() {
+      var size = { width: 200, height: 300 };
+      var area = { width: 650, height: 1000 };
+      var target = { left: 500, top: 500, right: 600, bottom: 550 };
+      var offsets = { top: 0, bottom: 0, left: 10, right: 20 };
+
+      this.assertJsonEquals(
+        { left: 280, top: 500 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-top",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 280, top: 375 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "left-middle",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 280, top: 500 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-top",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 280, top: 375 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "right-middle",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 380, top: 550 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-left",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 380, top: 550 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-center",
+          "keep-align",
+          "keep-align"
+        )
+      );
+
+      this.assertJsonEquals(
+        { left: 380, top: 550 },
+        qx.util.placement.Placement.compute(
+          size,
+          area,
+          target,
+          offsets,
+          "bottom-right",
+          "keep-align",
+          "keep-align"
+        )
       );
     }
   }

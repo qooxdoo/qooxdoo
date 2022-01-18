@@ -41,11 +41,8 @@
  * </pre>
  */
 
-qx.Class.define("qx.dev.unit.TestClass",
-{
-  extend : qx.dev.unit.AbstractTestSuite,
-
-
+qx.Class.define("qx.dev.unit.TestClass", {
+  extend: qx.dev.unit.AbstractTestSuite,
 
   /*
   *****************************************************************************
@@ -56,28 +53,32 @@ qx.Class.define("qx.dev.unit.TestClass",
   /**
    * @param clazz {Class} Test class. Must be a sub class of {@link TestCase}.
    */
-  construct : function(clazz)
-  {
-    this.base(arguments);
+  construct(clazz) {
+    super();
 
-    if (!clazz)
-    {
+    if (!clazz) {
       this.addFail("existsCheck", "Unknown test class!");
       return;
     }
 
-    if (!qx.Class.isSubClassOf(clazz, qx.dev.unit.TestCase))
-    {
-      this.addFail("Sub class check.", "The test class '" + clazz.classname + "'is not a sub class of 'qx.dev.unit.TestCase'");
+    if (!qx.Class.isSubClassOf(clazz, qx.dev.unit.TestCase)) {
+      this.addFail(
+        "Sub class check.",
+        "The test class '" +
+          clazz.classname +
+          "'is not a sub class of 'qx.dev.unit.TestCase'"
+      );
       return;
     }
 
     var proto = clazz.prototype;
-    var testCase = new clazz;
+    var testCase = new clazz();
 
-    for (var test in proto)
-    {
-      if (qx.lang.Type.isFunctionOrAsyncFunction(proto[test]) && test.indexOf("test") == 0) {
+    for (var test in proto) {
+      if (
+        qx.lang.Type.isFunctionOrAsyncFunction(proto[test]) &&
+        test.indexOf("test") == 0
+      ) {
         this.addTestMethod(testCase, test);
       }
     }
@@ -85,19 +86,16 @@ qx.Class.define("qx.dev.unit.TestClass",
     this.setName(clazz.classname);
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Name of the test suite */
-    name : {
-      check : "String"
+    name: {
+      check: "String"
     }
   }
 });

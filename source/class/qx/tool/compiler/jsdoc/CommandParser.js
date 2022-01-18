@@ -20,21 +20,21 @@
  *
  * *********************************************************************** */
 
-
-
 /**
  * Abstract base class for JSDoc command parsers
  */
 qx.Class.define("qx.tool.compiler.jsdoc.CommandParser", {
   extend: qx.core.Object,
   type: "abstract",
-  
+
   members: {
-    parseCommand: function(pdoc, classname, analyser) {
-      throw new Error("No implementation for " + this.classname + ".parseCommand");
+    parseCommand(pdoc, classname, analyser) {
+      throw new Error(
+        "No implementation for " + this.classname + ".parseCommand"
+      );
     },
-    
-    resolveType: function(type, classname, analyser) {
+
+    resolveType(type, classname, analyser) {
       if (type) {
         var pos = type.indexOf(".");
         if (pos < 0) {
@@ -44,7 +44,7 @@ qx.Class.define("qx.tool.compiler.jsdoc.CommandParser", {
             if (analyser) {
               var match = analyser.getCachedClassInfo(pkg + type);
               if (match) {
-                return pkg + type; 
+                return pkg + type;
               }
             }
           }
@@ -52,6 +52,5 @@ qx.Class.define("qx.tool.compiler.jsdoc.CommandParser", {
       }
       return type;
     }
-    
   }
 });

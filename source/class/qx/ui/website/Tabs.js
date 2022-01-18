@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param orientation {String?} <code>horizontal</code> (default) or <code>vertical</code>
      * @return {qx.ui.website.Tabs}
      */
-    tabs: function(align, preselected, orientation) {
+    tabs(align, preselected, orientation) {
       var tabs = new qx.ui.website.Tabs(this);
       if (typeof preselected !== "undefined") {
         tabs.setConfig("preselected", preselected);
@@ -147,7 +147,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return tabs;
     },
 
-
     /**
      * *button*
      *
@@ -158,7 +157,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     _templates: {
       button: "<li><button>{{{content}}}</button></li>"
     },
-
 
     /**
      * *preselected*
@@ -195,27 +193,23 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     }
   },
 
-
-  construct: function(selector, context) {
-    this.base(arguments, selector, context);
+  construct(selector, context) {
+    super(selector, context);
   },
-
 
   events: {
     /**
      * Fired when the selected page has changed. The value is
      * the newly selected page's index
      */
-    "changeSelected": "Number"
+    changeSelected: "Number"
   },
 
-
   members: {
-
     __mediaQueryListener: null,
 
-    init: function() {
-      if (!this.base(arguments)) {
+    init() {
+      if (!super.init()) {
         return false;
       }
       var mediaQuery = this.getConfig("mediaQuery");
@@ -224,7 +218,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
       var orientation = this.getConfig("orientation");
 
-      this.addClasses([this.getCssPrefix(), this.getCssPrefix() + "-" + orientation, "qx-flex-ready"]);
+      this.addClasses([
+        this.getCssPrefix(),
+        this.getCssPrefix() + "-" + orientation,
+        "qx-flex-ready"
+      ]);
       if (this.getChildren("ul").length === 0) {
         var list = qxWeb.create("<ul/>");
         var content = this.getChildren();
@@ -237,65 +235,76 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
       var container = this.find("> ." + this.getCssPrefix() + "-container");
 
-      var buttons = this.getChildren("ul").getFirst()
-          .getChildren("li").not("." + this.getCssPrefix() + "-page");
-      buttons._forEachElementWrapped(function(button) {
-        button.addClass(this.getCssPrefix() + "-button");
-        var pageSelector = button.getData(this.getCssPrefix() + "-page");
-        if (!pageSelector) {
-          return;
-        }
-        button.addClass(this.getCssPrefix() + "-button")
-          .on("tap", this._onTap, this);
+      var buttons = this.getChildren("ul")
+        .getFirst()
+        .getChildren("li")
+        .not("." + this.getCssPrefix() + "-page");
+      buttons._forEachElementWrapped(
+        function (button) {
+          button.addClass(this.getCssPrefix() + "-button");
+          var pageSelector = button.getData(this.getCssPrefix() + "-page");
+          if (!pageSelector) {
+            return;
+          }
+          button
+            .addClass(this.getCssPrefix() + "-button")
+            .on("tap", this._onTap, this);
 
-        var page = this._getPage(button);
-        if (page.length > 0) {
-          page.addClass(this.getCssPrefix() + "-page");
-          if (orientation == "vertical") {
-            this.__deactivateTransition(page);
-            if (q.getNodeName(page[0]) == "div") {
-              var li = q.create("<li>")
-                .addClass(this.getCssPrefix() + "-page")
-                .setAttribute("id", page.getAttribute("id"))
-                .insertAfter(button[0]);
-              page.remove()
-                .getChildren().appendTo(li);
-              page = li;
+          var page = this._getPage(button);
+          if (page.length > 0) {
+            page.addClass(this.getCssPrefix() + "-page");
+            if (orientation == "vertical") {
+              this.__deactivateTransition(page);
+              if (q.getNodeName(page[0]) == "div") {
+                var li = q
+                  .create("<li>")
+                  .addClass(this.getCssPrefix() + "-page")
+                  .setAttribute("id", page.getAttribute("id"))
+                  .insertAfter(button[0]);
+                page.remove().getChildren().appendTo(li);
+                page = li;
+              }
+              this._storePageHeight(page);
+            } else if (orientation == "horizontal") {
+              if (q.getNodeName(page[0]) == "li") {
+                var div = q
+                  .create("<div>")
+                  .addClass(this.getCssPrefix() + "-page")
+                  .setAttribute("id", page.getAttribute("id"));
+                page.remove().getChildren().appendTo(div);
+                page = div;
+              }
             }
-            this._storePageHeight(page);
-          } else if (orientation == "horizontal") {
-            if (q.getNodeName(page[0]) == "li") {
-              var div = q.create("<div>")
-                .addClass(this.getCssPrefix() + "-page")
-                .setAttribute("id", page.getAttribute("id"));
-              page.remove()
-                .getChildren().appendTo(div);
-              page = div;
+
+            if (orientation == "horizontal") {
+              if (container.length === 0) {
+                container = qxWeb
+                  .create("<div class='" + this.getCssPrefix() + "-container'>")
+                  .insertAfter(this.find("> ul")[0]);
+              }
+              page.appendTo(container[0]);
             }
           }
 
-          if (orientation == "horizontal") {
-            if (container.length === 0) {
-              container = qxWeb.create("<div class='" + this.getCssPrefix() + "-container'>")
-                .insertAfter(this.find("> ul")[0]);
-            }
-            page.appendTo(container[0]);
-          }
-        }
+          this._showPage(null, button);
+          this.__activateTransition(page);
+        }.bind(this)
+      );
 
-        this._showPage(null, button);
-        this.__activateTransition(page);
-
-      }.bind(this));
-
-      if (orientation == "vertical" && container.length == 1 && container.getChildren().length === 0) {
+      if (
+        orientation == "vertical" &&
+        container.length == 1 &&
+        container.getChildren().length === 0
+      ) {
         container.remove();
       }
 
-      if (orientation == "horizontal" &&
+      if (
+        orientation == "horizontal" &&
         this.getConfig("align") == "right" &&
         q.env.get("engine.name") == "mshtml" &&
-        q.env.get("browser.documentmode") < 10) {
+        q.env.get("browser.documentmode") < 10
+      ) {
         buttons.remove();
         for (var i = buttons.length - 1; i >= 0; i--) {
           this.find("> ul").append(buttons[i]);
@@ -305,7 +314,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var active = buttons.filter("." + this.getCssPrefix() + "-button-active");
       var preselected = this.getConfig("preselected");
       if (active.length === 0 && typeof preselected == "number") {
-        active = buttons.eq(preselected).addClass(this.getCssPrefix() + "-button-active");
+        active = buttons
+          .eq(preselected)
+          .addClass(this.getCssPrefix() + "-button-active");
       }
 
       if (active.length > 0) {
@@ -326,8 +337,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return true;
     },
 
-
-    render: function() {
+    render() {
       var mediaQuery = this.getConfig("mediaQuery");
       if (mediaQuery) {
         this.setConfig("orientation", this._initMediaQueryListener(mediaQuery));
@@ -341,21 +351,23 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
     },
 
-
     /**
      * Initiates a media query listener for dynamic orientation switching
      * @param mediaQuery {String} CSS media query string
      * @return {String} The appropriate orientation: "horizontal" if the
      * media query matches, "vertical" if it doesn't
      */
-    _initMediaQueryListener: function(mediaQuery) {
+    _initMediaQueryListener(mediaQuery) {
       var mql = this.__mediaQueryListener;
       if (!mql) {
         mql = q.matchMedia(mediaQuery);
         this.__mediaQueryListener = mql;
-        mql.on("change", function(query) {
-          this.render();
-        }.bind(this));
+        mql.on(
+          "change",
+          function (query) {
+            this.render();
+          }.bind(this)
+        );
       }
 
       if (mql.matches) {
@@ -365,45 +377,56 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
     },
 
-
     /**
      * Render the widget in horizontal mode
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    _renderHorizontal: function() {
+    _renderHorizontal() {
       this.removeClass(this.getCssPrefix() + "-vertical")
-        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal"])
-        .find("> ul").addClass("qx-hbox");
+        .addClasses([
+          this.getCssPrefix() + "",
+          this.getCssPrefix() + "-horizontal"
+        ])
+        .find("> ul")
+        .addClass("qx-hbox");
 
       var container = this.find("> ." + this.getCssPrefix() + "-container");
       if (container.length == 0) {
-        container = qxWeb.create("<div class='" + this.getCssPrefix() + "-container'>")
+        container = qxWeb
+          .create("<div class='" + this.getCssPrefix() + "-container'>")
           .insertAfter(this.find("> ul")[0]);
       }
 
       var selectedPage;
-      this.find("> ul > ." + this.getCssPrefix() + "-button")._forEachElementWrapped(function(li) {
-        var page = this.find(li.getData(this.getCssPrefix() + "-page"));
+      this.find(
+        "> ul > ." + this.getCssPrefix() + "-button"
+      )._forEachElementWrapped(
+        function (li) {
+          var page = this.find(li.getData(this.getCssPrefix() + "-page"));
 
-        if (q.getNodeName(page[0]) == "li") {
-          var div = q.create("<div>")
-            .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"));
-          page.remove()
-            .getChildren().appendTo(div);
-          page = div;
-        }
+          if (q.getNodeName(page[0]) == "li") {
+            var div = q
+              .create("<div>")
+              .addClass(this.getCssPrefix() + "-page")
+              .setAttribute("id", page.getAttribute("id"));
+            page.remove().getChildren().appendTo(div);
+            page = div;
+          }
 
-        page.appendTo(container[0]);
-        this._switchPages(page, null);
+          page.appendTo(container[0]);
+          this._switchPages(page, null);
 
-        if (li.hasClass(this.getCssPrefix() + "-button-active")) {
-          selectedPage = page;
-        }
-      }.bind(this));
+          if (li.hasClass(this.getCssPrefix() + "-button-active")) {
+            selectedPage = page;
+          }
+        }.bind(this)
+      );
 
       if (!selectedPage) {
-        var firstButton = this.find("> ul > ." + this.getCssPrefix() + "-button").eq(0)
+        var firstButton = this.find(
+          "> ul > ." + this.getCssPrefix() + "-button"
+        )
+          .eq(0)
           .addClass(this.getCssPrefix() + "-button-active");
         selectedPage = this._getPage(firstButton);
       }
@@ -416,65 +439,72 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return this;
     },
 
-
     /**
      * Render the widget in vertical mode
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    _renderVertical: function() {
+    _renderVertical() {
       this.find("> ul.qx-hbox").removeClass("qx-hbox");
       this.removeClasses([this.getCssPrefix() + "-horizontal"])
-      .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-vertical"])
-      .getChildren("ul").getFirst()
-      .getChildren("li").not("." + this.getCssPrefix() + "-page")
-      ._forEachElementWrapped(function(button) {
-        button.addClass(this.getCssPrefix() + "-button");
-        var page = this._getPage(button);
-        if (page.length === 0) {
-          return;
-        }
+        .addClasses([
+          this.getCssPrefix() + "",
+          this.getCssPrefix() + "-vertical"
+        ])
+        .getChildren("ul")
+        .getFirst()
+        .getChildren("li")
+        .not("." + this.getCssPrefix() + "-page")
+        ._forEachElementWrapped(
+          function (button) {
+            button.addClass(this.getCssPrefix() + "-button");
+            var page = this._getPage(button);
+            if (page.length === 0) {
+              return;
+            }
 
-        this.__deactivateTransition(page);
-        if (q.getNodeName(page[0]) == "div") {
-          var li = q.create("<li>")
-            .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"));
-          page.getChildren().appendTo(li);
-          li.insertAfter(button[0]);
-          page.remove();
-          page = li;
-        }
+            this.__deactivateTransition(page);
+            if (q.getNodeName(page[0]) == "div") {
+              var li = q
+                .create("<li>")
+                .addClass(this.getCssPrefix() + "-page")
+                .setAttribute("id", page.getAttribute("id"));
+              page.getChildren().appendTo(li);
+              li.insertAfter(button[0]);
+              page.remove();
+              page = li;
+            }
 
-        this._storePageHeight(page);
-        if (button.hasClass(this.getCssPrefix() + "-button-active")) {
-          this._switchPages(null, page);
-        } else {
-          this._switchPages(page, null);
-        }
-        this.__activateTransition(page);
-
-      }.bind(this));
+            this._storePageHeight(page);
+            if (button.hasClass(this.getCssPrefix() + "-button-active")) {
+              this._switchPages(null, page);
+            } else {
+              this._switchPages(page, null);
+            }
+            this.__activateTransition(page);
+          }.bind(this)
+        );
 
       this.setEnabled(this.getEnabled());
 
       return this;
     },
 
-
     /**
      * Re-render on browser window resize (page heights must be re-
      * calculated)
      */
-    _onResize: function() {
+    _onResize() {
       // make sure this runs after a MediaQueryListener callback
       // which might have changed the orientation
-      setTimeout(function() {
-        if (this.getConfig("orientation") == "vertical") {
-          this._renderVertical();
-        }
-      }.bind(this), 100);
+      setTimeout(
+        function () {
+          if (this.getConfig("orientation") == "vertical") {
+            this._renderVertical();
+          }
+        }.bind(this),
+        100
+      );
     },
-
 
     /**
      * Adds a new tab button
@@ -483,14 +513,14 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param pageSelector {String} CSS Selector that identifies the associated page
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    addButton: function(label, pageSelector) {
-      var link = qxWeb.create(
-        qxWeb.template.render(
-          this.getTemplate("button"), {
+    addButton(label, pageSelector) {
+      var link = qxWeb
+        .create(
+          qxWeb.template.render(this.getTemplate("button"), {
             content: label
-          }
+          })
         )
-      ).addClass(this.getCssPrefix() + "-button");
+        .addClass(this.getCssPrefix() + "-button");
       var list = this.find("> ul");
       var links = list.getChildren("li");
       if (list.hasClass(this.getCssPrefix() + "-right") && links.length > 0) {
@@ -499,7 +529,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         link.appendTo(list);
       }
 
-      link.on("tap", this._onTap, this)
+      link
+        .on("tap", this._onTap, this)
         .addClass(this.getCssPrefix() + "-button");
       if (this.find("> ul ." + this.getCssPrefix() + "-button").length === 1) {
         link.addClass(this.getCssPrefix() + "-button-active");
@@ -519,40 +550,43 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return this;
     },
 
-
     /**
      * Selects a tab button
      *
      * @param index {Integer} index of the button to select
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    select: function(index) {
+    select(index) {
       var buttons = this.find("> ul > ." + this.getCssPrefix() + "-button");
-      var oldButton = this.find("> ul > ." + this.getCssPrefix() + "-button-active")
-        .removeClass(this.getCssPrefix() + "-button-active");
+      var oldButton = this.find(
+        "> ul > ." + this.getCssPrefix() + "-button-active"
+      ).removeClass(this.getCssPrefix() + "-button-active");
       if (this.getConfig("align") == "right") {
         index = buttons.length - 1 - index;
       }
-      var newButton = buttons.eq(index).addClass(this.getCssPrefix() + "-button-active");
+      var newButton = buttons
+        .eq(index)
+        .addClass(this.getCssPrefix() + "-button-active");
       this._showPage(newButton, oldButton);
       this.emit("changeSelected", index);
 
       return this;
     },
 
-
     /**
      * Initiates the page switch when a button was clicked/tapped
      *
      * @param e {Event} Tap event
      */
-    _onTap: function(e) {
+    _onTap(e) {
       if (!this.getEnabled()) {
         return;
       }
       var orientation = this.getConfig("orientation");
       var tappedButton = e.getCurrentTarget();
-      var oldButton = this.find("> ul > ." + this.getCssPrefix() + "-button-active");
+      var oldButton = this.find(
+        "> ul > ." + this.getCssPrefix() + "-button-active"
+      );
       if (oldButton[0] == tappedButton && orientation == "horizontal") {
         return;
       }
@@ -566,8 +600,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
 
       var newButton;
-      var buttons = this.find("> ul > ." + this.getCssPrefix() + "-button")
-      ._forEachElementWrapped(function(button) {
+      var buttons = this.find(
+        "> ul > ." + this.getCssPrefix() + "-button"
+      )._forEachElementWrapped(function (button) {
         if (tappedButton === button[0]) {
           newButton = button;
         }
@@ -581,13 +616,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       this.emit("changeSelected", index);
     },
 
-
     /**
      * Allows tab selection using the left and right arrow keys
      *
      * @param e {Event} keydown event
      */
-    _onKeyDown: function(e) {
+    _onKeyDown(e) {
       var key = e.getKeyIdentifier();
       if (!(key == "Left" || key == "Right")) {
         return;
@@ -597,7 +631,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       if (rightAligned) {
         buttons.reverse();
       }
-      var active = this.find("> ul > ." + this.getCssPrefix() + "-button-active");
+      var active = this.find(
+        "> ul > ." + this.getCssPrefix() + "-button-active"
+      );
       var next;
       if (key == "Right") {
         if (!rightAligned) {
@@ -620,23 +656,24 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
     },
 
-
     /**
      * Initiates the page switch if a tab button is selected
      *
      * @param newButton {qxWeb} selected button
      * @param oldButton {qxWeb} previously active button
      */
-    _showPage: function(newButton, oldButton) {
+    _showPage(newButton, oldButton) {
       var oldPage = this._getPage(oldButton);
       var newPage = this._getPage(newButton);
-      if (this.getConfig("orientation") === "horizontal" && (oldPage[0] == newPage[0])) {
+      if (
+        this.getConfig("orientation") === "horizontal" &&
+        oldPage[0] == newPage[0]
+      ) {
         return;
       }
 
       this._switchPages(oldPage, newPage);
     },
-
 
     /**
      * Executes a page switch
@@ -644,7 +681,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param oldPage {qxWeb} the previously selected page
      * @param newPage {qxWeb} the newly selected page
      */
-    _switchPages: function(oldPage, newPage) {
+    _switchPages(oldPage, newPage) {
       var orientation = this.getConfig("orientation");
       if (orientation === "horizontal") {
         if (oldPage) {
@@ -659,9 +696,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           oldPage.setStyle("height", oldPage.getHeight() + "px");
           oldPage[0].offsetHeight;
           oldPage.setStyles({
-            "height": "0px",
-            "paddingTop": "0px",
-            "paddingBottom": "0px"
+            height: "0px",
+            paddingTop: "0px",
+            paddingBottom: "0px"
           });
 
           oldPage.addClass(this.getCssPrefix() + "-page-closed");
@@ -669,8 +706,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         if (newPage && newPage.length > 0) {
           newPage.removeClass(this.getCssPrefix() + "-page-closed");
-          if (!newPage.getStyle("transition") ||
-            newPage.getStyle("transition").indexOf("none") === 0) {
+          if (
+            !newPage.getStyle("transition") ||
+            newPage.getStyle("transition").indexOf("none") === 0
+          ) {
             newPage.setStyle("height", "");
           } else {
             var openedHeight = newPage.getProperty("openedHeight");
@@ -682,14 +721,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
     },
 
-
     /**
      * Returns the tab page associated with the given button
      *
      * @param button {qxWeb} Tab button
      * @return {qxWeb} Tab page
      */
-    _getPage: function(button) {
+    _getPage(button) {
       var pageSelector;
       if (button) {
         pageSelector = button.getData(this.getCssPrefix() + "-page");
@@ -697,17 +735,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return this.find(pageSelector);
     },
 
-
     /**
      * Apply the CSS classes for the alignment
      *
      * @param tabs {qx.ui.website.Tabs[]} tabs collection
      */
-    _applyAlignment: function(tabs) {
+    _applyAlignment(tabs) {
       var align = tabs.getConfig("align");
       var buttons = tabs.find("> ul > li");
 
-      if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+      if (
+        q.env.get("engine.name") == "mshtml" &&
+        q.env.get("browser.documentmode") < 10
+      ) {
         if (align == "left") {
           tabs.addClass(this.getCssPrefix() + "-left");
         } else {
@@ -745,7 +785,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Stores the page's natural height for the page opening transition
      * @param page {qxWeb} page
      */
-    _storePageHeight: function(page) {
+    _storePageHeight(page) {
       var closedClass = this.getCssPrefix() + "-page-closed";
       var isClosed = page.hasClass(closedClass);
       if (isClosed) {
@@ -765,33 +805,32 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       page[0].style.display = prevDisplay;
     },
 
-
     /**
      * Stores an element's CSS transition styles in a property
      * and removes them from the style declaration
      *
      * @param elem {qxWeb} Element
      */
-    __deactivateTransition: function(elem) {
+    __deactivateTransition(elem) {
       var transition = elem.getStyles([
         "transitionDelay",
         "transitionDuration",
         "transitionProperty",
         "transitionTimingFunction"
       ]);
+
       if (transition.transitionProperty.indexOf("none") == -1) {
         elem.setProperty("__qxtransition", transition);
         elem.setStyle("transition", "none");
       }
     },
 
-
     /**
      * Restores an element's transition styles
      *
      * @param elem {qxWeb} Element
      */
-    __activateTransition: function(elem) {
+    __activateTransition(elem) {
       var transition = elem.getProperty("__qxtransition");
       var style = elem.getStyle("transitionProperty");
       if (transition && style.indexOf("none") != -1) {
@@ -800,27 +839,29 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
     },
 
-
-    dispose: function() {
+    dispose() {
       this.__mediaQueryListener = undefined;
       var cssPrefix = this.getCssPrefix();
       qxWeb(window).off("resize", this._onResize, this);
-      this.find("> ul > ." + this.getCssPrefix() + "-button").off("tap", this._onTap, this);
-      this.getChildren("ul").getFirst().off("keydown", this._onKeyDown, this)
-      .setHtml("");
+      this.find("> ul > ." + this.getCssPrefix() + "-button").off(
+        "tap",
+        this._onTap,
+        this
+      );
+      this.getChildren("ul")
+        .getFirst()
+        .off("keydown", this._onKeyDown, this)
+        .setHtml("");
 
       this.setHtml("").removeClasses([cssPrefix, "qx-flex-ready"]);
 
-      return this.base(arguments);
+      return super.dispose();
     }
-
   },
 
-
-  defer: function(statics) {
+  defer(statics) {
     qxWeb.$attach({
       tabs: statics.tabs
     });
   }
 });
-

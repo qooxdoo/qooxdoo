@@ -20,22 +20,17 @@
  * Each object which wants to store data representative for the real item
  * should implement this interface.
  */
-qx.Interface.define("qx.ui.form.IModel",
-{
-
+qx.Interface.define("qx.ui.form.IModel", {
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the model data changes */
-    "changeModel" : "qx.event.type.Data"
+    changeModel: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -43,27 +38,24 @@ qx.Interface.define("qx.ui.form.IModel",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Set the representative data for the item.
      *
      * @param value {var} The data.
      */
-    setModel : function(value) {},
-
+    setModel(value) {},
 
     /**
      * Returns the representative data for the item
      *
      * @return {var} The data.
      */
-    getModel : function() {},
-
+    getModel() {},
 
     /**
      * Sets the representative data to null.
      */
-    resetModel : function() {}
+    resetModel() {}
   }
 });

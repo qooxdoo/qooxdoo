@@ -16,15 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Cookie",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Cookie", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-
-    testSaveSimpleData : function()
-    {
+  members: {
+    testSaveSimpleData() {
       var key = "qx.test.bom.Cookie.testSaveSimpleData";
       var dataToSave = "Qooxdoo";
 
@@ -35,8 +31,12 @@ qx.Class.define("qx.test.bom.Cookie",
       // Set and restore value
       qx.bom.Cookie.set(key, dataToSave);
       result = qx.bom.Cookie.get(key);
-      this.assertEquals(dataToSave, result, "It is expected that this test fails" +
-          " if you start this test from a file system with Google Chrome.");
+      this.assertEquals(
+        dataToSave,
+        result,
+        "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome."
+      );
 
       // remove value
       qx.bom.Cookie.del(key);
@@ -44,8 +44,7 @@ qx.Class.define("qx.test.bom.Cookie",
       this.assertNull(result, "Remove value");
     },
 
-    testSaveData : function()
-    {
+    testSaveData() {
       var key1 = "qx.test.bom.Cookie.testSaveData2";
       var key2 = "qx.test.bom.Cookie.testSaveData1";
       var dataToSave1 = "Qooxdoo 1";
@@ -62,10 +61,18 @@ qx.Class.define("qx.test.bom.Cookie",
       qx.bom.Cookie.set(key2, dataToSave2);
       result1 = qx.bom.Cookie.get(key1);
       result2 = qx.bom.Cookie.get(key2);
-      this.assertEquals(dataToSave1, result1, "It is expected that this test fails" +
-          " if you start this test from a file system with Google Chrome.");
-      this.assertEquals(dataToSave2, result2, "It is expected that this test fails" +
-          " if you start this test from a file system with Google Chrome.");
+      this.assertEquals(
+        dataToSave1,
+        result1,
+        "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome."
+      );
+      this.assertEquals(
+        dataToSave2,
+        result2,
+        "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome."
+      );
 
       // remove values
       qx.bom.Cookie.del(key1);
@@ -76,32 +83,43 @@ qx.Class.define("qx.test.bom.Cookie",
       this.assertNull(result2, "Remove value (tow)");
     },
 
-    testEncoding : function() {
-      var special = '~!@#$%^&*(){}[]=:/,;?+\'"\\';
-      var utf = 'äëíöü';
+    testEncoding() {
+      var special = "~!@#$%^&*(){}[]=:/,;?+'\"\\";
+      var utf = "äëíöü";
 
-      qx.bom.Cookie.set('special', special);
-      qx.bom.Cookie.set('utf', utf);
+      qx.bom.Cookie.set("special", special);
+      qx.bom.Cookie.set("utf", utf);
 
       var escapedSpecial = escape(special);
       var escapedUtf = escape(utf);
 
       var expectedSpecial = unescape(escapedSpecial);
-      var resultSpecial = qx.bom.Cookie.get('special');
+      var resultSpecial = qx.bom.Cookie.get("special");
 
       var expectedUtf = unescape(escapedUtf);
-      var resultUtf = qx.bom.Cookie.get('utf');
+      var resultUtf = qx.bom.Cookie.get("utf");
 
-      var escapedCookie = [ 'manualEscaped', "=", escapedUtf ];
+      var escapedCookie = ["manualEscaped", "=", escapedUtf];
       document.cookie = escapedCookie.join("");
 
-      this.assertNull(qx.bom.Cookie.get('manualEscaped'));
+      this.assertNull(qx.bom.Cookie.get("manualEscaped"));
 
-      this.assertTrue((decodeURIComponent(escapedSpecial) == unescape(escapedSpecial)), 'There is some incompatible characters.');
+      this.assertTrue(
+        decodeURIComponent(escapedSpecial) == unescape(escapedSpecial),
+        "There is some incompatible characters."
+      );
       // this.assertTrue((decodeURIComponent(escapedUtf) == unescape(escapedUtf)), 'There is some incompatible characters.');
 
-      this.assertEquals(expectedSpecial, resultSpecial, 'There is some incompatible characters.');
-      this.assertEquals(expectedUtf, resultUtf, 'There is some incompatible characters.');
+      this.assertEquals(
+        expectedSpecial,
+        resultSpecial,
+        "There is some incompatible characters."
+      );
+      this.assertEquals(
+        expectedUtf,
+        resultUtf,
+        "There is some incompatible characters."
+      );
     }
   }
 });

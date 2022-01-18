@@ -20,26 +20,24 @@
  * @ignore(qx.test.ui.core.Theme, qx.test.ui.core.Test)
  */
 
-qx.Class.define("qx.test.ui.core.Appearance",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.core.Appearance", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __oldAppearance : null,
+  members: {
+    __oldAppearance: null,
 
-    setUp : function() {
-      this.__oldAppearance = qx.theme.manager.Appearance.getInstance().getTheme();
+    setUp() {
+      this.__oldAppearance =
+        qx.theme.manager.Appearance.getInstance().getTheme();
       qx.theme.manager.Appearance.getInstance().setTheme(qx.test.ui.core.Theme);
     },
 
-    tearDown : function() {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       qx.theme.manager.Appearance.getInstance().setTheme(this.__oldAppearance);
     },
 
-    testDefault : function()
-    {
+    testDefault() {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test");
       this.getRoot().add(a);
@@ -51,9 +49,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
       a.destroy();
     },
 
-
-    testFallback : function()
-    {
+    testFallback() {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test2");
       this.getRoot().add(a);
@@ -61,13 +57,14 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.flush();
 
       this.assertEquals("yellow", a.getBackgroundColor());
-      this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
+      this.assertEquals(
+        "green",
+        a.getChildControl("text").getBackgroundColor()
+      );
       a.destroy();
     },
 
-
-    testChange : function()
-    {
+    testChange() {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test2");
       this.getRoot().add(a);
@@ -75,7 +72,10 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.flush();
 
       this.assertEquals("yellow", a.getBackgroundColor());
-      this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
+      this.assertEquals(
+        "green",
+        a.getChildControl("text").getBackgroundColor()
+      );
 
       a.setAppearance("test");
       this.flush();
@@ -85,8 +85,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
       a.destroy();
     },
 
-
-    testReuseNotDefined : function() {
+    testReuseNotDefined() {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test");
       this.getRoot().add(a);
@@ -101,81 +100,79 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.flush();
 
       this.assertEquals("yellow", a.getBackgroundColor());
-      this.assertEquals("black", a.getChildControl("text2").getBackgroundColor());
+      this.assertEquals(
+        "black",
+        a.getChildControl("text2").getBackgroundColor()
+      );
       // check for the textfield fallback
-      this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
+      this.assertEquals(
+        "green",
+        a.getChildControl("text").getBackgroundColor()
+      );
 
       a.destroy();
     }
-
   }
 });
 
 qx.Theme.define("qx.test.ui.core.Theme", {
-  appearances :
-  {
-    "test" : {
-      style : function(states)
-      {
+  appearances: {
+    test: {
+      style(states) {
         return {
-          backgroundColor : "red"
+          backgroundColor: "red"
         };
       }
     },
 
-    "test/text" : {
-      style : function(states)
-      {
+    "test/text": {
+      style(states) {
         return {
-          backgroundColor : "blue"
+          backgroundColor: "blue"
         };
       }
     },
 
-    "textfield" : {
-      style : function(states)
-      {
+    textfield: {
+      style(states) {
         return {
-          backgroundColor : "green"
+          backgroundColor: "green"
         };
       }
     },
 
-    "test2" : {
-      style : function(states)
-      {
+    test2: {
+      style(states) {
         return {
-          backgroundColor : "yellow"
+          backgroundColor: "yellow"
         };
       }
     },
 
-    "test2/text2" : {
-      style : function(states)
-      {
+    "test2/text2": {
+      style(states) {
         return {
-          backgroundColor : "black"
+          backgroundColor: "black"
         };
       }
     }
   }
 });
 
-
 qx.Class.define("qx.test.ui.core.Test", {
-  extend : qx.ui.core.Widget,
-  construct : function() {
-    this.base(arguments);
+  extend: qx.ui.core.Widget,
+  construct() {
+    super();
     this._setLayout(new qx.ui.layout.Grow());
   },
-  members : {
-    _createChildControlImpl : function(id, hash) {
+  members: {
+    _createChildControlImpl(id, hash) {
       if (id == "text" || id == "text2") {
         var control = new qx.ui.form.TextField("affe");
         this._add(control);
         return control;
       }
-      return this.base(arguments, id);
+      return super._createChildControlImpl(id);
     }
   }
 });

@@ -16,67 +16,58 @@
 
 ************************************************************************ */
 
-
 /**
  * Roll event object.
  */
-qx.Class.define("qx.event.type.Roll",
-{
-    extend : qx.event.type.Pointer,
+qx.Class.define("qx.event.type.Roll", {
+  extend: qx.event.type.Pointer,
 
+  members: {
+    // overridden
+    stop() {
+      this.stopPropagation();
+      this.preventDefault();
+    },
 
-    members : {
-      // overridden
-      stop : function()
-      {
-        this.stopPropagation();
-        this.preventDefault();
-      },
+    // overridden
+    _cloneNativeEvent(nativeEvent, clone) {
+      var clone = super._cloneNativeEvent(nativeEvent, clone);
 
+      clone.delta = nativeEvent.delta;
+      clone.momentum = nativeEvent.momentum;
+      clone.timeoutId = nativeEvent.timeoutId;
 
-      // overridden
-      _cloneNativeEvent : function(nativeEvent, clone)
-      {
-        var clone = this.base(arguments, nativeEvent, clone);
+      return clone;
+    },
 
-        clone.delta = nativeEvent.delta;
-        clone.momentum = nativeEvent.momentum;
-        clone.timeoutId = nativeEvent.timeoutId;
+    /**
+     * Boolean flag to indicate if this event was triggered by a momentum.
+     * @return {Boolean} <code>true</code>, if the event is momentum based
+     */
+    getMomentum() {
+      return this._native.momentum;
+    },
 
-        return clone;
-      },
-
-
-      /**
-       * Boolean flag to indicate if this event was triggered by a momentum.
-       * @return {Boolean} <code>true</code>, if the event is momentum based
-       */
-      getMomentum : function() {
-        return this._native.momentum;
-      },
-
-
-      /**
-       * Stops the momentum events.
-       */
-      stopMomentum : function() {
-        if (this._native.timeoutId) {
-          qx.event.Registration.getManager(this._originalTarget)
-            .getHandler(qx.event.handler.Gesture)
-            .stopMomentum(this._native.timeoutId);
-        }
-      },
-
-
-      /**
-       * Returns a map with the calculated delta coordinates and axis,
-       * relative to the last <code>roll</code> event.
-       *
-       * @return {Map} a map with contains the delta as <code>x</code> and
-       * <code>y</code>
-       */
-      getDelta : function() {
-        return this._native.delta;
+    /**
+     * Stops the momentum events.
+     */
+    stopMomentum() {
+      if (this._native.timeoutId) {
+        qx.event.Registration.getManager(this._originalTarget)
+          .getHandler(qx.event.handler.Gesture)
+          .stopMomentum(this._native.timeoutId);
       }
+    },
+
+    /**
+     * Returns a map with the calculated delta coordinates and axis,
+     * relative to the last <code>roll</code> event.
+     *
+     * @return {Map} a map with contains the delta as <code>x</code> and
+     * <code>y</code>
+     */
+    getDelta() {
+      return this._native.delta;
     }
+  }
 });

@@ -42,12 +42,8 @@
  *
  * None
  */
-qx.Class.define("qx.ui.layout.Atom",
-{
-  extend : qx.ui.layout.Abstract,
-
-
-
+qx.Class.define("qx.ui.layout.Atom", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -55,25 +51,29 @@ qx.Class.define("qx.ui.layout.Atom",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The gap between the icon and the text */
-    gap :
-    {
-      check : "Integer",
-      init : 4,
-      apply : "_applyLayoutChange"
+    gap: {
+      check: "Integer",
+      init: 4,
+      apply: "_applyLayoutChange"
     },
-
 
     /** The position of the icon in relation to the text */
-    iconPosition :
-    {
-      check : ["left", "top", "right", "bottom", "top-left", "bottom-left", "top-right", "bottom-right"],
-      init : "left",
-      apply  : "_applyLayoutChange"
+    iconPosition: {
+      check: [
+        "left",
+        "top",
+        "right",
+        "bottom",
+        "top-left",
+        "bottom-left",
+        "top-right",
+        "bottom-right"
+      ],
+      init: "left",
+      apply: "_applyLayoutChange"
     },
-
 
     /**
      * Whether the content should be rendered centrally when to much space
@@ -84,16 +84,12 @@ qx.Class.define("qx.ui.layout.Atom",
      * or <code>bottom</code>, the Y axis is not centered. In case of e.g. an
      * icon position of <code>top-left</code> no axis is centered.
      */
-    center :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyLayoutChange"
+    center: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyLayoutChange"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -101,8 +97,7 @@ qx.Class.define("qx.ui.layout.Atom",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -110,19 +105,19 @@ qx.Class.define("qx.ui.layout.Atom",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value) {
-        this.assert(false, "The property '"+name+"' is not supported by the Atom layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assert(
+          false,
+          "The property '" + name + "' is not supported by the Atom layout!"
+        );
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var left = padding.left;
       var top = padding.top;
       var Util = qx.ui.layout.Util;
@@ -138,31 +133,24 @@ qx.Class.define("qx.ui.layout.Atom",
 
       // reverse ordering
       var allowedPositions = ["bottom", "right", "top-right", "bottom-right"];
-      if (allowedPositions.indexOf(iconPosition) != -1)
-      {
-        var start = length-1;
+      if (allowedPositions.indexOf(iconPosition) != -1) {
+        var start = length - 1;
         var end = -1;
         var increment = -1;
-      }
-      else
-      {
+      } else {
         var start = 0;
         var end = length;
         var increment = 1;
       }
 
       // vertical
-      if (iconPosition == "top" || iconPosition == "bottom")
-      {
-        if (center)
-        {
+      if (iconPosition == "top" || iconPosition == "bottom") {
+        if (center) {
           var allocatedHeight = 0;
-          for (var i=start; i!=end; i+=increment)
-          {
+          for (var i = start; i != end; i += increment) {
             height = children[i].getSizeHint().height;
 
-            if (height > 0)
-            {
+            if (height > 0) {
               allocatedHeight += height;
 
               if (i != start) {
@@ -175,15 +163,16 @@ qx.Class.define("qx.ui.layout.Atom",
         }
 
         var childTop = top;
-        for (var i=start; i!=end; i+=increment)
-        {
+        for (var i = start; i != end; i += increment) {
           child = children[i];
 
           hint = child.getSizeHint();
           width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
           height = hint.height;
 
-          left = Util.computeHorizontalAlignOffset("center", width, availWidth) + padding.left;
+          left =
+            Util.computeHorizontalAlignOffset("center", width, availWidth) +
+            padding.left;
           child.renderLayout(left, childTop, width, height);
 
           // Ignore pseudo invisible elements
@@ -195,19 +184,16 @@ qx.Class.define("qx.ui.layout.Atom",
 
       // horizontal
       // in this way it also supports shrinking of the first label
-      else
-      {
+      else {
         var remainingWidth = availWidth;
         var shrinkTarget = null;
 
-        var count=0;
-        for (var i=start; i!=end; i+=increment)
-        {
+        var count = 0;
+        for (var i = start; i != end; i += increment) {
           child = children[i];
           width = child.getSizeHint().width;
 
-          if (width > 0)
-          {
+          if (width > 0) {
             if (!shrinkTarget && child instanceof qx.ui.basic.Label) {
               shrinkTarget = child;
             } else {
@@ -218,16 +204,17 @@ qx.Class.define("qx.ui.layout.Atom",
           }
         }
 
-        if (count > 1)
-        {
+        if (count > 1) {
           var gapSum = (count - 1) * gap;
           remainingWidth -= gapSum;
         }
 
-        if (shrinkTarget)
-        {
+        if (shrinkTarget) {
           var hint = shrinkTarget.getSizeHint();
-          var shrinkTargetWidth = Math.max(hint.minWidth, Math.min(remainingWidth, hint.maxWidth));
+          var shrinkTargetWidth = Math.max(
+            hint.minWidth,
+            Math.min(remainingWidth, hint.maxWidth)
+          );
           remainingWidth -= shrinkTargetWidth;
         }
 
@@ -235,12 +222,14 @@ qx.Class.define("qx.ui.layout.Atom",
           left += Math.round(remainingWidth / 2);
         }
 
-        for (var i=start; i!=end; i+=increment)
-        {
+        for (var i = start; i != end; i += increment) {
           child = children[i];
 
           hint = child.getSizeHint();
-          height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
+          height = Math.min(
+            hint.maxHeight,
+            Math.max(availHeight, hint.minHeight)
+          );
 
           if (child === shrinkTarget) {
             width = shrinkTargetWidth;
@@ -249,12 +238,17 @@ qx.Class.define("qx.ui.layout.Atom",
           }
 
           var align = "middle";
-          if(iconPosition == "top-left" || iconPosition == "top-right"){
+          if (iconPosition == "top-left" || iconPosition == "top-right") {
             align = "top";
-          } else if (iconPosition == "bottom-left" || iconPosition == "bottom-right") {
+          } else if (
+            iconPosition == "bottom-left" ||
+            iconPosition == "bottom-right"
+          ) {
             align = "bottom";
           }
-          var childTop = top + Util.computeVerticalAlignOffset(align, hint.height, availHeight);
+          var childTop =
+            top +
+            Util.computeVerticalAlignOffset(align, hint.height, availHeight);
           child.renderLayout(left, childTop, width, height);
 
           // Ignore pseudo invisible childs for gap e.g.
@@ -266,42 +260,37 @@ qx.Class.define("qx.ui.layout.Atom",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var length = children.length;
       var hint, result;
 
       // Fast path for only one child
-      if (length === 1)
-      {
+      if (length === 1) {
         var hint = children[0].getSizeHint();
 
         // Work on a copy, but do not respect max
         // values as a Atom can be rendered bigger
         // than its content.
         result = {
-          width : hint.width,
-          height : hint.height,
-          minWidth : hint.minWidth,
-          minHeight : hint.minHeight
+          width: hint.width,
+          height: hint.height,
+          minWidth: hint.minWidth,
+          minHeight: hint.minHeight
         };
-      }
-      else
-      {
-        var minWidth=0, width=0;
-        var minHeight=0, height=0;
+      } else {
+        var minWidth = 0,
+          width = 0;
+        var minHeight = 0,
+          height = 0;
 
         var iconPosition = this.getIconPosition();
         var gap = this.getGap();
 
-        if (iconPosition === "top" || iconPosition === "bottom")
-        {
+        if (iconPosition === "top" || iconPosition === "bottom") {
           var count = 0;
-          for (var i=0; i<length; i++)
-          {
+          for (var i = 0; i < length; i++) {
             hint = children[i].getSizeHint();
 
             // Max of widths
@@ -309,26 +298,21 @@ qx.Class.define("qx.ui.layout.Atom",
             minWidth = Math.max(minWidth, hint.minWidth);
 
             // Sum of heights
-            if (hint.height > 0)
-            {
+            if (hint.height > 0) {
               height += hint.height;
               minHeight += hint.minHeight;
               count++;
             }
           }
 
-          if (count > 1)
-          {
-            var gapSum = (count-1) * gap;
+          if (count > 1) {
+            var gapSum = (count - 1) * gap;
             height += gapSum;
             minHeight += gapSum;
           }
-        }
-        else
-        {
-          var count=0;
-          for (var i=0; i<length; i++)
-          {
+        } else {
+          var count = 0;
+          for (var i = 0; i < length; i++) {
             hint = children[i].getSizeHint();
 
             // Max of heights
@@ -336,17 +320,15 @@ qx.Class.define("qx.ui.layout.Atom",
             minHeight = Math.max(minHeight, hint.minHeight);
 
             // Sum of widths
-            if (hint.width > 0)
-            {
+            if (hint.width > 0) {
               width += hint.width;
               minWidth += hint.minWidth;
               count++;
             }
           }
 
-          if (count > 1)
-          {
-            var gapSum = (count-1) * gap;
+          if (count > 1) {
+            var gapSum = (count - 1) * gap;
             width += gapSum;
             minWidth += gapSum;
           }
@@ -354,10 +336,10 @@ qx.Class.define("qx.ui.layout.Atom",
 
         // Build hint
         result = {
-          minWidth : minWidth,
-          width : width,
-          minHeight : minHeight,
-          height : height
+          minWidth: minWidth,
+          width: width,
+          minHeight: minHeight,
+          height: height
         };
       }
 

@@ -16,17 +16,12 @@
 
 ************************************************************************ */
 
-
 /**
  * A selection manager, which handles the selection in widgets extending
  * {@link qx.ui.core.scroll.AbstractScrollArea}.
  */
-qx.Class.define("qx.ui.core.selection.ScrollArea",
-{
-  extend : qx.ui.core.selection.Widget,
-
-
-
+qx.Class.define("qx.ui.core.selection.ScrollArea", {
+  extend: qx.ui.core.selection.Widget,
 
   /*
   *****************************************************************************
@@ -34,8 +29,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       BASIC SUPPORT
@@ -43,15 +37,12 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _isSelectable : function(item)
-    {
-      return this._isItemSelectable(item) &&
-        item.getLayoutParent() === this._getWidget().getChildrenContainer();
+    _isSelectable(item) {
+      return (
+        this._isItemSelectable(item) &&
+        item.getLayoutParent() === this._getWidget().getChildrenContainer()
+      );
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -60,13 +51,9 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _getDimension : function() {
+    _getDimension() {
       return this._getWidget().getPaneSize();
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -75,30 +62,22 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _getScroll : function()
-    {
+    _getScroll() {
       var widget = this._getWidget();
 
       return {
-        left : widget.getScrollX(),
-        top : widget.getScrollY()
+        left: widget.getScrollX(),
+        top: widget.getScrollY()
       };
     },
 
-
     // overridden
-    _scrollBy : function(xoff, yoff)
-    {
+    _scrollBy(xoff, yoff) {
       var widget = this._getWidget();
 
       widget.scrollByX(xoff);
       widget.scrollByY(yoff);
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -106,33 +85,30 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    _getFirstVisibleSelectable : function()
-    {
+    _getFirstVisibleSelectable() {
       var selectables = this.getSelectables();
       var widget = this._getWidget();
       var scrollTop = widget.getScrollY();
-      
+
       for (var i = 0; i < selectables.length; i++) {
         var bottom = widget.getItemBottom(selectables[i]);
         if (bottom > scrollTop) {
           return selectables[i];
         }
       }
-      
+
       return null;
     },
 
     // overridden
-    _getLastVisibleSelectable : function()
-    {
+    _getLastVisibleSelectable() {
       var selectables = this.getSelectables();
       var widget = this._getWidget();
       var scrollTop = widget.getScrollY();
       var innerHeight = widget.getInnerSize().height;
-      var scrollBottom = scrollTop + innerHeight; 
-      
+      var scrollBottom = scrollTop + innerHeight;
+
       var last = null;
       for (var i = 0; i < selectables.length; i++) {
         var top = widget.getItemTop(selectables[i]);
@@ -144,13 +120,12 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           last = selectables[i];
         }
       }
-      
+
       return last;
     },
 
     // overridden
-    _getPage : function(lead, up)
-    {
+    _getPage(lead, up) {
       var selectables = this.getSelectables();
       var length = selectables.length;
       var start = selectables.indexOf(lead);
@@ -165,22 +140,18 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       var innerHeight = widget.getInnerSize().height;
       var top, bottom, found;
 
-      if (up)
-      {
+      if (up) {
         var min = scrollTop;
-        var i=start;
+        var i = start;
 
         // Loop required to scroll pages up dynamically
-        while(1)
-        {
+        while (1) {
           // Iterate through all selectables from start
-          for (; i>=0; i--)
-          {
+          for (; i >= 0; i--) {
             top = widget.getItemTop(selectables[i]);
 
             // This item is out of the visible block
-            if (top < min)
-            {
+            if (top < min) {
               // Use previous one
               found = i;
               break;
@@ -188,16 +159,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           }
 
           // Nothing found. Return first item.
-          if (found == null)
-          {
+          if (found == null) {
             var first = this._getFirstSelectable();
             return first == lead ? null : first;
           }
 
           // Found item, but is identical to start or even before start item
           // Update min position and try on previous page
-          if (found >= start)
-          {
+          if (found >= start) {
             // Reduce min by the distance of the lead item to the visible
             // bottom edge. This is needed instead of a simple subtraction
             // of the inner height to keep the last lead visible on page key
@@ -210,23 +179,18 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           // Return selectable
           return selectables[found];
         }
-      }
-      else
-      {
+      } else {
         var max = innerHeight + scrollTop;
-        var i=start;
+        var i = start;
 
         // Loop required to scroll pages down dynamically
-        while(1)
-        {
+        while (1) {
           // Iterate through all selectables from start
-          for (; i<length; i++)
-          {
+          for (; i < length; i++) {
             bottom = widget.getItemBottom(selectables[i]);
 
             // This item is out of the visible block
-            if (bottom > max)
-            {
+            if (bottom > max) {
               // Use next one
               found = i;
               break;
@@ -234,16 +198,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           }
 
           // Nothing found. Return last item.
-          if (found == null)
-          {
+          if (found == null) {
             var last = this._getLastSelectable();
             return last == lead ? null : last;
           }
 
           // Found item, but is identical to start or even before start item
           // Update max position and try on next page
-          if (found <= start)
-          {
+          if (found <= start) {
             // Extend max by the distance of the lead item to the visible
             // top edge. This is needed instead of a simple addition
             // of the inner height to keep the last lead visible on page key

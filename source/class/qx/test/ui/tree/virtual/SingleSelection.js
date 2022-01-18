@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
-{
-  extend : qx.test.ui.tree.virtual.AbstractTreeTest,
+qx.Class.define("qx.test.ui.tree.virtual.SingleSelection", {
+  extend: qx.test.ui.tree.virtual.AbstractTreeTest,
 
-  members :
-  {
-    testSelection : function()
-    {
+  members: {
+    testSelection() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
       selection.push(root);
@@ -37,9 +34,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       this.assertEquals(0, row);
     },
 
-
-    testInvalidSelection : function()
-    {
+    testInvalidSelection() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
       selection.push(root);
@@ -47,7 +42,11 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
 
       // check selection from list
       this.assertEquals(1, this.tree.getSelection().getLength(), "On Tree");
-      this.assertEquals(root.getChildren().getItem(0), selection.getItem(0), "On Tree");
+      this.assertEquals(
+        root.getChildren().getItem(0),
+        selection.getItem(0),
+        "On Tree"
+      );
 
       // check selection from manager
       var selection = this.tree._manager.getSelection();
@@ -55,9 +54,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       this.assertEquals(1, selection[0]);
     },
 
-
-    testSelectionByUserInteraction : function()
-    {
+    testSelectionByUserInteraction() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 
@@ -68,29 +65,29 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       this.assertEquals(2, this.tree._manager.getSelectedItem());
     },
 
-
-    testSelectionEventByUserInteraction : function()
-    {
+    testSelectionEventByUserInteraction() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 
       var that = this;
-      this.assertEventFired(selection, "change",
-        function() {
+      this.assertEventFired(
+        selection,
+        "change",
+        function () {
           that.tree._manager.selectItem(2);
         },
-        function(e)
-        {
+        function (e) {
           that.assertEquals(1, selection.getLength());
-          that.assertEquals(root.getChildren().getItem(1), selection.getItem(0));
+          that.assertEquals(
+            root.getChildren().getItem(1),
+            selection.getItem(0)
+          );
           that.assertEquals(2, that.tree._manager.getSelectedItem());
         }
       );
     },
 
-
-    testSelectionWithClosedNode : function()
-    {
+    testSelectionWithClosedNode() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 
@@ -106,17 +103,26 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
       // check selection from manager
       var selectionOnManager = this.tree._manager.getSelection();
       this.assertEquals(1, selectionOnManager.length);
-      this.assertEquals(this.tree.getLookupTable().indexOf(itemToSelect), selectionOnManager[0]);
+      this.assertEquals(
+        this.tree.getLookupTable().indexOf(itemToSelect),
+        selectionOnManager[0]
+      );
 
       this.tree.closeNode(parent);
       var selectionOnManager = this.tree._manager.getSelection();
-      this.assertEquals(0, selection.getLength(), "Selection not reset on Tree");
-      this.assertEquals(0, selectionOnManager.length, "Selection not reset on manager");
+      this.assertEquals(
+        0,
+        selection.getLength(),
+        "Selection not reset on Tree"
+      );
+      this.assertEquals(
+        0,
+        selectionOnManager.length,
+        "Selection not reset on manager"
+      );
     },
 
-
-    testRemoveItem : function()
-    {
+    testRemoveItem() {
       var root = this.createModelAndSetModel(2);
       var selection = this.tree.getSelection();
 

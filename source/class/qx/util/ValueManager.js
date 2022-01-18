@@ -20,13 +20,9 @@
 /**
  * Abstract base class for all managers of themed values.
  */
-qx.Class.define("qx.util.ValueManager",
-{
-  type : "abstract",
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.util.ValueManager", {
+  type: "abstract",
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -34,15 +30,12 @@ qx.Class.define("qx.util.ValueManager",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Create empty dynamic map
     this._dynamic = {};
   },
-
-
 
   /*
   *****************************************************************************
@@ -50,10 +43,8 @@ qx.Class.define("qx.util.ValueManager",
   *****************************************************************************
   */
 
-  members :
-  {
-
-    _dynamic : null,
+  members: {
+    _dynamic: null,
 
     /**
      * Returns the dynamically interpreted result for the incoming value
@@ -61,10 +52,9 @@ qx.Class.define("qx.util.ValueManager",
      * @param value {String} dynamically interpreted identifier
      * @return {var} return the (translated) result of the incoming value
      */
-    resolveDynamic : function(value) {
+    resolveDynamic(value) {
       return this._dynamic[value];
     },
-
 
     /**
      * Whether a value is interpreted dynamically
@@ -72,7 +62,7 @@ qx.Class.define("qx.util.ValueManager",
      * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
-    isDynamic : function(value) {
+    isDynamic(value) {
       return !!this._dynamic[value];
     },
 
@@ -83,8 +73,7 @@ qx.Class.define("qx.util.ValueManager",
      * @return {var} either returns the (translated) result of the incoming
      * value or the value itself
      */
-    resolve : function(value)
-    {
+    resolve(value) {
       if (value && this._dynamic[value]) {
         return this._dynamic[value];
       }
@@ -92,11 +81,11 @@ qx.Class.define("qx.util.ValueManager",
       return value;
     },
 
-     /**
-      * Sets the dynamics map.
-      * @param value {Map} The map.
-      */
-    _setDynamic : function(value) {
+    /**
+     * Sets the dynamics map.
+     * @param value {Map} The map.
+     */
+    _setDynamic(value) {
       this._dynamic = value;
     },
 
@@ -104,9 +93,8 @@ qx.Class.define("qx.util.ValueManager",
      * Returns the dynamics map.
      * @return {Map} The map.
      */
-    _getDynamic : function() {
+    _getDynamic() {
       return this._dynamic;
     }
-
   }
 });

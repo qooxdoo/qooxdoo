@@ -27,47 +27,49 @@
  * (see {@link #setUpFakeTransport}).
  *
  */
-qx.Class.define("qx.test.io.request.Jsonp",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.io.request.Jsonp", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.test.io.request.MRequest,
-             qx.dev.unit.MMock],
+  include: [qx.test.io.request.MRequest, qx.dev.unit.MMock],
 
-  members :
-  {
-    setUp: function() {
+  members: {
+    setUp() {
       this.setUpRequest();
       this.setUpFakeTransport();
     },
 
-    setUpRequest: function() {
+    setUpRequest() {
       this.req && this.req.dispose();
-      this.req = new qx.io.request.Jsonp;
+      this.req = new qx.io.request.Jsonp();
       this.req.setUrl("url");
     },
 
     // Also called in shared tests, i.e. shared tests
     // use appropriate transport
-    setUpFakeTransport: function() {
-      this.transport = this.injectStub(qx.io.request.Jsonp.prototype,
-        "_createTransport", this.deepStub(new qx.bom.request.Jsonp()));
+    setUpFakeTransport() {
+      this.transport = this.injectStub(
+        qx.io.request.Jsonp.prototype,
+        "_createTransport",
+        this.deepStub(new qx.bom.request.Jsonp())
+      );
       this.setUpRequest();
     },
 
-    tearDown: function() {
+    tearDown() {
       this.getSandbox().restore();
       this.req.dispose();
 
       // May fail in IE
-      try { qx.Class.undefine("Klass"); } catch(e) {}
+      try {
+        qx.Class.undefine("Klass");
+      } catch (e) {}
     },
 
     //
     // General (cont.)
     //
 
-    "test: set url property on construct": function() {
+    "test: set url property on construct"() {
       var req = new qx.io.request.Jsonp("url");
       this.assertEquals("url", req.getUrl());
       req.dispose();
@@ -77,17 +79,17 @@ qx.Class.define("qx.test.io.request.Jsonp",
     // Callback management
     //
 
-    "test: setCallbackParam()": function() {
+    "test: setCallbackParam()"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
       req.setCallbackParam("method");
       this.assertCalledWith(transport.setCallbackParam, "method");
     },
 
-    "test: setCallbackName()": function() {
+    "test: setCallbackName()"() {
       var req = this.req,
-          transport = this.transport;
+        transport = this.transport;
 
       req.setCallbackName("myCallback");
       this.assertCalledWith(transport.setCallbackName, "myCallback");

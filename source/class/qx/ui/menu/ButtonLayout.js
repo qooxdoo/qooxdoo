@@ -23,11 +23,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.menu.ButtonLayout",
-{
-  extend : qx.ui.layout.Abstract,
-
-
+qx.Class.define("qx.ui.menu.ButtonLayout", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -35,29 +32,29 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value) {
-        this.assert(name=="column", "The property '"+name+"' is not supported by the MenuButton layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assert(
+          name == "column",
+          "The property '" +
+            name +
+            "' is not supported by the MenuButton layout!"
+        );
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var children = this._getLayoutChildren();
       var child;
       var column;
 
       var columnChildren = [];
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         column = child.getLayoutProperties().column;
         columnChildren[column] = child;
@@ -69,25 +66,43 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       var spacing = menu.getSpacingX();
 
       // stretch label column
-      var neededWidth = qx.lang.Array.sum(columns) + spacing * (columns.length - 1);
+      var neededWidth =
+        qx.lang.Array.sum(columns) + spacing * (columns.length - 1);
       if (neededWidth < availWidth) {
         columns[1] += availWidth - neededWidth;
       }
 
-
-      var left = padding.left, top = padding.top;
+      var left = padding.left,
+        top = padding.top;
       var Util = qx.ui.layout.Util;
 
-      for (var i=0, l=columns.length; i<l; i++)
-      {
+      for (var i = 0, l = columns.length; i < l; i++) {
         child = columnChildren[i];
 
-        if (child)
-        {
+        if (child) {
           var hint = child.getSizeHint();
-          var childTop = top + Util.computeVerticalAlignOffset(child.getAlignY()||"middle", hint.height, availHeight, 0, 0);
-          var offsetLeft = Util.computeHorizontalAlignOffset(child.getAlignX()||"left", hint.width, columns[i], child.getMarginLeft(), child.getMarginRight());
-          child.renderLayout(left + offsetLeft, childTop, hint.width, hint.height);
+          var childTop =
+            top +
+            Util.computeVerticalAlignOffset(
+              child.getAlignY() || "middle",
+              hint.height,
+              availHeight,
+              0,
+              0
+            );
+          var offsetLeft = Util.computeHorizontalAlignOffset(
+            child.getAlignX() || "left",
+            hint.width,
+            columns[i],
+            child.getMarginLeft(),
+            child.getMarginRight()
+          );
+          child.renderLayout(
+            left + offsetLeft,
+            childTop,
+            hint.width,
+            hint.height
+          );
         }
 
         if (columns[i] > 0) {
@@ -96,39 +111,34 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       }
     },
 
-
     /**
      * Get the widget's menu
      *
      * @param widget {qx.ui.core.Widget} the widget to get the menu for
      * @return {qx.ui.menu.Menu} the menu
      */
-    __getMenu : function(widget)
-    {
+    __getMenu(widget) {
       while (!(widget instanceof qx.ui.menu.Menu)) {
         widget = widget.getLayoutParent();
       }
       return widget;
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var neededHeight = 0;
       var neededWidth = 0;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         var hint = children[i].getSizeHint();
         neededWidth += hint.width;
         neededHeight = Math.max(neededHeight, hint.height);
       }
 
       return {
-        width : neededWidth,
-        height : neededHeight
+        width: neededWidth,
+        height: neededHeight
       };
     }
   }

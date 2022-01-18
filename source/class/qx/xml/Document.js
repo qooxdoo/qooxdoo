@@ -36,16 +36,13 @@
  */
 /* global ActiveXObject */
 /* global window */
-qx.Bootstrap.define("qx.xml.Document",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.xml.Document", {
+  statics: {
     /** @type {String} ActiveX class name of DOMDocument (IE specific) */
-    DOMDOC : null,
+    DOMDOC: null,
 
     /** @type {String} ActiveX class name of XMLHttpRequest (IE specific) */
-    XMLHTTP : null,
-
+    XMLHTTP: null,
 
     /**
      * Whether the given element is a XML document or element
@@ -54,8 +51,7 @@ qx.Bootstrap.define("qx.xml.Document",
      * @param elem {Document|Element} Any DOM Document or Element
      * @return {Boolean} Whether the document is a XML document
      */
-    isXmlDocument : function(elem)
-    {
+    isXmlDocument(elem) {
       if (elem.nodeType === 9) {
         return elem.documentElement.nodeName !== "HTML";
       } else if (elem.ownerDocument) {
@@ -64,7 +60,6 @@ qx.Bootstrap.define("qx.xml.Document",
         return false;
       }
     },
-
 
     /**
      * Create an XML document.
@@ -77,8 +72,7 @@ qx.Bootstrap.define("qx.xml.Document",
      *
      * @ignore(ActiveXObject)
      */
-    create : function(namespaceUri, qualifiedName)
-    {
+    create(namespaceUri, qualifiedName) {
       // ActiveX - This is the preferred way for IE9 as well since it has no XPath
       // support when using the native implementation.createDocument
       if (qx.core.Environment.get("plugin.activex")) {
@@ -89,9 +83,8 @@ qx.Bootstrap.define("qx.xml.Document",
           obj.setProperty("SelectionLanguage", "XPath");
         }
 
-        if (qualifiedName)
-        {
-          var str = '<\?xml version="1.0" encoding="utf-8"?>\n<';
+        if (qualifiedName) {
+          var str = '<?xml version="1.0" encoding="utf-8"?>\n<';
 
           str += qualifiedName;
 
@@ -107,12 +100,15 @@ qx.Bootstrap.define("qx.xml.Document",
       }
 
       if (qx.core.Environment.get("xml.implementation")) {
-        return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
+        return document.implementation.createDocument(
+          namespaceUri || "",
+          qualifiedName || "",
+          null
+        );
       }
 
       throw new Error("No XML implementation available!");
     },
-
 
     /**
      * The string passed in is parsed into a DOM document.
@@ -123,8 +119,7 @@ qx.Bootstrap.define("qx.xml.Document",
      *
      * @ignore(DOMParser)
      */
-    fromString : function(str)
-    {
+    fromString(str) {
       // Legacy IE/ActiveX
       if (qx.core.Environment.get("plugin.activex")) {
         var dom = qx.xml.Document.create();
@@ -141,36 +136,28 @@ qx.Bootstrap.define("qx.xml.Document",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
+  defer(statics) {
     // Detecting available ActiveX implementations.
-    if (qx.core.Environment.get("plugin.activex"))
-    {
+    if (qx.core.Environment.get("plugin.activex")) {
       // According to information on the Microsoft XML Team's WebLog
       // it is recommended to check for availability of MSXML versions 6.0 and 3.0.
       // http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
-      var domDoc = [ "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.3.0" ];
-      var httpReq = [ "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0" ];
+      var domDoc = ["MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.3.0"];
+      var httpReq = ["MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0"];
 
-      for (var i=0, l=domDoc.length; i<l; i++)
-      {
-        try
-        {
+      for (var i = 0, l = domDoc.length; i < l; i++) {
+        try {
           // Keep both objects in sync with the same version.
           // This is important as there were compatibility issues detected.
           new ActiveXObject(domDoc[i]);
           new ActiveXObject(httpReq[i]);
-        }
-        catch(ex) {
+        } catch (ex) {
           continue;
         }
 

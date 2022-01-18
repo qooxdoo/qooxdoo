@@ -23,11 +23,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.splitpane.VLayout",
-{
-  extend : qx.ui.layout.Abstract,
-
-
+qx.Class.define("qx.ui.splitpane.VLayout", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -35,8 +32,7 @@ qx.Class.define("qx.ui.splitpane.VLayout",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -44,11 +40,12 @@ qx.Class.define("qx.ui.splitpane.VLayout",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value)
-      {
-        this.assert(name === "type" || name === "flex", "The property '"+name+"' is not supported by the split layout!");
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
+        this.assert(
+          name === "type" || name === "flex",
+          "The property '" + name + "' is not supported by the split layout!"
+        );
 
         if (name == "flex") {
           this.assertNumber(value);
@@ -59,13 +56,11 @@ qx.Class.define("qx.ui.splitpane.VLayout",
         }
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var children = this._getLayoutChildren();
       var length = children.length;
       var child, type;
@@ -73,8 +68,7 @@ qx.Class.define("qx.ui.splitpane.VLayout",
       var paddingLeft = padding.left || 0;
       var paddingTop = padding.top || 0;
 
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         child = children[i];
         type = child.getLayoutProperties().type;
 
@@ -89,8 +83,7 @@ qx.Class.define("qx.ui.splitpane.VLayout",
         }
       }
 
-      if (begin && end)
-      {
+      if (begin && end) {
         var beginFlex = begin.getLayoutProperties().flex;
         var endFlex = end.getLayoutProperties().flex;
 
@@ -110,22 +103,25 @@ qx.Class.define("qx.ui.splitpane.VLayout",
         var splitterHeight = splitterHint.height;
         var endHeight = endHint.height;
 
-        if (beginFlex > 0 && endFlex > 0)
-        {
+        if (beginFlex > 0 && endFlex > 0) {
           var flexSum = beginFlex + endFlex;
           var flexAvailable = availHeight - splitterHeight;
 
           var beginHeight = Math.round((flexAvailable / flexSum) * beginFlex);
           var endHeight = flexAvailable - beginHeight;
 
-          var sizes = qx.ui.layout.Util.arrangeIdeals(beginHint.minHeight, beginHeight, beginHint.maxHeight,
-            endHint.minHeight, endHeight, endHint.maxHeight);
+          var sizes = qx.ui.layout.Util.arrangeIdeals(
+            beginHint.minHeight,
+            beginHeight,
+            beginHint.maxHeight,
+            endHint.minHeight,
+            endHeight,
+            endHint.maxHeight
+          );
 
           beginHeight = sizes.begin;
           endHeight = sizes.end;
-        }
-        else if (beginFlex > 0)
-        {
+        } else if (beginFlex > 0) {
           beginHeight = availHeight - splitterHeight - endHeight;
           if (beginHeight < beginHint.minHeight) {
             beginHeight = beginHint.minHeight;
@@ -134,9 +130,7 @@ qx.Class.define("qx.ui.splitpane.VLayout",
           if (beginHeight > beginHint.maxHeight) {
             beginHeight = beginHint.maxHeight;
           }
-        }
-        else if (endFlex > 0)
-        {
+        } else if (endFlex > 0) {
           endHeight = availHeight - beginHeight - splitterHeight;
           if (endHeight < endHint.minHeight) {
             endHeight = endHint.minHeight;
@@ -148,11 +142,19 @@ qx.Class.define("qx.ui.splitpane.VLayout",
         }
 
         begin.renderLayout(paddingLeft, paddingTop, availWidth, beginHeight);
-        splitter.renderLayout(paddingLeft, beginHeight + paddingTop, availWidth, splitterHeight);
-        end.renderLayout(paddingLeft, beginHeight+splitterHeight + paddingTop, availWidth, endHeight);
-      }
-      else
-      {
+        splitter.renderLayout(
+          paddingLeft,
+          beginHeight + paddingTop,
+          availWidth,
+          splitterHeight
+        );
+        end.renderLayout(
+          paddingLeft,
+          beginHeight + splitterHeight + paddingTop,
+          availWidth,
+          endHeight
+        );
+      } else {
         // Hide the splitter completely
         splitter.renderLayout(0, 0, 0, 0);
 
@@ -165,18 +167,19 @@ qx.Class.define("qx.ui.splitpane.VLayout",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var children = this._getLayoutChildren();
       var length = children.length;
       var child, hint, props;
-      var minHeight=0, height=0, maxHeight=0;
-      var minWidth=0, width=0, maxWidth=0;
+      var minHeight = 0,
+        height = 0,
+        maxHeight = 0;
+      var minWidth = 0,
+        width = 0,
+        maxWidth = 0;
 
-      for (var i=0; i<length; i++)
-      {
+      for (var i = 0; i < length; i++) {
         child = children[i];
         props = child.getLayoutProperties();
 
@@ -205,12 +208,12 @@ qx.Class.define("qx.ui.splitpane.VLayout",
       }
 
       return {
-        minHeight : minHeight,
-        height : height,
-        maxHeight : maxHeight,
-        minWidth : minWidth,
-        width : width,
-        maxWidth : maxWidth
+        minHeight: minHeight,
+        height: height,
+        maxHeight: maxHeight,
+        minWidth: minWidth,
+        width: width,
+        maxWidth: maxWidth
       };
     }
   }

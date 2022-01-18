@@ -16,20 +16,20 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.toolchain.TestRunner",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.toolchain.TestRunner", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testAsynchronous: function() {
-
+  members: {
+    testAsynchronous() {
       qx.event.Timer.once(
-        function() {
-        this.resume(function() {
-          // do nothing
-        }, this);
-      }, this, 1000);
+        function () {
+          this.resume(function () {
+            // do nothing
+          }, this);
+        },
+        this,
+        1000
+      );
 
       this.wait();
     }

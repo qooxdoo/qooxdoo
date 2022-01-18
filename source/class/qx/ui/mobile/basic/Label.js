@@ -31,10 +31,8 @@
  * This example create a widget to display the label.
  *
  */
-qx.Class.define("qx.ui.mobile.basic.Label",
-{
-  extend : qx.ui.mobile.core.Widget,
-
+qx.Class.define("qx.ui.mobile.basic.Label", {
+  extend: qx.ui.mobile.core.Widget,
 
   /*
   *****************************************************************************
@@ -45,20 +43,21 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   /**
    * @param value {String?null} Text or HTML content to display
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
     if (value) {
       this.setValue(value);
     }
     this.initWrap();
 
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().addListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -66,50 +65,39 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "label"
+    defaultCssClass: {
+      refine: true,
+      init: "label"
     },
-
 
     /**
      * Text or HTML content to display
      */
-    value :
-    {
-      nullable : true,
-      init : null,
-      check : "String",
-      apply : "_applyValue",
-      event : "changeValue"
+    value: {
+      nullable: true,
+      init: null,
+      check: "String",
+      apply: "_applyValue",
+      event: "changeValue"
     },
-
 
     // overridden
-    anonymous :
-    {
-      refine : true,
-      init : true
+    anonymous: {
+      refine: true,
+      init: true
     },
-
 
     /**
      * Controls whether text wrap is activated or not.
      */
-    wrap :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyWrap"
+    wrap: {
+      check: "Boolean",
+      init: true,
+      apply: "_applyWrap"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -117,18 +105,14 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyValue : function(value, old)
-    {
+    _applyValue(value, old) {
       this._setHtml(value);
     },
 
-
     // property apply
-    _applyWrap : function(value, old)
-    {
+    _applyWrap(value, old) {
       if (value) {
         this.removeCssClass("no-wrap");
       } else {
@@ -142,20 +126,17 @@ qx.Class.define("qx.ui.mobile.basic.Label",
      * @signature function(e)
      * @param e {Event} the change event
      */
-    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
-    {
-      "true" : function(e)
-      {
+    _onChangeLocale: qx.core.Environment.select("qx.dynlocale", {
+      true(e) {
         var content = this.getValue();
         if (content && content.translate) {
           this.setValue(content.translate());
         }
       },
 
-      "false" : null
+      false: null
     })
   },
-
 
   /*
   *****************************************************************************
@@ -163,10 +144,13 @@ qx.Class.define("qx.ui.mobile.basic.Label",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (qx.core.Environment.get("qx.dynlocale")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+      qx.locale.Manager.getInstance().removeListener(
+        "changeLocale",
+        this._onChangeLocale,
+        this
+      );
     }
   }
 });

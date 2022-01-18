@@ -27,7 +27,6 @@ const fs = qx.tool.utils.Promisify.fs;
 qx.Class.define("qx.tool.migration.M6_0_0", {
   extend: qx.tool.migration.BaseMigration,
   members: {
-
     /**
      * Check for legacy compile.js - needs manual intervention
      */
@@ -36,7 +35,9 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       if (await fs.existsAsync(compileJsFilename)) {
         let data = await fs.readFileAsync(compileJsFilename, "utf8");
         if (data.indexOf("module.exports") < 0) {
-          this.announce(`Your compile.js appears to be missing a module.exports statement and must be manually updated - please see https://git.io/fjBqU for more details`);
+          this.announce(
+            `Your compile.js appears to be missing a module.exports statement and must be manually updated - please see https://git.io/fjBqU for more details`
+          );
           this.markAsPending();
         }
       }
@@ -45,10 +46,12 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
     async migrateQooxdooJs() {
       let compileJsFilename = path.join(process.cwd(), "qooxdoo.json");
       if (await fs.existsAsync(compileJsFilename)) {
-        let model = await qx.tool.config.Registry.getInstance().set({
-          warnOnly: true,
-          validate: false
-        }).load();
+        let model = await qx.tool.config.Registry.getInstance()
+          .set({
+            warnOnly: true,
+            validate: false
+          })
+          .load();
         if (model.getValue("$schema") !== model.getSchemaUri()) {
           if (this.getRunner().getDryRun()) {
             this.markAsPending("Add schema to qooxdoo.json");
@@ -61,7 +64,6 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       }
     },
 
-
     async migrateConfigFiles() {
       let dryRun = this.getRunner().getDryRun();
       let pkg = qx.tool.cli.commands.Package;
@@ -71,9 +73,15 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       let migrateFiles = [
         [path.join(cwd, pkg.lockfile.filename), path.join(cwd, "contrib.json")],
         [path.join(cwd, pkg.cache_dir), path.join(cwd, "contrib")],
-        [path.join(qx.tool.cli.ConfigDb.getDirectory(), pkg.package_cache_name),
-          path.join(qx.tool.cli.ConfigDb.getDirectory(), "contrib-cache.json")]
+        [
+          path.join(
+            qx.tool.cli.ConfigDb.getDirectory(),
+            pkg.package_cache_name
+          ),
+          path.join(qx.tool.cli.ConfigDb.getDirectory(), "contrib-cache.json")
+        ]
       ];
+
       // change names in .gitignore
       if ((await this.checkFilesToRename(migrateFiles)).length) {
         await this.renameFilesUnlessDryRun(migrateFiles);
@@ -81,15 +89,19 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           this.announce(".gitignore needs to be updated.");
           this.markAsPending(3);
         } else {
-          await this.replaceInFilesUnlessDryRun([{
-            files: path.join(cwd, ".gitignore"),
-            from: "contrib/",
-            to: "qx_packages/"
-          }, {
-            files: path.join(cwd, ".gitignore"),
-            from: "contrib.json",
-            to: "qx-lock.json"
-          },]);
+          await this.replaceInFilesUnlessDryRun([
+            {
+              files: path.join(cwd, ".gitignore"),
+              from: "contrib/",
+              to: "qx_packages/"
+            },
+            {
+              files: path.join(cwd, ".gitignore"),
+              from: "contrib.json",
+              to: "qx-lock.json"
+            }
+          ]);
+
           this.markAsApplied();
         }
       }
@@ -101,10 +113,12 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
       // Update all Manifests
       let updateManifest = false;
       for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
-        await manifestModel.set({
-          warnOnly: true,
-          validate: false
-        }).load();
+        await manifestModel
+          .set({
+            warnOnly: true,
+            validate: false
+          })
+          .load();
         if (!qx.lang.Type.isArray(manifestModel.getValue("info.authors"))) {
           updateManifest = true;
         }
@@ -119,6 +133,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           "requires.qooxdoo-sdk": null,
           "requires.qooxdoo-compiler": null
         };
+
         if (manifestModel.keyExists(obj)) {
           updateManifest = true;
         }
@@ -131,26 +146,38 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
                 if (authors === "") {
                   return [];
                 } else if (qx.lang.Type.isString(authors)) {
-                  return [{
-                    name: authors
-                  }];
+                  return [
+                    {
+                      name: authors
+                    }
+                  ];
                 } else if (qx.lang.Type.isObject(authors)) {
-                  return [{
-                    name: authors.name, email: authors.email
-                  }];
+                  return [
+                    {
+                      name: authors.name,
+                      email: authors.email
+                    }
+                  ];
                 } else if (qx.lang.Type.isArray(authors)) {
-                  return authors.map(r => qx.lang.Type.isObject(r) ? {
-                    name: r.name, email: r.email
-                  } : {
-                    name: r
-                  });
+                  return authors.map(r =>
+                    qx.lang.Type.isObject(r)
+                      ? {
+                          name: r.name,
+                          email: r.email
+                        }
+                      : {
+                          name: r
+                        }
+                  );
                 }
                 return [];
               })
               .transform("info.version", version => {
                 let coerced = semver.coerce(version);
                 if (coerced === null) {
-                  qx.tool.compiler.Console.warn(`Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`);
+                  qx.tool.compiler.Console.warn(
+                    `Version string '${version}' in ${manifestModel.getDataPath()} is not a valid semver version, will be set to 1.0.0`
+                  );
                   return "1.0.0";
                 }
                 return String(coerced);
@@ -161,15 +188,28 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
               .unset("requires.qxcompiler")
               .unset("requires.qooxdoo-compiler")
               .unset("requires.qooxdoo-sdk");
-            verbose && qx.tool.compiler.Console.info(`Updated settings in ${manifestModel.getRelativeDataPath()}.`);
+            verbose &&
+              qx.tool.compiler.Console.info(
+                `Updated settings in ${manifestModel.getRelativeDataPath()}.`
+              );
             await manifestModel.save();
             this.markAsApplied();
-            await this.updateDependencyUnlessDryRun(manifestModel, "@qooxdoo/compiler", "^1.0.0");
-            verbose && qx.tool.compiler.Console.info(`Updated dependencies in ${manifestModel.getRelativeDataPath()}.`);
+            await this.updateDependencyUnlessDryRun(
+              manifestModel,
+              "@qooxdoo/compiler",
+              "^1.0.0"
+            );
+            verbose &&
+              qx.tool.compiler.Console.info(
+                `Updated dependencies in ${manifestModel.getRelativeDataPath()}.`
+              );
           }
         }
         // update schema
-        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-1-0-0.json")
+        await this.updateSchemaUnlessDryRun(
+          manifestModel,
+          "https://qooxdoo.org/schema/Manifest-1-0-0.json"
+        );
 
         // update qooxdoo version
         await this.updateQxDependencyUnlessDryRun(manifestModel);
@@ -179,16 +219,15 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           manifestModel.setValidate(false); // shouldn't be necessary
           await manifestModel.save();
         }
-
       }
     },
 
     async migrateCompileJson() {
-      let compileJsonModel = qx.tool.config.Compile.getInstance()
-        .set({
-          warnOnly: true,
-          validate: false
-        });
+      let compileJsonModel = qx.tool.config.Compile.getInstance().set({
+        warnOnly: true,
+        validate: false
+      });
+
       await compileJsonModel.load();
       let eslintExtends = compileJsonModel.getValue("eslintConfig.extends");
       let newEsLintExtends = [
@@ -196,6 +235,7 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
         "@qooxdoo/qx",
         "@qooxdoo/jsdoc-disable"
       ];
+
       if (eslintExtends !== newEsLintExtends) {
         if (this.getRunner().getDryRun()) {
           this.announce("eslintConfig.extends will be updated.");
@@ -205,10 +245,13 @@ qx.Class.define("qx.tool.migration.M6_0_0", {
           this.markAsApplied();
         }
       }
-      await this.updateSchemaUnlessDryRun(compileJsonModel,"https://qooxdoo.org/schema/compile-1-0-0.json")
+      await this.updateSchemaUnlessDryRun(
+        compileJsonModel,
+        "https://qooxdoo.org/schema/compile-1-0-0.json"
+      );
       if (!this.getRunner().getDryRun()) {
         await compileJsonModel.save();
-        compileJsonModel.set({validate:true});
+        compileJsonModel.set({ validate: true });
         await compileJsonModel.load();
       }
     }

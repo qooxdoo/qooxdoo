@@ -24,17 +24,14 @@
  * It is also important that the elements stored in the target e.g. ListItems
  * do have the corresponding model stored as user data under the "model" key.
  */
-qx.Mixin.define("qx.data.controller.MSelection",
-{
-
+qx.Mixin.define("qx.data.controller.MSelection", {
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  construct : function()
-  {
+  construct() {
     // check for a target property
     if (!qx.Class.hasProperty(this.constructor, "target")) {
       throw new Error("Target property is needed.");
@@ -47,22 +44,19 @@ qx.Mixin.define("qx.data.controller.MSelection",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties : {
+  properties: {
     /**
      * Data array containing the selected model objects. This property can be
      * manipulated directly which means that a push to the selection will also
      * select the corresponding element in the target.
      */
-    selection :
-    {
+    selection: {
       check: "qx.data.Array",
       event: "changeSelection",
       apply: "_applySelection",
@@ -70,8 +64,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     }
   },
 
-
-  events : {
+  events: {
     /**
      * This event is fired as soon as the content of the selection property changes, but
      * this is not equal to the change of the selection of the widget. If the selection
@@ -80,12 +73,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * to get an event as soon as the user changes the selected item.
      * <pre class="javascript">obj.getSelection().addListener("change", listener, this);</pre>
      */
-    "changeSelection" : "qx.event.type.Data",
+    changeSelection: "qx.event.type.Data",
 
     /** Fires after the value was modified */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -93,15 +85,13 @@ qx.Mixin.define("qx.data.controller.MSelection",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // private members //
     // set the semaphore-like variable for the selection change
-    _modifingSelection : 0,
-    __selectionListenerId : null,
-    __selectionArrayListenerId : null,
-    __ownSelection : null,
-
+    _modifingSelection: 0,
+    __selectionListenerId: null,
+    __selectionArrayListenerId: null,
+    __ownSelection: null,
 
     /**
      * setValue implements part of the {@link qx.ui.form.IField} interface.
@@ -109,7 +99,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param selection {qx.data.IListData|null} List data to select as value.
      * @return {null} The status of this operation.
      */
-    setValue : function(selection) {
+    setValue(selection) {
       if (null === selection) {
         this.resetSelection();
       } else {
@@ -119,25 +109,21 @@ qx.Mixin.define("qx.data.controller.MSelection",
       return null;
     },
 
-
     /**
      * getValue implements part of the {@link qx.ui.form.IField} interface.
      *
      * @return {qx.data.IListData} The current selection.
      */
-    getValue : function() {
+    getValue() {
       return this.getSelection();
     },
-
 
     /**
      * resetValue implements part of the {@link qx.ui.form.IField} interface.
      */
-    resetValue : function() {
+    resetValue() {
       this.resetSelection();
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -151,7 +137,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param value {qx.data.Array} The new data array for the selection.
      * @param old {qx.data.Array|null} The old data array for the selection.
      */
-    _applySelection: function(value, old) {
+    _applySelection(value, old) {
       // remove the old listener if necessary
       if (this.__selectionArrayListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionArrayListenerId);
@@ -160,14 +146,15 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // add a new change listener to the changeArray
       if (value) {
         this.__selectionArrayListenerId = value.addListener(
-          "change", this.__changeSelectionArray, this
+          "change",
+          this.__changeSelectionArray,
+          this
         );
       }
 
       // apply the new selection
       this._updateSelection();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -179,25 +166,26 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * If a change is in the selection array, the selection update will be
      * invoked.
      */
-    __changeSelectionArray: function() {
+    __changeSelectionArray() {
       this._updateSelection();
     },
-
 
     /**
      * Event handler for a change in the target selection.
      * If the selection in the target has changed, the selected model objects
      * will be found and added to the selection array.
      */
-    _changeTargetSelection: function() {
+    _changeTargetSelection() {
       // dont do anything without a target
       if (this.getTarget() == null) {
         return;
       }
 
       // if a selection API is supported
-      if (!this.__targetSupportsMultiSelection()
-        && !this.__targetSupportsSingleSelection()) {
+      if (
+        !this.__targetSupportsMultiSelection() &&
+        !this.__targetSupportsSingleSelection()
+      ) {
         return;
       }
 
@@ -230,7 +218,6 @@ qx.Mixin.define("qx.data.controller.MSelection",
       this.fireDataEvent("changeSelection", this.getSelection());
     },
 
-
     /*
     ---------------------------------------------------------------------------
        SELECTION
@@ -243,7 +230,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param value {qx.ui.core.Widget|null} The new target.
      * @param old {qx.ui.core.Widget|null} The old target.
      */
-    _addChangeTargetListener: function(value, old) {
+    _addChangeTargetListener(value, old) {
       // remove the old selection listener
       if (this.__selectionListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionListenerId);
@@ -252,24 +239,25 @@ qx.Mixin.define("qx.data.controller.MSelection",
       if (value != null) {
         // if a selection API is supported
         if (
-          this.__targetSupportsMultiSelection()
-          || this.__targetSupportsSingleSelection()
+          this.__targetSupportsMultiSelection() ||
+          this.__targetSupportsSingleSelection()
         ) {
           // add a new selection listener
           this.__selectionListenerId = value.addListener(
-            "changeSelection", this._changeTargetSelection, this
+            "changeSelection",
+            this._changeTargetSelection,
+            this
           );
         }
       }
     },
-
 
     /**
      * Method for updating the selection. It checks for the case of single or
      * multi selection and after that checks if the selection in the selection
      * array is the same as in the target widget.
      */
-    _updateSelection: function() {
+    _updateSelection() {
       // do not update if no target is given
       if (!this.getTarget() || !this.getSelection()) {
         return;
@@ -279,7 +267,6 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
-
         var targetSelection = [];
         // go through the selection array
         for (var i = 0; i < this.getSelection().length; i++) {
@@ -309,7 +296,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
           }
         }
 
-      // if its a single selection target
+        // if its a single selection target
       } else if (this.__targetSupportsSingleSelection()) {
         // get the model which should be selected
         var item = this.getSelection().getItem(this.getSelection().length - 1);
@@ -318,15 +305,14 @@ qx.Mixin.define("qx.data.controller.MSelection",
           this.__selectItem(item);
           // remove the other items from the selection data array and get
           // rid of the return array
-          this.getSelection().splice(
-            0, this.getSelection().getLength() - 1
-          ).dispose();
+          this.getSelection()
+            .splice(0, this.getSelection().getLength() - 1)
+            .dispose();
         } else {
           // if there is no item to select (e.g. new model set [BUG #4125]),
           // reset the selection
           this.getTarget().resetSelection();
         }
-
       }
 
       // reset the changing flag
@@ -334,26 +320,29 @@ qx.Mixin.define("qx.data.controller.MSelection",
       this.fireDataEvent("changeValue", this.getSelection());
     },
 
-
     /**
      * Helper-method returning true, if the target supports multi selection.
      * @return {Boolean} true, if the target supports multi selection.
      */
-    __targetSupportsMultiSelection: function() {
+    __targetSupportsMultiSelection() {
       var targetClass = this.getTarget().constructor;
-      return qx.Class.implementsInterface(targetClass, qx.ui.core.IMultiSelection);
+      return qx.Class.implementsInterface(
+        targetClass,
+        qx.ui.core.IMultiSelection
+      );
     },
-
 
     /**
      * Helper-method returning true, if the target supports single selection.
      * @return {Boolean} true, if the target supports single selection.
      */
-    __targetSupportsSingleSelection: function() {
+    __targetSupportsSingleSelection() {
       var targetClass = this.getTarget().constructor;
-      return qx.Class.implementsInterface(targetClass, qx.ui.core.ISingleSelection);
+      return qx.Class.implementsInterface(
+        targetClass,
+        qx.ui.core.ISingleSelection
+      );
     },
-
 
     /**
      * Internal helper for selecting an item in the target. The item to select
@@ -361,7 +350,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      *
      * @param item {qx.core.Object} A model element.
      */
-    __selectItem: function(item) {
+    __selectItem(item) {
       var selectable = this.__getSelectableForModel(item);
       // if no selectable could be found, just return
       if (selectable == null) {
@@ -371,12 +360,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
       if (this.__targetSupportsMultiSelection()) {
         // select the item in the target
         this.getTarget().addToSelection(selectable);
-      // if the target is single selection able
+        // if the target is single selection able
       } else if (this.__targetSupportsSingleSelection()) {
         this.getTarget().setSelection([selectable]);
       }
     },
-
 
     /**
      * Returns the list item storing the given model in its model property.
@@ -384,8 +372,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param model {var} The representing model of a selectable.
      * @return {Object|null} List item or <code>null</code> if none was found
      */
-    __getSelectableForModel : function(model)
-    {
+    __getSelectableForModel(model) {
       // get all list items
       var children = this.getTarget().getSelectables(true);
 
@@ -399,26 +386,23 @@ qx.Mixin.define("qx.data.controller.MSelection",
       return null;
     },
 
-
     /**
      * Helper-Method signaling that currently the selection of the target is
      * in change. That will block the change of the internal selection.
      * {@link #_endSelectionModification}
      */
-    _startSelectionModification: function() {
+    _startSelectionModification() {
       this._modifingSelection++;
     },
-
 
     /**
      * Helper-Method signaling that the internal changing of the targets
      * selection is over.
      * {@link #_startSelectionModification}
      */
-    _endSelectionModification: function() {
+    _endSelectionModification() {
       this._modifingSelection > 0 ? this._modifingSelection-- : null;
     },
-
 
     /**
      * Helper-Method for checking the state of the selection modification.
@@ -426,12 +410,10 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * {@link #_endSelectionModification}
      * @return {Boolean} <code>true</code> if selection modification is active
      */
-    _inSelectionModification: function() {
+    _inSelectionModification() {
       return this._modifingSelection > 0;
     }
-
   },
-
 
   /*
   *****************************************************************************
@@ -439,8 +421,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     if (this.__ownSelection) {
       this.__ownSelection.dispose();
     }

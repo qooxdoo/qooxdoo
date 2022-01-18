@@ -16,22 +16,18 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
-{
-  extend : qx.test.ui.virtual.performance.AbstractLayerTest,
-  type : "abstract", // disabled
+qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell", {
+  extend: qx.test.ui.virtual.performance.AbstractLayerTest,
+  type: "abstract", // disabled
 
-  members :
-  {
-    getLayer : function()
-    {
+  members: {
+    getLayer() {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
       return new qx.ui.virtual.layer.HtmlCell(this);
     },
 
-    getCellProperties : function(row, column) {
+    getCellProperties(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     }
   }
-
 });

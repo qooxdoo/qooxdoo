@@ -22,32 +22,27 @@
  * @ignore(qx.ui.window.Window)
  * @ignore(qx.ui.window.Window.*)
  */
-qx.Mixin.define("qx.ui.window.MDesktop",
-{
+qx.Mixin.define("qx.ui.window.MDesktop", {
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * The currently active window
      */
-    activeWindow :
-    {
-      check : "qx.ui.window.Window",
-      apply : "_applyActiveWindow",
-      event : "changeActiveWindow",
-      init  : null,
-      nullable : true
+    activeWindow: {
+      check: "qx.ui.window.Window",
+      apply: "_applyActiveWindow",
+      event: "changeActiveWindow",
+      init: null,
+      nullable: true
     }
   },
 
-
-  events:
-  {
+  events: {
     /**
      * Fired when a window was added.
      */
@@ -59,19 +54,15 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     windowRemoved: "qx.event.type.Data"
   },
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
-    __windows : null,
+  members: {
+    __windows: null,
     __manager: null,
-
 
     /**
      * Get the desktop's window manager. Each desktop must have a window manager.
@@ -80,14 +71,12 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      *
      * @return {qx.ui.window.IWindowManager} The desktop's window manager
      */
-    getWindowManager : function()
-    {
+    getWindowManager() {
       if (!this.__manager) {
         this.setWindowManager(new qx.ui.window.Window.DEFAULT_MANAGER_CLASS());
       }
       return this.__manager;
     },
-
 
     /**
      * Whether the configured layout supports a maximized window
@@ -95,7 +84,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      *
      * @return {Boolean} Whether the layout supports maximized windows
      */
-    supportsMaximize : function() {
+    supportsMaximize() {
       return true;
     },
 
@@ -104,8 +93,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      *
      * @param manager {qx.ui.window.IWindowManager} The window manager
      */
-    setWindowManager : function(manager)
-    {
+    setWindowManager(manager) {
       if (this.__manager) {
         this.__manager.setDesktop(null);
       }
@@ -114,15 +102,13 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       this.__manager = manager;
     },
 
-
     /**
      * Event handler. Called if one of the managed windows changes its active
      * state.
      *
      * @param e {qx.event.type.Event} the event object.
      */
-    _onChangeActive : function(e)
-    {
+    _onChangeActive(e) {
       if (e.getData()) {
         this.setActiveWindow(e.getTarget());
       } else if (this.getActiveWindow() == e.getTarget()) {
@@ -130,55 +116,50 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       }
     },
 
-
     // property apply
-    _applyActiveWindow : function(value, old) {
+    _applyActiveWindow(value, old) {
       this.getWindowManager().changeActiveWindow(value, old);
       this.getWindowManager().updateStack();
     },
-
 
     /**
      * Event handler. Called if one of the managed windows changes its modality
      *
      * @param e {qx.event.type.Event} the event object.
      */
-    _onChangeModal : function(e) {
+    _onChangeModal(e) {
       this.getWindowManager().updateStack();
     },
-
 
     /**
      * Event handler. Called if one of the managed windows changes its visibility
      * state.
      */
-    _onChangeVisibility : function() {
+    _onChangeVisibility() {
       this.getWindowManager().updateStack();
     },
-
 
     /**
      * Overrides the method {@link qx.ui.core.Widget#_afterAddChild}
      *
      * @param win {qx.ui.core.Widget} added widget
      */
-    _afterAddChild : function(win)
-    {
-      if (qx.Class.isDefined("qx.ui.window.Window") && win instanceof qx.ui.window.Window) {
+    _afterAddChild(win) {
+      if (
+        qx.Class.isDefined("qx.ui.window.Window") &&
+        win instanceof qx.ui.window.Window
+      ) {
         this._addWindow(win);
       }
     },
-
 
     /**
      * Handles the case, when a window is added to the desktop.
      *
      * @param win {qx.ui.window.Window} Window, which has been added
      */
-    _addWindow : function(win)
-    {
-      if (!this.getWindows().includes(win))
-      {
+    _addWindow(win) {
+      if (!this.getWindows().includes(win)) {
         this.getWindows().push(win);
 
         this.fireDataEvent("windowAdded", win);
@@ -195,29 +176,27 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       this.getWindowManager().updateStack();
     },
 
-
     /**
      * Overrides the method {@link qx.ui.core.Widget#_afterRemoveChild}
      *
      * @param win {qx.ui.core.Widget} removed widget
      */
-    _afterRemoveChild : function(win)
-    {
-      if (qx.Class.isDefined("qx.ui.window.Window") && win instanceof qx.ui.window.Window) {
+    _afterRemoveChild(win) {
+      if (
+        qx.Class.isDefined("qx.ui.window.Window") &&
+        win instanceof qx.ui.window.Window
+      ) {
         this._removeWindow(win);
       }
     },
-
 
     /**
      * Handles the case, when a window is removed from the desktop.
      *
      * @param win {qx.ui.window.Window} Window, which has been removed
      */
-    _removeWindow : function(win)
-    {
-      if (this.getWindows().includes(win))
-      {
+    _removeWindow(win) {
+      if (this.getWindows().includes(win)) {
         qx.lang.Array.remove(this.getWindows(), win);
 
         this.fireDataEvent("windowRemoved", win);
@@ -230,14 +209,12 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       }
     },
 
-
     /**
      * Get a list of all windows added to the desktop (including hidden windows)
      *
      * @return {qx.ui.window.Window[]} Array of managed windows
      */
-    getWindows : function()
-    {
+    getWindows() {
       if (!this.__windows) {
         this.__windows = [];
       }
@@ -245,18 +222,13 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     }
   },
 
-
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this._disposeArray("__windows");
     this._disposeObjects("__manager");
   }

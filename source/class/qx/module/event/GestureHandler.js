@@ -26,11 +26,19 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.GestureHandler", {
-
-  statics : {
-
-    TYPES : ["tap", "longtap", "swipe", "dbltap", "track", "trackstart", "trackend", "roll", "rotate", "pinch"],
-
+  statics: {
+    TYPES: [
+      "tap",
+      "longtap",
+      "swipe",
+      "dbltap",
+      "track",
+      "trackstart",
+      "trackend",
+      "roll",
+      "rotate",
+      "pinch"
+    ],
 
     /**
      * Creates a gesture handler for the given element when a gesture event listener
@@ -39,26 +47,27 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      * @param element {Element} DOM element
      * @param type {String} event type
      */
-    register : function(element, type) {
+    register(element, type) {
       if (!element.$$gestureHandler) {
-
         if (!qx.core.Environment.get("event.dispatchevent")) {
           if (!element.$$emitter) {
             element.$$emitter = new qx.event.Emitter();
           }
         }
 
-        element.$$gestureHandler = new qx.event.handler.GestureCore(element, element.$$emitter);
+        element.$$gestureHandler = new qx.event.handler.GestureCore(
+          element,
+          element.$$emitter
+        );
       }
     },
-
 
     /**
      * Removes the gesture event handler from the element if there are no more
      * gesture event listeners attached to it
      * @param element {Element} DOM element
      */
-    unregister : function(element) {
+    unregister(element) {
       // check if there are any registered listeners left
       if (element.$$gestureHandler) {
         var listeners = element.$$emitter.getListeners();
@@ -77,8 +86,11 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
     }
   },
 
-  defer : function(statics)
-  {
-    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+  defer(statics) {
+    qxWeb.$registerEventHook(
+      statics.TYPES,
+      statics.register,
+      statics.unregister
+    );
   }
 });

@@ -15,15 +15,16 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.BooleanFormat",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.form.BooleanFormat", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    __test: function(widget, initValue) {
+  members: {
+    __test(widget, initValue) {
       // check if the interface is implemented
-      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IBooleanForm), "Interface is not implemented.");
+      this.assertTrue(
+        qx.Class.hasInterface(widget.constructor, qx.ui.form.IBooleanForm),
+        "Interface is not implemented."
+      );
 
       // check for the init value
       this.assertEquals(initValue, widget.getValue(), "Wrong init value set.");
@@ -36,12 +37,26 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
       this.assertEquals(true, widget.getValue(), "Set or get does not work.");
 
       var self = this;
-      this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue(false);
-      }, function(e) {
-        self.assertEquals(false, e.getData(), "Not the right data in the event.");
-        self.assertEquals(true, e.getOldData(), "Wrong old data in the event.");
-      }, "Event is wrong!");
+      this.assertEventFired(
+        widget,
+        "changeValue",
+        function () {
+          widget.setValue(false);
+        },
+        function (e) {
+          self.assertEquals(
+            false,
+            e.getData(),
+            "Not the right data in the event."
+          );
+          self.assertEquals(
+            true,
+            e.getOldData(),
+            "Wrong old data in the event."
+          );
+        },
+        "Event is wrong!"
+      );
 
       // test for null values
       widget.setValue(null);
@@ -49,33 +64,32 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
       widget.destroy();
     },
 
-    testCheckBox: function() {
-     this.__test(new qx.ui.form.CheckBox(), false);
+    testCheckBox() {
+      this.__test(new qx.ui.form.CheckBox(), false);
     },
 
-    testToggleButton: function() {
-     this.__test(new qx.ui.form.ToggleButton(), false);
+    testToggleButton() {
+      this.__test(new qx.ui.form.ToggleButton(), false);
     },
 
-    testMenuCheckBox: function() {
-     this.__test(new qx.ui.menu.CheckBox(), false);
+    testMenuCheckBox() {
+      this.__test(new qx.ui.menu.CheckBox(), false);
     },
 
-    testRadioButton: function() {
+    testRadioButton() {
       this.__test(new qx.ui.form.RadioButton(), false);
     },
 
-    testMenuRadioButton: function() {
+    testMenuRadioButton() {
       this.__test(new qx.ui.menu.RadioButton(), false);
     },
 
-    testRadioGroupBox: function() {
+    testRadioGroupBox() {
       this.__test(new qx.ui.groupbox.RadioGroupBox(), true);
     },
 
-    testCheckGroupBox: function() {
+    testCheckGroupBox() {
       this.__test(new qx.ui.groupbox.CheckGroupBox(), true);
     }
-
   }
 });

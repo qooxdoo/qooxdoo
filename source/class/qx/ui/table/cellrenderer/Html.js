@@ -20,9 +20,8 @@
  * This Cellrender is for transparent use, without escaping! Use this Cellrender
  * to output plain HTML content.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Html",
-{
-  extend : qx.ui.table.cellrenderer.Conditional,
+qx.Class.define("qx.ui.table.cellrenderer.Html", {
+  extend: qx.ui.table.cellrenderer.Conditional,
 
   /*
   *****************************************************************************
@@ -30,15 +29,14 @@ qx.Class.define("qx.ui.table.cellrenderer.Html",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getContentHtml : function(cellInfo) {
-      return (cellInfo.value || "");
+    _getContentHtml(cellInfo) {
+      return cellInfo.value || "";
     },
 
     // overridden
-    _getCellClass : function(cellInfo) {
+    _getCellClass(cellInfo) {
       return "qooxdoo-table-cell";
     }
   }

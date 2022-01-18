@@ -16,29 +16,24 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.Webkit",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.lang.Webkit", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testSwitch : function()
-    {
+  members: {
+    testSwitch() {
       this.assertEquals(this, this._switchFunction(12));
       this.assertEquals(this, this._switchFunction(this));
     },
 
-
-    _switchFunction : function(val)
-    {
-      switch (val)
-      {
+    _switchFunction(val) {
+      switch (val) {
         case this:
           break;
 
         default:
           break;
       }
+
       return this;
     }
   }

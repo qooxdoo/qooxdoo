@@ -20,32 +20,27 @@
 
 /**
  * Manager for decoration themes
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.theme.manager.Decoration",
-{
-  type : "singleton",
-  extend : qx.core.Object,
-  implement : [ qx.core.IDisposable ],
+qx.Class.define("qx.theme.manager.Decoration", {
+  type: "singleton",
+  extend: qx.core.Object,
+  implement: [qx.core.IDisposable],
 
-
-  statics :
-  {
+  statics: {
     /** The prefix for all created CSS classes*/
-    CSS_CLASSNAME_PREFIX : "qx-"
+    CSS_CLASSNAME_PREFIX: "qx-"
   },
 
-
-
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.__rules = [];
-    this.__legacyIe = (qx.core.Environment.get("engine.name") == "mshtml" &&
-      qx.core.Environment.get("browser.documentmode") < 9);
+    this.__legacyIe =
+      qx.core.Environment.get("engine.name") == "mshtml" &&
+      qx.core.Environment.get("browser.documentmode") < 9;
   },
-
 
   /*
   *****************************************************************************
@@ -53,20 +48,15 @@ qx.Class.define("qx.theme.manager.Decoration",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Selected decoration theme */
-    theme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+    theme: {
+      check: "Theme",
+      nullable: true,
+      apply: "_applyTheme",
+      event: "changeTheme"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -74,19 +64,17 @@ qx.Class.define("qx.theme.manager.Decoration",
   *****************************************************************************
   */
 
-  members :
-  {
-    __dynamic : null,
-    __rules : null,
-    __legacyIe : false,
-
+  members: {
+    __dynamic: null,
+    __rules: null,
+    __legacyIe: false,
 
     /**
      * Returns the name which will be / is used as css class name.
      * @param value {String|qx.ui.decoration.IDecorator} The decorator string or instance.
      * @return {String} The css class name.
      */
-    getCssClassName : function(value) {
+    getCssClassName(value) {
       var prefix = qx.theme.manager.Decoration.CSS_CLASSNAME_PREFIX;
       if (qx.lang.Type.isString(value)) {
         return prefix + value;
@@ -95,14 +83,13 @@ qx.Class.define("qx.theme.manager.Decoration",
       }
     },
 
-
     /**
      * Adds a css class to the global stylesheet for the given decorator.
      * This includes resolving the decorator if it's a string.
      * @param value {String|qx.ui.decoration.IDecorator} The decorator string or instance.
      * @return {String} the css class name.
      */
-    addCssClass : function(value) {
+    addCssClass(value) {
       var sheet = qx.ui.style.Stylesheet.getInstance();
 
       var instance = value;
@@ -125,28 +112,31 @@ qx.Class.define("qx.theme.manager.Decoration",
       // create and add a CSS rule
       var css = "";
       var styles = instance.getStyles(true);
-      
-      // Sort the styles so that more specific styles come after the group styles, 
+
+      // Sort the styles so that more specific styles come after the group styles,
       // eg background-color comes after background. The sort order is alphabetical
       // so that short cut rules come before actual
-      Object.keys(styles).sort().forEach(function(key) {
-        // if we find a map value, use it as pseudo class
-        if (qx.Bootstrap.isObject(styles[key])) {
-          var innerCss = "";
-          var innerStyles = styles[key];
-          var inner = false;
-          for (var innerKey in innerStyles) {
-            inner = true;
-            innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
+      Object.keys(styles)
+        .sort()
+        .forEach(function (key) {
+          // if we find a map value, use it as pseudo class
+          if (qx.Bootstrap.isObject(styles[key])) {
+            var innerCss = "";
+            var innerStyles = styles[key];
+            var inner = false;
+            for (var innerKey in innerStyles) {
+              inner = true;
+              innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
+            }
+            var innerSelector = this.__legacyIe
+              ? selector
+              : selector + (inner ? ":" : "");
+            this.__rules.push(innerSelector + key);
+            sheet.addRule(innerSelector + key, innerCss);
+            return;
           }
-          var innerSelector = this.__legacyIe ? selector :
-            selector + (inner ? ":" : "");
-          this.__rules.push(innerSelector + key);
-          sheet.addRule(innerSelector + key, innerCss);
-          return;
-        }
-        css += key + ":" + styles[key] + ";";
-      }, this);
+          css += key + ":" + styles[key] + ";";
+        }, this);
 
       if (css) {
         sheet.addRule(selector, css);
@@ -156,21 +146,18 @@ qx.Class.define("qx.theme.manager.Decoration",
       return value;
     },
 
-
     /**
      * Removes all previously by {@link #addCssClass} created CSS rule from
      * the global stylesheet.
      */
-    removeAllCssClasses : function()
-    {
+    removeAllCssClasses() {
       // remove old rules
-      for (var i=0; i < this.__rules.length; i++) {
+      for (var i = 0; i < this.__rules.length; i++) {
         var selector = this.__rules[i];
         qx.ui.style.Stylesheet.getInstance().removeRule(selector);
       }
       this.__rules = [];
     },
-
 
     /**
      * Returns the dynamically interpreted result for the incoming value
@@ -178,8 +165,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @param value {String} dynamically interpreted idenfier
      * @return {var} return the (translated) result of the incoming value
      */
-    resolve : function(value)
-    {
+    resolve(value) {
       if (!value) {
         return null;
       }
@@ -203,21 +189,24 @@ qx.Class.define("qx.theme.manager.Decoration",
         return null;
       }
 
-      if(!theme.decorations[value]) {
+      if (!theme.decorations[value]) {
         return null;
       }
-      
+
       // create an empty decorator
       var decorator = new qx.ui.decoration.Decorator();
 
       // handle recursive decorator includes
-      var recurseDecoratorInclude = function(currentEntry, name) {
+      var recurseDecoratorInclude = function (currentEntry, name) {
         // follow the include chain to the topmost decorator entry
-        if(currentEntry.include && theme.decorations[currentEntry.include]) {
-          recurseDecoratorInclude(theme.decorations[currentEntry.include], currentEntry.include);
+        if (currentEntry.include && theme.decorations[currentEntry.include]) {
+          recurseDecoratorInclude(
+            theme.decorations[currentEntry.include],
+            currentEntry.include
+          );
         }
 
-        // apply styles from the included decorator, 
+        // apply styles from the included decorator,
         // overwriting existing values.
         if (currentEntry.style) {
           decorator.set(currentEntry.style);
@@ -228,10 +217,9 @@ qx.Class.define("qx.theme.manager.Decoration",
       recurseDecoratorInclude(theme.decorations[value], value);
 
       cache[value] = decorator;
-      
+
       return cache[value];
     },
-
 
     /**
      * Whether the given value is valid for being used in a property
@@ -240,13 +228,10 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @param value {var} Incoming value
      * @return {Boolean} Whether the value is valid for being used in a Decorator property
      */
-    isValidPropertyValue : function(value)
-    {
+    isValidPropertyValue(value) {
       if (typeof value === "string") {
         return this.isDynamic(value);
-      }
-      else if (typeof value === "object")
-      {
+      } else if (typeof value === "object") {
         var clazz = value.constructor;
         return qx.Class.hasInterface(clazz, qx.ui.decoration.IDecorator);
       }
@@ -254,15 +239,13 @@ qx.Class.define("qx.theme.manager.Decoration",
       return false;
     },
 
-
     /**
      * Whether a value is interpreted dynamically
      *
      * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns <code>true</code> if the value is interpreted dynamically
      */
-    isDynamic : function(value)
-    {
+    isDynamic(value) {
       if (!value) {
         return false;
       }
@@ -275,7 +258,6 @@ qx.Class.define("qx.theme.manager.Decoration",
       return !!theme.decorations[value];
     },
 
-
     /**
      * Whether the given decorator is cached
      *
@@ -283,30 +265,26 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {Boolean} <code>true</code> if the decorator is cached
      * @internal
      */
-    isCached : function(decorator)
-    {
-      return !this.__dynamic ? false :
-        qx.lang.Object.contains(this.__dynamic, decorator);
+    isCached(decorator) {
+      return !this.__dynamic
+        ? false
+        : qx.lang.Object.contains(this.__dynamic, decorator);
     },
 
-
     // property apply
-    _applyTheme : function(value, old)
-    {
+    _applyTheme(value, old) {
       var aliasManager = qx.util.AliasManager.getInstance();
 
       // remove old rules
       this.removeAllCssClasses();
 
-      if (old)
-      {
+      if (old) {
         for (var alias in old.aliases) {
           aliasManager.remove(alias);
         }
       }
 
-      if (value)
-      {
+      if (value) {
         for (var alias in value.aliases) {
           aliasManager.add(alias, value.aliases[alias]);
         }
@@ -316,12 +294,10 @@ qx.Class.define("qx.theme.manager.Decoration",
       this.__dynamic = {};
     },
 
-
     /**
      * Clears internal caches and removes all previously created CSS classes.
      */
-    clear : function()
-    {
+    clear() {
       // remove aliases
       var aliasManager = qx.util.AliasManager.getInstance();
 
@@ -339,13 +315,11 @@ qx.Class.define("qx.theme.manager.Decoration",
       this.__dynamic = {};
     },
 
-
     /**
      * Refreshes all decorator by clearing internal caches and re applying
      * aliases.
      */
-    refresh : function()
-    {
+    refresh() {
       this.clear();
 
       var aliasManager = qx.util.AliasManager.getInstance();
@@ -358,15 +332,13 @@ qx.Class.define("qx.theme.manager.Decoration",
     }
   },
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.clear();
   }
 });

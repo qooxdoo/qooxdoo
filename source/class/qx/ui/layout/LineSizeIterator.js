@@ -21,17 +21,15 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.LineSizeIterator",
-{
-  extend : Object,
+qx.Class.define("qx.ui.layout.LineSizeIterator", {
+  extend: Object,
 
   /**
    * @param children {qx.ui.core.Widget[]} The children of the flow layout to
    *    compute the lines from
    * @param spacing {Integer} The horizontal spacing between the children
    */
-  construct : function(children, spacing)
-  {
+  construct(children, spacing) {
     this.__children = children;
     this.__spacing = spacing;
 
@@ -39,13 +37,11 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
     this.__childIndex = 0;
   },
 
-  members :
-  {
-    __children : null,
-    __spacing : null,
-    __hasMoreLines : null,
-    __childIndex : null,
-
+  members: {
+    __children: null,
+    __spacing: null,
+    __hasMoreLines: null,
+    __childIndex: null,
 
     /**
      * Computes the properties of the next line taking the available width into
@@ -54,8 +50,7 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
      * @param availWidth {Integer} The available width for the next line
      * @return {Map} A map containing the line's properties.
      */
-    computeNextLine : function(availWidth)
-    {
+    computeNextLine(availWidth) {
       var availWidth = availWidth || Infinity;
 
       if (!this.__hasMoreLines) {
@@ -68,28 +63,27 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
       var lineChildren = [];
       var gapsBefore = [];
 
-      for (var i=this.__childIndex; i<children.length; i++)
-      {
+      for (var i = this.__childIndex; i < children.length; i++) {
         var child = children[i];
         var size = child.getSizeHint();
 
         var gapBefore = this.__computeGapBeforeChild(i);
         var childWidth = size.width + gapBefore;
         var isFirstChild = i == this.__childIndex;
-        if (!isFirstChild && lineWidth + childWidth > availWidth)
-        {
+        if (!isFirstChild && lineWidth + childWidth > availWidth) {
           this.__childIndex = i;
           break;
         }
 
-        var childHeight = size.height + child.getMarginTop() + child.getMarginBottom();
+        var childHeight =
+          size.height + child.getMarginTop() + child.getMarginBottom();
         lineChildren.push(child);
         gapsBefore.push(gapBefore);
         lineWidth += childWidth;
         lineHeight = Math.max(lineHeight, childHeight);
 
         if (child.getLayoutProperties().lineBreak) {
-          this.__childIndex = i+1;
+          this.__childIndex = i + 1;
           break;
         }
       }
@@ -102,10 +96,9 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
         height: lineHeight,
         width: lineWidth,
         children: lineChildren,
-        gapsBefore : gapsBefore
+        gapsBefore: gapsBefore
       };
     },
-
 
     /**
      * Computes the gap before the child at the given index
@@ -113,27 +106,25 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
      * @param childIndex {Integer} The index of the child widget
      * @return {Integer} The gap before the given child
      */
-    __computeGapBeforeChild : function(childIndex)
-    {
+    __computeGapBeforeChild(childIndex) {
       var isFirstInLine = childIndex == this.__childIndex;
       if (isFirstInLine) {
         return this.__children[childIndex].getMarginLeft();
       } else {
         return Math.max(
-          this.__children[childIndex-1].getMarginRight(),
+          this.__children[childIndex - 1].getMarginRight(),
           this.__children[childIndex].getMarginLeft(),
           this.__spacing
         );
       }
     },
 
-
     /**
      * Whether there are more lines
      *
      * @return {Boolean} Whether there are more lines
      */
-    hasMoreLines : function() {
+    hasMoreLines() {
       return this.__hasMoreLines;
     }
   }

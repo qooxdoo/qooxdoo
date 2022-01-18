@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-
 /**
  * Abstract base class for the {@link Row} and {@link Column} layers.
  */
-qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
-{
-  extend : qx.ui.virtual.layer.Abstract,
-
+qx.Class.define("qx.ui.virtual.layer.AbstractBackground", {
+  extend: qx.ui.virtual.layer.Abstract,
 
   /*
    *****************************************************************************
@@ -31,26 +28,24 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
    *****************************************************************************
    */
 
-   /**
-    * @param colorEven {Color?null} color for even indexes
-    * @param colorOdd {Color?null} color for odd indexes
-    */
-   construct : function(colorEven, colorOdd)
-   {
-     this.base(arguments);
+  /**
+   * @param colorEven {Color?null} color for even indexes
+   * @param colorOdd {Color?null} color for odd indexes
+   */
+  construct(colorEven, colorOdd) {
+    super();
 
-     if (colorEven) {
-       this.setColorEven(colorEven);
-     }
+    if (colorEven) {
+      this.setColorEven(colorEven);
+    }
 
-     if (colorOdd) {
-       this.setColorOdd(colorOdd);
-     }
+    if (colorOdd) {
+      this.setColorOdd(colorOdd);
+    }
 
-     this.__customColors = {};
-     this.__decorators = {};
-   },
-
+    this.__customColors = {};
+    this.__decorators = {};
+  },
 
   /*
   *****************************************************************************
@@ -58,27 +53,23 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** color for event indexes */
-    colorEven :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyColorEven",
-      themeable : true
+    colorEven: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyColorEven",
+      themeable: true
     },
 
     /** color for odd indexes */
-    colorOdd :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyColorOdd",
-      themeable : true
+    colorOdd: {
+      nullable: true,
+      check: "Color",
+      apply: "_applyColorOdd",
+      themeable: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -86,13 +77,11 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
   *****************************************************************************
   */
 
-  members :
-  {
-    __colorEven : null,
-    __colorOdd : null,
-    __customColors : null,
-    __decorators : null,
-
+  members: {
+    __colorEven: null,
+    __colorOdd: null,
+    __customColors: null,
+    __decorators: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -107,25 +96,22 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param color {Color|null} the color to set. A value of <code>null</code>
      *    will reset the color.
      */
-    setColor : function(index, color)
-    {
+    setColor(index, color) {
       if (color) {
-        this.__customColors[index] = qx.theme.manager.Color.getInstance().resolve(color);
+        this.__customColors[index] =
+          qx.theme.manager.Color.getInstance().resolve(color);
       } else {
-        delete(this.__customColors[index]);
+        delete this.__customColors[index];
       }
     },
-
 
     /**
      * Clear all colors set using {@link #setColor}.
      */
-    clearCustomColors : function()
-    {
+    clearCustomColors() {
       this.__customColors = {};
       this.updateLayerData();
     },
-
 
     /**
      * Get the color at the given index
@@ -133,8 +119,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param index {Integer} The index to get the color for.
      * @return {Color} The color at the given index
      */
-    getColor : function(index)
-    {
+    getColor(index) {
       var customColor = this.__customColors[index];
       if (customColor) {
         return customColor;
@@ -143,10 +128,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       }
     },
 
-
     // property apply
-    _applyColorEven : function(value, old)
-    {
+    _applyColorEven(value, old) {
       if (value) {
         this.__colorEven = qx.theme.manager.Color.getInstance().resolve(value);
       } else {
@@ -155,10 +138,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       this.updateLayerData();
     },
 
-
     // property apply
-    _applyColorOdd : function(value, old)
-    {
+    _applyColorOdd(value, old) {
       if (value) {
         this.__colorOdd = qx.theme.manager.Color.getInstance().resolve(value);
       } else {
@@ -167,7 +148,6 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       this.updateLayerData();
     },
 
-
     /**
      * Sets the decorator for the given index
      *
@@ -175,16 +155,15 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param decorator {qx.ui.decoration.IDecorator|null} the decorator to set. A value of
      *    <code>null</code> will reset the decorator.
      */
-    setBackground : function(index, decorator)
-    {
+    setBackground(index, decorator) {
       if (decorator) {
-        this.__decorators[index] = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+        this.__decorators[index] =
+          qx.theme.manager.Decoration.getInstance().resolve(decorator);
       } else {
-        delete(this.__decorators[index]);
+        delete this.__decorators[index];
       }
       this.updateLayerData();
     },
-
 
     /**
      * Get the decorator at the given index
@@ -192,7 +171,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param index {Integer} The index to get the decorator for.
      * @return {qx.ui.decoration.IDecorator} The decorator at the given index
      */
-    getBackground : function(index) {
+    getBackground(index) {
       return this.__decorators[index];
     }
   },
@@ -203,7 +182,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
    *****************************************************************************
    */
 
-  destruct : function() {
+  destruct() {
     this.__customColors = this.__decorators = null;
   }
 });

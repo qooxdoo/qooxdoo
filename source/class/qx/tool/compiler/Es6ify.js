@@ -26,7 +26,7 @@ const prettier = require("prettier");
  * @param node
  * @returns {string}
  */
- function collapseMemberExpression(node) {
+function collapseMemberExpression(node) {
   var done = false;
   function doCollapse(node) {
     if (node.type == "ThisExpression") {
@@ -104,7 +104,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
   extend: qx.core.Object,
 
   construct(filename) {
-    this.base(arguments);
+    super();
     this.__filename = filename;
   },
 
@@ -112,7 +112,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
     /** Whether to convert functions to arrow functions; careful means only on things like addListener callbacks */
     arrowFunctions: {
       init: "careful",
-      check: [ "never", "always", "careful", "aggressive" ],
+      check: ["never", "always", "careful", "aggressive"],
       nullable: true
     },
 
@@ -136,6 +136,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         require("@babel/plugin-syntax-jsx"),
         this.__pluginFunctionExpressions()
       ];
+
       if (this.getArrowFunctions() != "never") {
         plugins.push(this.__pluginArrowFunctions());
       }
@@ -154,18 +155,25 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             }
           ]
         ],
+
         parserOpts: {
           allowSuperOutsideMethod: true,
           sourceType: "script"
         },
+
         generatorOpts: {
           retainLines: true
         },
+
         passPerPreset: true
       };
+
       let result = babelCore.transform(src, config);
 
-      let prettierConfig = await prettier.resolveConfig(this.__filename, { editorConfig: true })||{};
+      let prettierConfig =
+        (await prettier.resolveConfig(this.__filename, {
+          editorConfig: true
+        })) || {};
       prettierConfig.parser = "babel";
       let prettyCode = prettier.format(result.code, prettierConfig);
 
@@ -207,6 +215,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                   propNode.value.generator,
                   propNode.value.async
                 );
+
                 replacement.loc = propNode.loc;
                 replacement.start = propNode.start;
                 replacement.end = propNode.end;
@@ -229,6 +238,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         body,
         argNode.async
       );
+
       replacement.loc = argNode.loc;
       replacement.start = argNode.start;
       replacement.end = argNode.end;
@@ -262,20 +272,21 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                 ) {
                   return;
                 }
-
               } else if (arrowFunctions == "aggressive") {
-                if (callee == "qx.event.GlobalError.observeMethod" ||
-                    callee == "this.assertException" ||
-                    callee == "this.assertEventFired" ||
-                    callee == "qx.core.Assert.assertEventFired" ||
-                    (isTest && callee.endsWith(".resume"))) {
+                if (
+                  callee == "qx.event.GlobalError.observeMethod" ||
+                  callee == "this.assertException" ||
+                  callee == "this.assertEventFired" ||
+                  callee == "qx.core.Assert.assertEventFired" ||
+                  (isTest && callee.endsWith(".resume"))
+                ) {
                   return;
                 }
               }
             } else if (arrowFunctions == "careful") {
               return;
             }
-            for (let i = 0; i < path.node.arguments.length; i++){
+            for (let i = 0; i < path.node.arguments.length; i++) {
               let argNode = path.node.arguments[i];
               if (argNode.type == "FunctionExpression") {
                 path.node.arguments[i] = t.__toArrowExpression(argNode);
@@ -283,7 +294,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             }
           }
         }
-      }
+      };
     },
 
     /**
@@ -309,7 +320,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             }
           }
         }
-      }
+      };
     },
 
     /**
@@ -331,12 +342,13 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         visitor: {
           ObjectMethod: {
             enter(path) {
-              methodNameStack.push(path.node.key.name||null);
+              methodNameStack.push(path.node.key.name || null);
             },
             exit(path) {
               methodNameStack.pop();
             }
           },
+
           CallExpression(path) {
             if (
               path.node.callee.type == "MemberExpression" &&
@@ -352,14 +364,19 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                 path.node.callee = types.super();
                 path.node.arguments = args;
               } else if (methodName) {
-                let replacement = types.memberExpression(types.super(), types.identifier(methodName), false, false);
+                let replacement = types.memberExpression(
+                  types.super(),
+                  types.identifier(methodName),
+                  false,
+                  false
+                );
                 path.node.callee = replacement;
                 path.node.arguments = args;
               }
             }
           }
         }
-      }
+      };
     }
   }
 });

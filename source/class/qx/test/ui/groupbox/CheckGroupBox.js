@@ -12,31 +12,27 @@
      See the LICENSE file in the project's top-level directory for details.
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.groupbox.CheckGroupBox",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.groupbox.CheckGroupBox", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    _checkGroupBox : null,
-    _label : null,
+  members: {
+    _checkGroupBox: null,
+    _label: null,
 
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
-      var groupBox = this._checkGroupBox = new qx.ui.groupbox.CheckGroupBox;
+      var groupBox = (this._checkGroupBox = new qx.ui.groupbox.CheckGroupBox());
       this.getRoot().add(groupBox);
-      groupBox.setLayout(new qx.ui.layout.HBox);
-      this._label = new qx.ui.basic.Label;
+      groupBox.setLayout(new qx.ui.layout.HBox());
+      this._label = new qx.ui.basic.Label();
       groupBox.add(this._label);
 
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._disposeObjects("_checkGroupBox");
     },
 
@@ -46,8 +42,7 @@ qx.Class.define("qx.test.ui.groupbox.CheckGroupBox",
      * again, disabling groupbox parent must disable groupbox content widgets (see [1]).
      * 1. https://github.com/qooxdoo/qooxdoo/issues/9350
      */
-    testEnabledConsistencyBetweenContentAndParent : function()
-    {
+    testEnabledConsistencyBetweenContentAndParent() {
       this.assertTrue(this._checkGroupBox.isEnabled());
       this.assertTrue(this._label.isEnabled());
 

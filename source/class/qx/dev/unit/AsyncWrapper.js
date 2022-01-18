@@ -20,12 +20,8 @@
  *  This class stores the information needed to instruct a running test to wait.
  *  It is thrown as an exception to be caught by the method executing the test.
  */
-qx.Class.define("qx.dev.unit.AsyncWrapper",
-{
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.dev.unit.AsyncWrapper", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -39,20 +35,25 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
    * has expired.
    * @param context {Object?window} Optional execution context for deferredFunction
    */
-  construct : function(delay, deferredFunction, context)
-  {
+  construct(delay, deferredFunction, context) {
     if (delay === undefined && deferredFunction === undefined) {
       // scale default delay if wait() is called without arguments
       if (qx.core.Environment.get("qx.test.delay.scale")) {
-        this.setDelay(this.getDelay() * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
+        this.setDelay(
+          this.getDelay() *
+            parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10)
+        );
       }
     } else {
-      for (var i=0; i<2; i++) {
+      for (var i = 0; i < 2; i++) {
         if (qx.lang.Type.isFunction(arguments[i])) {
           this.setDeferredFunction(arguments[i]);
         } else if (qx.lang.Type.isNumber(arguments[i])) {
           if (qx.core.Environment.get("qx.test.delay.scale")) {
-            this.setDelay(arguments[i] * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
+            this.setDelay(
+              arguments[i] *
+                parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10)
+            );
           } else {
             this.setDelay(arguments[i]);
           }
@@ -65,29 +66,24 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
     }
   },
 
-  properties :
-  {
+  properties: {
     /** The function to run after the timeout has expired */
-    deferredFunction :
-    {
-      check : "Function",
-      init : false
+    deferredFunction: {
+      check: "Function",
+      init: false
     },
 
     /** The context in which the timeout function should be executed  */
-    context :
-    {
-      check : "Object",
-      init : null
+    context: {
+      check: "Object",
+      init: null
     },
 
     /** The amount of time in milliseconds to wait */
-    delay :
-    {
+    delay: {
       check: "Integer",
-      nullable : false,
-      init : 10000
+      nullable: false,
+      init: 10000
     }
   }
-
 });

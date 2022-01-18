@@ -23,48 +23,38 @@
  *  This is used internally by qx.ui.table and qx.ui.progressive's table and
  *  may be used for other widgets as well.
  */
-qx.Class.define("qx.ui.core.ColumnData",
-{
-  extend : qx.ui.core.LayoutItem,
+qx.Class.define("qx.ui.core.ColumnData", {
+  extend: qx.ui.core.LayoutItem,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this.setColumnWidth("auto");
   },
 
-
-  members :
-  {
-    __computedWidth : null,
-
+  members: {
+    __computedWidth: null,
 
     // overridden
-    renderLayout : function(left, top, width, height) {
+    renderLayout(left, top, width, height) {
       this.__computedWidth = width;
     },
-
 
     /**
      * Get the computed width of the column.
      * @return {Integer} Computed column width
      */
-    getComputedWidth : function() {
+    getComputedWidth() {
       return this.__computedWidth;
     },
-
 
     /**
      * Get the column's flex value
      *
      * @return {Integer} The column's flex value
      */
-    getFlex : function()
-    {
+    getFlex() {
       return this.getLayoutProperties().flex || 0;
     },
-
 
     /**
      * Set the column width. The column width can be one of the following
@@ -78,25 +68,18 @@ qx.Class.define("qx.ui.core.ColumnData",
      * @param width {Integer|String} The column width
      * @param flex {Integer?0} Optional flex value of the column
      */
-    setColumnWidth : function(width, flex)
-    {
+    setColumnWidth(width, flex) {
       var flex = flex || 0;
       var percent = null;
 
-      if (typeof width == "number")
-      {
+      if (typeof width == "number") {
         this.setWidth(width);
-      }
-      else if (typeof width == "string")
-      {
+      } else if (typeof width == "string") {
         if (width == "auto") {
           flex = 1;
-        }
-        else
-        {
+        } else {
           var match = width.match(/^[0-9]+(?:\.[0-9]+)?([%\*])$/);
-          if (match)
-          {
+          if (match) {
             if (match[1] == "*") {
               flex = parseFloat(width);
             } else {
@@ -112,8 +95,7 @@ qx.Class.define("qx.ui.core.ColumnData",
     }
   },
 
-  environment :
-  {
-    "qx.tableResizeDebug" : false
+  environment: {
+    "qx.tableResizeDebug": false
   }
 });

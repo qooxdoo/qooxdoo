@@ -20,22 +20,25 @@
  * This is a simple image class using the low level image features of
  * qooxdoo and wraps it for the qx.html layer.
  */
-qx.Class.define("qx.html.Image",
-{
-  extend : qx.html.Element,
-  
+qx.Class.define("qx.html.Image", {
+  extend: qx.html.Element,
+
   /**
    * Creates a new Image
    *
    * @see constructor for {Element}
    */
-  construct: function(tagName, styles, attributes) {
-    this.base(arguments, tagName, styles, attributes);
-    this.registerProperty("source", null, this._setSourceProperty, (writer, key, property) => property.value && writer("src=" + JSON.stringify(property.value)));
+  construct(tagName, styles, attributes) {
+    super(tagName, styles, attributes);
+    this.registerProperty(
+      "source",
+      null,
+      this._setSourceProperty,
+      (writer, key, property) =>
+        property.value && writer("src=" + JSON.stringify(property.value))
+    );
     this.registerProperty("scale", null, this._setScaleProperty);
   },
-
-
 
   /*
   *****************************************************************************
@@ -43,11 +46,9 @@ qx.Class.define("qx.html.Image",
   *****************************************************************************
   */
 
-  members :
-  {
-    __paddingTop : null,
+  members: {
+    __paddingTop: null,
     __paddingLeft: null,
-
 
     // this member variable is only used for IE browsers to be able
     // to the tag name which will be set. This is heavily connected to the runtime
@@ -55,8 +56,7 @@ qx.Class.define("qx.html.Image",
     // necessary to be able to determine what tag will be used e.g. before the
     // ImageLoader has finished its loading of an external image.
     // See Bug #3894 for more details
-    tagNameHint : null,
-
+    tagNameHint: null,
 
     /**
      * Maps padding to background-position if the widget is rendered as a
@@ -64,36 +64,37 @@ qx.Class.define("qx.html.Image",
      * @param paddingLeft {Integer} left padding value
      * @param paddingTop {Integer} top padding value
      */
-    setPadding : function(paddingLeft, paddingTop)
-    {
+    setPadding(paddingLeft, paddingTop) {
       this.__paddingLeft = paddingLeft;
       this.__paddingTop = paddingTop;
 
       if (this.getNodeName() == "div") {
-        this.setStyle("backgroundPosition", paddingLeft + "px " + paddingTop + "px");
+        this.setStyle(
+          "backgroundPosition",
+          paddingLeft + "px " + paddingTop + "px"
+        );
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Implementation of setter for the "source" property
-     * 
+     *
      * @param value {String?} value to set
      */
-    _setSourceProperty: function(value) {
+    _setSourceProperty(value) {
       var elem = this.getDomElement();
 
       // To prevent any wrong background-position or -repeat it is necessary
       // to reset those styles whenever a background-image is updated.
       // This is only necessary if any backgroundImage was set already.
       // See bug #3376 for details
-      var styles = this.getAllStyles()||{};
+      var styles = this.getAllStyles() || {};
 
       if (this.getNodeName() == "div" && this.getStyle("backgroundImage")) {
         styles.backgroundRepeat = null;
@@ -115,13 +116,13 @@ qx.Class.define("qx.html.Image",
         qx.bom.element.Decoration.update(elem, source, repeat, styles);
       }
     },
-    
-    _setScaleProperty: function(value) {
+
+    _setScaleProperty(value) {
       // Nothing
     },
 
     // overridden
-    _removeProperty : function(key, direct) {
+    _removeProperty(key, direct) {
       if (key == "source") {
         // Work-around check for null in #_applyProperty, introduced with fix
         // for bug #3701. Use empty string that is later normalized to null.
@@ -133,39 +134,32 @@ qx.Class.define("qx.html.Image",
     },
 
     // overridden
-    _createDomElement : function()
-    {
+    _createDomElement() {
       var scale = this._getProperty("scale");
       var repeat = scale ? "scale" : "no-repeat";
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         var source = this._getProperty("source");
 
         if (this.tagNameHint != null) {
           this.setNodeName(this.tagNameHint);
         } else {
-          this.setNodeName(qx.bom.element.Decoration.getTagName(repeat, source));
+          this.setNodeName(
+            qx.bom.element.Decoration.getTagName(repeat, source)
+          );
         }
-      }
-      else
-      {
+      } else {
         this.setNodeName(qx.bom.element.Decoration.getTagName(repeat));
       }
 
-      return this.base(arguments);
+      return super._createDomElement();
     },
-
 
     // overridden
     // be sure that style attributes are merged and not overwritten
-    _copyData : function(fromMarkup, propertiesFromDom) {
-      return this.base(arguments, true, propertiesFromDom);
+    _copyData(fromMarkup, propertiesFromDom) {
+      return super._copyData(true, propertiesFromDom);
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -179,33 +173,29 @@ qx.Class.define("qx.html.Image",
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setSource : function(value)
-    {
+    setSource(value) {
       this._setProperty("source", value);
       return this;
     },
-
 
     /**
      * Returns the image source.
      *
      * @return {String} Current image source.
      */
-    getSource : function() {
+    getSource() {
       return this._getProperty("source");
     },
-
 
     /**
      * Resets the current source to null which means that no image
      * is shown anymore.
      * @return {qx.html.Image} The current instance for chaining
      */
-    resetSource : function()
-    {
+    resetSource() {
       // webkit browser do not allow to remove the required "src" attribute.
       // If removing the attribute the old image is still visible.
-      if ((qx.core.Environment.get("engine.name") == "webkit")) {
+      if (qx.core.Environment.get("engine.name") == "webkit") {
         this._setProperty("source", "qx/static/blank.gif");
       } else {
         this._removeProperty("source", true);
@@ -213,26 +203,23 @@ qx.Class.define("qx.html.Image",
       return this;
     },
 
-
     /**
      * Whether the image should be scaled or not.
      *
      * @param value {Boolean} Scale the image
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setScale : function(value)
-    {
+    setScale(value) {
       this._setProperty("scale", value);
       return this;
     },
-
 
     /**
      * Returns whether the image is scaled or not.
      *
      * @return {Boolean} Whether the image is scaled
      */
-    getScale : function() {
+    getScale() {
       return this._getProperty("scale");
     }
   }

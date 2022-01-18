@@ -32,15 +32,13 @@
  *
  * Instances of this class can be used in any place a JavaScript string can.
  */
-qx.Class.define("qx.type.BaseString",
-{
-  extend : Object,
+qx.Class.define("qx.type.BaseString", {
+  extend: Object,
 
   /**
    * @param txt {String?""} Initialize with this string
    */
-  construct : function(txt)
-  {
+  construct(txt) {
     var txt = txt || "";
 
     // no base call needed
@@ -49,12 +47,10 @@ qx.Class.define("qx.type.BaseString",
     this.length = txt.length;
   },
 
-  members :
-  {
-    $$isString : true,
-    length : 0,
-    __txt : null,
-
+  members: {
+    $$isString: true,
+    length: 0,
+    __txt: null,
 
     /**
      * Returns a string representing the specified object.
@@ -66,10 +62,9 @@ qx.Class.define("qx.type.BaseString",
      *
      * @return {String} A new string containing the string value.
      */
-    toString : function() {
+    toString() {
       return this.__txt;
     },
-
 
     /**
      *  Returns the specified character from a string.
@@ -84,8 +79,7 @@ qx.Class.define("qx.type.BaseString",
      *   of the string.
      * @return {String} The character.
      */
-    charAt : null,
-
+    charAt: null,
 
     /**
      * Returns the primitive value of a String object.
@@ -98,8 +92,7 @@ qx.Class.define("qx.type.BaseString",
      * @signature function()
      * @return {String} A new string containing the primitive value.
      */
-    valueOf : null,
-
+    valueOf: null,
 
     /**
      * Returns a number indicating the Unicode value of the character at the given index.
@@ -109,8 +102,7 @@ qx.Class.define("qx.type.BaseString",
      *   of the string; if it is not a number, it defaults to 0.
      * @return {Integer} The number.
      */
-    charCodeAt : null,
-
+    charCodeAt: null,
 
     /**
      * Combines the text of two or more strings and returns a new string.
@@ -120,8 +112,7 @@ qx.Class.define("qx.type.BaseString",
      * @param stringN {String} One or more strings to be combined.
      * @return {String} The combined string.
      */
-    concat : null,
-
+    concat: null,
 
     /**
      * Returns the index within the calling String object of the first
@@ -135,8 +126,7 @@ qx.Class.define("qx.type.BaseString",
      *   string. The default value is 0.
      * @return {Integer} The index or -1.
      */
-    indexOf : null,
-
+    indexOf: null,
 
     /**
      * Returns the index within the calling String object of the last occurrence
@@ -151,7 +141,7 @@ qx.Class.define("qx.type.BaseString",
      *    of the string.
      * @return {Integer} The index or -1.
      */
-    lastIndexOf : null,
+    lastIndexOf: null,
 
     /**
      * Used to retrieve the matches when matching a string against a regular
@@ -168,7 +158,7 @@ qx.Class.define("qx.type.BaseString",
      * @return {Object} The matching RegExp object or an array containing all
      *   matches.
      */
-    match : null,
+    match: null,
 
     /**
      * Finds a match between a regular expression and a string, and replaces the
@@ -183,8 +173,7 @@ qx.Class.define("qx.type.BaseString",
      *   #1).
      * @return {String} The new substring.
      */
-    replace : null,
-
+    replace: null,
 
     /**
      * Executes the search for a match between a regular expression and this
@@ -200,7 +189,7 @@ qx.Class.define("qx.type.BaseString",
      * @return {Object} The matching RegExp object or -1.
      *   matches.
      */
-    search : null,
+    search: null,
 
     /**
      * Extracts a section of a string and returns a new string.
@@ -217,7 +206,7 @@ qx.Class.define("qx.type.BaseString",
      *   extraction. If omitted, slice extracts to the end of the string.
      * @return {String} The extracted string.
      */
-    slice : null,
+    slice: null,
 
     /**
      * Splits a String object into an array of strings by separating the string
@@ -243,27 +232,27 @@ qx.Class.define("qx.type.BaseString",
      *   splits to be found.
      * @return {Array} The Array containing substrings.
      */
-    split : null,
+    split: null,
 
-   /**
-    * Returns the characters in a string beginning at the specified location
-    * through the specified number of characters.
-    *
-    * Start is a character index. The index of the first character is 0, and the
-    * index of the last character is 1 less than the length of the string. substr
-    *  begins extracting characters at start and collects length characters
-    * (unless it reaches the end of the string first, in which case it will
-    * return fewer).
-    * If start is positive and is greater than or equal to the length of the
-    * string, substr returns an empty string.
-    *
-    * @signature function(start, length)
-    * @param start {Integer} Location at which to begin extracting characters
-    *   (an integer between 0 and one less than the length of the string).
-    * @param length {Integer?null} The number of characters to extract.
-    * @return {String} The substring.
-    */
-    substr : null,
+    /**
+     * Returns the characters in a string beginning at the specified location
+     * through the specified number of characters.
+     *
+     * Start is a character index. The index of the first character is 0, and the
+     * index of the last character is 1 less than the length of the string. substr
+     *  begins extracting characters at start and collects length characters
+     * (unless it reaches the end of the string first, in which case it will
+     * return fewer).
+     * If start is positive and is greater than or equal to the length of the
+     * string, substr returns an empty string.
+     *
+     * @signature function(start, length)
+     * @param start {Integer} Location at which to begin extracting characters
+     *   (an integer between 0 and one less than the length of the string).
+     * @param length {Integer?null} The number of characters to extract.
+     * @return {String} The substring.
+     */
+    substr: null,
 
     /**
      * Returns a subset of a String object.
@@ -287,7 +276,7 @@ qx.Class.define("qx.type.BaseString",
      *   length of the string.
      * @return {String} The subset.
      */
-    substring : null,
+    substring: null,
 
     /**
      * Returns the calling string value converted to lowercase.
@@ -297,7 +286,7 @@ qx.Class.define("qx.type.BaseString",
      * @signature function()
      * @return {String} The new string.
      */
-    toLowerCase : null,
+    toLowerCase: null,
 
     /**
      * Returns the calling string value converted to uppercase.
@@ -307,41 +296,39 @@ qx.Class.define("qx.type.BaseString",
      * @signature function()
      * @return {String} The new string.
      */
-    toUpperCase : null,
-
+    toUpperCase: null,
 
     /**
      * Return unique hash code of object
      *
      * @return {Integer} unique hash code of the object
      */
-    toHashCode : function() {
+    toHashCode() {
       return qx.core.ObjectRegistry.toHashCode(this);
     },
 
+    /**
+     * The characters within a string are converted to lower case while
+     * respecting the current locale.
+     *
+     * The toLowerCase method returns the value of the string converted to
+     * lowercase. toLowerCase does not affect the value of the string itself.
+     *
+     * @signature function()
+     * @return {String} The new string.
+     */
+    toLocaleLowerCase: null,
 
-   /**
-    * The characters within a string are converted to lower case while
-    * respecting the current locale.
-    *
-    * The toLowerCase method returns the value of the string converted to
-    * lowercase. toLowerCase does not affect the value of the string itself.
-    *
-    * @signature function()
-    * @return {String} The new string.
-    */
-    toLocaleLowerCase : null,
-
-   /**
-    * The characters within a string are converted to upper case while
-    * respecting the current locale.
-    * The toUpperCase method returns the value of the string converted to
-    * uppercase. toUpperCase does not affect the value of the string itself.
-    *
-    * @signature function()
-    * @return {String} The new string.
-    */
-    toLocaleUpperCase : null,
+    /**
+     * The characters within a string are converted to upper case while
+     * respecting the current locale.
+     * The toUpperCase method returns the value of the string converted to
+     * uppercase. toUpperCase does not affect the value of the string itself.
+     *
+     * @signature function()
+     * @return {String} The new string.
+     */
+    toLocaleUpperCase: null,
 
     /**
      * Call the same method of the super class.
@@ -350,11 +337,9 @@ qx.Class.define("qx.type.BaseString",
      * @param varags {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
-    base : function(args, varags) {
+    base(args, varags) {
       return qx.core.Object.prototype.base.apply(this, arguments);
     }
-
-
   },
 
   /*
@@ -363,44 +348,42 @@ qx.Class.define("qx.type.BaseString",
    *****************************************************************************
    */
 
-   defer : function(statics, members)
-   {
-     // add asserts into each debug build
-     if (qx.core.Environment.get("qx.debug")) {
-       qx.Class.include(statics, qx.core.MAssert);
-     }
+  defer(statics, members) {
+    // add asserts into each debug build
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.Class.include(statics, qx.core.MAssert);
+    }
 
-     var mappedFunctions = [
-       'charAt',
-       'charCodeAt',
-       'concat',
-       'indexOf',
-       'lastIndexOf',
-       'match',
-       'replace',
-       'search',
-       'slice',
-       'split',
-       'substr',
-       'substring',
-       'toLowerCase',
-       'toUpperCase',
-       'toLocaleLowerCase',
-       'toLocaleUpperCase',
-       'trim',
-       'codePointAt'
-     ];
+    var mappedFunctions = [
+      "charAt",
+      "charCodeAt",
+      "concat",
+      "indexOf",
+      "lastIndexOf",
+      "match",
+      "replace",
+      "search",
+      "slice",
+      "split",
+      "substr",
+      "substring",
+      "toLowerCase",
+      "toUpperCase",
+      "toLocaleLowerCase",
+      "toLocaleUpperCase",
+      "trim",
+      "codePointAt"
+    ];
 
-     // feature/bug detection:
-     // Some older Firefox version (<2) break if valueOf is overridden
-     members.valueOf = members.toString;
-     if (new statics("").valueOf() == null) {
-       delete members.valueOf;
-     }
+    // feature/bug detection:
+    // Some older Firefox version (<2) break if valueOf is overridden
+    members.valueOf = members.toString;
+    if (new statics("").valueOf() == null) {
+      delete members.valueOf;
+    }
 
-     for (var i=0, l=mappedFunctions.length; i<l; i++) {
-       members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
-     }
-   }
-
+    for (var i = 0, l = mappedFunctions.length; i < l; i++) {
+      members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
+    }
+  }
 });

@@ -29,7 +29,7 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
     /** Whether to minify the output */
     minify: {
       init: "mangle",
-      check: [ "off", "minify", "mangle", "beautify" ],
+      check: ["off", "minify", "mangle", "beautify"],
       nullable: false
     },
 
@@ -63,9 +63,10 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
     },
 
     defaultEnvironment: {
-      init: { 
-        "qx.debug" : false 
+      init: {
+        "qx.debug": false
       },
+
       refine: true
     }
   },
@@ -77,7 +78,7 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
      *  part: {String} the part being minified
      *  filename: {String} the part filename
      */
-    "minifyingApplication": "qx.event.type.Data",
+    minifyingApplication: "qx.event.type.Data",
 
     /**
      * Fired when minification is done, data is a map containing:
@@ -85,7 +86,7 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
      *  part: {String} the part being minified
      *  filename: {String} the part filename
      */
-    "minifiedApplication": "qx.event.type.Data"
+    minifiedApplication: "qx.event.type.Data"
   },
 
   members: {
@@ -95,9 +96,9 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
     async _writeApplication() {
       let appMeta = this.getAppMeta();
       appMeta.setSourceUri(".");
-      
+
       await appMeta.syncAssets();
-      
+
       let doUglify = appMeta.getTarget().getMinify() != "off";
       let bootMeta = appMeta.getBootMetaJs();
       let bootPart = appMeta.getParts()[0];
@@ -108,21 +109,30 @@ qx.Class.define("qx.tool.compiler.targets.BuildTarget", {
           bootMeta.addEmbeddedJs(pkg.getJavascript());
         }
         if (doUglify && pkg.isNeedsWriteToDisk()) {
-          pkg.getJavascript().wrap(new qx.tool.compiler.targets.meta.Uglify(appMeta, pkg.getJavascript()));
+          pkg
+            .getJavascript()
+            .wrap(
+              new qx.tool.compiler.targets.meta.Uglify(
+                appMeta,
+                pkg.getJavascript()
+              )
+            );
         }
       });
-      
+
       if (doUglify) {
-        appMeta.getBootMetaJs().wrap(new qx.tool.compiler.targets.meta.Uglify(appMeta, bootMeta));
+        appMeta
+          .getBootMetaJs()
+          .wrap(new qx.tool.compiler.targets.meta.Uglify(appMeta, bootMeta));
       }
-      
-      return await this.base(arguments);
+
+      return await super._writeApplication();
     },
 
     /*
      * @Override
      */
-    toString: function() {
+    toString() {
       return "Build Target: " + this.getOutputDir();
     }
   }

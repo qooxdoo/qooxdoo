@@ -15,16 +15,15 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.event.handler.Offline",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.event.handler.Offline", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    __handler : qx.event.Registration.getManager(window).getHandler(qx.event.handler.Offline),
+  members: {
+    __handler: qx.event.Registration.getManager(window).getHandler(
+      qx.event.handler.Offline
+    ),
 
-
-    testIsOnline : function() {
+    testIsOnline() {
       this.assertBoolean(this.__handler.isOnline());
     }
   }

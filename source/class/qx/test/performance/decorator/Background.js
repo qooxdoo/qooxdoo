@@ -16,13 +16,11 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("qx.test.performance.decorator.Background",
-{
-  extend : qx.test.performance.decorator.AbstractDecorator,
+qx.Class.define("qx.test.performance.decorator.Background", {
+  extend: qx.test.performance.decorator.AbstractDecorator,
 
-  members :
-  {
-    createDecorator : function() {
+  members: {
+    createDecorator() {
       return new qx.ui.decoration.Decorator().set({
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
         backgroundPositionY: "center",

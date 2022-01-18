@@ -47,9 +47,9 @@
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Button", {
-  extend : qx.ui.website.Widget,
+  extend: qx.ui.website.Widget,
 
-  statics : {
+  statics: {
     /**
      * Factory method for the button widget which converts a standard
      * collection into a collection of buttons.
@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.ui.website.Button", {
      *
      * @attach {qxWeb}
      */
-    button : function(label, icon) {
+    button(label, icon) {
       var buttons = new qx.ui.website.Button(this);
       buttons.init();
       if (label != null) {
@@ -74,16 +74,14 @@ qx.Bootstrap.define("qx.ui.website.Button", {
     }
   },
 
-
-  construct : function(selector, context) {
-    this.base(arguments, selector, context);
+  construct(selector, context) {
+    super(selector, context);
   },
 
-
-  members : {
+  members: {
     // overridden
-    init : function() {
-      if (!this.base(arguments)) {
+    init() {
+      if (!super.init()) {
         return false;
       }
 
@@ -98,28 +96,25 @@ qx.Bootstrap.define("qx.ui.website.Button", {
       return true;
     },
 
-
     /**
      * Sets the button's label text
      *
      * @param value {String} label text
      * @return {qxWeb} The collection for chaining
      */
-    setLabel : function(value) {
+    setLabel(value) {
       this.getChildren("span").setHtml(value);
       return this;
     },
-
 
     /**
      * Returns the button's label text
      *
      * @return {String} label text
      */
-    getLabel : function() {
+    getLabel() {
       return this.getChildren("span").getHtml();
     },
-
 
     /**
      * Sets the source of the button's icon
@@ -127,7 +122,7 @@ qx.Bootstrap.define("qx.ui.website.Button", {
      * @param src {String} source URI for the icon
      * @return {qxWeb} The collection for chaining
      */
-    setIcon : function(src) {
+    setIcon(src) {
       var img = this.getChildren("img");
       img.setAttribute("src", src);
       img.setStyle("display", src ? "inline" : "none");
@@ -135,16 +130,14 @@ qx.Bootstrap.define("qx.ui.website.Button", {
       return this;
     },
 
-
     /**
      * Returns the URI of the button's icon
      *
      * @return {String|null} Icon image URI
      */
-    getIcon : function() {
+    getIcon() {
       return this.getChildren("img").getAttribute("src");
     },
-
 
     /**
      * Sets the menu to be shown when the button is clicked or tapped
@@ -152,12 +145,12 @@ qx.Bootstrap.define("qx.ui.website.Button", {
      * @param menu {qxWeb} menu element wrapped in a collection
      * @return {qxWeb} The collection for chaining
      */
-    setMenu : function(menu) {
-      this.on("tap", function(e) {
+    setMenu(menu) {
+      this.on("tap", function (e) {
         if (menu.getStyle("display") === "none") {
           menu.placeTo(this, "bottom-left");
           menu.show();
-          qxWeb(document).once("tap", function() {
+          qxWeb(document).once("tap", function () {
             menu.hide();
           });
         } else {
@@ -170,8 +163,7 @@ qx.Bootstrap.define("qx.ui.website.Button", {
     }
   },
 
-
-  defer : function(statics) {
-    qxWeb.$attach({button : statics.button});
+  defer(statics) {
+    qxWeb.$attach({ button: statics.button });
   }
 });

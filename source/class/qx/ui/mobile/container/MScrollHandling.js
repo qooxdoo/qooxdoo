@@ -21,20 +21,21 @@
  * for scroll container handling: determine the parent scroll container.
  *
  */
-qx.Mixin.define("qx.ui.mobile.container.MScrollHandling",
-{
-  members :
-  {
+qx.Mixin.define("qx.ui.mobile.container.MScrollHandling", {
+  members: {
     /**
      * Returns the parent scroll container of this widget.
      * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
      */
-    _getParentScrollContainer: function() {
+    _getParentScrollContainer() {
       var scroll = this;
       while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
         if (scroll.getLayoutParent) {
           var layoutParent = scroll.getLayoutParent();
-          if (layoutParent === null || layoutParent instanceof qx.ui.mobile.core.Root) {
+          if (
+            layoutParent === null ||
+            layoutParent instanceof qx.ui.mobile.core.Root
+          ) {
             return null;
           }
           scroll = layoutParent;

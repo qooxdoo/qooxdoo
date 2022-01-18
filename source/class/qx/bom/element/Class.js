@@ -33,26 +33,23 @@
 
 ************************************************************************ */
 
-
 /**
  * CSS class name support for HTML elements. Supports multiple class names
  * for each element. Can query and apply class names to HTML elements.
  */
-qx.Bootstrap.define("qx.bom.element.Class",
-{
+qx.Bootstrap.define("qx.bom.element.Class", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {RegExp} Regular expressions to split class names */
-    __splitter : /\s+/g,
+    __splitter: /\s+/g,
 
     /** @type {RegExp} String trim regular expression. */
-    __trim : /^\s+|\s+$/g,
+    __trim: /^\s+|\s+$/g,
 
     /**
      * Adds a className to the given element
@@ -63,9 +60,8 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to add
      * @return {String} The added classname (if so)
      */
-    add :{
-      "native" : function(element, name)
-      {
+    add: {
+      native(element, name) {
         if (name.length > 0) {
           element.classList.add(name);
         }
@@ -73,8 +69,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
         return name;
       },
 
-      "default" : function(element, name)
-      {
+      default(element, name) {
         if (!this.has(element, name)) {
           element.className += (element.className ? " " : "") + name;
         }
@@ -82,7 +77,6 @@ qx.Bootstrap.define("qx.bom.element.Class",
         return name;
       }
     }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
-
 
     /**
      * Adds multiple classes to the given element
@@ -92,10 +86,9 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to add.
      * @return {String} The resulting class name which was applied
      */
-    addClasses :{
-      "native" : function(element, classes)
-      {
-        for (var i=0; i<classes.length; i++) {
+    addClasses: {
+      native(element, classes) {
+        for (var i = 0; i < classes.length; i++) {
           if (classes[i].length > 0) {
             element.classList.add(classes[i]);
           }
@@ -103,34 +96,29 @@ qx.Bootstrap.define("qx.bom.element.Class",
         return element.className;
       },
 
-      "default" : function(element, classes)
-      {
+      default(element, classes) {
         var keys = {};
         var result;
 
         var old = element.className;
-        if (old)
-        {
+        if (old) {
           result = old.split(this.__splitter);
-          for (var i=0, l=result.length; i<l; i++) {
+          for (var i = 0, l = result.length; i < l; i++) {
             keys[result[i]] = true;
           }
 
-          for (var i=0, l=classes.length; i<l; i++)
-          {
+          for (var i = 0, l = classes.length; i < l; i++) {
             if (!keys[classes[i]]) {
               result.push(classes[i]);
             }
           }
-        }
-        else {
+        } else {
           result = classes;
         }
 
-        return element.className = result.join(" ");
+        return (element.className = result.join(" "));
       }
     }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
-
 
     /**
      * Gets the classname of the given element
@@ -138,35 +126,34 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param element {Element} The element to query
      * @return {String} The retrieved classname
      */
-    get : function(element) {
+    get(element) {
       var className = element.className;
-      if(typeof className.split !== 'function')
-      {
-        if(typeof className === 'object')
-        {
-          if(qx.Bootstrap.getClass(className) == 'SVGAnimatedString')
-          {
+      if (typeof className.split !== "function") {
+        if (typeof className === "object") {
+          if (qx.Bootstrap.getClass(className) == "SVGAnimatedString") {
             className = className.baseVal;
-          }
-          else
-          {
+          } else {
             if (qx.core.Environment.get("qx.debug")) {
-              qx.log.Logger.warn(this, "className for element " + element + " cannot be determined");
+              qx.log.Logger.warn(
+                this,
+                "className for element " + element + " cannot be determined"
+              );
             }
-            className = '';
+            className = "";
           }
         }
-        if(typeof className === 'undefined')
-        {
+        if (typeof className === "undefined") {
           if (qx.core.Environment.get("qx.debug")) {
-            qx.log.Logger.warn(this, "className for element " + element + " is undefined");
+            qx.log.Logger.warn(
+              this,
+              "className for element " + element + " is undefined"
+            );
           }
-          className = '';
+          className = "";
         }
       }
       return className;
     },
-
 
     /**
      * Whether the given element has the given className.
@@ -176,18 +163,16 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to check for
      * @return {Boolean} true when the element has the given classname
      */
-    has : {
-      "native" : function(element, name) {
+    has: {
+      native(element, name) {
         return element.classList.contains(name);
       },
 
-      "default" : function(element, name)
-      {
+      default(element, name) {
         var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
         return regexp.test(element.className);
       }
     }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
-
 
     /**
      * Removes a className from the given element
@@ -197,22 +182,19 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param name {String} The class name to remove
      * @return {String} The removed class name
      */
-    remove : {
-      "native" : function(element, name)
-      {
+    remove: {
+      native(element, name) {
         element.classList.remove(name);
         return name;
       },
 
-      "default" : function(element, name)
-      {
+      default(element, name) {
         var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
         element.className = element.className.replace(regexp, "$2");
 
         return name;
       }
     }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
-
 
     /**
      * Removes multiple classes from the given element
@@ -222,22 +204,22 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param classes {String[]} List of classes to remove.
      * @return {String} The resulting class name which was applied
      */
-    removeClasses : {
-      "native" : function(element, classes)
-      {
-        for (var i=0; i<classes.length; i++) {
+    removeClasses: {
+      native(element, classes) {
+        for (var i = 0; i < classes.length; i++) {
           element.classList.remove(classes[i]);
         }
         return element.className;
       },
 
-      "default" : function(element, classes)
-      {
+      default(element, classes) {
         var reg = new RegExp("\\b" + classes.join("\\b|\\b") + "\\b", "g");
-        return element.className = element.className.replace(reg, "").replace(this.__trim, "").replace(this.__splitter, " ");
+        return (element.className = element.className
+          .replace(reg, "")
+          .replace(this.__trim, "")
+          .replace(this.__splitter, " "));
       }
     }[qx.core.Environment.get("html.classlist") ? "native" : "default"],
-
 
     /**
      * Replaces the first given class name with the second one
@@ -247,8 +229,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
      * @param newName {String} The class name to add
      * @return {String} The added class name
      */
-    replace : function(element, oldName, newName)
-    {
+    replace(element, oldName, newName) {
       if (!this.has(element, oldName)) {
         return "";
       }
@@ -256,7 +237,6 @@ qx.Bootstrap.define("qx.bom.element.Class",
       this.remove(element, oldName);
       return this.add(element, newName);
     },
-
 
     /**
      * Toggles a className of the given element
@@ -268,9 +248,8 @@ qx.Bootstrap.define("qx.bom.element.Class",
      *    the parameter an automatic toggling would happen.
      * @return {String} The class name
      */
-    toggle : {
-      "native" : function(element, name, toggle)
-      {
+    toggle: {
+      native(element, name, toggle) {
         if (toggle === undefined) {
           element.classList.toggle(name);
         } else {
@@ -279,8 +258,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
         return name;
       },
 
-      "default" : function(element, name, toggle)
-      {
+      default(element, name, toggle) {
         if (toggle == null) {
           toggle = !this.has(element, name);
         }

@@ -21,18 +21,15 @@
  * @ignore(qx.TestProperty, qx.Super)
  */
 
-qx.Class.define("qx.test.core.Property",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.core.Property", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testBasic : function()
-    {
+  members: {
+    testBasic() {
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qx.test.core.PropertyHelper;
+      var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
       // Public setter/getter etc.
@@ -47,43 +44,77 @@ qx.Class.define("qx.test.core.Property",
       inst.dispose();
     },
 
-
-    testBuiltinTypes : function()
-    {
+    testBuiltinTypes() {
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qx.test.core.PropertyHelper;
+      var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
       // Type checks: String
-      this.assertIdentical("Hello", inst.setStringProp("Hello"), "string property, set");
-      this.assertIdentical("Hello", inst.getStringProp(), "string property, get");
+      this.assertIdentical(
+        "Hello",
+        inst.setStringProp("Hello"),
+        "string property, set"
+      );
+      this.assertIdentical(
+        "Hello",
+        inst.getStringProp(),
+        "string property, get"
+      );
 
       // Type checks: Boolean, true
-      this.assertIdentical(true, inst.setBooleanProp(true), "boolean property, set");
-      this.assertIdentical(true, inst.getBooleanProp(), "boolean property, get");
+      this.assertIdentical(
+        true,
+        inst.setBooleanProp(true),
+        "boolean property, set"
+      );
+      this.assertIdentical(
+        true,
+        inst.getBooleanProp(),
+        "boolean property, get"
+      );
 
       // Type checks: Boolean, false
-      this.assertIdentical(false, inst.setBooleanProp(false), "boolean property, set");
-      this.assertIdentical(false, inst.getBooleanProp(), "boolean property, get");
+      this.assertIdentical(
+        false,
+        inst.setBooleanProp(false),
+        "boolean property, set"
+      );
+      this.assertIdentical(
+        false,
+        inst.getBooleanProp(),
+        "boolean property, get"
+      );
 
       // Type checks: Number, int
       this.assertIdentical(3, inst.setNumberProp(3), "number property, set");
       this.assertIdentical(3, inst.getNumberProp(), "number property, get");
 
       // Type checks: Number, float
-      this.assertIdentical(3.14, inst.setNumberProp(3.14), "number property, set");
+      this.assertIdentical(
+        3.14,
+        inst.setNumberProp(3.14),
+        "number property, set"
+      );
       this.assertIdentical(3.14, inst.getNumberProp(), "number property, get");
 
       // Type checks: Object, inline
       var obj = {};
-      this.assertIdentical(obj, inst.setObjectProp(obj), "object property, set");
+      this.assertIdentical(
+        obj,
+        inst.setObjectProp(obj),
+        "object property, set"
+      );
       this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Object, new
-      var obj = new Object;
-      this.assertIdentical(obj, inst.setObjectProp(obj), "object property, set");
+      var obj = new Object();
+      this.assertIdentical(
+        obj,
+        inst.setObjectProp(obj),
+        "object property, set"
+      );
       this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Array, inline
@@ -92,16 +123,14 @@ qx.Class.define("qx.test.core.Property",
       this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
 
       // Type checks: Array, new
-      var arr = new Array;
+      var arr = new Array();
       this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
       this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
 
       inst.dispose();
     },
 
-
-    testInheritance : function()
-    {
+    testInheritance() {
       this.assertNotUndefined(qx.core.Property);
 
       var pa = new qx.test.core.InheritanceDummy();
@@ -152,9 +181,7 @@ qx.Class.define("qx.test.core.Property",
       chh3.dispose();
     },
 
-
-    testParent : function()
-    {
+    testParent() {
       var pa = new qx.test.core.InheritanceDummy();
       var ch1 = new qx.test.core.InheritanceDummy();
       var ch2 = new qx.test.core.InheritanceDummy();
@@ -167,7 +194,7 @@ qx.Class.define("qx.test.core.Property",
 
       pa.add(ch1);
 
-      this.assertTrue(pa.setEnabled(true), "a1");  // ch1 gets enabled, too
+      this.assertTrue(pa.setEnabled(true), "a1"); // ch1 gets enabled, too
       this.assertFalse(ch3.setEnabled(false), "a2");
 
       this.assertTrue(pa.getEnabled(), "b1");
@@ -175,8 +202,8 @@ qx.Class.define("qx.test.core.Property",
       this.assertIdentical(ch2.getEnabled(), null, "b3");
       this.assertFalse(ch3.getEnabled(), "b4");
 
-      pa.add(ch2);  // make ch2 enabled_ through inheritance
-      pa.add(ch3);  // keep ch2 disabled, user value has higher priority
+      pa.add(ch2); // make ch2 enabled_ through inheritance
+      pa.add(ch3); // keep ch2 disabled, user value has higher priority
 
       this.assertTrue(pa.getEnabled(), "c1");
       this.assertTrue(ch1.getEnabled(), "c2");
@@ -189,13 +216,11 @@ qx.Class.define("qx.test.core.Property",
       ch3.dispose();
     },
 
-
-    testMultiValues : function()
-    {
+    testMultiValues() {
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qx.test.core.PropertyHelper;
+      var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
       // Check init value
@@ -215,7 +240,11 @@ qx.Class.define("qx.test.core.Property",
       this.assertIdentical(inst.getNullProp(), "bar", "b7");
 
       // Check appearance value
-      this.assertIdentical(inst.setThemedAppearanceProp("black"), "black", "c1");
+      this.assertIdentical(
+        inst.setThemedAppearanceProp("black"),
+        "black",
+        "c1"
+      );
       this.assertIdentical(inst.getAppearanceProp(), "black", "c2");
       this.assertIdentical(inst.setAppearanceProp("white"), "white", "c3");
       this.assertIdentical(inst.getAppearanceProp(), "white", "c4");
@@ -228,10 +257,8 @@ qx.Class.define("qx.test.core.Property",
       inst.dispose();
     },
 
-
-    testInitApply : function()
-    {
-      var inst = new qx.test.core.PropertyHelper;
+    testInitApply() {
+      var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
 
       this.assertUndefined(inst.lastApply);
@@ -255,13 +282,10 @@ qx.Class.define("qx.test.core.Property",
       inst.dispose();
     },
 
-
-    testInit : function()
-    {
+    testInit() {
       // now test the init functions
       var self = this;
-      var inst = new qx.test.core.PropertyHelper(function(inst) {
-
+      var inst = new qx.test.core.PropertyHelper(function (inst) {
         inst.initInitApplyProp1();
         self.assertJsonEquals(["juhu", null], inst.lastApply);
         inst.lastApply = undefined;
@@ -274,35 +298,31 @@ qx.Class.define("qx.test.core.Property",
       inst.dispose();
     },
 
-    testDefinesThanSubClassWithInterface : function()
-    {
+    testDefinesThanSubClassWithInterface() {
       // see bug #2162 for details
       delete qx.test.A;
       delete qx.test.B;
       delete qx.test.IForm;
 
-      qx.Class.define("qx.test.A",
-      {
-        extend : qx.core.Object,
+      qx.Class.define("qx.test.A", {
+        extend: qx.core.Object,
 
-        properties : {
-          enabled : {}
+        properties: {
+          enabled: {}
         }
       });
 
       var a = new qx.test.A();
 
-      qx.Interface.define("qx.test.IForm",
-      {
-        members : {
-          setEnabled : function(value) {}
+      qx.Interface.define("qx.test.IForm", {
+        members: {
+          setEnabled(value) {}
         }
       });
 
-      qx.Class.define("qx.test.B",
-      {
-        extend : qx.test.A,
-        implement : qx.test.IForm
+      qx.Class.define("qx.test.B", {
+        extend: qx.test.A,
+        implement: qx.test.IForm
       });
 
       var b = new qx.test.B();
@@ -311,119 +331,151 @@ qx.Class.define("qx.test.core.Property",
       b.dispose();
     },
 
-
-    testPropertyNamedClassname : function()
-    {
+    testPropertyNamedClassname() {
       qx.Class.define("qx.test.clName", {
-        extend : qx.core.Object,
-        properties : {
-          classname : {}
+        extend: qx.core.Object,
+        properties: {
+          classname: {}
         }
       });
 
       delete qx.test.clName;
     },
 
-
-    testWrongPropertyDefinitions : function()
-    {
+    testWrongPropertyDefinitions() {
       if (qx.core.Environment.get("qx.debug")) {
-
         // class config maps must be separately defined to not produce compiler errors
 
         // date
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : new Date()
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: new Date()
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
 
         // array
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : [1,2,3]
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: [1, 2, 3]
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
 
         // qooxdoo class
         var o = new qx.core.Object();
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : o
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: o
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
         o.dispose();
 
         // RegExp
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : new RegExp()
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: new RegExp()
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
 
         // null
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : null
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: null
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
 
         // boolean
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : true
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: true
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
 
         // number
-        this.assertException(function() {
-          var config = {
-            extend : qx.core.Object,
-            properties : 123
-          };
-          qx.Class.define("qx.test.clName", config);
-        }, Error, new RegExp(".*Invalid.*"), "123");
+        this.assertException(
+          function () {
+            var config = {
+              extend: qx.core.Object,
+              properties: 123
+            };
+
+            qx.Class.define("qx.test.clName", config);
+          },
+          Error,
+          new RegExp(".*Invalid.*"),
+          "123"
+        );
         delete qx.test.clName;
       }
     },
 
-    testRecursive : function()
-    {
-      qx.Class.define("qx.Node",
-      {
-        extend : qx.core.Object,
+    testRecursive() {
+      qx.Class.define("qx.Node", {
+        extend: qx.core.Object,
 
-        construct : function() {
+        construct() {
           this._min = 0;
         },
 
-        properties :
-        {
-          value : { apply : "applyValue" }
+        properties: {
+          value: { apply: "applyValue" }
         },
 
-        members :
-        {
-
-          applyValue: function(value, old) {
+        members: {
+          applyValue(value, old) {
             if (value < this._min) {
               this.setValue(this._min);
             }
@@ -439,22 +491,17 @@ qx.Class.define("qx.test.core.Property",
       root.setValue(-100);
       this.assertEquals(0, root.getValue());
       root.dispose();
-
     },
 
+    testEventWithInitOldData() {
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.core.Object,
 
-    testEventWithInitOldData: function()
-    {
-      qx.Class.define("qx.TestProperty",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          prop : {
-            check : "Boolean",
-            init : false,
-            event : "changeProp"
+        properties: {
+          prop: {
+            check: "Boolean",
+            init: false,
+            event: "changeProp"
           }
         }
       });
@@ -466,29 +513,31 @@ qx.Class.define("qx.test.core.Property",
 
       // check for the event
       var self = this;
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event!");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event!");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       object.dispose();
     },
 
+    testEventWithoutInitOldData() {
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.core.Object,
 
-    testEventWithoutInitOldData: function()
-    {
-      qx.Class.define("qx.TestProperty",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          prop : {
-            check : "Boolean",
-            nullable : true,
-            event : "changeProp"
+        properties: {
+          prop: {
+            check: "Boolean",
+            nullable: true,
+            event: "changeProp"
           }
         }
       });
@@ -500,30 +549,32 @@ qx.Class.define("qx.test.core.Property",
 
       // check for the event
       var self = this;
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event!");
-        self.assertNull(e.getOldData(), "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event!");
+          self.assertNull(e.getOldData(), "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       object.dispose();
     },
 
+    testEventWithInitAndInheritableOldData() {
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.core.Object,
 
-    testEventWithInitAndInheritableOldData: function()
-    {
-      qx.Class.define("qx.TestProperty",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          prop : {
-            check : "Boolean",
-            init : false,
-            inheritable : true,
-            event : "changeProp"
+        properties: {
+          prop: {
+            check: "Boolean",
+            init: false,
+            inheritable: true,
+            event: "changeProp"
           }
         }
       });
@@ -535,30 +586,32 @@ qx.Class.define("qx.test.core.Property",
 
       // check for the event
       var self = this;
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event!");
-        self.assertFalse(e.getOldData(), "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event!");
+          self.assertFalse(e.getOldData(), "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       object.dispose();
     },
 
+    testEventWithoutInitAndInheritableOldData() {
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.core.Object,
 
-    testEventWithoutInitAndInheritableOldData: function()
-    {
-      qx.Class.define("qx.TestProperty",
-      {
-        extend : qx.core.Object,
-
-        properties :
-        {
-          prop : {
-            check : "Boolean",
-            nullable : true,
-            inheritable : true,
-            event : "changeProp"
+        properties: {
+          prop: {
+            check: "Boolean",
+            nullable: true,
+            inheritable: true,
+            event: "changeProp"
           }
         }
       });
@@ -570,16 +623,21 @@ qx.Class.define("qx.test.core.Property",
 
       // check for the event
       var self = this;
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(true);
-      }, function(e) {
-        self.assertTrue(e.getData(), "Wrong data in the event!");
-        self.assertNull(e.getOldData(), "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(true);
+        },
+        function (e) {
+          self.assertTrue(e.getData(), "Wrong data in the event!");
+          self.assertNull(e.getOldData(), "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       object.dispose();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -593,10 +651,9 @@ qx.Class.define("qx.test.core.Property",
      * @param value {number} Value to check
      * @return {Boolean} whether the value is <code>-0</code>
      */
-    __isNegativeZero : function (value) {
-      return value===0 && (1/value < 0); // 1/-0 => -Infinity
+    __isNegativeZero(value) {
+      return value === 0 && 1 / value < 0; // 1/-0 => -Infinity
     },
-
 
     /**
      * Check whether the (numeric) value is positive zero (+0)
@@ -604,64 +661,62 @@ qx.Class.define("qx.test.core.Property",
      * @param value {number} Value to check
      * @return {Boolean} whether the value is <code>+0</code>
      */
-    __isPositiveZero : function (value) {
-      return value===0 && (1/value > 0); // 1/+0 => +Infinity
+    __isPositiveZero(value) {
+      return value === 0 && 1 / value > 0; // 1/+0 => +Infinity
     },
 
-
-    testWrongIsEqualDefinitions : function ()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    testWrongIsEqualDefinitions() {
+      if (qx.core.Environment.get("qx.debug")) {
         var re = new RegExp("Invalid type for 'isEqual'.*");
         var o = new qx.core.Object();
 
         [
-          new Date(),   // date
-          [1,2,3],      // array
-          {},           // object
-          o,            // qooxdoo class
+          new Date(), // date
+          [1, 2, 3], // array
+          {}, // object
+          o, // qooxdoo class
           new RegExp(), // RegExp
-          null,         // null
-          true, false,  // boolean
-          123           // number
+          null, // null
+          true,
+          false, // boolean
+          123 // number
         ].forEach(function (isEqualTestValue, i) {
-
           var msg = "case[" + i + "] (" + String(isEqualTestValue) + ")";
-          this.assertException(function ()
-          {
-            qx.Class.define("qx.TestProperty", {
-              extend : qx.core.Object,
-              properties : {
-                prop : {
-                  check : "Number",
-                  isEqual : isEqualTestValue
+          this.assertException(
+            function () {
+              qx.Class.define("qx.TestProperty", {
+                extend: qx.core.Object,
+                properties: {
+                  prop: {
+                    check: "Number",
+                    isEqual: isEqualTestValue
+                  }
                 }
-              }
-            });
-            new qx.TestProperty().set({prop: 0});
-          }, Error, re, msg);
+              });
+
+              new qx.TestProperty().set({ prop: 0 });
+            },
+            Error,
+            re,
+            msg
+          );
 
           delete qx.TestProperty;
         }, this);
 
         o.dispose();
-
       } // end-if (qx.core.Environment.get("qx.debug"))
-
     },
 
-
-    testIsEqualInline : function ()
-    {
+    testIsEqualInline() {
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : "Object.is(a, b)"
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual: "Object.is(a, b)"
           }
         }
       });
@@ -675,37 +730,49 @@ qx.Class.define("qx.test.core.Property",
       var self = this;
 
       // No change expected
-      this.assertEventNotFired(object, "changeProp", function () {
-        object.setProp(0);
-        object.setProp(+0);
-      }, function (e) {}, "'changeProp' event fired!");
+      this.assertEventNotFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(0);
+          object.setProp(+0);
+        },
+        function (e) {},
+        "'changeProp' event fired!"
+      );
 
       // Change expected
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(-0);
-      }, function (e) {
-        var isNegativeZero = self.__isNegativeZero( e.getData() );
-        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
-        self.assertTrue(isNegativeZero, "Wrong data in the event!");
-        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(-0);
+        },
+        function (e) {
+          var isNegativeZero = self.__isNegativeZero(e.getData());
+          var isPositiveZero = self.__isPositiveZero(e.getOldData());
+          self.assertTrue(isNegativeZero, "Wrong data in the event!");
+          self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       // @todo: check 'apply' and 'transform', too
 
       object.dispose();
     },
 
-
-    testIsEqualFunction : function ()
-    {
+    testIsEqualFunction() {
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : function (x,y) { return Object.is(x, y); }
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual(x, y) {
+              return Object.is(x, y);
+            }
           }
         }
       });
@@ -719,41 +786,52 @@ qx.Class.define("qx.test.core.Property",
       var self = this;
 
       // No change expected
-      this.assertEventNotFired(object, "changeProp", function () {
-        object.setProp(0);
-        object.setProp(+0);
-      }, function (e) {}, "'changeProp' event fired!");
+      this.assertEventNotFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(0);
+          object.setProp(+0);
+        },
+        function (e) {},
+        "'changeProp' event fired!"
+      );
 
       // Change expected
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(-0);
-      }, function (e) {
-        var isNegativeZero = self.__isNegativeZero( e.getData() );
-        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
-        self.assertTrue(isNegativeZero, "Wrong data in the event!");
-        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(-0);
+        },
+        function (e) {
+          var isNegativeZero = self.__isNegativeZero(e.getData());
+          var isPositiveZero = self.__isPositiveZero(e.getOldData());
+          self.assertTrue(isNegativeZero, "Wrong data in the event!");
+          self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       // @todo: check 'apply' and 'transform', too
 
       object.dispose();
     },
 
-
-    testIsEqualMember : function ()
-    {
+    testIsEqualMember() {
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : "__fooBar"
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual: "__fooBar"
           }
         },
-        members : {
-          __fooBar : function (foo, bar) {
+
+        members: {
+          __fooBar(foo, bar) {
             return Object.is(foo, bar);
           }
         }
@@ -768,175 +846,182 @@ qx.Class.define("qx.test.core.Property",
       var self = this;
 
       // No change expected
-      this.assertEventNotFired(object, "changeProp", function () {
-        object.setProp(0);
-        object.setProp(+0);
-      }, function (e) {}, "'changeProp' event fired!");
+      this.assertEventNotFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(0);
+          object.setProp(+0);
+        },
+        function (e) {},
+        "'changeProp' event fired!"
+      );
 
       // Change expected
-      this.assertEventFired(object, "changeProp", function () {
-        object.setProp(-0);
-      }, function (e) {
-        var isNegativeZero = self.__isNegativeZero( e.getData() );
-        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
-        self.assertTrue(isNegativeZero, "Wrong data in the event!");
-        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
-      }, "Change event not fired!");
+      this.assertEventFired(
+        object,
+        "changeProp",
+        function () {
+          object.setProp(-0);
+        },
+        function (e) {
+          var isNegativeZero = self.__isNegativeZero(e.getData());
+          var isPositiveZero = self.__isPositiveZero(e.getOldData());
+          self.assertTrue(isNegativeZero, "Wrong data in the event!");
+          self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+        },
+        "Change event not fired!"
+      );
 
       // @todo: check 'apply' and 'transform', too
 
       object.dispose();
     },
 
-
-    testIsEqualInlineContext : function ()
-    {
+    testIsEqualInlineContext() {
       var context, object;
 
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : "(this._checkCtx(a,b))"
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual: "(this._checkCtx(a,b))"
           }
         },
-        members : {
-          _checkCtx : function (foo, bar) {
+
+        members: {
+          _checkCtx(foo, bar) {
             context = this;
           }
         }
       });
 
-      object = new qx.TestProperty().set({prop: 4711});
+      object = new qx.TestProperty().set({ prop: 4711 });
 
       this.assertIdentical(object, context);
 
       object.dispose();
     },
 
-
-    testIsEqualFunctionContext : function ()
-    {
+    testIsEqualFunctionContext() {
       var context, object;
 
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : function (x, y) {
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual(x, y) {
               context = this;
             }
           }
         }
       });
 
-      object = new qx.TestProperty().set({prop: 4711});
+      object = new qx.TestProperty().set({ prop: 4711 });
 
       this.assertIdentical(object, context);
 
       object.dispose();
     },
 
-
-    testIsEqualMemberContext : function ()
-    {
+    testIsEqualMemberContext() {
       var context, object;
 
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : "__checkCtx"
+        extend: qx.core.Object,
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual: "__checkCtx"
           }
         },
-        members : {
-          __checkCtx : function (foo, bar) {
+
+        members: {
+          __checkCtx(foo, bar) {
             context = this;
           }
         }
       });
 
-      object = new qx.TestProperty().set({prop: 4711});
+      object = new qx.TestProperty().set({ prop: 4711 });
 
       this.assertIdentical(object, context);
 
       object.dispose();
     },
 
-
-    testIsEqualBaseClassMember : function ()
-    {
+    testIsEqualBaseClassMember() {
       var context, object;
 
       qx.Class.define("qx.Super", {
-        extend : qx.core.Object,
-        members : {
-          __checkCtx : function (foo, bar) {
+        extend: qx.core.Object,
+        members: {
+          __checkCtx(foo, bar) {
             context = this;
           }
         }
       });
+
       qx.Class.define("qx.TestProperty", {
         extend: qx.Super,
-        properties : {
-          prop : {
-            check : "Number",
-            nullable : true,
-            event : "changeProp",
-            isEqual : "__checkCtx"
+        properties: {
+          prop: {
+            check: "Number",
+            nullable: true,
+            event: "changeProp",
+            isEqual: "__checkCtx"
           }
         }
       });
 
-      object = new qx.TestProperty().set({prop: 4711});
+      object = new qx.TestProperty().set({ prop: 4711 });
 
       this.assertIdentical(object, context);
 
       object.dispose();
     },
 
-
-    testTransform : function ()
-    {
+    testTransform() {
       qx.Class.define("qx.TestProperty", {
-        extend : qx.core.Object,
-        construct: function() {
-          this.base(arguments);
+        extend: qx.core.Object,
+        construct() {
+          super();
           this.initPropTwo(new qx.data.Array());
         },
-        properties : {
-          prop : {
-            check : "qx.data.Array",
-            nullable : true,
-            event : "changeProp",
-            transform : "__transform"
+        properties: {
+          prop: {
+            check: "qx.data.Array",
+            nullable: true,
+            event: "changeProp",
+            transform: "__transform"
           },
-          propTwo : {
-            check : "qx.data.Array",
-            nullable : true,
-            event : "changePropTwo",
-            transform : "__transform",
+
+          propTwo: {
+            check: "qx.data.Array",
+            nullable: true,
+            event: "changePropTwo",
+            transform: "__transform",
             deferredInit: true
           }
         },
-        members : {
-          __transform : function (value, oldValue) {
+
+        members: {
+          __transform(value, oldValue) {
             if (oldValue === undefined) {
               return value;
             }
             if (!value) {
               oldValue.removeAll();
             } else {
-              oldValue.replace(value)
+              oldValue.replace(value);
             }
             return oldValue;
           }
@@ -955,15 +1040,12 @@ qx.Class.define("qx.test.core.Property",
 
       object.setProp(arr2);
       this.assertIdentical(arr, object.getProp());
-      this.assertArrayEquals([ "2", "3" ], arr.toArray());
-
+      this.assertArrayEquals(["2", "3"], arr.toArray());
 
       var savePropTwo = object.getPropTwo();
       object.setPropTwo(arr2);
       this.assertIdentical(savePropTwo, object.getPropTwo());
-      this.assertArrayEquals([ "2", "3" ], savePropTwo.toArray());
+      this.assertArrayEquals(["2", "3"], savePropTwo.toArray());
     }
-
-
   }
 });

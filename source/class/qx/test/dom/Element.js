@@ -13,13 +13,12 @@
  * Authors: Fabian Jakobs (fjakobs)
  *
  ******************************************************************************/
- 
+
 qx.Class.define("qx.test.dom.Element", {
-  extend : qx.dev.unit.TestCase,
+  extend: qx.dev.unit.TestCase,
 
-  members : {
-
-    setUp : function() {
+  members: {
+    setUp() {
       var div = document.createElement("div");
       div.id = "el";
 
@@ -27,19 +26,23 @@ qx.Class.define("qx.test.dom.Element", {
       document.body.appendChild(div);
     },
 
-    tearDown : function() {
+    tearDown() {
       document.body.removeChild(this._el);
     },
 
-    testCreate : function() {
-      var el = qx.dom.Element.create("div", {
-            name : "juhu"
-          }, window);
+    testCreate() {
+      var el = qx.dom.Element.create(
+        "div",
+        {
+          name: "juhu"
+        },
+        window
+      );
       this.assertElement(el);
       this.assertEquals("juhu", qx.bom.element.Attribute.get(el, "name"));
     },
 
-    testEmpty : function() {
+    testEmpty() {
       this._el.innerHTML = "Juhu";
       qx.dom.Element.empty(this._el);
       this.assertEquals("", this._el.innerHTML);

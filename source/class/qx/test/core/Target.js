@@ -20,22 +20,18 @@
  * @ignore(qx.Event)
  */
 
-qx.Class.define("qx.test.core.Target",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.core.Target", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testEvents : function()
-    {
-      qx.Class.define("qx.Event",
-      {
-        extend : qx.core.Object,
-        events : { "click" : "qx.event.type.Event" }
+  members: {
+    testEvents() {
+      qx.Class.define("qx.Event", {
+        extend: qx.core.Object,
+        events: { click: "qx.event.type.Event" }
       });
 
       var target = new qx.Event();
-      target.addListener("click", function() {});
+      target.addListener("click", function () {});
       target.dispose();
     }
   }

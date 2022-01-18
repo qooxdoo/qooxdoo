@@ -19,9 +19,8 @@
 /**
  * A generic class for representing exceptions that occur during io operations.
  */
-qx.Class.define("qx.io.exception.Exception",
-{
-  extend : qx.type.BaseError,
+qx.Class.define("qx.io.exception.Exception", {
+  extend: qx.type.BaseError,
 
   /**
    * Constructor
@@ -29,8 +28,8 @@ qx.Class.define("qx.io.exception.Exception",
    * @param code {Number}
    * @param data {*|null}
    */
-  construct: function(message, code, data) {
-    this.base(arguments, "", message);
+  construct(message, code, data) {
+    super("", message);
     this.code = code;
     this.data = data;
     this.name = this.classname;

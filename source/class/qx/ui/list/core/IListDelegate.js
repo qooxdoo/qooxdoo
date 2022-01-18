@@ -29,18 +29,15 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * actually implemented.
  */
-qx.Interface.define("qx.ui.list.core.IListDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.list.core.IListDelegate", {
+  members: {
     /**
      * Gives the user the opportunity to set individual styles and properties
      * on the item widget cells created by the controller.
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    configureItem : function(item) {},
-
+    configureItem(item) {},
 
     /**
      * Gives the user the opportunity to set individual styles and properties
@@ -48,8 +45,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @param item {qx.ui.core.Widget} Group to modify.
      */
-    configureGroupItem : function(item) {},
-
+    configureGroupItem(item) {},
 
     /**
      * Creates an item cell which will be used for rendering. Be sure to
@@ -58,8 +54,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @return {qx.ui.core.Widget} A new created item cell.
      */
-    createItem : function() {},
-
+    createItem() {},
 
     /**
      * Creates a group cell which will be used for rendering. Be sure to
@@ -68,8 +63,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @return {qx.ui.core.Widget} A new created item cell.
      */
-    createGroupItem : function() {},
-
+    createGroupItem() {},
 
     /**
      * Sets up the binding for the given item and index.
@@ -84,8 +78,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindItem : function(controller, item, id) {},
-
+    bindItem(controller, item, id) {},
 
     /**
      * Sets up the binding for the given group item and index.
@@ -100,8 +93,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param item {qx.ui.core.Widget} The created and used group item.
      * @param id {Integer} The id for the binding.
      */
-    bindGroupItem : function(controller, item, id) {},
-
+    bindGroupItem(controller, item, id) {},
 
     /**
      * Gives the user the opportunity to filter the model. The filter
@@ -112,8 +104,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @return {Boolean} <code>true</code> if the data passes the filter,
      *   <code>false</code> otherwise.
      */
-    filter : function(data) {},
-
+    filter(data) {},
 
     /**
      * Gives the user the opportunity to sort the model. The sorting method
@@ -125,8 +116,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @return {Integer} should return a negative value if a < b, zero
      *   if a = b, or a positive value if a > b.
      */
-    sorter : function(a, b) {},
-
+    sorter(a, b) {},
 
     /**
      * Gives the user the opportunity to group the model. The group method
@@ -142,16 +132,13 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param data {var} The data to be checked.
      * @return {String|Object|null} The group identifier for the data.
      */
-    group : function(data) {},
-
-
-
+    group(data) {},
 
     /**
      * Gives the user the opportunity to reset properties or states.
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    onPool : function(item) {}
+    onPool(item) {}
   }
 });

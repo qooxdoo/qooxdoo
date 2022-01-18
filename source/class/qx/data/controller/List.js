@@ -16,7 +16,6 @@
 
 ************************************************************************ */
 
-
 /**
  * <h2>List Controller</h2>
  *
@@ -55,11 +54,10 @@
  * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
  * * If you want to bind a form widget, use {@link qx.data.controller.Form}
  */
-qx.Class.define("qx.data.controller.List",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.data.controller.List", {
+  extend: qx.core.Object,
   include: qx.data.controller.MSelection,
-  implement : qx.data.controller.ISelection,
+  implement: qx.data.controller.ISelection,
 
   /*
   *****************************************************************************
@@ -77,9 +75,8 @@ qx.Class.define("qx.data.controller.List",
    *   is the path reference to the property in these objects which should be
    *   shown as label.
    */
-  construct : function(model, target, labelPath)
-  {
-    this.base(arguments);
+  construct(model, target, labelPath) {
+    super();
 
     // lookup table for filtering and sorting
     this.__lookupTable = [];
@@ -101,19 +98,15 @@ qx.Class.define("qx.data.controller.List",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Data array containing the data which should be shown in the list. */
-    model :
-    {
+    model: {
       check: "qx.data.IListData",
       apply: "_applyModel",
       event: "changeModel",
@@ -121,10 +114,8 @@ qx.Class.define("qx.data.controller.List",
       dereference: true
     },
 
-
     /** The target widget which should show the data. */
-    target :
-    {
+    target: {
       apply: "_applyTarget",
       event: "changeTarget",
       nullable: true,
@@ -132,95 +123,82 @@ qx.Class.define("qx.data.controller.List",
       dereference: true
     },
 
-
     /**
      * The path to the property which holds the information that should be
      * shown as a label. This is only needed if objects are stored in the model.
      */
-    labelPath :
-    {
+    labelPath: {
       check: "String",
       apply: "_applyLabelPath",
       nullable: true
     },
-
 
     /**
      * The path to the property which holds the information that should be
      * shown as an icon. This is only needed if objects are stored in the model
      * and if the icon should be shown.
      */
-    iconPath :
-    {
+    iconPath: {
       check: "String",
       apply: "_applyIconPath",
       nullable: true
     },
 
-
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    labelOptions :
-    {
+    labelOptions: {
       apply: "_applyLabelOptions",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    iconOptions :
-    {
+    iconOptions: {
       apply: "_applyIconOptions",
       nullable: true
     },
-
 
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link IControllerDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       apply: "_applyDelegate",
       event: "changeDelegate",
       init: null,
       nullable: true
     },
-    
+
     /**
      * Whether a special "null" value is included in the list
      */
-    allowNull :
-    {
+    allowNull: {
       apply: "_applyAllowNull",
       event: "changeAllowNull",
       init: false,
       nullable: false,
       check: "Boolean"
     },
-    
+
     /**
      * Title for the special null value entry
      */
-    nullValueTitle:
-    {
+    nullValueTitle: {
       apply: "_applyNullValueTitle",
       event: "changeNullValueTitle",
       init: null,
       nullable: true,
       check: "String"
     },
-    
+
     /**
      * Icon for the special null value entry
      */
-    nullValueIcon:
-    {
+    nullValueIcon: {
       apply: "_applyNullValueIcon",
       event: "changeNullValueIcon",
       init: null,
@@ -229,25 +207,21 @@ qx.Class.define("qx.data.controller.List",
     }
   },
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // private members
-    __changeModelListenerId : null,
-    __lookupTable : null,
-    __onUpdate : null,
-    __boundProperties : null,
-    __boundPropertiesReverse : null,
-    __syncTargetSelection : null,
-    __syncModelSelection : null,
-
+    __changeModelListenerId: null,
+    __lookupTable: null,
+    __onUpdate: null,
+    __boundProperties: null,
+    __boundPropertiesReverse: null,
+    __syncTargetSelection: null,
+    __syncModelSelection: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -258,13 +232,12 @@ qx.Class.define("qx.data.controller.List",
      * Updates the filter and the target. This could be used if the filter
      * uses an additional parameter which changes the filter result.
      */
-    update: function() {
+    update() {
       this.__changeModelLength();
       this.__renewBindings();
 
       this._updateSelection();
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -278,13 +251,12 @@ qx.Class.define("qx.data.controller.List",
      * @param value {qx.core.Object|null} The new delegate.
      * @param old {qx.core.Object|null} The old delegate.
      */
-    _applyDelegate: function(value, old) {
+    _applyDelegate(value, old) {
       this._setConfigureItem(value, old);
       this._setFilter(value, old);
       this._setCreateItem(value, old);
       this._setBindItem(value, old);
     },
-
 
     /**
      * Apply-method which will be called if the icon options has been changed.
@@ -293,14 +265,21 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Map|null} The new icon options.
      * @param old {Map|null} The old icon options.
      */
-    _applyIconOptions: function(value, old) {
+    _applyIconOptions(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
-        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
+        this.assertFalse(
+          value && !qx.lang.Type.isObject(value),
+          "expecting an object"
+        );
+        this.assertTrue(
+          !!value.converter ||
+            !!value.onUpdate ||
+            !!value.onSetFail ||
+            !!value.ignoreConverter
+        );
       }
       this.__renewBindings();
     },
-
 
     /**
      * Apply-method which will be called if the label options has been changed.
@@ -309,14 +288,21 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Map|null} The new label options.
      * @param old {Map|null} The old label options.
      */
-    _applyLabelOptions: function(value, old) {
+    _applyLabelOptions(value, old) {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertFalse(value && !qx.lang.Type.isObject(value), "expecting an object");
-        this.assertTrue(!!value.converter || !!value.onUpdate || !!value.onSetFail || !!value.ignoreConverter);
+        this.assertFalse(
+          value && !qx.lang.Type.isObject(value),
+          "expecting an object"
+        );
+        this.assertTrue(
+          !!value.converter ||
+            !!value.onUpdate ||
+            !!value.onSetFail ||
+            !!value.ignoreConverter
+        );
       }
       this.__renewBindings();
     },
-
 
     /**
      * Apply-method which will be called if the icon path has been changed.
@@ -325,10 +311,9 @@ qx.Class.define("qx.data.controller.List",
      * @param value {String|null} The new icon path.
      * @param old {String|null} The old icon path.
      */
-    _applyIconPath: function(value, old) {
+    _applyIconPath(value, old) {
       this.__renewBindings();
     },
-
 
     /**
      * Apply-method which will be called if the label path has been changed.
@@ -337,29 +322,28 @@ qx.Class.define("qx.data.controller.List",
      * @param value {String|null} The new label path.
      * @param old {String|null} The old label path.
      */
-    _applyLabelPath: function(value, old) {
+    _applyLabelPath(value, old) {
       this.__renewBindings();
     },
 
-    
     /**
-     * Apply method for the `allowNull` property 
+     * Apply method for the `allowNull` property
      */
-    _applyAllowNull: function(value, oldValue) {
+    _applyAllowNull(value, oldValue) {
       this.__refreshModel();
     },
-    
+
     /**
-     * Apply method for the `allowNull` property 
+     * Apply method for the `allowNull` property
      */
-    _applyNullValueTitle: function(value, oldValue) {
+    _applyNullValueTitle(value, oldValue) {
       this.__refreshModel();
     },
-    
+
     /**
-     * Apply method for the `allowNull` property 
+     * Apply method for the `allowNull` property
      */
-    _applyNullValueIcon: function(value, oldValue) {
+    _applyNullValueIcon(value, oldValue) {
       this.__refreshModel();
     },
 
@@ -367,12 +351,11 @@ qx.Class.define("qx.data.controller.List",
      * Refreshes the model, uses when the model and target are not changing but the appearance
      * and bindings may need to be updated
      */
-    __refreshModel: function() {
+    __refreshModel() {
       if (this.getModel() && this.getTarget()) {
         this.update();
       }
     },
-
 
     /**
      * Apply-method which will be called if the model has been changed. It
@@ -383,7 +366,7 @@ qx.Class.define("qx.data.controller.List",
      * @param value {qx.data.Array|null} The new model array.
      * @param old {qx.data.Array|null} The old model array.
      */
-    _applyModel: function(value, old) {
+    _applyModel(value, old) {
       // remove the old listener
       if (old != undefined) {
         if (this.__changeModelListenerId != undefined) {
@@ -399,8 +382,11 @@ qx.Class.define("qx.data.controller.List",
       // if a model is set
       if (value != null) {
         // add a new listener
-        this.__changeModelListenerId =
-          value.addListener("change", this.__changeModel, this);
+        this.__changeModelListenerId = value.addListener(
+          "change",
+          this.__changeModel,
+          this
+        );
 
         // renew the index lookup table
         this.__buildUpLookupTable();
@@ -430,7 +416,6 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /**
      * Apply-method which will be called if the target has been changed.
      * When the target changes, every binding needs to be reset and the old
@@ -440,7 +425,7 @@ qx.Class.define("qx.data.controller.List",
      * @param value {qx.ui.core.Widget|null} The new target.
      * @param old {qx.ui.core.Widget|null} The old target.
      */
-    _applyTarget: function(value, old) {
+    _applyTarget(value, old) {
       // add a listener for the target change
       this._addChangeTargetListener(value, old);
 
@@ -448,7 +433,7 @@ qx.Class.define("qx.data.controller.List",
       if (old != undefined) {
         // remove all element of the old target
         var removed = old.removeAll();
-        for (var i=0; i<removed.length; i++) {
+        for (var i = 0; i < removed.length; i++) {
           removed[i].destroy();
         }
         // remove all bindings
@@ -465,7 +450,6 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
        EVENT HANDLER
@@ -481,7 +465,7 @@ qx.Class.define("qx.data.controller.List",
     /**
      * Event handler for the changeModel of the model. Updates the controller.
      */
-    __changeModel: function() {
+    __changeModel() {
       if (this.__inChangeModel) {
         return;
       }
@@ -498,7 +482,6 @@ qx.Class.define("qx.data.controller.List",
       this.__inChangeModel = false;
     },
 
-
     /**
      * Internal method used to sync the selection. The controller uses the
      * widget queue to schedule the selection update. An asynchronous handling of
@@ -506,8 +489,7 @@ qx.Class.define("qx.data.controller.List",
      * binding) need to be executed before the selection is updated.
      * @internal
      */
-    syncWidget : function()
-    {
+    syncWidget() {
       if (this.__syncTargetSelection) {
         this._changeTargetSelection();
       }
@@ -517,12 +499,11 @@ qx.Class.define("qx.data.controller.List",
       this.__syncModelSelection = this.__syncTargetSelection = null;
     },
 
-
     /**
      * Event handler for the changeLength of the model. If the length changes
      * of the model, either ListItems need to be removed or added to the target.
      */
-    __changeModelLength: function() {
+    __changeModelLength() {
       // only do something if there is a target
       if (this.getTarget() == null) {
         return;
@@ -541,7 +522,7 @@ qx.Class.define("qx.data.controller.List",
         for (var j = currentLength; j < newLength; j++) {
           this.__addItem(this.__lookup(j));
         }
-      // if there are less elements
+        // if there are less elements
       } else if (newLength < currentLength) {
         // remove the unnecessary items
         for (var j = currentLength; j > newLength; j--) {
@@ -558,24 +539,24 @@ qx.Class.define("qx.data.controller.List",
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     /**
      * Helper method which removes and adds the change listener of the
      * controller to the model. This is sometimes necessary to ensure that the
      * listener of the controller is executed as the last listener of the chain.
      */
-    __moveChangeListenerAtTheEnd : function() {
+    __moveChangeListenerAtTheEnd() {
       var model = this.getModel();
       // it can be that the bindings has been reset without the model so
       // maybe there is no model in some scenarios
       if (model != null) {
         model.removeListenerById(this.__changeModelListenerId);
-        this.__changeModelListenerId =
-          model.addListener("change", this.__changeModel, this);
+        this.__changeModelListenerId = model.addListener(
+          "change",
+          this.__changeModel,
+          this
+        );
       }
-
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -588,7 +569,7 @@ qx.Class.define("qx.data.controller.List",
      *
      * @return {qx.ui.form.ListItem} The created and configured ListItem.
      */
-    _createItem: function() {
+    _createItem() {
       var delegate = this.getDelegate();
       // check if a delegate and a create method is set
       if (delegate != null && delegate.createItem != null) {
@@ -604,14 +585,13 @@ qx.Class.define("qx.data.controller.List",
       return item;
     },
 
-
     /**
      * Internal helper to add ListItems to the target including the creation
      * of the binding.
      *
      * @param index {Number} The index of the item to add.
      */
-    __addItem: function(index) {
+    __addItem(index) {
       // create a new ListItem
       var listItem = this._createItem();
       // set up the binding
@@ -620,12 +600,11 @@ qx.Class.define("qx.data.controller.List",
       this.getTarget().add(listItem);
     },
 
-
     /**
      * Internal helper to remove ListItems from the target. Also the binding
      * will be removed properly.
      */
-    __removeItem: function() {
+    __removeItem() {
       this._startSelectionModification();
       var children = this.getTarget().getChildren();
       // get the last binding id
@@ -639,7 +618,6 @@ qx.Class.define("qx.data.controller.List",
       this._endSelectionModification();
     },
 
-
     /**
      * Returns all models currently visible by the list. This method is only
      * useful if you use the filter via the {@link #delegate}.
@@ -647,8 +625,7 @@ qx.Class.define("qx.data.controller.List",
      * @return {qx.data.Array} A new data array container all the models
      *   which representation items are currently visible.
      */
-    getVisibleModels : function()
-    {
+    getVisibleModels() {
       var visibleModels = [];
       var target = this.getTarget();
       if (target != null) {
@@ -660,7 +637,6 @@ qx.Class.define("qx.data.controller.List",
 
       return new qx.data.Array(visibleModels);
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -674,10 +650,10 @@ qx.Class.define("qx.data.controller.List",
      *   ListItem.
      * @param index {Number} The index of the ListItem.
      */
-    _bindListItem: function(item, index) {
+    _bindListItem(item, index) {
       // -1 is the special, "null" value item.  Nothing to bind, just fix the display and model
       if (index < 0) {
-        item.setLabel(this.getNullValueTitle()||"");
+        item.setLabel(this.getNullValueTitle() || "");
         item.setIcon(this.getNullValueIcon());
         item.setModel(null);
         return;
@@ -686,12 +662,11 @@ qx.Class.define("qx.data.controller.List",
       // if a delegate for creating the binding is given, use it
       if (delegate != null && delegate.bindItem != null) {
         delegate.bindItem(this, item, index);
-      // otherwise, try to bind the listItem by default
+        // otherwise, try to bind the listItem by default
       } else {
         this.bindDefaultProperties(item, index);
       }
     },
-
 
     /**
      * Helper-Method for binding the default properties (label, icon and model)
@@ -705,26 +680,30 @@ qx.Class.define("qx.data.controller.List",
      *   ListItem.
      * @param index {Number} The index of the ListItem.
      */
-    bindDefaultProperties : function(item, index)
-    {
+    bindDefaultProperties(item, index) {
       // model
-      this.bindProperty(
-        "", "model", null, item, index
-      );
+      this.bindProperty("", "model", null, item, index);
 
       // label
       this.bindProperty(
-        this.getLabelPath(), "label", this.getLabelOptions(), item, index
+        this.getLabelPath(),
+        "label",
+        this.getLabelOptions(),
+        item,
+        index
       );
 
       // if the iconPath is set
       if (this.getIconPath() != null) {
         this.bindProperty(
-          this.getIconPath(), "icon", this.getIconOptions(), item, index
+          this.getIconPath(),
+          "icon",
+          this.getIconOptions(),
+          item,
+          index
         );
       }
     },
-
 
     /**
      * Helper-Method for binding a given property from the model to the target
@@ -742,7 +721,7 @@ qx.Class.define("qx.data.controller.List",
      * @param targetWidget {qx.ui.core.Widget} The target widget.
      * @param index {Number} The index of the current binding.
      */
-    bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
+    bindProperty(sourcePath, targetProperty, options, targetWidget, index) {
       // create the options for the binding containing the old options
       // including the old onUpdate function
       if (options != null) {
@@ -753,7 +732,7 @@ qx.Class.define("qx.data.controller.List",
         options = {};
         this.__onUpdate[targetProperty] = null;
       }
-      options.onUpdate =  qx.lang.Function.bind(this._onBindingSet, this, index);
+      options.onUpdate = qx.lang.Function.bind(this._onBindingSet, this, index);
       options.ignoreConverter = "model";
 
       // build up the path for the binding
@@ -771,7 +750,6 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /**
      * Helper-Method for binding a given property from the target widget to
      * the model.
@@ -786,9 +764,7 @@ qx.Class.define("qx.data.controller.List",
      * @param sourceWidget {qx.ui.core.Widget} The source widget.
      * @param index {Number} The index of the current binding.
      */
-    bindPropertyReverse: function(
-      targetPath, sourcePath, options, sourceWidget, index
-    ) {
+    bindPropertyReverse(targetPath, sourcePath, options, sourceWidget, index) {
       // build up the path for the binding
       var targetBindPath = "model[" + index + "]";
       if (targetPath != null && targetPath != "") {
@@ -804,7 +780,6 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /**
      * Method which will be called on the invoke of every binding. It takes
      * care of the selection on the change of the binding.
@@ -813,7 +788,7 @@ qx.Class.define("qx.data.controller.List",
      * @param sourceObject {qx.core.Object} The source object of the binding.
      * @param targetObject {qx.core.Object} The target object of the binding.
      */
-    _onBindingSet: function(index, sourceObject, targetObject) {
+    _onBindingSet(index, sourceObject, targetObject) {
       // ignore the binding set if the model is already set to null
       if (this.getModel() == null || this._inSelectionModification()) {
         return;
@@ -828,16 +803,15 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /**
      * Internal helper method to remove the binding of the given item.
      *
      * @param item {Number} The item of which the binding which should
      *   be removed.
      */
-    _removeBindingsFrom: function(item) {
+    _removeBindingsFrom(item) {
       // go through all bound target properties
-      for (var  i = 0; i < this.__boundProperties.length; i++) {
+      for (var i = 0; i < this.__boundProperties.length; i++) {
         // get the binding id and remove it, if possible
         var id = item.getUserData(this.__boundProperties[i] + "BindingId");
         if (id != null) {
@@ -848,19 +822,23 @@ qx.Class.define("qx.data.controller.List",
       // go through all reverse bound properties
       for (var i = 0; i < this.__boundPropertiesReverse.length; i++) {
         // get the binding id and remove it, if possible
-        var id = item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId");
+        var id = item.getUserData(
+          this.__boundPropertiesReverse[i] + "ReverseBindingId"
+        );
         if (id != null) {
           item.removeBinding(id);
-          item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId", null);
+          item.getUserData(
+            this.__boundPropertiesReverse[i] + "ReverseBindingId",
+            null
+          );
         }
       }
     },
 
-
     /**
      * Internal helper method to renew all set bindings.
      */
-    __renewBindings: function() {
+    __renewBindings() {
       // ignore, if no target is set (startup)
       if (this.getTarget() == null || this.getModel() == null) {
         return;
@@ -880,7 +858,6 @@ qx.Class.define("qx.data.controller.List",
       this.__moveChangeListenerAtTheEnd();
     },
 
-
     /*
     ---------------------------------------------------------------------------
        DELEGATE HELPER
@@ -893,15 +870,18 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
      */
-    _setConfigureItem: function(value, old) {
-      if (value != null && value.configureItem != null && this.getTarget() != null) {
+    _setConfigureItem(value, old) {
+      if (
+        value != null &&
+        value.configureItem != null &&
+        this.getTarget() != null
+      ) {
         var children = this.getTarget().getChildren();
         for (var i = 0; i < children.length; i++) {
           value.configureItem(children[i]);
         }
       }
     },
-
 
     /**
      * Helper method for applying the delegate It checks if a bindItem
@@ -910,17 +890,20 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
      */
-    _setBindItem: function(value, old) {
+    _setBindItem(value, old) {
       // if a new bindItem function is set
       if (value != null && value.bindItem != null) {
         // do nothing if the bindItem function did not change
-        if (old != null && old.bindItem != null && value.bindItem == old.bindItem) {
+        if (
+          old != null &&
+          old.bindItem != null &&
+          value.bindItem == old.bindItem
+        ) {
           return;
         }
         this.__renewBindings();
       }
     },
-
 
     /**
      * Helper method for applying the delegate It checks if a createItem
@@ -929,7 +912,7 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
      */
-    _setCreateItem: function(value, old) {
+    _setCreateItem(value, old) {
       if (
         this.getTarget() == null ||
         this.getModel() == null ||
@@ -948,7 +931,7 @@ qx.Class.define("qx.data.controller.List",
 
       // remove all elements of the target
       var removed = this.getTarget().removeAll();
-      for (var i=0; i<removed.length; i++) {
+      for (var i = 0; i < removed.length; i++) {
         removed[i].destroy();
       }
 
@@ -959,7 +942,6 @@ qx.Class.define("qx.data.controller.List",
       this._updateSelection();
     },
 
-
     /**
      * Apply-Method for setting the filter. It removes all bindings,
      * check if the length has changed and adds or removes the items in the
@@ -969,10 +951,13 @@ qx.Class.define("qx.data.controller.List",
      * @param value {Function|null} The new filter function.
      * @param old {Function|null} The old filter function.
      */
-    _setFilter: function(value, old) {
+    _setFilter(value, old) {
       // update the filter if it has been removed
-      if ((value == null || value.filter == null) &&
-          (old != null && old.filter != null)) {
+      if (
+        (value == null || value.filter == null) &&
+        old != null &&
+        old.filter != null
+      ) {
         this.__removeFilter();
       }
 
@@ -1004,9 +989,11 @@ qx.Class.define("qx.data.controller.List",
       if (oldTable.length > this.__lookupTable.length) {
         // remove the unnecessary items
         for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
-          this.getTarget().removeAt(j - 1).destroy();
+          this.getTarget()
+            .removeAt(j - 1)
+            .destroy();
         }
-      // if there are more items
+        // if there are more items
       } else if (oldTable.length < this.__lookupTable.length) {
         // add the new elements
         for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
@@ -1029,13 +1016,11 @@ qx.Class.define("qx.data.controller.List",
       this._updateSelection();
     },
 
-
     /**
      * This helper is responsible for removing the filter and setting the
      * controller to a valid state without a filtering.
      */
-    __removeFilter : function()
-    {
+    __removeFilter() {
       // renew the index lookup table
       this.__buildUpLookupTable();
       // check for the new length
@@ -1049,7 +1034,6 @@ qx.Class.define("qx.data.controller.List",
       qx.ui.core.queue.Widget.add(this);
     },
 
-
     /*
     ---------------------------------------------------------------------------
        LOOKUP STUFF
@@ -1059,7 +1043,7 @@ qx.Class.define("qx.data.controller.List",
      * Helper-Method which builds up the index lookup for the filter feature.
      * If no filter is set, the lookup table will be a 1:1 mapping.
      */
-    __buildUpLookupTable: function() {
+    __buildUpLookupTable() {
       var model = this.getModel();
       if (model == null) {
         return;
@@ -1070,8 +1054,8 @@ qx.Class.define("qx.data.controller.List",
       }
 
       this.__lookupTable = [];
-      
-      // -1 is a special lookup value, to represent the "null" option 
+
+      // -1 is a special lookup value, to represent the "null" option
       if (this.isAllowNull()) {
         this.__lookupTable.push(-1);
       }
@@ -1082,19 +1066,16 @@ qx.Class.define("qx.data.controller.List",
       }
     },
 
-
     /**
      * Function for accessing the lookup table.
      *
      * @param index {Integer} The index of the lookup table.
      * @return {Number} Item index from lookup table
      */
-    __lookup: function(index) {
+    __lookup(index) {
       return this.__lookupTable[index];
     }
   },
-
-
 
   /*
    *****************************************************************************
@@ -1102,11 +1083,11 @@ qx.Class.define("qx.data.controller.List",
    *****************************************************************************
    */
 
-   destruct : function() {
-     this.__lookupTable = this.__onUpdate = this.__boundProperties = null;
-     this.__boundPropertiesReverse = null;
+  destruct() {
+    this.__lookupTable = this.__onUpdate = this.__boundProperties = null;
+    this.__boundPropertiesReverse = null;
 
-     // remove yourself from the widget queue
-     qx.ui.core.queue.Widget.remove(this);
-   }
+    // remove yourself from the widget queue
+    qx.ui.core.queue.Widget.remove(this);
+  }
 });

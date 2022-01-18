@@ -30,10 +30,8 @@
  * @ignore(Packages)
  */
 /* global Packages, enviroment, process, Titanium */
-qx.Bootstrap.define("qx.bom.client.Runtime",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.Runtime", {
+  statics: {
     /**
      * Checks for the name of the runtime and returns it. In general, it checks
      * for rhino and node.js and if that could not be detected, it falls back
@@ -41,18 +39,22 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
      * @return {String} The name of the current runtime.
      * @internal
      */
-    getName : function() {
+    getName() {
       var name = "";
 
-       // check for the Rhino runtime
-      if (typeof Packages === "object" && Object.prototype.toString.call(Packages) === "[object JavaPackage]") {
+      // check for the Rhino runtime
+      if (
+        typeof Packages === "object" &&
+        Object.prototype.toString.call(Packages) === "[object JavaPackage]"
+      ) {
         name = "rhino";
-      // check for the Node.js runtime
+        // check for the Node.js runtime
       } else if (typeof process !== "undefined") {
         name = "node.js";
-      } else if (typeof Titanium !== "undefined" &&
-        typeof Titanium.userAgent !== "undefined")
-      {
+      } else if (
+        typeof Titanium !== "undefined" &&
+        typeof Titanium.userAgent !== "undefined"
+      ) {
         name = "titanium";
       } else {
         // otherwise, we think its a browser
@@ -63,7 +65,7 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("runtime.name", statics.getName);
   }
 });

@@ -19,10 +19,8 @@
 /**
  * Specific data cell renderer for numbers.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Number",
-{
-  extend : qx.ui.table.cellrenderer.Conditional,
-
+qx.Class.define("qx.ui.table.cellrenderer.Number", {
+  extend: qx.ui.table.cellrenderer.Conditional,
 
   /*
   *****************************************************************************
@@ -30,22 +28,19 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * NumberFormat used to format data. If the numberFormat contains a
      * prefix and/or postfix containing characters which needs to be escaped,
      * those need to be given to the numberFormat in their escaped form
      * because no escaping happens at the cellrenderer level.
      */
-    numberFormat :
-    {
-      check : "qx.util.format.NumberFormat",
-      init : null,
-      nullable : true
+    numberFormat: {
+      check: "qx.util.format.NumberFormat",
+      init: null,
+      nullable: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -53,14 +48,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
   *****************************************************************************
   */
 
-  members :
-  {
-    _getContentHtml : function(cellInfo)
-    {
+  members: {
+    _getContentHtml(cellInfo) {
       var nf = this.getNumberFormat();
 
-      if (nf)
-      {
+      if (nf) {
         if (cellInfo.value || cellInfo.value == 0) {
           // I don't think we need to escape the resulting string, as I
           // don't know of any decimal or separator which use a character
@@ -71,16 +63,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
         } else {
           return "";
         }
-      }
-      else
-      {
-        return cellInfo.value == 0 ? "0" : (cellInfo.value || "");
+      } else {
+        return cellInfo.value == 0 ? "0" : cellInfo.value || "";
       }
     },
 
-
     // overridden
-    _getCellClass : function(cellInfo) {
+    _getCellClass(cellInfo) {
       return "qooxdoo-table-cell qooxdoo-table-cell-right";
     }
   }

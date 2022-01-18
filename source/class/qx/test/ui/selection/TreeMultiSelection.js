@@ -16,25 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
-{
-  extend : qx.test.ui.selection.AbstractMultiSelectonTest,
+qx.Class.define("qx.test.ui.selection.TreeMultiSelection", {
+  extend: qx.test.ui.selection.AbstractMultiSelectonTest,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       var length = 10;
       this._selection = [];
       this._notInSelection = [];
       this._mode = "multi";
 
-      this._widget = new qx.ui.tree.Tree().set(
-      {
+      this._widget = new qx.ui.tree.Tree().set({
         selectionMode: this._mode,
-        width : 200,
-        height : 400
+        width: 200,
+        height: 400
       });
+
       this.getRoot().add(this._widget);
 
       var root = new qx.ui.tree.TreeFolder("Root");
@@ -61,9 +58,8 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -71,8 +67,7 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getItems();
       } else {
@@ -80,7 +75,7 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       }
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.tree.TreeFile(name);
     }
   }

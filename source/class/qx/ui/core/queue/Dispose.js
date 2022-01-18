@@ -22,13 +22,10 @@
  * This queue makes it possible to remove widgets from the DOM using
  * the layout and element queues and dispose them afterwards.
  */
-qx.Class.define("qx.ui.core.queue.Dispose",
-{
-  statics :
-  {
+qx.Class.define("qx.ui.core.queue.Dispose", {
+  statics: {
     /** @type {Array} This contains all the queued widgets for the next flush. */
-    __queue : [],
-
+    __queue: [],
 
     /**
      * Adds a widget to the queue.
@@ -37,8 +34,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
      *
      * @param widget {qx.ui.core.Widget} The widget to add.
      */
-    add : function(widget)
-    {
+    add(widget) {
       var queue = this.__queue;
       if (queue.includes(widget)) {
         return;
@@ -48,29 +44,24 @@ qx.Class.define("qx.ui.core.queue.Dispose",
       qx.ui.core.queue.Manager.scheduleFlush("dispose");
     },
 
-
     /**
      * Whether the dispose queue is empty
      * @return {Boolean}
      * @internal
      */
-    isEmpty : function()
-    {
+    isEmpty() {
       return this.__queue.length == 0;
     },
-
 
     /**
      * Flushes the dispose queue.
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      */
-    flush : function()
-    {
+    flush() {
       // Dispose all registered objects
       var queue = this.__queue;
-      for (var i = queue.length - 1; i >= 0; i--)
-      {
+      for (var i = queue.length - 1; i >= 0; i--) {
         var widget = queue[i];
         queue.splice(i, 1);
         widget.dispose();

@@ -16,84 +16,95 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.container.Drawer",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.container.Drawer", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testInitComposite : function()
-    {
+  members: {
+    testInitComposite() {
       var parentContainer = new qx.ui.mobile.container.Composite();
 
       var drawer = new qx.ui.mobile.container.Drawer(parentContainer);
 
       var drawerCandidate = parentContainer.getChildren()[0];
 
-      this.assertEquals(drawer, drawerCandidate, "Unexpected children of composite.");
+      this.assertEquals(
+        drawer,
+        drawerCandidate,
+        "Unexpected children of composite."
+      );
 
       drawer.destroy();
     },
 
-
-    testInitRoot : function()
-    {
+    testInitRoot() {
       var drawer = new qx.ui.mobile.container.Drawer();
 
-      var drawerCandidate = this.getRoot().getChildren()[this.getRoot().getChildren().length-1];
+      var drawerCandidate =
+        this.getRoot().getChildren()[this.getRoot().getChildren().length - 1];
 
-      this.assertEquals(drawer, drawerCandidate, "Unexpected children of root.");
+      this.assertEquals(
+        drawer,
+        drawerCandidate,
+        "Unexpected children of root."
+      );
 
       drawer.destroy();
     },
 
-
-    testShowHide : function()
-    {
+    testShowHide() {
       var drawer = new qx.ui.mobile.container.Drawer();
 
       drawer.setTransitionDuration(0);
 
       // Initial hidden.
-      this.assertTrue(drawer.isHidden(),"Drawer is asserted to be initially hidden.");
+      this.assertTrue(
+        drawer.isHidden(),
+        "Drawer is asserted to be initially hidden."
+      );
 
       // Show.
       drawer.show();
 
-      this.assertFalse(drawer.isHidden(),"Drawer is asserted to be shown.");
+      this.assertFalse(drawer.isHidden(), "Drawer is asserted to be shown.");
 
       // Hide again.
       drawer.hide();
 
-      this.assertTrue(drawer.isHidden(),"Drawer is asserted to be hidden.");
+      this.assertTrue(drawer.isHidden(), "Drawer is asserted to be hidden.");
 
       drawer.destroy();
     },
 
-
-    testToggleVisibility : function()
-    {
+    testToggleVisibility() {
       var drawer = new qx.ui.mobile.container.Drawer();
 
       drawer.setTransitionDuration(0);
 
       // Initial hidden.
-      this.assertTrue(drawer.isHidden(),"Drawer is asserted to be initially hidden.");
+      this.assertTrue(
+        drawer.isHidden(),
+        "Drawer is asserted to be initially hidden."
+      );
 
       // Toggle visibility.
       var targetVisibility = drawer.toggleVisibility();
 
-      this.assertTrue(targetVisibility,"Drawer's targetVisibility is asserted to be true.");
-      this.assertFalse(drawer.isHidden(),"Drawer is asserted to be shown.");
+      this.assertTrue(
+        targetVisibility,
+        "Drawer's targetVisibility is asserted to be true."
+      );
+      this.assertFalse(drawer.isHidden(), "Drawer is asserted to be shown.");
 
       // Toggle visibility again.
       targetVisibility = drawer.toggleVisibility();
 
-      this.assertFalse(targetVisibility,"Drawer's targetVisibility is asserted to be false.");
-      this.assertTrue(drawer.isHidden(),"Drawer is asserted to be hidden.");
+      this.assertFalse(
+        targetVisibility,
+        "Drawer's targetVisibility is asserted to be false."
+      );
+      this.assertTrue(drawer.isHidden(), "Drawer is asserted to be hidden.");
 
       drawer.destroy();
     }
   }
-
 });

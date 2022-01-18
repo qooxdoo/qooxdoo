@@ -27,52 +27,49 @@
  * * Opera 10.5+
  * * Chrome 4.0+
  */
-qx.Mixin.define("qx.ui.decoration.MBorderRadius",
-{
-  properties : {
+qx.Mixin.define("qx.ui.decoration.MBorderRadius", {
+  properties: {
     /** top left corner radius */
-    radiusTopLeft :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyBorderRadius"
+    radiusTopLeft: {
+      nullable: true,
+      check: "Integer",
+      apply: "_applyBorderRadius"
     },
 
     /** top right corner radius */
-    radiusTopRight :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyBorderRadius"
+    radiusTopRight: {
+      nullable: true,
+      check: "Integer",
+      apply: "_applyBorderRadius"
     },
 
     /** bottom left corner radius */
-    radiusBottomLeft :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyBorderRadius"
+    radiusBottomLeft: {
+      nullable: true,
+      check: "Integer",
+      apply: "_applyBorderRadius"
     },
 
     /** bottom right corner radius */
-    radiusBottomRight :
-    {
-      nullable : true,
-      check : "Integer",
-      apply : "_applyBorderRadius"
+    radiusBottomRight: {
+      nullable: true,
+      check: "Integer",
+      apply: "_applyBorderRadius"
     },
 
     /** Property group to set the corner radius of all sides */
-    radius :
-    {
-      group : [ "radiusTopLeft", "radiusTopRight", "radiusBottomRight", "radiusBottomLeft" ],
-      mode : "shorthand"
+    radius: {
+      group: [
+        "radiusTopLeft",
+        "radiusTopRight",
+        "radiusBottomRight",
+        "radiusBottomLeft"
+      ],
+      mode: "shorthand"
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Takes a styles map and adds the border radius styles in place to the
      * given map. This is the needed behavior for
@@ -80,8 +77,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
      *
      * @param styles {Map} A map to add the styles.
      */
-    _styleBorderRadius : function(styles)
-    {
+    _styleBorderRadius(styles) {
       // Fixing the background bleed in Webkits
       // http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
       styles["-webkit-background-clip"] = "padding-box";
@@ -126,17 +122,17 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
       if (hasRadius && qx.core.Environment.get("engine.name") == "webkit") {
         styles["-webkit-background-clip"] = "padding-box";
       } else {
-    styles["background-clip"] = "padding-box";
+        styles["background-clip"] = "padding-box";
       }
     },
 
     // property apply
-    _applyBorderRadius : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyBorderRadius() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     }

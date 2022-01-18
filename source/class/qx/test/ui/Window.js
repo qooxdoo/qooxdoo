@@ -15,17 +15,14 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.Window",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.Window", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    _win : null,
+  members: {
+    _win: null,
 
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this._win = [];
 
@@ -37,28 +34,24 @@ qx.Class.define("qx.test.ui.Window",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       this._disposeArray("_win");
     },
 
-    testActiveWindowBeforeWindowOpened : function()
-    {
+    testActiveWindowBeforeWindowOpened() {
       this.assertNull(this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterWindowOpened : function()
-    {
+    testActiveWindowAfterWindowOpened() {
       this._win[0].open();
       this.flush();
 
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterWindowOpened2 : function()
-    {
+    testActiveWindowAfterWindowOpened2() {
       this._win[0].open();
       this._win[1].open();
       this.flush();
@@ -66,8 +59,7 @@ qx.Class.define("qx.test.ui.Window",
       this.assertIdentical(this._win[1], this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterWindowClosed : function()
-    {
+    testActiveWindowAfterWindowClosed() {
       this._win[0].open();
       this.flush();
 
@@ -77,8 +69,7 @@ qx.Class.define("qx.test.ui.Window",
       this.assertNull(this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterWindowClosed2 : function()
-    {
+    testActiveWindowAfterWindowClosed2() {
       this._win[0].open();
       this._win[1].open();
       this.flush();
@@ -89,19 +80,19 @@ qx.Class.define("qx.test.ui.Window",
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterAllWindowsOpened : function()
-    {
+    testActiveWindowAfterAllWindowsOpened() {
       for (var i = 0; i < this._win.length; i++) {
         this._win[i].open();
       }
       this.flush();
 
-      this.assertIdentical(this._win[this._win.length - 1],
-        this.getRoot().getActiveWindow());
+      this.assertIdentical(
+        this._win[this._win.length - 1],
+        this.getRoot().getActiveWindow()
+      );
     },
 
-    testActiveWindowAfterRemovingOpenedWindow : function()
-    {
+    testActiveWindowAfterRemovingOpenedWindow() {
       this._win[0].open();
       this.flush();
 
@@ -111,8 +102,7 @@ qx.Class.define("qx.test.ui.Window",
       this.assertNull(this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterRemovingOpenedWindow2 : function()
-    {
+    testActiveWindowAfterRemovingOpenedWindow2() {
       this._win[0].open();
       this._win[1].open();
       this.flush();
@@ -123,9 +113,8 @@ qx.Class.define("qx.test.ui.Window",
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
-    testActiveWindowAfterRemovingAllWindows : function()
-    {
-       for (var i = 0; i < this._win.length; i++) {
+    testActiveWindowAfterRemovingAllWindows() {
+      for (var i = 0; i < this._win.length; i++) {
         this._win[i].open();
       }
       this.flush();
@@ -136,8 +125,7 @@ qx.Class.define("qx.test.ui.Window",
       this.assertNull(this.getRoot().getActiveWindow());
     },
 
-    testModalWindowIsAlwaysActiveIfOpen : function()
-    {
+    testModalWindowIsAlwaysActiveIfOpen() {
       this._win[0].setModal(true);
       this._win[0].open();
       this._win[1].open();
@@ -146,11 +134,10 @@ qx.Class.define("qx.test.ui.Window",
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
 
-    testOrderModalOverAlwaysOnTopOverNormalWindow : function()
-    {
-      var modal       = this._win[0];
+    testOrderModalOverAlwaysOnTopOverNormalWindow() {
+      var modal = this._win[0];
       var alwaysOnTop = this._win[1];
-      var normal      = this._win[2];
+      var normal = this._win[2];
 
       modal.setModal(true);
       alwaysOnTop.setAlwaysOnTop(true);

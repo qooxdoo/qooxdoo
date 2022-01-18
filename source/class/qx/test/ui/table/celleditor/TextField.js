@@ -16,19 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.TextField",
-{
-  extend : qx.test.ui.table.celleditor.AbstractField,
+qx.Class.define("qx.test.ui.table.celleditor.TextField", {
+  extend: qx.test.ui.table.celleditor.AbstractField,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.factory = new qx.ui.table.celleditor.TextField();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.factory.dispose();
     }
   }

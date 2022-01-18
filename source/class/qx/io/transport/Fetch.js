@@ -12,11 +12,10 @@ qx.Class.define("qx.io.transport.Fetch", {
    * @param {String} url The URL of the http endpoint
    */
   construct(url) {
-    this.base(arguments, url);
+    super(url);
   },
 
   members: {
-
     /**
      * @type {Object}
      */
@@ -64,7 +63,10 @@ qx.Class.define("qx.io.transport.Fetch", {
             // "400 Bad Request" is a really a protocol error (syntax error)
             break;
           default:
-            throw new qx.io.exception.Transport(response.statusText, response.status);
+            throw new qx.io.exception.Transport(
+              response.statusText,
+              response.status
+            );
         }
       }
       let responseData = await response.text();
@@ -81,9 +83,10 @@ qx.Class.define("qx.io.transport.Fetch", {
     _createTransportImpl() {
       let init = {};
       init.headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json"
       };
+
       init.method = "POST";
       return init;
     }

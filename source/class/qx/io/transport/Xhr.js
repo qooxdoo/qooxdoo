@@ -9,7 +9,7 @@
  */
 qx.Class.define("qx.io.transport.Xhr", {
   extend: qx.io.transport.AbstractTransport,
-  implement : qx.io.transport.ITransport,
+  implement: qx.io.transport.ITransport,
 
   /**
    * Constructor.
@@ -17,16 +17,15 @@ qx.Class.define("qx.io.transport.Xhr", {
    * @param {String} url The URL of the http endpoint
    */
   construct(url) {
-    this.base(arguments, url);
+    super(url);
   },
 
   members: {
-
     /**
      * Internal implementation of the transport
      * @var {qx.io.request.Xhr}
      */
-    __tranportImpl : null,
+    __tranportImpl: null,
 
     /**
      * Returns the object which implements the transport on the
@@ -65,25 +64,25 @@ qx.Class.define("qx.io.transport.Xhr", {
               throw new qx.io.exception.Transport(
                 e.toString(),
                 qx.io.exception.Transport.TIMEOUT,
-                {message}
+                { message }
               );
+
             case "parseError":
               throw new qx.io.exception.Transport(
                 e.toString(),
                 qx.io.exception.Transport.INVALID_MSG_DATA,
-                {message}
+                { message }
               );
+
             case "abort":
-              throw new qx.io.exception.Cancel(
-                e.toString(),
-                {message}
-              );
+              throw new qx.io.exception.Cancel(e.toString(), { message });
+
             case "statusError":
               if (req.getStatus() === 400) {
-                  // "400 Bad Request" is a really a protocol error (syntax error)
-                  break;
+                // "400 Bad Request" is a really a protocol error (syntax error)
+                break;
               }
-              // fallthrough
+            // fallthrough
             case "error":
               throw new qx.io.exception.Transport(
                 e.toString(),
@@ -93,13 +92,13 @@ qx.Class.define("qx.io.transport.Xhr", {
                   response: req.getResponse()
                 }
               );
+
             default:
               // unknown error
-              throw new qx.io.exception.Exception(
-                e.toString(),
-                undefined,
-                {message, error:e}
-              );
+              throw new qx.io.exception.Exception(e.toString(), undefined, {
+                message,
+                error: e
+              });
           }
         }
       }

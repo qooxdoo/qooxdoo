@@ -19,10 +19,8 @@
  * Can be included for implementing {@link qx.ui.form.IModel}. It only contains
  * a nullable property named 'model' with a 'changeModel' event.
  */
-qx.Mixin.define("qx.ui.form.MModelProperty",
-{
-  properties :
-  {
+qx.Mixin.define("qx.ui.form.MModelProperty", {
+  properties: {
     /**
      * Model property for storing additional information for the including
      * object. It can act as value property on form items for example.
@@ -39,20 +37,17 @@ qx.Mixin.define("qx.ui.form.MModelProperty",
      * Both restrictions result of the fact, that the set models are deputies
      * for their widget.
      */
-    model :
-    {
-      nullable : true,
-      event : "changeModel",
-      apply : "_applyModel",
-      dereference : true
+    model: {
+      nullable: true,
+      event: "changeModel",
+      apply: "_applyModel",
+      dereference: true
     }
   },
 
-
-  members :
-  {
+  members: {
     // apply method
-    _applyModel : function(value, old) {
+    _applyModel(value, old) {
       // Empty implementation
     }
   }

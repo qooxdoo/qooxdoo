@@ -24,7 +24,7 @@ const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
 
-const {promisify} = require("util");
+const { promisify } = require("util");
 const stat = promisify(fs.stat);
 const mkdir = promisify(fs.mkdir);
 const readdir = promisify(fs.readdir);
@@ -34,7 +34,6 @@ qx.Class.define("qx.tool.utils.files.Utils", {
   extend: qx.core.Object,
 
   statics: {
-    
     async findAllFiles(dir, fnEach) {
       let filenames;
       try {
@@ -45,15 +44,17 @@ qx.Class.define("qx.tool.utils.files.Utils", {
         }
         throw ex;
       }
-      await qx.Promise.all(filenames.map(async shortName => {
-        let filename = path.join(dir, shortName);
-        let tmp = await stat(filename);
-        if (tmp.isDirectory()) {
-          await qx.tool.utils.files.Utils.findAllFiles(filename, fnEach);
-        } else {
-          await fnEach(filename);
-        }
-      }));
+      await qx.Promise.all(
+        filenames.map(async shortName => {
+          let filename = path.join(dir, shortName);
+          let tmp = await stat(filename);
+          if (tmp.isDirectory()) {
+            await qx.tool.utils.files.Utils.findAllFiles(filename, fnEach);
+          } else {
+            await fnEach(filename);
+          }
+        })
+      );
     },
 
     /**
@@ -64,7 +65,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param filter {Function?} optional filter method to validate filenames before sync
      * @async
      */
-    sync: function(from, to, filter) {
+    sync(from, to, filter) {
       var t = this;
 
       function copy(statFrom, statTo) {
@@ -75,11 +76,19 @@ qx.Class.define("qx.tool.utils.files.Utils", {
           } else {
             p = Promise.resolve();
           }
-          return p.then(() => readdir(from)
-            .then(files => Promise.all(files.map(file => t.sync(path.join(from, file), path.join(to, file), filter)))));
+          return p.then(() =>
+            readdir(from).then(files =>
+              Promise.all(
+                files.map(file =>
+                  t.sync(path.join(from, file), path.join(to, file), filter)
+                )
+              )
+            )
+          );
         } else if (statFrom.isFile()) {
-          return qx.Promise.resolve(filter ? filter(from, to) : true)
-            .then(result => result && t.copyFile(from, to));
+          return qx.Promise.resolve(filter ? filter(from, to) : true).then(
+            result => result && t.copyFile(from, to)
+          );
         }
         return undefined;
       }
@@ -92,7 +101,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
           .then(tmp => {
             statFrom = tmp;
             return stat(to)
-              .then(tmp => statTo = tmp)
+              .then(tmp => (statTo = tmp))
               .catch(err => {
                 if (err.code !== "ENOENT") {
                   throw err;
@@ -101,9 +110,12 @@ qx.Class.define("qx.tool.utils.files.Utils", {
           })
           .then(() => {
             if (!statTo || statFrom.isDirectory() != statTo.isDirectory()) {
-              return t.deleteRecursive(to)
-                .then(() => copy(statFrom, statTo));
-            } else if (statFrom.isDirectory() || (statFrom.mtime.getTime() > statTo.mtime.getTime() || statFrom.size != statTo.size)) {
+              return t.deleteRecursive(to).then(() => copy(statFrom, statTo));
+            } else if (
+              statFrom.isDirectory() ||
+              statFrom.mtime.getTime() > statTo.mtime.getTime() ||
+              statFrom.size != statTo.size
+            ) {
               return copy(statFrom, statTo);
             }
             return undefined;
@@ -119,12 +131,15 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param to {String} path to copy to
      * @async
      */
-    copyFile: function(from, to) {
+    copyFile(from, to) {
       return new Promise((resolve, reject) => {
-        qx.tool.utils.Utils.mkParentPath(to, function() {
-          var rs = fs.createReadStream(from, { flags: "r", encoding: "binary" });
+        qx.tool.utils.Utils.mkParentPath(to, function () {
+          var rs = fs.createReadStream(from, {
+            flags: "r",
+            encoding: "binary"
+          });
           var ws = fs.createWriteStream(to, { flags: "w", encoding: "binary" });
-          rs.on("end", function() {
+          rs.on("end", function () {
             resolve(from, to);
           });
           rs.on("error", reject);
@@ -141,9 +156,9 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @returns {fs.Stat}
      * @async
      */
-    safeStat: function(filename) {
+    safeStat(filename) {
       return new Promise((resolve, reject) => {
-        fs.stat(filename, function(err, stats) {
+        fs.stat(filename, function (err, stats) {
           if (err && err.code != "ENOENT") {
             reject(err);
           } else {
@@ -159,9 +174,9 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param filename {String} file to delete
      * @async
      */
-    safeUnlink: function(filename) {
+    safeUnlink(filename) {
       return new Promise((resolve, reject) => {
-        fs.unlink(filename, function(err) {
+        fs.unlink(filename, function (err) {
           if (err && err.code != "ENOENT") {
             reject(err);
           } else {
@@ -178,9 +193,9 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param to {String} new filename
      * @async
      */
-    safeRename: function(from, to) {
+    safeRename(from, to) {
       return new Promise((resolve, reject) => {
-        fs.rename(from, to, function(err) {
+        fs.rename(from, to, function (err) {
           if (err && err.code != "ENOENT") {
             reject(err);
           } else {
@@ -198,8 +213,8 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param length {Integer} maximum number of files
      * @async
      */
-    rotateUnique: async function(filename, length) {
-      if (await this.safeStat(filename) && length > 1) {
+    async rotateUnique(filename, length) {
+      if ((await this.safeStat(filename)) && length > 1) {
         var lastFile = null;
         for (var i = length; i > 0; i--) {
           var tmp = filename + "." + i;
@@ -219,7 +234,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @param name {String} file or dir to delete
      * @async
      */
-    deleteRecursive: function(name) {
+    deleteRecursive(name) {
       return new Promise((resolve, reject) => {
         rimraf(name, err => {
           if (err) {
@@ -238,7 +253,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
      * @returns {String} the new path
      * @async
      */
-    correctCase: function(dir) {
+    correctCase(dir) {
       var drivePrefix = "";
       if (process.platform === "win32" && dir.match(/^[a-zA-Z]:/)) {
         drivePrefix = dir.substring(0, 2);
@@ -283,30 +298,34 @@ qx.Class.define("qx.tool.utils.files.Utils", {
         }
 
         return new Promise((resolve, reject) => {
-          fs.readdir(currentDir.length == 0 ? "." : drivePrefix + currentDir, { encoding: "utf8" }, (err, files) => {
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            let nextLowerCase = nextSeg.toLowerCase();
-            let exact = false;
-            let insensitive = null;
-            for (let i = 0; i < files.length; i++) {
-              if (files[i] === nextSeg) {
-                exact = true;
-                break;
+          fs.readdir(
+            currentDir.length == 0 ? "." : drivePrefix + currentDir,
+            { encoding: "utf8" },
+            (err, files) => {
+              if (err) {
+                reject(err);
+                return;
               }
-              if (files[i].toLowerCase() === nextLowerCase) {
-                insensitive = files[i];
-              }
-            }
-            if (!exact && insensitive) {
-              nextSeg = insensitive;
-            }
 
-            bumpToNext(nextSeg).then(resolve);
-          });
+              let nextLowerCase = nextSeg.toLowerCase();
+              let exact = false;
+              let insensitive = null;
+              for (let i = 0; i < files.length; i++) {
+                if (files[i] === nextSeg) {
+                  exact = true;
+                  break;
+                }
+                if (files[i].toLowerCase() === nextLowerCase) {
+                  insensitive = files[i];
+                }
+              }
+              if (!exact && insensitive) {
+                nextSeg = insensitive;
+              }
+
+              bumpToNext(nextSeg).then(resolve);
+            }
+          );
         });
       }
 

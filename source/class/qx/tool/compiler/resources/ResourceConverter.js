@@ -27,7 +27,7 @@
 qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
   extend: qx.tool.compiler.resources.AbstractMatcher,
   type: "abstract",
-  
+
   members: {
     /**
      * Allows the converter to decide to not copy the resource at all
@@ -35,26 +35,26 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
     isDoNotCopy(filename) {
       return false;
     },
-    
+
     /**
      * Detects whether the file needs to be recompiled/coverted/analysed/ etc, and is done after
      * checks determine whether the file datetime stamp indicate it's necessary
-     * 
+     *
      * @param target {Target} the target
      * @param asset {Asset} the asset to copy
      * @param srcFilename {String} full path to the file
      * @param destFilename {String} full path to the destination file
      * @param isThemeFile {Booelan} true if the file is a theme file (as opposed to a normal resource file)
-     * 
+     *
      * @return {Boolean}
      */
     async needsConvert(target, asset, srcFilename, destFilename, isThemeFile) {
       return false;
     },
-    
+
     /**
      * Returns the destination filename, or null if default is to be used
-     * 
+     *
      * @param target {Target} the target
      * @param asset {Asset} the asset to copy
      * @return {String?} full path to the file
@@ -62,11 +62,11 @@ qx.Class.define("qx.tool.compiler.resources.ResourceConverter", {
     getDestFilename(target, asset) {
       return null;
     },
-    
+
     /**
      * Allows a file to be recompiled/coverted/analysed/ etc; must return a Promise which resolves
      * when complete.  Data can be stored in the resource database by modifying the fileInfo
-     * 
+     *
      * @param target {Target} the target
      * @param asset {Asset} the asset to copy
      * @param srcFilename {String} full path to the file

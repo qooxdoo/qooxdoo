@@ -28,7 +28,8 @@ qx.Class.define("qx.tool.config.Manifest", {
       version: "2.0.0"
     }
   },
-  construct: function() {
-    this.base(arguments, this.self(arguments).config);
+
+  construct() {
+    super(this.self(arguments).config);
   }
 });

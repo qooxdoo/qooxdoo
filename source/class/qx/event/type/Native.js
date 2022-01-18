@@ -21,12 +21,10 @@
 /**
  * Common base class for all native events (DOM events, IO events, ...).
  */
-qx.Class.define("qx.event.type.Native",
-{
-  extend : qx.event.type.Event,
+qx.Class.define("qx.event.type.Native", {
+  extend: qx.event.type.Event,
 
-  members :
-  {
+  members: {
     /**
      * Initialize the fields of the event. The event must be initialized before
      * it can be dispatched.
@@ -45,12 +43,12 @@ qx.Class.define("qx.event.type.Native",
      *     {@link #preventDefault}
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(nativeEvent, target, relatedTarget, canBubble, cancelable)
-    {
-      this.base(arguments, canBubble, cancelable);
+    init(nativeEvent, target, relatedTarget, canBubble, cancelable) {
+      super.init(canBubble, cancelable);
 
       this._target = target || qx.bom.Event.getTarget(nativeEvent);
-      this._relatedTarget = relatedTarget || qx.bom.Event.getRelatedTarget(nativeEvent);
+      this._relatedTarget =
+        relatedTarget || qx.bom.Event.getRelatedTarget(nativeEvent);
 
       if (nativeEvent.timeStamp) {
         this._timeStamp = nativeEvent.timeStamp;
@@ -62,11 +60,9 @@ qx.Class.define("qx.event.type.Native",
       return this;
     },
 
-
     // overridden
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
 
       var nativeClone = {};
       clone._native = this._cloneNativeEvent(this._native, nativeClone);
@@ -76,7 +72,6 @@ qx.Class.define("qx.event.type.Native",
       return clone;
     },
 
-
     /**
      * Clone the native browser event
      *
@@ -84,32 +79,27 @@ qx.Class.define("qx.event.type.Native",
      * @param clone {Object} The initialized clone.
      * @return {Object} The cloned event
      */
-    _cloneNativeEvent : function(nativeEvent, clone)
-    {
-      clone.preventDefault = (function() {});
+    _cloneNativeEvent(nativeEvent, clone) {
+      clone.preventDefault = function () {};
       return clone;
     },
-
 
     /**
      * Prevent browser default behavior, e.g. opening the context menu, ...
      */
-    preventDefault : function()
-    {
-      this.base(arguments);
+    preventDefault() {
+      super.preventDefault();
       qx.bom.Event.preventDefault(this._native);
     },
-
 
     /**
      * Get the native browser event object of this event.
      *
      * @return {Event} The native browser event
      */
-    getNativeEvent : function() {
+    getNativeEvent() {
       return this._native;
     },
-
 
     /**
      * Sets the event's return value. If the return value is set in a
@@ -119,17 +109,16 @@ qx.Class.define("qx.event.type.Native",
      *
      * @param returnValue {String?null} Return value
      */
-    setReturnValue : function(returnValue) {
+    setReturnValue(returnValue) {
       this._returnValue = returnValue;
     },
-
 
     /**
      * Retrieves the event's return value.
      *
      * @return {String?null} The return value
      */
-    getReturnValue : function() {
+    getReturnValue() {
       return this._returnValue;
     }
   }

@@ -16,16 +16,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.TabView",
-{
-  extend : qx.test.ui.selection.AbstractSingleSelectonTest,
+qx.Class.define("qx.test.ui.selection.TabView", {
+  extend: qx.test.ui.selection.AbstractSingleSelectonTest,
 
-  members :
-  {
-    __radioButtons : null,
+  members: {
+    __radioButtons: null,
 
-    setUp : function()
-    {
+    setUp() {
       var length = 10;
       this._notInSelection = [];
       this._mode = "one";
@@ -48,9 +45,8 @@ qx.Class.define("qx.test.ui.selection.TabView",
       this.flush();
     },
 
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
@@ -58,8 +54,7 @@ qx.Class.define("qx.test.ui.selection.TabView",
       this.flush();
     },
 
-    _getChildren : function()
-    {
+    _getChildren() {
       if (this._widget != null) {
         return this._widget.getChildren();
       } else {
@@ -67,31 +62,44 @@ qx.Class.define("qx.test.ui.selection.TabView",
       }
     },
 
-    testAddAtIndex : function()
-    {
-      var index = parseInt(this._widget.getChildren().length/2);
+    testAddAtIndex() {
+      var index = parseInt(this._widget.getChildren().length / 2);
       var page = new qx.ui.tabview.Page("insertedPage_" + index);
       this._widget.addAt(page, index);
-      this.assertEquals(page.getLabel(),this._widget.getChildren()[index].getLabel());
+      this.assertEquals(
+        page.getLabel(),
+        this._widget.getChildren()[index].getLabel()
+      );
     },
 
-    testAddPage : function()
-    {
+    testAddPage() {
       var page = new qx.ui.tabview.Page("insertedPage_Last");
       this._widget.add(page);
-      this.assertEquals(page.getLabel(),this._widget.getChildren()[this._widget.getChildren().length-1].getLabel());
+      this.assertEquals(
+        page.getLabel(),
+        this._widget
+          .getChildren()
+          [this._widget.getChildren().length - 1].getLabel()
+      );
     },
 
-    testAddAtLastIndex : function()
-    {
+    testAddAtLastIndex() {
       var index = this._widget.getChildren().length;
       var page = new qx.ui.tabview.Page("insertedPage_" + index);
       this._widget.addAt(page, index);
-      this.assertEquals(page.getLabel(),this._widget.getChildren()[index].getLabel());
-      this.assertEquals(page.getLabel(),this._widget.getChildren()[this._widget.getChildren().length-1].getLabel());
+      this.assertEquals(
+        page.getLabel(),
+        this._widget.getChildren()[index].getLabel()
+      );
+      this.assertEquals(
+        page.getLabel(),
+        this._widget
+          .getChildren()
+          [this._widget.getChildren().length - 1].getLabel()
+      );
     },
 
-    _createTestElement : function(name) {
+    _createTestElement(name) {
       return new qx.ui.tabview.Page(name);
     }
   }

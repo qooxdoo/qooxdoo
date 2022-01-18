@@ -25,15 +25,13 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * actually implemented.
  */
-qx.Interface.define("qx.ui.mobile.container.IScrollDelegate",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.mobile.container.IScrollDelegate", {
+  members: {
     /**
      * Calculates the scroll offset if container scrolls to a widget/element through <code>scrollToElement()|scrollToWidget()</code>.
      *
      * @return {Array} an array with x,y offset.
      */
-    getScrollOffset: function() {}
+    getScrollOffset() {}
   }
 });

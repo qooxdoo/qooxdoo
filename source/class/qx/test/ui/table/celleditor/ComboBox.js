@@ -16,34 +16,29 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
-{
-  extend : qx.test.ui.table.celleditor.AbstractField,
+qx.Class.define("qx.test.ui.table.celleditor.ComboBox", {
+  extend: qx.test.ui.table.celleditor.AbstractField,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.factory = new qx.ui.table.celleditor.ComboBox();
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
       this.factory.dispose();
     },
 
-
-    _getCellInfo : function(value) {
+    _getCellInfo(value) {
       return {
         value: value,
         col: 0,
         table: {
-          getTableColumnModel: function() {
+          getTableColumnModel() {
             return {
-              getDataCellRenderer: function(col) {
+              getDataCellRenderer(col) {
                 return {
-                  _getContentHtml : function(cellInfo) {
+                  _getContentHtml(cellInfo) {
                     return cellInfo.value;
                   }
                 };
@@ -54,9 +49,7 @@ qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
       };
     },
 
-
-    testChangeEditorSelection : function()
-    {
+    testChangeEditorSelection() {
       this.factory.setListData(["elefant", "affe", "banane"]);
       var editor = this.factory.createCellEditor(this._getCellInfo("affe"));
 

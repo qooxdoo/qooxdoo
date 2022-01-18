@@ -24,26 +24,22 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Pinch", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["pinch"],
+    TYPES: ["pinch"],
 
-
-    BIND_METHODS : [ "getScale" ],
-
+    BIND_METHODS: ["getScale"],
 
     /**
      * Returns the calculated scale of this event.
      *
      * @return {Float} the scale value of this event.
      */
-    getScale : function() {
+    getScale() {
       return this._original.scale;
     },
-
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -54,16 +50,16 @@ qx.Bootstrap.define("qx.module.event.Pinch", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element)
-    {
+    normalize(event, element) {
       if (!event) {
         return event;
       }
       // apply mouse event normalizations
       var bindMethods = qx.module.event.Pinch.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
+      for (var i = 0, l = bindMethods.length; i < l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Pinch[bindMethods[i]].bind(event);
+          event[bindMethods[i]] =
+            qx.module.event.Pinch[bindMethods[i]].bind(event);
         }
       }
 
@@ -71,7 +67,10 @@ qx.Bootstrap.define("qx.module.event.Pinch", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Pinch.TYPES, statics.normalize);
+  defer(statics) {
+    qxWeb.$registerEventNormalization(
+      qx.module.event.Pinch.TYPES,
+      statics.normalize
+    );
   }
 });

@@ -23,13 +23,12 @@
 /* eslint no-nested-ternary: 0 */
 /* eslint no-inner-declarations: 0 */
 
-
 var fs = require("fs");
 var async = require("async");
 
 var hash = require("object-hash");
 
-const {promisify} = require("util");
+const { promisify } = require("util");
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
@@ -50,8 +49,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
    * @param dbFilename
    *          {String} the name of the database, defaults to "db.json"
    */
-  construct: function(dbFilename) {
-    this.base(arguments);
+  construct(dbFilename) {
+    super();
 
     this.__dbFilename = dbFilename || "db.json";
     this.__libraries = [];
@@ -72,7 +71,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
     /** Supported application types */
     applicationTypes: {
-      init: [ "node", "browser" ],
+      init: ["node", "browser"],
       check: "Array"
     },
 
@@ -128,7 +127,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     /** Whether and how to mangle private identifiers */
     manglePrivates: {
       init: "readable",
-      check: [ "off", "readable", "unreadable" ]
+      check: ["off", "readable", "unreadable"]
     },
 
     /** Whether to write line numbers to .po files */
@@ -146,7 +145,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * oldDbClassInfo: {Object} the previous populated class info
      * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
      */
-    "compilingClass": "qx.event.type.Data",
+    compilingClass: "qx.event.type.Data",
 
     /**
      * Fired when a class is compiled; data is a map:
@@ -154,24 +153,23 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * oldDbClassInfo: {Object} the previous populated class info
      * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
      */
-    "compiledClass": "qx.event.type.Data",
+    compiledClass: "qx.event.type.Data",
 
     /**
      * Fired when a class is already compiled (but needed for compilation); data is a map:
      * className: {String}
      * dbClassInfo: {Object} the newly populated class info
      */
-    "alreadyCompiledClass": "qx.event.type.Data",
+    alreadyCompiledClass: "qx.event.type.Data",
 
     /**
      * Fired when the database is been saved
      * database: {Object} the database to save
      */
-    "saveDatabase": "qx.event.type.Data"
+    saveDatabase: "qx.event.type.Data"
   },
 
   members: {
-
     __opened: false,
     __resManager: null,
     __dbFilename: null,
@@ -199,7 +197,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @async
      */
-    open: function() {
+    open() {
       var p;
       if (!this.__opened) {
         this.__opened = true;
@@ -226,7 +224,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @param cb
      */
-    initialScan: function(cb) {
+    initialScan(cb) {
       var t = this;
 
       if (!this.__db) {
@@ -237,21 +235,23 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       async.parallel(
         [
           // Load Resources
-          function(cb) {
+          function (cb) {
             if (!t.__resManager) {
               cb(null);
               return;
             }
 
-            t.__resManager.findAllResources()
+            t.__resManager
+              .findAllResources()
               .then(() => cb())
               .catch(cb);
           },
 
           // Find all classes
-          function(cb) {
-            async.each(t.__libraries,
-              function(library, cb) {
+          function (cb) {
+            async.each(
+              t.__libraries,
+              function (library, cb) {
                 library.scanForClasses(err => {
                   log.debug("Finished scanning for " + library.getNamespace());
                   cb(err);
@@ -260,20 +260,24 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               err => {
                 log.debug("Finished scanning for all libraries");
                 cb(err);
-              });
+              }
+            );
           }
         ],
-        function(err) {
+
+        function (err) {
           log.debug("processed source and resources");
           cb(err);
-        });
+        }
+      );
     },
 
     /**
      * Loads the database if available
      */
     async loadDatabase() {
-      this.__db = (await qx.tool.utils.Json.loadJsonAsync(this.getDbFilename())||{});
+      this.__db =
+        (await qx.tool.utils.Json.loadJsonAsync(this.getDbFilename())) || {};
     },
 
     /**
@@ -281,7 +285,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @return {Promise}
      */
-    resetDatabase: function() {
+    resetDatabase() {
       this.__db = null;
 
       if (this.__resManager) {
@@ -299,8 +303,10 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     async saveDatabase() {
       log.debug("saving generator database");
       await this.fireDataEventAsync("saveDatabase", this.__db);
-      await qx.tool.utils.Json.saveJsonAsync(this.getDbFilename(), this.__db)
-        .then(() => this.__resManager && this.__resManager.saveDatabase());
+      await qx.tool.utils.Json.saveJsonAsync(
+        this.getDbFilename(),
+        this.__db
+      ).then(() => this.__resManager && this.__resManager.saveDatabase());
     },
 
     /**
@@ -308,7 +314,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @returns
      */
-    getDatabase: function() {
+    getDatabase() {
       return this.__db;
     },
 
@@ -326,17 +332,21 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
       var compiledClasses = {};
       var metaFixupDescendants = {};
-      var listenerId = this.addListener("compiledClass", function(evt) {
+      var listenerId = this.addListener("compiledClass", function (evt) {
         var data = evt.getData();
         if (data.oldDbClassInfo) {
           if (data.oldDbClassInfo.extends) {
             metaFixupDescendants[data.oldDbClassInfo.extends] = true;
           }
           if (data.oldDbClassInfo.implement) {
-            data.oldDbClassInfo.implement.forEach(name => metaFixupDescendants[name] = true);
+            data.oldDbClassInfo.implement.forEach(
+              name => (metaFixupDescendants[name] = true)
+            );
           }
           if (data.oldDbClassInfo.include) {
-            data.oldDbClassInfo.include.forEach(name => metaFixupDescendants[name] = true);
+            data.oldDbClassInfo.include.forEach(
+              name => (metaFixupDescendants[name] = true)
+            );
           }
         }
 
@@ -344,10 +354,14 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           metaFixupDescendants[data.dbClassInfo.extends] = true;
         }
         if (data.dbClassInfo.implement) {
-          data.dbClassInfo.implement.forEach(name => metaFixupDescendants[name] = true);
+          data.dbClassInfo.implement.forEach(
+            name => (metaFixupDescendants[name] = true)
+          );
         }
         if (data.dbClassInfo.include) {
-          data.dbClassInfo.include.forEach(name => metaFixupDescendants[name] = true);
+          data.dbClassInfo.include.forEach(
+            name => (metaFixupDescendants[name] = true)
+          );
         }
 
         compiledClasses[data.classFile.getClassName()] = data;
@@ -360,7 +374,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         qx.tool.utils.Promisify.call(cb => library.scanForClasses(cb))
       );
 
-      var classes = t.__classes = t.__initialClassesToScan.toArray();
+      var classes = (t.__classes = t.__initialClassesToScan.toArray());
 
       function getConstructDependencies(className) {
         var deps = [];
@@ -381,7 +395,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         if (info && info.dependsOn) {
           for (var depName in info.dependsOn) {
             if (info.dependsOn[depName].load) {
-              getConstructDependencies(depName).forEach(function(className) {
+              getConstructDependencies(depName).forEach(function (className) {
                 deps.push(className);
               });
             }
@@ -392,7 +406,9 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
       for (var classIndex = 0; classIndex < classes.length; classIndex++) {
         try {
-          let dbClassInfo = await qx.tool.utils.Promisify.call(cb => t.getClassInfo(classes[classIndex], cb));
+          let dbClassInfo = await qx.tool.utils.Promisify.call(cb =>
+            t.getClassInfo(classes[classIndex], cb)
+          );
           if (dbClassInfo) {
             var deps = dbClassInfo.dependsOn;
             for (var depName in deps) {
@@ -408,10 +424,10 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
       }
 
-      classes.forEach(function(className) {
+      classes.forEach(function (className) {
         var info = t.__db.classInfo[className];
         var deps = getIndirectLoadDependencies(className);
-        deps.forEach(function(depName) {
+        deps.forEach(function (depName) {
           if (!info.dependsOn) {
             info.dependsOn = {};
           }
@@ -471,7 +487,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             for (let entityName in meta[entityTypeName]) {
               let entityMeta = meta[entityTypeName][entityName];
 
-              if (entityMeta.type === "function" || entityTypeName === "properties" || entityTypeName === "events") {
+              if (
+                entityMeta.type === "function" ||
+                entityTypeName === "properties" ||
+                entityTypeName === "events"
+              ) {
                 var entityInfo = classEntities[entityTypeName][entityName];
 
                 if (!entityInfo) {
@@ -482,7 +502,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                     abstract: meta.type === "interface",
                     mixin: meta.type === "mixin" && !first,
                     inherited: !first,
-                    access: entityName.startsWith("__") ? "private" : entityName.startsWith("_") ? "protected" : "public"
+                    access: entityName.startsWith("__")
+                      ? "private"
+                      : entityName.startsWith("_")
+                      ? "protected"
+                      : "public"
                   };
                 }
 
@@ -540,41 +564,51 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           }
 
           if (meta.properties) {
-            function addPropertyAccessor(propertyMeta, methodName, accessorType, returnType, valueType, desc) {
+            function addPropertyAccessor(
+              propertyMeta,
+              methodName,
+              accessorType,
+              returnType,
+              valueType,
+              desc
+            ) {
               var entityInfo = classEntities.members[methodName];
               if (!entityInfo || entityInfo.abstract) {
-                var newInfo = classEntities.members[methodName] = {
+                var newInfo = (classEntities.members[methodName] = {
                   appearsIn: entityInfo ? entityInfo.appearsIn : {},
-                  overriddenFrom: (entityInfo && entityInfo.appearsIn[0]) || null,
+                  overriddenFrom:
+                    (entityInfo && entityInfo.appearsIn[0]) || null,
                   jsdoc: {
                     "@description": [
                       {
-                        "name": "@description",
-                        "body": desc
+                        name: "@description",
+                        body: desc
                       }
                     ]
                   },
+
                   property: accessorType,
                   inherited: !first,
                   mixin: propertyMeta.mixin,
                   access: "public"
-                };
+                });
+
                 if (returnType) {
                   newInfo.jsdoc["@return"] = [
                     {
-                      "name": "@return",
-                      "type": returnType,
-                      "desc": "Returns the value for " + propertyMeta.name
+                      name: "@return",
+                      type: returnType,
+                      desc: "Returns the value for " + propertyMeta.name
                     }
                   ];
                 }
                 if (valueType) {
                   newInfo.jsdoc["@param"] = [
                     {
-                      "name": "@param",
-                      "type": valueType,
-                      "paramName": "value",
-                      "desc": "Value for " + propertyMeta.name
+                      name: "@param",
+                      type: valueType,
+                      paramName: "value",
+                      desc: "Value for " + propertyMeta.name
                     }
                   ];
                 }
@@ -585,50 +619,120 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               let upname = qx.lang.String.firstUp(propertyName);
               let type = propertyMeta.check || "any";
               if (!propertyMeta.group) {
-                let msg = "Gets the (computed) value of the property <code>" + propertyName + "</code>.\n" +
+                let msg =
+                  "Gets the (computed) value of the property <code>" +
+                  propertyName +
+                  "</code>.\n" +
                   "\n" +
-                  "For further details take a look at the property definition: {@link #" + propertyName + "}.";
-                addPropertyAccessor(propertyMeta, "get" + upname, "get", type, null, msg);
+                  "For further details take a look at the property definition: {@link #" +
+                  propertyName +
+                  "}.";
+                addPropertyAccessor(
+                  propertyMeta,
+                  "get" + upname,
+                  "get",
+                  type,
+                  null,
+                  msg
+                );
                 if (type == "Boolean") {
-                  addPropertyAccessor(propertyMeta, "is" + upname, "is", type, null, msg);
+                  addPropertyAccessor(
+                    propertyMeta,
+                    "is" + upname,
+                    "is",
+                    type,
+                    null,
+                    msg
+                  );
                 }
               }
 
-              addPropertyAccessor(propertyMeta, "set" + upname, "set", null, type,
-                "Sets the user value of the property <code>" + propertyName + "</code>.\n" +
+              addPropertyAccessor(
+                propertyMeta,
+                "set" + upname,
+                "set",
+                null,
+                type,
+                "Sets the user value of the property <code>" +
+                  propertyName +
+                  "</code>.\n" +
                   "\n" +
-                  "For further details take a look at the property definition: {@link #" + propertyName + "}.");
+                  "For further details take a look at the property definition: {@link #" +
+                  propertyName +
+                  "}."
+              );
 
-              addPropertyAccessor(propertyMeta, "reset" + upname, "reset", null, null,
-                "Resets the user value of the property <code>" + propertyName + "</code>.\n" +
+              addPropertyAccessor(
+                propertyMeta,
+                "reset" + upname,
+                "reset",
+                null,
+                null,
+                "Resets the user value of the property <code>" +
+                  propertyName +
+                  "</code>.\n" +
                   "\n" +
                   "The computed value falls back to the next available value e.g. appearance, init or inheritance value " +
                   "depending on the property configuration and value availability.\n" +
                   "\n" +
-                  "For further details take a look at the property definition: {@link #" + propertyName + "}.");
+                  "For further details take a look at the property definition: {@link #" +
+                  propertyName +
+                  "}."
+              );
 
               if (propertyMeta.async) {
-                var msg = "Returns a {@link qx.Promise} which resolves to the (computed) value of the property <code>" + propertyName + "</code>." +
-                "\n" +
-                "For further details take a look at the property definition: {@link #" + propertyName + "}.";
-                addPropertyAccessor(propertyMeta, "get" + upname + "Async", "getAsync", "Promise", null, msg);
+                var msg =
+                  "Returns a {@link qx.Promise} which resolves to the (computed) value of the property <code>" +
+                  propertyName +
+                  "</code>." +
+                  "\n" +
+                  "For further details take a look at the property definition: {@link #" +
+                  propertyName +
+                  "}.";
+                addPropertyAccessor(
+                  propertyMeta,
+                  "get" + upname + "Async",
+                  "getAsync",
+                  "Promise",
+                  null,
+                  msg
+                );
                 if (type == "Boolean") {
-                  addPropertyAccessor(propertyMeta, "is" + upname + "Async", "isAsync", "Promise", null, msg);
+                  addPropertyAccessor(
+                    propertyMeta,
+                    "is" + upname + "Async",
+                    "isAsync",
+                    "Promise",
+                    null,
+                    msg
+                  );
                 }
-                addPropertyAccessor(propertyMeta, "set" + upname + "Async", "setAsync", "Promise", type,
-                  "Sets the user value of the property <code>" + propertyName + "</code>, returns a {@link qx.Promise} " +
+                addPropertyAccessor(
+                  propertyMeta,
+                  "set" + upname + "Async",
+                  "setAsync",
+                  "Promise",
+                  type,
+                  "Sets the user value of the property <code>" +
+                    propertyName +
+                    "</code>, returns a {@link qx.Promise} " +
                     "which resolves when the value change has fully completed (in the case where there are asynchronous apply methods or events).\n" +
                     "\n" +
-                    "For further details take a look at the property definition: {@link #" + propertyName + "}.");
+                    "For further details take a look at the property definition: {@link #" +
+                    propertyName +
+                    "}."
+                );
               }
             }
           }
         }
 
         function hasSignature(jsdoc) {
-          return jsdoc &&
+          return (
+            jsdoc &&
             ((jsdoc["@param"] && jsdoc["@param"].length) ||
-            (jsdoc["@return"] && jsdoc["@return"].length));
+              (jsdoc["@return"] && jsdoc["@return"].length))
+          );
         }
 
         function mergeSignature(src, meta) {
@@ -657,15 +761,19 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             meta.events = {};
           }
           let eventInfo = classEntities.events[eventName];
-          if ((eventInfo.abstract || eventInfo.mixin) && !meta.events[eventInfo]) {
-            let eventMeta = meta.events[eventName] = {
+          if (
+            (eventInfo.abstract || eventInfo.mixin) &&
+            !meta.events[eventInfo]
+          ) {
+            let eventMeta = (meta.events[eventName] = {
               type: "event",
               name: eventName,
               abstract: Boolean(eventInfo.abstract),
               mixin: Boolean(eventInfo.mixin),
               access: eventInfo.access,
               overriddenFrom: eventInfo.overriddenFrom
-            };
+            });
+
             if (eventInfo.appearsIn.length) {
               eventMeta.appearsIn = Object.keys(eventInfo.appearsIn);
             }
@@ -697,8 +805,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
           for (let propertyName in classEntities.properties) {
             let propertyInfo = classEntities.properties[propertyName];
-            if ((propertyInfo.abstract || propertyInfo.mixin) && !meta.properties[propertyName]) {
-              let propertyMeta = meta.properties[propertyName] = {
+            if (
+              (propertyInfo.abstract || propertyInfo.mixin) &&
+              !meta.properties[propertyName]
+            ) {
+              let propertyMeta = (meta.properties[propertyName] = {
                 type: "property",
                 name: propertyName,
                 abstract: Boolean(propertyInfo.abstract),
@@ -706,7 +817,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                 access: propertyInfo.access,
                 overriddenFrom: propertyInfo.overriddenFrom,
                 event: propertyInfo.event
-              };
+              });
+
               if (propertyInfo.appearsIn.length) {
                 propertyMeta.appearsIn = Object.keys(propertyInfo.appearsIn);
               }
@@ -746,8 +858,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           if (memberMeta && memberMeta.type === "variable" && memberInfo) {
             memberMeta.type = "function";
           }
-          if ((memberInfo.abstract || memberInfo.mixin || memberInfo.property) && !memberMeta) {
-            let memberMeta = meta.members[memberName] = {
+          if (
+            (memberInfo.abstract || memberInfo.mixin || memberInfo.property) &&
+            !memberMeta
+          ) {
+            let memberMeta = (meta.members[memberName] = {
               type: "function",
               name: memberName,
               abstract: Boolean(memberInfo.abstract),
@@ -755,7 +870,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               inherited: Boolean(memberInfo.inherited),
               access: memberInfo.access,
               overriddenFrom: memberInfo.overriddenFrom
-            };
+            });
+
             if (memberInfo.property) {
               memberMeta.property = memberInfo.property;
             }
@@ -791,27 +907,41 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
       async function saveMetaData(classname, meta) {
         if (metaWrittenLog[classname]) {
-          qx.tool.compiler.Console.log(" *** ERROR *** Writing " + classname + " more than once");
-          throw new Error(" *** ERROR *** Writing " + classname + " more than once");
+          qx.tool.compiler.Console.log(
+            " *** ERROR *** Writing " + classname + " more than once"
+          );
+          throw new Error(
+            " *** ERROR *** Writing " + classname + " more than once"
+          );
         }
         metaWrittenLog[classname] = true;
-        var filename = qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
-        return writeFile(filename, JSON.stringify(meta, null, 2), {encoding: "utf-8"});
+        var filename =
+          qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        return writeFile(filename, JSON.stringify(meta, null, 2), {
+          encoding: "utf-8"
+        });
       }
 
       async function loadMetaData(classname) {
-        if (classname == "Object" || classname == "Array" || classname == "Error") {
+        if (
+          classname == "Object" ||
+          classname == "Array" ||
+          classname == "Error"
+        ) {
           return Promise.resolve(null);
         }
         if (cachedMeta[classname]) {
           return Promise.resolve(cachedMeta[classname]);
         }
-        var filename = qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
-        return readFile(filename, {encoding: "utf-8"})
+        var filename =
+          qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        return readFile(filename, { encoding: "utf-8" })
           .then(str => JSON.parse(str))
-          .then(meta => cachedMeta[classname] = meta)
+          .then(meta => (cachedMeta[classname] = meta))
           .catch(err => {
-            qx.tool.compiler.Console.error("Failed to load meta for " + classname + ": " + err);
+            qx.tool.compiler.Console.error(
+              "Failed to load meta for " + classname + ": " + err
+            );
           });
       }
 
@@ -828,7 +958,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       async function analyzeMeta() {
         var toSave = {};
         for (let classname in compiledClasses) {
-          let meta = cachedMeta[classname] = compiledClasses[classname].classFile.getOuterClassMeta();
+          let meta = (cachedMeta[classname] =
+            compiledClasses[classname].classFile.getOuterClassMeta());
           // Null meta means that the class didn't compile anything
           if (meta) {
             fixupMetaData(classname, meta);
@@ -854,7 +985,11 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           }
         }
 
-        await Promise.all(Object.keys(toSave).map(classname => saveMetaData(classname, toSave[classname])));
+        await Promise.all(
+          Object.keys(toSave).map(classname =>
+            saveMetaData(classname, toSave[classname])
+          )
+        );
       }
 
       return await analyzeMeta();
@@ -865,7 +1000,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param className
      * @private
      */
-    _addRequiredClass: function(className) {
+    _addRequiredClass(className) {
       let t = this;
 
       // __classes will be null if analyseClasses has not formally been called; this would be if the
@@ -884,7 +1019,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns the full list of required classes
      * @returns {null}
      */
-    getDependentClasses: function() {
+    getDependentClasses() {
       return this.__classes;
     },
 
@@ -892,7 +1027,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns cached class info - returns null if not loaded or not in the database
      * @returb DbClassInfo
      */
-    getCachedClassInfo: function(className) {
+    getCachedClassInfo(className) {
       return this.__db ? this.__db.classInfo[className] : null;
     },
 
@@ -902,7 +1037,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param forceScan {Boolean?} true if the class is to be compiled whether it needs it or not (default false)
      * @param cb {Function} (err, DbClassInfo)
      */
-    getClassInfo: function(className, forceScan, cb) {
+    getClassInfo(className, forceScan, cb) {
       var t = this;
       if (!this.__db) {
         this.__db = {};
@@ -926,11 +1061,19 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         return;
       }
 
-      var sourceClassFilename = qx.tool.compiler.ClassFile.getSourcePath(library, className);
-      var outputClassFilename = qx.tool.compiler.ClassFile.getOutputPath(this, className);
+      var sourceClassFilename = qx.tool.compiler.ClassFile.getSourcePath(
+        library,
+        className
+      );
+      var outputClassFilename = qx.tool.compiler.ClassFile.getOutputPath(
+        this,
+        className
+      );
 
       const scanFile = async () => {
-        let sourceStat = await qx.tool.utils.files.Utils.safeStat(sourceClassFilename);
+        let sourceStat = await qx.tool.utils.files.Utils.safeStat(
+          sourceClassFilename
+        );
         if (!sourceStat) {
           throw new Error("Cannot find " + sourceClassFilename);
         }
@@ -938,18 +1081,24 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         var dbClassInfo = db.classInfo[className];
 
         if (!forceScan) {
-          let outputStat = await qx.tool.utils.files.Utils.safeStat(outputClassFilename);
-          let outputJsonStat = await qx.tool.utils.files.Utils.safeStat(outputClassFilename + "on");
+          let outputStat = await qx.tool.utils.files.Utils.safeStat(
+            outputClassFilename
+          );
+          let outputJsonStat = await qx.tool.utils.files.Utils.safeStat(
+            outputClassFilename + "on"
+          );
 
           if (dbClassInfo && outputStat && outputJsonStat) {
             var dbMtime = null;
             try {
               dbMtime = dbClassInfo.mtime && new Date(dbClassInfo.mtime);
-            } catch (e) {
-            }
+            } catch (e) {}
             if (dbMtime && dbMtime.getTime() == sourceStat.mtime.getTime()) {
               if (outputStat.mtime.getTime() >= sourceStat.mtime.getTime()) {
-                await t.fireDataEventAsync("alreadyCompiledClass", { className: className, dbClassInfo: dbClassInfo });
+                await t.fireDataEventAsync("alreadyCompiledClass", {
+                  className: className,
+                  dbClassInfo: dbClassInfo
+                });
                 return dbClassInfo;
               }
             }
@@ -957,7 +1106,9 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
 
         // Add database entry
-        var oldDbClassInfo = db.classInfo[className] ? Object.assign({}, db.classInfo[className]) : null;
+        var oldDbClassInfo = db.classInfo[className]
+          ? Object.assign({}, db.classInfo[className])
+          : null;
         dbClassInfo = db.classInfo[className] = {
           mtime: sourceStat.mtime,
           libraryName: library.getNamespace()
@@ -965,12 +1116,20 @@ qx.Class.define("qx.tool.compiler.Analyser", {
 
         // Analyse it and collect unresolved symbols and dependencies
         var classFile = new qx.tool.compiler.ClassFile(t, className, library);
-        await t.fireDataEventAsync("compilingClass", { dbClassInfo: dbClassInfo, oldDbClassInfo: oldDbClassInfo, classFile: classFile });
+        await t.fireDataEventAsync("compilingClass", {
+          dbClassInfo: dbClassInfo,
+          oldDbClassInfo: oldDbClassInfo,
+          classFile: classFile
+        });
         await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
 
         // Save it
         classFile.writeDbInfo(dbClassInfo);
-        await t.fireDataEventAsync("compiledClass", { dbClassInfo: dbClassInfo, oldDbClassInfo: oldDbClassInfo, classFile: classFile });
+        await t.fireDataEventAsync("compiledClass", {
+          dbClassInfo: dbClassInfo,
+          oldDbClassInfo: oldDbClassInfo,
+          classFile: classFile
+        });
 
         // Next!
         return dbClassInfo;
@@ -984,14 +1143,15 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param locale {String} the locale string
      * @returns Promise({cldr})
      */
-    getCldr: async function(locale) {
+    async getCldr(locale) {
       var t = this;
       var cldr = this.__cldrs[locale];
       if (cldr) {
         return cldr;
       }
-      return qx.tool.compiler.app.Cldr.loadCLDR(locale)
-        .then(cldr => t.__cldrs[locale] = cldr);
+      return qx.tool.compiler.app.Cldr.loadCLDR(locale).then(
+        cldr => (t.__cldrs[locale] = cldr)
+      );
     },
 
     /**
@@ -1000,12 +1160,13 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param locale
      * @returns {translation}
      */
-    getTranslation: async function(library, locale) {
+    async getTranslation(library, locale) {
       var t = this;
       var id = locale + ":" + library.getNamespace();
       var translation = t.__translations[id];
       if (!translation) {
-        translation = t.__translations[id] = new qx.tool.compiler.app.Translation(library, locale);
+        translation = t.__translations[id] =
+          new qx.tool.compiler.app.Translation(library, locale);
         translation.setWriteLineNumbers(this.isWritePoLineNumbers());
         await translation.checkRead();
       }
@@ -1025,112 +1186,133 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       }
       libraries = libraries.filter(lib => lib != appLibrary);
 
-      await qx.Promise.all(locales.map(async locale => {
-        let libTranslations = {};
-        await qx.Promise.all(libraries.map(async lib => {
-          var translation = new qx.tool.compiler.app.Translation(lib, locale);
+      await qx.Promise.all(
+        locales.map(async locale => {
+          let libTranslations = {};
+          await qx.Promise.all(
+            libraries.map(async lib => {
+              var translation = new qx.tool.compiler.app.Translation(
+                lib,
+                locale
+              );
+              await translation.read();
+              libTranslations[lib.toHashCode()] = translation;
+            })
+          );
+
+          var translation = new qx.tool.compiler.app.Translation(
+            appLibrary,
+            locale
+          );
+          translation.setWriteLineNumbers(this.isWritePoLineNumbers());
           await translation.read();
-          libTranslations[lib.toHashCode()] = translation;
-        }));
 
-        var translation = new qx.tool.compiler.app.Translation(appLibrary, locale);
-        translation.setWriteLineNumbers(this.isWritePoLineNumbers());
-        await translation.read();
-
-        let unusedEntries = {};
-        for (let msgid in translation.getEntries()) {
-          unusedEntries[msgid] = true;
-        }
-
-        await qx.Promise.all(this.__classes.map(async classname => {
-          let isAppClass = appLibrary.isClass(classname);
-          let classLibrary = !isAppClass && libraries.find(lib => lib.isClass(classname)) || null;
-          if (!isAppClass && !classLibrary) {
-            return;
+          let unusedEntries = {};
+          for (let msgid in translation.getEntries()) {
+            unusedEntries[msgid] = true;
           }
 
-          let dbClassInfo = await qx.tool.utils.Promisify.call(cb => this.getClassInfo(classname, cb));
-          if (!dbClassInfo.translations) {
-            return;
-          }
-
-          function isEmpty(entry) {
-            if (!entry) {
-              return true;
-            }
-            if (qx.lang.Type.isArray(entry.msgstr)) {
-              return entry.msgstr.every(value => !value);
-            }
-            return !entry.msgstr;
-          }
-
-          dbClassInfo.translations.forEach(function(src) {
-            delete unusedEntries[src.msgid];
-
-            if (classLibrary) {
-              let entry = translation.getEntry(src.msgid);
-              if (!isEmpty(entry)) {
+          await qx.Promise.all(
+            this.__classes.map(async classname => {
+              let isAppClass = appLibrary.isClass(classname);
+              let classLibrary =
+                (!isAppClass &&
+                  libraries.find(lib => lib.isClass(classname))) ||
+                null;
+              if (!isAppClass && !classLibrary) {
                 return;
               }
-              let libTranslation = libTranslations[classLibrary.toHashCode()];
-              let libEntry = libTranslation.getEntry(src.msgid);
-              if (isEmpty(libEntry) || copyAllMsgs) {
+
+              let dbClassInfo = await qx.tool.utils.Promisify.call(cb =>
+                this.getClassInfo(classname, cb)
+              );
+              if (!dbClassInfo.translations) {
+                return;
+              }
+
+              function isEmpty(entry) {
                 if (!entry) {
-                  entry = translation.getOrCreateEntry(src.msgid);
+                  return true;
                 }
-                if (libEntry !== null) {
-                  Object.assign(entry, libEntry);
+                if (qx.lang.Type.isArray(entry.msgstr)) {
+                  return entry.msgstr.every(value => !value);
                 }
-              }
-              return;
-            }
-
-            let entry = translation.getOrCreateEntry(src.msgid);
-            if (src.msgid_plural) {
-              entry.msgid_plural = src.msgid_plural;
-            }
-            if (!entry.comments) {
-              entry.comments = {};
-            }
-            entry.comments.extracted = src.comment;
-            entry.comments.reference = {};
-            let ref = entry.comments.reference;
-            const fileName = classname.replace(/\./g, "/") + ".js";
-            const fnAddReference = lineNo => {
-              let arr = ref[fileName];
-              if (!arr) {
-                arr = ref[fileName] = [];
+                return !entry.msgstr;
               }
 
-              if (!arr.includes(src.lineNo)) {
-                arr.push(lineNo);
+              dbClassInfo.translations.forEach(function (src) {
+                delete unusedEntries[src.msgid];
+
+                if (classLibrary) {
+                  let entry = translation.getEntry(src.msgid);
+                  if (!isEmpty(entry)) {
+                    return;
+                  }
+                  let libTranslation =
+                    libTranslations[classLibrary.toHashCode()];
+                  let libEntry = libTranslation.getEntry(src.msgid);
+                  if (isEmpty(libEntry) || copyAllMsgs) {
+                    if (!entry) {
+                      entry = translation.getOrCreateEntry(src.msgid);
+                    }
+                    if (libEntry !== null) {
+                      Object.assign(entry, libEntry);
+                    }
+                  }
+                  return;
+                }
+
+                let entry = translation.getOrCreateEntry(src.msgid);
+                if (src.msgid_plural) {
+                  entry.msgid_plural = src.msgid_plural;
+                }
+                if (!entry.comments) {
+                  entry.comments = {};
+                }
+                entry.comments.extracted = src.comment;
+                entry.comments.reference = {};
+                let ref = entry.comments.reference;
+                const fileName = classname.replace(/\./g, "/") + ".js";
+                const fnAddReference = lineNo => {
+                  let arr = ref[fileName];
+                  if (!arr) {
+                    arr = ref[fileName] = [];
+                  }
+
+                  if (!arr.includes(src.lineNo)) {
+                    arr.push(lineNo);
+                  }
+                };
+                if (qx.lang.Type.isArray(src.lineNo)) {
+                  src.lineNo.forEach(fnAddReference);
+                } else {
+                  fnAddReference(src.lineNo);
+                }
+              });
+            })
+          );
+
+          Object.keys(unusedEntries).forEach(msgid => {
+            var entry = translation.getEntry(msgid);
+            if (entry) {
+              if (!entry.comments) {
+                entry.comments = {};
               }
-            };
-            if (qx.lang.Type.isArray(src.lineNo)) {
-              src.lineNo.forEach(fnAddReference);
-            } else {
-              fnAddReference(src.lineNo);
+              if (
+                Object.keys(entry.comments).length == 0 &&
+                entry.msgstr === ""
+              ) {
+                translation.deleteEntry(msgid);
+              } else {
+                entry.comments.extracted = "NO LONGER USED";
+                entry.comments.reference = {};
+              }
             }
           });
-        }));
 
-        Object.keys(unusedEntries).forEach(msgid => {
-          var entry = translation.getEntry(msgid);
-          if (entry) {
-            if (!entry.comments) {
-              entry.comments = {};
-            }
-            if (Object.keys(entry.comments).length == 0 && entry.msgstr === "") {
-              translation.deleteEntry(msgid);
-            } else {
-              entry.comments.extracted = "NO LONGER USED";
-              entry.comments.reference = {};
-            }
-          }
-        });
-
-        await translation.write();
-      }));
+          await translation.write();
+        })
+      );
     },
 
     /**
@@ -1138,7 +1320,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @returns
      */
-    getQooxdooPath: function() {
+    getQooxdooPath() {
       var lib = this.findLibrary("qx");
       if (lib !== null) {
         return lib.getRootDir();
@@ -1149,7 +1331,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     /**
      * Finds the library with a name(space)
      */
-    findLibrary: function(name) {
+    findLibrary(name) {
       var lib = this.__librariesByNamespace[name];
       return lib;
     },
@@ -1158,7 +1340,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns all libraries
      * @returns {null}
      */
-    getLibraries: function() {
+    getLibraries() {
       return this.__libraries;
     },
 
@@ -1167,7 +1349,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @param library
      */
-    addLibrary: function(library) {
+    addLibrary(library) {
       this.__libraries.push(library);
       this.__librariesByNamespace[library.getNamespace()] = library;
     },
@@ -1177,7 +1359,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @param classname
      */
-    addClass: function(classname) {
+    addClass(classname) {
       this.__initialClassesToScan.push(classname);
     },
 
@@ -1185,7 +1367,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Removes a class from the list of required classes to analyse
      * @param classname {String}
      */
-    removeClass: function(classname) {
+    removeClass(classname) {
       this.__initialClassesToScan.remove(classname);
     },
 
@@ -1194,7 +1376,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param name
      * @returns {{symbolType,name,className}?}
      */
-    getSymbolType: function(name) {
+    getSymbolType(name) {
       var t = this;
       for (var j = 0; j < t.__libraries.length; j++) {
         var library = t.__libraries[j];
@@ -1211,7 +1393,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param className
      * @returns {*}
      */
-    getLibraryFromClassname: function(className) {
+    getLibraryFromClassname(className) {
       var t = this;
       var info = this.__classFiles[className];
       if (info) {
@@ -1221,7 +1403,10 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       for (var j = 0; j < t.__libraries.length; j++) {
         var library = t.__libraries[j];
         info = library.getSymbolType(className);
-        if (info && (info.symbolType == "class" || info.symbolType == "member")) {
+        if (
+          info &&
+          (info.symbolType == "class" || info.symbolType == "member")
+        ) {
           return library;
         }
       }
@@ -1234,12 +1419,18 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param className
      * @returns {string}
      */
-    getClassFilename: function(className) {
+    getClassFilename(className) {
       var library = this.getLibraryFromClassname(className);
       if (!library) {
         return null;
       }
-      var path = library.getRootDir() + "/" + library.getSourcePath() + "/" + className.replace(/\./g, "/") + ".js";
+      var path =
+        library.getRootDir() +
+        "/" +
+        library.getSourcePath() +
+        "/" +
+        className.replace(/\./g, "/") +
+        ".js";
       return path;
     },
 
@@ -1249,7 +1440,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param key
      * @param value
      */
-    setEnvironmentCheck: function(key, value) {
+    setEnvironmentCheck(key, value) {
       if (typeof key == "object") {
         var map = key;
         for (key in map) {
@@ -1268,14 +1459,14 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * @param key
      * @returns
      */
-    getEnvironmentCheck: function(key) {
+    getEnvironmentCheck(key) {
       return this.__environmentChecks[key];
     },
 
     /**
      * Returns the resource manager
      */
-    getResourceManager: function() {
+    getResourceManager() {
       return this.__resManager;
     },
 
@@ -1283,7 +1474,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns the version of Qooxdoo
      * @returns {String}
      */
-    getQooxdooVersion: function() {
+    getQooxdooVersion() {
       if (this.__qooxdooVersion) {
         return this.__qooxdooVersion;
       }
@@ -1300,7 +1491,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns the database filename
      * @returns {null}
      */
-    getDbFilename: function() {
+    getDbFilename() {
       return this.__dbFilename;
     },
 
@@ -1308,7 +1499,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Returns the resource database filename
      * @returns {null}
      */
-    getResDbFilename: function() {
+    getResDbFilename() {
       var m = this.__dbFilename.match(/(^.*)\/([^/]+)$/);
       var resDb;
       if (m && m.length == 3) {
@@ -1320,7 +1511,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     },
 
     // property apply
-    _applyEnvironment: function(value) {
+    _applyEnvironment(value) {
       // Cache the hash because we will need it later
       this.__environmentHash = hash(value);
     },
@@ -1331,15 +1522,17 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *
      * @return {Boolean}
      */
-    isContextChanged: function() {
+    isContextChanged() {
       var db = this.getDatabase();
 
       // Check if environment is the same as the last time
       // If the environment hash is null, environment variables have
       // not been loaded yet. In that case don't consider the environment
       // changed
-      if (this.__environmentHash &&
-        this.__environmentHash !== db.environmentHash) {
+      if (
+        this.__environmentHash &&
+        this.__environmentHash !== db.environmentHash
+      ) {
         return true;
       }
 
@@ -1359,7 +1552,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      *  * a list of the libraries used
      *
      */
-    updateEnvironmentData: function() {
+    updateEnvironmentData() {
       const libraries = this.getLibraries().reduce((acc, library) => {
         acc[library.getNamespace()] = library.getVersion();
         return acc;

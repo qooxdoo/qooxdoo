@@ -16,30 +16,36 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.client.Css",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.client.Css", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testBorderImageSyntax : function()
-    {
+  members: {
+    testBorderImageSyntax() {
       var styleName = qx.core.Environment.get("css.borderimage");
-      if (typeof styleName!== "string") {
+      if (typeof styleName !== "string") {
         throw new qx.dev.unit.RequirementError("css.borderimage");
       }
 
-      var standardSyntax = qx.core.Environment.get("css.borderimage.standardsyntax");
-      this.assertBoolean(standardSyntax, "Browser supports borderImage but " +
-        "syntax type was not detected!");
+      var standardSyntax = qx.core.Environment.get(
+        "css.borderimage.standardsyntax"
+      );
+      this.assertBoolean(
+        standardSyntax,
+        "Browser supports borderImage but " + "syntax type was not detected!"
+      );
 
       if (styleName == "borderImage") {
-        this.assertTrue(standardSyntax, "Browser supports unprefixed borderImage " +
-          "but syntax type detected as non-standard!");
-      }
-      else {
-        this.assertFalse(standardSyntax, "Browser supports prefixed borderImage " +
-          "but syntax type detected as standard!");
+        this.assertTrue(
+          standardSyntax,
+          "Browser supports unprefixed borderImage " +
+            "but syntax type detected as non-standard!"
+        );
+      } else {
+        this.assertFalse(
+          standardSyntax,
+          "Browser supports prefixed borderImage " +
+            "but syntax type detected as standard!"
+        );
       }
     }
   }

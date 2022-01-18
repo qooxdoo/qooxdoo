@@ -16,24 +16,20 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.TestingWindow",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.test.event.dispatch.TestingWindow", {
+  extend: qx.core.Object,
 
-  events :
-  {
-    "unload" : "qx.event.type.Event",
-    "onunload" : "qx.event.type.Event"
+  events: {
+    unload: "qx.event.type.Event",
+    onunload: "qx.event.type.Event"
   },
 
-
-  members :
-  {
-    addEventListener : function(type, callback, capture) {
+  members: {
+    addEventListener(type, callback, capture) {
       return this.addListener(type, callback, this, capture);
     },
 
-    attachEvent : function(type, callback) {
+    attachEvent(type, callback) {
       return this.addListener(type, callback);
     }
   }

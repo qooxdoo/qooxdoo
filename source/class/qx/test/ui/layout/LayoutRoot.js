@@ -16,26 +16,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.LayoutRoot",
-{
-  extend : qx.test.ui.layout.LayoutItem,
+qx.Class.define("qx.test.ui.layout.LayoutRoot", {
+  extend: qx.test.ui.layout.LayoutItem,
 
-  construct : function()
-  {
-    this.base(arguments, 10000, 10000);
+  construct() {
+    super(10000, 10000);
     this.setLayout(new qx.ui.layout.Basic());
     qx.ui.core.queue.Visibility.add(this);
   },
 
-  members :
-  {
-    isRootWidget : function() {
+  members: {
+    isRootWidget() {
       return true;
     }
   },
 
-  destruct : function()
-  {
+  destruct() {
     this._getLayout().dispose();
   }
 });

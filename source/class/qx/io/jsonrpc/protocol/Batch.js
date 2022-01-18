@@ -25,19 +25,19 @@
  *  - {@link qx.io.jsonrpc.protocol.Error}
  *  @see https://www.jsonrpc.org/specification#batch
  */
-qx.Class.define("qx.io.jsonrpc.protocol.Batch",{
+qx.Class.define("qx.io.jsonrpc.protocol.Batch", {
   extend: qx.core.Object,
   properties: {
-    batch : {
+    batch: {
       check: "qx.data.Array"
     }
   },
+
   construct() {
-    this.base(arguments);
+    super();
     this.setBatch(new qx.data.Array());
   },
   members: {
-
     /**
      * Adds a request or notification to the batch
      * @param {qx.io.jsonrpc.protocol.Message} message
@@ -55,7 +55,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Batch",{
      * @param method
      * @param params
      */
-    addRequest(method,params) {
+    addRequest(method, params) {
       this.add(new qx.io.jsonrpc.protocol.Request(method, params));
       return this;
     },
@@ -65,7 +65,7 @@ qx.Class.define("qx.io.jsonrpc.protocol.Batch",{
      * @param method
      * @param params
      */
-    addNotification(method,params) {
+    addNotification(method, params) {
       this.add(new qx.io.jsonrpc.protocol.Notification(method, params));
       return this;
     },
@@ -83,7 +83,9 @@ qx.Class.define("qx.io.jsonrpc.protocol.Batch",{
      * @return {*}
      */
     toObject() {
-      return this.getBatch().toArray().map(message => message.toObject());
+      return this.getBatch()
+        .toArray()
+        .map(message => message.toObject());
     },
 
     /**
@@ -91,7 +93,11 @@ qx.Class.define("qx.io.jsonrpc.protocol.Batch",{
      * @return {String}
      */
     toString() {
-      return JSON.stringify(this.getBatch().toArray().map(message => message.toObject()));
+      return JSON.stringify(
+        this.getBatch()
+          .toArray()
+          .map(message => message.toObject())
+      );
     }
   }
 });

@@ -23,50 +23,47 @@
  * property in the model that will open or close branches in the
  * tree. Instead, this controller listens to both the model and the tree, and
  * synchronizes the openness of branches in the tree.
- * 
+ *
  * To use this controller, simply instantiate it with the requisite
  * constructor arguments.
  */
-qx.Class.define("qx.ui.tree.core.OpenCloseController",
-{
+qx.Class.define("qx.ui.tree.core.OpenCloseController", {
   extend: qx.core.Object,
-  
+
   /**
    * @param tree {qx.ui.tree.VirtualTree}
    *   The tree whose branch open or closed state is to be synchronized to a
    *   model property.
-   * 
+   *
    * @param rootModel {qx.data.Array}
    *   The tree root model wherein a property is to be synchronized to the
    *   tree branches' open or closed states
    */
-  construct: function(tree, rootModel)
-  {
-    var             openProperty = tree.getOpenProperty();
+  construct(tree, rootModel) {
+    var openProperty = tree.getOpenProperty();
 
-    this.base(arguments);
-    
+    super();
+
     // Save the tree and initialize storage of listener IDs
     this._tree = tree;
     this._lids = [];
-    
+
     // Sync tree nodes
-    var sync = function(node) {
+    var sync = function (node) {
       if (qx.Class.hasProperty(node.constructor, "children")) {
         node.getChildren().forEach(sync);
       }
-      
+
       if (qx.Class.hasProperty(node.constructor, openProperty)) {
         if (node.get(openProperty)) {
           tree.openNode(node);
-        }
-        else {
+        } else {
           tree.closeNode(node);
         }
       }
     }.bind(this);
     sync(rootModel);
-    
+
     // Wire change listeners
     var lid = tree.addListener("open", this._onOpen, this);
     this._lids.push([tree, lid]);
@@ -75,30 +72,26 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
     lid = rootModel.addListener("changeBubble", this._onChangeBubble, this);
     this._lids.push([rootModel, lid]);
   },
-  
-  members:
-  {
+
+  members: {
     /** The tree which is synced to the model */
     _tree: null,
 
     /** Listener IDs that we manage */
     _lids: null,
-    
+
     // event listener for "open" on the tree
-    _onOpen: function(ev)
-    {
+    _onOpen(ev) {
       ev.getData().set(this._tree.getOpenProperty(), true);
     },
-    
+
     // event listener for "close" on the tree
-    _onClose: function(ev)
-    {
+    _onClose(ev) {
       ev.getData().set(this._tree.getOpenProperty(), false);
     },
-    
+
     // event listener for model changes
-    _onChangeBubble: function(ev)
-    {
+    _onChangeBubble(ev) {
       var index;
       var item;
       var isOpen;
@@ -111,15 +104,17 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
       item = bubble.item.getItem ? bubble.item.getItem(index) : bubble.item;
 
       // If this item isn't being deleted and has an open property...
-      if (item && qx.Class.hasProperty(item.constructor, this._tree.getOpenProperty())) {
+      if (
+        item &&
+        qx.Class.hasProperty(item.constructor, this._tree.getOpenProperty())
+      ) {
         // ... then find out if this branch is open
         isOpen = item.get(this._tree.getOpenProperty());
 
         // Open or close the tree branch as necessary
         if (isOpen && !this._tree.isNodeOpen(item)) {
           this._tree.openNode(item);
-        }
-        else if (! isOpen && this._tree.isNodeOpen(item)) {
+        } else if (!isOpen && this._tree.isNodeOpen(item)) {
           this._tree.closeNode(item);
         }
       }
@@ -128,11 +123,10 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
       this._tree.refresh();
     }
   },
-  
-  destruct: function()
-  {
+
+  destruct() {
     this._tree = null;
-    this._lids.forEach(function(data) {
+    this._lids.forEach(function (data) {
       data[0].removeListenerById(data[1]);
     });
   }

@@ -15,18 +15,15 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.util.StringBuilder",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.StringBuilder", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.__sb = new qx.util.StringBuilder();
     },
 
-
-    testAddGet : function() {
+    testAddGet() {
       this.__sb.add("1");
       this.__sb.add("2");
       this.assertEquals("12", this.__sb.get());
@@ -34,16 +31,14 @@ qx.Class.define("qx.test.util.StringBuilder",
       this.assertEquals("123", this.__sb.get());
     },
 
-
-    testSize : function() {
+    testSize() {
       this.__sb.add("123");
       this.assertEquals(3, this.__sb.size());
       this.__sb.add("4567");
       this.assertEquals(7, this.__sb.size());
     },
 
-
-    testEmptyClear : function() {
+    testEmptyClear() {
       this.assertTrue(this.__sb.isEmpty());
       this.__sb.add("123");
       this.assertFalse(this.__sb.isEmpty());
@@ -52,4 +47,3 @@ qx.Class.define("qx.test.util.StringBuilder",
     }
   }
 });
-

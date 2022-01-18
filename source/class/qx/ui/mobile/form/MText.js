@@ -22,9 +22,7 @@
  *
  * @require(qx.event.handler.Input)
  */
-qx.Mixin.define("qx.ui.mobile.form.MText",
-{
-
+qx.Mixin.define("qx.ui.mobile.form.MText", {
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -34,13 +32,11 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
   /**
    * @param value {var?null} The value of the widget.
    */
-  construct : function(value)
-  {
+  construct(value) {
     this.initMaxLength();
     this.initPlaceholder();
     this.initReadOnly();
   },
-
 
   /*
   *****************************************************************************
@@ -48,46 +44,37 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
   *****************************************************************************
   */
 
-  properties :
-  {
-   /**
+  properties: {
+    /**
      * Maximal number of characters that can be entered in the input field.
      */
-    maxLength :
-    {
-      check : "PositiveInteger",
-      nullable : true,
-      init : null,
-      apply : "_applyMaxLength"
+    maxLength: {
+      check: "PositiveInteger",
+      nullable: true,
+      init: null,
+      apply: "_applyMaxLength"
     },
-
 
     /**
      * String value which will be shown as a hint if the field is all of:
      * unset, unfocused and enabled. Set to <code>null</code> to not show a placeholder
      * text.
      */
-    placeholder :
-    {
-      check : "String",
-      nullable : true,
-      init : null,
-      apply : "_applyPlaceholder"
+    placeholder: {
+      check: "String",
+      nullable: true,
+      init: null,
+      apply: "_applyPlaceholder"
     },
 
-
     /** Whether the field is read only */
-    readOnly :
-    {
-      check : "Boolean",
-      nullable : true,
-      init : null,
-      apply : "_applyAttribute"
+    readOnly: {
+      check: "Boolean",
+      nullable: true,
+      init: null,
+      apply: "_applyAttribute"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -95,19 +82,14 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     // property apply
-    _applyMaxLength : function(value, old)
-    {
+    _applyMaxLength(value, old) {
       this._setAttribute("maxlength", value);
     },
 
-
     // property apply
-    _applyPlaceholder : function(value, old)
-    {
+    _applyPlaceholder(value, old) {
       // Android is not able to indent placeholder.
       // Adding a space before the placeholder text, as a fix.
       if (qx.core.Environment.get("os.name") == "android" && value !== null) {
@@ -116,28 +98,26 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
       this._setAttribute("placeholder", value);
     },
 
-
     /**
      * Points the focus of the form to this widget.
      */
-    focus : function() {
-      if(this.isReadOnly() || this.getEnabled() == false) {
+    focus() {
+      if (this.isReadOnly() || this.getEnabled() == false) {
         return;
       }
 
       var targetElement = this.getContainerElement();
-      if(targetElement) {
+      if (targetElement) {
         qx.bom.Element.focus(targetElement);
       }
     },
 
-
     /**
      * Removes the focus from this widget.
      */
-    blur : function() {
+    blur() {
       var targetElement = this.getContainerElement();
-      if(targetElement) {
+      if (targetElement) {
         qx.bom.Element.blur(targetElement);
       }
     }

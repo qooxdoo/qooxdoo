@@ -23,50 +23,41 @@
  * Renders a date according to the configured date formatter.
  *
  */
-qx.Class.define("qx.ui.virtual.cell.Date",
-{
-  extend : qx.ui.virtual.cell.Cell,
+qx.Class.define("qx.ui.virtual.cell.Date", {
+  extend: qx.ui.virtual.cell.Cell,
 
   /**
    * @param dateFormat {qx.util.format.DateFormat|null} optional date formatter
    *   to use
    */
-  construct : function(dateFormat)
-  {
-    this.base(arguments);
+  construct(dateFormat) {
+    super();
 
     if (dateFormat) {
       this.setDateFormat(dateFormat);
     } else {
       this.initDateFormat(qx.util.format.DateFormat.getDateTimeInstance());
     }
-
   },
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance:
-    {
-      refine : true,
-      init : "cell-date"
+    appearance: {
+      refine: true,
+      init: "cell-date"
     },
 
     /** The date format used to render the cell */
-    dateFormat:
-    {
-      check : "qx.util.format.DateFormat",
-      deferredInit : true
+    dateFormat: {
+      check: "qx.util.format.DateFormat",
+      deferredInit: true
     }
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    getContent : function(value, states) {
-      return value ? this.getDateFormat().format(value): "";
+    getContent(value, states) {
+      return value ? this.getDateFormat().format(value) : "";
     }
   }
 });

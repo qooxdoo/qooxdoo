@@ -24,7 +24,7 @@
 var path = require("path");
 
 var fs = require("fs");
-const {promisify} = require("util");
+const { promisify } = require("util");
 const readFile = promisify(fs.readFile);
 /**
  * Generates TypeScript .d.ts files
@@ -32,8 +32,8 @@ const readFile = promisify(fs.readFile);
 qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
   extend: qx.core.Object,
 
-  construct: function(target) {
-    this.base(arguments);
+  construct(target) {
+    super();
     this.__target = target;
   },
 
@@ -60,11 +60,13 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      *          {qx.tool.compiler.app.Application?} the application; if not
      *          provided, all classes are output
      */
-    run: async function(application) {
+    async run(application) {
       this.__apiCache = {};
       await new Promise((resolve, reject) => {
         var time = new Date();
-        this.__outputStream = fs.createWriteStream(path.join(this.__target.getOutputDir(), this.getOutputTo()));
+        this.__outputStream = fs.createWriteStream(
+          path.join(this.__target.getOutputDir(), this.getOutputTo())
+        );
         this.write(`// Generated declaration file at ${time}\n`);
 
         this.writeBase()
@@ -117,7 +119,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
               return this.loadAPIFile(className)
                 .then(meta => this.writeClass(meta))
                 .then(() => next())
-                .catch(err => qx.tool.compiler.Console.error("Error while processing file: " + className + " error: " + err.stack));
+                .catch(err =>
+                  qx.tool.compiler.Console.error(
+                    "Error while processing file: " +
+                      className +
+                      " error: " +
+                      err.stack
+                  )
+                );
             };
 
             return next()
@@ -132,7 +141,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Write a piece of code to the declaration file
      */
-    write: function(msg) {
+    write(msg) {
       this.__outputStream.write(msg);
     },
 
@@ -140,32 +149,49 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      * Load a single API file
      * @async
      */
-    loadAPIFile: function(classname) {
-      if (classname === "Object" || classname === "Array" || classname === "Error") {
+    loadAPIFile(classname) {
+      if (
+        classname === "Object" ||
+        classname === "Array" ||
+        classname === "Error"
+      ) {
         return null;
       }
       if (this.__apiCache[classname]) {
         return Promise.resolve(this.__apiCache[classname]);
       }
-      var fileName = path.join(this.__target.getOutputDir(), "transpiled", classname.replace(/\./g, "/") + ".json");
+      var fileName = path.join(
+        this.__target.getOutputDir(),
+        "transpiled",
+        classname.replace(/\./g, "/") + ".json"
+      );
       return readFile(fileName, "UTF-8")
-        .then(content => this.__apiCache[classname] = JSON.parse(content))
-        .catch(err => qx.tool.compiler.Console.error("Error parsing " + classname + ": " + err.stack));
+        .then(content => (this.__apiCache[classname] = JSON.parse(content)))
+        .catch(err =>
+          qx.tool.compiler.Console.error(
+            "Error parsing " + classname + ": " + err.stack
+          )
+        );
     },
 
     /**
      * Write some util declarations out that will help with the rest
      * @async
      */
-    writeBase: function() {
-      return readFile(path.join(qx.tool.utils.Utils.getTemplateDir(), "TypeScriptWriter-base_declaration.txt"), "UTF-8")
-        .then(content => this.write(content));
+    writeBase() {
+      return readFile(
+        path.join(
+          qx.tool.utils.Utils.getTemplateDir(),
+          "TypeScriptWriter-base_declaration.txt"
+        ),
+        "UTF-8"
+      ).then(content => this.write(content));
     },
 
     /**
      * Do the mapping of types from Qooxdoo to TypeScript
      */
-    getType: function(t) {
+    getType(t) {
       var defaultType = "any";
       if (!t || t == "[[ Function ]]") {
         return defaultType;
@@ -192,18 +218,26 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Write a constructor
      */
-    writeConstructor: function(methodMeta) {
-      this.write(this.__indent + "constructor (" + this.serializeParameters(methodMeta, true) + ");\n");
+    writeConstructor(methodMeta) {
+      this.write(
+        this.__indent +
+          "constructor (" +
+          this.serializeParameters(methodMeta, true) +
+          ");\n"
+      );
     },
 
     /**
      * Write all the methods of a type
      */
-    writeMethods: function(methods, classMeta, isStatic = false) {
+    writeMethods(methods, classMeta, isStatic = false) {
       if (!methods || !Object.keys(methods).length) {
         return;
       }
-      var IGNORE = qx.tool.compiler.targets.TypeScriptWriter.IGNORE[this.__currentClass.className];
+      var IGNORE =
+        qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
+          this.__currentClass.className
+        ];
       var comment = isStatic ? "Statics" : "Members";
       for (var name in methods) {
         var methodMeta = methods[name];
@@ -252,17 +286,29 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
             comment = " // " + comment;
           }
 
-          let hasDescription = methodMeta.jsdoc && methodMeta.jsdoc["@description"] && methodMeta.jsdoc["@description"][0];
+          let hasDescription =
+            methodMeta.jsdoc &&
+            methodMeta.jsdoc["@description"] &&
+            methodMeta.jsdoc["@description"][0];
 
           if (hasDescription) {
             this.write(this.__indent + "/**\n");
-            methodMeta.jsdoc["@description"][0].body.split("\n").forEach(line => {
-              this.write(this.__indent + " * " + line + "\n");
-            });
+            methodMeta.jsdoc["@description"][0].body
+              .split("\n")
+              .forEach(line => {
+                this.write(this.__indent + " * " + line + "\n");
+              });
             this.write(this.__indent + " */\n");
           }
 
-          this.write(this.__indent + (hideMethod ? "// " : "") + decl + ";" + comment + "\n");
+          this.write(
+            this.__indent +
+              (hideMethod ? "// " : "") +
+              decl +
+              ";" +
+              comment +
+              "\n"
+          );
         }
       }
     },
@@ -274,9 +320,9 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      *          {String} the name to escape
      * @return {String} the escaped (if necessary) name
      */
-    __escapeMethodName: function(name) {
+    __escapeMethodName(name) {
       if (!name.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)) {
-        return "\"" + name + "\"";
+        return '"' + name + '"';
       }
       return name;
     },
@@ -287,14 +333,14 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
      *
      * @return {String}
      */
-    serializeParameters: function(methodMeta, optional = false) {
+    serializeParameters(methodMeta, optional = false) {
       var result = "";
       if (methodMeta && methodMeta.jsdoc) {
         var params = methodMeta.jsdoc["@param"];
         if (params) {
           params.forEach((paramMeta, paramIndex) => {
             var type = "any";
-            var paramName = paramMeta.paramName || ("unnamed" + paramIndex);
+            var paramName = paramMeta.paramName || "unnamed" + paramIndex;
             var decl = paramName;
             if (paramName == "varargs") {
               optional = true;
@@ -334,11 +380,16 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Write the class or interface declaration
      */
-    writeClass: async function(meta) {
+    async writeClass(meta) {
       this.__currentClass = meta;
       // qx.tool.compiler.Console.info("Processing class " + meta.packageName + "." + meta.name);
       var extendsClause = "";
-      if (meta.superClass && meta.superClass !== "Object" && meta.superClass !== "Array" && meta.superClass !== "Error") {
+      if (
+        meta.superClass &&
+        meta.superClass !== "Object" &&
+        meta.superClass !== "Array" &&
+        meta.superClass !== "Error"
+      ) {
         let superType = this.getType(meta.superClass);
         if (superType != "any") {
           extendsClause = " extends " + superType;
@@ -364,15 +415,20 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
       }
 
       if (meta.isSingleton) {
-        this.writeMethods({
-          getInstance: {
-            type: "function",
-            access: "public",
-            jsdoc: {
-              "@return": [{ type: meta.className }]
+        this.writeMethods(
+          {
+            getInstance: {
+              type: "function",
+              access: "public",
+              jsdoc: {
+                "@return": [{ type: meta.className }]
+              }
             }
-          }
-        }, meta, true);
+          },
+
+          meta,
+          true
+        );
       }
 
       this.writeMethods(meta.statics, meta, true);
@@ -384,7 +440,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
     /**
      * Write the module declaration if any.
      */
-    writeModule: async function(meta) {
+    async writeModule(meta) {
       var moduleName = meta.packageName;
       if (moduleName) {
         this.write("declare module " + moduleName + " {\n");
@@ -400,74 +456,74 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
 
   statics: {
     IGNORE: {
-      "qx.ui.virtual.core.CellEvent": [ "init"],
-      "qx.ui.table.columnmodel.resizebehavior.Default": [ "set" ],
-      "qx.ui.progressive.renderer.table.Widths": [ "set" ],
-      "qx.ui.table.columnmodel.resizebehavior": [ "set" ],
-      "qx.ui.table.pane.CellEvent": [ "init" ],
-      "qx.ui.mobile.dialog.Manager": [ "error" ],
-      "qx.ui.mobile.container.Navigation": [ "add" ],
-      "qx.ui.website.Table": [ "filter", "sort" ],
-      "qx.ui.website.DatePicker": [ "init", "sort" ],
-      "qx.event.type.Orientation": [ "init" ],
-      "qx.event.type.KeySequence": [ "init" ],
-      "qx.event.type.KeyInput": [ "init" ],
-      "qx.event.type.GeoPosition": [ "init" ],
-      "qx.event.type.Drag": [ "init" ],
-      "qx.bom.request.SimpleXhr": [ "addListener", "addListenerOnce" ],
-      "qx.event.dispatch.AbstractBubbling": [ "dispatchEvent" ],
-      "qx.event.dispatch.Direct": [ "dispatchEvent" ],
-      "qx.event.dispatch.MouseCapture": [ "dispatchEvent" ],
-      "qx.event.type.Native": [ "init" ],
-      "qx.html.Element": [ "removeListener", "removeListenerById" ],
+      "qx.ui.virtual.core.CellEvent": ["init"],
+      "qx.ui.table.columnmodel.resizebehavior.Default": ["set"],
+      "qx.ui.progressive.renderer.table.Widths": ["set"],
+      "qx.ui.table.columnmodel.resizebehavior": ["set"],
+      "qx.ui.table.pane.CellEvent": ["init"],
+      "qx.ui.mobile.dialog.Manager": ["error"],
+      "qx.ui.mobile.container.Navigation": ["add"],
+      "qx.ui.website.Table": ["filter", "sort"],
+      "qx.ui.website.DatePicker": ["init", "sort"],
+      "qx.event.type.Orientation": ["init"],
+      "qx.event.type.KeySequence": ["init"],
+      "qx.event.type.KeyInput": ["init"],
+      "qx.event.type.GeoPosition": ["init"],
+      "qx.event.type.Drag": ["init"],
+      "qx.bom.request.SimpleXhr": ["addListener", "addListenerOnce"],
+      "qx.event.dispatch.AbstractBubbling": ["dispatchEvent"],
+      "qx.event.dispatch.Direct": ["dispatchEvent"],
+      "qx.event.dispatch.MouseCapture": ["dispatchEvent"],
+      "qx.event.type.Native": ["init"],
+      "qx.html.Element": ["removeListener", "removeListenerById"],
       "qx.html.Flash": ["setAttribute"],
-      "qx.util.LibraryManager": [ "get", "set" ]
+      "qx.util.LibraryManager": ["get", "set"]
     },
 
     TYPE_MAPPINGS: {
-      "Widget": "qx.ui.core.Widget",
-      "LayoutItem": "qx.ui.core.LayoutItem",
-      "AbstractTreeItem": "qx.ui.tree.core.AbstractTreeItem",
-      "ILayer": "qx.ui.virtual.core.ILayer",
-      "Axis": "qx.ui.virtual.core.Axis",
-      "DateFormat": "qx.util.format.DateFormat",
-      "LocalizedString": "qx.locale.LocalizedString",
-      "Decorator": "qx.ui.decoration.Decorator",
-      "Event": "qx.event.type.Event",
-      "CanvasRenderingContext2D": "CanvasRenderingContext2D",
-      "MWidgetController": "qx.ui.list.core.MWidgetController",
-      "IDesktop": "qx.ui.window.IDesktop",
-      "IWindowManager": "qx.ui.window.IWindowManager",
-      "Pane": "qx.ui.virtual.core.Pane",
-      "Class": "qx.Class",
-      "Interface": "qx.Interface",
-      "Mixin": "qx.Mixin",
-      "Theme": "qx.Theme",
-      "Boolean": "boolean",
-      "String": "string",
-      "Color": "string",
-      "Font": "string",
-      "Function": "Function",
-      "Date": "Date",
-      "Window": "Window",
-      "Document": "Document",
-      "document": "Document",
-      "Stylesheet": "StyleSheet",
-      "Node": "Node",
+      Widget: "qx.ui.core.Widget",
+      LayoutItem: "qx.ui.core.LayoutItem",
+      AbstractTreeItem: "qx.ui.tree.core.AbstractTreeItem",
+      ILayer: "qx.ui.virtual.core.ILayer",
+      Axis: "qx.ui.virtual.core.Axis",
+      DateFormat: "qx.util.format.DateFormat",
+      LocalizedString: "qx.locale.LocalizedString",
+      Decorator: "qx.ui.decoration.Decorator",
+      Event: "qx.event.type.Event",
+      CanvasRenderingContext2D: "CanvasRenderingContext2D",
+      MWidgetController: "qx.ui.list.core.MWidgetController",
+      IDesktop: "qx.ui.window.IDesktop",
+      IWindowManager: "qx.ui.window.IWindowManager",
+      Pane: "qx.ui.virtual.core.Pane",
+      Class: "qx.Class",
+      Interface: "qx.Interface",
+      Mixin: "qx.Mixin",
+      Theme: "qx.Theme",
+      Boolean: "boolean",
+      String: "string",
+      Color: "string",
+      Font: "string",
+      Function: "Function",
+      Date: "Date",
+      Window: "Window",
+      Document: "Document",
+      document: "Document",
+      Stylesheet: "StyleSheet",
+      Node: "Node",
       "Custom check function": "Custom check function",
-      "Error": "ErrorImpl",
-      "Element": "HTMLElement",
-      "RegExp": "RegExp",
-      "var": "any",
-      "Array": "qx.data.Array",
-      "Object": "any",
-      "Map": "IMap",
-      "Integer": "number",
-      "Number": "number",
-      "Double": "number",
-      "Float": "number",
-      "PositiveInteger": "number",
-      "PositiveNumber": "number"
+      Error: "ErrorImpl",
+      Element: "HTMLElement",
+      RegExp: "RegExp",
+      var: "any",
+      Array: "qx.data.Array",
+      Object: "any",
+      Map: "IMap",
+      Integer: "number",
+      Number: "number",
+      Double: "number",
+      Float: "number",
+      PositiveInteger: "number",
+      PositiveNumber: "number"
     }
   }
 });

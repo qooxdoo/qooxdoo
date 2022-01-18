@@ -16,26 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Util",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.layout.Util", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testFlex : function()
-    {
+  members: {
+    testFlex() {
       var numRuns = 500;
 
-      for (var run=0; run<numRuns; run++)
-      {
+      for (var run = 0; run < numRuns; run++) {
         var len = Math.round(Math.random() * 20) + 1;
         var sumMin = 0;
         var sumMax = 0;
         var sumValue = 0;
         var flexibles = {};
 
-        for (var j=0; j<len; j++)
-        {
+        for (var j = 0; j < len; j++) {
           var min = Math.round(Math.random() * 20);
           var max = min + Math.round(Math.random() * 50) + 1;
           var value = min + Math.round(Math.random() * (max - min));
@@ -48,18 +43,21 @@ qx.Class.define("qx.test.ui.layout.Util",
             min: min,
             value: value,
             max: max,
-            flex : Math.ceil(Math.random() * 5) // flex range from 1 .. 5
+            flex: Math.ceil(Math.random() * 5) // flex range from 1 .. 5
           };
         }
 
         var availWidth = Math.round(Math.random() * 500);
 
-        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth, sumValue);
+        var result = qx.ui.layout.Util.computeFlexOffsets(
+          flexibles,
+          availWidth,
+          sumValue
+        );
 
         // check sum
         var sum = 0;
-        for (var i in result)
-        {
+        for (var i in result) {
           var newSize = flexibles[i].value + result[i].offset;
 
           sum += newSize;
@@ -75,16 +73,13 @@ qx.Class.define("qx.test.ui.layout.Util",
       }
     },
 
-
     /**
      * Test whether flex distributes the value fair concerning the flex factors
      */
-    testFlexFairness : function()
-    {
+    testFlexFairness() {
       var numRuns = 500;
 
-      for (var run=0; run<numRuns; run++)
-      {
+      for (var run = 0; run < numRuns; run++) {
         var len = Math.round(Math.random() * 20) + 1;
         var sumMin = 0;
         var sumMax = 0;
@@ -92,8 +87,7 @@ qx.Class.define("qx.test.ui.layout.Util",
         var sumWeights = 0;
         var flexibles = {};
 
-        for (var j=0; j<len; j++)
-        {
+        for (var j = 0; j < len; j++) {
           var min = 0;
           var max = 32000;
           var value = Math.round(Math.random() * 20);
@@ -106,26 +100,31 @@ qx.Class.define("qx.test.ui.layout.Util",
             min: min,
             value: value,
             max: max,
-            flex : 1 + Math.ceil(Math.random() * 5) // flex range from 1 .. 5
+            flex: 1 + Math.ceil(Math.random() * 5) // flex range from 1 .. 5
           };
           sumWeights += flexibles[j].flex;
         }
 
         var availWidth = sumValue + Math.round(Math.random() * 100);
-        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth, sumValue);
+        var result = qx.ui.layout.Util.computeFlexOffsets(
+          flexibles,
+          availWidth,
+          sumValue
+        );
 
         var offsets = 0;
         for (var i in result) {
           offsets += result[i].offset;
         }
 
-        if (sumWeights > 0)
-        {
+        if (sumWeights > 0) {
           var unit = offsets / sumWeights;
-          for (var j in result)
-          {
-            var error = result[j].offset - (unit * flexibles[j].flex);
-            this.assertTrue(Math.abs(error) <= 1, "The error must be at most one pixel!");
+          for (var j in result) {
+            var error = result[j].offset - unit * flexibles[j].flex;
+            this.assertTrue(
+              Math.abs(error) <= 1,
+              "The error must be at most one pixel!"
+            );
           }
         }
       }

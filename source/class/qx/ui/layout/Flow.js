@@ -96,10 +96,8 @@
  * <a href='https://qooxdoo.org/documentation/#/desktop/layout/flow.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Flow",
-{
-  extend : qx.ui.layout.Abstract,
-
+qx.Class.define("qx.ui.layout.Flow", {
+  extend: qx.ui.layout.Abstract,
 
   /*
   *****************************************************************************
@@ -113,9 +111,8 @@ qx.Class.define("qx.ui.layout.Flow",
    * @param alignX {String?"left"} Horizontal alignment of the whole children
    *     block {@link #alignX}.
    */
-  construct : function(spacingX, spacingY, alignX)
-  {
-    this.base(arguments);
+  construct(spacingX, spacingY, alignX) {
+    super();
 
     if (spacingX) {
       this.setSpacingX(spacingX);
@@ -130,68 +127,57 @@ qx.Class.define("qx.ui.layout.Flow",
     }
   },
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Horizontal alignment of the whole children block. The horizontal
      * alignment of the child is completely ignored in HBoxes (
      * {@link qx.ui.core.LayoutItem#alignX}).
      */
-    alignX :
-    {
-      check : [ "left", "center", "right" ],
-      init : "left",
-      apply : "_applyLayoutChange"
+    alignX: {
+      check: ["left", "center", "right"],
+      init: "left",
+      apply: "_applyLayoutChange"
     },
 
     /**
      * Vertical alignment of each child. Can be overridden through
      * {@link qx.ui.core.LayoutItem#alignY}.
      */
-    alignY :
-    {
-      check : [ "top", "middle", "bottom"],
-      init : "top",
-      apply : "_applyLayoutChange"
+    alignY: {
+      check: ["top", "middle", "bottom"],
+      init: "top",
+      apply: "_applyLayoutChange"
     },
 
     /** Horizontal spacing between two children */
-    spacingX :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingX: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
 
     /**
      * The vertical spacing between the lines.
      */
-    spacingY :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyLayoutChange"
+    spacingY: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyLayoutChange"
     },
 
     /** Whether the actual children list should be laid out in reversed order. */
-    reversed :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyLayoutChange"
+    reversed: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyLayoutChange"
     }
-
   },
-
-
 
   /*
   *****************************************************************************
@@ -199,8 +185,7 @@ qx.Class.define("qx.ui.layout.Flow",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -208,21 +193,22 @@ qx.Class.define("qx.ui.layout.Flow",
     */
 
     // overridden
-    verifyLayoutProperty : qx.core.Environment.select("qx.debug",
-    {
-      "true" : function(item, name, value) {
+    verifyLayoutProperty: qx.core.Environment.select("qx.debug", {
+      true(item, name, value) {
         var validProperties = ["lineBreak", "stretch"];
-        this.assertInArray(name, validProperties, "The property '"+name+"' is not supported by the flow layout!" );
+        this.assertInArray(
+          name,
+          validProperties,
+          "The property '" + name + "' is not supported by the flow layout!"
+        );
       },
 
-      "false" : null
+      false: null
     }),
 
-
     // overridden
-    connectToWidget : function(widget)
-    {
-      this.base(arguments, widget);
+    connectToWidget(widget) {
+      super.connectToWidget(widget);
 
       // Necessary to be able to calculate the lines for the flow layout.
       // Otherwise the layout calculates the needed width and height by using
@@ -233,7 +219,6 @@ qx.Class.define("qx.ui.layout.Flow",
         widget.setAllowShrinkY(false);
       }
     },
-
 
     /**
      * The FlowLayout tries to add as many Children as possible to the current 'Line'
@@ -247,8 +232,7 @@ qx.Class.define("qx.ui.layout.Flow",
      * @param padding {Map} Map containing the padding values. Keys:
      * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    renderLayout : function(availWidth, availHeight, padding)
-    {
+    renderLayout(availWidth, availHeight, padding) {
       var children = this._getLayoutChildren();
 
       if (this.getReversed()) {
@@ -261,14 +245,12 @@ qx.Class.define("qx.ui.layout.Flow",
       );
 
       var lineTop = padding.top;
-      while (lineCalculator.hasMoreLines())
-      {
+      while (lineCalculator.hasMoreLines()) {
         var line = lineCalculator.computeNextLine(availWidth);
         this.__renderLine(line, lineTop, availWidth, padding);
         lineTop += line.height + this.getSpacingY();
       }
     },
-
 
     /**
      * Render a line in the flow layout
@@ -280,8 +262,7 @@ qx.Class.define("qx.ui.layout.Flow",
      * @param padding {Map} Map containing the padding values. Keys:
      * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    __renderLine : function(line, lineTop, availWidth, padding)
-    {
+    __renderLine(line, lineTop, availWidth, padding) {
       var util = qx.ui.layout.Util;
 
       var left = padding.left;
@@ -292,8 +273,7 @@ qx.Class.define("qx.ui.layout.Flow",
         }
       }
 
-      for (var i=0; i<line.children.length; i++)
-      {
+      for (var i = 0; i < line.children.length; i++) {
         var child = line.children[i];
         var size = child.getSizeHint();
         var marginTop = child.getMarginTop();
@@ -303,7 +283,8 @@ qx.Class.define("qx.ui.layout.Flow",
           child.getAlignY() || this.getAlignY(),
           marginTop + size.height + marginBottom,
           line.height,
-          marginTop, marginBottom
+          marginTop,
+          marginBottom
         );
 
         var layoutProps = child.getLayoutProperties();
@@ -322,31 +303,27 @@ qx.Class.define("qx.ui.layout.Flow",
       }
     },
 
-
     // overridden
-    _computeSizeHint : function() {
+    _computeSizeHint() {
       return this.__computeSize(Infinity);
     },
 
-
     // overridden
-    hasHeightForWidth : function() {
+    hasHeightForWidth() {
       return true;
     },
 
-
     // overridden
-    getHeightForWidth : function(width) {
+    getHeightForWidth(width) {
       return this.__computeSize(width).height;
     },
-
 
     /**
      * Returns the list of children fitting in the last row of the given width.
      * @param width {Number} The width to use for the calculation.
      * @return {Array} List of children in the first row.
      */
-    getLastLineChildren : function(width) {
+    getLastLineChildren(width) {
       var lineCalculator = new qx.ui.layout.LineSizeIterator(
         this._getLayoutChildren(),
         this.getSpacingX()
@@ -360,15 +337,13 @@ qx.Class.define("qx.ui.layout.Flow",
       return lineData;
     },
 
-
     /**
      * Compute the preferred size optionally constrained by the available width
      *
      * @param availWidth {Integer} The available width
      * @return {Map} Map containing the preferred height and width of the layout
      */
-    __computeSize : function(availWidth)
-    {
+    __computeSize(availWidth) {
       var lineCalculator = new qx.ui.layout.LineSizeIterator(
         this._getLayoutChildren(),
         this.getSpacingX()
@@ -378,8 +353,7 @@ qx.Class.define("qx.ui.layout.Flow",
       var width = 0;
       var lineCount = 0;
 
-      while (lineCalculator.hasMoreLines())
-      {
+      while (lineCalculator.hasMoreLines()) {
         var line = lineCalculator.computeNextLine(availWidth);
         lineCount += 1;
         width = Math.max(width, line.width);
@@ -387,8 +361,8 @@ qx.Class.define("qx.ui.layout.Flow",
       }
 
       return {
-        width : width,
-        height : height + this.getSpacingY() * (lineCount-1)
+        width: width,
+        height: height + this.getSpacingY() * (lineCount - 1)
       };
     }
   }
