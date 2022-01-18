@@ -937,6 +937,16 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           maker.getAnalyser().addLibrary(libraries[ns]);
         }
 
+        if (typeof targetConfig["mangle-privates"] == "string") {
+          maker.getAnalyser().setManglePrivates(targetConfig["mangle-privates"]);
+        } else if (typeof targetConfig["mangle-privates"] == "boolean") {
+          if (targetConfig["mangle-privates"]) {
+            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
+          } else {
+            maker.getAnalyser().setManglePrivates("off");
+          }
+            maker.set({ outputTypescript: true });
+        }
         if (this.argv["mangle-privates"]) {
           maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
         } else {
