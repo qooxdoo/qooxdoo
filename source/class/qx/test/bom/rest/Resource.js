@@ -83,7 +83,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       res.configureRequest(qx.lang.Function.bind(function(req) {
         this.assertCalledWith(req.setMethod, "GET");
-        this.assertCalled(req.setUrl, "/photos");
+        this.assertCalled(req.setUrl);
         this.assertNotCalled(req.send);
       }, this));
 
@@ -510,7 +510,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
     "test: invoke action ignores invalid check in production": function() {
       this.skip("needs runtime enviroment checks!");
-      
+
       this.require(["debug"]);
 
       var res = this.res;
@@ -784,7 +784,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       this.stub(req, "dispose");
       this.spy(res, "refresh");
-      this.stub(qx.bom.rest.Resource, "POLL_THROTTLE_COUNT", "3");
+      this.stub(qx.bom.rest.Resource, "POLL_THROTTLE_COUNT").value("3");
 
       res.longPoll("get");
 

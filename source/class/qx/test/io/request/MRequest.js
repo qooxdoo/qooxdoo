@@ -104,7 +104,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       this.req.setRequestData("str");
       this.req.send();
 
-      this.assertCalledWith(this.transport.send, undefined);
+      this.assertCalledWith(this.transport.send);
     },
 
     "test: append string data to URL with GET request": function() {
