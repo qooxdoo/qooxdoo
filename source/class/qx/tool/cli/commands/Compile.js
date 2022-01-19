@@ -1008,20 +1008,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           return undefined;
         }
 
-        var manglePrivates = chooseValue(
-          targetConfig["mangle-privates"],
-          t.argv["mangle-privates"]
-        );
-        if (typeof manglePrivates == "string") {
-          maker.getAnalyser().setManglePrivates(manglePrivates);
-        } else if (typeof manglePrivates == "boolean") {
-          if (manglePrivates) {
-            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
-          } else {
-            maker.getAnalyser().setManglePrivates("off");
-          }
-        }
-
         // Take the command line for `saveSourceInMap` as most precedent only if provided
         var saveSourceInMap = chooseValue(
           targetConfig["save-source-in-map"],
@@ -1080,6 +1066,22 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
 
         maker.setTarget(target);
+
+        var manglePrivates = chooseValue(
+          targetConfig["mangle-privates"],
+          t.argv["mangle-privates"]
+        );
+        if (typeof manglePrivates == "string") {
+          maker.getAnalyser().setManglePrivates(manglePrivates);
+        } else if (typeof manglePrivates == "boolean") {
+          if (manglePrivates) {
+            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
+          } else {
+            maker.getAnalyser().setManglePrivates("off");
+          }
+        }
+
+
         if (targetConfig["application-types"]) {
           maker
             .getAnalyser()
