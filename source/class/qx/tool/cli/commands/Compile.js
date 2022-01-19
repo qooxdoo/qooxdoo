@@ -178,7 +178,6 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       feedback: {
         describe: "Shows gas-gauge feedback",
         type: "boolean",
-        default: null,
         alias: "f"
       },
 
@@ -1009,6 +1008,20 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           return undefined;
         }
 
+        var manglePrivates = chooseValue(
+          targetConfig["mangle-privates"],
+          t.argv["mangle-privates"]
+        );
+        if (typeof manglePrivates == "string") {
+          maker.getAnalyser().setManglePrivates(manglePrivates);
+        } else if (typeof manglePrivates == "boolean") {
+          if (manglePrivates) {
+            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
+          } else {
+            maker.getAnalyser().setManglePrivates("off");
+          }
+        }
+
         // Take the command line for `saveSourceInMap` as most precedent only if provided
         var saveSourceInMap = chooseValue(
           targetConfig["save-source-in-map"],
@@ -1136,28 +1149,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         for (let ns in libraries) {
           maker.getAnalyser().addLibrary(libraries[ns]);
-        }
-
-        if (typeof targetConfig["mangle-privates"] == "string") {
-          maker.getAnalyser().setManglePrivates(targetConfig["mangle-privates"]);
-        } else if (typeof targetConfig["mangle-privates"] == "boolean") {
-          if (targetConfig["mangle-privates"]) {
-            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
-          } else {
-            maker.getAnalyser().setManglePrivates("off");
-          }
-            maker.set({ outputTypescript: true });
-        }
-        if (this.argv["mangle-privates"]) {
-          maker
-            .getAnalyser()
-            .setManglePrivates(
-              target instanceof qx.tool.compiler.targets.BuildTarget
-                ? "unreadable"
-                : "readable"
-            );
-        } else {
-          maker.getAnalyser().setManglePrivates("off");
         }
 
         let allApplicationTypes = {};
