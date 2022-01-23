@@ -1,27 +1,13 @@
 # Qooxdoo Roadmap
 
-With the release of Qooxdoo v6.0.0, the project is looking
-forward to removing a number of deprecated features and adding
-new components and modules that will broaden our feature set
-and build on the solid foundation that Qooxdoo currently is.
-
-Below is a summary of our plans for v7 and a rough outline of
+Below is a summary of our plans for v8 and a rough outline of
 what we're thinking about for the future; if there is anything
 you feel strongly about on either list (or you think that there
 is something missing) please feel free to talk to us about it- 
 after all, if you don't us what you think, we'll never know!
 
-## v7.0.0
+## v8.0.0
 
-- **Remove deprecated python tool chain** (the "generator"); this
-will require to [migrate all legacy qooxdoo applications to use
-the compiler](./development/compiler/migration.md) if they want to 
-use new qooxdoo releases going forward. 
-
-- **Allow new JavaScript syntax**: With the generator gone, which only
-understood ECMAScript 5, framework code can use any new JavaScript syntax that
-is supported by the compiler (internally powered by the Babel transpiler).
-  
 - **Switch to a [semantic release
 model](https://github.com/semantic-release/semantic-release)**, which
 offers a fully automated release system that is based on formalized commit
@@ -36,12 +22,6 @@ server) and persistently storing objects to disk.  Repos are
 and
 [qooxdoo/incubator.qx.io.persistence](https://github.com/qooxdoo/incubator.qx.io.persistence)
 
-- **Qooxdoo RPC** - provides a framework for transport-agnostic higher-level
-i/o protocols to the qx.io namespace; although this is already stable and ready
-for production use, it's due to be integrated into the core framework.  Repo is
-[qooxdoo/incubator.qx.io.jsonrpc](https://github.com/qooxdoo/incubator.qx.io.jsonrpc)
-
-- **Remove other deprecated code**
 
 ## Plans for the future 
 
