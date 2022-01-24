@@ -90,9 +90,6 @@ manager.addDetail(inputPage);
 inputPage.show();
 ```
 
-As we have changed the dependencies of our application, recreate the source
-version by calling the generator "source" target as above.
-
 Refresh the index.html in your browser. You will see a page with a navigation
 bar and a title "Identica Client". That is all you have to do when you want to
 display a page.
@@ -188,7 +185,7 @@ As you can see, the `tap` listener has the `_onTap` method as a handler. This
 method has to be implemented in the member section as well:
 
 ```
-_onTap : function(evt)
+_onTap(evt)
 {
    this.fireDataEvent("requestTweet", null); // Fire a data event.
        // Later we will send the entered "username" as a data.
@@ -246,7 +243,7 @@ of Qooxdoo which you can leverage off in your mobile applications as well.
 Extend the `members` section of the "Application" class by the following code: :
 
 ```
-__loadTweets : function() {
+__loadTweets() {
   // Mocked Identica Tweets API
   // Create a new JSONP store instance with the given url
   var self = this;
@@ -305,11 +302,11 @@ the member section of the "Application" class: :
 
 ```
 // property apply
-_applyUsername : function(value, old) {
+_applyUsername(value, old) {
   this.__loadTweets();
 },
 
-_applyTweets : function(value, old) {
+_applyTweets(value, old) {
   // print the loaded data in the console
   this.debug("Tweets: ", qx.lang.Json.stringify(value));
 }

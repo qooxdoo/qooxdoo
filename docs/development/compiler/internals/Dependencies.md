@@ -53,10 +53,9 @@ identified by tracking the dependencies on a per function basis, recursively
 scanning code and statically determining what the runtime dependencies _would_
 be.
 
-I guess that this is something that `generate.py` does, but it makes dependency
-analysis hugely more complex and is quite fragile - it would be very easy for
-the author of `qx.bom.Stylesheet` to make a minor change in the constructor and
-introduce a recursive, unresolvable dependency.
+It makes dependency analysis hugely more complex and is quite fragile - it would 
+be very easy for the author of `qx.bom.Stylesheet` to make a minor change in the 
+constructor and introduce a recursive, unresolvable dependency.
 
 However this is only an issue for loading the class, if we can avoid calling
 `defer()` until all the classes have been loaded then the problem disappears;
