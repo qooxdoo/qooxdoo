@@ -48,6 +48,7 @@ qx.Class.define("qx.test.bom.Element", {
         this,
         false
       );
+
       this.assertTrue(qx.bom.Element.hasListener(this._el, "click", false));
       qx.bom.Element.removeListenerById(this._el, id);
       this.assertFalse(qx.bom.Element.hasListener(this._el, "click", false));
@@ -123,6 +124,7 @@ qx.Class.define("qx.test.bom.Element", {
         "el",
         "Cloning of the element failed! Attribute 'id' was not cloned."
       );
+
       this.assertEquals(
         clone.nodeName.toLowerCase(),
         "div",

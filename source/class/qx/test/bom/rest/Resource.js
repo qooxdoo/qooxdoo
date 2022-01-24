@@ -107,6 +107,7 @@ qx.Class.define("qx.test.bom.rest.Resource", {
           this.assertEquals(data, _data, "Unexpected data");
         }, this)
       );
+
       res.configureRequest(callback);
 
       res.get(params, data);
@@ -496,6 +497,7 @@ qx.Class.define("qx.test.bom.rest.Resource", {
       res.map("get", "GET", "/photos/{tag}", {
         tag: qx.bom.rest.Resource.REQUIRED
       });
+
       this.assertException(
         function () {
           res.get();
@@ -512,6 +514,7 @@ qx.Class.define("qx.test.bom.rest.Resource", {
       res.map("post", "POST", "/photos/", {
         photo: qx.bom.rest.Resource.REQUIRED
       });
+
       this.assertException(
         function () {
           res.post();
@@ -799,6 +802,7 @@ qx.Class.define("qx.test.bom.rest.Resource", {
         },
         this
       );
+
       res.longPoll("get");
 
       // longPoll() sets up new request when receiving a response

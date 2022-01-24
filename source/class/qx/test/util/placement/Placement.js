@@ -42,6 +42,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -56,6 +57,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -70,6 +72,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -84,6 +87,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -98,6 +102,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -112,6 +117,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -126,6 +132,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -140,6 +147,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -154,6 +162,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -168,6 +177,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -182,6 +192,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
 
@@ -196,6 +207,7 @@ qx.Class.define("qx.test.util.placement.Placement", {
             mode,
             mode
           ),
+
           mode
         );
       }

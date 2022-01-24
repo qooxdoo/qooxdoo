@@ -63,6 +63,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.window,
         registration
       ));
+
       this.capture = this.manager.getDispatcher(qx.event.dispatch.MouseCapture);
 
       this.called = [];
@@ -96,6 +97,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
       var event = qx.event.Registration.createEvent(type, qx.event.type.Event, [
         bubble !== false
       ]);
+
       this.manager.dispatchEvent(target, event);
     },
 
@@ -151,6 +153,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.onLoseCapture,
         this
       );
+
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -166,6 +169,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.onLoseCapture,
         this
       );
+
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -181,6 +185,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.onLoseCapture,
         this
       );
+
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -196,6 +201,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.onLoseCapture,
         this
       );
+
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];
@@ -211,6 +217,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture", {
         this.onLoseCapture,
         this
       );
+
       this.capture.activateCapture(this.c_1, true);
 
       this.called = [];

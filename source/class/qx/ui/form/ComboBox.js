@@ -144,6 +144,7 @@ qx.Class.define("qx.ui.form.ComboBox", {
             this._onTextFieldChangeValue,
             this
           );
+
           control.addListener("blur", this.close, this);
           this._add(control, { flex: 1 });
           break;
@@ -233,6 +234,7 @@ qx.Class.define("qx.ui.form.ComboBox", {
           "Escape",
           "Tab"
         ];
+
         if (iden == "Enter") {
           this._setPreselectedItem();
           this.resetAllTextSelection();

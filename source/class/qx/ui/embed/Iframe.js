@@ -72,6 +72,7 @@ qx.Class.define("qx.ui.embed.Iframe", {
       this,
       true
     );
+
     qx.event.Registration.addListener(
       document.body,
       "pointerup",
@@ -79,6 +80,7 @@ qx.Class.define("qx.ui.embed.Iframe", {
       this,
       true
     );
+
     qx.event.Registration.addListener(
       document.body,
       "losecapture",
@@ -148,6 +150,7 @@ qx.Class.define("qx.ui.embed.Iframe", {
         },
         this
       );
+
       this._onDOMNodeInserted = qx.lang.Function.listener(
         this._syncSourceAfterDOMMove,
         this
@@ -433,6 +436,7 @@ qx.Class.define("qx.ui.embed.Iframe", {
       this,
       true
     );
+
     qx.event.Registration.removeListener(
       document.body,
       "pointerup",
@@ -440,6 +444,7 @@ qx.Class.define("qx.ui.embed.Iframe", {
       this,
       true
     );
+
     qx.event.Registration.removeListener(
       document.body,
       "losecapture",

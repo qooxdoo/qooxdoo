@@ -552,6 +552,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
         };
       }
     );
+
     (
       (typeof define === "function" &&
         define.amd &&
@@ -2020,6 +2021,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
           return true;
         }
       );
+
       delegateToCalls("threw", true);
       delegateToCalls("alwaysThrew", false, "threw");
       delegateToCalls("returned", true);
@@ -2632,6 +2634,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
                     this.defaultBehavior,
                     arguments
                   );
+
                   return this;
                 };
               })(method);
@@ -2898,6 +2901,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
               sinon.stub.create(),
               sinon.expectation
             );
+
             delete expectation.create;
             expectation.method = methodName;
 
@@ -3691,6 +3695,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
           global,
           method
         );
+
         clock["_" + method] = global[method];
 
         if (method == "Date") {
@@ -4047,6 +4052,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
             "overrideMimeType",
             "removeEventListener"
           ],
+
           function (method) {
             fakeXhr[method] = function () {
               return apply(xhr, method, arguments);
@@ -4122,6 +4128,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
               body +
               ", which is not a string."
           );
+
           error.name = "InvalidBodyException";
           throw error;
         }
@@ -4171,9 +4178,11 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
               this.dispatchEvent(
                 new sinon.Event("loadend", false, false, this)
               );
+
               this.upload.dispatchEvent(
                 new sinon.Event("load", false, false, this)
               );
+
               if (supportsProgress) {
                 this.upload.dispatchEvent(
                   new sinon.ProgressEvent("progress", {
@@ -4569,6 +4578,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
                 ? ru.exec(requestUrl).slice(1)
                 : []
             );
+
             return response.response.apply(response, args);
           }
 
@@ -4623,6 +4633,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
             var matches = (request.requestBody || "").match(
               /_method=([^\b;]+)/
             );
+
             return !!matches ? matches[1] : request.method;
           }
 
@@ -5327,6 +5338,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
         "called",
         "expected %n to have been called at least once but was never called"
       );
+
       mirrorPropAsAssertion(
         "notCalled",
         function (spy) {
@@ -5334,66 +5346,82 @@ qx.Bootstrap.define("qx.dev.unit.Sinon", {
         },
         "expected %n to not have been called but was called %c%C"
       );
+
       mirrorPropAsAssertion(
         "calledOnce",
         "expected %n to be called once but was called %c%C"
       );
+
       mirrorPropAsAssertion(
         "calledTwice",
         "expected %n to be called twice but was called %c%C"
       );
+
       mirrorPropAsAssertion(
         "calledThrice",
         "expected %n to be called thrice but was called %c%C"
       );
+
       mirrorPropAsAssertion(
         "calledOn",
         "expected %n to be called with %1 as this but was called with %t"
       );
+
       mirrorPropAsAssertion(
         "alwaysCalledOn",
         "expected %n to always be called with %1 as this but was called with %t"
       );
+
       mirrorPropAsAssertion(
         "calledWithNew",
         "expected %n to be called with new"
       );
+
       mirrorPropAsAssertion(
         "alwaysCalledWithNew",
         "expected %n to always be called with new"
       );
+
       mirrorPropAsAssertion(
         "calledWith",
         "expected %n to be called with arguments %*%C"
       );
+
       mirrorPropAsAssertion(
         "calledWithMatch",
         "expected %n to be called with match %*%C"
       );
+
       mirrorPropAsAssertion(
         "alwaysCalledWith",
         "expected %n to always be called with arguments %*%C"
       );
+
       mirrorPropAsAssertion(
         "alwaysCalledWithMatch",
         "expected %n to always be called with match %*%C"
       );
+
       mirrorPropAsAssertion(
         "calledWithExactly",
         "expected %n to be called with exact arguments %*%C"
       );
+
       mirrorPropAsAssertion(
         "alwaysCalledWithExactly",
         "expected %n to always be called with exact arguments %*%C"
       );
+
       mirrorPropAsAssertion(
         "neverCalledWith",
         "expected %n to never be called with arguments %*%C"
       );
+
       mirrorPropAsAssertion(
         "neverCalledWithMatch",
         "expected %n to never be called with match %*%C"
       );
+
       mirrorPropAsAssertion("threw", "%n did not throw exception%C");
       mirrorPropAsAssertion(
         "alwaysThrew",

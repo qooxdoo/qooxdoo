@@ -67,6 +67,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         this.__outputStream = fs.createWriteStream(
           path.join(this.__target.getOutputDir(), this.getOutputTo())
         );
+
         this.write(`// Generated declaration file at ${time}\n`);
 
         this.writeBase()
@@ -165,6 +166,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         "transpiled",
         classname.replace(/\./g, "/") + ".json"
       );
+
       return readFile(fileName, "UTF-8")
         .then(content => (this.__apiCache[classname] = JSON.parse(content)))
         .catch(err =>
@@ -184,6 +186,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
           qx.tool.utils.Utils.getTemplateDir(),
           "TypeScriptWriter-base_declaration.txt"
         ),
+
         "UTF-8"
       ).then(content => this.write(content));
     },
@@ -238,6 +241,7 @@ qx.Class.define("qx.tool.compiler.targets.TypeScriptWriter", {
         qx.tool.compiler.targets.TypeScriptWriter.IGNORE[
           this.__currentClass.className
         ];
+
       var comment = isStatic ? "Statics" : "Members";
       for (var name in methods) {
         var methodMeta = methods[name];

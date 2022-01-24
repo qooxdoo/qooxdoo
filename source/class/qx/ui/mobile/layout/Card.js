@@ -230,6 +230,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
           widget.constructor,
           qx.ui.mobile.core.MResize
         );
+
         if (hasResizeMixin) {
           // Size has to be fixed for animation.
           widget.fixSize();
@@ -249,6 +250,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
           widget.constructor,
           qx.ui.mobile.core.MResize
         );
+
         if (hasResizeMixin) {
           // Size has to be released after animation.
           widget.releaseFixedSize();
@@ -278,6 +280,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
         this._onAnimationEnd,
         this
       );
+
       qx.event.Registration.addListener(
         toElement,
         "animationEnd",
@@ -295,6 +298,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
         "in",
         this.__reverse
       );
+
       var fromElementAnimation = this.__cardAnimation.getAnimation(
         this.__animation,
         "out",
@@ -335,6 +339,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
           this._onAnimationEnd,
           this
         );
+
         qx.event.Registration.removeListener(
           toElement,
           "animationEnd",
@@ -346,6 +351,7 @@ qx.Class.define("qx.ui.mobile.layout.Card", {
           fromElement,
           this.__getAnimationClasses("out")
         );
+
         qx.bom.element.Class.removeClasses(
           toElement,
           this.__getAnimationClasses("in")

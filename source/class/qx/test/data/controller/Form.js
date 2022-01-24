@@ -127,6 +127,7 @@ qx.Class.define("qx.test.data.controller.Form", {
             return data && data.substr(0, 1);
           }
         },
+
         {
           converter(data) {
             return data + "-item";
@@ -162,6 +163,7 @@ qx.Class.define("qx.test.data.controller.Form", {
             return data && data.substr(0, data.length - 1);
           }
         },
+
         {
           converter(data) {
             return data + "a";
@@ -503,6 +505,7 @@ qx.Class.define("qx.test.data.controller.Form", {
             return data && data.substr(0, 1);
           }
         },
+
         {
           converter(data) {
             return data + "-";
@@ -633,6 +636,7 @@ qx.Class.define("qx.test.data.controller.Form", {
         { name: "a" },
         { name: "b" }
       ]);
+
       var listController = new qx.data.controller.List(
         listModel,
         selectBox,
@@ -799,11 +803,13 @@ qx.Class.define("qx.test.data.controller.Form", {
           return "X" + data;
         }
       };
+
       var model2tf = {
         converter(data) {
           return data && data.substring(1);
         }
       };
+
       c.addBindingOptions("tf1", model2tf, tf2model);
 
       // set values in the form
@@ -831,6 +837,7 @@ qx.Class.define("qx.test.data.controller.Form", {
         this.__tf1.getValue(),
         this.__model.getTf1().substring(1)
       );
+
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
 
       // destroy the objects
@@ -844,6 +851,7 @@ qx.Class.define("qx.test.data.controller.Form", {
         { name: "b", age: 2 },
         { name: "c", age: 3 }
       ];
+
       var model = qx.data.marshal.Json.createModel(data);
 
       // list

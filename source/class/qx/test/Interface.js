@@ -66,6 +66,7 @@ qx.Class.define("qx.test.Interface", {
       this.assertTrue(
         qx.Interface.classImplements(qx.test.i.Audi, qx.test.i.ICar)
       );
+
       qx.Class.undefine("qx.test.i.Audi");
     },
 
@@ -92,6 +93,7 @@ qx.Class.define("qx.test.Interface", {
       this.assertTrue(
         qx.Interface.classImplements(qx.test.i.Bmw1, qx.test.i.ICar)
       );
+
       qx.Class.undefine("qx.test.i.Bmw1");
     },
 
@@ -111,6 +113,7 @@ qx.Class.define("qx.test.Interface", {
       this.assertFalse(
         qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar)
       );
+
       qx.Class.undefine("qx.test.i.Bmw2");
     },
 
@@ -131,6 +134,7 @@ qx.Class.define("qx.test.Interface", {
       this.assertTrue(
         qx.Interface.classImplements(qx.test.i.Bmw3, qx.test.i.ICar)
       );
+
       qx.Class.undefine("qx.test.i.Bmw3");
     },
 
@@ -154,6 +158,7 @@ qx.Class.define("qx.test.Interface", {
       this.assertFalse(
         qx.Interface.classImplements(qx.test.i.Bmw4, qx.test.i.ICar)
       );
+
       qx.Class.undefine("qx.test.i.Bmw4");
     },
 
@@ -479,15 +484,18 @@ qx.Class.define("qx.test.Interface", {
         qx.Class.implementsInterface(qx.test.i.Implement1, qx.test.i.IAll),
         "implements IAll"
       );
+
       this.assertTrue(
         qx.Class.implementsInterface(qx.test.i.Implement1, qx.test.i.IMember),
         "implements IMember"
       );
+
       this.assertTrue(
         qx.Class.implementsInterface(
           qx.test.i.Implement1,
           qx.test.i.IProperties
         ),
+
         "implements IProperties"
       );
 

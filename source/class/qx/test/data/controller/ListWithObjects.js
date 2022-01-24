@@ -159,6 +159,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__controller.getSelection().getItem(0),
         "Selection does not work."
       );
+
       // test for the length
       this.assertEquals(
         1,
@@ -188,6 +189,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__controller.getSelection().getItem(0),
         "addToSelection does not work."
       );
+
       this.assertEquals(
         this.__model.getItem(2),
         this.__controller.getSelection().getItem(1),
@@ -241,6 +243,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list,
         "name"
       );
+
       this.__controller.setIconPath("icon");
 
       // check the label binding
@@ -270,6 +273,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list,
         "name"
       );
+
       this.__controller.setIconPath("icon");
 
       // check the binding
@@ -316,6 +320,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list,
         "name"
       );
+
       this.__controller.setIconPath("icon");
       this.__controller.setLabelOptions(labelOptions);
       this.__controller.setIconOptions(iconOptions);
@@ -390,6 +395,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list,
         "name"
       );
+
       this.__controller.setIconPath("icon");
 
       var delegate = {};
@@ -427,6 +433,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list,
         "name"
       );
+
       this.__controller.setLabelOptions(options);
 
       // change something to invoke a change of a binding
@@ -521,6 +528,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__list.getChildren()[1].getLabel(),
         "Wrong name of the parent."
       );
+
       this.assertEquals(
         parentC,
         this.__list.getChildren()[1].getModel(),
@@ -564,10 +572,12 @@ qx.Class.define("qx.test.data.controller.ListWithObjects", {
         this.__model.getItem(1),
         this.__list.getChildren()[0].getModel()
       );
+
       this.assertEquals(
         this.__model.getItem(3),
         this.__list.getChildren()[1].getModel()
       );
+
       this.assertEquals(
         this.__model.getItem(4),
         this.__list.getChildren()[2].getModel()

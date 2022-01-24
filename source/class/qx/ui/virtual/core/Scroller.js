@@ -41,6 +41,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller", {
       cellHeight,
       cellWidth
     );
+
     this.__pane.addListener("update", this._computeScrollbars, this);
     this.__pane.addListener("scrollX", this._onScrollPaneX, this);
     this.__pane.addListener("scrollY", this._onScrollPaneY, this);

@@ -190,6 +190,7 @@ qx.Class.define("qx.tool.compiler.makers.Maker", {
       var analyser = (this._analyser = new qx.tool.compiler.Analyser(
         path.join(this.getOutputDir(), this.getDbFilename() || "db.json")
       ));
+
       analyser.setOutputDir(this.getOutputDir());
       return analyser;
     }

@@ -89,12 +89,15 @@ qx.Class.define("qx.ui.table.rowrenderer.Default", {
       this._colors.bgcolFocusedSelected = colorMgr.resolve(
         "table-row-background-focused-selected"
       );
+
       this._colors.bgcolFocused = colorMgr.resolve(
         "table-row-background-focused"
       );
+
       this._colors.bgcolSelected = colorMgr.resolve(
         "table-row-background-selected"
       );
+
       this._colors.bgcolEven = colorMgr.resolve("table-row-background-even");
       this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
       this._colors.colSelected = colorMgr.resolve("table-row-selected");

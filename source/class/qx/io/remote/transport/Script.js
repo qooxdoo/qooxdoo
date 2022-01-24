@@ -417,6 +417,7 @@ qx.Class.define("qx.io.remote.transport.Script", {
           this.warn(
             "No valid responseType specified (" + this.getResponseType() + ")!"
           );
+
           return null;
       }
     }

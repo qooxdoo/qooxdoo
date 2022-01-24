@@ -289,6 +289,7 @@ qx.Class.define("qx.ui.root.Inline", {
       this._onResize,
       this
     );
+
     this.__elem = null;
   }
 });

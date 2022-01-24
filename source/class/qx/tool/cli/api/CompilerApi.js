@@ -101,6 +101,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
         this.getRootDir(),
         this.getConfigFilename()
       );
+
       let config = {};
       if (await fs.existsAsync(compileJsonPath)) {
         config = await qx.tool.utils.Json.loadJsonAsync(compileJsonPath);

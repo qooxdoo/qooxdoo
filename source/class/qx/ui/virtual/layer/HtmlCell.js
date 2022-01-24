@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
             row,
             column
           );
+
           var insets = cellProperties.insets || [0, 0];
 
           html.push(
@@ -104,6 +105,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
               insets[0],
               insets[1]
             ),
+
             cellProperties.style || "",
             "' ",
             "class='",

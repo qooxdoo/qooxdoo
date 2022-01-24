@@ -59,6 +59,7 @@ qx.Class.define("qx.test.ui.layout.Box", {
           c1.getContentElement().getStyle("height"),
           10
         );
+
         var height = c1.getSizeHint().height;
         this.assertEquals(height, computedHeight, "height");
       } else if (test == "width") {
@@ -66,6 +67,7 @@ qx.Class.define("qx.test.ui.layout.Box", {
           c1.getContentElement().getStyle("width"),
           10
         );
+
         var width = c1.getSizeHint().width;
         this.assertEquals(width, computedWidth, "width");
       }

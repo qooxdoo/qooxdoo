@@ -71,6 +71,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
       var boolTrueImg = aliasManager.resolve(
         "decoration/table/boolean-true.png"
       );
+
       var boolFalseImg = aliasManager.resolve(
         "decoration/table/boolean-false.png"
       );

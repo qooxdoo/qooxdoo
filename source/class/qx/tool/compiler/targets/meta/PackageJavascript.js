@@ -38,6 +38,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PackageJavascript", {
       appMeta,
       `${appMeta.getApplicationRoot()}package-${pkg.getPackageIndex()}.js`
     );
+
     this.__pkg = pkg;
   },
 

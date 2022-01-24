@@ -78,6 +78,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
       name: vFormName,
       target: vFrameName
     });
+
     qx.bom.element.Style.set(this.__form, "display", "none");
     qx.dom.Element.insertEnd(this.__form, qx.dom.Node.getBodyElement(document));
 
@@ -85,6 +86,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
       id: "_data_",
       name: "_data_"
     });
+
     qx.dom.Element.insertEnd(this.__data, this.__form);
 
     // Finally, attach iframe to DOM and add listeners
@@ -92,6 +94,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
       this.__frame,
       qx.dom.Node.getBodyElement(document)
     );
+
     qx.event.Registration.addListener(this.__frame, "load", this._onload, this);
 
     // qx.event.handler.Iframe does not yet support the readystatechange event
@@ -99,6 +102,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
       this._onreadystatechange,
       this
     );
+
     qx.bom.Event.addNativeListener(
       this.__frame,
       "readystatechange",
@@ -579,6 +583,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
           this.warn(
             "No valid responseType specified (" + this.getResponseType() + ")!"
           );
+
           return null;
       }
     }
@@ -613,6 +618,7 @@ qx.Class.define("qx.io.remote.transport.Iframe", {
         this._onload,
         this
       );
+
       qx.bom.Event.removeNativeListener(
         this.__frame,
         "readystatechange",

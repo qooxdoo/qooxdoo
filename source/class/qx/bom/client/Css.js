@@ -243,6 +243,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
           value,
           false
         );
+
         if (style) {
           qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = true;
         }
@@ -421,10 +422,12 @@ qx.Bootstrap.define("qx.bom.client.Css", {
           value: "flex",
           syntax: "flex"
         },
+
         {
           value: "-ms-flexbox",
           syntax: "flexbox"
         },
+
         {
           value: "-webkit-flex",
           syntax: "flex"
@@ -461,6 +464,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
       "css.gradient.legacywebkit",
       statics.getLegacyWebkitGradient
     );
+
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
     qx.core.Environment.add("css.rgba", statics.getRgba);
     qx.core.Environment.add("css.borderimage", statics.getBorderImage);
@@ -468,6 +472,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
       "css.borderimage.standardsyntax",
       statics.getBorderImageSyntax
     );
+
     qx.core.Environment.add("css.usermodify", statics.getUserModify);
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.userselect.none", statics.getUserSelectNone);
@@ -481,6 +486,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
       "css.alphaimageloaderneeded",
       statics.getAlphaImageLoaderNeeded
     );
+
     qx.core.Environment.add("css.pointerevents", statics.getPointerEvents);
     qx.core.Environment.add("css.flexboxSyntax", statics.getFlexboxSyntax);
   }

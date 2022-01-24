@@ -53,6 +53,7 @@ qx.Class.define("qx.data.store.Rest", {
       this.__onActionSuccess,
       this
     );
+
     this.__addListeners();
   },
 

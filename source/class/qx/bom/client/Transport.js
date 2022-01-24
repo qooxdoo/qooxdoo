@@ -165,6 +165,7 @@ qx.Bootstrap.define("qx.bom.client.Transport", {
       "io.maxrequests",
       statics.getMaxConcurrentRequestCount
     );
+
     qx.core.Environment.add("io.ssl", statics.getSsl);
     qx.core.Environment.add("io.xhr", statics.getXmlHttpRequest);
   }

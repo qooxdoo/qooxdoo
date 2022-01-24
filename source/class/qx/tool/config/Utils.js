@@ -59,6 +59,7 @@ qx.Class.define("qx.tool.config.Utils", {
         dir,
         qx.tool.config.Registry.config.fileName
       );
+
       let data = {
         libraries: [],
         applications: []
@@ -68,6 +69,7 @@ qx.Class.define("qx.tool.config.Utils", {
         let qooxdooJson = await qx.tool.utils.Json.loadJsonAsync(
           qooxdooJsonPath
         );
+
         if (qx.lang.Type.isArray(qooxdooJson.libraries)) {
           data.libraries = qooxdooJson.libraries;
         }
@@ -269,9 +271,11 @@ qx.Class.define("qx.tool.config.Utils", {
       let qxVersionRange = manifestModel.getValue(
         `requires.${manifestRequiresKey}`
       );
+
       qx.log.Logger.debug(
         `Manifest in ${baseDir} requires ${manifestRequiresKey}: ${qxVersionRange}`
       );
+
       if (qxVersionRange && !qxVersionRange.match(/[<>]/)) {
         // cannot do comparisons
         try {
@@ -302,6 +306,7 @@ qx.Class.define("qx.tool.config.Utils", {
         libraryPath,
         qx.tool.config.Manifest.config.fileName
       );
+
       if (!(await fs.existsAsync(manifestPath))) {
         return false;
       }
@@ -357,6 +362,7 @@ qx.Class.define("qx.tool.config.Utils", {
         libPath,
         qx.tool.config.Manifest.config.fileName
       );
+
       let manifest = await qx.tool.utils.Json.loadJsonAsync(manifestPath);
       if (!manifest) {
         throw new Error(`No Manifest exists at ${manifestPath}.`);

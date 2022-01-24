@@ -81,6 +81,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
       this.assertTrue(
         this.__el.style[this.__keys.name].indexOf("translate(123px)") != -1
       );
+
       this.assertTrue(
         this.__el.style[this.__keys.name].indexOf("scale(1.2)") != -1
       );
@@ -91,6 +92,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         scale: 1.2,
         translate: "123px"
       });
+
       var sheet = qx.bom.Stylesheet.createElement();
       qx.bom.Stylesheet.addRule(sheet, ".test", css);
       var computedRule = sheet.cssRules[0].cssText;
@@ -99,6 +101,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         computedRule.indexOf("translate(123px)") != -1,
         "Found: " + computedRule
       );
+
       this.assertTrue(
         computedRule.indexOf("scale(1.2)") != -1,
         "Found: " + computedRule
@@ -110,6 +113,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         scale: "1.2, 1",
         translate: "123px,234px"
       });
+
       var sheet = qx.bom.Stylesheet.createElement();
       qx.bom.Stylesheet.addRule(sheet, ".test", css);
 
@@ -119,6 +123,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         computedRule.indexOf("translate(123px, 234px)") != -1,
         "Found: " + computedRule
       );
+
       this.assertTrue(
         computedRule.indexOf("scale(1.2, 1)") != -1,
         "Found: " + computedRule
@@ -156,6 +161,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         scale: [1.2, 1, 0],
         translate: ["123px", "234px", "345em"]
       });
+
       var sheet = qx.bom.Stylesheet.createElement();
       qx.bom.Stylesheet.addRule(sheet, ".test", css);
 
@@ -167,6 +173,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
           computedRule.indexOf("translate3d(123px, 234px, 345em)") != -1,
           "Found: " + computedRule
         );
+
         this.assertTrue(
           computedRule.indexOf("scale3d(1.2, 1, 0)") != -1,
           "Found: " + computedRule
@@ -179,10 +186,12 @@ qx.Class.define("qx.test.bom.element.Transform", {
           computedRule.indexOf("translateX(123px)") != -1,
           "Found: " + computedRule
         );
+
         this.assertTrue(
           computedRule.indexOf("translateY(234px)") != -1,
           "Found: " + computedRule
         );
+
         this.assertFalse(
           computedRule.indexOf("translateY(345em)") != -1,
           "Found: " + computedRule
@@ -192,10 +201,12 @@ qx.Class.define("qx.test.bom.element.Transform", {
           computedRule.indexOf("scaleX(1.2)") != -1,
           "Found: " + computedRule
         );
+
         this.assertTrue(
           computedRule.indexOf("scaleY(1)") != -1,
           "Found: " + computedRule
         );
+
         this.assertFalse(
           computedRule.indexOf("scaleZ(0)") != -1,
           "Found: " + computedRule
@@ -249,6 +260,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         "30% 10%",
         this.__el.style[this.__keys["perspective-origin"]]
       );
+
       this.assertEquals(
         "30% 10%",
         qx.bom.element.Transform.getPerspectiveOrigin(this.__el)
@@ -261,6 +273,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
         "visible",
         this.__el.style[this.__keys["backface-visibility"]]
       );
+
       this.assertTrue(
         qx.bom.element.Transform.getBackfaceVisibility(this.__el)
       );
@@ -315,6 +328,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
           ) != -1,
           "translate3d"
         );
+
         this.assertTrue(
           this.__el.style[this.__keys.name].indexOf("scale3d(1, 2, 3)") != -1,
           "scale3d"
@@ -324,6 +338,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
           this.__el.style[this.__keys.name].indexOf("rotateZ(3deg)") != -1,
           "rotate"
         );
+
         this.assertTrue(
           this.__el.style[this.__keys.name].indexOf(
             "skewX(1deg) skewY(2deg)"
@@ -340,6 +355,7 @@ qx.Class.define("qx.test.bom.element.Transform", {
           ) != -1,
           "translate"
         );
+
         this.assertTrue(
           this.__el.style[this.__keys.name].indexOf("scaleX(1) scaleY(2)") !=
             -1,

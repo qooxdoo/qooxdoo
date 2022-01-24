@@ -179,6 +179,7 @@ qx.Class.define("qx.ui.layout.Grid", {
           layoutProperties[name] == 1,
           "The property '" + name + "' is not supported by the Grid layout!"
         );
+
         this.assertInteger(value);
         this.assert(value >= 0, "Value must be positive");
       },
@@ -1314,6 +1315,7 @@ qx.Class.define("qx.ui.layout.Grid", {
             cellHint.minWidth,
             Math.min(spanWidth - marginLeft - marginRight, cellHint.maxWidth)
           );
+
           var cellHeight = Math.max(
             cellHint.minHeight,
             Math.min(spanHeight - marginTop - marginBottom, cellHint.maxHeight)
@@ -1329,6 +1331,7 @@ qx.Class.define("qx.ui.layout.Grid", {
               marginLeft,
               marginRight
             );
+
           var cellTop =
             top +
             Util.computeVerticalAlignOffset(

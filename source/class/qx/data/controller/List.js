@@ -271,6 +271,7 @@ qx.Class.define("qx.data.controller.List", {
           value && !qx.lang.Type.isObject(value),
           "expecting an object"
         );
+
         this.assertTrue(
           !!value.converter ||
             !!value.onUpdate ||
@@ -294,6 +295,7 @@ qx.Class.define("qx.data.controller.List", {
           value && !qx.lang.Type.isObject(value),
           "expecting an object"
         );
+
         this.assertTrue(
           !!value.converter ||
             !!value.onUpdate ||
@@ -825,6 +827,7 @@ qx.Class.define("qx.data.controller.List", {
         var id = item.getUserData(
           this.__boundPropertiesReverse[i] + "ReverseBindingId"
         );
+
         if (id != null) {
           item.removeBinding(id);
           item.getUserData(

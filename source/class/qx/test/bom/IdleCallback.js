@@ -29,6 +29,7 @@ qx.Class.define("qx.test.bom.IdleCallback", {
       var setting = this.stub(qx.core.Environment, "get").withArgs(
         "client.idle"
       );
+
       setting.returns(false);
 
       var clb = this.spy();
@@ -52,6 +53,7 @@ qx.Class.define("qx.test.bom.IdleCallback", {
       var setting = this.stub(qx.core.Environment, "get").withArgs(
         "client.idle"
       );
+
       setting.returns(false);
 
       var clb = this.spy();

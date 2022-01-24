@@ -374,6 +374,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp", {
             "Failed to send data to URL '" + vUrl + "': " + ex,
             "send"
           );
+
           this.failed();
         }
 
@@ -698,6 +699,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp", {
             /<\?xml[^\?]*\?>/,
             ""
           );
+
           vResponseXML.loadXML(s);
         }
 
@@ -837,6 +839,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp", {
           this.warn(
             "No valid responseType specified (" + this.getResponseType() + ")!"
           );
+
           return null;
       }
     },

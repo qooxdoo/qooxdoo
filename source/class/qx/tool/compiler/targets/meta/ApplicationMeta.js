@@ -277,6 +277,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
         name,
         this.__parts.length
       );
+
       this.__parts.push(part);
       this.__partsLookup[name] = part;
       return part;
@@ -319,6 +320,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
         this,
         this.__packages.length
       );
+
       this.__packages.push(pkg);
       return pkg;
     },

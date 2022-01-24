@@ -111,6 +111,7 @@ function expandMemberExpression(str) {
     types.identifier(segs[0]),
     types.identifier(segs[1])
   );
+
   for (var i = 2; i < segs.length; i++) {
     expr = types.memberExpression(expr, types.identifier(segs[i]));
   }
@@ -423,6 +424,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               className,
               Object.keys(t.__metaDefinitions).join(", ")
             );
+
             t._compileDbClassInfo();
           }
 
@@ -1033,6 +1035,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 isProperties,
                 nextJsonPath + key
               );
+
               result[key] = value;
             }
           });
@@ -1100,6 +1103,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 ? " [" + node.loc.start.line + "," + node.loc.start.column + "]"
                 : "")
           );
+
           result = null;
         }
         return result;
@@ -1262,6 +1266,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             val.leadingComments = (path.node.leadingComments || []).concat(
               val.leadingComments || []
             );
+
             handleTopLevelMethods(path, keyName, val);
             return;
           }
@@ -1405,12 +1410,14 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 types.identifier("qx"),
                 types.identifier("$$createdAt")
               );
+
               var tmp = types.callExpression(fn, [
                 path.node,
                 types.stringLiteral(t.__className.replace(/\./g, "/") + ".js"),
                 types.numericLiteral(
                   path.node.loc ? path.node.loc.start.line : 0
                 ),
+
                 types.numericLiteral(
                   path.node.loc ? path.node.loc.start.column : 0
                 )
@@ -1451,6 +1458,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   {},
                   dbClassInfo.dependsOn[key]
                 ));
+
                 if (tmp.load) {
                   delete tmp.load;
                   tmp.require = true;
@@ -1476,6 +1484,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 literalValueToExpression(copyInfo)
               )
             ]);
+
             let inject = [tmp];
             if (hasLoadDeps) {
               tmp = babylon.parse(
@@ -1704,6 +1713,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     prop =>
                       prop.key.type == "Identifier" && prop.key.value == "type"
                   );
+
                   if (typeProp) {
                     (t.__classMeta.isStatic == typeProp.value.type) ==
                       "Literal" && typeProp.value.value === "static";
@@ -1715,6 +1725,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   usage: "dynamic",
                   location: path.node.loc
                 });
+
                 path.skip();
                 path.traverse(CLASS_DEF_VISITOR, { classDefPath: path });
                 t.__popMeta(className);
@@ -1766,6 +1777,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   usage: "dynamic",
                   location: path.node.loc
                 });
+
                 path.skip();
                 path.traverse(VISITOR);
               } else if (name == "qx.core.Environment.select") {
@@ -1785,6 +1797,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   usage: "dynamic",
                   location: path.node.loc
                 });
+
                 path.skip();
                 path.traverse(VISITOR);
               } else if (
@@ -1875,16 +1888,20 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     path.node.arguments[1],
                     types.identifier("slice")
                   ),
+
                   []
                 );
+
                 let exprUnshift = types.callExpression(
                   types.memberExpression(exprSplice, types.identifier("shift")),
                   []
                 );
+
                 let callExpr = types.callExpression(expr, [
                   path.node.arguments[0],
                   exprUnshift
                 ]);
+
                 path.replaceWith(callExpr);
               } else if (name == "this.self") {
                 let expr = expandMemberExpression(t.__classMeta.className);
@@ -2057,6 +2074,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               t.__classMeta.functionName,
               path.node
             );
+
             path.skip();
             let functionId = null;
             if (this.__privateMangling == "readable") {
@@ -2094,6 +2112,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               t.__classMeta.functionName,
               path.node
             );
+
             path.skip();
             enterFunction(path);
             path.traverse(VISITOR);
@@ -2854,6 +2873,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         "transpiled",
         className.replace(/\./g, pathModule.sep) + ".js"
       );
+
       return filename;
     },
 

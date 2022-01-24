@@ -28,6 +28,7 @@ qx.Class.define("qx.test.mobile.basic.Image", {
       var source = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/folder.png"
       );
+
       if (qx.io.ImageLoader.isLoaded(source)) {
         this.debug("testLoadedEvent skipped! Image already loaded.");
         return;
@@ -35,6 +36,7 @@ qx.Class.define("qx.test.mobile.basic.Image", {
       var image = new qx.ui.mobile.basic.Image(
         "qx/icon/Tango/48/places/folder.png"
       );
+
       image.addListener(
         "loaded",
         function () {
@@ -57,6 +59,7 @@ qx.Class.define("qx.test.mobile.basic.Image", {
       var image = new qx.ui.mobile.basic.Image(
         "does not exist.png" + Math.random()
       );
+
       this.getRoot().add(image);
 
       image.addListener(

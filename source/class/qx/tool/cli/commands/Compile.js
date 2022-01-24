@@ -371,6 +371,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           process.on("exit", () =>
             process.stdout.write(colorReset + consoleControl.eraseLine())
           );
+
           let Console = qx.tool.compiler.Console.getInstance();
           Console.setColorOn(colorOn);
         }
@@ -380,6 +381,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           var ourTheme = themes.newTheme(
             themes({ hasUnicode: true, hasColor: true })
           );
+
           let colorOn = qx.tool.compiler.Console.getInstance().getColorOn();
           ourTheme.preProgressbar = colorOn + ourTheme.preProgressbar;
           ourTheme.preSubsection = colorOn + ourTheme.preSubsection;
@@ -401,6 +403,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               qx.tool.compiler.Console.log(
                 colorOn + TYPES[(msgId || {}).type || "error"] + ": " + str
               );
+
               this.__gauge.show();
             } else {
               this.__gauge.show(colorOn + str);
@@ -413,20 +416,24 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         this.addListener("writingApplications", () =>
           this.__gauge.show("Writing Applications", 0)
         );
+
         this.addListener("writtenApplications", () =>
           this.__gauge.show("Writing Applications", 1)
         );
+
         this.addListener("writingApplication", evt =>
           this.__gauge.pulse(
             "Writing Application " +
               evt.getData().appMeta.getApplication().getName()
           )
         );
+
         this.addListener("compilingClass", evt =>
           this.__gauge.pulse(
             "Compiling " + evt.getData().classFile.getClassName()
           )
         );
+
         this.addListener("minifyingApplication", evt =>
           this.__gauge.pulse(
             "Minifying " +
@@ -473,6 +480,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           qx.tool.compiler.Console.log(
             "\nCompleted all applications, libraries used are:"
           );
+
           Object.values(this.__libraries).forEach(lib =>
             qx.tool.compiler.Console.log(
               `   ${lib.getNamespace()} (${lib.getRootDir()})`
@@ -555,6 +563,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             await qx.tool.utils.files.Utils.safeUnlink(
               analyser.getDbFilename()
             );
+
             await qx.tool.utils.files.Utils.safeUnlink(
               analyser.getResDbFilename()
             );
@@ -567,15 +576,19 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           analyser.addListener("compilingClass", e =>
             this.dispatchEvent(e.clone())
           );
+
           analyser.addListener("compiledClass", e =>
             this.dispatchEvent(e.clone())
           );
+
           analyser.addListener("saveDatabase", e =>
             this.dispatchEvent(e.clone())
           );
+
           target.addListener("checkEnvironment", e =>
             this.dispatchEvent(e.clone())
           );
+
           let appInfos = [];
           target.addListener("writingApplication", async () => {
             let appInfo = {
@@ -603,6 +616,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             target.addListener("minifyingApplication", e =>
               this.dispatchEvent(e.clone())
             );
+
             target.addListener("minifiedApplication", e =>
               this.dispatchEvent(e.clone())
             );
@@ -611,6 +625,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           let stat = await qx.tool.utils.files.Utils.safeStat(
             "source/index.html"
           );
+
           if (stat) {
             qx.tool.compiler.Console.print(
               "qx.tool.cli.compile.legacyFiles",
@@ -669,6 +684,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           let arr = [this._compileJsFilename, this._compileJsonFilename].filter(
             str => Boolean(str)
           );
+
           watch.setConfigFilenames(arr);
           return await watch.start();
         })
@@ -724,6 +740,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       data.targets.forEach(
         (targetConfig, index) => (targetConfig.index = index)
       );
+
       let targetConfigs = [];
       let defaultTargetConfig = null;
       data.targets.forEach(targetConfig => {
@@ -812,6 +829,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           var library = await qx.tool.compiler.app.Library.createLibrary(
             libPath
           );
+
           libraries[library.getNamespace()] = library;
         })
       );
@@ -831,6 +849,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         Object.values(libraries),
         data.packages
       );
+
       if (errors.length > 0) {
         if (this.argv.warnAsError) {
           throw new qx.tool.utils.Utils.UserError(errors.join("\n"));
@@ -859,6 +878,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 "application.writeIndexHtmlToRoot",
                 "application.default"
               );
+
               setDefault = appConfig.writeIndexHtmlToRoot;
             } else if (appConfig["default"] !== undefined) {
               setDefault = appConfig["default"];
@@ -896,6 +916,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             targetConfig.type,
             targetConfig.index
           );
+
           return;
         }
         let appConfigs = targetConfig.appConfigs.filter(appConfig => {
@@ -1007,6 +1028,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["save-source-in-map"],
           t.argv["saveSourceInMap"]
         );
+
         if (
           typeof saveSourceInMap == "boolean" &&
           typeof target.setSaveSourceInMap == "function"
@@ -1018,6 +1040,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["save-unminified"],
           t.argv["save-unminified"]
         );
+
         if (
           typeof saveUnminified == "boolean" &&
           typeof target.setSaveUnminified == "function"
@@ -1029,6 +1052,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           targetConfig["inline-external-scripts"],
           t.argv["inline-external-scripts"]
         );
+
         if (typeof inlineExternal == "boolean") {
           target.setInlineExternalScripts(inlineExternal);
         } else if (target instanceof qx.tool.compiler.targets.BuildTarget) {
@@ -1113,6 +1137,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           babelConfig.options,
           targetConfig.babelOptions || {}
         );
+
         maker.getAnalyser().setBabelConfig(babelConfig);
 
         var addCreatedAt =
@@ -1142,6 +1167,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           var app = (appConfig.app = new qx.tool.compiler.app.Application(
             appConfig["class"]
           ));
+
           app.setTemplatePath(qx.tool.utils.Utils.getTemplateDir());
 
           [
@@ -1228,6 +1254,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               targetConfig.exclude,
               appConfig.exclude
             ),
+
             include: mergeArray(
               [],
               data.include,
@@ -1350,6 +1377,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                   " in " +
                   lib.getRootDir()
               );
+
               process.exit(1);
             }
             // but we're instructed to download the libraries
@@ -1401,10 +1429,12 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 entry =>
                   path.relative("", entry.getRootDir()) === packages[reqUri]
               );
+
               if (!l) {
                 errors.push(
                   `${lib.getNamespace()}: Cannot find required library '${reqUri}'`
                 );
+
                 break;
               }
               // github release of a package
@@ -1564,6 +1594,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         "qx.tool.cli.compile.deprecatedBabelOptionsConflicting":
           "Conflicting use of `babel.options` and the deprecated `babelOptions` (ignored)"
       },
+
       "warning"
     );
   }

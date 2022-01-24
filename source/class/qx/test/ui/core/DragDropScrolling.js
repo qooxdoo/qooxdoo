@@ -141,6 +141,7 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling", {
         behavior._getWidget() === this.getRoot(),
         "Root widget must be application root!"
       );
+
       behavior.dispose();
 
       // explicit widget
@@ -160,10 +161,12 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling", {
         behavior._getWidget().hasListener("drag"),
         "'drag' event listener not found !"
       );
+
       this.assertTrue(
         behavior._getWidget().hasListener("dragend"),
         "'dragend' event listener not found !"
       );
+
       behavior.dispose();
 
       // explicit widget
@@ -173,10 +176,12 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling", {
         widget.hasListener("drag"),
         "'drag' event listener not found !"
       );
+
       this.assertTrue(
         widget.hasListener("dragend"),
         "'dragend' event listener not found !"
       );
+
       behavior.dispose();
       widget.dispose();
 
@@ -185,6 +190,7 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling", {
         this.list.hasListener("drag"),
         "'drag' event listener not found !"
       );
+
       this.assertTrue(
         this.list.hasListener("dragend"),
         "'dragend' event listener not found !"

@@ -192,6 +192,7 @@ qx.Class.define("qx.data.Array", {
           removed: [item],
           added: []
         },
+
         null
       );
 
@@ -231,6 +232,7 @@ qx.Class.define("qx.data.Array", {
             added: [arguments[i]],
             removed: []
           },
+
           null
         );
       }
@@ -260,6 +262,7 @@ qx.Class.define("qx.data.Array", {
           added: [],
           removed: []
         },
+
         null
       );
 
@@ -309,6 +312,7 @@ qx.Class.define("qx.data.Array", {
           removed: [item],
           added: []
         },
+
         null
       );
 
@@ -396,6 +400,7 @@ qx.Class.define("qx.data.Array", {
             added: addedItems,
             removed: returnArray
           },
+
           null
         );
       }
@@ -489,6 +494,7 @@ qx.Class.define("qx.data.Array", {
           added: [],
           removed: []
         },
+
         null
       );
 
@@ -533,6 +539,7 @@ qx.Class.define("qx.data.Array", {
             added: [arguments[i]],
             removed: []
           },
+
           null
         );
       }
@@ -604,6 +611,7 @@ qx.Class.define("qx.data.Array", {
           added: [item],
           removed: [oldItem]
         },
+
         null
       );
     },
@@ -784,6 +792,7 @@ qx.Class.define("qx.data.Array", {
           removed: items,
           added: []
         },
+
         null
       );
 
@@ -840,6 +849,7 @@ qx.Class.define("qx.data.Array", {
           added: array,
           removed: []
         },
+
         null
       );
     },

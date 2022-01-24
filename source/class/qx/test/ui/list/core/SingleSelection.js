@@ -200,6 +200,7 @@ qx.Class.define("qx.test.ui.list.core.SingleSelection", {
         this._list.getSelection(),
         "On List"
       );
+
       expectedSelection.dispose();
 
       // check selection from manager

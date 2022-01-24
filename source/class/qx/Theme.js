@@ -397,6 +397,7 @@ qx.Bootstrap.define("qx.Theme", {
           "appearances",
           "meta"
         ];
+
         for (var i = 0, l = maps.length; i < l; i++) {
           var key = maps[i];
 

@@ -157,11 +157,13 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage", {
         "no-repeat",
         imageData.url
       );
+
       var ret = qx.bom.element.Decoration.getAttributes(
         imageData.url,
         "no-repeat",
         styles
       );
+
       var css = qx.bom.element.Style.compile(ret.style);
 
       if (tag === "img") {

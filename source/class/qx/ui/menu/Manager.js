@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.menu.Manager", {
       this,
       true
     );
+
     Registration.addListener(el, "roll", this._onRoll, this, true);
 
     // React on keypress events

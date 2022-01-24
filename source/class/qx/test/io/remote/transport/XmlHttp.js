@@ -94,6 +94,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp", {
             var response = qx.lang.Json.parse(
               this.request.getResponseText().toLowerCase()
             );
+
             this.assertEquals("kinners", response["juhu"]);
             this.assertEquals("bar", response["foo"]);
           }, this);

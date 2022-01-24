@@ -91,6 +91,7 @@ qx.Class.define("qx.tool.cli.commands.Run", {
             qx.tool.compiler.Console.print(
               "qx.tool.cli.run.tooManyApplications"
             );
+
             process.exit(-1);
           }
           maker = tmp;
@@ -180,6 +181,7 @@ qx.Class.define("qx.tool.cli.commands.Run", {
         "qx.tool.cli.run.tooManyApplications":
           "Cannot run anything because multiple applications are detected"
       },
+
       "error"
     );
   }

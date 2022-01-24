@@ -45,6 +45,7 @@ qx.Class.define("qx.test.ui.form.ModelSelection", {
         widget.getModelSelection().getLength(),
         "Wrong length"
       );
+
       this.assertTrue(widget.getModelSelection().contains(2));
       this.assertTrue(widget.getModelSelection().contains(3));
     },

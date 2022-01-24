@@ -89,26 +89,32 @@ qx.Class.define("qx.test.Annotation", {
         ["class-a-anno"],
         qx.Annotation.getOwnClass(clazzTop)
       );
+
       this.assertArrayEquals(
         ["class-a-anno"],
         qx.Annotation.getClass(clazzTop)
       );
+
       this.assertArrayEquals(
         ["construct-a-anno"],
         qx.Annotation.getConstructor(clazzTop)
       );
+
       this.assertArrayEquals(
         ["destruct-a-anno"],
         qx.Annotation.getDestructor(clazzTop)
       );
+
       this.assertArrayEquals(
         ["method-a-anno"],
         qx.Annotation.getOwnMember(clazzTop, "methodA")
       );
+
       this.assertArrayEquals(
         ["static-a-anno"],
         qx.Annotation.getStatic(clazzTop, "staticA")
       );
+
       this.assertArrayEquals(
         ["property-alpha-anno"],
         qx.Annotation.getProperty(clazzTop, "alpha")
@@ -119,11 +125,13 @@ qx.Class.define("qx.test.Annotation", {
         ["class-a-anno"],
         qx.Annotation.getClass(clazzMiddle)
       );
+
       this.assertArrayEquals([], qx.Annotation.getOwnConstructor(clazzMiddle));
       this.assertArrayEquals(
         ["construct-a-anno"],
         qx.Annotation.getConstructor(clazzMiddle)
       );
+
       this.assertArrayEquals([], qx.Annotation.getOwnDestructor(clazzMiddle));
       this.assertArrayEquals(
         ["destruct-a-anno"],
@@ -134,26 +142,32 @@ qx.Class.define("qx.test.Annotation", {
         [],
         qx.Annotation.getOwnMember(clazzMiddle, "methodA")
       );
+
       this.assertArrayEquals(
         ["method-a-anno"],
         qx.Annotation.getMember(clazzMiddle, "methodA")
       );
+
       this.assertArrayEquals(
         ["method-b-anno"],
         qx.Annotation.getMember(clazzMiddle, "methodB")
       );
+
       this.assertArrayEquals(
         [],
         qx.Annotation.getStatic(clazzMiddle, "staticA")
       );
+
       this.assertArrayEquals(
         ["property-alpha-anno"],
         qx.Annotation.getProperty(clazzMiddle, "alpha")
       );
+
       this.assertArrayEquals(
         ["property-bravo-anno"],
         qx.Annotation.getProperty(clazzMiddle, "bravo")
       );
+
       this.assertArrayEquals(
         ["bravo"],
         qx.Annotation.getPropertiesByAnnotation(
@@ -166,22 +180,27 @@ qx.Class.define("qx.test.Annotation", {
         ["class-c-anno"],
         qx.Annotation.getOwnClass(clazzBottom)
       );
+
       this.assertArrayEquals(
         ["class-c-anno", "class-a-anno"],
         qx.Annotation.getClass(clazzBottom)
       );
+
       this.assertArrayEquals(
         ["construct-c-anno"],
         qx.Annotation.getOwnConstructor(clazzBottom)
       );
+
       this.assertArrayEquals(
         ["construct-c-anno", "construct-a-anno"],
         qx.Annotation.getConstructor(clazzBottom)
       );
+
       this.assertArrayEquals(
         ["destruct-c-anno"],
         qx.Annotation.getOwnDestructor(clazzBottom)
       );
+
       this.assertArrayEquals(
         ["destruct-c-anno", "destruct-a-anno"],
         qx.Annotation.getDestructor(clazzBottom)
@@ -191,22 +210,27 @@ qx.Class.define("qx.test.Annotation", {
         [],
         qx.Annotation.getOwnMember(clazzBottom, "methodA")
       );
+
       this.assertArrayEquals(
         ["method-a-anno"],
         qx.Annotation.getMember(clazzBottom, "methodA")
       );
+
       this.assertArrayEquals(
         ["refined-method-b-anno", "method-b-anno"],
         qx.Annotation.getMember(clazzBottom, "methodB")
       );
+
       this.assertArrayEquals(
         ["property-alpha-anno"],
         qx.Annotation.getProperty(clazzBottom, "alpha")
       );
+
       this.assertArrayEquals(
         ["refined-bravo-anno", "property-bravo-anno"],
         qx.Annotation.getProperty(clazzBottom, "bravo")
       );
+
       this.assertArrayEquals(
         ["refined-bravo-anno"],
         qx.Annotation.getOwnProperty(clazzBottom, "bravo")

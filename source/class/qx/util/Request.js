@@ -83,6 +83,7 @@ qx.Bootstrap.define("qx.util.Request", {
         "CONNECT",
         "PATCH"
       ];
+
       return knownMethods.indexOf(method) !== -1 ? true : false;
     },
 

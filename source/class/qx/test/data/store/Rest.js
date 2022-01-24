@@ -85,6 +85,7 @@ qx.Class.define("qx.test.data.store.Rest", {
         Error,
         /property res/
       );
+
       store && store.dispose();
     },
 
@@ -112,6 +113,7 @@ qx.Class.define("qx.test.data.store.Rest", {
         Error,
         /property actionName/
       );
+
       store && store.dispose();
     },
 

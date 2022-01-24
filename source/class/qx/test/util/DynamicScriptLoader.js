@@ -72,6 +72,7 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         },
         this
       );
+
       l2.addListenerOnce(
         "ready",
         function () {
@@ -106,6 +107,7 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         },
         this
       );
+
       loader.start();
     },
     "test 3: fail to load"() {
@@ -126,6 +128,7 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         },
         this
       );
+
       loader.start();
       this.wait();
     },
@@ -133,6 +136,7 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
       var loader = new qx.util.DynamicScriptLoader(
         "qx/test/dynamicscriptloader/first.js"
       );
+
       loader.start();
       try {
         loader.start();

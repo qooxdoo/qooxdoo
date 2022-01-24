@@ -23,6 +23,7 @@ qx.Class.define("qx.test.Promise", {
           this.resume();
         }
       );
+
       this.wait(1000);
     },
 
@@ -47,6 +48,7 @@ qx.Class.define("qx.test.Promise", {
           this.resume();
         }
       );
+
       this.wait(1000);
     },
 
@@ -466,6 +468,7 @@ qx.Class.define("qx.test.Promise", {
                 console.log(
                   "in _applyAlpha resolving qx.Promise, value=" + value
                 );
+
                 resolve("xyz");
               }, 50);
             });
@@ -490,6 +493,7 @@ qx.Class.define("qx.test.Promise", {
             console.log(
               name + ": changeAlphaAsync 1 in qx.Promise, value=" + value
             );
+
             setTimeout(function () {
               if (str.length) {
                 str += ",";
@@ -500,6 +504,7 @@ qx.Class.define("qx.test.Promise", {
                   ": changeAlphaAsync 1 resolving qx.Promise, value=" +
                   value
               );
+
               resolve();
             }, 200);
           }).then(function () {
@@ -510,6 +515,7 @@ qx.Class.define("qx.test.Promise", {
           console.log(
             name + ": changeAlphaAsync 1, value=" + value + ", p=" + p
           );
+
           return p;
         });
         return obj;
@@ -615,12 +621,14 @@ qx.Class.define("qx.test.Promise", {
                       " after " +
                       delay
                   );
+
                   resolve();
                 }, delay);
               });
             },
             this
           );
+
           objs[i] = obj;
         });
       }
@@ -675,6 +683,7 @@ qx.Class.define("qx.test.Promise", {
           }, 500);
         })
       );
+
       arr.push(
         new qx.Promise(function (resolve) {
           setTimeout(function () {
@@ -682,6 +691,7 @@ qx.Class.define("qx.test.Promise", {
           }, 300);
         })
       );
+
       arr.push(
         new qx.Promise(function (resolve) {
           setTimeout(function () {
@@ -689,6 +699,7 @@ qx.Class.define("qx.test.Promise", {
           }, 100);
         })
       );
+
       arr.push("d");
       arr.push("e");
       var str = "";

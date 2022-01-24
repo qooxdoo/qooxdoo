@@ -758,6 +758,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
         2,
         arguments.length
       );
+
       return function () {
         var args = Array.prototype.slice.call(arguments, 0, arguments.length);
         return func.apply(self, fixedArgs.concat(args));

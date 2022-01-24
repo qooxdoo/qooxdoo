@@ -36,6 +36,7 @@ qx.Class.define("qx.test.ui.virtual.Axis", {
         cellData.index,
         msg + ": invalid item index"
       );
+
       this.assertEquals(
         expectedOffset,
         cellData.offset,
@@ -135,6 +136,7 @@ qx.Class.define("qx.test.ui.virtual.Axis", {
         4,
         this.axis.getItemAtPosition(201 * d - 8 + 20 + 4)
       );
+
       this.assertItem(
         601,
         4,
@@ -149,11 +151,13 @@ qx.Class.define("qx.test.ui.virtual.Axis", {
         d - 1,
         this.axis.getItemAtPosition(101 * d - 8 + d - 1)
       );
+
       this.assertItem(
         201,
         d - 1,
         this.axis.getItemAtPosition(201 * d - 8 + 20 + d - 1)
       );
+
       this.assertItem(
         601,
         d - 1,

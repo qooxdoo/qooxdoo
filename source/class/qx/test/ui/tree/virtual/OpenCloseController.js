@@ -94,6 +94,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController", {
 
         true
       );
+
       this.model.getItem(0).getKids().push(parentItem);
 
       var childItem = qx.data.marshal.Json.createModel(
@@ -103,6 +104,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController", {
 
         true
       );
+
       parentItem.getKids().push(childItem);
 
       childItem = qx.data.marshal.Json.createModel(
@@ -112,6 +114,7 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController", {
 
         true
       );
+
       this.model.getItem(0).getKids().push(childItem);
 
       this.nodesOpen = {};

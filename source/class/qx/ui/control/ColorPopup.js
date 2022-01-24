@@ -149,6 +149,7 @@ qx.Class.define("qx.ui.control.ColorPopup", {
           control.add(this._createChildControl("selected-preview", true), {
             flex: 1
           });
+
           control.add(this._createChildControl("current-preview", true), {
             flex: 1
           });
@@ -231,6 +232,7 @@ qx.Class.define("qx.ui.control.ColorPopup", {
       this.__buttonBar = new qx.ui.container.Composite(
         new qx.ui.layout.HBox(8, "right")
       );
+
       win.add(this.__buttonBar);
 
       var btnCancel = this._createChildControl("colorselector-cancelbutton");
@@ -405,6 +407,7 @@ qx.Class.define("qx.ui.control.ColorPopup", {
           sel.getBlue()
         ])
       );
+
       this.__colorSelectorWindow.close();
     },
 

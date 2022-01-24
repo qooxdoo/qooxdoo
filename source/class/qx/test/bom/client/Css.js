@@ -29,6 +29,7 @@ qx.Class.define("qx.test.bom.client.Css", {
       var standardSyntax = qx.core.Environment.get(
         "css.borderimage.standardsyntax"
       );
+
       this.assertBoolean(
         standardSyntax,
         "Browser supports borderImage but " + "syntax type was not detected!"

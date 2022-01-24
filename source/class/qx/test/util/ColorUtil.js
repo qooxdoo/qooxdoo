@@ -26,14 +26,17 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "rgba(255,0,0,1)",
         qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 1])
       );
+
       this.assertEquals(
         "rgba(255,0,0,0.5)",
         qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 0.5])
       );
+
       this.assertEquals(
         "rgba(255,0,0,0)",
         qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 0])
       );
+
       this.assertEquals(
         "rgb(255,0,0)",
         qx.util.ColorUtil.rgbToRgbString([255, 0, 0])
@@ -45,6 +48,7 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "255,0,0",
         qx.util.ColorUtil.cssStringToRgb("rgba(255,0,0,1)")
       );
+
       this.assertEquals(
         "201,23,120,0.3",
         qx.util.ColorUtil.cssStringToRgb("rgba(201,23,120,0.3)")
@@ -54,6 +58,7 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "255,0,0",
         qx.util.ColorUtil.cssStringToRgb("rgb(255,0,0)")
       );
+
       this.assertEquals(
         "201,23,120",
         qx.util.ColorUtil.cssStringToRgb("rgb(201,23,120)")
@@ -65,20 +70,24 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "#FFFFFF",
         qx.util.ColorUtil.hex3StringToHex6String("#fff")
       );
+
       this.assertEquals(
         "#ffff",
         qx.util.ColorUtil.hex3StringToHex6String("#ffff")
       );
+
       this.assertEquals(
         "#ffffffe1",
         qx.util.ColorUtil.hex3StringToHex6String("#ffffffe1")
       );
+
       this.assertEquals(
         "#FFFFFFA1",
         qx.util.ColorUtil.rgbToHexString(
           qx.util.ColorUtil.hexStringToRgb("#ffFFffa1")
         )
       );
+
       this.assertEquals(
         "#FFFFFFEE",
         qx.util.ColorUtil.rgbToHexString(
@@ -92,10 +101,12 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "#FFFFFF",
         qx.util.ColorUtil.rgbToHexString([255, 255, 255])
       );
+
       this.assertEquals(
         "#FFFFFF",
         qx.util.ColorUtil.rgbToHexString([255, 255, 255, 1])
       );
+
       this.assertEquals("#000000", qx.util.ColorUtil.rgbToHexString([0, 0, 0]));
       this.assertEquals(
         "#00000066",
@@ -108,10 +119,12 @@ qx.Class.define("qx.test.util.ColorUtil", {
         "rgba(0,0,0,0.5)",
         qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0.5)")
       );
+
       this.assertEquals(
         "rgb(-1,-1,-1)",
         qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0)")
       );
+
       this.assertEquals(
         "rgba(11,0,0,0.5)",
         qx.util.ColorUtil.stringToRgbString("rgba(11,0,0,0.5)")

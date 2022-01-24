@@ -118,6 +118,7 @@ qx.Class.define("qx.log.appender.RhinoFile", {
         qx.log.appender.RhinoFile.FILENAME,
         true
       );
+
       qx.log.appender.RhinoFile.__FILEHANDLE = new java.io.BufferedWriter(
         fstream
       );

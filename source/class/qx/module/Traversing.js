@@ -680,6 +680,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           selector,
           this.eq(index).getContents()
         );
+
         if (descendants.length > 0) {
           found.push(item);
         }
@@ -735,6 +736,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         qx.dom.Hierarchy.getNextElementSibling,
         qx.dom.Hierarchy
       );
+
       if (selector) {
         found = qxWeb.$init(qx.bom.Selector.matches(selector, found), qxWeb);
       }
@@ -757,6 +759,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         "getNextSiblings",
         selector
       );
+
       return qxWeb.$init(ret, qxWeb);
     },
 
@@ -799,6 +802,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         qx.dom.Hierarchy.getPreviousElementSibling,
         qx.dom.Hierarchy
       );
+
       if (selector) {
         found = qxWeb.$init(qx.bom.Selector.matches(selector, found), qxWeb);
       }
@@ -821,6 +825,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         "getPreviousSiblings",
         selector
       );
+
       return qxWeb.$init(ret, qxWeb);
     },
 
@@ -866,6 +871,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
         "getSiblings",
         selector
       );
+
       return qxWeb.$init(ret, qxWeb);
     },
 

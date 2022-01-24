@@ -450,6 +450,7 @@ qx.Bootstrap.define("qx.log.Logger", {
               (msg || "Please consult the API documentation for alternatives.")
               `
             );
+
             this.trace();
             break;
           }

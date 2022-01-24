@@ -109,6 +109,7 @@ qx.Bootstrap.define("qx.bom.element.Animation", {
         el,
         desc.keyFrames
       );
+
       if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animateReverse(el, desc, duration);
       } else {

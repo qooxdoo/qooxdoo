@@ -170,8 +170,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
           // Helper methods
 
           /*
-       _matches
-       */
+      _matches
+      */
           _matches = function (media) {
             // screen and (min-width: 400px), screen and (max-width: 500px)
             var mql = (media.indexOf(",") !== -1 && media.split(",")) || [
@@ -313,8 +313,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
             return negate ? !match : match;
           },
           /*
-       _setFeature
-       */
+      _setFeature
+      */
           _setFeature = function () {
             // Sets properties of '_features' that change on resize and/or orientation.
             var w = win.innerWidth || _viewport.clientWidth,
@@ -337,8 +337,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
             _features["device-pixel-ratio"] = x || 1;
           },
           /*
-       _watch
-       */
+      _watch
+      */
           _watch = function () {
             clearTimeout(_timer);
 
@@ -381,8 +381,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
             }, 10);
           },
           /*
-       _init
-       */
+      _init
+      */
           _init = function () {
             var head = _doc.getElementsByTagName("head")[0],
               style = _doc.createElement("style"),
@@ -448,8 +448,8 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
         _init();
 
         /*
-       A list of parsed media queries, ex. screen and (max-width: 400px), screen and (max-width: 800px)
-       */
+      A list of parsed media queries, ex. screen and (max-width: 400px), screen and (max-width: 800px)
+      */
         return function (media) {
           var id = _queryID,
             mql = {

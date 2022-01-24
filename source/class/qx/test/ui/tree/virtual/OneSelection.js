@@ -61,16 +61,19 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection", {
             selection.getLength(),
             "Selection not reset on Tree"
           );
+
           self.assertEquals(
             parent,
             selection.getItem(0),
             "Selection not reset on Tree"
           );
+
           self.assertEquals(
             1,
             selectionOnManager.length,
             "Selection not reset on manager"
           );
+
           self.assertEquals(
             self.tree.getLookupTable().indexOf(parent),
             selectionOnManager[0],
@@ -116,16 +119,19 @@ qx.Class.define("qx.test.ui.tree.virtual.OneSelection", {
             selection.getLength(),
             "Selection not reset on Tree"
           );
+
           self.assertEquals(
             nodeToClose,
             selection.getItem(0),
             "Selection not reset on Tree"
           );
+
           self.assertEquals(
             1,
             selectionOnManager.length,
             "Selection not reset on manager"
           );
+
           self.assertEquals(
             self.tree.getLookupTable().indexOf(nodeToClose),
             selectionOnManager[0],

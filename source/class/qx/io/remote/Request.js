@@ -211,6 +211,7 @@ qx.Class.define("qx.io.remote.Request", {
         "timeout",
         "failed"
       ],
+
       init: "configured",
       apply: "_applyState",
       event: "changeState"
@@ -231,6 +232,7 @@ qx.Class.define("qx.io.remote.Request", {
         "application/xml",
         "text/html"
       ],
+
       init: "text/plain",
       apply: "_applyResponseType"
     },

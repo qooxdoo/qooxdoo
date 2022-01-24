@@ -31,11 +31,13 @@ qx.Class.define("qx.test.io.ImageLoader", {
       this.__imageUri = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/colorstrip.gif"
       );
+
       this.__wrongImageUri = this.__imageUri.replace(/color/, "foocolor");
 
       this.__vectorImageUri = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/bluebar.svg"
       );
+
       this.__wrongVectorImageUri = this.__vectorImageUri.replace(
         /blue/,
         "fooblue"

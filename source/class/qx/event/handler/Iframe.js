@@ -64,6 +64,7 @@ qx.Class.define("qx.event.handler.Iframe", {
           qx.event.type.Data,
           [currentUrl]
         );
+
         target.$$url = currentUrl;
       }
 

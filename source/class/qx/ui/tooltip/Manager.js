@@ -175,6 +175,7 @@ qx.Class.define("qx.ui.tooltip.Manager", {
           this,
           true
         );
+
         Registration.addListener(
           el,
           "focusout",
@@ -182,6 +183,7 @@ qx.Class.define("qx.ui.tooltip.Manager", {
           this,
           true
         );
+
         Registration.addListener(
           el,
           "pointermove",
@@ -198,6 +200,7 @@ qx.Class.define("qx.ui.tooltip.Manager", {
           this,
           true
         );
+
         Registration.removeListener(
           el,
           "focusout",
@@ -205,6 +208,7 @@ qx.Class.define("qx.ui.tooltip.Manager", {
           this,
           true
         );
+
         Registration.removeListener(
           el,
           "pointermove",

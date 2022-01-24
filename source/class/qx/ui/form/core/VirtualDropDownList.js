@@ -194,6 +194,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
             this._onChangeModelLength,
             this
           );
+
           control.addListener("changeDelegate", this._onChangeDelegate, this);
 
           this.add(control, { flex: 1 });
@@ -508,6 +509,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList", {
           list.getDelegate(),
           "createItem"
         );
+
         if (!createWidget) {
           createWidget = function () {
             return new qx.ui.form.ListItem();

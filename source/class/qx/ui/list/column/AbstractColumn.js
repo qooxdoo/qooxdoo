@@ -251,6 +251,7 @@ qx.Class.define("qx.ui.list.column.AbstractColumn", {
         modelValueBindId: model.addListener("change" + firstUp, evt =>
           updateWidget(evt.getData(), true)
         ),
+
         widgetBindId: widget.getModelSelection().addListener("change", evt => {
           let sel = widget.getModelSelection();
           let value = sel.getLength() ? sel.getItem(0) : null;

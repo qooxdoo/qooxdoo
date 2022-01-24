@@ -64,6 +64,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
         Object.values(this.__checked).forEach(
           item => (toUncheck[item.toHashCode()] = item)
         );
+
         let replacement = {};
         if (!checked) {
           checked = [];
@@ -73,6 +74,7 @@ qx.Class.define("qx.ui.form.CheckedList", {
             this.getChildren().forEach(
               item => (lookup[item.toHashCode()] = item)
             );
+
             checked.forEach(item =>
               this.assertTrue(
                 !!lookup[item.toHashCode()],

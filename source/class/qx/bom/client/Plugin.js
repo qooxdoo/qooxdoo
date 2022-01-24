@@ -416,11 +416,13 @@ qx.Bootstrap.define("qx.bom.client.Plugin", {
       "plugin.quicktime.version",
       statics.getQuicktimeVersion
     );
+
     qx.core.Environment.add("plugin.windowsmedia", statics.getWindowsMedia);
     qx.core.Environment.add(
       "plugin.windowsmedia.version",
       statics.getWindowsMediaVersion
     );
+
     qx.core.Environment.add("plugin.divx", statics.getDivX);
     qx.core.Environment.add("plugin.divx.version", statics.getDivXVersion);
     qx.core.Environment.add("plugin.silverlight", statics.getSilverlight);
@@ -428,6 +430,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin", {
       "plugin.silverlight.version",
       statics.getSilverlightVersion
     );
+
     qx.core.Environment.add("plugin.pdf", statics.getPdf);
     qx.core.Environment.add("plugin.pdf.version", statics.getPdfVersion);
     qx.core.Environment.add("plugin.activex", statics.getActiveX);

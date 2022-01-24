@@ -128,6 +128,7 @@ qx.Class.define("qx.data.controller.website.List", {
             this.update,
             this
           );
+
           this.__changeBubbleModelListenerId = value.addListener(
             "changeBubble",
             this.update,

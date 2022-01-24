@@ -70,6 +70,7 @@ qx.Class.define("qx.io.graphql.Client", {
             let graphQlResponse = new qx.io.graphql.protocol.Response(
               responseData
             );
+
             if (graphQlResponse.getErrors()) {
               return reject(this._handleErrors(graphQlResponse));
             }
@@ -104,6 +105,7 @@ qx.Class.define("qx.io.graphql.Client", {
           null,
           response.toObject()
         );
+
         this.fireDataEvent("error", exception);
       });
       return new qx.io.exception.Protocol(

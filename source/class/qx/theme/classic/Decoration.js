@@ -71,6 +71,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-light",
           "border-dark-shadow"
         ],
+
         innerColor: [
           "border-dark",
           "border-light-shadow",
@@ -90,6 +91,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-dark",
           "border-light-shadow"
         ],
+
         innerColor: [
           "border-light",
           "border-dark-shadow",
@@ -109,6 +111,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-light",
           "border-dark-shadow"
         ],
+
         innerColor: [
           "border-light",
           "border-dark-shadow",
@@ -128,6 +131,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-dark-shadow",
           "border-light"
         ],
+
         innerColor: [
           "border-dark-shadow",
           "border-light",
@@ -171,6 +175,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-focused-light",
           "border-focused-dark-shadow"
         ],
+
         innerColor: [
           "border-focused-dark",
           "border-focused-light-shadow",
@@ -190,6 +195,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-focused-dark",
           "border-focused-light-shadow"
         ],
+
         innerColor: [
           "border-focused-light",
           "border-focused-dark-shadow",
@@ -209,6 +215,7 @@ qx.Theme.define("qx.theme.classic.Decoration", {
           "border-light",
           "border-dark-shadow"
         ],
+
         innerColor: "invalid"
       }
     },

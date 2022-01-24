@@ -163,6 +163,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
               source,
               propertyName
             );
+
             if (!eventName) {
               if (i == 0) {
                 // the root property can not change --> error
@@ -198,6 +199,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
                 options,
                 sourceObject
               );
+
               break;
             }
             eventNames.push(eventName);
@@ -320,6 +322,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
               options,
               sourceObject
             );
+
             break;
           }
         }
@@ -493,6 +496,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
                 source[
                   "get" + qx.lang.String.firstUp(context.propertyNames[j])
                 ]();
+
               this.__setInitialValue(
                 currentValue,
                 context.targetObject,
@@ -505,12 +509,14 @@ qx.Class.define("qx.data.SingleValueBinding", {
               source,
               context.propertyNames[j]
             );
+
             if (!eventName) {
               context.sources[j] = null;
               this.__resetTargetValue(
                 context.targetObject,
                 context.targetPropertyChain
               );
+
               return;
             }
             // bind the last property to the new target
@@ -530,6 +536,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
               this,
               context
             );
+
             // store the listener for further processing
             context.listeners.push(listener);
           }
@@ -549,6 +556,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
               context.targetObject,
               context.targetPropertyChain
             );
+
             return;
           }
           context.listenerIds[j] = source.addListener(
@@ -603,6 +611,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
             target,
             propertyNames[i]
           );
+
           if (!eventName) {
             // if the event names could not be terminated,
             // just ignore the target chain listening
@@ -1180,6 +1189,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
               targetProperty +
               ")"
           );
+
           qx.log.Logger.debug("Data before conversion: " + data);
         }
 
@@ -1289,6 +1299,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
         targetObject,
         targetProperty
       ];
+
       this.__bindings[hash].push(binding);
 
       // add same binding data indexed by target object
@@ -1556,6 +1567,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
           object,
           "Can not remove the bindings for null object!"
         );
+
         qx.core.Assert.assertNotNull(
           relatedObject,
           "Can not remove the bindings for null object!"

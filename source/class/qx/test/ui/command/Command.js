@@ -85,6 +85,7 @@ qx.Class.define("qx.test.ui.command.Command", {
           this.__cmd.getEnabled(),
           this.__toolbarButton.getEnabled()
         );
+
         this.assertEquals(
           this.__cmd.getEnabled(),
           this.__menuButton.getEnabled()
@@ -97,6 +98,7 @@ qx.Class.define("qx.test.ui.command.Command", {
           this.__cmd.getEnabled(),
           this.__toolbarButton.getEnabled()
         );
+
         this.assertEquals(
           this.__cmd.getEnabled(),
           this.__menuButton.getEnabled()
@@ -141,10 +143,12 @@ qx.Class.define("qx.test.ui.command.Command", {
         this.__cmd.getToolTipText(),
         this.__button.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__toolbarButton.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__menuButton.getToolTipText()
@@ -156,10 +160,12 @@ qx.Class.define("qx.test.ui.command.Command", {
         this.__cmd.getToolTipText(),
         this.__button.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__toolbarButton.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__menuButton.getToolTipText()
@@ -171,10 +177,12 @@ qx.Class.define("qx.test.ui.command.Command", {
         this.__cmd.getToolTipText(),
         this.__button.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__toolbarButton.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__menuButton.getToolTipText()
@@ -186,10 +194,12 @@ qx.Class.define("qx.test.ui.command.Command", {
         this.__cmd.getToolTipText(),
         this.__button.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__toolbarButton.getToolTipText()
       );
+
       this.assertEquals(
         this.__cmd.getToolTipText(),
         this.__menuButton.getToolTipText()

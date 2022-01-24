@@ -38,6 +38,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellLayerLayout", {
           this.error(
             `Cannot get row/column from child ${child}, rowIndex=${rowIndex}, columnIndex=${columnIndex}`
           );
+
           return;
         }
 

@@ -73,6 +73,7 @@ qx.Class.define("qx.test.dom.Hierarchy", {
       var src = qx.util.ResourceManager.getInstance().toUri(
         "qx/static/blank.html"
       );
+
       src = qx.util.Uri.getAbsolute(src);
       qx.bom.Iframe.setSource(this.__iframe, src);
       document.body.appendChild(this.__iframe);
@@ -101,6 +102,7 @@ qx.Class.define("qx.test.dom.Hierarchy", {
       this.assertTrue(
         qx.dom.Hierarchy.contains(this.__renderedElement, this.__childElement)
       );
+
       this.assertFalse(
         qx.dom.Hierarchy.contains(this.__childElement, this.__renderedElement)
       );

@@ -73,6 +73,7 @@ qx.Class.define("qx.log.appender.Formatter", {
             entry.object,
             true
           );
+
           if (obj) {
             result.clazz = obj.constructor;
             result.object = obj;

@@ -90,6 +90,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout", {
               0,
               0
             );
+
           var offsetLeft = Util.computeHorizontalAlignOffset(
             child.getAlignX() || "left",
             hint.width,
@@ -97,6 +98,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout", {
             child.getMarginLeft(),
             child.getMarginRight()
           );
+
           child.renderLayout(
             left + offsetLeft,
             childTop,

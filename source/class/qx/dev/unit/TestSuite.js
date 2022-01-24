@@ -74,6 +74,7 @@ qx.Class.define("qx.dev.unit.TestSuite", {
           "existsCheck",
           "Unknown test class '" + testClassOrNamespace + "'!"
         );
+
         return;
       }
       //      }

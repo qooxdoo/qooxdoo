@@ -26,6 +26,7 @@ qx.Class.define("qx.test.ui.form.Form", {
         qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm),
         "Interface not implemented."
       );
+
       // test for the default (false)
       this.assertFalse(
         widget.getRequired(),
@@ -80,6 +81,7 @@ qx.Class.define("qx.test.ui.form.Form", {
         widget.getValid(),
         "Setting of the valid flag did not work."
       );
+
       this.assertTrue(
         widget.hasState("invalid"),
         "Should have the invalid state."

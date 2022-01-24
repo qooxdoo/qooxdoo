@@ -203,6 +203,7 @@ qx.Class.define("qx.test.bom.Font", {
         color,
         "Wrong style applied for 'color' property!"
       );
+
       label.destroy();
     },
 
@@ -219,35 +220,43 @@ qx.Class.define("qx.test.bom.Font", {
         qx.lang.Object.getLength(styles),
         "Map should contain 9 keys!"
       );
+
       this.assertNotUndefined(
         styles.fontFamily,
         "Key 'fontFamily' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.fontStyle,
         "Key 'fontStyle' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.fontWeight,
         "Key 'fontWeight' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.fontSize,
         "Key 'fontSize' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.lineHeight,
         "Key 'lineHeight' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.textDecoration,
         "Key 'textDecoration' has to be present!"
       );
+
       this.assertNotUndefined(styles.color, "Key 'color' has to be present!");
       this.assertNotUndefined(
         styles.textShadow,
         "Key 'textShadow' has to be present!"
       );
+
       this.assertNotUndefined(
         styles.letterSpacing,
         "Key 'letterSpacing' has to be present!"
@@ -269,21 +278,25 @@ qx.Class.define("qx.test.bom.Font", {
         keys[0],
         "Key 'fontFamily' has to be present!"
       );
+
       this.assertEquals(
         "",
         styles.fontFamily,
         "'fontFamily' has to have the value ''!"
       );
+
       this.assertEquals(
         "italic",
         styles.fontStyle,
         "Wrong value for 'fontStyle'!"
       );
+
       this.assertEquals(
         "bold",
         styles.fontWeight,
         "Wrong value for 'fontWeight'!"
       );
+
       this.assertEquals("#3f3f3f", styles.color, "Wrong value for 'color'!");
       this.assertEquals(
         "underline",
@@ -322,31 +335,37 @@ qx.Class.define("qx.test.bom.Font", {
         found.fontWeight,
         "Wrong value for 'fontWeight'"
       );
+
       this.assertEquals(
         expected.fontStyle,
         found.fontStyle,
         "Wrong value for 'fontStyle'"
       );
+
       this.assertEquals(
         expected.fontSize,
         found.fontSize,
         "Wrong value for 'fontSize'"
       );
+
       this.assertEquals(
         expected.lineHeight,
         found.lineHeight,
         "Wrong value for 'lineHeight'"
       );
+
       this.assertEquals(
         expected.textDecoration,
         found.textDecoration,
         "Wrong value for 'textDecoration'"
       );
+
       this.assertEquals(
         expected.fontFamily,
         found.fontFamily,
         "Wrong value for 'fontFamily'"
       );
+
       this.assertEquals(
         expected.textColor,
         found.textColor,
@@ -375,21 +394,25 @@ qx.Class.define("qx.test.bom.Font", {
         found.fontWeight,
         "Wrong value for 'fontWeight'"
       );
+
       this.assertEquals(
         expected.fontStyle,
         found.fontStyle,
         "Wrong value for 'fontStyle'"
       );
+
       this.assertEquals(
         expected.fontSize,
         found.fontSize,
         "Wrong value for 'fontSize'"
       );
+
       this.assertEquals(
         expected.textDecoration,
         found.textDecoration,
         "Wrong value for 'textDecoration'"
       );
+
       this.assertEquals(
         expected.fontFamily,
         found.fontFamily,

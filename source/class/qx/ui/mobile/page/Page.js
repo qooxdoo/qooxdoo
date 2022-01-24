@@ -85,6 +85,7 @@ qx.Class.define("qx.ui.mobile.page.Page", {
         "backbutton",
         qx.ui.mobile.page.Page._onBackButton
       );
+
       qx.bom.Event.addNativeListener(
         document,
         "menubutton",

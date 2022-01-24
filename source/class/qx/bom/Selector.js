@@ -296,6 +296,7 @@ qx.Bootstrap.define("qx.bom.Selector", {
           "*\\)|)",
         "i"
       ),
+
       bool: new RegExp("^(?:" + booleans + ")$", "i"),
       // For use in libraries implementing .is()
       // We use this for POS matching in `select`

@@ -58,6 +58,7 @@ qx.Class.define("qx.test.ui.form.List", {
         qx.ui.container.Composite,
         "Wrong return value of '_createListItemContainer'"
       );
+
       container.dispose();
     },
 

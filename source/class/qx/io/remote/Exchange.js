@@ -370,6 +370,7 @@ qx.Class.define("qx.io.remote.Exchange", {
               this,
               "Unknown status code: " + vStatusCode + " (" + vReadyState + ")"
             );
+
             return false;
         }
       }
@@ -558,6 +559,7 @@ qx.Class.define("qx.io.remote.Exchange", {
         "timeout",
         "failed"
       ],
+
       init: "configured",
       event: "changeState",
       apply: "_applyState"
@@ -717,6 +719,7 @@ qx.Class.define("qx.io.remote.Exchange", {
             "], " +
             str
         );
+
         vImplementation.timeout();
       } else {
         this.warn("Timeout: forcing state to timeout");

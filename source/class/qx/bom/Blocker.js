@@ -105,6 +105,7 @@ qx.Class.define("qx.bom.Blocker", {
           this.__onResize,
           this
         );
+
         this.__isActive = false;
       }
     },
@@ -231,12 +232,14 @@ qx.Class.define("qx.bom.Blocker", {
         "allowTransparency",
         false
       );
+
       /* eslint-disable no-script-url */
       qx.bom.element.Attribute.set(
         this.__iframeElement,
         "src",
         "javascript:false;"
       );
+
       /* eslint-enable no-script-url */
       qx.bom.element.Style.setStyles(this.__iframeElement, {
         display: "block",
@@ -323,6 +326,7 @@ qx.Class.define("qx.bom.Blocker", {
               width: qx.bom.Document.getWidth() + "px",
               height: qx.bom.Document.getHeight() + "px"
             };
+
             this.__resizeBlocker(dimension);
           },
           this,

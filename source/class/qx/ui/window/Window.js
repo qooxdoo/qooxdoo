@@ -494,6 +494,7 @@ qx.Class.define("qx.ui.window.Window", {
             row: 0,
             column: 0
           });
+
           break;
 
         case "title":
@@ -514,6 +515,7 @@ qx.Class.define("qx.ui.window.Window", {
             row: 0,
             column: 2
           });
+
           break;
 
         case "restore-button":
@@ -525,6 +527,7 @@ qx.Class.define("qx.ui.window.Window", {
             row: 0,
             column: 3
           });
+
           break;
 
         case "maximize-button":
@@ -536,6 +539,7 @@ qx.Class.define("qx.ui.window.Window", {
             row: 0,
             column: 4
           });
+
           break;
 
         case "close-button":
@@ -547,6 +551,7 @@ qx.Class.define("qx.ui.window.Window", {
             row: 0,
             column: 6
           });
+
           break;
       }
 

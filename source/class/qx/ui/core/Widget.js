@@ -1032,6 +1032,7 @@ qx.Class.define("qx.ui.core.Widget", {
       var widget = qx.ui.core.Widget.__separatorPool.getObject(
         qx.ui.core.Widget
       );
+
       widget.set({
         decorator: separator
       });
@@ -1279,6 +1280,7 @@ qx.Class.define("qx.ui.core.Widget", {
         var decorator = qx.theme.manager.Decoration.getInstance().resolve(
           this.getDecorator()
         );
+
         var inset = decorator.getInsets();
 
         if (qx.core.Environment.get("qx.debug")) {
@@ -1924,6 +1926,7 @@ qx.Class.define("qx.ui.core.Widget", {
           qx.ui.core.LayoutItem,
           "Invalid widget to add: " + child
         );
+
         this.assertNotIdentical(
           child,
           this,
@@ -2448,6 +2451,7 @@ qx.Class.define("qx.ui.core.Widget", {
         null,
         this.getAppearance()
       );
+
       if (newData) {
         if (oldData) {
           for (var prop in oldData) {

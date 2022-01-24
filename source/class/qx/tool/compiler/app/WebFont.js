@@ -96,6 +96,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
           this.__library.getRootDir(),
           path.join(this.__library.getResourcePath(), filename)
         );
+
         this.__processFontFile(fontpath, resolve, reject);
       });
     },
@@ -197,6 +198,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
               this.__library.getRootDir(),
               path.join(this.__library.getResourcePath(), this.getMapping())
             );
+
             fs.readFile(mapPath, { encoding: "utf-8" }, (err, data) => {
               if (err) {
                 log.error(`Cannot read mapping file '${mapPath}': ${err.code}`);
@@ -212,13 +214,15 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
                   qx.tool.compiler.Console.trace(
                     `WARN: no glyph found in ${filename} ${key}: ${codePoint}`
                   );
+
                   return;
                 }
                 resources["@" + this.getName() + "/" + key] = [
                   Math.ceil(
                     (this.getDefaultSize() * glyph.advanceWidth) /
                       glyph.advanceHeight
-                  ), // width
+                  ),
+                  // width
                   this.getDefaultSize(), // height
                   codePoint
                 ];
@@ -235,6 +239,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
             qx.tool.compiler.Console.error(
               `The webfont in ${filename} does not have any ligatures`
             );
+
             resolve(resources);
             return;
           }
@@ -291,7 +296,8 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
                 Math.ceil(
                   (this.getDefaultSize() * glyph.advanceWidth) /
                     glyph.advanceHeight
-                ), // width
+                ),
+                // width
                 defaultSize, // height
                 codePoint
               ];

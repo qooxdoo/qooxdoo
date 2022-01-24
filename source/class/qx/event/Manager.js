@@ -891,6 +891,7 @@ qx.Class.define("qx.event.Manager", {
           target,
           msg + "Invalid event target."
         );
+
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
         qx.core.Assert.assertInstance(
           event,
@@ -912,6 +913,7 @@ qx.Class.define("qx.event.Manager", {
                 monitors[i].toString().slice(0, 50) +
                 "..."
             );
+
             // since 6.0.0-beta-2020051X: throw a real error to stop execution instead of just a warning
             throw ex;
           }
@@ -955,6 +957,7 @@ qx.Class.define("qx.event.Manager", {
             tracker,
             instance.dispatchEvent(target, event, type)
           );
+
           dispatched = true;
           break;
         }

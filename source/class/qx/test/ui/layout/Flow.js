@@ -83,6 +83,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 100,
           height: 50
         },
+
         c1.bounds
       );
 
@@ -93,6 +94,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 100,
           height: 50
         },
+
         c2.bounds
       );
 
@@ -103,6 +105,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 100,
           height: 50
         },
+
         c3.bounds
       );
     },
@@ -131,6 +134,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 300,
           height: 50
         },
+
         container.bounds
       );
 
@@ -359,6 +363,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
       container.add(new qx.test.ui.layout.LayoutItem(100, 50), {
         lineBreak: true
       });
+
       container.add(new qx.test.ui.layout.LayoutItem(100, 50));
 
       this.flush();
@@ -369,6 +374,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 200,
           height: 100
         },
+
         container.bounds
       );
 
@@ -408,6 +414,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 360,
           height: 90
         },
+
         container.bounds
       );
 
@@ -418,6 +425,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 100,
           height: 50
         },
+
         c2.bounds
       );
 
@@ -461,6 +469,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 300,
           height: 50 + 40 + 50 + 30
         },
+
         container.bounds
       );
 
@@ -587,6 +596,7 @@ qx.Class.define("qx.test.ui.layout.Flow", {
           width: 110,
           height: 150
         },
+
         container.bounds
       );
 

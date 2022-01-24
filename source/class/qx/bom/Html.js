@@ -280,6 +280,7 @@ qx.Bootstrap.define("qx.bom.Html", {
             var scriptList = qx.lang.Array.fromCollection(
               elem.getElementsByTagName("script")
             );
+
             elements.splice.apply(elements, [i + 1, 0].concat(scriptList));
           }
 

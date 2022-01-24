@@ -282,6 +282,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
               part.getInclude(),
               part.getExclude()
             );
+
           partsByName[part.getName()] = partData;
           parts.push(partData);
         });
@@ -746,6 +747,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
                   path.join(target.getOutputDir(), "resource"),
                   str
                 );
+
                 assets.push(asset.getLibrary().getNamespace() + ":" + str);
               } else {
                 qx.tool.compiler.Console.print(msgId, filename);
@@ -761,6 +763,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
             lib.getAddScript(),
             "qx.tool.compiler.application.missingScriptResource"
           );
+
           addExternalAssets(
             lib.getAddCss(),
             "qx.tool.compiler.application.missingCssResource"
@@ -834,6 +837,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
       this.__expandClassnames(this.getInclude()).forEach(
         name => (result[name] = true)
       );
+
       this.__expandClassnames(this.getExclude()).forEach(
         name => delete result[name]
       );
@@ -935,6 +939,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
         "loader",
         "loader-" + this.getType() + ".tmpl.js"
       );
+
       this.setLoaderTemplate(loader);
     },
 

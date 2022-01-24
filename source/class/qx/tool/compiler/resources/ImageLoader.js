@@ -58,6 +58,7 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
             .find(webFont =>
               webFont.getResources().find(resource => resource == filename)
             );
+
         if (isWebFont) {
           return false;
         }

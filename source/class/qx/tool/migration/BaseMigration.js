@@ -153,6 +153,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
               qx.tool.compiler.Console.error(
                 `Renaming '${oldPath}' to '${newPath}' failed: ${e.message}.`
               );
+
               process.exit(1);
             }
           }
@@ -220,6 +221,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
             this.announce(
               `In the file(s) ${replaceInFiles.files}, '${replaceInFiles.from}' will be changed to '${replaceInFiles.to}'.`
             );
+
             this.markAsPending();
             continue;
           }
@@ -227,12 +229,14 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
             this.debug(
               `Replacing '${replaceInFiles.from}' with '${replaceInFiles.to}' in ${replaceInFiles.files}`
             );
+
             await replaceInFile(replaceInFiles);
             this.markAsApplied();
           } catch (e) {
             qx.tool.compiler.Console.error(
               `Error replacing in files: ${e.message}`
             );
+
             process.exit(1);
           }
         }
@@ -259,6 +263,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
         this.announce(
           `Manifest version range for ${dependencyName} will be updated from ${oldRange} to ${semverRange}.`
         );
+
         this.markAsPending();
       } else {
         manifestModel.setValue(`requires.${dependencyName}`, semverRange);
@@ -325,6 +330,7 @@ qx.Class.define("qx.tool.migration.BaseMigration", {
           verbose: runner.getVerbose(),
           qxVersion: runner.getQxVersion()
         };
+
         await new qx.tool.cli.commands.package.Upgrade(options).process();
         this.markAsApplied();
       }

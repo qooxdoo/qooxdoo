@@ -82,6 +82,7 @@ qx.Class.define("qx.ui.layout.Basic", {
           name == "left" || name == "top",
           "The property '" + name + "' is not supported by the Basic layout!"
         );
+
         this.assertInteger(value);
       },
 

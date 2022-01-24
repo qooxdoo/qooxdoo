@@ -95,6 +95,7 @@ qx.Class.define("qx.test.bom.request.Xhr", {
         Error,
         msg
       );
+
       this.assertException(
         function () {
           req.open("GET");

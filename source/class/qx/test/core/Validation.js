@@ -106,6 +106,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A String is no number."
       );
+
       this.assertException(
         function () {
           model.setNumber(new Date());
@@ -114,6 +115,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A Date is no number."
       );
+
       this.assertException(
         function () {
           model.setNumber(this);
@@ -146,6 +148,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "test is a mailadress?"
       );
+
       this.assertException(
         function () {
           model.setEmail("@affe.de");
@@ -154,6 +157,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "@affe.de is never a mailadress!"
       );
+
       this.assertException(
         function () {
           model.setEmail("hans@@wurst.de");
@@ -162,6 +166,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "Are two @ allowed?"
       );
+
       this.assertException(
         function () {
           model.setEmail("m@a.d");
@@ -178,15 +183,18 @@ qx.Class.define("qx.test.core.Validation", {
         model.getEmail(),
         "affe@zoo.de should work!"
       );
+
       model.setEmail("mensch@db.info");
       this.assertEquals(
         "mensch@db.info",
         model.getEmail(),
         "mensch@db.info should work!"
       );
+
       model.setEmail(
         "ichbineinelangemailadresse@undhabeinelangedomainnochdazu.de"
       );
+
       this.assertEquals(
         "ichbineinelangemailadresse@undhabeinelangedomainnochdazu.de",
         model.getEmail(),
@@ -206,6 +214,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A number is not a string!"
       );
+
       this.assertException(
         function () {
           model.setString(this);
@@ -214,6 +223,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "This test is not a string!"
       );
+
       this.assertException(
         function () {
           model.setString(true);
@@ -222,6 +232,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A boolean is not a string!"
       );
+
       this.assertException(
         function () {
           model.setString(new Date());
@@ -238,6 +249,7 @@ qx.Class.define("qx.test.core.Validation", {
         model.getString(),
         "affe@zoo.de as string should work!"
       );
+
       model.setString("");
       this.assertEquals("", model.getString(), "An empty string should work!");
     },
@@ -254,6 +266,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A number is not an url!"
       );
+
       this.assertException(
         function () {
           model.setUrl(false);
@@ -262,6 +275,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A boolean is not an url!"
       );
+
       this.assertException(
         function () {
           model.setUrl("i am an url");
@@ -270,6 +284,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'i am an url' as a string is not an url!"
       );
+
       this.assertException(
         function () {
           model.setUrl("http:/iamaurl");
@@ -286,18 +301,21 @@ qx.Class.define("qx.test.core.Validation", {
         model.getUrl(),
         "http://www.1und1.de as string should work!"
       );
+
       model.setUrl("http://web.de");
       this.assertEquals(
         "http://web.de",
         model.getUrl(),
         "http://web.de as string should work!"
       );
+
       model.setUrl("http://www.apple.com/de/");
       this.assertEquals(
         "http://www.apple.com/de/",
         model.getUrl(),
         "http://www.apple.com/de/ as string should work!"
       );
+
       model.setUrl("http://www.fake.url:8080/de/1546");
       this.assertEquals(
         "http://www.fake.url:8080/de/1546",
@@ -318,6 +336,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A number is not a color!"
       );
+
       this.assertException(
         function () {
           model.setColor("");
@@ -326,6 +345,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A empty string is not a color!"
       );
+
       this.assertException(
         function () {
           model.setColor("FFFFFF");
@@ -334,6 +354,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "FFFFFF (missing #) is not a color!"
       );
+
       this.assertException(
         function () {
           model.setColor("bluecolor");
@@ -342,6 +363,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'bluecolor' is not a color!"
       );
+
       this.assertException(
         function () {
           model.setColor("#FFFFGG");
@@ -372,6 +394,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A 0.999999999 is not between 1 and 2."
       );
+
       this.assertException(
         function () {
           model.setRange(2.000000001);
@@ -406,6 +429,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "A 0.999999999 is not in ['male', 'female']"
       );
+
       this.assertException(
         function () {
           model.setArray("malle");
@@ -414,6 +438,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'malle' is not in ['male', 'female']"
       );
+
       this.assertException(
         function () {
           model.setArray("");
@@ -442,6 +467,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'' is too short"
       );
+
       this.assertException(
         function () {
           model.setCustom("1");
@@ -450,6 +476,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'1' is too short"
       );
+
       this.assertException(
         function () {
           model.setCustom("12");
@@ -458,6 +485,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'12' is too short"
       );
+
       this.assertException(
         function () {
           model.setCustom("123");
@@ -484,6 +512,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "'AFFE!' does not fit /[0-9]*/."
       );
+
       this.assertException(
         function () {
           model.setRegExp("_dfds_");
@@ -492,6 +521,7 @@ qx.Class.define("qx.test.core.Validation", {
         null,
         "_dfds_ does not fit /[0-9]*/."
       );
+
       this.assertException(
         function () {
           model.setRegExp("$%&!&/%");

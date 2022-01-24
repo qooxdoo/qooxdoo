@@ -180,6 +180,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
           this.__converters,
           converter => converter.isDoNotCopy(srcFilename)
         );
+
         if (doNotCopy) {
           return;
         }
@@ -202,6 +203,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
             );
           }
         );
+
         if (!needsIt && this.__converters) {
           needsIt = await qx.tool.utils.Promisify.some(
             this.__converters,
@@ -246,6 +248,7 @@ qx.Class.define("qx.tool.compiler.resources.Asset", {
                       require("os").tmpdir(),
                       path.basename(srcFilename) + "-pass" + (index + 1) + "-"
                     );
+
               let tmpDependsOn =
                 (await converter.convert(
                   target,

@@ -36,6 +36,7 @@ qx.Class.define("qx.test.bom.String", {
         qx.bom.String.toText("<div style='padding:5px;'> "),
         " "
       );
+
       this.assertEquals(
         qx.bom.String.toText("<div style='padding:5px;'> foo </div></div>"),
         " foo "

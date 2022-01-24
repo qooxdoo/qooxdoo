@@ -91,6 +91,7 @@ qx.Mixin.define("qx.ui.core.MResizable", {
         "resizableBottom",
         "resizableLeft"
       ],
+
       mode: "shorthand"
     },
 

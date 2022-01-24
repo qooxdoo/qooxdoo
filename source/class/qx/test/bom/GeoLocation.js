@@ -82,6 +82,7 @@ qx.Class.define("qx.test.bom.GeoLocation", {
             that._position.coords.altitudeAccuracy,
             e.getAltitudeAccuracy()
           );
+
           that.assertEquals(that._position.coords.heading, e.getHeading());
           that.assertEquals(that._position.coords.speed, e.getSpeed());
         }
@@ -124,6 +125,7 @@ qx.Class.define("qx.test.bom.GeoLocation", {
           return 200;
         }
       );
+
       var clearWatchStub = this.stub(this._geo._geolocation, "clearWatch");
 
       this.assertEventFired(
@@ -144,6 +146,7 @@ qx.Class.define("qx.test.bom.GeoLocation", {
             that._position.coords.altitudeAccuracy,
             e.getAltitudeAccuracy()
           );
+
           that.assertEquals(that._position.coords.heading, e.getHeading());
           that.assertEquals(that._position.coords.speed, e.getSpeed());
         }

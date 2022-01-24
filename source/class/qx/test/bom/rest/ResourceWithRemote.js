@@ -98,6 +98,7 @@ qx.Class.define("qx.test.bom.rest.ResourceWithRemote", {
             response,
             "Response must be different from previous"
           );
+
           previousResponse = response;
 
           if (count >= 10) {

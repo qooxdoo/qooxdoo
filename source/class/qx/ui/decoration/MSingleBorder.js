@@ -74,6 +74,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder", {
         "ridge",
         "groove"
       ],
+
       init: "solid",
       apply: "_applyStyle"
     },
@@ -91,6 +92,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder", {
         "ridge",
         "groove"
       ],
+
       init: "solid",
       apply: "_applyStyle"
     },
@@ -108,6 +110,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder", {
         "ridge",
         "groove"
       ],
+
       init: "solid",
       apply: "_applyStyle"
     },
@@ -125,6 +128,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder", {
         "ridge",
         "groove"
       ],
+
       init: "solid",
       apply: "_applyStyle"
     },

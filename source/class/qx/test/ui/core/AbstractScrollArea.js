@@ -76,6 +76,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea", {
       qx.Class.undefine(
         "qx.test.ui.core.AbstractScrollArea.fixture.CustomWidget"
       );
+
       super.tearDown();
     },
 
@@ -128,6 +129,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea", {
         { left: 0, top: 0, width: 100, height: 100 },
         this.__widget
       );
+
       this.assertBounds({ left: 0, top: 0, width: 120, height: 120 }, inner);
       this.assertTrue(this.__widget.hasScrollBar("x"));
       this.assertTrue(this.__widget.hasScrollBar("y"));
@@ -143,6 +145,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea", {
         { left: 0, top: 0, width: 100, height: 100 },
         this.__widget
       );
+
       this.assertBounds({ left: 0, top: 0, width: 100, height: 100 }, inner);
       this.assertFalse(this.__widget.hasScrollBar("x"));
       this.assertFalse(this.__widget.hasScrollBar("y"));
@@ -161,6 +164,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea", {
         { left: 0, top: 0, width: 100, height: 100 },
         this.__widget
       );
+
       this.assertBounds({ left: 0, top: 0, width: 120, height: 120 }, inner);
       this.assertTrue(this.__widget.hasScrollBar("x"));
       this.assertTrue(this.__widget.hasScrollBar("y"));

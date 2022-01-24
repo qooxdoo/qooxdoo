@@ -56,11 +56,13 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox", {
         this.__selectBox.getModel().getLength(),
         "Model length not equals!"
       );
+
       this.assertEquals(
         this.__model,
         this.__selectBox.getModel(),
         "Model instance not equals!"
       );
+
       this.assertEquals(
         this.__model,
         this.__selectBox
@@ -75,6 +77,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox", {
         this.__selectBox.getSelection().getLength(),
         "Selection length not equals!"
       );
+
       this.assertEquals(
         this.__model.getItem(0),
         this.__selectBox.getSelection().getItem(0),

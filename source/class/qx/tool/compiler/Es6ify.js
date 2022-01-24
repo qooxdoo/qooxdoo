@@ -373,6 +373,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                   false,
                   false
                 );
+
                 path.node.callee = replacement;
                 path.node.arguments = args;
               }

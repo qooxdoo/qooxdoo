@@ -72,6 +72,7 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox", {
           a: 123,
           b: "item 1"
         },
+
         {
           a: 456,
           b: "item 2"
@@ -113,10 +114,12 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox", {
           test.__selectBox.getWidth(),
           test.__selectBox.getBounds().width
         );
+
         test.assertIdentical(
           test.__selectBox.getWidth(),
           test.__selectBox.getChildControl("dropdown").getBounds().width
         );
+
         test.resume();
       }, 10);
 
@@ -143,10 +146,12 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox", {
           test.__selectBox.getWidth(),
           test.__selectBox.getBounds().width
         );
+
         test.assertTrue(
           test.__selectBox.getChildControl("dropdown").getBounds().width > 666,
           "dropdown could not fit the whole item"
         );
+
         test.resume();
       }, 10);
 

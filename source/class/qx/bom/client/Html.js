@@ -286,6 +286,7 @@ qx.Bootstrap.define("qx.bom.client.Html", {
           "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
           "label"
         );
+
         return true;
       } catch (e) {
         return false;
@@ -506,6 +507,7 @@ qx.Bootstrap.define("qx.bom.client.Html", {
       "html.storage.userdata",
       statics.getUserDataStorage
     );
+
     qx.core.Environment.add("html.classlist", statics.getClassList);
     qx.core.Environment.add("html.xpath", statics.getXPath);
     qx.core.Environment.add("html.xul", statics.getXul);
@@ -519,12 +521,14 @@ qx.Bootstrap.define("qx.bom.client.Html", {
       "html.element.compareDocumentPosition",
       statics.getCompareDocumentPosition
     );
+
     qx.core.Environment.add("html.element.textcontent", statics.getTextContent);
     qx.core.Environment.add("html.console", statics.getConsole);
     qx.core.Environment.add(
       "html.image.naturaldimensions",
       statics.getNaturalDimensions
     );
+
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
     qx.core.Environment.add("html.selection", statics.getSelection);
     qx.core.Environment.add("html.node.isequalnode", statics.getIsEqualNode);

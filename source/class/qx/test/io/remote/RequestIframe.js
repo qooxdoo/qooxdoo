@@ -73,6 +73,7 @@ qx.Class.define("qx.test.io.remote.RequestIframe", {
               this.warn(
                 "Skipping test due to empty content in one of the request's response"
               );
+
               emptyContent = true;
               return;
             }
@@ -106,6 +107,7 @@ qx.Class.define("qx.test.io.remote.RequestIframe", {
         },
         this
       );
+
       request.send();
     }
   }

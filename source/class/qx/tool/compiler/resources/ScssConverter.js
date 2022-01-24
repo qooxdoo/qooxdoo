@@ -68,6 +68,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
           "resource",
           asset.getFilename()
         );
+
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
@@ -85,6 +86,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
         asset.getLibrary(),
         asset.getFilename()
       );
+
       scssFile.setThemeFile(isThemeFile);
       return scssFile.compile(destFilename);
     },
@@ -100,6 +102,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
           "resource",
           asset.getFilename()
         );
+
         await qx.tool.utils.files.Utils.copyFile(srcFilename, copyFilename);
       }
 
@@ -131,6 +134,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
             }
           })
         );
+
         await fs.writeFileAsync(destFilename, result.css);
         await fs.writeFileAsync(destFilename + ".map", result.map);
       }
@@ -151,6 +155,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssConverter", {
             "but the default will change in v7 to use the new style (see https://git.io/JfTPV for details, and how " +
             "to disable this warning)."
         );
+
         qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER = false;
       }
       return qx.tool.compiler.resources.ScssConverter.USE_V6_COMPILER;

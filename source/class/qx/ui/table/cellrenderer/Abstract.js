@@ -224,6 +224,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract", {
           this._insetX,
           this._insetY
         ),
+
         this._getCellStyle(cellInfo),
         '" ',
         'data-qx-table-cell-row="',

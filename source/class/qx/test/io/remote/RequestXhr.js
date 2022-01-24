@@ -145,6 +145,7 @@ qx.Class.define("qx.test.io.remote.RequestXhr", {
               e.getResponseHeader("juhu"),
               "Exact case match"
             );
+
             this.assertEquals(
               "kinners",
               e.getResponseHeader("Juhu"),

@@ -197,6 +197,7 @@ qx.Class.define("qx.ui.mobile.control.Picker", {
         "minHeight",
         this._calcItemHeight() + "px"
       );
+
       placeholderItem.addCssClass("list-item");
       placeholderItem.addCssClass("placeholder-item");
       return placeholderItem;
@@ -289,6 +290,7 @@ qx.Class.define("qx.ui.mobile.control.Picker", {
           this._onSlotDataChange,
           scrollContainer
         );
+
         slotModel.addListener(
           "change",
           this._onSlotDataChange,
@@ -311,6 +313,7 @@ qx.Class.define("qx.ui.mobile.control.Picker", {
           this._onSlotDataChange,
           scrollContainer
         );
+
         slotModel.removeListener(
           "change",
           this._onSlotDataChange,

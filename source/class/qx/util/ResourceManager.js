@@ -92,6 +92,7 @@ qx.Class.define("qx.util.ResourceManager", {
           lowResImgSrc,
           pixelRatioCandidates[k]
         );
+
         if (hiResImgSrc) {
           return hiResImgSrc;
         }
@@ -103,6 +104,7 @@ qx.Class.define("qx.util.ResourceManager", {
           lowResImgSrc,
           pixelRatioCandidates[k]
         );
+
         if (hiResImgSrc) {
           return hiResImgSrc;
         }

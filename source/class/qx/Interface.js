@@ -302,6 +302,7 @@ qx.Bootstrap.define("qx.Interface", {
         clazz,
         propertyName
       );
+
       if (!isPropertyMethod) {
         return false;
       }

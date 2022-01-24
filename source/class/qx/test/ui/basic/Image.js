@@ -132,6 +132,7 @@ qx.Class.define("qx.test.ui.basic.Image", {
         parseInt(contentElement.getStyle("width")),
         parseInt(width)
       );
+
       this.assertEquals(
         parseInt(contentElement.getStyle("height")),
         parseInt(height)
@@ -244,6 +245,7 @@ qx.Class.define("qx.test.ui.basic.Image", {
         qx.io.ImageLoader.isLoading(sourceA),
         "SourceA should be in loading state!"
       );
+
       image.setSource(sourceB);
       this.assertFalse(
         qx.io.ImageLoader.isLoaded(sourceA),

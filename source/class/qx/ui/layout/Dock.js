@@ -465,6 +465,7 @@ qx.Class.define("qx.ui.layout.Dock", {
           availWidth,
           allocatedWidth
         );
+
         for (var i in result) {
           offset = result[i].offset;
 
@@ -514,6 +515,7 @@ qx.Class.define("qx.ui.layout.Dock", {
           availHeight,
           allocatedHeight
         );
+
         for (var i in result) {
           offset = result[i].offset;
 
@@ -580,6 +582,7 @@ qx.Class.define("qx.ui.layout.Dock", {
                 marginTop,
                 marginBottom
               );
+
             left =
               nextLeft +
               util.computeHorizontalAlignOffset(
@@ -665,6 +668,7 @@ qx.Class.define("qx.ui.layout.Dock", {
                 marginLeft,
                 marginRight
               );
+
             top =
               nextTop +
               util.computeVerticalAlignOffset(
@@ -753,6 +757,7 @@ qx.Class.define("qx.ui.layout.Dock", {
                 marginLeft,
                 marginRight
               );
+
             top =
               nextTop +
               util.computeVerticalAlignOffset(

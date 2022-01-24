@@ -127,6 +127,7 @@ qx.Class.define("qx.io.remote.transport.Abstract", {
         "timeout",
         "failed"
       ],
+
       init: "created",
       event: "changeState",
       apply: "_applyState"

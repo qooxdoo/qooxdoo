@@ -191,6 +191,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
                     listenerIndex +
                     "] callListener"
                 );
+
                 return listener.handler.call(context, event);
               } else {
                 __TRACE(
@@ -204,6 +205,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
             },
             true
           );
+
           if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
           }
@@ -233,6 +235,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
                   listenerIndex +
                   "] callListener"
               );
+
               context = listener.context || target;
 
               if (qx.core.Environment.get("qx.debug")) {
@@ -253,10 +256,12 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
               __TRACE(
                 "Calling target serial=" + serial + ", type=" + event.getType()
               );
+
               return listener.handler.call(context, event);
             },
             true
           );
+
           if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
           }
@@ -288,6 +293,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling", {
                   listenerIndex +
                   "] callListener"
               );
+
               context = listener.context || currentTarget;
 
               if (qx.core.Environment.get("qx.debug")) {

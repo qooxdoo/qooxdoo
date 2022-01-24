@@ -54,6 +54,7 @@ qx.Class.define("qx.test.bom.Blocker", {
         qx.bom.Document.getWidth(),
         qx.bom.element.Dimension.getWidth(blockerElement)
       );
+
       this.assertEquals(
         qx.bom.Document.getHeight(),
         qx.bom.element.Dimension.getHeight(blockerElement)
@@ -67,10 +68,12 @@ qx.Class.define("qx.test.bom.Blocker", {
           blockerIframeElement,
           "Blocker iframe element not inserted"
         );
+
         this.assertEquals(
           qx.bom.Document.getWidth(),
           qx.bom.element.Dimension.getWidth(blockerIframeElement)
         );
+
         this.assertEquals(
           qx.bom.Document.getHeight(),
           qx.bom.element.Dimension.getHeight(blockerIframeElement)
@@ -121,6 +124,7 @@ qx.Class.define("qx.test.bom.Blocker", {
               qx.bom.element.Dimension.getWidth(self.__blockedElement),
               qx.bom.element.Dimension.getWidth(blockerElement)
             );
+
             self.assertEquals(
               qx.bom.element.Dimension.getHeight(self.__blockedElement),
               qx.bom.element.Dimension.getHeight(blockerElement)
@@ -130,6 +134,7 @@ qx.Class.define("qx.test.bom.Blocker", {
               qx.bom.element.Location.getLeft(self.__blockedElement),
               qx.bom.element.Location.getLeft(blockerElement)
             );
+
             self.assertEquals(
               qx.bom.element.Location.getTop(self.__blockedElement),
               qx.bom.element.Location.getTop(blockerElement)
@@ -144,6 +149,7 @@ qx.Class.define("qx.test.bom.Blocker", {
               var childElements = qx.dom.Hierarchy.getChildElements(
                 document.body
               );
+
               var blockerIframeElement =
                 childElements[childElements.length - 1];
               self.assertEquals(

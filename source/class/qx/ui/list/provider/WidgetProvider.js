@@ -102,6 +102,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider", {
       column.addListener("change", evt =>
         this.__onColumnChangeEvent(column, evt)
       );
+
       this._list
         .getChildControl("row-layer")
         .setHasHeader(this.isShowHeaders());
@@ -419,6 +420,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider", {
         this._onGroupItemCreated,
         this
       );
+
       this.removeBindings();
       this._list.getPane().fullUpdate();
     },

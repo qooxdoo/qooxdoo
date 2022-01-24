@@ -136,6 +136,7 @@ qx.Class.define("qx.test.ui.selection.RadioGroup", {
         radioGroup.getItems()[0],
         "First button not in the group."
       );
+
       this.assertEquals(
         radioButton2,
         radioGroup.getItems()[1],

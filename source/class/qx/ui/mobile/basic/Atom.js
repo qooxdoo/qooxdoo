@@ -226,6 +226,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom", {
         "display",
         "block"
       );
+
       iconWidget.setAnonymous(true);
       iconWidget.addCssClass("gap");
       return iconWidget;
@@ -279,6 +280,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom", {
       this.__childrenContainer = new qx.ui.mobile.container.Composite(
         this.__layout
       );
+
       this.__childrenContainer.addCssClass("qx-flex-center");
       this.__childrenContainer.setAnonymous(true);
 

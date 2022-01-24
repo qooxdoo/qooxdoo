@@ -182,6 +182,7 @@ qx.Class.define("qx.util.TimerManager", {
           this.__processQueue,
           this
         );
+
         this.__timerListenerActive = false;
       }
     },
@@ -229,6 +230,7 @@ qx.Class.define("qx.util.TimerManager", {
           this.__processQueue,
           this
         );
+
         this.__timerListenerActive = true;
       }
     },
@@ -286,6 +288,7 @@ qx.Class.define("qx.util.TimerManager", {
           this.__processQueue,
           this
         );
+
         this.__timerListenerActive = false;
       }
     }

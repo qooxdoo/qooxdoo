@@ -53,6 +53,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           self.assertEquals(m.getItem(0), e.getData().item);
         }
       );
+
       m.dispose();
     },
 
@@ -64,6 +65,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["D", "E", "F"], e.getData().value);
         that.assertEquals("data[3-5]", e.getData().name);
@@ -92,6 +94,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
         that.assertEquals("data[3]", e.getData().name);
@@ -130,6 +133,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
         [{ a: "2" }, { a: "3" }],
         true
       );
+
       model.append(moreModel);
 
       model.addListener("changeBubble", spy, this);
@@ -146,6 +150,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
         that.assertEquals("data[2]", e.getData().name);
@@ -174,6 +179,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
         that.assertEquals("data[2]", e.getData().name);
@@ -202,6 +208,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
         that.assertEquals("data[2]", e.getData().name);
@@ -230,6 +237,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[2]", e.getData().name);
@@ -258,6 +266,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
         that.assertEquals("data[3]", e.getData().name);
@@ -286,6 +295,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[1]", e.getData().name);
@@ -314,6 +324,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);
@@ -342,6 +353,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[1]", e.getData().name);
@@ -399,6 +411,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["BB"], e.getData().value);
         that.assertEquals("data[1]", e.getData().name);
@@ -427,6 +440,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[0]", e.getData().name);
@@ -455,6 +469,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);
@@ -487,11 +502,13 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           changeBubbleExecutionCounter,
           "Handler was fired more than one times."
         );
+
         that.assertArrayEquals(
           ["C", "B", "A"],
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["C", "B", "A"], e.getData().value);
         that.assertEquals("data[0-2]", e.getData().name);
@@ -529,6 +546,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["D", "E", "F"], e.getData().value);
         that.assertEquals("data[2-4]", e.getData().name);
@@ -557,6 +575,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals([], e.getData().value);
         that.assertEquals("data[1-2]", e.getData().name);
@@ -585,6 +604,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           that.array.toArray(),
           "Changes are not applied when handler is executed!"
         );
+
         // check the data
         that.assertArrayEquals(["D"], e.getData().value);
         that.assertEquals("data[0]", e.getData().name);
@@ -685,6 +705,7 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble", {
           { foo: "two", n: 2 },
           { foo: "three", n: 0 }
         ],
+
         true
       );
 

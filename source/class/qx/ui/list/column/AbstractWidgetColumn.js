@@ -56,6 +56,7 @@ qx.Class.define("qx.ui.list.column.AbstractWidgetColumn", {
         "value",
         this._getModelBindingOptions(widget, model)
       );
+
       if (this._supportsEditing) {
         data.widgetBindId = widget.bind(
           "value",

@@ -132,6 +132,7 @@ qx.Class.define("qx.bom.IframeHistory", {
           this,
           50
         );
+
         return;
       }
       this.__clearWriteSateTimer();
@@ -151,6 +152,7 @@ qx.Class.define("qx.bom.IframeHistory", {
       doc.write(
         '<html><body><div id="state">' + state + "</div></body></html>"
       );
+
       doc.close();
     },
 

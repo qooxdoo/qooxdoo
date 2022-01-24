@@ -29,6 +29,7 @@ qx.Class.define("qx.test.mobile.form.TextField", {
         null,
         qx.bom.element.Attribute.get(textField.getContainerElement(), "value")
       );
+
       this.assertEventFired(textField, "changeValue", function () {
         textField.setValue("mytext");
       });
@@ -47,6 +48,7 @@ qx.Class.define("qx.test.mobile.form.TextField", {
         "affe",
         qx.bom.element.Attribute.get(textField.getContainerElement(), "value")
       );
+
       textField.destroy();
     },
 

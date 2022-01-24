@@ -147,6 +147,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
           "Error in asynchronous test",
           "resume() called before wait()"
         );
+
         this._createError("failure", [qxEx], test);
         this.fireDataEvent("endTest", test);
         return undefined;
@@ -195,6 +196,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
                 that,
                 ex.getDelay()
               );
+
               this.fireDataEvent("wait", test);
             }
             return undefined;
@@ -260,6 +262,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
               that,
               ex.getDelay()
             );
+
             this.fireDataEvent("wait", test);
           }
         } else if (ex instanceof qx.dev.unit.MeasurementResult) {
@@ -358,6 +361,7 @@ qx.Class.define("qx.dev.unit.TestResult", {
             self,
             capture
           );
+
           var store = true;
           if (
             (target.classname &&

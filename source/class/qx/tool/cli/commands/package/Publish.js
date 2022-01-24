@@ -44,6 +44,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
               "major,premajor,minor,preminor,patch,prepatch,prerelease".split(
                 /,/
               ),
+
             type: "string"
           },
 
@@ -172,6 +173,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       status = await qx.tool.utils.Utils.exec(
         "git status --porcelain --branch"
       );
+
       this.debug(status);
       if (status.includes("ahead")) {
         throw new qx.tool.utils.Utils.UserError(
@@ -197,6 +199,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           qx.tool.compiler.Console.error(
             "You have not provided a GitHub token."
           );
+
           return;
         }
         github.token = response.token;
@@ -342,6 +345,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
           semver_range = mainManifestModel.getValue(
             "requires.@qooxdoo/framework"
           );
+
           if (!semver.satisfies(qxVersion, semver_range, { loose: true })) {
             // make it compatible with current version
             semver_range = `^${qxVersion} || ${semver_range}`;
@@ -378,6 +382,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
             qx.tool.compiler.Console.info(
               `Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`
             );
+
             qx.tool.compiler.Console.info(
               JSON.stringify(manifestModel.getData(), null, 2)
             );
@@ -413,6 +418,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         qx.tool.compiler.Console.info(
           `Dry run: not creating tag and release '${tag}' of ${repo_name}...`
         );
+
         return;
       }
 
@@ -505,6 +511,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
                 let m = qx.tool.utils.Json.parseJson(
                   fs.readFileSync(path.join(process.cwd(), p), "utf-8")
                 );
+
                 return {
                   name:
                     m.info.name + (m.info.summary ? ": " + m.info.summary : ""),
@@ -537,6 +544,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
               qx.tool.compiler.Console.info(
                 `Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`
               );
+
               qx.tool.compiler.Console.info(data);
             } else {
               await registryModel.load(data);

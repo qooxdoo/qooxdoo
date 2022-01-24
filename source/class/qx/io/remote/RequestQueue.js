@@ -324,6 +324,7 @@ qx.Class.define("qx.io.remote.RequestQueue", {
               "aborted",
               qx.event.type.Event
             );
+
             request["_onaborted"](event);
           }
         } catch (ex1) {}

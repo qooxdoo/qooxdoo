@@ -168,6 +168,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
               tokenizer,
               settings
             );
+
             object.children.push(property.value);
             state = objectStates.PROPERTY;
 
@@ -204,6 +205,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
                 "trailingComments",
                 token
               );
+
               state = objectStates.COMMA;
               tokenizer.next();
             } else {
@@ -228,6 +230,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
               tokenizer,
               settings
             );
+
             if (property) {
               object.children.push(property.value);
               state = objectStates.PROPERTY;
@@ -252,6 +255,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
       qx.tool.utils.json.Parser.error(
         qx.tool.utils.json.Parser.unexpectedEnd()
       );
+
       return null;
     },
 
@@ -310,6 +314,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
                   "trailingComments",
                   token
                 );
+
                 property.colonToken = token;
               }
               state = propertyStates.COLON;
@@ -336,6 +341,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
               tokenizer,
               settings
             );
+
             property.value = value.value;
             if (settings.verbose) {
               property.endToken = value.value.endToken;
@@ -426,6 +432,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
               tokenizer,
               settings
             );
+
             array.children.push(value.value);
             state = arrayStates.VALUE;
 
@@ -481,6 +488,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
               tokenizer,
               settings
             );
+
             array.children.push(value.value);
             state = arrayStates.VALUE;
             break;
@@ -563,6 +571,7 @@ qx.Class.define("qx.tool.utils.json.Parser", {
         qx.tool.utils.json.Parser.defaultSettings,
         settings
       );
+
       const tokenizer = new qx.tool.utils.json.Tokenizer(input, settings);
       tokenizer.tokenize();
 

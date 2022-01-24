@@ -39,6 +39,7 @@ qx.Class.define("qx.test.ui.form.Label", {
         this.__formWidget.getEnabled(),
         "Form widget is disabled."
       );
+
       this.assertTrue(this.__label.getEnabled(), "Label widget is disabled.");
 
       // disable the textfield. Label should be disabled too
@@ -49,6 +50,7 @@ qx.Class.define("qx.test.ui.form.Label", {
         this.__formWidget.getEnabled(),
         "Form widget is not disabled."
       );
+
       this.assertFalse(
         this.__label.getEnabled(),
         "Label widget is not disabled."
@@ -62,6 +64,7 @@ qx.Class.define("qx.test.ui.form.Label", {
         this.__formWidget.getEnabled(),
         "Form widget is not disabled at the end."
       );
+
       this.assertTrue(
         this.__label.getEnabled(),
         "Label widget is ensabled at the end."
@@ -79,6 +82,7 @@ qx.Class.define("qx.test.ui.form.Label", {
         this.__formWidget.getEnabled(),
         "Form widget is not disabled."
       );
+
       this.assertFalse(
         this.__label.getEnabled(),
         "Label widget is not disabled."
@@ -94,6 +98,7 @@ qx.Class.define("qx.test.ui.form.Label", {
         this.__label.getEnabled(),
         "Label widget is not disabled at the end."
       );
+
       this.assertTrue(
         this.__formWidget.getEnabled(),
         "Form widget is ensabled at the end."
@@ -144,6 +149,7 @@ qx.Class.define("qx.test.ui.form.Label", {
             self.__label.hasListener("click"),
             "Listener still there."
           );
+
           this.assertFalse(focused, "Element has been focused");
         }, self);
       }, 1000);

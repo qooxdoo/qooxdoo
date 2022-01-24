@@ -106,11 +106,13 @@ qx.Class.define("qx.tool.cli.Watch", {
       console.log(
         "Starting application: " + config._cmd + " " + config._args.join(" ")
       );
+
       config._processPromise = new qx.Promise((resolve, reject) => {
         let child = (config._process = require("child_process").spawn(
           config._cmd,
           config._args
         ));
+
         child.stdout.setEncoding("utf8");
         child.stdout.on("data", data => console.log(data));
         child.stderr.setEncoding("utf8");
@@ -145,6 +147,7 @@ qx.Class.define("qx.tool.cli.Watch", {
         },
         this
       );
+
       dirs.push(qx.tool.config.Compile.config.fileName);
       dirs.push("compile.js");
       analyser.getLibraries().forEach(function (lib) {
@@ -178,6 +181,7 @@ qx.Class.define("qx.tool.cli.Watch", {
             2
           )}`
         );
+
         qx.tool.compiler.Console.debug(
           `DEBUG: dirs=${JSON.stringify(dirs, 2)}`
         );
@@ -220,10 +224,12 @@ qx.Class.define("qx.tool.cli.Watch", {
         watcher.on("change", filename =>
           this.__onFileChange("change", filename)
         );
+
         watcher.on("add", filename => this.__onFileChange("add", filename));
         watcher.on("unlink", filename =>
           this.__onFileChange("unlink", filename)
         );
+
         watcher.on("ready", () => {
           this.__watcherReady = true;
           this.__make();
@@ -292,6 +298,7 @@ qx.Class.define("qx.tool.cli.Watch", {
                 var filename = path.resolve(
                   analyser.getClassSourcePath(classname)
                 );
+
                 data.dependsOn[filename] = true;
               });
               var filename = path.resolve(data.application.getLoaderTemplate());
@@ -308,6 +315,7 @@ qx.Class.define("qx.tool.cli.Watch", {
                 t.__stats.classesCompiled,
                 qx.tool.utils.Utils.formatTime(endTime - startTime)
               );
+
               t.fireEvent("made");
             });
           })
@@ -398,6 +406,7 @@ qx.Class.define("qx.tool.cli.Watch", {
           var dir = path.resolve(
             path.join(lib.getRootDir(), lib.getResourcePath())
           );
+
           if (filename.startsWith(dir)) {
             fName = path.relative(dir, filename);
             return true;
@@ -497,6 +506,7 @@ qx.Class.define("qx.tool.cli.Watch", {
         "qx.tool.cli.watch.watchError":
           ">>> Error occured while watching files - file modifications may not be detected; error: %1"
       },
+
       "error"
     );
   }

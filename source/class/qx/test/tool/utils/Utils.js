@@ -28,6 +28,7 @@ qx.Class.define("qx.test.tool.utils.Utils", {
         ws.write(
           "abc\ndef\n//# sourceMappingURL=IApplication.js.map?dt=1587127076441\nghi"
         );
+
         ws.end();
       });
       this.assertTrue(ss.toString() == "abc\ndef\nghi");

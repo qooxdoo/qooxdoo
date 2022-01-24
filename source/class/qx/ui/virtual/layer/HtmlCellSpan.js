@@ -119,6 +119,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan", {
           firstRow,
           firstColumn
         );
+
         var spanMap = this._spanManager.computeCellSpanMap(
           cells,
           firstRow,

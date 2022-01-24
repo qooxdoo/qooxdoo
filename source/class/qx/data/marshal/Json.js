@@ -272,6 +272,7 @@ qx.Class.define("qx.data.marshal.Json", {
           parentProperty,
           depth
         );
+
         // check if its an array
         if (!qx.lang.Type.isArray(delegateMixins)) {
           if (delegateMixins != null) {
@@ -431,6 +432,7 @@ qx.Class.define("qx.data.marshal.Json", {
             parentProperty,
             depth
           );
+
           arrayClass = customArrayClass || arrayClass;
         }
 

@@ -160,6 +160,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
           var item = new qx.test.ui.tree.virtual.Node(
             "Node " + this.__getPrefix(parent) + i
           );
+
           parent.getChildren().push(item);
 
           this._createNodes(item, level - 1);
@@ -173,6 +174,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
         var child = new qx.test.ui.tree.virtual.Leaf(
           "Leaf " + this.__getPrefix(parent) + i
         );
+
         parent.getChildren().push(child);
       }
     },

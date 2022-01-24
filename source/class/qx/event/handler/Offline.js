@@ -110,6 +110,7 @@ qx.Class.define("qx.event.handler.Offline", {
         "offline",
         this.__onNativeWrapper
       );
+
       qx.bom.Event.addNativeListener(
         this.__window,
         "online",
@@ -126,6 +127,7 @@ qx.Class.define("qx.event.handler.Offline", {
         "offline",
         this.__onNativeWrapper
       );
+
       qx.bom.Event.removeNativeListener(
         this.__window,
         "online",

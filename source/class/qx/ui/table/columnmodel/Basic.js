@@ -289,6 +289,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic", {
           qx.ui.table.IHeaderRenderer,
           "Invalid argument 'renderer'."
         );
+
         this.assertNotUndefined(
           this.__columnDataArr[col],
           "Column not found in table model"
@@ -378,6 +379,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic", {
           qx.ui.table.ICellRenderer,
           "Invalid argument 'renderer'."
         );
+
         this.assertNotUndefined(
           this.__columnDataArr[col],
           "Column not found in table model"
@@ -425,6 +427,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic", {
           qx.ui.table.ICellEditorFactory,
           "Invalid argument 'factory'."
         );
+
         this.assertNotUndefined(
           this.__columnDataArr[col],
           "Column not found in table model"

@@ -33,6 +33,7 @@ qx.Class.define("qx.test.ui.table.selection.Model", {
         [{ minIndex: 0, maxIndex: 1 }],
         selectionModel._getSelectedRangeArr()
       );
+
       selectionModel.removeSelectionInterval(0, 1);
       this.assertIdentical(0, selectionModel._getSelectedRangeArr().length);
 
@@ -143,6 +144,7 @@ qx.Class.define("qx.test.ui.table.selection.Model", {
           { minIndex: 0, maxIndex: 1 },
           { minIndex: 4, maxIndex: 5 }
         ],
+
         selectionModel._getSelectedRangeArr()
       );
 

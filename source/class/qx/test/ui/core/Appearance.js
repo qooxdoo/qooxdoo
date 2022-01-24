@@ -61,6 +61,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
         "green",
         a.getChildControl("text").getBackgroundColor()
       );
+
       a.destroy();
     },
 
@@ -104,6 +105,7 @@ qx.Class.define("qx.test.ui.core.Appearance", {
         "black",
         a.getChildControl("text2").getBackgroundColor()
       );
+
       // check for the textfield fallback
       this.assertEquals(
         "green",

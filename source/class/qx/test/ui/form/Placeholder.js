@@ -31,6 +31,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
         this.__getVisibleValueOf(widget),
         "placeholder visible"
       );
+
       this.assertEquals("affe", widget.getValue(), "Wrong value returned.");
       this.assertFalse(this.__isPlaceholderVisible(widget));
       widget.destroy();
@@ -48,6 +49,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
         this.__getPlaceholderValueOf(widget),
         "placeholder not visible"
       );
+
       this.assertNull(widget.getValue(), "Wrong value returned.");
 
       // get rid of the widget
@@ -67,6 +69,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
         this.__getVisibleValueOf(widget),
         "wrong visible value"
       );
+
       this.assertFalse(this.__isPlaceholderVisible(widget));
 
       // remove the value
@@ -100,6 +103,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
         this.__getVisibleValueOf(widget),
         "wrong visible value after focus"
       );
+
       this.assertFalse(this.__isPlaceholderVisible(widget), "1");
 
       // test focus out
@@ -117,6 +121,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
               this.__getPlaceholderValueOf(widget),
               "wrong visible value after blur"
             );
+
             // get rid of the widget
             widget.destroy();
           }, this);
@@ -138,6 +143,7 @@ qx.Class.define("qx.test.ui.form.Placeholder", {
         this.__getVisibleValueOf(widget),
         "wrong visible value after focus"
       );
+
       // get rid of the widget
       widget.destroy();
     },

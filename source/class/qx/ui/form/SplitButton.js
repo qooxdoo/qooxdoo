@@ -224,6 +224,7 @@ qx.Class.define("qx.ui.form.SplitButton", {
           this._onChangeMenuVisibility,
           this
         );
+
         old.resetOpener();
       }
     },

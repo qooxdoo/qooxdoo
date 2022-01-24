@@ -600,6 +600,7 @@ qx.Bootstrap.define("qx.bom.Selection", {
           var sel = qx.bom.Selection.getSelectionObject(
             qx.dom.Node.getDocument(node)
           );
+
           sel.empty();
         }
       },
@@ -608,6 +609,7 @@ qx.Bootstrap.define("qx.bom.Selection", {
         var sel = qx.bom.Selection.getSelectionObject(
           qx.dom.Node.getDocument(node)
         );
+
         var nodeName = node.nodeName.toLowerCase();
 
         // if the node is an input or textarea element use the specialized methods

@@ -30,6 +30,7 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
       qx.tool.compiler.Console.warn(
         "`qx package migrate` has been deprecated in favor of `qx migrate`."
       );
+
       super.process();
     }
   }

@@ -41,6 +41,7 @@ qx.Class.define("qx.test.event.Messaging", {
         params: {},
         path: "/get"
       });
+
       this.assertNotCalled(handlerPost);
 
       this.__m.on("POST", "/post", handlerPost, ctx);
@@ -52,6 +53,7 @@ qx.Class.define("qx.test.event.Messaging", {
         params: {},
         path: "/post"
       });
+
       this.assertCalledOnce(handlerGet);
     },
 

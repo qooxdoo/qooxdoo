@@ -30,6 +30,7 @@ qx.Mixin.define("qx.test.ui.list.MAssert", {
         value.getLength(),
         "The length of both arrays are not equal!"
       );
+
       for (var i = 0; i < expected.getLength(); i++) {
         this.assertTrue(
           value.contains(expected.getItem(i)),

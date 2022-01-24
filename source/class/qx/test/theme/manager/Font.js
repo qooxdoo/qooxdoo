@@ -77,11 +77,13 @@ qx.Class.define("qx.test.theme.manager.Font", {
         fontTheme.fonts.myfont,
         "Including font theme failed"
       );
+
       this.assertKeyInMap(
         "family",
         fontTheme.fonts.myfont,
         "Including font theme failed"
       );
+
       this.assertKeyInMap(
         "bold",
         fontTheme.fonts.myfont,
@@ -93,16 +95,19 @@ qx.Class.define("qx.test.theme.manager.Font", {
         fontTheme.fonts.mysecondfont,
         "Including font theme failed"
       );
+
       this.assertKeyInMap(
         "family",
         fontTheme.fonts.mysecondfont,
         "Including font theme failed"
       );
+
       this.assertKeyInMap(
         "bold",
         fontTheme.fonts.mysecondfont,
         "Including font theme failed"
       );
+
       this.assertKeyInMap(
         "italic",
         fontTheme.fonts.mysecondfont,

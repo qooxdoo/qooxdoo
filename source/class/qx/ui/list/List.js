@@ -497,6 +497,7 @@ qx.Class.define("qx.ui.list.List", {
         this.warn(
           "Calling _getLookupTable to retrieve the internal lookup table has changed since v7"
         );
+
         this.__warnedAbout_getLookupTable = true;
       }
       return this.__lookupTable;
@@ -515,6 +516,7 @@ qx.Class.define("qx.ui.list.List", {
           this.classname +
             "._lookup is not supported when using repeating columns"
         );
+
       return this._lookupByRowAndColumn(row, 0);
     },
 

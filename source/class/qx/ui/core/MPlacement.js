@@ -394,6 +394,7 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
           "interval",
           this.__ptwLiveUpdater
         );
+
         this.__ptwLiveUpdater = null;
       }
 
@@ -403,6 +404,7 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
           this.__ptwLiveUpdateDisappearListener,
           this
         );
+
         this.__ptwLiveUpdateDisappearListener = null;
       }
     },
@@ -467,6 +469,7 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
                 "interval",
                 this.__ptwLiveUpdater
               );
+
               this.__ptwLiveUpdater = null;
             }
           },

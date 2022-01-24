@@ -58,6 +58,7 @@ qx.Class.define("qx.html.Input", {
       this._getValueProperty,
       this._setValueProperty
     );
+
     this.registerProperty("wrap", null, this._setWrapProperty);
   },
 
@@ -171,11 +172,11 @@ qx.Class.define("qx.html.Input", {
         this.__selectable = value;
 
         // Only apply the value when it is enabled
-        this.base(arguments, this.__enabled && value);
+        super.webkit(this.__enabled && value);
       },
 
       default(value) {
-        this.base(arguments, value);
+        super.default(value);
       }
     }),
 

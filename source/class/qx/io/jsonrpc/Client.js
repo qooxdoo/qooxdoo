@@ -72,6 +72,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
     this.getTransport().addListener("message", evt =>
       this.handleIncoming(evt.getData())
     );
+
     if (!methodPrefix) {
       methodPrefix = "";
     }
@@ -206,6 +207,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         this._prependMethodPrefix(method),
         params
       );
+
       await this.send(request);
       return await request.getPromise();
     },
@@ -222,6 +224,7 @@ qx.Class.define("qx.io.jsonrpc.Client", {
         this._prependMethodPrefix(method),
         params
       );
+
       await this.send(notification);
     },
 

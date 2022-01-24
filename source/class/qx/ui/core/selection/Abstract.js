@@ -1300,6 +1300,7 @@ qx.Class.define("qx.ui.core.selection.Abstract", {
               this._getFirstVisibleSelectable(),
               "above"
             );
+
             break;
 
           case "Down":
@@ -1307,6 +1308,7 @@ qx.Class.define("qx.ui.core.selection.Abstract", {
               this._getLastVisibleSelectable(),
               "under"
             );
+
             break;
 
           case "Left":
@@ -1314,6 +1316,7 @@ qx.Class.define("qx.ui.core.selection.Abstract", {
               this._getFirstVisibleSelectable(),
               "left"
             );
+
             break;
 
           case "Right":
@@ -1321,6 +1324,7 @@ qx.Class.define("qx.ui.core.selection.Abstract", {
               this._getLastVisibleSelectable(),
               "right"
             );
+
             break;
 
           case "PageUp":

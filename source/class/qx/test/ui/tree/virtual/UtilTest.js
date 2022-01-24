@@ -79,15 +79,19 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest", {
       this.assertTrue(
         qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids")
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids")
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids")
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids")
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(4), "kids")
       );
@@ -101,15 +105,19 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest", {
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids", true)
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids", true)
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids", true)
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids", true)
       );
+
       this.assertFalse(
         qx.ui.tree.core.Util.hasChildren(children.getItem(4), "kids", true)
       );

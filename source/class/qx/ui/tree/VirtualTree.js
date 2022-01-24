@@ -944,6 +944,7 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
             root,
             nestedLevel
           );
+
           lookupTable = lookupTable.concat(visibleChildren);
         }
       }
@@ -1006,6 +1007,7 @@ qx.Class.define("qx.ui.tree.VirtualTree", {
               child,
               nestedLevel
             );
+
             visible = visible.concat(visibleChildren);
           }
         } else {

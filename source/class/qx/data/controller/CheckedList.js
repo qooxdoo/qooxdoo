@@ -196,12 +196,14 @@ qx.Class.define("qx.data.controller.CheckedList", {
           this.__onTargetCheckedChange,
           this
         );
+
         if (qx.Class.supportsEvent(oldValue.constructor, "attachResultsTag")) {
           oldValue.removeListener(
             "attachResultsTag",
             this.__onTargetAttachResultsTag,
             this
           );
+
           oldValue.removeListener(
             "detachResultsTag",
             this.__onTargetDetachResultsTag,
@@ -217,6 +219,7 @@ qx.Class.define("qx.data.controller.CheckedList", {
             this.__onTargetAttachResultsTag,
             this
           );
+
           value.addListener(
             "detachResultsTag",
             this.__onTargetDetachResultsTag,

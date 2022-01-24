@@ -192,6 +192,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
           this.__allResourceUris,
           uri
         );
+
         if (thisUriPos > -1) {
           let libraries = {};
           for (; thisUriPos < this.__allResourceUris.length; thisUriPos++) {
@@ -256,6 +257,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
               library.getRootDir(),
               library.get(resourcePath)
             );
+
             await qx.tool.utils.files.Utils.findAllFiles(
               rootDir,
               async filename => {
@@ -277,6 +279,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
                   relFile,
                   fileInfo
                 );
+
                 this.__addAsset(asset);
               }
             );
@@ -381,6 +384,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
       asset.setLoaders(
         this.__loaders.filter(loader => loader.matches(filename, library))
       );
+
       asset.setConverters(
         this.__converters.filter(converter =>
           converter.matches(filename, library)
@@ -407,10 +411,12 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
         library.getRootDir(),
         isThemeFile ? library.getThemePath() : library.getResourcePath()
       );
+
       srcPath = path.relative(
         resourceDir,
         path.isAbsolute(srcPath) ? srcPath : path.join(resourceDir, srcPath)
       );
+
       let asset = this.__assets[library.getNamespace() + ":" + srcPath];
       if (!asset && create) {
         asset = new qx.tool.compiler.resources.Asset(library, srcPath, {

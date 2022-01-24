@@ -353,6 +353,7 @@ qx.Class.define("qx.ui.form.TextArea", {
           height: 0,
           overflow: "hidden"
         },
+
         true
       );
 

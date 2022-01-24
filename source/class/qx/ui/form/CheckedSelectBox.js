@@ -39,6 +39,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
       this.__onModelSelectionChange,
       this
     );
+
     this.__atomsOnDisplay = [];
 
     this._add(this._createChildControl("tags"), { flex: 1, flexShrink: true });
@@ -119,12 +120,14 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
             this._onPopupChangeVisibility,
             this
           );
+
           return control;
 
         case "allNone":
           var control = new qx.ui.form.Button("All / None").set({
             allowGrowX: false
           });
+
           control.addListener("execute", this._onAllNoneExecute, this);
           return control;
 
@@ -317,6 +320,7 @@ qx.Class.define("qx.ui.form.CheckedSelectBox", {
       this.getModelSelection().forEach(
         itemModel => (selected[itemModel.toHashCode()] = itemModel)
       );
+
       this.getChildren().forEach(item => {
         let itemModel = item.getModel();
         if (selected[itemModel.toHashCode()]) {

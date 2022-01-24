@@ -467,6 +467,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem", {
               treeItem +
               "'. It is not a child of this tree item."
           );
+
           return;
         }
 

@@ -107,6 +107,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         },
         this
       );
+
       pane.set({
         width: 300,
         height: 200
@@ -178,6 +179,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         [30, 30, 30, 30],
         args
       );
+
       this.assertScroll(4, 0, this.pane);
 
       this.pane.setScrollY(10);
@@ -200,6 +202,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         [30, 30, 30, 30],
         args
       );
+
       this.assertScroll(6, 0, this.pane);
 
       this.pane.setScrollY(0);
@@ -516,6 +519,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         [30, 30, 30, 30],
         args
       );
+
       this.assertScroll(4, 0, this.pane);
 
       layer.calls = [];
@@ -542,6 +546,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         [30, 30, 30, 30],
         args
       );
+
       this.assertScroll(6, 0, this.pane);
 
       this.pane.setScrollY(0);
@@ -668,6 +673,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         { row: 0, column: 0 },
         this.pane.getCellAtPosition(0, 0)
       );
+
       this.assertEquals(null, this.pane.getCellAtPosition(400, 0));
       this.assertEquals(null, this.pane.getCellAtPosition(0, 300));
       this.assertEquals(null, this.pane.getCellAtPosition(400, 300));
@@ -690,6 +696,7 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
         { row: 0, column: 0 },
         this.pane.getCellAtPosition(1, 49)
       );
+
       this.assertEquals(null, this.pane.getCellAtPosition(1, 50));
       this.assertEquals(null, this.pane.getCellAtPosition(1, 70));
     },
@@ -738,12 +745,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 99
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 99,
             documentTop: 99
           })
         );
+
         this.assertEquals(0, calls.length);
 
         calls = [];
@@ -753,12 +762,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 100
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 100,
             documentTop: 100
           })
         );
+
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
@@ -771,12 +782,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 103
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 160,
             documentTop: 103
           })
         );
+
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(1, calls[0].getColumn(), cellEvent);
@@ -789,12 +802,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 110
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 105,
             documentTop: 110
           })
         );
+
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(1, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
@@ -807,12 +822,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 125
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 105,
             documentTop: 125
           })
         );
+
         this.assertEquals(0, calls.length);
 
         calls = [];
@@ -822,12 +839,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 105
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 275,
             documentTop: 105
           })
         );
+
         this.assertEquals(0, calls.length);
 
         calls = [];
@@ -837,12 +856,14 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
             documentTop: 105
           })
         );
+
         pane.dispatchEvent(
           new PointerEventMock(pointerEvent, {
             documentLeft: 275,
             documentTop: 105
           })
         );
+
         this.assertEquals(0, calls.length);
       }
 
@@ -884,9 +905,11 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
           documentTop: 100
         })
       );
+
       pane.dispatchEvent(
         new PointerEventMock("tap", { documentLeft: 100, documentTop: 100 })
       );
+
       this.assertEquals(1, calls.length);
       this.assertEquals(0, calls[0].getRow());
       this.assertEquals(0, calls[0].getColumn());
@@ -899,9 +922,11 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
           documentTop: 100
         })
       );
+
       pane.dispatchEvent(
         new PointerEventMock("tap", { documentLeft: 160, documentTop: 103 })
       );
+
       this.assertEquals(0, calls.length);
 
       pane.destroy();

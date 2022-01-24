@@ -105,6 +105,7 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
       var properties = qx.lang.Object.clone(
         qx.event.type.dom.Custom.PROPERTIES
       );
+
       for (var prop in customProps) {
         properties[prop] = customProps[prop];
       }

@@ -417,6 +417,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           let dbClassInfo = await qx.tool.utils.Promisify.call(cb =>
             t.getClassInfo(classes[classIndex], cb)
           );
+
           if (dbClassInfo) {
             var deps = dbClassInfo.dependsOn;
             for (var depName in deps) {
@@ -643,6 +644,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                   null,
                   msg
                 );
+
                 if (type == "Boolean") {
                   addPropertyAccessor(
                     propertyMeta,
@@ -705,6 +707,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                   null,
                   msg
                 );
+
                 if (type == "Boolean") {
                   addPropertyAccessor(
                     propertyMeta,
@@ -918,6 +921,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           qx.tool.compiler.Console.log(
             " *** ERROR *** Writing " + classname + " more than once"
           );
+
           throw new Error(
             " *** ERROR *** Writing " + classname + " more than once"
           );
@@ -1074,6 +1078,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         "transpiled",
         className.replace(/\./g, path.sep) + ".js"
       );
+
       return filename;
     },
 
@@ -1120,6 +1125,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         let sourceStat = await qx.tool.utils.files.Utils.safeStat(
           sourceClassFilename
         );
+
         if (!sourceStat) {
           throw new Error("Cannot find " + sourceClassFilename);
         }
@@ -1135,6 +1141,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           let outputStat = await qx.tool.utils.files.Utils.safeStat(
             outputClassFilename
           );
+
           let outputJsonStat = await qx.tool.utils.files.Utils.safeStat(
             outputClassFilename + "on"
           );
@@ -1150,6 +1157,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                   className: className,
                   dbClassInfo: dbClassInfo
                 });
+
                 return dbClassInfo;
               }
             }
@@ -1173,6 +1181,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           oldDbClassInfo: oldDbClassInfo,
           classFile: classFile
         });
+
         await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
 
         // Save it
@@ -1247,6 +1256,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
                 lib,
                 locale
               );
+
               await translation.read();
               libTranslations[lib.toHashCode()] = translation;
             })
@@ -1256,6 +1266,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             appLibrary,
             locale
           );
+
           translation.setWriteLineNumbers(this.isWritePoLineNumbers());
           await translation.read();
 
@@ -1278,6 +1289,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
               let dbClassInfo = await qx.tool.utils.Promisify.call(cb =>
                 this.getClassInfo(classname, cb)
               );
+
               if (!dbClassInfo.translations) {
                 return;
               }

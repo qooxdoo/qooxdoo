@@ -40,6 +40,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
       cellHeight || 28,
       rowCount || 0
     );
+
     this.__columnConfig = new qx.ui.virtual.core.Axis(
       cellWidth || 100,
       columnCount || 0
@@ -59,6 +60,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
     this.__layerContainer = new qx.ui.container.Composite(
       new qx.ui.virtual.core.BoundsLayout()
     );
+
     this._add(this.__layerContainer);
     this._getLayout().setItemBounds(this.__layerContainer, 0, 0, 0, 0);
 
@@ -448,6 +450,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -484,6 +487,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -521,6 +525,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -697,6 +702,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           throw new Error(
             "Mismiatched calls to " + this.classname + ".setDontFireUpdate"
           );
+
         this.__dontFireUpdate--;
         if (this.__fullUpdateDeferredByDontFire) this.fullUpdate();
       }
@@ -780,6 +786,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
         e.getDocumentLeft(),
         e.getDocumentTop()
       );
+
       if (!coords) {
         return;
       }

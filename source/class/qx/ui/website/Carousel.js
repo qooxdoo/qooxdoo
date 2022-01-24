@@ -124,6 +124,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel", {
           this.addPage(qxWeb(page));
         }.bind(this)
       );
+
       if (pages.length > 0) {
         this.setActive(pages.eq(0));
       }
@@ -575,6 +576,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel", {
                   0,
                   0
                 ]);
+
                 this.setActive(page); // this also updates the order
                 this._updatePagination();
               }.bind(this, pages.eq(index))

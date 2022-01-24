@@ -131,6 +131,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
           self.assertTrue(
             self.__b3 === e.getData() || self.__b2 === e.getData()
           );
+
           self.assertTrue("visible" === e.getData().getVisibility());
         }
       );

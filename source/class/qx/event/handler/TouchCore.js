@@ -120,6 +120,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           qx.core.Environment.get("engine.version"),
           10
         );
+
         if (engineVersion == 10) {
           // IE 10
           this.__touchEventNames = [
@@ -278,6 +279,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             domEvent.touches[0],
             domEvent.touches[1]
           );
+
           this.__beginRotation = this._getRotationAngle(
             domEvent.touches[0],
             domEvent.touches[1]
@@ -303,6 +305,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             domEvent.targetTouches[0],
             domEvent.targetTouches[1]
           );
+
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
         // Polyfill for rotation
@@ -315,6 +318,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             domEvent.targetTouches[0],
             domEvent.targetTouches[1]
           );
+
           domEvent._rotation = currentRotation - this.__beginRotation;
         }
 
