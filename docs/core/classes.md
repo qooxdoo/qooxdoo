@@ -316,8 +316,8 @@ qx.Class.define("qx.test.Cat", {
 
 The syntax for accessing static variables simply is
 `qx.test.Animal.someStaticVar`.  Please note that `this.constructor` is not
-recommended because it always refers to the subclass of the object, and there
-can change change the implementation at run time.  Always specify class names
+recommended because it always refers to the subclass of the object, and therefore
+the implementation can change unexpectedly at run time.  Always specify class names
 explicitly in static methods.
 
 You should also not use the `this` keyword in purely static classes, because static
