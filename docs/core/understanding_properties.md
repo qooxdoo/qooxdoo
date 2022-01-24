@@ -407,9 +407,9 @@ method, not like in the usual cases when setting the same value which is already
 set.
 
 ```
-construct : function()
+construct()
 {
-  this.base(arguments);
+  super();
 
   this.setColor("black"); // apply will be invoked
   this.setColor("black"); // apply will NOT be invoked
@@ -426,7 +426,7 @@ properties :
 
 members :
 {
-  _applyColor : function(value, old) {
+  _applyColor(value, old) {
     // do something...
   }
 }
@@ -437,9 +437,9 @@ the property system due to the already mentioned inconsistency between init and
 applied value.
 
 ```
-construct : function()
+construct()
 {
-  this.base(arguments);
+  super();
 
   // Initialize color with predefined value
   this.initColor();
@@ -463,11 +463,11 @@ properties :
 
 members :
 {
-  _applyColor : function(value, old) {
+  _applyColor(value, old) {
     // do something...
   },
 
-  _applyStore : function(value, old) {
+  _applyStore(value, old) {
     // do something...
   }
 }

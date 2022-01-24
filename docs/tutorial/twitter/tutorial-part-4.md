@@ -28,8 +28,8 @@ MainWindow class from the first part of this tutorial:
 ```javascript
 qx.Class.define("tweets.LoginWindow", {
   extend: qx.ui.window.Window,
-  construct: function () {
-    this.base(arguments, "Login", "logo.png");
+  construct() {
+    super("Login", "logo.png");
   }
 });
 ```

@@ -381,7 +381,7 @@ styling.
 
 When extending themes the so-named `base` flag can be enabled to include the
 result of this selector of the derived theme into the local selector. This is
-quite comparable to the `this.base(arguments, ...)` call in member functions of
+quite comparable to the `super(...)` call in member functions of
 typical Qooxdoo classes. It does all the things the super class has done plus
 the local things. Please note that all local definitions have higher priority
 than the inheritance. See next paragraph for details.

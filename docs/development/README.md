@@ -8,13 +8,10 @@ application.
 > version 6 of the framework is, with some small exceptions, fully
 > backwards-compatible. The major change concerns the tooling, which has changed
 > from the Python-based `generator.py` script to a NodeJS-based `qx` CLI. The
-> python tool chain will still work for all 6.\* releases. However, it has been
-> marked deprectated and will be removed in version 7.0.0. Since we won't be
-> able to maintain the old toolchain or provide support for it, we strongly
-> recommend to use the new one for your projects. To convert your existing
-> applications, please review
-> [our guide to migrate your applications to the new NodeJS-based tooling](compiler/migration.md)
-> .
+> python tool chain will still work for all 6.\* releases but was
+> marked deprectated has been removed in version 7.0.0.  Because the v7 release is
+> based on ES6, the python toolchain will no longer work.  To convert your existing 
+> applications, please review [our guide to migrate your applications to the new NodeJS-based tooling](compiler/migration.md).
 
 Our [getting started guide](../README.md#getting-started) should give you a first impression on
 how to quickly create an application skeleton. We suggest you play with this

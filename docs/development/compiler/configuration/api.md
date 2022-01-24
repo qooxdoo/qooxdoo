@@ -52,7 +52,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       return data;
     }
   }
@@ -77,7 +77,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       if (!data.environment)
         data.environment = {};
       data.environment["myapp.someSetting"] = "hello";

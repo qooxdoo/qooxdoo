@@ -51,5 +51,8 @@ The `qx es6ify` command is a tool that aims to help you upgrade your ES5 syntax 
 can't do it as perfectly as you could do it by hand, but it can make a few simple changes to
 your code base that can make a big difference to readability.  
 
+The compiler also includes support for using `super()` instead of `this.base(arguments)`, which
+is a more concise and clearer way of handling inheritance.
+
 Please [check out the documentation](../cli/commands.md#ES6Ify)
 
