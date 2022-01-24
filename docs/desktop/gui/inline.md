@@ -59,9 +59,9 @@ qx.Class.define("myPortal.Application",
 
   members :
   {
-    main: function()
+    main()
     {
-      this.base(arguments);
+      super.main();
 
       // your code follows here
     }
@@ -86,9 +86,9 @@ qx.Class.define("myPortal.Application",
 
   members :
   {
-    main: function()
+    main()
     {
-      this.base(arguments);
+      super.main(arguments);
 
       // add a date chooser widget
       var dateChooser = new qx.ui.control.DateChooser();
@@ -125,9 +125,9 @@ qx.Class.define("myPortal.Application",
 
   members :
   {
-    main: function()
+    main()
     {
-      this.base(arguments);
+      super.main();
 
       // create the island by connecting it to the existing
       // "dateChooser" DOM element of your HTML page.

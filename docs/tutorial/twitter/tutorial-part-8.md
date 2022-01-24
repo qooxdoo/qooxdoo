@@ -201,11 +201,11 @@ Next, we apply this value to the TweetView's `icon` property, then get the child
 control's `source` property and compare the two values using
 [assertEquals](apps://apiviewer/#qx.core.Assert~assertEquals) .
 
-OK, time to build the AUT again. This time, run `generate.py test-source`
-instead of `test`. As you might expect, this will generate a source version of
-the AUT, which, like the source version of the actual application, is far better
-suited for development. Open the file `test/index-source.html` to load the
-Testrunner with the source tests.
+OK, time to build the AUT again. This time, run `qx serve --show-startpage`; 
+this will generate a source version of the AUT, which, like the source version of the 
+actual application, is far better suited for development.  Open the page 
+`http://localhost:8080` to find the link to your test application with your test
+classes.
 
 ## Asynchronous Tests
 

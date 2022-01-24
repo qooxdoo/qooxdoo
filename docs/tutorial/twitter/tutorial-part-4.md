@@ -28,8 +28,8 @@ MainWindow class from the first part of this tutorial:
 ```javascript
 qx.Class.define("tweets.LoginWindow", {
   extend: qx.ui.window.Window,
-  construct: function () {
-    this.base(arguments, "Login", "logo.png");
+  construct() {
+    super("Login", "logo.png");
   }
 });
 ```
@@ -174,7 +174,7 @@ making the login window modal, we've made sure the first call, which creates the
 store, contains the login data. Any subsequent calls (i.e. after reloading or
 posting an update) will use the same store so they won't need the login details.
 
-OK, time to run `generate.py` and load the application in a browser to make sure
+OK, time to compile your application with `qx compile` and load the application in a browser to make sure
 everything works like it's supposed to.
 
 ![Tweets client application with login window](step41.png)
