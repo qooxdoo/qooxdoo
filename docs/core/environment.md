@@ -206,7 +206,7 @@ those keys which have **not** been given a value in the configuration.
 
 This isn't always practical - for example, you may wish to use the configuration
 to set the default value for an environment setting - to prevent the compiler 
-eliminating the code, use the "preserveEnvironment" setting.
+from eliminating the code, use the "preserveEnvironment" setting.
 
 ## Defining New Environment Settings
 

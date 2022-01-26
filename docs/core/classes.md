@@ -286,7 +286,7 @@ qx.Class.define("qx.test.Cat", {
   extend: qx.test.Animal,
   members: {
     makeSound() {
-      super.makeSound(arguments);
+      super.makeSound();
     }
   }
 });
@@ -320,7 +320,8 @@ recommended because it always refers to the subclass of the object, and therefor
 the implementation can change unexpectedly at run time.  Always specify class names
 explicitly in static methods.
 
-You should also not use the `this` keyword in purely static classes, because static
+Unless you know how the static method is called in all cases, you should also not use 
+the `this` keyword in purely static classes, because static
 methods can be used without context and therefore `this` is not guaranteed.
 
 ## Usage of Interfaces and Mixins

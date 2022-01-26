@@ -20,7 +20,7 @@ at the bottom. Before that, the 2 values were reversed
 
 - all flash supporting classes are removed - flash is dead since January 2020.
 
-- `qx.ui.command.Group` fixed a bug where new `qx.ui.command.Command` added was
+- `qx.ui.command.Group` fixed a bug where new `qx.ui.command.Command` added did
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
@@ -29,7 +29,7 @@ was inactive.
 
 ## Accessibility
 
-Accessibility is an important topic in nowadays webdevelopment in order to allow assistive technologies to better help persons with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility.
+Accessibility is an important topic in modern web development in order to allow assistive technologies to better help people with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility.
 [Documentation](development/howto/accessibility.md)
 
 
