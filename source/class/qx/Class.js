@@ -1619,31 +1619,17 @@ qx.Bootstrap.define("qx.Class", {
           member instanceof Function &&
           member.$$type == null
         ) {
-          if (!qx.core.Environment.get("qx.compiler")) {
-            if (wrap) {
-              // wrap "patched" mixin member
-              member = this.__mixinMemberWrapper(member, proto[key]);
-            } else {
-              // Configure extend (named base here)
-              // Hint: proto[key] is not yet overwritten here
-              if (proto[key]) {
-                member.base = proto[key];
-              }
-              member.self = clazz;
-            }
-          } else {
-            // If the class has it's own implementation, we need to remember that method in the
-            //  mixed-in method's `.base`; wrap the method with a closure so that it can have a
-            //  `.base` set, if we were to set `member.base` it would mean that the mixin can
-            //  only be added into one class
+          // If the class has it's own implementation, we need to remember that method in the
+          //  mixed-in method's `.base`; wrap the method with a closure so that it can have a
+          //  `.base` set, if we were to set `member.base` it would mean that the mixin can
+          //  only be added into one class
+          if (wrap) {
             if (proto[key]) {
               member = qx.lang.Function.create(member, { always: true });
-              member.base = proto[key];
             }
-            if (wrap) {
-              member.self = clazz;
-            }
+            member.self = clazz;
           }
+          member.base = proto[key];
 
           if (qx.core.Environment.get("qx.aspects")) {
             member = qx.core.Aspect.wrap(
