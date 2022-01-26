@@ -74,6 +74,10 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
  * @ignore(TextEncoder)
  * @ignore(ProgressEvent)
  * @ignore(_this$options)
+ * @ignore(Blob)
+ * @ignore(CustomEvent)
+ * @ignore(FormData)
+ * @ignore(DOMParser)
  *
  */
 /*eslint curly: "off"*/
