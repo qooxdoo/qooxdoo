@@ -178,7 +178,6 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       feedback: {
         describe: "Shows gas-gauge feedback",
         type: "boolean",
-        default: null,
         alias: "f"
       },
 
@@ -1067,6 +1066,22 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         }
 
         maker.setTarget(target);
+
+        var manglePrivates = chooseValue(
+          targetConfig["mangle-privates"],
+          t.argv["mangle-privates"]
+        );
+        if (typeof manglePrivates == "string") {
+          maker.getAnalyser().setManglePrivates(manglePrivates);
+        } else if (typeof manglePrivates == "boolean") {
+          if (manglePrivates) {
+            maker.getAnalyser().setManglePrivates(target instanceof qx.tool.compiler.targets.BuildTarget ? "unreadable" : "readable");
+          } else {
+            maker.getAnalyser().setManglePrivates("off");
+          }
+        }
+
+
         if (targetConfig["application-types"]) {
           maker
             .getAnalyser()
@@ -1136,18 +1151,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
 
         for (let ns in libraries) {
           maker.getAnalyser().addLibrary(libraries[ns]);
-        }
-
-        if (this.argv["mangle-privates"]) {
-          maker
-            .getAnalyser()
-            .setManglePrivates(
-              target instanceof qx.tool.compiler.targets.BuildTarget
-                ? "unreadable"
-                : "readable"
-            );
-        } else {
-          maker.getAnalyser().setManglePrivates("off");
         }
 
         let allApplicationTypes = {};
