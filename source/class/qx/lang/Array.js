@@ -115,8 +115,9 @@ qx.Bootstrap.define("qx.lang.Array", {
      */
     fromArguments(args, offset) {
       // Optimising for this use case can make a big difference (eg x100)
-      if (args.length === 0 && (offset === undefined || offset === 0))
+      if (args.length === 0 && (offset === undefined || offset === 0)) {
         return [];
+      }
       return Array.prototype.slice.call(args, offset || 0);
     },
 
