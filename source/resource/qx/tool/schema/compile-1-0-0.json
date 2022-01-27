@@ -247,8 +247,13 @@
             "type": ["boolean","string"],
             "description": "When true, output the typescript definition into ``./compiled/source/qooxdoo.d.ts`. If you use a string instead of true, the string is the name of the file which is generated inside the target output directory"
           },
+          "mangle-privates": {
+            "description": " Whether and how to mangle private identifiers.",
+            "type": ["boolean","string"],
+            "pattern": "^(off|readable|unreadable)$"
+          },
           "minify": {
-            "description": "Determines the minification to be used for applications, if the target supports it. Can be off, minify, mangle, or beautify. Can be overridden on a per application basis.",
+            "description": "Determines the minification to be used for applications, if the target supports it. Can be off, minify, mangle, or beautify.",
             "type": "string",
             "pattern": "^(off|minify|mangle|beautify)$"
           },
@@ -269,7 +274,7 @@
             "type": "boolean"
           },
           "inline-external-scripts": {
-            "description": "If true, external resources which are Javascript will be inlined before loading the boot code",
+            "description": "If true, external resources which are Javascript will be inlined before loading the boot code.",
             "type": "boolean"
           },
           "addCreatedAt": {
