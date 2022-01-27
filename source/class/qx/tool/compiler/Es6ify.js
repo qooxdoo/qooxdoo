@@ -168,7 +168,14 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         passPerPreset: true
       };
 
-      let result = babelCore.transform(src, config);
+      let result;
+      while (true) {
+        result = babelCore.transform(src, config);
+        if (result.code === src) {
+          break;
+        }
+        src = result.code;
+      }
 
       let prettierConfig =
         (await prettier.resolveConfig(this.__filename, {
