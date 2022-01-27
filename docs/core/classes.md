@@ -64,7 +64,7 @@ qx.Class.define("qx.test.Cat", {
   /* ... */
   statics: {
     LEGS: 4,
-    makeSound: function () {
+    makeSound() {
       /* ... */
     }
   }
@@ -292,37 +292,84 @@ qx.Class.define("qx.test.Cat", {
 });
 ```
 
-
 #### Calling another Static Method
 
 Here is an example for calling a static member without using a fully-qualified
 class name (compare to `super()` above):
 
 ```javascript
-qx.Class.define("qx.test.Cat", {
-  extend: qx.test.Animal,
-  statics : {
-    someStaticMethod : function(x) {
-      ...
-    }
+qx.Class.define("qx.test.Animal", {
+  extend: qx.core.Object,
+  statics: {
+    someStaticVar: 123
   },
   members: {
-    makeSound : function(x) {
-      qx.test.Animal.someStaticMethod(x);
+    makeSound(x) {
+      console.log(this.constructor.classname);
     }
   }
 });
+qx.Class.define("qx.test.Cat", {
+  extend: qx.test.Animal,
+  statics : {
+    someStaticMethod(x) {
+      ...
+    },
+    anotherStaticVar: "meow"
+  },
+  members: {
+    makeSound(x) {
+      super.makeSound(x);
+      qx.test.Cat.someStaticMethod(x);
+    }
+  }
+});
+qx.Class.define("qx.test.Dog", {
+  extend: qx.test.Animal
+});
+
 ```
 
-The syntax for accessing static variables simply is
-`qx.test.Animal.someStaticVar`.  Please note that `this.constructor` is not
-recommended because it always refers to the subclass of the object, and therefore
-the implementation can change unexpectedly at run time.  Always specify class names
-explicitly in static methods.
+The syntax for accessing static methods and variables is to use the classname
+to prefix the method or variable, for example `qx.test.Animal.someStaticVar`.
 
-Unless you know how the static method is called in all cases, you should also not use 
-the `this` keyword in purely static classes, because static
-methods can be used without context and therefore `this` is not guaranteed.
+In member methods, you have anther choice for accessing the class definition - you can 
+use `this.constructor` which returns the class of the object.  Note that `this.constructor`
+will be different depending on the actual instance of the class, for example:
+
+```
+new qx.test.Dog().makeSound(); // outputs qx.test.Dog
+new qx.test.Cat().makeSound(); // outputs qx.test.Cat
+```
+
+If you access static methods or variables using code such as `this.constructor.someStaticVar`,
+then this works fine _provided that you never subclass your class_.  Statics are not
+inherited between classes.
+
+When writing a mixin, `this.constructor` is never the class of the where the code appears, 
+so you must always specify the absolute class name, eg `qx.test.Animal.someStaticVar.
+
+The simplest solution is to always write the classname explicitly when accessing static member.
+
+The code in a static method typically has `this` set to the class because of how you call it - 
+eg `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.test.Cat`.  However,
+because it is a standalone method this code is different:
+
+```
+var fn = qx.test.Cat.someStaticMethod;
+fn(); // "this" will be the global object
+```
+
+You have two choices here: you either take care to make sure that you never get a variable 
+reference to a method and then call the method, in which case you _can_ use `this` in the
+static method's code, or you always explicitly use the class name.
+
+If you are trying to reduce the amount of typing, this code works as expected:
+
+```
+var Cat = qx.test.Cat;
+Cat.someStaticMethod(); // "this" will be qx.test.Cat
+```
 
 ## Usage of Interfaces and Mixins
 
