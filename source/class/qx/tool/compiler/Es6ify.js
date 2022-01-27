@@ -200,11 +200,18 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       return {
         visitor: {
           ObjectExpression(path) {
+            const KEY_TYPES = {
+              Identifier: 1,
+              StringLiteral: 1,
+              NumericLiteral: 1
+            };
+
             for (let i = 0; i < path.node.properties.length; i++) {
               let propNode = path.node.properties[i];
               if (
                 propNode.type == "ObjectProperty" &&
-                propNode.value.type == "FunctionExpression"
+                propNode.value.type == "FunctionExpression" &&
+                KEY_TYPES[propNode.key.type]
               ) {
                 let replacement = types.objectMethod(
                   "method",
@@ -370,6 +377,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                   false,
                   false
                 );
+
                 path.node.callee = replacement;
                 path.node.arguments = args;
               }
