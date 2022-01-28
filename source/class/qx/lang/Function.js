@@ -173,25 +173,31 @@ qx.Bootstrap.define("qx.lang.Function", {
         return func;
       }
 
-      return function (event) {
-        if (qx.core.Environment.get("qx.debug")) {
+      if (qx.core.Environment.get("qx.debug")) {
+        function testSelf(self) {
           if (
             qx.core.Object &&
-            options.self &&
-            qx.Bootstrap.isObject(options.self) &&
-            options.self.isDisposed &&
-            qx.Bootstrap.isFunction(options.self.isDisposed)
+            self &&
+            qx.Bootstrap.isObject(self) &&
+            self.isDisposed &&
+            qx.Bootstrap.isFunction(self.isDisposed)
           ) {
-            if (options.self.isDisposed()) {
+            if (self.isDisposed()) {
               qx.core.Assert &&
                 qx.core.Assert.fail(
                   "Trying to call a bound function with a disposed object as context: " +
-                    options.self.toString() +
+                    self.toString() +
                     " :: " +
                     qx.lang.Function.getName(func)
                 );
             }
           }
+        }
+      }
+
+      return function (event) {
+        if (qx.core.Environment.get("qx.debug")) {
+          testSelf(options.self || this);
         }
 
         // Convert (and copy) incoming arguments

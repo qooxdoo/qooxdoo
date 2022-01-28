@@ -114,6 +114,10 @@ qx.Bootstrap.define("qx.lang.Array", {
      * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
     fromArguments(args, offset) {
+      // Optimising for this use case can make a big difference (eg x100)
+      if (args.length === 0 && (offset === undefined || offset === 0)) {
+        return [];
+      }
       return Array.prototype.slice.call(args, offset || 0);
     },
 
