@@ -116,6 +116,7 @@ qx.Class.define("qx.test.data.controller.List", {
         "A",
         box.getChildControl("list").getChildren()[0].getLabel()
       );
+
       this.assertEquals(
         "B",
         box.getChildControl("list").getChildren()[1].getLabel()
@@ -457,6 +458,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__controller.getSelection().getItem(0),
         "Selection does not work."
       );
+
       this.assertEquals(
         this.__model.getItem(2),
         this.__controller.getSelection().getItem(1),
@@ -501,6 +503,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__controller.getSelection().getItem(0),
         "addToSelection does not work."
       );
+
       this.assertEquals(
         this.__model.getItem(2),
         this.__controller.getSelection().getItem(1),
@@ -715,6 +718,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__model,
         this.__list
       );
+
       this.__controller.setLabelOptions(options);
 
       // change something to invoke a change of a binding
@@ -784,6 +788,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__controller.getSelection().getItem(0),
         "Selection is wrong."
       );
+
       this.__controller.getModel().dispose();
     },
 
@@ -803,6 +808,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__model.getItem(0),
         selectBox.getSelection()[0].getModel()
       );
+
       this.assertEquals(
         this.__model.getItem(0),
         this.__controller.getSelection().getItem(0),
@@ -821,6 +827,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__controller.getSelection().length,
         "Selection has a wrong length."
       );
+
       this.assertEquals(
         "y",
         this.__controller.getSelection().getItem(0),
@@ -839,11 +846,13 @@ qx.Class.define("qx.test.data.controller.List", {
               this.__controller.getSelection().length,
               "Selection has a wrong length."
             );
+
             this.assertEquals(
               "1",
               this.__controller.getSelection().getItem(0),
               "Selection does not work."
             );
+
             selectBox.dispose();
           }, this);
         },
@@ -922,22 +931,26 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__list.getChildren().length,
         "Wrong number of list items"
       );
+
       // check the labels
       this.assertEquals(
         "B",
         this.__list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "C",
         this.__list.getChildren()[1].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "D",
         this.__list.getChildren()[2].getLabel(),
         "Binding is wrong!"
       );
+
       model.dispose();
     },
 
@@ -957,17 +970,20 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__list.getChildren().length,
         "Some list items created."
       );
+
       // check the labels
       this.assertEquals(
         "a",
         this.__list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "b",
         this.__list.getChildren()[1].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "c",
         this.__list.getChildren()[2].getLabel(),
@@ -983,17 +999,20 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__list.getChildren().length,
         "Some list items created."
       );
+
       // check the labels
       this.assertEquals(
         "c",
         this.__list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "b",
         this.__list.getChildren()[1].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "a",
         this.__list.getChildren()[2].getLabel(),
@@ -1017,17 +1036,20 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__list.getChildren().length,
         "Some list items created."
       );
+
       // check the labels
       this.assertEquals(
         "a",
         this.__list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "b",
         this.__list.getChildren()[1].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "c",
         this.__list.getChildren()[2].getLabel(),
@@ -1043,27 +1065,32 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__list.getChildren().length,
         "Some list items created."
       );
+
       // check the labels
       this.assertEquals(
         "a",
         this.__list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "b",
         this.__list.getChildren()[1].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "c",
         this.__list.getChildren()[2].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "d",
         this.__list.getChildren()[3].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "e",
         this.__list.getChildren()[4].getLabel(),
@@ -1108,11 +1135,13 @@ qx.Class.define("qx.test.data.controller.List", {
         list.getChildren().length,
         "Wrong number of list items"
       );
+
       this.assertEquals(
         "b",
         list.getChildren()[0].getLabel(),
         "Binding is wrong!"
       );
+
       this.assertEquals(
         "d",
         list.getChildren()[1].getLabel(),
@@ -1183,6 +1212,7 @@ qx.Class.define("qx.test.data.controller.List", {
         this.__controller.getSelection().getItem(0),
         "Selection does not work."
       );
+
       this.assertEquals(
         "b",
         this.__list.getSelection()[0].getLabel(),
@@ -1259,6 +1289,7 @@ qx.Class.define("qx.test.data.controller.List", {
           "qx.ui.form.CheckBox",
           this.__list.getChildren()[i].classname
         );
+
         var label = this.__list.getChildren()[i].getEnabled();
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
@@ -1290,6 +1321,7 @@ qx.Class.define("qx.test.data.controller.List", {
           "qx.ui.form.CheckBox",
           this.__list.getChildren()[i].classname
         );
+
         var label = this.__list.getChildren()[i].getEnabled();
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
@@ -1357,6 +1389,7 @@ qx.Class.define("qx.test.data.controller.List", {
         labels.indexOf("e"),
         "e is not in the selection list."
       );
+
       this.assertNotEquals(
         -1,
         labels.indexOf("d"),

@@ -29,6 +29,7 @@ qx.Class.define("qx.test.mobile.form.Slider", {
         0,
         qx.bom.element.Dataset.get(slider._getKnobElement(), "value")
       );
+
       this.assertEquals(
         0,
         qx.bom.element.Dataset.get(slider._getKnobElement(), "percent")

@@ -325,12 +325,14 @@ qx.Class.define("qx.test.ui.layout.Grid", {
         row: 0,
         column: 0
       });
+
       this.assertEquals(1, this._gridLayout.getRowCount());
 
       this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {
         row: 4,
         column: 0
       });
+
       this.assertEquals(5, this._gridLayout.getRowCount());
     },
 
@@ -341,12 +343,14 @@ qx.Class.define("qx.test.ui.layout.Grid", {
         row: 0,
         column: 0
       });
+
       this.assertEquals(1, this._gridLayout.getColumnCount());
 
       this._gridWidget.add(new qx.test.ui.layout.LayoutItem(100, 50), {
         row: 0,
         column: 4
       });
+
       this.assertEquals(5, this._gridLayout.getColumnCount());
     }
   },

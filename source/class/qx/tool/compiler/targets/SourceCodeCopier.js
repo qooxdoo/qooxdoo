@@ -96,6 +96,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
       let stat = await qx.tool.utils.files.Utils.safeStat(
         this.__outputFilename
       );
+
       if (stat) {
         let hash = crypto.createHash("sha256");
         hash.setEncoding("hex");
@@ -173,6 +174,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
       this.__write(
         "\n//# sourceMappingURL=" + path.basename(this.__mapFilename) + "\n"
       );
+
       this.__ws.end();
       this.__hash.end();
       var hashValue = this.__hash.read();
@@ -183,6 +185,7 @@ qx.Class.define("qx.tool.compiler.targets.SourceCodeCopier", {
           JSON.stringify(JSON.parse(this.__generator.toString()), null, 2),
           "utf8"
         );
+
         return true;
       }
       await fs.unlinkAsync(this.__tmpFilename);

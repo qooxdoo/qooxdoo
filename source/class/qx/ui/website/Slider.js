@@ -240,6 +240,7 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
         this.getChildren("." + this.getCssPrefix() + "-knob").setHtml(
           this._getKnobContent()
         );
+
         this.emit("changeValue", value);
       }
 
@@ -296,9 +297,11 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
       var paddingLeft = Math.ceil(
         parseFloat(this.getStyle("paddingLeft")) || 0
       );
+
       var paddingRight = Math.ceil(
         parseFloat(this.getStyle("paddingRight")) || 0
       );
+
       var offset = this.getConfig("offset");
       return {
         min: this.getOffset().left + offset + paddingLeft,
@@ -329,6 +332,7 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
       var paddingLeft = Math.ceil(
         parseFloat(this.getStyle("paddingLeft")) || 0
       );
+
       var paddingRight = Math.ceil(
         parseFloat(this.getStyle("paddingRight")) || 0
       );
@@ -475,6 +479,7 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
         var paddingLeft = Math.ceil(
           parseFloat(this.getStyle("paddingLeft")) || 0
         );
+
         var positionKnob =
           dragPosition -
           this.getOffset().left -
@@ -611,6 +616,7 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
       var paddingLeft = Math.ceil(
         parseFloat(this.getStyle("paddingLeft")) || 0
       );
+
       var valueToPixel;
       if (pixels.length > 0) {
         // Get the pixel value of the current step value
@@ -641,6 +647,7 @@ qx.Bootstrap.define("qx.ui.website.Slider", {
         this._onSliderFocus,
         this
       );
+
       this.getChildren("." + this.getCssPrefix() + "-knob")
         .off("pointerdown", this._onPointerDown, this)
         .off("dragstart", this._onDragStart, this)

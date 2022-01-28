@@ -90,6 +90,7 @@ qx.Class.define("qx.test.bom.Basic", {
         document.getElementById("test6"),
         "backgroundColor"
       );
+
       this.assertCssColor("blue", test6BackgroundColor);
 
       this.assertIdentical(
@@ -103,10 +104,12 @@ qx.Class.define("qx.test.bom.Basic", {
         "Foo-Link",
         attrib.get(document.getElementById("test6"), "text")
       );
+
       this.assertEquals(
         "<b>foo</b>-link",
         attrib.get(document.getElementById("test6"), "html").toLowerCase()
       );
+
       this.assertEquals(1, opac.get(document.getElementById("test6")));
 
       this.info("test7");
@@ -114,6 +117,7 @@ qx.Class.define("qx.test.bom.Basic", {
         "bottom",
         attrib.get(document.getElementById("test7"), "valign")
       );
+
       this.assertEquals(
         3,
         attrib.get(
@@ -135,6 +139,7 @@ qx.Class.define("qx.test.bom.Basic", {
         document.getElementById("test8"),
         "backgroundColor"
       );
+
       this.assertCssColor("black", test8BackgroundColor);
 
       this.assertEquals(0.5, opac.get(document.getElementById("test8")));

@@ -71,6 +71,7 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing", {
         var prop = qx.bom.Style.getCssName(
           qx.core.Environment.get("css.boxsizing")
         );
+
         return prop + ":" + value + ";";
       } else {
         if (qx.core.Environment.get("qx.debug")) {
@@ -78,6 +79,7 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing", {
             this,
             "This client does not support dynamic modification of the boxSizing property."
           );
+
           qx.log.Logger.trace();
         }
       }

@@ -60,6 +60,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
         "only screen and (min-width: 40.063em)",
         "medium-up"
       );
+
       qxWeb("html").mediaQueryToClass(
         "only screen and (min-width: 40.063em) and (max-width: 64em)",
         "medium-only"
@@ -69,6 +70,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
         "only screen and (min-width: 64.063em)",
         "large-up"
       );
+
       qxWeb("html").mediaQueryToClass(
         "only screen and (min-width: 64.063em) and (max-width: 90em)",
         "large-only"
@@ -78,6 +80,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
         "only screen and (min-width: 90.063em)",
         "xlarge-up"
       );
+
       qxWeb("html").mediaQueryToClass(
         "only screen and (min-width: 90.063em) and (max-width: 120em)",
         "xlarge-only"

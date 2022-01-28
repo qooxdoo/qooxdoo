@@ -147,6 +147,7 @@ qx.Class.define("qx.ui.mobile.core.Root", {
       var pixelRatio = parseFloat(
         qx.bom.client.Device.getDevicePixelRatio().toFixed(2)
       );
+
       var fontScale = this.getFontScale();
 
       if (!isNaN(pixelRatio * fontScale)) {

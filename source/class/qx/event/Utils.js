@@ -224,6 +224,7 @@ qx.Class.define("qx.event.Utils", {
             tracker,
             tracker.promise.catch(this.__catcher.bind(this, tracker))
           );
+
           tracker.promise["qx.event.Utils.hasCatcher"] = true;
         }
       }

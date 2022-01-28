@@ -249,6 +249,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", {
       backgroundStyle.push(
         "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")"
       );
+
       return true;
     },
 
@@ -325,6 +326,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", {
           Math.max(0, startColorPosition) / range,
           startColor
         );
+
         lingrad.addColorStop(endColorPosition / range, endColor);
       } else {
         var comp = isVertical ? height : width;
@@ -332,6 +334,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", {
           Math.max(0, startColorPosition) / comp,
           startColor
         );
+
         lingrad.addColorStop(endColorPosition / comp, endColor);
       }
 
@@ -465,6 +468,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient", {
       backgroundStyle.push(
         prefixedName + "(" + deg + "deg, " + start + "," + end + ")"
       );
+
       return true;
     },
 

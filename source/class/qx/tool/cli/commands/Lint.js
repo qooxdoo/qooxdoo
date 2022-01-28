@@ -112,6 +112,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         lintOptions.globals || {},
         await this.__addGlobals(config)
       );
+
       lintOptions.parser = "@babel/eslint-parser";
       lintOptions.parserOptions = lintOptions.parserOptions || {};
       lintOptions.parserOptions.requireConfigFile = false;

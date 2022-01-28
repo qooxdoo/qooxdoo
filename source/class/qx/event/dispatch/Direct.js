@@ -75,6 +75,7 @@ qx.Class.define("qx.event.dispatch.Direct", {
             target.constructor,
             type
           );
+
           var expectedEventClass = qx.Class.getByName(expectedEventClassName);
           if (!expectedEventClass) {
             this.error(

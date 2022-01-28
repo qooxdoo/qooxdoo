@@ -79,6 +79,7 @@ qx.Class.define("qx.test.ui.form.Date", {
         field.isEmpty(),
         "DateField should be empty on initialization."
       );
+
       field.dispose();
     },
 

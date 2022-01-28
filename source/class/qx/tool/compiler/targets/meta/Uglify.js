@@ -106,6 +106,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       await qx.tool.utils.files.Utils.safeUnlink(
         outJsFilename + ".unminified.map"
       );
+
       await qx.tool.utils.files.Utils.safeRename(
         outJsFilename + ".map",
         outJsFilename + ".unminified.map"
@@ -115,6 +116,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
         application: application,
         filename: baseJsFilename
       });
+
       uglifyOpts.sourceMap = {
         content: inSourceMap,
         url: baseJsFilename + ".map",
@@ -140,6 +142,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
         await qx.tool.utils.files.Utils.safeUnlink(
           outJsFilename + ".unminified"
         );
+
         await qx.tool.utils.files.Utils.safeUnlink(
           outJsFilename + ".unminified.map"
         );
@@ -147,6 +150,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       await fs.writeFileAsync(outJsFilename + ".map", result.map, {
         encoding: "utf8"
       });
+
       this.fireDataEvent("minifiedApplication", {
         application: application,
         filename: baseJsFilename

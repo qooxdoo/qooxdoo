@@ -236,6 +236,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation", {
       this._onAnimationStart,
       this
     );
+
     this.getLayout().removeListener("animationEnd", this._onAnimationEnd, this);
 
     this._disposeObjects("__navigationBar", "__content", "__layout");

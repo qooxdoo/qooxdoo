@@ -51,6 +51,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive", {
         html.push(
           '<tr style="border-collapse: collapse; margin: 0px; padding: 0px;">'
         );
+
         for (var y = 0; y < columnSizes.length; y++) {
           var width = columnSizes[y];
 

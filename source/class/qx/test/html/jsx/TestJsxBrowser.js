@@ -39,6 +39,7 @@ qx.Class.define("qx.test.html.jsx.TestJsxBrowser", {
       this.assertTrue(
         dom.children[0] === elem.getQxObject("header").getDomElement()
       );
+
       this.assertTrue(dom.children[1].className === "body-class");
       this.assertTrue(
         dom.children[1] === elem.getQxObject("body").getDomElement()
@@ -51,6 +52,7 @@ qx.Class.define("qx.test.html.jsx.TestJsxBrowser", {
       this.assertTrue(
         domBody.children[0] === elem.getQxObject("labelOne").getDomElement()
       );
+
       this.assertTrue(domBody.children[1].innerText === "Label Two");
       this.assertTrue(
         domBody.children[1] === elem.getQxObject("labelTwo").getDomElement()
@@ -69,6 +71,7 @@ qx.Class.define("qx.test.html.jsx.TestJsxBrowser", {
           </div>
         </div>
       );
+
       let buffer = "";
       src.serialize((...args) => (buffer += args.join("")));
       console.log(buffer);
@@ -87,6 +90,7 @@ qx.Class.define("qx.test.html.jsx.TestJsxBrowser", {
       this.assertTrue(
         dom.children[0] === elem.getQxObject("header").getDomElement()
       );
+
       this.assertTrue(
         dom.children[0].children[0] ===
           elem.getQxObject("header").getChildren()[0].getDomElement()

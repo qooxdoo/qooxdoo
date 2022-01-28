@@ -137,6 +137,7 @@ qx.Class.define("qx.log.appender.Console", {
         this.__onKeyPress,
         this
       );
+
       qx.log.Logger.unregister(this);
     },
 
@@ -351,6 +352,7 @@ qx.Class.define("qx.log.appender.Console", {
       statics.__onKeyPress,
       statics
     );
+
     qx.event.Registration.addListener(
       document.documentElement,
       "longtap",

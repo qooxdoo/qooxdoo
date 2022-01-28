@@ -174,6 +174,7 @@ qx.Class.define("qx.test.application.Routing", {
           "/given/default"
         )
       );
+
       this.assertEquals(
         "/registered",
         this.__r._getPathOrFallback("/registered")

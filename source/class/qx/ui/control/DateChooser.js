@@ -652,6 +652,7 @@ qx.Class.define("qx.ui.control.DateChooser", {
       var monthYearFormat = new qx.util.format.DateFormat(
         DateChooser.MONTH_YEAR_FORMAT
       );
+
       this.getChildControl("month-year-label").setValue(
         monthYearFormat.format(helpDate)
       );

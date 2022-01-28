@@ -76,15 +76,18 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
         namespace,
         this.argv.resourcedir
       );
+
       let resource_file_path = path.join(
         resource_dir_path,
         this.argv.rename || script_name
       );
+
       let external_res_path = path.join(
         namespace,
         this.argv.resourcedir,
         this.argv.rename || script_name
       );
+
       // validate file paths
       if (!script_path.endsWith(".js")) {
         throw new qx.tool.utils.Utils.UserError(

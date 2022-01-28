@@ -132,6 +132,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
             this.__blockedEventFired,
             "'blocked' event was not fired, after block() was executed!"
           );
+
           this.assertTrue(
             this.__unblockedEventFired,
             "'unblocked' event was not fired, after unblock() was executed!"
@@ -168,6 +169,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       activeWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getActive()
       );
+
       this.assertFalse(
         activeWidget === txt1,
         "text field 1 must not be active"
@@ -176,6 +178,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       focusedWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getFocus()
       );
+
       this.assertFalse(
         focusedWidget === txt2,
         "text field 2 must not be focused"
@@ -189,11 +192,13 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       activeWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getActive()
       );
+
       this.assertTrue(activeWidget === txt1, "text field 1 must be active");
 
       focusedWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getFocus()
       );
+
       this.assertTrue(focusedWidget === txt2, "text field 2 must be focused");
 
       // clear
@@ -207,6 +212,7 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       var focusHandler = qx.event.Registration.getManager(window).getHandler(
         qx.event.handler.Focus
       );
+
       var txt = new qx.ui.form.TextField();
       this.getRoot().add(txt);
       txt.focus();

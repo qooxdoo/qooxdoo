@@ -877,6 +877,7 @@ qx.Bootstrap.define("qx.Class", {
           "variants",
           "events"
         ];
+
         for (var i = 0, l = maps.length; i < l; i++) {
           var key = maps[i];
 

@@ -341,6 +341,7 @@ qx.Class.define("qx.data.controller.Tree", {
           " from this=" +
           this.toHashCode()
       );
+
       delete this.__childrenRef[oldChildren.toHashCode()];
       // remove the old change listener for the children
       oldRef.modelNode.removeListenerById(oldRef.changeChildernListenerId);
@@ -367,6 +368,7 @@ qx.Class.define("qx.data.controller.Tree", {
           " to this=" +
           this.toHashCode()
       );
+
       this.__childrenRef[children.toHashCode()] = {
         modelNode: modelNode,
         treeNode: treeNode,
@@ -497,6 +499,7 @@ qx.Class.define("qx.data.controller.Tree", {
             " to this=" +
             this.toHashCode()
         );
+
         this.__childrenRef[children.toHashCode()] = {
           modelNode: modelNode,
           treeNode: rootNode,
@@ -629,6 +632,7 @@ qx.Class.define("qx.data.controller.Tree", {
             " from this=" +
             this.toHashCode()
         );
+
         var oldRef = this.__childrenRef[children.toHashCode()];
         children.removeListenerById(oldRef.changeListenerId);
         model.removeListenerById(oldRef.changeChildernListenerId);

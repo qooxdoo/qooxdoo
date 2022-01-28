@@ -1003,6 +1003,7 @@ qx.Class.define("qx.html.Element", {
           },
           this
         );
+
         return col.getAnimationHandles()[0];
       }
     },
@@ -1028,6 +1029,7 @@ qx.Class.define("qx.html.Element", {
           },
           this
         );
+
         return col.getAnimationHandles()[0];
       }
     },

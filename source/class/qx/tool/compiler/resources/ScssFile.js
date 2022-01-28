@@ -128,6 +128,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
                   "]: " +
                   error.message
               );
+
               resolve(error); // NOT reject
               return;
             }
@@ -184,10 +185,12 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
         .find(library =>
           filename.startsWith(path.resolve(library.getRootDir()))
         );
+
       if (!library) {
         qx.tool.compiler.Console.error(
           "Cannot find library for " + url + " in " + currentFilename
         );
+
         return null;
       }
 
@@ -195,6 +198,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
         library.getRootDir(),
         this.isThemeFile() ? library.getThemePath() : library.getResourcePath()
       );
+
       return {
         namespace: library.getNamespace(),
         filename: path.relative(libResourceDir, filename),
@@ -217,6 +221,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
             : library.getResourceFilename(filename)
         )
       );
+
       let absFilename = filename;
       if (path.extname(absFilename) == "") {
         absFilename += ".scss";
@@ -261,6 +266,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
                 " in file " +
                 absFilename
             );
+
             return null;
           }
           promises.push(this.loadSource(pathInfo.filename, newLibrary));
@@ -299,6 +305,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
                   pathInfo.filename
                 )
               );
+
               let relative = path.relative(this.__outputDir, targetFile);
               return `url("${relative}")`;
             }
@@ -339,6 +346,7 @@ qx.Class.define("qx.tool.compiler.resources.ScssFile", {
               pathInfo.filename
             )
           );
+
           let relative = path.relative(this.__outputDir, targetFile);
           return sass.types.String("url(" + relative + ")");
         }

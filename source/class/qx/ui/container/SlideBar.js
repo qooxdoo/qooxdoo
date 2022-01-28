@@ -184,6 +184,7 @@ qx.Class.define("qx.ui.container.SlideBar", {
             this._onScrollAnimationEnd,
             this
           );
+
           break;
       }
 

@@ -561,6 +561,7 @@ qx.Class.define("qx.ui.form.Spinner", {
             "changeValue",
             qx.event.type.Data
           );
+
           this.getChildControl("upbutton").press();
           break;
 
@@ -569,6 +570,7 @@ qx.Class.define("qx.ui.form.Spinner", {
             "changeValue",
             qx.event.type.Data
           );
+
           this.getChildControl("upbutton").press();
           break;
 
@@ -579,6 +581,7 @@ qx.Class.define("qx.ui.form.Spinner", {
             "changeValue",
             qx.event.type.Data
           );
+
           this.getChildControl("downbutton").press();
           break;
 
@@ -587,6 +590,7 @@ qx.Class.define("qx.ui.form.Spinner", {
             "changeValue",
             qx.event.type.Data
           );
+
           this.getChildControl("downbutton").press();
           break;
 

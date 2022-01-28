@@ -207,6 +207,7 @@ qx.Class.define("qx.tool.config.Abstract", {
         /\./g,
         "-"
       );
+
       return `${name}-${version}.${ext}`;
     },
 
@@ -314,6 +315,7 @@ qx.Class.define("qx.tool.config.Abstract", {
           this.warn(
             `Possible schema version mismatch in ${this.getDataPath()}: expected v${schemaVersion}, found v${dataVersion}.`
           );
+
           if (dataVersion) {
             this.setVersion(dataSchemaInfo.version);
           } else {
@@ -391,6 +393,7 @@ qx.Class.define("qx.tool.config.Abstract", {
         set_value(this.getData(), prop_path, originalValue, {
           preservePaths: false
         });
+
         // throw
         throw e;
       }

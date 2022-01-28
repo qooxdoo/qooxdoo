@@ -36,8 +36,10 @@ qx.Class.define("qx.test.dom.Element", {
         {
           name: "juhu"
         },
+
         window
       );
+
       this.assertElement(el);
       this.assertEquals("juhu", qx.bom.element.Attribute.get(el, "name"));
     },

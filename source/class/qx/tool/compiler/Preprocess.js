@@ -75,6 +75,7 @@ qx.Class.define("qx.tool.compiler.Preprocess", {
           return result;
         }
       );
+
       cb(data);
     }
   }

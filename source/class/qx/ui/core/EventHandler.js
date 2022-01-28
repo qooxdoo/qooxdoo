@@ -256,6 +256,7 @@ qx.Class.define("qx.ui.core.EventHandler", {
           type,
           !capture
         );
+
         if (otherListeners) {
           listeners = listeners.concat(otherListeners);
         }
@@ -269,6 +270,7 @@ qx.Class.define("qx.ui.core.EventHandler", {
       var widgetEvent = qx.event.Pool.getInstance().getObject(
         domEvent.constructor
       );
+
       domEvent.clone(widgetEvent);
 
       widgetEvent.setTarget(widgetTarget);

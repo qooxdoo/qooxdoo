@@ -160,6 +160,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll", {
               "scroll",
               "scroll"
             );
+
             this._snapPoints.push(snapPoint);
           }
         }
@@ -181,6 +182,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll", {
             var previousSnapDiff = Math.abs(
               current + previousSnapPoint[snapProperty]
             );
+
             var nextSnapDiff = Math.abs(current + snapPoint[snapProperty]);
             if (previousSnapDiff < nextSnapDiff) {
               return -previousSnapPoint[snapProperty];

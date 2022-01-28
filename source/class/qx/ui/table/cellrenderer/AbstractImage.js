@@ -205,6 +205,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage", {
           qx.util.ResourceManager.getInstance().findHighResolutionSource(
             this.__imageData.url
           );
+
         if (highResolutionSource) {
           srcUrl = highResolutionSource;
         }

@@ -783,6 +783,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
             nodeName +
             ">"
         );
+
         if (row.cells.item(0)) {
           inputNode.insertBefore(qxWeb(row.cells.item(0)));
         } else {
@@ -988,6 +989,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       qxWeb("." + clazz.__selectedRowClass).removeClass(
         clazz.__selectedRowClass
       );
+
       selectedRows.addClass(clazz.__selectedRowClass);
 
       this.emit("selectionChange", { rows: qxWeb(selectedRows) });
@@ -1293,6 +1295,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           "qx-table-sort-asc",
           "qx-table-sort-desc"
         ]);
+
         var cell = qxWeb(
           "[" +
             qx.ui.website.Table.__dataColName +
@@ -1301,6 +1304,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
             "'], #" +
             columnName
         );
+
         cell.addClass("qx-table-sort-" + dir);
       }
     },

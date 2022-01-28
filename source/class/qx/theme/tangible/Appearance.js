@@ -1149,6 +1149,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           icon: qx.theme.tangible.Image.URLS[
             states.checked ? "radiobutton-checked" : "radiobutton-unchecked"
           ],
+
           paddingTop: 2,
           textColor: states.disabled
             ? "text-disabled-on-surface"
@@ -1200,6 +1201,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
               ? "checkbox-undetermined"
               : "checkbox-blank"
           ],
+
           textColor: states.disabled
             ? "text-disabled-on-surface"
             : states.invalid

@@ -293,6 +293,7 @@ qx.Class.define("qx.util.format.DateFormat", {
       var thursdayWeek1 = this.__thursdayOfSameWeek(
         new Date(date.getFullYear(), date.getMonth(), 4)
       );
+
       return Math.floor(
         1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7
       );
@@ -568,6 +569,7 @@ qx.Class.define("qx.util.format.DateFormat", {
                 this.__getDayInYear(date),
                 wildcardSize
               );
+
               break;
 
             case "d": // Day in month
@@ -579,6 +581,7 @@ qx.Class.define("qx.util.format.DateFormat", {
                 this.__getWeekInYear(date),
                 wildcardSize
               );
+
               break;
 
             case "W": // Week in year (e.g. 27)
@@ -769,6 +772,7 @@ qx.Class.define("qx.util.format.DateFormat", {
                 hours == 0 ? 24 : hours,
                 wildcardSize
               );
+
               break;
 
             case "K": // Hour in am/pm (0-11)
@@ -780,6 +784,7 @@ qx.Class.define("qx.util.format.DateFormat", {
                 hours % 12 == 0 ? 12 : hours % 12,
                 wildcardSize
               );
+
               break;
 
             case "m": // Minute in hour
@@ -937,6 +942,7 @@ qx.Class.define("qx.util.format.DateFormat", {
           dateValues.dayOfYear,
           dateValues.year
         );
+
         dateValues.month = dayAndMonth.month;
         dateValues.day = dayAndMonth.day;
       }
@@ -956,6 +962,7 @@ qx.Class.define("qx.util.format.DateFormat", {
           dateValues.sec,
           dateValues.ms
         );
+
         if (dateValues.tzOffsetMins !== 0) {
           utcMs += dateValues.tzOffsetMins * 60000;
         }
@@ -981,6 +988,7 @@ qx.Class.define("qx.util.format.DateFormat", {
           dateValues.sec,
           dateValues.ms
         );
+
         if (
           dateValues.month !== date.getMonth() ||
           dateValues.year !== date.getFullYear()
@@ -1375,6 +1383,7 @@ qx.Class.define("qx.util.format.DateFormat", {
         "3rd quarter",
         "4th quarter"
       ];
+
       var fullQuarterManipulator = function (dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
       };
@@ -1420,6 +1429,7 @@ qx.Class.define("qx.util.format.DateFormat", {
             context[0],
             true
           );
+
           for (var i = 0, l = names.length; i < l; i++) {
             names[i] = LString.escapeRegexpChars(names[i].toString());
           }

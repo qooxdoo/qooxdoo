@@ -49,6 +49,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
         path.join(require.resolve("core-js-bundle"), "../minified.js"),
         ws
       );
+
       await new Promise(resolve => {
         ws.write("\n", resolve);
       });

@@ -143,6 +143,7 @@ qx.Class.define("qx.test.event.message.Bus", {
         flag1,
         "Handler1 (filter '*') was not called for message 'message'."
       );
+
       this.assertTrue(
         flag2,
         "Handler2 (filter 'mess*') was not called for message 'message'."
@@ -156,10 +157,12 @@ qx.Class.define("qx.test.event.message.Bus", {
         flag1,
         "Handler1 (filter '*') was not called for message 'massage'."
       );
+
       this.assertFalse(
         flag2,
         "Handler2 (filter 'mess*') was wrongly called for message 'massage'."
       );
+
       msg1.dispose();
       msg2.dispose();
     },

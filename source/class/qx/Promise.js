@@ -430,6 +430,7 @@ qx.Class.define("qx.Promise", {
           var newP = qx.Promise.Bluebird.resolve(
             value instanceof qx.data.Array ? value.toArray() : value
           );
+
           return qx.Promise.__wrap(newP[methodName].apply(newP, args));
         })
       );
@@ -969,6 +970,7 @@ qx.Class.define("qx.Promise", {
         "Unhandled promise rejection: " +
           (reason ? reason.stack : "(not from exception)")
       );
+
       qx.event.GlobalError.handleError(reason);
     },
 
@@ -1196,6 +1198,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         2: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1253,6 +1256,7 @@ qx.Class.define("qx.Promise", {
                 process.stderr.write(
                   "Fatal " + (e instanceof Error ? e.stack : e) + "\n"
                 );
+
                 process.exit(2);
               } else {
                 this.throwLater(e);
@@ -1376,6 +1380,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./queue": 26, "./schedule": 29, "./util": 36 }
         ],
+
         3: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1438,6 +1443,7 @@ qx.Class.define("qx.Promise", {
                     ret,
                     context
                   );
+
                   maybePromise._then(
                     bindingResolved,
                     bindingRejected,
@@ -1445,6 +1451,7 @@ qx.Class.define("qx.Promise", {
                     ret,
                     context
                   );
+
                   ret._setOnCancel(maybePromise);
                 } else {
                   ret._resolveCallback(target);
@@ -1472,6 +1479,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         4: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1489,6 +1497,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./promise": 22 }
         ],
+
         5: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1650,6 +1659,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         6: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1766,6 +1776,7 @@ qx.Class.define("qx.Promise", {
                       var e = tryCatch(onCancelCallback).call(
                         this._boundValue()
                       );
+
                       if (e === errorObj) {
                         this._attachExtraTrace(e.e);
                         async.throwLater(e.e);
@@ -1797,6 +1808,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         7: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1846,6 +1858,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./es5": 13, "./util": 36 }
         ],
+
         8: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -1925,6 +1938,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         9: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -2144,6 +2158,7 @@ qx.Class.define("qx.Promise", {
                         true,
                         event
                       );
+
                       return !util.global.dispatchEvent(domEvent);
                     };
                   }
@@ -2401,6 +2416,7 @@ qx.Class.define("qx.Promise", {
                       "stack",
                       parsed.message + "\n" + parsed.stack.join("\n")
                     );
+
                     util.notEnumerableProp(error, "__stackCleaned__", true);
                   }
                 }
@@ -2823,6 +2839,7 @@ qx.Class.define("qx.Promise", {
                   "stack",
                   reconstructStack(message, stacks)
                 );
+
                 util.notEnumerableProp(error, "__stackCleaned__", true);
               };
 
@@ -2975,6 +2992,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./util": 36 }
         ],
+
         10: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3053,6 +3071,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         11: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3097,6 +3116,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         12: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3114,6 +3134,7 @@ qx.Class.define("qx.Promise", {
                   "message",
                   typeof message === "string" ? message : defaultMessage
                 );
+
                 notEnumerableProp(this, "name", nameProperty);
                 if (Error.captureStackTrace) {
                   Error.captureStackTrace(this, this.constructor);
@@ -3131,6 +3152,7 @@ qx.Class.define("qx.Promise", {
               "CancellationError",
               "cancellation error"
             );
+
             var TimeoutError = subError("TimeoutError", "timeout error");
             var AggregateError = subError("AggregateError", "aggregate error");
             try {
@@ -3229,6 +3251,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./es5": 13, "./util": 36 }
         ],
+
         13: [
           function (_dereq_, module, exports) {
             var isES5 = (function () {
@@ -3316,6 +3339,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         14: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3333,6 +3357,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         15: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3405,6 +3430,7 @@ qx.Class.define("qx.Promise", {
                           var reason = new CancellationError(
                             "late cancellation observer"
                           );
+
                           promise._attachExtraTrace(reason);
                           errorObj.e = reason;
                           return errorObj;
@@ -3470,6 +3496,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         16: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3520,6 +3547,7 @@ qx.Class.define("qx.Promise", {
                   var _finallyPromise = (this._finallyPromise = new Promise(
                     INTERNAL
                   ));
+
                   this._promise = internal.lastly(function () {
                     return _finallyPromise;
                   });
@@ -3564,6 +3592,7 @@ qx.Class.define("qx.Promise", {
                   var reason = new Promise.CancellationError(
                     "generator .return() sentinel"
                   );
+
                   Promise.coroutine.returnSentinel = reason;
                   this._promise._attachExtraTrace(reason);
                   this._promise._pushContext();
@@ -3571,6 +3600,7 @@ qx.Class.define("qx.Promise", {
                     this._generator,
                     reason
                   );
+
                   this._promise._popContext();
                 } else {
                   this._promise._pushContext();
@@ -3578,6 +3608,7 @@ qx.Class.define("qx.Promise", {
                     this._generator,
                     undefined
                   );
+
                   this._promise._popContext();
                 }
                 this._cancellationPhase = true;
@@ -3592,6 +3623,7 @@ qx.Class.define("qx.Promise", {
                   this._generator,
                   value
                 );
+
                 this._promise._popContext();
                 this._continue(result);
               };
@@ -3604,6 +3636,7 @@ qx.Class.define("qx.Promise", {
                   this._generator,
                   reason
                 );
+
                 this._promise._popContext();
                 this._continue(result);
               };
@@ -3653,6 +3686,7 @@ qx.Class.define("qx.Promise", {
                       this._yieldHandlers,
                       this._promise
                     );
+
                     if (maybePromise === null) {
                       this._promiseRejected(
                         new TypeError(
@@ -3709,6 +3743,7 @@ qx.Class.define("qx.Promise", {
                     yieldHandler,
                     stack
                   );
+
                   var ret = spawn.promise();
                   spawn._generator = generator;
                   spawn._promiseFulfilled(undefined);
@@ -3741,6 +3776,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./util": 36 }
         ],
+
         17: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -3905,6 +3941,7 @@ qx.Class.define("qx.Promise", {
                           arguments[i],
                           ret
                         );
+
                         if (maybePromise instanceof Promise) {
                           maybePromise = maybePromise._target();
                           var bitField = maybePromise._bitField;
@@ -3917,6 +3954,7 @@ qx.Class.define("qx.Promise", {
                               ret,
                               holder
                             );
+
                             promiseSetters[i](maybePromise, holder);
                             holder.asyncNeeded = false;
                           } else if ((bitField & 33554432) !== 0) {
@@ -3960,6 +3998,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         18: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -4028,6 +4067,7 @@ qx.Class.define("qx.Promise", {
                     index,
                     length
                   );
+
                   var promiseCreated = promise._popContext();
                   debug.checkForgottenReturns(
                     ret,
@@ -4155,6 +4195,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         19: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -4186,6 +4227,7 @@ qx.Class.define("qx.Promise", {
                     "Promise.method",
                     ret
                   );
+
                   ret._resolveFromSyncValue(value);
                   return ret;
                 };
@@ -4205,6 +4247,7 @@ qx.Class.define("qx.Promise", {
                   debug.deprecated(
                     "calling Promise.try with more than 1 argument"
                   );
+
                   var arg = arguments[1];
                   var ctx = arguments[2];
                   value = util.isArray(arg)
@@ -4220,6 +4263,7 @@ qx.Class.define("qx.Promise", {
                   "Promise.try",
                   ret
                 );
+
                 ret._resolveFromSyncValue(value);
                 return ret;
               };
@@ -4235,6 +4279,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         20: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -4293,6 +4338,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./es5": 13, "./util": 36 }
         ],
+
         21: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -4310,6 +4356,7 @@ qx.Class.define("qx.Promise", {
                   promise._boundValue(),
                   [null].concat(val)
                 );
+
                 if (ret === errorObj) {
                   async.throwLater(ret.e);
                 }
@@ -4337,6 +4384,7 @@ qx.Class.define("qx.Promise", {
                   promise._boundValue(),
                   reason
                 );
+
                 if (ret === errorObj) {
                   async.throwLater(ret.e);
                 }
@@ -4363,6 +4411,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         22: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -4416,6 +4465,7 @@ qx.Class.define("qx.Promise", {
                 Promise,
                 INTERNAL
               );
+
               var PromiseArray = _dereq_("./promise_array")(
                 Promise,
                 INTERNAL,
@@ -4423,6 +4473,7 @@ qx.Class.define("qx.Promise", {
                 apiRejection,
                 Proxyable
               );
+
               var Context = _dereq_("./context")(Promise);
               /*jshint unused:false*/
               var createContext = Context.create;
@@ -4432,6 +4483,7 @@ qx.Class.define("qx.Promise", {
                 Promise,
                 tryConvertToPromise
               );
+
               var catchFilter = _dereq_("./catch_filter")(NEXT_FILTER);
               var nodebackForPromise = _dereq_("./nodeback");
               var errorObj = util.errorObj;
@@ -4539,6 +4591,7 @@ qx.Class.define("qx.Promise", {
                   undefined,
                   undefined
                 );
+
                 promise._setIsFinal();
               };
 
@@ -4910,6 +4963,7 @@ qx.Class.define("qx.Promise", {
                   var reason = new CancellationError(
                     "late cancellation observer"
                   );
+
                   promise._attachExtraTrace(reason);
                   this._reject(reason);
                 }
@@ -4946,6 +5000,7 @@ qx.Class.define("qx.Promise", {
                     promise._rejectCallback(reason, synchronous);
                   }
                 );
+
                 synchronous = false;
                 this._popContext();
 
@@ -4992,6 +5047,7 @@ qx.Class.define("qx.Promise", {
                     promise,
                     this
                   );
+
                   promise._resolveCallback(x);
                 }
               };
@@ -5190,6 +5246,7 @@ qx.Class.define("qx.Promise", {
                       reason,
                       bitField
                     );
+
                     this._rejectPromises(len, reason);
                   } else {
                     var value = this._rejectionHandler0;
@@ -5198,6 +5255,7 @@ qx.Class.define("qx.Promise", {
                       value,
                       bitField
                     );
+
                     this._fulfillPromises(len, value);
                   }
                   this._setLength(0);
@@ -5244,6 +5302,7 @@ qx.Class.define("qx.Promise", {
                 apiRejection,
                 debug
               );
+
               _dereq_("./bind")(Promise, INTERNAL, tryConvertToPromise, debug);
               _dereq_("./cancel")(Promise, PromiseArray, apiRejection, debug);
               _dereq_("./direct_resolve")(Promise);
@@ -5256,6 +5315,7 @@ qx.Class.define("qx.Promise", {
                 async,
                 getDomain
               );
+
               Promise.Promise = Promise;
               Promise.version = "3.4.5";
               _dereq_("./map.js")(
@@ -5266,6 +5326,7 @@ qx.Class.define("qx.Promise", {
                 INTERNAL,
                 debug
               );
+
               _dereq_("./call_get.js")(Promise);
               _dereq_("./using.js")(
                 Promise,
@@ -5275,6 +5336,7 @@ qx.Class.define("qx.Promise", {
                 INTERNAL,
                 debug
               );
+
               _dereq_("./timers.js")(Promise, INTERNAL, debug);
               _dereq_("./generators.js")(
                 Promise,
@@ -5284,6 +5346,7 @@ qx.Class.define("qx.Promise", {
                 Proxyable,
                 debug
               );
+
               _dereq_("./nodeify.js")(Promise);
               _dereq_("./promisify.js")(Promise, INTERNAL);
               _dereq_("./props.js")(
@@ -5292,12 +5355,14 @@ qx.Class.define("qx.Promise", {
                 tryConvertToPromise,
                 apiRejection
               );
+
               _dereq_("./race.js")(
                 Promise,
                 INTERNAL,
                 tryConvertToPromise,
                 apiRejection
               );
+
               _dereq_("./reduce.js")(
                 Promise,
                 PromiseArray,
@@ -5306,6 +5371,7 @@ qx.Class.define("qx.Promise", {
                 INTERNAL,
                 debug
               );
+
               _dereq_("./settle.js")(Promise, PromiseArray, debug);
               _dereq_("./some.js")(Promise, PromiseArray, apiRejection);
               _dereq_("./filter.js")(Promise, INTERNAL);
@@ -5370,6 +5436,7 @@ qx.Class.define("qx.Promise", {
             "./util": 36
           }
         ],
+
         23: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -5582,6 +5649,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         24: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -5636,6 +5704,7 @@ qx.Class.define("qx.Promise", {
                   key + suffix,
                   defaultPromisified
                 );
+
                 return val ? isPromisified(val) : false;
               }
               function checkValid(ret, suffix, suffixRegexp) {
@@ -5774,6 +5843,7 @@ qx.Class.define("qx.Promise", {
                           ? "ret = callback.apply(this, args);\n"
                           : "ret = callback.apply(receiver, args);\n"
                       );
+
                     return ret;
                   }
 
@@ -5814,6 +5884,7 @@ qx.Class.define("qx.Promise", {
                     "Parameters",
                     parameterDeclaration(newParameterCount)
                   );
+
                   return new Function(
                     "Promise",
                     "fn",
@@ -5926,6 +5997,7 @@ qx.Class.define("qx.Promise", {
                       "__isPromisified__",
                       true
                     );
+
                     obj[promisifiedKey] = promisified;
                   }
                 }
@@ -5998,6 +6070,7 @@ qx.Class.define("qx.Promise", {
                       promisifier,
                       multiArgs
                     );
+
                     promisifyAll(value, suffix, filter, promisifier, multiArgs);
                   }
                 }
@@ -6014,6 +6087,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./nodeback": 20, "./util": 36 }
         ],
+
         25: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6153,6 +6227,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./es5": 13, "./util": 36 }
         ],
+
         26: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6247,6 +6322,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         27: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6313,6 +6389,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         28: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6480,6 +6557,7 @@ qx.Class.define("qx.Promise", {
                   initialValue,
                   _each
                 );
+
                 return array.promise();
               }
 
@@ -6490,6 +6568,7 @@ qx.Class.define("qx.Promise", {
                   this.value,
                   this.array._promise
                 );
+
                 if (value instanceof Promise) {
                   this.array._currentCancellable = value;
                   return value._then(
@@ -6545,6 +6624,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         29: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6623,6 +6703,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         30: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6679,6 +6760,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         31: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6837,6 +6919,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./util": 36 }
         ],
+
         32: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -6955,6 +7038,7 @@ qx.Class.define("qx.Promise", {
           },
           {}
         ],
+
         33: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -7047,6 +7131,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         34: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -7076,6 +7161,7 @@ qx.Class.define("qx.Promise", {
                     ms,
                     undefined
                   );
+
                   if (debug.cancellation() && value instanceof Promise) {
                     ret._setOnCancel(value);
                   }
@@ -7148,6 +7234,7 @@ qx.Class.define("qx.Promise", {
                     handleWrapper,
                     undefined
                   );
+
                   ret._setOnCancel(handleWrapper);
                 } else {
                   ret = this._then(
@@ -7165,6 +7252,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./util": 36 }
         ],
+
         35: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -7322,6 +7410,7 @@ qx.Class.define("qx.Promise", {
                   return apiRejection(
                     "you must pass at least 2 arguments to Promise.using"
                   );
+
                 var fn = arguments[len - 1];
                 if (typeof fn !== "function") {
                   return apiRejection(
@@ -7356,6 +7445,7 @@ qx.Class.define("qx.Promise", {
                           resources: resources,
                           index: i
                         },
+
                         undefined
                       );
                     }
@@ -7396,6 +7486,7 @@ qx.Class.define("qx.Promise", {
                       "Promise.using",
                       promise
                     );
+
                     return ret;
                   }
                 );
@@ -7437,6 +7528,7 @@ qx.Class.define("qx.Promise", {
           },
           { "./errors": 12, "./util": 36 }
         ],
+
         36: [
           function (_dereq_, module, exports) {
             "use strict";
@@ -7860,6 +7952,7 @@ qx.Class.define("qx.Promise", {
           { "./es5": 13 }
         ]
       },
+
       {},
       [4]
     )(4);

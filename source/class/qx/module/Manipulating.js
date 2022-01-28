@@ -62,6 +62,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         qx.module.Manipulating._animationDescription[property],
         true
       );
+
       desc.keyFrames[100][property] = value;
       return this.animate(desc, duration);
     },
@@ -315,6 +316,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         var innermost = qx.module.Manipulating.__getInnermostElement(
           clonedwrapper[0]
         );
+
         qx.dom.Element.insertEnd(item, innermost);
       });
 

@@ -268,7 +268,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
         typeof Date.parse === "function" && // Date.parse() is present...
         Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
           Date.parse("2001-02-03T04:05:06.007Z")
-      ); // dates as expected
+      );
+      // dates as expected
     },
 
     /**
@@ -340,7 +341,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
         typeof BigInt !== "undefined" && // BigInt type supported...
         typeof BigInt.prototype.toLocaleString === "function" && // ...method is present...
         BigInt(1234).toLocaleString("de-DE") === "1,234"
-      ); // ...and works as expected
+      );
+      // ...and works as expected
     },
 
     /**
@@ -367,14 +369,17 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
       "ecmascript.array.indexof",
       statics.getArrayIndexOf
     );
+
     qx.core.Environment.add(
       "ecmascript.array.lastindexof",
       statics.getArrayLastIndexOf
     );
+
     qx.core.Environment.add(
       "ecmascript.array.foreach",
       statics.getArrayForEach
     );
+
     qx.core.Environment.add("ecmascript.array.filter", statics.getArrayFilter);
     qx.core.Environment.add("ecmascript.array.map", statics.getArrayMap);
     qx.core.Environment.add("ecmascript.array.some", statics.getArraySome);
@@ -383,12 +388,14 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
       "ecmascript.array.findIndex",
       statics.getArrayFindIndex
     );
+
     qx.core.Environment.add("ecmascript.array.every", statics.getArrayEvery);
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
     qx.core.Environment.add(
       "ecmascript.array.reduceright",
       statics.getArrayReduceRight
     );
+
     qx.core.Environment.add(
       "ecmascript.array.includes",
       statics.getArrayIncludes
@@ -403,6 +410,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
       "ecmascript.error.toString",
       statics.getErrorToString
     );
+
     qx.core.Environment.add(
       "ecmascript.error.stacktrace",
       statics.getStackTrace
@@ -420,6 +428,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
       "ecmascript.object.values",
       statics.getObjectValues
     );
+
     qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
     qx.core.Environment.add(
       "ecmascript.object.assign",
@@ -434,15 +443,18 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
       "ecmascript.string.startsWith",
       statics.getStringStartsWith
     );
+
     qx.core.Environment.add(
       "ecmascript.string.endsWith",
       statics.getStringEndsWith
     );
+
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
     qx.core.Environment.add(
       "ecmascript.string.codePointAt",
       statics.getStringCodePointAt
     );
+
     qx.core.Environment.add(
       "ecmascript.string.fromCodePoint",
       statics.getStringFromCodePoint

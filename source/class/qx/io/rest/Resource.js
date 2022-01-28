@@ -265,6 +265,7 @@ qx.Class.define("qx.io.rest.Resource", {
                 action,
                 req.getPhase()
               ];
+
               this.fireEvent(action + "Success", qx.event.type.Rest, props);
               this.fireEvent("success", qx.event.type.Rest, props);
             };
@@ -283,6 +284,7 @@ qx.Class.define("qx.io.rest.Resource", {
                 action,
                 req.getPhase()
               ];
+
               this.fireEvent(action + "Error", qx.event.type.Rest, props);
               this.fireEvent("error", qx.event.type.Rest, props);
             };
@@ -666,6 +668,7 @@ qx.Class.define("qx.io.rest.Resource", {
             method,
             "Method must be string for route '" + action + "'"
           );
+
           qx.core.Assert.assertString(
             url,
             "URL must be string for route '" + action + "'"

@@ -39,6 +39,7 @@ qx.Class.define("qx.test.locale.Date", {
           return v + "";
         })
       );
+
       for (var i = 0; i < 7; i++) {
         this.assertEquals(abbrDays[i], Date.getDayName("abbreviated", i));
       }
@@ -50,6 +51,7 @@ qx.Class.define("qx.test.locale.Date", {
           return v + "";
         })
       );
+
       for (var i = 0; i < 7; i++) {
         this.assertEquals(
           narrowDays[i],
@@ -66,6 +68,7 @@ qx.Class.define("qx.test.locale.Date", {
         "Friday",
         "Saturday"
       ];
+
       this.assertJsonEquals(
         wideDays,
         Date.getDayNames("wide").map(function (v) {
@@ -89,6 +92,7 @@ qx.Class.define("qx.test.locale.Date", {
           return v + "";
         })
       );
+
       for (var i = 0; i < 7; i++) {
         this.assertEquals(abbrDays[i], Date.getDayName("abbreviated", i));
       }
@@ -100,6 +104,7 @@ qx.Class.define("qx.test.locale.Date", {
           return v + "";
         })
       );
+
       for (var i = 0; i < 7; i++) {
         this.assertEquals(
           narrowDays[i],
@@ -116,6 +121,7 @@ qx.Class.define("qx.test.locale.Date", {
         "Freitag",
         "Samstag"
       ];
+
       this.assertJsonEquals(
         wideDays,
         Date.getDayNames("wide").map(function (v) {

@@ -192,6 +192,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll", {
         this.getScrollWidth(),
         "x"
       );
+
       this._calcWaypoints(
         this._waypointsY,
         this._calculatedWaypointsY,
@@ -231,6 +232,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll", {
                 waypointElements[j],
                 element
               );
+
               if (axis === "y") {
                 offset = position.top + this.getContentElement().scrollTop;
               } else if (axis === "x") {
@@ -477,6 +479,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll", {
           "scroll",
           "scroll"
         );
+
         var offset = this._getScrollOffset();
 
         this._scrollTo(

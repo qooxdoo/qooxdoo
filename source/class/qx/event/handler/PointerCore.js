@@ -142,6 +142,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           "touchmove",
           "touchcancel"
         ];
+
         this._initObserver(this._onTouchEvent);
       }
 
@@ -304,6 +305,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
             domEvent,
             touchProps
           );
+
           this._fireEvent(overEvt, "pointerover", touchProps.target);
         }
 
@@ -330,6 +332,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
             domEvent,
             touchProps
           );
+
           // fire on the original target to make sure over / out event are on the same target
           this._fireEvent(outEvt, "pointerout", domEvent.target);
 
@@ -392,6 +395,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           domEvent,
           mouseProps
         );
+
         this._fireEvent(moveEvt, "pointermove", target);
       }
       this.__lastButtonState = buttonsPressed;
@@ -505,6 +509,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent
         );
+
         qx.event.type.dom.Pointer.normalize(gestureEvent);
         try {
           gestureEvent.srcElement = target;

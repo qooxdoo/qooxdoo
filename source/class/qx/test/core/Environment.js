@@ -114,6 +114,7 @@ qx.Class.define("qx.test.core.Environment", {
             }, this);
           }
         },
+
         this
       );
 
@@ -345,6 +346,7 @@ qx.Class.define("qx.test.core.Environment", {
       this.assertBoolean(
         qx.core.Environment.get("html.stylesheet.createstylesheet")
       );
+
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.insertrule"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.deleterule"));
       this.assertBoolean(qx.core.Environment.get("html.stylesheet.addimport"));
@@ -356,10 +358,12 @@ qx.Class.define("qx.test.core.Environment", {
       this.assertBoolean(
         qx.core.Environment.get("html.element.compareDocumentPosition")
       );
+
       this.assertBoolean(qx.core.Environment.get("html.element.textcontent"));
       this.assertBoolean(
         qx.core.Environment.get("html.image.naturaldimensions")
       );
+
       this.assertBoolean(qx.core.Environment.get("html.history.state"));
       this.assertString(qx.core.Environment.get("html.selection"));
       this.assertBoolean(qx.core.Environment.get("html.node.isequalnode"));
@@ -399,9 +403,11 @@ qx.Class.define("qx.test.core.Environment", {
       var borderImageSyntax = qx.core.Environment.get(
         "css.borderimage.standardsyntax"
       );
+
       this.assert(
         typeof borderImageSyntax == "boolean" || borderImageSyntax === null
       );
+
       var textOverflow = qx.core.Environment.get("css.textoverflow");
       this.assert(typeof textOverflow == "string" || textOverflow === null);
       var userSelect = qx.core.Environment.get("css.userselect");
@@ -448,6 +454,7 @@ qx.Class.define("qx.test.core.Environment", {
       this.assertBoolean(
         qx.core.Environment.get("ecmascript.array.lastindexof")
       );
+
       this.assertBoolean(qx.core.Environment.get("ecmascript.array.foreach"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.array.filter"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.array.map"));
@@ -457,6 +464,7 @@ qx.Class.define("qx.test.core.Environment", {
       this.assertBoolean(
         qx.core.Environment.get("ecmascript.array.reduceright")
       );
+
       this.assertBoolean(qx.core.Environment.get("ecmascript.function.bind"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.object.keys"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.date.now"));
@@ -478,6 +486,7 @@ qx.Class.define("qx.test.core.Environment", {
         },
         this
       );
+
       this.wait();
     },
 
@@ -502,11 +511,13 @@ qx.Class.define("qx.test.core.Environment", {
         qx.core.Environment.get("qx.globalErrorHandling"),
         "6"
       );
+
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
       this.assertNumber(
         qx.core.Environment.get("qx.debug.property.level"),
         "10"
       );
+
       this.assertBoolean(qx.core.Environment.get("qx.debug"), "11");
       this.assertBoolean(qx.core.Environment.get("qx.aspects"), "12");
       this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "13");
@@ -514,6 +525,7 @@ qx.Class.define("qx.test.core.Environment", {
         qx.core.Environment.get("qx.mobile.nativescroll"),
         "15"
       );
+
       this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "17");
     },
 

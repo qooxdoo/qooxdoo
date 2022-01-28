@@ -139,11 +139,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss", {
           this.__cssAnimationKeys["start-event"],
           this.__onAnimationStart
         );
+
         qx.bom.Event.addNativeListener(
           el,
           this.__cssAnimationKeys["iteration-event"],
           this.__onAnimationIteration
         );
+
         qx.bom.Event.addNativeListener(
           el,
           this.__cssAnimationKeys["end-event"],

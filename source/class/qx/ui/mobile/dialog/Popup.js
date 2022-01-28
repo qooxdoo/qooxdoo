@@ -159,9 +159,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
         var rootPosition = qx.bom.element.Location.get(
           qx.ui.mobile.dialog.Popup.ROOT.getContainerElement()
         );
+
         var anchorPosition = qx.bom.element.Location.get(
           this.__anchor.getContainerElement()
         );
+
         var popupDimension = qx.bom.element.Dimension.getSize(
           this.getContainerElement()
         );
@@ -174,6 +176,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
             width: rootPosition.left + rootWidth,
             height: rootPosition.top + rootHeight
           },
+
           anchorPosition,
           {
             left: 0,
@@ -181,6 +184,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
             top: 0,
             bottom: 0
           },
+
           "bottom-left",
           "keep-align",
           "keep-align"
@@ -429,6 +433,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
         this.__childrenContainer = new qx.ui.mobile.container.Composite(
           new qx.ui.mobile.layout.VBox()
         );
+
         this.__childrenContainer.setDefaultCssClass("popup-content");
         this._add(this.__childrenContainer);
       }
@@ -461,6 +466,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
           this.getTitle(),
           this.getIcon()
         );
+
         this.__titleWidget.addCssClass("popup-title");
         return this.__titleWidget;
       } else {
@@ -478,6 +484,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
             value,
             this.getIcon()
           );
+
           this.__titleWidget.addCssClass("popup-title");
 
           if (this.__widget) {
@@ -504,6 +511,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup", {
             this.getTitle(),
             value
           );
+
           this.__titleWidget.addCssClass("popup-title");
 
           if (this.__widget) {

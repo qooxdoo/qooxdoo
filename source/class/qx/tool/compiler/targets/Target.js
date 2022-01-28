@@ -351,10 +351,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       let mapTo = this.getPathMapping(
         path.join(appRootDir, this.getOutputDir(), "transpiled/")
       );
+
       appMeta.setSourceUri(mapTo ? mapTo : targetUri + "transpiled/");
       mapTo = this.getPathMapping(
         path.join(appRootDir, this.getOutputDir(), "resource")
       );
+
       appMeta.setResourceUri(mapTo ? mapTo : targetUri + "resource");
 
       const requiredLibs = application.getRequiredLibraries();
@@ -402,6 +404,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
             "qx.libraryInfoMap",
             {}
           );
+
           libraryInfoMap[libnamespace] = library.getLibraryInfo();
         }
         addExternal(library.getAddScript(), "urisBefore");
@@ -458,6 +461,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
             "transpiled",
             classFilename
           );
+
           let db = analyser.getDatabase();
           let dbClassInfo = db.classInfo[classname];
           let library = analyser.findLibrary(dbClassInfo.libraryName);
@@ -541,6 +545,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
                 application.getName(),
                 font.getResources().join(",")
               );
+
               return;
             }
             font.setResources(res);
@@ -800,6 +805,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           "qx.tool.compiler.target.missingAppLibrary",
           application.getName()
         );
+
         return;
       }
 
@@ -883,6 +889,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           appMeta.getApplicationRoot(),
           "index.js"
         );
+
         indexJsTimestamp = "?" + fs.statSync(indexJsFilename).mtimeMs;
       }
       let TEMPLATE_VARS = {
@@ -928,6 +935,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           appMeta.getAppLibrary().getRootDir(),
           application.getBootPath()
         );
+
         var stats = await qx.tool.utils.files.Utils.safeStat(bootDir);
         if (stats && stats.isDirectory()) {
           await qx.tool.utils.files.Utils.sync(
@@ -954,6 +962,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
                     "</body>",
                     '\n  <script type="text/javascript" src="${appPath}index.js${indexJsTimestamp}"></script>\n</body>'
                   );
+
                   /* eslint-enable no-template-curly-in-string */
                   qx.tool.compiler.Console.print(
                     "qx.tool.compiler.target.missingBootJs",

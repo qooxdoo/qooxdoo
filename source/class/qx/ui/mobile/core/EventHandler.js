@@ -315,6 +315,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler", {
       var currentWidget = qx.ui.mobile.core.Widget.getWidgetById(
         currentTarget.id
       );
+
       if (!currentWidget) {
         return;
       }
@@ -334,6 +335,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler", {
       var widgetEvent = qx.event.Pool.getInstance().getObject(
         domEvent.constructor
       );
+
       domEvent.clone(widgetEvent);
 
       widgetEvent.setTarget(widgetTarget);
@@ -346,6 +348,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler", {
         var widgetOriginalTarget = qx.ui.mobile.core.Widget.getWidgetById(
           orig.id
         );
+
         widgetEvent.setOriginalTarget(widgetOriginalTarget);
       } else {
         widgetEvent.setOriginalTarget(domTarget);
@@ -394,16 +397,19 @@ qx.Class.define("qx.ui.mobile.core.EventHandler", {
       "pointerdown",
       statics.__onPointerDown
     );
+
     qx.event.Registration.addListener(
       document,
       "pointerup",
       statics.__onPointerUp
     );
+
     qx.event.Registration.addListener(
       document,
       "pointercancel",
       statics.__onPointerUp
     );
+
     qx.event.Registration.addListener(
       document,
       "pointermove",

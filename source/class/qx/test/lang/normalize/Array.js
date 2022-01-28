@@ -234,6 +234,7 @@ qx.Class.define("qx.test.lang.normalize.Array", {
         10,
         [].reduce(function () {}, 10)
       );
+
       var spy = this.spy();
       [1].reduce(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
@@ -243,6 +244,7 @@ qx.Class.define("qx.test.lang.normalize.Array", {
           return a + b;
         }, 0)
       );
+
       this.assertArrayEquals(
         [0, 1, 2, 3, 4],
         [
@@ -262,6 +264,7 @@ qx.Class.define("qx.test.lang.normalize.Array", {
         10,
         [].reduceRight(function () {}, 10)
       );
+
       var spy = this.spy();
       [1].reduceRight(spy, 10);
       this.assertCalledWith(spy, 10, 1, 0, [1]);
@@ -271,6 +274,7 @@ qx.Class.define("qx.test.lang.normalize.Array", {
           return a + b;
         }, 0)
       );
+
       this.assertArrayEquals(
         [0, 3, 4, 1, 2],
         [

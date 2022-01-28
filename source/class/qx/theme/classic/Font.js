@@ -44,6 +44,7 @@ qx.Theme.define("qx.theme.classic.Font", {
         "Bitstream Vera Sans",
         "Liberation Sans"
       ],
+
       bold: true
     },
 

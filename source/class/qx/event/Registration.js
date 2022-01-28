@@ -54,6 +54,7 @@ qx.Class.define("qx.event.Registration", {
           qx.log.Logger.error(
             "qx.event.Registration.getManager(null) was called!"
           );
+
           qx.log.Logger.trace(this);
         }
 
@@ -298,6 +299,7 @@ qx.Class.define("qx.event.Registration", {
           target,
           msg + "Invalid event target."
         );
+
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
       }
 
@@ -348,6 +350,7 @@ qx.Class.define("qx.event.Registration", {
           target,
           msg + "Invalid event target."
         );
+
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
       }
 

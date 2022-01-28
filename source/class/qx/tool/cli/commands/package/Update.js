@@ -123,6 +123,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
             qx.tool.compiler.Console.error(
               "You have not provided a GitHub token."
             );
+
             return;
           }
           github.token = response.token;
@@ -138,6 +139,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
         qx.tool.compiler.Console.info(
           `Found ${num_libraries} releases of libraries.`
         );
+
         qx.tool.compiler.Console.info(
           `Run 'qx package list' in the root dir of your project to see which versions of these libraries are compatible.`
         );
@@ -244,6 +246,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           .filter(r =>
             this.argv["all-versions"] ? true : semver.valid(r.tag_name, true)
           )
+
           // attach a clean version number
           .map(r => {
             r.version = semver.valid(r.tag_name, true) || "0.0.0";
@@ -292,6 +295,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
               "qooxdoo.json",
               true
             );
+
             if (this.argv.verbose) {
               this.debug(`>>>  File exists, checking for libraries...`);
             }
@@ -327,6 +331,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
               manifest_path,
               qx.tool.config.Manifest.config.fileName
             );
+
             try {
               if (this.argv.verbose) {
                 this.debug(
@@ -359,6 +364,7 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
                   qx.tool.compiler.Console.warn(
                     `!!! Parse error: ${e.message}`
                   );
+
                   this.debug(data);
                 }
                 continue;

@@ -337,6 +337,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -373,6 +374,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -410,6 +412,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           },
           this
         );
+
         return;
       }
 
@@ -665,6 +668,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
         e.getDocumentLeft(),
         e.getDocumentTop()
       );
+
       if (!coords) {
         return;
       }
@@ -728,6 +732,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           firstRow,
           minHeight + rowCellData.offset
         );
+
         var layerHeight = qx.lang.Array.sum(rowSizes);
         var layerTop = top - rowCellData.offset;
         var layerBottom = top - rowCellData.offset + layerHeight;
@@ -746,6 +751,7 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
           firstColumn,
           minWidth + columnCellData.offset
         );
+
         var layerWidth = qx.lang.Array.sum(columnSizes);
         var layerLeft = left - columnCellData.offset;
         var layerRight = left - columnCellData.offset + layerWidth;

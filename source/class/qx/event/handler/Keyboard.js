@@ -147,6 +147,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
           qx.event.type.KeyInput,
           [domEvent, target, charCode]
         );
+
         qx.event.Utils.then(tracker, function () {
           self.__manager.dispatchEvent(target, event);
         });
@@ -189,6 +190,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
         qx.event.type.KeySequence,
         [domEvent, target, keyIdentifier]
       );
+
       qx.event.Utils.then(tracker, function () {
         return self.__manager.dispatchEvent(target, event);
       });
@@ -275,6 +277,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
         this.__onKeyUpDown,
         this
       );
+
       this.__onKeyPressWrapper = qx.lang.Function.listener(
         this.__onKeyPress,
         this
@@ -288,6 +291,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
         "keydown",
         this.__onKeyUpDownWrapper
       );
+
       Event.addNativeListener(
         this.__root,
         "keypress",
@@ -308,11 +312,13 @@ qx.Class.define("qx.event.handler.Keyboard", {
         "keyup",
         this.__onKeyUpDownWrapper
       );
+
       Event.removeNativeListener(
         this.__root,
         "keydown",
         this.__onKeyUpDownWrapper
       );
+
       Event.removeNativeListener(
         this.__root,
         "keypress",
@@ -446,6 +452,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
           var listener = qx.event.GlobalError.observeMethod(
             this.__inputListeners[hash].callback
           );
+
           qx.bom.Event.addNativeListener(target, "keypress", listener);
         }
       },
@@ -599,6 +606,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
           tracker,
           this._fireSequenceEvent(domEvent, "keypress", keyIdentifier)
         );
+
         return qx.event.Utils.then(tracker, function () {
           return self._fireInputEvent(domEvent, charCode);
         });

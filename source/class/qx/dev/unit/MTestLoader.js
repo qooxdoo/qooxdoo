@@ -104,6 +104,7 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
               " - " +
               ex.getComment()
           );
+
           if (ex.getStackTrace) {
             this.error("Stack trace: " + ex.getStackTrace().join("\n"));
           }

@@ -52,6 +52,7 @@ qx.Class.define("qx.test.io.request.Jsonp", {
         "_createTransport",
         this.deepStub(new qx.bom.request.Jsonp())
       );
+
       this.setUpRequest();
     },
 

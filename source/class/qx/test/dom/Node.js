@@ -149,11 +149,13 @@ qx.Class.define("qx.test.dom.Node", {
         qx.dom.Node.getText(innerTextNode),
         "Failed to get the right value for one text node."
       );
+
       this.assertEquals(
         "schokobaervanillebaer",
         qx.dom.Node.getText(blockElement),
         "Failed to get the right value for text of an element."
       );
+
       this.assertEquals(
         "karamelbaer",
         qx.dom.Node.getText(xml.getElementsByTagName("foo")[0].firstChild),

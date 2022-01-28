@@ -41,8 +41,10 @@ qx.Class.define("qx.tool.cli.commands.Pkg", {
               "Upgrade",
               "Migrate"
             ],
+
             "qx.tool.cli.commands.package"
           );
+
           return yargs.demandCommand().showHelpOnFail().help();
         },
         handler(argv) {

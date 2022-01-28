@@ -72,6 +72,7 @@ qx.Class.define("qx.test.bom.WebWorker", {
           },
           this
         );
+
         this._worker.postMessage(message);
       };
     },
@@ -103,6 +104,7 @@ qx.Class.define("qx.test.bom.WebWorker", {
         },
         this
       );
+
       this._worker.postMessage(message);
     },
 

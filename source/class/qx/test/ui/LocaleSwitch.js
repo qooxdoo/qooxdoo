@@ -76,6 +76,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch", {
         "Umschalt+A",
         menuButton.getChildControl("shortcut").getValue()
       );
+
       menuButton.dispose();
       command.dispose();
     },

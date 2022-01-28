@@ -243,6 +243,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
             this._onPopupChangeVisibility,
             this
           );
+
           break;
       }
 

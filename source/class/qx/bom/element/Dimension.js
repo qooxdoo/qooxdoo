@@ -93,12 +93,14 @@ qx.Bootstrap.define("qx.bom.element.Dimension", {
             .getPropertyValue("margin-top"),
           10
         );
+
         let marginBottom = parseInt(
           document.defaultView
             .getComputedStyle(element, "")
             .getPropertyValue("margin-bottom"),
           10
         );
+
         return element.offsetHeight + marginTop + marginBottom;
       }
       return element.offsetHeight;
@@ -119,12 +121,14 @@ qx.Bootstrap.define("qx.bom.element.Dimension", {
             .getPropertyValue("margin-left"),
           10
         );
+
         let marginRight = parseInt(
           document.defaultView
             .getComputedStyle(element, "")
             .getPropertyValue("margin-right"),
           10
         );
+
         return element.offsetWidth + marginLeft + marginRight;
       }
       return element.offsetWidth;
@@ -172,6 +176,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension", {
         Style.get(element, "paddingLeft") || "0px",
         10
       );
+
       var paddingRight = parseInt(
         Style.get(element, "paddingRight") || "0px",
         10

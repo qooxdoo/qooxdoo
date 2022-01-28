@@ -112,6 +112,7 @@ qx.Class.define("qx.ui.toolbar.Part", {
             },
             this
           );
+
           break;
       }
 

@@ -27,9 +27,11 @@ qx.Class.define("qx.test.util.DisposeUtil", {
       var childContainer1 = new qx.ui.container.Composite(
         new qx.ui.layout.Canvas()
       );
+
       var childContainer2 = new qx.ui.container.Composite(
         new qx.ui.layout.Canvas()
       );
+
       var childContainer3 = new qx.ui.container.Stack();
 
       var childContainer4 = new qx.ui.container.Stack();
@@ -60,14 +62,17 @@ qx.Class.define("qx.test.util.DisposeUtil", {
         childContainer1.isDisposed(),
         "childContainer1 not disposed!"
       );
+
       this.assertTrue(
         childContainer2.isDisposed(),
         "childContainer2 not disposed!"
       );
+
       this.assertTrue(
         childContainer3.isDisposed(),
         "childContainer3 not disposed!"
       );
+
       this.assertTrue(child1.isDisposed(), "child1 not disposed!");
       this.assertTrue(child2.isDisposed(), "child2 not disposed!");
       this.assertTrue(child3.isDisposed(), "child3 not disposed!");

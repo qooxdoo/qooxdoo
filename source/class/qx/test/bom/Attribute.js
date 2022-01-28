@@ -81,6 +81,7 @@ qx.Class.define("qx.test.bom.Attribute", {
       var imgSrc = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/folder.png"
       );
+
       Attribute.set(this._img, "src", imgSrc);
       this.assertEquals(imgSrc, this._img.getAttribute("src", 2));
 
@@ -151,6 +152,7 @@ qx.Class.define("qx.test.bom.Attribute", {
       var imgSrc = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/folder.png"
       );
+
       Attribute.set(this._img, "src", imgSrc);
       this.assertEquals(imgSrc, Attribute.get(this._img, "src"));
     },

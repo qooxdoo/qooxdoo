@@ -99,15 +99,19 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress", {
       this.__colors.background = colorMgr.resolve(
         "progressive-progressbar-background"
       );
+
       this.__colors.indicatorDone = colorMgr.resolve(
         "progressive-progressbar-indicator-done"
       );
+
       this.__colors.indicatorUndone = colorMgr.resolve(
         "progressive-progressbar-indicator-undone"
       );
+
       this.__colors.percentBackground = colorMgr.resolve(
         "progressive-progressbar-percent-background"
       );
+
       this.__colors.percentText = colorMgr.resolve(
         "progressive-progressbar-percent-text"
       );
@@ -139,6 +143,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress", {
             var barWidth = Math.floor(
               (mySize.width - this.__percentDone.getBounds().width) * complete
             );
+
             var percent = Math.floor(complete * 100) + "%";
 
             if (!isNaN(barWidth)) {

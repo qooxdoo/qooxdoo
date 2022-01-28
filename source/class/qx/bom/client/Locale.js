@@ -87,6 +87,7 @@ qx.Bootstrap.define("qx.bom.client.Locale", {
         var version = /^(\d+)\.(\d+)(\..+)?/i.exec(
           qx.bom.client.OperatingSystem.getVersion()
         );
+
         if (qx.lang.Type.isArray(version) && version.length >= 3) {
           if (
             parseInt(version[1]) < 4 ||

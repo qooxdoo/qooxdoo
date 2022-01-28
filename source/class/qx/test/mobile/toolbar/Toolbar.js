@@ -50,6 +50,7 @@ qx.Class.define("qx.test.mobile.toolbar.Toolbar", {
         qx.bom.element.Dimension.getWidth(button1.getContainerElement()),
         qx.bom.element.Dimension.getWidth(button2.getContainerElement())
       );
+
       this.assertEquals(
         qx.bom.element.Dimension.getWidth(button3.getContainerElement()),
         qx.bom.element.Dimension.getWidth(button2.getContainerElement())

@@ -137,6 +137,7 @@ qx.Class.define("qx.tool.cli.ConfigDb", {
         db.setPath(
           path.join(qx.tool.cli.ConfigDb.getDirectory(), "config.json")
         );
+
         await db.load();
       }
       return db;

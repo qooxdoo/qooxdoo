@@ -118,6 +118,7 @@ qx.Mixin.define("qx.ui.core.MMovable", {
         bounds.width,
         bounds.height
       );
+
       frame.show();
       frame.setZIndex(this.getZIndex() + 1);
     },
@@ -140,6 +141,7 @@ qx.Mixin.define("qx.ui.core.MMovable", {
         range.left,
         Math.min(range.right, e.getDocumentLeft())
       );
+
       var pointerTop = Math.max(
         range.top,
         Math.min(range.bottom, e.getDocumentTop())

@@ -564,6 +564,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
         this._onPointermove,
         this
       );
+
       this.__manager.removeListener(
         this.__root,
         "pointerup",
@@ -579,6 +580,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
         this,
         true
       );
+
       this.__manager.removeListener(
         this.__root,
         "keyup",
@@ -586,6 +588,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
         this,
         true
       );
+
       this.__manager.removeListener(
         this.__root,
         "keypress",
@@ -593,6 +596,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
         this,
         true
       );
+
       this.__manager.removeListener(
         this.__root,
         "roll",
@@ -685,6 +689,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
         var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(
           this.__startConfig.original
         );
+
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
           widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
         }
@@ -721,6 +726,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
             self,
             true
           );
+
           self.__manager.addListener(
             self.__root,
             "keyup",
@@ -728,6 +734,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
             self,
             true
           );
+
           self.__manager.addListener(
             self.__root,
             "keypress",
@@ -735,6 +742,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
             self,
             true
           );
+
           self.__sessionActive = true;
         });
       }
@@ -759,6 +767,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
           this._onPointermove,
           this
         );
+
         this.__manager.addListener(
           this.__root,
           "pointerup",
@@ -855,6 +864,7 @@ qx.Class.define("qx.event.handler.DragDrop", {
                 e.getDocumentLeft(),
                 e.getDocumentTop()
               );
+
             qx.bom.element.Style.set(cursorEl, "display", display);
           }
 

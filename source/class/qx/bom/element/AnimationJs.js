@@ -115,6 +115,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs", {
         duration,
         desc.timing
       );
+
       var handle = new qx.bom.element.AnimationHandle();
       handle.jsAnimation = true;
 

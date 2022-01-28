@@ -59,6 +59,7 @@ qx.Class.define("qx.test.util.StringSplit", {
           "qx.util.StringSplit.split('test', /(?:)/, undefined)",
           ["t", "e", "s", "t"]
         ],
+
         ["qx.util.StringSplit.split('test', /(?:)/, null)", []],
         ["qx.util.StringSplit.split('test', /(?:)/, NaN)", []],
         ["qx.util.StringSplit.split('test', /(?:)/, true)", ["t"]],
@@ -87,22 +88,27 @@ qx.Class.define("qx.test.util.StringSplit", {
           "qx.util.StringSplit.split('.', /(.)?(.)?/)",
           ["", ".", undefined, ""]
         ],
+
         [
           "qx.util.StringSplit.split('tesst', /(s)*/)",
           ["t", undefined, "e", "s", "t"]
         ],
+
         [
           "qx.util.StringSplit.split('tesst', /(s)*?/)",
           ["t", undefined, "e", undefined, "s", undefined, "s", undefined, "t"]
         ],
+
         [
           "qx.util.StringSplit.split('tesst', /(s*)/)",
           ["t", "", "e", "ss", "t"]
         ],
+
         [
           "qx.util.StringSplit.split('tesst', /(s*?)/)",
           ["t", "", "e", "", "s", "", "s", "", "t"]
         ],
+
         ["qx.util.StringSplit.split('tesst', /(?:s)*/)", ["t", "e", "t"]],
         ["qx.util.StringSplit.split('tesst', /(?=s+)/)", ["te", "s", "st"]],
         ["qx.util.StringSplit.split('test', 't')", ["", "es", ""]],
@@ -115,10 +121,12 @@ qx.Class.define("qx.test.util.StringSplit", {
           "qx.util.StringSplit.split('test', /(t)(e)(s)(t)/)",
           ["", "t", "e", "s", "t", ""]
         ],
+
         [
           "qx.util.StringSplit.split('.', /(((.((.??)))))/)",
           ["", ".", ".", ".", "", "", ""]
         ],
+
         ["qx.util.StringSplit.split('.', /(((((.??)))))/)", ["."]]
       ];
 
@@ -144,6 +152,7 @@ qx.Class.define("qx.test.util.StringSplit", {
           "CODE",
           ""
         ],
+
         qx.util.StringSplit.split(
           "A<B>bold</B>and<CODE>coded</CODE>",
           ecmaSampleRe

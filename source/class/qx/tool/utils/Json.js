@@ -73,9 +73,11 @@ qx.Class.define("qx.tool.utils.Json", {
           format: "cli",
           indent: 2
         });
+
         qx.tool.compiler.Console.warn(
           "JSON data does not validate against " + schema.$id + ":\n" + message
         );
+
         return false;
       }
       // throw fatal error

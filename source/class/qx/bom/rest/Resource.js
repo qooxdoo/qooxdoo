@@ -932,6 +932,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource", {
             method,
             "Method must be string for route '" + action + "'"
           );
+
           qx.core.Assert.assertString(
             url,
             "URL must be string for route '" + action + "'"
@@ -1036,6 +1037,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource", {
                       "]: " +
                       value
                   );
+
                   delete this[key];
                 }
               } else {
@@ -1051,6 +1053,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource", {
                       "]: " +
                       value
                   );
+
                   delete this[key];
                 }
               }

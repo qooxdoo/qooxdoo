@@ -248,6 +248,7 @@ qx.Class.define("qx.util.Validate", {
             value ? qx.bom.String.escape(value + "") : value,
             e
           );
+
         throw new qx.core.ValidationError("Validation Error", message);
       }
     },

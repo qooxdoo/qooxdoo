@@ -148,6 +148,7 @@ qx.Class.define("qx.util.fsm.Transition", {
           this.setPredicate(
             this.__bindIfFunction(transitionInfo[field], context)
           );
+
           break;
 
         case "nextState":
@@ -158,18 +159,21 @@ qx.Class.define("qx.util.fsm.Transition", {
           this.setAutoActionsBeforeOntransition(
             this.__bindIfFunction(transitionInfo[field], context)
           );
+
           break;
 
         case "autoActionsAfterOntransition":
           this.setAutoActionsAfterOntransition(
             this.__bindIfFunction(transitionInfo[field], context)
           );
+
           break;
 
         case "ontransition":
           this.setOntransition(
             this.__bindIfFunction(transitionInfo[field], context)
           );
+
           break;
 
         case "context":

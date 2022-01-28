@@ -291,6 +291,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
              To install anyways, use '--release <release>' or 'qx install ${repo_name}@<release>'.
              Please ask the library maintainer to release a compatible version.`
           );
+
           return;
         }
       }
@@ -422,6 +423,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         library_path,
         qx.tool.config.Manifest.config.fileName
       );
+
       if (!fs.existsSync(manifest_path)) {
         throw new qx.tool.utils.Utils.UserError(
           `No manifest file in '${library_path}'.`
@@ -430,6 +432,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
       let { info } = qx.tool.utils.Json.parseJson(
         fs.readFileSync(manifest_path, "utf-8")
       );
+
       let local_path = path.relative(process.cwd(), library_path);
       // create entry
       let lib = {
@@ -456,6 +459,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
           elem =>
             (uri && elem.uri === uri) || (!uri && elem.path === local_path)
         );
+
       if (index >= 0) {
         lockfileModel.setValue(["libraries", index], lib);
         if (this.argv.verbose) {
@@ -487,6 +491,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
       let depsInstalled = await this.__installDependenciesFromPath(
         library_path
       );
+
       if (!depsInstalled && this.argv.verbose) {
         qx.tool.compiler.Console.info(
           `>>> No dependencies installed for ${uri}.`
@@ -509,6 +514,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         downloadPath,
         qx.tool.config.Manifest.config.fileName
       );
+
       let manifest = await qx.tool.utils.Json.loadJsonAsync(manifest_file);
       if (!manifest.requires) {
         if (this.argv.verbose) {
@@ -559,6 +565,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
                 lib_uri,
                 lib_range
               );
+
               if (!tag) {
                 throw new qx.tool.utils.Utils.UserError(
                   `No satisfying release found for ${lib_uri}@${lib_range}!`
@@ -638,6 +645,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         lib_range,
         { loose: true }
       );
+
       return {
         version: highestCompatibleVersion,
         tag: version2release[highestCompatibleVersion]
@@ -654,6 +662,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
       let manifest = await qx.tool.utils.Json.loadJsonAsync(
         path.join(downloadPath, qx.tool.config.Manifest.config.fileName)
       );
+
       if (!manifest.provides || !manifest.provides.application) {
         return false;
       }
@@ -665,6 +674,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
             (manifestApp.name || manifestApp["class"]) +
             " because compile.json does not exist (you must manually add it)"
         );
+
         return false;
       }
       await compileConfigModel.load();
@@ -678,6 +688,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         compileConfigModel.transform("applications", apps =>
           apps.concat([manifestApp])
         );
+
         app = manifestApp;
       }
       if (compileConfigModel.isDirty()) {
@@ -730,6 +741,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
         qx.tool.cli.commands.Package.cache_dir,
         dir_name
       ];
+
       let dir_exists;
       let download_path = parts.reduce((prev, current) => {
         let dir = prev + path.sep + current;
@@ -767,6 +779,7 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
           qx.tool.compiler.Console.error(
             `Could not install '${repo_name}@${treeish}'. Use the --verbose flag for more information.`
           );
+
           process.exit(1);
         }
       }

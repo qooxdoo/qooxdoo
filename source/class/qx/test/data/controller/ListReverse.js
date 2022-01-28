@@ -216,6 +216,7 @@ qx.Class.define("qx.test.data.controller.ListReverse", {
           new qx.test.ListItem(),
           new qx.test.ListItem()
         );
+
         item.setChildren(childItems);
       };
 

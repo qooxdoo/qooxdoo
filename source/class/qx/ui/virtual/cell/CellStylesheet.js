@@ -94,6 +94,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet", {
           "." + cssClass,
           styleString
         );
+
         this.__styles[styleString] = cssClass;
       }
 

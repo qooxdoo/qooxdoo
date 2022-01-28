@@ -93,6 +93,7 @@ qx.Class.define("qx.test.mobile.container.Drawer", {
         targetVisibility,
         "Drawer's targetVisibility is asserted to be true."
       );
+
       this.assertFalse(drawer.isHidden(), "Drawer is asserted to be shown.");
 
       // Toggle visibility again.
@@ -102,6 +103,7 @@ qx.Class.define("qx.test.mobile.container.Drawer", {
         targetVisibility,
         "Drawer's targetVisibility is asserted to be false."
       );
+
       this.assertTrue(drawer.isHidden(), "Drawer is asserted to be hidden.");
 
       drawer.destroy();

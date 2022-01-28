@@ -131,6 +131,7 @@ qx.Class.define("qx.tool.cli.commands.package.Upgrade", {
           qx.tool.compiler.Console.info(
             `Dry run. Not upgrading ${library.library_name} (${library.uri}@${library.repo_tag}).`
           );
+
           continue;
         }
         if (library.repo_tag && this.argv.reinstall) {

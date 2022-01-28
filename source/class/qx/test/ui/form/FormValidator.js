@@ -159,6 +159,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
           self.assertEquals(1, this.a);
         }
       );
+
       this.__manager.setValidator(asyncValidator);
       this.__manager.setContext({ a: 1 });
 
@@ -556,9 +557,11 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -597,9 +600,11 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -635,6 +640,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(function (
         validator,
         value
@@ -685,9 +691,11 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -729,9 +737,11 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -780,9 +790,11 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -959,6 +971,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -1007,6 +1020,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -1054,6 +1068,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -1101,6 +1116,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
+
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(
         this.__asyncValidator
       );
@@ -1183,6 +1199,7 @@ qx.Class.define("qx.test.ui.form.FormValidator", {
         this.__username,
         this.__manager.remove(this.__username)
       );
+
       this.__manager.validate();
     },
     // //////////////////////////////

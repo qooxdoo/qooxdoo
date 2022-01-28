@@ -291,6 +291,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
               item.latestCompatible ||
               (this.argv.installed && item.name === localPathRepoName)
           );
+
       // sort
       list.sort((l, r) => {
         l = l.name.toLowerCase();
@@ -396,14 +397,17 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
         qx.tool.compiler.Console.info(
           columnify(expanded_list, columnify_options)
         );
+
         if (!this.argv.noheaders) {
           qx.tool.compiler.Console.info();
           qx.tool.compiler.Console.info(
             "Note on columns: LATEST: Latest release that can be installed with this CLI;"
           );
+
           qx.tool.compiler.Console.info(
             "                 COMPATIBLE: Latest release that is semver-compatible with the qooxdoo version used."
           );
+
           if (!this.argv.all) {
             qx.tool.compiler.Console.info(
               "To see all libraries, including potentially incompatible ones, use 'qx package list --all'."
@@ -447,9 +451,11 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
               lib.path,
               qx.tool.config.Manifest.config.fileName
             );
+
             let manifest = await qx.tool.utils.Json.loadJsonAsync(
               manifest_path
             );
+
             let info = manifest.info;
             this.__libraries[localPathRepoName].push({
               name: info.name,
@@ -461,6 +467,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
                 manifest.requires["qooxdoo-sdk"],
                 true
               ),
+
               path: path.relative(process.cwd(), path.dirname(manifest_path)),
               installedVersion: "v" + info.version,
               manifest
@@ -549,6 +556,7 @@ qx.Class.define("qx.tool.cli.commands.package.List", {
               repo_name,
               library_name
             );
+
             if (installed) {
               installedVersion = installed;
               repoInstalledVersion = installed;

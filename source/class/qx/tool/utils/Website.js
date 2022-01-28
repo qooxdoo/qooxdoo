@@ -53,6 +53,7 @@ qx.Class.define("qx.tool.utils.Website", {
     let p = qx.util.ResourceManager.getInstance().toUri(
       "qx/tool/website/.gitignore"
     );
+
     p = path.dirname(p);
     this.initSourceDir(p);
     this.initTargetDir(path.join(p, "build"));
@@ -104,14 +105,17 @@ qx.Class.define("qx.tool.utils.Website", {
       let sourceDir = await qx.tool.utils.files.Utils.correctCase(
         this.getSourceDir()
       );
+
       this._watcher = chokidar.watch([sourceDir], {});
       this._watcher.on("change", filename =>
         this.__onFileChange("change", filename)
       );
+
       this._watcher.on("add", filename => this.__onFileChange("add", filename));
       this._watcher.on("unlink", filename =>
         this.__onFileChange("unlink", filename)
       );
+
       this._watcher.on("ready", async () => {
         await this.triggerRebuild(true);
         this.__watcherReady = true;
@@ -291,6 +295,7 @@ qx.Class.define("qx.tool.utils.Website", {
           path.join(partialsDir, filename),
           "utf8"
         );
+
         let fn;
         try {
           fn = dot.template(data);
@@ -298,6 +303,7 @@ qx.Class.define("qx.tool.utils.Website", {
           qx.tool.compiler.Console.log(
             "Failed to load partial " + filename + ": " + err
           );
+
           continue;
         }
         fn.name = filename;
@@ -363,6 +369,7 @@ qx.Class.define("qx.tool.utils.Website", {
             file: path.join(this.getSourceDir(), "sass", "qooxdoo.scss"),
             outFile: path.join(this.getTargetDir(), "qooxdoo.css")
           },
+
           function (err, result) {
             if (err) {
               reject(err);
@@ -396,6 +403,7 @@ qx.Class.define("qx.tool.utils.Website", {
         theme: "indigo",
         icontheme: "Tango"
       };
+
       await new qx.tool.cli.commands.Create(opts).process();
       process.chdir(apps_path);
       for (let name of [

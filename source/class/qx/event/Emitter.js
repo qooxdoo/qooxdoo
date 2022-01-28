@@ -49,11 +49,13 @@ qx.Bootstrap.define("qx.event.Emitter", {
         id: id,
         name: name
       });
+
       qx.event.Emitter.__storage.push({
         name: name,
         listener: listener,
         ctx: ctx
       });
+
       return id;
     },
 
@@ -75,11 +77,13 @@ qx.Bootstrap.define("qx.event.Emitter", {
         once: true,
         id: id
       });
+
       qx.event.Emitter.__storage.push({
         name: name,
         listener: listener,
         ctx: ctx
       });
+
       return id;
     },
 

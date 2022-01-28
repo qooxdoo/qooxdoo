@@ -91,6 +91,7 @@ qx.Class.define("qx.test.ui.selection.TabView", {
         page.getLabel(),
         this._widget.getChildren()[index].getLabel()
       );
+
       this.assertEquals(
         page.getLabel(),
         this._widget

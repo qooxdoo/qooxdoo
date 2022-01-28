@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch", {
       settings.minRight,
       settings.maxRight
     );
+
     this.setPrefetchY(
       settings.minAbove,
       settings.maxAbove,

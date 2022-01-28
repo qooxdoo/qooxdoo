@@ -66,6 +66,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         qx.io.request.Xhr.prototype,
         "_createTransport"
       );
+
       this.setUpRequest();
     },
 
@@ -186,6 +187,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
           "Content-Type",
           "application/x-www-form-urlencoded"
         ),
+
         msg
       );
     },
@@ -784,6 +786,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
             );
           }, this)
         )
+
         // except that we want to abort when is finished
         .finally(function () {
           req.abort();

@@ -383,6 +383,7 @@ qx.Class.define("qx.core.Object", {
                     "]: " +
                     value
                 );
+
                 delete this[key];
               }
             }

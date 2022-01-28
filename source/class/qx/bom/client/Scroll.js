@@ -92,6 +92,7 @@ qx.Bootstrap.define("qx.bom.client.Scroll", {
       "os.scrollBarOverlayed",
       statics.scrollBarOverlayed
     );
+
     qx.core.Environment.add("qx.mobile.nativescroll", statics.getNativeScroll);
   }
 });

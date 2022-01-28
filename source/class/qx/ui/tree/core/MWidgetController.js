@@ -131,6 +131,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController", {
               return "virtual-tree-folder";
             }
           },
+
           item,
           index
         );

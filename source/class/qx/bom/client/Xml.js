@@ -154,11 +154,13 @@ qx.Bootstrap.define("qx.bom.client.Xml", {
       "xml.selectsinglenode",
       statics.getSelectSingleNode
     );
+
     qx.core.Environment.add("xml.selectnodes", statics.getSelectNodes);
     qx.core.Environment.add(
       "xml.getelementsbytagnamens",
       statics.getElementsByTagNameNS
     );
+
     qx.core.Environment.add("xml.domproperties", statics.getDomProperties);
     qx.core.Environment.add("xml.attributens", statics.getAttributeNS);
     qx.core.Environment.add("xml.createelementns", statics.getCreateElementNS);

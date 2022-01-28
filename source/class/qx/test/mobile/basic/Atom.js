@@ -53,6 +53,7 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
       var imageURL = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/user-home.png"
       );
+
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
 
@@ -88,6 +89,7 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
       var imageURL = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/user-home.png"
       );
+
       var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
       this.getRoot().add(atom);
 
@@ -111,10 +113,12 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
       var imageURL = qx.util.ResourceManager.getInstance().toUri(
         "qx/icon/Tango/48/places/user-home.png"
       );
+
       var atom = new qx.ui.mobile.basic.Atom(
         "myTextmyTextmyTextmyTextmyText",
         imageURL
       );
+
       this.getRoot().add(atom);
       this.getRoot()._domUpdated();
 
@@ -127,10 +131,12 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
           qx.bom.element.Location.getTop(labelElement),
         "setIconPosition(top): iconElement.top is greater than labelElement.top"
       );
+
       this.assertTrue(
         atom.getIconWidget().getLayoutParent().getLayout().basename === "VBox",
         "Layout of IconPosition Top should be VBox "
       );
+
       this.assertFalse(
         atom.getIconWidget().getLayoutParent().getLayout().isReversed(),
         "Layout should not be reversed."
@@ -141,6 +147,7 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
         atom.getIconWidget().getLayoutParent().getLayout().basename === "VBox",
         "Layout of IconPosition Bottom should be VBox "
       );
+
       this.assertTrue(
         atom.getIconWidget().getLayoutParent().getLayout().isReversed(),
         "Layout should be reversed."
@@ -151,12 +158,14 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
         atom.getIconWidget().getLayoutParent().getLayout().basename === "HBox",
         "Layout of IconPosition Left should be HBox "
       );
+
       var labelLeft = qx.bom.element.Location.getLeft(labelElement);
       var iconLeft = qx.bom.element.Location.getLeft(iconElement);
       this.assertTrue(
         iconLeft <= labelLeft,
         "setIconPosition(left): iconElement.left is greater than labelElement.left"
       );
+
       this.assertFalse(
         atom.getIconWidget().getLayoutParent().getLayout().isReversed(),
         "Layout should not be reversed."
@@ -167,6 +176,7 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
         atom.getIconWidget().getLayoutParent().getLayout().basename === "HBox",
         "Layout of IconPosition Right should be HBox "
       );
+
       this.assertTrue(
         atom.getIconWidget().getLayoutParent().getLayout().isReversed(),
         "Layout should be reversed."
@@ -206,11 +216,13 @@ qx.Class.define("qx.test.mobile.basic.Atom", {
         atomChildrenLength,
         "Unexpected count of atom element children"
       );
+
       this.assertEquals(
         "",
         atomIconInnerHtml,
         "Child element of icon has wrong content"
       );
+
       this.assertEquals(
         testText,
         atomLabelInnerHtml,

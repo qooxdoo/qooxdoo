@@ -156,6 +156,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         "children",
         "name"
       );
+
       this.__controller.setIconPath("icon");
     },
 
@@ -219,10 +220,12 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getChildren()[0],
         "First node does not exist"
       );
+
       this.assertNotNull(
         this.__tree.getRoot().getChildren()[1],
         "Second node does not exist"
       );
+
       this.assertNotNull(
         this.__tree.getRoot().getChildren()[2],
         "Third node does not exist"
@@ -236,16 +239,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -265,16 +271,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "A",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "B",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "C",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -291,16 +300,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a2",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b2",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c2",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -320,21 +332,25 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
         "Third node has a wrong name"
       );
+
       this.assertEquals(
         "d",
         this.__tree.getRoot().getChildren()[3].getLabel(),
@@ -351,16 +367,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertUndefined(
         this.__tree.getRoot().getChildren()[2],
         "There is still a third node!"
@@ -376,16 +395,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertUndefined(
         this.__tree.getRoot().getChildren()[2],
         "There is still a third node!"
@@ -404,21 +426,25 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "d",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[2].getLabel(),
         "Third node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[3].getLabel(),
@@ -450,16 +476,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[0].getChildren()[0].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree
@@ -505,43 +534,51 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       // first layer
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "a node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "b node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
         "c node has a wrong name"
       );
+
       // second layer
       this.assertEquals(
         "aa",
         this.__tree.getRoot().getChildren()[0].getChildren()[0].getLabel(),
         "aa node has a wrong name"
       );
+
       this.assertEquals(
         "AA",
         this.__tree.getRoot().getChildren()[0].getChildren()[1].getLabel(),
         "AA node has a wrong name"
       );
+
       this.assertEquals(
         "bb",
         this.__tree.getRoot().getChildren()[1].getChildren()[0].getLabel(),
         "bb node has a wrong name"
       );
+
       this.assertEquals(
         "cc",
         this.__tree.getRoot().getChildren()[2].getChildren()[0].getLabel(),
         "cc node has a wrong name"
       );
+
       // third layer
       this.assertEquals(
         "bbb",
@@ -564,11 +601,13 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getChildren()[2].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[0].getLabel(),
@@ -585,11 +624,13 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -610,11 +651,13 @@ qx.Class.define("qx.test.data.controller.Tree", {
         tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         tree.getRoot().getChildren()[2].getLabel(),
@@ -647,6 +690,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "B",
         this.__tree.getRoot().getChildren()[1].getLabel(),
@@ -663,16 +707,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getIcon(),
         "Root node has a wrong icon"
       );
+
       this.assertEquals(
         "icon a",
         this.__tree.getRoot().getChildren()[0].getIcon(),
         "First node has a wrong icon"
       );
+
       this.assertEquals(
         "icon b",
         this.__tree.getRoot().getChildren()[1].getIcon(),
         "Second node has a wrong icon"
       );
+
       this.assertEquals(
         "icon c",
         this.__tree.getRoot().getChildren()[2].getIcon(),
@@ -690,16 +737,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getIcon(),
         "Root node has a wrong icon"
       );
+
       this.assertEquals(
         "icon a2",
         this.__tree.getRoot().getChildren()[0].getIcon(),
         "First node has a wrong icon"
       );
+
       this.assertEquals(
         "icon b2",
         this.__tree.getRoot().getChildren()[1].getIcon(),
         "Second node has a wrong icon"
       );
+
       this.assertEquals(
         "icon c2",
         this.__tree.getRoot().getChildren()[2].getIcon(),
@@ -720,16 +770,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getIcon(),
         "Root node has a wrong icon"
       );
+
       this.assertEquals(
         "ICON A",
         this.__tree.getRoot().getChildren()[0].getIcon(),
         "First node has a wrong icon"
       );
+
       this.assertEquals(
         "ICON B",
         this.__tree.getRoot().getChildren()[1].getIcon(),
         "Second node has a wrong icon"
       );
+
       this.assertEquals(
         "ICON C",
         this.__tree.getRoot().getChildren()[2].getIcon(),
@@ -764,6 +817,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__controller.getSelection().getItem(0),
         "Selection does not work."
       );
+
       // test for the length
       this.assertEquals(
         1,
@@ -788,6 +842,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__controller.getSelection().getItem(0),
         "Add to selection does not work."
       );
+
       this.assertEquals(
         this.__b,
         this.__controller.getSelection().getItem(1),
@@ -824,6 +879,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__controller.getSelection().contains(this.__b),
         "Selection array wrong!"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getSelection()[0].getLabel(),
@@ -859,6 +915,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         "children",
         "name"
       );
+
       this.__controller.setLabelOptions(options);
 
       // test the converter
@@ -867,16 +924,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "aa2",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "bb2",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "cc2",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -904,6 +964,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         "children",
         "name"
       );
+
       this.__controller.setIconPath("icon");
       this.__controller.setIconOptions(options);
 
@@ -912,16 +973,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getIcon(),
         "Root node has a wrong icon"
       );
+
       this.assertEquals(
         "icon aa",
         this.__tree.getRoot().getChildren()[0].getIcon(),
         "First node has a wrong icon"
       );
+
       this.assertEquals(
         "icon bb",
         this.__tree.getRoot().getChildren()[1].getIcon(),
         "Second node has a wrong icon"
       );
+
       this.assertEquals(
         "icon cc",
         this.__tree.getRoot().getChildren()[2].getIcon(),
@@ -958,21 +1022,25 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
         "Third node has a wrong name"
       );
+
       this.assertEquals(
         "ENDE",
         this.__tree.getRoot().getChildren()[3].getLabel(),
@@ -998,16 +1066,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1033,16 +1104,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1068,16 +1142,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1102,16 +1179,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1137,16 +1217,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1171,16 +1254,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1205,16 +1291,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1236,14 +1325,17 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[0].getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[1].getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[2].getUserData("a"),
         "Delegation not working."
@@ -1278,14 +1370,17 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[0].getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[1].getUserData("a"),
         "Delegation not working."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[2].getUserData("a"),
         "Delegation not working."
@@ -1311,16 +1406,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1332,14 +1430,17 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[0].getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[1].getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         this.__tree.getRoot().getChildren()[2].getUserData("my"),
         "Default folders found."
@@ -1371,16 +1472,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         tree.getRoot().getChildren()[2].getLabel(),
@@ -1392,14 +1496,17 @@ qx.Class.define("qx.test.data.controller.Tree", {
         tree.getRoot().getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         tree.getRoot().getChildren()[0].getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         tree.getRoot().getChildren()[1].getUserData("my"),
         "Default folders found."
       );
+
       this.assertTrue(
         tree.getRoot().getChildren()[2].getUserData("my"),
         "Default folders found."
@@ -1424,16 +1531,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),
@@ -1446,16 +1556,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getTextColor(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "red",
         this.__tree.getRoot().getChildren()[0].getTextColor(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "blue",
         this.__tree.getRoot().getChildren()[1].getTextColor(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "white",
         this.__tree.getRoot().getChildren()[2].getTextColor(),
@@ -1491,16 +1604,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         tree.getRoot().getChildren()[2].getLabel(),
@@ -1513,16 +1629,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         tree.getRoot().getTextColor(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "red",
         tree.getRoot().getChildren()[0].getTextColor(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "blue",
         tree.getRoot().getChildren()[1].getTextColor(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "white",
         tree.getRoot().getChildren()[2].getTextColor(),
@@ -1562,16 +1681,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getAppearance(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getAppearance(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getAppearance(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getAppearance(),
@@ -1585,6 +1707,7 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__model.getName(),
         "Reverse binding not ok!"
       );
+
       this.__tree.getRoot().getChildren()[0].setBackgroundColor("#123456");
       this.assertEquals(
         "#123456",
@@ -1650,10 +1773,12 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot(),
         "Root node does not exist"
       );
+
       this.assertNotUndefined(
         this.__tree.getRoot().getChildren()[0],
         "First node does not exist"
       );
+
       this.assertNotUndefined(
         this.__tree.getRoot().getChildren()[0].getChildren()[0],
         "New node does not exist"
@@ -1730,16 +1855,19 @@ qx.Class.define("qx.test.data.controller.Tree", {
         this.__tree.getRoot().getLabel(),
         "Root node has a wrong name"
       );
+
       this.assertEquals(
         "a",
         this.__tree.getRoot().getChildren()[0].getLabel(),
         "First node has a wrong name"
       );
+
       this.assertEquals(
         "b",
         this.__tree.getRoot().getChildren()[1].getLabel(),
         "Second node has a wrong name"
       );
+
       this.assertEquals(
         "c",
         this.__tree.getRoot().getChildren()[2].getLabel(),

@@ -93,6 +93,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._onMasterContainerUpdate,
         this
       );
+
       this.__detailNavigation.addListener(
         "update",
         this._onDetailContainerUpdate,
@@ -109,6 +110,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._onLayoutChange,
         this
       );
+
       this.__masterContainer.addListener("resize", this._onLayoutChange, this);
 
       // On Tablet Mode, no Animation should be shown by default.
@@ -204,6 +206,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._onMasterChangeVisibility,
         this
       );
+
       return masterContainer;
     },
 
@@ -216,6 +219,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
       var detailContainer = new qx.ui.mobile.container.Composite(
         new qx.ui.mobile.layout.VBox()
       );
+
       detailContainer.setDefaultCssClass("master-detail-detail");
       return detailContainer;
     },
@@ -497,6 +501,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._getGapPropertyKey(),
         this.__masterContainer.getSize() / 16 + "rem"
       );
+
       qx.event.Registration.fireEvent(window, "resize");
     },
 
@@ -509,6 +514,7 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._getGapPropertyKey(),
         null
       );
+
       qx.event.Registration.fireEvent(window, "resize");
     },
 
@@ -563,11 +569,13 @@ qx.Class.define("qx.ui.mobile.page.Manager", {
         this._onMasterChangeVisibility,
         this
       );
+
       this.__masterContainer.removeListener(
         "resize",
         this._onLayoutChange,
         this
       );
+
       qx.event.Registration.removeListener(
         window,
         "orientationchange",

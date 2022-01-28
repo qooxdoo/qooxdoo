@@ -163,6 +163,7 @@ qx.Class.define("qx.test.ui.tree.Tree", {
         this._tree.getPreviousNodeOf(item2),
         "check: 1 before 2"
       );
+
       this.assertIdentical(
         item3,
         this._tree.getNextNodeOf(item2),
@@ -198,6 +199,7 @@ qx.Class.define("qx.test.ui.tree.Tree", {
         this._tree.getPreviousNodeOf(item2),
         "check: 1 before 2"
       );
+
       this.assertIdentical(
         item3,
         this._tree.getNextNodeOf(item2),
@@ -234,6 +236,7 @@ qx.Class.define("qx.test.ui.tree.Tree", {
         this._tree.getPreviousNodeOf(item3),
         "check: 1 before 3"
       );
+
       this.assertIdentical(
         item1,
         this._tree.getNextNodeOf(item2),
@@ -270,6 +273,7 @@ qx.Class.define("qx.test.ui.tree.Tree", {
         this._tree.getPreviousNodeOf(item4),
         "check: 1 before 4"
       );
+
       this.assertIdentical(
         item1,
         this._tree.getNextNodeOf(item3),

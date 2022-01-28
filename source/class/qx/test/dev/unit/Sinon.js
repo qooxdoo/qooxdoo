@@ -135,6 +135,7 @@ qx.Class.define("qx.test.dev.unit.Sinon", {
       var setting = this.stub(qx.core.Environment, "get").withArgs(
         "browser.name"
       );
+
       setting.returns("My Browser");
       this.assertEquals("My Browser", qx.core.Environment.get("browser.name"));
     },
@@ -145,6 +146,7 @@ qx.Class.define("qx.test.dev.unit.Sinon", {
         setting = this.stub(qx.core.Environment, "get").withArgs(
           "browser.name"
         );
+
       setting.returns("My Browser");
       this.getSandbox().restore();
       this.assertEquals(name, qx.core.Environment.get("browser.name"));

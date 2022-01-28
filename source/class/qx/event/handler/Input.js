@@ -67,10 +67,12 @@ qx.Class.define("qx.event.handler.Input", {
       this._onChangeChecked,
       this
     );
+
     this._onChangeValueWrapper = qx.lang.Function.listener(
       this._onChangeValue,
       this
     );
+
     this._onInputWrapper = qx.lang.Function.listener(this._onInput, this);
     this._onPropertyWrapper = qx.lang.Function.listener(this._onProperty, this);
 
@@ -185,6 +187,7 @@ qx.Class.define("qx.event.handler.Input", {
               this,
               target
             );
+
             qx.bom.Event.addNativeListener(
               target,
               "keypress",
@@ -223,6 +226,7 @@ qx.Class.define("qx.event.handler.Input", {
                 this,
                 target
               );
+
               qx.bom.Event.addNativeListener(
                 target,
                 "keypress",
@@ -253,6 +257,7 @@ qx.Class.define("qx.event.handler.Input", {
               this,
               target
             );
+
             qx.bom.Event.addNativeListener(
               target,
               "keyup",
@@ -288,6 +293,7 @@ qx.Class.define("qx.event.handler.Input", {
           "keydown",
           this._onKeyDownWrapper
         );
+
         // register an blur event for preventing the input event on blur
 
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
@@ -435,11 +441,13 @@ qx.Class.define("qx.event.handler.Input", {
           "keyup",
           this._onKeyUpWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           target,
           "keydown",
           this._onKeyDownWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           target,
           "input",

@@ -120,6 +120,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label.getValue(),
         "Array[0] binding does not work!"
       );
+
       // change the value
       this.__a.getArray().setItem(0, "ONE");
       this.assertEquals(
@@ -158,6 +159,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "three",
@@ -182,6 +184,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "three",
@@ -216,6 +219,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "one",
@@ -257,6 +261,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "eins",
@@ -289,6 +294,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "b1",
@@ -327,6 +333,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "b2",
@@ -486,6 +493,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "three",
@@ -564,6 +572,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label.getValue(),
         "[0] binding does not work!"
       );
+
       // change the value
       this.__a.getArray().setItem(0, "ONE");
       this.assertEquals(
@@ -589,6 +598,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__a.getArray().getItem(0),
         "[0] binding does not work!"
       );
+
       // change the value
       this.__label.setValue("AFFE");
       this.assertEquals(
@@ -610,6 +620,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__label,
         "value"
       );
+
       // check the binding
       this.assertEquals(
         "b1",
@@ -649,6 +660,7 @@ qx.Class.define("qx.test.data.singlevalue.Array", {
         this.__a.getChildren(),
         "[0].name"
       );
+
       // check the binding
       this.assertEquals(
         "l",

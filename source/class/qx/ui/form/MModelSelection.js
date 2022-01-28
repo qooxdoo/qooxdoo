@@ -32,6 +32,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection", {
       this.__onModelSelectionArrayChange,
       this
     );
+
     this.addListener("changeSelection", this.__onModelSelectionChange, this);
   },
 
@@ -158,6 +159,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection", {
         this.__modelSelection,
         modelSelection
       );
+
       returnArray.dispose();
     }
   },

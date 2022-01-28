@@ -70,6 +70,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "10",
         this.__label2.getValue(),
@@ -101,6 +102,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "20",
         this.__label2.getValue(),
@@ -124,6 +126,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "20",
         this.__label2.getValue(),
@@ -142,6 +145,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 has not been removed!"
       );
+
       this.assertEquals(
         "5",
         this.__label2.getValue(),
@@ -177,6 +181,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "visible",
         this.__label2.getValue(),
@@ -193,6 +198,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "hidden",
         this.__label2.getValue(),
@@ -240,6 +246,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "10",
         this.__label2.getValue(),
@@ -255,6 +262,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__model.getZIndex(),
         "Reverse Binding does not work!"
       );
+
       this.assertEquals(
         "100",
         this.__label2.getValue(),
@@ -270,6 +278,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__model.getZIndex(),
         "Reverse Binding does not work!"
       );
+
       this.assertEquals(
         "200",
         this.__label1.getValue(),
@@ -298,6 +307,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "20",
         this.__label2.getValue(),
@@ -313,11 +323,13 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         11,
         newModel.getZIndex(),
         "Reverse-Binding does not work!"
       );
+
       this.assertEquals(
         10,
         this.__model.getZIndex(),
@@ -412,6 +424,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__model.getZIndex(),
         "Back-Converter does not work!"
       );
+
       this.__label1.setValue("B");
       this.assertEquals(
         10,
@@ -451,6 +464,7 @@ qx.Class.define("qx.test.data.controller.Object", {
         this.__label1.getValue(),
         "Binding1 does not work!"
       );
+
       this.assertEquals(
         "A",
         this.__label2.getValue(),

@@ -58,6 +58,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest", {
         this._selection[2],
         this._selection[4]
       ];
+
       this._widget.setSelection(expected);
 
       // Tests the result from "getSelection"

@@ -715,6 +715,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine", {
             event.getType() +
             "', because the finite state machine is not running."
         );
+
         return;
       }
 
@@ -756,6 +757,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine", {
             type +
             "', because the finite state machine is not running."
         );
+
         return;
       }
 

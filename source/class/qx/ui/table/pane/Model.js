@@ -127,6 +127,7 @@ qx.Class.define("qx.ui.table.pane.Model", {
           this._onColVisibilityChanged,
           this
         );
+
         this.__tableColumnModel.removeListener(
           "headerCellRendererChanged",
           this._onHeaderCellRendererChanged,
@@ -139,11 +140,13 @@ qx.Class.define("qx.ui.table.pane.Model", {
         this._onColVisibilityChanged,
         this
       );
+
       this.__tableColumnModel.addListener(
         "headerCellRendererChanged",
         this._onHeaderCellRendererChanged,
         this
       );
+
       this.__columnCount = null;
     },
 
@@ -276,6 +279,7 @@ qx.Class.define("qx.ui.table.pane.Model", {
         this._onColVisibilityChanged,
         this
       );
+
       this.__tableColumnModel.removeListener(
         "headerCellRendererChanged",
         this._onHeaderCellRendererChanged,

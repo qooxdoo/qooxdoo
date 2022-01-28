@@ -150,6 +150,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture", {
             "losecapture",
             onNativeListener
           );
+
           self.releaseCapture();
         };
         qx.bom.Event.addNativeListener(

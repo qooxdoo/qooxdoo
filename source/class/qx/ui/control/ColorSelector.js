@@ -266,38 +266,45 @@ qx.Class.define("qx.ui.control.ColorSelector", {
             left: 0,
             top: 256
           });
+
           break;
 
         case "hue-saturation-field":
           control = new qx.ui.basic.Image(
             "decoration/colorselector/huesaturation-field.jpg"
           );
+
           control.addListener(
             "pointerdown",
             this._onHueSaturationFieldPointerDown,
             this
           );
+
           break;
 
         case "hue-saturation-handle":
           control = new qx.ui.basic.Image(
             "decoration/colorselector/huesaturation-handle.gif"
           );
+
           control.addListener(
             "pointerdown",
             this._onHueSaturationFieldPointerDown,
             this
           );
+
           control.addListener(
             "pointerup",
             this._onHueSaturationHandlePointerUp,
             this
           );
+
           control.addListener(
             "pointermove",
             this._onHueSaturationHandlePointerMove,
             this
           );
+
           break;
 
         case "brightness-pane":
@@ -312,32 +319,38 @@ qx.Class.define("qx.ui.control.ColorSelector", {
           control = new qx.ui.basic.Image(
             "decoration/colorselector/brightness-field.png"
           );
+
           control.addListener(
             "pointerdown",
             this._onBrightnessFieldPointerDown,
             this
           );
+
           break;
 
         case "brightness-handle":
           control = new qx.ui.basic.Image(
             "decoration/colorselector/brightness-handle.gif"
           );
+
           control.addListener(
             "pointerdown",
             this._onBrightnessHandlePointerDown,
             this
           );
+
           control.addListener(
             "pointerup",
             this._onBrightnessHandlePointerUp,
             this
           );
+
           control.addListener(
             "pointermove",
             this._onBrightnessHandlePointerMove,
             this
           );
+
           break;
 
         /*
@@ -482,6 +495,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
             this._setSaturationFromSpinner,
             this
           );
+
           break;
 
         case "hsb-spinner-brightness":
@@ -492,6 +506,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
             this._setBrightnessFromSpinner,
             this
           );
+
           break;
 
         /*
@@ -996,6 +1011,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
       this.setSaturation(
         qx.lang.Number.limit(this.getSaturation() - delta.y / 10, 0, 100)
       );
+
       this.setHue(qx.lang.Number.limit(this.getHue() + delta.x / 10, 0, 360));
     },
 
@@ -1010,6 +1026,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
         0,
         256
       );
+
       var vLeft = qx.lang.Number.limit(
         e.getDocumentLeft() - this.__hueSaturationSubtractLeft,
         0,
@@ -1102,6 +1119,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
       this.setSaturation(
         this.getChildControl("hsb-spinner-saturation").getValue()
       );
+
       this.__updateContext = null;
     },
 
@@ -1117,6 +1135,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
       this.setBrightness(
         this.getChildControl("hsb-spinner-brightness").getValue()
       );
+
       this.__updateContext = null;
     },
 
@@ -1258,6 +1277,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
         this.getGreen(),
         this.getBlue()
       ]);
+
       this.getChildControl("preview-content-new").setBackgroundColor(rgbString);
     },
 
@@ -1287,6 +1307,7 @@ qx.Class.define("qx.ui.control.ColorSelector", {
         this.getSaturation(),
         255
       ]);
+
       var helpRgbString = ColorUtil.rgbToRgbString(helpRgb);
       this.getChildControl("brightness-field").setBackgroundColor(
         helpRgbString

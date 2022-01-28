@@ -143,6 +143,7 @@ qx.Class.define("qx.test.bom.Stylesheet", {
       var sheet = (this.__sheet = qx.bom.Stylesheet.createElement(
         "#foo { color: red; }"
       ));
+
       qx.bom.Stylesheet.removeRule(sheet, "#foo");
       var rules = sheet.cssRules || sheet.rules;
       this.assertEquals(0, rules.length);

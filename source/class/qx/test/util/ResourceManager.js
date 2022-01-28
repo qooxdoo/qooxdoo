@@ -57,6 +57,7 @@ qx.Class.define("qx.test.util.ResourceManager", {
         ResourceManager.getImageFormat("qx/static/blank.gif"),
         "gif"
       );
+
       this.assertEquals(
         ResourceManager.getImageFormat("@FontAwesome/heart"),
         "font"

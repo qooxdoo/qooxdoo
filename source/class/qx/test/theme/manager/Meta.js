@@ -108,6 +108,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       this.__button = new qx.ui.form.Button("Foo").set({
         appearance: "test-button-gradient"
       });
+
       this.getRoot().add(this.__button);
       qx.ui.core.queue.Manager.flush();
     },
@@ -130,6 +131,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       qx.theme.manager.Meta.getInstance().setTheme(
         qx.test.theme.manager.MockAll
       );
+
       qx.ui.core.queue.Manager.flush();
 
       // button element
@@ -169,6 +171,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       qx.theme.manager.Meta.getInstance().setTheme(
         qx.test.theme.manager.MockColor
       );
+
       qx.ui.core.queue.Manager.flush();
 
       var elem = this.__button.getContentElement().getDomElement();
@@ -197,6 +200,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       qx.theme.manager.Meta.getInstance().setTheme(
         qx.test.theme.manager.MockAppearance
       );
+
       qx.ui.core.queue.Manager.flush();
 
       // mocked appearance theme defines a padding with 30px 80px
@@ -208,6 +212,7 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       qx.theme.manager.Color.getInstance().setTheme(
         qx.test.theme.manager.mock.Color
       );
+
       qx.ui.core.queue.Manager.flush();
 
       var elem = this.__button.getContentElement().getDomElement();

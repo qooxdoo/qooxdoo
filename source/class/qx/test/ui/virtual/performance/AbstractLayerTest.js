@@ -100,6 +100,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", {
             this.rowSizes,
             this.colSizes
           );
+
           startRow += 10;
         },
         this,
@@ -119,6 +120,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", {
             this.rowSizes,
             this.colSizes
           );
+
           startCol += 10;
         },
         this,
@@ -161,6 +163,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", {
       var avg = Math.round(
         qx.lang.Array.sum(times.slice(1, -1)) / (times.length - 2)
       );
+
       //this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
       this.warn(";" + name + ";avg:" + avg + ";" + times.join(";"));
 

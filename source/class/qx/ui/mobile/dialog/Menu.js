@@ -178,6 +178,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu", {
       var clearButton = new qx.ui.mobile.form.Button(
         this.getClearButtonLabel()
       );
+
       clearButton.addListener("tap", this.__onClearButtonTap, this);
       clearButton.exclude();
       return clearButton;
@@ -192,6 +193,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu", {
       var listScroller = new qx.ui.mobile.container.Scroll({
         snap: ".list-item"
       });
+
       listScroller.add(selectionList, {
         flex: 1
       });
@@ -262,6 +264,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu", {
         this.__onListChangeSelection,
         this
       );
+
       selectionList.addListener("tap", this._onSelectionListTap, this);
       return selectionList;
     },
@@ -353,6 +356,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu", {
         var listItems = qxWeb(
           "#" + this.__listScroller.getId() + " .list-item"
         );
+
         var targetListItemElement = listItems[index];
         this.__listScroller.scrollToElement(targetListItemElement);
       }

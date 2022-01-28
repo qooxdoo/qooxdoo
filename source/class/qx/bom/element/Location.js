@@ -79,6 +79,7 @@ qx.Bootstrap.define("qx.bom.element.Location", {
             qx.bom.element.Style.COMPUTED_MODE,
             false
           ),
+
           10
         ) || 0
       );

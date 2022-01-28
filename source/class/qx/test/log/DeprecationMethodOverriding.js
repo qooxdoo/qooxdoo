@@ -41,6 +41,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding", {
         2,
         /qx.test.log.fixture.ClassB1._applyOldProperty/
       );
+
       instance.dispose();
     },
 
@@ -52,6 +53,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding", {
         3,
         /qx.test.log.fixture.ClassB1._applyOldProperty/
       );
+
       instance.dispose();
     },
 
@@ -69,6 +71,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding", {
         3,
         /qx.test.log.fixture.ClassC2._applyOldProperty/
       );
+
       instance.dispose();
     },
 
@@ -85,6 +88,7 @@ qx.Class.define("qx.test.log.DeprecationMethodOverriding", {
         callCountOldProperty,
         instance.getCallCountApplyOldProperty()
       );
+
       this.assertEquals(
         callCountNewProperty,
         instance.getCallCountApplyNewProperty()

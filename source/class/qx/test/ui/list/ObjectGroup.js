@@ -112,6 +112,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup", {
         this._list.getPane().getRowConfig().getItemCount(),
         "On Layer"
       );
+
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
       groupedModel.dispose();
     },
@@ -250,6 +251,7 @@ qx.Class.define("qx.test.ui.list.ObjectGroup", {
         this._list.getPane().getRowConfig().getItemCount(),
         "On Layer"
       );
+
       this.assertEquals(12, this._list.getGroups().getLength(), "On List");
       groupedModel.dispose();
       sortedModel.dispose();

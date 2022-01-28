@@ -467,11 +467,13 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs", {
           "HtmlDlgSafeHelper.HtmlDlgSafeHelper",
           "Scripting.Dictionary"
         ];
+
         progid2 = [
           "WMPlayer.OCX",
           "ShockwaveFlash.ShockwaveFlash",
           "AgControl.AgControl"
         ];
+
         progid = progid1.concat(progid2);
         for (x = 0; x < progid.length; x++) {
           if ($.getAXO(progid[x]) && !$.dbug) {
@@ -569,6 +571,7 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs", {
             "",
             100
           ];
+
           for (b = c.length - 2; b >= 0; b = b - 2) {
             if (c[b] && new RegExp(c[b], "i").test(a)) {
               d.OS = c[b + 1];
@@ -708,6 +711,7 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs", {
           h = b.formatNum(
             b.isNum(h) ? h.toString() : b.isStrNum(h) ? b.getNum(h) : "0"
           );
+
           if (g.getVersionDone != 1) {
             g.getVersion(h, e, d);
             if (g.getVersionDone === null) {
@@ -1434,6 +1438,7 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs", {
               0,
               b
             );
+
             if ((!j.result || f.dbug) && a < 0) {
               if (k) {
                 j.result = -1;

@@ -273,22 +273,27 @@ qx.Class.define("qx.test.Mixin", {
         qx.test.testclasses.BaseClassIncluded.constructor ===
           qx.test.testclasses.BaseClassIncluded
       );
+
       this.assertTrue(
         qx.test.testclasses.BaseClassPatched.constructor ===
           qx.test.testclasses.BaseClassPatched
       );
+
       this.assertTrue(
         qx.test.testclasses.BaseClassBoth.constructor ===
           qx.test.testclasses.BaseClassBoth
       );
+
       this.assertTrue(
         qx.test.testclasses.DerivedClassIncluded.constructor ===
           qx.test.testclasses.DerivedClassIncluded
       );
+
       this.assertTrue(
         qx.test.testclasses.DerivedClassPatched.constructor ===
           qx.test.testclasses.DerivedClassPatched
       );
+
       this.assertTrue(
         qx.test.testclasses.DerivedClassBoth.constructor ===
           qx.test.testclasses.DerivedClassBoth
@@ -299,6 +304,7 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two"],
         objBaseIncluded.state
       );
+
       this.assertEquals("mixin-one", objBaseIncluded.getSomething());
 
       var objIncluded = new qx.test.testclasses.DerivedClassIncluded();
@@ -306,6 +312,7 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two", "derived"],
         objIncluded.state
       );
+
       this.assertEquals("mixin-one:derived", objIncluded.getSomething());
 
       var objBasePatched = new qx.test.testclasses.BaseClassPatched();
@@ -313,6 +320,7 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two"],
         objBasePatched.state
       );
+
       this.assertEquals("mixin-one", objBasePatched.getSomething());
 
       var objPatched = new qx.test.testclasses.DerivedClassPatched();
@@ -320,6 +328,7 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two", "derived"],
         objPatched.state
       );
+
       this.assertEquals("mixin-one:derived", objPatched.getSomething());
 
       var objBaseBoth = new qx.test.testclasses.BaseClassBoth();
@@ -327,6 +336,7 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two"],
         objBaseBoth.state
       );
+
       this.assertEquals("mixin-one", objBaseBoth.getSomething());
 
       var objBoth = new qx.test.testclasses.DerivedClassBoth();
@@ -334,23 +344,29 @@ qx.Class.define("qx.test.Mixin", {
         ["root", "base", "mixin-one", "mixin-two", "derived"],
         objBoth.state
       );
+
       this.assertEquals("mixin-one:derived", objBoth.getSomething());
 
       this.assertTrue(
         objBaseIncluded.constructor === qx.test.testclasses.BaseClassIncluded
       );
+
       this.assertTrue(
         objIncluded.constructor === qx.test.testclasses.DerivedClassIncluded
       );
+
       this.assertTrue(
         objBasePatched.constructor === qx.test.testclasses.BaseClassPatched
       );
+
       this.assertTrue(
         objPatched.constructor === qx.test.testclasses.DerivedClassPatched
       );
+
       this.assertTrue(
         objBaseBoth.constructor === qx.test.testclasses.BaseClassBoth
       );
+
       this.assertTrue(
         objBoth.constructor === qx.test.testclasses.DerivedClassBoth
       );
@@ -358,21 +374,27 @@ qx.Class.define("qx.test.Mixin", {
       this.assertTrue(
         objBaseIncluded instanceof qx.test.testclasses.BaseClassIncluded
       );
+
       this.assertTrue(
         objIncluded instanceof qx.test.testclasses.DerivedClassIncluded
       );
+
       this.assertTrue(
         objIncluded instanceof qx.test.testclasses.BaseClassIncluded
       );
+
       this.assertTrue(
         objBasePatched instanceof qx.test.testclasses.BaseClassPatched
       );
+
       this.assertTrue(
         objPatched instanceof qx.test.testclasses.BaseClassPatched
       );
+
       this.assertTrue(
         objPatched instanceof qx.test.testclasses.DerivedClassPatched
       );
+
       this.assertTrue(objBaseBoth instanceof qx.test.testclasses.BaseClassBoth);
       this.assertTrue(objBoth instanceof qx.test.testclasses.BaseClassBoth);
       this.assertTrue(objBoth instanceof qx.test.testclasses.DerivedClassBoth);

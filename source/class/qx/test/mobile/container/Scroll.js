@@ -33,6 +33,7 @@ qx.Class.define("qx.test.mobile.container.Scroll", {
         "overflow",
         "hidden"
       );
+
       scrollContainer.addListener(
         "waypoint",
         function (wayPoint) {

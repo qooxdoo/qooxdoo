@@ -136,6 +136,7 @@ qx.Class.define("qx.test.util.Uri", {
         "[FE80:0000:0000:0000:0202:B3FF:FE1E:8329]",
         result.host
       );
+
       this.assertEquals("80", result.port);
       this.assertEquals("/foo/bar?affe=true#here", result.relative);
       this.assertEquals("here", result.anchor);

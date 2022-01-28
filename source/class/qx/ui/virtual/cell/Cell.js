@@ -424,6 +424,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell", {
         appearance,
         states
       );
+
       for (var prop in styles) {
         if (styles[prop] !== undefined) {
           PropertyUtil.setThemed(this, prop, styles[prop]);

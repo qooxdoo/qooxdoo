@@ -53,6 +53,7 @@ qx.Class.define("qx.test.bom.element.Background", {
         styles,
         "Key 'backgroundImage' is not present!"
       );
+
       this.assertKeyInMap(
         "backgroundPosition",
         styles,
@@ -81,6 +82,7 @@ qx.Class.define("qx.test.bom.element.Background", {
         styles,
         "Key 'backgroundImage' is not present!"
       );
+
       this.assertKeyInMap(
         "backgroundPosition",
         styles,

@@ -57,6 +57,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
       this._onReadyStateChange,
       this
     );
+
     this.__onLoadBound = qx.lang.Function.bind(this._onLoad, this);
     this.__onLoadEndBound = qx.lang.Function.bind(this._onLoadEnd, this);
     this.__onAbortBound = qx.lang.Function.bind(this._onAbort, this);
@@ -458,6 +459,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
             },
             this
           );
+
           listeners.push(changeResponseListener);
 
           var statusErrorListener = req.addListener(
@@ -468,11 +470,13 @@ qx.Class.define("qx.io.request.AbstractRequest", {
                 req.getStatus(),
                 req.getStatusText()
               ]);
+
               var err = new qx.type.BaseError("statusError", failMessage);
               reject(err);
             },
             this
           );
+
           listeners.push(statusErrorListener);
 
           var timeoutListener = req.addListener(
@@ -483,11 +487,13 @@ qx.Class.define("qx.io.request.AbstractRequest", {
                 "Request failed with timeout after %1 ms.",
                 [req.getTimeout()]
               );
+
               var err = new qx.type.BaseError("timeout", failMessage);
               reject(err);
             },
             this
           );
+
           listeners.push(timeoutListener);
 
           var parseErrorListener = req.addListener(
@@ -500,6 +506,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
             },
             this
           );
+
           listeners.push(parseErrorListener);
 
           var abortListener = req.addListener(
@@ -512,6 +519,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
             },
             this
           );
+
           listeners.push(abortListener);
 
           var errorListener = req.addListener(
@@ -524,6 +532,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
             },
             this
           );
+
           listeners.push(errorListener);
 
           req.send();
@@ -592,6 +601,7 @@ qx.Class.define("qx.io.request.AbstractRequest", {
         requestHeaders,
         this._getConfiguredRequestHeaders()
       );
+
       // Authentication delegate
       qx.lang.Object.mergeWith(requestHeaders, this.__getAuthRequestHeaders());
       // User-defined, requestHeaders property (deprecated)

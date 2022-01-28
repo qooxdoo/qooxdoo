@@ -49,6 +49,7 @@ qx.Class.define("qx.test.ui.form.NumberFormat", {
             e.getData(),
             "Not the right number in the event."
           );
+
           self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
         },
         "Event is wrong!"

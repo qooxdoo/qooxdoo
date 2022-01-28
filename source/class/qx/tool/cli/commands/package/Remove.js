@@ -106,6 +106,7 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
       let manifest = await qx.tool.utils.Json.loadJsonAsync(
         qx.tool.config.Manifest.config.fileName
       );
+
       if (manifest.requires && manifest.requires[uri]) {
         delete manifest.requires[uri];
         await qx.tool.utils.Json.saveJsonAsync(
@@ -131,6 +132,7 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
       let manifest = await qx.tool.utils.Json.loadJsonAsync(
         path.join(libraryData.path, qx.tool.config.Manifest.config.fileName)
       );
+
       if (!manifest || !manifest.provides || !manifest.provides.application) {
         if (this.argv.verbose) {
           qx.tool.compiler.Console.info(">>> No application to remove.");
@@ -141,6 +143,7 @@ qx.Class.define("qx.tool.cli.commands.package.Remove", {
       let compileData = await qx.tool.utils.Json.loadJsonAsync(
         qx.tool.config.Compile.config.fileName
       );
+
       let manifestApp = manifest.provides.application;
       let app = compileData.applications.find(app => {
         if (manifestApp.name && app.name) {

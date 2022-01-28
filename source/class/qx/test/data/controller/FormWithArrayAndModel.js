@@ -160,6 +160,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel", {
         { c1: "1a1", c2: "1a2" },
         { c1: "1b1", c2: "1b2" }
       ]);
+
       arr.setAutoDisposeItems(true);
       this.__arrayField.setValue(arr);
 
@@ -203,6 +204,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel", {
         { c1: "2a1", c2: "2a2" },
         { c1: "2b1", c2: "2b2" }
       ]);
+
       arr.setAutoDisposeItems(true);
       this.__arrayField.setValue(arr);
 
@@ -224,6 +226,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel", {
         { c1: "2a1", c2: "2a2" },
         { c1: "2b1", c2: "2b2" }
       ]);
+
       arr.setAutoDisposeItems(true);
 
       var ctrl = new qx.data.controller.Form(this.__model, this.__form);

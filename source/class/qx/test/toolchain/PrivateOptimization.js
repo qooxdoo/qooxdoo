@@ -30,6 +30,7 @@ qx.Class.define("qx.test.toolchain.PrivateOptimization", {
         this.__test(),
         "Variable in a string renamed!"
       );
+
       this.assertEquals(
         "__te" + "st a test",
         this.__test() + " test",

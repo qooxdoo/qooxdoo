@@ -539,6 +539,7 @@ qx.Bootstrap.define("qx.lang.Json", {
             "hasOwnProperty",
             "constructor"
           ];
+
           // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
           // properties.
           forEach = function (object, callback) {
@@ -854,6 +855,7 @@ qx.Bootstrap.define("qx.lang.Json", {
                   indentation,
                   stack
                 );
+
                 results.push(element === undef ? "null" : element);
               }
               result = hasMembers
@@ -880,6 +882,7 @@ qx.Bootstrap.define("qx.lang.Json", {
                   indentation,
                   stack
                 );
+
                 if (element !== undef) {
                   // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
                   // is not the empty string, let `member` {quote(property) + ":"}
@@ -1074,6 +1077,7 @@ qx.Bootstrap.define("qx.lang.Json", {
                         value += fromCharCode(
                           "0x" + source.slice(begin, Index)
                         );
+
                         break;
                       default:
                         // Invalid escape sequence.

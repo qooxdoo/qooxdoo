@@ -235,10 +235,12 @@
       "Boolean Number String Function Array Date RegExp Object Error Symbol".split(
         " "
       ),
+
       function (a, b) {
         j["[object " + b + "]"] = b.toLowerCase();
       }
     );
+
   function w(a) {
     var b = !!a && "length" in a && a.length,
       c = r.type(a);
@@ -339,6 +341,7 @@
             "*\\)|)",
           "i"
         ),
+
         bool: new RegExp("^(?:" + J + ")$", "i"),
         needsContext: new RegExp(
           "^" +
@@ -385,6 +388,7 @@
         },
         { dir: "parentNode", next: "legend" }
       );
+
     try {
       G.apply((D = H.call(v.childNodes)), v.childNodes),
         D[v.childNodes.length].nodeType;
@@ -866,6 +870,7 @@
             "+": { dir: "previousSibling", first: !0 },
             "~": { dir: "previousSibling" }
           },
+
           preFilter: {
             ATTR(a) {
               return (
@@ -903,6 +908,7 @@
                   a.slice(0, 3));
             }
           },
+
           filter: {
             TAG(a) {
               var b = a.replace(_, aa).toLowerCase();
@@ -1054,6 +1060,7 @@
                 : e;
             }
           },
+
           pseudos: {
             not: ia(function (a) {
               var b = [],
@@ -1602,6 +1609,7 @@
               for (b = 0; b < d; b++) if (r.contains(e[b], this)) return !0;
             })
           );
+
         for (c = this.pushStack([]), b = 0; b < d; b++) r.find(a, e[b], c);
         return d > 1 ? r.uniqueSort(c) : c;
       },
@@ -1616,6 +1624,7 @@
           .length;
       }
     });
+
   var F,
     G = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
     H = (r.fn.init = function (a, b, c) {
@@ -1706,6 +1715,7 @@
       return this.add(null == a ? this.prevObject : this.prevObject.filter(a));
     }
   });
+
   function K(a, b) {
     while ((a = a[b]) && 1 !== a.nodeType);
     return a;
@@ -1753,6 +1763,7 @@
             r.merge([], a.childNodes));
       }
     },
+
     function (a, b) {
       r.fn[a] = function (c, d) {
         var e = r.map(this, b, c);
@@ -1766,6 +1777,7 @@
       };
     }
   );
+
   var L = /[^\x20\t\r\n\f]+/g;
   function M(a) {
     var b = {};
@@ -1856,6 +1868,7 @@
           return !!d;
         }
       };
+
     return j;
   };
   function N(a) {
@@ -1886,6 +1899,7 @@
             r.Callbacks("memory"),
             2
           ],
+
           [
             "resolve",
             "done",
@@ -1894,6 +1908,7 @@
             0,
             "resolved"
           ],
+
           [
             "reject",
             "fail",
@@ -2046,6 +2061,7 @@
       return g.promise();
     }
   });
+
   var Q = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
   (r.Deferred.exceptionHook = function (b, c) {
     a.console &&
@@ -2171,6 +2187,7 @@
         return void 0 !== b && !r.isEmptyObject(b);
       }
     });
+
   var W = new V(),
     X = new V(),
     Y = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
@@ -2353,6 +2370,7 @@
         return h(), e.promise(b);
       }
     });
+
   var aa = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,
     ba = new RegExp("^(?:([+-])=|)(" + aa + ")([a-z%]*)$", "i"),
     ca = ["Top", "Right", "Bottom", "Left"],
@@ -2447,6 +2465,7 @@
           });
     }
   });
+
   var ja = /^(?:checkbox|radio)$/i,
     ka = /<([a-z][^\/\0>\x20\t\r\n\f]+)/i,
     la = /^$|\/(?:java|ecma)script/i,
@@ -2458,6 +2477,7 @@
       td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
       _default: [0, "", ""]
     };
+
   (ma.optgroup = ma.option),
     (ma.tbody = ma.tfoot = ma.colgroup = ma.caption = ma.thead),
     (ma.th = ma.td);
@@ -2623,6 +2643,7 @@
                   needsContext: e && r.expr.match.needsContext.test(e),
                   namespace: o.join(".")
                 },
+
                 f
               )),
               (m = i[n]) ||
@@ -2774,12 +2795,14 @@
         },
         delegateType: "focusin"
       },
+
       blur: {
         trigger() {
           if (this === xa() && this.blur) return this.blur(), !1;
         },
         delegateType: "focusout"
       },
+
       click: {
         trigger() {
           if ("checkbox" === this.type && this.click && B(this, "input"))
@@ -2789,6 +2812,7 @@
           return B(a.target, "a");
         }
       },
+
       beforeunload: {
         postDispatch(a) {
           void 0 !== a.result &&
@@ -2894,6 +2918,7 @@
             : a.which;
         }
       },
+
       r.event.addProp
     ),
     r.each(
@@ -2903,6 +2928,7 @@
         pointerenter: "pointerover",
         pointerleave: "pointerout"
       },
+
       function (a, b) {
         r.event.special[a] = {
           delegateType: b,
@@ -2942,6 +2968,7 @@
             ),
             this
           );
+
         if ("object" == typeof a) {
           for (e in a) this.off(e, b, a[e]);
           return this;
@@ -2955,6 +2982,7 @@
         );
       }
     });
+
   var za =
       /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,
     Aa = /<script|<style|<link/i,
@@ -3210,6 +3238,7 @@
         insertAfter: "after",
         replaceAll: "replaceWith"
       },
+
       function (a, b) {
         r.fn[a] = function (a) {
           for (var c, d = [], e = r(a), f = e.length - 1, g = 0; g <= f; g++)
@@ -3220,6 +3249,7 @@
         };
       }
     );
+
   var La = /^margin/,
     Ma = new RegExp("^(" + aa + ")(?!px)[a-z%]+$", "i"),
     Na = function (b) {
@@ -3366,6 +3396,7 @@
         }
       }
     },
+
     cssNumber: {
       animationIterationCount: !0,
       columnCount: !0,
@@ -3381,6 +3412,7 @@
       zIndex: !0,
       zoom: !0
     },
+
     cssProps: { float: "cssFloat" },
     style(a, b, c, d) {
       if (a && 3 !== a.nodeType && 8 !== a.nodeType && a.style) {
@@ -3507,6 +3539,7 @@
         );
       }
     });
+
   function _a(a, b, c, d, e) {
     return new _a.prototype.init(a, b, c, d, e);
   }
@@ -3768,6 +3801,7 @@
             c,
             j.opts.specialEasing[b] || j.opts.easing
           );
+
           return j.tweens.push(d), d;
         },
         stop(b) {
@@ -3791,6 +3825,7 @@
             (r._queueHooks(j.elem, j.opts.queue).stop = r.proxy(d.stop, d)),
           d
         );
+
     return (
       r.map(k, hb, j),
       r.isFunction(j.opts.start) && j.opts.start.call(a, j),
@@ -3812,6 +3847,7 @@
         }
       ]
     },
+
     tweener(a, b) {
       r.isFunction(a) ? ((b = a), (a = ["*"])) : (a = a.match(L));
       for (var c, d = 0, e = a.length; d < e; d++)
@@ -3833,6 +3869,7 @@
               duration: a,
               easing: (c && b) || (b && !r.isFunction(b) && b)
             };
+
       return (
         r.fx.off
           ? (d.duration = 0)
@@ -3937,6 +3974,7 @@
         fadeOut: { opacity: "hide" },
         fadeToggle: { opacity: "toggle" }
       },
+
       function (a, b) {
         r.fn[a] = function (a, c, d) {
           return this.animate(b, a, c, d);
@@ -4031,6 +4069,7 @@
           }
         }
       },
+
       removeAttr(a, b) {
         var c,
           d = 0,
@@ -4101,6 +4140,7 @@
           }
         }
       },
+
       propFix: { for: "htmlFor", class: "className" }
     }),
     o.optSelected ||
@@ -4127,10 +4167,12 @@
         "frameBorder",
         "contentEditable"
       ],
+
       function () {
         r.propFix[this.toLowerCase()] = this;
       }
     );
+
   function pb(a) {
     var b = a.match(L) || [];
     return b.join(" ");
@@ -4220,6 +4262,7 @@
       return !1;
     }
   });
+
   var rb = /\r/g;
   r.fn.extend({
     val(a) {
@@ -4250,6 +4293,7 @@
                   (this.value = e));
             })
           );
+
         if (e)
           return (
             (b = r.valHooks[e.type] || r.valHooks[e.nodeName.toLowerCase()]),
@@ -4269,6 +4313,7 @@
             return null != b ? b : pb(r.text(a));
           }
         },
+
         select: {
           get(a) {
             var b,
@@ -4411,6 +4456,7 @@
       "blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(
         " "
       ),
+
       function (a, b) {
         r.fn[b] = function (a, c) {
           return arguments.length > 0
@@ -4529,6 +4575,7 @@
           .get();
       }
     });
+
   var Bb = /%20/g,
     Cb = /#.*$/,
     Db = /([?&])_=[^&]*/,
@@ -4673,20 +4720,24 @@
         xml: "application/xml, text/xml",
         json: "application/json, text/javascript"
       },
+
       contents: { xml: /\bxml\b/, html: /\bhtml/, json: /\bjson\b/ },
       responseFields: {
         xml: "responseXML",
         text: "responseText",
         json: "responseJSON"
       },
+
       converters: {
         "* text": String,
         "text html": !0,
         "text json": JSON.parse,
         "text xml": r.parseXML
       },
+
       flatOptions: { url: !0, context: !0 }
     },
+
     ajaxSetup(a, b) {
       return b ? Ob(Ob(a, r.ajaxSettings), b) : Ob(r.ajaxSettings, a);
     },
@@ -4752,6 +4803,7 @@
             return e && e.abort(b), A(0, b), this;
           }
         };
+
       if (
         (s.promise(y),
         (o.url = ((b || o.url || tb.href) + "").replace(
@@ -4813,6 +4865,7 @@
                 ("*" !== o.dataTypes[0] ? ", " + Kb + "; q=0.01" : "")
             : o.accepts["*"]
         );
+
       for (m in o.headers) y.setRequestHeader(m, o.headers[m]);
       if (o.beforeSend && (o.beforeSend.call(p, y, o) === !1 || k))
         return y.abort();
@@ -5044,6 +5097,7 @@
         script:
           "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
       },
+
       contents: { script: /\b(?:java|ecma)script\b/ },
       converters: {
         "text script"(a) {
@@ -5193,6 +5247,7 @@
         "ajaxSuccess",
         "ajaxSend"
       ],
+
       function (a, b) {
         r.fn[b] = function (a) {
           return this.on(b, a);

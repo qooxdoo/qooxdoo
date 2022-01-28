@@ -199,6 +199,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         fontWeight,
         fontStyle
       );
+
       var index = null;
       for (var i = 0, l = this.__createdStyles.length; i < l; i++) {
         if (this.__createdStyles[i] == fontLookupKey) {
@@ -341,6 +342,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         fontWeight,
         fontStyle
       );
+
       if (!this.__createdStyles.includes(fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
         var rule = this.__getRule(
@@ -379,9 +381,11 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           fontWeight,
           fontStyle
         );
+
         this.__validators[fontLookupKey].setTimeout(
           qx.bom.webfonts.Manager.VALIDATION_TIMEOUT
         );
+
         this.__validators[fontLookupKey].addListenerOnce(
           "changeStatus",
           this.__onFontChangeStatus,
@@ -515,6 +519,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
             url +
             "?#iefix') format('embedded-opentype')"
           );
+
         case "woff2":
           return "url('" + url + "') format('woff2')";
         case "woff":

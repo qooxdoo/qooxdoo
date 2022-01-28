@@ -29,6 +29,7 @@ qx.Class.define("qx.test.mobile.form.NumberField", {
         null,
         qx.bom.element.Attribute.get(numberField.getContainerElement(), "value")
       );
+
       this.assertEventFired(numberField, "changeValue", function () {
         numberField.setValue(15);
       });
@@ -100,6 +101,7 @@ qx.Class.define("qx.test.mobile.form.NumberField", {
         null,
         qx.bom.element.Attribute.get(numberField.getContainerElement(), "value")
       );
+
       this.assertEquals("", numberField.getValue());
 
       numberField.destroy();

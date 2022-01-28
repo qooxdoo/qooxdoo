@@ -142,6 +142,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
             this._onListChangeSelection,
             this
           );
+
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
           break;
@@ -157,6 +158,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox", {
             this._onPopupChangeVisibility,
             this
           );
+
           break;
       }
 

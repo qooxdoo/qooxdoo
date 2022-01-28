@@ -172,6 +172,7 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
           " * @asset(qx/static/drawer.png)\n" +
           " * @asset(qx/static/drawer@2x.png)"
       );
+
       this.assert(Boolean(data["@asset"] && data["@asset"].length == 6));
     },
 
@@ -257,6 +258,7 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
         name: "@param",
         body: "value {Boolean}, the new value of the widget"
       };
+
       parser.parseCommand(pdoc, "abc.def.Ghi", null);
       delete pdoc.name;
       delete pdoc.body;
@@ -272,6 +274,7 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
         name: "@param",
         body: "cellInfo {Map}\nInformation about the cell being renderered, including:\n<ul>\n<li>state</li>\n<li>rowDiv</li>\n<li>stylesheet</li>\n<li>element</li>\n<li>dataIndex</li>\n<li>cellData</li>\n<li>height</li>\n</ul>"
       };
+
       parser.parseCommand(pdoc, "abc.def.Ghi", null);
       delete pdoc.name;
       delete pdoc.body;
@@ -295,6 +298,7 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
          *    ghi)
         `
       );
+
       this.assert(
         qx.lang.Object.equals(result, {
           "@description": [
@@ -320,6 +324,7 @@ qx.Class.define("qx.test.compiler.jsdoc.Parser", {
          *    ghi)
         `
       );
+
       this.assert(
         qx.lang.Object.equals(result, {
           "@description": [

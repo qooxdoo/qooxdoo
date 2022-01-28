@@ -31,64 +31,78 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
         this.tree.getAppearance(),
         "Init value for 'appearance' is wrong!"
       );
+
       this.assertTrue(
         this.tree.getFocusable(),
         "Init value for 'focusable' is wrong!"
       );
+
       this.assertEquals(
         100,
         this.tree.getWidth(),
         "Init value for 'width' is wrong!"
       );
+
       this.assertEquals(
         200,
         this.tree.getHeight(),
         "Init value for 'height' is wrong!"
       );
+
       this.assertEquals(
         25,
         this.tree.getItemHeight(),
         "Init value for 'itemHeight' is wrong!"
       );
+
       this.assertEquals(
         25,
         this.tree.getPane().getRowConfig().getDefaultItemSize(),
         "Init value for 'itemHeight' is wrong!"
       );
+
       this.assertEquals(
         "dbltap",
         this.tree.getOpenMode(),
         "Init value for 'openMode' is wrong!"
       );
+
       this.assertFalse(
         this.tree.getHideRoot(),
         "Init value for 'hideRoot' is wrong!"
       );
+
       this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertNull(
         this.tree.getLabelPath(),
         "Init value for 'labelPath' is wrong!"
       );
+
       this.assertNull(
         this.tree.getIconPath(),
         "Init value for 'iconPath' is wrong!"
       );
+
       this.assertNull(
         this.tree.getLabelOptions(),
         "Init value for 'labelOptions' is wrong!"
       );
+
       this.assertNull(
         this.tree.getIconOptions(),
         "Init value for 'iconOptions' is wrong!"
       );
+
       this.assertNull(
         this.tree.getDelegate(),
         "Init value for 'delegate' is wrong!"
       );
+
       this.assertNull(
         this.tree.getChildProperty(),
         "Init value for 'childProperty' is wrong!"
       );
+
       this.assertTrue(
         this.tree.getPane().hasListener("cellDbltap"),
         "Init listener 'cellDbltap' is wrong!"
@@ -107,16 +121,19 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
         this.tree.getModel(),
         "Init value for 'model' is wrong!"
       );
+
       this.assertEquals(
         "name",
         this.tree.getLabelPath(),
         "Init value for 'labelPath' is wrong!"
       );
+
       this.assertEquals(
         "children",
         this.tree.getChildProperty(),
         "Init value for 'childProperty' is wrong!"
       );
+
       model.dispose();
     },
 
@@ -153,6 +170,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
         Error,
         "Could not build tree, because 'childProperty' and/or 'labelPath' is 'null'!"
       );
+
       model.dispose();
     },
 
@@ -435,6 +453,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
       this.assertTrue(
         this.tree.isNode(root.getChildren().getItem(4).getChildren().getItem(4))
       );
+
       this.assertTrue(
         this.tree.isNode(
           root
@@ -446,6 +465,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
             .getItem(4)
         )
       );
+
       this.assertFalse(
         this.tree.isNode(
           root
@@ -483,18 +503,22 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree", {
         0,
         this.tree.getLevel(this.__getRowFrom(nodesToOpen[0]))
       );
+
       this.assertEquals(
         1,
         this.tree.getLevel(this.__getRowFrom(nodesToOpen[1]))
       );
+
       this.assertEquals(
         2,
         this.tree.getLevel(this.__getRowFrom(nodesToOpen[2]))
       );
+
       this.assertEquals(
         3,
         this.tree.getLevel(this.__getRowFrom(nodesToOpen[3]))
       );
+
       this.assertEquals(
         4,
         this.tree.getLevel(
