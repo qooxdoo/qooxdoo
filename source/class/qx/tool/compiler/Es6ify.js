@@ -162,14 +162,21 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
         },
 
         generatorOpts: {
-          retainLines: true
+          retainLines: true,
+          compact: false
         },
 
         passPerPreset: true
       };
 
       let result;
+      let cycleCount = 0;
       while (true) {
+        cycleCount++;
+        if (cycleCount > 10) {
+          qx.tool.compiler.Console.warn(`Can not find a stable format for ${this.__filename}`);
+          break;
+        }
         result = babelCore.transform(src, config);
         if (result.code === src) {
           break;
