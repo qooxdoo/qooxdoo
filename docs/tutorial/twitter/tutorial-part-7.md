@@ -117,8 +117,8 @@ again. Just add a new class, subclass the window and override the constructor.
 ```javascript
 qx.Class.define("tweets.SettingsWindow", {
   extend: qx.ui.window.Window,
-  construct: function () {
-    this.base(arguments, this.tr("Preferences"));
+  construct() {
+    super(this.tr("Preferences"));
     // ... more to come
   }
 });

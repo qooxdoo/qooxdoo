@@ -338,13 +338,12 @@ etc.
 
 ### Bundling source files together (previous called Hybrid Targets)
 
-In addition to source or build targets, the pre-v6.0.0 generator (ie not the compiler)
-supported hybrid targets which is effectively a source target but with the
-ability combine multiple source files into a larger javascript file - this can
+The compiler supports "bundling" of classes, which is a way to combine multiple
+source files into a single larger javascript file - this can
 have a significant reduction on the time it takes to load an application during
 development, especially if the application is running via a webserver.
 
-The equivalent in the compiler is to specify the `bundle`, which you can do
+Bundling is configured via the `bundle` keyword, which you can use
 globally or on a per-application basis. The `bundle` allows you to use wildcards
 to select classes which are to be bundled together into as few files as
 possible - a common choice would be to include `qx.*` in the bundle, and leave
@@ -411,7 +410,7 @@ specifying any parts at all). It needs to list the classes which are required
 for the main application to be loaded - typically this will be your main
 application class and the theme.
 
-Unlike the pre-v6.0.0 generator, it is permissible to overlap class
+It is permissible to overlap class
 definitions when using wildcards - however, a class can still only
 be loaded into a single part, so the compiler will prioritise more
 specific package names and emit a warning if there is a conflict.

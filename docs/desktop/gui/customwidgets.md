@@ -99,7 +99,7 @@ look like:
           this._add(control);
           break;
       }
-      return control || this.base(arguments, id);
+      return control || super(id);
     }
 ```
 

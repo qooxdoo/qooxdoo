@@ -390,6 +390,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   qx.tool.compiler.ClassFile.JSX_OPTIONS
                 ]
               ],
+              generatorOpts: {
+                compact: false
+              },
 
               parserOpts: {
                 allowSuperOutsideMethod: true,

@@ -536,10 +536,12 @@ qx.Class.define("qx.html.Node", {
         return;
       }
 
-      this._modifiedChildren = true;
+      if (this._domNode) {
+        this._modifiedChildren = true;
 
-      qx.html.Element._modified[this.toHashCode()] = this;
-      qx.html.Element._scheduleFlush("element");
+        qx.html.Element._modified[this.toHashCode()] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
     },
 
     /**
@@ -1346,6 +1348,7 @@ qx.Class.define("qx.html.Node", {
     _applyVisible(value) {
       // Nothing - to be overridden
     },
+
 
     /*
     ---------------------------------------------------------------------------

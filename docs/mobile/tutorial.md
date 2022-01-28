@@ -55,8 +55,8 @@ qx.Class.define("mobiletweets.page.Input",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.setTitle("Identica Client");
   }
 });
@@ -89,9 +89,6 @@ manager.addDetail(inputPage);
 
 inputPage.show();
 ```
-
-As we have changed the dependencies of our application, recreate the source
-version by calling the generator "source" target as above.
 
 Refresh the index.html in your browser. You will see a page with a navigation
 bar and a title "Identica Client". That is all you have to do when you want to
@@ -147,8 +144,8 @@ qx.Class.define("mobiletweets.page.Tweets",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.set({
       title : "", // will be replaced by username
       showBackButton : true,
@@ -172,8 +169,8 @@ the protected lifecycle method `_initialize` to do that: :
 members : {
 
   // overridden
-  _initialize : function() {
-    this.base(arguments);
+  _initialize() {
+    super._initialize();
     // Create a new button instance and set the title of the button to "Show"
     var button = new qx.ui.mobile.form.Button("Show");
     // Add the "tap" listener to the button
@@ -188,7 +185,7 @@ As you can see, the `tap` listener has the `_onTap` method as a handler. This
 method has to be implemented in the member section as well:
 
 ```
-_onTap : function(evt)
+_onTap(evt)
 {
    this.fireDataEvent("requestTweet", null); // Fire a data event.
        // Later we will send the entered "username" as a data.
@@ -246,7 +243,7 @@ of Qooxdoo which you can leverage off in your mobile applications as well.
 Extend the `members` section of the "Application" class by the following code: :
 
 ```
-__loadTweets : function() {
+__loadTweets() {
   // Mocked Identica Tweets API
   // Create a new JSONP store instance with the given url
   var self = this;
@@ -305,11 +302,11 @@ the member section of the "Application" class: :
 
 ```
 // property apply
-_applyUsername : function(value, old) {
+_applyUsername(value, old) {
   this.__loadTweets();
 },
 
-_applyTweets : function(value, old) {
+_applyTweets(value, old) {
   // print the loaded data in the console
   this.debug("Tweets: ", qx.lang.Json.stringify(value));
 }
@@ -391,8 +388,8 @@ of the "Tweets" page.
 members : {
   __list : null,
 
-  _initialize : function() {
-    this.base(arguments);
+  _initialize() {
+    super._initialize();
 
     // Create a new list instance
     var list = this.__list = new qx.ui.mobile.list.List();
@@ -487,8 +484,8 @@ qx.Class.define("mobiletweets.page.TweetDetail",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.set({
       title : "Details",
       showBackButton : true,
@@ -509,9 +506,9 @@ qx.Class.define("mobiletweets.page.TweetDetail",
 
   members :
   {
-    _initialize : function()
+    _initialize()
     {
-      this.base(arguments);
+      super._initialize();
       // Create a new label instance
       var label = new qx.ui.mobile.basic.Label();
       this.getContent().add(label);

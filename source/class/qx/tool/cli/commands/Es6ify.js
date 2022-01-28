@@ -80,7 +80,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
         if (ig.ignores(filename)) {
           return;
         }
-        console.log(`Processing ${filename}...`);
+        qx.tool.compiler.Console.info(`Processing ${filename}...`);
         let ify = new qx.tool.compiler.Es6ify(filename);
         ify.set({
           arrowFunctions: this.argv.arrowFunctions,
