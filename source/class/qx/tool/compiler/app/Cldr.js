@@ -180,6 +180,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "full",
               getDateFormatPattern
             );
+
             // "EEEE, MMMM d, y";
             cldr.cldr_date_format_long = find(
               dateFormatLength,
@@ -187,6 +188,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "long",
               getDateFormatPattern
             );
+
             // "MMMM d, y";
             cldr.cldr_date_format_medium = find(
               dateFormatLength,
@@ -194,6 +196,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "medium",
               getDateFormatPattern
             );
+
             // "MMM d, y";
             cldr.cldr_date_format_short = find(
               dateFormatLength,
@@ -201,6 +204,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "short",
               getDateFormatPattern
             );
+
             // "M/d/yy";
             cldr.cldr_date_time_format_Ed = find(
               dateFormatItem,
@@ -208,6 +212,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "Ed",
               getText
             );
+
             // "d E";
             cldr.cldr_date_time_format_Hm = find(
               dateFormatItem,
@@ -215,6 +220,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "Hm",
               getText
             );
+
             // "HH:mm";
             cldr.cldr_date_time_format_Hms = find(
               dateFormatItem,
@@ -222,6 +228,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "Hms",
               getText
             );
+
             // "HH:mm:ss";
             cldr.cldr_date_time_format_M = find(
               dateFormatItem,
@@ -229,6 +236,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "M",
               getText
             );
+
             // "L";
             cldr.cldr_date_time_format_MEd = find(
               dateFormatItem,
@@ -236,6 +244,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "MEd",
               getText
             );
+
             // "E, M/d";
             cldr.cldr_date_time_format_MMM = find(
               dateFormatItem,
@@ -243,6 +252,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "MMM",
               getText
             );
+
             // "LLL";
             cldr.cldr_date_time_format_MMMEd = find(
               dateFormatItem,
@@ -250,6 +260,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "MMMEd",
               getText
             );
+
             // "E, MMM d";
             cldr.cldr_date_time_format_MMMd = find(
               dateFormatItem,
@@ -257,6 +268,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "MMMd",
               getText
             );
+
             // "MMM d";
             cldr.cldr_date_time_format_Md = find(
               dateFormatItem,
@@ -264,6 +276,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "Md",
               getText
             );
+
             // "M/d";
             cldr.cldr_date_time_format_d = find(
               dateFormatItem,
@@ -271,6 +284,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "d",
               getText
             );
+
             // "d";
             cldr.cldr_date_time_format_hm = find(
               dateFormatItem,
@@ -278,6 +292,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "hm",
               getText
             );
+
             // "h:mm a";
             cldr.cldr_date_time_format_hms = find(
               dateFormatItem,
@@ -285,6 +300,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "hms",
               getText
             );
+
             // "h:mm:ss a";
             cldr.cldr_date_time_format_ms = find(
               dateFormatItem,
@@ -292,6 +308,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "ms",
               getText
             );
+
             // "mm:ss";
             cldr.cldr_date_time_format_y = find(
               dateFormatItem,
@@ -299,6 +316,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "y",
               getText
             );
+
             // "y";
             cldr.cldr_date_time_format_yM = find(
               dateFormatItem,
@@ -306,6 +324,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yM",
               getText
             );
+
             // "M/y";
             cldr.cldr_date_time_format_yMEd = find(
               dateFormatItem,
@@ -313,6 +332,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yMEd",
               getText
             );
+
             // "E, M/d/y";
             cldr.cldr_date_time_format_yMMM = find(
               dateFormatItem,
@@ -320,6 +340,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yMMM",
               getText
             );
+
             // "MMM y";
             cldr.cldr_date_time_format_yMMMEd = find(
               dateFormatItem,
@@ -327,6 +348,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yMMMEd",
               getText
             );
+
             // "E, MMM d, y";
             cldr.cldr_date_time_format_yMMMd = find(
               dateFormatItem,
@@ -334,6 +356,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yMMMd",
               getText
             );
+
             // "MMM d, y";
             cldr.cldr_date_time_format_yMd = find(
               dateFormatItem,
@@ -341,6 +364,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yMd",
               getText
             );
+
             // "M/d/y";
             cldr.cldr_date_time_format_yQ = find(
               dateFormatItem,
@@ -348,6 +372,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yQ",
               getText
             );
+
             // "Q y";
             cldr.cldr_date_time_format_yQQQ = find(
               dateFormatItem,
@@ -355,6 +380,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "yQQQ",
               getText
             );
+
             // "QQQ y";
 
             var dayContext = get("days[0].dayContext", cal);
@@ -366,6 +392,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "fri",
                   getText
                 );
+
                 // "Fri";
                 cldr.cldr_day_format_abbreviated_mon = find(
                   row.day,
@@ -373,6 +400,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "mon",
                   getText
                 );
+
                 // "Mon";
                 cldr.cldr_day_format_abbreviated_sat = find(
                   row.day,
@@ -380,6 +408,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "sat",
                   getText
                 );
+
                 // "Sat";
                 cldr.cldr_day_format_abbreviated_sun = find(
                   row.day,
@@ -387,6 +416,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "sun",
                   getText
                 );
+
                 // "Sun";
                 cldr.cldr_day_format_abbreviated_thu = find(
                   row.day,
@@ -394,6 +424,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "thu",
                   getText
                 );
+
                 // "Thu";
                 cldr.cldr_day_format_abbreviated_tue = find(
                   row.day,
@@ -401,6 +432,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "tue",
                   getText
                 );
+
                 // "Tue";
                 cldr.cldr_day_format_abbreviated_wed = find(
                   row.day,
@@ -408,6 +440,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "wed",
                   getText
                 );
+
                 // "Wed";
               });
             });
@@ -419,6 +452,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "fri",
                   getText
                 );
+
                 // "Friday";
                 cldr.cldr_day_format_wide_mon = find(
                   row.day,
@@ -426,6 +460,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "mon",
                   getText
                 );
+
                 // "Monday";
                 cldr.cldr_day_format_wide_sat = find(
                   row.day,
@@ -433,6 +468,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "sat",
                   getText
                 );
+
                 // "Saturday";
                 cldr.cldr_day_format_wide_sun = find(
                   row.day,
@@ -440,6 +476,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "sun",
                   getText
                 );
+
                 // "Sunday";
                 cldr.cldr_day_format_wide_thu = find(
                   row.day,
@@ -447,6 +484,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "thu",
                   getText
                 );
+
                 // "Thursday";
                 cldr.cldr_day_format_wide_tue = find(
                   row.day,
@@ -454,6 +492,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "tue",
                   getText
                 );
+
                 // "Tuesday";
                 cldr.cldr_day_format_wide_wed = find(
                   row.day,
@@ -461,6 +500,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "wed",
                   getText
                 );
+
                 // "Wednesday";
               });
             });
@@ -471,6 +511,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "fri",
                 getText
               );
+
               // "F";
               cldr["cldr_day_stand-alone_narrow_mon"] = find(
                 row.dayWidth[0].day,
@@ -478,6 +519,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "mon",
                 getText
               );
+
               // "M";
               cldr["cldr_day_stand-alone_narrow_sat"] = find(
                 row.dayWidth[0].day,
@@ -485,6 +527,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "sat",
                 getText
               );
+
               // "S";
               cldr["cldr_day_stand-alone_narrow_sun"] = find(
                 row.dayWidth[0].day,
@@ -492,6 +535,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "sun",
                 getText
               );
+
               // "S";
               cldr["cldr_day_stand-alone_narrow_thu"] = find(
                 row.dayWidth[0].day,
@@ -499,6 +543,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "thu",
                 getText
               );
+
               // "T";
               cldr["cldr_day_stand-alone_narrow_tue"] = find(
                 row.dayWidth[0].day,
@@ -506,6 +551,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "tue",
                 getText
               );
+
               // "T";
               cldr["cldr_day_stand-alone_narrow_wed"] = find(
                 row.dayWidth[0].day,
@@ -513,6 +559,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "wed",
                 getText
               );
+
               // "W";
             });
 
@@ -553,6 +600,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "full",
               getTimeFormatPattern
             );
+
             // "h:mm:ss a zzzz";
             cldr.cldr_time_format_long = find(
               timeFormatLength,
@@ -560,6 +608,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "long",
               getTimeFormatPattern
             );
+
             // "h:mm:ss a z";
             cldr.cldr_time_format_medium = find(
               timeFormatLength,
@@ -567,6 +616,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "medium",
               getTimeFormatPattern
             );
+
             // "h:mm:ss a";
             cldr.cldr_time_format_short = find(
               timeFormatLength,
@@ -574,6 +624,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "short",
               getTimeFormatPattern
             );
+
             // "h:mm a";
           }
 
@@ -595,16 +646,19 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
             cldr.cldr_number_decimal_separator = getValue(
               "ldml.numbers[0].symbols[0].decimal[0]"
             );
+
             // ".";
             cldr.cldr_number_group_separator = getValue(
               "ldml.numbers[0].symbols[0].group[0]"
             );
+
             // ",";
           }
 
           cldr.cldr_number_percent_format = getValue(
             "ldml.numbers[0].percentFormats[0].percentFormatLength[0].percentFormat[0].pattern[0]"
           );
+
           // "#,##0%";
 
           function getDisplayName(row) {

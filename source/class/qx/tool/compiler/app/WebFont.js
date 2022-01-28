@@ -222,6 +222,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
                     (this.getDefaultSize() * glyph.advanceWidth) /
                       glyph.advanceHeight
                   ),
+
                   // width
                   this.getDefaultSize(), // height
                   codePoint
@@ -297,6 +298,7 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
                   (this.getDefaultSize() * glyph.advanceWidth) /
                     glyph.advanceHeight
                 ),
+
                 // width
                 defaultSize, // height
                 codePoint

@@ -72,6 +72,7 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer", {
       this.assertTrue(
         2 === this.__renderer._getChildren()[1]._getChildren().length
       );
+
       // we have a label and a form element in the row
     },
 

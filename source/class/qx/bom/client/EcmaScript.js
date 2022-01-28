@@ -269,6 +269,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
         Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
           Date.parse("2001-02-03T04:05:06.007Z")
       );
+
       // dates as expected
     },
 
@@ -342,6 +343,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript", {
         typeof BigInt.prototype.toLocaleString === "function" && // ...method is present...
         BigInt(1234).toLocaleString("de-DE") === "1,234"
       );
+
       // ...and works as expected
     },
 
