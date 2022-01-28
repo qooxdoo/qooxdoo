@@ -33,8 +33,8 @@ new file. Just create a file in the same folder as `Application.js` and call it
 ```javascript
 qx.Class.define("tweets.MainWindow", {
   extend: qx.ui.window.Window,
-  construct: function () {
-    this.base(arguments, "tweets");
+  construct() {
+    super("tweets");
   }
 });
 ```
@@ -42,7 +42,7 @@ qx.Class.define("tweets.MainWindow", {
 We have created our own class extending the Qooxdoo Window. In the constructor,
 we already set the caption of the window, which is the  
 [first constructor parameter of the Qooxdoo window](apps://apiviewer/#qx.ui.window.Window)
-. So you already have guessed it, `this.base(arguments)` calls the overridden
+. So you already have guessed it, `super()` calls the overridden
 method of the superclass, in this case the constructor. To test the window, we
 need to create an instance of it in the main application. Add these two lines of
 code in the `Application.js` file to create and open the window. Make sure to

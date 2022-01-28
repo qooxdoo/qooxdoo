@@ -9,7 +9,7 @@
  * Other transports based on websockets or other mechanisms can be added later.</p>
  *
  * <p>Please refer to
- * <a href="https://github.com/qooxdoo/incubator.qx.io.jsonrpc/blob/master/readme.md#usage">
+ * <a href="https://qooxdoo.org/documentation/v7.0/#/communication/">
  *    the documentation on GitHub
  *  </a></p>
  */

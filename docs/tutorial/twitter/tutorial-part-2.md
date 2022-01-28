@@ -250,7 +250,7 @@ be set in the constructor. Adding the reference to the icon in the base call
 should do the job.
 
 ```javascript
-this.base(arguments, "tweets", "logo.png");
+super("tweets", "logo.png");
 ```
 
 This time, we added a new reference to an image. Like with class dependencies,
