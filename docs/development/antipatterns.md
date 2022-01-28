@@ -66,9 +66,9 @@ members :
 GOOD:
 
 ```javascript
-construct : function()
+construct()
 {
-  this.base(arguments);
+  super();
   //...
 
   this.__myArr = [];

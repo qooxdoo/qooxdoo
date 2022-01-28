@@ -206,8 +206,7 @@ those keys which have **not** been given a value in the configuration.
 
 This isn't always practical - for example, you may wish to use the configuration
 to set the default value for an environment setting - to prevent the compiler 
-eliminating the code, use the "preserveEnvironment" setting (or in the generator,
-disable the `variants` optimisation and set `qx.allowUrlSettings` to true).
+from eliminating the code, use the "preserveEnvironment" setting.
 
 ## Defining New Environment Settings
 
@@ -306,7 +305,7 @@ The pattern in the URL parameter is easy. It has three parts separated by
 colons. The first part is the constant `qxenv`, the second part is the key of
 the environment setting and the last part is the value of the setting.
 
-Note that you also need to prevent the compiler or generator from eliminating code
+Note that you also need to prevent the compiler from eliminating code
 (see (Code Optimization)[#Code Optimization])
 
 ### As a Check Function

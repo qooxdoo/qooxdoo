@@ -9,13 +9,11 @@ The compiler API has these core concepts:
 
 ## Library (`qx.tool.compiler.app.Library`)
 
-A Library is a collection of code, in a namespace with a Manifest.json - i.e.
-this is exactly the same as generate.py sees the concept of a Library.
+A Library is a collection of code, in a namespace with a Manifest.json.
 
 Note that your application is also a Library - it has a namespace, classes in JS
-files, and a Manifest.json; both Compiler and the pre-v6.0.0 Generator see these as
-just libraries. You know that one of the classes in your library is the main
-"Application" class but the compiler just sees a library.
+files, and a Manifest.json; while _you_ know that one of the classes in your library 
+is the main "Application" class but the compiler just sees a library.
 
 ## Application (`qx.tool.compiler.app.Application`)
 

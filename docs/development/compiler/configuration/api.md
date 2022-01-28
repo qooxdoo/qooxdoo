@@ -2,8 +2,7 @@
 
 ## compile.js
 
-Unlike the pre-v6.0.0 python generator's config.json, compile.json does not support
-processes, job executions, or even macros.  
+`compile.json` does not support processes, job executions, or even macros.  
 
 If you want to add processing, you can use a `compile.js` file to provide code
 which is called by the compiler and will allow you to exert complete, dynamic
@@ -52,7 +51,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       return data;
     }
   }
@@ -77,7 +76,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       if (!data.environment)
         data.environment = {};
       data.environment["myapp.someSetting"] = "hello";

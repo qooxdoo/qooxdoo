@@ -41,8 +41,8 @@ qx.Class.define("tweets.TweetView", {
   extend: qx.ui.core.Widget,
   include: [qx.ui.form.MModelProperty],
 
-  construct: function () {
-    this.base(arguments);
+  construct() {
+    super();
   }
 });
 ```
@@ -125,7 +125,7 @@ with `_add`.
 ```javascript
 members : {
   // overridden
-  _createChildControlImpl : function(id) {
+  _createChildControlImpl(id) {
     var control;
     switch(id) {
       case "icon":
@@ -148,7 +148,7 @@ members : {
         break;
     }
 
-    return control || this.base(arguments, id);
+    return control || super._createChildControlImpl(id);
   }
 },
 ```
@@ -214,18 +214,18 @@ properties to the `members` section.
 
 ```javascript
 // property apply
-_applyIcon : function(value, old) {
+_applyIcon(value, old) {
   var icon = this.getChildControl("icon");
   icon.setSource(value);
 },
 
-_applyPost : function(value, old) {
+_applyPost(value, old) {
   var post = this.getChildControl("post");
   post.setValue(value);
 },
 
 // property apply
-_applyTime : function(value, old) {
+_applyTime(value, old) {
   var time = this.getChildControl("time");
   time.setValue(this._dateFormat.format(value));
 }
@@ -253,7 +253,7 @@ _dateFormat : null,
 And the destructor after the members section:
 
 ```javascript
-destruct : function() {
+destruct() {
   this._dateFormat.dispose();
   this._dateFormat = null;
 }
@@ -293,11 +293,11 @@ Now to the delegate, just replace the current delegate with this one:
 
 ```
 controller.setDelegate({
-  createItem : function() {
+  createItem() {
     return new tweets.TweetView();
   },
 
-  bindItem : function(controller, item, id) {
+  bindItem(controller, item, id) {
     controller.bindProperty("text", "post", null, item, id);
     controller.bindProperty("user.profile_image_url", "icon", null, item, id);
     controller.bindProperty("created_at", "time", {
@@ -307,7 +307,7 @@ controller.setDelegate({
     }, item, id);
   },
 
-  configureItem : function(item) {
+  configureItem(item) {
     item.getChildControl("icon").setWidth(48);
     item.getChildControl("icon").setHeight(48);
     item.getChildControl("icon").setScale(true);
@@ -343,7 +343,7 @@ because the model contains a String with the UTC time while the widget expects a
 date object. So we have to convert the data:
 
 ```javascript
-converter: function(data) {
+converter(data) {
   return new Date(data);
 }
 ```

@@ -16,13 +16,13 @@ Using Object IDs is easy, because the mechanism is built into every Qooxdoo obje
 
 ```
 members: {
-    _createQxObjectImpl: function(id) {
+    _createQxObjectImpl(id) {
       switch(id) {
       case "someArray":
         return new qx.data.Array();
       }
       
-      return this.base(arguments, id);
+      return super._createQxObjectImpl(id);
     }
 ```
 
@@ -36,8 +36,8 @@ This rapidly makes the constructor become a big mixup of UI code, layout code, a
 
 
 ```
-construct: function() {
-  this.base(arguments);
+construct() {
+  super();
   var comp = new qx.ui.container.Composite();
   var edtLine1 = this.__edtLine1 = new qx.form.TextField();
   this._addToGroup(comp, edtLine1, "Line 1", "line1"); 
@@ -66,13 +66,13 @@ qx.Class.define("myapp.AddressEditor", {
   extend: myapp.Editor,
 
   construct() {
-    this.base(arguments);
+    super();
     this.add(this.getQxObject("comp"));
   },
 
   members: {
     _applyParentValue(value, oldValue) {
-      this.base(arguments, value, oldValue);
+      super._applyParentValue(value, oldValue);
       
       // Access control is applied to objects by name
       this._setAccessControl(value, ["edtLine1", "edtLine2", "edtLine3", "edtCity", "edtCounty", "edtPostcode", 
@@ -128,7 +128,7 @@ qx.Class.define("myapp.AddressEditor", {
         return new qx.ui.form.TextField();
       }
 
-      return this.base(arguments, id);
+      return super._createQxObjectImpl(id);
     }
   }
 });
@@ -165,7 +165,7 @@ qx.Class.define("myapp.InvoiceEditor", {
       case "customerEditor":
         return new myapp.CustomerEditor()
       }
-      return this.base(arguments, id);
+      return super(id);
     }
   }
 });
@@ -181,7 +181,7 @@ qx.Class.define("myshop.CustomerEditor", {
       case "billingAddressEditor":
         return new myshop.AddressEditor();
       }
-      return this.base(arguments, id);
+      return super._createQxObjectImpl(id);
     }
   }
 });
