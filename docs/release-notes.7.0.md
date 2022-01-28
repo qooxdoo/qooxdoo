@@ -5,7 +5,7 @@
  - allow super()
  - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental)". Documantion is found [here](communication/README.md)
  - Accessibility is an important topic in modern web development in order to allow assistive technologies to better help people with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility.
-Documantion is found [here](development/howto/accessibility.md)
+Documentation is found [here](development/howto/accessibility.md)
 
 
 
