@@ -328,6 +328,7 @@ qx.Class.define("qx.event.handler.Focus", {
         related,
         bubbles
       ]);
+
       return Registration.dispatchEvent(target, evt);
     },
 
@@ -382,6 +383,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDown,
           this
         );
+
         this.__onNativeMouseUpWrapper = qx.lang.Function.listener(
           this.__onNativeMouseUp,
           this
@@ -391,6 +393,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocus,
           this
         );
+
         this.__onNativeBlurWrapper = qx.lang.Function.listener(
           this.__onNativeBlur,
           this
@@ -408,6 +411,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDownWrapper,
           true
         );
+
         qx.bom.Event.addNativeListener(
           this._document,
           "mouseup",
@@ -423,6 +427,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusWrapper,
           true
         );
+
         qx.bom.Event.addNativeListener(
           this._window,
           "blur",
@@ -445,6 +450,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDown,
           this
         );
+
         this.__onNativeMouseUpWrapper = qx.lang.Function.listener(
           this.__onNativeMouseUp,
           this
@@ -454,6 +460,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusIn,
           this
         );
+
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(
           this.__onNativeFocusOut,
           this
@@ -470,6 +477,7 @@ qx.Class.define("qx.event.handler.Focus", {
           "mousedown",
           this.__onNativeMouseDownWrapper
         );
+
         qx.bom.Event.addNativeListener(
           this._document,
           "mouseup",
@@ -485,6 +493,7 @@ qx.Class.define("qx.event.handler.Focus", {
           "focusin",
           this.__onNativeFocusInWrapper
         );
+
         qx.bom.Event.addNativeListener(
           this._document,
           "focusout",
@@ -509,6 +518,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeMouseDown,
             this
           );
+
           this.__onNativeMouseUpWrapper = qx.lang.Function.listener(
             this.__onNativeMouseUp,
             this
@@ -518,10 +528,12 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeFocusOut,
             this
           );
+
           this.__onNativeFocusInWrapper = qx.lang.Function.listener(
             this.__onNativeFocusIn,
             this
           );
+
           this.__onNativeSelectStartWrapper = qx.lang.Function.listener(
             this.__onNativeSelectStart,
             this
@@ -534,12 +546,14 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeMouseDownWrapper,
             true
           );
+
           qx.bom.Event.addNativeListener(
             this._document,
             "mouseup",
             this.__onNativeMouseUpWrapper,
             true
           );
+
           qx.bom.Event.addNativeListener(
             this._document,
             "selectstart",
@@ -552,6 +566,7 @@ qx.Class.define("qx.event.handler.Focus", {
             "focusin",
             this.__onNativeFocusInWrapper
           );
+
           qx.bom.Event.addNativeListener(
             this._document,
             "focusout",
@@ -565,6 +580,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeMouseDown,
             this
           );
+
           this.__onNativeMouseUpWrapper = qx.lang.Function.listener(
             this.__onNativeMouseUp,
             this
@@ -579,6 +595,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeFocus,
             this
           );
+
           this.__onNativeBlurWrapper = qx.lang.Function.listener(
             this.__onNativeBlur,
             this
@@ -596,12 +613,14 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeMouseDownWrapper,
             true
           );
+
           qx.bom.Event.addNativeListener(
             this._document,
             "mouseup",
             this.__onNativeMouseUpWrapper,
             true
           );
+
           qx.bom.Event.addNativeListener(
             this._document,
             "selectstart",
@@ -622,6 +641,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeFocusWrapper,
             true
           );
+
           qx.bom.Event.addNativeListener(
             this._window,
             "blur",
@@ -637,6 +657,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDown,
           this
         );
+
         this.__onNativeMouseUpWrapper = qx.lang.Function.listener(
           this.__onNativeMouseUp,
           this
@@ -646,6 +667,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusIn,
           this
         );
+
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(
           this.__onNativeFocusOut,
           this
@@ -658,6 +680,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDownWrapper,
           true
         );
+
         qx.bom.Event.addNativeListener(
           this._document,
           "mouseup",
@@ -671,6 +694,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusInWrapper,
           true
         );
+
         qx.bom.Event.addNativeListener(
           this._window,
           "DOMFocusOut",
@@ -693,6 +717,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDownWrapper,
           true
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "mouseup",
@@ -706,6 +731,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusWrapper,
           true
         );
+
         qx.bom.Event.removeNativeListener(
           this._window,
           "blur",
@@ -727,21 +753,25 @@ qx.Class.define("qx.event.handler.Focus", {
           "mousedown",
           this.__onNativeMouseDownWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "mouseup",
           this.__onNativeMouseUpWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "focusin",
           this.__onNativeFocusInWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "focusout",
           this.__onNativeFocusOutWrapper
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "selectstart",
@@ -759,21 +789,25 @@ qx.Class.define("qx.event.handler.Focus", {
             "mousedown",
             this.__onNativeMouseDownWrapper
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "mouseup",
             this.__onNativeMouseUpWrapper
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "focusin",
             this.__onNativeFocusInWrapper
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "focusout",
             this.__onNativeFocusOutWrapper
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "selectstart",
@@ -788,12 +822,14 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeMouseDownWrapper,
             true
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "mouseup",
             this.__onNativeMouseUpWrapper,
             true
           );
+
           qx.bom.Event.removeNativeListener(
             this._document,
             "selectstart",
@@ -814,6 +850,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__onNativeFocusWrapper,
             true
           );
+
           qx.bom.Event.removeNativeListener(
             this._window,
             "blur",
@@ -830,6 +867,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeMouseDownWrapper,
           true
         );
+
         qx.bom.Event.removeNativeListener(
           this._document,
           "mouseup",
@@ -843,6 +881,7 @@ qx.Class.define("qx.event.handler.Focus", {
           this.__onNativeFocusInWrapper,
           true
         );
+
         qx.bom.Event.removeNativeListener(
           this._window,
           "DOMFocusOut",

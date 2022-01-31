@@ -78,6 +78,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder", {
         "innerWidthBottom",
         "innerWidthLeft"
       ],
+
       mode: "shorthand"
     },
 
@@ -125,6 +126,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder", {
         "innerColorBottom",
         "innerColorLeft"
       ],
+
       mode: "shorthand"
     },
 
@@ -250,6 +252,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder", {
         var boxSizingKey = qx.bom.Style.getCssName(
           qx.core.Environment.get("css.boxsizing")
         );
+
         styles[":before"][boxSizingKey] = "border-box";
 
         // make sure to apply the border radius as well

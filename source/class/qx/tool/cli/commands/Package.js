@@ -70,8 +70,10 @@ qx.Class.define("qx.tool.cli.commands.Package", {
               "Upgrade",
               "Migrate"
             ],
+
             "qx.tool.cli.commands.package"
           );
+
           return yargs.showHelpOnFail().help();
         }
       };
@@ -177,6 +179,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
           lib =>
             lib.repo_name === repo_name && lib.library_name === library_name
         );
+
       return library ? library.repo_tag : false;
     },
 
@@ -274,6 +277,7 @@ qx.Class.define("qx.tool.cli.commands.Package", {
         qx.tool.compiler.Console.error(
           `Error exporting cache to ${path}:` + e.message
         );
+
         process.exit(1);
       }
     },

@@ -57,6 +57,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setStringProp("Hello"),
         "string property, set"
       );
+
       this.assertIdentical(
         "Hello",
         inst.getStringProp(),
@@ -69,6 +70,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setBooleanProp(true),
         "boolean property, set"
       );
+
       this.assertIdentical(
         true,
         inst.getBooleanProp(),
@@ -81,6 +83,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setBooleanProp(false),
         "boolean property, set"
       );
+
       this.assertIdentical(
         false,
         inst.getBooleanProp(),
@@ -97,6 +100,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setNumberProp(3.14),
         "number property, set"
       );
+
       this.assertIdentical(3.14, inst.getNumberProp(), "number property, get");
 
       // Type checks: Object, inline
@@ -106,6 +110,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setObjectProp(obj),
         "object property, set"
       );
+
       this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Object, new
@@ -115,6 +120,7 @@ qx.Class.define("qx.test.core.Property", {
         inst.setObjectProp(obj),
         "object property, set"
       );
+
       this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Array, inline
@@ -245,6 +251,7 @@ qx.Class.define("qx.test.core.Property", {
         "black",
         "c1"
       );
+
       this.assertIdentical(inst.getAppearanceProp(), "black", "c2");
       this.assertIdentical(inst.setAppearanceProp("white"), "white", "c3");
       this.assertIdentical(inst.getAppearanceProp(), "white", "c4");
@@ -360,6 +367,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
 
         // array
@@ -376,6 +384,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
 
         // qooxdoo class
@@ -393,6 +402,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
         o.dispose();
 
@@ -410,6 +420,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
 
         // null
@@ -426,6 +437,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
 
         // boolean
@@ -442,6 +454,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
 
         // number
@@ -458,6 +471,7 @@ qx.Class.define("qx.test.core.Property", {
           new RegExp(".*Invalid.*"),
           "123"
         );
+
         delete qx.test.clName;
       }
     },

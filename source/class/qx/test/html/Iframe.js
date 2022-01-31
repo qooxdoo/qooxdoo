@@ -179,6 +179,7 @@ qx.Class.define("qx.test.html.Iframe", {
         },
         this
       );
+
       frame.setSource("http://example.com");
 
       this.__alredyRun = true;

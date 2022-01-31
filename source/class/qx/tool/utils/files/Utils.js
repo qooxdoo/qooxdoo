@@ -138,6 +138,7 @@ qx.Class.define("qx.tool.utils.files.Utils", {
             flags: "r",
             encoding: "binary"
           });
+
           var ws = fs.createWriteStream(to, { flags: "w", encoding: "binary" });
           rs.on("end", function () {
             resolve(from, to);

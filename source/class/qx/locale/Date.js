@@ -491,6 +491,7 @@ qx.Class.define("qx.locale.Date", {
           "_" + context + "_",
           "_" + fallbackContext + "_"
         );
+
         return this.__mgr.localize(newKey, [], locale);
       } else {
         return localizedString;

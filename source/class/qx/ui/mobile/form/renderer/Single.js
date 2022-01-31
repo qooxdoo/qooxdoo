@@ -228,6 +228,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single", {
         errorNode,
         this._getParentRow(item).getContainerElement()
       );
+
       this.__errorMessageContainers.push(errorNode);
     },
 

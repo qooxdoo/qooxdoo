@@ -185,6 +185,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
         var lastItem = this.__el.getAttribute(
           "qx" + qx.bom.storage.UserData.__id
         );
+
         this.__el.removeAttribute(lastStoreName);
         this.__el.setAttribute(storageName, lastItem);
 

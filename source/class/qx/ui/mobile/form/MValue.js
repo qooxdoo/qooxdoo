@@ -44,6 +44,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue", {
         this._onChangeContent,
         this
       );
+
       qx.event.Registration.addListener(
         this.getContentElement(),
         "input",

@@ -86,6 +86,7 @@ qx.Class.define("qx.core.Init", {
       statics.__shutdown,
       statics
     );
+
     qx.event.Registration.addListener(
       window,
       "beforeunload",

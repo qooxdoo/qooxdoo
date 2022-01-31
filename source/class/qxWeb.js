@@ -78,6 +78,7 @@ qx.Bootstrap.define("qxWeb", {
             arg[i].nodeType === 9 ||
             arg[i].nodeType === 11)
         );
+
         if (isNode) {
           clean.push(arg[i]);
           continue;
@@ -88,6 +89,7 @@ qx.Bootstrap.define("qxWeb", {
           arg[i].location &&
           arg[i].document
         );
+
         if (isWindow) {
           clean.push(arg[i]);
         }

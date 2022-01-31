@@ -80,6 +80,7 @@ qx.Class.define("qx.test.ui.basic.Label", {
         "on",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       l.destroy();
     },
 
@@ -91,6 +92,7 @@ qx.Class.define("qx.test.ui.basic.Label", {
         "off",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       l.destroy();
     },
 
@@ -103,6 +105,7 @@ qx.Class.define("qx.test.ui.basic.Label", {
         "on",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       l.destroy();
     },
 
@@ -115,6 +118,7 @@ qx.Class.define("qx.test.ui.basic.Label", {
         "off",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       l.destroy();
     },
 
@@ -175,9 +179,11 @@ qx.Class.define("qx.test.ui.basic.Label", {
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.woff"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.ttf"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.eot"
               )
@@ -190,9 +196,11 @@ qx.Class.define("qx.test.ui.basic.Label", {
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
               )
@@ -254,16 +262,19 @@ qx.Class.define("qx.test.ui.basic.Label", {
         label.getBindings().length,
         "There must be one binding!"
       );
+
       this.assertEquals(
         1,
         textfield1.getBindings().length,
         "There must be one binding!"
       );
+
       this.assertTrue(
         qx.lang.Array.equals(
           label.getBindings()[0],
           textfield1.getBindings()[0]
         ),
+
         "label and textfield1 must have the same binding"
       );
 
@@ -283,16 +294,19 @@ qx.Class.define("qx.test.ui.basic.Label", {
         label.getBindings().length,
         "There must be one binding!"
       );
+
       this.assertEquals(
         1,
         textfield2.getBindings().length,
         "There must be one binding!"
       );
+
       this.assertTrue(
         qx.lang.Array.equals(
           label.getBindings()[0],
           textfield2.getBindings()[0]
         ),
+
         "label and textfield1 must have the same binding"
       );
 

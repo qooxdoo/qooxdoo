@@ -171,6 +171,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       var resolvedImage = qx.util.AliasManager.getInstance().resolve(
         this.getBorderImage()
       );
+
       var source = qx.util.ResourceManager.getInstance().toUri(resolvedImage);
 
       var computedSlices = this._getDefaultInsetsForBorderImage();
@@ -223,6 +224,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       var resolvedImage = qx.util.AliasManager.getInstance().resolve(
         this.getBorderImage()
       );
+
       var computedSlices = this.__getSlices(resolvedImage);
 
       return {

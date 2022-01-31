@@ -139,6 +139,7 @@ qx.Bootstrap.define("qx.dev.Profile", {
       var str = [
         "<table><tr><th>Name</th><th>Type</th><th>Own time</th><th>Avg time</th><th>calls</th></tr>"
       ];
+
       for (var i = 0; i < data.length; i++) {
         var profData = data[i];
         if (profData.name == "qx.core.Aspect.__calibrateHelper") {
@@ -154,6 +155,7 @@ qx.Bootstrap.define("qx.dev.Profile", {
         str.push(
           (profData.calibratedOwnTime / profData.callCount).toPrecision(3)
         );
+
         str.push("ms</td><td>");
         str.push(profData.callCount);
         str.push("</td></tr>");
@@ -168,6 +170,7 @@ qx.Bootstrap.define("qx.dev.Profile", {
       doc.write(
         "<html><head><style type='text/css'>body{font-family:monospace;font-size:11px;background:white;color:black;}</style></head><body>"
       );
+
       doc.write(str.join(""));
       doc.write("</body></html>");
       doc.close();
@@ -190,6 +193,7 @@ qx.Bootstrap.define("qx.dev.Profile", {
       var code = [
         "var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"
       ];
+
       for (var i = 0; i < count; i++) {
         code.push("fcn();");
       }
@@ -243,6 +247,7 @@ qx.Bootstrap.define("qx.dev.Profile", {
             profileData.subRoutineCalls * this.__callOverhead,
           0
         );
+
         profileData.calibratedAvgTime =
           profileData.calibratedOwnTime / profileData.callCount;
       }

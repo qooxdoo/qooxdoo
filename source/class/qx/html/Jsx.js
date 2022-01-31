@@ -106,6 +106,7 @@ qx.Class.define("qx.html.Jsx", {
         tagname,
         newAttrs
       );
+
       if (children) {
         function addChildren(children) {
           children.forEach(function (child) {

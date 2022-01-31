@@ -273,6 +273,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel", {
           this.classname +
           " is probably not what you intended - the selection instance does not change"
       );
+
       this.setSelection(value);
     },
 

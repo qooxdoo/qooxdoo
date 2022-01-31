@@ -116,6 +116,7 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation", {
             this._cardAnimationsMap[animationName],
             "Animation '" + animationName + "' is not defined."
           );
+
           this.assertNotUndefined(
             this._cardAnimationsMap[animationName][direction],
             "Animation '" +
@@ -129,10 +130,12 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation", {
             this._cardAnimationsMap[animationName],
             "Animation Reverse'" + animationName + "' is not defined."
           );
+
           this.assertNotUndefined(
             this._cardAnimationsMap[animationName]["reverse"],
             "Animation Reverse'" + animationName + "' is not defined."
           );
+
           this.assertNotUndefined(
             this._cardAnimationsMap[animationName]["reverse"][direction],
             "Animation Reverse'" +

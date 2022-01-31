@@ -145,15 +145,18 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "leaveMeIntact",
         this.req._serializeData("leaveMeIntact")
       );
+
       this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data));
       this.assertEquals(
         "abc=def&uvw=xyz",
         this.req._serializeData(data, "arbitrary/contentType")
       );
+
       this.assertEquals(
         '{"abc":"def","uvw":"xyz"}',
         this.req._serializeData(data, contentType)
       );
+
       this.assertEquals(
         "[1,2,3]",
         this.req._serializeData([1, 2, 3], contentType)
@@ -220,6 +223,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url + "?a=b", true);
@@ -228,6 +232,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "Accept",
         "application/json"
       );
+
       this.assertCalledWith(stubbedTransport.send);
     },
 
@@ -249,6 +254,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         expectedUrl,
         true
       );
+
       this.assertCalledWith(stubbedTransport.send);
     },
 
@@ -265,6 +271,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
@@ -273,6 +280,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "Cache-Control",
         "no-cache"
       );
+
       this.assertCalledWith(stubbedTransport.send);
     },
 
@@ -291,6 +299,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
@@ -299,6 +308,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
+
       this.assertCalledWith(stubbedTransport.send, "a=b");
     },
 
@@ -318,6 +328,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
@@ -350,6 +361,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, formData);
@@ -379,6 +391,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, blob);
@@ -408,6 +421,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr", {
         "setRequestHeader",
         "send"
       ]);
+
       req.send();
 
       this.assertCalledWith(stubbedTransport.send, arrayBuffer);

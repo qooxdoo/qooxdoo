@@ -100,6 +100,7 @@ qx.Class.define("qx.test.core.Object", {
         this,
         false
       );
+
       this.assertTrue(this.hasListener("testRemoveListenerById", false));
       this.removeListenerById(id);
       this.assertFalse(this.hasListener("testRemoveListenerById", false));
@@ -112,6 +113,7 @@ qx.Class.define("qx.test.core.Object", {
         this,
         false
       );
+
       this.assertTrue(this.hasListener("testRemoveListenerOnceById", false));
       this.removeListenerById(id);
       this.assertFalse(this.hasListener("testRemoveListenerOnceById", false));
@@ -139,6 +141,7 @@ qx.Class.define("qx.test.core.Object", {
         },
         this
       );
+
       this.removeListenerById(id);
 
       this.fireEvent("testRemoveListenerByIdAsync");

@@ -71,6 +71,7 @@ qx.Class.define("qx.ui.layout.Atom", {
         "top-right",
         "bottom-right"
       ],
+
       init: "left",
       apply: "_applyLayoutChange"
     },
@@ -215,6 +216,7 @@ qx.Class.define("qx.ui.layout.Atom", {
             hint.minWidth,
             Math.min(remainingWidth, hint.maxWidth)
           );
+
           remainingWidth -= shrinkTargetWidth;
         }
 

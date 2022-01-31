@@ -130,6 +130,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       let makers = this.getMakers().filter(maker =>
         maker.getApplications().some(app => app.getStandalone())
       );
+
       let apps = [];
       let defaultMaker = null;
       let firstMaker = null;
@@ -223,6 +224,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
               "qx.tool.cli.serve.webAddrInUse",
               config.serve.listenPort
             );
+
             process.exit(-1);
           } else {
             qx.tool.compiler.Console.log(
@@ -235,6 +237,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
             "qx.tool.cli.serve.webStarted",
             "http://localhost:" + config.serve.listenPort
           );
+
           this.fireEvent("afterStart");
         });
       });

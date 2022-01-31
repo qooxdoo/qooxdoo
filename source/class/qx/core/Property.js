@@ -557,6 +557,7 @@ qx.Bootstrap.define("qx.core.Property", {
               name +
               " is switched to synchronous because qx.promise==false"
           );
+
           config.async = false;
         }
         if (config.check == "qx.Promise") {
@@ -567,6 +568,7 @@ qx.Bootstrap.define("qx.core.Property", {
               name +
               " because qx.promise==false"
           );
+
           delete config.check;
         }
       }
@@ -582,6 +584,7 @@ qx.Bootstrap.define("qx.core.Property", {
             "setRuntime" + upname,
             "resetRuntime" + upname
           ];
+
           if (config.async) {
             allNames.push("get" + upname + "Async");
             allNames.push("set" + upname + "Async");
@@ -655,6 +658,7 @@ qx.Bootstrap.define("qx.core.Property", {
           getName +
           ".apply(this, arguments);"
       );
+
       if (config.async) {
         if (qx.core.Environment.get("qx.debug")) {
           if (members.hasOwnProperty(getName + "Async")) {
@@ -698,6 +702,7 @@ qx.Bootstrap.define("qx.core.Property", {
           "get",
           arguments
         );
+
         if (config.async) {
           qx.core.Property.__installOptimizedGetter(
             clazz,
@@ -719,6 +724,7 @@ qx.Bootstrap.define("qx.core.Property", {
           setName +
           ".apply(this, arguments);"
       );
+
       method.setAsync[name] = "set" + upname + "Async";
       if (config.async) {
         if (qx.core.Environment.get("qx.debug")) {
@@ -870,6 +876,7 @@ qx.Bootstrap.define("qx.core.Property", {
             method.get[name] +
             "())"
         );
+
         members["is" + upname] = new Function(
           "return this." + method.get[name] + "()"
         );
@@ -1018,6 +1025,7 @@ qx.Bootstrap.define("qx.core.Property", {
         clazz.classname + ".prototype",
         store
       );
+
       return clazz.prototype[store];
     },
 
@@ -1074,6 +1082,7 @@ qx.Bootstrap.define("qx.core.Property", {
         code.push(
           "return qx.Promise.resolve(this." + this.$$method.get[name] + "());"
         );
+
         return code;
       }
 
@@ -1188,12 +1197,14 @@ qx.Bootstrap.define("qx.core.Property", {
             upname +
             "Impl.apply(this, arguments));"
         );
+
         return code;
       } else if (variant == "set") {
         code.push(
           "this.$$set" + upname + "Impl.apply(this, arguments);",
           "return value;"
         );
+
         return code;
       }
 
@@ -1288,6 +1299,7 @@ qx.Bootstrap.define("qx.core.Property", {
             "else ",
             "promise = set.apply(this, arguments);"
           );
+
           if (variant == "setImpl") {
             code.push("return promise;");
           } else {
@@ -1841,6 +1853,7 @@ qx.Bootstrap.define("qx.core.Property", {
             this.$$store.theme[name],
             "!==undefined){"
           );
+
           code.push("old=this.", this.$$store.theme[name], ";");
           code.push("}");
         }
@@ -1896,6 +1909,7 @@ qx.Bootstrap.define("qx.core.Property", {
         this.$$store.inherit[name],
         ";"
       );
+
       code.push("}");
 
       // Only delete inherited value
@@ -2037,6 +2051,7 @@ qx.Bootstrap.define("qx.core.Property", {
             "', qx.event.type.Data, [computed, old]",
             "));"
           );
+
           if (qx.core.Environment.get("qx.promise")) {
             code.push(
               "if(reg.hasListener(self, '",

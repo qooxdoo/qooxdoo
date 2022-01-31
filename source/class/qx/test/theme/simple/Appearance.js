@@ -28,6 +28,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         "text-disabled",
         obj.style({ disabled: true }).textColor
       );
+
       this.assertUndefined(obj.style({ disabled: false }).textColor);
     },
 
@@ -158,6 +159,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         qx.theme.simple.Image.URLS["arrow-down"],
         style({ vertical: true }).icon
       );
+
       this.assertIdentical(
         qx.theme.simple.Image.URLS["arrow-right"],
         style({ vertical: false }).icon
@@ -171,6 +173,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         qx.theme.simple.Image.URLS["arrow-up"],
         style({ vertical: true }).icon
       );
+
       this.assertIdentical(
         qx.theme.simple.Image.URLS["arrow-left"],
         style({ vertical: false }).icon
@@ -620,10 +623,12 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         "background-selected",
         styleFunc({ selected: true }).backgroundColor
       );
+
       this.assertIdentical(
         "text-selected",
         styleFunc({ selected: true }).textColor
       );
+
       this.assertArrayEquals([2, 6], styleFunc({ selected: true }).padding);
 
       this.assertUndefined(styleFunc({ selected: false }).backgroundColor);
@@ -664,6 +669,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         qx.theme.simple.Image.URLS["arrow-right-invert"],
         style.source
       );
+
       this.assertIdentical("middle", style.alignY);
 
       states.selected = false;
@@ -799,6 +805,7 @@ qx.Class.define("qx.test.theme.simple.Appearance", {
         "table-row-background-selected",
         style.backgroundColor
       );
+
       this.assertIdentical("text-selected", style.textColor);
       this.assertArrayEquals([3, 6], style.padding);
 

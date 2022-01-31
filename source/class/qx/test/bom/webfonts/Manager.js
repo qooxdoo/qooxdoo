@@ -33,9 +33,11 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fineliner_script-webfont.woff"
           ),
+
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fineliner_script-webfont.ttf"
           ),
+
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fineliner_script-webfont.eot"
           )
@@ -48,9 +50,11 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fontawesome-webfont.woff"
           ),
+
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fontawesome-webfont.ttf"
           ),
+
           qx.util.ResourceManager.getInstance().toUri(
             "qx/test/webfonts/fontawesome-webfont.eot"
           )
@@ -107,6 +111,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
         document.body.childNodes.length,
         "Manager did not remove all nodes!"
       );
+
       this.assertEquals(
         this.__sheetsBefore,
         document.styleSheets.length,
@@ -128,6 +133,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
             var foundRule = this.__findRule(
               this.__fontDefinitions.finelinerScript.family
             );
+
             this.assertTrue(
               foundRule,
               "@font-face rule not found in document styles!"
@@ -155,6 +161,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           var foundRule = this.__findRule(
             this.__fontDefinitions.invalid.family
           );
+
           this.assertFalse(
             foundRule,
             "@font-face rule for invalid font found in document styles!"
@@ -180,6 +187,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           var foundRule = this.__findRule(
             this.__fontDefinitions.fontawesome.family
           );
+
           this.assertTrue(
             foundRule,
             "@font-face rule for custom comparisonString font not found in document styles!"

@@ -340,6 +340,7 @@ qx.Class.define("qx.test.util.Serializer", {
         this.__model.getData2()[0],
         model.getData2().getItem(0)
       );
+
       this.assertEquals(this.__model.getData3(), model.getData3());
       model.dispose();
     },
@@ -614,6 +615,7 @@ qx.Class.define("qx.test.util.Serializer", {
       var ser = qx.util.Serializer.toNativeObject(
         qx.locale.Manager.tr("test affe")
       );
+
       this.assertEquals("test affe", ser);
       // regular strings should not have a translate method
       this.assertUndefined(ser.translate);

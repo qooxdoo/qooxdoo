@@ -52,6 +52,7 @@ qx.Class.define("qx.test.ui.embed.Iframe", {
       var src = qx.util.ResourceManager.getInstance().toUri(
         "qx/static/blank.html"
       );
+
       src = qx.util.Uri.getAbsolute(src);
       this.__iframe.setSource(src);
       qx.ui.core.queue.Manager.flush();

@@ -48,6 +48,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         "_createTransport",
         this.deepStub(qx.io.request.Xhr.prototype._createTransport())
       );
+
       this.setUpRequest();
     },
 
@@ -176,6 +177,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         result: 19,
         id: 2
       });
+
       this.assertExceptionThrown(
         response,
         qx.io.exception.Transport.UNKNOWN_ID
@@ -203,6 +205,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         message_out.getId(),
         result
       );
+
       this.setUpFakeServer(message_in.toString());
       const client = new qx.io.jsonrpc.Client("http://jsonrpc");
       let spy = this.spy(value => this.assertEquals(result, value));
@@ -246,6 +249,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         error: { code: -32600, message: "Division by zero!" },
         id: 1
       });
+
       this.assertExceptionThrown(response, qx.io.exception.Protocol);
     },
 
@@ -259,13 +263,16 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
           error: { code: -32600, message: "Invalid Request" },
           id: 3
         },
+
         {
           jsonrpc: "2.0",
           error: { code: -32601, message: "Method not found" },
           id: 4
         },
+
         { jsonrpc: "2.0", result: ["hello", 5], id: 5 }
       ]);
+
       this.setUpFakeServer(response);
       var client = new qx.io.jsonrpc.Client("http://jsonrpc");
       var spies = [];
@@ -301,6 +308,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
           params: ["foo", "bar"],
           id: 1
         },
+
         { jsonrpc: "2.0", method: "clientNotification", params: [] }
       ];
 

@@ -11,6 +11,7 @@ qx.Class.define("qx.test.testclasses.BaseClassPatched", {
       qx.test.testclasses.BaseClassPatched,
       qx.test.testclasses.MMixinOne
     );
+
     qx.Class.patch(
       qx.test.testclasses.BaseClassPatched,
       qx.test.testclasses.MMixinTwo

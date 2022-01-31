@@ -128,6 +128,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager", {
             var left = qx.bom.element.Location.getLeft(
               tree.getContentElement().getDomElement()
             );
+
             for (var i = 0; i < columnPositions[treeCol].visX; i++) {
               left += tcm.getColumnWidth(columnPositions[i].visX);
             }

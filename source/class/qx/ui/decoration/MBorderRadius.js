@@ -65,6 +65,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius", {
         "radiusBottomRight",
         "radiusBottomLeft"
       ],
+
       mode: "shorthand"
     }
   },

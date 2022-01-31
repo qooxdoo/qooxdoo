@@ -141,6 +141,7 @@ qx.Class.define("qx.util.Base64", {
           result.push(
             base64Chars[((output[k] & 3) << 4) | (output[k + 1] >> 4)]
           );
+
           result.push(base64Chars[(output[k + 1] & 15) << 2]);
           result.push(padding);
           break;
@@ -151,6 +152,7 @@ qx.Class.define("qx.util.Base64", {
         result.push(
           base64Chars[((output[k + 1] & 15) << 2) | (output[k + 2] >> 6)]
         );
+
         result.push(base64Chars[output[k + 2] & 63]);
       }
 

@@ -257,10 +257,12 @@ qx.Class.define("qx.test.data.store.Offline", {
             1,
             this.__store.getModel().getA().getItem(0).getB()
           );
+
           this.assertEquals(
             true,
             this.__store.getModel().getA().getItem(0).getC()
           );
+
           this.assertEquals("a", this.__store.getModel().getA().getItem(2));
 
           model.dispose();

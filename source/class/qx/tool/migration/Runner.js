@@ -71,6 +71,7 @@ qx.Class.define("qx.tool.migration.Runner", {
           this.getDryRun() ? "Checking" : "Running"
         } migrations for app qx version ${appQxVersion} and current qooxdoo version ${qxVersion}`
       );
+
       let migrationClasses = Object.getOwnPropertyNames(qx.tool.migration)
         .filter(clazz => clazz.match(/^M[0-9_]+$/))
         .map(clazz => qx.Class.getByName("qx.tool.migration." + clazz));
@@ -83,6 +84,7 @@ qx.Class.define("qx.tool.migration.Runner", {
         this.debug(
           `>>> Migration version: ${migrationVersion}, maximum qx version: ${qxVersion}`
         );
+
         let skip =
           (appQxVersion && !semver.lt(appQxVersion, migrationVersion)) ||
           (qxVersion && semver.gt(migrationVersion, qxVersion));

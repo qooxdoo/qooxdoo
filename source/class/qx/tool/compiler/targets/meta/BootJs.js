@@ -143,6 +143,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
       data = await fs.readFileAsync(application.getLoaderTemplate(), {
         encoding: "utf-8"
       });
+
       var lines = data.split("\n");
       for (let i = 0; i < lines.length; i++) {
         var line = lines[i];
@@ -191,6 +192,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.BootJs", {
         this.__embeddedJs,
         this.__sourceMapOffsets
       );
+
       let target = this._appMeta.getTarget();
       for (let i = 0; i < res.sources.length; i++) {
         let s = path.relative("", res.sources[i]);

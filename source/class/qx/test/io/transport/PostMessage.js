@@ -33,6 +33,7 @@ qx.Class.define("qx.test.io.transport.PostMessage", {
         let blob = new Blob(["self.onmessage = ", fn.toString()], {
           type: "text/javascript"
         });
+
         return new Worker(URL.createObjectURL(blob));
       }
       // create echo server

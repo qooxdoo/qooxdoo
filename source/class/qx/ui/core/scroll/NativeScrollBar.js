@@ -295,6 +295,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar", {
             var newPos = parseInt(
               (timePassed / duration) * (position - from) + from
             );
+
             this.updatePosition(newPos);
           },
           this
@@ -306,6 +307,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar", {
             this.setPosition(
               Math.max(0, Math.min(this.getMaximum(), position))
             );
+
             this.__scrollAnimationframe = null;
             this.fireEvent("scrollAnimationEnd");
           },

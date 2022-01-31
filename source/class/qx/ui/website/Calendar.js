@@ -252,6 +252,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         "November",
         "December"
       ],
+
       dayNames: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       minDate: null,
       maxDate: null,
@@ -545,6 +546,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         this.getTemplate("controls"),
         this._getControlsData(date)
       );
+
       var dayRow = qxWeb.template.render(
         this.getTemplate("dayRow"),
         this._getDayRowData()

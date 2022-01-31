@@ -37,6 +37,7 @@ qx.Class.define("qx.test.core.MemoryManagement", {
         objDisposable,
         qx.core.ObjectRegistry.fromHashCode(objDisposable.toHashCode())
       );
+
       this.assertNull(
         qx.core.ObjectRegistry.fromHashCode(objNotDisposable.toHashCode())
       );

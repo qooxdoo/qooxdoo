@@ -137,6 +137,7 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
           path.dirname(template_path),
           "header.tmpl.js"
         );
+
         try {
           header_template = fs.readFileSync(header_template_path, "utf-8");
         } catch (e) {}
@@ -183,6 +184,7 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
           recursive: true,
           mode: 0o755
         });
+
         await fs.writeFileAsync(absolute_path, final_content, "utf-8");
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError(
@@ -197,15 +199,18 @@ qx.Class.define("qx.tool.cli.commands.add.Class", {
           "templates",
           "class"
         );
+
         let local_copy_path = path.join(
           local_templates_path,
           path.basename(template_path)
         );
+
         try {
           fs.mkdirSync(path.dirname(local_templates_path), {
             recursive: true,
             mode: 0o755
           });
+
           await fs.writeFileAsync(local_copy_path, template, "utf-8");
         } catch (e) {
           throw new qx.tool.utils.Utils.UserError(

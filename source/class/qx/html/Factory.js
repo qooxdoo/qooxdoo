@@ -96,6 +96,7 @@ qx.Class.define("qx.html.Factory", {
             this.assertTrue(
               clazz && qx.Class.isSubClassOf(clazz, qx.html.Element)
             );
+
             return new clazz(tagName, styles, attributes);
           }
         }

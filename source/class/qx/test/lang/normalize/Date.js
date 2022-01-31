@@ -45,11 +45,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 0, 1, 0, 0, 0, 0),
         "2001"
       );
+
       this.assertIdentical(
         Date.parse("2001-02"),
         Date.UTC(2001, 1, 1, 0, 0, 0, 0),
         "2001-02"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03"),
         Date.UTC(2001, 1, 3, 0, 0, 0, 0),
@@ -61,11 +63,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(-2001, 0, 1, 0, 0, 0, 0),
         "-002001"
       );
+
       this.assertIdentical(
         Date.parse("-002001-02"),
         Date.UTC(-2001, 1, 1, 0, 0, 0, 0),
         "-002001-02"
       );
+
       this.assertIdentical(
         Date.parse("-002001-02-03"),
         Date.UTC(-2001, 1, 3, 0, 0, 0, 0),
@@ -77,16 +81,19 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(10000, 1, 1, 0, 0, 0, 0),
         "+010000-02"
       );
+
       this.assertIdentical(
         Date.parse("+010000-02-03"),
         Date.UTC(10000, 1, 3, 0, 0, 0, 0),
         "+010000-02-03"
       );
+
       this.assertIdentical(
         Date.parse("-010000-02"),
         Date.UTC(-10000, 1, 1, 0, 0, 0, 0),
         "-010000-02"
       );
+
       this.assertIdentical(
         Date.parse("-010000-02-03"),
         Date.UTC(-10000, 1, 3, 0, 0, 0, 0),
@@ -98,6 +105,7 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         isNaN(Date.parse("1970-as-df")),
         "invalid YYYY-MM-DD (non-digits)"
       );
+
       this.assertTrue(
         isNaN(Date.parse("19700101")),
         "invalid YYYY-MM-DD (missing hyphens)"
@@ -110,11 +118,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0) + localOffset,
         "2001-02-03T04:05"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0) + localOffset,
         "2001-02-03T04:05:06"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7) + localOffset,
@@ -126,11 +136,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0),
         "2001-02-03T04:05Z"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06Z"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0),
         "2001-02-03T04:05:06Z"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007Z"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7),
@@ -142,11 +154,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0),
         "2001-02-03T04:05-00:00"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06-00:00"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0),
         "2001-02-03T04:05:06-00:00"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007-00:00"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7),
@@ -158,11 +172,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0),
         "2001-02-03T04:05+00:00"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06+00:00"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0),
         "2001-02-03T04:05:06+00:00"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007+00:00"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7),
@@ -174,11 +190,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0) + sixHoursThirty,
         "2001-02-03T04:05-06:30"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06-06:30"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0) + sixHoursThirty,
         "2001-02-03T04:05:06-06:30"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007-06:30"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7) + sixHoursThirty,
@@ -190,11 +208,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 1, 3, 4, 5, 0, 0) - sixHoursThirty,
         "2001-02-03T04:05+06:30"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06+06:30"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 0) - sixHoursThirty,
         "2001-02-03T04:05:06+06:30"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007+06:30"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7) - sixHoursThirty,
@@ -206,16 +226,19 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(2001, 0, 1, 4, 5, 6, 7) + localOffset,
         "2001T04:05:06.007"
       );
+
       this.assertIdentical(
         Date.parse("2001-02T04:05:06.007"),
         Date.UTC(2001, 1, 1, 4, 5, 6, 7) + localOffset,
         "2001-02T04:05:06.007"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7) + localOffset,
         "2001-02-03T04:05:06.007"
       );
+
       this.assertIdentical(
         Date.parse("2001-02-03T04:05:06.007-06:30"),
         Date.UTC(2001, 1, 3, 4, 5, 6, 7) + sixHoursThirty,
@@ -227,11 +250,13 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         Date.UTC(-10000, 0, 1, 4, 5, 0, 0),
         "-010000T04:05Z"
       );
+
       this.assertIdentical(
         Date.parse("-010000-02T04:05Z"),
         Date.UTC(-10000, 1, 1, 4, 5, 0, 0),
         "-010000-02T04:05Z"
       );
+
       this.assertIdentical(
         Date.parse("-010000-02-03T04:05Z"),
         Date.UTC(-10000, 1, 3, 4, 5, 0, 0),
@@ -242,10 +267,12 @@ qx.Class.define("qx.test.lang.normalize.Date", {
         isNaN(Date.parse("1970-01-01T00:00:00,000")),
         "invalid date-time (comma instead of dot)"
       );
+
       this.assertTrue(
         isNaN(Date.parse("1970-01-01T0000")),
         "invalid date-time (missing colon in time part)"
       );
+
       this.assertTrue(
         isNaN(Date.parse("1970-01-01T00:00.000")),
         "invalid date-time (msec with missing seconds)"

@@ -168,6 +168,7 @@ qx.Class.define("qx.event.handler.Appear", {
             var evt = qx.event.Registration.createEvent(
               displayed ? "appear" : "disappear"
             );
+
             return self.__manager.dispatchEvent(elem, evt);
           }
         });

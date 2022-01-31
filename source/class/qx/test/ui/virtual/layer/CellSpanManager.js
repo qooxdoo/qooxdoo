@@ -159,9 +159,11 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
             lastColumn: 5
           }
         ],
+
         3,
         3
       );
+
       this.assertJsonEquals(
         {
           left: -20,
@@ -169,6 +171,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           width: 80,
           height: 30
         },
+
         bounds[0]
       );
 
@@ -181,9 +184,11 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
             lastColumn: 5
           }
         ],
+
         1,
         2
       );
+
       this.assertJsonEquals(
         {
           left: 0,
@@ -191,6 +196,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           width: 80,
           height: 30
         },
+
         bounds[0]
       );
 
@@ -203,9 +209,11 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
             lastColumn: 5
           }
         ],
+
         0,
         1
       );
+
       this.assertJsonEquals(
         {
           left: 20,
@@ -213,6 +221,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           width: 80,
           height: 30
         },
+
         bounds[0]
       );
     },
@@ -227,9 +236,11 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
             lastColumn: 5
           }
         ],
+
         3,
         3
       );
+
       this.assertJsonEquals(
         {
           left: -20,
@@ -237,6 +248,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           width: 80,
           height: 30
         },
+
         bounds[0]
       );
 
@@ -251,9 +263,11 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
             lastColumn: 5
           }
         ],
+
         3,
         3
       );
+
       this.assertJsonEquals(
         {
           left: -20,
@@ -261,6 +275,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           width: 80,
           height: 45
         },
+
         bounds[0]
       );
     },
@@ -290,6 +305,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
           [undefined, undefined, 1, 1],
           [undefined, 1, undefined, undefined, 1]
         ],
+
         map
       );
     },

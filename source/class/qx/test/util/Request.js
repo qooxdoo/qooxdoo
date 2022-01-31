@@ -30,6 +30,7 @@ qx.Class.define("qx.test.util.Request", {
         isCrossDomain(location.protocol + "//" + location.hostname + ":123456"),
         "port"
       );
+
       this.assertTrue(
         isCrossDomain("foobar" + "://" + location.host),
         "protocol"

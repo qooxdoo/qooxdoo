@@ -166,9 +166,11 @@ qx.Class.define("qx.test.ui.form.Field", {
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.woff"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.ttf"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/fineliner_script-webfont.eot"
               )
@@ -181,9 +183,11 @@ qx.Class.define("qx.test.ui.form.Field", {
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
               ),
+
               qx.util.ResourceManager.getInstance().toUri(
                 "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
               )

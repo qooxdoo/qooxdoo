@@ -67,6 +67,7 @@ qx.Class.define("qx.test.bom.Cookie", {
         "It is expected that this test fails" +
           " if you start this test from a file system with Google Chrome."
       );
+
       this.assertEquals(
         dataToSave2,
         result2,
@@ -108,6 +109,7 @@ qx.Class.define("qx.test.bom.Cookie", {
         decodeURIComponent(escapedSpecial) == unescape(escapedSpecial),
         "There is some incompatible characters."
       );
+
       // this.assertTrue((decodeURIComponent(escapedUtf) == unescape(escapedUtf)), 'There is some incompatible characters.');
 
       this.assertEquals(
@@ -115,6 +117,7 @@ qx.Class.define("qx.test.bom.Cookie", {
         resultSpecial,
         "There is some incompatible characters."
       );
+
       this.assertEquals(
         expectedUtf,
         resultUtf,

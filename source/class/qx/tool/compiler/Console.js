@@ -225,6 +225,7 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.maker.appFatalError":
           "Cannot write application '%1' because it has fatal errors"
       },
+
       "error"
     );
 
@@ -266,6 +267,7 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.maker.appNotHeadless":
           "Compiling application '%1' but the target supports non-headless output, you may find unwanted dependencies are loaded during startup"
       },
+
       "warning"
     );
   },

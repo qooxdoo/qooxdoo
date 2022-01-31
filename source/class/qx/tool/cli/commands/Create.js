@@ -135,12 +135,14 @@ qx.Class.define("qx.tool.cli.commands.Create", {
       data.getLibraryVersion = qx.tool.config.Utils.getLibraryVersion.bind(
         qx.tool.config.Utils
       );
+
       let template_vars;
 
       const template_vars_path = path.join(
         qx.tool.utils.Utils.getTemplateDir(),
         "template_vars"
       );
+
       template_vars = require(template_vars_path)(argv, data);
 
       // prepare inquirer question data
@@ -214,6 +216,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
             value = JSON.stringify(
               value.split(/,/).map(locale => locale.trim())
             );
+
             break;
 
           // this sets 'authors' and 'authors_map'
@@ -235,6 +238,7 @@ qx.Class.define("qx.tool.cli.commands.Create", {
               null,
               2
             );
+
             value = authors.join("\n" + " ".repeat(12));
             break;
           }

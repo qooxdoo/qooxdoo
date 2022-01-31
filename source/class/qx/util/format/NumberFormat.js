@@ -255,6 +255,7 @@ qx.Class.define("qx.util.format.NumberFormat", {
       var groupSepEsc = qx.lang.String.escapeRegexpChars(
         qx.locale.Number.getGroupSeparator(this.getLocale()) + ""
       );
+
       var decimalSepEsc = qx.lang.String.escapeRegexpChars(
         qx.locale.Number.getDecimalSeparator(this.getLocale()) + ""
       );

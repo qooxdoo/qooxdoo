@@ -182,6 +182,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
           return prop.length;
         })
       );
+
       for (var i = 0; i < propertyValues.length; i++) {
         this.__extendArray(propertyValues[i], items);
       }

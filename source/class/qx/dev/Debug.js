@@ -357,6 +357,7 @@ qx.Class.define("qx.dev.Debug", {
           qx.log.Logger.error(
             "Call " + this.classname + ".startDisposeProfiling first."
           );
+
           return [];
         }
 

@@ -255,10 +255,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll", {
               document.getElementsByTagName("input"),
               Array
             );
+
             var textAreaElements = qx.lang.Array.cast(
               document.getElementsByTagName("textarea"),
               Array
             );
+
             elements = elements.concat(inputElements);
             elements = elements.concat(textAreaElements);
 
@@ -282,6 +284,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll", {
         this._refresh,
         this
       );
+
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
       this.addListener("touchmove", qx.bom.Event.stopPropagation);
       this.addListener("domupdated", this._refresh, this);
@@ -297,12 +300,14 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll", {
         this._refresh,
         this
       );
+
       qx.event.Registration.removeListener(
         window,
         "resize",
         this._refresh,
         this
       );
+
       this.removeListener("touchmove", qx.bom.Event.stopPropagation);
       this.removeListener("domupdated", this._refresh, this);
     },

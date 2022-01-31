@@ -81,6 +81,7 @@ qx.Class.define("qx.test.ui.core.Queues", {
       var stub = this.stub(qx.ui.core.queue.Visibility, "isVisible").returns(
         true
       );
+
       qx.ui.core.queue.Appearance.flush();
       stub.restore();
 

@@ -148,6 +148,7 @@ qx.Class.define("qx.ui.splitpane.HLayout", {
           splitterWidth,
           availHeight
         );
+
         end.renderLayout(
           beginWidth + splitterWidth + paddingLeft,
           paddingTop,

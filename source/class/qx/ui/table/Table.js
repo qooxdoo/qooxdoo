@@ -171,6 +171,7 @@ qx.Class.define("qx.ui.table.Table", {
     this.__scrollerParent = new qx.ui.container.Composite(
       new qx.ui.layout.HBox()
     );
+
     this._add(this.__scrollerParent, { flex: 1 });
 
     // Allocate a default data row renderer
@@ -850,6 +851,7 @@ qx.Class.define("qx.ui.table.Table", {
           this._onColVisibilityChanged,
           this
         );
+
         columnModel.addListener("widthChanged", this._onColWidthChanged, this);
         columnModel.addListener("orderChanged", this._onColOrderChanged, this);
 
@@ -914,6 +916,7 @@ qx.Class.define("qx.ui.table.Table", {
             evName,
             true
           );
+
           handlers[evName].bubble = manager.getListeners(
             scrollerArr[0],
             evName,
@@ -1245,6 +1248,7 @@ qx.Class.define("qx.ui.table.Table", {
           removeStart + removeCount - 1,
           true
         );
+
         // remove focus if the focused row has been removed
         if (
           this.__focusedRow >= removeStart &&
@@ -1316,12 +1320,14 @@ qx.Class.define("qx.ui.table.Table", {
         this._onKeyPress,
         "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead."
       );
+
       qx.log.Logger.deprecateMethodOverriding(
         this,
         qx.ui.table.Table,
         "_onKeyPress",
         "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead."
       );
+
       this._onKeyDown(evt);
     },
     /**
@@ -1394,6 +1400,7 @@ qx.Class.define("qx.ui.table.Table", {
                 this.__focusedRow,
                 evt
               );
+
               break;
 
             case "F2":
@@ -1437,6 +1444,7 @@ qx.Class.define("qx.ui.table.Table", {
               scroller.setScrollY(
                 scroller.getScrollY() + direction * rowCount * rowHeight
               );
+
               this.moveFocusedCell(0, direction * rowCount);
               break;
 
@@ -1984,6 +1992,7 @@ qx.Class.define("qx.ui.table.Table", {
           verNeeded = !!(
             scrollerArr[i].getNeededScrollBars(false, false) & verBar
           );
+
           if (this.__hadVerticalScrollBar == null) {
             this.__hadVerticalScrollBar =
               scrollerArr[i].getVerticalScrollBarVisible();
@@ -2049,6 +2058,7 @@ qx.Class.define("qx.ui.table.Table", {
           this._createColumnVisibilityCheckBoxHandler(col),
           this
         );
+
         this.__columnMenuButtons[col] = menuButton;
       }
 

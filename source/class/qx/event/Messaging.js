@@ -109,6 +109,7 @@ qx.Bootstrap.define("qx.event.Messaging", {
         handler: handler,
         scope: scope
       };
+
       this.__channelToIdMapping[id] = channel;
       return id;
     },

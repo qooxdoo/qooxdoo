@@ -186,6 +186,7 @@ qx.Class.define("qx.tool.cli.commands.Deploy", {
                   "qx.tool.cli.deploy.deployDirNotSpecified",
                   target.getType()
                 );
+
                 return;
               }
 
@@ -258,10 +259,12 @@ qx.Class.define("qx.tool.cli.commands.Deploy", {
             encoding: "utf8",
             emitClose: true
           });
+
           let ws = fs.createWriteStream(to, {
             encoding: "utf8",
             emitClose: true
           });
+
           let ss = new qx.tool.utils.Utils.StripSourceMapTransform();
           await new qx.Promise((resolve, reject) => {
             rs.on("error", reject);
@@ -283,13 +286,16 @@ qx.Class.define("qx.tool.cli.commands.Deploy", {
         "qx.tool.cli.deploy.deployDirNotSpecified":
           "No deploy dir for target <%1> configured! Use --out parameter or deployPath target property in compile.json."
       },
+
       "error"
     );
+
     qx.tool.compiler.Console.addMessageIds(
       {
         "qx.tool.cli.deploy.notClean":
           "Incremental build compilation - this is faster but may preserve old artifacts, it is recommended to use --clean command line option"
       },
+
       "warning"
     );
   }

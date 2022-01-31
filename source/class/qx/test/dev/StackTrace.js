@@ -49,6 +49,7 @@ qx.Class.define("qx.test.dev.StackTrace", {
         qx.core.WindowError,
         qx.dev.unit.RequirementError
       ];
+
       for (var i = 0, l = qxErrorClasses.length; i < l; i++) {
         var cls = qxErrorClasses[i];
         var e;
@@ -91,6 +92,7 @@ qx.Class.define("qx.test.dev.StackTrace", {
         converter,
         this
       );
+
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
       for (var i = 0, l = stack.length; i < l; i++) {
@@ -111,6 +113,7 @@ qx.Class.define("qx.test.dev.StackTrace", {
         formatter,
         this
       );
+
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
       for (var i = 0, l = stack.length; i < l; i++) {

@@ -94,6 +94,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider", {
         this.__itemRenderer.getContainerElement(),
         true
       );
+
       clone.setAttribute("data-row", row);
       return clone;
     },
@@ -115,6 +116,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider", {
         this.__groupRenderer.getContainerElement(),
         true
       );
+
       clone.removeAttribute("id");
       clone.setAttribute("data-group", group);
       return clone;
@@ -144,6 +146,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider", {
         this.getDelegate(),
         "configureGroupItem"
       );
+
       if (configureGroupItem) {
         configureGroupItem(this.__groupRenderer, data, group);
       }
@@ -160,6 +163,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider", {
         this.getDelegate(),
         "createGroupRenderer"
       );
+
       var groupRenderer = null;
       if (createGroupRenderer == null) {
         groupRenderer = new qx.ui.mobile.list.renderer.group.Default();
@@ -182,6 +186,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider", {
         this.getDelegate(),
         "createItemRenderer"
       );
+
       var itemRenderer = null;
       if (createItemRenderer == null) {
         itemRenderer = new qx.ui.mobile.list.renderer.Default();

@@ -171,6 +171,7 @@ qx.Bootstrap.define("qx.util.RingBuffer", {
           this.__nextIndexToStoreTo,
           -1
         );
+
         var startIndex = this.__addToIndex(
           indexOfYoungestElementInHistory,
           -count + 1

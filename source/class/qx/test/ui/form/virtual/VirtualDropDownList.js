@@ -93,6 +93,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
         Error,
         "Invalid parameter 'target'!"
       );
+
       widget.dispose();
     },
 
@@ -201,6 +202,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
         this.__model.contains(item),
         "The itme '" + item + "' is not in the model!"
       );
+
       var modelIndex = this.__model.indexOf(item);
 
       var selection = this.__dropdown.getSelection();
@@ -213,6 +215,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
         selection.getLength(),
         "Selection length not equals!"
       );
+
       this.assertEquals(
         this.__model.getItem(modelIndex),
         selection.getItem(0),
@@ -224,6 +227,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
         listSelection.getLength(),
         "Selection length not equals with list selection length!"
       );
+
       this.assertEquals(
         selection.getItem(0),
         listSelection.getItem(0),

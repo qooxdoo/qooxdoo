@@ -78,6 +78,7 @@ qx.Class.define("qx.tool.utils.files.FindFiles", {
               );
             }
           ],
+
           cb
         );
       }

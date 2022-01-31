@@ -48,6 +48,7 @@ $(function () {
                 targetData.target.outputDir
             )
           );
+
           var $ul = $("<ul>");
           targetData.apps.sort(function (l, r) {
             l = l.title || l.name;
@@ -63,6 +64,7 @@ $(function () {
                 "href",
                 targetData.target.outputDir + appData.outputPath + "/index.html"
               );
+
               $li.append($a);
             } else {
               var $p = $("<p>");
@@ -89,6 +91,7 @@ $(function () {
                 "'>Required-By Analysis</a>" +
                 "</p>"
             );
+
             $ul.append($li);
           });
           $root.append($ul);
@@ -96,6 +99,7 @@ $(function () {
         $root.append(
           "<p style='font-size: 10px'><input type='checkbox' id='cbxShowTools'>Show Tools</p>"
         );
+
         $("#cbxShowTools").change(function () {
           if (this.checked) $(".tools").show();
           else $(".tools").hide();

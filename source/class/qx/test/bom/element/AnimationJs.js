@@ -84,6 +84,7 @@ qx.Class.define("qx.test.bom.element.AnimationJs", {
             "400px",
             qx.bom.element.Style.get(this.__el, "width")
           );
+
           this.assertEquals(
             "400px",
             qx.bom.element.Style.get(this.__el, "height")

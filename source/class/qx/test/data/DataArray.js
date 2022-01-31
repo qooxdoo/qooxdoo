@@ -63,6 +63,7 @@ qx.Class.define("qx.test.data.DataArray", {
         null,
         "Boolean not supported!"
       );
+
       this.assertException(
         function () {
           new qx.data.Array({});
@@ -71,6 +72,7 @@ qx.Class.define("qx.test.data.DataArray", {
         null,
         "Objects not supported!"
       );
+
       this.assertException(
         function () {
           new qx.data.Array(function () {});
@@ -88,11 +90,13 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.getItem(0),
         "IndexAt does not work at position 0"
       );
+
       this.assertEquals(
         "two",
         this.__a.getItem(1),
         "IndexAt does not work at position 1"
       );
+
       this.assertEquals(
         "three",
         this.__a.getItem(2),
@@ -104,6 +108,7 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.getItem(-1),
         "There should be no element at -1"
       );
+
       this.assertUndefined(
         this.__a.getItem(3),
         "There should be no element at 3"
@@ -117,6 +122,7 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.getItem(0),
         "IndexAt does not work at position 0"
       );
+
       this.__a.setItem(3, "drei");
       this.assertEquals(
         "drei",
@@ -152,11 +158,13 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             2,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "order",
             e.getData().type,
@@ -165,6 +173,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -175,6 +184,7 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.join(" "),
         "Simple sort does not work"
       );
+
       this.__a.sort(function (a, b) {
         return a > b ? -1 : 1;
       });
@@ -199,11 +209,13 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             2,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "order",
             e.getData().type,
@@ -212,6 +224,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -222,6 +235,7 @@ qx.Class.define("qx.test.data.DataArray", {
         b.join(" "),
         "Concat does not work"
       );
+
       b.dispose();
 
       var b = this.__a.concat(new qx.data.Array(["four", "five"]));
@@ -230,6 +244,7 @@ qx.Class.define("qx.test.data.DataArray", {
         b.join(" "),
         "Concat does not work"
       );
+
       b.dispose();
     },
 
@@ -280,11 +295,13 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.push("four"),
         "Push does not give the right length back."
       );
+
       this.assertEquals(
         "one two three four",
         this.__a.join(" "),
         "Single push does not work."
       );
+
       this.assertEquals(4, this.__a.length, "Single push does not work.");
       this.__a.dispose();
       this.__a = new qx.data.Array();
@@ -303,6 +320,7 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.join(" "),
         "Shift does not work."
       );
+
       this.assertEquals("two", this.__a.shift(), "Shift does not work.");
       this.assertEquals(1, this.__a.length, "Shift does not work.");
     },
@@ -323,16 +341,19 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.unshift("zero"),
         "Unshift does not return the proper length."
       );
+
       this.assertEquals(
         "zero one two three",
         this.__a.join(" "),
         "Unshift does not work!"
       );
+
       this.assertEquals(
         6,
         this.__a.unshift("-2", "-1"),
         "Unshift does not return the proper length."
       );
+
       this.assertEquals(
         "-2 -1 zero one two three",
         this.__a.join(" "),
@@ -375,6 +396,7 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.toArray().join(" "),
         "toArray does not work!"
       );
+
       this.assertInstance(this.__a.toArray(), Array, "toArray does not work!");
     },
 
@@ -394,6 +416,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "ChangeLength event not fired!"
       );
+
       a.dispose();
     },
 
@@ -426,11 +449,13 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.lastIndexOf("one"),
         "lastIndexOf does not work!"
       );
+
       this.assertEquals(
         4,
         this.__a.lastIndexOf("two"),
         "lastIndexOf does not work!"
       );
+
       this.assertEquals(
         5,
         this.__a.lastIndexOf("three"),
@@ -475,21 +500,25 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.getItem(0),
         "insertBefore does not work"
       );
+
       this.assertEquals(
         "eins",
         this.__a.getItem(1),
         "insertBefore does not work"
       );
+
       this.assertEquals(
         "two",
         this.__a.getItem(2),
         "insertBefore does not work"
       );
+
       this.assertEquals(
         "drei",
         this.__a.getItem(3),
         "insertBefore does not work"
       );
+
       this.assertEquals(
         "three",
         this.__a.getItem(4),
@@ -507,21 +536,25 @@ qx.Class.define("qx.test.data.DataArray", {
         this.__a.getItem(0),
         "insertAfter does not work"
       );
+
       this.assertEquals(
         "eins",
         this.__a.getItem(1),
         "insertAfter does not work"
       );
+
       this.assertEquals(
         "two",
         this.__a.getItem(2),
         "insertAfter does not work"
       );
+
       this.assertEquals(
         "drei",
         this.__a.getItem(3),
         "insertAfter does not work"
       );
+
       this.assertEquals(
         "three",
         this.__a.getItem(4),
@@ -570,16 +603,19 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "remove",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals("a", e.getData().removed[0]);
           self.assertEquals("b", e.getData().removed[1]);
         },
@@ -677,16 +713,19 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "remove",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             3,
             e.getData().removed[0],
@@ -695,6 +734,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -714,16 +754,19 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             3,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "add",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             4,
             e.getData().added[0],
@@ -732,6 +775,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -751,21 +795,25 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             4,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "add",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             4,
             e.getData().added[0],
             "Wrong item array in the event."
           );
+
           self.assertEquals(
             5,
             e.getData().added[1],
@@ -774,6 +822,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -793,16 +842,19 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "remove",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().removed[0],
@@ -811,6 +863,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -830,16 +883,19 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             3,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "add",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             0,
             e.getData().added[0],
@@ -848,6 +904,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -867,31 +924,37 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event (remove)."
           );
+
           self.assertEquals(
             2,
             e.getData().end,
             "Wrong end index in the event (remove)."
           );
+
           self.assertEquals(
             "remove",
             e.getData().type,
             "Wrong type in the event (remove)."
           );
+
           self.assertEquals(
             "b",
             e.getData().removed[0],
             "Wrong item in the event (remove)."
           );
+
           self.assertEquals(
             "c",
             e.getData().removed[1],
             "Wrong item in the event (remove)."
           );
+
           self.assertEquals(
             2,
             e.getData().removed.length,
             "Wrong item in the event (remove)."
           );
+
           self.assertEquals(
             0,
             e.getData().added.length,
@@ -900,6 +963,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
 
       // test for the event (add)
@@ -916,26 +980,31 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event. (add)"
           );
+
           self.assertEquals(
             1,
             e.getData().end,
             "Wrong end index in the event. (add)"
           );
+
           self.assertEquals(
             "add",
             e.getData().type,
             "Wrong type in the event. (add)"
           );
+
           self.assertEquals(
             "x",
             e.getData().added[0],
             "Wrong items in the event. (add)"
           );
+
           self.assertEquals(
             1,
             e.getData().added.length,
             "Wrong amount of items in the event. (add)"
           );
+
           self.assertEquals(
             0,
             e.getData().removed.length,
@@ -944,6 +1013,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
 
       // test for the event (add/remove)
@@ -960,31 +1030,37 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event. (add/remove)"
           );
+
           self.assertEquals(
             0,
             e.getData().end,
             "Wrong end index in the event. (add/remove)"
           );
+
           self.assertEquals(
             "add/remove",
             e.getData().type,
             "Wrong type in the event. (add/remove)"
           );
+
           self.assertEquals(
             "x",
             e.getData().added[0],
             "Wrong items in the event. (add/remove)"
           );
+
           self.assertEquals(
             1,
             e.getData().added.length,
             "Wrong amount of items in the event. (add/remove)"
           );
+
           self.assertEquals(
             "a",
             e.getData().removed[0],
             "Wrong items in the event. (add/remove)"
           );
+
           self.assertEquals(
             1,
             e.getData().removed.length,
@@ -993,6 +1069,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
 
       // test for the event (add/remove) in replace
@@ -1009,51 +1086,61 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event. (replace)"
           );
+
           self.assertEquals(
             2,
             e.getData().end,
             "Wrong end index in the event. (replace)"
           );
+
           self.assertEquals(
             "add/remove",
             e.getData().type,
             "Wrong type in the event. (replace)"
           );
+
           self.assertEquals(
             "x",
             e.getData().added[0],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             "y",
             e.getData().added[1],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             "z",
             e.getData().added[2],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             3,
             e.getData().added.length,
             "Wrong amount of items in the event. (replace)"
           );
+
           self.assertEquals(
             "a",
             e.getData().removed[0],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             "b",
             e.getData().removed[1],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             "c",
             e.getData().removed[2],
             "Wrong items in the event. (replace)"
           );
+
           self.assertEquals(
             3,
             e.getData().removed.length,
@@ -1062,6 +1149,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event not fired!"
       );
+
       a.dispose();
     },
 
@@ -1082,11 +1170,13 @@ qx.Class.define("qx.test.data.DataArray", {
             data.value.length,
             "Wrong amount of item(s) added in the bubble event (remove)."
           );
+
           self.assertEquals(
             2,
             data.old.length,
             "Wrong amount of item(s) removed in the bubble event (remove)."
           );
+
           self.assertEquals(
             "1-2",
             data.name,
@@ -1095,6 +1185,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "changeBubble event not fired!"
       );
+
       a.dispose();
 
       // test for the event (add)
@@ -1112,11 +1203,13 @@ qx.Class.define("qx.test.data.DataArray", {
             data.value.length,
             "Wrong amount of item(s) added in the bubble event (add)."
           );
+
           self.assertEquals(
             0,
             data.old.length,
             "Wrong amount of item(s) removed in the bubble event (add)."
           );
+
           self.assertEquals(
             "0",
             data.name,
@@ -1125,6 +1218,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "changeBubble event not fired!"
       );
+
       a.dispose();
 
       // test for the event (add/remove)
@@ -1142,11 +1236,13 @@ qx.Class.define("qx.test.data.DataArray", {
             data.value.length,
             "Wrong amount of item(s) added in the bubble event (add/remove)."
           );
+
           self.assertEquals(
             1,
             data.old.length,
             "Wrong amount of item(s) removed in the bubble event (add/remove)."
           );
+
           self.assertEquals(
             "0",
             data.name,
@@ -1155,6 +1251,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "changeBubble event not fired!"
       );
+
       a.dispose();
     },
 
@@ -1231,31 +1328,37 @@ qx.Class.define("qx.test.data.DataArray", {
             e.getData().start,
             "Wrong start index in the event."
           );
+
           self.assertEquals(
             0,
             e.getData().end,
             "Wrong end index in the event."
           );
+
           self.assertEquals(
             "add/remove",
             e.getData().type,
             "Wrong type in the event."
           );
+
           self.assertEquals(
             4,
             e.getData().added[0],
             "Wrong item in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().added.length,
             "Wrong item in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().removed[0],
             "Wrong item in the event."
           );
+
           self.assertEquals(
             1,
             e.getData().removed.length,
@@ -1274,6 +1377,7 @@ qx.Class.define("qx.test.data.DataArray", {
         },
         "Change event fired!"
       );
+
       a.dispose();
     },
 

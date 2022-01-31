@@ -61,11 +61,13 @@ qx.Class.define("qx.test.ui.Destroy", {
           [],
           [{ left: 10 }, { top: 10 }, { left: 10, top: 10 }]
         ],
+
         [
           qx.ui.layout.Canvas,
           [],
           [{ left: 10 }, { top: 10 }, { right: 10, top: "10%" }]
         ],
+
         [
           qx.ui.layout.Dock,
           [],
@@ -76,6 +78,7 @@ qx.Class.define("qx.test.ui.Destroy", {
             { edge: "east" }
           ]
         ],
+
         [qx.ui.layout.Grow, [], [{}]],
         [qx.ui.layout.HBox, [], [{ flex: 1 }, {}, {}]],
         [qx.ui.layout.VBox, [], [{ flex: 1 }, {}, {}]],

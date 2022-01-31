@@ -58,6 +58,7 @@ qx.Class.define("qx.test.core.Assert", {
         null,
         "3"
       );
+
       o.dispose();
     },
 

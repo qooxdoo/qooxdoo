@@ -58,6 +58,7 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection", {
         expectedSelection,
         "On selection manager"
       );
+
       expectedSelection.dispose();
     },
 
@@ -79,6 +80,7 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection", {
         selection.equals(expectedSelection),
         "On selection manager"
       );
+
       expectedSelection.dispose();
 
       // check selection on tree
@@ -117,12 +119,14 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection", {
             selectionFromManager.length,
             "On selection manager"
           );
+
           var expectedSelection = new qx.data.Array(selectionFromManager);
           self.assertDataArrayEquals(
             selection,
             expectedSelection,
             "On selection manager"
           );
+
           expectedSelection.dispose();
 
           // check selection on tree
@@ -189,6 +193,7 @@ qx.Class.define("qx.test.ui.tree.virtual.MultiSelection", {
         expectedSelection,
         "On selection manager"
       );
+
       expectedSelection.dispose();
     }
   }

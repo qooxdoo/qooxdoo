@@ -37,6 +37,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock", {
         "updateLayerData",
         qx.lang.Array.fromArguments(arguments)
       ]);
+
       super.updateLayerData();
     },
 
@@ -61,6 +62,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock", {
         "updateLayerWindow",
         qx.lang.Array.fromArguments(arguments)
       ]);
+
       super.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);
     },
 

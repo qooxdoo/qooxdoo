@@ -100,6 +100,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr", {
       this.__onNativeProgress,
       this
     );
+
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();

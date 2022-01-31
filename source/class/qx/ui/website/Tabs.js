@@ -223,6 +223,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         this.getCssPrefix() + "-" + orientation,
         "qx-flex-ready"
       ]);
+
       if (this.getChildren("ul").length === 0) {
         var list = qxWeb.create("<ul/>");
         var content = this.getChildren();
@@ -587,6 +588,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var oldButton = this.find(
         "> ul > ." + this.getCssPrefix() + "-button-active"
       );
+
       if (oldButton[0] == tappedButton && orientation == "horizontal") {
         return;
       }
@@ -634,6 +636,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var active = this.find(
         "> ul > ." + this.getCssPrefix() + "-button-active"
       );
+
       var next;
       if (key == "Right") {
         if (!rightAligned) {
@@ -848,6 +851,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         this._onTap,
         this
       );
+
       this.getChildren("ul")
         .getFirst()
         .off("keydown", this._onKeyDown, this)

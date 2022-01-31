@@ -75,6 +75,7 @@ qx.Class.define("qx.test.bom.element.Class", {
         "juhu kinners",
         Class.addClasses(this._el, ["juhu", "kinners"])
       );
+
       this.assertEquals("juhu kinners", Class.get(this._el));
     },
 
@@ -120,6 +121,7 @@ qx.Class.define("qx.test.bom.element.Class", {
         "a b c",
         Class.removeClasses(this._el, ["kinners", "juhu"])
       );
+
       this.assertEquals("a b c", Class.get(this._el));
     },
 

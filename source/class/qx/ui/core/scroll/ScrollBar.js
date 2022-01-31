@@ -70,6 +70,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar", {
       this._onResizeSlider,
       this
     );
+
     this._createChildControl("button-end");
 
     // Configure orientation
@@ -223,6 +224,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar", {
             this._onSlideAnimationEnd,
             this
           );
+
           this._add(control, { flex: 1 });
           break;
 

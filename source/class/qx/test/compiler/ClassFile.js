@@ -32,6 +32,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
         "classIssue633",
         this.__lib
       );
+
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
@@ -44,6 +45,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
         "classIssue519",
         this.__lib
       );
+
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
@@ -56,6 +58,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
         "classIssue524",
         this.__lib
       );
+
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);
@@ -68,6 +71,7 @@ qx.Class.define("qx.test.compiler.ClassFile", {
         "classIssue726",
         this.__lib
       );
+
       await qx.tool.utils.Promisify.call(cb => classFile.load(cb));
       var dbClassInfo = {};
       classFile.writeDbInfo(dbClassInfo);

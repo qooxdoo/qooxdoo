@@ -58,6 +58,7 @@ qx.Class.define("qx.test.mobile.form.Form", {
       var username = (this.__username = new qx.ui.mobile.form.TextField().set({
         placeholder: "Username"
       }));
+
       username.setRequired(true);
       form.add(username, "Username: ");
       validationManager.add(

@@ -67,6 +67,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection", {
         expectedSelection,
         "On selection manager"
       );
+
       expectedSelection.dispose();
     },
 
@@ -88,6 +89,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection", {
         selection.equals(expectedSelection),
         "On selection manager"
       );
+
       expectedSelection.dispose();
 
       // check selection on list
@@ -129,12 +131,14 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection", {
             selectionFromManager.length,
             "On selection manager"
           );
+
           var expectedSelection = new qx.data.Array(selectionFromManager);
           self.assertDataArrayEquals(
             selection,
             expectedSelection,
             "On selection manager"
           );
+
           expectedSelection.dispose();
 
           // check selection on list

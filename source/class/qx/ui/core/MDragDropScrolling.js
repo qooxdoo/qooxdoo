@@ -321,6 +321,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling", {
           this.getDragScrollThresholdX(),
           this.getDragScrollThresholdY()
         );
+
         if (!edgeType) {
           scrollable = this._findScrollableParent(scrollable);
           continue;
@@ -344,6 +345,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling", {
               this._scrollBy(scrollable, axis, amount);
             }.bind(this, scrollable, axis, exceedanceAmount)
           );
+
           this.__dragScrollTimer.start();
           e.stopPropagation();
           return;

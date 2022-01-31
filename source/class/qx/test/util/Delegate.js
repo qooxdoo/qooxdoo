@@ -39,6 +39,7 @@ qx.Class.define("qx.test.util.Delegate", {
       this.assertNotNull(
         qx.util.Delegate.getMethod(this.__delegate, "myMethod")
       );
+
       this.assertFunction(
         qx.util.Delegate.getMethod(this.__delegate, "myMethod")
       );
@@ -51,9 +52,11 @@ qx.Class.define("qx.test.util.Delegate", {
       this.assertTrue(
         qx.util.Delegate.containsMethod(this.__delegate, "myMethod")
       );
+
       this.assertFalse(
         qx.util.Delegate.containsMethod(this.__delegate, "STATIC")
       );
+
       this.assertFalse(
         qx.util.Delegate.containsMethod(this.__delegate, "banana")
       );

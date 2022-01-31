@@ -66,6 +66,7 @@ qx.Class.define("qx.test.Xml", {
         "http://www.w3.org/1999/xhtml/",
         doc.documentElement.namespaceURI
       );
+
       this.assertEquals("html", doc.documentElement.tagName);
       this.assertEquals(0, doc.documentElement.childNodes.length);
     },
@@ -149,6 +150,7 @@ qx.Class.define("qx.test.Xml", {
           "DOM Exception 14",
           "Namespaced XPath query worked in Chrome < 532.2!"
         );
+
         this.assertException(
           function () {
             qx.xml.Element.selectSingleNode(doc, q2, nsMap);

@@ -69,6 +69,7 @@ qx.Class.define("qx.bom.WebWorker", {
         this._handleMessage,
         this
       );
+
       this._handleErrorBound = qx.lang.Function.bind(this._handleError, this);
 
       qx.bom.Event.addNativeListener(
@@ -76,6 +77,7 @@ qx.Class.define("qx.bom.WebWorker", {
         "message",
         this._handleMessageBound
       );
+
       qx.bom.Event.addNativeListener(
         this._worker,
         "error",
@@ -160,11 +162,13 @@ qx.Class.define("qx.bom.WebWorker", {
         "message",
         this._handleMessageBound
       );
+
       qx.bom.Event.removeNativeListener(
         this._worker,
         "error",
         this._handleErrorBound
       );
+
       if (this._worker) {
         this._worker.terminate();
         this._worker = null;

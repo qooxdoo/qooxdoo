@@ -45,14 +45,17 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getBounds().width,
         this._list.getPane().getColumnConfig().getItemSize(0)
       );
+
       this.assertEquals(
         30,
         this._list.getPane().getRowConfig().getDefaultItemSize()
       );
+
       this.assertEquals(
         this._model.getLength(),
         this._list.getPane().getRowConfig().getItemCount()
       );
+
       this.assertEquals(this._model, this._list.getModel());
       this.assertEquals(0, this._list.getSelection().getLength());
     },
@@ -95,6 +98,7 @@ qx.Class.define("qx.test.ui.list.List", {
         this._model.getLength(),
         this._list.getPane().getRowConfig().getItemCount()
       );
+
       this.assertEquals(
         "new item",
         this._list._layer.getRenderedCellWidget(0, 0).getLabel()
@@ -121,6 +125,7 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getRowConfig().getItemCount(),
         "b"
       );
+
       model.dispose();
     },
 
@@ -142,14 +147,17 @@ qx.Class.define("qx.test.ui.list.List", {
         model.getLength(),
         this._list.getPane().getRowConfig().getItemCount()
       );
+
       this.assertEquals(
         "Item 5",
         this._list._layer.getRenderedCellWidget(5, 0).getLabel()
       );
+
       this.assertEquals(
         "icon/16/places/folder.png",
         this._list._layer.getRenderedCellWidget(0, 0).getIcon()
       );
+
       model.dispose();
     },
 
@@ -175,11 +183,13 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getRowConfig().getItemCount(),
         "Model size <-> pane size"
       );
+
       this.assertEquals(
         "abcde",
         this._list._layer.getRenderedCellWidget(0, 0).getLabel(),
         "Widget value"
       );
+
       this.assertEquals(
         "abcde",
         this._list.getModel().getItem(0),
@@ -210,6 +220,7 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getRowConfig().getItemCount(),
         "two"
       );
+
       filteredModel.dispose();
     },
 
@@ -237,6 +248,7 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getRowConfig().getItemCount(),
         "two"
       );
+
       sortedModel.dispose();
     },
 
@@ -275,6 +287,7 @@ qx.Class.define("qx.test.ui.list.List", {
         this._list.getPane().getRowConfig().getItemCount(),
         "two"
       );
+
       sortedModel.dispose();
       filteredModel.dispose();
     },

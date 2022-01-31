@@ -75,6 +75,7 @@ qx.Class.define("qx.test.bom.Event", {
               qx.log.Logger.info("done");
             }
           );
+
           this.assertTrue(
             qx.bom.Event.supportsEvent(el, pointerEventsToCheck[i]),
             "Failed to check support for '" + pointerEventsToCheck[i] + "'"

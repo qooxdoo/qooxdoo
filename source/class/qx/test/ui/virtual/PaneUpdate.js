@@ -125,6 +125,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer1.calls
       );
+
       this.assertCalls(
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer2.calls
@@ -155,6 +156,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer1.calls
       );
+
       this.assertCalls(
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer2.calls
@@ -181,6 +183,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer1.calls
       );
+
       this.assertCalls(
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer2.calls
@@ -211,6 +214,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer1.calls
       );
+
       this.assertCalls(
         ["updateLayerData", "fullUpdate", "_fullUpdate"],
         this.layer2.calls
@@ -295,6 +299,7 @@ qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
         ["updateLayerWindow", "_updateLayerWindow"],
         this.layer1.calls
       );
+
       this.assertCalls(
         ["updateLayerWindow", "_updateLayerWindow"],
         this.layer2.calls

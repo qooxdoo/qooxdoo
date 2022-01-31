@@ -49,6 +49,7 @@ qx.Class.define("qx.test.ui.form.BooleanFormat", {
             e.getData(),
             "Not the right data in the event."
           );
+
           self.assertEquals(
             true,
             e.getOldData(),

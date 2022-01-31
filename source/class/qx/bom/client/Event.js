@@ -257,6 +257,7 @@ qx.Bootstrap.define("qx.bom.client.Event", {
       "event.mousecreateevent",
       statics.getMouseCreateEvent
     );
+
     qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
     qx.core.Environment.add("event.customevent", statics.getCustomEvent);
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);

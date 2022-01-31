@@ -130,6 +130,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
       this.__colors.bgcol[0] = colorMgr.resolve(
         "progressive-table-row-background-even"
       );
+
       this.__colors.bgcol[1] = colorMgr.resolve(
         "progressive-table-row-background-odd"
       );

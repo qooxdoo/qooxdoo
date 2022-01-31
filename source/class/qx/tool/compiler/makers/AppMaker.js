@@ -219,12 +219,14 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
           compileEnv,
           appEnvironments[application.toHashCode()]
         );
+
         application.calcDependencies();
         if (application.getFatalCompileErrors()) {
           qx.tool.compiler.Console.print(
             "qx.tool.compiler.maker.appFatalError",
             application.getName()
           );
+
           success = false;
           continue;
         }
@@ -237,6 +239,7 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
               let type = qx.tool.compiler.Console.getInstance().getMessageType(
                 marker.msgId
               );
+
               if (type == "warning") {
                 hasWarnings = true;
               }

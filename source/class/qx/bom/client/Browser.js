@@ -65,6 +65,7 @@ qx.Bootstrap.define("qx.bom.client.Browser", {
       var reg = new RegExp(
         "(" + qx.bom.client.Browser.__agents + ")(/|)?([0-9]+.[0-9])?"
       );
+
       var match = agent.match(reg);
       if (!match) {
         return "";
@@ -124,6 +125,7 @@ qx.Bootstrap.define("qx.bom.client.Browser", {
       var reg = new RegExp(
         "(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+.[0-9])"
       );
+
       var match = agent.match(reg);
       if (!match) {
         return "";

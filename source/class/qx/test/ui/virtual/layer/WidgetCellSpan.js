@@ -119,14 +119,17 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan", {
         "1/1",
         layer.getRenderedCellWidget(1, 1).getUserData("test")
       );
+
       this.assertEquals(
         "1/3",
         layer.getRenderedCellWidget(1, 3).getUserData("test")
       );
+
       this.assertEquals(
         "3/1",
         layer.getRenderedCellWidget(3, 1).getUserData("test")
       );
+
       this.assertEquals(
         "3/3",
         layer.getRenderedCellWidget(3, 3).getUserData("test")
@@ -137,22 +140,27 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan", {
         "2/0",
         layer.getRenderedCellWidget(2, 0).getUserData("test")
       );
+
       this.assertEquals(
         "2/0",
         layer.getRenderedCellWidget(2, 1).getUserData("test")
       );
+
       this.assertEquals(
         "2/3",
         layer.getRenderedCellWidget(2, 3).getUserData("test")
       );
+
       this.assertEquals(
         "2/3",
         layer.getRenderedCellWidget(2, 4).getUserData("test")
       );
+
       this.assertEquals(
         "2/2",
         layer.getRenderedCellWidget(2, 2).getUserData("test")
       );
+
       this.assertEquals(
         "2/2",
         layer.getRenderedCellWidget(3, 2).getUserData("test")

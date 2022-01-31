@@ -107,16 +107,19 @@ qx.Class.define("qx.test.data.store.Jsonp", {
               model.getString(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               12,
               model.getNumber(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               true,
               model.getBoolean(),
               "The model is not created how it should!"
             );
+
             this.assertNull(
               model.getNull(),
               "The model is not created how it should!"
@@ -212,6 +215,7 @@ qx.Class.define("qx.test.data.store.Jsonp", {
         },
         this
       );
+
       this.__store.setUrl(url);
     },
 

@@ -246,6 +246,7 @@ qx.Class.define("qx.test.lang.Object", {
           this.f = this.b;
         }
       };
+
       var g = {
         a: "text",
         b: [1, 0],
@@ -253,6 +254,7 @@ qx.Class.define("qx.test.lang.Object", {
           this.f = this.b;
         }
       };
+
       var h = {
         a: "text",
         b: [1, 0],
@@ -307,12 +309,14 @@ qx.Class.define("qx.test.lang.Object", {
       this.assertTrue(
         qx.lang.Object.equals(new Date("03/31/2014"), new Date("03/31/2014"))
       );
+
       this.assertFalse(
         qx.lang.Object.equals(
           { 1: { name: "mhc", age: 28 }, 2: { name: "arb", age: 26 } },
           { 1: { name: "mhc", age: 28 }, 2: { name: "arb", age: 27 } }
         )
       );
+
       this.assertFalse(
         qx.lang.Object.equals(
           function (x) {

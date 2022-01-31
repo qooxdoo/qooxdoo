@@ -126,10 +126,12 @@ qx.Class.define("qx.test.bom.element.Style", {
         expected[0],
         qx.bom.element.Style.get(this.__element, "borderWidth")
       );
+
       this.assertEquals(
         expected[1],
         qx.bom.element.Style.get(this.__element, "borderStyle")
       );
+
       this.assertEquals(
         expected[2],
         qx.bom.element.Style.get(this.__element, "borderColor")

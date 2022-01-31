@@ -953,6 +953,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
             index + 1,
             processedValue.length
           );
+
           index = processedValue.search(filter);
         }
       }
@@ -1060,6 +1061,7 @@ qx.Class.define("qx.ui.form.AbstractField", {
         this._onPointerDownPlaceholder,
         this
       );
+
       var parent = this._placeholder.getParent();
       if (parent) {
         parent.remove(this._placeholder);

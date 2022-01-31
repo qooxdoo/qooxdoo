@@ -102,14 +102,17 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell", {
         "1/1",
         layer.getRenderedCellWidget(1, 1).getUserData("test")
       );
+
       this.assertEquals(
         "1/3",
         layer.getRenderedCellWidget(1, 3).getUserData("test")
       );
+
       this.assertEquals(
         "3/1",
         layer.getRenderedCellWidget(3, 1).getUserData("test")
       );
+
       this.assertEquals(
         "3/3",
         layer.getRenderedCellWidget(3, 3).getUserData("test")

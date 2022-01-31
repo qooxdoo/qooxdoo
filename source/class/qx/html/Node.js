@@ -87,6 +87,7 @@ qx.Class.define("qx.html.Node", {
         domNode.nodeName,
         domNode.attributes
       );
+
       html.useNode(domNode);
       return html;
     }
@@ -1780,6 +1781,7 @@ qx.Class.define("qx.html.Node", {
         listeners,
         qx.event.Registration.serializeListeners(this) || []
       );
+
       if (this._domNode) {
         qx.lang.Array.append(
           listeners,

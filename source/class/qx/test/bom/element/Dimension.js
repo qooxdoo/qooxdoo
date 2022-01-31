@@ -114,6 +114,7 @@ qx.Class.define("qx.test.bom.element.Dimension", {
         mockElement2.getBoundingClientRect().right -
           mockElement2.getBoundingClientRect().left
       );
+
       // ... and the same height
       this.assertEquals(
         mockElement1.getBoundingClientRect().bottom -
@@ -127,6 +128,7 @@ qx.Class.define("qx.test.bom.element.Dimension", {
         qx.bom.element.Dimension.getWidth(mockElement1),
         qx.bom.element.Dimension.getWidth(mockElement2)
       );
+
       this.assertEquals(
         qx.bom.element.Dimension.getHeight(mockElement1),
         qx.bom.element.Dimension.getHeight(mockElement2)

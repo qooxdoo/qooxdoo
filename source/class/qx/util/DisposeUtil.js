@@ -191,6 +191,7 @@ qx.Class.define("qx.util.DisposeUtil", {
             container,
             "First argument must be a container widget!"
           );
+
           qx.core.Assert.assertTrue(
             this.__isChildrenContainer(container),
             "Container must be an instance of qx.ui.container.Composite or " +

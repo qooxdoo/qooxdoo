@@ -260,6 +260,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       var requestedSans = qx.bom.element.Dimension.getWidth(
         this.__requestedHelpers.sans
       );
+
       var requestedSerif = qx.bom.element.Dimension.getWidth(
         this.__requestedHelpers.serif
       );
@@ -284,9 +285,11 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       var fontsSans = [this.getFontFamily()].concat(
         qx.bom.webfonts.Validator.COMPARISON_FONTS.sans
       );
+
       var fontsSerif = [this.getFontFamily()].concat(
         qx.bom.webfonts.Validator.COMPARISON_FONTS.serif
       );
+
       return {
         sans: this._getHelperElement(fontsSans, this.getComparisonString()),
         serif: this._getHelperElement(fontsSerif, this.getComparisonString())

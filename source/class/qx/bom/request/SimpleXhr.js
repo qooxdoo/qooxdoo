@@ -483,6 +483,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
         this._onReadyStateChange,
         this
       );
+
       transport.onloadend = qx.lang.Function.bind(this._onLoadEnd, this);
       transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
       transport.onerror = qx.lang.Function.bind(this._onError, this);

@@ -127,6 +127,7 @@ qx.Class.define("qx.test.data.store.Json", {
                 "receiving",
                 "completed"
               ];
+
               this.assertArrayEquals(expected, states);
             });
           }
@@ -169,6 +170,7 @@ qx.Class.define("qx.test.data.store.Json", {
               ev.getData().response,
               "Parse error object does not contain response!"
             );
+
             this.assertObject(
               ev.getData().error,
               "Parse error object does not contain parser exception!"
@@ -195,6 +197,7 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getString(),
               "The model is not created how it should!"
             );
+
             qx.util.AliasManager.getInstance().remove("testLoadResource");
           }, this);
         },
@@ -226,16 +229,19 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getString(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               12,
               model.getNumber(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               true,
               model.getBoolean(),
               "The model is not created how it should!"
             );
+
             this.assertNull(
               model.getNull(),
               "The model is not created how it should!"
@@ -261,21 +267,25 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getArray(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               "qx.data.Array",
               model.getArray().classname,
               "Wrong array class."
             );
+
             this.assertEquals(
               "a",
               model.getArray().getItem(0),
               "Wrong content of the array."
             );
+
             this.assertEquals(
               "b",
               model.getArray().getItem(1),
               "Wrong content of the array."
             );
+
             this.assertEquals(
               "c",
               model.getArray().getItem(2),
@@ -302,11 +312,13 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -320,6 +332,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
       this.wait();
     },
@@ -374,6 +387,7 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -387,6 +401,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -410,11 +425,13 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -428,6 +445,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
       this.wait();
     },
@@ -454,18 +472,22 @@ qx.Class.define("qx.test.data.store.Json", {
             this.assertTrue(
               qx.Class.isSubClassOf(model.constructor, qx.test.O)
             );
+
             this.assertNotNull(
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertTrue(
               qx.Class.isSubClassOf(model.getO().constructor, qx.test.O)
             );
+
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -479,6 +501,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -507,11 +530,13 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -525,6 +550,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -548,11 +574,13 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -566,6 +594,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -599,12 +628,14 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertTrue(model.getO().a(), "Mixin not included.");
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -618,6 +649,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -660,12 +692,14 @@ qx.Class.define("qx.test.data.store.Json", {
               model.getO(),
               "The model is not created how it should!"
             );
+
             this.assertTrue(model.getO().a(), "Mixin not included.");
             this.assertEquals(
               "a",
               model.getO().getA(),
               "Wrong content of the object."
             );
+
             this.assertEquals(
               "b",
               model.getO().getB(),
@@ -679,6 +713,7 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
       );
+
       this.__store.setUrl(url);
 
       this.wait();
@@ -789,6 +824,7 @@ qx.Class.define("qx.test.data.store.Json", {
         },
         this
       );
+
       this.__store.setUrl(url);
     },
 

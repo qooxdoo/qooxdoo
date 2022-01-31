@@ -108,10 +108,12 @@ qx.Class.define("qx.test.ui.form.Renderer", {
         text.isDisposed(),
         "Disposing renderer should have disposed text field as well."
       );
+
       this.assertTrue(
         label.isDisposed(),
         "Disposing renderer should have disposed label as well."
       );
+
       this.assertTrue(renderer.isDisposed(), "Renderer must be disposed.");
 
       // text field bindings

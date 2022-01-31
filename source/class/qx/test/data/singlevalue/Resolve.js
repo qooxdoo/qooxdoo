@@ -29,6 +29,7 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
         12,
         qx.data.SingleValueBinding.resolvePropertyChain(model, "a")
       );
+
       model.dispose();
     },
 
@@ -38,6 +39,7 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
         12,
         qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b")
       );
+
       model.dispose();
     },
 
@@ -45,10 +47,12 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
       var model = qx.data.marshal.Json.createModel({
         a: { b: { c: { d: { e: { f: 12 } } } } }
       });
+
       this.assertEquals(
         12,
         qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b.c.d.e.f")
       );
+
       model.dispose();
     },
 
@@ -66,6 +70,7 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
         12,
         qx.data.SingleValueBinding.resolvePropertyChain(model, "a.b[0].c")
       );
+
       model.dispose();
     },
 
@@ -75,6 +80,7 @@ qx.Class.define("qx.test.data.singlevalue.Resolve", {
         23,
         qx.data.SingleValueBinding.resolvePropertyChain(model, "a[0][0]")
       );
+
       model.dispose();
     },
 

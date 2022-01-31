@@ -324,6 +324,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
             this.__searchValue += this.__convertKeyIdentifier(
               event.getKeyIdentifier()
             );
+
             this.__searchTimer.restart();
           }
           break;
@@ -520,6 +521,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
         },
         this
       );
+
       dropdown.addListener(
         "disappear",
         function () {
@@ -556,11 +558,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
         qx.theme.manager.Appearance.getInstance().styleFrom(
           "list-search-highlight"
         );
+
       // default style
       if (!highlightAppearance) {
         this.debug(
           'The current theme is missing the "list-search-highlight" appearance setting, using default.'
         );
+
         highlightAppearance = {
           backgroundColor: "rgba(255, 251, 0, 0.53)",
           textDecorationStyle: "dotted",
@@ -665,6 +669,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
       var item = this.getModel().getItem(
         this.getChildControl("dropdown").getChildControl("list")._lookup(0)
       );
+
       if (item) {
         this.__lastMatch = filterValue;
         this.getSelection().setItem(0, item);
@@ -718,6 +723,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
         this.debug(
           "highlightMode html requires rich==true, ignoring setting it to false"
         );
+
         return;
       }
       this.getChildControl("atom").setRich(value);

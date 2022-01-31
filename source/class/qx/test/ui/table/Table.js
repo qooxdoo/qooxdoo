@@ -196,6 +196,7 @@ qx.Class.define("qx.test.ui.table.Table", {
         },
         this
       );
+
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -220,6 +221,7 @@ qx.Class.define("qx.test.ui.table.Table", {
         },
         this
       );
+
       this.assertNotNull(id);
 
       table.removeListenerById(id);
@@ -234,6 +236,7 @@ qx.Class.define("qx.test.ui.table.Table", {
         [scroller, mouse, 0, 0],
         true
       );
+
       this.assertFalse(executed, "Listener not removed");
 
       mouse.dispose();
@@ -253,6 +256,7 @@ qx.Class.define("qx.test.ui.table.Table", {
         width: 200,
         height: 200
       });
+
       this.getRoot().add(table);
 
       qx.ui.core.queue.Manager.flush();

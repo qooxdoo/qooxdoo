@@ -174,6 +174,7 @@ qx.Class.define("qx.ui.mobile.form.Slider", {
         this._refresh,
         this
       );
+
       this.addListenerOnce("domupdated", this._refresh, this);
     },
 
@@ -191,12 +192,14 @@ qx.Class.define("qx.ui.mobile.form.Slider", {
         this._refresh,
         this
       );
+
       qx.event.Registration.removeListener(
         window,
         "orientationchange",
         this._refresh,
         this
       );
+
       this.removeListener("domupdated", this._refresh, this);
     },
 
@@ -309,11 +312,13 @@ qx.Class.define("qx.ui.mobile.form.Slider", {
           "width",
           width - (width - position) + "px"
         );
+
         qx.bom.element.Attribute.set(
           this._getKnobElement(),
           "data-value",
           this.getValue()
         );
+
         qx.bom.element.Attribute.set(
           this._getKnobElement(),
           "data-percent",

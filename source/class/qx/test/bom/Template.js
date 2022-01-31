@@ -47,6 +47,7 @@ qx.Class.define("qx.test.bom.Template", {
           return "abc";
         }
       };
+
       var result = qx.bom.Template.render(template, view);
       var expected = "abc xyz";
 

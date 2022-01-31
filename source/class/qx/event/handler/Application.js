@@ -225,6 +225,7 @@ qx.Class.define("qx.event.handler.Application", {
           this._onNativeLoad,
           this
         );
+
         if (
           qx.core.Environment.get("engine.name") == "gecko" ||
           qx.core.Environment.get("engine.name") == "opera" ||
@@ -275,6 +276,7 @@ qx.Class.define("qx.event.handler.Application", {
         this._onNativeUnload,
         this
       );
+
       qx.bom.Event.addNativeListener(
         this._window,
         "unload",

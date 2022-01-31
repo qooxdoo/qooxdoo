@@ -355,16 +355,19 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane", {
           },
           this
         );
+
         this.__frame.on(
           "frame",
           function (timePassed) {
             var newX = parseInt(
               (timePassed / duration) * (value - from) + from
             );
+
             this.setScrollX(newX);
           },
           this
         );
+
         this.__frame.startSequence(duration);
       } else {
         this.setScrollX(value);
@@ -400,16 +403,19 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane", {
           },
           this
         );
+
         this.__frame.on(
           "frame",
           function (timePassed) {
             var newY = parseInt(
               (timePassed / duration) * (value - from) + from
             );
+
             this.setScrollY(newY);
           },
           this
         );
+
         this.__frame.startSequence(duration);
       } else {
         this.setScrollY(value);

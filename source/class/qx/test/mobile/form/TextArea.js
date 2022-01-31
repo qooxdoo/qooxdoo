@@ -29,6 +29,7 @@ qx.Class.define("qx.test.mobile.form.TextArea", {
         null,
         qx.bom.element.Attribute.get(textArea.getContainerElement(), "value")
       );
+
       this.assertEventFired(textArea, "changeValue", function () {
         textArea.setValue("mytext");
       });
@@ -47,6 +48,7 @@ qx.Class.define("qx.test.mobile.form.TextArea", {
         "affe",
         qx.bom.element.Attribute.get(textArea.getContainerElement(), "value")
       );
+
       textArea.destroy();
     },
 

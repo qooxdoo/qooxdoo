@@ -35,6 +35,7 @@ qx.Class.define("qx.test.ui.basic.Atom", {
         "on",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       a.destroy();
     },
 
@@ -47,6 +48,7 @@ qx.Class.define("qx.test.ui.basic.Atom", {
         "off",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       a.destroy();
     },
 
@@ -60,6 +62,7 @@ qx.Class.define("qx.test.ui.basic.Atom", {
         "on",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       a.destroy();
     },
 
@@ -73,6 +76,7 @@ qx.Class.define("qx.test.ui.basic.Atom", {
         "off",
         l.getContentElement().getDomElement().getAttribute("qxselectable")
       );
+
       a.destroy();
     }
   }

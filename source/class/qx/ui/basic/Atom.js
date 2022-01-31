@@ -159,6 +159,7 @@ qx.Class.define("qx.ui.basic.Atom", {
         "top-right",
         "bottom-right"
       ],
+
       themeable: true,
       apply: "_applyIconPosition"
     },

@@ -185,6 +185,7 @@ qx.Class.define("qx.test.event.Emitter", {
         },
         this
       );
+
       this.__ee.on(
         "test",
         function () {
@@ -193,6 +194,7 @@ qx.Class.define("qx.test.event.Emitter", {
         },
         this
       );
+
       this.__ee.emit("test");
       this.assertEquals(2, i);
     }

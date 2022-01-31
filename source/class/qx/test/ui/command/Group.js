@@ -67,6 +67,7 @@ qx.Class.define("qx.test.ui.command.Group", {
         group.has("test"),
         "The command added with key 'test' must be registered."
       );
+
       this.assertFalse(
         group.has("foo"),
         "The command 'foo' must not be registered."

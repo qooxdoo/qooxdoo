@@ -134,6 +134,7 @@ qx.Class.define("qx.ui.mobile.basic.Image", {
             source,
             qx.ui.mobile.basic.Image.ROOT.getAppScale()
           );
+
           if (highResSource) {
             this._createHighResolutionOverlay(highResSource, source);
             source = qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE;
@@ -177,6 +178,7 @@ qx.Class.define("qx.ui.mobile.basic.Image", {
         "backgroundImage",
         "url(" + resourceManager.toUri(highResSource) + ")"
       );
+
       this._setStyle("backgroundSize", "100%");
       this._setStyle("backgroundRepeat", "no-repeat");
       this._setStyle("backgroundPosition", "50% 50%");
@@ -184,6 +186,7 @@ qx.Class.define("qx.ui.mobile.basic.Image", {
         "width",
         resourceManager.getImageWidth(lowResSource) / 16 + "rem"
       );
+
       this._setStyle(
         "height",
         resourceManager.getImageHeight(lowResSource) / 16 + "rem"

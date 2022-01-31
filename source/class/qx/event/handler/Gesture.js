@@ -121,6 +121,7 @@ qx.Class.define("qx.event.handler.Gesture", {
         this.checkAndFireGesture,
         this
       );
+
       qx.event.handler.Gesture.GESTURE_EVENTS.forEach(
         function (type) {
           qx.event.Registration.addListener(
@@ -140,6 +141,7 @@ qx.Class.define("qx.event.handler.Gesture", {
           this._onDblClick,
           this
         );
+
         qx.bom.Event.addNativeListener(
           this.__root,
           "dblclick",

@@ -30,6 +30,7 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
         1,
         false
       ]);
+
       let expected = {
         id: 1,
         jsonrpc: "2.0",
@@ -51,6 +52,7 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
         1,
         false
       ]);
+
       let expected = {
         jsonrpc: "2.0",
         method: "foo",

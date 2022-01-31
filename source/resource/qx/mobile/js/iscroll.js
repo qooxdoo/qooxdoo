@@ -264,6 +264,7 @@
           that[dir + "ScrollbarWrapper"].parentNode.removeChild(
             that[dir + "ScrollbarWrapper"]
           );
+
           that[dir + "ScrollbarWrapper"] = null;
           that[dir + "ScrollbarIndicator"] = null;
         }
@@ -344,6 +345,7 @@
           m.round((that.hScrollbarSize * that.hScrollbarSize) / that.scrollerW),
           8
         );
+
         that.hScrollbarIndicator.style.width =
           that.hScrollbarIndicatorSize + "px";
         that.hScrollbarMaxScroll =
@@ -355,6 +357,7 @@
           m.round((that.vScrollbarSize * that.vScrollbarSize) / that.scrollerH),
           8
         );
+
         that.vScrollbarIndicator.style.height =
           that.vScrollbarIndicatorSize + "px";
         that.vScrollbarMaxScroll =
@@ -512,6 +515,7 @@
             /[^0-9-]/g,
             ""
           );
+
           y = +getComputedStyle(that.scroller, null).top.replace(
             /[^0-9-]/g,
             ""
@@ -718,6 +722,7 @@
               that.pointY,
               that.scale == 1 ? that.options.doubleTapZoom : 1
             );
+
             if (that.options.onZoomEnd) {
               setTimeout(function () {
                 that.options.onZoomEnd.call(that, e);
@@ -755,6 +760,7 @@
                     0,
                     null
                   );
+
                   ev._fake = true;
                   target.dispatchEvent(ev);
                 }
@@ -916,6 +922,7 @@
             2,
             (1 / 3) * (wheelDeltaY ? wheelDeltaY / Math.abs(wheelDeltaY) : 0)
           );
+
         if (deltaScale < that.options.zoomMin)
           deltaScale = that.options.zoomMin;
         if (deltaScale > that.options.zoomMax)
@@ -1180,6 +1187,7 @@
       that.scrollerH = m.round(
         (that.scroller.offsetHeight + that.minScrollY) * that.scale
       );
+
       that.maxScrollX = that.wrapperW - that.scrollerW;
       that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
       that.dirX = 0;

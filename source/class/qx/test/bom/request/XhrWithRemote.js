@@ -328,6 +328,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote", {
             "text/html;charset=iso-8859-1",
             req.getResponseHeader("Content-Type")
           );
+
           that.assertEquals("ƒeƒXƒg", req.responseText);
         });
       };

@@ -37,11 +37,13 @@ qx.Class.define("qx.test.mobile.form.RadioButton", {
         radio1.getValue(),
         "Radio1 is expected to be true."
       );
+
       this.assertEquals(
         false,
         radio2.getValue(),
         "Radio2 is expected to be false."
       );
+
       this.assertEquals(
         false,
         radio3.getValue(),

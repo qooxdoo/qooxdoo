@@ -483,6 +483,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage", {
       "__actionButton",
       "__title"
     );
+
     this.__leftContainer =
       this.__rightContainer =
       this.__backButton =

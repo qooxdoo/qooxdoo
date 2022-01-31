@@ -585,6 +585,7 @@ qx.Class.define("qx.ui.table.pane.Pane", {
         firstRow + addRowBase,
         Math.abs(rowOffset)
       );
+
       tableDummy += "</div>";
       this.__tableContainer.innerHTML = tableDummy;
       var newTableRows = this.__tableContainer.firstChild.childNodes;

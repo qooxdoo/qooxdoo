@@ -772,6 +772,7 @@ qx.Class.define("qx.ui.mobile.core.Widget", {
         child.getContainerElement(),
         beforeWidget.getContainerElement()
       );
+
       qx.lang.Array.insertBefore(this.__children, child, beforeWidget);
 
       this._domUpdated();
@@ -1296,6 +1297,7 @@ qx.Class.define("qx.ui.mobile.core.Widget", {
           this.getContainerElement(),
           cssClasses
         );
+
         this._domUpdated();
       }
     },

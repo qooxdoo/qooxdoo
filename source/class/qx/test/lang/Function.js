@@ -133,6 +133,7 @@ qx.Class.define("qx.test.lang.Function", {
         "qx.test.Name.constructor()",
         qx.lang.Function.getName(qx.test.Name)
       );
+
       this.assertEquals(
         "qx.test.Name.destruct()",
         qx.lang.Function.getName(qx.test.Name.$$destructor)
@@ -144,6 +145,7 @@ qx.Class.define("qx.test.lang.Function", {
         "qx.test.Name.prototype.setProp()",
         qx.lang.Function.getName(name.setProp)
       );
+
       this.assertEquals(
         "qx.test.Name.prototype.getProp()",
         qx.lang.Function.getName(name.getProp)
@@ -153,6 +155,7 @@ qx.Class.define("qx.test.lang.Function", {
         "qx.test.Name.foo()",
         qx.lang.Function.getName(qx.test.Name.foo)
       );
+
       this.assertEquals(
         "qx.test.Name.prototype.bar()",
         qx.lang.Function.getName(name.bar)

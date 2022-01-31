@@ -180,6 +180,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add new widget at begin"
       );
+
       this._setChildren(parent, children);
 
       parent.addBefore(w1, c3);
@@ -188,6 +189,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add new widget in the middle"
       );
+
       this._setChildren(parent, children);
 
       if (this.isDebugOn()) {
@@ -200,6 +202,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
           "",
           "add new widget before non child"
         );
+
         this._setChildren(parent, children);
       }
 
@@ -209,6 +212,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing before itself"
       );
+
       this._setChildren(parent, children);
 
       parent.addBefore(c3, c1);
@@ -217,6 +221,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing before first"
       );
+
       this._setChildren(parent, children);
 
       parent.addBefore(c3, c2);
@@ -225,6 +230,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing in the middle"
       );
+
       this._setChildren(parent, children);
 
       if (this.isDebugOn()) {
@@ -237,6 +243,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
           "",
           "add existing before non child"
         );
+
         this._setChildren(parent, children);
       }
 
@@ -267,6 +274,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add new widget ar end"
       );
+
       this._setChildren(parent, children);
 
       parent.addAfter(w1, c1);
@@ -275,6 +283,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add new widget in the middle"
       );
+
       this._setChildren(parent, children);
 
       if (this.isDebugOn()) {
@@ -287,6 +296,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
           "",
           "add new widget after non child"
         );
+
         this._setChildren(parent, children);
       }
 
@@ -296,6 +306,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing before itself"
       );
+
       this._setChildren(parent, children);
 
       parent.addAfter(c1, c3);
@@ -304,6 +315,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing before last"
       );
+
       this._setChildren(parent, children);
 
       parent.addAfter(c1, c2);
@@ -312,6 +324,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
         parent.getChildren(),
         "add existing in the middle"
       );
+
       this._setChildren(parent, children);
 
       if (this.isDebugOn()) {
@@ -324,6 +337,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling", {
           "",
           "add existing after non child"
         );
+
         this._setChildren(parent, children);
       }
 

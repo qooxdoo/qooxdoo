@@ -196,6 +196,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox", {
           qx.ui.mobile.layout.AbstractBox.PROPERTY_CSS_MAPPING[property][
             layoutCss
           ];
+
         if (old) {
           var oldCssClass = CSS_MAPPING[old];
           if (oldCssClass) {

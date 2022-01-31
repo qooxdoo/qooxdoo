@@ -70,6 +70,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         },
         this
       );
+
       Reg.addListener(
         this.c_1,
         "bubble",
@@ -87,6 +88,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         },
         this
       );
+
       Reg.addListener(
         this.c_1_1,
         "bubble",
@@ -104,6 +106,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         },
         this
       );
+
       Reg.addListener(
         this.c_2,
         "bubble",
@@ -177,6 +180,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_1,
         "bubble",
@@ -195,6 +199,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_1_1,
         "bubble",
@@ -213,6 +218,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_2,
         "bubble",
@@ -258,6 +264,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_1,
         "bubble",
@@ -276,6 +283,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_1_1,
         "bubble",
@@ -294,6 +302,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(
         this.c_2,
         "bubble",
@@ -345,6 +354,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         this,
         true
       );
+
       Reg.addListener(this.c_1_1, "bubble", this._stopPropagation, this, false);
 
       // fire event on c_1
@@ -380,6 +390,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         },
         this
       );
+
       Reg.addListener(
         this.c_1_1,
         "bubble",
@@ -388,11 +399,13 @@ qx.Class.define("qx.test.event.Bubbling", {
         },
         this
       );
+
       called = [];
       var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [
         true,
         true
       ]);
+
       this.assertTrue(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
 
@@ -403,6 +416,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         true,
         true
       ]);
+
       this.assertFalse(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
 
@@ -413,6 +427,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         true,
         true
       ]);
+
       this.assertTrue(prevent);
       this.assertJsonEquals(["c_1_1a"], called);
       Reg.removeListener(this.c_1_1, "bubble", this._stopPropagation, this);
@@ -425,6 +440,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         true,
         true
       ]);
+
       this.assertFalse(prevent);
       this.assertJsonEquals(["c_1_1a", "c_1a"], called);
 
@@ -434,6 +450,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         false,
         true
       ]);
+
       this.assertFalse(prevent);
       this.removeListener("nonBubble", this._preventDefault, this);
 
@@ -459,6 +476,7 @@ qx.Class.define("qx.test.event.Bubbling", {
         false,
         true
       ]);
+
       this.assertTrue(prevent);
     }
   }

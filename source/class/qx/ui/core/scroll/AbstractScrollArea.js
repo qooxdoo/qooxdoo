@@ -195,6 +195,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea", {
             this._onChangeScrollbarXVisibility,
             this
           );
+
           control.addListener(
             "scrollAnimationEnd",
             this._onScrollAnimationEnd.bind(this, "X")
@@ -204,6 +205,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea", {
             control.setMinHeight(
               qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
             );
+
             this._add(control, { bottom: 0, right: 0, left: 0 });
           } else {
             this._add(control, { row: 1, column: 0 });
@@ -221,6 +223,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea", {
             this._onChangeScrollbarYVisibility,
             this
           );
+
           control.addListener(
             "scrollAnimationEnd",
             this._onScrollAnimationEnd.bind(this, "Y")
@@ -230,6 +233,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea", {
             control.setMinWidth(
               qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
             );
+
             this._add(control, { right: 0, bottom: 0, top: 0 });
           } else {
             this._add(control, { row: 0, column: 1 });

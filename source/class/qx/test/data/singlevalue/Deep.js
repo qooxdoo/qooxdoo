@@ -115,6 +115,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
           return 3;
         }
       });
+
       // check the init values
       this.assertEquals(1, called);
       this.assertEquals(3, m.getB());
@@ -170,6 +171,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.__label.getValue(),
         "Deep binding does not work with updating the first parameter."
       );
+
       // change the second component
       // a --> b2 --> label
       this.__a.setChild(this.__b2);
@@ -178,6 +180,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.__label.getValue(),
         "Deep binding does not work with updating the first parameter."
       );
+
       // check for the null value
       // a --> null
       this.__a.setChild(null);
@@ -332,6 +335,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.__label.getValue(),
         "Single property names don't work!"
       );
+
       // check the binding
       this.__a.setName("A");
       this.assertEquals(
@@ -393,12 +397,14 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.__label,
         "value"
       );
+
       qx.data.SingleValueBinding.bind(
         this.__a,
         "child.name",
         this.__label,
         "value"
       );
+
       qx.data.SingleValueBinding.bind(
         this.__a,
         "child.name",
@@ -813,6 +819,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
         this.__a,
         "child.child.name"
       );
+
       this.assertEquals(this.__a.getName(), this.__b2.getName());
 
       this.__a.setName("nnnnn");

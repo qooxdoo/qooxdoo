@@ -50,6 +50,7 @@ qx.Class.define("qx.test.ui.form.StringFormat", {
             e.getData(),
             "Not the right number in the event."
           );
+
           self.assertEquals(
             "affe",
             e.getOldData(),
@@ -72,6 +73,7 @@ qx.Class.define("qx.test.ui.form.StringFormat", {
             e.getData(),
             "Not the right number in the event."
           );
+
           self.assertEquals(
             "affen",
             e.getOldData(),

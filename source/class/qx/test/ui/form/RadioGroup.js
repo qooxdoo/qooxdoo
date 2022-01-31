@@ -63,6 +63,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup", {
         this.__radioGroup.getModelSelection().getItem(0),
         "Model selection does not work correctly!"
       );
+
       this.assertTrue(
         this.__radioGroup.isSelected(this.__radioButtons[1]),
         "Wrong radio button selected!"
@@ -79,10 +80,12 @@ qx.Class.define("qx.test.ui.form.RadioGroup", {
         this.__radioGroup.getModelSelection().getItem(0),
         "Model selection does not work correctly!"
       );
+
       this.assertTrue(
         this.__radioGroup.isSelected(this.__radioButtons[0]),
         "Hidden radio button not selected!"
       );
+
       composite.destroy();
     },
 

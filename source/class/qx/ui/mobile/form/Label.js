@@ -188,6 +188,7 @@ qx.Class.define("qx.ui.mobile.form.Label", {
           this._changeEnabled,
           this
         );
+
         this.setEnabled(this.__forWidget.getEnabled());
       }
 
@@ -238,6 +239,7 @@ qx.Class.define("qx.ui.mobile.form.Label", {
         this._changeEnabled,
         this
       );
+
       this.__forWidget = null;
     }
     if (qx.core.Environment.get("qx.dynlocale")) {

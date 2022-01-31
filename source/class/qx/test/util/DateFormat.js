@@ -43,34 +43,41 @@ qx.Class.define("qx.test.util.DateFormat", {
           era: { abbrev: "AD", fullName: "Anno Domini", narrow: "A" }
         }
       },
+
       { date: new Date(2011, 0, 4), result: { dayOfYear: 4, dayOfWeek: 2 } },
       { date: new Date(2011, 0, 4), result: { dayOfYear: 4, dayOfWeek: 2 } },
       {
         date: new Date(2011, 0, 4, 9, 9, 9),
         result: { h_hour: 9, K_hour: 9, H_hour: 9, k_hour: 9 }
       },
+
       {
         date: new Date(2011, 0, 4, 14, 9, 9),
         result: { h_hour: 2, K_hour: 2, H_hour: 14, k_hour: 14 }
       },
+
       {
         date: new Date(2011, 0, 4, 0, 9, 9),
         result: { h_hour: 12, K_hour: 0, H_hour: 0, k_hour: 24 }
       },
+
       {
         date: new Date(2011, 0, 4, 12, 9, 9),
         result: { h_hour: 12, K_hour: 0, H_hour: 12, k_hour: 12 }
       },
+
       {
         date: new Date(2010, 12, 4, 0, 0, 0),
         result: { h_hour: 12, K_hour: 0, H_hour: 0, k_hour: 24 }
       },
+
       {
         date: new Date(-20, 10, 14),
         result: {
           era: { abbrev: "BC", fullName: "Before Christ", narrow: "B" }
         }
       },
+
       { date: new Date(2012, 4, 24, 11, 49, 57, 1), result: {} },
       { date: new Date(2012, 4, 24, 11, 49, 57, 12), result: {} },
       { date: new Date(2012, 4, 24, 11, 49, 57, 123), result: {} }
@@ -250,6 +257,7 @@ qx.Class.define("qx.test.util.DateFormat", {
         timezoneOffset: 60,
         time: 1316000836451
       });
+
       this.assertEquals("GMT-01:00", dateFmt.format(date));
       date.dispose();
 
@@ -257,6 +265,7 @@ qx.Class.define("qx.test.util.DateFormat", {
         timezoneOffset: -90,
         time: 1316000836451
       });
+
       this.assertEquals("GMT+01:30", dateFmt.format(date));
       date.dispose();
 
@@ -264,6 +273,7 @@ qx.Class.define("qx.test.util.DateFormat", {
         timezoneOffset: 90,
         time: 1316000836451
       });
+
       this.assertEquals("GMT-01:30", dateFmt.format(date));
       date.dispose();
 
@@ -369,6 +379,7 @@ qx.Class.define("qx.test.util.DateFormat", {
           expectedYear + "/" + this.__fillNumber(realMonth, 2),
           df.format(date)
         );
+
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/M");
         this.assertEquals(expectedYear + "/" + realMonth, df.format(date));
@@ -384,8 +395,10 @@ qx.Class.define("qx.test.util.DateFormat", {
               "format",
               true
             ),
+
           df.format(date)
         );
+
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMM");
         this.assertEquals(
@@ -394,6 +407,7 @@ qx.Class.define("qx.test.util.DateFormat", {
             qx.locale.Date.getMonthName("wide", month, locale, "format", true),
           df.format(date)
         );
+
         df.dispose();
         df = new qx.util.format.DateFormat("yyyy/MMMMM");
         this.assertEquals(
@@ -406,8 +420,10 @@ qx.Class.define("qx.test.util.DateFormat", {
               "format",
               true
             ),
+
           df.format(date)
         );
+
         df.dispose();
       }
     },
@@ -435,8 +451,10 @@ qx.Class.define("qx.test.util.DateFormat", {
             "stand-alone",
             true
           ),
+
           df.format(date)
         );
+
         df.dispose();
         df = new qx.util.format.DateFormat("LLLL");
         this.assertEquals(
@@ -447,8 +465,10 @@ qx.Class.define("qx.test.util.DateFormat", {
             "stand-alone",
             true
           ),
+
           df.format(date)
         );
+
         df.dispose();
         df = new qx.util.format.DateFormat("LLLLL");
         this.assertEquals(
@@ -459,8 +479,10 @@ qx.Class.define("qx.test.util.DateFormat", {
             "stand-alone",
             true
           ),
+
           df.format(date)
         );
+
         df.dispose();
       }
     },
@@ -551,8 +573,10 @@ qx.Class.define("qx.test.util.DateFormat", {
                 "format",
                 true
               ),
+
             df.format(date)
           );
+
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EE");
           this.assertEquals(
@@ -565,8 +589,10 @@ qx.Class.define("qx.test.util.DateFormat", {
                 "format",
                 true
               ),
+
             df.format(date)
           );
+
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEE");
           this.assertEquals(
@@ -579,8 +605,10 @@ qx.Class.define("qx.test.util.DateFormat", {
                 "format",
                 true
               ),
+
             df.format(date)
           );
+
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEE");
           this.assertEquals(
@@ -593,8 +621,10 @@ qx.Class.define("qx.test.util.DateFormat", {
                 "format",
                 true
               ),
+
             df.format(date)
           );
+
           df.dispose();
           df = new qx.util.format.DateFormat("yyyy/EEEEE");
           this.assertEquals(
@@ -607,8 +637,10 @@ qx.Class.define("qx.test.util.DateFormat", {
                 "format",
                 true
               ),
+
             df.format(date)
           );
+
           df.dispose();
         }
       }
@@ -643,8 +675,10 @@ qx.Class.define("qx.test.util.DateFormat", {
               "stand-alone",
               true
             ),
+
             df.format(date)
           );
+
           df.dispose();
 
           df = new qx.util.format.DateFormat("cccc", locales[k]);
@@ -656,8 +690,10 @@ qx.Class.define("qx.test.util.DateFormat", {
               "stand-alone",
               true
             ),
+
             df.format(date)
           );
+
           df.dispose();
 
           df = new qx.util.format.DateFormat("ccccc", locales[k]);
@@ -669,8 +705,10 @@ qx.Class.define("qx.test.util.DateFormat", {
               "stand-alone",
               true
             ),
+
             df.format(date)
           );
+
           df.dispose();
         }
       }
@@ -707,8 +745,10 @@ qx.Class.define("qx.test.util.DateFormat", {
             "format",
             true
           ),
+
           df.format(date)
         );
+
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeee");
@@ -716,6 +756,7 @@ qx.Class.define("qx.test.util.DateFormat", {
           qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format", true),
           df.format(date)
         );
+
         df.dispose();
 
         df = new qx.util.format.DateFormat("eeeee");
@@ -727,8 +768,10 @@ qx.Class.define("qx.test.util.DateFormat", {
             "format",
             true
           ),
+
           df.format(date)
         );
+
         df.dispose();
       }
     },
@@ -780,6 +823,7 @@ qx.Class.define("qx.test.util.DateFormat", {
             : qx.locale.Date.getPmMarker(locale).toString(),
           df.format(date)
         );
+
         df.dispose();
       }
     },
@@ -981,6 +1025,7 @@ qx.Class.define("qx.test.util.DateFormat", {
         isodf.parse(isoDateFormatted).getTime(),
         df.parse(dateFormatted).getTime()
       );
+
       isodf.dispose();
       df.dispose();
     },
@@ -1050,6 +1095,7 @@ qx.Class.define("qx.test.util.DateFormat", {
         "EEEE yyyy-mm-dd",
         initialLocale
       );
+
       var dfFR = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "fr_FR");
       var dfDE = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "de_DE");
       var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd", "en_US");

@@ -143,6 +143,7 @@ qx.Class.define("qx.test.html.Element", {
         },
         this
       );
+
       el.show();
       qx.html.Element.flush();
       el.hide();
@@ -191,6 +192,7 @@ qx.Class.define("qx.test.html.Element", {
         '<div id="el1" data-qx-object-id="qx.html.Element" >Hello Again World</div>',
         buffer
       );
+
       el1.setAttribute("abc", 123);
       el1.setAttribute("def", true);
       el1.setAttribute("checked", true);
@@ -304,10 +306,12 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         after1.getDomElement()
@@ -337,18 +341,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after2.getDomElement()
@@ -373,18 +381,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         after2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after1.getDomElement()
@@ -415,18 +427,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         after2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after1.getDomElement()
@@ -449,10 +465,12 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         after1.getDomElement()
@@ -474,18 +492,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after2.getDomElement()
@@ -511,18 +533,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after2.getDomElement()
@@ -546,18 +572,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         after2.getDomElement()
@@ -591,18 +621,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         after2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         el1.getDomElement()
@@ -624,18 +658,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         after2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         before2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         before1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         after1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         el1.getDomElement()
@@ -671,14 +709,17 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[3], undefined);
 
       /**
@@ -700,18 +741,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
 
       /**
@@ -748,28 +793,34 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el4.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[5], undefined);
 
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].firstChild,
         el4_1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].lastChild,
         el4_3.getDomElement()
@@ -798,36 +849,44 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el4.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[5], undefined);
 
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[0],
         el4_1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[1],
         el4_2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[2],
         el4_3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[3],
         undefined
@@ -865,18 +924,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
 
       /**
@@ -899,32 +962,39 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el4.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[4],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[5], undefined);
 
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[0],
         el4_3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[1],
         el4_1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3].childNodes[2],
         undefined
@@ -975,14 +1045,17 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[3], undefined);
 
       /**
@@ -1004,18 +1077,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
 
       /**
@@ -1038,18 +1115,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
       this.assertIdentical(el3.getDomElement().style.display, "none");
 
@@ -1074,14 +1155,17 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[3], undefined);
       this.assertIdentical(el3.getDomElement().style.display, "");
 
@@ -1105,18 +1189,22 @@ qx.Class.define("qx.test.html.Element", {
         this._doc.getDomElement().childNodes[0],
         el1.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[1],
         el2.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[2],
         el3.getDomElement()
       );
+
       this.assertIdentical(
         this._doc.getDomElement().childNodes[3],
         el5.getDomElement()
       );
+
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
       this.assertIdentical(el2.getDomElement().style.display, "none");
       this.assertIdentical(el3.getDomElement().style.display, "");

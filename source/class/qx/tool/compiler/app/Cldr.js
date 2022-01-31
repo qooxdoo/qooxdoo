@@ -135,9 +135,11 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
           cldr.alternateQuotationEnd = get(
             "ldml.delimiters[0].alternateQuotationEnd[0]"
           );
+
           cldr.alternateQuotationStart = get(
             "ldml.delimiters[0].alternateQuotationStart[0]"
           );
+
           cldr.quotationEnd = get("ldml.delimiters[0].quotationEnd[0]");
           cldr.quotationStart = get("ldml.delimiters[0].quotationStart[0]");
 
@@ -171,162 +173,215 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "dateTimeFormats[0].availableFormats[0].dateFormatItem",
               cal
             );
+
             cldr.cldr_date_format_full = find(
               dateFormatLength,
               "type",
               "full",
               getDateFormatPattern
-            ); // "EEEE, MMMM d, y";
+            );
+
+            // "EEEE, MMMM d, y";
             cldr.cldr_date_format_long = find(
               dateFormatLength,
               "type",
               "long",
               getDateFormatPattern
-            ); // "MMMM d, y";
+            );
+
+            // "MMMM d, y";
             cldr.cldr_date_format_medium = find(
               dateFormatLength,
               "type",
               "medium",
               getDateFormatPattern
-            ); // "MMM d, y";
+            );
+
+            // "MMM d, y";
             cldr.cldr_date_format_short = find(
               dateFormatLength,
               "type",
               "short",
               getDateFormatPattern
-            ); // "M/d/yy";
+            );
+
+            // "M/d/yy";
             cldr.cldr_date_time_format_Ed = find(
               dateFormatItem,
               "id",
               "Ed",
               getText
-            ); // "d E";
+            );
+
+            // "d E";
             cldr.cldr_date_time_format_Hm = find(
               dateFormatItem,
               "id",
               "Hm",
               getText
-            ); // "HH:mm";
+            );
+
+            // "HH:mm";
             cldr.cldr_date_time_format_Hms = find(
               dateFormatItem,
               "id",
               "Hms",
               getText
-            ); // "HH:mm:ss";
+            );
+
+            // "HH:mm:ss";
             cldr.cldr_date_time_format_M = find(
               dateFormatItem,
               "id",
               "M",
               getText
-            ); // "L";
+            );
+
+            // "L";
             cldr.cldr_date_time_format_MEd = find(
               dateFormatItem,
               "id",
               "MEd",
               getText
-            ); // "E, M/d";
+            );
+
+            // "E, M/d";
             cldr.cldr_date_time_format_MMM = find(
               dateFormatItem,
               "id",
               "MMM",
               getText
-            ); // "LLL";
+            );
+
+            // "LLL";
             cldr.cldr_date_time_format_MMMEd = find(
               dateFormatItem,
               "id",
               "MMMEd",
               getText
-            ); // "E, MMM d";
+            );
+
+            // "E, MMM d";
             cldr.cldr_date_time_format_MMMd = find(
               dateFormatItem,
               "id",
               "MMMd",
               getText
-            ); // "MMM d";
+            );
+
+            // "MMM d";
             cldr.cldr_date_time_format_Md = find(
               dateFormatItem,
               "id",
               "Md",
               getText
-            ); // "M/d";
+            );
+
+            // "M/d";
             cldr.cldr_date_time_format_d = find(
               dateFormatItem,
               "id",
               "d",
               getText
-            ); // "d";
+            );
+
+            // "d";
             cldr.cldr_date_time_format_hm = find(
               dateFormatItem,
               "id",
               "hm",
               getText
-            ); // "h:mm a";
+            );
+
+            // "h:mm a";
             cldr.cldr_date_time_format_hms = find(
               dateFormatItem,
               "id",
               "hms",
               getText
-            ); // "h:mm:ss a";
+            );
+
+            // "h:mm:ss a";
             cldr.cldr_date_time_format_ms = find(
               dateFormatItem,
               "id",
               "ms",
               getText
-            ); // "mm:ss";
+            );
+
+            // "mm:ss";
             cldr.cldr_date_time_format_y = find(
               dateFormatItem,
               "id",
               "y",
               getText
-            ); // "y";
+            );
+
+            // "y";
             cldr.cldr_date_time_format_yM = find(
               dateFormatItem,
               "id",
               "yM",
               getText
-            ); // "M/y";
+            );
+
+            // "M/y";
             cldr.cldr_date_time_format_yMEd = find(
               dateFormatItem,
               "id",
               "yMEd",
               getText
-            ); // "E, M/d/y";
+            );
+
+            // "E, M/d/y";
             cldr.cldr_date_time_format_yMMM = find(
               dateFormatItem,
               "id",
               "yMMM",
               getText
-            ); // "MMM y";
+            );
+
+            // "MMM y";
             cldr.cldr_date_time_format_yMMMEd = find(
               dateFormatItem,
               "id",
               "yMMMEd",
               getText
-            ); // "E, MMM d, y";
+            );
+
+            // "E, MMM d, y";
             cldr.cldr_date_time_format_yMMMd = find(
               dateFormatItem,
               "id",
               "yMMMd",
               getText
-            ); // "MMM d, y";
+            );
+
+            // "MMM d, y";
             cldr.cldr_date_time_format_yMd = find(
               dateFormatItem,
               "id",
               "yMd",
               getText
-            ); // "M/d/y";
+            );
+
+            // "M/d/y";
             cldr.cldr_date_time_format_yQ = find(
               dateFormatItem,
               "id",
               "yQ",
               getText
-            ); // "Q y";
+            );
+
+            // "Q y";
             cldr.cldr_date_time_format_yQQQ = find(
               dateFormatItem,
               "id",
               "yQQQ",
               getText
-            ); // "QQQ y";
+            );
+
+            // "QQQ y";
 
             var dayContext = get("days[0].dayContext", cal);
             find(dayContext, "type", "format", function (row) {
@@ -336,43 +391,57 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "type",
                   "fri",
                   getText
-                ); // "Fri";
+                );
+
+                // "Fri";
                 cldr.cldr_day_format_abbreviated_mon = find(
                   row.day,
                   "type",
                   "mon",
                   getText
-                ); // "Mon";
+                );
+
+                // "Mon";
                 cldr.cldr_day_format_abbreviated_sat = find(
                   row.day,
                   "type",
                   "sat",
                   getText
-                ); // "Sat";
+                );
+
+                // "Sat";
                 cldr.cldr_day_format_abbreviated_sun = find(
                   row.day,
                   "type",
                   "sun",
                   getText
-                ); // "Sun";
+                );
+
+                // "Sun";
                 cldr.cldr_day_format_abbreviated_thu = find(
                   row.day,
                   "type",
                   "thu",
                   getText
-                ); // "Thu";
+                );
+
+                // "Thu";
                 cldr.cldr_day_format_abbreviated_tue = find(
                   row.day,
                   "type",
                   "tue",
                   getText
-                ); // "Tue";
+                );
+
+                // "Tue";
                 cldr.cldr_day_format_abbreviated_wed = find(
                   row.day,
                   "type",
                   "wed",
                   getText
-                ); // "Wed";
+                );
+
+                // "Wed";
               });
             });
             find(dayContext, "type", "format", function (row) {
@@ -382,43 +451,57 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                   "type",
                   "fri",
                   getText
-                ); // "Friday";
+                );
+
+                // "Friday";
                 cldr.cldr_day_format_wide_mon = find(
                   row.day,
                   "type",
                   "mon",
                   getText
-                ); // "Monday";
+                );
+
+                // "Monday";
                 cldr.cldr_day_format_wide_sat = find(
                   row.day,
                   "type",
                   "sat",
                   getText
-                ); // "Saturday";
+                );
+
+                // "Saturday";
                 cldr.cldr_day_format_wide_sun = find(
                   row.day,
                   "type",
                   "sun",
                   getText
-                ); // "Sunday";
+                );
+
+                // "Sunday";
                 cldr.cldr_day_format_wide_thu = find(
                   row.day,
                   "type",
                   "thu",
                   getText
-                ); // "Thursday";
+                );
+
+                // "Thursday";
                 cldr.cldr_day_format_wide_tue = find(
                   row.day,
                   "type",
                   "tue",
                   getText
-                ); // "Tuesday";
+                );
+
+                // "Tuesday";
                 cldr.cldr_day_format_wide_wed = find(
                   row.day,
                   "type",
                   "wed",
                   getText
-                ); // "Wednesday";
+                );
+
+                // "Wednesday";
               });
             });
             find(dayContext, "type", "stand-alone", function (row) {
@@ -427,43 +510,57 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
                 "type",
                 "fri",
                 getText
-              ); // "F";
+              );
+
+              // "F";
               cldr["cldr_day_stand-alone_narrow_mon"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "mon",
                 getText
-              ); // "M";
+              );
+
+              // "M";
               cldr["cldr_day_stand-alone_narrow_sat"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "sat",
                 getText
-              ); // "S";
+              );
+
+              // "S";
               cldr["cldr_day_stand-alone_narrow_sun"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "sun",
                 getText
-              ); // "S";
+              );
+
+              // "S";
               cldr["cldr_day_stand-alone_narrow_thu"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "thu",
                 getText
-              ); // "T";
+              );
+
+              // "T";
               cldr["cldr_day_stand-alone_narrow_tue"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "tue",
                 getText
-              ); // "T";
+              );
+
+              // "T";
               cldr["cldr_day_stand-alone_narrow_wed"] = find(
                 row.dayWidth[0].day,
                 "type",
                 "wed",
                 getText
-              ); // "W";
+              );
+
+              // "W";
             });
 
             var monthContext = get("months[0].monthContext", cal);
@@ -502,25 +599,33 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               "type",
               "full",
               getTimeFormatPattern
-            ); // "h:mm:ss a zzzz";
+            );
+
+            // "h:mm:ss a zzzz";
             cldr.cldr_time_format_long = find(
               timeFormatLength,
               "type",
               "long",
               getTimeFormatPattern
-            ); // "h:mm:ss a z";
+            );
+
+            // "h:mm:ss a z";
             cldr.cldr_time_format_medium = find(
               timeFormatLength,
               "type",
               "medium",
               getTimeFormatPattern
-            ); // "h:mm:ss a";
+            );
+
+            // "h:mm:ss a";
             cldr.cldr_time_format_short = find(
               timeFormatLength,
               "type",
               "short",
               getTimeFormatPattern
-            ); // "h:mm a";
+            );
+
+            // "h:mm a";
           }
 
           var numberingSystem = getText(
@@ -540,15 +645,21 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
           } else {
             cldr.cldr_number_decimal_separator = getValue(
               "ldml.numbers[0].symbols[0].decimal[0]"
-            ); // ".";
+            );
+
+            // ".";
             cldr.cldr_number_group_separator = getValue(
               "ldml.numbers[0].symbols[0].group[0]"
-            ); // ",";
+            );
+
+            // ",";
           }
 
           cldr.cldr_number_percent_format = getValue(
             "ldml.numbers[0].percentFormats[0].percentFormatLength[0].percentFormat[0].pattern[0]"
-          ); // "#,##0%";
+          );
+
+          // "#,##0%";
 
           function getDisplayName(row) {
             if (qx.lang.Type.isArray(row.displayName)) {

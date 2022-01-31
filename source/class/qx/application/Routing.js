@@ -361,6 +361,7 @@ qx.Bootstrap.define("qx.application.Routing", {
         qx.application.Routing.__back,
         qx.application.Routing.__forward
       ];
+
       for (var i = 0; i < register.length; i++) {
         for (var j = 0; j < register[i].length; j++) {
           if (register[i][j].path == path) {

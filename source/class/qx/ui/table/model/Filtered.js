@@ -354,6 +354,7 @@ qx.Class.define("qx.ui.table.model.Filtered", {
               this.Filters[i][1],
               this.Filters[i][3]
             );
+
             filter_test = the_pattern.test(compareValue);
           } else if (this.Filters[i][0] === "notregex") {
             compareValue = this.getValueById(this.Filters[i][2], row);
@@ -362,6 +363,7 @@ qx.Class.define("qx.ui.table.model.Filtered", {
               this.Filters[i][1],
               this.Filters[i][3]
             );
+
             filter_test = !the_pattern.test(compareValue);
           }
 

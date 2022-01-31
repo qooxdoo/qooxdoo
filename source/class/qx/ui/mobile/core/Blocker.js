@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker", {
         var dimension = qx.bom.element.Dimension.getSize(
           this.getLayoutParent().getContainerElement()
         );
+
         this.getContainerElement().style.width = dimension.width + "px";
         this.getContainerElement().style.height = dimension.height + "px";
       }
@@ -134,6 +135,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker", {
         this._updateSize,
         this
       );
+
       qx.event.Registration.addListener(window, "scroll", this._onScroll, this);
       this.addListener("pointerdown", qx.bom.Event.preventDefault, this);
       this.addListener("pointerup", qx.bom.Event.preventDefault, this);
@@ -149,12 +151,14 @@ qx.Class.define("qx.ui.mobile.core.Blocker", {
         this._updateSize,
         this
       );
+
       qx.event.Registration.removeListener(
         window,
         "scroll",
         this._onScroll,
         this
       );
+
       this.removeListener("pointerdown", qx.bom.Event.preventDefault, this);
       this.removeListener("pointerup", qx.bom.Event.preventDefault, this);
     }

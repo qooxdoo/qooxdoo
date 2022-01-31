@@ -256,6 +256,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider", {
         this._onGroupItemCreated,
         this
       );
+
       this.removeBindings();
       this._list.getPane().fullUpdate();
     },

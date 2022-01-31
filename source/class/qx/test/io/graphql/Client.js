@@ -60,6 +60,7 @@ qx.Class.define("qx.test.io.graphql.Client", {
           headers: { "Content-Type": "application/json" },
           body
         };
+
         let response = await fetch(url, init);
         let result = await response.json();
         this.assertDeepEquals(
@@ -71,6 +72,7 @@ qx.Class.define("qx.test.io.graphql.Client", {
 
           result
         );
+
         this.__hasEndpoint = true;
       } catch (e) {
         console.error(
@@ -174,6 +176,7 @@ qx.Class.define("qx.test.io.graphql.Client", {
         const client = new qx.io.graphql.Client(
           "https://doesnotexist.org/" + Math.random()
         );
+
         const query = "query { doesnotmatter }";
         const request = new qx.io.graphql.protocol.Request({ query });
         await client.send(request);

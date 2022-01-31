@@ -184,6 +184,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
         this.__sinon.FakeXMLHttpRequest.filters,
         this.__filter
       );
+
       var urlRegExp = url instanceof RegExp ? url : this._getRegExp(url);
       this.__responses = this.__responses.filter(function (response) {
         return (
@@ -199,6 +200,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
           );
         }
       );
+
       this.removeFilter(this.__filter);
       this.__filter = this.__getCombinedFilter();
       this.addFilter(this.__filter);

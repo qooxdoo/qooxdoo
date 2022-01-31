@@ -204,6 +204,7 @@ qx.Class.define("qx.event.handler.Window", {
           qx.event.type.Native,
           [e, win]
         );
+
         qx.event.Registration.dispatchEvent(win, event);
 
         var result = event.getReturnValue();

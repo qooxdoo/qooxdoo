@@ -35,6 +35,7 @@ qx.Class.define("qx.test.mobile.page.Page", {
             startEvent,
             "Start event is fired before initialize event was fired!"
           );
+
           initializedEvent = true;
         },
         this
@@ -47,6 +48,7 @@ qx.Class.define("qx.test.mobile.page.Page", {
             initializedEvent,
             "Start event is fired before initialize event was fired!"
           );
+
           startEvent = true;
         },
         this
@@ -129,6 +131,7 @@ qx.Class.define("qx.test.mobile.page.Page", {
         eventFiredOnApplication,
         "The 'back' event on application is not fired!"
       );
+
       this.assertFalse(eventFiredOnPage, "The 'back' event on page is fired!");
 
       application.removeListenerById(id);
@@ -194,6 +197,7 @@ qx.Class.define("qx.test.mobile.page.Page", {
         eventFiredOnApplication,
         "The '" + name + "' event on application is not fired!"
       );
+
       this.assertTrue(
         eventFiredOnPage,
         "The '" + name + "' event on page is not fired!"

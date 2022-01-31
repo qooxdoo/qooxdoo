@@ -177,6 +177,7 @@ qx.Class.define("qx.ui.form.DateField", {
         format,
         qx.locale.Manager.getInstance().getLocale()
       );
+
       this.__dateFormat = format;
 
       return this.__formatter;
@@ -377,6 +378,7 @@ qx.Class.define("qx.ui.form.DateField", {
             this._onTextFieldChangeValue,
             this
           );
+
           control.addListener("blur", this.close, this);
           this._add(control, { flex: 1 });
           break;
@@ -407,6 +409,7 @@ qx.Class.define("qx.ui.form.DateField", {
             this._onPopupChangeVisibility,
             this
           );
+
           break;
       }
 

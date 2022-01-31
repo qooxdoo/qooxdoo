@@ -300,6 +300,7 @@ qx.Class.define("qx.ui.mobile.list.List", {
         "transform",
         "translate3d(" + deltaX + "px,0,0)"
       );
+
       qx.bom.element.Style.set(element, "opacity", opacity);
 
       evt.preventDefault();
@@ -326,6 +327,7 @@ qx.Class.define("qx.ui.mobile.list.List", {
               "transform",
               "translate3d(0,0,0)"
             );
+
             qx.bom.element.Style.set(element, "opacity", "1");
             qx.bom.element.Class.remove(element, "track");
           }.bind(this)
@@ -496,6 +498,7 @@ qx.Class.define("qx.ui.mobile.list.List", {
         ".list-item",
         this.getContentElement()
       );
+
       var oldNode = renderedItems[index];
       var newNode = this.__provider.getItemElement(
         this.getModel().getItem(index),
@@ -519,6 +522,7 @@ qx.Class.define("qx.ui.mobile.list.List", {
           this.getContentElement(),
           "height"
         );
+
         listItemHeight = parseInt(listHeight) / this.getModel().length;
       }
       return listItemHeight;

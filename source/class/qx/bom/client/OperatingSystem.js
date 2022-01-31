@@ -227,6 +227,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem", {
         var iOsVersionRegExp = new RegExp(
           /(CPU|iPhone|iPod) OS (\d+)_(\d+)(?:_(\d+))*\s+/
         );
+
         var iOsMatch = iOsVersionRegExp.exec(userAgent);
 
         if (iOsMatch && iOsMatch[2] && iOsMatch[3]) {

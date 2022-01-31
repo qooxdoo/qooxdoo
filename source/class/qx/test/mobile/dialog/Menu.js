@@ -105,6 +105,7 @@ qx.Class.define("qx.test.mobile.dialog.Menu", {
         menu._getListScroller().getContentElement(),
         "height"
       );
+
       listHeight = parseInt(listHeight, 10);
 
       this.assertEquals(expectedListHeight, listHeight);

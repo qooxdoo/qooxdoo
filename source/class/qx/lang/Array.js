@@ -283,6 +283,7 @@ qx.Bootstrap.define("qx.lang.Array", {
             arr1,
             "The first parameter must be an array."
           );
+
         qx.core.Assert &&
           qx.core.Assert.assertArray(
             arr2,
@@ -316,6 +317,7 @@ qx.Bootstrap.define("qx.lang.Array", {
             arr1,
             "The first parameter must be an array."
           );
+
         qx.core.Assert &&
           qx.core.Assert.assertArray(
             arr2,

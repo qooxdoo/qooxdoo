@@ -89,6 +89,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
             row,
             column
           );
+
           var insets = cellProperties.insets || [0, 0];
 
           html.push(

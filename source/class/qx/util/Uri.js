@@ -52,6 +52,7 @@ qx.Bootstrap.define("qx.util.Uri", {
           "query",
           "anchor"
         ],
+
         q: {
           name: "queryKey",
           parser: /(?:^|&)([^&=]*)=?([^&]*)/g

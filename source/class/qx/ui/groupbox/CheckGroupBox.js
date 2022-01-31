@@ -31,6 +31,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox", {
     qx.ui.form.IBooleanForm,
     qx.ui.form.IModel
   ],
+
   include: [qx.ui.form.MModelProperty],
 
   properties: {

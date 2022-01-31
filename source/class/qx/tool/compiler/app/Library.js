@@ -154,10 +154,12 @@ qx.Class.define("qx.tool.compiler.app.Library", {
       rootDir = await qx.tool.utils.files.Utils.correctCase(
         path.resolve(loadFromDir)
       );
+
       this.setRootDir(rootDir);
       let data = await qx.tool.utils.Json.loadJsonAsync(
         rootDir + "/Manifest.json"
       );
+
       if (!data) {
         throw new Error(
           Console.decode("qx.tool.compiler.library.emptyManifest", rootDir)
@@ -194,6 +196,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
               dir
             )
           );
+
           return dir;
         }
         let correctedDir = await qx.tool.utils.files.Utils.correctCase(d);
@@ -207,6 +210,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
               rootDir
             )
           );
+
           return dir;
         }
         correctedDir = correctedDir.substring(rootDir.length + 1);
@@ -353,6 +357,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
             rootDir
           )
         );
+
         cb(null, []);
         return;
       }

@@ -82,6 +82,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection", {
             root.getChildren().getItem(1),
             selection.getItem(0)
           );
+
           that.assertEquals(2, that.tree._manager.getSelectedItem());
         }
       );
@@ -115,6 +116,7 @@ qx.Class.define("qx.test.ui.tree.virtual.SingleSelection", {
         selection.getLength(),
         "Selection not reset on Tree"
       );
+
       this.assertEquals(
         0,
         selectionOnManager.length,

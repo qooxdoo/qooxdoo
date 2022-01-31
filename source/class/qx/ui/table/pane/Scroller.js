@@ -74,16 +74,19 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       this._onChangeCaptureHeader,
       this
     );
+
     this._headerClipper.addListener(
       "pointermove",
       this._onPointermoveHeader,
       this
     );
+
     this._headerClipper.addListener(
       "pointerdown",
       this._onPointerdownHeader,
       this
     );
+
     this._headerClipper.addListener("pointerup", this._onPointerupHeader, this);
     this._headerClipper.addListener("tap", this._onTapHeader, this);
     this.__top.add(this._headerClipper, { flex: 1 });
@@ -441,6 +444,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
             this._onPointerupFocusIndicator,
             this
           );
+
           this._paneClipper.add(control);
           control.show(); // must be active for editor to operate
           control.setDecorator(null); // it can be initially invisible, though.
@@ -464,6 +468,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
             control.setMinHeight(
               qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
             );
+
             this.__clipperContainer.add(control, {
               bottom: 0,
               right: 0,
@@ -650,6 +655,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
         firstColumn,
         lastColumn
       );
+
       var rowCount = this.getTable().getTableModel().getRowCount();
 
       if (rowCount != this.__lastRowCount) {
@@ -843,6 +849,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
         scrollbar.getPosition(),
         e.getOldData()
       );
+
       this._postponedUpdateContent();
     },
 
@@ -925,6 +932,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
       var headerCell = this.__header.getHeaderWidgetAtColumn(
         this.__resizeColumn
       );
+
       var minColumnWidth = headerCell.getSizeHint().minWidth;
 
       var newWidth = Math.max(
@@ -1225,6 +1233,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
 
           true
         );
+
         this.__firedTapEvent = true;
       } else if (!this.isEditing()) {
         // if no cellTap event should be fired, act like a pointerdown which
@@ -1447,6 +1456,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
             [this, e, row, col],
             true
           );
+
           this.__firedTapEvent = true;
         }
       } else {
@@ -1738,6 +1748,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
           colLeft,
           colLeft + colWidth - clipperSize.width
         );
+
         var maxScrollX = colLeft;
         this.setScrollX(Math.max(minScrollX, Math.min(maxScrollX, scrollX)));
 
@@ -1896,6 +1907,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
         var value = this.__cellEditorFactory.getCellEditorValue(
           this._cellEditor
         );
+
         var oldValue = this.getTable()
           .getTableModel()
           .getValue(this.__focusedCol, this.__focusedRow);
@@ -1932,6 +1944,7 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
             this.__focusIndicator.removeListenerById(
               this.__focusIndicatorPointerDownListener
             );
+
             this.__focusIndicatorPointerDownListener = null;
           }
           this._updateFocusIndicator();

@@ -64,6 +64,7 @@ qx.Class.define("qx.test.event.Timer", {
             runCount === 1,
             "Timer did not fire interval event repeatedly, fired only once"
           );
+
           this.assertIdentical(
             2,
             runCount,

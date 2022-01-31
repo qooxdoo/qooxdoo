@@ -564,6 +564,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         Math.pow(pointerA.clientX - pointerB.clientX, 2) +
           Math.pow(pointerA.clientY - pointerB.clientY, 2)
       );
+
       return scale;
     },
 
@@ -580,6 +581,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         qx.event.handler.GestureCore.TAP_MAX_DISTANCE[
           domEvent.getPointerType()
         ];
+
       if (!delta) {
         return null;
       }

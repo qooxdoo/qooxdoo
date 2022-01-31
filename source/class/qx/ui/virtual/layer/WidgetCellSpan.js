@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan", {
       rowConfig,
       columnConfig
     );
+
     this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
 
@@ -248,6 +249,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan", {
           cell.firstRow,
           cell.firstColumn
         );
+
         if (cellWidget) {
           cellWidget.setUserBounds(
             cellBounds.left,
@@ -262,10 +264,12 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan", {
             "cell.rowspan",
             cell.lastRow - cell.firstRow + 1
           );
+
           cellWidget.setUserData(
             "cell.colspan",
             cell.lastColumn - cell.firstColumn + 1
           );
+
           this._add(cellWidget);
         }
       }

@@ -151,6 +151,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
             },
             this
           );
+
           if (this.isDisposed()) {
             reject(new Error("disposed"));
           }

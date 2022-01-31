@@ -170,6 +170,7 @@ qx.Class.define("qx.bom.Shortcut", {
           this.__onKeyDown,
           this
         );
+
         qx.event.Registration.addListener(
           document.documentElement,
           "keypress",
@@ -183,6 +184,7 @@ qx.Class.define("qx.bom.Shortcut", {
           this.__onKeyDown,
           this
         );
+
         qx.event.Registration.removeListener(
           document.documentElement,
           "keypress",
@@ -208,6 +210,7 @@ qx.Class.define("qx.bom.Shortcut", {
           Meta: false,
           Alt: false
         };
+
         this.__key = null;
 
         // To support shortcuts with "+" and "-" as keys it is necessary

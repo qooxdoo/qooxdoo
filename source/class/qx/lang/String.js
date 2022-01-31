@@ -362,6 +362,7 @@ qx.Bootstrap.define("qx.lang.String", {
           return matchedSubString;
         }
       );
+
       return str;
     },
 

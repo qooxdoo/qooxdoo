@@ -570,6 +570,7 @@ qx.Class.define("qx.ui.basic.Image", {
         var alphaImageLoader = qx.core.Environment.get(
           "css.alphaimageloaderneeded"
         );
+
         var isPng = source.endsWith(".png");
         var isFont = source.startsWith("@");
 
@@ -885,6 +886,7 @@ qx.Class.define("qx.ui.basic.Image", {
       var font = qx.theme.manager.Font.getInstance().resolve(
         source.match(/@([^/]+)/)[1]
       );
+
       if (typeof font == "string") {
         throw new Error(
           `Cannot find font in virtual image source: '${source}'`
@@ -926,6 +928,7 @@ qx.Class.define("qx.ui.basic.Image", {
         var decorator = qx.theme.manager.Decoration.getInstance().resolve(
           this.getDecorator()
         );
+
         if (decorator) {
           var hasGradient =
             decorator.getStartColor() && decorator.getEndColor();

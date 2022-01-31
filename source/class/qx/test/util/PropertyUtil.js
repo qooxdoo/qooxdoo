@@ -91,6 +91,7 @@ qx.Class.define("qx.test.util.PropertyUtil", {
         "a",
         qx.util.PropertyUtil.getProperties(qx.test.propA)
       );
+
       this.assertKeyInMap(
         "b",
         qx.util.PropertyUtil.getProperties(qx.test.propB)
@@ -101,6 +102,7 @@ qx.Class.define("qx.test.util.PropertyUtil", {
         "a",
         qx.util.PropertyUtil.getAllProperties(qx.test.propB)
       );
+
       this.assertKeyInMap(
         "b",
         qx.util.PropertyUtil.getAllProperties(qx.test.propB)

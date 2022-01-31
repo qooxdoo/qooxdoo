@@ -238,9 +238,11 @@ qx.Class.define("qx.ui.core.Blocker", {
       var focusHandler = qx.event.Registration.getManager(window).getHandler(
         qx.event.handler.Focus
       );
+
       var activeWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getActive()
       );
+
       var focusedWidget = qx.ui.core.Widget.getWidgetByElement(
         focusHandler.getFocus()
       );

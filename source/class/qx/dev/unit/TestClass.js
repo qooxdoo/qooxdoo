@@ -68,6 +68,7 @@ qx.Class.define("qx.dev.unit.TestClass", {
           clazz.classname +
           "'is not a sub class of 'qx.dev.unit.TestCase'"
       );
+
       return;
     }
 

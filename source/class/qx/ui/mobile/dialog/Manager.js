@@ -310,6 +310,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager", {
       var widget = new qx.ui.mobile.container.Composite(
         new qx.ui.mobile.layout.VBox().set({ alignY: "middle" })
       );
+
       var dialog = new qx.ui.mobile.dialog.Popup(widget);
 
       dialog.setModal(true);
@@ -334,12 +335,14 @@ qx.Class.define("qx.ui.mobile.dialog.Manager", {
         var waitingWidget = new qx.ui.mobile.container.Composite(
           new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
         );
+
         widget.add(waitingWidget);
         waitingWidget.add(new qx.ui.mobile.dialog.BusyIndicator(text));
       } else {
         var labelWidget = new qx.ui.mobile.container.Composite(
           new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
         );
+
         labelWidget.add(new qx.ui.mobile.basic.Label(text));
         labelWidget.addCssClass("gap");
         widget.add(labelWidget);
@@ -347,6 +350,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager", {
           var inputWidget = new qx.ui.mobile.container.Composite(
             new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
           );
+
           inputWidget.addCssClass("gap");
           var inputText = new qx.ui.mobile.form.TextField();
           inputWidget.add(inputText);
@@ -356,6 +360,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager", {
         var buttonContainer = new qx.ui.mobile.container.Composite(
           new qx.ui.mobile.layout.HBox().set({ alignX: "center" })
         );
+
         buttonContainer.addCssClass("gap");
         for (var i = 0, l = buttons.length; i < l; i++) {
           var button = new qx.ui.mobile.form.Button(buttons[i]);

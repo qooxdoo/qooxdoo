@@ -62,6 +62,7 @@ qx.Class.define("qx.util.Serializer", {
               value && value.constructor,
               qx.data.IListData
             );
+
           for (var i = 0; i < value.length; i++) {
             var valueAtI = isdataArray ? value.getItem(i) : value[i];
             result += this.__toUriParameter(name, valueAtI, qxSerializer);
@@ -330,6 +331,7 @@ qx.Class.define("qx.util.Serializer", {
         var properties = qx.util.PropertyUtil.getAllProperties(
           object.constructor
         );
+
         for (var name in properties) {
           // ignore property groups
           if (properties[name].group != undefined) {

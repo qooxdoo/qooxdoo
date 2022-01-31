@@ -325,6 +325,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup", {
       this._onChangeSelection,
       this
     );
+
     this._disposeObjects("__radioGroup");
   }
 });

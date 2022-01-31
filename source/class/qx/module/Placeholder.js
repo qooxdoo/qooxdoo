@@ -160,6 +160,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
           var placeholderEl = item.getProperty(
             qx.module.Placeholder.PLACEHOLDER_NAME
           );
+
           if (!placeholderEl) {
             placeholderEl =
               qx.module.Placeholder.__createPlaceholderElement(item);

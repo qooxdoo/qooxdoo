@@ -55,11 +55,13 @@ qx.Class.define("qx.test.log.Formatter", {
       var formatter = new qx.log.appender.Formatter().set({
         formatTimeAs: "datetime"
       });
+
       var text = formatter.toText(entry);
       this.assertEquals(
         "2019-10-10 01:02:03 qx.core.Object[" + obj.$$hash + "]:",
         text
       );
+
       obj.dispose();
     },
 

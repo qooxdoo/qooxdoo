@@ -238,6 +238,7 @@ qx.Class.define("qx.test.lang.String", {
         "ILikeCookies",
         qx.lang.String.camelCase("I-like-cookies")
       );
+
       this.assertEquals(
         "iLikeCookies",
         qx.lang.String.camelCase("i-like-cookies")
@@ -251,6 +252,7 @@ qx.Class.define("qx.test.lang.String", {
         "-i-like-cookies",
         qx.lang.String.hyphenate("ILikeCookies")
       );
+
       this.assertEquals(
         "i-like-cookies",
         qx.lang.String.hyphenate("iLikeCookies")
@@ -287,10 +289,12 @@ qx.Class.define("qx.test.lang.String", {
         '"abc \\"defg\\" hij"',
         qx.lang.String.quote('abc "defg" hij')
       );
+
       this.assertEquals(
         '"abc \\\\defg\\\\ hij"',
         qx.lang.String.quote("abc \\defg\\ hij")
       );
+
       this.assertEquals(
         '"abc \\"defg\\\\ hij"',
         qx.lang.String.quote('abc "defg\\ hij')
@@ -325,6 +329,7 @@ qx.Class.define("qx.test.lang.String", {
         String.fromCodePoint(0x1d306, 0x61, 0x1d307),
         "\uD834\uDF06a\uD834\uDF07"
       );
+
       this.assertEquals(String.fromCodePoint(9731, 9733, 9842), "☃★♲");
     },
 
@@ -341,6 +346,7 @@ qx.Class.define("qx.test.lang.String", {
         qx.lang.String.stripScripts(str, true),
         "This is a test with script"
       );
+
       this.assertCalledOnce(spy);
 
       spy.restore();
