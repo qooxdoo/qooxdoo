@@ -1017,7 +1017,7 @@ qx.Class.define("qx.data.Array", {
      *   <li><code>index</code>: the index of the current item</li>
      *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
      * @param self {var?undefined} The context of the callback.
-     * @return {Boolean} <code>true</code>, if any element passed the test function.
+     * @return {var | undefined} The found item.
      */
     find(callback, self) {
       return this.__array.find(callback, self);
