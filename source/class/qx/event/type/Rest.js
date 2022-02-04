@@ -19,12 +19,10 @@
 /**
  * Rest event object.
  */
-qx.Class.define("qx.event.type.Rest",
-{
+qx.Class.define("qx.event.type.Rest", {
   extend: qx.event.type.Data,
 
-  properties:
-  {
+  properties: {
     /**
      * The request of the event.
      */
@@ -54,8 +52,7 @@ qx.Class.define("qx.event.type.Rest",
     }
   },
 
-  members:
-  {
+  members: {
     /**
      * Initializes an event object.
      *
@@ -72,8 +69,8 @@ qx.Class.define("qx.event.type.Rest",
      * @param phase {String} The associated phase.
      * @return {qx.event.type.Data} The initialized instance.
      */
-    init: function(data, old, cancelable, request, action, phase) {
-      this.base(arguments, data, old, cancelable);
+    init(data, old, cancelable, request, action, phase) {
+      super.init(data, old, cancelable);
 
       this.setRequest(request);
       this.setAction(action);
@@ -92,8 +89,8 @@ qx.Class.define("qx.event.type.Rest",
      *  a new pooled instance is created.
      * @return {qx.event.type.Data} A copy of this object.
      */
-    clone: function(embryo) {
-      var clone = this.base(arguments, embryo);
+    clone(embryo) {
+      var clone = super.clone(embryo);
       clone.setAction(this.getAction());
       clone.setPhase(this.getPhase());
       clone.setRequest(this.getRequest());

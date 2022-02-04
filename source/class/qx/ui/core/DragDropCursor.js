@@ -20,13 +20,10 @@
 /**
  * This widget is used as feedback widget in drag and drop actions.
  */
-qx.Class.define("qx.ui.core.DragDropCursor",
-{
-  extend : qx.ui.basic.Image,
-  include : qx.ui.core.MPlacement,
-  type : "singleton",
-
-
+qx.Class.define("qx.ui.core.DragDropCursor", {
+  extend: qx.ui.basic.Image,
+  include: qx.ui.core.MPlacement,
+  type: "singleton",
 
   /*
   *****************************************************************************
@@ -34,9 +31,8 @@ qx.Class.define("qx.ui.core.DragDropCursor",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // Put above other stuff
     this.setZIndex(1e8);
@@ -46,10 +42,8 @@ qx.Class.define("qx.ui.core.DragDropCursor",
 
     // Automatically add to root
     var root = this.getApplicationRoot();
-    root.add(this, { left: -1000, top: - 1000 });
+    root.add(this, { left: -1000, top: -1000 });
   },
-
-
 
   /*
   *****************************************************************************
@@ -57,24 +51,19 @@ qx.Class.define("qx.ui.core.DragDropCursor",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "dragdrop-cursor"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "dragdrop-cursor"
     },
 
     /** The current drag&drop action */
-    action :
-    {
-      check : [ "alias", "copy", "move" ],
-      apply : "_applyAction",
-      nullable : true
+    action: {
+      check: ["alias", "copy", "move"],
+      apply: "_applyAction",
+      nullable: true
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -82,11 +71,9 @@ qx.Class.define("qx.ui.core.DragDropCursor",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyAction : function(value, old)
-    {
+    _applyAction(value, old) {
       if (old) {
         this.removeState(old);
       }

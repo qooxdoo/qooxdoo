@@ -17,21 +17,18 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
-{
-  extend : qx.test.ui.virtual.layer.LayerTestCase,
+qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan", {
+  extend: qx.test.ui.virtual.layer.LayerTestCase,
 
-  members :
-  {
-    tearDown : function() {
-      this.base(arguments);
+  members: {
+    tearDown() {
+      super.tearDown();
       this.__cellRenderer.dispose();
       this.__rowConfig.dispose();
       this.__columnConfig.dispose();
     },
 
-    _createLayer : function()
-    {
+    _createLayer() {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
 
       this.__rowConfig = new qx.ui.virtual.core.Axis(10, 100);
@@ -44,33 +41,28 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
       );
     },
 
-
-    getCellProperties : function(row, column) {
+    getCellProperties(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
 
-
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
-    {
+    _assertCells(firstRow, firstColumn, rowCount, columnCount, msg) {
       var children = this.layer.getContentElement().getDomElement().childNodes;
 
       this.assertEquals(rowCount * columnCount, children.length);
 
-      for (var y=0; y<rowCount; y++)
-      {
-        for (var x=0; x<columnCount; x++)
-        {
+      for (var y = 0; y < rowCount; y++) {
+        for (var x = 0; x < columnCount; x++) {
           var row = firstRow + y;
           var column = firstColumn + x;
 
-          var cellEl = children[y*columnCount + x];
+          var cellEl = children[y * columnCount + x];
           this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__cellRenderer = null;
   }
 });

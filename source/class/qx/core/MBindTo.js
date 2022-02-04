@@ -44,10 +44,8 @@
  *   });
  * </pre>
  */
-qx.Mixin.define("qx.core.MBindTo",
-{
-  members :
-  {
+qx.Mixin.define("qx.core.MBindTo", {
+  members: {
     /**
      * Bind a function to this object
      *
@@ -61,16 +59,14 @@ qx.Mixin.define("qx.core.MBindTo",
      *   A wrapped version of the function that binds 'this' to the
      *   user-provided function.
      */
-    bindTo : function(func, varargs)
-    {
-      return qx.lang.Function.create(
-        func,
-        {
-          self  : this,
-          args  : (arguments.length > 1
-                   ? qx.lang.Array.fromArguments(arguments, 1) :
-                   null)
-        });
+    bindTo(func, varargs) {
+      return qx.lang.Function.create(func, {
+        self: this,
+        args:
+          arguments.length > 1
+            ? qx.lang.Array.fromArguments(arguments, 1)
+            : null
+      });
     }
   }
 });

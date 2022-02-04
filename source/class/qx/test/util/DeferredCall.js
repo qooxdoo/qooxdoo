@@ -16,27 +16,26 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DeferredCall",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.DeferredCall", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testGlobalErrorHandling : function()
-    {
-      var fail = function() {
+  members: {
+    testGlobalErrorHandling() {
+      var fail = function () {
         throw new Error("fail");
       };
 
-      var onError = function() { this.resume(function() {
-        qx.event.GlobalError.setErrorHandler(null, null);
-      }); };
+      var onError = function () {
+        this.resume(function () {
+          qx.event.GlobalError.setErrorHandler(null, null);
+        });
+      };
 
       var deferredCall = new qx.util.DeferredCall(fail, this);
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       deferredCall.schedule();
-      this.wait(1000, function() {
+      this.wait(1000, function () {
         qx.event.GlobalError.setErrorHandler(null, null);
         throw new qx.core.AssertionError(
           "Asynchronous Test Error",

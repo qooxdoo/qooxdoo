@@ -36,20 +36,16 @@
  *   container.add(female);
  * </pre>
  */
-qx.Class.define("qx.ui.form.RadioButton",
-{
-  extend : qx.ui.form.Button,
-  include : [
-    qx.ui.form.MForm,
-    qx.ui.form.MModelProperty
-  ],
-  implement : [
+qx.Class.define("qx.ui.form.RadioButton", {
+  extend: qx.ui.form.Button,
+  include: [qx.ui.form.MForm, qx.ui.form.MModelProperty],
+
+  implement: [
     qx.ui.form.IRadioItem,
     qx.ui.form.IForm,
     qx.ui.form.IBooleanForm,
     qx.ui.form.IModel
   ],
-
 
   /*
   *****************************************************************************
@@ -60,13 +56,12 @@ qx.Class.define("qx.ui.form.RadioButton",
   /**
    * @param label {String?null} An optional label for the radio button.
    */
-  construct : function(label)
-  {
+  construct(label) {
     if (qx.core.Environment.get("qx.debug")) {
       this.assertArgumentsCount(arguments, 0, 1);
     }
 
-    this.base(arguments, label);
+    super(label);
 
     // ARIA attrs
     // Important: (Grouped) radio btns should be children of a div with role 'radiogroup'
@@ -79,51 +74,41 @@ qx.Class.define("qx.ui.form.RadioButton",
     this.addListener("keypress", this._onKeyPress);
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
-    group :
-    {
-      check  : "qx.ui.form.RadioGroup",
-      nullable : true,
-      apply : "_applyGroup"
+    group: {
+      check: "qx.ui.form.RadioGroup",
+      nullable: true,
+      apply: "_applyGroup"
     },
 
     /** The value of the widget. True, if the widget is checked. */
-    value :
-    {
-      check : "Boolean",
-      nullable : true,
-      event : "changeValue",
-      apply : "_applyValue",
+    value: {
+      check: "Boolean",
+      nullable: true,
+      event: "changeValue",
+      apply: "_applyValue",
       init: false
     },
 
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "radiobutton"
+    appearance: {
+      refine: true,
+      init: "radiobutton"
     },
 
     // overridden
-    allowGrowX :
-    {
-      refine : true,
-      init : false
+    allowGrowX: {
+      refine: true,
+      init: false
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -131,32 +116,23 @@ qx.Class.define("qx.ui.form.RadioButton",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      checked : true,
-      focused : true,
-      invalid : true,
-      hovered : true
+    _forwardStates: {
+      checked: true,
+      focused: true,
+      invalid: true,
+      hovered: true
     },
 
     // overridden (from MExecutable to keep the icon out of the binding)
     /**
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties :
-    [
-      "enabled",
-      "label",
-      "toolTipText",
-      "value",
-      "menu"
-    ],
+    _bindableProperties: ["enabled", "label", "toolTipText", "value", "menu"],
 
     /*
     ---------------------------------------------------------------------------
@@ -165,18 +141,13 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     // property apply
-    _applyValue : function(value, old)
-    {
-      value ?
-        this.addState("checked") :
-        this.removeState("checked");
+    _applyValue(value, old) {
+      value ? this.addState("checked") : this.removeState("checked");
       this.getContentElement().setAttribute("aria-checked", Boolean(value));
     },
 
-
     /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
-    _applyGroup : function(value, old)
-    {
+    _applyGroup(value, old) {
       if (old) {
         old.remove(this);
       }
@@ -185,9 +156,6 @@ qx.Class.define("qx.ui.form.RadioButton",
         value.add(this);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -202,7 +170,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * @param e {qx.event.type.Event} execute event
      */
-    _onExecute : function(e) {
+    _onExecute(e) {
       var grp = this.getGroup();
       if (grp && grp.getAllowEmptySelection()) {
         this.toggleValue();
@@ -210,7 +178,6 @@ qx.Class.define("qx.ui.form.RadioButton",
         this.setValue(true);
       }
     },
-
 
     /**
      * Event listener for the "keyPress" event.
@@ -220,16 +187,13 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * @param e {qx.event.type.KeySequence} KeyPress event
      */
-    _onKeyPress : function(e)
-    {
-
+    _onKeyPress(e) {
       var grp = this.getGroup();
       if (!grp) {
         return;
       }
 
-      switch(e.getKeyIdentifier())
-      {
+      switch (e.getKeyIdentifier()) {
         case "Left":
         case "Up":
           grp.selectPrevious();

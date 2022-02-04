@@ -50,12 +50,12 @@
  *
  * @group (Widget)
  */
-qx.Bootstrap.define('qx.ui.website.DatePicker', {
-  extend : qx.ui.website.Widget,
+qx.Bootstrap.define("qx.ui.website.DatePicker", {
+  extend: qx.ui.website.Widget,
 
-  statics : {
+  statics: {
     /** List of valid positions to check against */
-    __validPositions : null,
+    __validPositions: null,
 
     /**
      * *format*
@@ -113,18 +113,18 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      * Default value:
      * <pre>bottom-left</pre>
      */
-    _config : {
-      format : function(date) {
+    _config: {
+      format(date) {
         return date.toLocaleDateString();
       },
 
-      readonly : true,
+      readonly: true,
 
-      icon : null,
+      icon: null,
 
-      mode : 'input',
+      mode: "input",
 
-      position : 'bottom-left'
+      position: "bottom-left"
     },
 
     /**
@@ -136,7 +136,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      * @return {qx.ui.website.DatePicker} A new date picker collection.
      * @attach {qxWeb}
      */
-    datepicker : function(date) {
+    datepicker(date) {
       var datepicker = new qx.ui.website.DatePicker(this);
       datepicker.init(date);
 
@@ -144,23 +144,24 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
     }
   },
 
-  construct : function(selector, context) {
-    this.base(arguments, selector, context);
+  construct(selector, context) {
+    super(selector, context);
   },
 
-  members : {
+  members: {
     _calendarId: null,
     _iconId: null,
     _uniqueId: null,
-
 
     /**
      * Get the associated calendar widget
      * @return {qx.ui.website.Calendar} calendar widget instance
      */
-    getCalendar : function() {
+    getCalendar() {
       var calendarCollection = qxWeb();
-      calendarCollection = calendarCollection.concat(qxWeb('div#' + this._calendarId));
+      calendarCollection = calendarCollection.concat(
+        qxWeb("div#" + this._calendarId)
+      );
 
       return calendarCollection;
     },
@@ -172,8 +173,8 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      * @param date {Date} A JavaScript Date object to set the current date
      * @return {Boolean} <code>true</code> if the widget has been initialized
      */
-    init : function(date) {
-      if (!this.base(arguments)) {
+    init(date) {
+      if (!super.init()) {
         return false;
       }
 
@@ -184,9 +185,11 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       this.__setIcon(this);
       this.__addInputListener(this);
 
-      var calendarId = 'datepicker-calendar-' + uniqueId;
-      var calendar = qxWeb.create('<div id="' + calendarId + '"></div>').calendar();
-      calendar.on('tap', this._onCalendarTap);
+      var calendarId = "datepicker-calendar-" + uniqueId;
+      var calendar = qxWeb
+        .create('<div id="' + calendarId + '"></div>')
+        .calendar();
+      calendar.on("tap", this._onCalendarTap);
       calendar.appendTo(document.body).hide();
 
       // create the connection between the date picker and the corresponding calendar widget
@@ -195,10 +198,10 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       // grab tap events at the body element to be able to hide the calender popup
       // if the user taps outside
       var bodyElement = qxWeb.getDocument(this).body;
-      qxWeb(bodyElement).on('tap', this._onBodyTap, this);
+      qxWeb(bodyElement).on("tap", this._onBodyTap, this);
 
       // react on date selection
-      calendar.on('changeValue', this._calendarChangeValue, this);
+      calendar.on("changeValue", this._calendarChangeValue, this);
 
       if (date !== undefined) {
         calendar.setValue(date);
@@ -208,7 +211,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
     },
 
     // overridden
-    render : function() {
+    render() {
       this.getCalendar().render();
 
       this.__setReadOnly(this);
@@ -221,21 +224,22 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
     },
 
     // overridden
-    setConfig : function(name, config) {
-
-      if (name === 'position') {
-
+    setConfig(name, config) {
+      if (name === "position") {
         var validPositions = qx.ui.website.DatePicker.__validPositions;
         if (validPositions.indexOf(config) === -1) {
-          throw new Error('Wrong config value for "position"! ' +
-                          'Only the values "' + validPositions.join('", "') + '" are supported!');
+          throw new Error(
+            'Wrong config value for "position"! ' +
+              'Only the values "' +
+              validPositions.join('", "') +
+              '" are supported!'
+          );
         }
       }
 
-      this.base(arguments, name, config);
+      super.setConfig(name, config);
       return this;
     },
-
 
     /**
      * Listener which handles clicks/taps on the associated input element and
@@ -243,18 +247,21 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * @param e {Event} tap event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       if (!this.getEnabled()) {
         return;
       }
 
       var calendar = this.getCalendar();
 
-      if (calendar.getStyle('display') == 'none') {
+      if (calendar.getStyle("display") == "none") {
         // set position to make sure the width of the DOM element is correct - otherwise the DOM
         // element would be as wide as the parent (e.g. the body element). This would mess up the
         // positioning with 'placeTo'
-        calendar.setStyle('position', 'absolute').show().placeTo(this, this.getConfig('position'));
+        calendar
+          .setStyle("position", "absolute")
+          .show()
+          .placeTo(this, this.getConfig("position"));
       } else {
         calendar.hide();
       }
@@ -264,7 +271,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      * Stop tap events from reaching the body so the calendar won't close
      * @param e {Event} Tap event
      */
-    _onCalendarTap : function(e) {
+    _onCalendarTap(e) {
       e.stopPropagation();
     },
 
@@ -274,21 +281,18 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * @param e {Event} tap event
      */
-    _onBodyTap : function(e) {
-
+    _onBodyTap(e) {
       var target = qxWeb(e.getTarget());
 
       // fast check for tap on the connected input field
-      if (this.length > 0 && target.length > 0 &&
-          this[0] == target[0]) {
+      if (this.length > 0 && target.length > 0 && this[0] == target[0]) {
         return;
       }
 
       // fast check for tap on the configured icon
-      if (this.getConfig('icon') !== null) {
-        var icon = qxWeb('#' + this._iconId);
-        if (icon.length > 0 && target.length > 0 &&
-            icon[0] == target[0]) {
+      if (this.getConfig("icon") !== null) {
+        var icon = qxWeb("#" + this._iconId);
+        if (icon.length > 0 && target.length > 0 && icon[0] == target[0]) {
           return;
         }
       }
@@ -311,23 +315,22 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * @param e {Event} selected date value
      */
-    _calendarChangeValue : function(e) {
-      var formattedValue = this.getConfig('format').call(this, e);
+    _calendarChangeValue(e) {
+      var formattedValue = this.getConfig("format").call(this, e);
       this.setValue(formattedValue);
       this.getCalendar().hide();
     },
-
 
     /**
      * Helper method to set the readonly status on the input element
      *
      * @param collection {qxWeb} collection to work on
      */
-    __setReadOnly : function(collection) {
-      if (collection.getConfig('readonly')) {
-        collection.setAttribute('readonly', 'readonly');
+    __setReadOnly(collection) {
+      if (collection.getConfig("readonly")) {
+        collection.setAttribute("readonly", "readonly");
       } else {
-        collection.removeAttribute('readonly');
+        collection.removeAttribute("readonly");
       }
     },
 
@@ -336,35 +339,35 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * @param collection {qxWeb} collection to work on
      */
-    __setIcon : function(collection) {
+    __setIcon(collection) {
       var icon;
 
-      if (collection.getConfig('icon') === null) {
-        icon = collection.getNext('img#' + collection._iconId);
+      if (collection.getConfig("icon") === null) {
+        icon = collection.getNext("img#" + collection._iconId);
         if (icon.length === 1) {
-          icon.off('tap', this._onTap, collection);
+          icon.off("tap", this._onTap, collection);
           icon.remove();
         }
       } else {
-        var iconId = 'datepicker-icon-' + collection._uniqueId;
+        var iconId = "datepicker-icon-" + collection._uniqueId;
 
         // check if there is already an icon
         if (collection._iconId == undefined) {
           collection._iconId = iconId;
 
-          icon = qxWeb.create('<img>');
+          icon = qxWeb.create("<img>");
 
           icon.setAttributes({
             id: iconId,
-            src: collection.getConfig('icon')
+            src: collection.getConfig("icon")
           });
 
-          icon.addClass(this.getCssPrefix() + '-icon');
+          icon.addClass(this.getCssPrefix() + "-icon");
 
-          var openingMode = collection.getConfig('mode');
-          if (openingMode === 'icon' || openingMode === 'both') {
-            if (!icon.hasListener('tap', this._onTap, collection)) {
-              icon.on('tap', this._onTap, collection);
+          var openingMode = collection.getConfig("mode");
+          if (openingMode === "icon" || openingMode === "both") {
+            if (!icon.hasListener("tap", this._onTap, collection)) {
+              icon.on("tap", this._onTap, collection);
             }
           }
 
@@ -379,43 +382,54 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * @param collection {qxWeb} collection to work on
      */
-    __addInputListener : function(collection) {
-      if (collection.getConfig('mode') === 'icon') {
-        collection.off('tap', collection._onTap);
+    __addInputListener(collection) {
+      if (collection.getConfig("mode") === "icon") {
+        collection.off("tap", collection._onTap);
       } else {
-        if(!collection.hasListener('tap', collection._onTap)) {
-          collection.on('tap', collection._onTap);
+        if (!collection.hasListener("tap", collection._onTap)) {
+          collection.on("tap", collection._onTap);
         }
       }
     },
 
     // overridden
-    dispose : function() {
-      this.removeAttribute('readonly');
-      this.getNext('img#' + this._iconId).remove();
+    dispose() {
+      this.removeAttribute("readonly");
+      this.getNext("img#" + this._iconId).remove();
 
-      this.off('tap', this._onTap);
+      this.off("tap", this._onTap);
 
       var bodyElement = qxWeb.getDocument(this).body;
-      qxWeb(bodyElement).off('tap', this._onBodyTap, this);
+      qxWeb(bodyElement).off("tap", this._onBodyTap, this);
 
-      this.getCalendar().off('changeValue', this._calendarChangeValue, this)
-      .off('tap', this._onCalendarTap);
+      this.getCalendar()
+        .off("changeValue", this._calendarChangeValue, this)
+        .off("tap", this._onCalendarTap);
 
-      var calendar = qxWeb('div#' + this._calendarId);
+      var calendar = qxWeb("div#" + this._calendarId);
       calendar.remove();
       calendar.dispose();
 
-      return this.base(arguments);
+      return super.dispose();
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$attach({datepicker : statics.datepicker});
+  defer(statics) {
+    qxWeb.$attach({ datepicker: statics.datepicker });
 
-    statics.__validPositions = [ 'top-left', 'top-center', 'top-right',
-                                 'bottom-left', 'bottom-center', 'bottom-right',
-                                 'left-top', 'left-middle', 'left-bottom',
-                                 'right-top', 'right-middle', 'right-bottom' ];
+    statics.__validPositions = [
+      "top-left",
+      "top-center",
+      "top-right",
+      "bottom-left",
+      "bottom-center",
+      "bottom-right",
+      "left-top",
+      "left-middle",
+      "left-bottom",
+      "right-top",
+      "right-middle",
+      "right-bottom"
+    ];
   }
 });

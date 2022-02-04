@@ -19,9 +19,8 @@
 /**
  * Specific data cell renderer for dates.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Date",
-{
-  extend : qx.ui.table.cellrenderer.Conditional,
+qx.Class.define("qx.ui.table.cellrenderer.Date", {
+  extend: qx.ui.table.cellrenderer.Conditional,
 
   /*
   *****************************************************************************
@@ -29,19 +28,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Date",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * DateFormat used to format the data.
      */
-    dateFormat :
-    {
-      check : "qx.util.format.DateFormat",
-      init : null,
-      nullable : true
+    dateFormat: {
+      check: "qx.util.format.DateFormat",
+      init: null,
+      nullable: true
     }
   },
-
 
   /*
   *****************************************************************************
@@ -49,29 +45,23 @@ qx.Class.define("qx.ui.table.cellrenderer.Date",
   *****************************************************************************
   */
 
-  members :
-  {
-    _getContentHtml : function(cellInfo)
-    {
+  members: {
+    _getContentHtml(cellInfo) {
       var df = this.getDateFormat();
 
-      if (df)
-      {
+      if (df) {
         if (cellInfo.value) {
           return qx.bom.String.escape(df.format(cellInfo.value));
         } else {
           return "";
         }
-      }
-      else
-      {
+      } else {
         return cellInfo.value || "";
       }
     },
 
-
     // overridden
-    _getCellClass : function(cellInfo) {
+    _getCellClass(cellInfo) {
       return "qooxdoo-table-cell";
     }
   }

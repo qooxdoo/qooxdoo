@@ -23,7 +23,7 @@ qx.Class.define("qx.test.event.Utils", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testQxPromiseNotDefined: function() {
+    testQxPromiseNotDefined() {
       if (qx.core.Environment.get("qx.promise")) {
         this.assertTrue(true);
       } else {
@@ -31,40 +31,54 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testNoPromises: function() {
+    testNoPromises() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       var finished = false;
-      Utils.catch(tracker, function() { self.assertTrue(false); })
-      Utils.then(tracker, function() { return str += "A"; });
-      Utils.then(tracker, function(value) { self.assertEquals("A", value); return str += "B"; });
-      Utils.then(tracker, function() { str += "C"; });
-      Utils.then(tracker, function() {
+      Utils.catch(tracker, function () {
+        self.assertTrue(false);
+      });
+      Utils.then(tracker, function () {
+        return (str += "A");
+      });
+      Utils.then(tracker, function (value) {
+        self.assertEquals("A", value);
+        return (str += "B");
+      });
+      Utils.then(tracker, function () {
+        str += "C";
+      });
+      Utils.then(tracker, function () {
         self.assertEquals("ABC", str);
         finished = true;
       });
       this.assertTrue(finished);
     },
 
-    testSomeDelayedPromises: function() {
+    testSomeDelayedPromises() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.then(tracker, function() { str += "A"; });
-        Utils.then(tracker, function() {
-          return new qx.Promise(function(resolve) {
-            setTimeout(function() {
+        Utils.then(tracker, function () {
+          str += "A";
+        });
+        Utils.then(tracker, function () {
+          return new qx.Promise(function (resolve) {
+            setTimeout(function () {
               str += "B";
               resolve(str);
             }, 200);
-          })
+          });
         });
-        Utils.then(tracker, function(value) { self.assertEquals("AB", value); str += "C"; });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function (value) {
+          self.assertEquals("AB", value);
+          str += "C";
+        });
+        Utils.then(tracker, function () {
           self.assertEquals("ABC", str);
           self.resume();
         });
@@ -74,98 +88,113 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSomeInstantPromises: function() {
+    testSomeInstantPromises() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.then(tracker, function() { str += "A"; });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
+          str += "A";
+        });
+        Utils.then(tracker, function () {
           str += "B";
           return qx.Promise.resolve(str);
         });
-        Utils.then(tracker, function(value) { self.assertEquals("AB", value); str += "C"; });
-        Utils.then(tracker, function() {
-            self.assertEquals("ABC", str);
-            self.resume();
-          });
+        Utils.then(tracker, function (value) {
+          self.assertEquals("AB", value);
+          str += "C";
+        });
+        Utils.then(tracker, function () {
+          self.assertEquals("ABC", str);
+          self.resume();
+        });
         self.wait();
       } else {
         this.skip("Skipping because qx.promise==false");
       }
     },
 
-    testSomeInstantPromises2: function() {
+    testSomeInstantPromises2() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.then(tracker, function() { str += "A"; });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
+          str += "A";
+        });
+        Utils.then(tracker, function () {
           str += "B";
           return qx.Promise.resolve();
         });
-        Utils.then(tracker, function() {
-          return new qx.Promise(function(resolve) {
-            setTimeout(function() {
+        Utils.then(tracker, function () {
+          return new qx.Promise(function (resolve) {
+            setTimeout(function () {
               str += "C";
               resolve(str);
             }, 200);
-          })
-        });
-        Utils.then(tracker, function(value) {
-            self.assertEquals("ABC", value);
-            self.assertEquals("ABC", str);
-            self.resume();
           });
+        });
+        Utils.then(tracker, function (value) {
+          self.assertEquals("ABC", value);
+          self.assertEquals("ABC", str);
+          self.resume();
+        });
         self.wait();
       } else {
         this.skip("Skipping because qx.promise==false");
       }
     },
 
-    testSomeAbort: function() {
+    testSomeAbort() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       var finished = false;
-      Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() {
+      Utils.then(tracker, function () {
+        str += "A";
+      });
+      Utils.then(tracker, function () {
         return Utils.ABORT;
       });
-      Utils.then(tracker, function() { str += "C"; });
-      Utils.then(tracker, function() {
-          self.assertTrue(false);
-        });
-      Utils.catch(tracker, function() {
+      Utils.then(tracker, function () {
+        str += "C";
+      });
+      Utils.then(tracker, function () {
+        self.assertTrue(false);
+      });
+      Utils.catch(tracker, function () {
         self.assertEquals("A", str);
         finished = true;
       });
       this.assertTrue(finished);
     },
 
-    testSomeReject: function() {
+    testSomeReject() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.then(tracker, function() { str += "A"; });
-        Utils.then(tracker, function() {
-          return new qx.Promise(function(resolve, reject) {
-            setTimeout(function() {
+        Utils.then(tracker, function () {
+          str += "A";
+        });
+        Utils.then(tracker, function () {
+          return new qx.Promise(function (resolve, reject) {
+            setTimeout(function () {
               reject();
             }, 200);
-          })
-        });
-        Utils.then(tracker, function() { str += "C"; });
-        Utils.then(tracker, function() {
-            self.assertTrue(false);
           });
-        Utils.catch(tracker, function() {
+        });
+        Utils.then(tracker, function () {
+          str += "C";
+        });
+        Utils.then(tracker, function () {
+          self.assertTrue(false);
+        });
+        Utils.catch(tracker, function () {
           self.assertEquals("A", str);
           self.resume();
         });
@@ -175,32 +204,34 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testResolveAndReject: function() {
+    testResolveAndReject() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.then(tracker, function() { str += "A"; });
-        Utils.then(tracker, function() {
-          return new qx.Promise(function(resolve) {
-            setTimeout(function() {
+        Utils.then(tracker, function () {
+          str += "A";
+        });
+        Utils.then(tracker, function () {
+          return new qx.Promise(function (resolve) {
+            setTimeout(function () {
               str += "B";
               resolve();
             }, 200);
           });
         });
-        Utils.then(tracker, function() {
-          return new qx.Promise(function(resolve, reject) {
-            setTimeout(function() {
+        Utils.then(tracker, function () {
+          return new qx.Promise(function (resolve, reject) {
+            setTimeout(function () {
               reject();
             }, 200);
           });
         });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
           self.assertTrue(false);
-          });
-        Utils.catch(tracker, function() {
+        });
+        Utils.catch(tracker, function () {
           self.assertEquals("AB", str);
           self.resume();
         });
@@ -210,18 +241,20 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSeries1: function() {
+    testSeries1() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.catch(tracker, function() { self.assertTrue(false); })
-        Utils.then(tracker, function() {
-          return Utils.series(["A", "B", "C", "D"], function(value) {
+        Utils.catch(tracker, function () {
+          self.assertTrue(false);
+        });
+        Utils.then(tracker, function () {
+          return Utils.series(["A", "B", "C", "D"], function (value) {
             if (value === "C") {
-              return new qx.Promise(function(resolve, reject) {
-                setTimeout(function() {
+              return new qx.Promise(function (resolve, reject) {
+                setTimeout(function () {
                   str += value;
                   resolve();
                 }, 200);
@@ -232,7 +265,7 @@ qx.Class.define("qx.test.event.Utils", {
             }
           });
         });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
           self.assertEquals("ABCD", str);
           self.resume();
           return null;
@@ -243,7 +276,7 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSeriesAbort: function() {
+    testSeriesAbort() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
@@ -282,42 +315,50 @@ qx.Class.define("qx.test.event.Utils", {
     /**
      * @ignore(Promise)
      */
-    testNativePromiseReturns: function() {
+    testNativePromiseReturns() {
       if (Promise !== undefined) {
         var self = this;
-        var p = new Promise(function(resolve) { setTimeout(resolve, 100); });
-        p = p.then(function() {
-          var p2 = new Promise(function(resolve) { setTimeout(resolve, 100); });
-          return p2.then(function() { return true; });
+        var p = new Promise(function (resolve) {
+          setTimeout(resolve, 100);
         });
-        p = p.then(function() { self.resume(); });
+        p = p.then(function () {
+          var p2 = new Promise(function (resolve) {
+            setTimeout(resolve, 100);
+          });
+          return p2.then(function () {
+            return true;
+          });
+        });
+        p = p.then(function () {
+          self.resume();
+        });
         this.wait();
       } else {
         this.skip("Skipping because native Promise is not defined");
       }
     },
 
-    testPromiseReturns: function() {
+    testPromiseReturns() {
       if (qx.core.Environment.get("qx.promise")) {
         var self = this;
-        var p = new qx.Promise(function(resolve) {
-            setTimeout(function() {
-              console.log("testPromiseReturns:: resolving p");
+        var p = new qx.Promise(function (resolve) {
+          setTimeout(function () {
+            console.log("testPromiseReturns:: resolving p");
+            resolve();
+          }, 100);
+        });
+        p = p.then(function () {
+          var p2 = new qx.Promise(function (resolve) {
+            setTimeout(function () {
+              console.log("testPromiseReturns:: resolving p2");
               resolve();
             }, 100);
           });
-        p = p.then(function() {
-          var p2 = new qx.Promise(function(resolve) {
-              setTimeout(function() {
-                console.log("testPromiseReturns:: resolving p2");
-                resolve();
-              }, 100);
-            });
-          return p2.then(function() {
+          return p2.then(function () {
             console.log("testPromiseReturns:: resolving post p2");
           });
         });
-        p = p.then(function() {
+        p = p.then(function () {
           console.log("testPromiseReturns:: outer then, resuming test");
           self.resume();
         });
@@ -327,21 +368,21 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSeriesReject: function() {
+    testSeriesReject() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.catch(tracker, function() {
+        Utils.catch(tracker, function () {
           self.assertEquals("AB", str);
           self.resume();
         });
-        Utils.then(tracker, function() {
-          return Utils.series(["A", "B", "C", "D"], function(value) {
+        Utils.then(tracker, function () {
+          return Utils.series(["A", "B", "C", "D"], function (value) {
             if (value === "C") {
-              return new qx.Promise(function(resolve, reject) {
-                setTimeout(function() {
+              return new qx.Promise(function (resolve, reject) {
+                setTimeout(function () {
                   reject();
                 }, 200);
               });
@@ -351,7 +392,7 @@ qx.Class.define("qx.test.event.Utils", {
             }
           });
         });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
           self.assertTrue(false);
         });
         self.wait();
@@ -360,24 +401,24 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSeriesRejectNested: function() {
+    testSeriesRejectNested() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.catch(tracker, function() {
+        Utils.catch(tracker, function () {
           self.assertEquals("ABC1", str);
           self.resume();
         });
-        Utils.then(tracker, function() {
-          return Utils.series(["A", "B", "C", "D"], function(letter) {
+        Utils.then(tracker, function () {
+          return Utils.series(["A", "B", "C", "D"], function (letter) {
             if (letter === "C") {
               str += letter;
-              return Utils.series([1, 2, 3, 4], function(number) {
+              return Utils.series([1, 2, 3, 4], function (number) {
                 if (number == 2) {
-                  return new qx.Promise(function(resolve, reject) {
-                    setTimeout(function() {
+                  return new qx.Promise(function (resolve, reject) {
+                    setTimeout(function () {
                       reject();
                     }, 200);
                   });
@@ -392,7 +433,7 @@ qx.Class.define("qx.test.event.Utils", {
             }
           });
         });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
           self.assertTrue(false);
           return null;
         });
@@ -402,23 +443,23 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testSeriesNested: function() {
+    testSeriesNested() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.catch(tracker, function() {
+        Utils.catch(tracker, function () {
           self.assertTrue(false);
         });
-        Utils.then(tracker, function() {
-          return Utils.series(["A", "B", "C", "D"], function(letter) {
+        Utils.then(tracker, function () {
+          return Utils.series(["A", "B", "C", "D"], function (letter) {
             if (letter === "C") {
               str += letter;
-              return Utils.series([1, 2, 3, 4], function(number) {
+              return Utils.series([1, 2, 3, 4], function (number) {
                 if (number == 2) {
-                  return new qx.Promise(function(resolve, reject) {
-                    setTimeout(function() {
+                  return new qx.Promise(function (resolve, reject) {
+                    setTimeout(function () {
                       str += number;
                       resolve();
                     }, 200);
@@ -434,7 +475,7 @@ qx.Class.define("qx.test.event.Utils", {
             }
           });
         });
-        Utils.then(tracker, function() {
+        Utils.then(tracker, function () {
           self.assertEquals("ABC1234D", str);
           self.resume();
           return null;
@@ -445,7 +486,7 @@ qx.Class.define("qx.test.event.Utils", {
       }
     },
 
-    testTrack: function() {
+    testTrack() {
       if (qx.core.Environment.get("qx.promise")) {
         var Utils = qx.event.Utils;
         var str = "";
@@ -456,7 +497,7 @@ qx.Class.define("qx.test.event.Utils", {
           var tracker = {};
 
           Utils.track(tracker, inner);
-          Utils.then(tracker, function() {
+          Utils.then(tracker, function () {
             self.assertEquals("ABC", str);
             finished = true;
           });
@@ -464,12 +505,12 @@ qx.Class.define("qx.test.event.Utils", {
         }
 
         function add(ch, delay) {
-          return function() {
-            return new qx.Promise(function(resolve) {
-              setTimeout(function() {
-                  str += ch;
-                  resolve();
-                }, 300);
+          return function () {
+            return new qx.Promise(function (resolve) {
+              setTimeout(function () {
+                str += ch;
+                resolve();
+              }, 300);
             });
           };
         }

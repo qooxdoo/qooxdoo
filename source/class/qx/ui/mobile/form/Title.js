@@ -19,27 +19,21 @@
 /**
  * Shows a title text for {@link Form} or {@link Group}.
  */
-qx.Class.define("qx.ui.mobile.form.Title",
-{
-  extend : qx.ui.mobile.basic.Label,
+qx.Class.define("qx.ui.mobile.form.Title", {
+  extend: qx.ui.mobile.basic.Label,
 
-
-  properties :
-  {
-    wrap :
-    {
-      refine : true,
-      init : false
+  properties: {
+    wrap: {
+      refine: true,
+      init: false
     },
 
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "form-title"
+    defaultCssClass: {
+      refine: true,
+      init: "form-title"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -47,11 +41,9 @@ qx.Class.define("qx.ui.mobile.form.Title",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _getTagName : function()
-    {
+    _getTagName() {
       return "h2";
     }
   }

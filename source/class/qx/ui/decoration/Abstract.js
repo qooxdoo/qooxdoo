@@ -22,17 +22,13 @@
  * default insets by implementing the template method
  * (http://en.wikipedia.org/wiki/Template_Method) <code>_getDefaultInsets</code>
  */
-qx.Class.define("qx.ui.decoration.Abstract",
-{
+qx.Class.define("qx.ui.decoration.Abstract", {
   extend: qx.core.Object,
-  implement : [qx.ui.decoration.IDecorator],
+  implement: [qx.ui.decoration.IDecorator],
   type: "abstract",
 
-
-  members :
-  {
-    __insets : null,
-
+  members: {
+    __insets: null,
 
     /**
      * Abstract method. Should return a map containing the default insets of
@@ -47,32 +43,28 @@ qx.Class.define("qx.ui.decoration.Abstract",
      * </pre>
      * @return {Map} Map containing the insets.
      */
-    _getDefaultInsets : function() {
+    _getDefaultInsets() {
       throw new Error("Abstract method called.");
     },
-
 
     /**
      * Abstract method. Should return an boolean value if the decorator is
      * already initialized or not.
      * @return {Boolean} True, if the decorator is initialized.
      */
-    _isInitialized: function() {
+    _isInitialized() {
       throw new Error("Abstract method called.");
     },
-
 
     /**
      * Resets the insets.
      */
-    _resetInsets: function() {
+    _resetInsets() {
       this.__insets = null;
     },
 
-
     // interface implementation
-    getInsets : function()
-    {
+    getInsets() {
       if (!this.__insets) {
         this.__insets = this._getDefaultInsets();
       }
@@ -81,14 +73,13 @@ qx.Class.define("qx.ui.decoration.Abstract",
     }
   },
 
-
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
 
-   destruct : function() {
-     this.__insets = null;
-   }
+  destruct() {
+    this.__insets = null;
+  }
 });

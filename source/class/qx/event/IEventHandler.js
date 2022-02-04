@@ -22,15 +22,13 @@
  * All custom event handler like mouse or keyboard event handler must implement
  * this interface.
  */
-qx.Interface.define("qx.event.IEventHandler",
-{
-  statics :
-  {
+qx.Interface.define("qx.event.IEventHandler", {
+  statics: {
     /** @type {Integer} The event target must be a dom node */
     TARGET_DOMNODE: 1,
 
     /** @type {Integer} The event target must be a window object */
-    TARGET_WINDOW : 2,
+    TARGET_WINDOW: 2,
 
     /** @type {Integer} The event target must be a qooxdoo object */
     TARGET_OBJECT: 4,
@@ -39,9 +37,7 @@ qx.Interface.define("qx.event.IEventHandler",
     TARGET_DOCUMENT: 8
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Whether the event handler can handle events of the given type. If the
      * event handler class has a static variable called <code>IGNORE_CAN_HANDLE</code>
@@ -55,8 +51,7 @@ qx.Interface.define("qx.event.IEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     /**
      * This method is called each time an event listener, for one of the
@@ -68,8 +63,7 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
      */
-    registerEvent : function(target, type, capture) {},
-
+    registerEvent(target, type, capture) {},
 
     /**
      * This method is called each time an event listener, for one of the
@@ -82,6 +76,6 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
      */
-    unregisterEvent : function(target, type, capture) {}
+    unregisterEvent(target, type, capture) {}
   }
 });

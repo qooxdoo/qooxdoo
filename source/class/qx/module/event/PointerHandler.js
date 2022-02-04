@@ -24,13 +24,11 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.PointerHandler", {
-
-  statics :
-  {
+  statics: {
     /**
      * List of events that require a pointer handler
      */
-    TYPES : [
+    TYPES: [
       "pointermove",
       "pointerover",
       "pointerout",
@@ -51,26 +49,27 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      * @param element {Element} DOM element
      * @param type {String} event type
      */
-    register : function(element, type) {
+    register(element, type) {
       if (!element.$$pointerHandler) {
-
         if (!qx.core.Environment.get("event.dispatchevent")) {
           if (!element.$$emitter) {
             element.$$emitter = new qx.event.Emitter();
           }
         }
 
-        element.$$pointerHandler = new qx.event.handler.PointerCore(element, element.$$emitter);
+        element.$$pointerHandler = new qx.event.handler.PointerCore(
+          element,
+          element.$$emitter
+        );
       }
     },
-
 
     /**
      * Removes the pointer event handler from the element if there are no more
      * pointer event listeners attached to it
      * @param element {Element} DOM element
      */
-    unregister : function(element) {
+    unregister(element) {
       // check if there are any registered listeners left
       if (element.$$pointerHandler) {
         // in a standalone or in-line application the pointer handler of
@@ -96,7 +95,11 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
     }
   },
 
-  defer : function(statics) {
-    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+  defer(statics) {
+    qxWeb.$registerEventHook(
+      statics.TYPES,
+      statics.register,
+      statics.unregister
+    );
   }
 });

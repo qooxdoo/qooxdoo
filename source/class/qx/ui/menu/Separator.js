@@ -26,12 +26,8 @@
  * a method {@link qx.ui.menu.Menu#addSeparator} to append instances
  * of this class to the menu.
  */
-qx.Class.define("qx.ui.menu.Separator",
-{
-  extend : qx.ui.core.Widget,
-
-
-
+qx.Class.define("qx.ui.menu.Separator", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -39,20 +35,17 @@ qx.Class.define("qx.ui.menu.Separator",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menu-separator"
+    appearance: {
+      refine: true,
+      init: "menu-separator"
     },
 
     // overridden
-    anonymous :
-    {
-      refine : true,
-      init : true
+    anonymous: {
+      refine: true,
+      init: true
     }
   }
 });

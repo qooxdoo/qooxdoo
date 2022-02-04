@@ -16,28 +16,23 @@
 
 ************************************************************************ */
 /* global test */
-qx.Class.define("qx.test.log.Logger",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.log.Logger", {
+  extend: qx.dev.unit.TestCase,
 
-  statics : {
+  statics: {
     TEST_CONSTANT: "abc"
   },
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__initialLogLevel = qx.log.Logger.getLevel();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       qx.log.Logger.setLevel(this.__initialLogLevel);
     },
 
-    __testLogException : function(exception)
-    {
+    __testLogException(exception) {
       var appender = new qx.log.appender.RingBuffer();
 
       qx.log.Logger.setLevel("debug");
@@ -50,7 +45,10 @@ qx.Class.define("qx.test.log.Logger",
       this.assertEquals(1, events.length);
 
       if (qx.core.Environment.get("ecmascript.error.stacktrace")) {
-        if (exception instanceof Error || qx.core.Environment.get("engine.name") !== "gecko") {
+        if (
+          exception instanceof Error ||
+          qx.core.Environment.get("engine.name") !== "gecko"
+        ) {
           this.assert(events[0].items[0].trace.length > 0);
         }
       }
@@ -58,34 +56,30 @@ qx.Class.define("qx.test.log.Logger",
       qx.log.Logger.unregister(appender);
     },
 
-    testLogException : function()
-    {
+    testLogException() {
       var exception = this.newException();
       this.__testLogException(exception);
     },
 
-    testLogDOMException : function()
-    {
+    testLogDOMException() {
       var exception = this.newDOMException();
       this.__testLogException(exception);
     },
 
-
-    testKonstantDeprecation : function()
-    {
+    testKonstantDeprecation() {
       // call the method to see if its not throwing an error
       qx.log.Logger.deprecatedConstantWarning(
-        qx.test.log.Logger, "TEST_CONSTANT"
+        qx.test.log.Logger,
+        "TEST_CONSTANT"
       );
 
       this.assertEquals("abc", qx.test.log.Logger.TEST_CONSTANT);
     },
 
-
     /**
      * @ignore(test.DisposableObject)
      */
-    testContextObject : function() {
+    testContextObject() {
       var appender = new qx.log.appender.RingBuffer();
 
       qx.log.Logger.setLevel("debug");
@@ -104,7 +98,6 @@ qx.Class.define("qx.test.log.Logger",
       qx.log.Logger.debug(qxWeb(), "m3");
       qx.log.Logger.debug(dispObj, "m4");
 
-
       var events = appender.getAllLogEvents();
       this.assertEquals(qx.core.Object, events[0].clazz);
       this.assertEquals(qx.core.Object, events[1].clazz);
@@ -116,9 +109,7 @@ qx.Class.define("qx.test.log.Logger",
       qx.Class.undefine("test.DisposableObject");
     },
 
-
-    newException : function()
-    {
+    newException() {
       var exc;
       try {
         throw new Error();
@@ -128,8 +119,7 @@ qx.Class.define("qx.test.log.Logger",
       return exc;
     },
 
-    newDOMException : function()
-    {
+    newDOMException() {
       var exc;
       try {
         document.body.appendChild(null);

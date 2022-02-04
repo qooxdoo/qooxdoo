@@ -12,6 +12,7 @@ without any further parameters. Here's an abridged version of the output:
                                             using compile.json
   config <key> [value]                      gets/sets persistent configuration
   deploy [options]                          deploys qooxdoo application(s)
+  es6ify path                               upgrades ES5 to ES6 where possible
   package <command> [options]               manages qooxdoo packages
   pkg <command> [options]                   alias for 'qx package'.
   create <application namespace> [options]  creates a new Qooxdoo project.
@@ -115,6 +116,56 @@ Options:
 The compiler relies on the information contained in `compile.json`.
 Documentation for the `compile.json` format is
 [here](../compiler/configuration/compile.md) .
+
+## ES6Ify
+The `qx es6ify` command is a tool that aims to help you upgrade your ES5 syntax to ES6 - it 
+can't do it as perfectly as you could do it by hand, but it can make a few simple changes to
+your code base that can make a big difference to readability.  
+
+Because editing your code changes the layout, at the end of the ES6-ification the code will
+be reformated using https://prettier.io/.  The Qooxdoo project uses prettier.io as standard
+and automatically reformats code on every commit (or you can configure editors like VSCode to
+reformat on save).  If you want to customise the few options prettier.io supports, you can
+use `.prettierrc.json` files (see https://prettier.io/docs/en/options.html for details).
+
+**NOTE** `qx es6ify` will edit your files in place, please make sure you have a backup or commit
+to your repo before trying it out.
+
+We have used `qx es6ify` on our entire Qooxdoo framework source code.
+
+This is a reliable but fairly unintrusive upgrade, provided that `--arrow-functions` argument
+property is `careful`.  The issue is that this code: 
+
+```
+  setTimeout(function() { something(); })
+```
+
+can be obviously be changed to `setTimeout(() => something())` and that is often desirable, but 
+it also means that the `this` will be different because an arrow function always has the `this` 
+from where the code is written.
+
+However, if you use an API which changes `this` then the switch to arrow functions will break your 
+code.  Mostly, in Qooxdoo, changes to `this` are done via an explicit API.  For example:
+
+```
+  obj.addListener("changeXyx", function() {}, this);
+```
+
+APIs like `addListener` can be translated because we know what the `this` would be and can account
+for it, but there are places which do not work this way (eg the unit tests `qx.dev.unit.TestCase.resume()`).
+And of course, third party integrations are completely unknown.
+
+If `--arrow-functions` is set to `aggressive`, then all functions are switched to arrow functions except
+where there is a known API that does not support it (eg any call to `.resume` in a test class); this
+could break your code.  The `aggressive` setting is useful, but you probably want to only use it on
+sections of your code, and test carefully.
+
+If `--arrow-functions` is set to `careful` (the default), then functions are only switched to arrow 
+functions where the API is known  (eg `.addListener`).
+
+The final step is that the ES6ify will use https://prettier.io/ to reformat the code, and will use
+the nearest `prettierrc.json` for configuration
+
 
 ## Lint
 

@@ -27,19 +27,22 @@ const fs = qx.tool.utils.Promisify.fs;
 qx.Class.define("qx.tool.migration.M7_0_0", {
   extend: qx.tool.migration.BaseMigration,
   members: {
-
     async migrateManifest() {
       let dryRun = this.getRunner().getDryRun();
       let verbose = this.getRunner().getVerbose();
       // Update all Manifests
       let updateManifest = false;
       for (const manifestModel of await qx.tool.config.Utils.getManifestModels()) {
-        await manifestModel.set({
-          warnOnly: true
-        }).load();
+        await manifestModel
+          .set({
+            warnOnly: true
+          })
+          .load();
         if (manifestModel.keyExists("requires.@qooxdoo/compiler")) {
           if (dryRun) {
-            this.markAsPending("@qooxdoo/compiler dependency will be removed from Manifest.");
+            this.markAsPending(
+              "@qooxdoo/compiler dependency will be removed from Manifest."
+            );
           } else {
             manifestModel.unset("requires.@qooxdoo/compiler");
             this.markAsApplied();
@@ -47,7 +50,10 @@ qx.Class.define("qx.tool.migration.M7_0_0", {
           }
         }
         // update schema
-        await this.updateSchemaUnlessDryRun(manifestModel, "https://qooxdoo.org/schema/Manifest-2-0-0.json");
+        await this.updateSchemaUnlessDryRun(
+          manifestModel,
+          "https://qooxdoo.org/schema/Manifest-2-0-0.json"
+        );
 
         // update qooxdoo version
         await this.updateQxDependencyUnlessDryRun(manifestModel);

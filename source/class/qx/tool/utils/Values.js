@@ -20,10 +20,7 @@
  *
  * *********************************************************************** */
 
-
-
 qx.Class.define("qx.tool.utils.Values", {
-
   statics: {
     /**
      * Performs a binary search on the host array.
@@ -34,14 +31,14 @@ qx.Class.define("qx.tool.utils.Values", {
      * @param {*} searchElement The item to search for within the array.
      * @return {Number} The index of the element which defaults to -1 when not found.
      */
-    binaryIndexOf: function(array, searchElement) {
+    binaryIndexOf(array, searchElement) {
       var minIndex = 0;
       var maxIndex = array.length - 1;
       var currentIndex;
       var currentElement;
 
       while (minIndex <= maxIndex) {
-        currentIndex = (minIndex + maxIndex) / 2 | 0;
+        currentIndex = ((minIndex + maxIndex) / 2) | 0;
         currentElement = array[currentIndex];
 
         if (currentElement < searchElement) {
@@ -56,14 +53,14 @@ qx.Class.define("qx.tool.utils.Values", {
       return -1;
     },
 
-    binaryStartsWith: function(array, searchElement) {
+    binaryStartsWith(array, searchElement) {
       var minIndex = 0;
       var maxIndex = array.length - 1;
       var currentIndex;
       var currentElement;
 
       while (minIndex <= maxIndex) {
-        currentIndex = (minIndex + maxIndex) / 2 | 0;
+        currentIndex = ((minIndex + maxIndex) / 2) | 0;
         currentElement = array[currentIndex];
 
         if (currentElement.startsWith(searchElement)) {

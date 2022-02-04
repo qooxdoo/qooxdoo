@@ -27,8 +27,7 @@
  * @require(qx.module.Attribute)
  */
 qx.Bootstrap.define("qx.module.Blocker", {
-  statics :
-  {
+  statics: {
     /**
      * Attaches a blocker div to the given element.
      *
@@ -37,8 +36,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param opacity {Number} The CSS opacity value for the blocker
      * @param zIndex {Number} The zIndex value for the blocker
      */
-    __attachBlocker : function(item, color, opacity, zIndex)
-    {
+    __attachBlocker(item, color, opacity, zIndex) {
       var win = qxWeb.getWindow(item);
       var isDocument = qxWeb.isDocument(item);
 
@@ -48,19 +46,26 @@ qx.Bootstrap.define("qx.module.Blocker", {
 
       if (!item.__blocker) {
         item.__blocker = {
-          div : qxWeb.create("<div class='qx-blocker' />")
+          div: qxWeb.create("<div class='qx-blocker' />")
         };
       }
 
       if (isDocument) {
-        item.__blocker.div.insertBefore(qxWeb(win.document.body).getChildren(':first'));
+        item.__blocker.div.insertBefore(
+          qxWeb(win.document.body).getChildren(":first")
+        );
       } else {
         item.__blocker.div.appendTo(win.document.body);
       }
 
-      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
+      qx.module.Blocker.__styleBlocker(
+        item,
+        color,
+        opacity,
+        zIndex,
+        isDocument
+      );
     },
-
 
     /**
      * Styles the blocker element(s)
@@ -71,21 +76,23 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param zIndex {Number} The zIndex value for the blocker
      * @param isDocument {Boolean} Whether the item is a document node
      */
-    __styleBlocker : function(item, color, opacity, zIndex, isDocument)
-    {
+    __styleBlocker(item, color, opacity, zIndex, isDocument) {
       var qItem = qxWeb(item);
 
       var styles = {
-        "display" : "block"
+        display: "block"
       };
 
-      styles.backgroundColor = typeof color !== 'undefined' ? color : null;
-      styles.zIndex =  typeof zIndex !== 'undefined' ? zIndex : null;
+      styles.backgroundColor = typeof color !== "undefined" ? color : null;
+      styles.zIndex = typeof zIndex !== "undefined" ? zIndex : null;
 
-      if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 8) {
-        styles.opacity = typeof opacity !== 'undefined' ? opacity : 0;
+      if (
+        qxWeb.env.get("browser.name") === "ie" &&
+        qxWeb.env.get("browser.version") <= 8
+      ) {
+        styles.opacity = typeof opacity !== "undefined" ? opacity : 0;
       } else {
-        styles.opacity = typeof opacity !== 'undefined' ? opacity : null;
+        styles.opacity = typeof opacity !== "undefined" ? opacity : null;
       }
 
       if (isDocument) {
@@ -94,8 +101,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
         styles.position = "fixed";
         styles.width = "100%";
         styles.height = "100%";
-      }
-      else {
+      } else {
         var pos = qItem.getOffset();
         styles.top = pos.top + "px";
         styles.left = pos.left + "px";
@@ -106,21 +112,18 @@ qx.Bootstrap.define("qx.module.Blocker", {
       item.__blocker.div.setStyles(styles);
     },
 
-
     /**
      * Removes the given item's blocker element(s) from the DOM
      *
      * @param item {Element} Blocked element
      * @param index {Number} index of the item in the collection
      */
-    __detachBlocker : function(item, index)
-    {
+    __detachBlocker(item, index) {
       if (!item.__blocker) {
         return;
       }
       item.__blocker.div.remove();
     },
-
 
     /**
      * Returns the blocker elements as collection
@@ -128,11 +131,10 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param collection {qxWeb} Collection to get the blocker elements from
      * @return {qxWeb} collection of blocker elements
      */
-    __getBlocker : function(collection)
-    {
+    __getBlocker(collection) {
       var blockerElements = qxWeb();
 
-      collection.forEach(function(item, index) {
+      collection.forEach(function (item, index) {
         if (typeof item.__blocker !== "undefined") {
           blockerElements = blockerElements.concat(item.__blocker.div);
         }
@@ -142,10 +144,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
     }
   },
 
-  members :
-  {
-
-
+  members: {
     /**
      * Adds an overlay to all items in the collection that intercepts mouse
      * events.
@@ -156,19 +155,17 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @param zIndex {Number ? 10000} The zIndex value for the blocker
      * @return {qxWeb} The collection for chaining
      */
-    block : function(color, opacity, zIndex)
-    {
+    block(color, opacity, zIndex) {
       if (!this[0]) {
         return this;
       }
 
-      this.forEach(function(item, index) {
+      this.forEach(function (item, index) {
         qx.module.Blocker.__attachBlocker(item, color, opacity, zIndex);
       });
 
       return this;
     },
-
 
     /**
      * Removes the blockers from all items in the collection
@@ -176,8 +173,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @attach {qxWeb}
      * @return {qxWeb} The collection for chaining
      */
-    unblock : function()
-    {
+    unblock() {
       if (!this[0]) {
         return this;
       }
@@ -186,7 +182,6 @@ qx.Bootstrap.define("qx.module.Blocker", {
 
       return this;
     },
-
 
     /**
      * Returns all blocker elements as collection.
@@ -198,8 +193,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
      * @attach {qxWeb}
      * @return {qxWeb} collection with all blocker elements
      */
-    getBlocker : function()
-    {
+    getBlocker() {
       if (!this[0]) {
         return this;
       }
@@ -209,9 +203,7 @@ qx.Bootstrap.define("qx.module.Blocker", {
     }
   },
 
-
-  defer : function(statics)
-  {
+  defer(statics) {
     qxWeb.$attachAll(this);
   }
 });

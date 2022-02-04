@@ -59,18 +59,11 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/stack.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.Stack",
-{
-  extend : qx.ui.core.Widget,
-  implement : [
-    qx.ui.form.IField,
-    qx.ui.core.ISingleSelection
-  ],
-  include : [
-    qx.ui.core.MSingleSelectionHandling,
-    qx.ui.core.MChildrenHandling
-  ],
+qx.Class.define("qx.ui.container.Stack", {
+  extend: qx.ui.core.Widget,
+  implement: [qx.ui.form.IField, qx.ui.core.ISingleSelection],
 
+  include: [qx.ui.core.MSingleSelectionHandling, qx.ui.core.MChildrenHandling],
 
   /*
   *****************************************************************************
@@ -78,16 +71,13 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
+  construct() {
+    super();
 
-  construct : function()
-  {
-    this.base(arguments);
-
-    this._setLayout(new qx.ui.layout.Grow);
+    this._setLayout(new qx.ui.layout.Grow());
 
     this.addListener("changeSelection", this.__onChangeSelection, this);
   },
-
 
   /*
   *****************************************************************************
@@ -95,20 +85,17 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Whether the size of the widget depends on the selected child. When
      * disabled (default) the size is configured to the largest child.
      */
-    dynamic :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyDynamic"
+    dynamic: {
+      check: "Boolean",
+      init: false,
+      apply: "_applyDynamic"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -116,22 +103,17 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     // property apply
-    _applyDynamic : function(value)
-    {
+    _applyDynamic(value) {
       var children = this._getChildren();
       var selected = this.getSelection()[0];
       var child;
 
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
 
-        if (child != selected)
-        {
+        if (child != selected) {
           if (value) {
             children[i].exclude();
           } else {
@@ -141,19 +123,17 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS FOR SELECTION API
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns the widget for the selection.
      * @return {qx.ui.core.Widget[]} Widgets to select.
      */
-    _getItems : function() {
+    _getItems() {
       return this.getChildren();
     },
 
@@ -163,7 +143,7 @@ qx.Class.define("qx.ui.container.Stack",
      * @return {Boolean} <code>true</code> If selection could be empty,
      *    <code>false</code> otherwise.
      */
-    _isAllowEmptySelection : function() {
+    _isAllowEmptySelection() {
       return true;
     },
 
@@ -173,7 +153,7 @@ qx.Class.define("qx.ui.container.Stack",
      * @param item {qx.ui.core.Widget} The item to be checked
      * @return {Boolean} Whether the given item is selectable
      */
-    _isItemSelectable : function(item) {
+    _isItemSelectable(item) {
       return true;
     },
 
@@ -184,13 +164,11 @@ qx.Class.define("qx.ui.container.Stack",
      *
      * @param e {qx.event.type.Data} Data event.
      */
-    __onChangeSelection : function(e)
-    {
+    __onChangeSelection(e) {
       var old = e.getOldData()[0];
       var value = e.getData()[0];
 
-      if (old)
-      {
+      if (old) {
         if (this.isDynamic()) {
           old.exclude();
         } else {
@@ -203,9 +181,8 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     //overridden
-    _afterAddChild : function(child) {
+    _afterAddChild(child) {
       var selected = this.getSelection()[0];
 
       if (!selected) {
@@ -219,9 +196,8 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     //overridden
-    _afterRemoveChild : function(child) {
+    _afterRemoveChild(child) {
       if (this.getSelection()[0] === child) {
         var first = this._getChildren()[0];
 
@@ -233,7 +209,6 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -243,10 +218,9 @@ qx.Class.define("qx.ui.container.Stack",
     /**
      * Go to the previous child in the children list.
      */
-    previous : function()
-    {
+    previous() {
       var selected = this.getSelection()[0];
-      var go = this._indexOf(selected)-1;
+      var go = this._indexOf(selected) - 1;
       var children = this._getChildren();
 
       if (go < 0) {
@@ -260,10 +234,9 @@ qx.Class.define("qx.ui.container.Stack",
     /**
      * Go to the next child in the children list.
      */
-    next : function()
-    {
+    next() {
       var selected = this.getSelection()[0];
-      var go = this._indexOf(selected)+1;
+      var go = this._indexOf(selected) + 1;
       var children = this._getChildren();
 
       var next = children[go] || children[0];

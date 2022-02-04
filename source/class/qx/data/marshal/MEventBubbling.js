@@ -21,11 +21,8 @@
  * classes, be sure that every property will call the
  * {@link #_applyEventPropagation} function on every change.
  */
-qx.Mixin.define("qx.data.marshal.MEventBubbling",
-{
-
-  events :
-  {
+qx.Mixin.define("qx.data.marshal.MEventBubbling", {
+  events: {
     /**
      * The change event which will be fired on every change in the model no
      * matter what property changes. This event bubbles so the root model will
@@ -45,12 +42,10 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * Due to that, the <code>getOldData</code> method will always return null
      * because the old data is contained in the map.
      */
-    "changeBubble": "qx.event.type.Data"
+    changeBubble: "qx.event.type.Data"
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Apply function for every property created with the
      * {@link qx.data.marshal.Json} marshaler. It fires and
@@ -61,15 +56,16 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param old {var} The old value of the property.
      * @param name {String} The name of the changed property.
      */
-    _applyEventPropagation : function(value, old, name)
-    {
+    _applyEventPropagation(value, old, name) {
       this.fireDataEvent("changeBubble", {
-        value: value, name: name, old: old, item: this
+        value: value,
+        name: name,
+        old: old,
+        item: this
       });
 
       this._registerEventChaining(value, old, name);
     },
-
 
     /**
      * Registers for the given parameters the changeBubble listener, if
@@ -80,10 +76,13 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param old {var} The old value of the property.
      * @param name {String} The name of the changed property.
      */
-    _registerEventChaining : function(value, old, name)
-    {
+    _registerEventChaining(value, old, name) {
       // if an old value is given, remove the old listener if possible
-      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.toHashCode()) != null) {
+      if (
+        old != null &&
+        old.getUserData &&
+        old.getUserData("idBubble-" + this.toHashCode()) != null
+      ) {
         var listeners = old.getUserData("idBubble-" + this.toHashCode());
         for (var i = 0; i < listeners.length; i++) {
           old.removeListenerById(listeners[i]);
@@ -92,25 +91,27 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
       }
 
       // if the child supports chaining
-      if ((value instanceof qx.core.Object)
-        && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
+      if (
+        value instanceof qx.core.Object &&
+        qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
       ) {
         // create the listener
         var listener = qx.lang.Function.bind(
-          this.__changePropertyListener, this, name
+          this.__changePropertyListener,
+          this,
+          name
         );
+
         // add the listener
         var id = value.addListener("changeBubble", listener, this);
         var listeners = value.getUserData("idBubble-" + this.toHashCode());
-        if (listeners == null)
-        {
+        if (listeners == null) {
           listeners = [];
           value.setUserData("idBubble-" + this.toHashCode(), listeners);
         }
         listeners.push(id);
       }
     },
-
 
     /**
      * Listener responsible for formating the name and firing the change event
@@ -120,18 +121,22 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param e {qx.event.type.Data} The date event fired by the property
      *   change.
      */
-    __changePropertyListener : function(name, e)
-    {
+    __changePropertyListener(name, e) {
       var data = e.getData();
       var value = data.value;
       var old = data.old;
 
       // if the target is an array
       if (qx.Class.hasInterface(e.getTarget().constructor, qx.data.IListData)) {
-
         if (data.name.indexOf) {
-          var dotIndex = data.name.indexOf(".") != -1 ? data.name.indexOf(".") : data.name.length;
-          var bracketIndex = data.name.indexOf("[") != -1 ? data.name.indexOf("[") : data.name.length;
+          var dotIndex =
+            data.name.indexOf(".") != -1
+              ? data.name.indexOf(".")
+              : data.name.length;
+          var bracketIndex =
+            data.name.indexOf("[") != -1
+              ? data.name.indexOf("[")
+              : data.name.length;
 
           // brackets in the first spot is ok [BUG #5985]
           if (bracketIndex == 0) {
@@ -142,36 +147,33 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
             if (rest[0] != "[") {
               rest = "." + rest;
             }
-            var newName =  name + "[" + index + "]" + rest;
+            var newName = name + "[" + index + "]" + rest;
           } else if (bracketIndex < dotIndex) {
             var index = data.name.substring(0, bracketIndex);
             var rest = data.name.substring(bracketIndex, data.name.length);
-            var newName =  name + "[" + index + "]" + rest;
+            var newName = name + "[" + index + "]" + rest;
           } else {
-            var newName =  name + "[" + data.name + "]";
+            var newName = name + "[" + data.name + "]";
           }
         } else {
-          var newName =  name + "[" + data.name + "]";
+          var newName = name + "[" + data.name + "]";
         }
 
-      // if the target is not an array
+        // if the target is not an array
       } else {
         // special case for array as first element of the chain [BUG #5985]
         if (parseInt(name) == name && name !== "") {
           name = "[" + name + "]";
         }
-        var newName =  name + "." + data.name;
+        var newName = name + "." + data.name;
       }
 
-      this.fireDataEvent(
-        "changeBubble",
-        {
-          value: value,
-          name: newName,
-          old: old,
-          item: data.item || e.getTarget()
-        }
-      );
+      this.fireDataEvent("changeBubble", {
+        value: value,
+        name: newName,
+        old: old,
+        item: data.item || e.getTarget()
+      });
     }
   }
 });

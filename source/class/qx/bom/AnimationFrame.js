@@ -53,23 +53,22 @@
  *
  * @require(qx.lang.normalize.Date)
  */
-qx.Bootstrap.define("qx.bom.AnimationFrame",
-{
-  extend : qx.event.Emitter,
+qx.Bootstrap.define("qx.bom.AnimationFrame", {
+  extend: qx.event.Emitter,
 
-  events : {
+  events: {
     /** Fired as soon as the animation has ended. */
-    "end" : undefined,
+    end: undefined,
 
     /**
      * Fired on every frame having the passed time as value
      * (might be a float for higher precision).
      */
-    "frame" : "Number"
+    frame: "Number"
   },
 
-  members : {
-    __canceled : false,
+  members: {
+    __canceled: false,
 
     /**
      * Method used to start a series of animation frames. The series will end as
@@ -79,11 +78,14 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      *
      * @ignore(performance.*)
      */
-    startSequence : function(duration) {
+    startSequence(duration) {
       this.__canceled = false;
 
-      var start = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
-      var cb = function(time) {
+      var start =
+        window.performance && performance.now
+          ? performance.now() + qx.bom.AnimationFrame.__start
+          : Date.now();
+      var cb = function (time) {
         if (this.__canceled) {
           this.id = null;
           return;
@@ -103,23 +105,20 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       this.id = qx.bom.AnimationFrame.request(cb, this);
     },
 
-
     /**
      * Cancels a started sequence of frames. It will do nothing if no
      * sequence is running.
      */
-    cancelSequence : function() {
+    cancelSequence() {
       this.__canceled = true;
     }
   },
 
-  statics :
-  {
+  statics: {
     /**
      * The default time in ms the timeout fallback implementation uses.
      */
-    TIMEOUT : 30,
-
+    TIMEOUT: 30,
 
     /**
      * Calculation of the predefined timing functions. Approximation of the real
@@ -133,7 +132,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * @param x {Integer} The percent value of the function.
      * @return {Integer} The calculated value
      */
-    calculateTiming : function(func, x) {
+    calculateTiming(func, x) {
       if (func == "ease-in") {
         var a = [3.1223e-7, 0.0757, 1.2646, -0.167, -0.4387, 0.2654];
       } else if (func == "ease-out") {
@@ -152,12 +151,11 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       // http://www.w3.org/TR/css3-transitions/#transition-timing-function_tag
       // (the same is used for animations as well)
       var y = 0;
-      for (var i=0; i < a.length; i++) {
+      for (var i = 0; i < a.length; i++) {
         y += a[i] * Math.pow(x, i);
       }
       return y;
     },
-
 
     /**
      * Request for an animation frame. If the native <code>requestAnimationFrame</code>
@@ -170,10 +168,10 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * @param context {var} The context of the callback.
      * @return {Number} The id of the request.
      */
-    request : function(callback, context) {
+    request(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var cb = function(time) {
+      var cb = function (time) {
         // check for high resolution time
         if (time < 1e10) {
           time = qx.bom.AnimationFrame.__start + time;
@@ -187,7 +185,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       } else {
         // make sure to use an indirection because setTimeout passes a
         // number as first argument as well
-        return window.setTimeout(function() {
+        return window.setTimeout(function () {
           cb();
         }, qx.bom.AnimationFrame.TIMEOUT);
       }
@@ -197,9 +195,12 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
   /**
    * @ignore(performance.timing.*)
    */
-  defer : function(statics) {
+  defer(statics) {
     // check and use the high resolution start time if available
-    statics.__start = window.performance && performance.timing && performance.timing.navigationStart;
+    statics.__start =
+      window.performance &&
+      performance.timing &&
+      performance.timing.navigationStart;
     // if not, simply use the current time
     if (!statics.__start) {
       statics.__start = Date.now();

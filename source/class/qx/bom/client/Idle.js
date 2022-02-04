@@ -24,22 +24,20 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Idle",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.bom.client.Idle", {
+  statics: {
     /**
      * Whether the client supports cooperative scheduling of background tasks.
      *
      * @internal
      * @return {Boolean} <code>true</code> if API is supported
      */
-    getSupport : function() {
+    getSupport() {
       return window.requestIdleCallback !== undefined;
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("client.idle", statics.getSupport);
   }
 });

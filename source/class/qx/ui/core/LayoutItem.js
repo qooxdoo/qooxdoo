@@ -21,21 +21,22 @@
  * The base class of all items, which should be laid out using a layout manager
  * {@link qx.ui.layout.Abstract}.
  */
-qx.Class.define("qx.ui.core.LayoutItem",
-{
-  type : "abstract",
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.core.LayoutItem", {
+  type: "abstract",
+  extend: qx.core.Object,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._onChangeTheme, this);
+      qx.theme.manager.Meta.getInstance().addListener(
+        "changeTheme",
+        this._onChangeTheme,
+        this
+      );
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -43,8 +44,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /*
     ---------------------------------------------------------------------------
       DIMENSION
@@ -56,15 +56,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * Also take a look at the related properties {@link #width} and {@link #maxWidth}.
      */
-    minWidth :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    minWidth: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
 
     /**
      * The <code>LayoutItem</code>'s preferred width.
@@ -73,46 +71,40 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * stretching. Also take a look at the related properties
      * {@link #minWidth} and {@link #maxWidth}.
      */
-    width :
-    {
-      check : "Integer",
-      event : "changeWidth",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    width: {
+      check: "Integer",
+      event: "changeWidth",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
 
     /**
      * The user provided maximal width.
      *
      * Also take a look at the related properties {@link #width} and {@link #minWidth}.
      */
-    maxWidth :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    maxWidth: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
 
     /**
      * The user provided minimal height.
      *
      * Also take a look at the related properties {@link #height} and {@link #maxHeight}.
      */
-    minHeight :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    minHeight: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
 
     /**
      * The item's preferred height.
@@ -121,34 +113,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * stretching. Also take a look at the related properties
      * {@link #minHeight} and {@link #maxHeight}.
      */
-    height :
-    {
-      check : "Integer",
-      event : "changeHeight",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    height: {
+      check: "Integer",
+      event: "changeHeight",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
 
     /**
      * The user provided maximum height.
      *
      * Also take a look at the related properties {@link #height} and {@link #minHeight}.
      */
-    maxHeight :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyDimension",
-      init : null,
-      themeable : true
+    maxHeight: {
+      check: "Integer",
+      nullable: true,
+      apply: "_applyDimension",
+      init: null,
+      themeable: true
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -157,65 +142,50 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /** Whether the item can grow horizontally. */
-    allowGrowX :
-    {
-      check : "Boolean",
-      apply : "_applyStretching",
-      init : true,
-      themeable : true
+    allowGrowX: {
+      check: "Boolean",
+      apply: "_applyStretching",
+      init: true,
+      themeable: true
     },
-
 
     /** Whether the item can shrink horizontally. */
-    allowShrinkX :
-    {
-      check : "Boolean",
-      apply : "_applyStretching",
-      init : true,
-      themeable : true
+    allowShrinkX: {
+      check: "Boolean",
+      apply: "_applyStretching",
+      init: true,
+      themeable: true
     },
-
 
     /** Whether the item can grow vertically. */
-    allowGrowY :
-    {
-      check : "Boolean",
-      apply : "_applyStretching",
-      init : true,
-      themeable : true
+    allowGrowY: {
+      check: "Boolean",
+      apply: "_applyStretching",
+      init: true,
+      themeable: true
     },
-
 
     /** Whether the item can shrink vertically. */
-    allowShrinkY :
-    {
-      check : "Boolean",
-      apply : "_applyStretching",
-      init : true,
-      themeable : true
+    allowShrinkY: {
+      check: "Boolean",
+      apply: "_applyStretching",
+      init: true,
+      themeable: true
     },
-
 
     /** Growing and shrinking in the horizontal direction */
-    allowStretchX :
-    {
-      group : [ "allowGrowX", "allowShrinkX" ],
-      mode : "shorthand",
+    allowStretchX: {
+      group: ["allowGrowX", "allowShrinkX"],
+      mode: "shorthand",
       themeable: true
     },
-
 
     /** Growing and shrinking in the vertical direction */
-    allowStretchY :
-    {
-      group : [ "allowGrowY", "allowShrinkY" ],
-      mode : "shorthand",
+    allowStretchY: {
+      group: ["allowGrowY", "allowShrinkY"],
+      mode: "shorthand",
       themeable: true
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -224,44 +194,36 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /** Margin of the widget (top) */
-    marginTop :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMargin",
-      themeable : true
+    marginTop: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyMargin",
+      themeable: true
     },
-
 
     /** Margin of the widget (right) */
-    marginRight :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMargin",
-      themeable : true
+    marginRight: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyMargin",
+      themeable: true
     },
-
 
     /** Margin of the widget (bottom) */
-    marginBottom :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMargin",
-      themeable : true
+    marginBottom: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyMargin",
+      themeable: true
     },
-
 
     /** Margin of the widget (left) */
-    marginLeft :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyMargin",
-      themeable : true
+    marginLeft: {
+      check: "Integer",
+      init: 0,
+      apply: "_applyMargin",
+      themeable: true
     },
-
 
     /**
      * The 'margin' property is a shorthand property for setting 'marginTop',
@@ -271,15 +233,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * If there is only one value, it applies to all sides, if there are two or three,
      * the missing values are taken from the opposite side.
      */
-    margin :
-    {
-      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
-      mode  : "shorthand",
-      themeable : true
+    margin: {
+      group: ["marginTop", "marginRight", "marginBottom", "marginLeft"],
+      mode: "shorthand",
+      themeable: true
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -294,14 +252,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * it would have a visual effect. Except for {@link Spacer}, which provides
      * blank space for layouts, all classes that inherit {@link LayoutItem} support alignment.
      */
-    alignX :
-    {
-      check : [ "left", "center", "right" ],
-      nullable : true,
-      apply : "_applyAlign",
+    alignX: {
+      check: ["left", "center", "right"],
+      nullable: true,
+      apply: "_applyAlign",
       themeable: true
     },
-
 
     /**
      * Vertical alignment of the item in the parent layout.
@@ -310,17 +266,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * it would have a visual effect. Except for {@link Spacer}, which provides
      * blank space for layouts, all classes that inherit {@link LayoutItem} support alignment.
      */
-    alignY :
-    {
-      check : [ "top", "middle", "bottom", "baseline" ],
-      nullable : true,
-      apply : "_applyAlign",
+    alignY: {
+      check: ["top", "middle", "bottom", "baseline"],
+      nullable: true,
+      apply: "_applyAlign",
       themeable: true
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -328,8 +280,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       DYNAMIC THEME SWITCH SUPPORT
@@ -340,9 +291,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Handler for the dynamic theme change.
      * @signature function()
      */
-    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
-    {
-      "true" : function() {
+    _onChangeTheme: qx.core.Environment.select("qx.dyntheme", {
+      true() {
         // reset all themeable properties
         var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
         for (var name in props) {
@@ -356,11 +306,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
           }
         }
       },
-      "false" : null
+      false: null
     }),
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -369,26 +316,25 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /** @type {Integer} The computed height */
-    __computedHeightForWidth : null,
+    __computedHeightForWidth: null,
 
     /** @type {Map} The computed size of the layout item */
-    __computedLayout : null,
+    __computedLayout: null,
 
     /** @type {Boolean} Whether the current layout is valid */
-    __hasInvalidLayout : null,
+    __hasInvalidLayout: null,
 
     /** @type {Map} Cached size hint */
-    __sizeHint : null,
+    __sizeHint: null,
 
     /** @type {Boolean} Whether the margins have changed and must be updated */
-    __updateMargin : null,
+    __updateMargin: null,
 
     /** @type {Map} user provided bounds of the widget, which override the layout manager */
-    __userBounds : null,
+    __userBounds: null,
 
     /** @type {Map} The item's layout properties */
-    __layoutProperties : null,
-
+    __layoutProperties: null,
 
     /**
      * Get the computed location and dimension as computed by
@@ -399,18 +345,16 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.
      */
-    getBounds : function() {
+    getBounds() {
       return this.__userBounds || this.__computedLayout || null;
     },
-
 
     /**
      * Reconfigure number of separators
      */
-    clearSeparators : function() {
+    clearSeparators() {
       // empty template
     },
-
 
     /**
      * Renders a separator between two children
@@ -419,10 +363,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
      */
-    renderSeparator : function(separator, bounds) {
+    renderSeparator(separator, bounds) {
       // empty template
     },
-
 
     /**
      * Used by the layout engine to apply coordinates and dimensions.
@@ -437,16 +380,15 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *   always in pixels
      * @return {Map} A map of which layout sizes changed.
      */
-    renderLayout : function(left, top, width, height)
-    {
+    renderLayout(left, top, width, height) {
       // do not render if the layout item is already disposed
       if (this.isDisposed()) {
         return null;
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        var msg = "Something went wrong with the layout of " + this.toString() + "!";
+      if (qx.core.Environment.get("qx.debug")) {
+        var msg =
+          "Something went wrong with the layout of " + this.toString() + "!";
         this.assertInteger(left, "Wrong 'left' argument. " + msg);
         this.assertInteger(top, "Wrong 'top' argument. " + msg);
         this.assertInteger(width, "Wrong 'width' argument. " + msg);
@@ -467,16 +409,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Detect changes
       var changes = {};
 
-      if (left !== computed.left || top !== computed.top)
-      {
+      if (left !== computed.left || top !== computed.top) {
         changes.position = true;
 
         computed.left = left;
         computed.top = top;
       }
 
-      if (width !== computed.width || height !== computed.height)
-      {
+      if (width !== computed.width || height !== computed.height) {
         changes.size = true;
 
         computed.width = width;
@@ -484,14 +424,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       // Clear invalidation marker
-      if (this.__hasInvalidLayout)
-      {
+      if (this.__hasInvalidLayout) {
         changes.local = true;
         delete this.__hasInvalidLayout;
       }
 
-      if (this.__updateMargin)
-      {
+      if (this.__updateMargin) {
         changes.margin = true;
         delete this.__updateMargin;
       }
@@ -509,8 +447,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (this.getHeight() == null && this._hasHeightForWidth()) {
         var flowHeight = this._getHeightForWidth(width);
 
-        if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
-        {
+        if (
+          flowHeight != null &&
+          flowHeight !== this.__computedHeightForWidth
+        ) {
           // This variable is used in the next computation of the size hint
           this.__computedHeightForWidth = flowHeight;
 
@@ -523,16 +463,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return changes;
     },
 
-
     /**
      * Whether the item should be excluded from the layout
      *
      * @return {Boolean} Should the item be excluded by the layout
      */
-    isExcluded : function() {
+    isExcluded() {
       return false;
     },
-
 
     /**
      * Whether the layout of this item (to layout the children)
@@ -540,33 +478,29 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {Boolean} Returns <code>true</code>
      */
-    hasValidLayout : function() {
+    hasValidLayout() {
       return !this.__hasInvalidLayout;
     },
-
 
     /**
      * Indicate that the item has layout changes and propagate this information
      * up the item hierarchy.
      *
      */
-    scheduleLayoutUpdate : function() {
+    scheduleLayoutUpdate() {
       qx.ui.core.queue.Layout.add(this);
     },
-
 
     /**
      * Called by the layout manager to mark this item's layout as invalid.
      * This function should clear all layout relevant caches.
      */
-    invalidateLayoutCache : function()
-    {
+    invalidateLayoutCache() {
       // this.debug("Mark layout invalid!");
 
       this.__hasInvalidLayout = true;
       this.__sizeHint = null;
     },
-
 
     /**
      * A size hint computes the dimensions of a widget. It returns
@@ -597,8 +531,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *   minimum and maximum values in cases where shrinking or growing
      *   is required.
      */
-    getSizeHint : function(compute)
-    {
+    getSizeHint(compute) {
       var hint = this.__sizeHint;
       if (hint) {
         return hint;
@@ -612,10 +545,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
       hint = this.__sizeHint = this._computeSizeHint();
 
       // Respect height for width
-      if (this._hasHeightForWidth() && this.__computedHeightForWidth && this.getHeight() == null) {
+      if (
+        this._hasHeightForWidth() &&
+        this.__computedHeightForWidth &&
+        this.getHeight() == null
+      ) {
         hint.height = this.__computedHeightForWidth;
       }
-
 
       // normalize width
       if (hint.minWidth > hint.width) {
@@ -632,7 +568,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
         hint.minWidth = hint.width;
       }
 
-
       // normalize height
       if (hint.minHeight > hint.height) {
         hint.height = hint.minHeight;
@@ -648,11 +583,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
         hint.minHeight = hint.height;
       }
 
-
       // Finally return
       return hint;
     },
-
 
     /**
      * Computes the size hint of the layout item.
@@ -660,8 +593,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return {Map} The map with the preferred width/height and the allowed
      *   minimum and maximum values.
      */
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       var minWidth = this.getMinWidth() || 0;
       var minHeight = this.getMinHeight() || 0;
 
@@ -672,30 +604,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
       var maxHeight = this.getMaxHeight() || Infinity;
 
       return {
-        minWidth : minWidth,
-        width : width,
-        maxWidth : maxWidth,
-        minHeight : minHeight,
-        height : height,
-        maxHeight : maxHeight
+        minWidth: minWidth,
+        width: width,
+        maxWidth: maxWidth,
+        minHeight: minHeight,
+        height: height,
+        maxHeight: maxHeight
       };
     },
-
 
     /**
      * Whether the item supports height for width.
      *
      * @return {Boolean} Whether the item supports height for width
      */
-    _hasHeightForWidth : function()
-    {
+    _hasHeightForWidth() {
       var layout = this._getLayout();
       if (layout) {
         return layout.hasHeightForWidth();
       }
       return false;
     },
-
 
     /**
      * If an item wants to trade height for width it has to implement this
@@ -706,8 +635,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param width {Integer} The computed width
      * @return {Integer} The desired height
      */
-    _getHeightForWidth : function(width)
-    {
+    _getHeightForWidth(width) {
       var layout = this._getLayout();
       if (layout && layout.hasHeightForWidth()) {
         return layout.getHeightForWidth(width);
@@ -716,20 +644,17 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return null;
     },
 
-
     /**
      * Get the widget's layout manager.
      *
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    _getLayout : function() {
+    _getLayout() {
       return null;
     },
 
-
     // property apply
-    _applyMargin : function()
-    {
+    _applyMargin() {
       this.__updateMargin = true;
 
       var parent = this.$$parent;
@@ -738,32 +663,23 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
     },
 
-
     // property apply
-    _applyAlign : function()
-    {
+    _applyAlign() {
       var parent = this.$$parent;
       if (parent) {
         parent.updateLayoutProperties();
       }
     },
 
-
     // property apply
-    _applyDimension : function() {
+    _applyDimension() {
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     // property apply
-    _applyStretching : function() {
+    _applyStretching() {
       qx.ui.core.queue.Layout.add(this);
     },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -776,10 +692,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {Boolean} Whether user bounds are set on this layout item
      */
-    hasUserBounds : function() {
+    hasUserBounds() {
       return !!this.__userBounds;
     },
-
 
     /**
      * Set user bounds of the widget. Widgets with user bounds are sized and
@@ -790,16 +705,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param width {Integer} width of the layout item
      * @param height {Integer} height of the layout item
      */
-    setUserBounds : function(left, top, width, height)
-    {
-      
+    setUserBounds(left, top, width, height) {
       if (!this.__userBounds) {
         var parent = this.$$parent;
         if (parent) {
           parent.updateLayoutProperties();
         }
       }
-      
+
       this.__userBounds = {
         left: left,
         top: top,
@@ -810,29 +723,23 @@ qx.Class.define("qx.ui.core.LayoutItem",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     /**
      * Clear the user bounds. After this call the layout item is laid out by
      * the layout manager again.
      *
      */
-    resetUserBounds : function()
-    {
+    resetUserBounds() {
       if (this.__userBounds) {
         delete this.__userBounds;
 
         var parent = this.$$parent;
         if (parent) {
-            parent.updateLayoutProperties();
+          parent.updateLayoutProperties();
         }
 
         qx.ui.core.queue.Layout.add(this);
       }
     },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -845,16 +752,14 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @lint ignoreReferenceField(__emptyProperties)
      */
-    __emptyProperties : {},
-
+    __emptyProperties: {},
 
     /**
      * Stores the given layout properties
      *
      * @param props {Map} Incoming layout property data
      */
-    setLayoutProperties : function(props)
-    {
+    setLayoutProperties(props) {
       if (props == null) {
         return;
       }
@@ -871,8 +776,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       // Copy over values
-      for (var key in props)
-      {
+      for (var key in props) {
         if (props[key] == null) {
           delete storage[key];
         } else {
@@ -881,25 +785,22 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
     },
 
-
     /**
      * Returns currently stored layout properties
      *
      * @return {Map} Returns a map of layout properties
      */
-    getLayoutProperties : function() {
+    getLayoutProperties() {
       return this.__layoutProperties || this.__emptyProperties;
     },
-
 
     /**
      * Removes all stored layout properties.
      *
      */
-    clearLayoutProperties : function() {
+    clearLayoutProperties() {
       delete this.__layoutProperties;
     },
-
 
     /**
      * Should be executed on every change of layout properties.
@@ -912,16 +813,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @param props {Map?null} Optional map of known layout properties
      */
-    updateLayoutProperties : function(props)
-    {
+    updateLayoutProperties(props) {
       var layout = this._getLayout();
-      if (layout)
-      {
+      if (layout) {
         // Verify values through underlying layout
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          if (props)
-          {
+        if (qx.core.Environment.get("qx.debug")) {
+          if (props) {
             for (var key in props) {
               if (props[key] !== null) {
                 layout.verifyLayoutProperty(this, key, props[key]);
@@ -938,10 +835,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       HIERARCHY SUPPORT
@@ -953,10 +846,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {qx.ui.root.Abstract} The currently used root
      */
-    getApplicationRoot : function() {
+    getApplicationRoot() {
       return qx.core.Init.getApplication().getRoot();
     },
-
 
     /**
      * Get the items parent. Even if the item has been added to a
@@ -965,18 +857,16 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {qx.ui.core.Widget|null} The parent.
      */
-    getLayoutParent : function() {
+    getLayoutParent() {
       return this.$$parent || null;
     },
-
 
     /**
      * Set the parent
      *
      * @param parent {qx.ui.core.Widget|null} The new parent.
      */
-    setLayoutParent : function(parent)
-    {
+    setLayoutParent(parent) {
       if (this.$$parent === parent) {
         return;
       }
@@ -985,17 +875,15 @@ qx.Class.define("qx.ui.core.LayoutItem",
       qx.ui.core.queue.Visibility.add(this);
     },
 
-
     /**
      * Whether the item is a root item and directly connected to
      * the DOM.
      *
      * @return {Boolean} Whether the item a root item
      */
-    isRootWidget : function() {
+    isRootWidget() {
       return false;
     },
-
 
     /**
      * Returns the root item. The root item is the item which
@@ -1004,12 +892,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {qx.ui.core.Widget} The root item (if available)
      */
-    _getRoot : function()
-    {
+    _getRoot() {
       var parent = this;
 
-      while (parent)
-      {
+      while (parent) {
         if (parent.isRootWidget()) {
           return parent;
         }
@@ -1020,10 +906,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return null;
     },
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       CLONE SUPPORT
@@ -1031,9 +913,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     // overridden
-    clone : function()
-    {
-      var clone = this.base(arguments);
+    clone() {
+      var clone = super.clone();
 
       var props = this.__layoutProperties;
       if (props) {
@@ -1044,24 +925,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().removeListener(
-        "changeTheme", this._onChangeTheme, this
+        "changeTheme",
+        this._onChangeTheme,
+        this
       );
     }
-    this.$$parent = this.$$subparent = this.__layoutProperties =
-      this.__computedLayout = this.__userBounds = this.__sizeHint = null;
+    this.$$parent =
+      this.$$subparent =
+      this.__layoutProperties =
+      this.__computedLayout =
+      this.__userBounds =
+      this.__sizeHint =
+        null;
   }
 });

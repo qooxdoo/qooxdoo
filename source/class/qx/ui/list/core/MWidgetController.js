@@ -22,98 +22,79 @@
  *
  * @internal
  */
-qx.Mixin.define("qx.ui.list.core.MWidgetController",
-{
-  construct : function() {
+qx.Mixin.define("qx.ui.list.core.MWidgetController", {
+  construct() {
     this.__boundItems = [];
   },
 
-
-  properties :
-  {
+  properties: {
     /**
      * The path to the property which holds the information that should be
      * shown as a label. This is only needed if objects are stored in the model.
      */
-    labelPath :
-    {
+    labelPath: {
       check: "String",
       nullable: true
     },
-
 
     /**
      * The path to the property which holds the information that should be
      * shown as an icon. This is only needed if objects are stored in the model
      * and if the icon should be shown.
      */
-    iconPath :
-    {
+    iconPath: {
       check: "String",
       nullable: true
     },
-
 
     /**
      * The path to the property which holds the information that should be
      * displayed as a group label. This is only needed if objects are stored in the
      * model.
      */
-    groupLabelPath :
-    {
+    groupLabelPath: {
       check: "String",
       nullable: true
     },
-
 
     /**
      * A map containing the options for the label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    labelOptions :
-    {
+    labelOptions: {
       nullable: true
     },
-
 
     /**
      * A map containing the options for the icon binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    iconOptions :
-    {
+    iconOptions: {
       nullable: true
     },
-
 
     /**
      * A map containing the options for the group label binding. The possible keys
      * can be found in the {@link qx.data.SingleValueBinding} documentation.
      */
-    groupLabelOptions :
-    {
+    groupLabelOptions: {
       nullable: true
     },
-
 
     /**
      * Delegation object, which can have one or more functions defined by the
      * {@link qx.ui.list.core.IListDelegate} interface.
      */
-    delegate :
-    {
+    delegate: {
       event: "changeDelegate",
       init: null,
       nullable: true
     }
   },
 
-
-  members :
-  {
+  members: {
     /** @type {Array} which contains the bounded items */
-    __boundItems : null,
-
+    __boundItems: null,
 
     /**
      * Helper-Method for binding the default properties from
@@ -131,33 +112,38 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      *   list or group item.
      * @param index {Integer} The index of the item.
      */
-    bindDefaultProperties : function(item, index)
-    {
-      if(item.getUserData("cell.type") != "group")
-      {
+    bindDefaultProperties(item, index) {
+      if (item.getUserData("cell.type") != "group") {
         // bind model first
-        this.bindProperty(
-            "", "model", null, item, index
-        );
+        this.bindProperty("", "model", null, item, index);
 
         this.bindProperty(
-          this.getLabelPath(), "label", this.getLabelOptions(), item, index
+          this.getLabelPath(),
+          "label",
+          this.getLabelOptions(),
+          item,
+          index
         );
 
         if (this.getIconPath() != null) {
           this.bindProperty(
-            this.getIconPath(), "icon", this.getIconOptions(), item, index
+            this.getIconPath(),
+            "icon",
+            this.getIconOptions(),
+            item,
+            index
           );
         }
-      }
-      else
-      {
+      } else {
         this.bindProperty(
-          this.getGroupLabelPath(), "value", this.getGroupLabelOptions(), item, index
+          this.getGroupLabelPath(),
+          "value",
+          this.getGroupLabelOptions(),
+          item,
+          index
         );
       }
     },
-
 
     /**
      * Helper-Method for binding a given property from the model to the target
@@ -173,8 +159,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * @param targetWidget {qx.ui.core.Widget} The target widget.
      * @param index {Integer} The index of the current binding.
      */
-    bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
-    {
+    bindProperty(sourcePath, targetProperty, options, targetWidget, index) {
       var type = targetWidget.getUserData("cell.type");
       var bindPath = this.__getBindPath(index, sourcePath, type);
 
@@ -185,7 +170,6 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       var id = this._list.bind(bindPath, targetWidget, targetProperty, options);
       this.__addBinding(targetWidget, id);
     },
-
 
     /**
      * Helper-Method for binding a given property from the target widget to
@@ -200,8 +184,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * @param sourceWidget {qx.ui.core.Widget} The source widget.
      * @param index {Integer} The index of the current binding.
      */
-    bindPropertyReverse : function(targetPath, sourceProperty, options, sourceWidget, index)
-    {
+    bindPropertyReverse(
+      targetPath,
+      sourceProperty,
+      options,
+      sourceWidget,
+      index
+    ) {
       var type = sourceWidget.getUserData("cell.type");
       var bindPath = this.__getBindPath(index, targetPath, type);
 
@@ -209,18 +198,15 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       this.__addBinding(sourceWidget, id);
     },
 
-
     /**
      * Remove all bindings from all bounded items.
      */
-    removeBindings : function()
-    {
-      while(this.__boundItems.length > 0) {
+    removeBindings() {
+      while (this.__boundItems.length > 0) {
         var item = this.__boundItems.pop();
         this._removeBindingsFrom(item);
       }
     },
-
 
     /**
      * Configure the passed item if a delegate is set and the needed
@@ -228,8 +214,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      *
      * @param item {qx.ui.core.Widget} item to configure.
      */
-    _configureItem : function(item)
-    {
+    _configureItem(item) {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.configureItem != null) {
@@ -237,15 +222,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Configure the passed item if a delegate is set and the needed
      * function {@link IListDelegate#configureGroupItem} is available.
      *
      * @param item {qx.ui.core.Widget} item to configure.
      */
-    _configureGroupItem : function(item)
-    {
+    _configureGroupItem(item) {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.configureGroupItem != null) {
@@ -253,14 +236,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Sets up the binding for the given item and index.
      *
      * @param item {qx.ui.core.Widget} The internally created and used item.
      * @param index {Integer} The index of the item.
      */
-    _bindItem : function(item, index) {
+    _bindItem(item, index) {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.bindItem != null) {
@@ -270,14 +252,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Sets up the binding for the given group item and index.
      *
      * @param item {qx.ui.core.Widget} The internally created and used item.
      * @param index {Integer} The index of the item.
      */
-    _bindGroupItem : function(item, index) {
+    _bindGroupItem(item, index) {
       var delegate = this.getDelegate();
 
       if (delegate != null && delegate.bindGroupItem != null) {
@@ -287,14 +268,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Removes the binding of the given item.
      *
      * @param item {qx.ui.core.Widget} The item which the binding should
      *   be removed.
      */
-    _removeBindingsFrom : function(item) {
+    _removeBindingsFrom(item) {
       var bindings = this.__getBindings(item);
 
       while (bindings.length > 0) {
@@ -302,7 +282,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
 
         try {
           this._list.removeBinding(id);
-        } catch(e) {
+        } catch (e) {
           item.removeBinding(id);
         }
       }
@@ -312,7 +292,6 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Helper method to create the path for binding.
      *
@@ -321,8 +300,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      * @param type {String} The type <code>["item", "group"]</code>.
      * @return {String} The binding path
      */
-    __getBindPath : function(index, path, type)
-    {
+    __getBindPath(index, path, type) {
       var bindPath = "model[" + index + "]";
       if (type == "group") {
         bindPath = "groups[" + index + "]";
@@ -335,15 +313,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       return bindPath;
     },
 
-
     /**
      * Helper method to save the binding for the widget.
      *
      * @param widget {qx.ui.core.Widget} widget to save binding.
      * @param id {var} the id from the binding.
      */
-    __addBinding : function(widget, id)
-    {
+    __addBinding(widget, id) {
       var bindings = this.__getBindings(widget);
 
       if (!bindings.includes(id)) {
@@ -355,15 +331,13 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
       }
     },
 
-
     /**
      * Helper method which returns all bound id from the widget.
      *
      * @param widget {qx.ui.core.Widget} widget to get all binding.
      * @return {Array} all bound id's.
      */
-    __getBindings : function(widget)
-    {
+    __getBindings(widget) {
       var bindings = widget.getUserData("BindingIds");
 
       if (bindings == null) {
@@ -375,8 +349,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.__boundItems = null;
   }
 });

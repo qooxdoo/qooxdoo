@@ -21,43 +21,36 @@
 /**
  * Common base class for all DOM events.
  */
-qx.Class.define("qx.event.type.Dom",
-{
-  extend : qx.event.type.Native,
+qx.Class.define("qx.event.type.Dom", {
+  extend: qx.event.type.Native,
 
-
-
-  statics :
-  {
+  statics: {
     /** @type {Integer} The modifier mask for the shift key. */
-    SHIFT_MASK : 1,
+    SHIFT_MASK: 1,
 
     /** @type {Integer} The modifier mask for the control key. */
-    CTRL_MASK  : 2,
+    CTRL_MASK: 2,
 
     /** @type {Integer} The modifier mask for the alt key. */
-    ALT_MASK   : 4,
+    ALT_MASK: 4,
 
     /** @type {Integer} The modifier mask for the meta key (e.g. apple key on Macs). */
-    META_MASK  : 8,
+    META_MASK: 8,
 
     /** @type {Integer} The modifier mask for the CapsLock modifier. */
-    CAPSLOCK_MASK : 16,
+    CAPSLOCK_MASK: 16,
 
     /** @type {Integer} The modifier mask for the NumLock modifier. */
-    NUMLOCK_MASK : 32,
+    NUMLOCK_MASK: 32,
 
     /** @type {Integer} The modifier mask for the ScrollLock modifier. */
-    SCROLLLOCK_MASK : 64
+    SCROLLLOCK_MASK: 64
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _cloneNativeEvent : function(nativeEvent, clone)
-    {
-      var clone = this.base(arguments, nativeEvent, clone);
+    _cloneNativeEvent(nativeEvent, clone) {
+      var clone = super._cloneNativeEvent(nativeEvent, clone);
 
       clone.shiftKey = nativeEvent.shiftKey;
       clone.ctrlKey = nativeEvent.ctrlKey;
@@ -68,8 +61,7 @@ qx.Class.define("qx.event.type.Dom",
         clone.numLock = nativeEvent.getModifierState("NumLock");
         clone.capsLock = nativeEvent.getModifierState("CapsLock");
         clone.scrollLock = nativeEvent.getModifierState("ScrollLock");
-      }
-      else {
+      } else {
         clone.numLock = false;
         clone.capsLock = false;
         clone.scrollLock = false;
@@ -77,7 +69,6 @@ qx.Class.define("qx.event.type.Dom",
 
       return clone;
     },
-
 
     /**
      * Return in a bit map, which modifier keys are pressed. The constants
@@ -87,8 +78,7 @@ qx.Class.define("qx.event.type.Dom",
      *
      * @return {Integer} A bit map with the pressed modifier keys.
      */
-    getModifiers : function()
-    {
+    getModifiers() {
       var mask = 0;
       var evt = this._native;
       if (evt.shiftKey) {
@@ -108,12 +98,12 @@ qx.Class.define("qx.event.type.Dom",
 
     /**
      * Return in a bit map, which lock keys are pressed. The constants
-     * {@link #CAPSLOCK_MASK}, {@link #NUMLOCK_MASK}, and {@link #SCROLLLOCK_MASK} 
+     * {@link #CAPSLOCK_MASK}, {@link #NUMLOCK_MASK}, and {@link #SCROLLLOCK_MASK}
      * define the bit positions of the corresponding keys.
      *
      * @return {Integer} A bit map with the locked keys.
      */
-    getKeyLockState: function () {
+    getKeyLockState() {
       var mask = 0;
       var evt = this._native;
 
@@ -129,70 +119,66 @@ qx.Class.define("qx.event.type.Dom",
       return mask;
     },
 
-
     /**
      * Returns whether the ctrl key is pressed.
      *
      * @return {Boolean} whether the ctrl key is pressed.
      */
-    isCtrlPressed : function() {
+    isCtrlPressed() {
       return this._native.ctrlKey;
     },
-
 
     /**
      * Returns whether the shift key is pressed.
      *
      * @return {Boolean} whether the shift key is pressed.
      */
-    isShiftPressed : function() {
+    isShiftPressed() {
       return this._native.shiftKey;
     },
-
 
     /**
      * Returns whether the alt key is pressed.
      *
      * @return {Boolean} whether the alt key is pressed.
      */
-    isAltPressed : function() {
+    isAltPressed() {
       return this._native.altKey;
     },
-
 
     /**
      * Returns whether the meta key is pressed.
      *
      * @return {Boolean} whether the meta key is pressed.
      */
-    isMetaPressed : function() {
+    isMetaPressed() {
       return this._native.metaKey;
     },
 
     /**
-      * Returns whether the caps-lock modifier is active
-      *
-      * @return {Boolean} whether the CapsLock key is pressed.
-      */
-    isCapsLocked: function () {
+     * Returns whether the caps-lock modifier is active
+     *
+     * @return {Boolean} whether the CapsLock key is pressed.
+     */
+    isCapsLocked() {
       return this._native.capsLock;
     },
 
     /**
-      * Returns whether the num-lock modifier is active
-      *
-      * @return {Boolean} whether the NumLock key is pressed.
-      */
-    isNumLocked: function () {
+     * Returns whether the num-lock modifier is active
+     *
+     * @return {Boolean} whether the NumLock key is pressed.
+     */
+    isNumLocked() {
       return this._native.numLock;
     },
 
     /**
-      * Returns whether the scroll-lock modifier is active
-      *
-      * @return {Boolean} whether the ScrollLock key is pressed.
-      */
-    isScrollLocked: function () {
+     * Returns whether the scroll-lock modifier is active
+     *
+     * @return {Boolean} whether the ScrollLock key is pressed.
+     */
+    isScrollLocked() {
       return this._native.scrollLock;
     },
 
@@ -202,8 +188,7 @@ qx.Class.define("qx.event.type.Dom",
      * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
      *           or the ctrl key is pressed on another system.
      */
-    isCtrlOrCommandPressed : function()
-    {
+    isCtrlOrCommandPressed() {
       // Opera seems to use ctrlKey for the cmd key so don't fix that for opera
       // on mac [BUG #5884]
       if (

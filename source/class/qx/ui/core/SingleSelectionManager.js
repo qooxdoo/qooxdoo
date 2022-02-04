@@ -24,10 +24,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.core.SingleSelectionManager",
-{
-  extend : qx.core.Object,
-
+qx.Class.define("qx.ui.core.SingleSelectionManager", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -35,25 +33,25 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   *****************************************************************************
   */
 
-
   /**
    * Construct the single selection manager.
    *
    * @param selectionProvider {qx.ui.core.ISingleSelectionProvider} The provider
    * for selection.
    */
-  construct : function(selectionProvider) {
-    this.base(arguments);
+  construct(selectionProvider) {
+    super();
 
     if (qx.core.Environment.get("qx.debug")) {
-      qx.core.Assert.assertInterface(selectionProvider,
+      qx.core.Assert.assertInterface(
+        selectionProvider,
         qx.ui.core.ISingleSelectionProvider,
-        "Invalid selectionProvider!");
+        "Invalid selectionProvider!"
+      );
     }
 
     this.__selectionProvider = selectionProvider;
   },
-
 
   /*
   *****************************************************************************
@@ -61,13 +59,10 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   *****************************************************************************
   */
 
-
-  events :
-  {
+  events: {
     /** Fires after the selection was modified */
-    "changeSelected" : "qx.event.type.Data"
+    changeSelected: "qx.event.type.Data"
   },
-
 
   /*
   *****************************************************************************
@@ -75,22 +70,18 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   *****************************************************************************
   */
 
-
-  properties :
-  {
+  properties: {
     /**
      * If the value is <code>true</code> the manager allows an empty selection,
      * otherwise the first selectable element returned from the
      * <code>qx.ui.core.ISingleSelectionProvider</code> will be selected.
      */
-    allowEmptySelection :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "__applyAllowEmptySelection"
+    allowEmptySelection: {
+      check: "Boolean",
+      init: true,
+      apply: "__applyAllowEmptySelection"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -98,15 +89,12 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.core.Widget} The selected widget. */
-    __selected : null,
+    __selected: null,
 
     /** @type {qx.ui.core.ISingleSelectionProvider} The provider for selection management */
-    __selectionProvider : null,
-
+    __selectionProvider: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -114,14 +102,13 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Returns the current selected element.
      *
      * @return {qx.ui.core.Widget | null} The current selected widget or
      *    <code>null</code> if the selection is empty.
      */
-    getSelected : function() {
+    getSelected() {
       return this.__selected;
     },
 
@@ -131,10 +118,11 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * @param item {qx.ui.core.Widget} Element to select.
      * @throws {Error} if the element is not a child element.
      */
-    setSelected : function(item) {
+    setSelected(item) {
       if (!this.__isChildElement(item)) {
-        throw new Error("Could not select " + item +
-          ", because it is not a child element!");
+        throw new Error(
+          "Could not select " + item + ", because it is not a child element!"
+        );
       }
 
       this.__setSelected(item);
@@ -144,7 +132,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * Reset the current selection. If {@link #allowEmptySelection} is set to
      * <code>true</code> the first element will be selected.
      */
-    resetSelected : function(){
+    resetSelected() {
       this.__setSelected(null);
     },
 
@@ -156,10 +144,14 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      *    <code>false</code> otherwise.
      * @throws {Error} if the element is not a child element.
      */
-    isSelected : function(item) {
+    isSelected(item) {
       if (!this.__isChildElement(item)) {
-        throw new Error("Could not check if " + item + " is selected," +
-          " because it is not a child element!");
+        throw new Error(
+          "Could not check if " +
+            item +
+            " is selected," +
+            " because it is not a child element!"
+        );
       }
       return this.__selected === item;
     },
@@ -170,7 +162,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * @return {Boolean} <code>true</code> if selection is empty,
      *    <code>false</code> otherwise.
      */
-    isSelectionEmpty : function() {
+    isSelectionEmpty() {
       return this.__selected == null;
     },
 
@@ -181,13 +173,11 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      *   selectables the user can interactively select
      * @return {qx.ui.core.Widget[]} The contained items.
      */
-    getSelectables : function(all)
-    {
+    getSelectables(all) {
       var items = this.__selectionProvider.getItems();
       var result = [];
 
-      for (var i = 0; i < items.length; i++)
-      {
+      for (var i = 0; i < items.length; i++) {
         if (this.__selectionProvider.isItemSelectable(items[i])) {
           result.push(items[i]);
         }
@@ -195,7 +185,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
 
       // in case of an user selectable list, remove the enabled items
       if (!all) {
-        for (var i = result.length -1; i >= 0; i--) {
+        for (var i = result.length - 1; i >= 0; i--) {
           if (!result[i].getEnabled()) {
             result.splice(i, 1);
           }
@@ -205,22 +195,18 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       return result;
     },
 
-
     /*
     ---------------------------------------------------------------------------
        APPLY METHODS
     ---------------------------------------------------------------------------
     */
 
-
     // apply method
-    __applyAllowEmptySelection : function(value, old)
-    {
+    __applyAllowEmptySelection(value, old) {
       if (!value) {
         this.__setSelected(this.__selected);
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -236,7 +222,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * @param item {qx.ui.core.Widget | null} element to select, or
      *    <code>null</code> to reset selection.
      */
-    __setSelected : function(item) {
+    __setSelected(item) {
       var oldSelected = this.__selected;
       var newSelected = item;
 
@@ -263,14 +249,11 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
      * @return {Boolean} <code>true</code> if element is child element,
      *    <code>false</code> otherwise.
      */
-    __isChildElement : function(item)
-    {
+    __isChildElement(item) {
       var items = this.__selectionProvider.getItems();
 
-      for (var i = 0; i < items.length; i++)
-      {
-        if (items[i] === item)
-        {
+      for (var i = 0; i < items.length; i++) {
+        if (items[i] === item) {
           return true;
         }
       }
@@ -278,14 +261,12 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     }
   },
 
-
-
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  destruct : function() {
+  destruct() {
     if (this.__selectionProvider.toHashCode) {
       this._disposeObjects("__selectionProvider");
     } else {

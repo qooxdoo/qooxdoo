@@ -30,14 +30,14 @@ qx.Class.define("qx.tool.compiler.resources.ScssIncludeConverter", {
       filename = path.basename(filename);
       return filename[0] == "_" && filename.endsWith(".scss");
     },
-    
+
     isDoNotCopy(filename) {
       if (qx.tool.compiler.resources.ScssConverter.COPY_ORIGINAL_FILES) {
-        return false; 
+        return false;
       }
       return true;
     },
-    
+
     async convert(target, asset, srcFilename, destFilename, isThemeFile) {
       await qx.tool.utils.files.Utils.copyFile(srcFilename, destFilename);
     }

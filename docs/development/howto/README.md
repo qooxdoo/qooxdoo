@@ -1,7 +1,7 @@
 # Developing your app: How to...
 
-- use [best practices](/development/howto/best_practices.md) for developing
-  large apps and [avoid antipatterns](/development/howto/antipatterns.md) .
+- use [best practices](/development/best_practices.md) for developing
+  large apps and [avoid antipatterns](/development/antipatterns.md) .
 
 - use Qooxdoo's built-in [logging system](/development/howto/logging.md)
 
@@ -15,3 +15,5 @@
 
 - use
   [non-Qooxdoo libraries in your application](/development/howto/using_non_qx_libs.md)
+
+- achieve more [Accessibility](/development/howto/accessibility.md)

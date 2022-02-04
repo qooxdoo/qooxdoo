@@ -20,14 +20,12 @@
 /**
  * A password input field, which hides the entered text.
  */
-qx.Class.define("qx.ui.form.PasswordField",
-{
-  extend : qx.ui.form.TextField,
+qx.Class.define("qx.ui.form.PasswordField", {
+  extend: qx.ui.form.TextField,
 
-  members :
-  {
+  members: {
     // overridden
-    _createInputElement : function() {
+    _createInputElement() {
       return new qx.html.Input("password");
     }
   }

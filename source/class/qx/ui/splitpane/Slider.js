@@ -22,11 +22,8 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.splitpane.Slider",
-{
-  extend : qx.ui.core.Widget,
-
-
+qx.Class.define("qx.ui.splitpane.Slider", {
+  extend: qx.ui.core.Widget,
 
   /*
   *****************************************************************************
@@ -34,20 +31,17 @@ qx.Class.define("qx.ui.splitpane.Slider",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    allowShrinkX :
-    {
-      refine : true,
-      init : false
+    allowShrinkX: {
+      refine: true,
+      init: false
     },
 
     // overridden
-    allowShrinkY :
-    {
-      refine : true,
-      init : false
+    allowShrinkY: {
+      refine: true,
+      init: false
     }
   }
 });

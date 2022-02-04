@@ -22,12 +22,9 @@
  *
  * @see qx.ui.table.columnmodel.Basic
  */
-qx.Class.define("qx.ui.table.columnmodel.Resize",
-{
-  extend : qx.ui.table.columnmodel.Basic,
-  include : qx.locale.MTranslation,
-
-
+qx.Class.define("qx.ui.table.columnmodel.Resize", {
+  extend: qx.ui.table.columnmodel.Basic,
+  include: qx.locale.MTranslation,
 
   /*
   *****************************************************************************
@@ -35,9 +32,8 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     // We don't want to recursively call ourself based on our resetting of
     // column sizes.  Track when we're resizing.
@@ -49,17 +45,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     this.__bAppeared = false;
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * The behavior to use.
      *
@@ -67,18 +59,14 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      * implement the <i>onAppear</i>, <i>onTableWidthChanged</i>,
      * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
      */
-    behavior :
-    {
-      check : "qx.ui.table.columnmodel.resizebehavior.Abstract",
-      init : null,
-      nullable : true,
-      apply : "_applyBehavior",
-      event : "changeBehavior"
+    behavior: {
+      check: "qx.ui.table.columnmodel.resizebehavior.Abstract",
+      init: null,
+      nullable: true,
+      apply: "_applyBehavior",
+      event: "changeBehavior"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -86,18 +74,14 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   *****************************************************************************
   */
 
-  members :
-  {
-    __bAppeared : null,
-    __bInProgress : null,
-    __table : null,
-
+  members: {
+    __bAppeared: null,
+    __bInProgress: null,
+    __table: null,
 
     // Behavior modifier
-    _applyBehavior : function(value, old)
-    {
-      if (old != null)
-      {
+    _applyBehavior(value, old) {
+      if (old != null) {
         old.dispose();
         old = null;
       }
@@ -107,7 +91,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       value.setTableColumnModel(this);
     },
 
-
     /**
      * Initializes the column model.
      *
@@ -116,13 +99,11 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The table which this model is used for. This allows us access to
      *   other aspects of the table, as the <i>behavior</i> sees fit.
      */
-    init : function(numColumns, table)
-    {
+    init(numColumns, table) {
       // Call our superclass
-      this.base(arguments, numColumns, table);
+      super.init(numColumns, table);
 
-      if (this.__table == null)
-      {
+      if (this.__table == null) {
         this.__table = table;
         // We'll do our column resizing when the table appears, ...
         table.addListener("appear", this._onappear, this);
@@ -145,7 +126,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         );
 
         // ... when columns are resized, ...
-        this.addListener("widthChanged", this._oncolumnwidthchanged, this );
+        this.addListener("widthChanged", this._oncolumnwidthchanged, this);
 
         // ... and when a column visibility changes.
         this.addListener("visibilityChanged", this._onvisibilitychanged, this);
@@ -160,16 +141,14 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.getBehavior()._setNumColumns(numColumns);
     },
 
-
     /**
      * Get the table widget
      *
      * @return {qx.ui.table.Table} the table widget
      */
-    getTable : function() {
+    getTable() {
       return this.__table;
     },
-
 
     /**
      * Reset the column widths to their "onappear" defaults.
@@ -180,8 +159,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   and <i>menu</i>.
      *
      */
-    _addResetColumnWidthButton : function(event)
-    {
+    _addResetColumnWidthButton(event) {
       var data = event.getData();
       var columnButton = data.columnButton;
       var menu = data.menu;
@@ -192,14 +170,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       menu.add(o);
 
       // Add a button to reset the column widths
-      o = columnButton.factory("user-button",
-                               {
-                                 text : this.tr("Reset column widths")
-                               });
+      o = columnButton.factory("user-button", {
+        text: this.tr("Reset column widths")
+      });
+
       menu.add(o);
       o.addListener("execute", this._onappear, this);
     },
-
 
     /**
      * Event handler for the "appear" event.
@@ -208,21 +185,17 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The "onappear" event object.
      *
      */
-    _onappear : function(event)
-    {
+    _onappear(event) {
       // Is this a recursive call?
-      if (this.__bInProgress)
-      {
+      if (this.__bInProgress) {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this.__bInProgress = true;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.tableResizeDebug"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.tableResizeDebug")) {
           this.debug("onappear");
         }
       }
@@ -238,7 +211,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.__bAppeared = true;
     },
 
-
     /**
      * Event handler for the "tableWidthChanged" event.
      *
@@ -246,21 +218,17 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The "onwindowresize" event object.
      *
      */
-    _onTableWidthChanged : function(event)
-    {
+    _onTableWidthChanged(event) {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this.__bInProgress || !this.__bAppeared)
-      {
+      if (this.__bInProgress || !this.__bAppeared) {
         // Yup.  Ignore it.
         return;
       }
 
       this.__bInProgress = true;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.tableResizeDebug"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.tableResizeDebug")) {
           this.debug("ontablewidthchanged");
         }
       }
@@ -268,7 +236,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.getBehavior().onTableWidthChanged(event);
       this.__bInProgress = false;
     },
-
 
     /**
      * Event handler for the "verticalScrollBarChanged" event.
@@ -278,39 +245,36 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   indicating whether a vertical scroll bar is now present.
      *
      */
-    _onverticalscrollbarchanged : function(event)
-    {
+    _onverticalscrollbarchanged(event) {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this.__bInProgress || !this.__bAppeared)
-      {
+      if (this.__bInProgress || !this.__bAppeared) {
         // Yup.  Ignore it.
         return;
       }
 
       this.__bInProgress = true;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.tableResizeDebug"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.tableResizeDebug")) {
           this.debug("onverticalscrollbarchanged");
         }
       }
 
       this.getBehavior().onVerticalScrollBarChanged(event);
 
-      qx.event.Timer.once(function()
-      {
-        if (this.__table && !this.__table.isDisposed())
-        {
-          this.__table._updateScrollerWidths();
-          this.__table._updateScrollBarVisibility();
-        }
-      }, this, 0);
+      qx.event.Timer.once(
+        function () {
+          if (this.__table && !this.__table.isDisposed()) {
+            this.__table._updateScrollerWidths();
+            this.__table._updateScrollBarVisibility();
+          }
+        },
+        this,
+        0
+      );
 
       this.__bInProgress = false;
     },
-
 
     /**
      * Event handler for the "widthChanged" event.
@@ -319,21 +283,17 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The "widthChanged" event object.
      *
      */
-    _oncolumnwidthchanged : function(event)
-    {
+    _oncolumnwidthchanged(event) {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this.__bInProgress || !this.__bAppeared)
-      {
+      if (this.__bInProgress || !this.__bAppeared) {
         // Yup.  Ignore it.
         return;
       }
 
       this.__bInProgress = true;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.tableResizeDebug"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.tableResizeDebug")) {
           this.debug("oncolumnwidthchanged");
         }
       }
@@ -342,7 +302,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.__bInProgress = false;
     },
 
-
     /**
      * Event handler for the "visibilityChanged" event.
      *
@@ -350,21 +309,17 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *   The "visibilityChanged" event object.
      *
      */
-    _onvisibilitychanged : function(event)
-    {
+    _onvisibilitychanged(event) {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this.__bInProgress || !this.__bAppeared)
-      {
+      if (this.__bInProgress || !this.__bAppeared) {
         // Yup.  Ignore it.
         return;
       }
 
       this.__bInProgress = true;
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (qx.core.Environment.get("qx.tableResizeDebug"))
-        {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.core.Environment.get("qx.tableResizeDebug")) {
           this.debug("onvisibilitychanged");
         }
       }
@@ -374,14 +329,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     }
   },
 
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
+  destruct() {
     var behavior = this.getBehavior();
     if (behavior) {
       behavior.dispose();

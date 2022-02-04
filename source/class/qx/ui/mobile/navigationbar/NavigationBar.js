@@ -35,43 +35,37 @@
  *
  * This example creates a navigation bar and adds a back button and a title to it.
  */
-qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
-{
-  extend : qx.ui.mobile.container.Composite,
+qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar", {
+  extend: qx.ui.mobile.container.Composite,
 
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+   */
 
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(layout)
-  {
-    this.base(arguments, layout);
+  construct(layout) {
+    super(layout);
     if (!layout) {
-      this.setLayout(new qx.ui.mobile.layout.HBox().set({
-        alignY : "middle"
-      }));
+      this.setLayout(
+        new qx.ui.mobile.layout.HBox().set({
+          alignY: "middle"
+        })
+      );
     }
   },
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
 
-
-
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "navigationbar"
+    defaultCssClass: {
+      refine: true,
+      init: "navigationbar"
     }
   }
 });

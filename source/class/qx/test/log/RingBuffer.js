@@ -16,19 +16,15 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.log.RingBuffer",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.log.RingBuffer", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
+  members: {
+    setUp() {
       this.__initialLogLevel = qx.log.Logger.getLevel();
     },
 
-    tearDown : function()
-    {
+    tearDown() {
       qx.log.Logger.setLevel(this.__initialLogLevel);
       if (this.appender) {
         qx.log.Logger.unregister(this.appender);
@@ -36,8 +32,7 @@ qx.Class.define("qx.test.log.RingBuffer",
       this.appender = null;
     },
 
-    testLog : function()
-    {
+    testLog() {
       this.appender = new qx.log.appender.RingBuffer();
 
       qx.log.Logger.setLevel("debug");
@@ -53,13 +48,11 @@ qx.Class.define("qx.test.log.RingBuffer",
       this.appender = null;
     },
 
-
-    testExceedMaxMessages : function()
-    {
+    testExceedMaxMessages() {
       var appender = new qx.log.appender.RingBuffer(2);
 
-      for (var i=0; i<10; i++) {
-        appender.process({index: i});
+      for (var i = 0; i < 10; i++) {
+        appender.process({ index: i });
       }
 
       var events = appender.getAllLogEvents();
@@ -68,16 +61,14 @@ qx.Class.define("qx.test.log.RingBuffer",
       this.assertEquals(9, events[1].index);
     },
 
-
-    testRetrieveLogEvents : function()
-    {
+    testRetrieveLogEvents() {
       var appender = new qx.log.appender.RingBuffer(6);
 
-      for (var i=0; i<10; i++)
-      {
+      for (var i = 0; i < 10; i++) {
         var event = {
           index: i
         };
+
         appender.process(event);
       }
 
@@ -87,9 +78,7 @@ qx.Class.define("qx.test.log.RingBuffer",
       this.assertEquals(9, events[4].index);
     },
 
-
-    testClearHistory : function()
-    {
+    testClearHistory() {
       var appender = new qx.log.appender.RingBuffer();
       appender.process({});
       this.assertEquals(1, appender.getAllLogEvents().length);

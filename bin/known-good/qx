@@ -9,13 +9,13 @@ async function main() {
   if (!fs.existsSync(qx)) {
     console.log("Loading working compiler with npm");
     await utils.runCommand(knownGood, "npm", "ci", "--no-audit");
-    await utils.runCommand(knownGood, "npm", "upgrade", "--no-audit", "--no-package-lock", "@qooxdoo/compiler");
+    await utils.runCommand(knownGood, "npm", "upgrade", "--no-audit", "--no-package-lock", "@qooxdoo/framework");
     if (!fs.existsSync(qx)) {
       console.error("Failed to discover known-good version of the compiler!");
       process.exit(1);
     }
   }
-  let data = await utils.fsPromises.readFile(path.join(knownGood, "node_modules", "@qooxdoo", "compiler", "package.json"));
+  let data = await utils.fsPromises.readFile(path.join(knownGood, "node_modules", "@qooxdoo", "framework", "package.json"));
   data = JSON.parse(data);
   console.log("***");
   console.log("*** Known Good Compiler Version: " + data.version);

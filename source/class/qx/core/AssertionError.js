@@ -20,12 +20,8 @@
  * Assertion errors are thrown if an assertion in {@link qx.core.Assert}
  * fails.
  */
-qx.Bootstrap.define("qx.core.AssertionError",
-{
-  extend : qx.type.BaseError,
-
-
-
+qx.Bootstrap.define("qx.core.AssertionError", {
+  extend: qx.type.BaseError,
 
   /*
   *****************************************************************************
@@ -37,13 +33,10 @@ qx.Bootstrap.define("qx.core.AssertionError",
    * @param comment {String} Comment passed to the assertion call
    * @param failMessage {String} Fail message provided by the assertion
    */
-  construct : function(comment, failMessage)
-  {
+  construct(comment, failMessage) {
     qx.type.BaseError.call(this, comment, failMessage);
     this.__trace = qx.dev.StackTrace.getStackTrace();
   },
-
-
 
   /*
   *****************************************************************************
@@ -51,17 +44,15 @@ qx.Bootstrap.define("qx.core.AssertionError",
   *****************************************************************************
   */
 
-  members :
-  {
-    __trace : null,
-
+  members: {
+    __trace: null,
 
     /**
      * Stack trace of the error
      *
      * @return {String[]} The stack trace of the location the exception was thrown
      */
-    getStackTrace : function() {
+    getStackTrace() {
       return this.__trace;
     }
   }

@@ -22,27 +22,24 @@
  * Use this when the height can not be set by CSS.
  *
  */
-qx.Mixin.define("qx.ui.mobile.core.MResize",
-{
+qx.Mixin.define("qx.ui.mobile.core.MResize", {
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /** Whether the resize should fire the "domupdated" event. Set this to "true"
      *  whenever other elements should react on this size change (e.g. when the size
      *  change does not infect the size of the application, but other widgets should
      *  react).
      */
-    fireDomUpdatedOnResize : {
-      check : "Boolean",
-      init : false
+    fireDomUpdatedOnResize: {
+      check: "Boolean",
+      init: false
     }
   },
-
 
   /*
   *****************************************************************************
@@ -50,16 +47,14 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
   *****************************************************************************
   */
 
-  members :
-  {
-    __lastHeight : null,
-    __lastWidth : null,
-
+  members: {
+    __lastHeight: null,
+    __lastWidth: null,
 
     /**
      * Removes fixed size from container.
      */
-    releaseFixedSize : function() {
+    releaseFixedSize() {
       var parent = this.getLayoutParent();
 
       if (parent && parent.getContainerElement()) {
@@ -69,12 +64,10 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       }
     },
 
-
     /**
      * Resizes the container element to the height of the parent element.
      */
-    fixSize : function()
-    {
+    fixSize() {
       var parent = this.getLayoutParent();
 
       if (parent && parent.getContainerElement()) {
@@ -82,7 +75,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         var width = parent.getContainerElement().offsetWidth;
 
         // Only fix size, when value are above zero.
-        if(height === 0 || width === 0) {
+        if (height === 0 || width === 0) {
           return;
         }
 
@@ -99,35 +92,28 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       }
     },
 
-
     /**
      * Sets the height of the container element.
      *
      * @param height {Integer} The height to set
      */
-    _setHeight : function(height)
-    {
+    _setHeight(height) {
       var element = this.getContainerElement();
-      if (qx.core.Environment.get("qx.mobile.nativescroll"))
-      {
+      if (qx.core.Environment.get("qx.mobile.nativescroll")) {
         qx.bom.element.Style.set(element, "minHeight", height + "px");
       } else {
         qx.bom.element.Style.set(element, "height", height + "px");
       }
     },
 
-
-
     /**
      * Sets the width of the container element.
      *
      * @param width {Integer} The width to set
      */
-    _setWidth : function(width)
-    {
+    _setWidth(width) {
       var element = this.getContainerElement();
-      if (qx.core.Environment.get("qx.mobile.nativescroll"))
-      {
+      if (qx.core.Environment.get("qx.mobile.nativescroll")) {
         qx.bom.element.Style.set(element, "minWidth", width + "px");
       } else {
         qx.bom.element.Style.set(element, "width", width + "px");

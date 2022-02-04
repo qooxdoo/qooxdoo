@@ -23,24 +23,21 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.tree.provider.WidgetProvider",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.tree.provider.WidgetProvider", {
+  extend: qx.core.Object,
 
-  implement : [
-   qx.ui.virtual.core.IWidgetCellProvider,
-   qx.ui.tree.provider.IVirtualTreeProvider
+  implement: [
+    qx.ui.virtual.core.IWidgetCellProvider,
+    qx.ui.tree.provider.IVirtualTreeProvider
   ],
 
-  include : [qx.ui.tree.core.MWidgetController],
-
+  include: [qx.ui.tree.core.MWidgetController],
 
   /**
    * @param tree {qx.ui.tree.VirtualTree} tree to provide.
    */
-  construct : function(tree)
-  {
-    this.base(arguments);
+  construct(tree) {
+    super();
 
     this._tree = tree;
 
@@ -48,16 +45,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     this._onChangeDelegate();
   },
 
-
-  members :
-  {
+  members: {
     /** @type {qx.ui.tree.VirtualTree} tree to provide. */
-    _tree : null,
-
+    _tree: null,
 
     /** @type {qx.ui.virtual.cell.WidgetCell} the used item renderer. */
-    _renderer : null,
-
+    _renderer: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -65,10 +58,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     ---------------------------------------------------------------------------
     */
 
-
     // interface implementation
-    getCellWidget : function(row, column)
-    {
+    getCellWidget(row, column) {
       var item = this._tree.getLookupTable().getItem(row);
 
       var hasChildren = false;
@@ -82,7 +73,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       widget.setUserData("cell.childProperty", this.getChildProperty());
       widget.setUserData("cell.showLeafs", this._tree.isShowLeafs());
 
-      if(this._tree.getSelection().contains(item)) {
+      if (this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);
       } else {
         this._styleUnselectabled(widget);
@@ -110,62 +101,54 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       return widget;
     },
 
-
     // interface implementation
-    poolCellWidget : function(widget)
-    {
+    poolCellWidget(widget) {
       widget.removeListener("changeOpen", this.__onOpenChanged, this);
       this._removeBindingsFrom(widget);
       this._renderer.pool(widget);
       this._onPool(widget);
     },
 
-
     // Interface implementation
-    createLayer : function() {
+    createLayer() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
 
-
     // Interface implementation
-    createRenderer : function()
-    {
-      var createItem = qx.util.Delegate.getMethod(this.getDelegate(), "createItem");
+    createRenderer() {
+      var createItem = qx.util.Delegate.getMethod(
+        this.getDelegate(),
+        "createItem"
+      );
 
       if (createItem == null) {
-        createItem = function() {
+        createItem = function () {
           return new qx.ui.tree.VirtualTreeItem();
         };
       }
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();
       renderer.setDelegate({
-        createWidget : createItem
+        createWidget: createItem
       });
 
       return renderer;
     },
 
-
     // interface implementation
-    styleSelectabled : function(row)
-    {
+    styleSelectabled(row) {
       var widget = this._tree._layer.getRenderedCellWidget(row, 0);
       this._styleSelectabled(widget);
     },
 
-
     // interface implementation
-    styleUnselectabled : function(row)
-    {
+    styleUnselectabled(row) {
       var widget = this._tree._layer.getRenderedCellWidget(row, 0);
       this._styleUnselectabled(widget);
     },
 
-
     // interface implementation
-    isSelectable : function(row)
-    {
+    isSelectable(row) {
       var widget = this._tree._layer.getRenderedCellWidget(row, 0);
       if (widget != null) {
         return widget.isEnabled();
@@ -174,41 +157,37 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       INTERNAL API
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Styles a selected item.
      *
      * @param widget {qx.ui.core.Widget} widget to style.
      */
-    _styleSelectabled : function(widget) {
-      if(widget == null) {
+    _styleSelectabled(widget) {
+      if (widget == null) {
         return;
       }
 
-      this._renderer.updateStates(widget, {selected: 1});
+      this._renderer.updateStates(widget, { selected: 1 });
     },
-
 
     /**
      * Styles a not selected item.
      *
      * @param widget {qx.ui.core.Widget} widget to style.
      */
-    _styleUnselectabled : function(widget) {
-      if(widget == null) {
+    _styleUnselectabled(widget) {
+      if (widget == null) {
         return;
       }
 
       this._renderer.updateStates(widget, {});
     },
-
 
     /**
      * Calls the delegate <code>onPool</code> method when it is used in the
@@ -216,8 +195,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    _onPool : function(item)
-    {
+    _onPool(item) {
       var onPool = qx.util.Delegate.getMethod(this.getDelegate(), "onPool");
 
       if (onPool != null) {
@@ -225,22 +203,22 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       }
     },
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Event handler for the created item's.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onItemCreated : function(event)
-    {
-      var configureItem = qx.util.Delegate.getMethod(this.getDelegate(), "configureItem");
+    _onItemCreated(event) {
+      var configureItem = qx.util.Delegate.getMethod(
+        this.getDelegate(),
+        "configureItem"
+      );
 
       if (configureItem != null) {
         var leaf = event.getData();
@@ -248,14 +226,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       }
     },
 
-
     /**
      * Event handler for the change delegate event.
      *
      * @param event {qx.event.type.Data} fired event.
      */
-    _onChangeDelegate : function(event)
-    {
+    _onChangeDelegate(event) {
       if (this._renderer != null) {
         this._renderer.dispose();
         this.removeBindings();
@@ -265,14 +241,12 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       this._renderer.addListener("created", this._onItemCreated, this);
     },
 
-
     /**
      * Handler when a node changes opened or closed state.
      *
      * @param event {qx.event.type.Data} The data event.
      */
-    __onOpenChanged : function(event)
-    {
+    __onOpenChanged(event) {
       var widget = event.getTarget();
 
       var row = widget.getUserData("cell.row");
@@ -286,9 +260,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
     }
   },
 
-
-  destruct : function()
-  {
+  destruct() {
     this.removeBindings();
     this._renderer.dispose();
     this._tree = this._renderer = null;

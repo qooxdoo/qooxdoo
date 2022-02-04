@@ -15,20 +15,17 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Spacer",
-{
-  extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+qx.Class.define("qx.test.ui.core.Spacer", {
+  extend: qx.dev.unit.TestCase,
+  include: qx.dev.unit.MMock,
 
-  members :
-  {
-    tearDown: function() {
+  members: {
+    tearDown() {
       // Restore all stubs, spies and overridden host objects.
       this.getSandbox().restore();
     },
 
-
-    testConstructor : function() {
+    testConstructor() {
       var spacer = new qx.ui.core.Spacer();
 
       this.assertEquals(0, spacer.getWidth());
@@ -38,8 +35,7 @@ qx.Class.define("qx.test.ui.core.Spacer",
       spacer.destroy();
     },
 
-
-    testConstructorWithParams : function() {
+    testConstructorWithParams() {
       var spacer = new qx.ui.core.Spacer(100, 200);
 
       this.assertEquals(100, spacer.getWidth());
@@ -49,8 +45,7 @@ qx.Class.define("qx.test.ui.core.Spacer",
       spacer.destroy();
     },
 
-
-    testDestroy : function() {
+    testDestroy() {
       this.spy(qx.ui.core.queue.Dispose, "add");
 
       var spacer = new qx.ui.core.Spacer();
@@ -60,8 +55,7 @@ qx.Class.define("qx.test.ui.core.Spacer",
       this.assertCalledWith(qx.ui.core.queue.Dispose.add, spacer);
     },
 
-
-    testDestroyOnAlreadyDestroyed : function() {
+    testDestroyOnAlreadyDestroyed() {
       var spacer = new qx.ui.core.Spacer();
 
       // destroy it and flush the dispose queue
@@ -77,8 +71,7 @@ qx.Class.define("qx.test.ui.core.Spacer",
       this.assertNotCalled(qx.ui.core.queue.Dispose.add);
     },
 
-
-    testDestroyWithParent : function() {
+    testDestroyWithParent() {
       var layout = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(layout);
       var spacer = new qx.ui.core.Spacer();

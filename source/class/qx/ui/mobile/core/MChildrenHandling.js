@@ -24,36 +24,32 @@
  * {@link #remap} in its defer function. This will map the protected
  * methods to the public ones and save one method call for each function.
  */
-qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
-{
+qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling", {
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Returns the children list
      *
      * @return {qx.ui.core.Widget[]} The children array (Arrays are
      *   reference types, please do not modify them in-place)
      */
-    getChildren : function() {
+    getChildren() {
       return this._getChildren();
     },
-
 
     /**
      * Whether the widget contains children.
      *
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
-    hasChildren : function() {
+    hasChildren() {
       return this._hasChildren();
     },
-
 
     /**
      * Returns the index position of the given widget if it is
@@ -63,10 +59,9 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
-    indexOf : function(child) {
+    indexOf(child) {
       return this._indexOf(child);
     },
-
 
     /**
      * Adds a new child widget.
@@ -74,10 +69,9 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @param child {qx.ui.core.Widget} the widget to add.
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
-    add : function(child, layoutProperties) {
+    add(child, layoutProperties) {
       this._add(child, layoutProperties);
     },
-
 
     /**
      * Add a child widget at the specified index
@@ -86,11 +80,9 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @param index {Integer} Index, at which the widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
      */
-    addAt : function(child, index, options)
-    {
+    addAt(child, index, options) {
       this._addAt(child, index, options);
     },
-
 
     /**
      * Add a widget before another already inserted widget
@@ -99,10 +91,9 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @param before {qx.ui.core.Widget} Widget before the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
-    addBefore : function(child, before, layoutProperties) {
+    addBefore(child, before, layoutProperties) {
       this._addBefore(child, before, layoutProperties);
     },
-
 
     /**
      * Add a widget after another already inserted widget
@@ -111,40 +102,35 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      * @param after {qx.ui.core.Widget} Widget, after which the new widget will be inserted
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
-    addAfter : function(child, after, layoutProperties) {
+    addAfter(child, after, layoutProperties) {
       this._addAfter(child, after, layoutProperties);
     },
-
 
     /**
      * Remove the given child widget.
      *
      * @param child {qx.ui.core.Widget} the widget to remove
      */
-    remove : function(child) {
+    remove(child) {
       this._remove(child);
     },
-
 
     /**
      * Remove the widget at the specified index.
      *
      * @param index {Integer} Index of the widget to remove.
      */
-    removeAt : function(index) {
+    removeAt(index) {
       this._removeAt(index);
     },
-
 
     /**
      * Remove all children.
      */
-    removeAll : function() {
+    removeAll() {
       this._removeAll();
     }
   },
-
-
 
   /*
   *****************************************************************************
@@ -152,8 +138,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Mapping of protected methods to public.
      * This omits an additional function call when using these methods. Call
@@ -161,8 +146,7 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
      *
      * @param members {Map} The including classes members map
      */
-    remap : function(members)
-    {
+    remap(members) {
       members.getChildren = members._getChildren;
       members.hasChildren = members._hasChildren;
       members.indexOf = members._indexOf;

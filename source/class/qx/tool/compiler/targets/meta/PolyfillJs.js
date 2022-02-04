@@ -30,7 +30,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
 
   construct(appMeta) {
-    this.base(arguments, appMeta, `${appMeta.getApplicationRoot()}polyfill.js`);
+    super(appMeta, `${appMeta.getApplicationRoot()}polyfill.js`);
   },
 
   properties: {
@@ -41,12 +41,25 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
   },
 
   members: {
-
-    /*
+    /**
      * @Override
      */
     async writeSourceCodeToStream(ws) {
-      const srcFilename = path.join(require.resolve("core-js-bundle"), "../minified.js");
+      await this.__write(
+        path.join(require.resolve("core-js-bundle"), "../minified.js"),
+        ws
+      );
+
+      await new Promise(resolve => {
+        ws.write("\n", resolve);
+      });
+      await this.__write(
+        path.join(require.resolve("regenerator-runtime"), "../runtime.js"),
+        ws
+      );
+    },
+
+    async __write(srcFilename, ws) {
       let rs = fs.createReadStream(srcFilename, "utf8");
       await new Promise((resolve, reject) => {
         rs.on("end", resolve);
@@ -55,7 +68,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.PolyfillJs", {
       });
     },
 
-    /*
+    /**
      * @Override
      */
     async getSourceMap() {

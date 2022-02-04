@@ -16,17 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.layout.VBox",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.layout.VBox", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testAdd : function()
-    {
-      var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+  members: {
+    testAdd() {
+      var composite = new qx.ui.mobile.container.Composite(
+        new qx.ui.mobile.layout.VBox()
+      );
+
       this.getRoot().add(composite);
-
 
       this.assertTrue(composite.hasCssClass("qx-vbox"));
 
@@ -41,17 +40,19 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       composite.destroy();
     },
 
+    testFlex() {
+      var composite = new qx.ui.mobile.container.Composite(
+        new qx.ui.mobile.layout.VBox()
+      );
 
-    testFlex : function() {
-      var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       this.getRoot().add(composite);
 
       var widget1 = new qx.ui.mobile.core.Widget();
-      composite.add(widget1, {flex:1});
+      composite.add(widget1, { flex: 1 });
       this.assertTrue(widget1.hasCssClass("qx-flex1"));
 
       var widget2 = new qx.ui.mobile.core.Widget();
-      composite.add(widget2, {flex:2});
+      composite.add(widget2, { flex: 2 });
       this.assertTrue(widget2.hasCssClass("qx-flex2"));
 
       widget1.destroy();
@@ -59,18 +60,20 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       composite.destroy();
     },
 
+    testRemove() {
+      var composite = new qx.ui.mobile.container.Composite(
+        new qx.ui.mobile.layout.VBox()
+      );
 
-    testRemove : function() {
-      var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       this.getRoot().add(composite);
 
       var widget1 = new qx.ui.mobile.core.Widget();
-      composite.add(widget1, {flex:1});
+      composite.add(widget1, { flex: 1 });
       composite.remove(widget1);
       this.assertFalse(widget1.hasCssClass("qx-flex1"));
 
       var widget2 = new qx.ui.mobile.core.Widget();
-      composite.add(widget2, {flex:2});
+      composite.add(widget2, { flex: 2 });
       composite.remove(widget2);
       this.assertFalse(widget2.hasCssClass("qx-flex2"));
 
@@ -82,9 +85,11 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       composite.destroy();
     },
 
+    testReset() {
+      var composite = new qx.ui.mobile.container.Composite(
+        new qx.ui.mobile.layout.VBox()
+      );
 
-    testReset : function() {
-      var composite = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       this.getRoot().add(composite);
 
       composite.setLayout(null);
@@ -93,5 +98,4 @@ qx.Class.define("qx.test.mobile.layout.VBox",
       composite.destroy();
     }
   }
-
 });

@@ -24,9 +24,8 @@
  * @childControl button {qx.ui.toolbar.Button} button to interact with
  * @childControl arrow {qx.ui.toolbar.MenuButton} menu button to show the menu connected to the split button
  */
-qx.Class.define("qx.ui.toolbar.SplitButton",
-{
-  extend : qx.ui.form.SplitButton,
+qx.Class.define("qx.ui.toolbar.SplitButton", {
+  extend: qx.ui.form.SplitButton,
 
   /*
   *****************************************************************************
@@ -34,17 +33,13 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "toolbar-splitbutton"
-    },
+    appearance: {
+      refine: true,
+      init: "toolbar-splitbutton"
+    }
   },
-
-
 
   /*
   *****************************************************************************
@@ -52,19 +47,17 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates :
-    {
-      hovered : true,
-      focused : true,
-      left : true,
-      middle : true,
-      right : true
+    _forwardStates: {
+      hovered: true,
+      focused: true,
+      left: true,
+      middle: true,
+      right: true
     },
 
     /*
@@ -74,25 +67,23 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
     */
 
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "button":
-          control = new qx.ui.toolbar.Button;
+          control = new qx.ui.toolbar.Button();
           control.addListener("execute", this._onButtonExecute, this);
           this._addAt(control, 0);
           break;
 
         case "arrow":
-          control = new qx.ui.toolbar.MenuButton;
+          control = new qx.ui.toolbar.MenuButton();
           this._addAt(control, 1);
           break;
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     }
   }
 });

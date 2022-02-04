@@ -38,7 +38,7 @@
  * rebuild you application and let the compiler include the necessary files.
  *
  * When you define a new environment check, the compiler needs to know which class
- * implements the check; to do this, you can either prefix the name of your check 
+ * implements the check; to do this, you can either prefix the name of your check
  * with your class name (eg `my.package.MyClass.someEnvCheck`) or you can create
  * short names like the ones below and then add an entry to your library's
  * Manifest.json (under `provides.environmentChecks`).
@@ -742,15 +742,6 @@
  *     </tr>
  *     <tr>
  *     <tr>
- *       <td>qx.debug.io.remote</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
- *     <tr>
- *       <td>qx.debug.io.remote.data</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.debug.property.level</td><td><i>Integer</i></td><td><code>0</code></td>
  *       <td><i>default:</i> <code>0</code></td>
  *     </tr>
@@ -772,10 +763,10 @@
  *     </tr>
  *     <tr>
  *       <td>qx.headless</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code> Whether the environment is headless (ie rhino/nodejs); note that 
+ *       <td><i>default:</i> <code>false</code> Whether the environment is headless (ie rhino/nodejs); note that
  *        headless will still have some kind of DOM emulation - normally that would be quite basic, unless
  *        <a href="https://www.npmjs.com/package/jsdom">https://www.npmjs.com/package/jsdom</a> has been installed.
- *        The <code>qx.headless</code> allows code to detect whether there is an user interface, most typically 
+ *        The <code>qx.headless</code> allows code to detect whether there is an user interface, most typically
  *        whether to cater for input events.  This is set automatically by the compiler but would have to be
  *        manually configured if you use the generator.</td>
  *     </tr>
@@ -868,17 +859,15 @@
  * </table>
  *
  */
-qx.Bootstrap.define("qx.core.Environment",
-{
-  statics : {
-
+qx.Bootstrap.define("qx.core.Environment", {
+  statics: {
     /** Map containing the synchronous check functions. */
-    _checks : {},
+    _checks: {},
     /** Map containing the asynchronous check functions. */
-    _asyncChecks : {},
+    _asyncChecks: {},
 
     /** Internal cache for all checks. */
-    __cache : {},
+    __cache: {},
 
     /**
      * Internal map for environment keys to check methods.
@@ -888,7 +877,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
     _defaults: {
       // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
-      "true": true,
+      true: true,
       // old settings retTrue
       "qx.allowUrlSettings": false,
       "qx.allowUrlVariants": false,
@@ -941,7 +930,7 @@ qx.Bootstrap.define("qx.core.Environment",
      * @return {var} The stored value depending on the given key.
      *   (Details in the class doc)
      */
-    get : function(key) {
+    get(key) {
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];
@@ -960,8 +949,8 @@ qx.Bootstrap.define("qx.core.Environment",
       var classAndMethod = this._getClassNameFromEnvKey(key);
       if (classAndMethod[0] != undefined) {
         var clazz = classAndMethod[0];
-        var method= classAndMethod[1];
-        var value = clazz[method]();  // call the check method
+        var method = classAndMethod[1];
+        var value = clazz[method](); // call the check method
         this.__cache[key] = value;
         return value;
       }
@@ -973,7 +962,6 @@ qx.Bootstrap.define("qx.core.Environment",
       }
     },
 
-
     /**
      * Maps an environment key to a check class and method name.
      *
@@ -981,16 +969,15 @@ qx.Bootstrap.define("qx.core.Environment",
      * @return {Array} [className, methodName] of
      *  the corresponding implementation.
      */
-    _getClassNameFromEnvKey : function (key) {
-
+    _getClassNameFromEnvKey(key) {
       var envmappings = this._checksMap;
       if (envmappings[key] != undefined) {
         var implementation = envmappings[key];
         // separate class from method
         var lastdot = implementation.lastIndexOf(".");
         if (lastdot > -1) {
-          var classname = implementation.slice(0,lastdot);
-          var methodname= implementation.slice(lastdot+1);
+          var classname = implementation.slice(0, lastdot);
+          var methodname = implementation.slice(lastdot + 1);
           var clazz = qx.Bootstrap.getByName(classname);
           if (clazz != undefined) {
             return [clazz, methodname];
@@ -999,7 +986,6 @@ qx.Bootstrap.define("qx.core.Environment",
       }
       return [undefined, undefined];
     },
-
 
     /**
      * Invokes the callback as soon as the check has been done. If no check
@@ -1011,12 +997,12 @@ qx.Bootstrap.define("qx.core.Environment",
      *   check.
      * @param self {var} The context to use when invoking the callback.
      */
-    getAsync : function(key, callback, self) {
+    getAsync(key, callback, self) {
       // check the cache
       var env = this;
       if (this.__cache[key] != undefined) {
         // force async behavior
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           callback.call(self, env.__cache[key]);
         }, 0);
         return;
@@ -1024,7 +1010,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       var check = this._asyncChecks[key];
       if (check) {
-        check(function(result) {
+        check(function (result) {
           env.__cache[key] = result;
           callback.call(self, result);
         });
@@ -1035,8 +1021,9 @@ qx.Bootstrap.define("qx.core.Environment",
       var classAndMethod = this._getClassNameFromEnvKey(key);
       if (classAndMethod[0] != undefined) {
         var clazz = classAndMethod[0];
-        var method= classAndMethod[1];
-        clazz[method](function(result) {  // call the check method
+        var method = classAndMethod[1];
+        clazz[method](function (result) {
+          // call the check method
           env.__cache[key] = result;
           callback.call(self, result);
         });
@@ -1050,7 +1037,6 @@ qx.Bootstrap.define("qx.core.Environment",
       }
     },
 
-
     /**
      * Returns the proper value dependent on the check for the given key.
      *
@@ -1060,10 +1046,9 @@ qx.Bootstrap.define("qx.core.Environment",
      * @return {var} The value which is stored in the map for the given
      *   check of the key.
      */
-    select : function(key, values) {
+    select(key, values) {
       return this.__pickFromValues(this.get(key), values);
     },
-
 
     /**
      * Selects the proper function dependent on the asynchronous check.
@@ -1076,13 +1061,16 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param self {var} The context which should be used when calling the
      *   method in the values map.
      */
-    selectAsync : function(key, values, self) {
-      this.getAsync(key, function(result) {
-        var value = this.__pickFromValues(key, values);
-        value.call(self, result);
-      }, this);
+    selectAsync(key, values, self) {
+      this.getAsync(
+        key,
+        function (result) {
+          var value = this.__pickFromValues(key, values);
+          value.call(self, result);
+        },
+        this
+      );
     },
-
 
     /**
      * Internal helper which tries to pick the given key from the given values
@@ -1094,7 +1082,7 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param values {Map} A map containing some keys.
      * @return {var} The value stored as values[key] usually.
      */
-    __pickFromValues : function(key, values) {
+    __pickFromValues(key, values) {
       var value = values[key];
       if (values.hasOwnProperty(key)) {
         return value;
@@ -1116,15 +1104,19 @@ qx.Bootstrap.define("qx.core.Environment",
         return values["default"];
       }
 
-      if (qx.Bootstrap.DEBUG)
-      {
-        throw new Error('No match for variant "' + key +
-          '" (' + (typeof key) + ' type)' +
-          ' in variants [' + qx.Bootstrap.keys(values) +
-          '] found, and no default ("default") given');
+      if (qx.Bootstrap.DEBUG) {
+        throw new Error(
+          'No match for variant "' +
+            key +
+            '" (' +
+            typeof key +
+            " type)" +
+            " in variants [" +
+            qx.Bootstrap.keys(values) +
+            '] found, and no default ("default") given'
+        );
       }
     },
-
 
     /**
      * Takes a given map containing the check names as keys and converts
@@ -1134,7 +1126,7 @@ qx.Bootstrap.define("qx.core.Environment",
      * @param map {Map} A map containing check names as keys and values.
      * @return {Array} An array containing the values.
      */
-    filter : function(map) {
+    filter(map) {
       var returnArray = [];
 
       for (var check in map) {
@@ -1146,16 +1138,14 @@ qx.Bootstrap.define("qx.core.Environment",
       return returnArray;
     },
 
-
     /**
      * Invalidates the cache for the given key.
      *
      * @param key {String} The key of the check.
      */
-    invalidateCacheKey : function(key) {
+    invalidateCacheKey(key) {
       delete this.__cache[key];
     },
-
 
     /**
      * Add a check to the environment class. If there is already a check
@@ -1166,22 +1156,24 @@ qx.Bootstrap.define("qx.core.Environment",
      *   The function should be responsible for the check and should return the
      *   result of the check.
      */
-    add : function(key, check) {
+    add(key, check) {
       // ignore already added checks.
       if (this._checks[key] == undefined) {
         // add functions directly
         if (check instanceof Function) {
           if (!this._checksMap[key] && check.displayName) {
-            this._checksMap[key] = check.displayName.substr(0, check.displayName.length - 2);
+            this._checksMap[key] = check.displayName.substr(
+              0,
+              check.displayName.length - 2
+            );
           }
           this._checks[key] = check;
-        // otherwise, create a check function and use that
+          // otherwise, create a check function and use that
         } else {
           this._checks[key] = this.__createCheck(check);
         }
       }
     },
-
 
     /**
      * Adds an asynchronous check to the environment. If there is already a check
@@ -1192,12 +1184,11 @@ qx.Bootstrap.define("qx.core.Environment",
      *   environment setting in an asynchronous way. The method should take two
      *   arguments. First one is the callback and the second one is the context.
      */
-    addAsync : function(key, check) {
+    addAsync(key, check) {
       if (this._checks[key] == undefined) {
         this._asyncChecks[key] = check;
       }
     },
-
 
     /**
      * Returns all currently defined synchronous checks.
@@ -1205,11 +1196,9 @@ qx.Bootstrap.define("qx.core.Environment",
      * @internal
      * @return {Map} The map of synchronous checks
      */
-    getChecks : function()
-    {
+    getChecks() {
       return this._checks;
     },
-
 
     /**
      * Returns all currently defined asynchronous checks.
@@ -1217,18 +1206,18 @@ qx.Bootstrap.define("qx.core.Environment",
      * @internal
      * @return {Map} The map of asynchronous checks
      */
-    getAsyncChecks : function()
-    {
+    getAsyncChecks() {
       return this._asyncChecks;
     },
-
 
     /**
      * Initializer for the default values of the framework settings.
      */
-    _initDefaultQxValues : function() {
-      var createFuncReturning = function(val) {
-        return function() { return val; };
+    _initDefaultQxValues() {
+      var createFuncReturning = function (val) {
+        return function () {
+          return val;
+        };
       };
 
       for (var prop in this._defaults) {
@@ -1236,15 +1225,12 @@ qx.Bootstrap.define("qx.core.Environment",
       }
     },
 
-
     /**
      * Import checks from global qx.$$environment into the Environment class.
      */
-    __importFromGenerator : function()
-    {
+    __importFromGenerator() {
       // import the environment map
-      if (qx && qx.$$environment)
-      {
+      if (qx && qx.$$environment) {
         for (var key in qx.$$environment) {
           var value = qx.$$environment[key];
 
@@ -1253,17 +1239,15 @@ qx.Bootstrap.define("qx.core.Environment",
       }
     },
 
-
     /**
      * Checks the URL for environment settings and imports these into the
      * Environment class.
      */
-    __importFromUrl : function() {
+    __importFromUrl() {
       if (window.document && window.document.location) {
         var urlChecks = window.document.location.search.slice(1).split("&");
 
-        for (var i = 0; i < urlChecks.length; i++)
-        {
+        for (var i = 0; i < urlChecks.length; i++) {
           var check = urlChecks[i].split(":");
           if (check.length != 3 || check[0] != "qxenv") {
             continue;
@@ -1286,22 +1270,24 @@ qx.Bootstrap.define("qx.core.Environment",
       }
     },
 
-
     /**
      * Internal helper which creates a function returning the given value.
      *
      * @param value {var} The value which should be returned.
      * @return {Function} A function which could be used by a test.
      */
-    __createCheck : function(value) {
-      return qx.Bootstrap.bind(function(value) {
-        return value;
-      }, null, value);
+    __createCheck(value) {
+      return qx.Bootstrap.bind(
+        function (value) {
+          return value;
+        },
+        null,
+        value
+      );
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     // create default values for the environment class
     statics._initDefaultQxValues();
     // load the checks from the generator

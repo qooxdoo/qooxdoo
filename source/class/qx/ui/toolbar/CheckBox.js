@@ -20,9 +20,8 @@
 /**
  * A button which is toggle-able for toolbars.
  */
-qx.Class.define("qx.ui.toolbar.CheckBox",
-{
-  extend : qx.ui.form.ToggleButton,
+qx.Class.define("qx.ui.toolbar.CheckBox", {
+  extend: qx.ui.form.ToggleButton,
 
   /*
   *****************************************************************************
@@ -30,25 +29,22 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "toolbar-button"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "toolbar-button"
     },
 
-    show :
-    {
-      refine : true,
-      init : "inherit"
-    },
+    show: {
+      refine: true,
+      init: "inherit"
+    }
   },
 
-  members : {
+  members: {
     // overridden
-    _applyVisibility : function(value, old) {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
       // trigger a appearance recalculation of the parent
       var parent = this.getLayoutParent();
       if (parent && parent instanceof qx.ui.toolbar.PartContainer) {

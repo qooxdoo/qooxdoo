@@ -19,9 +19,7 @@
 /**
  * Basic authentication.
  */
-qx.Class.define("qx.io.request.authentication.Basic",
-{
-
+qx.Class.define("qx.io.request.authentication.Basic", {
   extend: qx.core.Object,
 
   implement: qx.io.request.authentication.IAuthentication,
@@ -30,23 +28,19 @@ qx.Class.define("qx.io.request.authentication.Basic",
    * @param username {var} The username to use.
    * @param password {var} The password to use.
    */
-  construct : function(username, password)
-  {
-     this.__credentials = qx.util.Base64.encode(username + ':' + password);
+  construct(username, password) {
+    this.__credentials = qx.util.Base64.encode(username + ":" + password);
   },
 
-  members :
-  {
-    __credentials : null,
+  members: {
+    __credentials: null,
 
     /**
      * Headers to include for basic authentication.
      * @return {Map} Map containing the authentication credentials
      */
-    getAuthHeaders: function() {
-      return [
-        {key: "Authorization", value: "Basic " + this.__credentials}
-      ];
+    getAuthHeaders() {
+      return [{ key: "Authorization", value: "Basic " + this.__credentials }];
     }
   }
 });

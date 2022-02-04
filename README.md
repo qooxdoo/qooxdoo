@@ -20,14 +20,20 @@ For more information please see http://qooxdoo.org .
 
 ## License
 
-qooxdoo may be used under the terms of the MIT License.
-
-For more information please see http://qooxdoo.org/LICENCSE .
+qooxdoo may be used under the terms of the [MIT License](LICENSE).
 
 ## Quick start
 
 It is easy to get started with qooxdoo. For detailed information please
 see [our Get Started Guide](docs/README.md).
+
+## Documentation
+   - released version: https://qooxdoo.org/documentation/6.0/#/
+   - development version: https://qooxdoo.org/documentation/v7.0/#/
+
+## API Ref
+   - released version: https://qooxdoo.org/qxl.apiviewer/latest/#/
+   - development version: https://qooxdoo.org/qxl.apiviewer/v7.0/#/
 
 ## Development
 

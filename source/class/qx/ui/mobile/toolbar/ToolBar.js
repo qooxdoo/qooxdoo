@@ -20,26 +20,24 @@
  * A toolbar widget.
  *
  */
-qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
-{
-  extend : qx.ui.mobile.container.Composite,
+qx.Class.define("qx.ui.mobile.toolbar.ToolBar", {
+  extend: qx.ui.mobile.container.Composite,
 
-
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-  construct : function(layout)
-  {
-    this.base(arguments, layout);
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+   */
+  construct(layout) {
+    super(layout);
     if (!layout) {
-      this.setLayout(new qx.ui.mobile.layout.HBox().set({
-        alignY : "middle"
-      }));
+      this.setLayout(
+        new qx.ui.mobile.layout.HBox().set({
+          alignY: "middle"
+        })
+      );
     }
   },
-
 
   /*
   *****************************************************************************
@@ -47,39 +45,32 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "toolbar"
+    defaultCssClass: {
+      refine: true,
+      init: "toolbar"
     }
   },
 
-  members :
-  {
-
+  members: {
     /**
-      * Flag to keep the show/hidden state of the toolbar
-      */
+     * Flag to keep the show/hidden state of the toolbar
+     */
     __hidden: false,
 
-
     /**
-      * Adds a new child widget.
-      *
-      * @param child {qx.ui.mobile.core.Widget} the widget to add.
-      * @param layoutProperties {Map?null} Optional layout data for widget.
-      */
-    add : function(child, layoutProperties)
-    {
-      if(!(child instanceof qx.ui.mobile.toolbar.Separator))
-      {
+     * Adds a new child widget.
+     *
+     * @param child {qx.ui.mobile.core.Widget} the widget to add.
+     * @param layoutProperties {Map?null} Optional layout data for widget.
+     */
+    add(child, layoutProperties) {
+      if (!(child instanceof qx.ui.mobile.toolbar.Separator)) {
         layoutProperties = layoutProperties ? layoutProperties : {};
-        qx.lang.Object.mergeWith(layoutProperties, {flex: 1}, false);
+        qx.lang.Object.mergeWith(layoutProperties, { flex: 1 }, false);
       }
-      this.base(arguments, child, layoutProperties);
+      super.add(child, layoutProperties);
     }
   }
 });

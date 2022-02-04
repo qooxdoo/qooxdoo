@@ -60,18 +60,15 @@
  * supports to operate on one element and reorganize the content with
  * the insertion of new HTML or nodes.
  */
-qx.Bootstrap.define("qx.dom.Hierarchy",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.dom.Hierarchy", {
+  statics: {
     /**
      * Returns the DOM index of the given node
      *
      * @param node {Node} Node to look for
      * @return {Integer} The DOM index
      */
-    getNodeIndex : function(node)
-    {
+    getNodeIndex(node) {
       var index = 0;
 
       while (node && (node = node.previousSibling)) {
@@ -81,20 +78,17 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return index;
     },
 
-
     /**
      * Returns the DOM index of the given element (ignoring non-elements)
      *
      * @param element {Element} Element to look for
      * @return {Integer} The DOM index
      */
-    getElementIndex : function(element)
-    {
+    getElementIndex(element) {
       var index = 0;
       var type = qx.dom.Node.ELEMENT;
 
-      while (element && (element = element.previousSibling))
-      {
+      while (element && (element = element.previousSibling)) {
         if (element.nodeType == type) {
           index++;
         }
@@ -102,7 +96,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
 
       return index;
     },
-
 
     /**
      * Return the next element to the supplied element
@@ -112,15 +105,17 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} Starting element node
      * @return {Element | null} Next element node
      */
-    getNextElementSibling : function(element)
-    {
-      while (element && (element = element.nextSibling) && !qx.dom.Node.isElement(element)) {
+    getNextElementSibling(element) {
+      while (
+        element &&
+        (element = element.nextSibling) &&
+        !qx.dom.Node.isElement(element)
+      ) {
         continue;
       }
 
       return element || null;
     },
-
 
     /**
      * Return the previous element to the supplied element
@@ -130,15 +125,17 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} Starting element node
      * @return {Element | null} Previous element node
      */
-    getPreviousElementSibling : function(element)
-    {
-      while (element && (element = element.previousSibling) && !qx.dom.Node.isElement(element)) {
+    getPreviousElementSibling(element) {
+      while (
+        element &&
+        (element = element.previousSibling) &&
+        !qx.dom.Node.isElement(element)
+      ) {
         continue;
       }
 
       return element || null;
     },
-
 
     /**
      * Whether the first element contains the second one
@@ -150,30 +147,23 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param target {Node} Child node
      * @return {Boolean}
      */
-    contains : function(element, target)
-    {
+    contains(element, target) {
       if (qx.core.Environment.get("html.element.contains")) {
-        if (qx.dom.Node.isDocument(element))
-        {
+        if (qx.dom.Node.isDocument(element)) {
           var doc = qx.dom.Node.getDocument(target);
           return element && doc == element;
-        }
-        else if (qx.dom.Node.isDocument(target))
-        {
+        } else if (qx.dom.Node.isDocument(target)) {
           return false;
-        }
-        else
-        {
+        } else {
           return element.contains(target);
         }
-      }
-      else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
+      } else if (
+        qx.core.Environment.get("html.element.compareDocumentPosition")
+      ) {
         // https://developer.mozilla.org/en-US/docs/DOM:Node.compareDocumentPosition
         return !!(element.compareDocumentPosition(target) & 16);
-      }
-      else {
-        while(target)
-        {
+      } else {
+        while (target) {
           if (element == target) {
             return true;
           }
@@ -193,8 +183,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
-    isRendered : function(element)
-    {
+    isRendered(element) {
       var doc = element.ownerDocument || element.document;
 
       if (qx.core.Environment.get("html.element.contains")) {
@@ -204,14 +193,13 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         }
 
         return doc.body.contains(element);
-      }
-      else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
+      } else if (
+        qx.core.Environment.get("html.element.compareDocumentPosition")
+      ) {
         // Gecko way, DOM3 method
         return !!(doc.compareDocumentPosition(element) & 16);
-      }
-      else {
-        while(element)
-        {
+      } else {
+        while (element) {
           if (element == doc.body) {
             return true;
           }
@@ -223,7 +211,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       }
     },
 
-
     /**
      * Checks if <code>element</code> is a descendant of <code>ancestor</code>.
      *
@@ -231,10 +218,9 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param ancestor {Element} second element
      * @return {Boolean} Element is a descendant of ancestor
      */
-    isDescendantOf : function(element, ancestor) {
+    isDescendantOf(element, ancestor) {
       return this.contains(ancestor, element);
     },
-
 
     /**
      * Get the common parent element of two given elements. Returns
@@ -246,15 +232,13 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element2 {Element} Second element
      * @return {Element} the found parent, if none was found <code>null</code>
      */
-    getCommonParent : function(element1, element2)
-    {
+    getCommonParent(element1, element2) {
       if (element1 === element2) {
         return element1;
       }
 
       if (qx.core.Environment.get("html.element.contains")) {
-        while (element1 && qx.dom.Node.isElement(element1))
-        {
+        while (element1 && qx.dom.Node.isElement(element1)) {
           if (element1.contains(element2)) {
             return element1;
           }
@@ -263,14 +247,11 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         }
 
         return null;
-      }
-      else {
+      } else {
         var known = [];
 
-        while (element1 || element2)
-        {
-          if (element1)
-          {
+        while (element1 || element2) {
+          if (element1) {
             if (known.includes(element1)) {
               return element1;
             }
@@ -279,8 +260,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
             element1 = element1.parentNode;
           }
 
-          if (element2)
-          {
+          if (element2) {
             if (known.includes(element2)) {
               return element2;
             }
@@ -294,7 +274,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       }
     },
 
-
     /**
      * Collects all of element's ancestors and returns them as an array of
      * elements.
@@ -302,10 +281,9 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for ancestors
      * @return {Array} list of all parents
      */
-    getAncestors : function(element) {
+    getAncestors(element) {
       return this._recursivelyCollect(element, "parentNode");
     },
-
 
     /**
      * Returns element's children.
@@ -313,8 +291,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all child elements
      */
-    getChildElements : function(element)
-    {
+    getChildElements(element) {
       element = element.firstChild;
 
       if (!element) {
@@ -330,7 +307,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return arr;
     },
 
-
     /**
      * Collects all of element's descendants (deep) and returns them as an array
      * of elements.
@@ -338,10 +314,9 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all found elements
      */
-    getDescendants : function(element) {
+    getDescendants(element) {
       return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
     },
-
 
     /**
      * Returns the first child that is an element. This is opposed to firstChild DOM
@@ -350,8 +325,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for first descendant
      * @return {Element} the first descendant
      */
-    getFirstDescendant : function(element)
-    {
+    getFirstDescendant(element) {
       element = element.firstChild;
 
       while (element && element.nodeType != 1) {
@@ -361,7 +335,6 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return element;
     },
 
-
     /**
      * Returns the last child that is an element. This is opposed to lastChild DOM
      * property which will return any node (whitespace in most usual cases).
@@ -369,8 +342,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for last descendant
      * @return {Element} the last descendant
      */
-    getLastDescendant : function(element)
-    {
+    getLastDescendant(element) {
       element = element.lastChild;
 
       while (element && element.nodeType != 1) {
@@ -380,17 +352,15 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return element;
     },
 
-
     /**
      * Collects all of element's previous siblings and returns them as an array of elements.
      *
      * @param element {Element} DOM element to query for previous siblings
      * @return {Array} list of found DOM elements
      */
-    getPreviousSiblings : function(element) {
+    getPreviousSiblings(element) {
       return this._recursivelyCollect(element, "previousSibling");
     },
-
 
     /**
      * Collects all of element's next siblings and returns them as an array of
@@ -399,10 +369,9 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for next siblings
      * @return {Array} list of found DOM elements
      */
-    getNextSiblings : function(element) {
+    getNextSiblings(element) {
       return this._recursivelyCollect(element, "nextSibling");
     },
-
 
     /**
      * Recursively collects elements whose relationship is specified by
@@ -414,12 +383,10 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param property {String} property to look for
      * @return {Array} result list
      */
-    _recursivelyCollect : function(element, property)
-    {
+    _recursivelyCollect(element, property) {
       var list = [];
 
-      while (element = element[property])
-      {
+      while ((element = element[property])) {
         if (element.nodeType == 1) {
           list.push(element);
         }
@@ -428,17 +395,17 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return list;
     },
 
-
     /**
      * Collects all of element's siblings and returns them as an array of elements.
      *
      * @param element {var} DOM element to start with
      * @return {Array} list of all found siblings
      */
-    getSiblings : function(element) {
-      return this.getPreviousSiblings(element).reverse().concat(this.getNextSiblings(element));
+    getSiblings(element) {
+      return this.getPreviousSiblings(element)
+        .reverse()
+        .concat(this.getNextSiblings(element));
     },
-
 
     /**
      * Whether the given element is empty.
@@ -447,13 +414,14 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
      * @param element {Element} The element to check
      * @return {Boolean} true when the element is empty
      */
-    isEmpty : function(element)
-    {
+    isEmpty(element) {
       element = element.firstChild;
 
-      while (element)
-      {
-        if (element.nodeType === qx.dom.Node.ELEMENT || element.nodeType === qx.dom.Node.TEXT) {
+      while (element) {
+        if (
+          element.nodeType === qx.dom.Node.ELEMENT ||
+          element.nodeType === qx.dom.Node.TEXT
+        ) {
           return false;
         }
 
@@ -463,18 +431,15 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
       return true;
     },
 
-
     /**
      * Removes all of element's text nodes which contain only whitespace
      *
      * @param element {Element} Element to cleanup
      */
-    cleanWhitespace : function(element)
-    {
+    cleanWhitespace(element) {
       var node = element.firstChild;
 
-      while (node)
-      {
+      while (node) {
         var nextNode = node.nextSibling;
 
         if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {

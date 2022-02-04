@@ -16,26 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    setUp : function()
-    {
-      this.root = qx.dom.Element.create("div", {id: "root"});
+  members: {
+    setUp() {
+      this.root = qx.dom.Element.create("div", { id: "root" });
       document.body.appendChild(this.root);
       this.ringAppender = new qx.log.appender.RingBuffer();
       qx.log.Logger.register(this.ringAppender);
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       qx.log.Logger.unregister(this.ringAppender);
       qx.log.Logger.clear();
-      this.ringAppender=null;
+      this.ringAppender = null;
 
       var Reg = qx.event.Registration;
 
@@ -46,29 +41,33 @@ qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
       document.body.removeChild(document.getElementById("root"));
     },
 
-    testMouseEventsOnDocument: function(){
+    testMouseEventsOnDocument() {
       this.doWork(document);
     },
 
-    testMouseEventsOnWindow: function(){
+    testMouseEventsOnWindow() {
       this.doWork(window);
     },
 
-    testMouseEventsOnDomNode: function(){
+    testMouseEventsOnDomNode() {
       this.doWork(this.root);
     },
 
-    doWork: function(el){
-      if (qx.core.Environment.get("qx.debug")){
+    doWork(el) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.ringAppender.clear();
-        var events = ['mousemove','click','mousedown','mouseup'];
-        for(var i=0;i<events.length;i++ ) {
-          qx.bom.Element.addListener(el, events[i], function(){});
+        var events = ["mousemove", "click", "mousedown", "mouseup"];
+        for (var i = 0; i < events.length; i++) {
+          qx.bom.Element.addListener(el, events[i], function () {});
         }
         var warnings = this.ringAppender.getAllLogEvents().length;
-        this.assertTrue( 0 === warnings , warnings + " events in ['mousemove','click','mousedown','mouseup'] generated a warning when added to target "+el);
+        this.assertTrue(
+          0 === warnings,
+          warnings +
+            " events in ['mousemove','click','mousedown','mouseup'] generated a warning when added to target " +
+            el
+        );
       }
     }
-
   }
 });

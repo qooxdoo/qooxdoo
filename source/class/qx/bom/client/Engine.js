@@ -26,20 +26,18 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Engine",
-{
+qx.Bootstrap.define("qx.bom.client.Engine", {
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: https://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
-  statics :
-  {
+  statics: {
     /**
      * Returns the version of the engine.
      *
      * @return {String} The version number of the current engine.
      * @internal
      */
-    getVersion : function() {
+    getVersion() {
       var agent = window.navigator.userAgent;
 
       var version = "";
@@ -69,8 +67,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
-        if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent))
-        {
+        if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent)) {
           // opera >= 10 has as a first version 9.80 and adds the proper version
           // in a separate "Version/" postfix
           // http://my.opera.com/chooseopera/blog/2009/05/29/changes-in-operas-user-agent-string-format
@@ -78,8 +75,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
             var match = agent.match(/Version\/(\d+)\.(\d+)/);
             // ignore the first match, its the whole version string
             version =
-              match[1] + "." +
-              match[2].charAt(0) + "." +
+              match[1] +
+              "." +
+              match[2].charAt(0) +
+              "." +
               match[2].substring(1, match[2].length);
           } else {
             version = RegExp.$1 + "." + RegExp.$2;
@@ -89,8 +88,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           }
         }
       } else if (qx.bom.client.Engine.__isWebkit()) {
-        if (/AppleWebKit\/([^ ]+)/.test(agent))
-        {
+        if (/AppleWebKit\/([^ ]+)/.test(agent)) {
           version = RegExp.$1;
 
           // We need to filter these invalid characters
@@ -111,14 +109,16 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = failFunction().FULLVERSION;
         } else {
           version = "1.9.0.0";
-          qx.Bootstrap.warn("Unsupported client: " + agent
-            + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
+          qx.Bootstrap.warn(
+            "Unsupported client: " +
+              agent +
+              "! Assumed gecko version 1.9.0.0 (Firefox 3.0)."
+          );
         }
       }
 
       return version;
     },
-
 
     /**
      * Returns the name of the engine.
@@ -126,7 +126,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * @return {String} The name of the current engine.
      * @internal
      */
-    getName : function() {
+    getName() {
       var name;
       if (qx.bom.client.Engine.__isMshtml()) {
         name = "mshtml";
@@ -143,13 +143,15 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           name = failFunction().NAME;
         } else {
           name = "gecko";
-          qx.Bootstrap.warn("Unsupported client: " + window.navigator.userAgent
-            + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
+          qx.Bootstrap.warn(
+            "Unsupported client: " +
+              window.navigator.userAgent +
+              "! Assumed gecko version 1.9.0.0 (Firefox 3.0)."
+          );
         }
       }
       return name;
     },
-
 
     /**
      * Internal helper for checking for opera (presto powered).
@@ -159,20 +161,20 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      *
      * @return {Boolean} true, if its opera (presto powered).
      */
-    __isOpera : function() {
-      return window.opera &&
-        Object.prototype.toString.call(window.opera) == "[object Opera]";
+    __isOpera() {
+      return (
+        window.opera &&
+        Object.prototype.toString.call(window.opera) == "[object Opera]"
+      );
     },
-
 
     /**
      * Internal helper for checking for webkit.
      * @return {Boolean} true, if its webkit.
      */
-    __isWebkit : function() {
+    __isWebkit() {
       return window.navigator.userAgent.indexOf("AppleWebKit/") != -1;
     },
-
 
     /**
      * Internal helper for checking for gecko.
@@ -191,21 +193,24 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      *
      * @return {Boolean} true, if its gecko.
      */
-    __isGecko : function() {
-      return (window.navigator.mozApps || window.navigator.buildID) &&
+    __isGecko() {
+      return (
+        (window.navigator.mozApps || window.navigator.buildID) &&
         window.navigator.product === "Gecko" &&
-        window.navigator.userAgent.indexOf("Trident") == -1;
+        window.navigator.userAgent.indexOf("Trident") == -1
+      );
     },
-
 
     /**
      * Internal helper to check for MSHTML.
      * @return {Boolean} true, if its MSHTML.
      */
-    __isMshtml : function () {
-      if (window.navigator.cpuClass &&
+    __isMshtml() {
+      if (
+        window.navigator.cpuClass &&
         (/MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent) ||
-          /Trident\/\d+?\.\d+?/.test(window.navigator.userAgent))) {
+          /Trident\/\d+?\.\d+?/.test(window.navigator.userAgent))
+      ) {
         return true;
       }
       if (qx.bom.client.Engine.__isWindowsPhone()) {
@@ -214,18 +219,16 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       return false;
     },
 
-
-
     /**
      * Internal helper to check for Windows phone.
      * @return {Boolean} true, if its Windows phone.
      */
-    __isWindowsPhone: function () {
+    __isWindowsPhone() {
       return window.navigator.userAgent.indexOf("Windows Phone") > -1;
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qx.core.Environment.add("engine.version", statics.getVersion);
     qx.core.Environment.add("engine.name", statics.getName);
   }

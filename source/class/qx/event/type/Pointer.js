@@ -22,10 +22,8 @@
  * the interface of this class is based on the pointer event interface:
  * http://www.w3.org/TR/pointerevents/
  */
-qx.Class.define("qx.event.type.Pointer",
-{
-  extend : qx.event.type.Mouse,
-
+qx.Class.define("qx.event.type.Pointer", {
+  extend: qx.event.type.Mouse,
 
   /*
   *****************************************************************************
@@ -33,12 +31,10 @@ qx.Class.define("qx.event.type.Pointer",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // overridden
-    _cloneNativeEvent : function(nativeEvent, clone)
-    {
-      clone = this.base(arguments, nativeEvent, clone);
+    _cloneNativeEvent(nativeEvent, clone) {
+      clone = super._cloneNativeEvent(nativeEvent, clone);
 
       clone.pointerId = nativeEvent.pointerId;
       clone.width = nativeEvent.width;
@@ -56,28 +52,33 @@ qx.Class.define("qx.event.type.Pointer",
       return clone;
     },
 
-
     // overridden
-    getDocumentLeft : function() {
-      var x = this.base(arguments);
+    getDocumentLeft() {
+      var x = super.getDocumentLeft();
       // iOS 6 does not copy pageX over to the fake pointer event
-      if (x == 0 && this.getPointerType() == "touch" && this._native._original !== undefined) {
+      if (
+        x == 0 &&
+        this.getPointerType() == "touch" &&
+        this._native._original !== undefined
+      ) {
         x = Math.round(this._native._original.changedTouches[0].pageX) || 0;
       }
       return x;
     },
 
-
     // overridden
-    getDocumentTop : function() {
-      var y = this.base(arguments);
+    getDocumentTop() {
+      var y = super.getDocumentTop();
       // iOS 6 does not copy pageY over to the fake pointer event
-      if (y == 0 && this.getPointerType() == "touch" && this._native._original !== undefined) {
+      if (
+        y == 0 &&
+        this.getPointerType() == "touch" &&
+        this._native._original !== undefined
+      ) {
         y = Math.round(this._native._original.changedTouches[0].pageY) || 0;
       }
       return y;
     },
-
 
     /**
      * Returns a unique identified for the pointer. This id is
@@ -85,41 +86,36 @@ qx.Class.define("qx.event.type.Pointer",
      *
      * @return {Number} The unique id.
      */
-    getPointerId : function() {
+    getPointerId() {
       return this._native.pointerId || 0;
     },
-
-
 
     /**
      * Returns the contact geometry in it's width.
      *
      * @return {Number} The number of pixels (width) of the contact geometry.
      */
-    getWidth : function() {
+    getWidth() {
       return this._native.width || 0;
     },
-
 
     /**
      * Returns the contact geometry in it's height.
      *
      * @return {Number} The number of pixels (height) of the contact geometry.
      */
-    getHeight : function() {
+    getHeight() {
       return this._native.height || 0;
     },
-
 
     /**
      * Returns the pressure of the pointer in a rage from 0 to 1.
      *
      * @return {Number} <code>1</code> for full pressure. The default is 0.
      */
-    getPressure : function() {
+    getPressure() {
       return this._native.pressure || 0;
     },
-
 
     /**
      * Returns the plane angle in degrees between the Y-Z plane and the
@@ -127,10 +123,9 @@ qx.Class.define("qx.event.type.Pointer",
      *
      * @return {Number} A value between -90 and 90. The default is 0.
      */
-    getTiltX : function() {
+    getTiltX() {
       return this._native.tiltX || 0;
     },
-
 
     /**
      * Returns the plane angle in degrees between the X-Z plane and the
@@ -138,14 +133,14 @@ qx.Class.define("qx.event.type.Pointer",
      *
      * @return {Number} A value between -90 and 90. The default is 0.
      */
-    getTiltY : function() {
+    getTiltY() {
       return this._native.tiltY || 0;
     },
 
-
     // overridden
-    getOriginalTarget : function() {
-      if (this._native && this._native._original) { // fake pointer events
+    getOriginalTarget() {
+      if (this._native && this._native._original) {
+        // fake pointer events
         var orig = this._native._original;
         // In IE8, the original event can be a DispCEventObj which throws an
         // exception when trying to access its properties.
@@ -153,19 +148,22 @@ qx.Class.define("qx.event.type.Pointer",
           // touch events have a wrong target compared to mouse events
           if (orig.type.indexOf("touch") == 0) {
             if (orig.changedTouches[0]) {
-              return document.elementFromPoint(orig.changedTouches[0].clientX, orig.changedTouches[0].clientY);
+              return document.elementFromPoint(
+                orig.changedTouches[0].clientX,
+                orig.changedTouches[0].clientY
+              );
             }
           }
-        } catch(ex) {
+        } catch (ex) {
           return qx.bom.Event.getTarget(this._native);
         }
         return qx.bom.Event.getTarget(orig);
-      } else if (this._native) { // native pointer events
+      } else if (this._native) {
+        // native pointer events
         return qx.bom.Event.getTarget(this._native);
       }
-      return this.base(arguments);
+      return super.getOriginalTarget();
     },
-
 
     /**
      * Returns the device type which the event triggered. This can be one
@@ -174,7 +172,7 @@ qx.Class.define("qx.event.type.Pointer",
      *
      * @return {String} The type of the pointer.
      */
-    getPointerType : function() {
+    getPointerType() {
       if (typeof this._native.pointerType == "string") {
         return this._native.pointerType;
       }
@@ -194,13 +192,12 @@ qx.Class.define("qx.event.type.Pointer",
       return "";
     },
 
-
     /**
      * Returns whether the pointer is the primary pointer.
      *
      * @return {Boolean} <code>true</code>, if it's the primary pointer.
      */
-    isPrimary : function() {
+    isPrimary() {
       return !!this._native.isPrimary;
     }
   }

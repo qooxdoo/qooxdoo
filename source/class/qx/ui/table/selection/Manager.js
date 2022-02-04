@@ -26,12 +26,8 @@
  *
  * @see SelectionModel
  */
-qx.Class.define("qx.ui.table.selection.Manager",
-{
-  extend : qx.core.Object,
-
-
-
+qx.Class.define("qx.ui.table.selection.Manager", {
+  extend: qx.core.Object,
 
   /*
   *****************************************************************************
@@ -39,12 +35,9 @@ qx.Class.define("qx.ui.table.selection.Manager",
   *****************************************************************************
   */
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -52,19 +45,14 @@ qx.Class.define("qx.ui.table.selection.Manager",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * The selection model where to set the selection changes.
      */
-    selectionModel :
-    {
-      check : "qx.ui.table.selection.Model"
+    selectionModel: {
+      check: "qx.ui.table.selection.Model"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -72,10 +60,8 @@ qx.Class.define("qx.ui.table.selection.Manager",
   *****************************************************************************
   */
 
-  members :
-  {
-    __lastPointerDownHandled : null,
-
+  members: {
+    __lastPointerDownHandled: null,
 
     /**
      * Handles the tap event.
@@ -83,30 +69,22 @@ qx.Class.define("qx.ui.table.selection.Manager",
      * @param index {Integer} the index the pointer is pointing at.
      * @param evt {qx.event.type.Tap} the pointer event.
      */
-    handleTap : function(index, evt)
-    {
-      if (evt.isLeftPressed())
-      {
+    handleTap(index, evt) {
+      if (evt.isLeftPressed()) {
         var selectionModel = this.getSelectionModel();
 
-        if (!selectionModel.isSelectedIndex(index))
-        {
+        if (!selectionModel.isSelectedIndex(index)) {
           // This index is not selected -> We react when the pointer is pressed (because of drag and drop)
           this._handleSelectEvent(index, evt);
           this.__lastPointerDownHandled = true;
-        }
-        else
-        {
+        } else {
           // This index is already selected -> We react when the pointer is released (because of drag and drop)
           this.__lastPointerDownHandled = false;
         }
-      }
-      else if (evt.isRightPressed() && evt.getModifiers() == 0)
-      {
+      } else if (evt.isRightPressed() && evt.getModifiers() == 0) {
         var selectionModel = this.getSelectionModel();
 
-        if (!selectionModel.isSelectedIndex(index))
-        {
+        if (!selectionModel.isSelectedIndex(index)) {
           // This index is not selected -> Set the selection to this index
           selectionModel.setSelectionInterval(index, index);
         }
@@ -117,7 +95,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
       }
     },
 
-
     /**
      * Handles the key down event that is used as replacement for pointer taps
      * (Normally space).
@@ -125,10 +102,9 @@ qx.Class.define("qx.ui.table.selection.Manager",
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
      */
-    handleSelectKeyDown : function(index, evt) {
+    handleSelectKeyDown(index, evt) {
       this._handleSelectEvent(index, evt);
     },
-
 
     /**
      * Handles a key down event that moved the focus (E.g. up, down, home, end, ...).
@@ -136,12 +112,10 @@ qx.Class.define("qx.ui.table.selection.Manager",
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
      */
-    handleMoveKeyDown : function(index, evt)
-    {
+    handleMoveKeyDown(index, evt) {
       var selectionModel = this.getSelectionModel();
 
-      switch(evt.getModifiers())
-      {
+      switch (evt.getModifiers()) {
         case 0:
           selectionModel.setSelectionInterval(index, index);
           break;
@@ -159,24 +133,20 @@ qx.Class.define("qx.ui.table.selection.Manager",
       }
     },
 
-
     /**
      * Handles a select event.
      *
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the pointer event.
      */
-    _handleSelectEvent : function(index, evt)
-    {
+    _handleSelectEvent(index, evt) {
       var selectionModel = this.getSelectionModel();
 
       var leadIndex = selectionModel.getLeadSelectionIndex();
       var anchorIndex = selectionModel.getAnchorSelectionIndex();
 
-      if (evt.isShiftPressed())
-      {
-        if (index != leadIndex || selectionModel.isSelectionEmpty())
-        {
+      if (evt.isShiftPressed()) {
+        if (index != leadIndex || selectionModel.isSelectionEmpty()) {
           // The lead selection index was changed
           if (anchorIndex == -1) {
             anchorIndex = index;
@@ -188,17 +158,13 @@ qx.Class.define("qx.ui.table.selection.Manager",
             selectionModel.setSelectionInterval(anchorIndex, index);
           }
         }
-      }
-      else if (evt.isCtrlOrCommandPressed())
-      {
+      } else if (evt.isCtrlOrCommandPressed()) {
         if (selectionModel.isSelectedIndex(index)) {
           selectionModel.removeSelectionInterval(index, index);
         } else {
           selectionModel.addSelectionInterval(index, index);
         }
-      }
-      else
-      {
+      } else {
         // setSelectionInterval checks to see if the change is really necessary
         selectionModel.setSelectionInterval(index, index);
       }

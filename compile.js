@@ -1,10 +1,11 @@
 const path = require("path");
+const fs = require("fs");
 
 qx.Class.define("qx.compiler.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
 
   members: {
-    load() {
+    async load() {
       let yargs = qx.tool.cli.commands.Test.getYargsCommand;
       qx.tool.cli.commands.Test.getYargsCommand = () => {
         let args = yargs();
@@ -13,18 +14,58 @@ qx.Class.define("qx.compiler.CompilerApi", {
           type: "boolean",
           default: false
         };
+
         args.builder.terse = {
           describe: "show only summary and errors",
           type: "boolean",
           default: false
         };
+
         args.builder.browsers = {
-          describe: "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
+          describe:
+            "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
           type: "string"
         };
+
         return args;
+      };
+      this.addListener(
+        "changeCommand",
+        function () {
+          let command = this.getCommand();
+          if (command instanceof qx.tool.cli.commands.package.Publish) {
+            command.addListener("beforeCommit", this.__fixDocVersion, this);
+          }
+        },
+        this
+      );
+      let data = await this.base(arguments);
+      if (!data.environment) data.environment = {};
+      let manifestConfig = await qx.tool.config.Manifest.getInstance().load();
+      let manifestData = manifestConfig.getData();
+      data.environment["qx.compiler.version"] = manifestData.info.version;
+      return data;
+    },
+
+    async __fixDocVersion(evt) {
+      const data = evt.getData();
+      const vars = path.join(process.cwd(), "docs", "_variables.json");
+      if (await fs.existsAsync(vars)) {
+        let var_data = await qx.tool.utils.Json.loadJsonAsync(vars);
+        var_data.qooxdoo.version = data.version;
+        if (data.argv.dryrun) {
+          qx.tool.compiler.Console.info(
+            "Dry run: Not changing _variables.json version..."
+          );
+        } else {
+          await qx.tool.utils.Json.saveJsonAsync(vars, var_data);
+          if (!data.argv.quiet) {
+            qx.tool.compiler.Console.info(
+              `Updated version in _variables.json.`
+            );
+          }
+        }
       }
-      return this.base(arguments);
     },
 
     /**
@@ -33,10 +74,12 @@ qx.Class.define("qx.compiler.CompilerApi", {
      * @param res {boolean} result of the just finished process
      */
     async afterProcessFinished(cmd, res) {
-      if (res)
-         return;
-      if (cmd.classname !== "qx.tool.cli.commands.package.Publish")
-         return;
+      if (res) {
+        return;
+      }
+      if (cmd.classname !== "qx.tool.cli.commands.package.Publish") {
+        return;
+      }
       // token
       let cfg = await qx.tool.cli.ConfigDb.getInstance();
       let npm = cfg.db("npm", {});
@@ -49,11 +92,12 @@ qx.Class.define("qx.compiler.CompilerApi", {
           {
             type: "input",
             name: "token",
-            message: "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens to obtain one " +
-                "(you must assign permission to publish);\nWhat is your npm acess Token ? "
+            message:
+              "Publishing to npm requires an access token - visit https://www.npmjs.com/settings/tokens to obtain one " +
+              "(you must assign permission to publish);\nWhat is your npm acess Token ? "
           }
-        ]
-        );
+        ]);
+
         if (!response.token) {
           qx.tool.compiler.Console.error("You have not provided a npm token.");
           return;
@@ -65,10 +109,8 @@ qx.Class.define("qx.compiler.CompilerApi", {
       if (!token) {
         throw new qx.tool.utils.Utils.UserError(`npm access token required.`);
       }
-      let args = [
-        "publish"
-        , "--access public"
-      ];
+      let args = ["publish", "--access public"];
+
       if (cmd.argv.dryrun) {
         args.push("--dry-run");
       }
@@ -101,57 +143,81 @@ qx.Class.define("qx.compiler.CompilerApi", {
      */
     async beforeTests(command) {
       const that = this;
-      command.addTest(new qx.tool.cli.api.Test("lint", async function () {
-        console.log("# ********* running lint ");
-        result = await qx.tool.utils.Utils.runCommand({
-          cwd: ".",
-          cmd: "node",
-          args: [
-            path.join(__dirname, "bin", command._getConfig().targetType, "qx"),
-            "lint",
-            "--warnAsError"
-          ],
-          shell: true,
-          log: console.log,
-          error: console.log
-        });
-        if (result.exitCode === 0) {
-          qx.tool.compiler.Console.log("ok");
-        } else {
-          qx.tool.compiler.Console.log("not ok");
-        }
-        this.setExitCode(result.exitCode);
-      }));
-      let argList = ["colorize", "verbose", "quiet", "fail-fast", "diag", "terse"];
-      command.addTest(new qx.tool.cli.api.Test("compiler test", async function () {
-        qx.tool.compiler.Console.log("# ******** running compiler test");
-        result = await qx.tool.utils.Utils.runCommand({
-          cwd: "test/tool",
-          cmd: "node",
-          args: that.__getArgs(command, argList),
-          shell: true
-        });
-        this.setExitCode(result.exitCode);
-      }));
-      if (command.argv["browsers"] != "none") {
-        command.addTest(new qx.tool.cli.api.Test("framework test", async function () {
-          console.log("# ******** running framework test");
-          let args = argList.slice();
-          args.push("browsers");
+      command.addTest(
+        new qx.tool.cli.api.Test("lint", async function () {
+          console.log("# ********* running lint ");
           result = await qx.tool.utils.Utils.runCommand({
-            cwd: "test/framework",
+            cwd: ".",
             cmd: "node",
-            args: that.__getArgs(command, args),
+            args: [
+              path.join(
+                __dirname,
+                "bin",
+                command._getConfig().targetType,
+                "qx"
+              ),
+              "lint",
+              "--warnAsError"
+            ],
+
+            shell: true,
+            log: console.log,
+            error: console.log
+          });
+
+          if (result.exitCode === 0) {
+            qx.tool.compiler.Console.log("ok");
+          } else {
+            qx.tool.compiler.Console.log("not ok");
+          }
+          this.setExitCode(result.exitCode);
+        })
+      );
+      let argList = [
+        "colorize",
+        "verbose",
+        "quiet",
+        "fail-fast",
+        "diag",
+        "terse"
+      ];
+      command.addTest(
+        new qx.tool.cli.api.Test("compiler test", async function () {
+          qx.tool.compiler.Console.log("# ******** running compiler test");
+          result = await qx.tool.utils.Utils.runCommand({
+            cwd: "test/tool",
+            cmd: "node",
+            args: that.__getArgs(command, argList),
             shell: true
           });
+
           this.setExitCode(result.exitCode);
-        }));
+        })
+      );
+      if (command.argv["browsers"] != "none") {
+        command.addTest(
+          new qx.tool.cli.api.Test("framework test", async function () {
+            console.log("# ******** running framework test");
+            let args = argList.slice();
+            args.push("browsers");
+            result = await qx.tool.utils.Utils.runCommand({
+              cwd: "test/framework",
+              cmd: "node",
+              args: that.__getArgs(command, args),
+              shell: true
+            });
+
+            this.setExitCode(result.exitCode);
+          })
+        );
       }
     },
 
     __getArgs(command, argList) {
       let res = [];
-      res.push(path.join(__dirname, "bin", command._getConfig().targetType, "qx"));
+      res.push(
+        path.join(__dirname, "bin", command._getConfig().targetType, "qx")
+      );
       res.push("test");
       for (const arg of argList) {
         if (command.argv[arg]) {

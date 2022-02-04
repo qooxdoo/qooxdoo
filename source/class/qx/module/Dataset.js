@@ -20,9 +20,7 @@
  * Module for handling of HTML5 data-* attributes
  */
 qx.Bootstrap.define("qx.module.Dataset", {
-
   members: {
-
     /**
      * Sets an HTML "data-*" attribute on each item in the collection
      *
@@ -31,15 +29,13 @@ qx.Bootstrap.define("qx.module.Dataset", {
      * @param value {var} New value of the attribute
      * @return {qxWeb} The collection for chaining
      */
-    setData : function(name, value)
-    {
-      this._forEachElement(function(item) {
+    setData(name, value) {
+      this._forEachElement(function (item) {
         qx.bom.element.Dataset.set(item, name, value);
       });
 
       return this;
     },
-
 
     /**
      *
@@ -50,8 +46,7 @@ qx.Bootstrap.define("qx.module.Dataset", {
      * @return {var} The value of the attribute
      *
      */
-    getData : function(name)
-    {
+    getData(name) {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Dataset.get(this[0], name);
       }
@@ -64,23 +59,20 @@ qx.Bootstrap.define("qx.module.Dataset", {
      * @return {Map} The map containing the "data-*" attributes
      *
      */
-    getAllData : function()
-    {
+    getAllData() {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Dataset.getAll(this[0]);
       }
       return {};
     },
 
-
     /**
-    * Checks if any element in the collection has a "data-*" attribute
-    * @return {Boolean} True if any element in the collection has a "data-*" attribute
-    */
-    hasData : function() {
+     * Checks if any element in the collection has a "data-*" attribute
+     * @return {Boolean} True if any element in the collection has a "data-*" attribute
+     */
+    hasData() {
       return qx.bom.element.Dataset.hasData(this[0]);
     },
-
 
     /**
      * Remove an HTML "data-*" attribute on each item in the collection
@@ -89,20 +81,16 @@ qx.Bootstrap.define("qx.module.Dataset", {
      * @param name {String} Name of the attribute
      * @return {qxWeb} The collection for chaining
      */
-    removeData : function(name)
-    {
-      this._forEachElement(function(item) {
+    removeData(name) {
+      this._forEachElement(function (item) {
         qx.bom.element.Dataset.remove(item, name);
       });
 
       return this;
     }
-
   },
 
-  defer : function(statics)
-  {
+  defer(statics) {
     qxWeb.$attachAll(this);
-
-   }
+  }
 });

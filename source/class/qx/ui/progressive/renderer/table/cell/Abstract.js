@@ -77,14 +77,11 @@
  *   </dd>
  * </dl>
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
-{
-  type       : "abstract",
-  extend     : qx.core.Object,
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract", {
+  type: "abstract",
+  extend: qx.core.Object,
 
-
-  members :
-  {
+  members: {
     /**
      * Retrieve any style characteristics the cell renderer wants applied to
      * this cell.
@@ -96,8 +93,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * @return {String}
      *   The style characteristics to be applied to this cell.
      */
-    _getCellStyle : function(cellInfo)
-    {
+    _getCellStyle(cellInfo) {
       return "";
     },
 
@@ -113,8 +109,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * @return {String}
      *   The extra attributes to be applied to this cell.
      */
-    _getCellExtras : function(cellInfo)
-    {
+    _getCellExtras(cellInfo) {
       return "";
     },
 
@@ -128,8 +123,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * @return {String}
      *   The HTML content to be added to the cell div.
      */
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml(cellInfo) {
       return cellInfo.cellData || "";
     },
 
@@ -144,24 +138,23 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      * @return {String}
      *   The HTML required to create this cell.
      */
-    render : function(cellInfo)
-    {
-      var html = [ ];
+    render(cellInfo) {
+      var html = [];
       var style = this._getCellStyle(cellInfo);
 
       // Render this cell
-      html.push("<div ",
-                "class='", cellInfo.stylesheet, "' ");
+      html.push("<div ", "class='", cellInfo.stylesheet, "' ");
 
-      if (style)
-      {
+      if (style) {
         html.push("style='", style, "'");
       }
 
-      html.push(this._getCellExtras(cellInfo),
-                ">",
-                this._getContentHtml(cellInfo),
-                "</div>");
+      html.push(
+        this._getCellExtras(cellInfo),
+        ">",
+        this._getContentHtml(cellInfo),
+        "</div>"
+      );
 
       return html.join("");
     }

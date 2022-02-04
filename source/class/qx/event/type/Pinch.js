@@ -16,36 +16,30 @@
 
 ************************************************************************ */
 
-
 /**
  * Pinch is a multi pointer gesture fired when two finger moved towards
  * or away from each other. It contains the scaling factor of the pinch.
  */
-qx.Class.define("qx.event.type.Pinch",
-{
-    extend : qx.event.type.Pointer,
+qx.Class.define("qx.event.type.Pinch", {
+  extend: qx.event.type.Pointer,
 
+  members: {
+    // overridden
+    _cloneNativeEvent(nativeEvent, clone) {
+      var clone = super._cloneNativeEvent(nativeEvent, clone);
 
-    members : {
+      clone.scale = nativeEvent.scale;
 
-      // overridden
-      _cloneNativeEvent : function(nativeEvent, clone)
-      {
-        var clone = this.base(arguments, nativeEvent, clone);
+      return clone;
+    },
 
-        clone.scale = nativeEvent.scale;
-
-        return clone;
-      },
-
-
-      /**
-       * Returns the calculated scale of this event.
-       *
-       * @return {Float} the scale value of this event.
-       */
-      getScale : function() {
-        return this._native.scale;
-      }
+    /**
+     * Returns the calculated scale of this event.
+     *
+     * @return {Float} the scale value of this event.
+     */
+    getScale() {
+      return this._native.scale;
     }
+  }
 });

@@ -20,46 +20,36 @@
  * The tree item is a tree element for the {@link VirtualTree}, which can have
  * nested tree elements.
  */
-qx.Class.define("qx.ui.tree.VirtualTreeItem",
-{
-  extend : qx.ui.tree.core.AbstractItem,
+qx.Class.define("qx.ui.tree.VirtualTreeItem", {
+  extend: qx.ui.tree.core.AbstractItem,
 
-
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "virtual-tree-folder"
+    appearance: {
+      refine: true,
+      init: "virtual-tree-folder"
     }
   },
 
-
-  members :
-  {
+  members: {
     // overridden
     /**
      * @lint ignoreReferenceField(_forwardStates)
      */
-    _forwardStates : {
-      selected : true
+    _forwardStates: {
+      selected: true
     },
 
-
     // overridden
-    _addWidgets : function()
-    {
+    _addWidgets() {
       this.addSpacer();
       this.addOpenButton();
       this.addIcon();
       this.addLabel();
     },
 
-
     // overridden
-    _shouldShowOpenSymbol : function()
-    {
+    _shouldShowOpenSymbol() {
       var open = this.getChildControl("open", true);
       if (open == null) {
         return false;
@@ -68,16 +58,13 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       return this.isOpenable();
     },
 
-
     // overridden
-    getLevel : function() {
+    getLevel() {
       return this.getUserData("cell.level");
     },
 
-
     // overridden
-    hasChildren : function()
-    {
+    hasChildren() {
       var model = this.getModel();
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
@@ -85,60 +72,58 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       return qx.ui.tree.core.Util.hasChildren(model, childProperty, !showLeafs);
     },
 
-
     // apply method
-    _applyModel : function(value, old)
-    {
+    _applyModel(value, old) {
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
 
-      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty))
-      {
+      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty)) {
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
         // listen to children property changes
         if (qx.Class.hasProperty(value.constructor, childProperty)) {
           value.addListener(eventType, this._onChangeChildProperty, this);
         }
 
-
         // children property has been set already, immediately add
         // listener for indent updating
-        if (qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)) {
-          value.get(childProperty).addListener("changeLength",
-            this._onChangeLength, this);
+        if (
+          qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)
+        ) {
+          value
+            .get(childProperty)
+            .addListener("changeLength", this._onChangeLength, this);
           this._updateIndent();
         }
       }
 
-
-      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty))
-      {
+      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) {
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
         old.removeListener(eventType, this._onChangeChildProperty, this);
 
         var oldChildren = old.get(childProperty);
         if (oldChildren) {
-          oldChildren.removeListener("changeLength", this._onChangeLength, this);
+          oldChildren.removeListener(
+            "changeLength",
+            this._onChangeLength,
+            this
+          );
         }
       }
     },
 
-
     /**
      * Handler to update open/close icon when model length changed.
      */
-    _onChangeLength : function() {
+    _onChangeLength() {
       this._updateIndent();
     },
-
 
     /**
      * Handler to add listener to array of children property.
      *
      * @param e {qx.event.type.Data} Data event; provides children array
      */
-    _onChangeChildProperty : function(e)
-    {
+    _onChangeChildProperty(e) {
       var children = e.getData();
       var old = e.getOldData();
 

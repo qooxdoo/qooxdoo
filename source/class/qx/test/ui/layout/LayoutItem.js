@@ -16,13 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.LayoutItem",
-{
-  extend : qx.ui.core.LayoutItem,
+qx.Class.define("qx.test.ui.layout.LayoutItem", {
+  extend: qx.ui.core.LayoutItem,
 
-  construct : function(width, height)
-  {
-    this.base(arguments);
+  construct(width, height) {
+    super();
 
     if (width !== undefined) {
       this.setWidth(width);
@@ -35,28 +33,23 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     this.bounds = {};
   },
 
-
-  properties :
-  {
-    visibility :
-    {
-      check : ["visible", "hidden", "excluded"],
-      init : "visible",
-      apply : "_applyVisibility",
-      event : "changeVisibility"
+  properties: {
+    visibility: {
+      check: ["visible", "hidden", "excluded"],
+      init: "visible",
+      apply: "_applyVisibility",
+      event: "changeVisibility"
     }
   },
 
-  members :
-  {
-    bounds : null,
+  members: {
+    bounds: null,
 
-    __layout : null,
-    __children : null,
+    __layout: null,
+    __children: null,
 
-    renderLayout : function(left, top, width, height)
-    {
-      var changes = this.base(arguments, left, top, width, height);
+    renderLayout(left, top, width, height) {
+      var changes = super.renderLayout(left, top, width, height);
 
       if (!changes) {
         return;
@@ -69,43 +62,40 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         height: height
       };
 
-      if (changes.size || changes.local || changes.margin)
-      {
+      if (changes.size || changes.local || changes.margin) {
         if (this.__layout && this.getLayoutChildren().length > 0) {
-          this.__layout.renderLayout(width, height, {top: 0, right: 0, bottom: 0, left: 0});
+          this.__layout.renderLayout(width, height, {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          });
         }
       }
 
       return changes;
     },
 
-
-    setLayout : function(layout)
-    {
+    setLayout(layout) {
       layout.connectToWidget(this);
       qx.ui.core.queue.Layout.add(this);
       this.__layout = layout;
     },
 
-
-    _getLayout : function() {
+    _getLayout() {
       return this.__layout;
     },
 
-
     // overridden
-    invalidateLayoutCache : function()
-    {
-      this.base(arguments);
+    invalidateLayoutCache() {
+      super.invalidateLayoutCache();
 
       if (this.__layout) {
         this.__layout.invalidateLayoutCache();
       }
     },
 
-
-    invalidateLayoutChildren : function()
-    {
+    invalidateLayoutChildren() {
       var layout = this.__layout;
       if (layout) {
         layout.invalidateChildrenCache();
@@ -114,13 +104,17 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
     // property apply
-    _applyVisibility : function(value, old)
-    {
+    _applyVisibility(value, old) {
       // only force a layout update if visibility change from/to "exclude"
       var parent = this.$$parent;
-      if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
+      if (
+        parent &&
+        (old == null ||
+          value == null ||
+          old === "excluded" ||
+          value === "excluded")
+      ) {
         parent.invalidateLayoutChildren();
       }
 
@@ -128,20 +122,16 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       qx.ui.core.queue.Visibility.add(this);
     },
 
-
-    _getContentHint : function()
-    {
+    _getContentHint() {
       if (this.__layout && this.getLayoutChildren().length > 0) {
         return this.__layout.getSizeHint();
       } else {
-        return { width: 0, height: 0};
+        return { width: 0, height: 0 };
       }
     },
 
-
     // overridden
-    _computeSizeHint : function()
-    {
+    _computeSizeHint() {
       // Start with the user defined values
       var width = this.getWidth();
       var minWidth = this.getMinWidth();
@@ -150,7 +140,6 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       var height = this.getHeight();
       var minHeight = this.getMinHeight();
       var maxHeight = this.getMaxHeight();
-
 
       // Ask content
       var contentHint = this._getContentHint();
@@ -163,22 +152,19 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         height = contentHint.height;
       }
 
-      if (minWidth == null)
-      {
+      if (minWidth == null) {
         if (contentHint.minWidth != null) {
           minWidth = contentHint.minWidth;
         }
       }
 
-      if (minHeight == null)
-      {
+      if (minHeight == null) {
         if (contentHint.minHeight != null) {
           minHeight = contentHint.minHeight;
         }
       }
 
-      if (maxWidth == null)
-      {
+      if (maxWidth == null) {
         if (contentHint.maxWidth == null) {
           maxWidth = Infinity;
         } else {
@@ -186,8 +172,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         }
       }
 
-      if (maxHeight == null)
-      {
+      if (maxHeight == null) {
         if (contentHint.maxHeight == null) {
           maxHeight = Infinity;
         } else {
@@ -196,18 +181,16 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
 
       return {
-        width : width,
-        minWidth : minWidth,
-        maxWidth : maxWidth,
-        height : height,
-        minHeight : minHeight,
-        maxHeight : maxHeight
+        width: width,
+        minWidth: minWidth,
+        maxWidth: maxWidth,
+        height: height,
+        minHeight: minHeight,
+        maxHeight: maxHeight
       };
     },
 
-
-    add : function(child, options)
-    {
+    add(child, options) {
       if (!this.__children) {
         this.__children = [];
       }
@@ -224,9 +207,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
-    remove : function(child)
-    {
+    remove(child) {
       if (!this.__children) {
         this.__children = [];
       }
@@ -245,14 +226,11 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
-    getLayoutChildren : function()
-    {
+    getLayoutChildren() {
       var children = this.__children || [];
       var layoutChildren = [];
 
-      for (var i=0; i<children.length; i++)
-      {
+      for (var i = 0; i < children.length; i++) {
         var child = children[i];
         if (child.getVisibility() !== "excluded") {
           layoutChildren.push(child);
@@ -261,21 +239,17 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       return layoutChildren;
     },
 
-
-    checkAppearanceNeeds : function() {},
-
+    checkAppearanceNeeds() {},
 
     // copied from qx.ui.core.Widget
-    addChildrenToQueue : function(queue)
-    {
+    addChildrenToQueue(queue) {
       var children = this.__children;
       if (!children) {
         return;
       }
 
       var child;
-      for (var i=0, l=children.length; i<l; i++)
-      {
+      for (var i = 0, l = children.length; i < l; i++) {
         child = children[i];
         queue.push(child);
 
@@ -284,7 +258,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.bounds = this.__layout = this.__children = null;
   }
 });

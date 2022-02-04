@@ -55,12 +55,9 @@
  * <a href='http://qooxdoo.org/docs/#desktop/widget/scroll.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.Scroll",
-{
-  extend : qx.ui.core.scroll.AbstractScrollArea,
-  include : [qx.ui.core.MContentPadding],
-
-
+qx.Class.define("qx.ui.container.Scroll", {
+  extend: qx.ui.core.scroll.AbstractScrollArea,
+  include: [qx.ui.core.MContentPadding],
 
   /*
   *****************************************************************************
@@ -72,17 +69,13 @@ qx.Class.define("qx.ui.container.Scroll",
    * @param content {qx.ui.core.LayoutItem?null} The content widget of the scroll
    *    container.
    */
-  construct : function(content)
-  {
-    this.base(arguments);
+  construct(content) {
+    super();
 
     if (content) {
       this.add(content);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -90,8 +83,7 @@ qx.Class.define("qx.ui.container.Scroll",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /**
      * Sets the content of the scroll container. Scroll containers
      * may only have one child, so it always replaces the current
@@ -99,20 +91,18 @@ qx.Class.define("qx.ui.container.Scroll",
      *
      * @param widget {qx.ui.core.Widget} Widget to insert
      */
-    add : function(widget) {
+    add(widget) {
       this.getChildControl("pane").add(widget);
     },
-
 
     /**
      * Returns the content of the scroll area.
      *
      * @param widget {qx.ui.core.Widget} Widget to remove
      */
-    remove : function(widget) {
+    remove(widget) {
       this.getChildControl("pane").remove(widget);
     },
-
 
     /**
      * Returns the content of the scroll container.
@@ -122,17 +112,16 @@ qx.Class.define("qx.ui.container.Scroll",
      *
      * @return {Object[]} The child array
      */
-    getChildren : function() {
+    getChildren() {
       return this.getChildControl("pane").getChildren();
     },
-
 
     /**
      * Returns the element, to which the content padding should be applied.
      *
      * @return {qx.ui.core.Widget} The content padding target.
      */
-    _getContentPaddingTarget : function() {
+    _getContentPaddingTarget() {
       return this.getChildControl("pane");
     }
   }

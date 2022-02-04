@@ -16,90 +16,80 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.MobileTestCase",
-{
-  extend : qx.dev.unit.TestCase,
-  include : [qx.dev.unit.MRequirements],
+qx.Class.define("qx.test.mobile.MobileTestCase", {
+  extend: qx.dev.unit.TestCase,
+  include: [qx.dev.unit.MRequirements],
 
-
-  statics :
-  {
-    _root : null,
-    _oldApplicationFunction : null
+  statics: {
+    _root: null,
+    _oldApplicationFunction: null
   },
 
-
-  members :
-  {
-    setUp : function()
-    {
-      if (qx.core.Environment.get("browser.name") == "ie" && qx.core.Environment.get("browser.documentmode") < 10) {
-        throw new qx.dev.unit.RequirementError("Mobile tests require Webkit, Gecko or IE10+");
+  members: {
+    setUp() {
+      if (
+        qx.core.Environment.get("browser.name") == "ie" &&
+        qx.core.Environment.get("browser.documentmode") < 10
+      ) {
+        throw new qx.dev.unit.RequirementError(
+          "Mobile tests require Webkit, Gecko or IE10+"
+        );
       }
 
-      qx.test.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
+      qx.test.mobile.MobileTestCase._oldApplicationFunction =
+        qx.core.Init.getApplication;
 
       var self = this;
-      qx.core.Init.getApplication = function()
-      {
+      qx.core.Init.getApplication = function () {
         return {
-          getRoot : function() {
+          getRoot() {
             return self.getRoot();
           },
-          addListener: function() {
-            return self.addListener.apply(self,arguments);
+          addListener() {
+            return self.addListener.apply(self, arguments);
           },
-          removeListener: function() {
-            return self.removeListener.apply(self,arguments);
+          removeListener() {
+            return self.removeListener.apply(self, arguments);
           },
-          removeListenerById: function() {
-            return self.removeListenerById.apply(self,arguments);
+          removeListenerById() {
+            return self.removeListenerById.apply(self, arguments);
           },
-          fireEvent: function() {
-            return self.fireEvent.apply(self,arguments);
+          fireEvent() {
+            return self.fireEvent.apply(self, arguments);
           },
-          fireDataEvent: function() {
-            return self.fireDataEvent.apply(self,arguments);
+          fireDataEvent() {
+            return self.fireDataEvent.apply(self, arguments);
           },
-          close : function() {},
-          terminate : function() {}
+          close() {},
+          terminate() {}
         };
       };
     },
 
-
-    tearDown : function()
-    {
+    tearDown() {
       this.getRoot().removeAll();
-      qx.core.Init.getApplication = qx.test.mobile.MobileTestCase._oldApplicationFunction;
-      if (qx.core.Environment.get("qx.debug.dispose"))
-      {
-        if (qx.test.mobile.MobileTestCase._root)
-        {
+      qx.core.Init.getApplication =
+        qx.test.mobile.MobileTestCase._oldApplicationFunction;
+      if (qx.core.Environment.get("qx.debug.dispose")) {
+        if (qx.test.mobile.MobileTestCase._root) {
           qx.test.mobile.MobileTestCase._root.destroy();
           qx.test.mobile.MobileTestCase._root = null;
         }
       }
     },
 
-
-    getRoot : function()
-    {
+    getRoot() {
       var clazz = qx.test.mobile.MobileTestCase;
 
-      if (!clazz._root)
-      {
+      if (!clazz._root) {
         clazz._root = new qx.ui.mobile.core.Root();
       }
 
       return clazz._root;
     },
 
-
-    assertQxMobileWidget : function(obj)
-    {
+    assertQxMobileWidget(obj) {
       this.assertInstance(obj, qx.ui.mobile.core.Widget);
     }
   }
-
 });

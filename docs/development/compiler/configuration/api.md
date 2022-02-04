@@ -2,8 +2,7 @@
 
 ## compile.js
 
-Unlike the pre-v6.0.0 python generator's config.json, compile.json does not support
-processes, job executions, or even macros.  
+`compile.json` does not support processes, job executions, or even macros.  
 
 If you want to add processing, you can use a `compile.js` file to provide code
 which is called by the compiler and will allow you to exert complete, dynamic
@@ -52,7 +51,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       return data;
     }
   }
@@ -77,7 +76,7 @@ qx.Class.define("myapp.compile.CompilerApi", {
 
   members: {
     async load() {
-      let data = await this.base(arguments);
+      let data = await super.load();
       if (!data.environment)
         data.environment = {};
       data.environment["myapp.someSetting"] = "hello";
@@ -178,17 +177,16 @@ directly to the [Compiler API](../compiler/API.md). In addition, both APIs provi
 hook methods which are triggered by these events:
 
 `qx.tool.cli.api.CompilerApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.CompilerApi)
-- `afterDeploy()`: called after deployment happens
-- `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
 - `load()`: Called to update the compilerConfig
-- `beforeTests()`: Register compiler test or run your own tests in compile.js.
 - `afterCommandLoaded()`: Called after the command is known to the CompilerApi. Can be used to register listeners to the command. Instead of overload this function you can add a listener to the `changeCommand` event.
-- `afterLibrariesLoaded` Called after all libraries have been loaded and added to the compilation data.
-- `afterProcessFinished` runs after the whole process is finished.
+- `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
+- `afterDeploy()`: called after deployment happens
+- `beforeTests()`: Register compiler test or run your own tests in compile.js.
+- `afterProcessFinished()`: runs after the whole process is finished
 
 `qx.tool.cli.api.LibraryApi` [Details](https://qooxdoo.org/qooxdoo-compiler/#qx.tool.cli.api.LibraryApi)
-- `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
 - `load()`: Called to load any library-specific configuration and update the compilerConfig
+- `afterLibrariesLoaded()`: Called after all libraries have been loaded and added to the compilation data
 
 ## `CompilerApi` vs `LibraryApi`
 

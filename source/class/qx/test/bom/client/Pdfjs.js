@@ -24,24 +24,26 @@
  *
  * @require(qx.bom.client.Pdfjs)
  */
-qx.Class.define("qx.test.bom.client.Pdfjs",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.client.Pdfjs", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.dev.unit.MRequirements],
+  include: [qx.dev.unit.MRequirements],
 
-  members :
-  {
-    "test: is PDF.js available": function() {
+  members: {
+    "test: is PDF.js available"() {
       this.require(["firefox"]);
 
-      qx.core.Environment.getAsync("plugin.pdfjs", function(result) {
-        this.resume(function() {
-          this.assertTrue(result);
-        }, this);
-      }, this);
+      qx.core.Environment.getAsync(
+        "plugin.pdfjs",
+        function (result) {
+          this.resume(function () {
+            this.assertTrue(result);
+          }, this);
+        },
+        this
+      );
 
       this.wait();
     }
- }
+  }
 });

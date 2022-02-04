@@ -16,24 +16,21 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Fsm",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.Fsm", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     /**
      * Ensure that objects added with fsm.addObject() get cleaned up properly
      * by fsm.removeObject()
      */
-    testAddRemoveObject : function()
-    {
-      var             before;
-      var             intermediate;
-      var             after;
-      var             fsm;
-      var             obj;
-      var             obj2;
+    testAddRemoveObject() {
+      var before;
+      var intermediate;
+      var after;
+      var fsm;
+      var obj;
+      var obj2;
 
       //
       // Simple test: object with no groups
@@ -62,9 +59,11 @@ qx.Class.define("qx.test.util.Fsm",
       after = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
 
       // Ensure that there are no differences in internal state
-      this.assertEquals(before,
-                        after,
-                        "simple add/remove (" + intermediate + ")");
+      this.assertEquals(
+        before,
+        after,
+        "simple add/remove (" + intermediate + ")"
+      );
 
       //
       // Single group
@@ -108,7 +107,7 @@ qx.Class.define("qx.test.util.Fsm",
       before = qx.lang.Json.stringify(fsm._getInternalData(), null, 2);
 
       // Add an object
-      fsm.addObject("obj", obj, [ "group1", "group2" ]);
+      fsm.addObject("obj", obj, ["group1", "group2"]);
 
       // Retrieve the internal data of the finite state machine.
       // Convert it to JSON for display later, in case of error
@@ -123,7 +122,6 @@ qx.Class.define("qx.test.util.Fsm",
 
       // Ensure that there are no differences in internal state
       this.assertEquals(before, after, "single group (" + intermediate + ")");
-
 
       //
       // Multiple objects in a single group

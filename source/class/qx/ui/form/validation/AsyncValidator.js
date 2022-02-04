@@ -40,27 +40,24 @@
  * {@link qx.ui.form.validation.Manager#add}. If you have both cases, you have
  * to wrap the synchronous call in a timeout to make it asynchronous.
  */
-qx.Class.define("qx.ui.form.validation.AsyncValidator",
-{
-  extend : qx.core.Object,
+qx.Class.define("qx.ui.form.validation.AsyncValidator", {
+  extend: qx.core.Object,
 
   /**
    * @param validator {Function} The validator function, which has to be
    *   asynchronous.
    */
-  construct : function(validator)
-  {
-    this.base(arguments);
+  construct(validator) {
+    super();
     // save the validator function
     this.__validatorFunction = validator;
   },
 
-  members :
-  {
-    __validatorFunction : null,
-    __item : null,
-    __manager : null,
-    __usedForForm : null,
+  members: {
+    __validatorFunction: null,
+    __item: null,
+    __manager: null,
+    __usedForForm: null,
 
     /**
      * The validate function should only be called by
@@ -78,7 +75,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      *
      * @internal
      */
-    validate: function(item, value, manager, context) {
+    validate(item, value, manager, context) {
       // mark as item validator
       this.__usedForForm = false;
       // store the item and the manager
@@ -87,7 +84,6 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
       // invoke the user set validator function
       this.__validatorFunction.call(context || this, this, value);
     },
-
 
     /**
      * The validateForm function should only be called by
@@ -104,12 +100,11 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      *
      * @internal
      */
-    validateForm : function(items, manager, context) {
+    validateForm(items, manager, context) {
       this.__usedForForm = true;
       this.__manager = manager;
       this.__validatorFunction.call(context, items, this);
     },
-
 
     /**
      * This method should be called within the asynchronous callback to tell the
@@ -118,7 +113,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
      * @param valid {Boolean} The boolean state of the validation.
      * @param message {String?} The invalidMessage of the validation.
      */
-    setValid: function(valid, message) {
+    setValid(valid, message) {
       // valid processing
       if (this.__usedForForm) {
         // message processing
@@ -136,14 +131,13 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
     }
   },
 
-
   /*
    *****************************************************************************
       DESTRUCT
    *****************************************************************************
    */
 
-  destruct : function() {
+  destruct() {
     this.__manager = this.__item = null;
   }
 });

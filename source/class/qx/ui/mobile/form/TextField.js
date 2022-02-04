@@ -19,12 +19,10 @@
 /**
  * The TextField is a single-line text input field.
  */
-qx.Class.define("qx.ui.mobile.form.TextField",
-{
-  extend : qx.ui.mobile.form.Input,
-  include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
-  implement : [qx.ui.form.IStringForm],
-
+qx.Class.define("qx.ui.mobile.form.TextField", {
+  extend: qx.ui.mobile.form.Input,
+  include: [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
+  implement: [qx.ui.form.IStringForm],
 
   /*
   *****************************************************************************
@@ -35,9 +33,8 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   /**
    * @param value {var?null} The value of the widget.
    */
-  construct : function(value)
-  {
-    this.base(arguments);
+  construct(value) {
+    super();
 
     this.addListener("keypress", this._onKeyPress, this);
 
@@ -54,40 +51,33 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "text-field"
+    defaultCssClass: {
+      refine: true,
+      init: "text-field"
     }
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _getType : function()
-    {
+    _getType() {
       return "text";
     },
 
-
     /**
-    * Event handler for <code>keypress</code> event.
-    * @param evt {qx.event.type.KeySequence} the keypress event.
-    */
-    _onKeyPress : function(evt) {
+     * Event handler for <code>keypress</code> event.
+     * @param evt {qx.event.type.KeySequence} the keypress event.
+     */
+    _onKeyPress(evt) {
       // On return
-      if(evt.getKeyCode() == 13) {
+      if (evt.getKeyCode() == 13) {
         this.blur();
       }
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.removeListener("keypress", this._onKeyPress, this);
 
     if (qx.core.Environment.get("os.name") == "ios") {

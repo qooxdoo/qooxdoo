@@ -16,45 +16,49 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Function",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.util.Function", {
+  extend: qx.dev.unit.TestCase,
   include: qx.dev.unit.MMock,
 
-  members :
-  {
-    testDebounce : function()
-    {
+  members: {
+    testDebounce() {
       var test = this.stub();
 
       var debouncedTest = qx.util.Function.debounce(test, 10);
 
       debouncedTest(true);
-      this.assertNotCalled(test, "not called");
+      this.assertNotCalled(test);
       debouncedTest(false);
-      this.wait(100, function() {
-        this.assertCalledOnce(test, "called once");
-        this.assertCalledWith(test, false);
-      }, this);
+      this.wait(
+        100,
+        function () {
+          this.assertCalledOnce(test);
+          this.assertCalledWith(test, false);
+        },
+        this
+      );
     },
 
-    testImmediateDebounce : function()
-    {
+    testImmediateDebounce() {
       var test = this.stub();
 
       var debouncedTest = qx.util.Function.debounce(test, 10, true);
 
       debouncedTest(true);
-      this.assertCalled(test, "called");
+      this.assertCalled(test);
       this.assertCalledWith(test, true);
 
       debouncedTest(false);
       debouncedTest(true);
       debouncedTest(false);
-      this.wait(100, function() {
-        this.assertCalledTwice(test, "called twice");
-        this.assertCalledWith(test, false);
-      }, this);
+      this.wait(
+        100,
+        function () {
+          this.assertCalledTwice(test);
+          this.assertCalledWith(test, false);
+        },
+        this
+      );
     }
   }
 });

@@ -16,18 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.toolchain.VariantOptimization",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.toolchain.VariantOptimization", {
+  extend: qx.dev.unit.TestCase,
   include: qx.dev.unit.MRequirements,
 
-  members :
-  {
-    setUp : function () {
-      this.require(["variantsOptimized"]);  // run the tests only when this code is variant-optimized
+  members: {
+    setUp() {
+      this.require(["variantsOptimized"]); // run the tests only when this code is variant-optimized
     },
 
-    hasVariantsOptimized : function () {
+    hasVariantsOptimized() {
       return qx.core.Environment.get("qx.optimization.variants");
     },
 
@@ -37,7 +35,7 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
      * The next tests whether the generator optimized an 'if' statement, so that
      * only the 'then' branch made it into the optimized code.
      */
-    "test If 'if' statement is pruned by the generator": function () {
+    "test If 'if' statement is pruned by the generator"() {
       var a = 0;
       /*
        * "qx.test.bool_true" and "qx.test.bool_false" are custom environment
@@ -46,7 +44,9 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
        * Faking "qx.test.bool_true" to temporarily evaluate to false here.
        * (Undone in the "tearDown" method).
        */
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return false;
+      };
       /*
        * The 'if' statement should be optimized by the generator, as the value
        * of "qx.test.bool_true" is known at compile time, so that only "a = 1"
@@ -62,11 +62,13 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
       }
       // The next will fail if the 'else' branch has been chosen, due to missing
       // or wrong optimization.
-      this.assertEquals(1,a);
+      this.assertEquals(1, a);
     },
 
-    "tearDown If 'if' statement is pruned by the generator" : function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
+    "tearDown If 'if' statement is pruned by the generator"() {
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return true;
+      };
     },
 
     /*
@@ -75,36 +77,45 @@ qx.Class.define("qx.test.toolchain.VariantOptimization",
      * In the next test, we apply the same trick as above, to check that a .select
      * expression has been optimized.
      */
-    "test If 'select' call is pruned by the generator": function () {
+    "test If 'select' call is pruned by the generator"() {
       // Fake "qx.test.bool_true" to be false at run time.
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return false;
+      };
       // Under optimization, the .select call will have been gone at run time.
       var a = qx.core.Environment.select("qx.test.bool_true", {
-        "true" : 1,
-        "false": 2
+        true: 1,
+        false: 2
       });
-      this.assertEquals(1,a);
+
+      this.assertEquals(1, a);
     },
 
-    "tearDown If 'select' call is pruned by the generator": function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
-   },
+    "tearDown If 'select' call is pruned by the generator"() {
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return true;
+      };
+    },
 
     /*
      * 3.
      *
      * Check if a simple .get call is optimized.
      */
-    "test If simple 'get' call is pruned by the generator": function () {
+    "test If simple 'get' call is pruned by the generator"() {
       // Fake "qx.test.bool_true" to be false at run time.
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return false;};
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return false;
+      };
       // Under optimization, the .get call will have been gone at run time.
       var a = qx.core.Environment.get("qx.test.bool_true");
-      this.assertEquals(true,a);
+      this.assertEquals(true, a);
     },
 
-    "tearDown If simple 'get' call is pruned by the generator": function () {
-      qx.core.Environment.getChecks()["qx.test.bool_true"] = function(){return true;};
+    "tearDown If simple 'get' call is pruned by the generator"() {
+      qx.core.Environment.getChecks()["qx.test.bool_true"] = function () {
+        return true;
+      };
     }
   }
 });

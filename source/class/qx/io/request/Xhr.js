@@ -61,34 +61,32 @@
  *
  * Internally uses {@link qx.bom.request.Xhr}.
  */
-qx.Class.define("qx.io.request.Xhr",
-{
+qx.Class.define("qx.io.request.Xhr", {
   extend: qx.io.request.AbstractRequest,
 
   /**
    * @param url {String?} The URL of the resource to request.
    * @param method {String?} The HTTP method.
    */
-  construct: function(url, method) {
+  construct(url, method) {
     if (method !== undefined) {
       this.setMethod(method);
     }
 
-    this.base(arguments, url);
+    super(url);
     this._parser = this._createResponseParser();
   },
 
   // Only document events with transport specific details.
   // For a complete list of events, refer to AbstractRequest.
 
-  events:
-  {
+  events: {
     /**
      * Fired on every change of the transport’s readyState.
      *
      * See {@link qx.bom.request.Xhr} for available readyStates.
      */
-    "readyStateChange": "qx.event.type.Event",
+    readyStateChange: "qx.event.type.Event",
 
     /**
      * Fired when request completes without error and transport status
@@ -97,7 +95,7 @@ qx.Class.define("qx.io.request.Xhr",
      * Refer to {@link qx.util.Request#isSuccessful} for a list of HTTP
      * status considered successful.
      */
-    "success": "qx.event.type.Event",
+    success: "qx.event.type.Event",
 
     /**
      * Fired when request completes without error.
@@ -107,7 +105,7 @@ qx.Class.define("qx.io.request.Xhr",
      * fire a "load" event. If you are only interested in successful
      * responses, listen to the {@link #success} event instead.
      */
-    "load": "qx.event.type.Event",
+    load: "qx.event.type.Event",
 
     /**
      * Fired when request completes without error but erroneous HTTP status.
@@ -115,11 +113,10 @@ qx.Class.define("qx.io.request.Xhr",
      * Refer to {@link qx.util.Request#isSuccessful} for a list of HTTP
      * status considered successful.
      */
-    "statusError": "qx.event.type.Event"
+    statusError: "qx.event.type.Event"
   },
 
-  properties:
-  {
+  properties: {
     /**
      * The HTTP method.
      */
@@ -182,17 +179,14 @@ qx.Class.define("qx.io.request.Xhr",
      * than prohibit caching using the nocache parameter.
      */
     cache: {
-      check: function(value) {
-        return qx.lang.Type.isBoolean(value) ||
-          qx.lang.Type.isString(value);
+      check(value) {
+        return qx.lang.Type.isBoolean(value) || qx.lang.Type.isString(value);
       },
       init: true
     }
   },
 
-  members:
-  {
-
+  members: {
     /**
      * @type {Function} Parser.
      */
@@ -209,7 +203,7 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * @return {qx.bom.request.Xhr} Transport.
      */
-    _createTransport: function() {
+    _createTransport() {
       return new qx.bom.request.Xhr();
     },
 
@@ -221,9 +215,9 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * @return {String} The configured URL.
      */
-    _getConfiguredUrl: function() {
+    _getConfiguredUrl() {
       var url = this.getUrl(),
-          serializedData;
+        serializedData;
 
       if (this.getMethod() === "GET" && this.getRequestData()) {
         serializedData = this._serializeData(this.getRequestData());
@@ -232,17 +226,21 @@ qx.Class.define("qx.io.request.Xhr",
 
       if (this.getCache() === false) {
         // Make sure URL cannot be served from cache and new request is made
-        url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
+        url = qx.util.Uri.appendParamsToUrl(url, {
+          nocache: new Date().valueOf()
+        });
       }
 
       return url;
     },
 
     // overridden
-    _getConfiguredRequestHeaders: function() {
+    _getConfiguredRequestHeaders() {
       var headers = {},
-          isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
-          isFormData = (qx.Bootstrap.getClass(this.getRequestData()) == "FormData");
+        isAllowsBody = qx.util.Request.methodAllowsRequestBody(
+          this.getMethod()
+        ),
+        isFormData = qx.Bootstrap.getClass(this.getRequestData()) == "FormData";
 
       // Follow convention to include X-Requested-With header when same origin
       if (!qx.util.Request.isCrossDomain(this.getUrl())) {
@@ -271,12 +269,12 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     // overridden
-    _getMethod: function() {
+    _getMethod() {
       return this.getMethod();
     },
 
     // overridden
-    _isAsync: function() {
+    _isAsync() {
       return this.isAsync();
     },
 
@@ -291,8 +289,8 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * @return {qx.util.ResponseParser} parser.
      */
-    _createResponseParser: function() {
-        return new qx.util.ResponseParser();
+    _createResponseParser() {
+      return new qx.util.ResponseParser();
     },
 
     /**
@@ -300,16 +298,19 @@ qx.Class.define("qx.io.request.Xhr",
      *
      * @return {String|Object} The parsed response of the request.
      */
-    _getParsedResponse: function() {
-      var response = this._transport.responseType === 'blob' ? this._transport.response : this._transport.responseText,
-          contentType = this.getResponseContentType() || "",
-          parsedResponse = "";
+    _getParsedResponse() {
+      var response =
+          this._transport.responseType === "blob"
+            ? this._transport.response
+            : this._transport.responseText,
+        contentType = this.getResponseContentType() || "",
+        parsedResponse = "";
 
       try {
         parsedResponse = this._parser.parse(response, contentType);
-        this._parserFailed = false
-      } catch(e) {
-        this._parserFailed = true
+        this._parserFailed = false;
+      } catch (e) {
+        this._parserFailed = true;
         this.fireDataEvent("parseError", {
           error: e,
           response: response
@@ -328,7 +329,7 @@ qx.Class.define("qx.io.request.Xhr",
      * @param parser {String|Function}
      * @return {Function} The parser function
      */
-    setParser: function(parser) {
+    setParser(parser) {
       return this._parser.setParser(parser);
     }
   }

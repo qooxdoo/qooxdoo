@@ -20,7 +20,9 @@
  * Compatibility class for {@link qxWeb}.
  */
 qx.Bootstrap.define("q", {
-  extend : qxWeb
+  extend: qxWeb
 });
+
 // make sure it's the same
+// eslint-disable-next-line no-implicit-globals
 q = qxWeb;

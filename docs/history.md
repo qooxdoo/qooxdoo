@@ -13,10 +13,13 @@ In 2015, the Qooxdoo was transformed to a open source project led by a team of
 volunteer developers and managed by a foundation under Swiss law. 
 
 ## Version history
+- v7.0 (Feb 2022) [Release notes](/release-notes.7.0.md) 
+  | [Documentation](https://qooxdoo.org/documentation/v7.0/#/)
+  | [API Viewer](https://qooxdoo.org/qxl.apiviewer/v7.0/)
 
 - v6.0 (Feb 2021) [Release notes](/release-notes.md) 
-  | [Documentation](https://qooxdoo.org/documentation/#/)
-  | [API Viewer](https://qooxdoo.org/qxl.apiviewer)
+  | [Documentation](https://qooxdoo.org/documentation/6.0/#/)
+  | [API Viewer](https://qooxdoo.org/qxl.apiviewer/6.0/)
   
 - v5.0 (May 2015) [Readme](https://github.com/qooxdoo/qooxdoo/blob/branch_5_0_x/readme.rst) 
   | [Documentation](https://archive.qooxdoo.org/5.0.2)

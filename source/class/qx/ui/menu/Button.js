@@ -22,10 +22,8 @@
  * other features are inherited from the {@link qx.ui.menu.AbstractButton}
  * class.
  */
-qx.Class.define("qx.ui.menu.Button",
-{
-  extend : qx.ui.menu.AbstractButton,
-
+qx.Class.define("qx.ui.menu.Button", {
+  extend: qx.ui.menu.AbstractButton,
 
   /*
   *****************************************************************************
@@ -39,9 +37,8 @@ qx.Class.define("qx.ui.menu.Button",
    * @param command {qx.ui.command.Command} Initial command (shortcut)
    * @param menu {qx.ui.menu.Menu} Initial sub menu
    */
-  construct : function(label, icon, command, menu)
-  {
-    this.base(arguments);
+  construct(label, icon, command, menu) {
+    super();
 
     // ARIA attrs
     this.getContentElement().setAttribute("role", "button");
@@ -64,27 +61,19 @@ qx.Class.define("qx.ui.menu.Button",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    appearance :
-    {
-      refine : true,
-      init : "menu-button"
+    appearance: {
+      refine: true,
+      init: "menu-button"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -92,18 +81,15 @@ qx.Class.define("qx.ui.menu.Button",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
-    _onTap : function(e)
-    {
+    _onTap(e) {
       if (e.isLeftPressed() && this.getMenu()) {
         this.execute();
         // don't close menus if the button is a sub menu button
@@ -111,7 +97,7 @@ qx.Class.define("qx.ui.menu.Button",
         return;
       }
 
-      this.base(arguments, e);
+      super._onTap(e);
     }
   }
 });

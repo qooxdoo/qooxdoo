@@ -25,13 +25,11 @@
  * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Touch", {
-  statics :
-  {
+  statics: {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["tap", "longtap", "swipe", "dbltap"],
-
+    TYPES: ["tap", "longtap", "swipe", "dbltap"],
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -43,8 +41,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
      * @return {Event} Normalized event object
      * @internal
      */
-    normalize : function(event, element, type)
-    {
+    normalize(event, element, type) {
       if (!event) {
         return event;
       }
@@ -53,7 +50,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$registerEventNormalization(statics.TYPES, statics.normalize);
   }
 });

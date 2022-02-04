@@ -48,22 +48,26 @@ events:
 - `beforeStart`: Fired before server start
 - `afterStart`: Fired when server is started
 
+Instances of `qx.tool.cli.commands.Publish` and its subclasses fire the following events:
+events:
+- `beforeCommit`:  Fired before commit happens.
+
 Here is an example how to add some stuff to the express server when you run qx start:
 ```javascript
 qx.Class.define("myApp.CompilerApi", {
   extend: qx.tool.cli.api.CompilerApi,
   members: {
-    load: async function () {
+    async load() {
       this.addListener("changeCommand", function () {
         let command = this.getCommand();
         if (command instanceof qx.tool.cli.commands.Serve) {
           command.addListener("beforeStart", this.__onBeforeStart, this);
         }
       }, this);
-      return this.base(arguments);
+      return super.load();
     },
 
-    __onBeforeStart: function (event) {
+    __onBeforeStart(event) {
       let expressApp = event.getData().application;
       expressApp.use("/", express.static(my_cool_static_dir));
     }
@@ -91,7 +95,7 @@ qx.Class.define("myApp.CompilerApi", {
           command.addListener("runTests", this.__appTesting, this);
         }
       }, this);
-      return this.base(arguments);
+      return await super.load();
     },
 
     __appTesting: async function (data) {

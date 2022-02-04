@@ -24,21 +24,18 @@
  *
  * @require(qx.core.Assert)
  */
-qx.Mixin.define("qx.core.MAssert",
-{
-  members :
-  {
-  /**
-   * Assert that the condition evaluates to <code>true</code>.
-   *
-   * @param condition {var} Condition to check for. Must evaluate to
-   *    <code>true</code>.
-   * @param msg {String?} Message to be shown if the assertion fails.
-   */
-    assert : function(condition, msg) {
+qx.Mixin.define("qx.core.MAssert", {
+  members: {
+    /**
+     * Assert that the condition evaluates to <code>true</code>.
+     *
+     * @param condition {var} Condition to check for. Must evaluate to
+     *    <code>true</code>.
+     * @param msg {String?} Message to be shown if the assertion fails.
+     */
+    assert(condition, msg) {
       qx.core.Assert.assert(condition, msg);
     },
-
 
     /**
      * Raise an {@link AssertionError}
@@ -46,10 +43,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param msg {String} Message to be shown if the assertion fails.
      * @param compact {Boolean?false} Show less verbose message. Default: false.
      */
-    fail : function(msg, compact) {
+    fail(msg, compact) {
       qx.core.Assert.fail(msg, compact);
     },
-
 
     /**
      * Assert that the value is <code>true</code> (Identity check).
@@ -58,10 +54,9 @@ qx.Mixin.define("qx.core.MAssert",
      *    <code>true</code>.
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertTrue : function(value, msg) {
+    assertTrue(value, msg) {
       qx.core.Assert.assertTrue(value, msg);
     },
-
 
     /**
      * Assert that the value is <code>false</code> (Identity check).
@@ -70,10 +65,9 @@ qx.Mixin.define("qx.core.MAssert",
      *    <code>false</code>.
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertFalse : function(value, msg) {
+    assertFalse(value, msg) {
       qx.core.Assert.assertFalse(value, msg);
     },
-
 
     /**
      * Assert that both values are equal. (Uses the equality operator
@@ -83,7 +77,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {var} found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertEquals : function(expected, found, msg) {
+    assertEquals(expected, found, msg) {
       qx.core.Assert.assertEquals(expected, found, msg);
     },
 
@@ -95,10 +89,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {var} found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNotEquals : function(expected, found, msg) {
+    assertNotEquals(expected, found, msg) {
       qx.core.Assert.assertNotEquals(expected, found, msg);
     },
-
 
     /**
      * Assert that both float values are equal. This might be needed because
@@ -108,10 +101,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {Float} Found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertEqualsFloat : function(expected, found, msg) {
+    assertEqualsFloat(expected, found, msg) {
       qx.core.Assert.assertEqualsFloat(expected, found, msg);
     },
-
 
     /**
      * Assert that both float values are not equal. This might be needed
@@ -121,10 +113,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {Float} Found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNotEqualsFloat : function(expected, found, msg) {
+    assertNotEqualsFloat(expected, found, msg) {
       qx.core.Assert.assertNotEqualsFloat(expected, found, msg);
     },
-
 
     /**
      * Assert that both values are identical. (Uses the identity operator
@@ -134,10 +125,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {var} found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertIdentical : function(expected, found, msg) {
+    assertIdentical(expected, found, msg) {
       qx.core.Assert.assertIdentical(expected, found, msg);
     },
-
 
     /**
      * Assert that both values are not identical. (Uses the not identity operator
@@ -147,10 +137,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {var} found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNotIdentical : function(expected, found, msg) {
+    assertNotIdentical(expected, found, msg) {
       qx.core.Assert.assertNotIdentical(expected, found, msg);
     },
-
 
     /**
      * Assert that the value is not <code>undefined</code>.
@@ -158,10 +147,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNotUndefined : function(value, msg) {
+    assertNotUndefined(value, msg) {
       qx.core.Assert.assertNotUndefined(value, msg);
     },
-
 
     /**
      * Assert that the value is <code>undefined</code>.
@@ -169,10 +157,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertUndefined : function(value, msg) {
+    assertUndefined(value, msg) {
       qx.core.Assert.assertUndefined(value, msg);
     },
-
 
     /**
      * Assert that the value is not <code>null</code>.
@@ -180,10 +167,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNotNull : function(value, msg) {
+    assertNotNull(value, msg) {
       qx.core.Assert.assertNotNull(value, msg);
     },
-
 
     /**
      * Assert that the value is <code>null</code>.
@@ -191,10 +177,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNull : function(value, msg) {
+    assertNull(value, msg) {
       qx.core.Assert.assertNull(value, msg);
     },
-
 
     /**
      * Assert that the first two arguments are equal, when serialized into
@@ -204,10 +189,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {var} The found value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertJsonEquals : function(expected, found, msg) {
+    assertJsonEquals(expected, found, msg) {
       qx.core.Assert.assertJsonEquals(expected, found, msg);
     },
-
 
     /**
      * Assert that the given string matches the regular expression
@@ -216,10 +200,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param re {RegExp} Regular expression to match
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertMatch : function(str, re, msg) {
+    assertMatch(str, re, msg) {
       qx.core.Assert.assertMatch(str, re, msg);
     },
-
 
     /**
      * Assert that the number of arguments is within the given range
@@ -229,10 +212,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param maxCount {Integer} Maximum number of arguments
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertArgumentsCount : function(args, minCount, maxCount, msg) {
+    assertArgumentsCount(args, minCount, maxCount, msg) {
       qx.core.Assert.assertArgumentsCount(args, minCount, maxCount, msg);
     },
-
 
     /**
      * Assert that an event is fired.
@@ -245,10 +227,9 @@ qx.Mixin.define("qx.core.MAssert",
      *   listener. The function has one parameter called e which is the event.
      * @param msg {String?""} Message to be shows if the assertion fails.
      */
-    assertEventFired : function(obj, event, invokeFunc, listener, msg) {
+    assertEventFired(obj, event, invokeFunc, listener, msg) {
       qx.core.Assert.assertEventFired(obj, event, invokeFunc, listener, msg);
     },
-
 
     /**
      * Assert that an event is not fired.
@@ -259,10 +240,9 @@ qx.Mixin.define("qx.core.MAssert",
      *   should not fire the event.
      * @param msg {String?} Message to be shows if the assertion fails.
      */
-    assertEventNotFired : function(obj, event, invokeFunc, msg) {
+    assertEventNotFired(obj, event, invokeFunc, msg) {
       qx.core.Assert.assertEventNotFired(obj, event, invokeFunc, msg);
     },
-
 
     /**
      * Asserts that the callback raises a matching exception.
@@ -275,10 +255,9 @@ qx.Mixin.define("qx.core.MAssert",
      *   not match this parameter
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertException : function(callback, exception, re, msg) {
+    assertException(callback, exception, re, msg) {
       qx.core.Assert.assertException(callback, exception, re, msg);
     },
-
 
     /**
      * Assert that the value is an item in the given array.
@@ -287,10 +266,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param array {Array} List of valid values
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertInArray : function(value, array, msg) {
+    assertInArray(value, array, msg) {
       qx.core.Assert.assertInArray(value, array, msg);
     },
-
 
     /**
      * Assert that the value is NOT an item in the given array
@@ -299,10 +277,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param array {Array} List of values
      * @param msg {String?} Message to be shown if the assertion fails
      */
-    assertNotInArray : function(value, array, msg) {
+    assertNotInArray(value, array, msg) {
       qx.core.Assert.assertNotInArray(value, array, msg);
     },
-
 
     /**
      * Assert that both array have identical array items.
@@ -311,10 +288,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param found {Array} The found array
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertArrayEquals : function(expected, found, msg) {
+    assertArrayEquals(expected, found, msg) {
       qx.core.Assert.assertArrayEquals(expected, found, msg);
     },
-
 
     /**
      * Assert that the value is a key in the given map.
@@ -323,10 +299,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param map {Map} Map, where the keys represent the valid values
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertKeyInMap : function(value, map, msg) {
+    assertKeyInMap(value, map, msg) {
       qx.core.Assert.assertKeyInMap(value, map, msg);
-    } ,
-
+    },
 
     /**
      * Assert that the value is a function.
@@ -334,10 +309,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertFunction : function(value, msg) {
+    assertFunction(value, msg) {
       qx.core.Assert.assertFunction(value, msg);
     },
-
 
     /**
      * Assert that the value is a string.
@@ -345,10 +319,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertString : function(value, msg) {
+    assertString(value, msg) {
       qx.core.Assert.assertString(value, msg);
     },
-
 
     /**
      * Assert that the value is a boolean.
@@ -356,10 +329,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertBoolean : function(value, msg) {
+    assertBoolean(value, msg) {
       qx.core.Assert.assertBoolean(value, msg);
     },
-
 
     /**
      * Assert that the value is a number.
@@ -367,10 +339,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertNumber : function(value, msg) {
+    assertNumber(value, msg) {
       qx.core.Assert.assertNumber(value, msg);
     },
-
 
     /**
      * Assert that the value is a number >= 0.
@@ -378,10 +349,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertPositiveNumber : function(value, msg) {
+    assertPositiveNumber(value, msg) {
       qx.core.Assert.assertPositiveNumber(value, msg);
     },
-
 
     /**
      * Assert that the value is an integer.
@@ -389,10 +359,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertInteger : function(value, msg) {
+    assertInteger(value, msg) {
       qx.core.Assert.assertInteger(value, msg);
     },
-
 
     /**
      * Assert that the value is an integer >= 0.
@@ -400,10 +369,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertPositiveInteger : function(value, msg) {
+    assertPositiveInteger(value, msg) {
       qx.core.Assert.assertPositiveInteger(value, msg);
     },
-
 
     /**
      * Assert that the value is inside the given range.
@@ -413,10 +381,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param max {Number} upper bound
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertInRange : function(value, min, max, msg) {
+    assertInRange(value, min, max, msg) {
       qx.core.Assert.assertInRange(value, min, max, msg);
     },
-
 
     /**
      * Assert that the value is an object.
@@ -424,10 +391,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertObject : function(value, msg) {
+    assertObject(value, msg) {
       qx.core.Assert.assertObject(value, msg);
     },
-
 
     /**
      * Assert that the value is an array.
@@ -435,10 +401,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertArray : function(value, msg) {
+    assertArray(value, msg) {
       qx.core.Assert.assertArray(value, msg);
     },
-
 
     /**
      * Assert that the value is a map either created using <code>new Object</code>
@@ -447,10 +412,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertMap : function(value, msg) {
+    assertMap(value, msg) {
       qx.core.Assert.assertMap(value, msg);
     },
-
 
     /**
      * Assert that the value is a regular expression.
@@ -458,10 +422,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertRegExp : function(value, msg) {
-       qx.core.Assert.assertRegExp(value, msg);
+    assertRegExp(value, msg) {
+      qx.core.Assert.assertRegExp(value, msg);
     },
-
 
     /**
      * Assert that the value has the given type using the <code>typeof</code>
@@ -473,10 +436,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param type {String} expected type of the value
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertType : function(value, type, msg) {
+    assertType(value, type, msg) {
       qx.core.Assert.assertType(value, type, msg);
     },
-
 
     /**
      * Assert that the value is an instance of the given class.
@@ -485,10 +447,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param clazz {Class} The value must be an instance of this class
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertInstance : function(value, clazz, msg) {
+    assertInstance(value, clazz, msg) {
       qx.core.Assert.assertInstance(value, clazz, msg);
     },
-
 
     /**
      * Assert that the value implements the given interface.
@@ -497,10 +458,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param iface {Class} The value must implement this interface
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertInterface : function(value, iface, msg) {
+    assertInterface(value, iface, msg) {
       qx.core.Assert.assertInterface(value, iface, msg);
     },
-
 
     /**
      * Assert that the value represents the given CSS color value. This method
@@ -511,10 +471,9 @@ qx.Mixin.define("qx.core.MAssert",
      *  @param value {String} The value to check
      *  @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertCssColor : function(expected, value, msg) {
+    assertCssColor(expected, value, msg) {
       qx.core.Assert.assertCssColor(expected, value, msg);
     },
-
 
     /**
      * Assert that the value is a DOM element.
@@ -522,10 +481,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertElement : function(value, msg) {
+    assertElement(value, msg) {
       qx.core.Assert.assertElement(value, msg);
     },
-
 
     /**
      * Assert that the value is an instance of {@link qx.core.Object}.
@@ -533,10 +491,9 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertQxObject : function(value, msg) {
+    assertQxObject(value, msg) {
       qx.core.Assert.assertQxObject(value, msg);
     },
-
 
     /**
      * Assert that the value is an instance of {@link qx.ui.core.Widget}.
@@ -544,7 +501,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @param value {var} Value to check
      * @param msg {String?} Message to be shown if the assertion fails.
      */
-    assertQxWidget : function(value, msg) {
+    assertQxWidget(value, msg) {
       qx.core.Assert.assertQxWidget(value, msg);
     }
   }

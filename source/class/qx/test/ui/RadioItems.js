@@ -15,34 +15,29 @@
      * mw (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.RadioItems",
-{
-  extend : qx.test.ui.LayoutTestCase,
+qx.Class.define("qx.test.ui.RadioItems", {
+  extend: qx.test.ui.LayoutTestCase,
 
-  members :
-  {
-    testTwiceClickForm : function() {
+  members: {
+    testTwiceClickForm() {
       var item = new qx.ui.form.RadioButton();
       this.__testTwiceClick(item);
       item.destroy();
     },
 
-
-    testTwiceClickMenu : function() {
+    testTwiceClickMenu() {
       var item = new qx.ui.menu.RadioButton();
       this.__testTwiceClick(item);
       item.destroy();
     },
 
-
-    testTwiceClickToolbar : function() {
+    testTwiceClickToolbar() {
       var item = new qx.ui.toolbar.RadioButton();
       this.__testTwiceClick(item);
       item.destroy();
     },
 
-
-    __testTwiceClick : function(widget) {
+    __testTwiceClick(widget) {
       this.assertFalse(widget.getValue());
       // execute the widget
       widget.execute();
@@ -53,31 +48,25 @@ qx.Class.define("qx.test.ui.RadioItems",
       this.assertTrue(widget.getValue(), "2");
     },
 
-
-
-
-    testTwiceClickEmptySelectionForm : function() {
+    testTwiceClickEmptySelectionForm() {
       var item = new qx.ui.form.RadioButton();
       this.__testTwiceClickEmptySelection(item);
       item.destroy();
     },
 
-
-    testTwiceClickEmptySelectionMenu : function() {
+    testTwiceClickEmptySelectionMenu() {
       var item = new qx.ui.menu.RadioButton();
       this.__testTwiceClickEmptySelection(item);
       item.destroy();
     },
 
-
-    testTwiceClickEmptySelectionToolbar : function() {
+    testTwiceClickEmptySelectionToolbar() {
       var item = new qx.ui.toolbar.RadioButton();
       this.__testTwiceClickEmptySelection(item);
       item.destroy();
     },
 
-
-    __testTwiceClickEmptySelection : function(widget) {
+    __testTwiceClickEmptySelection(widget) {
       var grp = new qx.ui.form.RadioGroup();
       grp.setAllowEmptySelection(true);
       widget.setGroup(grp);

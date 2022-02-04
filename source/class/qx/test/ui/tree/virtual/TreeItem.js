@@ -21,37 +21,29 @@
  * @ignore(qx.test.ui.tree.virtual.NodeDefered)
  * @ignore(qx.test.ui.tree.virtual.Leaf)
  */
-qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
-{
-  extend : qx.test.ui.tree.virtual.AbstractTreeTest,
+qx.Class.define("qx.test.ui.tree.virtual.TreeItem", {
+  extend: qx.test.ui.tree.virtual.AbstractTreeTest,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
+    qx.Class.define("qx.test.ui.tree.virtual.NodeDefered", {
+      extend: qx.test.ui.tree.virtual.Leaf,
 
-    qx.Class.define("qx.test.ui.tree.virtual.NodeDefered",
-    {
-      extend : qx.test.ui.tree.virtual.Leaf,
-
-      properties :
-      {
-        children :
-        {
-          check : "qx.data.Array",
-          event : "changeChildren",
-          apply : "_applyEventPropagation",
-          nullable : true
+      properties: {
+        children: {
+          check: "qx.data.Array",
+          event: "changeChildren",
+          apply: "_applyEventPropagation",
+          nullable: true
         }
       },
 
-      destruct : function()
-      {
-        if (!qx.core.ObjectRegistry.inShutDown)
-        {
+      destruct() {
+        if (!qx.core.ObjectRegistry.inShutDown) {
           var children = this.getChildren();
           if (children) {
-            for (var i = 0; i  < children.getLength(); i++) {
+            for (var i = 0; i < children.getLength(); i++) {
               children.getItem(i).dispose();
             }
             children.dispose();
@@ -61,11 +53,8 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
     });
   },
 
-
-  members :
-  {
-    testChildrenSetDeferred : function()
-    {
+  members: {
+    testChildrenSetDeferred() {
       var that = this;
       var root = new qx.test.ui.tree.virtual.Node("Root node");
       var node = new qx.test.ui.tree.virtual.NodeDefered("Node1");
@@ -76,44 +65,52 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
       this.tree.setModel(root);
       this.flush();
 
-      window.setTimeout(that.resumeHandler(function()
-      {
-        // add new node
-        node.setChildren(new qx.data.Array([new qx.test.ui.tree.virtual.NodeDefered("Node1.1")]));
+      window.setTimeout(
+        that.resumeHandler(function () {
+          // add new node
+          node.setChildren(
+            new qx.data.Array([
+              new qx.test.ui.tree.virtual.NodeDefered("Node1.1")
+            ])
+          );
 
+          // check for event listener
+          that.assertTrue(
+            node.hasListener("changeChildren"),
+            "There must be a 'changeChildren' event listener!"
+          );
 
-        // check for event listener
-        that.assertTrue(node.hasListener("changeChildren"),
-         "There must be a 'changeChildren' event listener!");
+          that.assertTrue(
+            node.getChildren().hasListener("changeLength"),
+            "There must be a 'changeLength' event listener on children array!"
+          );
 
-        that.assertTrue(node.getChildren().hasListener("changeLength"),
-         "There must be a 'changeLength' event listener on children array!");
+          // check for open indent
+          var widget = that.__getWidgetForm(node);
+          that.assertTrue(widget.isOpenable(), "Must be openable!");
 
+          // dispose and check if event listeners are removed
+          root.dispose();
 
-        // check for open indent
-        var widget = that.__getWidgetForm(node);
-        that.assertTrue(widget.isOpenable(), "Must be openable!");
+          that.assertFalse(
+            node.hasListener("changeChildren"),
+            "After disposing, there has not be a 'changeChildren' event listener!"
+          );
 
-
-        // dispose and check if event listeners are removed
-        root.dispose();
-
-        that.assertFalse(node.hasListener("changeChildren"),
-         "After disposing, there has not be a 'changeChildren' event listener!");
-
-        that.assertFalse(node.getChildren().hasListener("changeLength"),
-         "After disposing, there must not be a 'changeLength' event listener on children array!");
-      }), 0);
-
+          that.assertFalse(
+            node.getChildren().hasListener("changeLength"),
+            "After disposing, there must not be a 'changeLength' event listener on children array!"
+          );
+        }),
+        0
+      );
 
       // children property not set yet
       this.assertNull(node.getChildren(), "Must be null");
       this.wait(50);
     },
 
-
-    __getWidgetForm : function(modelItem)
-    {
+    __getWidgetForm(modelItem) {
       var widget = null;
       var row = this.tree.getLookupTable().indexOf(modelItem);
       if (row > -1) {

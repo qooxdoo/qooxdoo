@@ -29,12 +29,11 @@
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Widget", {
-  extend : qxWeb,
-  
-  implement: [ qx.core.IDisposable ],
+  extend: qxWeb,
 
-  statics : {
+  implement: [qx.core.IDisposable],
 
+  statics: {
     /**
      * Factory method for the widget which converts a standard
      * collection into a collection of widgets.
@@ -43,12 +42,11 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      *
      * @attach {qxWeb}
      */
-    widget : function() {
+    widget() {
       var widget = new qx.ui.website.Widget(this);
       widget.init();
       return widget;
     },
-
 
     /**
      * Creates a new collection from the given argument. This can either be an
@@ -57,10 +55,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param html {String|Element[]} HTML string or DOM element(s)
      * @return {qxWeb} Collection of elements
      */
-    create : function(html) {
+    create(html) {
       return new qx.ui.website.Widget(qxWeb.create(html));
     },
-
 
     /**
      * Fetches elements with a data attribute named <code>data-qx-class</code>
@@ -71,16 +68,15 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * restrict the list of elements
      * @attachStatic {qxWeb}
      */
-    initWidgets : function(selector) {
+    initWidgets(selector) {
       var elements = qxWeb("*[data-qx-class]");
       if (selector) {
         elements = elements.filter(selector);
       }
-      elements._forEachElementWrapped(function(widget) {
+      elements._forEachElementWrapped(function (widget) {
         widget.init();
       });
     },
-
 
     /**
      * Returns a wrapper Array that maps the widget API available on
@@ -90,8 +86,10 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @attach {qxWeb}
      * @return {qxWeb[]} Collection of widgets
      */
-    toWidgetCollection: function() {
-      var args = this.toArray().map(function(el) { return qxWeb(el); });
+    toWidgetCollection() {
+      var args = this.toArray().map(function (el) {
+        return qxWeb(el);
+      });
 
       // Set the context for the 'bind' call (will be replaced by new)
       Array.prototype.unshift.call(args, null);
@@ -102,26 +100,26 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     }
   },
 
-
-  construct : function(selector, context) {
-    var col = this.base(arguments, selector, context);
+  construct(selector, context) {
+    var col = super(selector, context);
     if (col.length > 1) {
       throw new Error("The collection must not contain more than one element.");
     }
-    Array.prototype.push.apply(this, Array.prototype.slice.call(col, 0, col.length));
+    Array.prototype.push.apply(
+      this,
+      Array.prototype.slice.call(col, 0, col.length)
+    );
   },
 
-
-  members : {
-    __cssPrefix : null,
-
+  members: {
+    __cssPrefix: null,
 
     /**
      * Responsible for initializing of the widget. This checks for the data attribute
      * named <code>data-qx-class</code> and initializes the widget if necessary.
      * @return {Boolean} <code>true</code> if the widget has been initialized
      */
-    init : function() {
+    init() {
       if (this.getProperty("$$qx-widget-initialized")) {
         return false;
       }
@@ -129,12 +127,11 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       this.addClass("qx-widget");
       this.addClass(this.getCssPrefix());
       this.setProperty("$$qx-widget-initialized", true);
-      if(this[0]) {
+      if (this[0]) {
         this[0].$widget = this;
       }
       return true;
     },
-
 
     /**
      * Return the proper CSS prefix for the current widget. This prefix is
@@ -142,14 +139,13 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      *
      * @return {String} The CSS prefix for the current object.
      */
-    getCssPrefix : function() {
+    getCssPrefix() {
       if (!this.__cssPrefix) {
         var split = this.classname.split(".");
         this.__cssPrefix = "qx-" + split[split.length - 1].toLowerCase();
       }
       return this.__cssPrefix;
     },
-
 
     /**
      * Changes the enabled state of the current collection, which means all
@@ -159,22 +155,20 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param value {Boolean} The enabled value.
      * @return {qx.ui.website.Widget} The collection for chaining
      */
-    setEnabled : function(value) {
+    setEnabled(value) {
       this.setAttribute("disabled", !value);
       this.find("*").setAttribute("disabled", !value);
       return this;
     },
-
 
     /**
      * Returns weather the first widget in the collection is enabled or not.
      *
      * @return {Boolean} The enabled state of the collection.
      */
-    getEnabled : function() {
+    getEnabled() {
       return !this.getAttribute("disabled");
     },
-
 
     /**
      * Setter for the widget-specific templates. The available templates can
@@ -190,10 +184,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      *
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
-    setTemplate : function(name, template) {
+    setTemplate(name, template) {
       return this._setData("templates", name, template);
     },
-
 
     /**
      * Setter for the widget-specific config. The available config settings can
@@ -208,10 +201,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param config {var} The value of the config setting.
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
-    setConfig : function(name, config) {
+    setConfig(name, config) {
       return this._setData("config", name, config);
     },
-
 
     /**
      * Helper to set either config or template values.
@@ -221,7 +213,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param data {var} The data to store.
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
-    _setData : function(type, name, data) {
+    _setData(type, name, data) {
       if (!this["$$storage_" + type]) {
         this["$$storage_" + type] = {};
       }
@@ -230,7 +222,6 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       return this;
     },
 
-
     /**
      * Returns the used template. This includes custom templates
      * as the default templates defined by the widgets.
@@ -238,10 +229,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param name {String} The name of the template.
      * @return {String} The template string or <code>undefined</code>.
      */
-    getTemplate : function(name) {
+    getTemplate(name) {
       return this._getData("templates", name);
     },
-
 
     /**
      * Returns the config setting currently in use for the given widget.
@@ -252,10 +242,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param name {String} The name of the config.
      * @return {var} The value of the config or <code>undefined</code>.
      */
-    getConfig : function(name) {
+    getConfig(name) {
       return this._getData("config", name);
     },
-
 
     /**
      * Internal helper for querying the values for templates and configs. In the
@@ -266,7 +255,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param name {String} The name for the value to fetch.
      * @return {var} The value store for the given arguments.
      */
-    _getData : function(type, name) {
+    _getData(type, name) {
       var storage = this["$$storage_" + type];
       var item;
 
@@ -275,8 +264,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       }
 
       if (item === undefined && type == "config") {
-        var attribName = "qx" + qxWeb.string.firstUp(type) +
-          qxWeb.string.firstUp(name);
+        var attribName =
+          "qx" + qxWeb.string.firstUp(type) + qxWeb.string.firstUp(name);
         item = this.getData(attribName);
 
         // not defined HTML attributes result in 'null' values
@@ -286,7 +275,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
         try {
           item = JSON.parse(item);
-        } catch(e) {}
+        } catch (e) {}
       }
 
       if (item === undefined && this.constructor["_" + type]) {
@@ -296,7 +285,6 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       return item;
     },
 
-
     /**
      * The render method is responsible for applying changed config
      * and template settings. This method is usually overridden and specified
@@ -304,11 +292,10 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      *
      * @return {qx.ui.website.Widget} The widget collection for chaining.
      */
-    render : function() {
+    render() {
       // empty method
       return this;
     },
-
 
     /**
      * Dispose the widget, making sure all objects are ready for
@@ -316,7 +303,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * DOM including event listeners.
      * @return {qxWeb} Plain qxWeb collection
      */
-    dispose : function() {
+    dispose() {
       this.removeAttribute("data-qx-class");
       this.setProperty("config", undefined);
       this.setProperty("templates", undefined);
@@ -336,14 +323,14 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attach({
       widget: statics.widget,
-      toWidgetCollection : statics.toWidgetCollection
+      toWidgetCollection: statics.toWidgetCollection
     });
+
     qxWeb.$attachStatic({
-      initWidgets : statics.initWidgets
+      initWidgets: statics.initWidgets
     });
   }
 });

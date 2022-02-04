@@ -24,9 +24,7 @@
  * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Object", {
-
-  statics : {
-
+  statics: {
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
@@ -37,7 +35,7 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    keys : qx.Bootstrap.keys,
+    keys: qx.Bootstrap.keys,
 
     /**
      * Get the values of a map as array
@@ -45,21 +43,21 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */
-    values : function(map) {
+    values(map) {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        qx.core.Assert &&
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
 
       var arr = [];
       var keys = Object.keys(map);
 
-      for (var i=0, l=keys.length; i<l; i++) {
+      for (var i = 0, l = keys.length; i < l; i++) {
         arr.push(map[keys[i]]);
       }
 
       return arr;
     },
-
 
     /**
      * Determines whether two values are the same value.
@@ -71,18 +69,18 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param y {Object} the second value to compare
      * @return {Boolean} indicating whether or not the two arguments are the same value.
      */
-    is : function(x, y) {
+    is(x, y) {
       // SameValue algorithm
-      if (x === y) { // Steps 1-5, 7-10
+      if (x === y) {
+        // Steps 1-5, 7-10
         // Steps 6.b-6.e: +0 != -0
         return x !== 0 || 1 / x === 1 / y;
       } else {
-       // Step 6.a: NaN == NaN
-       /* eslint-disable-next-line no-self-compare */
-       return x !== x && y !== y;
+        // Step 6.a: NaN == NaN
+        /* eslint-disable-next-line no-self-compare */
+        return x !== x && y !== y;
       }
     },
-
 
     /**
      * Copies all enumerable own properties from one or more source objects to a target object..
@@ -94,10 +92,11 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param sources {Object} The source object(s) - objects containing the properties you want to apply.
      * @return {Object} The target object.
      */
-    assign : function(target, sources) { // .length of function is 2
-      'use strict';
+    assign(target, sources) {
+      // .length of function is 2
+      "use strict";
       if (target === null || target === undefined) {
-        throw new TypeError('Cannot convert undefined or null to object');
+        throw new TypeError("Cannot convert undefined or null to object");
       }
 
       var to = Object(target);
@@ -118,7 +117,7 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     // keys
     if (!qx.core.Environment.get("ecmascript.object.keys")) {
       Object.keys = statics.keys;

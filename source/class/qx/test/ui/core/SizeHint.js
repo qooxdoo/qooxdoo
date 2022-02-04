@@ -16,190 +16,146 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.core.SizeHint",
-{
-  extend : qx.dev.unit.TestCase,
-  type : "abstract",
+qx.Class.define("qx.test.ui.core.SizeHint", {
+  extend: qx.dev.unit.TestCase,
+  type: "abstract",
 
-  members :
-  {
-    setUp : function() {
+  members: {
+    setUp() {
       this.widget = new qx.ui.core.Widget();
     },
 
-
-    tearDown : function() {
+    tearDown() {
       this.widget.dispose();
     },
 
-
-    getHint : function()
-    {
+    getHint() {
       this.widget.invalidateLayoutCache();
       return this.widget.getSizeHint();
     },
 
-
-    assertHint : function(min, size, max) {
+    assertHint(min, size, max) {
       throw new Error("abstract method call");
     },
 
-
-    getDefaultSize : function() {
+    getDefaultSize() {
       throw new Error("abstract method call");
     },
 
-
-    setSize : function(min, size, max) {
+    setSize(min, size, max) {
       throw new Error("abstract method call");
     },
 
-
-    setStretching : function(shrink, grow) {
+    setStretching(shrink, grow) {
       throw new Error("abstract method call");
     },
 
-
-    testDefaultSize : function() {
+    testDefaultSize() {
       this.assertHint(0, this.getDefaultSize(), Infinity);
     },
 
-
-    testSize : function()
-    {
+    testSize() {
       this.setStretching(true, true);
       this.setSize(null, 200, null);
       this.assertHint(0, 200, Infinity);
     },
 
-
-    testMinLargerThanSize : function()
-    {
+    testMinLargerThanSize() {
       this.setStretching(true, true);
       this.setSize(200, 100, null);
       this.assertHint(200, 200, Infinity);
     },
 
-
-    testMinSmallerThanSize : function()
-    {
+    testMinSmallerThanSize() {
       this.setStretching(true, true);
       this.setSize(50, 150, null);
       this.assertHint(50, 150, Infinity);
     },
 
-
-    testMaxSmallerThanSize : function()
-    {
+    testMaxSmallerThanSize() {
       this.setStretching(true, true);
       this.setSize(null, 100, 10);
       this.assertHint(0, 10, 10);
     },
 
-
-    testMaxLargerThanSize : function()
-    {
+    testMaxLargerThanSize() {
       this.setStretching(true, true);
       this.setSize(null, 100, 150);
       this.assertHint(0, 100, 150);
     },
 
-
-    testNoGrow : function()
-    {
+    testNoGrow() {
       this.setStretching(true, false);
       this.setSize(null, 100, null);
       this.assertHint(0, 100, 100);
     },
 
-
-    testNoShrink : function()
-    {
+    testNoShrink() {
       this.setStretching(false, true);
       this.setSize(null, 100, null);
       this.assertHint(100, 100, Infinity);
     },
 
-
-    testNoStretch : function() {
+    testNoStretch() {
       this.setStretching(false, false);
       this.setSize(null, 100, null);
       this.assertHint(100, 100, 100);
     },
 
-
-    testNoGrowAndMaxLargerThanSize : function()
-    {
+    testNoGrowAndMaxLargerThanSize() {
       this.setStretching(true, false);
       this.setSize(null, 100, 150);
       this.assertHint(0, 100, 100);
     },
 
-
-    testNoGrowAndMaxSmallerThanSize : function()
-    {
+    testNoGrowAndMaxSmallerThanSize() {
       this.setStretching(true, false);
       this.setSize(null, 100, 50);
       this.assertHint(0, 50, 50);
     },
 
-
-    testNoGrowAndMinLargerThanSize : function()
-    {
+    testNoGrowAndMinLargerThanSize() {
       this.setStretching(true, false);
       this.setSize(150, 100, null);
       this.assertHint(150, 150, 150);
     },
 
-
-    testNoShrinkAndMinLargerSize : function()
-    {
+    testNoShrinkAndMinLargerSize() {
       this.setStretching(false, true);
       this.setSize(150, 100, null);
       this.assertHint(150, 150, Infinity);
     },
 
-
-    testNoShrinkAndMinSmallerSize : function()
-    {
+    testNoShrinkAndMinSmallerSize() {
       this.setStretching(false, true);
       this.setSize(50, 100, null);
       this.assertHint(100, 100, Infinity);
     },
 
-
-    testNoShrinkAndMaxSmallerSize : function()
-    {
+    testNoShrinkAndMaxSmallerSize() {
       this.setStretching(false, true);
       this.setSize(null, 100, 50);
       this.assertHint(50, 50, 50);
     },
 
-
-    testMinLargerThanMax : function()
-    {
+    testMinLargerThanMax() {
       this.setStretching(true, true);
       this.setSize(200, 100, 150);
-      if (this.isDebugOn())
-      {
+      if (this.isDebugOn()) {
         var that = this;
-        this.assertException(function() {
+        this.assertException(function () {
           that.getHint();
         }, qx.core.AssertionError);
       }
     },
 
-
-    testMinAndMaxLargerThanSize : function()
-    {
+    testMinAndMaxLargerThanSize() {
       this.setStretching(true, true);
       this.setSize(150, 100, 200);
       this.assertHint(150, 150, 200);
     },
 
-
-    testMinAndMaxSmallerThanSize : function()
-    {
+    testMinAndMaxSmallerThanSize() {
       this.setStretching(true, true);
       this.setSize(150, 300, 200);
       this.assertHint(150, 200, 200);

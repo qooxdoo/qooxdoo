@@ -22,10 +22,8 @@
  * range this class places the object at the best "edge", "alignment"
  * combination so that the overlap between object and range is maximized.
  */
-qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
-{
-  statics :
-  {
+qx.Bootstrap.define("qx.util.placement.KeepAlignAxis", {
+  statics: {
     /**
      * Computes the start of the object by taking only the attachment and
      * alignment into account. The object by be not fully visible.
@@ -39,7 +37,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
      *   argument of {@link #computeStart}.
      * @return {Integer} The computed start position of the object.
      */
-    _moveToEdgeAndAlign : qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
+    _moveToEdgeAndAlign: qx.util.placement.AbstractAxis._moveToEdgeAndAlign,
 
     /**
      * Whether the object specified by <code>start</code> and <code>size</code>
@@ -50,7 +48,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
      * @param areaSize {Integer} The size of the axis
      * @return {Boolean} Whether the object is inside of the axis' range
      */
-    _isInRange : qx.util.placement.AbstractAxis._isInRange,
+    _isInRange: qx.util.placement.AbstractAxis._isInRange,
 
     /**
      * Computes the start of the object on the axis
@@ -71,8 +69,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
      *   </ul>
      * @return {Integer} The computed start position of the object.
      */
-    computeStart : function(size, target, offsets, areaSize, position)
-    {
+    computeStart(size, target, offsets, areaSize, position) {
       var start = this._moveToEdgeAndAlign(size, target, offsets, position);
       var range1End, range2Start;
 
@@ -80,13 +77,10 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
         return start;
       }
 
-      if (position == "edge-start" || position == "edge-end")
-      {
+      if (position == "edge-start" || position == "edge-end") {
         range1End = target.start - offsets.end;
         range2Start = target.end + offsets.start;
-      }
-      else
-      {
+      } else {
         range1End = target.end - offsets.end;
         range2Start = target.start + offsets.start;
       }

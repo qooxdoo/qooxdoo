@@ -64,7 +64,7 @@ qx.Class.define("qx.test.Cat", {
   /* ... */
   statics: {
     LEGS: 4,
-    makeSound: function () {
+    makeSound() {
       /* ... */
     }
   }
@@ -262,69 +262,31 @@ ability to override methods in derived classes.
 
 #### Calling the Superclass Constructor
 
-It is hard to come up with an appealing syntax and efficient implementation for
-calling the superclass constructor from the constructor of a derived class. You
-simply cannot top Java's `super()` here. At least there is some generic way that
-does not involve to use the superclass name explicitly:
+The `super()` is a generic way to call the base class that does not involve using 
+the superclass name explicitly:
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
   extend: qx.test.Animal,
-  construct: function (x) {
-    this.base(arguments, x);
+  construct(x) {
+    super(x);
   }
 });
 ```
 
-Unfortunately, to mimic a `super()` call the special variable `arguments` is
-needed, which in JavaScript allows a context-independent access to the actual
-function. Don't get confused by its name, you would list your own arguments just
-afterwards (like the `x` in the example above).
-
-`this.base(arguments, x)` is internally mapped to
-`arguments.callee.base.call(this, x)` (The _.base_ property is maintained for
-every method through Qooxdoo's class system). The latter form can be handled by
-JavaScript natively, which means it is quite efficient. As an optimization
-during the build process such a rewrite is done automatically for your
-deployable application.
 
 #### Calling an Overridden Method
 
 Calling an overridden superclass method from within the overriding method (i.e.
 both methods have the same name) is similar to calling the superclass
-constructor:
+constructor, but note that you have to specify the method name:
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
   extend: qx.test.Animal,
   members: {
-    makeSound: function () {
-      this.base(arguments);
-    }
-  }
-});
-```
-
-#### Calling the Superclass Method or Constructor with all parameters
-
-This variant allows to pass all the parameters (unmodified):
-
-```javascript
-qx.Class.define("qx.test.Animal", {
-  members: {
-    makeSound: function (howManyTimes) {
-      //....
-    }
-  }
-});
-
-qx.Class.define("qx.test.Cat", {
-  extend: qx.test.Animal,
-  members: {
-    makeSound: function () {
-      this.debug("I'm a cat");
-      /* howManyTimes or any other parameter are passed.  We don't need to know how many parameters are used. */
-      arguments.callee.base.apply(this, arguments);
+    makeSound() {
+      super.makeSound();
     }
   }
 });
@@ -333,34 +295,81 @@ qx.Class.define("qx.test.Cat", {
 #### Calling another Static Method
 
 Here is an example for calling a static member without using a fully-qualified
-class name (compare to `this.base(arguments)` above):
+class name (compare to `super()` above):
 
 ```javascript
-qx.Class.define("qx.test.Cat", {
-  extend: qx.test.Animal,
-  statics : {
-    someStaticMethod : function(x) {
-      ...
-    }
+qx.Class.define("qx.test.Animal", {
+  extend: qx.core.Object,
+  statics: {
+    someStaticVar: 123
   },
   members: {
-    makeSound : function(x) {
-      this.constructor.someStaticMethod(x);
+    makeSound(x) {
+      console.log(this.constructor.classname);
     }
   }
 });
+qx.Class.define("qx.test.Cat", {
+  extend: qx.test.Animal,
+  statics : {
+    someStaticMethod(x) {
+      ...
+    },
+    anotherStaticVar: "meow"
+  },
+  members: {
+    makeSound(x) {
+      super.makeSound(x);
+      qx.test.Cat.someStaticMethod(x);
+    }
+  }
+});
+qx.Class.define("qx.test.Dog", {
+  extend: qx.test.Animal
+});
+
 ```
 
-The syntax for accessing static variables simply is
-`this.constructor.someStaticVar`. Please note, for `this.constructor` to be
-available, the class must be a derived class of `qx.core.Object` , which is
-usually the case for regular, non-static classes.
+The syntax for accessing static methods and variables is to use the classname
+to prefix the method or variable, for example `qx.test.Animal.someStaticVar`.
 
-Instead of `this.constructor` you can also use the alternative syntax
-`this.self(arguments)`.
+In member methods, you have anther choice for accessing the class definition - you can 
+use `this.constructor` which returns the class of the object.  Note that `this.constructor`
+will be different depending on the actual instance of the class, for example:
 
-In purely static classes for calling a static method from another static method,
-you can directly use the `this` keyword, e.g. `this.someStaticMethod(x)`.
+```
+new qx.test.Dog().makeSound(); // outputs qx.test.Dog
+new qx.test.Cat().makeSound(); // outputs qx.test.Cat
+```
+
+If you access static methods or variables using code such as `this.constructor.someStaticVar`,
+then this works fine _provided that you never subclass your class_.  Statics are not
+inherited between classes.
+
+When writing a mixin, `this.constructor` is never the class of the where the code appears, 
+so you must always specify the absolute class name, eg `qx.test.Animal.someStaticVar.
+
+The simplest solution is to always write the classname explicitly when accessing static member.
+
+The code in a static method typically has `this` set to the class because of how you call it - 
+eg `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.test.Cat`.  However,
+because it is a standalone method this code is different:
+
+```
+var fn = qx.test.Cat.someStaticMethod;
+fn(); // "this" will be the global object
+```
+
+You have two choices here: you either take care to make sure that you never get a variable 
+reference to a method and then call the method, in which case you _can_ use `this` in the
+static method's code, or you always explicitly use the class name.
+
+If you are trying to reduce the amount of typing, this code works as expected:
+
+```
+var Cat = qx.test.Cat;
+Cat.someStaticMethod(); // "this" will be qx.test.Cat
+```
 
 ## Usage of Interfaces and Mixins
 

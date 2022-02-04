@@ -20,10 +20,8 @@
  * A HTML cell provider provides the {@link qx.ui.virtual.layer.HtmlCell}
  * with HTML fragments to render the cells.
  */
-qx.Interface.define("qx.ui.virtual.core.IHtmlCellProvider",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.virtual.core.IHtmlCellProvider", {
+  members: {
     /**
      * Returns all relevant properties of the cell:
      * <ul>
@@ -40,6 +38,6 @@ qx.Interface.define("qx.ui.virtual.core.IHtmlCellProvider",
      *
      * @return {Map} Cell properties (see above.)
      */
-    getCellProperties : function(row, column) {}
+    getCellProperties(row, column) {}
   }
 });

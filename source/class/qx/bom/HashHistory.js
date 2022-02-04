@@ -28,35 +28,28 @@
  *
  * @internal
  */
-qx.Class.define("qx.bom.HashHistory",
-{
-  extend : qx.bom.History,
-  implement: [ qx.core.IDisposable ],
+qx.Class.define("qx.bom.HashHistory", {
+  extend: qx.bom.History,
+  implement: [qx.core.IDisposable],
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
     this._baseUrl = null;
     this.__initIframe();
   },
 
-
-  members :
-  {
-    __checkOnHashChange : null,
-    __iframe : null,
-    __iframeReady : false,
-
+  members: {
+    __checkOnHashChange: null,
+    __iframe: null,
+    __iframeReady: false,
 
     //overridden
-    addToHistory : function(state, newTitle)
-    {
+    addToHistory(state, newTitle) {
       if (!qx.lang.Type.isString(state)) {
         state = state + "";
       }
 
-      if (qx.lang.Type.isString(newTitle))
-      {
+      if (qx.lang.Type.isString(newTitle)) {
         this.setTitle(newTitle);
         this._titles[state] = newTitle;
       }
@@ -66,23 +59,19 @@ qx.Class.define("qx.bom.HashHistory",
       }
     },
 
-
     /**
      * Initializes the iframe
      *
      */
-    __initIframe : function()
-    {
+    __initIframe() {
       this.__iframe = this.__createIframe();
       document.body.appendChild(this.__iframe);
 
-      this.__waitForIFrame(function()
-      {
+      this.__waitForIFrame(function () {
         this._baseUrl = this.__iframe.contentWindow.document.location.href;
         this.__attachListeners();
       }, this);
     },
-
 
     /**
      * IMPORTANT NOTE FOR IE:
@@ -91,10 +80,12 @@ qx.Class.define("qx.bom.HashHistory",
      *
      * @return {Element}
      */
-    __createIframe : function ()
-    {
+    __createIframe() {
       var iframe = qx.bom.Iframe.create({
-        src : qx.util.ResourceManager.getInstance().toUri(qx.core.Environment.get("qx.blankpage")) + "#"
+        src:
+          qx.util.ResourceManager.getInstance().toUri(
+            qx.core.Environment.get("qx.blankpage")
+          ) + "#"
       });
 
       iframe.style.visibility = "hidden";
@@ -105,7 +96,6 @@ qx.Class.define("qx.bom.HashHistory",
       return iframe;
     },
 
-
     /**
      * Waits for the IFrame being loaded. Once the IFrame is loaded
      * the callback is called with the provided context.
@@ -114,21 +104,26 @@ qx.Class.define("qx.bom.HashHistory",
      * @param context {Object?window} The context for the callback.
      * @param retry {Integer} number of tries to initialize the iframe
      */
-    __waitForIFrame : function(callback, context, retry)
-    {
+    __waitForIFrame(callback, context, retry) {
       if (typeof retry === "undefined") {
         retry = 0;
       }
 
-      if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
-      {
+      if (
+        !this.__iframe.contentWindow ||
+        !this.__iframe.contentWindow.document
+      ) {
         if (retry > 20) {
           throw new Error("can't initialize iframe");
         }
 
-        qx.event.Timer.once(function() {
-          this.__waitForIFrame(callback, context, ++retry);
-        }, this, 10);
+        qx.event.Timer.once(
+          function () {
+            this.__waitForIFrame(callback, context, ++retry);
+          },
+          this,
+          10
+        );
 
         return;
       }
@@ -137,48 +132,51 @@ qx.Class.define("qx.bom.HashHistory",
       callback.call(context || window);
     },
 
-
     /**
      * Attach hash change listeners
      */
-    __attachListeners : function()
-    {
-      qx.event.Idle.getInstance().addListener("interval", this.__onHashChange, this);
+    __attachListeners() {
+      qx.event.Idle.getInstance().addListener(
+        "interval",
+        this.__onHashChange,
+        this
+      );
     },
-
 
     /**
      * Remove hash change listeners
      */
-    __detatchListeners : function()
-    {
-      qx.event.Idle.getInstance().removeListener("interval", this.__onHashChange, this);
+    __detatchListeners() {
+      qx.event.Idle.getInstance().removeListener(
+        "interval",
+        this.__onHashChange,
+        this
+      );
     },
-
 
     /**
      * hash change event handler
      */
-    __onHashChange : function()
-    {
+    __onHashChange() {
       var currentState = this._readState();
 
-      if (qx.lang.Type.isString(currentState) && currentState != this.getState()) {
+      if (
+        qx.lang.Type.isString(currentState) &&
+        currentState != this.getState()
+      ) {
         this._onHistoryLoad(currentState);
       }
     },
-
 
     /**
      * Browser dependent function to read the current state of the history
      *
      * @return {String} current state of the browser history
      */
-    _readState : function() {
+    _readState() {
       var hash = !this._getHash() ? "" : this._getHash().substr(1);
       return this._decode(hash);
     },
-
 
     /**
      * Returns the fragment identifier of the top window URL. For gecko browsers we
@@ -187,45 +185,41 @@ qx.Class.define("qx.bom.HashHistory",
      * @return {String|null} the fragment identifier or <code>null</code> if the
      * iframe isn't ready yet
      */
-    _getHash : function()
-    {
-      if (!this.__iframeReady){
+    _getHash() {
+      if (!this.__iframeReady) {
         return null;
       }
       return this.__iframe.contentWindow.document.location.hash;
     },
-
 
     /**
      * Save a state into the browser history.
      *
      * @param state {String} state to save
      */
-    _writeState : function(state)
-    {
+    _writeState(state) {
       this._setHash(this._encode(state));
     },
-
 
     /**
      * Sets the fragment identifier of the window URL
      *
      * @param value {String} the fragment identifier
      */
-    _setHash : function (value)
-    {
-      if (!this.__iframe || !this._baseUrl){
+    _setHash(value) {
+      if (!this.__iframe || !this._baseUrl) {
         return;
       }
-      var hash = !this.__iframe.contentWindow.document.location.hash ? "" : this.__iframe.contentWindow.document.location.hash.substr(1);
+      var hash = !this.__iframe.contentWindow.document.location.hash
+        ? ""
+        : this.__iframe.contentWindow.document.location.hash.substr(1);
       if (value != hash) {
         this.__iframe.contentWindow.document.location.hash = value;
       }
     }
   },
 
-
-  destruct : function() {
+  destruct() {
     this.__detatchListeners();
     this.__iframe = null;
   }

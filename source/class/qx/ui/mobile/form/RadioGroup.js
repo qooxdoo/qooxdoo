@@ -39,8 +39,6 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.form.RadioGroup",
-{
-  extend : qx.ui.form.RadioGroup
-
+qx.Class.define("qx.ui.mobile.form.RadioGroup", {
+  extend: qx.ui.form.RadioGroup
 });

@@ -59,10 +59,9 @@
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Rating", {
-  extend : qx.ui.website.Widget,
+  extend: qx.ui.website.Widget,
 
-
-  statics : {
+  statics: {
     /**
      * *length*
      *
@@ -78,11 +77,10 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
      *
      * Default value: <pre>★</pre>
      */
-    _config : {
-      length : 5,
-      symbol : "★"
+    _config: {
+      length: 5,
+      symbol: "★"
     },
-
 
     /**
      * Factory method which converts the current collection into a collection of
@@ -95,8 +93,8 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
      * @return {qx.ui.website.Rating} A new rating collection.
      * @attach {qxWeb}
      */
-    rating : function(initValue, symbol, length) {
-      var rating =  new qx.ui.website.Rating(this);
+    rating(initValue, symbol, length) {
+      var rating = new qx.ui.website.Rating(this);
       rating.init();
 
       var modified = false;
@@ -122,23 +120,19 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     }
   },
 
-
-  construct : function(selector, context) {
-    this.base(arguments, selector, context);
+  construct(selector, context) {
+    super(selector, context);
   },
 
-
-  events : {
+  events: {
     /** Fired at each value change */
-    "changeValue" : "Number"
+    changeValue: "Number"
   },
 
-
-  members : {
-
+  members: {
     // overridden
-    init : function() {
-      if (!this.base(arguments)) {
+    init() {
+      if (!super.init()) {
         return false;
       }
 
@@ -149,14 +143,13 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         this.setAttribute("tabindex", 0);
       }
       this.on("focus", this._onFocus, this)
-      .on("blur", this._onBlur, this)
-      .getChildren("span")
+        .on("blur", this._onBlur, this)
+        .getChildren("span")
         .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
         .on("tap", this._onTap, this);
 
       return true;
     },
-
 
     /**
      * Sets the given value of the raining widget's in the collection. The value will be
@@ -165,7 +158,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
      * @param value {Number} The value of the rating.
      * @return {qx.ui.website.Rating} <code>this</code> reference for chaining.
      */
-    setValue : function(value) {
+    setValue(value) {
       if (this.getValue() == value) {
         return this;
       }
@@ -181,31 +174,28 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
       return this;
     },
 
-
     /**
      * Reads the current value of the first rating widget in the collection
      * from the DOM and returns it.
      *
      * @return {Number} The current value.
      */
-    getValue : function() {
+    getValue() {
       var cssPrefix = this.getCssPrefix();
       return this.getChildren("span").not("." + cssPrefix + "-item-off").length;
     },
 
-
     // overridden
-    render : function() {
+    render() {
       this._updateSymbolLength();
     },
-
 
     /**
      * Checks the set length and adds / removes spans containing the rating symbol.
      *
      * @return {qx.ui.website.Rating} <code>this</code> reference for chaining.
      */
-    _updateSymbolLength : function() {
+    _updateSymbolLength() {
       var cssPrefix = this.getCssPrefix();
       var length = this.getConfig("length");
 
@@ -214,59 +204,54 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
       var diff = length - children.length;
       if (diff > 0) {
         for (var i = 0; i < diff; i++) {
-          qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
-          .on("tap", this._onTap, this)
-          .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-          .appendTo(this);
+          qxWeb
+            .create("<span>" + this.getConfig("symbol") + "</span>")
+            .on("tap", this._onTap, this)
+            .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
+            .appendTo(this);
         }
       } else {
         for (var i = 0; i < Math.abs(diff); i++) {
-          this.getChildren().getLast()
-          .off("tap", this._onTap, this)
-          .remove();
+          this.getChildren().getLast().off("tap", this._onTap, this).remove();
         }
       }
 
       return this;
     },
 
-
     /**
      * Tap handler which updates the value depending on the selected element.
      *
      * @param e {Event} tap event
      */
-    _onTap : function(e) {
+    _onTap(e) {
       var parents = qxWeb(e.getTarget()).getParents();
       this.setValue(parents.getChildren().indexOf(e.getTarget()) + 1);
     },
-
 
     /**
      * Attaches the keydown listener.
      * @param e {Event} The native focus event.
      */
-    _onFocus : function(e) {
+    _onFocus(e) {
       qxWeb(document.documentElement).on("keydown", this._onKeyDown, this);
     },
-
 
     /**
      * Removes the keydown listener if the widget loses focus.
      *
      * @param e {Event} The native blur event.
      */
-    _onBlur : function(e) {
+    _onBlur(e) {
       qxWeb(document.documentElement).off("keydown", this._onKeyDown, this);
     },
-
 
     /**
      * Changes the value if the left or right arrow key is pressed.
      *
      * @param e {Event} The native keydown event.
      */
-    _onKeyDown : function(e) {
+    _onKeyDown(e) {
       var key = e.getKeyIdentifier();
       if (key === "Right") {
         this.setValue(this.getValue() + 1);
@@ -275,21 +260,18 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
       }
     },
 
-
     // overridden
-    dispose : function() {
+    dispose() {
       qxWeb(document.documentElement).off("keydown", this._onKeyDown, this);
-      this.off("focus", this._onFocus, this)
-      .off("blur", this._onBlur, this);
+      this.off("focus", this._onFocus, this).off("blur", this._onBlur, this);
       this.getChildren("span").off("tap", this._onTap, this);
       this.setHtml("");
 
-      return this.base(arguments);
+      return super.dispose();
     }
   },
 
-
-  defer : function(statics) {
-    qxWeb.$attach({rating : statics.rating});
+  defer(statics) {
+    qxWeb.$attach({ rating: statics.rating });
   }
 });

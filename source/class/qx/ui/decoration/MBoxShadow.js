@@ -27,7 +27,7 @@
  * * Opera 10.5+
  * * Chrome 4.0+
  *
- * It is possible to define multiple box shadows by setting an 
+ * It is possible to define multiple box shadows by setting an
  * array containing the needed values as the property value.
  * In case multiple values are specified, the values of the properties
  * are repeated until all match in length.
@@ -54,62 +54,52 @@
  *     }
  *   }
  */
-qx.Mixin.define("qx.ui.decoration.MBoxShadow",
-{
-  properties : {
+qx.Mixin.define("qx.ui.decoration.MBoxShadow", {
+  properties: {
     /** Horizontal length of the shadow. */
-    shadowHorizontalLength :
-    {
-      nullable : true,
-      apply : "_applyBoxShadow"
+    shadowHorizontalLength: {
+      nullable: true,
+      apply: "_applyBoxShadow"
     },
 
     /** Vertical length of the shadow. */
-    shadowVerticalLength :
-    {
-      nullable : true,
-      apply : "_applyBoxShadow"
+    shadowVerticalLength: {
+      nullable: true,
+      apply: "_applyBoxShadow"
     },
 
     /** The blur radius of the shadow. */
-    shadowBlurRadius :
-    {
-      nullable : true,
-      apply : "_applyBoxShadow"
+    shadowBlurRadius: {
+      nullable: true,
+      apply: "_applyBoxShadow"
     },
 
     /** The spread radius of the shadow. */
-    shadowSpreadRadius :
-    {
-      nullable : true,
-      apply : "_applyBoxShadow"
+    shadowSpreadRadius: {
+      nullable: true,
+      apply: "_applyBoxShadow"
     },
 
     /** The color of the shadow. */
-    shadowColor :
-    {
-      nullable : true,
-      apply : "_applyBoxShadow"
+    shadowColor: {
+      nullable: true,
+      apply: "_applyBoxShadow"
     },
 
     /** Inset shadows are drawn inside the border. */
-    inset :
-    {
-      init : false,
-      apply : "_applyBoxShadow"
+    inset: {
+      init: false,
+      apply: "_applyBoxShadow"
     },
 
     /** Property group to set the shadow length. */
-    shadowLength :
-    {
-      group : ["shadowHorizontalLength", "shadowVerticalLength"],
-      mode : "shorthand"
+    shadowLength: {
+      group: ["shadowHorizontalLength", "shadowVerticalLength"],
+      mode: "shorthand"
     }
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Takes a styles map and adds the box shadow styles in place to the
      * given map. This is the needed behavior for
@@ -117,27 +107,34 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
      *
      * @param styles {Map} A map to add the styles.
      */
-    _styleBoxShadow : function(styles) {
+    _styleBoxShadow(styles) {
       var propName = qx.core.Environment.get("css.boxshadow");
-      if (!propName ||
-          this.getShadowVerticalLength() == null &&
+      if (
+        !propName ||
+        (this.getShadowVerticalLength() == null &&
           this.getShadowHorizontalLength() == null)
-      {
+      ) {
         return;
       }
 
       propName = qx.bom.Style.getCssName(propName);
 
       var Color = null;
-      if(qx.core.Environment.get("qx.theme")) {
+      if (qx.core.Environment.get("qx.theme")) {
         Color = qx.theme.manager.Color.getInstance();
       }
 
-      var boxShadowProperties = ["shadowVerticalLength", "shadowHorizontalLength", "shadowBlurRadius",
-        "shadowSpreadRadius", "shadowColor", "inset"];
-        
-      (function(vLengths, hLengths, blurs, spreads, colors, insets) {
-        for(var i=0;i<vLengths.length;i++) {
+      var boxShadowProperties = [
+        "shadowVerticalLength",
+        "shadowHorizontalLength",
+        "shadowBlurRadius",
+        "shadowSpreadRadius",
+        "shadowColor",
+        "inset"
+      ];
+
+      (function (vLengths, hLengths, blurs, spreads, colors, insets) {
+        for (var i = 0; i < vLengths.length; i++) {
           var vLength = vLengths[i] || 0;
           var hLength = hLengths[i] || 0;
           var blur = blurs[i] || 0;
@@ -145,12 +142,22 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
           var color = colors[i] || "black";
           var inset = insets[i];
 
-          if(Color) {
+          if (Color) {
             color = Color.resolve(color);
           }
 
-          if(color != null) {
-            var value = (inset ? 'inset ' : '') + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
+          if (color != null) {
+            var value =
+              (inset ? "inset " : "") +
+              hLength +
+              "px " +
+              vLength +
+              "px " +
+              blur +
+              "px " +
+              spread +
+              "px " +
+              color;
             // apply or append the box shadow styles
             if (!styles[propName]) {
               styles[propName] = value;
@@ -159,17 +166,16 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
             }
           }
         }
-      }).apply(this, this._getExtendedPropertyValueArrays(boxShadowProperties));
+      }.apply(this, this._getExtendedPropertyValueArrays(boxShadowProperties)));
     },
 
-
     // property apply
-    _applyBoxShadow : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyBoxShadow() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     }

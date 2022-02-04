@@ -39,22 +39,19 @@
  * @ignore(debug.*)
  */
 /* global debug */
-qx.Class.define("qx.log.appender.PhoneGap",
-{
+qx.Class.define("qx.log.appender.PhoneGap", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Processes a single log entry
      * @param entry {Map} The entry to process
      */
-    process : function(entry)
-    {
+    process(entry) {
       var formatter = qx.log.appender.Formatter.getFormatter();
       var args = formatter.toText(entry);
       var level = entry.level;
@@ -68,19 +65,14 @@ qx.Class.define("qx.log.appender.PhoneGap",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    function register()
-    {
+  defer(statics) {
+    function register() {
       if (window.debug) {
         qx.log.Logger.register(statics);
       } else {

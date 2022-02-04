@@ -1,36 +1,31 @@
-qx.Class.define("qx.test.performance.widget.AbstractWidget",
-{
-  extend : qx.test.ui.LayoutTestCase,
-  include : qx.dev.unit.MMeasure,
-  type : "abstract",
+qx.Class.define("qx.test.performance.widget.AbstractWidget", {
+  extend: qx.test.ui.LayoutTestCase,
+  include: qx.dev.unit.MMeasure,
+  type: "abstract",
 
-  members :
-  {
-    DURATION : 1000,
+  members: {
+    DURATION: 1000,
 
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
       this.flush();
     },
 
-
-    _createWidget : function() {
+    _createWidget() {
       throw new Error("abstract method call");
     },
 
-
-    testCreate : function()
-    {
+    testCreate() {
       var widgets = [];
       var that = this;
       this.measureIterations(
-        "create widget instance", null,
-        function() {
+        "create widget instance",
+        null,
+        function () {
           widgets.push(that._createWidget());
         },
-        function() {
-          for (var i=0; i<widgets.length; i++) {
+        function () {
+          for (var i = 0; i < widgets.length; i++) {
             widgets[i].dispose();
           }
           this.flush();
@@ -39,9 +34,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       );
     },
 
-
-    testRender : function()
-    {
+    testRender() {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       this.getRoot().add(container);
 
@@ -49,14 +42,14 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       var widget;
       this.measureIterations(
         "render and flush widgets",
-        function() {
+        function () {
           widget = that._createWidget();
         },
-        function() {
+        function () {
           that.getRoot().add(widget);
           that.flush();
         },
-        function() {
+        function () {
           container.destroy();
           that.flush();
         },
@@ -64,25 +57,23 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       );
     },
 
-
-    testResizeAndFlush : function()
-    {
+    testResizeAndFlush() {
       var that = this;
       var widgets = [];
       this.measureIterations(
         "resize and flush widgets",
-        function() {
+        function () {
           var widget = that._createWidget();
           widgets.push(widget);
           that.getRoot().add(widget);
           that.flush();
         },
-        function() {
+        function () {
           widgets[widgets.length - 1].setWidth(300);
           widgets[widgets.length - 1].setHeight(100);
           that.flush();
         },
-        function() {
+        function () {
           for (var i = 0; i < widgets.length; i++) {
             widgets[i].destroy();
           }
@@ -92,9 +83,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       );
     },
 
-
-    testRemove : function()
-    {
+    testRemove() {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       this.getRoot().add(container);
 
@@ -102,15 +91,15 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       var widget;
       this.measureIterations(
         "remove and flush widgets",
-        function() {
+        function () {
           widget = that._createWidget();
           container.add(widget);
         },
-        function() {
+        function () {
           container.remove(widget);
           that.flush();
         },
-        function() {
+        function () {
           container.destroy();
           that.flush();
         },
@@ -118,24 +107,22 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       );
     },
 
-
-    testDisposeRendered : function()
-    {
+    testDisposeRendered() {
       this.flush();
 
       var widgets = [];
       var that = this;
       this.measureIterations(
         "dispose rendered widgets",
-        function() {
+        function () {
           widgets.push(that._createWidget());
           that.getRoot().add(widgets[widgets.length - 1]);
         },
-        function() {
+        function () {
           widgets[widgets.length - 1].destroy();
           that.flush();
         },
-        function() {
+        function () {
           that.flush();
         },
         this.DURATION

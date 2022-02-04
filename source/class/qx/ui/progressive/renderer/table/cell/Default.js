@@ -19,27 +19,20 @@
 /**
  * Table Cell Renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
-{
-  extend     : qx.ui.progressive.renderer.table.cell.Abstract,
-
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Default", {
+  extend: qx.ui.progressive.renderer.table.cell.Abstract,
 
   /**
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml(cellInfo) {
       return qx.bom.String.escape(this._formatValue(cellInfo.cellData));
     },
-
 
     /**
      * Formats a value in a reasonably predictable fashion.
@@ -63,36 +56,25 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
      *   </li>
      * </ul>
      */
-    _formatValue : function(value)
-    {
+    _formatValue(value) {
       var ret;
 
-      if (value == null)
-      {
+      if (value == null) {
         return "";
       }
 
-      if (typeof value == "string")
-      {
+      if (typeof value == "string") {
         return value;
-      }
-      else if (typeof value == "number")
-      {
-        if (! qx.ui.progressive.renderer.table.Row._numberFormat)
-        {
+      } else if (typeof value == "number") {
+        if (!qx.ui.progressive.renderer.table.Row._numberFormat) {
           var numberFormat = new qx.util.format.NumberFormat();
           numberFormat.setMaximumFractionDigits(2);
           qx.ui.progressive.renderer.table.Row._numberFormat = numberFormat;
         }
-        ret =
-          qx.ui.progressive.renderer.table.Row._numberFormat.format(value);
-      }
-      else if (value instanceof Date)
-      {
+        ret = qx.ui.progressive.renderer.table.Row._numberFormat.format(value);
+      } else if (value instanceof Date) {
         ret = qx.util.format.DateFormat.getDateInstance().format(value);
-      }
-      else
-      {
+      } else {
         ret = value;
       }
 

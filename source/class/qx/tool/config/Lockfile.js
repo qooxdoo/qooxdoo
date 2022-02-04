@@ -35,7 +35,8 @@ qx.Class.define("qx.tool.config.Lockfile", {
       })
     }
   },
-  construct: function() {
-    this.base(arguments, this.self(arguments).config);
+
+  construct() {
+    super(this.self(arguments).config);
   }
 });

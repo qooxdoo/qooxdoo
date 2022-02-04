@@ -21,13 +21,9 @@
  * This handler accepts the useraction event fired by the keyboard, mouse and
  * pointer handlers after an user triggered action has occurred.
  */
-qx.Class.define("qx.event.handler.UserAction",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
+qx.Class.define("qx.event.handler.UserAction", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -40,18 +36,13 @@ qx.Class.define("qx.event.handler.UserAction",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
-  {
-    this.base(arguments);
+  construct(manager) {
+    super();
 
     // Define shorthands
     this.__manager = manager;
     this.__window = manager.getWindow();
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -59,26 +50,21 @@ qx.Class.define("qx.event.handler.UserAction",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY: qx.event.Registration.PRIORITY_NORMAL,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : {
-      useraction : 1
+    SUPPORTED_TYPES: {
+      useraction: 1
     },
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_WINDOW,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE: true
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -86,9 +72,8 @@ qx.Class.define("qx.event.handler.UserAction",
   *****************************************************************************
   */
 
-  members :
-  {
-    __manager : null,
+  members: {
+    __manager: null,
     __window: null,
 
     /*
@@ -98,23 +83,18 @@ qx.Class.define("qx.event.handler.UserAction",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {},
-
+    canHandleEvent(target, type) {},
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       // Nothing needs to be done here
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       // Nothing needs to be done here
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -122,13 +102,9 @@ qx.Class.define("qx.event.handler.UserAction",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct() {
     this.__manager = this.__window = null;
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -136,7 +112,7 @@ qx.Class.define("qx.event.handler.UserAction",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

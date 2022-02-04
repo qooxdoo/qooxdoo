@@ -33,23 +33,20 @@
  * @require(qx.log.appender.Formatter)
  * @require(qx.bom.client.Html)
  */
-qx.Bootstrap.define("qx.log.appender.Native",
-{
+qx.Bootstrap.define("qx.log.appender.Native", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Processes a single log entry
      *
      * @param entry {Map} The entry to process
      */
-    process : function(entry)
-    {
+    process(entry) {
       if (qx.core.Environment.get("html.console")) {
         // Firefox 4's Web Console doesn't support "debug"
         var level = console[entry.level] ? entry.level : "log";
@@ -62,16 +59,13 @@ qx.Bootstrap.define("qx.log.appender.Native",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.log.Logger.register(statics);
   }
 });

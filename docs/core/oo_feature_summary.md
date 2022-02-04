@@ -165,8 +165,8 @@ optionally be optimized for performance in build versions. :
 ```javascript
 qx.Class.define("my.cool.Class", {
   extend: my.great.SuperClass,
-  construct: function (x) {
-    this.base(arguments, x);
+  construct(x) {
+    super(x);
   }
 });
 ```
@@ -183,8 +183,8 @@ qx.Class.define("my.cool.Class",
   extend : my.great.SuperClass,
   ...
   members : {
-    foo : function(x) {
-      this.base(arguments, x);
+    foo(x) {
+      super.foo(x);
     }
   }
 });

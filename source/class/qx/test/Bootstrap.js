@@ -22,35 +22,36 @@
  * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper.*, qx.test.Super.*)
  * @ignore(qx.test.ROOT, qx.test.MyClass.*, qx.test.Car, qx.test.Bmw.*)
  */
-qx.Class.define("qx.test.Bootstrap",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.Bootstrap", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
-    testDefineAnonymous : function() {
-      var clazz = qx.Bootstrap.define(null, {statics : {
-        test : function() {
-          return true;
+  members: {
+    testDefineAnonymous() {
+      var clazz = qx.Bootstrap.define(null, {
+        statics: {
+          test() {
+            return true;
+          }
         }
-      }});
+      });
 
       this.assertTrue(clazz.test());
 
-      var clazz = qx.Bootstrap.define(null, {statics : {
-        test2 : function() {
-          return true;
+      var clazz = qx.Bootstrap.define(null, {
+        statics: {
+          test2() {
+            return true;
+          }
         }
-      }});
+      });
 
       this.assertTrue(clazz.test2());
     },
 
-
-    testClassnameProperty : function() {
+    testClassnameProperty() {
       qx.Bootstrap.define("qx.test.MyClass", {
         //extend : Object,
-        members : {}
+        members: {}
       });
 
       var o = new qx.test.MyClass();
@@ -60,11 +61,10 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.MyClass");
     },
 
-
-    testAlternativeRoot : function() {
+    testAlternativeRoot() {
       var qq = {};
       var foobar = {};
-      var myRoots = { "qq": qq, "foobar": foobar };
+      var myRoots = { qq: qq, foobar: foobar };
       qx.Bootstrap.setRoot(myRoots);
 
       var qqClass = qx.Bootstrap.define("qq.test.ROOT", {});
@@ -80,18 +80,18 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("vanillebaer.test.ROOT");
     },
 
-    "test: merge methods of same class (statics optimization)" : function() {
+    "test: merge methods of same class (statics optimization)"() {
       qx.Bootstrap.define("qx.test.MyClass", {
-        statics : {
-          methodA : function() {
+        statics: {
+          methodA() {
             return true;
           }
         }
       });
 
       qx.Bootstrap.define("qx.test.MyClass", {
-        statics : {
-          methodB : function() {
+        statics: {
+          methodB() {
             return true;
           }
         }
@@ -103,25 +103,27 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.MyClass");
     },
 
-    "test: merge methods of same class (statics optimization) respect defer" : function() {
+    "test: merge methods of same class (statics optimization) respect defer"() {
       qx.Bootstrap.define("qx.test.MyClass", {
-        statics : {
-          methodA : function() {
+        statics: {
+          methodA() {
             return true;
           },
-          methodB : function() {
+          methodB() {
             return true;
           }
         }
       });
 
       qx.Bootstrap.define("qx.test.MyClass", {
-        statics : {
-          methodA : null
+        statics: {
+          methodA: null
         },
-        defer : function(statics)
-        {
-          statics.methodA = function() { return true; };
+
+        defer(statics) {
+          statics.methodA = function () {
+            return true;
+          };
         }
       });
 
@@ -131,12 +133,10 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.MyClass");
     },
 
-    "test: define class with constructor" : function()
-    {
-      var c = qx.Bootstrap.define("qx.test.Construct",
-      {
+    "test: define class with constructor"() {
+      var c = qx.Bootstrap.define("qx.test.Construct", {
         extend: Object,
-        construct : function() {
+        construct() {
           this.called = true;
         }
       });
@@ -145,14 +145,15 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertTrue(obj.called);
 
       this.assertEquals(c, qx.Bootstrap.getByName("qx.test.Construct"));
-      this.assertEquals(qx.test.Construct, qx.Bootstrap.getByName("qx.test.Construct"));
+      this.assertEquals(
+        qx.test.Construct,
+        qx.Bootstrap.getByName("qx.test.Construct")
+      );
 
       qx.Class.undefine("qx.test.Construct");
     },
 
-
-    "test: define bootstrap class, which extends 'Error'" : function()
-    {
+    "test: define bootstrap class, which extends 'Error'"() {
       qx.Bootstrap.define("qx.test.ExtendError", {
         extend: Error
       });
@@ -163,9 +164,7 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendError");
     },
 
-
-    "test: extend from qx.core.Object" : function()
-    {
+    "test: extend from qx.core.Object"() {
       qx.Bootstrap.define("qx.test.ExtendQxObject", {
         extend: qx.core.Object
       });
@@ -178,12 +177,10 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendQxObject");
     },
 
-
-    "test: extend from null should extend Object" : function()
-    {
+    "test: extend from null should extend Object"() {
       qx.Bootstrap.define("qx.test.ExtendNull", {
         extend: null,
-        members : {}
+        members: {}
       });
 
       var obj = new qx.test.ExtendNull();
@@ -192,16 +189,14 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendNull");
     },
 
-
-    "test: extend from Bootstrap class" : function()
-    {
+    "test: extend from Bootstrap class"() {
       qx.Bootstrap.define("qx.test.Super", {
-        members : {}
+        members: {}
       });
 
       qx.Bootstrap.define("qx.test.ExtendSuper", {
         extend: qx.test.Super,
-        members : {}
+        members: {}
       });
 
       var obj = new qx.test.ExtendSuper();
@@ -214,21 +209,19 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendSuper");
     },
 
-
-    "test: extended Bootstap class should append members to the prototype" : function()
-    {
+    "test: extended Bootstap class should append members to the prototype"() {
       qx.Bootstrap.define("qx.test.Super", {
-        members : {
-          foo : 10,
+        members: {
+          foo: 10,
           baz: "juhu"
         }
       });
 
       qx.Bootstrap.define("qx.test.ExtendSuper", {
         extend: qx.test.Super,
-        members : {
-          bar : "affe",
-          foo : 11
+        members: {
+          bar: "affe",
+          foo: 11
         }
       });
 
@@ -244,25 +237,22 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendSuper");
     },
 
-    "test: superclass calls aka basecalls (constructor and methods)" : function()
-    {
-      qx.Bootstrap.define("qx.test.Car",
-      {
-        construct : function(name) {
+    "test: superclass calls aka basecalls (constructor and methods)"() {
+      qx.Bootstrap.define("qx.test.Car", {
+        construct(name) {
           this._name = name;
         },
 
-        members :
-        {
-          startEngine : function() {
+        members: {
+          startEngine() {
             return "start";
           },
 
-          stopEngine : function() {
+          stopEngine() {
             return "stop";
           },
 
-          getName : function() {
+          getName() {
             return this._name;
           }
         }
@@ -273,40 +263,35 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals("stop", car.stopEngine());
       this.assertEquals("Audi", car.getName());
 
-      qx.Bootstrap.define("qx.test.Bmw",
-      {
-        extend : qx.test.Car,
+      qx.Bootstrap.define("qx.test.Bmw", {
+        extend: qx.test.Car,
 
-        construct : function(name, prize) {
-          this.base(arguments, name);
+        construct(name, prize) {
+          super(name);
         },
 
-        members :
-        {
-          startEngine : function()
-          {
-            var ret = this.base(arguments);
+        members: {
+          startEngine() {
+            var ret = super.startEngine();
             return "brrr " + ret;
           },
 
-          stopEngine : function()
-          {
-            var ret = this.base(arguments);
+          stopEngine() {
+            var ret = super.stopEngine();
             return "brrr " + ret;
           },
 
-          getWheels : function() {
+          getWheels() {
             return qx.test.Bmw.WHEELS;
           },
 
-          getMaxSpeed : function()
-          {
+          getMaxSpeed() {
             // call base in non overridden method
-            this.base(arguments);
+            super.getMaxSpeed();
           }
         },
 
-        statics : { WHEELS : 4 }
+        statics: { WHEELS: 4 }
       });
 
       var bmw = new qx.test.Bmw("bmw", 44000);
@@ -315,9 +300,8 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
 
-      if (this.isDebugOn())
-      {
-        this.assertException(function() {
+      if (this.isDebugOn()) {
+        this.assertException(function () {
           bmw.getMaxSpeed();
         }, Error);
       }
@@ -326,13 +310,11 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.Bmw");
     },
 
-    testFunctionWrap : function()
-    {
+    testFunctionWrap() {
       var context = null;
       var result = 0;
 
-      var add = function(a, b)
-      {
+      var add = function (a, b) {
         context = this;
         return a + b;
       };
@@ -356,29 +338,24 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals(5, result);
     },
 
-
-    testBindWithUndefinedArguments : function()
-    {
+    testBindWithUndefinedArguments() {
       var undef;
-      var callback = function(undef, arg) {
+      var callback = function (undef, arg) {
         this.assertTrue(arg);
       };
       var bound = qx.Bootstrap.bind(callback, this, undef, true);
       bound();
     },
 
-
-    testDefineShadowedMembers : function()
-    {
-      qx.Bootstrap.define("qx.test.Construct",
-      {
+    testDefineShadowedMembers() {
+      qx.Bootstrap.define("qx.test.Construct", {
         extend: Object,
-        members : {
-          "isPrototypeOf" : 10,
-          "hasOwnProperty" : 11,
-          "toLocaleString" : 12,
-          "toString" : 13,
-          "valueOf" : 14
+        members: {
+          isPrototypeOf: 10,
+          hasOwnProperty: 11,
+          toLocaleString: 12,
+          toString: 13,
+          valueOf: 14
         }
       });
 
@@ -392,17 +369,14 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.Construct");
     },
 
-
-    testDefineShadowedStatics : function()
-    {
-      qx.Bootstrap.define("qx.test.Construct",
-      {
+    testDefineShadowedStatics() {
+      qx.Bootstrap.define("qx.test.Construct", {
         extend: Object,
-        statics : {
-          "isPrototypeOf" : 10,
-          "toLocaleString" : 12,
-          "toString" : 13,
-          "valueOf" : 14
+        statics: {
+          isPrototypeOf: 10,
+          toLocaleString: 12,
+          toString: 13,
+          valueOf: 14
         }
       });
 

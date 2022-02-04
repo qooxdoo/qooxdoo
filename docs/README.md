@@ -112,8 +112,8 @@ Here is a stripped down version of the code with just the essential lines:
 qx.Class.define("myapp.Application", {
   extend: qx.application.Standalone,
   members: {
-    main: function () {
-      this.base(arguments); // call the super class
+    main() {
+      super.main(); // call the super class
       let button1 = new qx.ui.form.Button("Click me");
       let doc = this.getRoot();
       doc.add(button1, { left: 100, top: 50 });

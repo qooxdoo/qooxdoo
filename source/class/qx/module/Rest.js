@@ -24,8 +24,7 @@
  * @group (IO)
  */
 qx.Bootstrap.define("qx.module.Rest", {
-  statics :
-  {
+  statics: {
     /**
      * @param description {Map?} Each key of the map is interpreted as
      *  <code>action</code> name. The value associated to the key must be a map
@@ -35,12 +34,12 @@ qx.Bootstrap.define("qx.module.Rest", {
      * @attachStatic {qxWeb, rest.resource}
      * @return {qx.bom.rest.Resource} The resource object.
      */
-    resource : function(description) {
+    resource(description) {
       return new qx.bom.rest.Resource(description);
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this, "rest");
   }
 });

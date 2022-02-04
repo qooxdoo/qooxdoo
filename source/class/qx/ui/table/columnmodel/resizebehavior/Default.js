@@ -49,14 +49,11 @@
  *
  * @require(qx.ui.core.ColumnData)
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
-{
-  extend : qx.ui.table.columnmodel.resizebehavior.Abstract,
+qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default", {
+  extend: qx.ui.table.columnmodel.resizebehavior.Abstract,
 
-
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__resizeColumnData = [];
 
@@ -71,10 +68,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     this.__layout.connectToWidget(this);
 
     this.__deferredComputeColumnsFlexWidth = new qx.util.DeferredCall(
-      this._computeColumnsFlexWidth, this
+      this._computeColumnsFlexWidth,
+      this
     );
   },
-
 
   /*
   *****************************************************************************
@@ -82,16 +79,13 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * A function to instantiate a resize behavior column data object.
      */
-    newResizeBehaviorColumnData :
-    {
-      check : "Function",
-      init : function(obj)
-      {
+    newResizeBehaviorColumnData: {
+      check: "Function",
+      init(obj) {
         return new qx.ui.core.ColumnData();
       }
     },
@@ -104,10 +98,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * (e.g. it's in a pageview and the page is switched and then switched
      * back).
      */
-    initializeWidthsOnEveryAppear :
-    {
-      check : "Boolean",
-      init  : false
+    initializeWidthsOnEveryAppear: {
+      check: "Boolean",
+      init: false
     },
 
     /**
@@ -116,14 +109,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * access to any other features of the table, for use in calculating widths
      * of columns.
      */
-    tableColumnModel :
-    {
-      check : "qx.ui.table.columnmodel.Resize"
+    tableColumnModel: {
+      check: "qx.ui.table.columnmodel.Resize"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -131,17 +120,16 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
   *****************************************************************************
   */
 
-  members :
-  {
-    __layout : null,
-    __layoutChildren : null,
-    __resizeColumnData : null,
-    __deferredComputeColumnsFlexWidth : null,
+  members: {
+    __layout: null,
+    __layoutChildren: null,
+    __resizeColumnData: null,
+    __deferredComputeColumnsFlexWidth: null,
 
     /**
      * Whether we have initialized widths on the first appear yet
      */
-    __widthsInitialized : false,
+    __widthsInitialized: false,
 
     /**
      * Set the width of a column.
@@ -159,8 +147,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setWidth : function(col, width, flex)
-    {
+    setWidth(col, width, flex) {
       // Ensure the column is within range
       if (col >= this.__resizeColumnData.length) {
         throw new Error("Column number out of range");
@@ -170,7 +157,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       this.__resizeColumnData[col].setColumnWidth(width, flex);
       this.__deferredComputeColumnsFlexWidth.schedule();
     },
-
 
     /**
      * Set the minimum width of a column.
@@ -185,11 +171,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setMinWidth : function(col, width)
-    {
+    setMinWidth(col, width) {
       // Ensure the column is within range
-      if (col >= this.__resizeColumnData.length)
-      {
+      if (col >= this.__resizeColumnData.length) {
         throw new Error("Column number out of range");
       }
 
@@ -197,7 +181,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       this.__resizeColumnData[col].setMinWidth(width);
       this.__deferredComputeColumnsFlexWidth.schedule();
     },
-
 
     /**
      * Set the maximum width of a column.
@@ -212,8 +195,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setMaxWidth : function(col, width)
-    {
+    setMaxWidth(col, width) {
       // Ensure the column is within range
       if (col >= this.__resizeColumnData.length) {
         throw new Error("Column number out of range");
@@ -223,7 +205,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       this.__resizeColumnData[col].setMaxWidth(width);
       this.__deferredComputeColumnsFlexWidth.schedule();
     },
-
 
     /**
      * Set any or all of the width, minimum width, and maximum width of a
@@ -242,12 +223,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    set : function(col, map)
-    {
-      for (var prop in map)
-      {
-        switch(prop)
-        {
+    set(col, map) {
+      for (var prop in map) {
+        switch (prop) {
           case "width":
             this.setWidth(col, map[prop]);
             break;
@@ -267,12 +245,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
     // overloaded
-    onAppear : function(event, forceRefresh)
-    {
+    onAppear(event, forceRefresh) {
       // If we haven't initialized widths at least once, or
       // they want us to reinitialize widths on every appear event...
-      if (forceRefresh === true || !this.__widthsInitialized || this.getInitializeWidthsOnEveryAppear())
-      {
+      if (
+        forceRefresh === true ||
+        !this.__widthsInitialized ||
+        this.getInitializeWidthsOnEveryAppear()
+      ) {
         // Calculate column widths
         this._computeColumnsFlexWidth();
 
@@ -282,31 +262,28 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
     // overloaded
-    onTableWidthChanged : function(event) {
+    onTableWidthChanged(event) {
       this._computeColumnsFlexWidth();
     },
 
     // overloaded
-    onVerticalScrollBarChanged : function(event) {
+    onVerticalScrollBarChanged(event) {
       this._computeColumnsFlexWidth();
     },
 
     // overloaded
-    onColumnWidthChanged : function(event)
-    {
+    onColumnWidthChanged(event) {
       // Extend the next column to fill blank space
       this._extendNextColumn(event);
     },
 
     // overloaded
-    onVisibilityChanged : function(event)
-    {
+    onVisibilityChanged(event) {
       // Event data properties: col, visible
       var data = event.getData();
 
       // If a column just became visible, resize all columns.
-      if (data.visible)
-      {
+      if (data.visible) {
         this._computeColumnsFlexWidth();
         return;
       }
@@ -316,26 +293,22 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
     // overloaded
-    _setNumColumns : function(numColumns)
-    {
+    _setNumColumns(numColumns) {
       var colData = this.__resizeColumnData;
       // Are there now fewer (or the same number of) columns than there were
       // previously?
-      if (numColumns <= colData.length)
-      {
+      if (numColumns <= colData.length) {
         // Yup.  Delete the extras.
         colData.splice(numColumns, colData.length);
         return;
       }
 
       // There are more columns than there were previously.  Allocate more.
-      for (var i=colData.length; i<numColumns; i++)
-      {
+      for (var i = colData.length; i < numColumns; i++) {
         colData[i] = this.getNewResizeBehaviorColumnData()();
         colData[i].columnNumber = i;
       }
     },
-
 
     /**
      * This method is required by the box layout. If returns an array of items
@@ -343,17 +316,15 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *
      * @return {qx.ui.core.ColumnData[]} The list of column data object to layout.
      */
-    getLayoutChildren : function() {
+    getLayoutChildren() {
       return this.__layoutChildren;
     },
-
 
     /**
      * Computes the width of all flexible children.
      *
      */
-    _computeColumnsFlexWidth : function()
-    {
+    _computeColumnsFlexWidth() {
       this.__deferredComputeColumnsFlexWidth.cancel();
       var width = this._getAvailableWidth();
 
@@ -372,9 +343,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
 
       // Create an array of the visible columns
-      var columns = [ ];
-      for (i=0; i<visibleColumnsLength; i++)
-      {
+      var columns = [];
+      for (i = 0; i < visibleColumnsLength; i++) {
         columns.push(colData[visibleColumns[i]]);
       }
       this.__layoutChildren = columns;
@@ -389,26 +359,22 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       });
 
       // Now that we've calculated the width, set it.
-      for (i=0,l=columns.length; i<l; i++)
-      {
+      for (i = 0, l = columns.length; i < l; i++) {
         var colWidth = columns[i].getComputedWidth();
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
       }
     },
 
-
     /**
      * Clear all layout caches of the column datas.
      */
-    __clearLayoutCaches : function()
-    {
+    __clearLayoutCaches() {
       this.__layout.invalidateChildrenCache();
       var children = this.__layoutChildren;
-      for (var i=0,l=children.length; i<l; i++) {
+      for (var i = 0, l = children.length; i < l; i++) {
         children[i].invalidateLayoutCache();
       }
     },
-
 
     /**
      * Extend the visible column to right of the column which just changed
@@ -425,8 +391,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *   The event object.
      *
      */
-    _extendNextColumn : function(event)
-    {
+    _extendNextColumn(event) {
       var tableColumnModel = this.getTableColumnModel();
 
       // Event data properties: col, oldWidth, newWidth
@@ -441,11 +406,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var numColumns = visibleColumns.length;
 
       // Did this column become longer than it was?
-      if (data.newWidth > data.oldWidth)
-      {
+      if (data.newWidth > data.oldWidth) {
         // Yup.  Don't resize anything else.  The other columns will just get
         // pushed off and require scrollbars be added (if not already there).
-        return ;
+        return;
       }
 
       // This column became shorter.  See if we no longer take up the full
@@ -454,33 +418,28 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var nextCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++) {
+      for (i = 0; i < numColumns; i++) {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
       // If the used width is less than the available width...
-      if (widthUsed < width)
-      {
+      if (widthUsed < width) {
         // ... then determine the next visible column
-        for (i=0; i<visibleColumns.length; i++)
-        {
-          if (visibleColumns[i] == data.col)
-          {
+        for (i = 0; i < visibleColumns.length; i++) {
+          if (visibleColumns[i] == data.col) {
             nextCol = visibleColumns[i + 1];
             break;
           }
         }
 
-        if (nextCol)
-        {
+        if (nextCol) {
           // Make the next column take up the available space.
           var newWidth =
-            (width - (widthUsed - tableColumnModel.getColumnWidth(nextCol)));
+            width - (widthUsed - tableColumnModel.getColumnWidth(nextCol));
           tableColumnModel.setColumnWidth(nextCol, newWidth);
         }
       }
     },
-
 
     /**
      * If a column was just made invisible, extend the last column to fill any
@@ -496,16 +455,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *   The event object.
      *
      */
-    _extendLastColumn : function(event)
-    {
+    _extendLastColumn(event) {
       var tableColumnModel = this.getTableColumnModel();
 
       // Event data properties: col, visible
       var data = event.getData();
 
       // If the column just became visible, don't make any width changes
-      if (data.visible)
-      {
+      if (data.visible) {
         return;
       }
 
@@ -513,8 +470,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var visibleColumns = tableColumnModel.getVisibleColumns();
 
       // If no columns are visible...
-      if (visibleColumns.length == 0)
-      {
+      if (visibleColumns.length == 0) {
         return;
       }
 
@@ -529,37 +485,31 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var lastCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++) {
+      for (i = 0; i < numColumns; i++) {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
       // If the used width is less than the available width...
-      if (widthUsed < width)
-      {
+      if (widthUsed < width) {
         // ... then get the last visible column
         lastCol = visibleColumns[visibleColumns.length - 1];
 
         // Make the last column take up the available space.
         var newWidth =
-          (width - (widthUsed - tableColumnModel.getColumnWidth(lastCol)));
+          width - (widthUsed - tableColumnModel.getColumnWidth(lastCol));
         tableColumnModel.setColumnWidth(lastCol, newWidth);
       }
     },
-
 
     /**
      * Returns an array of the resizing information of a column.
      *
      * @return {qx.ui.core.ColumnData[]} array of the resizing information of a column.
      */
-    _getResizeColumnData : function()
-    {
+    _getResizeColumnData() {
       return this.__resizeColumnData;
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -567,8 +517,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct() {
     this.__resizeColumnData = this.__layoutChildren = null;
     this._disposeObjects("__layout", "__deferredComputeColumnsFlexWidth");
   }

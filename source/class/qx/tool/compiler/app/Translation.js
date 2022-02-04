@@ -20,10 +20,9 @@
  *
  * *********************************************************************** */
 
-
 var fs = require("fs");
 
-const {promisify} = require("util");
+const { promisify } = require("util");
 const readFile = promisify(fs.readFile);
 
 var log = qx.tool.utils.LogManager.createLog("translation");
@@ -39,8 +38,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
    * @param library {Library}
    * @param locale {String}
    */
-  construct: function(library, locale) {
-    this.base(arguments);
+  construct(library, locale) {
+    super();
     this.setLibrary(library);
     if (locale) {
       this.setLocale(locale);
@@ -60,9 +59,9 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
     locale: {
       init: "en",
       nullable: false,
-      check :"String"
+      check: "String"
     },
-    
+
     /** Whether to write line numbers to .po files */
     writeLineNumbers: {
       init: false,
@@ -75,14 +74,21 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
     __headers: null,
     __mtime: 0,
     __onRead: null,
-    
+
     /**
      * Filename for the .po file
      * @returns {string}
      */
-    getPoFilename: function() {
+    getPoFilename() {
       var library = this.getLibrary();
-      return library.getRootDir() + "/" + library.getTranslationPath() + "/" + this.getLocale() + ".po";
+      return (
+        library.getRootDir() +
+        "/" +
+        library.getTranslationPath() +
+        "/" +
+        this.getLocale() +
+        ".po"
+      );
     },
 
     /**
@@ -90,7 +96,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      *
      * @returns {Promise}|
      */
-    checkRead: async function() {
+    async checkRead() {
       if (!this.__mtime) {
         return this.read();
       }
@@ -105,18 +111,18 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
     /**
      * Reads the .po file
      */
-    read: function() {
+    read() {
       var t = this;
       if (t.__onRead) {
         return t.__onRead;
       }
 
-      return t.__onRead = new Promise((resolve, reject) => {
+      return (t.__onRead = new Promise((resolve, reject) => {
         t.__translations = {};
         t.__headers = {};
         var poFile = this.getPoFilename();
 
-        fs.stat(poFile, function(err, stat) {
+        fs.stat(poFile, function (err, stat) {
           if (err) {
             if (err.code == "ENOENT") {
               resolve();
@@ -126,163 +132,178 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
             return undefined;
           }
           t.__mtime = stat.mtime;
-          return readFile(poFile, { encoding: "utf8" })
-            .then(data => {
-              var entry = null;
-              var lastKey = null;
+          return readFile(poFile, { encoding: "utf8" }).then(data => {
+            var entry = null;
+            var lastKey = null;
 
-              function saveEntry() {
-                if (entry) {
-                  var key;
-                  if (entry.msgctxt) {
-                    key = entry.msgctxt + ":" + entry.msgid;
-                  } else {
-                    key = entry.msgid;
-                  }
-                  t.__translations[key] = entry;
-                }
-                entry = null;
-                lastKey = null;
-              }
-
-              function set(key, value, append) {
-                var index = null;
-                var m = key.match(/^([^[]+)\[([0-9]+)\]$/);
-                value = value.replace(/\\t/g, "\t").replace(/\\r/g, "\r")
-                  .replace(/\\n/g, "\n")
-                  .replace(/\\"/g, "\"");
-                if (m) {
-                  key = m[1];
-                  index = parseInt(m[2]);
-                  if (entry[key] === undefined) {
-                    entry[key] = [];
-                  }
-                  if (!append || typeof entry[key][index] !== "string") {
-                    entry[key][index] = value;
-                  } else {
-                    entry[key][index] += value;
-                  }
-                } else if (!append || typeof entry[key] !== "string") {
-                  entry[key] = value;
+            function saveEntry() {
+              if (entry) {
+                var key;
+                if (entry.msgctxt) {
+                  key = entry.msgctxt + ":" + entry.msgid;
                 } else {
-                  entry[key] += value;
+                  key = entry.msgid;
                 }
+                t.__translations[key] = entry;
+              }
+              entry = null;
+              lastKey = null;
+            }
+
+            function set(key, value, append) {
+              var index = null;
+              var m = key.match(/^([^[]+)\[([0-9]+)\]$/);
+              value = value
+                .replace(/\\t/g, "\t")
+                .replace(/\\r/g, "\r")
+                .replace(/\\n/g, "\n")
+                .replace(/\\"/g, '"');
+              if (m) {
+                key = m[1];
+                index = parseInt(m[2]);
+                if (entry[key] === undefined) {
+                  entry[key] = [];
+                }
+                if (!append || typeof entry[key][index] !== "string") {
+                  entry[key][index] = value;
+                } else {
+                  entry[key][index] += value;
+                }
+              } else if (!append || typeof entry[key] !== "string") {
+                entry[key] = value;
+              } else {
+                entry[key] += value;
+              }
+            }
+
+            data.split("\n").forEach(function (line, lineNo) {
+              line = line.trim();
+              if (!line) {
+                saveEntry();
+                return;
               }
 
-              data.split("\n").forEach(function(line, lineNo) {
-                line = line.trim();
-                if (!line) {
-                  saveEntry();
-                  return;
+              if (!entry) {
+                entry = {};
+              }
+
+              // Comment?
+              var m = line.match(/^#([^ ]?) (.*)$/);
+              if (m) {
+                var type = m[1];
+                var comment = m[2];
+                var key;
+                if (!entry.comments) {
+                  entry.comments = {};
                 }
+                switch (type) {
+                  case "":
+                    entry.comments.translator = comment;
+                    break;
 
-                if (!entry) {
-                  entry = {};
-                }
+                  case ".":
+                    entry.comments.extracted = comment;
+                    break;
 
-                // Comment?
-                var m = line.match(/^#([^ ]?) (.*)$/);
-                if (m) {
-                  var type = m[1];
-                  var comment = m[2];
-                  var key;
-                  if (!entry.comments) {
-                    entry.comments = {};
-                  }
-                  switch (type) {
-                    case "":
-                      entry.comments.translator = comment;
-                      break;
-
-                    case ".":
-                      entry.comments.extracted = comment;
-                      break;
-
-                    case ":":
-                      if (!entry.comments.reference) {
-                        entry.comments.reference = {};
-                      }
-                      {
-                        const ref = entry.comments.reference;
-                        (comment && comment.match(/[\w/\.]+:\d+/g) || []).forEach(entry => {
-                          const split = entry.split(":");
-                          const classname = split[0];
-                          const lineNo = parseInt(split[1], 10);
-                          if (!ref[classname]) {
-                            ref[classname] = [lineNo];
-                          } else if (!ref[classname].includes(lineNo)) {
-                            ref[classname].push(lineNo);
-                          }
-                        });
-                      }
-                      break;
-
-                    case ",":
-                      entry.comments.flags = comment.split(",");
-                      break;
-
-                    case "|":
-                      m = comment.match(/^([^\s]+)\s+(.*)$/);
-                      if (m) {
-                        if (!entry.previous) {
-                          entry.previous = {};
+                  case ":":
+                    if (!entry.comments.reference) {
+                      entry.comments.reference = {};
+                    }
+                    {
+                      const ref = entry.comments.reference;
+                      (
+                        (comment && comment.match(/[\w/\.]+:\d+/g)) ||
+                        []
+                      ).forEach(entry => {
+                        const split = entry.split(":");
+                        const classname = split[0];
+                        const lineNo = parseInt(split[1], 10);
+                        if (!ref[classname]) {
+                          ref[classname] = [lineNo];
+                        } else if (!ref[classname].includes(lineNo)) {
+                          ref[classname].push(lineNo);
                         }
-                        var tmp = m[1];
-                        if (tmp == "msgctxt" || tmp == "msgid") {
-                          entry[tmp] = m[2];
-                        } else {
-                          log.warn("Cannot interpret line " + (lineNo + 1));
-                        }
+                      });
+                    }
+                    break;
+
+                  case ",":
+                    entry.comments.flags = comment.split(",");
+                    break;
+
+                  case "|":
+                    m = comment.match(/^([^\s]+)\s+(.*)$/);
+                    if (m) {
+                      if (!entry.previous) {
+                        entry.previous = {};
+                      }
+                      var tmp = m[1];
+                      if (tmp == "msgctxt" || tmp == "msgid") {
+                        entry[tmp] = m[2];
                       } else {
                         log.warn("Cannot interpret line " + (lineNo + 1));
                       }
-                      break;
-                  }
-                  return;
+                    } else {
+                      log.warn("Cannot interpret line " + (lineNo + 1));
+                    }
+                    break;
                 }
 
-                if (line[0] == "\"" && line[line.length - 1] == "\"") {
-                  line = line.substring(1, line.length - 1);
-                  if (!lastKey.match(/^.*\[\d+\]$/) && (lastKey === null || entry[lastKey] === undefined)) {
-                    log.error("Cannot interpret line because there is no key to append to, line " + (lineNo+1));
-                  } else {
-                    set(lastKey, line, true);
-                  }
-                  return;
-                }
-
-                // Part of the translation
-                if (line == "#") {
-                  return;
-                }
-                m = line.match(/^([^\s]+)\s+(.*)$/);
-                if (!m) {
-                  log.warn("Cannot interpret line " + (lineNo + 1));
-                  return;
-                }
-
-                key = lastKey = m[1];
-                var value = m[2];
-                if (value.length >= 2 && value[0] == "\"" && value[value.length - 1] == "\"") {
-                  value = value.substring(1, value.length - 1);
-                  set(key, value);
-                }
-              });
-
-              if (entry) {
-                saveEntry();
+                return;
               }
 
-              resolve();
+              if (line[0] == '"' && line[line.length - 1] == '"') {
+                line = line.substring(1, line.length - 1);
+                if (
+                  !lastKey.match(/^.*\[\d+\]$/) &&
+                  (lastKey === null || entry[lastKey] === undefined)
+                ) {
+                  log.error(
+                    "Cannot interpret line because there is no key to append to, line " +
+                      (lineNo + 1)
+                  );
+                } else {
+                  set(lastKey, line, true);
+                }
+                return;
+              }
+
+              // Part of the translation
+              if (line == "#") {
+                return;
+              }
+              m = line.match(/^([^\s]+)\s+(.*)$/);
+              if (!m) {
+                log.warn("Cannot interpret line " + (lineNo + 1));
+                return;
+              }
+
+              key = lastKey = m[1];
+              var value = m[2];
+              if (
+                value.length >= 2 &&
+                value[0] == '"' &&
+                value[value.length - 1] == '"'
+              ) {
+                value = value.substring(1, value.length - 1);
+                set(key, value);
+              }
             });
+
+            if (entry) {
+              saveEntry();
+            }
+
+            resolve();
+          });
         });
-      });
+      }));
     },
 
     /**
      * Writes the .po file
      */
-    write: async function() {
+    async write() {
       this.writeTo(this.getPoFilename());
     },
 
@@ -290,7 +311,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * Writes the .po file to a specific filename
      * @param filename {String}
      */
-    writeTo: function(filename, cb) {
+    writeTo(filename, cb) {
       var t = this;
       var lines = [];
 
@@ -298,10 +319,12 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         if (value === undefined || value === null) {
           return;
         }
-        value = value.replace(/\t/g, "\\t").replace(/\r/g, "\\r")
+        value = value
+          .replace(/\t/g, "\\t")
+          .replace(/\r/g, "\\r")
           .replace(/\n/g, "\\n")
-          .replace(/"/g, "\\\"");
-        lines.push(key + " \"" + value + "\"");
+          .replace(/"/g, '\\"');
+        lines.push(key + ' "' + value + '"');
       }
 
       for (var msgid in t.__translations) {
@@ -321,7 +344,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                 if (this.isWriteLineNumbers()) {
                   for (let lineNo of ref[classname]) {
                     const addStr = " " + classname + ":" + lineNo;
-                    if (refStr.length + addStr.length > 78) { // 78 is default length in python po library
+                    if (refStr.length + addStr.length > 78) {
+                      // 78 is default length in python po library
                       // line break
                       lines.push(refStr);
                       refStr = "#:" + addStr;
@@ -331,7 +355,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                   }
                 } else {
                   const addStr = " " + classname;
-                  if (refStr.length + addStr.length > 78) { // 78 is default length in python po library
+                  if (refStr.length + addStr.length > 78) {
+                    // 78 is default length in python po library
                     // line break
                     lines.push(refStr);
                     refStr = "#:" + addStr;
@@ -341,7 +366,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
                 }
               }
             }
-            if (refStr.length > 3) { // write remaining refStr
+            if (refStr.length > 3) {
+              // write remaining refStr
               lines.push(refStr);
             }
           }
@@ -352,12 +378,12 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
           lines.push("#");
         }
         if (entry.msgctxt) {
-          lines.push("msgctxt \"" + entry.msgctxt + "\"");
+          lines.push('msgctxt "' + entry.msgctxt + '"');
         }
         write("msgid", entry.msgid);
         write("msgid_plural", entry.msgid_plural);
         if (qx.lang.Type.isArray(entry.msgstr)) {
-          entry.msgstr.forEach(function(value, index) {
+          entry.msgstr.forEach(function (value, index) {
             write("msgstr[" + index + "]", value);
           });
         } else if (entry.msgid_plural) {
@@ -369,12 +395,14 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
         lines.push("");
       }
       var data = lines.join("\n");
-      return qx.tool.utils.Promisify.fs.writeFileAsync(filename, data, { encoding: "utf8" });
+      return qx.tool.utils.Promisify.fs.writeFileAsync(filename, data, {
+        encoding: "utf8"
+      });
     },
-    
+
     /**
      * Tests whether an entry exists and has translation values
-     * 
+     *
      * @param id {String} msgid
      * @return {Boolean}
      */
@@ -394,8 +422,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * @param id
      * @returns {*|null}
      */
-    getEntry: function(id) {
-      return this.__translations[id]||null;
+    getEntry(id) {
+      return this.__translations[id] || null;
     },
 
     /**
@@ -403,8 +431,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * @param id
      * @returns {*|null}
      */
-    deleteEntry: function(id) {
-      let entry = this.__translations[id]||null;
+    deleteEntry(id) {
+      let entry = this.__translations[id] || null;
       delete this.__translations[id];
       return entry;
     },
@@ -414,7 +442,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * @param id
      * @returns {*|null}
      */
-    getOrCreateEntry: function(id) {
+    getOrCreateEntry(id) {
       var t = this;
       var entry = t.__translations[id];
       if (!entry) {
@@ -429,7 +457,7 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * Returns all entries
      * @returns {null}
      */
-    getEntries: function() {
+    getEntries() {
       return this.__translations;
     },
 
@@ -437,9 +465,8 @@ qx.Class.define("qx.tool.compiler.app.Translation", {
      * Returns the translation headers
      * @returns {null}
      */
-    getHeaders: function() {
+    getHeaders() {
       return this.__headers;
     }
-
   }
 });

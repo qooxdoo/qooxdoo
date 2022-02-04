@@ -16,14 +16,11 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Group",
-{
-  extend : qx.test.mobile.MobileTestCase,
+qx.Class.define("qx.test.mobile.form.Group", {
+  extend: qx.test.mobile.MobileTestCase,
 
-  members :
-  {
-    testGroup : function()
-    {
+  members: {
+    testGroup() {
       var button = new qx.ui.mobile.form.Button("affe");
       var group = new qx.ui.mobile.form.Group();
       group.add(button);
@@ -33,5 +30,4 @@ qx.Class.define("qx.test.mobile.form.Group",
       button.destroy();
     }
   }
-
 });

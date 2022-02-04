@@ -20,11 +20,8 @@
 /**
  * A cross browser iframe instance.
  */
-qx.Class.define("qx.html.Iframe",
-{
-  extend : qx.html.Element,
-
-
+qx.Class.define("qx.html.Iframe", {
+  extend: qx.html.Element,
 
   /*
   *****************************************************************************
@@ -40,12 +37,11 @@ qx.Class.define("qx.html.Iframe",
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.
    */
-  construct : function(url, styles, attributes)
-  {
-    this.base(arguments, "iframe", styles, attributes);
+  construct(url, styles, attributes) {
+    super("iframe", styles, attributes);
 
     this.registerProperty("source", null, this._setSourceProperty);
-    
+
     this.setSource(url);
     this.addListener("navigate", this.__onNavigate, this);
 
@@ -54,35 +50,28 @@ qx.Class.define("qx.html.Iframe",
     qx.html.Element._scheduleFlush("element");
   },
 
-
-
-
   /*
    *****************************************************************************
       EVENTS
    *****************************************************************************
    */
 
-  events:
-  {
+  events: {
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.event.type.Event",
+    load: "qx.event.type.Event",
 
     /**
-    * The "navigate" event is fired whenever the location of the iframe
-    * changes.
-    *
-    * Useful to track user navigation and internally used to keep the source
-    * property in sync. Only works when the destination source is of same
-    * origin than the page embedding the iframe.
-    */
-    "navigate" : "qx.event.type.Data"
+     * The "navigate" event is fired whenever the location of the iframe
+     * changes.
+     *
+     * Useful to track user navigation and internally used to keep the source
+     * property in sync. Only works when the destination source is of same
+     * origin than the page embedding the iframe.
+     */
+    navigate: "qx.event.type.Data"
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -90,21 +79,19 @@ qx.Class.define("qx.html.Iframe",
   *****************************************************************************
   */
 
-  members :
-  {
-
+  members: {
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Implementation of setter for the "source" property
-     * 
+     *
      * @param value {String?} value to set
      */
-    _setSourceProperty: function(value) {
+    _setSourceProperty(value) {
       var element = this.getDomElement();
       var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
 
@@ -121,12 +108,9 @@ qx.Class.define("qx.html.Iframe",
     },
 
     // overridden
-    _createDomElement : function() {
+    _createDomElement() {
       return qx.bom.Iframe.create();
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -139,26 +123,22 @@ qx.Class.define("qx.html.Iframe",
      *
      * @return {Window} The DOM window object of the iframe.
      */
-    getWindow : function()
-    {
+    getWindow() {
       var element = this.getDomElement();
 
-      if (element)
-      {
+      if (element) {
         return qx.bom.Iframe.getWindow(element);
       } else {
         return null;
       }
     },
 
-
     /**
      * Get the DOM document object of an iframe.
      *
      * @return {Document} The DOM document object of the iframe.
      */
-    getDocument : function()
-    {
+    getDocument() {
       var element = this.getDomElement();
 
       if (element) {
@@ -168,14 +148,12 @@ qx.Class.define("qx.html.Iframe",
       }
     },
 
-
     /**
      * Get the HTML body element of the iframe.
      *
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
-    getBody : function()
-    {
+    getBody() {
       var element = this.getDomElement();
 
       if (element) {
@@ -185,30 +163,26 @@ qx.Class.define("qx.html.Iframe",
       }
     },
 
-
     /**
      * Sets iframe's source attribute to given value
      *
      * @param source {String} URL to be set.
      * @return {qx.html.Iframe} The current instance for chaining
      */
-    setSource : function(source)
-    {
+    setSource(source) {
       // the source needs to be applied directly in case the iFrame is hidden
       this._setProperty("source", source, true);
       return this;
     },
-
 
     /**
      * Get the current source.
      *
      * @return {String} The iframe's source
      */
-    getSource : function() {
+    getSource() {
       return this._getProperty("source");
     },
-
 
     /**
      * Sets iframe's name attribute to given value
@@ -216,40 +190,32 @@ qx.Class.define("qx.html.Iframe",
      * @param name {String} Name to be set.
      * @return {qx.html.Iframe} The current instance for chaining
      */
-    setName : function(name)
-    {
+    setName(name) {
       this.setAttribute("name", name);
       return this;
     },
-
 
     /**
      * Get the current name.
      *
      * @return {String} The iframe's name.
      */
-    getName : function() {
+    getName() {
       return this.getAttribute("name");
     },
-
 
     /**
      * Reloads iframe
      */
-    reload : function()
-    {
+    reload() {
       var element = this.getDomElement();
 
-      if (element)
-      {
+      if (element) {
         var url = this.getSource();
         this.setSource(null);
         this.setSource(url);
       }
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -258,11 +224,11 @@ qx.Class.define("qx.html.Iframe",
     */
 
     /**
-    * Handle user navigation. Sync actual URL of iframe with source property.
-    *
-    * @param e {qx.event.type.Data} navigate event
-    */
-    __onNavigate: function(e) {
+     * Handle user navigation. Sync actual URL of iframe with source property.
+     *
+     * @param e {qx.event.type.Data} navigate event
+     */
+    __onNavigate(e) {
       var actualUrl = e.getData();
       if (actualUrl) {
         this.setSource(actualUrl);

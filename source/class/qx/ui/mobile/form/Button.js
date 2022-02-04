@@ -36,9 +36,8 @@
  * This example creates a button with the label "Hello World" and attaches an
  * event listener to the {@link qx.ui.mobile.core.Widget#tap} event.
  */
-qx.Class.define("qx.ui.mobile.form.Button",
-{
-  extend : qx.ui.mobile.basic.Atom,
+qx.Class.define("qx.ui.mobile.form.Button", {
+  extend: qx.ui.mobile.basic.Atom,
 
   /*
   *****************************************************************************
@@ -46,41 +45,36 @@ qx.Class.define("qx.ui.mobile.form.Button",
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "button"
+    defaultCssClass: {
+      refine: true,
+      init: "button"
     },
 
     // overridden
-    activatable :
-    {
-      refine :true,
-      init : true
+    activatable: {
+      refine: true,
+      init: true
     }
   },
 
-  members :
-  {
+  members: {
     /**
      * Sets the value.
      *
      * @param value {String} The value to set
      */
-    setValue : function(value) {
+    setValue(value) {
       this.setLabel(value);
     },
-
 
     /**
      * Returns the set value.
      *
      * @return {String} The set value
      */
-    getValue : function() {
+    getValue() {
       return this.getLabel();
     }
   }

@@ -19,23 +19,17 @@
 /**
  * Data Model for Progressive renderer.
  */
-qx.Class.define("qx.ui.progressive.model.Default",
-{
-  extend     : qx.ui.progressive.model.Abstract,
+qx.Class.define("qx.ui.progressive.model.Default", {
+  extend: qx.ui.progressive.model.Abstract,
 
+  construct() {
+    super();
 
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.__elements = [ ];
+    this.__elements = [];
   },
 
-
-  members :
-  {
-
-    __elements : null,
+  members: {
+    __elements: null,
 
     /**
      * Add elements to be progressively rendered.  Each element must be an
@@ -45,8 +39,7 @@ qx.Class.define("qx.ui.progressive.model.Default",
      * @param elems {Array}
      *   An array of elements to be added to the element queue
      */
-    addElements : function(elems)
-    {
+    addElements(elems) {
       // Add the new elements to our elements queue.
       this.__elements = this.__elements.concat(elems);
 
@@ -62,8 +55,7 @@ qx.Class.define("qx.ui.progressive.model.Default",
      * @param elem {var}
      *   An element to be added to the element queue
      */
-    addElement : function(elem)
-    {
+    addElement(elem) {
       // Add the new elements to our elements queue.
       this.__elements.push(elem);
 
@@ -72,30 +64,26 @@ qx.Class.define("qx.ui.progressive.model.Default",
     },
 
     // overridden
-    getElementCount : function()
-    {
+    getElementCount() {
       return this.__elements.length;
     },
 
     // overridden
-    getNextElement : function()
-    {
+    getNextElement() {
       // Do we have any remaining elements?
-      if (this.__elements.length > 0)
-      {
+      if (this.__elements.length > 0) {
         // Yup.  Give 'em the first one and remove it from our queue.
-        return(
-          {
-            element   : this.__elements.shift(),
-            remaining : this.__elements.length
-          });
+        return {
+          element: this.__elements.shift(),
+          remaining: this.__elements.length
+        };
       }
 
       return null;
     }
   },
 
-  destruct : function() {
+  destruct() {
     this.__elements = null;
   }
 });

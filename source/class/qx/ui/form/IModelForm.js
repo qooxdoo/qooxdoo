@@ -20,10 +20,8 @@
  * Form interface for all form widgets which have an
  * model object (i.e. {qx.core.Object}) as their primary data type.
  */
-qx.Interface.define("qx.ui.form.IModelForm",
-{
-  extend : qx.ui.form.IField,
-
+qx.Interface.define("qx.ui.form.IModelForm", {
+  extend: qx.ui.form.IField,
 
   /*
   *****************************************************************************
@@ -31,13 +29,10 @@ qx.Interface.define("qx.ui.form.IModelForm",
   *****************************************************************************
   */
 
-  events :
-  {
+  events: {
     /** Fired when the value was modified */
-    "changeValue" : "qx.event.type.Data"
+    changeValue: "qx.event.type.Data"
   },
-
-
 
   /*
   *****************************************************************************
@@ -45,8 +40,7 @@ qx.Interface.define("qx.ui.form.IModelForm",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       VALUE PROPERTY
@@ -58,22 +52,20 @@ qx.Interface.define("qx.ui.form.IModelForm",
      *
      * @param value {qx.core.Object|null} The new value of the element.
      */
-    setValue : function(value) {
+    setValue(value) {
       return arguments.length == 1;
     },
-
 
     /**
      * Resets the element's value to its initial value.
      */
-    resetValue : function() {},
-
+    resetValue() {},
 
     /**
      * The element's user set value.
      *
      * @return {qx.core.Object|null} The value.
      */
-    getValue : function() {}
+    getValue() {}
   }
 });

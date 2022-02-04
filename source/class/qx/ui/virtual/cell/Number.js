@@ -22,49 +22,40 @@
  *
  * Renders the call using the configured number formatter.
  */
-qx.Class.define("qx.ui.virtual.cell.Number",
-{
-  extend : qx.ui.virtual.cell.Cell,
-
+qx.Class.define("qx.ui.virtual.cell.Number", {
+  extend: qx.ui.virtual.cell.Cell,
 
   /**
    * @param numberFormat {qx.util.format.NumberFormat|null} Optional number
    *   format to use.
    */
-  construct : function(numberFormat)
-  {
-    this.base(arguments);
+  construct(numberFormat) {
+    super();
 
     if (numberFormat) {
       this.setNumberFormat(numberFormat);
     }
   },
 
-
-  properties :
-  {
+  properties: {
     /** The number format used to render the cell */
-    numberFormat :
-    {
-      check : "qx.util.format.NumberFormat",
+    numberFormat: {
+      check: "qx.util.format.NumberFormat",
       // it is on intension that only one number format is used for
       // all instances
-      init : new qx.util.format.NumberFormat()
+      init: new qx.util.format.NumberFormat()
     },
 
     // overridden
-    appearance:
-    {
-      refine : true,
-      init : "cell-number"
+    appearance: {
+      refine: true,
+      init: "cell-number"
     }
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    getContent : function(value, states) {
+    getContent(value, states) {
       return value !== null ? this.getNumberFormat().format(value) : "";
     }
   }

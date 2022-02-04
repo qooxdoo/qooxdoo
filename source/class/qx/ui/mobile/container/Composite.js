@@ -43,11 +43,12 @@
  * This example horizontally groups a label and text field by using a
  * Composite configured with a horizontal box layout as a container.
  */
-qx.Class.define("qx.ui.mobile.container.Composite",
-{
-  extend : qx.ui.mobile.core.Widget,
-  include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],
-
+qx.Class.define("qx.ui.mobile.container.Composite", {
+  extend: qx.ui.mobile.core.Widget,
+  include: [
+    qx.ui.mobile.core.MChildrenHandling,
+    qx.ui.mobile.core.MLayoutHandling
+  ],
 
   /*
   *****************************************************************************
@@ -59,16 +60,12 @@ qx.Class.define("qx.ui.mobile.container.Composite",
    * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
    *     container
    */
-  construct : function(layout)
-  {
-    this.base(arguments);
+  construct(layout) {
+    super();
     if (layout) {
       this.setLayout(layout);
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -76,8 +73,7 @@ qx.Class.define("qx.ui.mobile.container.Composite",
   *****************************************************************************
   */
 
-  defer : function(statics, members)
-  {
+  defer(statics, members) {
     qx.ui.mobile.core.MChildrenHandling.remap(members);
     qx.ui.mobile.core.MLayoutHandling.remap(members);
   }

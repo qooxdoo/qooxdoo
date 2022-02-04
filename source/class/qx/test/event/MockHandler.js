@@ -19,14 +19,9 @@
 /**
  * This class provides qooxdoo object event support.
  */
-qx.Class.define("qx.test.event.MockHandler",
-{
-  extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
-
-
-
-
+qx.Class.define("qx.test.event.MockHandler", {
+  extend: qx.core.Object,
+  implement: qx.event.IEventHandler,
 
   /*
   *****************************************************************************
@@ -34,24 +29,19 @@ qx.Class.define("qx.test.event.MockHandler",
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** @type {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
+    PRIORITY: qx.event.Registration.PRIORITY_FIRST,
 
     /** @type {Map} Supported event types */
-    SUPPORTED_TYPES : null,
+    SUPPORTED_TYPES: null,
 
     /** @type {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_OBJECT,
+    TARGET_CHECK: qx.event.IEventHandler.TARGET_OBJECT,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : false
+    IGNORE_CAN_HANDLE: false
   },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -59,9 +49,8 @@ qx.Class.define("qx.test.event.MockHandler",
   *****************************************************************************
   */
   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
-  members :
-  {
-    calls : [],
+  members: {
+    calls: [],
 
     /*
     ---------------------------------------------------------------------------
@@ -70,29 +59,21 @@ qx.Class.define("qx.test.event.MockHandler",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
+    canHandleEvent(target, type) {
       this.calls.push(["canHandleEvent", target, type]);
       return type.startsWith("$test");
     },
 
-
     // interface implementation
-    registerEvent : function(target, type, capture) {
+    registerEvent(target, type, capture) {
       this.calls.push(["registerEvent", target, type, capture]);
     },
 
-
     // interface implementation
-    unregisterEvent : function(target, type, capture) {
+    unregisterEvent(target, type, capture) {
       this.calls.push(["unregisterEvent", target, type, capture]);
     }
   },
-
-
-
-
-
 
   /*
   *****************************************************************************
@@ -100,7 +81,7 @@ qx.Class.define("qx.test.event.MockHandler",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer(statics) {
     qx.event.Registration.addHandler(statics);
   }
 });

@@ -24,19 +24,19 @@
  * @ignore(SCRIPT_LOADED)
  */
 
- /* global SCRIPT_LOADED */
-qx.Class.define("qx.test.bom.request.Script",
-{
-  extend : qx.dev.unit.TestCase,
+/* global SCRIPT_LOADED */
+qx.Class.define("qx.test.bom.request.Script", {
+  extend: qx.dev.unit.TestCase,
 
-  include : [qx.test.io.MRemoteTest,
-             qx.dev.unit.MRequirements,
-             qx.dev.unit.MMock],
+  include: [
+    qx.test.io.MRemoteTest,
+    qx.dev.unit.MRequirements,
+    qx.dev.unit.MMock
+  ],
 
-  members :
-  {
-    setUp: function() {
-      var req = this.req = new qx.bom.request.Script();
+  members: {
+    setUp() {
+      var req = (this.req = new qx.bom.request.Script());
       this.url = this.getUrl("qx/test/script.js");
 
       // Assume timeout after 1s in Opera (no error!)
@@ -45,7 +45,7 @@ qx.Class.define("qx.test.bom.request.Script",
       }
     },
 
-    tearDown: function() {
+    tearDown() {
       this.getSandbox().restore();
       this.req.dispose();
     },
@@ -54,11 +54,11 @@ qx.Class.define("qx.test.bom.request.Script",
     // General
     //
 
-    "test: create instance": function() {
+    "test: create instance"() {
       this.assertObject(this.req);
     },
 
-    "test: dispose() removes script from DOM": function() {
+    "test: dispose() removes script from DOM"() {
       var script;
 
       this.req.open();
@@ -69,22 +69,20 @@ qx.Class.define("qx.test.bom.request.Script",
       this.assertFalse(this.isInDom(script));
     },
 
-
-    "test: isDisposed()": function() {
+    "test: isDisposed()"() {
       this.assertFalse(this.req.isDisposed());
       this.req.dispose();
       this.assertTrue(this.req.isDisposed());
     },
 
-
-    "test: allow many requests with same object": function() {
+    "test: allow many requests with same object"() {
       var count = 0,
-          that = this;
+        that = this;
 
-      this.req.onload = function() {
+      this.req.onload = function () {
         count += 1;
         if (count == 2) {
-          that.resume(function() {});
+          that.resume(function () {});
           return;
         }
         that.request();
@@ -98,14 +96,14 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event helper
     //
 
-    "test: call event handler": function() {
+    "test: call event handler"() {
       var req = this.req;
       req.onevent = this.spy();
       req._emit("event");
       this.assertCalled(req.onevent);
     },
 
-    "test: fire event": function(){
+    "test: fire event"() {
       var req = this.req;
       var event = this.spy();
       req.onevent = this.spy();
@@ -118,12 +116,12 @@ qx.Class.define("qx.test.bom.request.Script",
     // Properties
     //
 
-    "test: properties indicate success when request completed": function() {
+    "test: properties indicate success when request completed"() {
       var that = this,
-          req = this.req;
+        req = this.req;
 
-      req.onload = function() {
-        that.resume(function() {
+      req.onload = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
           that.assertEquals(200, req.status);
           that.assertEquals("200", req.statusText);
@@ -137,16 +135,16 @@ qx.Class.define("qx.test.bom.request.Script",
     /**
      * @ignore(SCRIPT_LOADED)
      */
-    "test: status indicates success when determineSuccess returns true": function() {
+    "test: status indicates success when determineSuccess returns true"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(200, that.req.status);
         });
       };
 
-      this.req.setDetermineSuccess(function() {
+      this.req.setDetermineSuccess(function () {
         return SCRIPT_LOADED === true;
       });
 
@@ -156,18 +154,17 @@ qx.Class.define("qx.test.bom.request.Script",
 
     // Error handling
 
-    "test: properties indicate failure when request failed": function() {
-
+    "test: properties indicate failure when request failed"() {
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
       }
 
       var that = this,
-          req = this.req;
+        req = this.req;
 
-      req.onerror = function() {
-        that.resume(function() {
+      req.onerror = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
           that.assertEquals(0, req.status);
           that.assertNull(req.statusText);
@@ -178,19 +175,18 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait(15000);
     },
 
-    "test: properties indicate failure when request timed out": function() {
-
+    "test: properties indicate failure when request timed out"() {
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
       }
 
       var that = this,
-          req = this.req;
+        req = this.req;
 
       req.timeout = 25;
-      req.ontimeout = function() {
-        that.resume(function() {
+      req.ontimeout = function () {
+        that.resume(function () {
           that.assertEquals(4, req.readyState);
           that.assertEquals(0, req.status);
           that.assertNull(req.statusText);
@@ -201,16 +197,16 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: status indicates failure when determineSuccess returns false": function() {
+    "test: status indicates failure when determineSuccess returns false"() {
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           that.assertEquals(500, that.req.status);
         });
       };
 
-      this.req.setDetermineSuccess(function() {
+      this.req.setDetermineSuccess(function () {
         return false;
       });
 
@@ -218,12 +214,12 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: reset XHR properties when reopened": function() {
+    "test: reset XHR properties when reopened"() {
       var req = this.req,
-          that = this;
+        that = this;
 
-      req.onload = function() {
-        that.resume(function() {
+      req.onload = function () {
+        that.resume(function () {
           req.open("GET", "/url");
           that.assertIdentical(1, req.readyState);
           that.assertIdentical(0, req.status);
@@ -239,7 +235,7 @@ qx.Class.define("qx.test.bom.request.Script",
     // open()
     //
 
-    "test: open() stores URL": function() {
+    "test: open() stores URL"() {
       this.req.open("GET", this.url);
       this.assertEquals(this.url, this.req._getUrl());
     },
@@ -248,21 +244,27 @@ qx.Class.define("qx.test.bom.request.Script",
     // send()
     //
 
-    "test: send() adds script element to DOM": function() {
+    "test: send() adds script element to DOM"() {
       var req = this.req;
 
       // Helper triggers send()
       this.request();
 
-      this.assert(this.isInDom(req._getScriptElement()), "Script element not in DOM");
+      this.assert(
+        this.isInDom(req._getScriptElement()),
+        "Script element not in DOM"
+      );
     },
 
-    "test: send() sets script src to URL": function() {
+    "test: send() sets script src to URL"() {
       this.request();
-      this.assertMatch(this.req._getScriptElement().src, /qx\/test\/script.js$/);
+      this.assertMatch(
+        this.req._getScriptElement().src,
+        /qx\/test\/script.js$/
+      );
     },
 
-    "test: send() with data": function() {
+    "test: send() with data"() {
       this.skip();
     },
 
@@ -270,16 +272,19 @@ qx.Class.define("qx.test.bom.request.Script",
     // abort()
     //
 
-    "test: abort() removes script element": function() {
+    "test: abort() removes script element"() {
       var req = this.req;
 
       this.requestPending();
       req.abort();
 
-      this.assertFalse(this.isInDom(req._getScriptElement()), "Script element in DOM");
+      this.assertFalse(
+        this.isInDom(req._getScriptElement()),
+        "Script element in DOM"
+      );
     },
 
-    "test: abort() makes request not fire load": function() {
+    "test: abort() makes request not fire load"() {
       var req = this.req;
 
       this.spy(req, "onload");
@@ -292,24 +297,32 @@ qx.Class.define("qx.test.bom.request.Script",
 
       req.abort();
 
-      this.wait(300, function() {
-        this.assertNotCalled(req.onload);
-      }, this);
+      this.wait(
+        300,
+        function () {
+          this.assertNotCalled(req.onload);
+        },
+        this
+      );
     },
 
     //
     // setRequestHeader()
     //
 
-    "test: setRequestHeader() throws error when other than OPENED": function() {
+    "test: setRequestHeader() throws error when other than OPENED"() {
       var req = this.req;
 
-      this.assertException(function() {
-        req.setRequestHeader();
-      }, null, "Invalid state");
+      this.assertException(
+        function () {
+          req.setRequestHeader();
+        },
+        null,
+        "Invalid state"
+      );
     },
 
-    "test: setRequestHeader() appends to URL": function() {
+    "test: setRequestHeader() appends to URL"() {
       var req = this.req;
 
       req.open("GET", "/affe");
@@ -324,31 +337,30 @@ qx.Class.define("qx.test.bom.request.Script",
     // Event handlers
     //
 
-    "test: call onload": function() {
-
+    "test: call onload"() {
       // More precisely, the request completes when the browser
       // has loaded and parsed the script
 
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {});
+      this.req.onload = function () {
+        that.resume(function () {});
       };
 
       this.request();
       this.wait();
     },
 
-    "test: call onreadystatechange and have appropriate readyState": function() {
+    "test: call onreadystatechange and have appropriate readyState"() {
       var req = this.req,
-          readyStates = [],
-          that = this;
+        readyStates = [],
+        that = this;
 
-      req.onreadystatechange = function() {
+      req.onreadystatechange = function () {
         readyStates.push(req.readyState);
 
         if (req.readyState === 4) {
-          that.resume(function() {
+          that.resume(function () {
             that.assertArrayEquals([1, 2, 3, 4], readyStates);
           });
         }
@@ -365,30 +377,29 @@ qx.Class.define("qx.test.bom.request.Script",
 
     // Error handling
 
-    "test: call onloadend on network error": function() {
+    "test: call onloadend on network error"() {
       var that = this;
 
-      this.req.onloadend = function() {
-        that.resume(function() {});
+      this.req.onloadend = function () {
+        that.resume(function () {});
       };
 
       this.request("http://fail.tld");
       this.wait(15000);
     },
 
-    "test: call onloadend when request completes": function() {
+    "test: call onloadend when request completes"() {
       var that = this;
 
-      this.req.onloadend = function() {
-        that.resume(function() {});
+      this.req.onloadend = function () {
+        that.resume(function () {});
       };
 
       this.request();
       this.wait();
     },
 
-    "test: not call onload when loading failed because of network error": function() {
-
+    "test: not call onload when loading failed because of network error"() {
       // Known to fail in IE < 9,
       // i.e. all browsers using onreadystatechange event handlerattribute
       //
@@ -400,13 +411,13 @@ qx.Class.define("qx.test.bom.request.Script",
 
       var that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           throw Error("Called onload");
         });
       };
 
-      this.req.onerror = function() {
+      this.req.onerror = function () {
         that.resume();
       };
 
@@ -414,8 +425,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait(15000);
     },
 
-    "test: call onerror on network error": function() {
-
+    "test: call onerror on network error"() {
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -423,16 +433,15 @@ qx.Class.define("qx.test.bom.request.Script",
 
       var that = this;
 
-      this.req.onerror = function() {
-        that.resume(function() {});
+      this.req.onerror = function () {
+        that.resume(function () {});
       };
 
       this.request("http://fail.tld");
       this.wait(15000);
     },
 
-    "test: call onerror on invalid script": function() {
-
+    "test: call onerror on invalid script"() {
       // Known to fail in all browsers tested
       // Native "error" event not fired for script element.
       //
@@ -442,8 +451,8 @@ qx.Class.define("qx.test.bom.request.Script",
 
       var that = this;
 
-      this.req.onerror = function() {
-        that.resume(function() {});
+      this.req.onerror = function () {
+        that.resume(function () {});
       };
 
       // Invalid JavaScript
@@ -452,7 +461,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: not call onerror when request exceeds timeout limit": function() {
+    "test: not call onerror when request exceeds timeout limit"() {
       var req = this.req;
 
       // Known to fail in browsers not supporting the error event
@@ -465,13 +474,16 @@ qx.Class.define("qx.test.bom.request.Script",
       req.timeout = 25;
       this.requestPending();
 
-      this.wait(20, function() {
-        this.assertNotCalled(req.onerror);
-      }, this);
+      this.wait(
+        20,
+        function () {
+          this.assertNotCalled(req.onerror);
+        },
+        this
+      );
     },
 
-    "test: call ontimeout when request exceeds timeout limit": function() {
-
+    "test: call ontimeout when request exceeds timeout limit"() {
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
@@ -480,28 +492,26 @@ qx.Class.define("qx.test.bom.request.Script",
       var that = this;
 
       this.req.timeout = 25;
-      this.req.ontimeout = function() {
-        that.resume(function() {});
+      this.req.ontimeout = function () {
+        that.resume(function () {});
       };
 
       this.requestPending();
       this.wait();
     },
 
-    "test: not call ontimeout when request is within timeout limit": function() {
+    "test: not call ontimeout when request is within timeout limit"() {
       var req = this.req,
-          that = this;
+        that = this;
 
       this.spy(req, "ontimeout");
 
-      req.onload = function() {
-        that.resume(function() {
-
+      req.onload = function () {
+        that.resume(function () {
           // Assert that onload() cancels timeout
-          that.wait(350, function() {
+          that.wait(350, function () {
             that.assertNotCalled(req.ontimeout);
           });
-
         });
       };
 
@@ -510,7 +520,7 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: call onabort when request was aborted": function() {
+    "test: call onabort when request was aborted"() {
       var req = this.req;
 
       this.spy(req, "onabort");
@@ -524,12 +534,12 @@ qx.Class.define("qx.test.bom.request.Script",
     // Clean-Up
     //
 
-    "test: remove script from DOM when request completed": function() {
+    "test: remove script from DOM when request completed"() {
       var script,
-          that = this;
+        that = this;
 
-      this.req.onload = function() {
-        that.resume(function() {
+      this.req.onload = function () {
+        that.resume(function () {
           script = this.req._getScriptElement();
           that.assertFalse(that.isInDom(script));
         });
@@ -539,13 +549,13 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    "test: remove script from DOM when request failed": function() {
+    "test: remove script from DOM when request failed"() {
       var script,
-          that = this;
+        that = this;
 
       // In IE < 9, "load" is fired instead of "error"
-      this.req.onerror = this.req.onload = function() {
-        that.resume(function() {
+      this.req.onerror = this.req.onload = function () {
+        that.resume(function () {
           script = this.req._getScriptElement();
           that.assertFalse(that.isInDom(script));
         });
@@ -555,19 +565,18 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait(15000);
     },
 
-    "test: remove script from DOM when request timed out": function() {
-
+    "test: remove script from DOM when request timed out"() {
       // Known to fail in legacy IEs
       if (this.isIeBelow(9)) {
         this.skip();
       }
 
       var script,
-          that = this;
+        that = this;
 
       this.req.timeout = 25;
-      this.req.ontimeout = function() {
-        that.resume(function() {
+      this.req.ontimeout = function () {
+        that.resume(function () {
           script = that.req._getScriptElement();
           that.assertFalse(that.isInDom(script));
         });
@@ -577,12 +586,12 @@ qx.Class.define("qx.test.bom.request.Script",
       this.wait();
     },
 
-    request: function(customUrl) {
+    request(customUrl) {
       this.req.open("GET", customUrl || this.url, true);
       this.req.send();
     },
 
-    requestPending: function(sleep) {
+    requestPending(sleep) {
       this.require(["php"]);
       var url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
 
@@ -594,21 +603,24 @@ qx.Class.define("qx.test.bom.request.Script",
       this.request(url);
     },
 
-    isInDom: function(elem) {
+    isInDom(elem) {
       return elem.parentNode ? true : false;
     },
 
-    isIe: function(version) {
-      return (qx.core.Environment.get("engine.name") === "mshtml");
+    isIe(version) {
+      return qx.core.Environment.get("engine.name") === "mshtml";
     },
 
-    isIeBelow: function(version) {
-      return qx.core.Environment.get("engine.name") === "mshtml" &&
-             qx.core.Environment.get("browser.documentmode") < version;
+    isIeBelow(version) {
+      return (
+        qx.core.Environment.get("engine.name") === "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < version
+      );
     },
 
-    supportsErrorHandler: function() {
-      var isLegacyIe = qx.core.Environment.get("engine.name") === "mshtml" &&
+    supportsErrorHandler() {
+      var isLegacyIe =
+        qx.core.Environment.get("engine.name") === "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9;
 
       var isOpera = qx.core.Environment.get("engine.name") === "opera";
@@ -616,11 +628,11 @@ qx.Class.define("qx.test.bom.request.Script",
       return !(isLegacyIe || isOpera);
     },
 
-    noCache: function(url) {
-      return url + "?nocache=" + (new Date()).valueOf();
+    noCache(url) {
+      return url + "?nocache=" + new Date().valueOf();
     },
 
-    skip: function(msg) {
+    skip(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     }
   }

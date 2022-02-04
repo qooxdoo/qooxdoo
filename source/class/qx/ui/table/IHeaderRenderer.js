@@ -19,11 +19,8 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Interface.define("qx.ui.table.IHeaderRenderer",
-{
-
-  members :
-  {
+qx.Interface.define("qx.ui.table.IHeaderRenderer", {
+  members: {
     /**
      * Creates a header cell.
      *
@@ -42,10 +39,9 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      *      create.
      * @return {qx.ui.core.Widget} the widget that renders the header cell.
      */
-    createHeaderCell : function(cellInfo) {
+    createHeaderCell(cellInfo) {
       return true;
     },
-
 
     /**
      * Updates a header cell.
@@ -56,7 +52,7 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
      *      the same widget formally created by {@link #createHeaderCell}.
      */
-    updateHeaderCell : function(cellInfo, cellWidget) {
+    updateHeaderCell(cellInfo, cellWidget) {
       return true;
     }
   }

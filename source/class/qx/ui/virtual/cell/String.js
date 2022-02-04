@@ -16,15 +16,12 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-qx.Class.define("qx.ui.virtual.cell.String",
-{
-  extend : qx.ui.virtual.cell.Cell,
+qx.Class.define("qx.ui.virtual.cell.String", {
+  extend: qx.ui.virtual.cell.Cell,
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
-
 
   /*
   *****************************************************************************
@@ -32,15 +29,12 @@ qx.Class.define("qx.ui.virtual.cell.String",
   *****************************************************************************
   */
 
-  properties :
-  {
-    appearance:
-    {
-      refine : true,
-      init : "cell-string"
+  properties: {
+    appearance: {
+      refine: true,
+      init: "cell-string"
     }
   },
-
 
   /*
   *****************************************************************************
@@ -48,18 +42,15 @@ qx.Class.define("qx.ui.virtual.cell.String",
   *****************************************************************************
   */
 
-
-  members :
-  {
+  members: {
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
     */
 
-    getContent : function(value, states) {
+    getContent(value, states) {
       return value ? qx.bom.String.escape(value) : "";
     }
   }
-
 });

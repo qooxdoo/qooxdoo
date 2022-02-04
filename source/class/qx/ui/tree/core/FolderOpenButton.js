@@ -19,13 +19,9 @@
 /**
  * The small folder open/close button
  */
-qx.Class.define("qx.ui.tree.core.FolderOpenButton",
-{
-  extend : qx.ui.basic.Image,
-  include : qx.ui.core.MExecutable,
-
-
-
+qx.Class.define("qx.ui.tree.core.FolderOpenButton", {
+  extend: qx.ui.basic.Image,
+  include: qx.ui.core.MExecutable,
 
   /*
   *****************************************************************************
@@ -33,9 +29,8 @@ qx.Class.define("qx.ui.tree.core.FolderOpenButton",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.initOpen();
 
@@ -44,32 +39,23 @@ qx.Class.define("qx.ui.tree.core.FolderOpenButton",
     this.addListener("pointerup", this._stopPropagation, this);
   },
 
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  properties :
-  {
+  properties: {
     /**
      * Whether the button state is "open"
      */
-    open :
-    {
-      check : "Boolean",
-      init : false,
-      event : "changeOpen",
-      apply : "_applyOpen"
+    open: {
+      check: "Boolean",
+      init: false,
+      event: "changeOpen",
+      apply: "_applyOpen"
     }
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -77,33 +63,28 @@ qx.Class.define("qx.ui.tree.core.FolderOpenButton",
   *****************************************************************************
   */
 
-  members :
-  {
+  members: {
     // property apply
-    _applyOpen : function(value, old)
-    {
+    _applyOpen(value, old) {
       value ? this.addState("opened") : this.removeState("opened");
       this.execute();
     },
-
 
     /**
      * Stop tap event propagation
      *
      * @param e {qx.event.type.Event} The event object
      */
-    _stopPropagation : function(e) {
+    _stopPropagation(e) {
       e.stopPropagation();
     },
-
 
     /**
      * Pointer tap event listener
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onTap : function(e)
-    {
+    _onTap(e) {
       this.toggleOpen();
       e.stopPropagation();
     }

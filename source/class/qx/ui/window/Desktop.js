@@ -21,31 +21,33 @@
  * used to define a clipping region for internal windows e.g. to create
  * an MDI like application.
  */
-qx.Class.define("qx.ui.window.Desktop",
-{
-  extend : qx.ui.core.Widget,
+qx.Class.define("qx.ui.window.Desktop", {
+  extend: qx.ui.core.Widget,
 
-  include : [
+  include: [
     qx.ui.core.MChildrenHandling,
     qx.ui.window.MDesktop,
     qx.ui.core.MBlocker
   ],
 
-  implement : qx.ui.window.IDesktop,
+  implement: qx.ui.window.IDesktop,
 
   /**
    * @param windowManager {qx.ui.window.IWindowManager} The window manager to use for the desktop.
    *    If not provided, an instance of {@link qx.ui.window.Window#DEFAULT_MANAGER_CLASS} is used.
    */
-  construct : function(windowManager)
-  {
-    this.base(arguments);
-    windowManager = windowManager || new qx.ui.window.Window.DEFAULT_MANAGER_CLASS();
+  construct(windowManager) {
+    super();
+    windowManager =
+      windowManager || new qx.ui.window.Window.DEFAULT_MANAGER_CLASS();
 
     this.getContentElement().disableScrolling();
-    this._setLayout(new qx.ui.layout.Canvas().set({
-      desktop: true
-    }));
+    this._setLayout(
+      new qx.ui.layout.Canvas().set({
+        desktop: true
+      })
+    );
+
     this.setWindowManager(windowManager);
   }
 });

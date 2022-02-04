@@ -19,28 +19,22 @@
  * Mixin responsible for setting the background color of a widget.
  * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
-qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
-{
-  properties :
-  {
+qx.Mixin.define("qx.ui.decoration.MBackgroundColor", {
+  properties: {
     /** Color of the background */
-    backgroundColor :
-    {
-      check : "Color",
-      nullable : true,
-      apply : "_applyBackgroundColor"
+    backgroundColor: {
+      check: "Color",
+      nullable: true,
+      apply: "_applyBackgroundColor"
     }
   },
 
-
-  members :
-  {
-
+  members: {
     /**
      * Adds the background-color styles to the given map
      * @param styles {Map} CSS style map
      */
-    _styleBackgroundColor : function(styles) {
+    _styleBackgroundColor(styles) {
       var bgcolor = this.getBackgroundColor();
 
       if (bgcolor && qx.core.Environment.get("qx.theme")) {
@@ -52,14 +46,13 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
       }
     },
 
-
     // property apply
-    _applyBackgroundColor : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    _applyBackgroundColor() {
+      if (qx.core.Environment.get("qx.debug")) {
         if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+          throw new Error(
+            "This decorator is already in-use. Modification is not possible anymore!"
+          );
         }
       }
     }

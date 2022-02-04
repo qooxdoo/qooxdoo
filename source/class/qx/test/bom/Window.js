@@ -16,38 +16,32 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Window",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.bom.Window", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     // Disabling tests for native window because every browser has a popup
     // blocker enabled. As long as we do not have special setup test machines
     // these tests will fail. Adding a try ... catch block won't helper either
     // since we do not want to blur the test results
-
     /*testOpen : function()
     {
       var win = qx.bom.Window.open("http://qooxdoo.org");
       this.assertFalse(win.closed);
       win.close();
     },
-
-    testClose : function()
+     testClose : function()
     {
       var win = qx.bom.Window.open("http://qooxdoo.org");
       qx.bom.Window.close(win);
       this.assertTrue(qx.bom.Window.isClosed(win));
     },
-
-    testIsClosed : function()
+     testIsClosed : function()
     {
       var win = qx.bom.Window.open("http://qooxdoo.org");
       this.assertFalse(qx.bom.Window.isClosed(win));
       win.close();
-
-      var win2 = qx.bom.Window.open("http://qooxdoo.org");
+       var win2 = qx.bom.Window.open("http://qooxdoo.org");
       win2.close();
       this.assertTrue(qx.bom.Window.isClosed(win2));
     }*/

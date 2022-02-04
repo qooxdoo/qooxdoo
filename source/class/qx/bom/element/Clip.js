@@ -21,16 +21,14 @@
  *
  * @require(qx.lang.normalize.String)
  */
-qx.Bootstrap.define("qx.bom.element.Clip",
-{
+qx.Bootstrap.define("qx.bom.element.Clip", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Compiles the given clipping into a CSS compatible string. This
      * is a simple square which describes the visible area of an DOM element.
@@ -41,8 +39,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
      *   <code>width</code> and <code>height</code> of the clipped area.
      * @return {String} CSS compatible string
      */
-    compile : function(map)
-    {
+    compile(map) {
       if (!map) {
         return "clip:auto;";
       }
@@ -54,31 +51,26 @@ qx.Bootstrap.define("qx.bom.element.Clip",
 
       var right, bottom;
 
-      if (left == null)
-      {
-        right = (width == null ? "auto" : width + "px");
+      if (left == null) {
+        right = width == null ? "auto" : width + "px";
         left = "auto";
-      }
-      else
-      {
-        right = (width == null ? "auto" : left + width + "px");
+      } else {
+        right = width == null ? "auto" : left + width + "px";
         left = left + "px";
       }
 
-      if (top == null)
-      {
-        bottom = (height == null ? "auto" : height + "px");
+      if (top == null) {
+        bottom = height == null ? "auto" : height + "px";
         top = "auto";
-      }
-      else
-      {
-        bottom = (height == null ? "auto" : top + height + "px");
+      } else {
+        bottom = height == null ? "auto" : top + height + "px";
         top = top + "px";
       }
 
-      return "clip:rect(" + top + "," + right + "," + bottom + "," + left + ");";
+      return (
+        "clip:rect(" + top + "," + right + "," + bottom + "," + left + ");"
+      );
     },
-
 
     /**
      * Gets the clipping of the given element.
@@ -91,21 +83,18 @@ qx.Bootstrap.define("qx.bom.element.Clip",
      *   <code>width</code> and <code>height</code> of the clipped area.
      *   Each one could be null or any integer value.
      */
-    get : function(element, mode)
-    {
+    get(element, mode) {
       var clip = qx.bom.element.Style.get(element, "clip", mode, false);
 
       var left, top, width, height;
       var right, bottom;
 
-      if (typeof clip === "string" && clip !== "auto" && clip !== "")
-      {
+      if (typeof clip === "string" && clip !== "auto" && clip !== "") {
         clip = clip.trim();
 
         // Do not use "global" here. This will break Firefox because of
         // an issue that the lastIndex will not be reset on separate calls.
-        if (/\((.*)\)/.test(clip))
-        {
+        if (/\((.*)\)/.test(clip)) {
           var result = RegExp.$1;
 
           // Process result
@@ -113,9 +102,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
           // Handle both cases by means of feature-detection.
           if (/,/.test(result)) {
             var split = result.split(",");
-          }
-          else
-          {
+          } else {
             var split = result.split(" ");
           }
 
@@ -170,22 +157,19 @@ qx.Bootstrap.define("qx.bom.element.Clip",
           } else if (bottom != null) {
             height = bottom;
           }
-        }
-        else
-        {
+        } else {
           throw new Error("Could not parse clip string: " + clip);
         }
       }
 
       // Return map when any value is available.
       return {
-        left : left || null,
-        top : top || null,
-        width : width || null,
-        height : height || null
+        left: left || null,
+        top: top || null,
+        width: width || null,
+        height: height || null
       };
     },
-
 
     /**
      * Sets the clipping of the given element. This is a simple
@@ -197,10 +181,8 @@ qx.Bootstrap.define("qx.bom.element.Clip",
      * @param map {Map} A map with one or more of these available keys:
      *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
      */
-    set : function(element, map)
-    {
-      if (!map)
-      {
+    set(element, map) {
+      if (!map) {
         element.style.clip = "rect(auto,auto,auto,auto)";
         return;
       }
@@ -212,38 +194,32 @@ qx.Bootstrap.define("qx.bom.element.Clip",
 
       var right, bottom;
 
-      if (left == null)
-      {
-        right = (width == null ? "auto" : width + "px");
+      if (left == null) {
+        right = width == null ? "auto" : width + "px";
         left = "auto";
-      }
-      else
-      {
-        right = (width == null ? "auto" : left + width + "px");
+      } else {
+        right = width == null ? "auto" : left + width + "px";
         left = left + "px";
       }
 
-      if (top == null)
-      {
-        bottom = (height == null ? "auto" : height + "px");
+      if (top == null) {
+        bottom = height == null ? "auto" : height + "px";
         top = "auto";
-      }
-      else
-      {
-        bottom = (height == null ? "auto" : top + height + "px");
+      } else {
+        bottom = height == null ? "auto" : top + height + "px";
         top = top + "px";
       }
 
-      element.style.clip = "rect(" + top + "," + right + "," + bottom + "," + left + ")";
+      element.style.clip =
+        "rect(" + top + "," + right + "," + bottom + "," + left + ")";
     },
-
 
     /**
      * Resets the clipping of the given DOM element.
      *
      * @param element {Element} DOM element to modify
      */
-    reset : function(element) {
+    reset(element) {
       element.style.clip = "rect(auto, auto, auto, auto)";
     }
   }

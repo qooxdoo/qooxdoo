@@ -26,36 +26,43 @@
  * @require(qx.module.Environment)
  */
 qx.Bootstrap.define("qx.module.Animation", {
-  events : {
+  events: {
     /** Fired when an animation starts. */
-    "animationStart" : undefined,
+    animationStart: undefined,
 
     /** Fired when an animation has ended one iteration. */
-    "animationIteration" : undefined,
+    animationIteration: undefined,
 
     /** Fired when an animation has ended. */
-    "animationEnd" : undefined
+    animationEnd: undefined
   },
 
-  statics :
-  {
+  statics: {
     /**
      * Animation description used in {@link #fadeOut}.
      */
-    _fadeOut : {duration: 700, timing: "ease-out", keep: 100, keyFrames : {
-      0: {opacity: 1},
-      100: {opacity: 0, display: "none"}
-    }},
-
+    _fadeOut: {
+      duration: 700,
+      timing: "ease-out",
+      keep: 100,
+      keyFrames: {
+        0: { opacity: 1 },
+        100: { opacity: 0, display: "none" }
+      }
+    },
 
     /**
      * Animation description used in {@link #fadeIn}.
      */
-    _fadeIn : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-      0: {opacity: 0},
-      100: {opacity: 1}
-    }},
-
+    _fadeIn: {
+      duration: 700,
+      timing: "ease-in",
+      keep: 100,
+      keyFrames: {
+        0: { opacity: 0 },
+        100: { opacity: 1 }
+      }
+    },
 
     /**
      * Animation execute either regular or reversed direction.
@@ -64,8 +71,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   which will override the duration given in the description.
      * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
      */
-    _animate : function(desc, duration, reverse) {
-      this._forEachElement(function(el, i) {
+    _animate(desc, duration, reverse) {
+      this._forEachElement(function (el, i) {
         // stop all running animations
         if (el.$$animation) {
           el.$$animation.stop();
@@ -81,29 +88,40 @@ qx.Bootstrap.define("qx.module.Animation", {
         var self = this;
         // only register for the first element
         if (i == 0) {
-          handle.on("start", function() {
-            self.emit("animationStart");
-          }, handle);
+          handle.on(
+            "start",
+            function () {
+              self.emit("animationStart");
+            },
+            handle
+          );
 
-          handle.on("iteration", function() {
-            self.emit("animationIteration");
-          }, handle);
+          handle.on(
+            "iteration",
+            function () {
+              self.emit("animationIteration");
+            },
+            handle
+          );
         }
 
-        handle.on("end", function() {
-          for (var i=0; i < self.length; i++) {
-            if (self[i].$$animation) {
-              return;
+        handle.on(
+          "end",
+          function () {
+            for (var i = 0; i < self.length; i++) {
+              if (self[i].$$animation) {
+                return;
+              }
             }
-          }
-          self.emit("animationEnd");
-        }, el);
+            self.emit("animationEnd");
+          },
+          el
+        );
       });
     }
   },
 
-  members :
-  {
+  members: {
     /**
      * Returns the stored animation handles. The handles are only
      * available while an animation is running.
@@ -111,14 +129,13 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @internal
      * @return {Array} An array of animation handles.
      */
-    getAnimationHandles : function() {
+    getAnimationHandles() {
       var animationHandles = [];
-      for (var i=0; i < this.length; i++) {
+      for (var i = 0; i < this.length; i++) {
         animationHandles[i] = this[i].$$animation;
       }
       return animationHandles;
     },
-
 
     /**
      * Starts the animation with the given description.
@@ -154,11 +171,10 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   which will override the duration given in the description.
      * @return {qxWeb} The collection for chaining.
      */
-    animate : function(desc, duration) {
+    animate(desc, duration) {
       qx.module.Animation._animate.bind(this)(desc, duration, false);
       return this;
     },
-
 
     /**
      * Starts an animation in reversed order. For further details, take a look at
@@ -169,11 +185,10 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   which will override the duration given in the description.
      * @return {qxWeb} The collection for chaining.
      */
-    animateReverse : function(desc, duration) {
+    animateReverse(desc, duration) {
       qx.module.Animation._animate.bind(this)(desc, duration, true);
       return this;
     },
-
 
     /**
      * Manipulates the play state of the animation.
@@ -181,8 +196,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @attach {qxWeb}
      * @return {qxWeb} The collection for chaining.
      */
-    play : function() {
-      for (var i=0; i < this.length; i++) {
+    play() {
+      for (var i = 0; i < this.length; i++) {
         var handle = this[i].$$animation;
         if (handle) {
           handle.play();
@@ -191,15 +206,14 @@ qx.Bootstrap.define("qx.module.Animation", {
       return this;
     },
 
-
     /**
      * Manipulates the play state of the animation.
      * This can be used to pause an animation when running.
      * @attach {qxWeb}
      * @return {qxWeb} The collection for chaining.
      */
-    pause : function() {
-      for (var i=0; i < this.length; i++) {
+    pause() {
+      for (var i = 0; i < this.length; i++) {
         var handle = this[i].$$animation;
         if (handle) {
           handle.pause();
@@ -209,14 +223,13 @@ qx.Bootstrap.define("qx.module.Animation", {
       return this;
     },
 
-
     /**
      * Stops a running animation.
      * @attach {qxWeb}
      * @return {qxWeb} The collection for chaining.
      */
-    stop : function() {
-      for (var i=0; i < this.length; i++) {
+    stop() {
+      for (var i = 0; i < this.length; i++) {
         var handle = this[i].$$animation;
         if (handle) {
           handle.stop();
@@ -226,14 +239,13 @@ qx.Bootstrap.define("qx.module.Animation", {
       return this;
     },
 
-
     /**
      * Returns whether an animation is running or not.
      * @attach {qxWeb}
      * @return {Boolean} <code>true</code>, if an animation is running.
      */
-    isPlaying : function() {
-      for (var i=0; i < this.length; i++) {
+    isPlaying() {
+      for (var i = 0; i < this.length; i++) {
         var handle = this[i].$$animation;
         if (handle && handle.isPlaying()) {
           return true;
@@ -243,14 +255,13 @@ qx.Bootstrap.define("qx.module.Animation", {
       return false;
     },
 
-
     /**
      * Returns whether an animation has ended or not.
      * @attach {qxWeb}
      * @return {Boolean} <code>true</code>, if an animation has ended.
      */
-    isEnded : function() {
-      for (var i=0; i < this.length; i++) {
+    isEnded() {
+      for (var i = 0; i < this.length; i++) {
         var handle = this[i].$$animation;
         if (handle && !handle.isEnded()) {
           return false;
@@ -260,19 +271,17 @@ qx.Bootstrap.define("qx.module.Animation", {
       return true;
     },
 
-
     /**
      * Fades in all elements in the collection.
      * @attach {qxWeb}
      * @param duration {Number?} The duration in milliseconds.
      * @return {qxWeb} The collection for chaining.
      */
-    fadeIn : function(duration) {
+    fadeIn(duration) {
       // remove "display: none" style
       this.setStyle("display", "");
       return this.animate(qx.module.Animation._fadeIn, duration);
     },
-
 
     /**
      * Fades out all elements in the collection.
@@ -280,22 +289,23 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @param duration {Number?} The duration in milliseconds.
      * @return {qxWeb} The collection for chaining.
      */
-    fadeOut : function(duration) {
+    fadeOut(duration) {
       return this.animate(qx.module.Animation._fadeOut, duration);
     }
   },
 
-
-  defer : function(statics) {
+  defer(statics) {
     qxWeb.$attachAll(this);
-
 
     /**
      * End value for opacity style. This value is modified for all browsers which are
      * 'optimizing' this style value by not setting it (like IE9). This leads to a wrong
      * end state for the 'fadeIn' animation if a opacity value is set by CSS.
      */
-    if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 9) {
+    if (
+      qxWeb.env.get("browser.name") === "ie" &&
+      qxWeb.env.get("browser.version") <= 9
+    ) {
       // has to be fixed using direct access since we cannot store the value as static member.
       // The 'fadeIn' description is evaluated during class definition
       statics._fadeIn.keyFrames[100].opacity = 0.99;

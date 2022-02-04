@@ -16,22 +16,18 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.AbstractListTest",
-{
-  type : "abstract",
-  extend : qx.test.ui.LayoutTestCase,
-  include : [qx.test.ui.list.MAssert],
+qx.Class.define("qx.test.ui.list.AbstractListTest", {
+  type: "abstract",
+  extend: qx.test.ui.LayoutTestCase,
+  include: [qx.test.ui.list.MAssert],
 
-  members :
-  {
-    _model : null,
+  members: {
+    _model: null,
 
-    _list : null,
+    _list: null,
 
-
-    setUp : function()
-    {
-      this.base(arguments);
+    setUp() {
+      super.setUp();
 
       this._model = this.createModelData();
       this._list = new qx.ui.list.List(this._model);
@@ -43,10 +39,8 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
       this.flush();
     },
 
-
-    tearDown : function()
-    {
-      this.base(arguments);
+    tearDown() {
+      super.tearDown();
 
       this._list.dispose();
       this._list = null;
@@ -54,12 +48,10 @@ qx.Class.define("qx.test.ui.list.AbstractListTest",
       this._model = null;
     },
 
-
-    createModelData : function() {
+    createModelData() {
       throw new Error("Abstract 'createModelData' method call!");
     },
 
-
-    configureList : function() {}
+    configureList() {}
   }
 });

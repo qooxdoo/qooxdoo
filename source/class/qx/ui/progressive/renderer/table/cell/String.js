@@ -19,24 +19,18 @@
 /**
  * Table Cell Renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.String",
-{
-  extend     : qx.ui.progressive.renderer.table.cell.Abstract,
-
+qx.Class.define("qx.ui.progressive.renderer.table.cell.String", {
+  extend: qx.ui.progressive.renderer.table.cell.Abstract,
 
   /**
    */
-  construct : function()
-  {
-    this.base(arguments);
+  construct() {
+    super();
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml(cellInfo) {
       return qx.bom.String.escape(cellInfo.cellData);
     }
   }

@@ -19,16 +19,14 @@
 /**
  * All parent widgets of windows must implement this interface.
  */
-qx.Interface.define("qx.ui.window.IDesktop",
-{
-  members :
-  {
+qx.Interface.define("qx.ui.window.IDesktop", {
+  members: {
     /**
      * Sets the desktop's window manager
      *
      * @param manager {qx.ui.window.IWindowManager} The window manager
      */
-    setWindowManager : function(manager) {
+    setWindowManager(manager) {
       this.assertInterface(manager, qx.ui.window.IWindowManager);
     },
 
@@ -37,7 +35,7 @@ qx.Interface.define("qx.ui.window.IDesktop",
      *
      * @return {qx.ui.window.Window[]} Array of managed windows
      */
-    getWindows : function() {},
+    getWindows() {},
 
     /**
      * Whether the configured layout supports a maximized window
@@ -45,7 +43,7 @@ qx.Interface.define("qx.ui.window.IDesktop",
      *
      * @return {Boolean} Whether the layout supports maximized windows
      */
-    supportsMaximize : function() {},
+    supportsMaximize() {},
 
     /**
      * Block direct child widgets with a zIndex below <code>zIndex</code>
@@ -53,20 +51,20 @@ qx.Interface.define("qx.ui.window.IDesktop",
      * @param zIndex {Integer} All child widgets with a zIndex below this value
      *     will be blocked
      */
-    blockContent : function(zIndex) {
+    blockContent(zIndex) {
       this.assertInteger(zIndex);
     },
 
     /**
      * Remove the blocker.
      */
-    unblock : function() {},
+    unblock() {},
 
     /**
      * Whether the widget is currently blocked
      *
      * @return {Boolean} whether the widget is blocked.
      */
-    isBlocked : function() {}
+    isBlocked() {}
   }
 });

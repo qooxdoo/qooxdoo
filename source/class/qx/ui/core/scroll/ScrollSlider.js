@@ -23,44 +23,38 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.core.scroll.ScrollSlider",
-{
-  extend : qx.ui.form.Slider,
+qx.Class.define("qx.ui.core.scroll.ScrollSlider", {
+  extend: qx.ui.form.Slider,
 
   // overridden
-  construct : function(orientation)
-  {
-    this.base(arguments, orientation);
+  construct(orientation) {
+    super(orientation);
 
     // Remove roll/keypress events
     this.removeListener("keypress", this._onKeyPress);
     this.removeListener("roll", this._onRoll);
   },
 
-
-  members : {
-
+  members: {
     // overridden
-    _createChildControlImpl : function(id, hash)
-    {
+    _createChildControlImpl(id, hash) {
       var control;
 
-      switch(id)
-      {
+      switch (id) {
         case "knob":
-          control = this.base(arguments, id);
-          control.addListener("dblclick", function(e) {
+          control = super._createChildControlImpl(id);
+          control.addListener("dblclick", function (e) {
             e.stopPropagation();
           });
       }
 
-      return control || this.base(arguments, id);
+      return control || super._createChildControlImpl(id);
     },
 
     // overridden
-    getSizeHint : function(compute) {
+    getSizeHint(compute) {
       // get the original size hint
-      var hint = this.base(arguments);
+      var hint = super.getSizeHint();
       // set the width or height to 0 depending on the orientation.
       // this is necessary to prevent the ScrollSlider to change the size
       // hint of its parent, which can cause errors on outer flex layouts

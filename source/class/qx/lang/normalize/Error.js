@@ -23,11 +23,8 @@
  * @group (Polyfill)
  */
 /* eslint-disable no-extend-native */
-qx.Bootstrap.define("qx.lang.normalize.Error",
-{
-
-  statics : {
-
+qx.Bootstrap.define("qx.lang.normalize.Error", {
+  statics: {
     /**
      * Returns a string representation of the Error object.
      *
@@ -36,7 +33,7 @@ qx.Bootstrap.define("qx.lang.normalize.Error",
      *
      * @return {String} Error message
      */
-    toString : function() {
+    toString() {
       var name = this.name || "Error";
       var message = this.message || "";
 
@@ -53,7 +50,7 @@ qx.Bootstrap.define("qx.lang.normalize.Error",
     }
   },
 
-  defer : function(statics) {
+  defer(statics) {
     // toString
     if (!qx.core.Environment.get("ecmascript.error.toString")) {
       Error.prototype.toString = statics.toString;
