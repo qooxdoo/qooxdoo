@@ -1828,10 +1828,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                       types.stringLiteral(t.__classMeta.functionName)
                     ]
                   );
-
                   expr = types.memberExpression(expr, types.identifier("call"));
-                  //expr = expandMemberExpression("qx.Mixin.baseClassMethod(this.constructor, " + t.__classMeta.className + ", \"" + t.__classMeta.functionName + "\").call");
-                  //expr = expandMemberExpression(t.__classMeta.className + ".$$members." + t.__classMeta.functionName + ".base.call");
                 } else if (t.__classMeta.functionName == "$$constructor") {
                   expr = expandMemberExpression(
                     t.__classMeta.superClass + ".constructor.call"
@@ -1839,9 +1836,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else if (t.__classMeta.className) {
                   expr = expandMemberExpression(
                     t.__classMeta.className +
-                      ".prototype." +
+                    ".superclass" +
+                    ".prototype." +
                       t.__classMeta.functionName +
-                      ".base.call"
+                      ".call"
                   );
                 } else {
                   expr = expandMemberExpression(

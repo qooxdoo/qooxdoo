@@ -307,12 +307,12 @@ test("Checks dependencies and environment settings", assert => {
 
       .then(() => readFile("test-deps/transpiled/testapp/TestThat1.js", "utf8")
       .then(src => {
-        assert.ok(src.match(/testapp\.TestThat1\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+        assert.ok(src.match(/testapp\.TestThat1\.superclass\.prototype\.toHashCode\.call\(other\)/), "Aliased this");
       }))
 
       .then(() => readFile("test-deps/transpiled/testapp/TestThat2.js", "utf8")
       .then(src => {
-        assert.ok(src.match(/testapp\.TestThat2\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+        assert.ok(src.match(/testapp\.TestThat2\.superclass\.prototype\.toHashCode\.call\(other\)/), "Aliased this");
       }))
 
       /*
