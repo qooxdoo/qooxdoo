@@ -442,15 +442,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           application.getBundleExclude()
         );
 
-      let lastPackage = bootPackage;
-      let packages = {
-        boot: bootPackage
-      };
-
       partsData.forEach((partData, index) => {
         let partMeta = appMeta.createPart(partData.name);
-        if (index == 0) {
+        let packages = {};
+          if (index == 0) {
           partMeta.addPackage(bootPackage);
+          packages.boot = bootPackage;
         }
 
         partData.classes.forEach(classname => {
@@ -475,7 +472,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           let packageName = matchBundle(classname) ? "__bundle" : partData.name;
           let pkg = packages[packageName];
 
-          if (!pkg || pkg !== lastPackage) {
+          if (!pkg) {
             pkg = packages[packageName] = appMeta.createPackage();
             if (packageName == "__bundle") {
               pkg.setEmbedAllJavascript(true);
@@ -487,7 +484,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           }
           pkg.addJavascriptMeta(jsMeta);
           pkg.addClassname(classname);
-          lastPackage = pkg;
         });
       });
 
