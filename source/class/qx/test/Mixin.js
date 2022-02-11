@@ -518,7 +518,64 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("Juhu Mixin Derived", o.sayJuhu());
       o.dispose();
 
+    },
+
+    testPatchMultiOverwrittenDerived() {
+      qx.Class.define("qx.A", {
+        extend: qx.core.Object,
+        members: {
+          sayJuhu() {
+            return "A";
+          }
+        }
+      });
+      qx.Class.define("qx.B", {
+        extend: qx.A,
+        members: {
+          sayJuhu() {
+            return super() + " B";
+          }
+        }
+      });
+      qx.Class.define("qx.C", {
+        extend: qx.B,
+        members: {
+          sayJuhu() {
+            return super() + " C";
+          }
+        }
+      });
+      qx.Mixin.define("qx.MA", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " MA";
+          },
+        }
+      });
+      qx.Mixin.define("qx.MB", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " MB";
+          },
+        }
+      });
+      qx.Mixin.define("qx.MC", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " MC";
+          },
+        }
+      });
+      qx.Class.patch(qx.A, qx.MA);
+      qx.Class.patch(qx.B, qx.MB);
+      qx.Class.patch(qx.C, qx.MC);
+
+      var o = new qx.C();
+      this.assertEquals("A MA B MB C MC", o.sayJuhu());
+      o.dispose();
+
     }
+
 
    }
 });
