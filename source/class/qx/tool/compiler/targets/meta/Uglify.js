@@ -96,22 +96,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
         });
         return ss.toString();
       })();
-      await qx.tool.utils.files.Utils.safeUnlink(outJsFilename + ".unminified");
-      await qx.tool.utils.files.Utils.safeRename(
-        outJsFilename,
-        outJsFilename + ".unminified"
-      );
 
       let inSourceMap = await this.__jsMeta.getSourceMap();
-      await qx.tool.utils.files.Utils.safeUnlink(
-        outJsFilename + ".unminified.map"
-      );
-
-      await qx.tool.utils.files.Utils.safeRename(
-        outJsFilename + ".map",
-        outJsFilename + ".unminified.map"
-      );
-
       this.fireDataEvent("minifyingApplication", {
         application: application,
         filename: baseJsFilename
@@ -138,18 +124,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
         throw new Error("UglifyJS failed to minimise: " + (err.message || err));
       }
       await fs.writeFileAsync(outJsFilename, result.code, { encoding: "utf8" });
-      if (!this._appMeta.getTarget().isSaveUnminified()) {
-        await qx.tool.utils.files.Utils.safeUnlink(
-          outJsFilename + ".unminified"
-        );
-
-        await qx.tool.utils.files.Utils.safeUnlink(
-          outJsFilename + ".unminified.map"
-        );
+      await fs.writeFileAsync(outJsFilename + ".map", result.map, { encoding: "utf8"  });
+      if (this._appMeta.getTarget().isSaveUnminified()) {
+        await fs.writeFileAsync(outJsFilename + ".unminified", inSourceCode, { encoding: "utf8" });
+        await fs.writeFileAsync(outJsFilename + ".unminified.map", JSON.stringify(inSourceMap, null, 2), { encoding: "utf8" });
       }
-      await fs.writeFileAsync(outJsFilename + ".map", result.map, {
-        encoding: "utf8"
-      });
 
       this.fireDataEvent("minifiedApplication", {
         application: application,
