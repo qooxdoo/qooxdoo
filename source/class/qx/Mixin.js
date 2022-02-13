@@ -373,7 +373,7 @@ qx.Bootstrap.define("qx.Mixin", {
             // if fn.self is set fn is an overloaded mixin method from
             // another mixin. In this case fn.base contains the original
             // class method.
-            if (fn.self) {
+            if (fn && fn.self) {
               fn = fn.base;
             }
           }
