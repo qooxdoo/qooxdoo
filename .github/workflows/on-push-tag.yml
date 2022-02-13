@@ -5,23 +5,11 @@ on:
       - "*"
     branches:
       - "latest"
-  
-  workflow_dispatch:
 
 jobs:
-    
-  sleep:
-    name: Wait for 10 min
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          sleep 600
-
   provide_repository_names:
     name: Get repo names in ${{ github.repository_owner }}
     runs-on: ubuntu-latest
-    needs:
-      - sleep
     if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     steps:
       - uses: actions/setup-node@v2
@@ -53,14 +41,23 @@ jobs:
       - provide_repository_names
     steps:
       - run: |
-          sleep echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
+          echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
           echo "ref: ${{ github.ref }}"
-  
+
+  sleep:
+    name: Wait for 10 min
+    runs-on: ubuntu-latest
+    needs:
+      - provide_repository_names
+    steps:
+      - run: |
+          sleep 600
+
   dispatch:
     name: Send repository_dispatch
     if: ${{ (github.repository == 'qooxdoo/qooxdoo') && (github.event.base_ref == 'refs/heads/master') }}
     needs:
-      - provide_repository_names
+      - sleep
     strategy:
       matrix:
         repo: ${{ fromJson(needs.provide_repository_names.outputs.repos) }}
