@@ -370,6 +370,12 @@ qx.Bootstrap.define("qx.Mixin", {
           // Try looking in the class itself
           if (!fn && mixedInAt.prototype[methodName]) {
             fn = mixedInAt.prototype[methodName].base;
+            // if fn.self is set fn is an overloaded mixin method from
+            // another mixin. In this case fn.base contains the original
+            // class method.
+            if (fn.self) {
+              fn = fn.base;
+            }
           }
           // Try looking in the superclass
           if (!fn && mixedInAt.superclass) {
