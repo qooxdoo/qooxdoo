@@ -5,7 +5,9 @@ on:
       - "*"
     branches:
       - "latest"
-
+      
+  workflow_dispatch:
+ 
 jobs:
   provide_repository_names:
     name: Get repo names in ${{ github.repository_owner }}
