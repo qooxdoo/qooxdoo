@@ -410,7 +410,7 @@ strict dependency and remove the compatibility with earlier versions.
 - In order to be installable, the library manifests must be placed in the
   repository in one of the following ways: a) If the repository contains just
   **one single library**, its `Manifest.json` file must be placed in the
-  repository's root directory (unless you use `qoodoo.json`, see below) b) If
+  repository's root directory (unless you use `qooxdoo.json`, see below) b) If
   you ship **several libraries** in one repository, or you want to place the
   `Manifest.json` file outside of the root directory, you must provide a
   `Qooxdoo.json` file in the root dir (see below)

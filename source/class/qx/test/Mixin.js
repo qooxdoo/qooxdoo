@@ -574,8 +574,39 @@ qx.Class.define("qx.test.Mixin", {
       this.assertEquals("A MA B MB C MC", o.sayJuhu());
       o.dispose();
 
-    }
+    },
 
+    testDoubleMixin() {
+      qx.Class.define("qx.D", {
+        extend: qx.core.Object,
+        members: {
+          sayJuhu() {
+            return "Double";
+          }
+        }
+      });
+      qx.Mixin.define("qx.MDA", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " MA";
+          },
+        }
+      });
+      qx.Mixin.define("qx.MDB", {
+        members: {
+          sayJuhu() {
+            return super.sayJuhu() + " MB";
+          },
+        }
+      });
+      qx.Class.patch(qx.D, qx.MDA);
+      qx.Class.patch(qx.D, qx.MDB);
+
+      var o = new qx.D();
+      this.assertEquals("Double MA MB", o.sayJuhu());
+      o.dispose();
+
+    }
 
    }
 });
