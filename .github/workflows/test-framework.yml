@@ -15,7 +15,9 @@ on:
       - 'compile.*'
       - 'source/**'
       - 'test/**'
-
+ 
+  workflow_dispatch:
+  
 jobs:
   test:
     name: ${{ matrix.os }}, node ${{ matrix.node-version }}, ${{ matrix.browser }}

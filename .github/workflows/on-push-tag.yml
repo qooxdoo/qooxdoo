@@ -5,7 +5,9 @@ on:
       - "*"
     branches:
       - "latest"
-
+      
+  workflow_dispatch:
+ 
 jobs:
   provide_repository_names:
     name: Get repo names in ${{ github.repository_owner }}
@@ -37,8 +39,7 @@ jobs:
     name: Log needed values for debugging (can be disabled)
     if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     runs-on: ubuntu-latest
-    needs:
-      - provide_repository_names
+    needs: provide_repository_names
     steps:
       - run: |
           echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
@@ -47,17 +48,15 @@ jobs:
   sleep:
     name: Wait for 10 min
     runs-on: ubuntu-latest
-    needs:
-      - provide_repository_names
+    needs: provide_repository_names
     steps:
       - run: |
           sleep 600
 
   dispatch:
     name: Send repository_dispatch
-    if: ${{ (github.repository == 'qooxdoo/qooxdoo') && (github.event.base_ref == 'refs/heads/master') }}
-    needs:
-      - sleep
+    if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
+    needs: [provide_repository_names, sleep]
     strategy:
       matrix:
         repo: ${{ fromJson(needs.provide_repository_names.outputs.repos) }}
