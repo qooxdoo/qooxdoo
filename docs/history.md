@@ -1,15 +1,15 @@
 # Qooxdoo history
 
 Qooxdoo has a long history. Originally developed by a dedicated
-team at [1&1](https://www.1und1.de/), its version 0.1 is from [Mai
+team at [1&1](https://www.1und1.de/), its version 0.1 is from [May
 2005](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-legacy/0.1/).
 Up to version 2, qooxdoo was developed in a SVN repository
 at sourceforge.net, were the source code for versions
 [0.1-0.7](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-legacy/) and
 [1.0-5.0](https://sourceforge.net/projects/qooxdoo/files/qooxdoo-current/)
-is archived. Since 2013, the Qooxdoo source code has moved to GitHub.
+is archived. Since 2013, the Qooxdoo source code has resided on GitHub.
 
-In 2015, the Qooxdoo was transformed to a open source project led by a team of
+In 2015, Qooxdoo was transformed to an open source project led by a team of
 volunteer developers and managed by a foundation under Swiss law. 
 
 ## Version history
