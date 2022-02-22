@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.0.0-beta.10",
+  "version": "7.0.0",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "keywords": [
@@ -38,7 +38,7 @@
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node bootstrap-compiler --target build",
     "test": "node ./bin/build/qx test --colorize=false --quiet",
-    "prepack": "node ./bootstrap/qx deploy --clean"
+    "prepack": "node bootstrap-compiler --target build & node ./bootstrap/qx deploy --clean"
   },
   "files": [
     "LICENSE",
