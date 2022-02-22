@@ -1,7 +1,7 @@
 - [Overview](/contents.md)
   - [Getting Started](/?id=getting-started)
   - [Qooxdoo Apps](/apps.md)
-  - [Release Notes](/release-notes.md)
+  - [Release Notes](/release-notes.7.0.md)
   - [Roadmap](/roadmap.md)
   - [About](/about.md)
   - [History](/history.md)
