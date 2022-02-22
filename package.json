@@ -38,7 +38,7 @@
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node ./bootstrap-compiler",
     "test": "node ./bin/build/qx test --colorize=false --quiet",
-    "prepack": "node ./bootstrap-compiler & node ./bootstrap/qx deploy --clean"
+    "prepack": "node ./bootstrap/qx deploy --clean"
   },
   "files": [
     "LICENSE",
