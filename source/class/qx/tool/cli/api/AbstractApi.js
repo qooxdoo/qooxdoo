@@ -86,7 +86,7 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
      */
     loadNpmModule(module) {
       const { execSync } = require("child_process");
-      let s = `npm install --no-save --no-package-lock ${module}`;
+      let s = `npm install --no-package-lock ${module}`;
       qx.tool.compiler.Console.info(s);
       execSync(s, {
         stdio: "inherit"
