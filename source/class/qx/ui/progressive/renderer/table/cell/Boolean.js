@@ -28,13 +28,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
   construct() {
     super();
 
-    this.__resolveImages();
+    this._resolveImages();
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme",
-        this.__resolveImages,
+        this._resolveImages,
         this
       );
     }
@@ -53,19 +53,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
   },
 
   members: {
-    __iconUrlTrue: null,
-    __iconUrlFalse: null,
-    __numericAllowed: null,
-    __conditions: null,
-    __defaultTextAlign: null,
-    __defaultColor: null,
-    __defaultFontStyle: null,
-    __defaultFontWeight: null,
+    _iconUrlTrue: null,
+    _iconUrlFalse: null,
 
     /**
      * Resolve the boolean images using the alias and resource manager.
      */
-    __resolveImages() {
+    _resolveImages() {
       var aliasManager = qx.util.AliasManager.getInstance();
       var resourceManager = qx.util.ResourceManager.getInstance();
       var boolTrueImg = aliasManager.resolve(
@@ -76,25 +70,29 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
         "decoration/table/boolean-false.png"
       );
 
-      this.__iconUrlTrue = resourceManager.toUri(boolTrueImg);
-      this.__iconUrlFalse = resourceManager.toUri(boolFalseImg);
+      this._iconUrlTrue = resourceManager.toUri(boolTrueImg);
+      this._iconUrlFalse = resourceManager.toUri(boolFalseImg);
+    },
+
+    _getDefaultImageData(cellInfo) {
+      return {
+        imageWidth: 11,
+        imageHeight: 11
+      };
     },
 
     // overridden
     _identifyImage(cellInfo) {
-      var imageData = {
-        imageWidth: 11,
-        imageHeight: 11
-      };
+      var imageData = this._getDefaultImageData(cellInfo);
 
       switch (cellInfo.cellData) {
         case true:
-          imageData.url = this.__iconUrlTrue;
+          imageData.url = this._iconUrlTrue;
           imageData.extras = "celldata='1' ";
           break;
 
         case false:
-          imageData.url = this.__iconUrlFalse;
+          imageData.url = this._iconUrlFalse;
           imageData.extras = "celldata='0' ";
           break;
 
@@ -115,7 +113,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
 
         if (
           qx.core.Environment.get("css.alphaimageloaderneeded") &&
-          /\.png$/i.test(this.__iconUrlTrue)
+          /\.png$/i.test(this._iconUrlTrue)
         ) {
           imageData.extras +=
             "  this.src='" +
@@ -124,18 +122,18 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
             "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
             "  var filters = this.filters.item(loader); " +
             "  filters.src='" +
-            this.__iconUrlTrue +
+            this._iconUrlTrue +
             "'; " +
             "  filters.sizingMethod = 'scale'; ";
         } else {
-          imageData.extras += "  this.src='" + this.__iconUrlTrue + "'; ";
+          imageData.extras += "  this.src='" + this._iconUrlTrue + "'; ";
         }
 
         imageData.extras += "  node.nodeValue='1'; " + "} " + "else " + "{";
 
         if (
           qx.core.Environment.get("css.alphaimageloaderneeded") &&
-          /\.png$/i.test(this.__iconUrlFalse)
+          /\.png$/i.test(this._iconUrlFalse)
         ) {
           imageData.extras +=
             "  this.src='" +
@@ -144,11 +142,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
             "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
             "  var filters = this.filters.item(loader); " +
             "  filters.src='" +
-            this.__iconUrlFalse +
+            this._iconUrlFalse +
             "'; " +
             "  filters.sizingMethod = 'scale'; ";
         } else {
-          imageData.extras += "  this.src='" + this.__iconUrlFalse + "'; ";
+          imageData.extras += "  this.src='" + this._iconUrlFalse + "'; ";
         }
 
         imageData.extras += "  node.nodeValue='0'; " + "}";
@@ -176,13 +174,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
   },
 
   destruct() {
-    this.__iconUrlTrue = this.__iconUrlFalse = null;
+    this._iconUrlTrue = this._iconUrlFalse = null;
 
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Meta.getInstance().removeListener(
         "changeTheme",
-        this.__resolveImages,
+        this._resolveImages,
         this
       );
     }
