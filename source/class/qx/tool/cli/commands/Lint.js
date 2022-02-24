@@ -157,13 +157,23 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         }
         if (report.errorCount > 0 || report.warningCount > 0) {
           let outputFormat = this.argv.format || "codeframe";
-
-          // If there are too many errors, the pretty formatter is appallingly slow
-          if (report.errorCount + report.warningCount > 150) {
-            outputFormat = "compact";
-          }
           const formatter = await linter.loadFormatter(outputFormat);
           const s = formatter.format(report);
+          // If there are too many errors, the pretty formatter is appallingly slow so if the
+          // user has not specified a format, change to compact mode
+          const maxDefaultFormatErrorCount = 150;
+          if (report.errorCount + report.warningCount > maxDefaultFormatErrorCount) {
+            if (!this.argv.format) {
+              qx.tool.compiler.Console.info(
+                `Total errors and warnings exceed ${maxDefaultFormatErrorCount}, switching to "compact" style report`
+              );
+              outputFormat = "compact";
+            } else {
+              qx.tool.compiler.Console.info(
+                `Total errors and warnings exceed ${maxDefaultFormatErrorCount}, the report may take some time to generate.`
+              );
+            }
+          }
           if (this.argv.outputFile) {
             if (this.argv.verbose) {
               qx.tool.compiler.Console.info(
