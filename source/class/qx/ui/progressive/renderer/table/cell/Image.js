@@ -34,31 +34,34 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image", {
   construct(width, height) {
     super();
 
-    if (width === undefined) {
-      this.__imageWidth = width;
+    if (width !== undefined) {
+      this._imageWidth = width;
     } else {
-      this.__imageWidth = 16;
+      this._imageWidth = 16;
     }
 
-    if (height === undefined) {
-      this.__imageHeight = height;
+    if (height !== undefined) {
+      this._imageHeight = height;
     } else {
-      this.__imageHeight = 16;
+      this._imageHeight = 16;
     }
   },
 
   members: {
-    __imageWidth: null,
-    __imageHeight: null,
+    _imageWidth: null,
+    _imageHeight: null,
+
+    _getDefaultImageData(cellInfo) {
+      return {
+        imageWidth: this._imageWidth,
+        imageHeight: this._imageHeight
+      };
+    },
 
     // overridden
     _identifyImage(cellInfo) {
-      var imageData = {
-        imageWidth: this.__imageWidth,
-        imageHeight: this.__imageHeight
-      };
-
       var height;
+      var imageData = this._getDefaultImageData(cellInfo);
 
       // String data is the unresolved url for the image.
       // Object data is a map containing the url, tooltip, and a height

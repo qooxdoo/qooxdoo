@@ -21,6 +21,8 @@
 
 /**
  * Abstract Icon cell renderer.
+ *
+ * @asset(qx/static/blank.gif)
  */
 qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
   type: "abstract",
@@ -34,14 +36,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
     var resourceManager = qx.util.ResourceManager.getInstance();
     var blankImg = aliasManager.resolve("qx/static/blank.gif");
 
-    this.__imageBlank = resourceManager.toUri(blankImg);
+    this._imageBlank = resourceManager.toUri(blankImg);
   },
 
   members: {
     /**
      * A blank image for use as a spacer in place of another image
      */
-    __imageBlank: null,
+    _imageBlank: null,
 
     /**
      * Retrieve the URI for a blank image
@@ -50,7 +52,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
      *   The URI of the blank image.
      */
     getBlankImage() {
-      return this.__imageBlank;
+      return this._imageBlank;
     },
 
     /**
@@ -118,7 +120,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
     // overridden
     _getContentHtml(cellInfo) {
       var html = [];
-      var imageData = this.__getImageData(cellInfo);
+      var imageData = this._getImageData(cellInfo);
 
       // Start the image tag
       html.push("<img ");
@@ -130,7 +132,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
       ) {
         html.push(
           'src="',
-          this.__imageBlank,
+          this._imageBlank,
           '" style="filter:',
           "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
           imageData.url,
@@ -192,7 +194,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
      * @return {Map}
      *   See {@link #_identifyImage}
      */
-    __getImageData(cellInfo) {
+    _getImageData(cellInfo) {
       // Query the subclass about image and tooltip
       var imageData = this._identifyImage(cellInfo);
 
@@ -206,7 +208,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
 
       // If subclass gave null as url, replace with url to empty image
       if (imageData.url == null) {
-        imageData.url = this.__imageBlank;
+        imageData.url = this._imageBlank;
       }
 
       return imageData;
