@@ -531,6 +531,7 @@ qx.Class.define("qx.ui.table.model.Simple", {
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
     setData(rowArr, clearSorting) {
+      this._checkEditing();
       this._rowArr = rowArr;
 
       // Inform the listeners
@@ -650,6 +651,7 @@ qx.Class.define("qx.ui.table.model.Simple", {
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
     setRows(rowArr, startIndex, clearSorting) {
+      this._checkEditing();
       if (startIndex == null) {
         startIndex = 0;
       }
@@ -708,6 +710,7 @@ qx.Class.define("qx.ui.table.model.Simple", {
      * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
     removeRows(startIndex, howMany, clearSorting) {
+      this._checkEditing();
       // In the case of `removeRows`, specifically, we must create the
       // listeners' event data before actually removing the rows from
       // the row data, so that the `lastRow` calculation is correct.
