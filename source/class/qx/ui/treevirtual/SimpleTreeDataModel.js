@@ -813,6 +813,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      * @throws {Error} If the parameter has the wrong type.
      */
     setData(nodeArr) {
+      this._checkEditing();
       if (nodeArr instanceof Array) {
         // Save the user-supplied data.
         this._nodeArr = nodeArr;
@@ -853,6 +854,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      *
      */
     clearData() {
+      this._checkEditing();
       this._clearSelections();
       this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()]);
     },

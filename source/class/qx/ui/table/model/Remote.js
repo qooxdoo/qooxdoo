@@ -548,6 +548,7 @@ qx.Class.define("qx.ui.table.model.Remote", {
      * @param rowIndex {Integer} the index of the row to remove.
      */
     removeRow(rowIndex) {
+      this._checkEditing();
       if (this.getClearCacheOnRemove()) {
         this.clearCache();
 
