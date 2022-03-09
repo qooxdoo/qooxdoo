@@ -75,6 +75,12 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "Array"
     },
 
+    /** CommonJS modules to be available to require() in browser apps */
+    commonjsModules : {
+      init: [],
+      check: "Array"
+    },
+
     /** Whether to preserve line numbers */
     trackLineNumbers: {
       check: "Boolean",

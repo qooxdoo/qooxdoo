@@ -1648,6 +1648,48 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
+            // Are we looing at the Identifier `require`, and is it a
+            // function call (identified by having
+            // `path.node.arguments`? (A better implementation might
+            // look for a type of `CallExpression` at the top level of
+            // the node...) If so, we'll add
+            // qx-commonjs-browserified.js as an External so it gets
+            // pulled in automagically, but only if application-types
+            // is "browser" (and nothing else)
+            //
+            // TODO: Move this to someplace that does it only if the
+            // current build target is "browser" even if there are
+            // multiple application types being built.
+
+            let scope;
+            let applicationTypes = t.__analyser.getApplicationTypes();
+
+            if (path.node.callee.type == "Identifier" &&
+                path.node?.callee?.name == "require" &&
+                path.node.arguments?.length == 1 &&
+                applicationTypes.length == 1 &&
+                applicationTypes[0] == "browser") {
+
+              // See if this is a reference to global `require` or
+              // something in the scope chain
+              for (scope = t.__scope; scope; scope = scope.parent) {
+                if (scope.vars["require"]) {
+                  // It's in the scope chain. Ignore it.
+                  qx.tool.compiler.Console.log(
+                    "found local scope `require` so ignoring it");
+                  break;
+                }
+              }
+              // Did we reach top level without finding it?
+              if (! scope) {
+                // Yup. This is the one we're looking for.
+                qx.tool.compiler.Console.log(
+                  "Adding external for qx-commonjs-browserified.js");
+                t.addExternal("script/qx-commonjs-browserified.js");
+                t._requireAsset("script/qx-commonjs-browserified.js");
+              }
+            }
+
             if (
               types.isMemberExpression(path.node.callee) ||
               (es6ClassDeclarations == 0 &&

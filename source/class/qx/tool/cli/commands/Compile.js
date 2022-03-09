@@ -915,6 +915,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
        */
       let targetOutputPaths = {};
       let makers = [];
+      let commonjsModules = [];
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
           qx.tool.compiler.Console.print(
@@ -1310,6 +1311,42 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           (targetConfig.defaultAppConfig.type || "browser") === "browser"
         ) {
           targetConfig.defaultAppConfig.app.setWriteIndexHtmlToRoot(true);
+
+          // Merge the application's (common to targets) commonjs
+          // modules list and the current target's commonjs modules
+          // list
+          commonjsModules =
+            mergeArray(
+              [],
+              targetConfig.defaultAppConfig["commonjs-modules"] || [],
+              targetConfig["commonjs-modules"] || []);
+
+          // If there are any commonjs modules, browserify them
+          //
+          // TODO: Move this to someplace where it can be generated
+          // directly in the output directory. There's no need,
+          // really, for it to be placed in the source directory.
+          if (commonjsModules.length > 0) {
+            let command;
+            let output;
+            let analyser = maker.getAnalyser();
+            const childProcess = require("child_process");
+            command =
+              `browserify -r ${commonjsModules.join(" -r ")}` +
+              ` -o source/resource/script/qx-commonjs-browserified.js`;
+            fs.mkdirSync("source/resource/script", { recursive : true });
+            try {
+              output = childProcess.execSync(command);
+            } catch (e) {
+              qx.tool.compiler.Console.log(`Failed: ${output}`);
+              throw e;
+            }
+
+            // Don't show "unresolved" error for `require` since the
+            // browserified code defines it as a global
+            analyser.setIgnores(
+              mergeArray([], analyser.getIgnores(), [ "require" ]));
+          }
         } else {
           qx.tool.utils.files.Utils.safeUnlink(
             target.getOutputDir() + "index.html"
