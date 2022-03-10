@@ -1,7 +1,7 @@
 {
   "title": "compile.json Schema",
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "$id": "https://qooxdoo.org/schema/compile-1-1-0.json",
   "description": "compile.json controls the qx compile command, and while you can use command line parameters to compile an application, most applications will require one.",
   "type": "object",
   "required": [
@@ -149,6 +149,13 @@
             "pattern": "^(browser|node|rhino)$",
             "default": "browser"
           },
+          "commonjs-modules": {
+            "description": "List of modules to browserify",
+            "type": "array",
+            "items": {
+              "type": "string",
+            }
+          },
           "loaderTemplate": {
             "description": "The boot loader template file, usually determined automatically from the application type",
             "type": "string"
@@ -204,6 +211,13 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          },
+          "commonjs-modules": {
+            "description": "List of modules to browserify",
+            "type": "array",
+            "items": {
+              "type": "string",
             }
           },
           "outputPath": {
