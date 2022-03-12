@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.form.DateField", {
     close() {
       var popup = this.getChildControl("popup", true);
       if (popup && popup.isVisible()) {
-        this.getChildControl("popup").hide();
+        popup.hide();
       }
     },
 
