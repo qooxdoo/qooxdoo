@@ -1681,11 +1681,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
               // Did we reach top level without finding it?
               if (! scope) {
-                // Yup. This is the one we're looking for.
-                qx.tool.compiler.Console.log(
-                  "Adding external for qx-commonjs-browserified.js");
-                t.addExternal("script/qx-commonjs-browserified.js");
-                t._requireAsset("script/qx-commonjs-browserified.js");
+qx.tool.compiler.Console.log("This is where we would automtically detect a call to require()");
               }
             }
 

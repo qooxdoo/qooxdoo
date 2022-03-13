@@ -26,7 +26,7 @@ const sourceMap = require("source-map");
 
 /**
  * An AbstractJavascriptMeta provides an abstraction of some source code, and might be
- * compromised of a number of input files which are merged together as required.
+ * comprised of a number of input files which are merged together as required.
  *
  * This object could represent a file which already exists on disk (eg a transpiled
  * source file), or something that is generated on the fly (such as a index.js), or
