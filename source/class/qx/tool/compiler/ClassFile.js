@@ -223,6 +223,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     };
 
     this.__externals = [];
+    this.__commonjsModules = [];
 
     this.__taskQueueDrains = [];
     this.__taskQueue = async.queue(function (task, cb) {
@@ -281,6 +282,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     __privates: null,
     __blockedPrivates: null,
     __externals: null,
+    __commonjsModules: null,
 
     _onTaskQueueDrain() {
       var cbs = this.__taskQueueDrain;
@@ -496,6 +498,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       delete dbClassInfo.translations;
       delete dbClassInfo.markers;
       delete dbClassInfo.fatalCompileError;
+      delete dbClassInfo.commonjsModules;
       for (var key in this.__dbClassInfo) {
         dbClassInfo[key] = this.__dbClassInfo[key];
       }
@@ -665,6 +668,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       // Errors
       if (this.__fatalCompileError) {
         dbClassInfo.fatalCompileError = true;
+      }
+
+      // CommonJS modules
+      if (this.__commonjsModules.length) {
+        dbClassInfo.commonjsModules = qx.lang.Array.clone(this.__commonjsModules);
       }
 
       return dbClassInfo;
@@ -1679,9 +1687,26 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   break;
                 }
               }
-              // Did we reach top level without finding it?
+              // Did we reach top level without finding it in a local scope?
               if (! scope) {
-qx.tool.compiler.Console.log("This is where we would automtically detect a call to require()");
+                // Yup. It's the global one we're looking for. Ensure the argument is valid.
+                let arg = path.node.arguments[0];
+                if (types.isLiteral(arg)) {
+                  if (typeof arg.value != "string") {
+                    log.error(
+                      "Only literal string arguments to `require` are supported: " +
+                        arg.value
+                    );
+                  } else {
+                    qx.tool.compiler.Console.log(
+                      `${t.__className}: automtically detected \'require(${arg.value}\')`);
+                    t.addCommonjsModule(arg.value);
+
+                    // Don't show "unresolved" error for `require` since the
+                    // browserified code defines it as a global
+                    t.addIgnore("require");
+                  }
+                }
               }
             }
 
@@ -2540,6 +2565,17 @@ qx.tool.compiler.Console.log("This is where we would automtically detect a call 
     addExternal(name) {
       if (this.__externals.indexOf(name) < 0) {
         this.__externals.push(name);
+      }
+    },
+
+    /**
+     * Adds a CommonJS module to be browserified
+     *
+     * @param name {String} name of the module
+     */
+    addCommonjsModule(name) {
+      if (this.__commonjsModules.indexOf(name) < 0) {
+        this.__commonjsModules.push(name);
       }
     },
 

@@ -915,7 +915,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
        */
       let targetOutputPaths = {};
       let makers = [];
-      let commonjsModules = [];
+
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
           qx.tool.compiler.Console.print(
@@ -1311,28 +1311,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           (targetConfig.defaultAppConfig.type || "browser") === "browser"
         ) {
           targetConfig.defaultAppConfig.app.setWriteIndexHtmlToRoot(true);
-
-          // Merge the application's (common to targets) commonjs
-          // modules list and the current target's commonjs modules
-          // list
-          commonjsModules =
-            mergeArray(
-              [],
-              targetConfig.defaultAppConfig["commonjs-modules"] || [],
-              targetConfig["commonjs-modules"] || []);
-
-          // If there are any commonjs modules, create the list of modules to later be browserified
-          if (commonjsModules.length > 0) {
-            let analyser = maker.getAnalyser();
-
-            // Save the list of required CommonJS modules
-            analyser.setCommonjsModules(commonjsModules);
-
-            // Don't show "unresolved" error for `require` since the
-            // browserified code defines it as a global
-            analyser.setIgnores(
-              mergeArray([], analyser.getIgnores(), [ "require" ]));
-          }
         } else {
           qx.tool.utils.files.Utils.safeUnlink(
             target.getOutputDir() + "index.html"

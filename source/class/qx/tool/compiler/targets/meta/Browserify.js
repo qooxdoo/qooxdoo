@@ -42,7 +42,23 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
      * @Override
      */
     async writeSourceCodeToStream(ws) {
-      let commonjsModules = this.__appMeta.getAnalyser().getCommonjsModules();
+      let commonjsModules = new Set();
+      const db = this.__appMeta.getAnalyser().getDatabase();
+
+      // Get a Set of unique `require`d CommonJS module names from all classes
+      for (let className in db.classInfo) {
+        let classInfo = db.classInfo[className];
+        if (classInfo.commonjsModules) {
+          classInfo.commonjsModules.forEach(
+            (moduleName) =>
+            {
+              commonjsModules.add(moduleName);
+            });
+        }
+      }
+
+      // Convert the Set to an array
+      commonjsModules = [...commonjsModules];
 
       // If there are any CommonJS modules required, browserify them
       if (commonjsModules.length > 0) {
@@ -67,8 +83,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         output = childProcess.execSync(command);
         ws.write(output);
       } catch (e) {
-        qx.tool.compiler.Console.log(`Failed: ${output}`);
-        throw e;
+        qx.tool.compiler.Console.log(`Failed: ${e}`);
       }
     },
 
