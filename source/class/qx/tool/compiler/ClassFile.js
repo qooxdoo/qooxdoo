@@ -1667,8 +1667,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             if (path.node.callee.type == "Identifier" &&
                 path.node?.callee?.name == "require" &&
                 path.node.arguments?.length == 1 &&
-                applicationTypes.length == 1 &&
-                applicationTypes[0] == "browser") {
+                applicationTypes.includes("browser")) {
 
               // See if this is a reference to global `require` or
               // something in the scope chain
