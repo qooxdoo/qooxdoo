@@ -6,7 +6,7 @@
  *    https://github.com/qooxdoo/qooxdoo-compiler
  *
  *    Copyright:
- *      2011-2021 Zenesis Limited, http://www.zenesis.com
+ *      2022 Derrell Lipman
  *
  *    License:
  *      MIT: https://opensource.org/licenses/MIT
@@ -16,7 +16,7 @@
  *      for details.
  *
  *    Authors:
- *      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+ *      * Derrell Lipman (@derrell)
  *
  * ************************************************************************/
 
@@ -74,17 +74,29 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     },
 
     async __browserify(commonjsModules, ws) {
-      let command;
-      let output;
-      const childProcess = require("child_process");
+      let b;
+      const browserify = require("browserify");
 
-      command = `browserify -r ${commonjsModules.join(" -r ")}`;
-      try {
-        output = childProcess.execSync(command);
-        ws.write(output);
-      } catch (e) {
-        qx.tool.compiler.Console.log(`Failed: ${e}`);
-      }
+      return new Promise((resolve) =>
+        {
+          b = browserify([], { ignoreMissing : true });
+          b._mdeps.on("missing", (id, parent) =>
+            {
+              qx.tool.compiler.Console.error(`ERROR: could not locate require()ed module: "${id}"`);
+              throw new qx.tool.compiler.TargetError(`ERROR: could not locate require()ed module: "${id}"`);
+            });
+          b.require(commonjsModules);
+          b.bundle((e, output) => {
+            if (e) {
+              // We've already handled the case of missing module. This is something else.
+              qx.tool.compiler.Console.error(`Failed: ${e}`);
+              throw(e);
+            }
+
+            ws.write(output);
+            resolve(null);
+          });
+        });
     },
 
     /**
