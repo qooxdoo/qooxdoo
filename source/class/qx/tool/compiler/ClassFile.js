@@ -223,7 +223,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     };
 
     this.__externals = [];
-    this.__commonjsModules = [];
+    this.__commonjsModules = {};
 
     this.__taskQueueDrains = [];
     this.__taskQueue = async.queue(function (task, cb) {
@@ -671,8 +671,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       }
 
       // CommonJS modules
-      if (this.__commonjsModules.length) {
-        dbClassInfo.commonjsModules = qx.lang.Array.clone(this.__commonjsModules);
+      if (Object.keys(this.__commonjsModules).length > 0) {
+        dbClassInfo.commonjsModules = {};
+        for (let moduleName in this.__commonjsModules) {
+          dbClassInfo.commonjsModules[moduleName] = [ ...this.__commonjsModules[moduleName] ];
+        }
       }
 
       return dbClassInfo;
@@ -1658,17 +1661,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
 
             // Are we looing at the Identifier `require`, and is it a
             // function call (identified by having
-            // `path.node.arguments`? (A better implementation might
-            // look for a type of `CallExpression` at the top level of
-            // the node...) If so, we'll add
-            // qx-commonjs-browserified.js as an External so it gets
-            // pulled in automagically, but only if application-types
-            // is "browser" (and nothing else)
-            //
-            // TODO: Move this to someplace that does it only if the
-            // current build target is "browser" even if there are
-            // multiple application types being built.
-
+            // `path.node.arguments`? If so, we'll add the discovered
+            // module to the list of modules that must be browserified
+            // if the application is destined for the browser.
             let scope;
             let applicationTypes = t.__analyser.getApplicationTypes();
 
@@ -1682,8 +1677,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               for (scope = t.__scope; scope; scope = scope.parent) {
                 if (scope.vars["require"]) {
                   // It's in the scope chain. Ignore it.
-                  qx.tool.compiler.Console.log(
-                    "found local scope `require` so ignoring it");
                   break;
                 }
               }
@@ -1694,13 +1687,15 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 if (types.isLiteral(arg)) {
                   if (typeof arg.value != "string") {
                     log.error(
-                      "Only literal string arguments to `require` are supported: " +
+                      `${t.__className}: ` +
+                        "Only literal string arguments to require() are supported: " +
                         arg.value
                     );
                   } else {
                     qx.tool.compiler.Console.log(
-                      `${t.__className}: automtically detected \'require(${arg.value}\')`);
-                    t.addCommonjsModule(arg.value);
+                      `${t.__className}:${path.node.loc.start.line}:` +
+                        ` automatically detected \'require(${arg.value})\``);
+                    t.addCommonjsModule(arg.value, t.__className, path.node.loc.start.line);
 
                     // Don't show "unresolved" error for `require` since the
                     // browserified code defines it as a global
@@ -2573,10 +2568,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      *
      * @param name {String} name of the module
      */
-    addCommonjsModule(name) {
-      if (this.__commonjsModules.indexOf(name) < 0) {
-        this.__commonjsModules.push(name);
+    addCommonjsModule(moduleName, className, linenum) {
+      if (! this.__commonjsModules[moduleName]) {
+        this.__commonjsModules[moduleName] = new Set();
       }
+
+      this.__commonjsModules[moduleName].add(`${className}:${linenum}`);
     },
 
     /**

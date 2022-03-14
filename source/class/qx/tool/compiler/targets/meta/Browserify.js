@@ -42,28 +42,38 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
      * @Override
      */
     async writeSourceCodeToStream(ws) {
+      let hasCommonjsModules = false;
       let commonjsModules = new Set();
+      let references = {};
       const db = this.__appMeta.getAnalyser().getDatabase();
 
       // Get a Set of unique `require`d CommonJS module names from all classes
       for (let className in db.classInfo) {
         let classInfo = db.classInfo[className];
         if (classInfo.commonjsModules) {
-          classInfo.commonjsModules.forEach(
+          Object.keys(classInfo.commonjsModules).forEach(
             (moduleName) =>
             {
+              // Add this module name to the set of module names
               commonjsModules.add(moduleName);
+
+              // Add the list of references from which this module was require()d
+              if (! references[moduleName]) {
+                references[moduleName] = new Set();
+              }
+              references[moduleName].add([ ...classInfo.commonjsModules[moduleName] ]);
+
+              // There is at least one module
+              hasCommonjsModules = true;
             });
         }
       }
 
-      // Convert the Set to an array
-      commonjsModules = [...commonjsModules];
-
       // If there are any CommonJS modules required, browserify them
-      if (commonjsModules.length > 0) {
+      if (hasCommonjsModules) {
         await this.__browserify(
           commonjsModules,
+          references,
           ws
         );
       }
@@ -73,17 +83,35 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       });
     },
 
-    async __browserify(commonjsModules, ws) {
+    async __browserify(commonjsModules, references, ws) {
       let b;
       const browserify = require("browserify");
 
+      // Convert the Set of CommonJS module names to an array
+      commonjsModules = [...commonjsModules];
+
       return new Promise((resolve) =>
         {
-          b = browserify([], { ignoreMissing : true });
-          b._mdeps.on("missing", (id, parent) =>
+          b = browserify(
+            [],
             {
-              qx.tool.compiler.Console.error(`ERROR: could not locate require()ed module: "${id}"`);
-              throw new qx.tool.compiler.TargetError(`ERROR: could not locate require()ed module: "${id}"`);
+              ignoreMissing : true,
+              insertGlobals : true
+            });
+          b._mdeps.on("missing", (id, parent) => {
+              let message = [];
+
+              message.push(`ERROR: could not locate require()d module: "${id}"`);
+              message.push("  required from:");
+              [ ...references[id] ].forEach((refs) => {
+                refs.forEach((ref) =>
+                  {
+                    message.push(`    ${ref}`);
+                  });
+              });
+
+              qx.tool.compiler.Console.error(message.join("\n"));
+              throw new qx.tool.compiler.TargetError(`ERROR: could not locate require()d module: "${id}"`);
             });
           b.require(commonjsModules);
           b.bundle((e, output) => {
