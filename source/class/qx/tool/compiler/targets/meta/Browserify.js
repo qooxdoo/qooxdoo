@@ -52,7 +52,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         let classInfo = db.classInfo[className];
         if (classInfo.commonjsModules) {
           Object.keys(classInfo.commonjsModules).forEach(
-            (moduleName) =>
+            moduleName =>
             {
               // Add this module name to the set of module names
               commonjsModules.add(moduleName);
@@ -110,8 +110,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
               message.push(`ERROR: could not locate require()d module: "${id}"`);
               message.push("  required from:");
-              [ ...references[id] ].forEach((refs) => {
-                refs.forEach((ref) =>
+              [ ...references[id] ].forEach(refs => {
+                refs.forEach(ref =>
                   {
                     message.push(`    ${ref}`);
                   });
