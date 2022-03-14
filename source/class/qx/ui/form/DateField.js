@@ -312,7 +312,10 @@ qx.Class.define("qx.ui.form.DateField", {
      * Hides the date chooser popup.
      */
     close() {
-      this.getChildControl("popup").hide();
+      var popup = this.getChildControl("popup", true);
+      if (popup && popup.isVisible()) {
+        popup.hide();
+      }
     },
 
     /**
