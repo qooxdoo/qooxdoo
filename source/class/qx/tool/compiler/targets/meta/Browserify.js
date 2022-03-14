@@ -95,7 +95,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // Convert the Set of CommonJS module names to an array
       commonjsModules = [...commonjsModules];
 
-      return new Promise((resolve) =>
+      return new Promise(resolve =>
         {
           b = browserify(
             [],
