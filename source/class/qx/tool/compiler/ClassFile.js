@@ -1659,7 +1659,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
-            // Are we looing at the Identifier `require`, and is it a
+            // Are we looking at the Identifier `require`, and is it a
             // function call (identified by having
             // `path.node.arguments`? If so, we'll add the discovered
             // module to the list of modules that must be browserified

@@ -86,6 +86,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     async __browserify(commonjsModules, references, ws) {
       let b;
       const browserify = require("browserify");
+      const builtins = require("browserify/lib/builtins.js");
+
+      // For some reason, `process` is not require()able, but `_process` is.
+      // Make them equivalent.
+      builtins.process = builtins._process;
 
       // Convert the Set of CommonJS module names to an array
       commonjsModules = [...commonjsModules];
@@ -95,8 +100,10 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           b = browserify(
             [],
             {
+              builtins      : builtins,
               ignoreMissing : true,
-              insertGlobals : true
+              insertGlobals : true,
+              detectGlobals : true
             });
           b._mdeps.on("missing", (id, parent) => {
               let message = [];
