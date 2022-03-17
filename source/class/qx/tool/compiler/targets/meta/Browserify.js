@@ -118,7 +118,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
               });
 
               qx.tool.compiler.Console.error(message.join("\n"));
-              throw new qx.tool.compiler.TargetError(`ERROR: could not locate require()d module: "${id}"`);
             });
           b.require(commonjsModules);
           b.bundle((e, output) => {
