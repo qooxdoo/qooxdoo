@@ -13,6 +13,23 @@ hints](class_dependencies.md) in the docblock of a class to
 specify which on which other classes this class depends. For other resources such 
 as images, use the [`@asset` compiler hint](../../../desktop/gui/resources.md).
 
+## CommonJS (Node) modules use in browser applications
+Many Node modules, e.g., those available via `npm`, are not Node-specific, and can run
+in the browser. You may use these modules in browser-based applications, and Qooxdoo handles
+getting these modules to the browser for you automatically. If the compiler finds any calls
+to the global function `require` while compiling an application destined for the browser (see
+the documentation for `application.type` in [`compile.json`](compile.md)
+), such as this call:
+```
+const semver = require("semver");
+```
+the compiler will create a bundle containing a `require` function, the required
+modules, and all of those required modules' dependencies, and add that bundle to the
+Javascript code that implements your app and gets loaded into the browser.
+
+It is the developer's responsibility to ensure that any modules referenced in a call to
+`require` already exist in the `node_modules` path, when the compiler is run.
+
 ## Configuration Files
 
 The Qooxdoo tooling and package management systems rely on these configuration

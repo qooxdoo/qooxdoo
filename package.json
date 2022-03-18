@@ -74,6 +74,7 @@
     "app-module-path": "^2.2.0",
     "async": "^2.6.3",
     "better-ajv-errors": "^1.1.1",
+    "browserify": "^17.0.0",
     "chokidar": "^3.5.1",
     "cldr": "^7.1.1",
     "columnify": "^1.5.4",

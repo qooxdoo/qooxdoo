@@ -223,6 +223,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     };
 
     this.__externals = [];
+    this.__commonjsModules = {};
 
     this.__taskQueueDrains = [];
     this.__taskQueue = async.queue(function (task, cb) {
@@ -281,6 +282,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     __privates: null,
     __blockedPrivates: null,
     __externals: null,
+    __commonjsModules: null,
 
     _onTaskQueueDrain() {
       var cbs = this.__taskQueueDrain;
@@ -496,6 +498,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       delete dbClassInfo.translations;
       delete dbClassInfo.markers;
       delete dbClassInfo.fatalCompileError;
+      delete dbClassInfo.commonjsModules;
       for (var key in this.__dbClassInfo) {
         dbClassInfo[key] = this.__dbClassInfo[key];
       }
@@ -665,6 +668,14 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       // Errors
       if (this.__fatalCompileError) {
         dbClassInfo.fatalCompileError = true;
+      }
+
+      // CommonJS modules
+      if (Object.keys(this.__commonjsModules).length > 0) {
+        dbClassInfo.commonjsModules = {};
+        for (let moduleName in this.__commonjsModules) {
+          dbClassInfo.commonjsModules[moduleName] = [ ...this.__commonjsModules[moduleName] ];
+        }
       }
 
       return dbClassInfo;
@@ -1648,6 +1659,52 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
+            // Are we looking at the Identifier `require`, and is it a
+            // function call (identified by having
+            // `path.node.arguments`? If so, we'll add the discovered
+            // module to the list of modules that must be browserified
+            // if the application is destined for the browser.
+            let scope;
+            let applicationTypes = t.__analyser.getApplicationTypes();
+
+            if (path.node.callee.type == "Identifier" &&
+                path.node?.callee?.name == "require" &&
+                path.node.arguments?.length == 1 &&
+                applicationTypes.includes("browser")) {
+
+              // See if this is a reference to global `require` or
+              // something in the scope chain
+              for (scope = t.__scope; scope; scope = scope.parent) {
+                if (scope.vars["require"]) {
+                  // It's in the scope chain. Ignore it.
+                  break;
+                }
+              }
+              // Did we reach top level without finding it in a local scope?
+              if (! scope) {
+                // Yup. It's the global one we're looking for. Ensure the argument is valid.
+                let arg = path.node.arguments[0];
+                if (types.isLiteral(arg)) {
+                  if (typeof arg.value != "string") {
+                    log.error(
+                      `${t.__className}: ` +
+                        "Only literal string arguments to require() are supported: " +
+                        arg.value
+                    );
+                  } else {
+                    qx.tool.compiler.Console.log(
+                      `${t.__className}:${path.node.loc.start.line}:` +
+                        ` automatically detected \'require(${arg.value})\``);
+                    t.addCommonjsModule(arg.value, t.__className, path.node.loc.start.line);
+
+                    // Don't show "unresolved" error for `require` since the
+                    // browserified code defines it as a global
+                    t.addIgnore("require");
+                  }
+                }
+              }
+            }
+
             if (
               types.isMemberExpression(path.node.callee) ||
               (es6ClassDeclarations == 0 &&
@@ -2504,6 +2561,19 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       if (this.__externals.indexOf(name) < 0) {
         this.__externals.push(name);
       }
+    },
+
+    /**
+     * Adds a CommonJS module to be browserified
+     *
+     * @param name {String} name of the module
+     */
+    addCommonjsModule(moduleName, className, linenum) {
+      if (! this.__commonjsModules[moduleName]) {
+        this.__commonjsModules[moduleName] = new Set();
+      }
+
+      this.__commonjsModules[moduleName].add(`${className}:${linenum}`);
     },
 
     /**
