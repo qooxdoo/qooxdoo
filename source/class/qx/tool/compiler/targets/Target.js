@@ -432,6 +432,12 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         new qx.tool.compiler.targets.meta.PolyfillJs(appMeta)
       );
 
+      // Add browserified CommonJS modules, if any
+      if (appMeta.getEnvironmentValue("qx.compiler.applicationType") == "browser") {
+        bootPackage.addJavascriptMeta(
+          new qx.tool.compiler.targets.meta.Browserify(appMeta));
+      }
+
       /*
        * Assemble the Parts
        */

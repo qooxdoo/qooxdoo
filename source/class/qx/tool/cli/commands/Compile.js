@@ -915,6 +915,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
        */
       let targetOutputPaths = {};
       let makers = [];
+
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
           qx.tool.compiler.Console.print(

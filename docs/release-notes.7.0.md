@@ -1,6 +1,12 @@
 # Qooxdoo Release Notes
 
-## Noteable changes and new features
+## New features and fixes in v7.1
+ - Browser-based applications may now make Node-style requests to `require` a CommonJS module, and the compiler will automatically create a bundle containing the required modules and inject it into the application so those modules are available for use. Documentation is found [here](development/compiler/confguration/README.md)
+
+
+
+
+## Noteable changes and new features in v7.0
  - qx es6ify
  - allow super()
  - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental)". Documention is found [here](communication/README.md)
@@ -10,7 +16,7 @@ Documentation is found [here](development/howto/accessibility.md)
 
 
 
-## Breaking changes
+## Breaking changes in v7.0
 
 - The `qx.library` config setting is no longer used by the
 compiler. If you want to override the path to the framework
