@@ -2193,7 +2193,6 @@ qx.Class.define("qx.ui.table.Table", {
       );
     }
 
-    this._cleanUpMetaColumns(0);
     this.getTableColumnModel().dispose();
     this._disposeObjects(
       "__selectionManager",
