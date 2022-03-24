@@ -3,7 +3,7 @@
   "info": {
     "name": "Qooxdoo framework tests",
     "license": "MIT",
-    "version": "7.0.0-beta",
+    "version": "7.0.0",
     "authors": []
   },
   "provides": {
@@ -11,6 +11,6 @@
     "class": ""
   },
   "requires": {
-    "@qooxdoo/framework": "^7.0.0-beta"
+    "@qooxdoo/framework": "^7.0.0"
   }
 }
