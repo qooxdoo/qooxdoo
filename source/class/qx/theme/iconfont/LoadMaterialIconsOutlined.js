@@ -20,9 +20,9 @@
  * A dummy class to trigger the compiler to copy the MaterialIconsOutlined font files
  */
 /**
- * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v38.otf)
- * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff2)
- * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff)
- * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v38.eot)
+ * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v101.otf)
+ * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2)
+ * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff)
+ * @asset(qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot)
  */
 qx.Class.define("qx.theme.iconfont.LoadMaterialIconsOutlined", {});
