@@ -14,23 +14,24 @@ Here is how each of them works.
 
 ## Using `require` to include a Node module
 
-Starting with qooxdo 7.1 the compiler will resolve `require` calls automatically pulling in packages
-from the `node_mopdules` tree.
+Starting with qooxdo 7.1 the compiler will resolve `require` calls automatically, pulling in packages from the local `node_mopdules` tree.
 
-If you want to use the `semver` package in your application, this is pretty simple:
+If you want to use the `semver` package in your application, this is pretty simple. First install `semver`
 
-First install `semver` locally
 ```sh
 $ npm install semver
 ```
 
-Then in your qooxdoo app, where you want to use semver
+then `require` it in your qooxdoo app
+
 ```javascript
 const semver = require('semver')
 semver.valid('1.2.3') // '1.2.3'
 semver.valid('a.b.c') // null
 semver.clean('  =v1.2.3   ') // '1.2.3'
 ```
+
+done.
 
 ## Using the third-party library like a resource of your application
 
