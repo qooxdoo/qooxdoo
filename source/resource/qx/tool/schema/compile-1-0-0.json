@@ -168,6 +168,12 @@
           },
           "parts": {
             "$ref": "#/properties/parts"
+          },
+          "localModules": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       }
