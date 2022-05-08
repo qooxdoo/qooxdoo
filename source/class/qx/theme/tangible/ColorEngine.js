@@ -87,7 +87,7 @@ var helper = {
     var color = d[0];
     var state = d[1];
     switch (state) {
-      case "focussed":
+      case "focused":
         return qx.util.ColorUtil.scale(color, {
           lightness: 10,
           saturation: 10
@@ -159,10 +159,10 @@ qx.Theme.define("qx.theme.tangible.ColorEngine", {
     "text-on-error": helper.onX,
     "primary-hovered": helper.xState,
     "primary-disabled": helper.xState,
-    "primary-focussed": helper.xState,
+    "primary-focused": helper.xState,
     "primary-selected": helper.xState,
     "primary-selected_disabled": helper.xState,
-    "error-focussed": helper.xState,
+    "error-focused": helper.xState,
 
     // alpha colors
     "primary-alpha-5": helper.setAlpha,
