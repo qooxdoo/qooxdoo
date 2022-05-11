@@ -34,10 +34,10 @@ It is the developer's responsibility to ensure that any modules referenced in a 
 In addition to the automatic detection of calls to `require()` to
 bundle CommonJS modules, local modules -- either CommonJS modules or
 ES6 modules -- may be bundled and included in the application. To do
-so, include a `localModules` map in an element of the applications map
+so, include a `localModules` map in an element of the applications array
 in `compile.json`. The keys in the `localModules` map are the names by
-which the local module may be require()d in qooxdoo code. The value
-for each of those keys is the path, from where compile.json is
+which the local module may be `require()`d in qooxdoo code. The value
+for each of those keys is the path, from where `compile.json` is
 located, to the module to be included. The following example shows how
 this can be used:
 
@@ -116,7 +116,7 @@ qx.Class.define("xxx.Application",
 });
 ```
 
-Notice that `compile.json` includes only local modules `testes6.js` and `testcommon.js`. It does not include `included.js` but since `testes6.js `import`s `included.js`, and `testes6.js` is explicitly listed in `localModules`, `included.js` will be bundled as well.
+Notice that `compile.json` includes only local modules `testes6.js` and `testcommon.js`. It does not include `included.js` but since `testes6.js` `import`s `included.js`, and `testes6.js` is explicitly listed in `localModules`, `included.js` will be bundled as well.
 
 ## Configuration Files
 

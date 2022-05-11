@@ -137,7 +137,7 @@ The `applications` key is an array of objects, and each object can contain:
   (false)
 
 - `localModules` - (**optional**) A map, wherein the keys are the
-  names by which a local module may be require()d in qooxdoo code. The
+  names by which a local module may be `require()`d in qooxdoo code. The
   value for each of those keys is the path, from where `compile.json`
   is located, to the module to be included. See [the complete
   documentation of this
