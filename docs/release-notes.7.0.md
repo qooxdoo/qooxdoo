@@ -1,7 +1,15 @@
 # Qooxdoo Release Notes
 
+## Noteable changes in v7.2
+ - To supplement the ability to bundle CommonJS modules that was added
+in v7.1, it is now additionally possible to bundle local (in the local
+tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
+documented [here](development/compiler/confguration/README.md).
+
+
+
 ## New features and fixes in v7.1
- - Browser-based applications may now make Node-style requests to `require` a CommonJS module, and the compiler will automatically create a bundle containing the required modules and inject it into the application so those modules are available for use. Documentation is found [here](development/compiler/confguration/README.md)
+ - Browser-based applications may now make Node-style requests to `require` a CommonJS module, and the compiler will automatically create a bundle containing the required modules and inject it into the application so those modules are available for use. Documentation is found [here](development/compiler/confguration/README.md).
 
 
 
