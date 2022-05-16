@@ -23,7 +23,7 @@
  * *********************************************************************** */
 
 const Ajv = require("ajv");
-const betterAjvErrors = require("better-ajv-errors");
+const betterAjvErrors = require("better-ajv-errors").default;
 const fs = qx.tool.utils.Promisify.fs;
 
 qx.Class.define("qx.tool.utils.Json", {
