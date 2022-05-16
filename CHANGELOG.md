@@ -24,6 +24,9 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
+- `qx.theme.tangible` fixed typo `focussed` -> `focused`. If inheriting from 
+the theme make sure to update colors to `primary-focused` or `error-focused`.
+
 ## Deprecations:
 
 - `qx package migrate` has been deprecated in favor of `qx migrate` 
