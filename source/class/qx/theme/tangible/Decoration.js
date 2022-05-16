@@ -40,7 +40,7 @@ qx.Theme.define("qx.theme.tangible.Decoration", {
       include: "material-textfield",
       style: {
         widthBottom: 2,
-        colorBottom: "primary-focussed"
+        colorBottom: "primary-focused"
       }
     },
 
@@ -56,7 +56,7 @@ qx.Theme.define("qx.theme.tangible.Decoration", {
       include: "material-textfield",
       style: {
         widthBottom: 2,
-        colorBottom: "error-focussed"
+        colorBottom: "error-focused"
       }
     },
 
@@ -287,7 +287,7 @@ qx.Theme.define("qx.theme.tangible.Decoration", {
     "button-box-pressed": {
       include: "button-box",
 
-      style: { backgroundColor: "primary-focussed" }
+      style: { backgroundColor: "primary-focused" }
     },
 
     "button-box-pressed-hovered": {

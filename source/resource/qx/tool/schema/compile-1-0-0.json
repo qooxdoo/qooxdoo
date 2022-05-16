@@ -53,11 +53,11 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "additionalItems": false,
         "required": [
           "class",
           "name"
         ],
+        "additionalProperties": false,
         "properties": {
           "class" : {
             "description": "The class name of the main application class (it typically inherits from `qx.application.Standalone` for web applications)",
