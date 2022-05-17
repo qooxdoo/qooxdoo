@@ -91,7 +91,6 @@ qx.$$createdAt = function(obj, filename, lineNumber, column) {
 };
 
 var isWebkit = /AppleWebKit\/([^ ]+)/.test(navigator.userAgent);
-var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
 qx.$$loader = {
@@ -103,7 +102,7 @@ qx.$$loader = {
   closureParts : %{ClosureParts},
   bootIsInline : %{BootIsInline},
   addNoCacheParam : %{NoCacheParam},
-  isLoadParallel: !isFirefox && !isIE11 && 'async' in document.createElement('script'),
+  isLoadParallel: !isIE11 && 'async' in document.createElement('script'),
   delayDefer: false,
   splashscreen: window.QOOXDOO_SPLASH_SCREEN || null,
   isLoadChunked: false,
