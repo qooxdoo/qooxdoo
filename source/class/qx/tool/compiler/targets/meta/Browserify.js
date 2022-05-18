@@ -102,7 +102,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
     async __browserify(commonjsModules, references, localModules, ws) {
       const babelify = require("babelify");
-//      const preset = require("@babel/preset-env");
+      const preset = require("@babel/preset-env");
       const browserify = require("browserify");
       const builtins = require("browserify/lib/builtins.js");
 
@@ -158,8 +158,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
           // Ensure ES6 local modules are converted to CommonJS format
           b.transform(babelify, {
-            presets: ["@babel/preset-env"],
-            sourceMaps: true,
+            presets: [preset],
+            sourceMaps: false,
             global: true
           });
           b.bundle((e, output) => {
