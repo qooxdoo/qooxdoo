@@ -24,7 +24,7 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
 /**
- * 
+ *
  */
 qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
@@ -84,8 +84,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     },
 
     async __browserify(commonjsModules, references, ws) {
-      let b;
       const browserify = require("browserify");
+      const babelify = require("babelify");
       const builtins = require("browserify/lib/builtins.js");
 
       // For some reason, `process` is not require()able, but `_process` is.
@@ -97,7 +97,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
       return new Promise(resolve =>
         {
-          b = browserify(
+          let b = browserify(
             [],
             {
               builtins      : builtins,
@@ -120,6 +120,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
               qx.tool.compiler.Console.error(message.join("\n"));
             });
           b.require(commonjsModules);
+          b.transform(babelify, {
+            presets: ["@babel/preset-env"],
+            sourceMaps: true,
+            global: true
+          });
           b.bundle((e, output) => {
             if (e) {
               // We've already handled the case of missing module. This is something else.
