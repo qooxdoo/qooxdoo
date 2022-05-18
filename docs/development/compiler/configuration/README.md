@@ -30,6 +30,94 @@ Javascript code that implements your app and gets loaded into the browser.
 It is the developer's responsibility to ensure that any modules referenced in a call to
 `require` already exist in the `node_modules` path, when the compiler is run.
 
+## Local CommonJS and ES6 Modules
+In addition to the automatic detection of calls to `require()` to
+bundle CommonJS modules, local modules -- either CommonJS modules or
+ES6 modules -- may be bundled and included in the application. To do
+so, include a `localModules` map in an element of the applications array
+in `compile.json`. The keys in the `localModules` map are the names by
+which the local module may be `require()`d in qooxdoo code. The value
+for each of those keys is the path, from where `compile.json` is
+located, to the module to be included. The following example shows how
+this can be used:
+
+`compile.json`:
+
+```json5
+...
+  "applications": [
+    {
+      "class": "xxx.Application",
+      "theme": "xxx.theme.Theme",
+      "name": "xxx",
+      "bootPath": "source/boot",
+      "localModules": {
+        "testes6": "./test/testes6.js",
+        "testcommonjs": "./test/testcommonjs.js"
+      }
+    }
+  ]
+...
+```
+
+`./test/testes6.js`:
+```
+export default "hello world";
+
+import { included } from "./included.js";
+export { included };
+```
+
+`./test/testcommonjs.js`:
+```
+module.exports = "hi there";
+```
+
+`./test/included.js`:
+```
+export let included = "INCLUDED";
+```
+
+`source/class/xxx/Application.js`:
+```
+qx.Class.define("xxx.Application",
+{
+  extend : qx.application.Standalone,
+
+  members :
+  {
+    main : function()
+    {
+      let test;
+
+      this.base(arguments);
+
+      // `testes6` is listed in `localModules` so is bundled from
+      // `./test/testes6.js`
+      test = require("testes6").default;
+      console.log("test es6=", test);
+
+      test = require("testes6").included;
+      console.log("testes6: included=", test);
+
+      // `testejscommon` is listed in `localModules` so is bundled from
+      // `./test/testjscommon.js`
+      test = require("testcommonjs");
+      console.log("test commonjs=", test);
+
+      // `semver` is automtically discovered by virtue of this `require()`
+      // call, and bundled from node_modules
+      const semver = require("semver");
+      console.log("expect '1.2.3': " + semver.valid("1.2.3"));
+      console.log("expect null: " + semver.valid("a.b.c"));
+      console.log("expect '1.2.3': " + semver.clean(" =v1.2.3 "));
+    }
+  }
+});
+```
+
+Notice that `compile.json` includes only local modules `testes6.js` and `testcommon.js`. It does not include `included.js` but since `testes6.js` `import`s `included.js`, and `testes6.js` is explicitly listed in `localModules`, `included.js` will be bundled as well.
+
 ## Configuration Files
 
 The Qooxdoo tooling and package management systems rely on these configuration
