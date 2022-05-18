@@ -51,7 +51,7 @@
     "bin/deploy"
   ],
   "dependencies": {
-    "@babel/core": "^7.12.10",
+    "@babel/core": "^7.17.10",
     "@babel/eslint-parser": "^7.16.3",
     "@babel/generator": "^7.12.11",
     "@babel/parser": "^7.12.11",
@@ -60,7 +60,7 @@
     "@babel/plugin-syntax-jsx": "^7.16.7",
     "@babel/plugin-transform-block-scoping": "^7.12.12",
     "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/traverse": "^7.12.12",
@@ -73,6 +73,7 @@
     "ajv": "^8.8.1",
     "app-module-path": "^2.2.0",
     "async": "^2.6.3",
+    "babelify": "^10.0.0",
     "better-ajv-errors": "^1.1.1",
     "browserify": "^17.0.0",
     "chokidar": "^3.5.1",
