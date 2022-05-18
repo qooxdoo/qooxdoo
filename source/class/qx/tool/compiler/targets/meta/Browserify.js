@@ -104,6 +104,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       let b;
       const babelify = require("babelify");
       const preset = require("@babel/preset-env");
+      const esmify = require("esmify");
       const browserify = require("browserify");
       const builtins = require("browserify/lib/builtins.js");
 
@@ -159,6 +160,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
           // Ensure ES6 local modules are converted to CommonJS format
           b.transform(babelify, { presets : [ preset ] });
+          b.plugin(esmify, {});
 
           b.bundle((e, output) => {
             if (e) {
