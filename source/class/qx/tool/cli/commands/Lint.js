@@ -233,16 +233,15 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
     async __applyFixes() {
       const fixParams = this.argv.fixJsdocParams;
       if (fixParams && fixParams !== "off") {
-        let replaceInFiles = [];
         const regex =
           fixParams === "type-first"
             ? /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g
             : /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
-        replaceInFiles.push({
+        let replaceInFiles = {
           files: "source/class/**/*.js",
           from: regex,
           to: "@param $2 $1"
-        });
+        };
 
         await replaceInFile(replaceInFiles);
       }
