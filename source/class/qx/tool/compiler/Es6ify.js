@@ -288,7 +288,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
                 if (
                   path.node.arguments.length != 3 ||
                   path.node.arguments[0].type != "StringLiteral" ||
-                  path.node.arguments[1].type != "ArrowFunctionExpression" ||
+                  path.node.arguments[1].type != "FunctionExpression" ||
                   path.node.arguments[2].type != "ThisExpression"
                 ) {
                   return;
@@ -329,7 +329,6 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
           CallExpression(path) {
             if (
               path.node.callee.type == "MemberExpression" &&
-              path.node.callee.object.type == "ThisExpression" &&
               path.node.callee.property.type == "Identifier" &&
               path.node.callee.property.name == "addListener" &&
               path.node.arguments.length == 3 &&
