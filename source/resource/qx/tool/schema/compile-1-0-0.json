@@ -105,6 +105,10 @@
             "type": "boolean",
             "default": true
           },
+          "default": {
+            "description": "This browser application is written into the root of the target dir. If not set the first application is used instead",
+            "type": "boolean"
+          },
           "standalone": {
             "description": "Whether this application can be opened in a browser on its own (true) or is part of a different application (false)",
             "type": "boolean",

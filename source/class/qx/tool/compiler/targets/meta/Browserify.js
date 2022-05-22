@@ -24,7 +24,7 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
 /**
- * 
+ *
  */
 qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
   extend: qx.tool.compiler.targets.meta.AbstractJavascriptMeta,
@@ -101,7 +101,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     },
 
     async __browserify(commonjsModules, references, localModules, ws) {
-      let b;
       const babelify = require("babelify");
       const preset = require("@babel/preset-env");
       const browserify = require("browserify");
@@ -116,7 +115,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
       return new Promise(resolve =>
         {
-          b = browserify(
+          let b = browserify(
             [],
             {
               builtins      : builtins,
@@ -158,8 +157,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           }
 
           // Ensure ES6 local modules are converted to CommonJS format
-          b.transform(babelify, { presets : [ preset ] });
-
+          b.transform(babelify, {
+            presets: [preset],
+            sourceMaps: false,
+            global: true
+          });
           b.bundle((e, output) => {
             if (e) {
               // We've already handled the case of missing module. This is something else.
