@@ -95,7 +95,16 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
 
   members: {
     async process() {
-      await this.__applyFixes();
+
+      let files = this.argv.files || [];
+      if (files.length === 0) {
+        files.push("source/class/**/*.js");
+      }
+      for (let i = 0; i < files.length; i++) {
+        files[i] = path.join(process.cwd(), files[i]);
+      }
+
+      await this.__applyFixes(files);
 
       let helperFilePath = require.main.path;
       while (true) {
@@ -134,13 +143,6 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         fix: this.argv.fix
       });
 
-      let files = this.argv.files || [];
-      if (files.length === 0) {
-        files.push("source/class/**/*.js");
-      }
-      for (let i = 0; i < files.length; i++) {
-        files[i] = path.join(process.cwd(), files[i]);
-      }
       if (this.argv.printConfig) {
         const fileConfig = await linter.calculateConfigForFile(files[0]);
         qx.tool.compiler.Console.info(JSON.stringify(fileConfig, null, "  "));
@@ -230,19 +232,18 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
      * @return {Promise<void>}
      * @private
      */
-    async __applyFixes() {
+    async __applyFixes(files) {
       const fixParams = this.argv.fixJsdocParams;
       if (fixParams && fixParams !== "off") {
-        let replaceInFiles = [];
         const regex =
           fixParams === "type-first"
             ? /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g
             : /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
-        replaceInFiles.push({
-          files: "source/class/**/*.js",
+        let replaceInFiles = {
+          files: files,
           from: regex,
           to: "@param $2 $1"
-        });
+        };
 
         await replaceInFile(replaceInFiles);
       }
