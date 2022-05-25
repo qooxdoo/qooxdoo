@@ -48,15 +48,11 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote", {
         res = this.res;
 
       res.map("get", "GET", url);
-      res.addListener(
-        "getSuccess",
-        function (e) {
-          this.resume(function () {
-            this.assertEquals("SAMPLE", e.getData());
-          }, this);
-        },
-        this
-      );
+      res.addListener("getSuccess", e => {
+        this.resume(function () {
+          this.assertEquals("SAMPLE", e.getData());
+        }, this);
+      });
 
       res.get();
       this.wait();
@@ -69,16 +65,12 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote", {
         res = this.res;
 
       res.map("get", "GET", url);
-      res.addListener(
-        "error",
-        function (e) {
-          this.resume(function () {
-            this.assertEquals("statusError", e.getPhase());
-            this.assertEquals("get", e.getAction());
-          }, this);
-        },
-        this
-      );
+      res.addListener("error", e => {
+        this.resume(function () {
+          this.assertEquals("statusError", e.getPhase());
+          this.assertEquals("get", e.getAction());
+        }, this);
+      });
 
       res.get();
       this.wait();
@@ -96,27 +88,23 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote", {
 
       // Response headers must contain explicit cache control for this
       // to work in IE
-      res.addListener(
-        "getSuccess",
-        function (e) {
-          var response = e.getData();
-          count++;
+      res.addListener("getSuccess", e => {
+        var response = e.getData();
+        count++;
 
-          this.assert(response.length === 32, "Response must be MD5");
-          this.assertNotEquals(
-            previousResponse,
-            response,
-            "Response must be different from previous"
-          );
+        this.assert(response.length === 32, "Response must be MD5");
+        this.assertNotEquals(
+          previousResponse,
+          response,
+          "Response must be different from previous"
+        );
 
-          previousResponse = response;
+        previousResponse = response;
 
-          if (count >= 10) {
-            this.resume();
-          }
-        },
-        this
-      );
+        if (count >= 10) {
+          this.resume();
+        }
+      });
 
       res.poll("get", 100);
       this.wait();
@@ -130,23 +118,19 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote", {
         responses = [];
 
       res.map("get", "GET", url);
-      res.addListener(
-        "getSuccess",
-        function (e) {
-          var response = e.getData();
-          responses.push(response);
+      res.addListener("getSuccess", e => {
+        var response = e.getData();
+        responses.push(response);
 
-          if (++count >= 5) {
-            this.resume(function () {
-              this.assert(
-                parseFloat(responses[4]) > parseFloat(responses[0]),
-                "Must increase"
-              );
-            }, this);
-          }
-        },
-        this
-      );
+        if (++count >= 5) {
+          this.resume(function () {
+            this.assert(
+              parseFloat(responses[4]) > parseFloat(responses[0]),
+              "Must increase"
+            );
+          }, this);
+        }
+      });
 
       res.longPoll("get");
       this.wait();

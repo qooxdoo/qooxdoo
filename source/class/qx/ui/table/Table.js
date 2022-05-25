@@ -1720,13 +1720,9 @@ qx.Class.define("qx.ui.table.Table", {
       // if the dom element is not available, the table hasn't been rendered
       if (!elem) {
         // postpone the scroll until the table has appeared
-        this.addListenerOnce(
-          "appear",
-          function () {
-            this.scrollCellVisible(col, row);
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          this.scrollCellVisible(col, row);
+        });
       }
 
       var columnModel = this.getTableColumnModel();

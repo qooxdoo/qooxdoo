@@ -73,26 +73,18 @@ qx.Class.define("qx.test.bom.media.Video", {
       this.assertEquals(0, this._media.getVideoHeight());
 
       //we know the video width and hight when meta data is loaded
-      this._media.addListener(
-        "loadedmetadata",
-        function (e) {
-          var v = e._target;
-          this.assertEquals(720, v.getVideoWidth());
-          this.assertEquals(704, v.getVideoHeight());
-        },
-        this
-      );
+      this._media.addListener("loadedmetadata", e => {
+        var v = e._target;
+        this.assertEquals(720, v.getVideoWidth());
+        this.assertEquals(704, v.getVideoHeight());
+      });
 
       //or when the entire video is loaded
-      this._media.addListener(
-        "loadeddata",
-        function (e) {
-          var v = e._target;
-          this.assertEquals(720, v.getVideoWidth());
-          this.assertEquals(704, v.getVideoHeight());
-        },
-        this
-      );
+      this._media.addListener("loadeddata", e => {
+        var v = e._target;
+        this.assertEquals(720, v.getVideoWidth());
+        this.assertEquals(704, v.getVideoHeight());
+      });
     }
   }
 });

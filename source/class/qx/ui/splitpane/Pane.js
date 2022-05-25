@@ -156,32 +156,24 @@ qx.Class.define("qx.ui.splitpane.Pane", {
       var splitter = this.getChildControl("splitter");
       var splitterWidth = splitter.getWidth();
       if (!splitterWidth) {
-        splitter.addListenerOnce(
-          "appear",
-          function () {
-            this.__setBlockerPosition();
-          },
-          this
-        );
+        splitter.addListenerOnce("appear", () => {
+          this.__setBlockerPosition();
+        });
       }
 
       // resize listener to remove the blocker in case the splitter
       // is removed.
-      splitter.addListener(
-        "resize",
-        function (e) {
-          var bounds = e.getData();
-          if (
-            this.getChildControl("splitter").isKnobVisible() &&
-            (bounds.height == 0 || bounds.width == 0)
-          ) {
-            this.__blocker.hide();
-          } else {
-            this.__blocker.show();
-          }
-        },
-        this
-      );
+      splitter.addListener("resize", e => {
+        var bounds = e.getData();
+        if (
+          this.getChildControl("splitter").isKnobVisible() &&
+          (bounds.height == 0 || bounds.width == 0)
+        ) {
+          this.__blocker.hide();
+        } else {
+          this.__blocker.show();
+        }
+      });
     },
 
     /**

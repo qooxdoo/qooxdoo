@@ -392,6 +392,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   qx.tool.compiler.ClassFile.JSX_OPTIONS
                 ]
               ],
+
               generatorOpts: {
                 compact: false
               },
@@ -674,7 +675,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       if (Object.keys(this.__commonjsModules).length > 0) {
         dbClassInfo.commonjsModules = {};
         for (let moduleName in this.__commonjsModules) {
-          dbClassInfo.commonjsModules[moduleName] = [ ...this.__commonjsModules[moduleName] ];
+          dbClassInfo.commonjsModules[moduleName] = [
+            ...this.__commonjsModules[moduleName]
+          ];
         }
       }
 
@@ -1667,11 +1670,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             let scope;
             let applicationTypes = t.__analyser.getApplicationTypes();
 
-            if (path.node.callee.type == "Identifier" &&
-                path.node?.callee?.name == "require" &&
-                path.node.arguments?.length == 1 &&
-                applicationTypes.includes("browser")) {
-
+            if (
+              path.node.callee.type == "Identifier" &&
+              path.node?.callee?.name == "require" &&
+              path.node.arguments?.length == 1 &&
+              applicationTypes.includes("browser")
+            ) {
               // See if this is a reference to global `require` or
               // something in the scope chain
               for (scope = t.__scope; scope; scope = scope.parent) {
@@ -1681,7 +1685,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 }
               }
               // Did we reach top level without finding it in a local scope?
-              if (! scope) {
+              if (!scope) {
                 // Yup. It's the global one we're looking for. Ensure the argument is valid.
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
@@ -1694,8 +1698,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   } else {
                     qx.tool.compiler.Console.log(
                       `${t.__className}:${path.node.loc.start.line}:` +
-                        ` automatically detected \'require(${arg.value})\``);
-                    t.addCommonjsModule(arg.value, t.__className, path.node.loc.start.line);
+                        ` automatically detected \'require(${arg.value})\``
+                    );
+                    t.addCommonjsModule(
+                      arg.value,
+                      t.__className,
+                      path.node.loc.start.line
+                    );
 
                     // Don't show "unresolved" error for `require` since the
                     // browserified code defines it as a global
@@ -1885,6 +1894,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                       types.stringLiteral(t.__classMeta.functionName)
                     ]
                   );
+
                   expr = types.memberExpression(expr, types.identifier("call"));
                 } else if (t.__classMeta.functionName == "$$constructor") {
                   expr = expandMemberExpression(
@@ -1893,8 +1903,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else if (t.__classMeta.className) {
                   expr = expandMemberExpression(
                     t.__classMeta.className +
-                    ".superclass" +
-                    ".prototype." +
+                      ".superclass" +
+                      ".prototype." +
                       t.__classMeta.functionName +
                       ".call"
                   );
@@ -2569,7 +2579,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * @param name {String} name of the module
      */
     addCommonjsModule(moduleName, className, linenum) {
-      if (! this.__commonjsModules[moduleName]) {
+      if (!this.__commonjsModules[moduleName]) {
         this.__commonjsModules[moduleName] = new Set();
       }
 

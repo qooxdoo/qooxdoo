@@ -95,7 +95,6 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
 
   members: {
     async process() {
-
       let files = this.argv.files || [];
       if (files.length === 0) {
         files.push("source/class/**/*.js");
@@ -121,14 +120,14 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         lintOptions.globals || {},
         await this.__addGlobals(config)
       );
+
       lintOptions.parser = "@babel/eslint-parser";
       lintOptions.parserOptions = lintOptions.parserOptions || {};
       lintOptions.parserOptions.requireConfigFile = false;
       lintOptions.parserOptions.babelOptions = {
         cwd: helperFilePath,
-        plugins: [
-          "@babel/plugin-syntax-jsx"
-        ],
+        plugins: ["@babel/plugin-syntax-jsx"],
+
         parserOpts: {
           allowSuperOutsideMethod: true
         }
@@ -164,11 +163,15 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
           // If there are too many errors, the pretty formatter is appallingly slow so if the
           // user has not specified a format, change to compact mode
           const maxDefaultFormatErrorCount = 150;
-          if (report.errorCount + report.warningCount > maxDefaultFormatErrorCount) {
+          if (
+            report.errorCount + report.warningCount >
+            maxDefaultFormatErrorCount
+          ) {
             if (!this.argv.format) {
               qx.tool.compiler.Console.info(
                 `Total errors and warnings exceed ${maxDefaultFormatErrorCount}, switching to "compact" style report`
               );
+
               outputFormat = "compact";
             } else {
               qx.tool.compiler.Console.info(

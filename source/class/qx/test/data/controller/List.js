@@ -836,28 +836,24 @@ qx.Class.define("qx.test.data.controller.List", {
 
       this.__controller.setModel(new qx.data.Array(["1", "2", "3"]));
 
-      this.__controller.addListener(
-        "changeSelection",
-        function () {
-          this.resume(function () {
-            // test for the first selected item (one selection)
-            this.assertEquals(
-              1,
-              this.__controller.getSelection().length,
-              "Selection has a wrong length."
-            );
+      this.__controller.addListener("changeSelection", () => {
+        this.resume(function () {
+          // test for the first selected item (one selection)
+          this.assertEquals(
+            1,
+            this.__controller.getSelection().length,
+            "Selection has a wrong length."
+          );
 
-            this.assertEquals(
-              "1",
-              this.__controller.getSelection().getItem(0),
-              "Selection does not work."
-            );
+          this.assertEquals(
+            "1",
+            this.__controller.getSelection().getItem(0),
+            "Selection does not work."
+          );
 
-            selectBox.dispose();
-          }, this);
-        },
-        this
-      );
+          selectBox.dispose();
+        }, this);
+      });
 
       this.wait();
     },

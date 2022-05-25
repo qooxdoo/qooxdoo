@@ -44,7 +44,7 @@ qx.Class.define("qx.test.io.jsonrpc.Client", {
         return;
       }
       this.transport = this.injectStub(
-      	qx.io.request.Xhr.prototype,
+        qx.io.request.Xhr.prototype,
         "_createTransport",
         this.deepStub(qx.io.request.Xhr.prototype._createTransport())
       );

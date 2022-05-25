@@ -58,29 +58,21 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
 
       var l1Ready = false;
       var l2Ready = false;
-      l1.addListenerOnce(
-        "ready",
-        function () {
-          l1Ready = true;
-          this.resume(function () {
-            this.assertTrue(l1Ready && l2Ready);
-            this.assertEquals(
-              qx.test.DYNAMICSCRIPTTEST.second.third,
-              "dynamically loaded"
-            );
-          }, this);
-        },
-        this
-      );
+      l1.addListenerOnce("ready", () => {
+        l1Ready = true;
+        this.resume(function () {
+          this.assertTrue(l1Ready && l2Ready);
+          this.assertEquals(
+            qx.test.DYNAMICSCRIPTTEST.second.third,
+            "dynamically loaded"
+          );
+        }, this);
+      });
 
-      l2.addListenerOnce(
-        "ready",
-        function () {
-          l2Ready = true;
-          this.assertTrue(!l1Ready && l2Ready);
-        },
-        this
-      );
+      l2.addListenerOnce("ready", () => {
+        l2Ready = true;
+        this.assertTrue(!l1Ready && l2Ready);
+      });
 
       l1.start();
       l2.start();
@@ -100,13 +92,9 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
           noEvent = false;
         }
       });
-      loader.addListenerOnce(
-        "ready",
-        function () {
-          this.assertTrue(noEvent);
-        },
-        this
-      );
+      loader.addListenerOnce("ready", () => {
+        this.assertTrue(noEvent);
+      });
 
       loader.start();
     },
@@ -115,19 +103,12 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         "qx/test/dynamicscriptloader/xyc.js"
       ]);
 
-      loader.addListenerOnce(
-        "failed",
-        function (e) {
-          var data = e.getData();
-          this.resume(function () {
-            this.assertEquals(
-              data.script,
-              "qx/test/dynamicscriptloader/xyc.js"
-            );
-          }, this);
-        },
-        this
-      );
+      loader.addListenerOnce("failed", e => {
+        var data = e.getData();
+        this.resume(function () {
+          this.assertEquals(data.script, "qx/test/dynamicscriptloader/xyc.js");
+        }, this);
+      });
 
       loader.start();
       this.wait();

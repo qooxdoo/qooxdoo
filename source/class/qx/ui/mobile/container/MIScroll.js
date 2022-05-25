@@ -165,13 +165,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll", {
         loader.open("GET", path);
         loader.send();
       } else {
-        this.addListenerOnce(
-          "appear",
-          function () {
-            this._setScroll(this.__createScrollInstance());
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          this._setScroll(this.__createScrollInstance());
+        });
       }
     },
 

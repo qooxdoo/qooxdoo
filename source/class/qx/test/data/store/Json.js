@@ -88,20 +88,16 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testLoadUrl() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertEquals(
-              "String",
-              model.getString(),
-              "The model is not created how it should!"
-            );
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertEquals(
+            "String",
+            model.getString(),
+            "The model is not created how it should!"
+          );
+        }, this);
+      });
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -113,47 +109,34 @@ qx.Class.define("qx.test.data.store.Json", {
       var url = this.url,
         states = [];
 
-      this.__store.addListener(
-        "changeState",
-        function (evt) {
-          var state = evt.getData();
-          states.push(state);
+      this.__store.addListener("changeState", evt => {
+        var state = evt.getData();
+        states.push(state);
 
-          if (state == "completed") {
-            this.resume(function () {
-              var expected = [
-                "configured",
-                "sending",
-                "receiving",
-                "completed"
-              ];
+        if (state == "completed") {
+          this.resume(function () {
+            var expected = ["configured", "sending", "receiving", "completed"];
 
-              this.assertArrayEquals(expected, states);
-            });
-          }
-        },
-        this
-      );
+            this.assertArrayEquals(expected, states);
+          });
+        }
+      });
 
       this.__store.setUrl(url);
       this.wait();
     },
 
     testLoadResource() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertEquals(
-              "String",
-              model.getString(),
-              "The model is not created how it should!"
-            );
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertEquals(
+            "String",
+            model.getString(),
+            "The model is not created how it should!"
+          );
+        }, this);
+      });
 
       var resource = "qx/test/primitive.json";
       this.__store.setUrl(resource);
@@ -162,23 +145,19 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testParseErrorForResource() {
-      this.__store.addListener(
-        "parseError",
-        function (ev) {
-          this.resume(function () {
-            this.assertString(
-              ev.getData().response,
-              "Parse error object does not contain response!"
-            );
+      this.__store.addListener("parseError", ev => {
+        this.resume(function () {
+          this.assertString(
+            ev.getData().response,
+            "Parse error object does not contain response!"
+          );
 
-            this.assertObject(
-              ev.getData().error,
-              "Parse error object does not contain parser exception!"
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertObject(
+            ev.getData().error,
+            "Parse error object does not contain parser exception!"
+          );
+        }, this);
+      });
 
       var resource = "qx/test/failing.json";
       this.__store.setUrl(resource);
@@ -187,22 +166,18 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testLoadAlias() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertEquals(
-              "String",
-              model.getString(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertEquals(
+            "String",
+            model.getString(),
+            "The model is not created how it should!"
+          );
 
-            qx.util.AliasManager.getInstance().remove("testLoadResource");
-          }, this);
-        },
-        this
-      );
+          qx.util.AliasManager.getInstance().remove("testLoadResource");
+        }, this);
+      });
 
       // invoke alias handling
       qx.util.AliasManager.getInstance().add("testLoadResource", "qx/test");
@@ -219,37 +194,33 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testWholePrimitive() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertEquals(
-              "String",
-              model.getString(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertEquals(
+            "String",
+            model.getString(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              12,
-              model.getNumber(),
-              "The model is not created how it should!"
-            );
+          this.assertEquals(
+            12,
+            model.getNumber(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              true,
-              model.getBoolean(),
-              "The model is not created how it should!"
-            );
+          this.assertEquals(
+            true,
+            model.getBoolean(),
+            "The model is not created how it should!"
+          );
 
-            this.assertNull(
-              model.getNull(),
-              "The model is not created how it should!"
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertNull(
+            model.getNull(),
+            "The model is not created how it should!"
+          );
+        }, this);
+      });
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -258,43 +229,39 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testWholeArray() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getArray(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getArray(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "qx.data.Array",
-              model.getArray().classname,
-              "Wrong array class."
-            );
+          this.assertEquals(
+            "qx.data.Array",
+            model.getArray().classname,
+            "Wrong array class."
+          );
 
-            this.assertEquals(
-              "a",
-              model.getArray().getItem(0),
-              "Wrong content of the array."
-            );
+          this.assertEquals(
+            "a",
+            model.getArray().getItem(0),
+            "Wrong content of the array."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getArray().getItem(1),
-              "Wrong content of the array."
-            );
+          this.assertEquals(
+            "b",
+            model.getArray().getItem(1),
+            "Wrong content of the array."
+          );
 
-            this.assertEquals(
-              "c",
-              model.getArray().getItem(2),
-              "Wrong content of the array."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "c",
+            model.getArray().getItem(2),
+            "Wrong content of the array."
+          );
+        }, this);
+      });
 
       var url =
         qx.util.ResourceManager.getInstance().toUri("qx/test/array.json");
@@ -303,31 +270,27 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testWholeObject() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -366,37 +329,33 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "qx.test.AB",
-              model.getO().classname,
-              "Not the given class used!"
-            );
+          this.assertEquals(
+            "qx.test.AB",
+            model.getO().classname,
+            "Not the given class used!"
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -416,31 +375,27 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -464,39 +419,33 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertTrue(
-              qx.Class.isSubClassOf(model.constructor, qx.test.O)
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertTrue(qx.Class.isSubClassOf(model.constructor, qx.test.O));
 
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertTrue(
-              qx.Class.isSubClassOf(model.getO().constructor, qx.test.O)
-            );
+          this.assertTrue(
+            qx.Class.isSubClassOf(model.getO().constructor, qx.test.O)
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -521,31 +470,27 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -565,31 +510,27 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -618,33 +559,29 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertTrue(model.a(), "Mixin not included.");
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertTrue(model.a(), "Mixin not included.");
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertTrue(model.getO().a(), "Mixin not included.");
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertTrue(model.getO().a(), "Mixin not included.");
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -681,34 +618,30 @@ qx.Class.define("qx.test.data.store.Json", {
 
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertTrue(model.a(), "Mixin not included.");
-            this.assertTrue(model.b(), "Mixin not included.");
-            this.assertNotNull(
-              model.getO(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertTrue(model.a(), "Mixin not included.");
+          this.assertTrue(model.b(), "Mixin not included.");
+          this.assertNotNull(
+            model.getO(),
+            "The model is not created how it should!"
+          );
 
-            this.assertTrue(model.getO().a(), "Mixin not included.");
-            this.assertEquals(
-              "a",
-              model.getO().getA(),
-              "Wrong content of the object."
-            );
+          this.assertTrue(model.getO().a(), "Mixin not included.");
+          this.assertEquals(
+            "a",
+            model.getO().getA(),
+            "Wrong content of the object."
+          );
 
-            this.assertEquals(
-              "b",
-              model.getO().getB(),
-              "Wrong content of the object."
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertEquals(
+            "b",
+            model.getO().getB(),
+            "Wrong content of the object."
+          );
+        }, this);
+      });
 
       var url = qx.util.ResourceManager.getInstance().toUri(
         "qx/test/object.json"
@@ -731,15 +664,11 @@ qx.Class.define("qx.test.data.store.Json", {
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.assertCalled(delegate.manipulateData);
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          this.assertCalled(delegate.manipulateData);
+        }, this);
+      });
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -762,15 +691,11 @@ qx.Class.define("qx.test.data.store.Json", {
       this.__store.dispose();
       this.__store = new qx.data.store.Json(null, delegate);
 
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.assertCalled(delegate.configureRequest);
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          this.assertCalled(delegate.configureRequest);
+        }, this);
+      });
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -779,19 +704,15 @@ qx.Class.define("qx.test.data.store.Json", {
     },
 
     testDisposeOldModel() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            // check if the new model is not the old model
-            this.assertNotEquals(fakeModel, model);
-            // check if the old model has been disposed
-            this.assertTrue(fakeModel.isDisposed());
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          // check if the new model is not the old model
+          this.assertNotEquals(fakeModel, model);
+          // check if the old model has been disposed
+          this.assertTrue(fakeModel.isDisposed());
+        }, this);
+      });
 
       // set a fake model
       var fakeModel = new qx.core.Object();
@@ -814,30 +735,22 @@ qx.Class.define("qx.test.data.store.Json", {
     testDisposeRequestDone() {
       this.setUpFakeRequest();
       var url = this.url;
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.__store.dispose();
-            this.assertCalled(this.request.dispose);
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          this.__store.dispose();
+          this.assertCalled(this.request.dispose);
+        }, this);
+      });
 
       this.__store.setUrl(url);
     },
 
     testErrorEvent() {
-      this.__store.addListener(
-        "error",
-        function (ev) {
-          this.resume(function () {
-            this.assertNotNull(ev);
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("error", ev => {
+        this.resume(function () {
+          this.assertNotNull(ev);
+        }, this);
+      });
 
       this.__store.setUrl("not-found");
 
@@ -854,15 +767,11 @@ qx.Class.define("qx.test.data.store.Json", {
         "SERVER ERROR"
       ]);
 
-      this.__store.addListener(
-        "error",
-        function (e) {
-          this.resume(function () {
-            this.assertTrue(e.getData().getPhase() == "statusError");
-          });
-        },
-        this
-      );
+      this.__store.addListener("error", e => {
+        this.resume(function () {
+          this.assertTrue(e.getData().getPhase() == "statusError");
+        });
+      });
 
       qx.event.Timer.once(
         function () {

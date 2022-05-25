@@ -106,21 +106,13 @@ qx.Class.define("qx.test.ui.core.Blocker", {
       this.__blockedEventFired = false;
       this.__unblockedEventFired = false;
 
-      this.__blocker.addListenerOnce(
-        "blocked",
-        function (e) {
-          this.__blockedEventFired = true;
-        },
-        this
-      );
+      this.__blocker.addListenerOnce("blocked", e => {
+        this.__blockedEventFired = true;
+      });
 
-      this.__blocker.addListenerOnce(
-        "unblocked",
-        function (e) {
-          this.__unblockedEventFired = true;
-        },
-        this
-      );
+      this.__blocker.addListenerOnce("unblocked", e => {
+        this.__unblockedEventFired = true;
+      });
 
       this.__blocker.block();
       this.__blocker.unblock();

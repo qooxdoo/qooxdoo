@@ -359,10 +359,10 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         this.argv["feedback"] = configDb.db("qx.default.feedback", true);
       }
 
-     // Validate compile.json against the schema
-     await qx.tool.config.Compile.getInstance().load();
+      // Validate compile.json against the schema
+      await qx.tool.config.Compile.getInstance().load();
 
-     if (this.argv.verbose) {
+      if (this.argv.verbose) {
         console.log(`
 Compiler:  v${this.getCompilerVersion()} in ${require.main.filename}
 Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);

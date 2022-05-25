@@ -91,39 +91,31 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
     runStandAlone() {
       var testResult = new qx.dev.unit.TestResult();
 
-      testResult.addListener(
-        "failure",
-        function (e) {
-          var ex = e.getData()[0].exception;
-          var test = e.getData()[0].test;
-          this.error(
-            "Test '" +
-              test.getFullName() +
-              "' failed: " +
-              ex.message +
-              " - " +
-              ex.getComment()
-          );
+      testResult.addListener("failure", e => {
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
+        this.error(
+          "Test '" +
+            test.getFullName() +
+            "' failed: " +
+            ex.message +
+            " - " +
+            ex.getComment()
+        );
 
-          if (ex.getStackTrace) {
-            this.error("Stack trace: " + ex.getStackTrace().join("\n"));
-          }
-        },
-        this
-      );
+        if (ex.getStackTrace) {
+          this.error("Stack trace: " + ex.getStackTrace().join("\n"));
+        }
+      });
 
-      testResult.addListener(
-        "error",
-        function (e) {
-          var ex = e.getData()[0].exception;
-          var test = e.getData()[0].test;
-          this.error(
-            "The test '" + test.getFullName() + "' had an error: " + ex,
-            ex
-          );
-        },
-        this
-      );
+      testResult.addListener("error", e => {
+        var ex = e.getData()[0].exception;
+        var test = e.getData()[0].test;
+        this.error(
+          "The test '" + test.getFullName() + "' had an error: " + ex,
+          ex
+        );
+      });
 
       this.getSuite().run(testResult);
     },

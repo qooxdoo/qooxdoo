@@ -92,64 +92,54 @@ qx.Class.define("qx.ui.embed.Iframe", {
     this.__blockerElement = this._createBlockerElement();
 
     if (qx.core.Environment.get("ecmascript.mutationobserver")) {
-      this.addListenerOnce(
-        "appear",
-        function () {
-          var element = this.getContentElement().getDomElement();
+      this.addListenerOnce("appear", () => {
+        var element = this.getContentElement().getDomElement();
 
-          // Mutation record check callback
-          var isDOMNodeInserted = function (mutationRecord) {
-            var i;
-            // 'our' iframe was either added...
-            if (mutationRecord.addedNodes) {
-              for (i = mutationRecord.addedNodes.length; i >= 0; --i) {
-                if (mutationRecord.addedNodes[i] == element) {
-                  return true;
-                }
+        // Mutation record check callback
+        var isDOMNodeInserted = function (mutationRecord) {
+          var i;
+          // 'our' iframe was either added...
+          if (mutationRecord.addedNodes) {
+            for (i = mutationRecord.addedNodes.length; i >= 0; --i) {
+              if (mutationRecord.addedNodes[i] == element) {
+                return true;
               }
             }
-            // ...or removed
-            if (mutationRecord.removedNodes) {
-              for (i = mutationRecord.removedNodes.length; i >= 0; --i) {
-                if (mutationRecord.removedNodes[i] == element) {
-                  return true;
-                }
+          }
+          // ...or removed
+          if (mutationRecord.removedNodes) {
+            for (i = mutationRecord.removedNodes.length; i >= 0; --i) {
+              if (mutationRecord.removedNodes[i] == element) {
+                return true;
               }
             }
-            return false;
-          };
+          }
+          return false;
+        };
 
-          var observer = new MutationObserver(
-            function (mutationRecords) {
-              if (mutationRecords.some(isDOMNodeInserted)) {
-                this._syncSourceAfterDOMMove();
-              }
-            }.bind(this)
-          );
+        var observer = new MutationObserver(
+          function (mutationRecords) {
+            if (mutationRecords.some(isDOMNodeInserted)) {
+              this._syncSourceAfterDOMMove();
+            }
+          }.bind(this)
+        );
 
-          // Observe parent element
-          var parent = this.getLayoutParent()
-            .getContentElement()
-            .getDomElement();
-          observer.observe(parent, { childList: true, subtree: true });
-        },
-        this
-      );
+        // Observe parent element
+        var parent = this.getLayoutParent().getContentElement().getDomElement();
+        observer.observe(parent, { childList: true, subtree: true });
+      });
     }
     // !qx.core.Environment.get("ecmascript.mutationobserver")
     else {
-      this.addListenerOnce(
-        "appear",
-        function () {
-          var element = this.getContentElement().getDomElement();
-          qx.bom.Event.addNativeListener(
-            element,
-            "DOMNodeInserted",
-            this._onDOMNodeInserted
-          );
-        },
-        this
-      );
+      this.addListenerOnce("appear", () => {
+        var element = this.getContentElement().getDomElement();
+        qx.bom.Event.addNativeListener(
+          element,
+          "DOMNodeInserted",
+          this._onDOMNodeInserted
+        );
+      });
 
       this._onDOMNodeInserted = qx.lang.Function.listener(
         this._syncSourceAfterDOMMove,

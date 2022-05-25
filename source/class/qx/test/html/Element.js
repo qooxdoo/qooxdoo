@@ -135,14 +135,10 @@ qx.Class.define("qx.test.html.Element", {
       el.hide();
       qx.core.Init.getApplication().getRoot().getContentElement().add(el);
       var called = 0;
-      el.addListenerOnce(
-        "appear",
-        function () {
-          this.debug("appear!");
-          called++;
-        },
-        this
-      );
+      el.addListenerOnce("appear", () => {
+        this.debug("appear!");
+        called++;
+      });
 
       el.show();
       qx.html.Element.flush();
