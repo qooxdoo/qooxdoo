@@ -25,8 +25,8 @@ const rimraf = require("rimraf");
 const dot = require("dot");
 require("jstransformer-dot");
 const metalsmith = require("metalsmith");
-const layouts = require("metalsmith-layouts");
-const markdown = require("metalsmith-markdown");
+const layouts = require("@metalsmith/layouts");
+const markdown = require("@metalsmith/markdown");
 //const filenames = require("metalsmith-filenames");
 //var permalinks = require("metalsmith-permalinks");
 /**
