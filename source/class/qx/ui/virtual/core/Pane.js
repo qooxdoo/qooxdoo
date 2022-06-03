@@ -323,20 +323,16 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
     scrollRowIntoView(row) {
       var bounds = this.getBounds();
       if (!bounds) {
-        this.addListenerOnce(
-          "appear",
-          function () {
-            // It's important that the registered events are first dispatched.
-            qx.event.Timer.once(
-              function () {
-                this.scrollRowIntoView(row);
-              },
-              this,
-              0
-            );
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(
+            function () {
+              this.scrollRowIntoView(row);
+            },
+            this,
+            0
+          );
+        });
 
         return;
       }
@@ -360,20 +356,16 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
     scrollColumnIntoView(column) {
       var bounds = this.getBounds();
       if (!bounds) {
-        this.addListenerOnce(
-          "appear",
-          function () {
-            // It's important that the registered events are first dispatched.
-            qx.event.Timer.once(
-              function () {
-                this.scrollColumnIntoView(column);
-              },
-              this,
-              0
-            );
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(
+            function () {
+              this.scrollColumnIntoView(column);
+            },
+            this,
+            0
+          );
+        });
 
         return;
       }
@@ -398,20 +390,16 @@ qx.Class.define("qx.ui.virtual.core.Pane", {
     scrollCellIntoView(column, row) {
       var bounds = this.getBounds();
       if (!bounds) {
-        this.addListenerOnce(
-          "appear",
-          function () {
-            // It's important that the registered events are first dispatched.
-            qx.event.Timer.once(
-              function () {
-                this.scrollCellIntoView(column, row);
-              },
-              this,
-              0
-            );
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          // It's important that the registered events are first dispatched.
+          qx.event.Timer.once(
+            function () {
+              this.scrollCellIntoView(column, row);
+            },
+            this,
+            0
+          );
+        });
 
         return;
       }

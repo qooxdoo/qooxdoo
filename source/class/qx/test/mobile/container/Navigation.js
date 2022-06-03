@@ -54,13 +54,9 @@ qx.Class.define("qx.test.mobile.container.Navigation", {
       var container = new qx.ui.mobile.container.Navigation();
       var updateEventFired = false;
 
-      container.addListener(
-        "update",
-        function () {
-          updateEventFired = true;
-        },
-        this
-      );
+      container.addListener("update", () => {
+        updateEventFired = true;
+      });
 
       var page1 = new qx.ui.mobile.page.NavigationPage();
       var page2 = new qx.ui.mobile.page.NavigationPage();

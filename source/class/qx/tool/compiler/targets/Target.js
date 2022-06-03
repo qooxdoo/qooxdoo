@@ -437,7 +437,8 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       // application in compile.json, but will not bundle `require()`d
       // modules that are Node modules.
       bootPackage.addJavascriptMeta(
-        new qx.tool.compiler.targets.meta.Browserify(appMeta));
+        new qx.tool.compiler.targets.meta.Browserify(appMeta)
+      );
 
       /*
        * Assemble the Parts

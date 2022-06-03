@@ -228,9 +228,9 @@ qx.Class.define("qx.tool.compiler.app.Application", {
      * relative to the directory containing compile.json. The module may be
      * either a CommonJS module or an ES6 module.
      */
-    localModules : {
-      init : null,
-      check : "Object"
+    localModules: {
+      init: null,
+      check: "Object"
     }
   },
 

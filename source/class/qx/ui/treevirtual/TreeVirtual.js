@@ -170,13 +170,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
     super(custom.dataModel, custom);
 
     // Arrange to redisplay edited data following editing
-    this.addListener(
-      "dataEdited",
-      function (e) {
-        this.getDataModel().setData();
-      },
-      this
-    );
+    this.addListener("dataEdited", e => {
+      this.getDataModel().setData();
+    });
 
     // By default, present the column visibility button only if there are
     // multiple columns.

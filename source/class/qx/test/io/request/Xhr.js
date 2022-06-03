@@ -63,7 +63,7 @@ qx.Class.define("qx.test.io.request.Xhr", {
         return;
       }
       this.transport = this.injectStub(
-      	qx.io.request.Xhr.prototype,
+        qx.io.request.Xhr.prototype,
         "_createTransport",
         this.deepStub(qx.io.request.Xhr.prototype._createTransport())
       );
@@ -396,14 +396,10 @@ qx.Class.define("qx.test.io.request.Xhr", {
       req.setMethod("GET");
 
       readyStates.push(req.getReadyState());
-      req.addListener(
-        "readyStateChange",
-        function () {
-          readyStates.push(req.getReadyState());
-          statuses.push(req.getStatus());
-        },
-        this
-      );
+      req.addListener("readyStateChange", () => {
+        readyStates.push(req.getReadyState());
+        statuses.push(req.getStatus());
+      });
 
       req.send();
       server.respond();

@@ -54,15 +54,11 @@ qx.Class.define("qx.test.data.store.RestWithRemote", {
       var res = this.res,
         store = this.store;
 
-      res.addListener(
-        "success",
-        function () {
-          this.resume(function () {
-            this.assertEquals("String", store.getModel().getString());
-          }, this);
-        },
-        this
-      );
+      res.addListener("success", () => {
+        this.resume(function () {
+          this.assertEquals("String", store.getModel().getString());
+        }, this);
+      });
 
       res.index();
       this.wait();
@@ -73,15 +69,11 @@ qx.Class.define("qx.test.data.store.RestWithRemote", {
         store = this.store,
         label = new qx.ui.basic.Label();
 
-      res.addListener(
-        "success",
-        function () {
-          this.resume(function () {
-            this.assertEquals("String", label.getValue());
-          }, this);
-        },
-        this
-      );
+      res.addListener("success", () => {
+        this.resume(function () {
+          this.assertEquals("String", label.getValue());
+        }, this);
+      });
 
       res.index();
       store.bind("model.string", label, "value");

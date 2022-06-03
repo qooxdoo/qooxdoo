@@ -415,23 +415,19 @@ qx.Class.define("qx.ui.basic.Label", {
 
       if (value != null) {
         value.bind("enabled", this, "enabled");
-        this.__tapListenerId = this.addListener(
-          "tap",
-          function () {
-            // only focus focusable elements [BUG #3555]
-            if (value.isFocusable()) {
-              value.focus.apply(value);
-            }
-            // furthermore toggle if possible [BUG #6881]
-            if (
-              "toggleValue" in value &&
-              typeof value.toggleValue === "function"
-            ) {
-              value.toggleValue();
-            }
-          },
-          this
-        );
+        this.__tapListenerId = this.addListener("tap", () => {
+          // only focus focusable elements [BUG #3555]
+          if (value.isFocusable()) {
+            value.focus.apply(value);
+          }
+          // furthermore toggle if possible [BUG #6881]
+          if (
+            "toggleValue" in value &&
+            typeof value.toggleValue === "function"
+          ) {
+            value.toggleValue();
+          }
+        });
       }
     },
 

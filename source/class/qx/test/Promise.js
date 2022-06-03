@@ -332,53 +332,41 @@ qx.Class.define("qx.test.Promise", {
         var syncObj = new SyncClazz();
 
         var p1 = new qx.Promise();
-        asyncObj.addListenerOnce(
-          "changeAlphaAsync",
-          function (evt) {
-            var data = evt.getData();
-            this.assertTrue(data instanceof qx.Promise);
-            p1.resolve();
-          },
-          this
-        );
+        asyncObj.addListenerOnce("changeAlphaAsync", evt => {
+          var data = evt.getData();
+          this.assertTrue(data instanceof qx.Promise);
+          p1.resolve();
+        });
 
         var p2 = new qx.Promise();
         var bravoEvents = 0;
-        var id = syncObj.addListener(
-          "changeBravo",
-          function (evt) {
-            bravoEvents++;
-            this.assertTrue(bravoEvents <= 2);
-            var data = evt.getData();
+        var id = syncObj.addListener("changeBravo", evt => {
+          bravoEvents++;
+          this.assertTrue(bravoEvents <= 2);
+          var data = evt.getData();
 
-            // First event is .bind() setting the initial value
-            if (bravoEvents == 1) {
-              this.assertNull(data);
+          // First event is .bind() setting the initial value
+          if (bravoEvents == 1) {
+            this.assertNull(data);
 
-              // Second event was caused by asyncObj.setAlphaAsync()
-            } else if (bravoEvents == 2) {
-              this.assertEquals("zyx", data);
-              syncObj.removeListenerById(id);
-              p2.resolve();
-            }
-          },
-          this
-        );
+            // Second event was caused by asyncObj.setAlphaAsync()
+          } else if (bravoEvents == 2) {
+            this.assertEquals("zyx", data);
+            syncObj.removeListenerById(id);
+            p2.resolve();
+          }
+        });
 
         asyncObj.getAlphaAsync();
         asyncObj.bind("alphaAsync", syncObj, "bravo");
         asyncObj.setAlphaAsync("zyx");
         qx.Promise.all([p1, p2]).then(function () {
           var p3 = new qx.Promise();
-          syncObj.addListenerOnce(
-            "changeBravo",
-            function (evt) {
-              var data = evt.getData();
-              this.assertEquals("wvu", data);
-              p3.resolve();
-            },
-            this
-          );
+          syncObj.addListenerOnce("changeBravo", evt => {
+            var data = evt.getData();
+            this.assertEquals("wvu", data);
+            p3.resolve();
+          });
 
           asyncObj.setAlphaAsync("wvu");
           p3.then(function () {
@@ -395,30 +383,22 @@ qx.Class.define("qx.test.Promise", {
         var syncObj = new SyncClazz();
 
         var p1 = new qx.Promise();
-        asyncObj.addListenerOnce(
-          "changeAlphaAsync",
-          function (evt) {
-            var data = evt.getData();
-            this.assertEquals("def", data);
-            p1.resolve();
-          },
-          this
-        );
+        asyncObj.addListenerOnce("changeAlphaAsync", evt => {
+          var data = evt.getData();
+          this.assertEquals("def", data);
+          p1.resolve();
+        });
 
         syncObj.bind("bravo", asyncObj, "alphaAsync");
         syncObj.setBravo("def");
 
         p1.then(function () {
           var p2 = new qx.Promise();
-          asyncObj.addListenerOnce(
-            "changeAlphaAsync",
-            function (evt) {
-              var data = evt.getData();
-              this.assertEquals("ghi", data);
-              p2.resolve();
-            },
-            this
-          );
+          asyncObj.addListenerOnce("changeAlphaAsync", evt => {
+            var data = evt.getData();
+            this.assertEquals("ghi", data);
+            p2.resolve();
+          });
 
           syncObj.setBravo("ghi");
           return p2.then(function () {
@@ -592,42 +572,38 @@ qx.Class.define("qx.test.Promise", {
           bindPromise = qx.Promise.resolve(true);
         }
         return bindPromise.then(function () {
-          obj.addListener(
-            "changeAlpha",
-            function (evt) {
-              var obj = evt.getTarget();
-              var data = evt.getData();
-              var delay = (5 - i + 1) * 100;
-              console.log(
-                "pre changeAlpha " +
-                  obj.getValue() +
-                  " = " +
-                  data +
-                  " after " +
-                  delay
-              );
+          obj.addListener("changeAlpha", evt => {
+            var obj = evt.getTarget();
+            var data = evt.getData();
+            var delay = (5 - i + 1) * 100;
+            console.log(
+              "pre changeAlpha " +
+                obj.getValue() +
+                " = " +
+                data +
+                " after " +
+                delay
+            );
 
-              return new qx.Promise(function (resolve) {
-                setTimeout(function () {
-                  if (str.length) {
-                    str += ",";
-                  }
-                  str += obj.getValue() + ":" + data;
-                  console.log(
-                    "changeAlpha " +
-                      obj.getValue() +
-                      " = " +
-                      data +
-                      " after " +
-                      delay
-                  );
+            return new qx.Promise(function (resolve) {
+              setTimeout(function () {
+                if (str.length) {
+                  str += ",";
+                }
+                str += obj.getValue() + ":" + data;
+                console.log(
+                  "changeAlpha " +
+                    obj.getValue() +
+                    " = " +
+                    data +
+                    " after " +
+                    delay
+                );
 
-                  resolve();
-                }, delay);
-              });
-            },
-            this
-          );
+                resolve();
+              }, delay);
+            });
+          });
 
           objs[i] = obj;
         });

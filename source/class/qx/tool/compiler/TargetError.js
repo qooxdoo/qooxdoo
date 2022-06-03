@@ -20,8 +20,7 @@
  *
  * ************************************************************************/
 
-qx.Class.define("qx.tool.compiler.TargetError",
-{
-//  extend : qx.type.BaseError
-  extend : Error
+qx.Class.define("qx.tool.compiler.TargetError", {
+  //  extend : qx.type.BaseError
+  extend: Error
 });

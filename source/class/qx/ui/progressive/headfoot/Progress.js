@@ -124,45 +124,33 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress", {
 
       // Listen for the "renderStart" event, to save the number of elements on
       // the queue, and to set ourself visible
-      progressive.addListener(
-        "renderStart",
-        function (e) {
-          this.__total = e.getData().initial;
-          this.show();
-        },
-        this
-      );
+      progressive.addListener("renderStart", e => {
+        this.__total = e.getData().initial;
+        this.show();
+      });
 
       // Listen for the "progress" event, to update the progress bar
-      progressive.addListener(
-        "progress",
-        function (e) {
-          var complete = 1.0 - e.getData().remaining / this.__total;
-          var mySize = this.getBounds();
-          if (mySize) {
-            var barWidth = Math.floor(
-              (mySize.width - this.__percentDone.getBounds().width) * complete
-            );
+      progressive.addListener("progress", e => {
+        var complete = 1.0 - e.getData().remaining / this.__total;
+        var mySize = this.getBounds();
+        if (mySize) {
+          var barWidth = Math.floor(
+            (mySize.width - this.__percentDone.getBounds().width) * complete
+          );
 
-            var percent = Math.floor(complete * 100) + "%";
+          var percent = Math.floor(complete * 100) + "%";
 
-            if (!isNaN(barWidth)) {
-              this.__progressBar.setMinWidth(barWidth);
-              this.__percentDone.setLabel(percent);
-            }
+          if (!isNaN(barWidth)) {
+            this.__progressBar.setMinWidth(barWidth);
+            this.__percentDone.setLabel(percent);
           }
-        },
-        this
-      );
+        }
+      });
 
       // Listen for the "renderEnd" event to make ourself invisible
-      progressive.addListener(
-        "renderEnd",
-        function (e) {
-          this.exclude();
-        },
-        this
-      );
+      progressive.addListener("renderEnd", e => {
+        this.exclude();
+      });
     }
   },
 

@@ -28,39 +28,27 @@ qx.Class.define("qx.test.mobile.page.Page", {
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
-      page.addListener(
-        "initialize",
-        function () {
-          this.assertFalse(
-            startEvent,
-            "Start event is fired before initialize event was fired!"
-          );
+      page.addListener("initialize", () => {
+        this.assertFalse(
+          startEvent,
+          "Start event is fired before initialize event was fired!"
+        );
 
-          initializedEvent = true;
-        },
-        this
-      );
+        initializedEvent = true;
+      });
 
-      page.addListener(
-        "start",
-        function () {
-          this.assertTrue(
-            initializedEvent,
-            "Start event is fired before initialize event was fired!"
-          );
+      page.addListener("start", () => {
+        this.assertTrue(
+          initializedEvent,
+          "Start event is fired before initialize event was fired!"
+        );
 
-          startEvent = true;
-        },
-        this
-      );
+        startEvent = true;
+      });
 
-      page.addListener(
-        "stop",
-        function () {
-          stopEvent = true;
-        },
-        this
-      );
+      page.addListener("stop", () => {
+        stopEvent = true;
+      });
 
       page.show();
 
@@ -108,22 +96,14 @@ qx.Class.define("qx.test.mobile.page.Page", {
       var eventFiredOnPage = false;
 
       var application = qx.core.Init.getApplication();
-      var id = application.addListener(
-        "back",
-        function (evt) {
-          eventFiredOnApplication = true;
-          evt.preventDefault();
-        },
-        this
-      );
+      var id = application.addListener("back", evt => {
+        eventFiredOnApplication = true;
+        evt.preventDefault();
+      });
 
-      page.addListener(
-        "back",
-        function () {
-          eventFiredOnPage = true;
-        },
-        this
-      );
+      page.addListener("back", () => {
+        eventFiredOnPage = true;
+      });
 
       page.back();
 

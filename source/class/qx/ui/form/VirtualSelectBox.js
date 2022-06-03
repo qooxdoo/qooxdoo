@@ -511,46 +511,30 @@ qx.Class.define("qx.ui.form.VirtualSelectBox", {
       this._add(input);
 
       var dropdown = this.getChildControl("dropdown");
-      dropdown.addListener(
-        "appear",
-        function () {
-          // we must delay so that the focus is only set once the list is ready
-          window.setTimeout(function () {
-            input.focus();
-          }, 0);
-        },
-        this
-      );
+      dropdown.addListener("appear", () => {
+        // we must delay so that the focus is only set once the list is ready
+        window.setTimeout(function () {
+          input.focus();
+        }, 0);
+      });
 
-      dropdown.addListener(
-        "disappear",
-        function () {
-          input.blur();
-          // clear filter
-          var sel = this.getValue();
-          input.resetValue();
-          this.setValue(sel);
-        },
-        this
-      );
+      dropdown.addListener("disappear", () => {
+        input.blur();
+        // clear filter
+        var sel = this.getValue();
+        input.resetValue();
+        this.setValue(sel);
+      });
 
-      input.addListener(
-        "blur",
-        function (e) {
-          this.close();
-        },
-        this
-      );
+      input.addListener("blur", e => {
+        this.close();
+      });
 
-      input.addListener(
-        "changeValue",
-        function (e) {
-          if (this.__filterUpdateRunning === 0) {
-            this.__updateDelegate();
-          }
-        },
-        this
-      );
+      input.addListener("changeValue", e => {
+        if (this.__filterUpdateRunning === 0) {
+          this.__updateDelegate();
+        }
+      });
     },
 
     __getHighlightStyleFromAppearance() {

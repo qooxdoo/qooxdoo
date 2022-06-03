@@ -19,7 +19,7 @@ qx.Class.define("qx.test.performance.Property", {
       });
 
       var obj = new Clazz();
-      obj.addListener("changeAlpha", function () {}, this);
+      obj.addListener("changeAlpha", () => {});
       var self = this;
       this.measure(
         "property set",
@@ -56,7 +56,7 @@ qx.Class.define("qx.test.performance.Property", {
       });
 
       var obj = new Clazz();
-      obj.addListener("changeAlpha", function () {}, this);
+      obj.addListener("changeAlpha", () => {});
       var self = this;
       this.measure(
         "property set",

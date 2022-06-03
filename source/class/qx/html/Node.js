@@ -1349,7 +1349,6 @@ qx.Class.define("qx.html.Node", {
       // Nothing - to be overridden
     },
 
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY SUPPORT

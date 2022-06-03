@@ -40,16 +40,12 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
 
     testValidFont() {
       this.__val.setFontFamily("monospace, courier");
-      this.__val.addListener(
-        "changeStatus",
-        function (ev) {
-          var result = ev.getData();
-          this.resume(function (ev) {
-            this.assertTrue(result.valid);
-          }, this);
-        },
-        this
-      );
+      this.__val.addListener("changeStatus", ev => {
+        var result = ev.getData();
+        this.resume(function (ev) {
+          this.assertTrue(result.valid);
+        }, this);
+      });
 
       var that = this;
       window.setTimeout(function () {
@@ -61,16 +57,12 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
     testInvalidFont() {
       this.__val.setFontFamily("zzzzzzzzzzzzzzz");
       this.__val.setTimeout(250);
-      this.__val.addListener(
-        "changeStatus",
-        function (ev) {
-          var result = ev.getData();
-          this.resume(function (ev) {
-            this.assertFalse(result.valid);
-          }, this);
-        },
-        this
-      );
+      this.__val.addListener("changeStatus", ev => {
+        var result = ev.getData();
+        this.resume(function (ev) {
+          this.assertFalse(result.valid);
+        }, this);
+      });
 
       var that = this;
       window.setTimeout(function () {

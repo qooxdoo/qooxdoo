@@ -477,15 +477,11 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       var req = this.req,
         transport = this.transport;
 
-      req.addListener(
-        "readyStateChange",
-        function () {
-          if (req.getReadyState() == 4) {
-            this.assertEquals("abort", req.getPhase());
-          }
-        },
-        this
-      );
+      req.addListener("readyStateChange", () => {
+        if (req.getReadyState() == 4) {
+          this.assertEquals("abort", req.getPhase());
+        }
+      });
 
       req.send();
       req.abort();
@@ -501,15 +497,11 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       var req = this.req,
         transport = this.transport;
 
-      req.addListener(
-        "readyStateChange",
-        function () {
-          if (req.getReadyState() == 4) {
-            this.assertEquals("abort", req.getPhase());
-          }
-        },
-        this
-      );
+      req.addListener("readyStateChange", () => {
+        if (req.getReadyState() == 4) {
+          this.assertEquals("abort", req.getPhase());
+        }
+      });
 
       req.send();
 
@@ -530,13 +522,9 @@ qx.Mixin.define("qx.test.io.request.MRequest", {
       var req = this.req,
         transport = this.transport;
 
-      req.addListener(
-        "loadEnd",
-        function () {
-          this.assertEquals("abort", req.getPhase());
-        },
-        this
-      );
+      req.addListener("loadEnd", () => {
+        this.assertEquals("abort", req.getPhase());
+      });
 
       req.send();
       req.abort();

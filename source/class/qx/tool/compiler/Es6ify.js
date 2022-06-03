@@ -106,7 +106,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
   construct(filename) {
     super();
     this.__filename = filename;
-    this.__knownApiFunctions = ["addListener","addListenerOnce"];
+    this.__knownApiFunctions = ["addListener", "addListenerOnce"];
   },
 
   properties: {
@@ -176,7 +176,9 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       while (true) {
         cycleCount++;
         if (cycleCount > 10) {
-          qx.tool.compiler.Console.warn(`Can not find a stable format for ${this.__filename}`);
+          qx.tool.compiler.Console.warn(
+            `Can not find a stable format for ${this.__filename}`
+          );
           break;
         }
         result = babelCore.transform(src, config);
@@ -285,7 +287,9 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             if (path.node.callee.type == "MemberExpression") {
               let callee = collapseMemberExpression(path.node.callee);
               if (arrowFunctions == "careful") {
-                if (!knownApiFunctions.some(fName => callee.endsWith("."+fName))) {
+                if (
+                  !knownApiFunctions.some(fName => callee.endsWith("." + fName))
+                ) {
                   return;
                 }
                 if (

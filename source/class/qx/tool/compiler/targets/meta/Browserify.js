@@ -36,7 +36,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
   },
 
   members: {
-    __appMeta : null,
+    __appMeta: null,
 
     /**
      * @Override
@@ -46,39 +46,40 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       let commonjsModules = new Set();
       let references = {};
       const localModules =
-            this.__appMeta.getApplication().getLocalModules() || {};
+        this.__appMeta.getApplication().getLocalModules() || {};
       const db = this.__appMeta.getAnalyser().getDatabase();
 
       // Only include discovered `require()`d Node modules if the
       // target application type is browser.
-      if (this.__appMeta.getEnvironmentValue("qx.compiler.applicationType") ==
-          "browser") {
-
+      if (
+        this.__appMeta.getEnvironmentValue("qx.compiler.applicationType") ==
+        "browser"
+      ) {
         // Get a Set of unique `require`d CommonJS module names from
         // all classes
         for (let className in db.classInfo) {
           let classInfo = db.classInfo[className];
           if (classInfo.commonjsModules) {
-            Object.keys(classInfo.commonjsModules).forEach(
-              moduleName =>
-              {
-                // Ignore this found `require()` if its a local modules
-                if (moduleName in localModules) {
-                  return;
-                }
+            Object.keys(classInfo.commonjsModules).forEach(moduleName => {
+              // Ignore this found `require()` if its a local modules
+              if (moduleName in localModules) {
+                return;
+              }
 
-                // Add this module name to the set of module names
-                commonjsModules.add(moduleName);
+              // Add this module name to the set of module names
+              commonjsModules.add(moduleName);
 
-                // Add the list of references from which this module was require()d
-                if (! references[moduleName]) {
-                  references[moduleName] = new Set();
-                }
-                references[moduleName].add([ ...classInfo.commonjsModules[moduleName] ]);
+              // Add the list of references from which this module was require()d
+              if (!references[moduleName]) {
+                references[moduleName] = new Set();
+              }
+              references[moduleName].add([
+                ...classInfo.commonjsModules[moduleName]
+              ]);
 
-                // There is at least one module
-                hasCommonjsModules = true;
-              });
+              // There is at least one module
+              hasCommonjsModules = true;
+            });
           }
         }
       }
@@ -87,12 +88,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // any local modules specified for the application in
       // compile.json, browserify them
       if (hasCommonjsModules || localModules) {
-        await this.__browserify(
-          commonjsModules,
-          references,
-          localModules,
-          ws
-        );
+        await this.__browserify(commonjsModules, references, localModules, ws);
       }
 
       await new Promise(resolve => {
@@ -113,66 +109,64 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // Convert the Set of CommonJS module names to an array
       commonjsModules = [...commonjsModules];
 
-      return new Promise(resolve =>
-        {
-          let b = browserify(
-            [],
-            {
-              builtins      : builtins,
-              ignoreMissing : true,
-              insertGlobals : true,
-              detectGlobals : true
-            });
-          b._mdeps.on("missing", (id, parent) => {
-            let message = [];
-
-            message.push(`ERROR: could not locate require()d module: "${id}"`);
-            message.push("  required from:");
-
-            try {
-              [ ...references[id] ].forEach(refs => {
-                refs.forEach(ref =>
-                  {
-                    message.push(`    ${ref}`);
-                  });
-              });
-            } catch(e) {
-              message.push(`    <compile.json:application.localModules'>`);
-            }
-
-            qx.tool.compiler.Console.error(message.join("\n"));
-          });
-
-          // Include any dynamically determined `require()`d modules
-          if (commonjsModules.length > 0) {
-            b.require(commonjsModules);
-          }
-
-          // Include any local modules specified for the application
-          // in compile.json
-          if (localModules) {
-            for (let requireName in localModules) {
-              b.require(localModules[requireName], { expose : requireName });
-            }
-          }
-
-          // Ensure ES6 local modules are converted to CommonJS format
-          b.transform(babelify, {
-            presets: [preset],
-            sourceMaps: false,
-            global: true
-          });
-          b.bundle((e, output) => {
-            if (e) {
-              // We've already handled the case of missing module. This is something else.
-              qx.tool.compiler.Console.error(`Failed: ${e}`);
-              throw(e);
-            }
-
-            ws.write(output);
-            resolve(null);
-          });
+      return new Promise(resolve => {
+        let b = browserify([], {
+          builtins: builtins,
+          ignoreMissing: true,
+          insertGlobals: true,
+          detectGlobals: true
         });
+
+        b._mdeps.on("missing", (id, parent) => {
+          let message = [];
+
+          message.push(`ERROR: could not locate require()d module: "${id}"`);
+          message.push("  required from:");
+
+          try {
+            [...references[id]].forEach(refs => {
+              refs.forEach(ref => {
+                message.push(`    ${ref}`);
+              });
+            });
+          } catch (e) {
+            message.push(`    <compile.json:application.localModules'>`);
+          }
+
+          qx.tool.compiler.Console.error(message.join("\n"));
+        });
+
+        // Include any dynamically determined `require()`d modules
+        if (commonjsModules.length > 0) {
+          b.require(commonjsModules);
+        }
+
+        // Include any local modules specified for the application
+        // in compile.json
+        if (localModules) {
+          for (let requireName in localModules) {
+            b.require(localModules[requireName], { expose: requireName });
+          }
+        }
+
+        // Ensure ES6 local modules are converted to CommonJS format
+        b.transform(babelify, {
+          presets: [preset],
+          sourceMaps: false,
+          global: true
+        });
+
+        b.bundle((e, output) => {
+          if (e) {
+            // We've already handled the case of missing module. This is something else.
+            qx.tool.compiler.Console.error(`Failed: ${e}`);
+            throw e;
+          }
+
+          ws.write(output);
+          resolve(null);
+        });
+      });
     },
 
     /**

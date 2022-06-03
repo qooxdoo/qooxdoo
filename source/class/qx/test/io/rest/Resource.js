@@ -785,13 +785,9 @@ qx.Class.define("qx.test.io.rest.Resource", {
 
       this.stub(req, "dispose");
 
-      res.addListener(
-        "getSuccess",
-        function (e) {
-          responses.push(e.getData());
-        },
-        this
-      );
+      res.addListener("getSuccess", e => {
+        responses.push(e.getData());
+      });
 
       res.longPoll("get");
 

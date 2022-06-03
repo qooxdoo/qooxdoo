@@ -405,7 +405,6 @@ qx.Class.define("qx.test.Mixin", {
     },
 
     testPatchDouble() {
-
       qx.Class.define("qx.Patch_1", {
         extend: qx.core.Object,
 
@@ -426,14 +425,14 @@ qx.Class.define("qx.test.Mixin", {
         }
       });
 
-
       qx.Mixin.define("qx.MPatch", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " Mixin";
-          },
+          }
         }
       });
+
       qx.Class.patch(qx.Patch_1, qx.MPatch);
       qx.Class.patch(qx.Patch_2, qx.MPatch);
 
@@ -444,7 +443,6 @@ qx.Class.define("qx.test.Mixin", {
       var o = new qx.Patch_2();
       this.assertEquals("Juhu 2 Mixin", o.sayJuhu());
       o.dispose();
-
     },
 
     testPatchOverwrittenDerived() {
@@ -470,9 +468,10 @@ qx.Class.define("qx.test.Mixin", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " Mixin";
-          },
+          }
         }
       });
+
       qx.Class.patch(qx.PatchDerived, qx.MPatch);
 
       var o = new qx.PatchDerived();
@@ -481,12 +480,11 @@ qx.Class.define("qx.test.Mixin", {
     },
 
     testPatchOverwrittenDerivedInBaseClass() {
-
       qx.Mixin.define("qx.MPatch", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " Mixin";
-          },
+          }
         }
       });
 
@@ -517,7 +515,6 @@ qx.Class.define("qx.test.Mixin", {
       var o = new qx.PatchDerived();
       this.assertEquals("Juhu Mixin Derived", o.sayJuhu());
       o.dispose();
-
     },
 
     testPatchMultiOverwrittenDerived() {
@@ -529,6 +526,7 @@ qx.Class.define("qx.test.Mixin", {
           }
         }
       });
+
       qx.Class.define("qx.B", {
         extend: qx.A,
         members: {
@@ -537,6 +535,7 @@ qx.Class.define("qx.test.Mixin", {
           }
         }
       });
+
       qx.Class.define("qx.C", {
         extend: qx.B,
         members: {
@@ -545,27 +544,31 @@ qx.Class.define("qx.test.Mixin", {
           }
         }
       });
+
       qx.Mixin.define("qx.MA", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " MA";
-          },
+          }
         }
       });
+
       qx.Mixin.define("qx.MB", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " MB";
-          },
+          }
         }
       });
+
       qx.Mixin.define("qx.MC", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " MC";
-          },
+          }
         }
       });
+
       qx.Class.patch(qx.A, qx.MA);
       qx.Class.patch(qx.B, qx.MB);
       qx.Class.patch(qx.C, qx.MC);
@@ -573,7 +576,6 @@ qx.Class.define("qx.test.Mixin", {
       var o = new qx.C();
       this.assertEquals("A MA B MB C MC", o.sayJuhu());
       o.dispose();
-
     },
 
     testDoubleMixin() {
@@ -585,28 +587,29 @@ qx.Class.define("qx.test.Mixin", {
           }
         }
       });
+
       qx.Mixin.define("qx.MDA", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " MA";
-          },
+          }
         }
       });
+
       qx.Mixin.define("qx.MDB", {
         members: {
           sayJuhu() {
             return super.sayJuhu() + " MB";
-          },
+          }
         }
       });
+
       qx.Class.patch(qx.D, qx.MDA);
       qx.Class.patch(qx.D, qx.MDB);
 
       var o = new qx.D();
       this.assertEquals("Double MA MB", o.sayJuhu());
       o.dispose();
-
     }
-
-   }
+  }
 });

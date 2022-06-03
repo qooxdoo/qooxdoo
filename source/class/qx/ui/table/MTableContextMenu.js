@@ -24,77 +24,69 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu", {
     // Add an event listener to handle context menu events.  The actual menu
     // is built by a function registered with a call to
     // setContextMenuHandler(col, handler).
-    this.addListener(
-      "cellContextmenu",
-      function (e) {
-        var contextMenu = this.getContextMenu();
+    this.addListener("cellContextmenu", e => {
+      var contextMenu = this.getContextMenu();
 
-        // Dispose of any previously existing context menu
-        if (contextMenu && !contextMenu.isDisposed()) {
-          // Dispose of the context menu.
-          contextMenu.hide();
-          this.setContextMenu(null);
-          this.getApplicationRoot().remove(contextMenu);
-          contextMenu.dispose();
-          contextMenu = null;
-        }
+      // Dispose of any previously existing context menu
+      if (contextMenu && !contextMenu.isDisposed()) {
+        // Dispose of the context menu.
+        contextMenu.hide();
+        this.setContextMenu(null);
+        this.getApplicationRoot().remove(contextMenu);
+        contextMenu.dispose();
+        contextMenu = null;
+      }
 
-        // Get the context menu handler for the column on which the context
-        // menu request was issued.
-        var col = e.getColumn();
-        var contextMenuHandler = this.getContextMenuHandler(col);
+      // Get the context menu handler for the column on which the context
+      // menu request was issued.
+      var col = e.getColumn();
+      var contextMenuHandler = this.getContextMenuHandler(col);
 
-        // If there's no context menu handler for this column, we have nothing
-        // to do.
-        if (typeof contextMenuHandler !== "function") {
-          return;
-        }
+      // If there's no context menu handler for this column, we have nothing
+      // to do.
+      if (typeof contextMenuHandler !== "function") {
+        return;
+      }
 
-        // Get the context object for the handler function
-        var handlerContext = this.__contextMenuHandlerContext[col];
+      // Get the context object for the handler function
+      var handlerContext = this.__contextMenuHandlerContext[col];
 
-        // Get the data model
-        var tableModel = this.getTableModel();
+      // Get the data model
+      var tableModel = this.getTableModel();
 
-        // Create a context menu for this tree.
-        contextMenu = new qx.ui.menu.Menu();
+      // Create a context menu for this tree.
+      contextMenu = new qx.ui.menu.Menu();
 
-        // Don't display context menus from the context menu
-        contextMenu.addListener("contextmenu", function (e) {
-          e.preventDefault();
-        });
+      // Don't display context menus from the context menu
+      contextMenu.addListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
 
-        // This prevents the display of context menu on table header cells
-        contextMenu.addListenerOnce(
-          "disappear",
-          function () {
-            this.setContextMenu(null);
-          },
-          this
-        );
+      // This prevents the display of context menu on table header cells
+      contextMenu.addListenerOnce("disappear", () => {
+        this.setContextMenu(null);
+      });
 
-        // Call the context menu handler for this column.
-        var bShowContextMenu = contextMenuHandler.call(
-          handlerContext,
-          col,
-          e.getRow(),
-          this,
-          tableModel,
-          contextMenu
-        );
+      // Call the context menu handler for this column.
+      var bShowContextMenu = contextMenuHandler.call(
+        handlerContext,
+        col,
+        e.getRow(),
+        this,
+        tableModel,
+        contextMenu
+      );
 
-        // If we were told not to display the context menu...
-        if (!bShowContextMenu) {
-          // ... then we're all done here.
-          contextMenu.dispose();
-          return;
-        }
+      // If we were told not to display the context menu...
+      if (!bShowContextMenu) {
+        // ... then we're all done here.
+        contextMenu.dispose();
+        return;
+      }
 
-        // Set the context menu
-        this.setContextMenu(contextMenu);
-      },
-      this
-    );
+      // Set the context menu
+      this.setContextMenu(contextMenu);
+    });
 
     // Provide an array in which context menu handlers will be stored.  The
     // array is indexed by column number.
