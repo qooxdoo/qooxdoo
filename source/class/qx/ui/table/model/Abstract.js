@@ -73,7 +73,8 @@ qx.Class.define("qx.ui.table.model.Abstract", {
      * current implementations so only introduce the change from QX v8.
      * Ref: https://github.com/qooxdoo/qooxdoo/pull/10377#discussion_r818697343
      */
-    THROW_ON_MODEL_CHANGE_DURING_EDIT: parseInt(qx.core.Environment.get("qx.version"), 10) >= 8
+    THROW_ON_MODEL_CHANGE_DURING_EDIT:
+      parseInt(qx.core.Environment.get("qx.version"), 10) >= 8
   },
 
   members: {
@@ -320,7 +321,9 @@ qx.Class.define("qx.ui.table.model.Abstract", {
         return;
       }
       if (this.getTable() && this.getTable().isEditing()) {
-        throw new Error("A cell is currently being edited. Commit or cancel the edit before setting the table data");
+        throw new Error(
+          "A cell is currently being edited. Commit or cancel the edit before setting the table data"
+        );
       }
     }
   },

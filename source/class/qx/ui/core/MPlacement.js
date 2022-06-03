@@ -461,20 +461,16 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
         );
 
         // Remove the listener when the element disappears.
-        this.addListener(
-          "disappear",
-          function () {
-            if (this.__ptwLiveUpdater) {
-              qx.event.Idle.getInstance().removeListener(
-                "interval",
-                this.__ptwLiveUpdater
-              );
+        this.addListener("disappear", () => {
+          if (this.__ptwLiveUpdater) {
+            qx.event.Idle.getInstance().removeListener(
+              "interval",
+              this.__ptwLiveUpdater
+            );
 
-              this.__ptwLiveUpdater = null;
-            }
-          },
-          this
-        );
+            this.__ptwLiveUpdater = null;
+          }
+        });
       }
 
       this._place(coords);
@@ -532,13 +528,9 @@ qx.Mixin.define("qx.ui.core.MPlacement", {
       }
 
       if (size == null) {
-        this.addListenerOnce(
-          "appear",
-          function () {
-            this.__getPlacementSize(callback);
-          },
-          this
-        );
+        this.addListenerOnce("appear", () => {
+          this.__getPlacementSize(callback);
+        });
       } else {
         callback.call(this, size);
       }

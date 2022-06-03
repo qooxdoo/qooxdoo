@@ -64,31 +64,27 @@ qx.Class.define("qx.test.html.Iframe", {
 
       var source = this.__destSource;
 
-      frame.addListener(
-        "load",
-        function () {
-          this.resume(function () {
-            var element = frame.getDomElement();
-            var currentUrl =
-              qx.bom.Iframe.queryCurrentUrl(element) || element.src;
-            var source = frame.getSource();
-            var blank = "/blank.html$";
+      frame.addListener("load", () => {
+        this.resume(function () {
+          var element = frame.getDomElement();
+          var currentUrl =
+            qx.bom.Iframe.queryCurrentUrl(element) || element.src;
+          var source = frame.getSource();
+          var blank = "/blank.html$";
 
-            var msg = function (actual) {
-              return "Must be " + currentUrl + ", but was " + actual;
-            };
+          var msg = function (actual) {
+            return "Must be " + currentUrl + ", but was " + actual;
+          };
 
-            // BOM
-            this.assertString(currentUrl);
-            this.assertMatch(currentUrl, blank, msg(currentUrl));
+          // BOM
+          this.assertString(currentUrl);
+          this.assertMatch(currentUrl, blank, msg(currentUrl));
 
-            // HTML
-            this.assertString(source);
-            this.assertMatch(source, blank, msg(source));
-          });
-        },
-        this
-      );
+          // HTML
+          this.assertString(source);
+          this.assertMatch(source, blank, msg(source));
+        });
+      });
 
       frame.setSource(source);
       qx.html.Element.flush();
@@ -131,29 +127,25 @@ qx.Class.define("qx.test.html.Iframe", {
       qx.html.Element.flush();
 
       var origSetSource;
-      frame.addListener(
-        "load",
-        function () {
-          origSetSource = qx.bom.Iframe.setSource;
-          qx.bom.Iframe.setSource = function () {
-            throw new Error("setSource");
-          };
+      frame.addListener("load", () => {
+        origSetSource = qx.bom.Iframe.setSource;
+        qx.bom.Iframe.setSource = function () {
+          throw new Error("setSource");
+        };
 
-          try {
-            var url = qx.bom.Iframe.queryCurrentUrl(frame.getDomElement());
-            frame.setSource(url);
-            qx.html.Element.flush();
-            this.resume();
-          } catch (e) {
-            this.resume(function () {
-              this.fail("Setting same URL must be skipped");
-            });
-          }
+        try {
+          var url = qx.bom.Iframe.queryCurrentUrl(frame.getDomElement());
+          frame.setSource(url);
+          qx.html.Element.flush();
+          this.resume();
+        } catch (e) {
+          this.resume(function () {
+            this.fail("Setting same URL must be skipped");
+          });
+        }
 
-          qx.bom.Iframe.setSource = origSetSource;
-        },
-        this
-      );
+        qx.bom.Iframe.setSource = origSetSource;
+      });
 
       this.wait();
     },
@@ -166,19 +158,15 @@ qx.Class.define("qx.test.html.Iframe", {
       }
 
       // On cross origin
-      frame.addListener(
-        "load",
-        function () {
-          this.resume(function () {
-            var elem = frame.getDomElement();
-            this.spy(qx.bom.Iframe, "setSource");
-            frame.setSource(null);
+      frame.addListener("load", () => {
+        this.resume(function () {
+          var elem = frame.getDomElement();
+          this.spy(qx.bom.Iframe, "setSource");
+          frame.setSource(null);
 
-            this.assertCalledWith(qx.bom.Iframe.setSource, elem, null);
-          });
-        },
-        this
-      );
+          this.assertCalledWith(qx.bom.Iframe.setSource, elem, null);
+        });
+      });
 
       frame.setSource("http://example.com");
 

@@ -194,15 +194,11 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
 
       this.assertEquals("excluded", this.__indicator.getVisibility());
 
-      this.__indicator.addListener(
-        "changeVisibility",
-        function () {
-          this.resume(function () {
-            this.assertEquals("visible", this.__indicator.getVisibility());
-          }, this);
-        },
-        this
-      );
+      this.__indicator.addListener("changeVisibility", () => {
+        this.resume(function () {
+          this.assertEquals("visible", this.__indicator.getVisibility());
+        }, this);
+      });
 
       this.__container.setWidth(60);
       this.wait();
@@ -222,15 +218,11 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
       this.__container.setWidth(60);
       this.flush();
 
-      this.__indicator.addListener(
-        "changeVisibility",
-        function () {
-          this.resume(function () {
-            this.assertEquals("excluded", this.__indicator.getVisibility());
-          }, this);
-        },
-        this
-      );
+      this.__indicator.addListener("changeVisibility", () => {
+        this.resume(function () {
+          this.assertEquals("excluded", this.__indicator.getVisibility());
+        }, this);
+      });
 
       this.__container.setWidth(160);
       this.wait();
@@ -247,19 +239,15 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
 
       this.assertEquals("excluded", this.__indicator.getVisibility());
 
-      this.__b2.addListener(
-        "changeVisibility",
-        function () {
-          this.resume(function () {
-            this.assertEquals("visible", this.__indicator.getVisibility());
+      this.__b2.addListener("changeVisibility", () => {
+        this.resume(function () {
+          this.assertEquals("visible", this.__indicator.getVisibility());
 
-            // check if both buttons have been removed
-            this.assertEquals("excluded", this.__b3.getVisibility(), "1");
-            this.assertEquals("excluded", this.__b2.getVisibility(), "2");
-          }, this);
-        },
-        this
-      );
+          // check if both buttons have been removed
+          this.assertEquals("excluded", this.__b3.getVisibility(), "1");
+          this.assertEquals("excluded", this.__b2.getVisibility(), "2");
+        }, this);
+      });
 
       this.__container.setWidth(60);
       this.wait();

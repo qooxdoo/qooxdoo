@@ -125,20 +125,16 @@ qx.Class.define("qx.dev.unit.TestResult", {
 
       var testClass = test.getTestClass();
       if (!testClass.hasListener("assertionFailed")) {
-        testClass.addListener(
-          "assertionFailed",
-          function (ev) {
-            var error = [
-              {
-                exception: ev.getData(),
-                test: test
-              }
-            ];
+        testClass.addListener("assertionFailed", ev => {
+          var error = [
+            {
+              exception: ev.getData(),
+              test: test
+            }
+          ];
 
-            this.fireDataEvent("failure", error);
-          },
-          this
-        );
+          this.fireDataEvent("failure", error);
+        });
       }
 
       if (resume && !this._timeout[test.getFullName()]) {

@@ -37,19 +37,15 @@ qx.Class.define("qx.test.mobile.basic.Image", {
         "qx/icon/Tango/48/places/folder.png"
       );
 
-      image.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            // use a timeout to dispose the image because it needs to
-            // end its processing after the event has been fired.
-            window.setTimeout(function () {
-              image.destroy();
-            });
+      image.addListener("loaded", () => {
+        this.resume(function () {
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
           });
-        },
-        this
-      );
+        });
+      });
 
       this.getRoot().add(image);
       this.wait();
@@ -62,19 +58,15 @@ qx.Class.define("qx.test.mobile.basic.Image", {
 
       this.getRoot().add(image);
 
-      image.addListener(
-        "loadingFailed",
-        function () {
-          this.resume(function () {
-            // use a timeout to dispose the image because it needs to
-            // end its processing after the event has been fired.
-            window.setTimeout(function () {
-              image.destroy();
-            });
+      image.addListener("loadingFailed", () => {
+        this.resume(function () {
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
           });
-        },
-        this
-      );
+        });
+      });
 
       this.wait();
     }

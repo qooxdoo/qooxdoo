@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row", {
           dataIndex: i,
           cellData: data[i],
           height: height,
-          rowRenderer: this     // useful, e.g., for getting default row height
+          rowRenderer: this // useful, e.g., for getting default row height
         };
 
         // Render this cell

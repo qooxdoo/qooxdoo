@@ -171,7 +171,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
       var model = this.getTableModel();
       model.getData().forEach(node => {
         if (node) {
-          model.setState(node.nodeId, {bOpened: true}, true);
+          model.setState(node.nodeId, { bOpened: true }, true);
         }
       });
       model.setData();
@@ -184,7 +184,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
       var model = this.getTableModel();
       model.getData().forEach(node => {
         if (node) {
-          model.setState(node.nodeId, {bOpened: false}, true);
+          model.setState(node.nodeId, { bOpened: false }, true);
         }
       });
       model.setData();
@@ -225,7 +225,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
         this.getTableModel().setState(node.nodeId, { bOpened: opened }, true);
       }
       if (cascade) {
-        node.children.forEach(child => this.nodeSetOpened(child, opened, cascade, true));
+        node.children.forEach(child =>
+          this.nodeSetOpened(child, opened, cascade, true)
+        );
       }
       if (!cascade || !isRecursed) {
         this.getTableModel().setData();

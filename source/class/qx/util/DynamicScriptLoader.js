@@ -144,13 +144,9 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       true() {
         return new qx.Promise(function (resolve, reject) {
           this.addListenerOnce("ready", resolve, this);
-          this.addListenerOnce(
-            "failed",
-            function (e) {
-              reject(new Error(e.getData()));
-            },
-            this
-          );
+          this.addListenerOnce("failed", e => {
+            reject(new Error(e.getData()));
+          });
 
           if (this.isDisposed()) {
             reject(new Error("disposed"));
@@ -206,43 +202,35 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       dynLoader = DynamicScriptLoader.__IN_PROGRESS[script];
       if (dynLoader) {
-        id1 = dynLoader.addListener(
-          "loaded",
-          function (e) {
-            if (this.isDisposed()) {
-              return;
-            }
-            var data = e.getData();
-            if (data.script === script) {
-              dynLoader.removeListenerById(id2);
-              dynLoader.removeListenerById(id1);
-              this.fireDataEvent("loaded", data);
-              this.__loadScripts();
-            }
-          },
-          this
-        );
-
-        id2 = dynLoader.addListener(
-          "failed",
-          function (e) {
-            if (this.isDisposed()) {
-              return;
-            }
-            var data = e.getData();
-            dynLoader.removeListenerById(id1);
+        id1 = dynLoader.addListener("loaded", e => {
+          if (this.isDisposed()) {
+            return;
+          }
+          var data = e.getData();
+          if (data.script === script) {
             dynLoader.removeListenerById(id2);
-            this.fireDataEvent("failed", {
-              script: script,
-              status:
-                "loading of " +
-                data.script +
-                " failed while waiting for " +
-                script
-            });
-          },
-          this
-        );
+            dynLoader.removeListenerById(id1);
+            this.fireDataEvent("loaded", data);
+            this.__loadScripts();
+          }
+        });
+
+        id2 = dynLoader.addListener("failed", e => {
+          if (this.isDisposed()) {
+            return;
+          }
+          var data = e.getData();
+          dynLoader.removeListenerById(id1);
+          dynLoader.removeListenerById(id2);
+          this.fireDataEvent("failed", {
+            script: script,
+            status:
+              "loading of " +
+              data.script +
+              " failed while waiting for " +
+              script
+          });
+        });
 
         return;
       }

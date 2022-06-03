@@ -1852,18 +1852,14 @@ qx.Class.define("qx.ui.table.pane.Scroller", {
         } else {
           // prevent tap event from bubbling up to the table
           this.__focusIndicatorPointerDownListener =
-            this.__focusIndicator.addListener(
-              "pointerdown",
-              function (e) {
-                this.__lastPointerDownCell = {
-                  row: this.__focusedRow,
-                  col: this.__focusedCol
-                };
+            this.__focusIndicator.addListener("pointerdown", e => {
+              this.__lastPointerDownCell = {
+                row: this.__focusedRow,
+                col: this.__focusedCol
+              };
 
-                e.stopPropagation();
-              },
-              this
-            );
+              e.stopPropagation();
+            });
 
           this._updateFocusIndicator(true);
           this.__focusIndicator.add(this._cellEditor);

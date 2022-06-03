@@ -451,87 +451,63 @@ qx.Class.define("qx.io.request.AbstractRequest", {
         var promise = new qx.Promise(function (resolve, reject) {
           var listeners = [];
 
-          var changeResponseListener = req.addListener(
-            "success",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              resolve(req);
-            },
-            this
-          );
+          var changeResponseListener = req.addListener("success", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            resolve(req);
+          });
 
           listeners.push(changeResponseListener);
 
-          var statusErrorListener = req.addListener(
-            "statusError",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              var failMessage = qx.lang.String.format("%1: %2.", [
-                req.getStatus(),
-                req.getStatusText()
-              ]);
+          var statusErrorListener = req.addListener("statusError", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format("%1: %2.", [
+              req.getStatus(),
+              req.getStatusText()
+            ]);
 
-              var err = new qx.type.BaseError("statusError", failMessage);
-              reject(err);
-            },
-            this
-          );
+            var err = new qx.type.BaseError("statusError", failMessage);
+            reject(err);
+          });
 
           listeners.push(statusErrorListener);
 
-          var timeoutListener = req.addListener(
-            "timeout",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              var failMessage = qx.lang.String.format(
-                "Request failed with timeout after %1 ms.",
-                [req.getTimeout()]
-              );
+          var timeoutListener = req.addListener("timeout", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format(
+              "Request failed with timeout after %1 ms.",
+              [req.getTimeout()]
+            );
 
-              var err = new qx.type.BaseError("timeout", failMessage);
-              reject(err);
-            },
-            this
-          );
+            var err = new qx.type.BaseError("timeout", failMessage);
+            reject(err);
+          });
 
           listeners.push(timeoutListener);
 
-          var parseErrorListener = req.addListener(
-            "parseError",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              var failMessage = "Error parsing the response.";
-              var err = new qx.type.BaseError("parseError", failMessage);
-              reject(err);
-            },
-            this
-          );
+          var parseErrorListener = req.addListener("parseError", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Error parsing the response.";
+            var err = new qx.type.BaseError("parseError", failMessage);
+            reject(err);
+          });
 
           listeners.push(parseErrorListener);
 
-          var abortListener = req.addListener(
-            "abort",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              var failMessage = "Request aborted.";
-              var err = new qx.type.BaseError("abort", failMessage);
-              reject(err);
-            },
-            this
-          );
+          var abortListener = req.addListener("abort", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request aborted.";
+            var err = new qx.type.BaseError("abort", failMessage);
+            reject(err);
+          });
 
           listeners.push(abortListener);
 
-          var errorListener = req.addListener(
-            "error",
-            function (e) {
-              listeners.forEach(req.removeListenerById.bind(req));
-              var failMessage = "Request failed.";
-              var err = new qx.type.BaseError("error", failMessage);
-              reject(err);
-            },
-            this
-          );
+          var errorListener = req.addListener("error", e => {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request failed.";
+            var err = new qx.type.BaseError("error", failMessage);
+            reject(err);
+          });
 
           listeners.push(errorListener);
 
