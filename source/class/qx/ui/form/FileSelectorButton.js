@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       if (attr === "directoriesOnly") {
         // while the name of the attribute indicates that this only
         // works for webkit borwsers, this is not the case. These
-        // days the attribute is supported by 
+        // days the attribute is supported by
         // [everyone](https://caniuse.com/?search=webkitdirectory).
         attr = "webkitdirectory";
       }
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce(
         "appear",
-        function (e) {
+        e => {
           label.add(input);
         },
         this
