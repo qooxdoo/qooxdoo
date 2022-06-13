@@ -26,7 +26,6 @@ qx.Class.define("qx.test.ui.form.FileSelectorButon", {
       let uploadField = new qx.ui.form.FileSelectorButton("Select a File");
       this.getRoot().add(uploadField);
       this.flush();
-      this.assertEquals(uploadField.constructor.ID_CNTR,1);
       uploadField.destroy();
     }
   }

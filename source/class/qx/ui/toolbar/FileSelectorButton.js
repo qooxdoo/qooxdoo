@@ -20,33 +20,32 @@
  * A toolbar-aware version of the {@link qx.ui.form.FileSelectionButton}.
  */
 
-qx.Class.define("qx.ui.toolbar.FileSelectorButton",
-{
-  extend : qx.ui.form.FileSelectorButton,
-  construct: function(label, icon, command) {
-    this.base(arguments,label, icon, command);
+qx.Class.define("qx.ui.toolbar.FileSelectorButton", {
+  extend: qx.ui.form.FileSelectorButton,
+  construct: function (label, icon, command) {
+    this.base(arguments, label, icon, command);
     // Toolbar buttons should not support the keyboard events
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);
   },
   properties: {
-    appearance : {
-      refine : true,
-      init : "toolbar-button"
+    appearance: {
+      refine: true,
+      init: "toolbar-button"
     },
-    show : {
-      refine : true,
-      init : "inherit"
+    show: {
+      refine: true,
+      init: "inherit"
     },
-    focusable : {
-      refine : true,
-      init : false
+    focusable: {
+      refine: true,
+      init: false
     }
-  }, 
-  
-  members : {
+  },
+
+  members: {
     // overridden
-    _applyVisibility : function(value, old) {
+    _applyVisibility: function (value, old) {
       this.base(arguments, value, old);
       // trigger a appearance recalculation of the parent
       let parent = this.getLayoutParent();

@@ -30,14 +30,14 @@
  * let button = new qx.ui.form.FileSelectorButton("Select File");
  * button.addListener('changeFileSelection',function(e){
  * let fileList = e.getData();
- *     let form = new FormData();
- *     form.append('file',fileList[0]);
- *     let req = new qx.io.request.Xhr("upload",'POST').set({
- *         requestData: form
- *     });
- *     req.addListener('success',(e) => {
- *         let response = req.getResponse();
- *     });
+ *   let form = new FormData();
+ *   form.append('file',fileList[0]);
+ *   let req = new qx.io.request.Xhr("upload",'POST').set({
+ *     requestData: form
+ *   });
+ *   req.addListener('success',(e) => {
+ *     let response = req.getResponse();
+ *   });
  * });
  * ```
  * 
@@ -60,13 +60,10 @@
  * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
  */
 
+let InputElementIdCounter = 0;
 qx.Class.define("qx.ui.form.FileSelectorButton", {
-  extend : qx.ui.form.Button,
-  statics: {
-    ID_CNTR: 0
-  },
+  extend: qx.ui.form.Button,
   events: {
-
     /**
      * The event is fired when the file selection changes.
      *
@@ -77,65 +74,77 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
   },
   properties: {
     /**
-     * What type of files should be offered in the fileselection dialog. 
+     * What type of files should be offered in the fileselection dialog.
      * Use a comma separated list of [Unique file type specifiers](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers). If you dont set anything, all files
      * are allowed.
-     * 
+     *
      * *Example*
-     * 
+     *
      * `.doc,.docx,application/msword`
      */
     accept: {
       nullable: true,
-      apply : "_applyAttribute"
+      check: "String",
+      apply: "_applyAttribute"
     },
     /**
      * Specify that the camera should be used for getting the "file". The
-     * value defines which camera should be used for capturing images. 
-     * `user` is indicates the user-facing camera. 
+     * value defines which camera should be used for capturing images.
+     * `user` indicates the user-facing camera.
      * `environment` indicates the camera facing away from the user.
      */
     capture: {
       nullable: true,
-      apply : "_applyAttribute"
+      check: ["user", "environment"],
+      apply: "_applyAttribute"
     },
     /**
      * Set to "true" if you want to allow the selection of multiple files.
      */
     multiple: {
       nullable: true,
-      apply : "_applyAttribute"
+      check: "Boolean",
+      apply: "_applyAttribute"
     },
     /**
      * If present, indicates that only directories should be available for
-     * selection. Despite the name, this attribute is supported by [all
-     * major browsers](https://caniuse.com/?search=webkitdirectory) 
-     * these days (not IE!).
+     * selection.
      */
-    webkitdirectory: {
+    directoriesOnly: {
       nullable: true,
-      apply : "_applyAttribute"
+      check: "Boolean",
+      apply: "_applyAttribute"
     }
   },
   members: {
     __inputObject: null,
 
-    _applyAttribute: function(value,old,attr){
-      this.__inputObject.setAttribute(attr,value);
+    _applyAttribute: function (value, old, attr) {
+      if (attr === "directoriesOnly") {
+        attr = "webkitdirectory";
+      }
+      this.__inputObject.setAttribute(attr, value);
     },
-    
-    _createContentElement: function() {
-      let id = 'qxFileSelector_'+(this.constructor.ID_CNTR++);
-      let input = this.__inputObject 
-        = new qx.html.Input("file",{display: 'none'},{id: id});
-      let label = new qx.html.Element("label",{},{'for': id});
-      label.addListenerOnce('appear',function(e){
-        label.add(input);
-      },this);
-      input.addListenerOnce('appear', (e) => {
+
+    _createContentElement: function () {
+      let id = "qxFileSelector_" + InputElementIdCounter++;
+      let input = (this.__inputObject = new qx.html.Input(
+        "file",
+        { display: "none" },
+        { id: id }
+      ));
+      let label = new qx.html.Element("label", {}, { for: id });
+      label.addListenerOnce(
+        "appear",
+        function (e) {
+          label.add(input);
+        },
+        this
+      );
+      input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
-        inputEl.addEventListener('change',(e) => {
-          this.fireDataEvent('changeFileSelection',inputEl.files);
+        inputEl.addEventListener("change", e => {
+          this.fireDataEvent("changeFileSelection", inputEl.files);
           inputEl.value = "";
         });
       });
