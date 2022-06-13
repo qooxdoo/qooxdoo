@@ -142,8 +142,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
         "appear",
         e => {
           label.add(input);
-        },
-        this
+        }
       );
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
