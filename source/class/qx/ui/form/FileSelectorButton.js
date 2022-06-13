@@ -17,10 +17,10 @@
 ************************************************************************ */
 
 /**
- * The FileSelectionButton opens a window and lets the user pick one or several
- * files from the local filesystem. A handle is returned which allows access
- * to the content of the file from javascript. The file can now be processed
- * in javascript, or it can also be uploaded to a server.
+ * The FileSelectorButton opens a window and lets the user pick one or several
+ * files from the local filesystem. A FileList is returned which allows access
+ * to the content of the selected files from javascript. The file(s) can now be
+ *  processed in javascript, or it/they can be uploaded to a server.
  * 
  * *Example*
  *
@@ -39,8 +39,25 @@
  *         let response = req.getResponse();
  *     });
  * });
- *
- * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file)
+ * ```
+ * 
+ * Process the file directly in javascript using the FileReader API.
+ * 
+ * ```javascript
+ * let button = new qx.ui.form.FileSelectorButton("Select File");
+ * button.addListener('changeFileSelection',function(e){
+ *   let fileList = e.getData();
+ *   const reader = new FileReader();
+ *   reader.addEventListener('load', () => {
+ *     let response = reader.result;
+ *     console.log("The first 4 chrs are: " + response);
+ *   });
+ *   const file = fileList[0];
+ *   reader.readAsText(file.slice(0,4));
+ * });
+
+*
+ * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
  */
 
 qx.Class.define("qx.ui.form.FileSelectorButton", {
