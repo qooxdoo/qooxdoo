@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 /**
- * A toolbar-aware version of the {@link qx.ui.form.FileSelectionButton}.
+ * A toolbar-aware version of the {@link qx.ui.form.FileSelectorButton}.
  */
 
 qx.Class.define("qx.ui.toolbar.FileSelectorButton", {
