@@ -1006,6 +1006,18 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
+    "menubar-button/icon": {
+      style(states) {
+        return {
+          textColor: states.disabled 
+            ? "text-disabled-on-surface" 
+            : ( states.pressed || states.hovered )
+            ? "text-on-primary" 
+            : "text-on-surface"
+        }
+      }
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
