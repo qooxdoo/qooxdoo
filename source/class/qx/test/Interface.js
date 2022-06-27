@@ -201,7 +201,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted : false
         },
 
         statics: {
