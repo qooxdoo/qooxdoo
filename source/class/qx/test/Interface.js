@@ -28,7 +28,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return true;
-          }
+          },
+
+          engineStarted : null
         },
 
         properties: { color: {} }
@@ -49,7 +51,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted : true
         },
 
         statics: {
@@ -78,7 +82,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted : true
         },
 
         statics: {
@@ -101,6 +107,54 @@ qx.Class.define("qx.test.Interface", {
       qx.Class.define("qx.test.i.Bmw2", {
         extend: Object,
         construct() {},
+        statics: {
+          honk() {
+            return "honk";
+          }
+        },
+
+        properties: { color: {} }
+      });
+
+      this.assertFalse(
+        qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar)
+      );
+
+      qx.Class.undefine("qx.test.i.Bmw2");
+    },
+
+    testMissingMemberFunction() {
+      qx.Class.define("qx.test.i.Bmw2", {
+        extend: Object,
+        construct() {},
+        members : {
+          engineStarted : false
+        },
+        statics: {
+          honk() {
+            return "honk";
+          }
+        },
+
+        properties: { color: {} }
+      });
+
+      this.assertFalse(
+        qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar)
+      );
+
+      qx.Class.undefine("qx.test.i.Bmw2");
+    },
+
+    testMissingMemberVariable() {
+      qx.Class.define("qx.test.i.Bmw2", {
+        extend: Object,
+        construct() {},
+        members : {
+          startEngine() {
+            return "start";
+          }
+        },
         statics: {
           honk() {
             return "honk";
