@@ -179,7 +179,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted : null
         },
 
         properties: { color: {} }
@@ -243,6 +245,10 @@ qx.Class.define("qx.test.Interface", {
               construct() {},
               implement: [qx.test.i.ICar],
 
+              members: {
+                engineStarted : false
+              },
+
               statics: {
                 honk() {
                   return "honk";
@@ -267,7 +273,9 @@ qx.Class.define("qx.test.Interface", {
               members: {
                 startEngine() {
                   return "start";
-                }
+                },
+
+                engineStarted : false
               },
 
               statics: {
