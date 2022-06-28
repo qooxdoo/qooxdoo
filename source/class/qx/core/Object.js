@@ -30,6 +30,10 @@
  * * user friendly OO interfaces like {@link #self} or {@link #base}
  *
  * @require(qx.core.ObjectRegistry)
+ * @require(qx.core.propertystorage.Default)
+ * @require(qx.core.propertystorage.ImmutableArray)
+ * @require(qx.core.propertystorage.ImmutableDataArray)
+ * @require(qx.core.propertystorage.ImmutableObject)
  */
 qx.Class.define("qx.core.Object", {
   extend: Object,
@@ -37,9 +41,9 @@ qx.Class.define("qx.core.Object", {
     "module.databinding": qx.data.MBinding,
     "module.logger": qx.core.MLogging,
     "module.events": qx.core.MEvent,
-    "module.property": qx.core.MProperty,
     "module.objectid": qx.core.MObjectId,
-    "qx.debug": qx.core.MAssert
+    "qx.debug": qx.core.MAssert,
+    true: qx.core.MProperty
   }),
 
   /*
@@ -71,9 +75,9 @@ qx.Class.define("qx.core.Object", {
   */
 
   members: {
-    __Property: qx.core.Environment.get("module.property")
-      ? qx.core.Property
-      : null,
+    // __Property: qx.core.Environment.get("module.property")
+    //   ? qx.core.Property
+    //   : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -190,37 +194,37 @@ qx.Class.define("qx.core.Object", {
     ---------------------------------------------------------------------------
     */
 
-    /**
-     *
-     * Returns a clone of this object. Copies over all user configured
-     * property values. Do not configure a parent nor apply the appearance
-     * styles directly.
-     *
-     * @return {qx.core.Object} The clone
-     */
-    clone() {
-      if (!qx.core.Environment.get("module.property")) {
-        throw new Error("Cloning only possible with properties.");
-      }
+    // /**
+    //  *
+    //  * Returns a clone of this object. Copies over all user configured
+    //  * property values. Do not configure a parent nor apply the appearance
+    //  * styles directly.
+    //  *
+    //  * @return {qx.core.Object} The clone
+    //  */
+    // clone() {
+    //   if (!qx.core.Environment.get("module.property")) {
+    //     throw new Error("Cloning only possible with properties.");
+    //   }
 
-      var clazz = this.constructor;
-      var clone = new clazz();
-      var props = qx.Class.getProperties(clazz);
-      var user = this.__Property.$$store.user;
-      var setter = this.__Property.$$method.set;
-      var name;
+    //   var clazz = this.constructor;
+    //   var clone = new clazz();
+    //   var props = qx.Class.getProperties(clazz);
+    //   var user = this.__Property.$$store.user;
+    //   var setter = this.__Property.$$method.set;
+    //   var name;
 
-      // Iterate through properties
-      for (var i = 0, l = props.length; i < l; i++) {
-        name = props[i];
-        if (this.hasOwnProperty(user[name])) {
-          clone[setter[name]](this[user[name]]);
-        }
-      }
+    //   // Iterate through properties
+    //   for (var i = 0, l = props.length; i < l; i++) {
+    //     name = props[i];
+    //     if (this.hasOwnProperty(user[name])) {
+    //       clone[setter[name]](this[user[name]]);
+    //     }
+    //   }
 
-      // Return clone
-      return clone;
-    },
+    //   // Return clone
+    //   return clone;
+    // },
 
     /*
     ---------------------------------------------------------------------------
@@ -472,35 +476,29 @@ qx.Class.define("qx.core.Object", {
     // Cleanup user data
     this.__userData = null;
 
-    // only of properties are available
-    if (qx.core.Environment.get("module.property")) {
-      // Cleanup properties
-      var clazz = this.constructor;
-      var properties;
-      var store = this.__Property.$$store;
-      var storeUser = store.user;
-      var storeTheme = store.theme;
-      var storeInherit = store.inherit;
-      var storeUseinit = store.useinit;
-      var storeInit = store.init;
+    // // only of properties are available
+    // if (qx.core.Environment.get("module.property")) {
+    //   // Cleanup properties
+    //   var clazz = this.constructor;
+    //   var properties;
 
-      while (clazz) {
-        properties = clazz.$$properties;
-        if (properties) {
-          for (var name in properties) {
-            if (properties[name].dereference) {
-              this[storeUser[name]] =
-                this[storeTheme[name]] =
-                this[storeInherit[name]] =
-                this[storeUseinit[name]] =
-                this[storeInit[name]] =
-                  undefined;
-            }
-          }
-        }
+    //   while (clazz) {
+    //     properties = clazz.$$properties;
+    //     if (properties) {
+    //       for (let name in properties) {
+    //         if (properties[name].dereference) {
+    //           this[storeUser[name]] =
+    //             this[storeTheme[name]] =
+    //             this[storeInherit[name]] =
+    //             this[storeUseinit[name]] =
+    //             this[storeInit[name]] =
+    //               undefined;
+    //         }
+    //       }
+    //     }
 
-        clazz = clazz.superclass;
-      }
-    }
+    //     clazz = clazz.superclass;
+    //   }
+    // }
   }
 });

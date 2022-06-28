@@ -832,10 +832,6 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>module.property</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
  *       <td>module.events</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -904,7 +900,6 @@ qx.Bootstrap.define("qx.core.Environment", {
       // qooxdoo modules
       "module.databinding": true,
       "module.logger": true,
-      "module.property": true,
       "module.events": true,
       "module.objectid": true,
       "qx.nativeScrollBars": false,
