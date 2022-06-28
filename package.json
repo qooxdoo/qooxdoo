@@ -109,7 +109,7 @@
     "semver": "^7.3.4",
     "set-value": "^4.1.0",
     "showdown": "^1.9.1",
-    "source-map": "^0.5.7",
+    "source-map": "^0.7.4",
     "tap-colorize": "^1.2.0",
     "terser": "^5.10.0",
     "tmp": "0.2.1",
