@@ -24,7 +24,7 @@ const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
 
 const crypto = require("crypto");
-const sourceMap = require("source-map");
+const sourceMap = require("source-map-js");
 
 /**
  * Copies multiple javascript source files into a single destination, preserving (merging)
