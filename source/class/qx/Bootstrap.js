@@ -1067,21 +1067,48 @@ function _extend(className, config)
 {
   const           type = config.type || "class";
   const           superclass = config.extend || Object;
-  const           subclass =
-        (config.construct ||
-         (config.type == "static"
-          ? function()
-            {
-              throw new Error(
-                `${className}: can not instantiate a static class`);
-            }
-          : function()
-            {
-            }));
   const           properties = config.properties;
   const           customProxyHandler = config.proxyHandler;
   let             allProperties = superclass.$$allProperties || {};
   let             initFunctions = [];
+  let             subclass;
+
+  if (config.construct)
+  {
+    // If the constructor function is defined as a "method" using
+    // shorthand syntax, e.g.,
+    // qx.Class.define("myApp.X",
+    //   {
+    //      construct(x) {}
+    //   });
+    //
+    // rather than as an actual function, e.g.,
+    // qx.Class.define("myApp.X",
+    //   {
+    //      construct : function(x) {}
+    //   });
+    //
+    // then it's not allowed by the spec to be a constructor. We must wrap it.
+    //
+    subclass = function(...args)
+    {
+      config.construct.call(this, ...args);
+    };
+  }
+  else if (config.type == "static")
+  {
+    subclass = function()
+    {
+      throw new Error(
+        `${className}: can not instantiate a static class`);
+    };
+  }
+  else
+  {
+    subclass = function()
+    {
+    };
+  }
 
   // Ensure there are no properties defined that overwrite
   // superclasses' properties, unless "refine : true" is specified.
@@ -1118,6 +1145,14 @@ function _extend(className, config)
 
   // Provide access to the superclass for base calls
   subclass.base = superclass;
+
+  // But if the constructor was wrapped, above...
+  if (config.construct)
+  {
+    // ... then we need to point to the superclass from it, too, so
+    // that `base()` calls work
+    config.construct.base = subclass.base;
+  }
 
   // Some internals require that `superclass` be defined too
   subclass.superclass = superclass;
