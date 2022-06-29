@@ -20,7 +20,16 @@ qx.Bootstrap.define(
   "qx.core.propertystorage.Default",
   {
     type : "static",
-//    implement : [ qx.core.propertystorage.IStorage ],
+
+    /*
+     * This class must implement the
+     * qx.core.propertystorage.IStorage... yet an Interface is not
+     * allowed to require static functions. Assume that inteface
+     * represents the requirements here, but don't actually
+     * "implement" it.
+     *
+     * implement : [ qx.core.propertystorage.IStorage ],
+     */
 
     statics :
     {

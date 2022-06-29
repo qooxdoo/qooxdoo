@@ -26,12 +26,16 @@ if (typeof PROXY_TESTS != "undefined")
 }
 
 // Bootstrap the Bootstrap static class
-qx =
+qx = Object.assign(
+  window.qx || {},
   {
     $$namespaceRoot : window,
 
     Bootstrap :
     {
+      /** True when initially bootstrapping */
+      $$BOOTSTRAPPING : true,
+
       /** @type {Map} Stores all defined classes */
       $$registry : {},
 
@@ -138,7 +142,7 @@ qx =
         }
       }
     }
-  };
+  });
 
 /**
  * Supported keys for property definitions
@@ -874,7 +878,7 @@ function define(className, config)
   // Add a method to refresh all inheritable properties
   Object.defineProperty(
     clazz.prototype,
-    "refresh",
+    "$$refresh",
     {
       value        : function()
       {
@@ -906,7 +910,7 @@ function define(className, config)
     // Add members
     if (config.members)
     {
-      addMembers(clazz, config.members, false, config);
+      addMembers(clazz, config.members, false);
     }
 
     // Add properties
@@ -1104,6 +1108,13 @@ function _extend(className, config)
 
   // This is a class
   subclass.$$type = "Class";
+  subclass.constructor = subclass; // point to self
+
+  // If its class type was specified, save it
+  if (config.type)
+  {
+    subclass.$$classtype = config.type;
+  }
 
   // Provide access to the superclass for base calls
   subclass.base = superclass;
@@ -1113,8 +1124,12 @@ function _extend(className, config)
 
   // Create the subclass' prototype as a copy of the superclass' prototype
   subclass.prototype = Object.create(superclass.prototype);
-  subclass.prototype.base = qx.Bootstrap.base;
   subclass.prototype.constructor = subclass;
+
+  if (qx.$$BOOTSTRAPPING || typeof PROXY_TESTS != "undefined")
+  {
+    subclass.prototype.base = qx.Bootstrap.base;
+  }
 
   // Save this object's properties
   Object.defineProperty(
@@ -1273,13 +1288,15 @@ function _extend(className, config)
                           `value=${value}`);
                     }
                   }
-                  else if (typeof property.check == "function" &&
-                           ! property.check(value))
+                  else if (typeof property.check == "function")
                   {
-                    throw new Error(
-                      `${prop}: ` +
-                        `Check function indicates wrong type value; ` +
-                        `value=${value}`);
+                    if (! property.check(value))
+                    {
+                      throw new Error(
+                        `${prop}: ` +
+                          `Check function indicates wrong type value; ` +
+                          `value=${value}`);
+                    }
                   }
                   else if (typeof property.check == "string")
                   {
@@ -1340,7 +1357,8 @@ function _extend(className, config)
                   }
                   else
                   {
-                    throw new Error(`${prop}: Unrecognized check type`);
+                    throw new Error(
+                      `${prop}: Unrecognized check type: ${property.check}`);
                   }
                 }
 
@@ -1411,26 +1429,14 @@ function _extend(className, config)
               // section of the configuration passed to qx.Class.define
               if (! (prop in obj))
               {
-                // temporarily just display an error but don't throw
-                if (false)
-                {
-                  throw new Error(
-                    `In class '${obj.constructor.classname}', ` +
-                      `an attempt was made to  write to '${prop}' ` +
-                      "which is not declared in the 'members' section " +
-                      "of the configuration passed to qx.Class.define");
-                }
-                else
+                if (! prop.startsWith("$$"))
                 {
                   console.error(
-                    "ERROR: " +
+                    "Warning: " +
                     `In class '${obj.constructor.classname}', ` +
                       `an attempt was made to  write to '${prop}' ` +
                       "which is not declared in the 'members' section " +
-                      "of the configuration passed to qx.Class.define. " +
-                      "Dynamically adding members is deprecated. " +
-                      "This will be a fatal error in an upcoming release " +
-                      "of qooxdoo.");
+                      "of the configuration passed to qx.Class.define.");
                 }
               }
 
@@ -1453,7 +1459,6 @@ function _extend(className, config)
           });
 
         this.apply(target, proxy, args);
-
         return proxy;
       },
 
@@ -1524,7 +1529,7 @@ function undefine(name)
  * @param patch {Boolean ? false}
  *   Enable patching
  */
-function addMembers(clazz, members, patch, config)
+function addMembers(clazz, members, patch)
 {
   // If called via `include()` or `patch()`, then clazz is the proxy
   // object, not the underlying object in which we want to modify the
@@ -1571,7 +1576,6 @@ function addMembers(clazz, members, patch, config)
 
         if (patch !== true && proto.hasOwnProperty(key))
         {
-console.log("config=", config);
           throw new Error(
             `Overwriting member ${key} of Class ${clazz.classame} ` +
               "is not allowed");
@@ -2066,6 +2070,10 @@ function addProperties(clazz, properties, patch)
 
     // Add annotations
     _attachAnno(clazz, "properties", key, property["@"]);
+
+    // Add this property to the property maps
+    clazz.$$properties[key] = properties[key];
+    clazz.$$allProperties[key] = properties[key];
   }
 
   // Now handle the group properties we skipped while processing properties
@@ -2084,21 +2092,24 @@ function addProperties(clazz, properties, patch)
         if (! (prop in allProperties))
         {
           throw new Error(
-            `Property group '${key}': ` +
+            `Class ${clazz.classname}: ` +
+              `Property group '${key}': ` +
               `property '${prop}' does not exist`);
         }
 
         if (allProperties[prop].group)
         {
           throw new Error(
-            `Property group '${key}': ` +
+            `Class ${clazz.classname}: ` +
+              `Property group '${key}': ` +
               `can not add group '${prop}' to a group`);
         }
 
         if (property.themeable && ! allProperties[prop].themeable)
         {
           throw new Error(
-            `Property group '${key}': ` +
+            `Class ${clazz.classname}: ` +
+              `Property group '${key}': ` +
               `can not add themeable property '${prop}' to ` +
               "non-themeable group");
         }
@@ -2186,6 +2197,10 @@ function addProperties(clazz, properties, patch)
           enumerable   : false
         });
     }
+
+    // Add this property to the property maps
+    clazz.$$properties[key] = properties[key];
+    clazz.$$allProperties[key] = properties[key];
   }
 }
 
@@ -2641,6 +2656,17 @@ function isQxCoreObject(object)
 function firstUp(str)
 {
   return str.charAt(0).toUpperCase() + str.substr(1);
+}
+
+/**
+ * Convert the first character of the string to lower case.
+ *
+ * @param str {String} the string
+ * @return {String} the string with a lower case first character
+ */
+function firstLow(str)
+{
+  return str.charAt(0).toLowerCase() + str.substr(1);
 }
 
 /**
@@ -3212,6 +3238,7 @@ qx.Bootstrap.define(
         trace(object) {},
 
         undefine,
+        firstLow,
         addMembers,
         addProperties,
         addEvents,

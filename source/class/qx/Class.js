@@ -626,6 +626,24 @@ qx.Bootstrap.define(
         }
 
         return false;
+      },
+
+      /**
+       * Whether the given class exists
+       *
+       * @signature function(name)
+       * @param name {String} class name to check
+       * @return {Boolean} true if class exists
+       */
+      isDefined: qx.util.OOUtil.classIsDefined,
+
+      /**
+       * Determine the total number of classes
+       *
+       * @return {Number} the total number of classes
+       */
+      getTotalNumber() {
+        return qx.Bootstrap.objectGetLength(this.$$registry);
       }
     }
   });
