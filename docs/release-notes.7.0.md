@@ -5,7 +5,7 @@
 in v7.1, it is now additionally possible to bundle local (in the local
 tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
 documented [here](development/compiler/confguration/README.md).
- - We introduce a 2 new widgets: qx.ui.form.FileSelectorButton and qx.ui.toolbar.FileSelectorButton.
+ - We introduce 2 new widgets: qx.ui.form.FileSelectorButton and qx.ui.toolbar.FileSelectorButton.
  
 
 
