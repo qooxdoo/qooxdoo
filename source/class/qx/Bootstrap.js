@@ -639,6 +639,7 @@ let propertyMethodFactory =
 // Default comparison for whether to call apply method and generate an event
 let isEqual = (a, b) => a === b;
 
+
 function define(className, config)
 {
   let             allowedKeys;
@@ -1092,7 +1093,7 @@ function _extend(className, config)
     //
     subclass = function(...args)
     {
-      config.construct.call(this, ...args);
+      return config.construct.apply(this, args);
     };
   }
   else if (config.type == "static")
@@ -1105,8 +1106,14 @@ function _extend(className, config)
   }
   else
   {
+    // It's a normal class but no constructor was provided. Create one
+    // that simply calls the superclass constructor.
     subclass = function()
     {
+      if (this.base)
+      {
+        this.base(arguments);
+      }
     };
   }
 
