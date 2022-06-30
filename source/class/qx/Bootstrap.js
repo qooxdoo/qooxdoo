@@ -1107,12 +1107,21 @@ function _extend(className, config)
   else
   {
     // It's a normal class but no constructor was provided. Create one
-    // that simply calls the superclass constructor.
-    subclass = function()
+    // that simply calls the superclass constructor, if one is available
+    subclass = function(...args)
     {
-      if (this.base)
+      // Locate and call the most recent constructor in the prototype chain
+      if (this.$$constructor)
       {
-        this.base(arguments);
+        // Prevent recursion during constructor call
+        let constructor = this.$$constructor;
+        this.$$constructor = null;
+
+        // Call the most recent superclass constructor
+        constructor.apply(this, args);
+
+        // Restore record of most recent constructor
+        this.$$constructor = constructor;
       }
     };
   }
@@ -1143,6 +1152,7 @@ function _extend(className, config)
   // This is a class
   subclass.$$type = "Class";
   subclass.constructor = subclass; // point to self
+  subclass.classname = className;
 
   // If its class type was specified, save it
   if (config.type)
@@ -1171,6 +1181,20 @@ function _extend(className, config)
   if (qx.$$BOOTSTRAPPING || typeof PROXY_TESTS != "undefined")
   {
     subclass.prototype.base = qx.Bootstrap.base;
+  }
+
+  // The top-most $$constructor in the prototype chain is the one to call
+  if (config.construct)
+  {
+    Object.defineProperty(
+      subclass.prototype,
+      "$$constructor",
+      {
+        value        : subclass,
+        writable     : true,
+        configurable : true,
+        enumerable   : false
+      });
   }
 
   // Save this object's properties
@@ -1592,14 +1616,6 @@ function undefine(name)
  */
 function addMembers(clazz, members, patch)
 {
-  // If called via `include()` or `patch()`, then clazz is the proxy
-  // object, not the underlying object in which we want to modify the
-  // prototype. Ascertain that now, and reset clazz.
-  // if (clazz.$$constructor)
-  // {
-  //   clazz = clazz.$$constructor;
-  // }
-
   for (let key in members)
   {
     let             member = members[key];
