@@ -58,6 +58,18 @@ qx.Class.define("qx.event.type.Event", {
   */
 
   members: {
+    _type : undefined,
+    _target : undefined,
+    _currentTarget : undefined,
+    _relatedTarget : undefined,
+    _originalTarget : undefined,
+    _stopPropagation : undefined,
+    _preventDefault : undefined,
+    _bubbles : undefined,
+    _cancelable : undefined,
+    _timeStamp : undefined,
+    _eventPhase : undefined,
+
     /** {qx.Promise[]} promises returned by event handlers */
     _promises: null,
 

@@ -82,6 +82,8 @@ qx.Class.define("qx.tool.compiler.targets.meta.ApplicationMeta", {
   },
 
   members: {
+    __partsLookup : undefined,
+
     /** {qx.tool.compiler.targets.Target} the target */
     __target: null,
 

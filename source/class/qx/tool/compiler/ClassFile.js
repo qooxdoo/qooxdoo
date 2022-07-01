@@ -253,6 +253,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   },
 
   members: {
+    __privateMangling : undefined,
+    __usesJsx : undefined,
+
     __analyser: null,
     __className: null,
     __numClassesDefined: 0,

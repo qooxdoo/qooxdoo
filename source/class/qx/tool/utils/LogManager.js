@@ -134,6 +134,13 @@ qx.Class.define("qx.tool.utils.LogManager", {
   },
 
   members: {
+    _loggers : undefined,
+    _levels : undefined,
+    _sinks : undefined,
+    _config : undefined,
+    _defaultSink : undefined,
+    _defautLevel :  undefined,
+
     async loadConfig(config) {
       if (typeof config == "string") {
         config = await qx.tool.utils.Json.loadJsonAsync(config);
