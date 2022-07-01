@@ -25,6 +25,9 @@ if (typeof PROXY_TESTS != "undefined")
   window = typeof window != "undefined" ? window : globalThis;
 }
 
+// Undeclared member variables we've already notified the user of
+let undeclared = {};
+
 // Bootstrap the Bootstrap static class
 qx = Object.assign(
   window.qx || {},
@@ -495,29 +498,81 @@ let propertyMethodFactory =
           {
             let      old;
 
+            // Save the new property value. This is before any async calls
+            if (property.immutable == "readonly")
+            {
+              throw new Error(
+                `Attempt to set value of readonly property ${prop}`);
+            }
+
             value = qx.Promise.resolve(value);
 
             // Obtain the old value, via its async request
             old = await this[`get${propertyFirstUp}Async`]();
 
             // If the value has changed since last time...
-            if (property.isEqual(value, old))
+            if (! property.isEqual(value, old))
             {
-              // Save the new property value. This is before any async calls
-              if (property.immutable == "readonly")
-              {
-                throw new Error(
-                  `Attempt to set value of readonly property ${prop}`);
-              }
               property.storage.set.call(this, prop, value);
 
               // Call the apply function
               await apply.call(this, value, old, prop);
 
               // Now that apply has resolved, fire the change event
-              console.log(
-                `Would generate event type ${property.event} ` +
-                  `{ value: ${value}, old: ${old} } (async event)`);
+              if (typeof PROXY_TESTS == "undefined")
+              {
+                let promiseData = qx.Promise.resolve(value);
+
+                if (property.event)
+                {
+                  const Reg = qx.event.Registration;
+
+                  // Yes. Generate a sync event if needed
+                  if (Reg.hasListener(this, property.event))
+                  {
+                    await Reg.fireEventAsync(
+                      this,
+                      property.event,
+                      qx.event.type.Data,
+                      [ value, old ]);
+                  }
+
+                  // Also generate an async event, if needed
+                  if (Reg.hasListener(this, property.event + "Async"))
+                  {
+                    await Reg.fireEventAsync(
+                      this,
+                    property.event + "Async",
+                    qx.event.type.Data,
+                    [ promiseData, old ]);
+                  }
+                }
+
+                // Update inherited values of child objects
+                if (property.inheritable &&
+                    this.prototype &&
+                    this.prototype._getChildren)
+                {
+                  let children = this._getChildren();
+                  if (children)
+                  {
+                    children.forEach(
+                      (child) =>
+                      {
+                        let { refresh } =
+                            this.constructor.$$propertyDescriptorRegistry.get(
+                              child, prop);
+                        refresh();
+                      });
+                  }
+                }
+              }
+              else
+              {
+                console.log(
+                  `Would generate event type ${property.event} ` +
+                    `{ value: ${value}, old: ${old} } (async event)`);
+              }
             }
 
             // If we are the last promise, dispose of the promise
@@ -1110,19 +1165,21 @@ function _extend(className, config)
     // that simply calls the superclass constructor, if one is available
     subclass = function(...args)
     {
-      // Locate and call the most recent constructor in the prototype chain
-      if (this.$$constructor)
-      {
-        // Prevent recursion during constructor call
-        let constructor = this.$$constructor;
-        this.$$constructor = null;
+      // // Locate and call the most recent constructor in the prototype chain
+      // if (this.$$constructor)
+      // {
+      //   // Allow recursion to use next constructor in prototype chain
+      //   let constructor = this.$$constructor;
+      //   this.$$constructor = null;
 
-        // Call the most recent superclass constructor
-        constructor.apply(this, args);
+      //   // Call the most recent superclass constructor
+      //   constructor.apply(this, args);
 
-        // Restore record of most recent constructor
-        this.$$constructor = constructor;
-      }
+      //   // Restore record of most recent constructor
+      //   this.$$constructor = constructor;
+      // }
+
+      superclass.call(this, ...args);
     };
   }
 
@@ -1296,6 +1353,7 @@ function _extend(className, config)
               let             origValue = value;
               let             old = Reflect.get(obj, prop);
               let             property = subclass.$$allProperties[prop];
+              let             tracker = {};
               const           storage =
                 property && property.storage
                     ? property.storage
@@ -1304,6 +1362,11 @@ function _extend(className, config)
               // Is this a property?
               if (property)
               {
+                if (property.immutable == "readonly")
+                {
+                  throw new Error(
+                    `Attempt to set value of readonly property ${prop}`);
+                }
                 // We can handle a group property by simply calling its setter
                 if (property.group)
                 {
@@ -1311,6 +1374,13 @@ function _extend(className, config)
 
                   obj[`set${propertyFirstUp}`](value);
                   return undefined;
+                }
+
+                // Ensure they're not writing to a read-only property
+                if (property.immutable == "readonly")
+                {
+                  throw new Error(
+                    `Attempt to set value of readonly property ${prop}`);
                 }
 
                 // Ensure they're not setting null to a non-nullable property
@@ -1363,6 +1433,13 @@ function _extend(className, config)
                           `Check function indicates wrong type value; ` +
                           `value=${value}`);
                     }
+                  }
+                  else if (Array.isArray(property.check))
+                  {
+                    qx.core.Assert.assertInArray(
+                      value,
+                      property.check,
+                      "Expected value to be one of: [" + property.check + "]");
                   }
                   else if (typeof property.check == "string")
                   {
@@ -1484,23 +1561,73 @@ function _extend(className, config)
                     ! property.async &&
                     ! property.isEqual(value, old))
                 {
-                  console.log(
-                    `Would generate event type ${property.event} ` +
-                      `{ value: ${JSON.stringify(value)}, old: ${old} }`);
+                  if (typeof PROXY_TESTS == "undefined")
+                  {
+                    const Reg = qx.event.Registration;
+
+                    // Yes. Generate a sync event if needed
+                    if (Reg.hasListener(obj, property.event))
+                    {
+                      qx.event.Utils.track(
+                        tracker,
+                        Reg.fireEvent(
+                          obj,
+                          property.event,
+                          qx.event.type.Data,
+                          [ value, old ]));
+                    }
+
+                    // Also generate an async event, if needed
+                    if (Reg.hasListener(obj, property.event + "Async"))
+                    {
+                      qx.event.Utils.track(
+                        tracker,
+                        Reg.fireEvent(
+                          obj,
+                          property.event + "Async",
+                          qx.event.type.Data,
+                          [ qx.Promise.resolve(value), old ]));
+                    }
+                  }
+                  else // PROXY_TESTS
+                  {
+                    console.log(
+                      `Would generate event type ${property.event} ` +
+                        `{ value: ${JSON.stringify(value)}, old: ${old} }`);
+                  }
+                }
+
+                // Update inherited values of child objects
+                if (property.inheritable &&
+                    obj.prototype &&
+                    obj.prototype._getChildren)
+                {
+                  let children = obj._getChildren();
+                  if (children)
+                  {
+                    children.forEach(
+                      (child) =>
+                      {
+                        let { refresh } =
+                            this.constructor.$$propertyDescriptorRegistry.get(
+                              child, prop);
+                        refresh();
+                      });
+                  }
                 }
 
                 // Save the (possibly updated) value
-                if (property.immutable == "readonly")
-                {
-                  throw new Error(
-                    `Attempt to set value of readonly property ${prop}`);
-                }
                 storage.set.call(obj, prop, value);
 
                 // Also specify that this was a user-specified value
                 this[`$$user_${prop}`] = value;
 
-                return true;
+                if (tracker.promise)
+                {
+                  return tracker.promise.then(() => value);
+                }
+
+                return value;
               }
 
               // If there's a custom proxy handler, call it
@@ -1516,12 +1643,23 @@ function _extend(className, config)
               {
                 if (! prop.startsWith("$$"))
                 {
-                  console.error(
-                    "Warning: " +
-                    `In class '${obj.constructor.classname}', ` +
-                      `an attempt was made to  write to '${prop}' ` +
-                      "which is not declared in the 'members' section " +
-                      "of the configuration passed to qx.Class.define.");
+                  if (! undeclared[obj.constructor.classname])
+                  {
+                    undeclared[obj.constructor.classname] = {};
+                  }
+
+                  if (! undeclared[obj.constructor.classname][prop])
+                  {
+                    console.error(
+                      "Warning: member not declared: " +
+                        `${obj.constructor.classname}: ${prop}`);
+                      // `In class '${obj.constructor.classname}', ` +
+                      //   `an attempt was made to  write to '${prop}' ` +
+                      //   "which is not declared in the 'members' section " +
+                      //   "of the configuration passed to qx.Class.define.");
+
+                    undeclared[obj.constructor.classname][prop] = true;
+                  }
                 }
               }
 

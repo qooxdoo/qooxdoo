@@ -638,6 +638,123 @@ qx.Bootstrap.define(
       isDefined: qx.util.OOUtil.classIsDefined,
 
       /**
+       * Detects whether the object is a Class (and not an instance of a class)
+       *
+       *  @param obj {Object?} the object to inspect
+       *  @return {Boolean} true if it is a class, false if it is anything else
+       */
+      isClass(obj) {
+        return obj && obj.$$type === "Class" && obj.constructor === obj;
+      },
+
+      /**
+       * Whether a class is a direct or indirect sub class of another class,
+       * or both classes coincide.
+       *
+       * @param clazz {Class} the class to check.
+       * @param superClass {Class} the potential super class
+       * @return {Boolean} whether clazz is a sub class of superClass.
+       */
+      isSubClassOf(clazz, superClass) {
+        if (!clazz) {
+          return false;
+        }
+
+        if (clazz == superClass) {
+          return true;
+        }
+
+        if (clazz.prototype instanceof superClass) {
+          return true;
+        }
+
+        return false;
+      },
+
+      /**
+       * Returns the definition of the given property. Returns null
+       * if the property does not exist.
+       *
+       * @signature function(clazz, name)
+       * @param clazz {Class} class to check
+       * @param name {String} name of the class to check for
+       * @return {Map|null} whether the object support the given event.
+       */
+      getPropertyDefinition: qx.util.OOUtil.getPropertyDefinition,
+
+      /**
+       * Returns a list of all properties supported by the given class
+       *
+       * @param clazz {Class} Class to query
+       * @return {String[]} List of all property names
+       */
+      getProperties(clazz) {
+        var list = [];
+
+        while (clazz) {
+          if (clazz.$$properties) {
+            list.push.apply(list, Object.keys(clazz.$$properties));
+          }
+
+          clazz = clazz.superclass;
+        }
+
+        return list;
+      },
+
+      /**
+       * Returns the class or one of its superclasses which contains the
+       * declaration for the given property in its class definition. Returns null
+       * if the property is not specified anywhere.
+       *
+       * @param clazz {Class} class to look for the property
+       * @param name {String} name of the property
+       * @return {Class | null} The class which includes the property
+       */
+      getByProperty(clazz, name) {
+        while (clazz) {
+          if (clazz.$$properties && clazz.$$properties[name]) {
+            return clazz;
+          }
+
+          clazz = clazz.superclass;
+        }
+
+        return null;
+      },
+
+      /**
+       * Whether a class has the given property
+       *
+       * @signature function(clazz, name)
+       * @param clazz {Class} class to check
+       * @param name {String} name of the property to check for
+       * @return {Boolean} whether the class includes the given property.
+       */
+      hasProperty: qx.util.OOUtil.hasProperty,
+
+      /**
+       * Returns the event type of the given event. Returns null if
+       * the event does not exist.
+       *
+       * @signature function(clazz, name)
+       * @param clazz {Class} class to check
+       * @param name {String} name of the event
+       * @return {String|null} Event type of the given event.
+       */
+      getEventType: qx.util.OOUtil.getEventType,
+
+      /**
+       * Whether a class supports the given event type
+       *
+       * @signature function(clazz, name)
+       * @param clazz {Class} class to check
+       * @param name {String} name of the event to check for
+       * @return {Boolean} whether the class supports the given event.
+       */
+      supportsEvent: qx.util.OOUtil.supportsEvent,
+
+      /**
        * Determine the total number of classes
        *
        * @return {Number} the total number of classes
