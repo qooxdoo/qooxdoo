@@ -187,8 +187,8 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param value {var} The value to set
      */
     setThemed(object, propertyName, value) {
-      var styler = qx.core.Property.$$method.setThemed;
-      object[styler[propertyName]](value);
+      let             propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      object[`setThemed${propertyFirstUp}`](value);
     },
 
     /**
@@ -198,8 +198,8 @@ qx.Class.define("qx.util.PropertyUtil", {
      * @param propertyName {String} The name of the property
      */
     resetThemed(object, propertyName) {
-      var unstyler = qx.core.Property.$$method.resetThemed;
-      object[unstyler[propertyName]]();
+      let             propertyFirstUp = qx.Bootstrap.firstUp(propertyName);
+      object[`resetThemed${propertyFirstUp}`]();
     }
   }
 });

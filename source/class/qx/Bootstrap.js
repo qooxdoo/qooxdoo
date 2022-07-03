@@ -1165,20 +1165,6 @@ function _extend(className, config)
     // that simply calls the superclass constructor, if one is available
     subclass = function(...args)
     {
-      // // Locate and call the most recent constructor in the prototype chain
-      // if (this.$$constructor)
-      // {
-      //   // Allow recursion to use next constructor in prototype chain
-      //   let constructor = this.$$constructor;
-      //   this.$$constructor = null;
-
-      //   // Call the most recent superclass constructor
-      //   constructor.apply(this, args);
-
-      //   // Restore record of most recent constructor
-      //   this.$$constructor = constructor;
-      // }
-
       superclass.call(this, ...args);
     };
   }
@@ -1238,20 +1224,6 @@ function _extend(className, config)
   if (qx.$$BOOTSTRAPPING || typeof PROXY_TESTS != "undefined")
   {
     subclass.prototype.base = qx.Bootstrap.base;
-  }
-
-  // The top-most $$constructor in the prototype chain is the one to call
-  if (config.construct)
-  {
-    Object.defineProperty(
-      subclass.prototype,
-      "$$constructor",
-      {
-        value        : subclass,
-        writable     : true,
-        configurable : true,
-        enumerable   : false
-      });
   }
 
   // Save this object's properties
@@ -2099,80 +2071,98 @@ function addProperties(clazz, properties, patch)
 
     // Create the legacy property getter, getPropertyName
     patch && delete clazz.prototype[`get${propertyFirstUp}`];
-    Object.defineProperty(
-      clazz.prototype,
-      `get${propertyFirstUp}`,
-      {
-        value        : propertyDescriptor.get,
-        writable     : false,
-        configurable : true,
-        enumerable   : false
-      });
-
-    // Create the legacy property setter, setPropertyName.
-    patch && delete clazz.prototype[`set${propertyFirstUp}`];
-    Object.defineProperty(
-      clazz.prototype,
-      `set${propertyFirstUp}`,
-      {
-        value        : propertyDescriptor.set,
-        writable     : false,
-        configurable : true,
-        enumerable   : false
-      });
-
-    // Create this property's resetProperty method
-    patch && delete clazz.prototype[`reset${propertyFirstUp}`];
-    Object.defineProperty(
-      clazz.prototype,
-      `reset${propertyFirstUp}`,
-      {
-        value        : propertyDescriptor.reset,
-        writable     : false,
-        configurable : true,
-        enumerable   : false
-      });
-
-    if (property.inheritable)
+    if (! clazz.prototype.hasOwnProperty(`get${propertyFirstUp}`))
     {
-      // Create this property's refreshProperty method
-      patch && delete clazz.prototype[`refresh${propertyFirstUp}`];
       Object.defineProperty(
         clazz.prototype,
-        `refresh${propertyFirstUp}`,
+        `get${propertyFirstUp}`,
         {
-          value        : propertyDescriptor.refresh,
+          value        : propertyDescriptor.get,
           writable     : false,
           configurable : true,
           enumerable   : false
         });
     }
 
+    // Create the legacy property setter, setPropertyName.
+    patch && delete clazz.prototype[`set${propertyFirstUp}`];
+    if (! clazz.prototype.hasOwnProperty(`set${propertyFirstUp}`))
+    {
+      Object.defineProperty(
+        clazz.prototype,
+        `set${propertyFirstUp}`,
+        {
+          value        : propertyDescriptor.set,
+          writable     : false,
+          configurable : true,
+          enumerable   : false
+        });
+    }
+
+    // Create this property's resetProperty method
+    patch && delete clazz.prototype[`reset${propertyFirstUp}`];
+    if (! clazz.prototype.hasOwnProperty(`reset${propertyFirstUp}`))
+    {
+      Object.defineProperty(
+        clazz.prototype,
+        `reset${propertyFirstUp}`,
+        {
+          value        : propertyDescriptor.reset,
+          writable     : false,
+          configurable : true,
+          enumerable   : false
+        });
+    }
+
+    if (property.inheritable)
+    {
+      // Create this property's refreshProperty method
+      patch && delete clazz.prototype[`refresh${propertyFirstUp}`];
+      if (! clazz.prototype.hasOwnProperty(`refresh${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `refresh${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.refresh,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
+    }
+
     if (property.themeable)
     {
       // Create this property's setThemedProperty method
       patch && delete clazz.prototype[`setThemed${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `setThemed${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.setThemed,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`setThemed${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `setThemed${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.setThemed,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
 
       // Create this property's resetThemedProperty method
       patch && delete clazz.prototype[`resetThemed${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `resetThemed${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.resetThemed,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`resetThemed${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `resetThemed${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.resetThemed,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
     }
 
     // If there's an init or initFunction handler, ...
@@ -2181,15 +2171,18 @@ function addProperties(clazz, properties, patch)
     {
       // ... then create initPropertyName
       patch && delete clazz.prototype[`init${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `init${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.init,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`init${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `init${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.init,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
     }
 
     // If this is a boolean, as indicated by check : "Boolean" ...
@@ -2197,26 +2190,32 @@ function addProperties(clazz, properties, patch)
     {
       // ... then create isPropertyName and togglePropertyName
       patch && delete clazz.prototype[`is${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `is${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.is,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`is${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `is${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.is,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
 
       patch && delete clazz.prototype[`toggle${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `toggle${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.toggle,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`toggle${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `toggle${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.toggle,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
     }
 
     if (property.async)
@@ -2239,30 +2238,37 @@ function addProperties(clazz, properties, patch)
       // Create a function that tells the user whether there is still
       // an active async setter running
       patch && delete clazz.prototype[`isAsyncSetActive${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `isAsyncSetActive${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.isAsyncSetActive,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`isAsyncSetActive${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `isAsyncSetActive${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.isAsyncSetActive,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
 
       // Create the async property getter, getPropertyNameAsync
       patch && delete clazz.prototype[`get${propertyFirstUp}Async`];
-      Object.defineProperty(
-        clazz.prototype,
-        `get${propertyFirstUp}Async`,
-        {
-          value        : propertyDescriptor.getAsync,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`get${propertyFirstUp}Async`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `get${propertyFirstUp}Async`,
+          {
+            value        : propertyDescriptor.getAsync,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
 
       // Create the async property setter, setPropertyNameAsync.
       patch && delete clazz.prototype[`set${propertyFirstUp}Async`];
+      if (! clazz.prototype.hasOwnProperty(`set${propertyFirstUp}Async`))
       Object.defineProperty(
         clazz.prototype,
         `set${propertyFirstUp}Async`,
@@ -2365,52 +2371,64 @@ function addProperties(clazz, properties, patch)
 
     // Create the property setter, setPropertyName.
     patch && delete clazz.prototype[`set${propertyFirstUp}`];
-    Object.defineProperty(
-      clazz.prototype,
-      `set${propertyFirstUp}`,
-      {
-        value        : propertyDescriptor.set,
-        writable     : false,
-        configurable : true,
-        enumerable   : false
-      });
+    if (! clazz.prototype.hasOwnProperty(`set${propertyFirstUp}`))
+    {
+      Object.defineProperty(
+        clazz.prototype,
+        `set${propertyFirstUp}`,
+        {
+          value        : propertyDescriptor.set,
+          writable     : false,
+          configurable : true,
+          enumerable   : false
+        });
+    }
 
     // Create the property setter, setPropertyName.
     patch && delete clazz.prototype[`reset${propertyFirstUp}`];
-    Object.defineProperty(
-      clazz.prototype,
-      `reset${propertyFirstUp}`,
-      {
-        value        : propertyDescriptor.reset,
-        writable     : false,
-        configurable : true,
-        enumerable   : false
-      });
+    if (! clazz.prototype.hasOwnProperty(`reset${propertyFirstUp}`))
+    {
+      Object.defineProperty(
+        clazz.prototype,
+        `reset${propertyFirstUp}`,
+        {
+          value        : propertyDescriptor.reset,
+          writable     : false,
+          configurable : true,
+          enumerable   : false
+        });
+    }
 
     // If group is themeable, add the styler and unstyler
     if (property.themeable)
     {
       patch && delete clazz.prototype[`setThemed${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `setThemed${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.setThemed,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`setThemed${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `setThemed${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.setThemed,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
 
       patch && delete clazz.prototype[`resetThemed${propertyFirstUp}`];
-      Object.defineProperty(
-        clazz.prototype,
-        `resetThemed${propertyFirstUp}`,
-        {
-          value        : propertyDescriptor.resetThemed,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      if (! clazz.prototype.hasOwnProperty(`resetThemed${propertyFirstUp}`))
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `resetThemed${propertyFirstUp}`,
+          {
+            value        : propertyDescriptor.resetThemed,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
     }
 
     // Add this property to the property maps
