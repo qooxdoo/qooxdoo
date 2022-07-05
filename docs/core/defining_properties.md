@@ -79,7 +79,7 @@ The applying method is only called when the value has changed.
 > to the setter, because the value hasn't actually changed.
 > If you want the apply method to be called every time the setter is called,
 > you can specify an `isEqual` function for the property that always returns
-> `false`, e.g., `isEQual : (a, b) => false`.
+> `false`, e.g., `isEqual : (a, b) => false`.
 
 For a more technical description, take a look at the
 [API documentation of qx.core.Property](apps://apiviewer/#qx.core.Property)
