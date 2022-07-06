@@ -102,12 +102,12 @@ qx = Object.assign(
 
         get(key)
         {
-          return qx.core.Environment.$$environment[key];
+          return qx["core"]["Environment"].$$environment[key];
         },
 
         add(key, value)
         {
-          qx.core.Environment.$$environment[key] = value;
+          qx["core"]["Environment"].$$environment[key] = value;
         }
       },
 
@@ -708,10 +708,10 @@ function define(className, config)
   let environment = config.environment || {};
   for (let key in environment)
   {
-    qx.core.Environment.add(key, environment[key]);
+    qx["core"]["Environment"].add(key, environment[key]);
   }
 
-  if (qx.core.Environment.get("qx.debug"))
+  if (qx["core"]["Environment"].get("qx.debug"))
   {
     _validatePropertyDefinitions(className, config);
   }
@@ -730,7 +730,7 @@ function define(className, config)
 
   if (! config.extend)
   {
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       if (config.type && config.type != "static")
       {
@@ -744,7 +744,7 @@ function define(className, config)
     config.type = "static";
   }
 
-  if (qx.core.Environment.get("qx.debug"))
+  if (qx["core"]["Environment"].get("qx.debug"))
   {
     if (config.type == "static")
     {
@@ -843,7 +843,7 @@ function define(className, config)
   {
     let             staticFuncOrVar;
 
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       if (key.charAt(0) === "@")
       {
@@ -878,7 +878,7 @@ function define(className, config)
 
     if (typeof staticFuncOrVar == "function")
     {
-      if (qx.core.Environment.get("qx.aspects"))
+      if (qx["core"]["Environment"].get("qx.aspects"))
       {
         staticFuncOrVar =
           qx.core.Aspect.wrap(className, staticFuncOrVar, "static");
@@ -1000,7 +1000,7 @@ function define(className, config)
       config.implement.forEach((iface) => this.addInterface(clazz, iface));
     }
 
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       this.validateAbstractInterfaces(clazz);
     }
@@ -1013,7 +1013,7 @@ function define(className, config)
   //
   let             destruct = config.destruct || function() {};
 
-  if (qx.core.Environment.get("qx.aspects"))
+  if (qx["core"]["Environment"].get("qx.aspects"))
   {
     destruct = qx.core.Aspect.wrap(className, destruct, "destructor");
   }
@@ -1220,6 +1220,7 @@ function _extend(className, config)
   // Create the subclass' prototype as a copy of the superclass' prototype
   subclass.prototype = Object.create(superclass.prototype);
   subclass.prototype.constructor = subclass;
+  subclass.prototype.classname = className;
 
   if (qx.$$BOOTSTRAPPING || typeof PROXY_TESTS != "undefined")
   {
@@ -1510,14 +1511,17 @@ function _extend(className, config)
                   }
                 }
 
-                // Does it a synchronous method with an apply method?
+                // Save the (possibly updated) value
+                storage.set.call(obj, prop, value);
+
+                // Is it a synchronous property with an apply method?
                 // (Async properties' apply method is called directly from
                 // setPropertyNameAsync() )
                 if (property.apply &&
                     ! property.async &&
                     ! property.isEqual(value, old))
                 {
-                  // It does. Call it.
+                  // Yes. Call it.
                   if (typeof property.apply == "function")
                   {
                     property.apply.call(obj, value, old, prop);
@@ -1587,9 +1591,6 @@ function _extend(className, config)
                       });
                   }
                 }
-
-                // Save the (possibly updated) value
-                storage.set.call(obj, prop, value);
 
                 // Also specify that this was a user-specified value
                 this[`$$user_${prop}`] = value;
@@ -1731,7 +1732,7 @@ function addMembers(clazz, members, patch)
     let             member = members[key];
     let             proto = clazz.prototype;
 
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       if (key.charAt(0) === '@')
       {
@@ -1788,7 +1789,7 @@ function addMembers(clazz, members, patch)
       // Allow easily identifying this method
       qx.Bootstrap.setDisplayName(member, clazz.classname, key);
 
-      if (qx.core.Environment.get("qx.aspects"))
+      if (qx["core"]["Environment"].get("qx.aspects"))
       {
         member = qx.core.Aspect.wrap(clazz.classname, member, key);
       }
@@ -1889,7 +1890,7 @@ function addProperties(clazz, properties, patch)
       }
     }
 
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       // FIXME: change this to a test for that the specied storage implements
       // qx.core.propertystorage.IStorage
@@ -2304,7 +2305,7 @@ function addProperties(clazz, properties, patch)
     let             propertyFirstUp = qx.Bootstrap.firstUp(key);
     let             allProperties = clazz.$$allProperties;
 
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       // Validate that group contains only existing properties, and if
       // themeable contains only themeable properties
@@ -2453,7 +2454,7 @@ function addEvents(clazz, events, patch)
 {
   let             key;
 
-  if (qx.core.Environment.get("qx.debug"))
+  if (qx["core"]["Environment"].get("qx.debug"))
   {
     if (typeof events !== "object" ||
         qx.Bootstrap.getClass(events) === "Array")
@@ -2952,7 +2953,7 @@ function _validatePropertyDefinitions(className, config)
     let             property = properties[prop];
 
     // Ensure they're not passing a qx.core.Object descendent as a property
-    if (qx.core.Environment.get("qx.debug"))
+    if (qx["core"]["Environment"].get("qx.debug"))
     {
       if (qx.Bootstrap.isQxCoreObject(properties))
       {

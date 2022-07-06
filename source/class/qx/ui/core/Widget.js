@@ -2401,10 +2401,6 @@ qx.Class.define("qx.ui.core.Widget", {
       var selector = this.__appearanceSelector;
       var manager = qx.theme.manager.Appearance.getInstance();
 
-      // Cache deep accessor
-      var styler = qx.core.Property.$$method.setThemed;
-      var unstyler = qx.core.Property.$$method.resetThemed;
-
       // Check for requested selector update
       if (this.__updateSelector) {
         // Clear flag
@@ -2455,7 +2451,8 @@ qx.Class.define("qx.ui.core.Widget", {
         if (oldData) {
           for (var prop in oldData) {
             if (newData[prop] === undefined) {
-              this[unstyler[prop]]();
+              let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+              this[`resetThemed${propertyFirstUp}`]();
             }
           }
         }
@@ -2463,7 +2460,8 @@ qx.Class.define("qx.ui.core.Widget", {
         // Check property availability of new data
         if (qx.core.Environment.get("qx.debug")) {
           for (var prop in newData) {
-            if (!this[styler[prop]]) {
+            let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+            if (!this[`setThemed${propertyFirstUp}`]) {
               throw new Error(
                 this.classname +
                   ' has no themeable property "' +
@@ -2477,14 +2475,16 @@ qx.Class.define("qx.ui.core.Widget", {
 
         // Apply new data
         for (var prop in newData) {
+          let propertyFirstUp = qx.Bootstrap.firstUp(prop);
           newData[prop] === undefined
-            ? this[unstyler[prop]]()
-            : this[styler[prop]](newData[prop]);
+            ? this[`resetThemed${propertyFirstUp}`]()
+            : this[`setThemed${propertyFirstUp}`](newData[prop]);
         }
       } else if (oldData) {
         // Clear old data
         for (var prop in oldData) {
-          this[unstyler[prop]]();
+          let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+          this[`resetThemed${propertyFirstUp}`]();
         }
       }
 

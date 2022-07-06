@@ -139,7 +139,7 @@ qx.Class.define("qx.tool.utils.LogManager", {
     _sinks : undefined,
     _config : undefined,
     _defaultSink : undefined,
-    _defautLevel :  undefined,
+    _defaultLevel :  undefined,
 
     async loadConfig(config) {
       if (typeof config == "string") {
