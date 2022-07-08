@@ -415,7 +415,7 @@ let propertyMethodFactory =
 
       resetThemed : function(prop, property)
       {
-        return function(value)
+        return function()
         {
           // Get the current user-specified value
           let             userValue = this[`$$user_${prop}`];
@@ -424,7 +424,7 @@ let propertyMethodFactory =
                ? property.initFunction.call(this)
                : ("init" in property
                   ? property.init
-                  : undefined));
+                  : null));
 
           // Unset the themed value
           this[`$$theme_${prop}`] = undefined;
@@ -3141,7 +3141,7 @@ qx.Bootstrap.define(
          * the generator.
          *
          * WARNING: This method only should be used if the {@link
-         * qx.core.Environment} class is not loaded!
+         * qx["core"]["Environment"]} class is not loaded!
          *
          * @param key {String}
          *   The key to get the value from.
