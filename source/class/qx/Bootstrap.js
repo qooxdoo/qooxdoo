@@ -1454,6 +1454,11 @@ function _extend(className, config)
                   }
                   else if (Array.isArray(property.check))
                   {
+                    if (value instanceof String)
+                    {
+                      value = value.valueOf();
+                    }
+
                     qx.core.Assert.assertInArray(
                       value,
                       property.check,
@@ -1474,7 +1479,7 @@ function _extend(className, config)
                     {
                         qx.core.Assert.assertInterface(
                           value,
-                          qx.Class.getByName(property.check),
+                          qx.Interface.getByName(property.check),
                           "Expected value to implement " + property.check);
                     }
                     else
