@@ -40,6 +40,8 @@
  * </pre>
  */
 qx.Bootstrap.define("qx.event.Messaging", {
+  extend: qx.core.Object,
+
   construct() {
     this._listener = {};
     this.__listenerIdCount = 0;

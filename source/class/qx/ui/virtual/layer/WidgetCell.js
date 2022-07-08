@@ -74,6 +74,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell", {
   */
 
   members: {
+    _cellProvider: undefined,
+
     __spacerPool: null,
 
     /**

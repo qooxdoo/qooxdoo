@@ -20,24 +20,22 @@
 
 ************************************************************************ */
 
-if (typeof PROXY_TESTS != "undefined")
-{
-  window = typeof window != "undefined" ? window : globalThis;
-}
-
 // Undeclared member variables we've already notified the user of
 let undeclared = {};
 
 // Bootstrap the Bootstrap static class
-qx = Object.assign(
+window.qx = Object.assign(
   window.qx || {},
   {
     $$namespaceRoot : window,
 
     Bootstrap :
     {
-      /** True when initially bootstrapping */
-      $$BOOTSTRAPPING : true,
+      /** Warnings to emit */
+      $$warnings :
+      {
+        "Member not declared" : true
+      },
 
       /** @type {Map} Stores all defined classes */
       $$registry : {},
@@ -153,6 +151,7 @@ qx = Object.assign(
  * @internal
  */
 let stringOrFunction = [ "string", "function" ];
+let stringOrNull = [ "string", "object" ];
 let $$allowedPropKeys =
     {
       "@": null,                  // Anything
@@ -164,7 +163,7 @@ let $$allowedPropKeys =
       refine: "boolean",          // Boolean
       init: null,                 // var
       apply: stringOrFunction,    // String, Function
-      event: "string",            // String
+      event: stringOrNull,        // String or null
       check: null,                // Array, String, Function
       transform: null,            // String, Function
       async: "boolean",           // Boolean
@@ -200,9 +199,6 @@ let $$allowedPropGroupKeys =
  */
 let $$deprecatedPropKeys =
     {
-      deferredInit :
-        `'deferredInit' is deprecated and ignored. ` +
-        `See the new property key 'initFunction' as a likely replacement.`
     };
 
 let $$checks = new Map(
@@ -373,13 +369,15 @@ let propertyMethodFactory =
             return;
           }
 
-          // If there's a layout parent and if it has a property of
-          // this name, ...
+          // If there's a layout parent and if it has a property (not
+          // a member!) of this name, ...
           layoutParent =
             (typeof this.getLayoutParent == "function"
              ? this.getLayoutParent()
              : undefined);
-          if (layoutParent && typeof layoutParent[prop] != "undefined")
+          if (layoutParent &&
+              typeof layoutParent[prop] != "undefined" &&
+              prop in layoutParent.constructor.$$allProperties)
           {
             // ... then retrieve its value
             inheritedValue = layoutParent[prop];
@@ -438,9 +436,13 @@ let propertyMethodFactory =
 
       init : function(prop, property)
       {
-        return function()
+        return function(value)
         {
-          if (property.initFunction)
+          if (typeof value != "undefined")
+          {
+            property.storage.set.call(this, prop, value);
+          }
+          else if (property.initFunction)
           {
             property.storage.set.call(
               this, prop, property.initFunction.call(this, prop));
@@ -934,7 +936,7 @@ function define(className, config)
   // Add a method to refresh all inheritable properties
   Object.defineProperty(
     clazz.prototype,
-    "$$refresh",
+    "$$refreshInheritables",
     {
       value        : function()
       {
@@ -1110,7 +1112,18 @@ function define(className, config)
   if (config.defer)
   {
     // Do not allow modification to the property map at this stage.
-    config.defer(clazz, clazz.prototype, Object.assign({}, config.properties));
+    try
+    {
+      config.defer(
+        clazz, clazz.prototype, Object.assign({}, config.properties));
+    }
+    catch(e)
+    {
+      // FIXME: The defer function will be called again later, by
+      // compiler-generated code. For some reason, this initial call
+      // is required in some cases, but fails in others.
+      console.log("Error (ignored) from defer: " + e);
+    }
   }
 
   // Store class reference in global class registry
@@ -1148,7 +1161,20 @@ function _extend(className, config)
     //
     subclass = function(...args)
     {
-      return config.construct.apply(this, args);
+      config.construct.apply(this, args);
+
+      if (this.constructor.$$originalConstructor == config.construct &&
+          this.constructor.$$flatIncludes)
+      {
+        this.constructor.$$flatIncludes.forEach(
+          (mixin) =>
+          {
+            if (mixin.$$constructor)
+            {
+              mixin.$$constructor.apply(this, args);
+            }
+          });
+      }
     };
   }
   else if (config.type == "static")
@@ -1166,6 +1192,21 @@ function _extend(className, config)
     subclass = function(...args)
     {
       superclass.call(this, ...args);
+
+      // config.construct has a value by now even though it was null
+      // in order to get here.
+      if (this.constructor.$$originalConstructor == config.construct &&
+          this.constructor.$$flatIncludes)
+      {
+        this.constructor.$$flatIncludes.forEach(
+          (mixin) =>
+          {
+            if (mixin.$$constructor)
+            {
+              mixin.$$constructor.apply(this, args);
+            }
+          });
+      }
     };
   }
 
@@ -1206,6 +1247,12 @@ function _extend(className, config)
   // Provide access to the superclass for base calls
   subclass.base = superclass;
 
+  // Ensure there's something unique to compare constructors to.
+  if (! config.construct)
+  {
+    config.construct = function() {};
+  }
+
   // But if the constructor was wrapped, above...
   if (config.construct)
   {
@@ -1214,6 +1261,9 @@ function _extend(className, config)
     config.construct.base = subclass.base;
   }
 
+  // Keep track of the original constructor so we know when to construct mixins
+  subclass.$$originalConstructor = config.construct;
+
   // Some internals require that `superclass` be defined too
   subclass.superclass = superclass;
 
@@ -1221,11 +1271,6 @@ function _extend(className, config)
   subclass.prototype = Object.create(superclass.prototype);
   subclass.prototype.constructor = subclass;
   subclass.prototype.classname = className;
-
-  if (qx.$$BOOTSTRAPPING || typeof PROXY_TESTS != "undefined")
-  {
-    subclass.prototype.base = qx.Bootstrap.base;
-  }
 
   // Save this object's properties
   Object.defineProperty(
@@ -1612,9 +1657,11 @@ function _extend(className, config)
 
               // Require that members be declared in the "members"
               // section of the configuration passed to qx.Class.define
-              if (! (prop in obj))
+              if (qx.Bootstrap.$$warnings["Member not declared"] &&
+                  isQxCoreObject(obj) &&
+                  ! (prop in obj))
               {
-                if (! prop.startsWith("$$"))
+                if (isNaN(prop) && ! prop.startsWith("$$"))
                 {
                   if (! undeclared[obj.constructor.classname])
                   {
@@ -1765,8 +1812,10 @@ function addMembers(clazz, members, patch)
         if (patch !== true && proto.hasOwnProperty(key))
         {
           throw new Error(
-            `Overwriting member ${key} of Class ${clazz.classame} ` +
-              "is not allowed");
+            `Overwriting member or property ${key} ` +
+              `of Class ${clazz.classname} ` +
+              "is not allowed. " +
+            "(Members and properties are in the same namespace.)");
         }
       }
     }
@@ -1841,6 +1890,28 @@ function addProperties(clazz, properties, patch)
     let             property = properties[key];
     let             propertyFirstUp = qx.Bootstrap.firstUp(key);
     let             storage;
+    const           proto = clazz.prototype;
+
+    if (qx["core"]["Environment"].get("qx.debug"))
+    {
+      if (proto[key] !== undefined &&
+          key.charAt(0) === "_" &&
+          key.charAt(1) === "_")
+      {
+        throw new Error(
+          `Overwriting private member ${key} of Class ${clazz.classname} ` +
+            "is not allowed");
+      }
+
+      if (patch !== true && proto.hasOwnProperty(key))
+      {
+        throw new Error(
+          `Overwriting member or property ${key} ` +
+            `of Class ${clazz.classname} ` +
+            "is not allowed. " +
+            "(Members and properties are in the same namespace.)");
+      }
+    }
 
     // Handle group properties last so we can ensure group member
     // properties exist before the group is created
@@ -1911,9 +1982,13 @@ function addProperties(clazz, properties, patch)
     // Initialize the property
     storage.init(key, Object.assign({}, property), clazz);
 
-    // We always generate an event. If the event name isn't specified,
-    // use the default name
-    property.event = property.event || `change${propertyFirstUp}`;
+    // We always generate an event unless `property.event` is
+    // explicitly set to null. If the event name isn't specified, use
+    // the default name.
+    if (property.event !== null)
+    {
+      property.event = property.event || `change${propertyFirstUp}`;
+    }
 
     // There are three values that may be used when `resetProperty` is called:
     // - the user-assigned value
@@ -2029,7 +2104,10 @@ function addProperties(clazz, properties, patch)
     }
 
     if (typeof property.init != "undefined" ||
-        typeof property.initFunction == "function")
+        typeof property.initFunction == "function" ||
+        typeof property.apply != "undefined" ||
+        property.deferredInit ||
+        property.inheritable)
     {
       Object.assign(
         propertyDescriptor,
@@ -2168,7 +2246,10 @@ function addProperties(clazz, properties, patch)
 
     // If there's an init or initFunction handler, ...
     if (typeof property.init != "undefined" ||
-        typeof property.initFunction == "function")
+        typeof property.initFunction == "function" ||
+        typeof property.apply != "undefined" ||
+        property.deferredInit ||
+        property.inheritable)
     {
       // ... then create initPropertyName
       patch && delete clazz.prototype[`init${propertyFirstUp}`];
@@ -2270,15 +2351,17 @@ function addProperties(clazz, properties, patch)
       // Create the async property setter, setPropertyNameAsync.
       patch && delete clazz.prototype[`set${propertyFirstUp}Async`];
       if (! clazz.prototype.hasOwnProperty(`set${propertyFirstUp}Async`))
-      Object.defineProperty(
-        clazz.prototype,
-        `set${propertyFirstUp}Async`,
-        {
-          value        : propertyDescriptor.setAsync,
-          writable     : false,
-          configurable : true,
-          enumerable   : false
-        });
+      {
+        Object.defineProperty(
+          clazz.prototype,
+          `set${propertyFirstUp}Async`,
+          {
+            value        : propertyDescriptor.setAsync,
+            writable     : false,
+            configurable : true,
+            enumerable   : false
+          });
+      }
     }
 
     // Add the event name for this property to the list of events
@@ -2465,7 +2548,9 @@ function addEvents(clazz, events, patch)
 
     for (key in events)
     {
-      if (typeof events[key] !== "string")
+      let type = events[key];
+
+      if (type !== undefined && typeof type !== "string")
       {
         throw new Error(
           clazz.classname +

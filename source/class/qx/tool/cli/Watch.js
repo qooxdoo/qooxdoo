@@ -52,6 +52,8 @@ qx.Class.define("qx.tool.cli.Watch", {
   },
 
   members: {
+    _watcher:  undefined,
+
     __runningPromise: null,
     __applications: null,
     __watcherReady: false,

@@ -55,6 +55,7 @@
  */
 
 qx.Bootstrap.define("qx.bom.request.Script", {
+  extend : qx.core.Object,
   implement: [qx.core.IDisposable],
 
   construct() {

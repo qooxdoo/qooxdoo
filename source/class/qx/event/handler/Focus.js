@@ -89,8 +89,8 @@ qx.Class.define("qx.event.handler.Focus", {
     },
 
     /** The focused DOM element */
-    focus: {
-      apply: "_applyFocus",
+    focusedElement: {
+      apply: "_applyFocusedElement",
       nullable: true
     }
   },
@@ -171,6 +171,12 @@ qx.Class.define("qx.event.handler.Focus", {
   */
 
   members: {
+    _manager: undefined,
+    _window: undefined,
+    _document: undefined,
+    _root: undefined,
+    _body: undefined,
+
     __onNativeMouseDownWrapper: null,
     __onNativeMouseUpWrapper: null,
     __onNativeFocusWrapper: null,
@@ -276,8 +282,8 @@ qx.Class.define("qx.event.handler.Focus", {
         this.resetActive();
       }
 
-      if (this.getFocus() === element) {
-        this.resetFocus();
+      if (this.getFocusedElement() === element) {
+        this.resetFocusedElement();
       }
     },
 
@@ -939,7 +945,7 @@ qx.Class.define("qx.event.handler.Focus", {
           // We need to look up for the next focusable element.
           var focusTarget = this.__findFocusableElement(target);
           if (focusTarget) {
-            this.setFocus(focusTarget);
+            this.setFocusedElement(focusTarget);
           }
 
           // Make target active
@@ -961,7 +967,7 @@ qx.Class.define("qx.event.handler.Focus", {
             // We need to look up for the next focusable element.
             var focusTarget = this.__findFocusableElement(target);
             if (focusTarget) {
-              this.setFocus(focusTarget);
+              this.setFocusedElement(focusTarget);
             }
 
             // Make target active
@@ -977,7 +983,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__doWindowFocus();
 
             if (this.__previousFocus) {
-              this.setFocus(this.__previousFocus);
+              this.setFocusedElement(this.__previousFocus);
               delete this.__previousFocus;
             }
 
@@ -986,7 +992,7 @@ qx.Class.define("qx.event.handler.Focus", {
               delete this.__previousActive;
             }
           } else {
-            this.setFocus(target);
+            this.setFocusedElement(target);
             this.tryActivate(target);
 
             // Clear selection
@@ -1019,7 +1025,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__doWindowBlur();
 
             // Reset active and focus
-            this.resetFocus();
+            this.resetFocusedElement();
             this.resetActive();
           }
         },
@@ -1037,7 +1043,7 @@ qx.Class.define("qx.event.handler.Focus", {
               this.__doWindowBlur();
 
               // Reset active and focus
-              this.resetFocus();
+              this.resetFocusedElement();
               this.resetActive();
             }
           },
@@ -1045,8 +1051,8 @@ qx.Class.define("qx.event.handler.Focus", {
           default(domEvent) {
             var target = qx.bom.Event.getTarget(domEvent);
 
-            if (target === this.getFocus()) {
-              this.resetFocus();
+            if (target === this.getFocusedElement()) {
+              this.resetFocusedElement();
             }
 
             if (target === this.getActive()) {
@@ -1063,14 +1069,14 @@ qx.Class.define("qx.event.handler.Focus", {
             // Store old focus/active elements
             // Opera do not fire focus events for them
             // when refocussing the window (in my opinion an error)
-            this.__previousFocus = this.getFocus();
+            this.__previousFocus = this.getFocusedElement();
             this.__previousActive = this.getActive();
 
-            this.resetFocus();
+            this.resetFocusedElement();
             this.resetActive();
           } else {
-            if (target === this.getFocus()) {
-              this.resetFocus();
+            if (target === this.getFocusedElement()) {
+              this.resetFocusedElement();
             }
 
             if (target === this.getActive()) {
@@ -1097,7 +1103,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__doWindowBlur();
 
             this.resetActive();
-            this.resetFocus();
+            this.resetFocusedElement();
           }
         },
 
@@ -1109,11 +1115,11 @@ qx.Class.define("qx.event.handler.Focus", {
             // Store old focus/active elements
             // Opera do not fire focus events for them
             // when refocussing the window (in my opinion an error)
-            this.__previousFocus = this.getFocus();
+            this.__previousFocus = this.getFocusedElement();
             this.__previousActive = this.getActive();
 
             this.resetActive();
-            this.resetFocus();
+            this.resetFocusedElement();
           }
         },
 
@@ -1139,7 +1145,7 @@ qx.Class.define("qx.event.handler.Focus", {
             target = this._body;
           }
 
-          this.setFocus(target);
+          this.setFocusedElement(target);
           this.tryActivate(target);
         },
 
@@ -1149,7 +1155,7 @@ qx.Class.define("qx.event.handler.Focus", {
             this.__doWindowFocus();
 
             if (this.__previousFocus) {
-              this.setFocus(this.__previousFocus);
+              this.setFocusedElement(this.__previousFocus);
               delete this.__previousFocus;
             }
 
@@ -1159,7 +1165,7 @@ qx.Class.define("qx.event.handler.Focus", {
             }
           } else {
             this.__relatedTarget = domEvent.relatedTarget;
-            this.setFocus(target);
+            this.setFocusedElement(target);
             this.__relatedTarget = null;
             this.tryActivate(target);
           }
@@ -1223,7 +1229,7 @@ qx.Class.define("qx.event.handler.Focus", {
           var focusTarget = this.__findFocusableElement(target);
 
           if (focusTarget) {
-            this.setFocus(focusTarget);
+            this.setFocusedElement(focusTarget);
           } else {
             qx.bom.Event.preventDefault(domEvent);
           }
@@ -1234,7 +1240,7 @@ qx.Class.define("qx.event.handler.Focus", {
           var focusTarget = this.__findFocusableElement(target);
 
           if (focusTarget) {
-            this.setFocus(focusTarget);
+            this.setFocusedElement(focusTarget);
           } else {
             qx.bom.Event.preventDefault(domEvent);
           }
@@ -1253,7 +1259,7 @@ qx.Class.define("qx.event.handler.Focus", {
             // of the previously focused element.
             // We need to clear the old selection.
             if (focusTarget) {
-              var current = this.getFocus();
+              var current = this.getFocusedElement();
               if (current && current.selectionEnd) {
                 current.selectionStart = 0;
                 current.selectionEnd = 0;
@@ -1263,11 +1269,11 @@ qx.Class.define("qx.event.handler.Focus", {
               // The prevented event also stop the focus, do
               // it manually if needed.
               if (focusTarget) {
-                this.setFocus(focusTarget);
+                this.setFocusedElement(focusTarget);
               }
             }
           } else if (focusTarget) {
-            this.setFocus(focusTarget);
+            this.setFocusedElement(focusTarget);
           }
         },
 
@@ -1328,7 +1334,7 @@ qx.Class.define("qx.event.handler.Focus", {
      * @return {Element} return correct target (in case of compound input controls should always return textfield);
      */
     __getCorrectFocusTarget(target) {
-      var focusedElement = this.getFocus();
+      var focusedElement = this.getFocusedElement();
       if (focusedElement && target != focusedElement) {
         if (
           focusedElement.nodeName.toLowerCase() === "input" ||
@@ -1519,7 +1525,7 @@ qx.Class.define("qx.event.handler.Focus", {
     },
 
     // apply routine
-    _applyFocus(value, old) {
+    _applyFocusedElement(value, old) {
       // Fire bubbling events
       if (old) {
         this.__fireEvent(old, value, "focusout", true);

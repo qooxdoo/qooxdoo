@@ -29,6 +29,8 @@
  * @require(qx.bom.storage.Memory#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.Memory", {
+  extend: qx.core.Object,
+
   statics: {
     __local: null,
     __session: null,

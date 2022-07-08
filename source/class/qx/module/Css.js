@@ -21,6 +21,8 @@
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Css", {
+  extend : qx.core.Object,
+
   statics: {
     /**
      * INTERNAL

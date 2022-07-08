@@ -81,6 +81,8 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
   },
 
   members: {
+    __generateForTargetPromise: undefined,
+
     __library: null,
     __fontData: null,
 

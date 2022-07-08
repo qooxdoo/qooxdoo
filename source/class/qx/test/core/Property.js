@@ -26,8 +26,6 @@ qx.Class.define("qx.test.core.Property", {
 
   members: {
     testBasic() {
-      this.assertNotUndefined(qx.core.Property);
-
       // Check instance
       var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
@@ -45,8 +43,6 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testBuiltinTypes() {
-      this.assertNotUndefined(qx.core.Property);
-
       // Check instance
       var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");
@@ -137,8 +133,6 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testInheritance() {
-      this.assertNotUndefined(qx.core.Property);
-
       var pa = new qx.test.core.InheritanceDummy();
       var ch1 = new qx.test.core.InheritanceDummy();
       var ch2 = new qx.test.core.InheritanceDummy();
@@ -223,8 +217,6 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testMultiValues() {
-      this.assertNotUndefined(qx.core.Property);
-
       // Check instance
       var inst = new qx.test.core.PropertyHelper();
       this.assertNotUndefined(inst, "instance");

@@ -87,6 +87,10 @@ qx.Class.define("qx.event.handler.Window", {
   */
 
   members: {
+    _window: undefined,
+    _manager: undefined,
+    _onNativeWrapper: undefined,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE

@@ -68,6 +68,7 @@ qx.Class.define("qx.theme.manager.Font", {
   */
 
   members: {
+    _dynamic: undefined,
     _manifestFonts: null,
 
     /**
@@ -199,13 +200,6 @@ qx.Class.define("qx.theme.manager.Font", {
     _applyTheme(value) {
       var dest = (this._dynamic = {});
 
-      for (var key in dest) {
-        if (dest[key].themed) {
-          dest[key].dispose();
-          delete dest[key];
-        }
-      }
-
       if (value) {
         var source = this._manifestFonts
           ? Object.assign(value.fonts, this._manifestFonts)
@@ -226,7 +220,6 @@ qx.Class.define("qx.theme.manager.Font", {
           }
 
           dest[key] = fo.set(source[key]);
-          dest[key].themed = true;
         }
       }
       this._setDynamic(dest);

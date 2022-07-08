@@ -83,6 +83,8 @@
  * Note this class must be disposed after use
  */
 qx.Bootstrap.define("qx.application.Routing", {
+  extend: qx.core.Object,
+
   implement: [qx.core.IDisposable],
 
   construct() {

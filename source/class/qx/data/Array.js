@@ -129,6 +129,8 @@ qx.Class.define("qx.data.Array", {
   },
 
   members: {
+    length: undefined,
+
     // private members
     __array: null,
 

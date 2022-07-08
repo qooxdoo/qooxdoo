@@ -111,13 +111,18 @@ qx.Mixin.define("qx.dev.unit.MMock", {
      * @ignore(sinon.assert.expose)
      */
     __exposeAssertions() {
-      var temp = {};
+      let temp = {};
+      let origWarning = qx.Bootstrap.$$warnings["Member not declared"];
       sinon.assert.expose(temp, { includeFail: false });
+
+      // Turn off warnings about Member not declared while exposing assertions
+      qx.Bootstrap.$$warnings["Member not declared"] = false;
       for (var method in temp) {
         if (!this[method]) {
           this[method] = temp[method];
         }
       }
+      qx.Bootstrap.$$warnings["Member not declared"] = origWarning;
     },
 
     /**
