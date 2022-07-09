@@ -64,7 +64,10 @@ qx.Mixin.define(
           // If the property exists as a member variable, set it directly
           if (prop in this)
           {
-            this[prop] = data[prop];
+            if (data[prop] !== undefined)
+            {
+              this[prop] = data[prop];
+            }
             continue;
           }
 

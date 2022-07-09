@@ -113,12 +113,19 @@ window.qx = Object.assign(
       {
         init(propertyName, property, clazz)
         {
+          let init =
+              (typeof property.init != "undefined"
+               ? property.init
+               : (property.nullable
+                  ? null
+                  : undefined));
+
           // Create the storage for this property's current value
           Object.defineProperty(
             clazz.prototype,
             propertyName,
             {
-              value        : property.init,
+              value        : init,
               writable     : true, // must be true for possible initFunction
               configurable : false,
               enumerable   : false
@@ -225,7 +232,7 @@ let $$checks = new Map(
     ],
     [
       "PositiveInteger",
-      v => qx.lang.Type.isNumber(v ) && isFinite() && v % 1 === 0 && v >= 0
+      v => qx.lang.Type.isNumber(v ) && isFinite(v) && v % 1 === 0 && v >= 0
     ],
     [
       "Error",
@@ -1071,41 +1078,14 @@ function define(className, config)
   clazz.$$destructor = destructDereferencer;
   qx.Bootstrap.setDisplayName(destructDereferencer, className, "destruct");
 
-  // Create the specified namespace
-  if (0)
+  // If there's a specified classname...
+  if (className)
   {
-    path = globalThis;
-    classnameComponents = className.split(".");
-    classnameComponents.forEach(
-      (component, i) =>
-      {
-        const           bExists = component in path;
-        const           isLast = i == classnameComponents.length - 1;
-
-        if (! bExists && isLast)
-        {
-          path[component] = clazz;
-        }
-        else if (! bExists)
-        {
-          path[component] = {};
-        }
-        else if (bExists && ! isLast)
-        {
-          // Not last component, so is allowed to exist. Just keep traversing.
-        }
-        else
-        {
-          throw new Error(
-            `Namespace component ${component} from ${className} already exists`);
-        }
-
-        path = path[component];
-      });
-  }
-  else
-  {
+    // Create that namespace
     qx.Bootstrap.createNamespace(className, clazz);
+
+    // Store class reference in global class registry
+    qx.Bootstrap.$$registry[className] = clazz;
   }
 
   // Now that the class has been defined, call its (optional) defer function
@@ -1125,9 +1105,6 @@ function define(className, config)
       console.log("Error (ignored) from defer: " + e);
     }
   }
-
-  // Store class reference in global class registry
-  qx.Bootstrap.$$registry[className] = clazz;
 
   return clazz;
 }
@@ -1220,6 +1197,27 @@ function _extend(className, config)
     {
       throw new Error(
         `Overwriting property "${property}" without "refine: true"`);
+    }
+
+    // Allow only changing the init or initFunction values if refine is true
+    if (properties[property].refine)
+    {
+      let redefinitions =
+          Object.keys(properties[property])
+          .filter((key) => ! ["refine", "init", "initFunction"].includes(key));
+      if (redefinitions.length > 0)
+      {
+        throw new Error(
+          `Property ${property} ` +
+            `redefined with other than "init" and "initFunction"`);
+      }
+
+      // Create a modified property definition using the prior
+      // definition (if one exists) as the basis, and adding
+      // properties provided in the redefinition (except for "refine")
+      delete properties[property].refine;
+      properties[property] =
+        Object.assign({}, allProperties[property] || {}, properties[property]);
     }
 
     // Does this property have an initFunction?

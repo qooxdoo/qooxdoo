@@ -35,12 +35,19 @@ qx.Bootstrap.define(
     {
       init(propertyName, property, clazz)
       {
+          let init =
+              (typeof property.init != "undefined"
+               ? property.init
+               : (property.nullable
+                  ? null
+                  : undefined));
+
         // Create the storage for this property's current value
         Object.defineProperty(
           clazz.prototype,
           propertyName,
           {
-            value        : property.init,
+            value        : init,
             writable     : true, // must be true for possible initFunction
             configurable : false,
             enumerable   : false
