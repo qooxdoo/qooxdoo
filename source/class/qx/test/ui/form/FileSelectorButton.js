@@ -16,7 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.FileSelectorButon", {
+qx.Class.define("qx.test.ui.form.FileSelectorButton", {
   extend: qx.test.ui.LayoutTestCase,
 
   include: [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
