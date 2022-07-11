@@ -1088,22 +1088,17 @@ function define(className, config)
     qx.Bootstrap.$$registry[className] = clazz;
   }
 
-  // Now that the class has been defined, call its (optional) defer function
+  // Now that the class has been defined, arrange to call its
+  // (optional) defer function
   if (config.defer)
   {
-    // Do not allow modification to the property map at this stage.
-    try
-    {
-      config.defer(
-        clazz, clazz.prototype, Object.assign({}, config.properties));
-    }
-    catch(e)
-    {
-      // FIXME: The defer function will be called again later, by
-      // compiler-generated code. For some reason, this initial call
-      // is required in some cases, but fails in others.
-      console.log("Error (ignored) from defer: " + e);
-    }
+    // Execute defer section
+    qx.Bootstrap.addPendingDefer(
+      clazz,
+      () =>
+      {
+        config.defer(clazz, clazz.prototype);
+      });
   }
 
   return clazz;
