@@ -1931,7 +1931,8 @@ function addMembers(clazz, members, patch)
             key.charAt(1) === "_")
         {
           throw new Error(
-            `Overwriting private member ${key} of Class ${clazz.classname} ` +
+            `Overwriting private member "${key}" ` +
+              `of Class "${clazz.classname}" ` +
               "is not allowed");
         }
 
@@ -1940,8 +1941,8 @@ function addMembers(clazz, members, patch)
             proto.hasOwnProperty(key))
         {
           throw new Error(
-            `Overwriting member or property ${key} ` +
-              `of Class ${clazz.classname} ` +
+            `Overwriting member or property "${key}" ` +
+              `of Class "${clazz.classname}" ` +
               "is not allowed. " +
             "(Members and properties are in the same namespace.)");
         }
@@ -2027,15 +2028,16 @@ function addProperties(clazz, properties, patch)
           key.charAt(1) === "_")
       {
         throw new Error(
-          `Overwriting private member ${key} of Class ${clazz.classname} ` +
+          `Overwriting private member "${key}" ` +
+            `of Class "${clazz.classname}" ` +
             "is not allowed");
       }
 
       if (patch !== true && proto.hasOwnProperty(key))
       {
         throw new Error(
-          `Overwriting member or property ${key} ` +
-            `of Class ${clazz.classname} ` +
+          `Overwriting member or property "${key}" ` +
+            `of Class "${clazz.classname}" ` +
             "is not allowed. " +
             "(Members and properties are in the same namespace.)");
       }

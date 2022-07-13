@@ -123,7 +123,7 @@ qx.Class.define("qx.test.Mixin", {
             });
           },
           Error,
-          "already has a property",
+          "Overwriting member or property",
           "t3"
         );
       }
@@ -245,7 +245,7 @@ qx.Class.define("qx.test.Mixin", {
             qx.Class.include(qx.Patch1, qx.MPatch);
           },
           Error,
-          new RegExp('Overwriting member ".*" of Class ".*" is not allowed!')
+          new RegExp('Overwriting member or property ".*" of Class ".*" is not allowed.')
         );
       }
 
