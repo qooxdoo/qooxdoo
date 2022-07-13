@@ -672,6 +672,39 @@ qx.Bootstrap.define(
       },
 
       /**
+       * Retreive all subclasses of a given class
+       *
+       * @param clazz {Class}
+       *   The class which should be inspected
+       *
+       * @return {Object}
+       *   Class name hash holding the references to the subclasses or
+       *   null if the class does not exist.
+       */
+      getSubclasses(clazz)
+      {
+        if (!clazz)
+        {
+          return null;
+        }
+
+        let subclasses = {};
+        let registry = qx.Bootstrap.$$registry;
+
+        for (let name in registry)
+        {
+          if (registry[name].superclass &&
+              registry[name].superclass == clazz)
+          {
+            subclasses[name] = registry[name];
+          }
+        }
+
+        return subclasses;
+      },
+
+
+      /**
        * Returns the definition of the given property. Returns null
        * if the property does not exist.
        *
@@ -760,7 +793,7 @@ qx.Bootstrap.define(
        * @return {Number} the total number of classes
        */
       getTotalNumber() {
-        return qx.Bootstrap.objectGetLength(this.$$registry);
+        return qx.Bootstrap.objectGetLength(qx.Bootstrap.$$registry);
       }
     }
   });

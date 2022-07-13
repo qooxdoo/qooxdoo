@@ -766,6 +766,7 @@ function defineImpl(className, config)
   let             handler;
   let             path;
   let             classnameComponents;
+  let             implicitType = false;
 
   // Ensure the desginated class has not already been defined
   if (className && qx.Bootstrap.$$registry[className])
@@ -820,6 +821,7 @@ function defineImpl(className, config)
       }
     }
 
+    implicitType = true;
     config.type = "static";
   }
 
@@ -890,6 +892,21 @@ function defineImpl(className, config)
               `found ${typeof config[key]}`);
         }
       });
+
+    try
+    {
+      _validateConfig(className, config);
+    }
+    catch (e)
+    {
+      if (implicitType)
+      {
+        e.message =
+          'Assumed static class because no "extend" key was found. ' +
+          e.message;
+      }
+      throw e;
+    }
   }
 
   // Create the new class
@@ -1167,7 +1184,15 @@ function defineImpl(className, config)
       clazz,
       () =>
       {
-        config.defer(clazz, clazz.prototype);
+        config.defer(
+          clazz,
+          clazz.prototype,
+          {
+            add(name, config)
+            {
+              addProperties(clazz, { [name] : config }, true);
+            }
+          });
       });
   }
 
@@ -3129,6 +3154,229 @@ function _attachAnno(clazz, group, key, anno) {
   {
     clazz.$$annotations[group] = anno;
   }
+}
+
+/**
+ * Validates an incoming configuration and checks for proper keys and values
+ *
+ * @signature function(name, config)
+ *
+ * @param name {String}
+ *   The name of the class
+ *
+ * @param config {Map}
+ *   Configuration map
+ */
+if (qx.core.Environment.get("qx.debug"))
+{
+  function _validateConfig(name, config)
+  {
+    // Validate type
+    if (config.type &&
+        ! (config.type === "static" ||
+           config.type === "abstract" ||
+           config.type === "singleton"))
+    {
+      throw new Error(
+        'Invalid type "' +
+          config.type +
+          '" definition for class "' +
+          name +
+          '"!'
+      );
+    }
+
+    // Validate non-static class on the "extend" key
+    if (config.type && config.type !== "static" && ! config.extend)
+    {
+      throw new Error(
+        `${name}: invalid config. ` +
+          "Non-static class must extend at least the `qx.core.Object` class");
+    }
+
+    // Validate maps
+    let maps =
+        [
+          "statics",
+          "properties",
+          "members",
+          "environment",
+          "settings",
+          "variants",
+          "events"
+        ];
+
+    for (let i = 0, l = maps.length; i < l; i++)
+    {
+      var key = maps[i];
+
+      if (config[key] !== undefined &&
+          (config[key].$$hash !== undefined ||
+           !qx.Bootstrap.isObject(config[key])))
+      {
+        throw new Error(
+          'Invalid key "' +
+            key +
+            '" in class "' +
+            name +
+            '"! The value needs to be a map!'
+        );
+      }
+    }
+
+    // Validate include definition
+    if (config.include)
+    {
+      if (qx.Bootstrap.getClass(config.include) === "Array")
+      {
+        for (let i = 0, a = config.include, l = a.length; i < l; i++)
+        {
+          if (a[i] == null || a[i].$$type !== "Mixin") {
+            throw new Error(
+              'The include definition in class "' +
+                name +
+                '" contains an invalid mixin at position ' +
+                i +
+                ": " +
+                a[i]
+            );
+          }
+        }
+      }
+      else
+      {
+        throw new Error(
+          'Invalid include definition in class "' +
+            name +
+            '"! Only mixins and arrays of mixins are allowed!'
+        );
+      }
+
+      if (config.type == "static")
+      {
+        config.include.forEach(
+          (mixin) =>
+          {
+            if (mixin.$$members)
+            {
+              throw new Error(
+                `Mixin ${mixin.name} applied to class ${name}: ` +
+                  "class is static, but mixin has members");
+            }
+          });
+      }
+    }
+
+    // Validate implement definition
+    if (config.implement)
+    {
+      if (qx.Bootstrap.getClass(config.implement) === "Array")
+      {
+        for (let i = 0, a = config.implement, l = a.length; i < l; i++)
+        {
+          if (a[i] == null || a[i].$$type !== "Interface") {
+            throw new Error(
+              'The implement definition in class "' +
+                name +
+                '" contains an invalid interface at position ' +
+                i +
+                ": " +
+                a[i]
+            );
+          }
+        }
+      } else {
+        throw new Error(
+          'Invalid implement definition in class "' +
+            name +
+            '"! Only interfaces and arrays of interfaces are allowed!'
+        );
+      }
+    }
+
+    // Check mixin compatibility
+    if (config.include)
+    {
+      try
+      {
+        qx.Mixin.checkCompatibility(config.include);
+      }
+      catch (ex)
+      {
+        throw new Error(
+          'Error in include definition of class "' +
+            name +
+            '"! ' +
+            ex.message
+        );
+      }
+    }
+
+    // Validate environment
+    if (config.environment)
+    {
+      for (let key in config.environment) {
+        if (key.substr(0, key.indexOf(".")) !=
+            name.substr(0, name.indexOf(".")))
+        {
+          throw new Error(
+            'Forbidden environment setting "' +
+              key +
+              '" found in "' +
+              name +
+              '". It is forbidden to define a ' +
+              "environment setting for an external namespace!"
+          );
+        }
+      }
+    }
+
+    // Validate settings
+    if (config.settings)
+    {
+      for (let key in config.settings)
+      {
+        if (key.substr(0, key.indexOf(".")) !=
+            name.substr(0, name.indexOf(".")))
+        {
+          throw new Error(
+            'Forbidden setting "' +
+              key +
+              '" found in "' +
+              name +
+              '". It is forbidden to define a default setting for ' +
+              'an external namespace!'
+          );
+        }
+      }
+    }
+
+    // Validate variants
+    if (config.variants)
+    {
+      for (let key in config.variants)
+      {
+        if (key.substr(0, key.indexOf(".")) !=
+            name.substr(0, name.indexOf(".")))
+        {
+          throw new Error(
+            'Forbidden variant "' +
+              key +
+              '" found in "' +
+              name +
+              '". It is forbidden to define a variant for an external namespace!'
+          );
+        }
+      }
+    }
+  };
+}
+else
+{
+  function _validateConfig()
+  {
+    // do nothing when debug is disabled
+  };
 }
 
 function _validatePropertyDefinitions(className, config)
