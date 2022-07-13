@@ -26,6 +26,9 @@ let undeclared = {};
 // For debugging, allow not hiding internal variables  with `enumerable: false`
 let allEnumerable = false;
 
+// To be imlemented in the future
+let FUTURE = false;
+
 // Bootstrap the Bootstrap static class
 window.qx = Object.assign(
   window.qx || {},
@@ -1549,40 +1552,42 @@ function _extend(className, config)
                     }
                     else
                     {
-                      // Next  try to parse the check string as JSDoc
-                      let             bJSDocParsed = false;
-                      try
+                      if (FUTURE)
                       {
-                        const           { parse } = require("jsdoctypeparser");
-                        const           ast = parse(property.check);
-
-                        // Temporarily, while we don't yet support
-                        // checks based on the jsdoc AST, flag whether
-                        // we successfully parsed the type. If so, we'll
-                        // stop the check when the error is thrown by
-                        // _checkValueAgainstJSdocAST(); If not, we
-                        // want to fall through to additional checks.
-                        bJSDocParsed = true;
-                        _checkValueAgainstJSdocAST(
-                          prop, value, ast, property.check);
-                      }
-                      catch(e)
-                      {
-                        // If we successfully parsed, rethrow the check error
-                        if (bJSDocParsed)
+                        // Next  try to parse the check string as JSDoc
+                        let             bJSDocParsed = false;
+                        try
                         {
-                          throw e;
-                        }
+                          const       { parse } = require("jsdoctypeparser");
+                          const       ast = parse(property.check);
 
-                        // Couldn't parse JSDoc so the check string is
-                        // not a JSDoc one. Fall through to next
-                        // possible use of the check string.
-                        //
-                        // FALL THROUGH
+                          // Temporarily, while we don't yet support
+                          // checks based on the jsdoc AST, flag whether
+                          // we successfully parsed the type. If so, we'll
+                          // stop the check when the error is thrown by
+                          // _checkValueAgainstJSdocAST(); If not, we
+                          // want to fall through to additional checks.
+                          bJSDocParsed = true;
+                          _checkValueAgainstJSdocAST(
+                            prop, value, ast, property.check);
+                        }
+                        catch(e)
+                        {
+                          // If we successfully parsed, rethrow the check error
+                          if (bJSDocParsed)
+                          {
+                            throw e;
+                          }
+
+                          // Couldn't parse JSDoc so the check string is
+                          // not a JSDoc one. Fall through to next
+                          // possible use of the check string.
+                          //
+                          // FALL THROUGH
+                        }
                       }
 
-                      // JSDoc parsing failed, so try executing the
-                      // string as a function
+                      // Try executing the string as a function
                       let             fCheck;
                       try
                       {
@@ -1593,10 +1598,11 @@ function _extend(className, config)
                       {
                         throw new Error(
                           `${prop}: ` +
-                            `Error running check: ${property.check}`, e);
+                            `Error creating check function: ${property.check}`,
+                            e);
                       }
 
-                      if (! fCheck(value))
+                      if (! fCheck.call(obj, value))
                       {
                         throw new Error(
                           `${prop}: ` +
