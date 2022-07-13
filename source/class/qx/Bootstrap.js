@@ -1602,12 +1602,21 @@ function _extend(className, config)
                             e);
                       }
 
-                      if (! fCheck.call(obj, value))
+                      try
+                      {
+                        if (! fCheck.call(obj, value))
+                        {
+                          throw new Error(
+                            `${prop}: ` +
+                              `Check code indicates wrong type value; ` +
+                              `value=${value}`);
+                        }
+                      }
+                      catch(e)
                       {
                         throw new Error(
                           `${prop}: ` +
-                            `Check code indicates wrong type value; ` +
-                            `value=${value}`);
+                            `Check code threw error: ${e}`);
                       }
                     }
                   }
