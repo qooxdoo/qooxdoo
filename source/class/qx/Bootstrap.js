@@ -23,6 +23,9 @@
 // Undeclared member variables we've already notified the user of
 let undeclared = {};
 
+// For debugging, allow not hiding internal variables  with `enumerable: false`
+let allEnumerable = false;
+
 // Bootstrap the Bootstrap static class
 window.qx = Object.assign(
   window.qx || {},
@@ -128,7 +131,7 @@ window.qx = Object.assign(
               value        : init,
               writable     : true, // must be true for possible initFunction
               configurable : false,
-              enumerable   : false
+              enumerable   : allEnumerable || false
             });
         },
 
@@ -373,6 +376,12 @@ let propertyMethodFactory =
           {
             // Use the user value as the property value
             this[prop] = userValue;
+            return;
+          }
+
+          // If there's an init value, inherited value is not applied
+          if (typeof property.init != "undefined" || property.initFunction)
+          {
             return;
           }
 
@@ -963,7 +972,7 @@ function defineImpl(className, config)
         value        : staticFuncOrVar,
         writable     : true,
         configurable : true,
-        enumerable   : true
+        enumerable   : allEnumerable || true
       });
 
     // Attach annotations
@@ -980,7 +989,7 @@ function defineImpl(className, config)
                       : undefined),
       writable     : true,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
   // Create a method to retrieve a property descriptor
@@ -994,7 +1003,7 @@ function defineImpl(className, config)
       },
       writable     : false,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
 
@@ -1023,7 +1032,7 @@ function defineImpl(className, config)
       },
       writable     : false,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
   // Members, properties, events, and mixins are only allowed for
@@ -1332,7 +1341,7 @@ function _extend(className, config)
       value        : properties || {},
       writable     : false,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
   // Save the full chain of properties for this class
@@ -1344,7 +1353,7 @@ function _extend(className, config)
       value        : allProperties,
       writable     : false,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
   // Save any init functions that need to be called upon instantiation
@@ -1355,7 +1364,7 @@ function _extend(className, config)
       value        : initFunctions,
       writable     : false,
       configurable : false,
-      enumerable   : false
+      enumerable   : allEnumerable || false
     });
 
   // Proxy the subclass so we can watch for property changes
@@ -1699,7 +1708,7 @@ function _extend(className, config)
                 }
 
                 // Also specify that this was a user-specified value
-                this[`$$user_${prop}`] = value;
+                obj[`$$user_${prop}`] = value;
 
                 if (tracker.promise)
                 {
@@ -1938,7 +1947,7 @@ function addMembers(clazz, members, patch)
         value        : member,
         writable     : true,
         configurable : true,
-        enumerable   : true
+        enumerable   : allEnumerable || true
       });
 
     // Attach annotations
@@ -2086,7 +2095,7 @@ function addProperties(clazz, properties, patch)
         value        : undefined,
         writable     : true,
         configurable : false,
-        enumerable   : false
+        enumerable   : allEnumerable || false
       });
 
     // theme-specified
@@ -2100,7 +2109,7 @@ function addProperties(clazz, properties, patch)
           value        : undefined,
           writable     : true,
           configurable : false,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2115,7 +2124,7 @@ function addProperties(clazz, properties, patch)
           value        : undefined,
           writable     : true,
           configurable : false,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2238,7 +2247,7 @@ function addProperties(clazz, properties, patch)
           value        : propertyDescriptor.get,
           writable     : false,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2253,7 +2262,7 @@ function addProperties(clazz, properties, patch)
           value        : propertyDescriptor.set,
           writable     : false,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2268,7 +2277,7 @@ function addProperties(clazz, properties, patch)
           value        : propertyDescriptor.reset,
           writable     : false,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2285,7 +2294,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.refresh,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
@@ -2303,7 +2312,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.setThemed,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
 
@@ -2318,7 +2327,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.resetThemed,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
@@ -2341,7 +2350,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.init,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
@@ -2360,7 +2369,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.is,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
 
@@ -2374,7 +2383,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.toggle,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
@@ -2393,7 +2402,7 @@ function addProperties(clazz, properties, patch)
           value        : null,
           writable     : true,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
 
       // Create a function that tells the user whether there is still
@@ -2408,7 +2417,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.isAsyncSetActive,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
 
@@ -2423,7 +2432,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.getAsync,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
 
@@ -2438,7 +2447,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.setAsync,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
@@ -2543,7 +2552,7 @@ function addProperties(clazz, properties, patch)
           value        : propertyDescriptor.set,
           writable     : false,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2558,7 +2567,7 @@ function addProperties(clazz, properties, patch)
           value        : propertyDescriptor.reset,
           writable     : false,
           configurable : true,
-          enumerable   : false
+          enumerable   : allEnumerable || false
         });
     }
 
@@ -2575,7 +2584,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.setThemed,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
 
@@ -2589,7 +2598,7 @@ function addProperties(clazz, properties, patch)
             value        : propertyDescriptor.resetThemed,
             writable     : false,
             configurable : true,
-            enumerable   : false
+            enumerable   : allEnumerable || false
           });
       }
     }
