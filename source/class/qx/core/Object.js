@@ -65,7 +65,7 @@ qx.Class.define("qx.core.Object", {
 
   statics: {
     /** Internal type */
-    $$type: "Object"
+    $$type: "Class"
   },
 
   /*

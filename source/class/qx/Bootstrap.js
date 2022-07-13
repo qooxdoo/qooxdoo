@@ -706,12 +706,39 @@ let isEqual = (a, b) => a === b;
 
 function define(className, config)
 {
+  let             ret;
+
+  try
+  {
+    qx.Bootstrap._bootstrapCall = true;
+    ret = defineImpl(className, config);
+  }
+  catch(e)
+  {
+    throw e;
+  }
+  finally
+  {
+    qx.Bootstrap._bootstrapCall = false;
+  }
+  return ret;
+}
+
+function defineImpl(className, config)
+{
   let             allowedKeys;
   let             clazz;
   let             proxy;
   let             handler;
   let             path;
   let             classnameComponents;
+
+  // Ensure the desginated class has not already been defined
+  if (className && qx.Bootstrap.$$registry[className])
+  {
+    throw new Error(
+      `${className} is already defined; cannot redefine a class`);
+  }
 
   // Process environment
   let environment = config.environment || {};
@@ -737,7 +764,16 @@ function define(className, config)
     config.implement = [ config.implement ];
   }
 
-  if (! config.extend)
+  // Explicit null `extend` key means extend from Object. Otherwise,
+  // falsy `extend` means it's a static class.
+  if (config.extend === null ||
+      (! config.extend &&
+       config.type != "static" &&
+       qx.Bootstrap._bootstrapCall))
+  {
+    config.extend = Object;
+  }
+  else if (! config.extend)
   {
     if (qx["core"]["Environment"].get("qx.debug"))
     {
@@ -1199,12 +1235,13 @@ function _extend(className, config)
     {
       let redefinitions =
           Object.keys(properties[property])
-          .filter((key) => ! ["refine", "init", "initFunction"].includes(key));
+          .filter(
+            key => ! ["refine", "init", "initFunction", "@"].includes(key));
       if (redefinitions.length > 0)
       {
         throw new Error(
           `Property ${property} ` +
-            `redefined with other than "init" and "initFunction"`);
+            `redefined with other than "init", "initFunction", "@"`);
       }
 
       // Create a modified property definition using the prior
@@ -1424,6 +1461,10 @@ function _extend(className, config)
                   if (property.nullable && value === null)
                   {
                     // ... then we don't do the check
+                  }
+                  else if (property.inheritable && value == "inherit")
+                  {
+                    // Request to explicitly inherit from parent. Ignore check.
                   }
                   else if ($$checks.has(property.check))
                   {
@@ -1683,6 +1724,11 @@ function _extend(className, config)
 
               storage.set.call(obj, prop, value);
               return true;
+            },
+
+            getPrototypeOf : function(target)
+            {
+              return Reflect.getPrototypeOf(target);
             }
           };
 
@@ -1707,6 +1753,11 @@ function _extend(className, config)
       {
         // Call the constructor
         subclass.apply(_this, args);
+      },
+
+      getPrototypeOf : function(target)
+      {
+        return Reflect.getPrototypeOf(target);
       }
     });
 
@@ -1721,6 +1772,12 @@ function _extend(className, config)
  */
 function undefine(name)
 {
+  // Nothing to do if the class name isn't registered
+  if (! (name in qx.Bootstrap.$$registry))
+  {
+    return;
+  }
+
   // Delete the class from the registry
   delete qx.Bootstrap.$$registry[name];
 
@@ -1807,7 +1864,9 @@ function addMembers(clazz, members, patch)
               "is not allowed");
         }
 
-        if (patch !== true && proto.hasOwnProperty(key))
+        if (! qx.Bootstrap._bootstrapCall &&
+            patch !== true &&
+            proto.hasOwnProperty(key))
         {
           throw new Error(
             `Overwriting member or property ${key} ` +
@@ -1822,10 +1881,10 @@ function addMembers(clazz, members, patch)
     if (key.charAt(0) === "@")
     {
       let annoKey = key.substring(1);
-      if (member[annoKey] === undefined)
+      if (members[annoKey] === undefined)
       {
         // An annotation for a superclass' member
-        _attachAnno(clazz, "members", annoKey, member[key]);
+        _attachAnno(clazz, "members", annoKey, member);
       }
 
       continue;
@@ -2619,7 +2678,7 @@ function addInterface()
  */
 function genericToString()
 {
-  return `[Class ${this.classname}]`;
+  return this.classname;
 }
 
 function createNamespace(name, object)
@@ -3554,6 +3613,7 @@ qx.Bootstrap.define(
          */
         trace(object) {},
 
+        defineImpl,
         undefine,
         firstLow,
         addMembers,

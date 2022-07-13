@@ -173,7 +173,7 @@ qx.Bootstrap.define(
        * @return {Class}
        *   The defined class
        */
-      define : qx.Bootstrap.define,
+      define : qx.Bootstrap.defineImpl,
 
       /**
        * Removes a class from qooxdoo defined by {@link #define}

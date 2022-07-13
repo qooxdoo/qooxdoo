@@ -24,6 +24,8 @@ qx.Class.define("qx.test.io.jsonrpc.Protocol", {
     this.parser = new qx.io.jsonrpc.protocol.Parser();
   },
   members: {
+    parser: undefined,
+
     "test: JSON-RPC request message object"() {
       let message = new qx.io.jsonrpc.protocol.Request("foo", [
         "bar",

@@ -250,7 +250,7 @@ qx.Class.define("qx.event.handler.Keyboard", {
 
       // Fallback to focused element when active is null or invisible
       if (!target || target.offsetWidth == 0) {
-        target = focusHandler.getFocus();
+        target = focusHandler.getFocusedElement();
       }
 
       // Fallback to body when focused is null or invisible

@@ -255,7 +255,7 @@ qx.Class.define("qx.event.handler.Focus", {
         }, 0);
       }
 
-      this.setFocus(element);
+      this.setFocusedElement(element);
       this.setActive(element);
     },
 

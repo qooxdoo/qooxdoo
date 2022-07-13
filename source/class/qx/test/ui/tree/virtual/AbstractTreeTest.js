@@ -29,6 +29,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
   construct() {
     super();
 
+    qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
     qx.Class.define("qx.test.ui.tree.virtual.Leaf", {
       extend: qx.core.Object,
       include: qx.data.marshal.MEventBubbling,
@@ -59,6 +60,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
       }
     });
 
+    qx.Class.undefine("qx.test.ui.tree.virtual.Node");
     qx.Class.define("qx.test.ui.tree.virtual.Node", {
       extend: qx.test.ui.tree.virtual.Leaf,
 

@@ -11,6 +11,8 @@ qx.Class.define("qx.test.performance.widget.WidgetWithDecorator", {
   },
 
   members: {
+    __decorator: undefined,
+
     _createWidget() {
       return new qx.ui.core.Widget().set({ decorator: this.__decorator });
     }
