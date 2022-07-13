@@ -611,15 +611,15 @@ let propertyMethodFactory =
 
       groupSet : function(prop, property)
       {
-        return function(args)
+        return function(...args)
         {
           // We can have received separate arguments, or a single
           // array of arguments. Convert the former to the latter if
           // necessary. Make a copy, in any case, because we might
           // muck with the array.
-          args = (args instanceof Array
-                  ? args.concat()
-                  : Array.prototype.concat.call(args));
+          args = (args[0] instanceof Array
+                  ? args[0].concat()
+                  : args);
 
           for (let i = 0;
                i < property.group.length && args.length > 0;
@@ -633,7 +633,7 @@ let propertyMethodFactory =
 
             // If we're in shorthand mode, we may reuse that value. Put it
             // back at the end of the argument list.
-            if (property.mode == "shortcut")
+            if (property.mode == "shorthand")
             {
               args.push(value);
             }

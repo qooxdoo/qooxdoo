@@ -185,6 +185,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
   members: {
     __requestedHelpers: null,
     __checkTimer: null,
+    __onceTimer: null,
     __checkStarted: null,
 
     /*
@@ -205,8 +206,9 @@ qx.Class.define("qx.bom.webfonts.Validator", {
         this.__checkTimer = new qx.event.Timer(100);
         this.__checkTimer.addListener("interval", this.__onTimerInterval, this);
         // Give the browser a chance to render the new elements
-        qx.event.Timer.once(
+        this.__onceTimer = qx.event.Timer.once(
           function () {
+            this.__onceTimer = null;
             this.__checkTimer.start();
           },
           this,
@@ -408,6 +410,9 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
   destruct() {
     this._reset();
+    if (this.__onceTimer) {
+      this.__onceTimer.stop();
+    }
     this.__checkTimer.stop();
     this.__checkTimer.removeListener("interval", this.__onTimerInterval, this);
     this._disposeObjects("__checkTimer");
