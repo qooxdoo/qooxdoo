@@ -445,18 +445,40 @@ let propertyMethodFactory =
       {
         return function(value)
         {
+          let old;
+
+          // Retrieve the current property value if we'll need to call
+          // the apply function
+          if (property.apply)
+          {
+            old = property.storage.get.call(this, prop);
+          }
+
           if (typeof value != "undefined")
           {
             property.storage.set.call(this, prop, value);
           }
           else if (property.initFunction)
           {
-            property.storage.set.call(
-              this, prop, property.initFunction.call(this, prop));
+            value = property.initFunction.call(this, prop);
+            property.storage.set.call(this, prop, value);
           }
-          else if (property.init)
+          else if (typeof property.init != "undefined")
           {
-            property.storage.set.call(this, prop, property.init);
+            value = property.init;
+            property.storage.set.call(this, prop, value);
+          }
+
+          if (property.apply)
+          {
+            if (typeof property.apply == "function")
+            {
+              property.apply.call(this, value, old, prop);
+            }
+            else // otherwise it's a string
+            {
+              this[property.apply].call(this, value, old, prop);
+            }
           }
         };
       },
