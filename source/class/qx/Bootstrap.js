@@ -1324,7 +1324,6 @@ function _extend(className, config)
 
   // This is a class
   subclass.$$type = "Class";
-  subclass.constructor = subclass; // point to self
   subclass.classname = className;
 
   // If its class type was specified, save it
@@ -1358,7 +1357,6 @@ function _extend(className, config)
 
   // Create the subclass' prototype as a copy of the superclass' prototype
   subclass.prototype = Object.create(superclass.prototype);
-  subclass.prototype.constructor = subclass;
   subclass.prototype.classname = className;
 
   // Save this object's properties
@@ -1396,7 +1394,7 @@ function _extend(className, config)
     });
 
   // Proxy the subclass so we can watch for property changes
-  subclass.prototype.constructor = new Proxy(
+  subclass.constructor = subclass.prototype.constructor = new Proxy(
     subclass,
     {
       construct : function(target, args)
@@ -1964,6 +1962,19 @@ function addMembers(clazz, members, patch)
 
     if (typeof member == "function")
     {
+      // If patching, we need to wrap the member function so that
+      // `member.base` is unique when a mixin is added to more than
+      // one class
+      if (patch)
+      {
+        let f = member;
+        member =
+          function(...args)
+          {
+            return f.apply(this, args);
+          };
+      }
+
       // Allow easily identifying this method
       qx.Bootstrap.setDisplayName(member, clazz.classname, key);
 
