@@ -477,6 +477,8 @@ qx.Class.define("qx.test.Mixin", {
       var o = new qx.PatchDerived();
       this.assertEquals("Juhu Derived Mixin", o.sayJuhu());
       o.dispose();
+      qx.Class.undefine("qx.Patch");
+      qx.Class.undefine("qx.PatchDerived");
     },
 
     testPatchOverwrittenDerivedInBaseClass() {
@@ -515,6 +517,8 @@ qx.Class.define("qx.test.Mixin", {
       var o = new qx.PatchDerived();
       this.assertEquals("Juhu Mixin Derived", o.sayJuhu());
       o.dispose();
+      qx.Class.undefine("qx.Patch");
+      qx.Class.undefine("qx.PatchDerived");
     },
 
     testPatchMultiOverwrittenDerived() {
@@ -608,7 +612,8 @@ qx.Class.define("qx.test.Mixin", {
       qx.Class.patch(qx.D, qx.MDB);
 
       var o = new qx.D();
-      this.assertEquals("Double MA MB", o.sayJuhu());
+      var ret = o.sayJuhu();
+      this.assertEquals("Double MA MB", ret);
       o.dispose();
     }
   }

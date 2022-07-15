@@ -1208,8 +1208,9 @@ function _extend(className, config)
   let             allProperties = superclass.$$allProperties || {};
   let             initFunctions = [];
   let             subclass;
+  let             initialConstruct = config.construct;
 
-  if (config.construct)
+  if (config.type != "static")
   {
     // If the constructor function is defined as a "method" using
     // shorthand syntax, e.g.,
@@ -1228,12 +1229,22 @@ function _extend(className, config)
     //
     subclass = function(...args)
     {
-      config.construct.apply(this, args);
-
-      if (this.constructor.$$originalConstructor == config.construct &&
-          this.constructor.$$flatIncludes)
+      // At the time this function is called, config.construct, even
+      // if undefined in the configuration, will have been set to a
+      // trivial function. We therefore look at its initial value to
+      // decide whether to call it, or the superclass constructor.
+      if (initialConstruct)
       {
-        this.constructor.$$flatIncludes.forEach(
+        initialConstruct.apply(this, args);
+      }
+      else
+      {
+        superclass.apply(this, args);
+      }
+
+      if (subclass.constructor.$$flatIncludes)
+      {
+        subclass.constructor.$$flatIncludes.forEach(
           (mixin) =>
           {
             if (mixin.$$constructor)
@@ -1244,36 +1255,12 @@ function _extend(className, config)
       }
     };
   }
-  else if (config.type == "static")
+  else
   {
     subclass = function()
     {
       throw new Error(
         `${className}: can not instantiate a static class`);
-    };
-  }
-  else
-  {
-    // It's a normal class but no constructor was provided. Create one
-    // that simply calls the superclass constructor, if one is available
-    subclass = function(...args)
-    {
-      superclass.call(this, ...args);
-
-      // config.construct has a value by now even though it was null
-      // in order to get here.
-      if (this.constructor.$$originalConstructor == config.construct &&
-          this.constructor.$$flatIncludes)
-      {
-        this.constructor.$$flatIncludes.forEach(
-          (mixin) =>
-          {
-            if (mixin.$$constructor)
-            {
-              mixin.$$constructor.apply(this, args);
-            }
-          });
-      }
     };
   }
 
@@ -1341,13 +1328,8 @@ function _extend(className, config)
     config.construct = function() {};
   }
 
-  // But if the constructor was wrapped, above...
-  if (config.construct)
-  {
-    // ... then we need to point to the superclass from it, too, so
-    // that `base()` calls work
-    config.construct.base = subclass.base;
-  }
+  // We need to point to the superclass from it so that `base()` calls work
+  config.construct.base = subclass.base;
 
   // Keep track of the original constructor so we know when to construct mixins
   subclass.$$originalConstructor = config.construct;
@@ -1815,6 +1797,7 @@ function _extend(className, config)
           });
 
         this.apply(target, proxy, args);
+
         return proxy;
       },
 
@@ -1986,6 +1969,10 @@ function addMembers(clazz, members, patch)
       // Allow base calls
       if (key in clazz.prototype)
       {
+        if (patch && typeof member == "function")
+        {
+          member.self = clazz;
+        }
         member.base = clazz.prototype[key];
       }
     }
