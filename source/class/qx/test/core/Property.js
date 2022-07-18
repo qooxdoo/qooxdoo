@@ -917,7 +917,8 @@ qx.Class.define("qx.test.core.Property", {
         }
       });
 
-      object = new qx.TestProperty().set({ prop: 4711 });
+      object = new qx.TestProperty();
+      object.set({ prop: 4711 });
 
       this.assertIdentical(object, context);
 

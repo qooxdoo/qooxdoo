@@ -119,19 +119,12 @@ window.qx = Object.assign(
       {
         init(propertyName, property, clazz)
         {
-          let init =
-              (typeof property.init != "undefined"
-               ? property.init
-               : (property.nullable
-                  ? null
-                  : undefined));
-
           // Create the storage for this property's current value
           Object.defineProperty(
             clazz.prototype,
             propertyName,
             {
-              value        : init,
+              value        : property.init,
               writable     : true, // must be true for possible initFunction
               configurable : false,
               enumerable   : allEnumerable || false
@@ -462,19 +455,6 @@ let propertyMethodFactory =
       {
         return function(value)
         {
-          let old;
-
-          // Retrieve the current property value if we'll need to call
-          // the apply function
-          if (property.apply && ! this[`$$useInit_${prop}`])
-          {
-            old = property.storage.get.call(this, prop);
-          }
-          else if (property.apply)
-          {
-            old = null;
-          }
-
           if (typeof value != "undefined")
           {
             property.storage.set.call(this, prop, value);
@@ -488,18 +468,6 @@ let propertyMethodFactory =
           {
             value = property.init;
             property.storage.set.call(this, prop, value);
-          }
-
-          if (property.apply && this[`$$useInit_${prop}`])
-          {
-            if (typeof property.apply == "function")
-            {
-              property.apply.call(this, value, old, prop);
-            }
-            else // otherwise it's a string
-            {
-              this[property.apply].call(this, value, old, prop);
-            }
           }
 
           this[`$$useInit_${prop}`] = true;
@@ -566,7 +534,8 @@ let propertyMethodFactory =
             old = await this[`get${propertyFirstUp}Async`]();
 
             // If the value has changed since last time...
-            if (! property.isEqual(value, old) || this[`$$useInit_${prop}`])
+            if (! property.isEqual.call(this, value, old) ||
+                this[`$$useInit_${prop}`])
             {
               property.storage.set.call(this, prop, value);
 
@@ -1663,7 +1632,7 @@ function _extend(className, config)
                 // setPropertyNameAsync() )
                 if (property.apply &&
                     ! property.async &&
-                    (! property.isEqual(value, old) ||
+                    (! property.isEqual.call(proxy, value, old) ||
                      obj[`$$useInit_${prop}`]))
                 {
                   // Yes. Call it.
@@ -1680,7 +1649,7 @@ function _extend(className, config)
                 // Are we requested to generate an event?
                 if (property.event &&
                     ! property.async &&
-                    (! property.isEqual(value, old) ||
+                    (! property.isEqual.call(proxy, value, old) ||
                      obj[`$$useInit_${prop}`]))
                 {
                   const Reg = qx.event.Registration;
@@ -2062,7 +2031,7 @@ function addProperties(clazz, properties, patch)
     {
       let origIsEqual = property.isEqual;
       property.isEqual =
-        (a, b) =>
+        function (a, b)
         {
           // First see if isEqual names a member function
           if (typeof this[origIsEqual] == "function")
@@ -2073,7 +2042,7 @@ function addProperties(clazz, properties, patch)
           // Otherwise, assume the string is the contents of a function,
           // e.g., "Object.is(a, b)"
           let arbitrary = new Function("a", "b", `return ${origIsEqual}`);
-          return arbitrary(a, b);
+          return arbitrary.call(this, a, b);
         };
     }
 
