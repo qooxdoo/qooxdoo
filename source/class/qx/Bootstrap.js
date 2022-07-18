@@ -338,6 +338,7 @@ let propertyMethodFactory =
         return function(value)
         {
           this[prop] = value;
+          this[`$$useInit_${prop}`] = false;
           return value;
         };
       },
@@ -360,6 +361,7 @@ let propertyMethodFactory =
 
           // Unset the user value
           this[`$$user_${prop}`] = undefined;
+          this[`$$useInit_${prop}`] = false;
 
           // Select the new value
           this[prop] = inheritValue !== undefined ? inheritValue : initValue;
@@ -379,6 +381,7 @@ let propertyMethodFactory =
           {
             // Use the user value as the property value
             this[prop] = userValue;
+            this[`$$useInit_${prop}`] = false;
             return;
           }
 
@@ -428,6 +431,7 @@ let propertyMethodFactory =
           if (userValue === undefined)
           {
             this[prop] = value;
+            this[`$$useInit_${prop}`] = false;
           }
         };
       },
@@ -450,6 +454,7 @@ let propertyMethodFactory =
 
           // Select the new value
           this[prop] = userValue !== undefined ? userValue : initValue;
+          this[`$$useInit_${prop}`] = false;
         };
       },
 
@@ -461,9 +466,13 @@ let propertyMethodFactory =
 
           // Retrieve the current property value if we'll need to call
           // the apply function
-          if (property.apply)
+          if (property.apply && ! this[`$$useInit_${prop}`])
           {
             old = property.storage.get.call(this, prop);
+          }
+          else if (property.apply)
+          {
+            old = null;
           }
 
           if (typeof value != "undefined")
@@ -481,7 +490,7 @@ let propertyMethodFactory =
             property.storage.set.call(this, prop, value);
           }
 
-          if (property.apply)
+          if (property.apply && this[`$$useInit_${prop}`])
           {
             if (typeof property.apply == "function")
             {
@@ -492,6 +501,9 @@ let propertyMethodFactory =
               this[property.apply].call(this, value, old, prop);
             }
           }
+
+          this[`$$useInit_${prop}`] = true;
+
         };
       },
 
@@ -554,7 +566,7 @@ let propertyMethodFactory =
             old = await this[`get${propertyFirstUp}Async`]();
 
             // If the value has changed since last time...
-            if (! property.isEqual(value, old))
+            if (! property.isEqual(value, old) || this[`$$useInit_${prop}`])
             {
               property.storage.set.call(this, prop, value);
 
@@ -1654,7 +1666,8 @@ function _extend(className, config)
                 // setPropertyNameAsync() )
                 if (property.apply &&
                     ! property.async &&
-                    ! property.isEqual(value, old))
+                    (! property.isEqual(value, old) ||
+                     obj[`$$useInit_${prop}`]))
                 {
                   // Yes. Call it.
                   if (typeof property.apply == "function")
@@ -1672,39 +1685,30 @@ function _extend(className, config)
                     ! property.async &&
                     ! property.isEqual(value, old))
                 {
-                  if (typeof PROXY_TESTS == "undefined")
+                  const Reg = qx.event.Registration;
+
+                  // Yes. Generate a sync event if needed
+                  if (Reg.hasListener(obj, property.event))
                   {
-                    const Reg = qx.event.Registration;
-
-                    // Yes. Generate a sync event if needed
-                    if (Reg.hasListener(obj, property.event))
-                    {
-                      qx.event.Utils.track(
-                        tracker,
-                        Reg.fireEvent(
-                          obj,
-                          property.event,
-                          qx.event.type.Data,
-                          [ value, old ]));
-                    }
-
-                    // Also generate an async event, if needed
-                    if (Reg.hasListener(obj, property.event + "Async"))
-                    {
-                      qx.event.Utils.track(
-                        tracker,
-                        Reg.fireEvent(
-                          obj,
-                          property.event + "Async",
-                          qx.event.type.Data,
-                          [ qx.Promise.resolve(value), old ]));
-                    }
+                    qx.event.Utils.track(
+                      tracker,
+                      Reg.fireEvent(
+                        obj,
+                        property.event,
+                        qx.event.type.Data,
+                        [ value, old ]));
                   }
-                  else // PROXY_TESTS
+
+                  // Also generate an async event, if needed
+                  if (Reg.hasListener(obj, property.event + "Async"))
                   {
-                    console.log(
-                      `Would generate event type ${property.event} ` +
-                        `{ value: ${JSON.stringify(value)}, old: ${old} }`);
+                    qx.event.Utils.track(
+                      tracker,
+                      Reg.fireEvent(
+                        obj,
+                        property.event + "Async",
+                        qx.event.type.Data,
+                        [ qx.Promise.resolve(value), old ]));
                   }
                 }
 
@@ -1794,6 +1798,7 @@ function _extend(className, config)
 
             // Initialize this property
             obj[`init${propertyFirstUp}`]();
+            obj[`$$useInit_${prop}`] = true;
           });
 
         this.apply(target, proxy, args);
@@ -2152,6 +2157,18 @@ function addProperties(clazz, properties, patch)
           enumerable   : allEnumerable || false
         });
     }
+
+    // whether to call apply after setting init value
+    Object.defineProperty(
+      clazz.prototype,
+      `$$useInit_${key}`,
+      {
+        value        : (typeof property.init != "undefined" ||
+                        typeof property.initFunction == "function"),
+        writable     : true,
+        configurable : false,
+        enumerable   : allEnumerable || false
+      });
 
     // inheritable
     if (property.inheritable)
