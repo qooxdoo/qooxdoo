@@ -794,11 +794,6 @@ function defineImpl(className, config)
     qx["core"]["Environment"].add(key, environment[key]);
   }
 
-  if (qx["core"]["Environment"].get("qx.debug"))
-  {
-    _validatePropertyDefinitions(className, config);
-  }
-
   // Normalize include to array
   if (config.include && qx.Bootstrap.getClass(config.include) != "Array")
   {
@@ -919,6 +914,8 @@ function defineImpl(className, config)
       }
       throw e;
     }
+
+    _validatePropertyDefinitions(className, config);
   }
 
   // Create the new class
@@ -1683,7 +1680,8 @@ function _extend(className, config)
                 // Are we requested to generate an event?
                 if (property.event &&
                     ! property.async &&
-                    ! property.isEqual(value, old))
+                    (! property.isEqual(value, old) ||
+                     obj[`$$useInit_${prop}`]))
                 {
                   const Reg = qx.event.Registration;
 
@@ -2059,6 +2057,24 @@ function addProperties(clazz, properties, patch)
     {
       // ... then create the default comparison function
       property.isEqual = isEqual;
+    }
+    else if (typeof property.isEqual == "string")
+    {
+      let origIsEqual = property.isEqual;
+      property.isEqual =
+        (a, b) =>
+        {
+          // First see if isEqual names a member function
+          if (typeof this[origIsEqual] == "function")
+          {
+            return this[origIsEqual](a, b);
+          }
+
+          // Otherwise, assume the string is the contents of a function,
+          // e.g., "Object.is(a, b)"
+          let arbitrary = new Function("a", "b", `return ${origIsEqual}`);
+          return arbitrary(a, b);
+        };
     }
 
     // If there's no storage mechanism specified for this property...
@@ -3228,15 +3244,16 @@ if (qx.core.Environment.get("qx.debug"))
       var key = maps[i];
 
       if (config[key] !== undefined &&
-          (config[key].$$hash !== undefined ||
-           !qx.Bootstrap.isObject(config[key])))
+          (config[key] === null ||
+           config[key].$$hash !== undefined ||
+           ! qx.Bootstrap.isObject(config[key])))
       {
         throw new Error(
           'Invalid key "' +
             key +
             '" in class "' +
             name +
-            '"! The value needs to be a map!'
+            '". The value needs to be a map.'
         );
       }
     }
@@ -3401,6 +3418,18 @@ function _validatePropertyDefinitions(className, config)
   let             allowedKeys;
   let             properties = config.properties || {};
 
+  // Ensure they're not passing a qx.core.Object descendent as property map
+  if (qx["core"]["Environment"].get("qx.debug"))
+  {
+    if (config.properties !== undefined &&
+        qx.Bootstrap.isQxCoreObject(config.properties))
+    {
+      throw new Error(
+        `${className}: ` +
+          "Can't use qx.core.Object descendent as property map");
+    }
+  }
+
   for (let prop in properties)
   {
     let             property = properties[prop];
@@ -3408,7 +3437,7 @@ function _validatePropertyDefinitions(className, config)
     // Ensure they're not passing a qx.core.Object descendent as a property
     if (qx["core"]["Environment"].get("qx.debug"))
     {
-      if (qx.Bootstrap.isQxCoreObject(properties))
+      if (qx.Bootstrap.isQxCoreObject(property))
       {
         throw new Error(
           `${prop} in ${className}: ` +
