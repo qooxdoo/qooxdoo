@@ -113,40 +113,6 @@ window.qx = Object.assign(
         {
           qx["core"]["Environment"].$$environment[key] = value;
         }
-      },
-
-      propertystorage :
-      {
-        init(propertyName, property, clazz)
-        {
-          // Create the storage for this property's current value
-          Object.defineProperty(
-            clazz.prototype,
-            propertyName,
-            {
-              value        : property.init,
-              writable     : true, // must be true for possible initFunction
-              configurable : false,
-              enumerable   : allEnumerable || false
-            });
-        },
-
-        get(prop)
-        {
-          return this[prop];
-        },
-
-        set(prop, value)
-        {
-          this[prop] = value;
-        },
-
-        dereference(prop, property)
-        {
-          // Called immediately after the destructor, if the
-          // property has `dereference : true`.
-          delete this[prop];
-        }
       }
     }
   });
@@ -322,7 +288,14 @@ let propertyMethodFactory =
       {
         return function()
         {
-          return this[prop];
+          let value = this[prop];
+
+          if (value === undefined && property.nullable)
+          {
+            value = null;
+          }
+
+          return value;
         };
       },
 
@@ -330,8 +303,14 @@ let propertyMethodFactory =
       {
         return function(value)
         {
+          if (this[`$$variant_${prop}`] == "init")
+          {
+            this[`$$variant_${prop}`] = "init->set";
+          }
+
           this[prop] = value;
-          this[`$$useInit_${prop}`] = false;
+
+          this[`$$variant_${prop}`] = "set";
           return value;
         };
       },
@@ -354,7 +333,7 @@ let propertyMethodFactory =
 
           // Unset the user value
           this[`$$user_${prop}`] = undefined;
-          this[`$$useInit_${prop}`] = false;
+          this[`$$variant_${prop}`] = null;
 
           // Select the new value
           this[prop] = inheritValue !== undefined ? inheritValue : initValue;
@@ -374,7 +353,7 @@ let propertyMethodFactory =
           {
             // Use the user value as the property value
             this[prop] = userValue;
-            this[`$$useInit_${prop}`] = false;
+            this[`$$variant_${prop}`] = null;
             return;
           }
 
@@ -424,7 +403,7 @@ let propertyMethodFactory =
           if (userValue === undefined)
           {
             this[prop] = value;
-            this[`$$useInit_${prop}`] = false;
+            this[`$$variant_${prop}`] = null;
           }
         };
       },
@@ -447,7 +426,7 @@ let propertyMethodFactory =
 
           // Select the new value
           this[prop] = userValue !== undefined ? userValue : initValue;
-          this[`$$useInit_${prop}`] = false;
+          this[`$$variant_${prop}`] = null;
         };
       },
 
@@ -470,8 +449,7 @@ let propertyMethodFactory =
             property.storage.set.call(this, prop, value);
           }
 
-          this[`$$useInit_${prop}`] = true;
-
+          this[`$$variant_${prop}`] = "init";
         };
       },
 
@@ -505,7 +483,14 @@ let propertyMethodFactory =
       {
         return async function()
         {
-          return get.call(this);
+          let value = get.call(this);
+
+          if (value === undefined && property.nullable)
+          {
+            value = null;
+          }
+
+          return value;
         };
       },
 
@@ -520,6 +505,7 @@ let propertyMethodFactory =
           const           setImpl = async function()
           {
             let      old;
+            let      oldForCallback;
 
             // Save the new property value. This is before any async calls
             if (property.immutable == "readonly")
@@ -535,67 +521,64 @@ let propertyMethodFactory =
 
             // If the value has changed since last time...
             if (! property.isEqual.call(this, value, old) ||
-                this[`$$useInit_${prop}`])
+                ["init", "init->set"].includes(this[`$$variant_${prop}`]))
             {
               property.storage.set.call(this, prop, value);
 
+              oldForCallback = old === undefined ? null : old;
+              if (this[`$$variant_${prop}`] == "init")
+              {
+                oldForCallback = null;
+              }
+
               // Call the apply function
-              await apply.call(this, value, old, prop);
+              await apply.call(this, value, oldForCallback, prop);
 
               // Now that apply has resolved, fire the change event
-              if (typeof PROXY_TESTS == "undefined")
+              let promiseData = qx.Promise.resolve(value);
+
+              if (property.event)
               {
-                let promiseData = qx.Promise.resolve(value);
+                const Reg = qx.event.Registration;
 
-                if (property.event)
+                // Yes. Generate a sync event if needed
+                if (Reg.hasListener(this, property.event))
                 {
-                  const Reg = qx.event.Registration;
-
-                  // Yes. Generate a sync event if needed
-                  if (Reg.hasListener(this, property.event))
-                  {
-                    await Reg.fireEventAsync(
-                      this,
-                      property.event,
-                      qx.event.type.Data,
-                      [ value, old ]);
-                  }
-
-                  // Also generate an async event, if needed
-                  if (Reg.hasListener(this, property.event + "Async"))
-                  {
-                    await Reg.fireEventAsync(
-                      this,
-                    property.event + "Async",
+                  await Reg.fireEventAsync(
+                    this,
+                    property.event,
                     qx.event.type.Data,
-                    [ promiseData, old ]);
-                  }
+                    [ value, oldForCallback ]);
                 }
 
-                // Update inherited values of child objects
-                if (property.inheritable &&
-                    this.prototype &&
-                    this.prototype._getChildren)
+                // Also generate an async event, if needed
+                if (Reg.hasListener(this, property.event + "Async"))
                 {
-                  let children = this._getChildren();
-                  if (children)
-                  {
-                    children.forEach(
-                      (child) =>
-                      {
-                        let { refresh } =
-                            this.constructor.$$propertyDescriptorRegistry.get(
-                              child, prop);
-                        refresh();
-                      });
-                  }
+                  await Reg.fireEventAsync(
+                    this,
+                  property.event + "Async",
+                  qx.event.type.Data,
+                  [ promiseData, oldForCallback ]);
                 }
               }
-              else
+
+              // Update inherited values of child objects
+              if (property.inheritable &&
+                  this.prototype &&
+                  this.prototype._getChildren)
               {
-                console.log(
-                  `Would generate event type ${property.event} ` +
-                    `{ value: ${value}, old: ${old} } (async event)`);
+                let children = this._getChildren();
+                if (children)
+                {
+                  children.forEach(
+                    (child) =>
+                    {
+                      let { refresh } =
+                          this.constructor.$$propertyDescriptorRegistry.get(
+                            child, prop);
+                      refresh();
+                    });
+                }
               }
             }
 
@@ -1417,12 +1400,19 @@ function _extend(className, config)
             {
               let             origValue = value;
               let             old = Reflect.get(obj, prop);
+              let             oldForCallback;
               let             property = subclass.$$allProperties[prop];
               let             tracker = {};
               const           storage =
                 property && property.storage
                     ? property.storage
                     : qx.core.propertystorage.Default; // for member var setter
+
+              oldForCallback = old === undefined ? null : old;
+              if (obj[`$$variant_${prop}`] == "init")
+              {
+                oldForCallback = null;
+              }
 
               // Is this a property?
               if (property)
@@ -1632,25 +1622,25 @@ function _extend(className, config)
                 // setPropertyNameAsync() )
                 if (property.apply &&
                     ! property.async &&
-                    (! property.isEqual.call(proxy, value, old) ||
-                     obj[`$$useInit_${prop}`]))
+                    (! property.isEqual.call(proxy, value, oldForCallback) ||
+                     ["init", "init->set"].includes(obj[`$$variant_${prop}`])))
                 {
                   // Yes. Call it.
                   if (typeof property.apply == "function")
                   {
-                    property.apply.call(obj, value, old, prop);
+                    property.apply.call(obj, value, oldForCallback, prop);
                   }
                   else // otherwise it's a string
                   {
-                    obj[property.apply].call(obj, value, old, prop);
+                    obj[property.apply].call(obj, value, oldForCallback, prop);
                   }
                 }
 
                 // Are we requested to generate an event?
                 if (property.event &&
                     ! property.async &&
-                    (! property.isEqual.call(proxy, value, old) ||
-                     obj[`$$useInit_${prop}`]))
+                    (! property.isEqual.call(proxy, value, oldForCallback) ||
+                     ["init", "init->set"].includes(obj[`$$variant_${prop}`])))
                 {
                   const Reg = qx.event.Registration;
 
@@ -1663,7 +1653,7 @@ function _extend(className, config)
                         obj,
                         property.event,
                         qx.event.type.Data,
-                        [ value, old ]));
+                        [ value, oldForCallback ]));
                   }
 
                   // Also generate an async event, if needed
@@ -1675,7 +1665,7 @@ function _extend(className, config)
                         obj,
                         property.event + "Async",
                         qx.event.type.Data,
-                        [ qx.Promise.resolve(value), old ]));
+                        [ qx.Promise.resolve(value), oldForCallback ]));
                   }
                 }
 
@@ -1765,7 +1755,7 @@ function _extend(className, config)
 
             // Initialize this property
             obj[`init${propertyFirstUp}`]();
-            obj[`$$useInit_${prop}`] = true;
+            obj[`$$variant_${prop}`] = "init";
           });
 
         this.apply(target, proxy, args);
@@ -2146,10 +2136,12 @@ function addProperties(clazz, properties, patch)
     // whether to call apply after setting init value
     Object.defineProperty(
       clazz.prototype,
-      `$$useInit_${key}`,
+      `$$variant_${key}`,
       {
         value        : (typeof property.init != "undefined" ||
-                        typeof property.initFunction == "function"),
+                        typeof property.initFunction == "function"
+                        ? "init"
+                        : null),
         writable     : true,
         configurable : false,
         enumerable   : allEnumerable || false
