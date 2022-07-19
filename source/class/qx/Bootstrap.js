@@ -311,6 +311,10 @@ let propertyMethodFactory =
           this[prop] = value;
 
           this[`$$variant_${prop}`] = "set";
+
+          // Also specify that this was a user-specified value
+          this[`$$user_${prop}`] = value;
+
           return value;
         };
       },
@@ -1670,9 +1674,7 @@ function _extend(className, config)
                 }
 
                 // Update inherited values of child objects
-                if (property.inheritable &&
-                    obj.prototype &&
-                    obj.prototype._getChildren)
+                if (property.inheritable && obj._getChildren)
                 {
                   let children = obj._getChildren();
                   if (children)
@@ -1680,16 +1682,16 @@ function _extend(className, config)
                     children.forEach(
                       (child) =>
                       {
-                        let { refresh } =
-                            this.constructor.$$propertyDescriptorRegistry.get(
+                        let descriptors =
+                            obj.constructor.$$propertyDescriptorRegistry.get(
                               child, prop);
-                        refresh();
+                        if (descriptors)
+                        {
+                          descriptors.refresh();
+                        }
                       });
                   }
                 }
-
-                // Also specify that this was a user-specified value
-                obj[`$$user_${prop}`] = value;
 
                 if (tracker.promise)
                 {
