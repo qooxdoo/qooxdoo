@@ -323,10 +323,14 @@ let propertyMethodFactory =
       {
         return function(value)
         {
-          // Get the current inherited and init values
+          // Get the current inherited, themed, and init values
           let             inheritValue =
               (property.inheritable
                ? this[`$$inherit_${prop}`]
+               : undefined);
+          let             themeValue =
+              (property.themeable
+               ? this[`$$theme_${prop}`]
                : undefined);
           let             initValue =
               (property.initFunction
@@ -340,7 +344,12 @@ let propertyMethodFactory =
           this[`$$variant_${prop}`] = null;
 
           // Select the new value
-          this[prop] = inheritValue !== undefined ? inheritValue : initValue;
+          this[prop] =
+            (inheritValue !== undefined
+             ? inheritValue
+             : (themeValue !== undefined
+                ? themeValue
+                : initValue));
         };
       },
 
@@ -409,6 +418,8 @@ let propertyMethodFactory =
             this[prop] = value;
             this[`$$variant_${prop}`] = null;
           }
+
+          return value;
         };
       },
 
