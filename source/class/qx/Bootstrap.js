@@ -290,7 +290,7 @@ let propertyMethodFactory =
         {
           let value = this[prop];
 
-          if (value === undefined && property.nullable)
+          if (value === undefined)
           {
             value = null;
           }
@@ -489,7 +489,7 @@ let propertyMethodFactory =
         {
           let value = get.call(this);
 
-          if (value === undefined && property.nullable)
+          if (value === undefined)
           {
             value = null;
           }
