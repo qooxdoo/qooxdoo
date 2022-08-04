@@ -2768,19 +2768,19 @@ qx.Bootstrap.define(
             // Attach events
             if (entry.$$events)
             {
-              this.addEvents(clazz, entry.$$events, patch);
+              qx.Class.addEvents(clazz, entry.$$events, patch);
             }
 
             // Attach properties
             if (entry.$$properties)
             {
-              this.addProperties(clazz, entry.$$properties, patch);
+              qx.Class.addProperties(clazz, entry.$$properties, patch);
             }
 
             // Attach members
             if (entry.$$members)
             {
-              this.addMembers(clazz, entry.$$members, patch);
+              qx.Class.addMembers(clazz, entry.$$members, patch);
             }
           });
 
