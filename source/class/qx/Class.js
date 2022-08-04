@@ -954,11 +954,11 @@ qx.Bootstrap.define(
                         // It does. Call it. It returns the new value.
                         if (typeof property.transform == "function")
                         {
-                          value = property.transform.call(obj, value, old);
+                          value = property.transform.call(proxy, value, old);
                         }
                         else // otherwise it's a string
                         {
-                          value = obj[property.transform].call(obj, value, old);
+                          value = obj[property.transform].call(proxy, value, old);
                         }
                       }
 
@@ -1209,7 +1209,7 @@ qx.Bootstrap.define(
 
                             try
                             {
-                              if (! fCheck.call(obj, value))
+                              if (! fCheck.call(proxy, value))
                               {
                                 throw new Error(
                                   `${prop}: ` +
@@ -1239,11 +1239,11 @@ qx.Bootstrap.define(
                         // validation failure
                         if (typeof property.validate == "function")
                         {
-                          property.validate.call(obj, value);
+                          property.validate.call(proxy, value);
                         }
                         else // otherwise it's a string
                         {
-                          obj[property.validate].call(obj, value);
+                          obj[property.validate].call(proxy, value);
                         }
                       }
 
@@ -1261,11 +1261,11 @@ qx.Bootstrap.define(
                         // Yes. Call it.
                         if (typeof property.apply == "function")
                         {
-                          property.apply.call(obj, value, oldForCallback, prop);
+                          property.apply.call(proxy, value, oldForCallback, prop);
                         }
                         else // otherwise it's a string
                         {
-                          obj[property.apply].call(obj, value, oldForCallback, prop);
+                          obj[property.apply].call(proxy, value, oldForCallback, prop);
                         }
                       }
 
