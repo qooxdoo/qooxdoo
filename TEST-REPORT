@@ -18,7 +18,6 @@ not ok 83 - qx.test.ui.Window:testActiveWindowAfterRemovingOpenedWindow2 - [3.99
 not ok 84 - qx.test.ui.Window:testActiveWindowAfterRemovingAllWindows - [3.62 ms] - setUp failed: control.show is not a function
 not ok 85 - qx.test.ui.Window:testModalWindowIsAlwaysActiveIfOpen - [3.35 ms] - setUp failed: control.show is not a function
 not ok 86 - qx.test.ui.Window:testOrderModalOverAlwaysOnTopOverNormalWindow - [3.68 ms] - setUp failed: control.show is not a function
-010977 : ok 121 - # SKIP qx.test.ui.command.Command:testEnabled - Skipped because binding the Enabled property has been deprecated
 not ok 149 - qx.test.ui.core.Appearance:testDefault - [128.32 ms] - setUp failed: this._getLayout(...).setGap is not a function
 not ok 150 - qx.test.ui.core.Appearance:testFallback - [78.02 ms] - setUp failed: this._getLayout(...).setGap is not a function
 not ok 151 - qx.test.ui.core.Appearance:testChange - [77.89 ms] - setUp failed: this._getLayout(...).setGap is not a function
@@ -35,7 +34,6 @@ not ok 253 - qx.test.ui.embed.Iframe:testHiddenSetSourceInitial - [3.11 ms] - Ex
 not ok 254 - qx.test.ui.core.Widget:testLazyScrollChildIntoViewY - [11.32 ms] - Called assert with 'false'
 not ok 255 - qx.test.ui.embed.Iframe:testHiddenSetSource - [0.60 ms] - Timeout of 10000 ms reached before resume() was called.
 not ok 256 - qx.test.ui.embed.Iframe:testGetWindow - [0.56 ms] - Timeout of 10000 ms reached before resume() was called.
-024834 : ok 257 - # SKIP qx.test.ui.embed.Iframe:testSyncSourceAfterDOMMove - Optimization makes this test fail frequently for chrome - skipping
 not ok 258 - qx.test.ui.form.AbstractSelectBox:testStatePopupOpen - [12.85 ms] - Cannot read property 'top' of null
 not ok 260 - qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeSelectBox - [23.96 ms] - Cannot read property 'height' of null
 not ok 261 - qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeComboBox - [18.95 ms] - Cannot read property 'height' of null
@@ -430,69 +428,6 @@ not ok 1256 - qx.test.Theme:testExtendThemeWithIncludes - [40.48 ms] - Unable to
 not ok 1258 - qx.test.Promise:testEach2 - [0.88 ms] - Timeout of 1000 ms reached before resume() was called.
 not ok 1259 - qx.test.Promise:testGlobalError - [0.52 ms] - Timeout of 1000 ms reached before resume() was called.
 not ok 1334 - qx.test.bom.Font:testColorAtWidget - [5.79 ms] - Cannot read property 'style' of null
-103795 : ok 1354 - # SKIP qx.test.bom.Label:testMeasureSizeTextNormal - Called skip()
-105899 : ok 1424 - # SKIP qx.test.bom.client.Pdfjs:test: is PDF.js available - Requirement not met: firefox
-107057 : ok 1427 - # SKIP qx.test.bom.element.AnimationJs:test animate properties which are CSS properties and element attributes - Requirement not met
-108077 : ok 1460 - # SKIP qx.test.bom.element.Style:testGetFloat - Requirement not met
-109046 : ok 1492 - # SKIP qx.test.bom.media.Audio:test Play Event - Headless browser HTML5 audio/video play event test disabled on headless browsers
-109505 : ok 1507 - # SKIP qx.test.bom.media.Video:test Play Event - Headless browser HTML5 audio/video play event test disabled on headless browsers
-109534 : ok 1508 - # SKIP qx.test.bom.request.Jsonp:test: setCallbackParam() - Requirement not met: php
-109549 : ok 1509 - # SKIP qx.test.bom.request.Jsonp:test: setCallbackName() - Requirement not met: php
-109561 : ok 1510 - # SKIP qx.test.bom.request.Jsonp:test: has default callback param and name - Requirement not met: php
-109579 : ok 1511 - # SKIP qx.test.bom.request.Jsonp:test: not overwrite existing callback - Requirement not met: php
-109594 : ok 1512 - # SKIP qx.test.bom.request.Jsonp:test: responseJson holds response with default callback - Requirement not met: php
-109609 : ok 1513 - # SKIP qx.test.bom.request.Jsonp:test: reset responseJson when reopened - Requirement not met: php
-109626 : ok 1514 - # SKIP qx.test.bom.request.Jsonp:test: status indicates success when default callback called - Requirement not met: php
-109646 : ok 1515 - # SKIP qx.test.bom.request.Jsonp:test: status indicates success when custom callback called - Requirement not met: php
-109660 : ok 1516 - # SKIP qx.test.bom.request.Jsonp:test: status indicates failure when default callback not called - Requirement not met: php
-109676 : ok 1517 - # SKIP qx.test.bom.request.Jsonp:test: status indicates failure when custom callback not called - Requirement not met: php
-109693 : ok 1518 - # SKIP qx.test.bom.request.Jsonp:test: status indicates failure when callback not called on second request - Requirement not met: php
-109711 : ok 1519 - # SKIP qx.test.bom.request.Jsonp:test: call onload - Requirement not met: php
-109726 : ok 1520 - # SKIP qx.test.bom.request.Jsonp:test: call onerror on network error - Requirement not met: php
-109743 : ok 1521 - # SKIP qx.test.bom.request.Jsonp:test: call onloadend on network error - Requirement not met: php
-110134 : ok 1531 - # SKIP qx.test.bom.request.Script:test: properties indicate failure when request timed out - Requirement not met: php
-110326 : ok 1537 - # SKIP qx.test.bom.request.Script:test: send() with data - Requirement not met
-110343 : ok 1538 - # SKIP qx.test.bom.request.Script:test: abort() removes script element - Requirement not met: php
-111060 : ok 1548 - # SKIP qx.test.bom.request.Script:test: call onerror on invalid script - Requirement not met
-111070 : ok 1549 - # SKIP qx.test.bom.request.Script:test: not call onerror when request exceeds timeout limit - Requirement not met: php
-111083 : ok 1550 - # SKIP qx.test.bom.request.Script:test: call ontimeout when request exceeds timeout limit - Requirement not met: php
-111661 : ok 1555 - # SKIP qx.test.bom.request.Script:test: remove script from DOM when request timed out - Requirement not met: php
-114631 : ok 1645 - # SKIP qx.test.bom.request.XhrWithRemote:test: handle arbitrary XML - Requirement not met: php
-114689 : ok 1647 - # SKIP qx.test.bom.request.XhrWithRemote:test: POST - Requirement not met: php
-114727 : ok 1649 - # SKIP qx.test.bom.request.XhrWithRemote:test: have readyState OPENED - Requirement not met: php
-114738 : ok 1650 - # SKIP qx.test.bom.request.XhrWithRemote:test: abort pending request - Requirement not met: php
-114752 : ok 1651 - # SKIP qx.test.bom.request.XhrWithRemote:test: have status 200 when modified - Requirement not met: php
-114767 : ok 1652 - # SKIP qx.test.bom.request.XhrWithRemote:test: validate freshness - Requirement not met: php
-114810 : ok 1654 - # SKIP qx.test.bom.request.XhrWithRemote:test: overrideMimeType content type unchanged - Requirement not met: php
-114826 : ok 1655 - # SKIP qx.test.bom.request.XhrWithRemote:test: overrideMimeType content type override - Requirement not met: php
-114988 : ok 1659 - # SKIP qx.test.bom.request.XhrWithRemote:test: have status 304 when cache is fresh - Requirement not met: php
-115303 : ok 1663 - # SKIP qx.test.bom.request.XhrWithRemote:test: call onreadystatechange when aborting LOADING - Requirement not met: php
-115316 : ok 1664 - # SKIP qx.test.bom.request.XhrWithRemote:test: call onloadend when aborting LOADING - Requirement not met: php
-115394 : ok 1666 - # SKIP qx.test.bom.request.XhrWithRemote:test: call onerror on file error - Requirement not met: file
-116007 : ok 1669 - # SKIP qx.test.bom.request.XhrWithRemote:test: timeout triggers timeout error - Requirement not met: php
-116021 : ok 1670 - # SKIP qx.test.bom.request.XhrWithRemote:test: timeout not call onabort - Requirement not met: php
-117517 : ok 1712 - # SKIP qx.test.bom.rest.Resource:test: invoke action ignores invalid check in production - needs runtime enviroment checks!
-119026 : ok 1741 - # SKIP qx.test.bom.rest.ResourceWithRemote:test: invoke action and handle response - Requirement not met: php
-119041 : ok 1742 - # SKIP qx.test.bom.rest.ResourceWithRemote:test: invoke action and handle failure - Requirement not met: php
-119055 : ok 1743 - # SKIP qx.test.bom.rest.ResourceWithRemote:test: poll action - Requirement not met: php
-119071 : ok 1744 - # SKIP qx.test.bom.rest.ResourceWithRemote:test: long poll - Requirement not met: php
-135157 : ok 1774 - # SKIP qx.test.io.graphql.Client:test: execute query - Skipping test as endpoint is not available.
-135186 : ok 1775 - # SKIP qx.test.io.graphql.Client:test: execute query with variables - Skipping test as endpoint is not available.
-135215 : ok 1776 - # SKIP qx.test.io.graphql.Client:test: expect error after invalid query - Skipping test as endpoint is not available.
-135246 : ok 1777 - # SKIP qx.test.io.graphql.Client:test: expect transport error - Skipping test as endpoint is not available.
-135377 : ok 1779 - # SKIP qx.test.io.graphql.ClientFetch:test: execute query - Skipping test as endpoint is not available.
-135408 : ok 1780 - # SKIP qx.test.io.graphql.ClientFetch:test: execute query with variables - Skipping test as endpoint is not available.
-135437 : ok 1781 - # SKIP qx.test.io.graphql.ClientFetch:test: expect error after invalid query - Skipping test as endpoint is not available.
-135467 : ok 1782 - # SKIP qx.test.io.graphql.ClientFetch:test: expect transport error - Skipping test as endpoint is not available.
-137829 : ok 1812 - # SKIP qx.test.io.request.Jsonp:test: append FormData to URL with POST request - POST requests not supported by this transport
-139392 : ok 1847 - # SKIP qx.test.io.request.JsonpWithRemote:test: fetch json - Requirement not met: php
-142801 : ok 1933 - # SKIP qx.test.io.request.XhrWithRemote:test: fetch resource - Requirement not met: php
-142818 : ok 1934 - # SKIP qx.test.io.request.XhrWithRemote:test: recycle request - Requirement not met: php
-142835 : ok 1935 - # SKIP qx.test.io.request.XhrWithRemote:test: progress phases - Requirement not met: php
-142852 : ok 1936 - # SKIP qx.test.io.request.XhrWithRemote:test: progress phases when abort after send - Requirement not met: php
-142869 : ok 1937 - # SKIP qx.test.io.request.XhrWithRemote:test: progress phases when abort after loading - Requirement not met: php
-142885 : ok 1938 - # SKIP qx.test.io.request.XhrWithRemote:test: timeout - Requirement not met: php
-142902 : ok 1939 - # SKIP qx.test.io.request.XhrWithRemote:test: timeout with header call - Requirement not met: php
 not ok 1940 - qx.test.io.rest.Resource:test: configure request receives pre-configured but unsent request - [8.72 ms] - Maximum call stack size exceeded
 not ok 1948 - qx.test.io.rest.Resource:test: dynamically created action forwards arguments - [4.84 ms] - requestData: Check function indicates wrong type value; value=1
 not ok 1953 - qx.test.io.rest.Resource:test: invoke action generically - [6.09 ms] - Maximum call stack size exceeded
@@ -511,14 +446,9 @@ not ok 1970 - qx.test.io.rest.Resource:test: invoke action for relative url with
 not ok 1971 - qx.test.io.rest.Resource:test: invoke action for route with check - [5.66 ms] - Maximum call stack size exceeded
 not ok 1972 - qx.test.io.rest.Resource:test: invoke action fills in empty string when missing param and no default - [7.43 ms] - Maximum call stack size exceeded
 not ok 1973 - qx.test.io.rest.Resource:test: invoke action fills in default when missing param - [6.67 ms] - Maximum call stack size exceeded
-144202 : ok 1977 - # SKIP qx.test.io.rest.Resource:test: invoke action ignores invalid check in production - needs runtime enviroment checks!
 not ok 1981 - qx.test.io.rest.Resource:test: refresh action - [6.37 ms] - Maximum call stack size exceeded
 not ok 1982 - qx.test.io.rest.Resource:test: refresh action replaying previous params - [5.73 ms] - Maximum call stack size exceeded
 not ok 1987 - qx.test.io.rest.Resource:test: poll action replaying previous params - [5.85 ms] - Maximum call stack size exceeded
-145143 : ok 2004 - # SKIP qx.test.io.rest.ResourceWithRemote:test: invoke action and handle response - Requirement not met: php
-145163 : ok 2005 - # SKIP qx.test.io.rest.ResourceWithRemote:test: invoke action and handle failure - Requirement not met: php
-145179 : ok 2006 - # SKIP qx.test.io.rest.ResourceWithRemote:test: poll action - Requirement not met: php
-145195 : ok 2007 - # SKIP qx.test.io.rest.ResourceWithRemote:test: long poll - Requirement not met: php
 not ok 2073 - qx.test.core.Object:testDisposeBindingWithSelfChain - [7.02 ms] - Called fail().
 not ok 2074 - qx.test.core.Object:testDisposeBinding - [0.31 ms] - qx.test.Single is already defined; cannot redefine a class
 not ok 2075 - qx.test.core.Object:testDisposeSingletonObject - [0.29 ms] - qx.test.Single is already defined; cannot redefine a class
@@ -555,24 +485,12 @@ not ok 2505 - qx.test.data.store.Json:testOwnMixinWithMultiple - [0.78 ms] - Can
 not ok 2507 - qx.test.data.store.Json:testDisposeOldModel - [34.68 ms] - resume() called before wait()
 not ok 2508 - qx.test.data.store.Json:testDisposeRequest - [20.41 ms] - tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
 not ok 2509 - qx.test.data.store.Json:testDisposeRequestDone - [0.84 ms] - Attempted to wrap Xhr which is already wrapped
-175652 : ok 2510 - # SKIP qx.test.data.store.Jsonp:testSetCallbackParam - Requirement not met: php
 not ok 2511 - qx.test.data.store.Json:test Internal Server Error - [1.19 ms] - tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
-175706 : ok 2512 - # SKIP qx.test.data.store.Jsonp:testSetCallbackName - Requirement not met: php
-175727 : ok 2513 - # SKIP qx.test.data.store.Jsonp:testWholePrimitive - Requirement not met: php
-175750 : ok 2514 - # SKIP qx.test.data.store.Jsonp:testManipulatePrimitive - Requirement not met: php
-175772 : ok 2515 - # SKIP qx.test.data.store.Jsonp:testConfigureRequestPrimitive - Requirement not met: php
-175796 : ok 2516 - # SKIP qx.test.data.store.Jsonp:testDisposeRequest - Requirement not met: php
-175818 : ok 2517 - # SKIP qx.test.data.store.Jsonp:testDisposeRequestDone - Requirement not met: php
-175840 : ok 2518 - # SKIP qx.test.data.store.Jsonp:testErrorEvent - Requirement not met: php
 not ok 2521 - qx.test.data.store.Json:test Internal Server Error - [448.35 ms] - resume() called before wait()
 not ok 2530 - qx.test.data.store.Json:testOwnMixinWith - [1.01 ms] - Timeout of 10000 ms reached before resume() was called.
 not ok 2531 - qx.test.data.store.Json:testManipulatePrimitive - [1.23 ms] - Timeout of 10000 ms reached before resume() was called.
 not ok 2532 - qx.test.data.store.Json:testConfigureRequestPrimitive - [0.72 ms] - Timeout of 10000 ms reached before resume() was called.
 not ok 2535 - qx.test.data.store.Json:testErrorEvent - [1.40 ms] - Timeout of 10000 ms reached before resume() was called.
-186249 : ok 2547 - # SKIP qx.test.dev.Debug:testDisposeProfilingCheckFunction - Requirement not met: disposeDebug
-187882 : ok 2586 - # SKIP qx.test.dev.unit.TestCase:testSkip - Called skip()
-189448 : ok 2607 - # SKIP qx.test.event.Emitter:testAddAsyncFunction - Requirement not met: asyncFunctions
-189918 : ok 2618 - # SKIP qx.test.event.GlobalError:testDontWrapIfSettingIsOff - Requirement not met: NoGlobalErrorHandling
 not ok 2706 - qx.test.html.Iframe:test: set null source if frame is cross-origin - [5.97 ms] - Timeout of 10000 ms reached before resume() was called.
 not ok 2838 - qx.test.log.Logger:testContextObject - [34.11 ms] - Expected 'qxWeb' but found ''undefined''!
 not ok 2844 - qx.test.mobile.LocaleSwitch:testList - [21.87 ms] - Cannot read property 'eq' of undefined
@@ -588,9 +506,6 @@ not ok 3058 - qx.test.theme.manager.Meta:testAllThemeManagerChanged - [13.23 ms]
 not ok 3059 - qx.test.theme.manager.Meta:testColorThemeManagerChanged - [5.98 ms] - Cannot read property 'nodeType' of null
 not ok 3060 - qx.test.theme.manager.Meta:testAppearanceThemeManagerChanged - [5.21 ms] - Cannot read property 'nodeType' of null
 not ok 3061 - qx.test.theme.manager.Meta:testColorThemeChanged - [4.59 ms] - Cannot read property 'nodeType' of null
-1157864 : ok 3127 - # SKIP qx.test.toolchain.VariantOptimization:test If 'if' statement is pruned by the generator - Requirement not met: variantsOptimized
-1157890 : ok 3128 - # SKIP qx.test.toolchain.VariantOptimization:test If 'select' call is pruned by the generator - Requirement not met: variantsOptimized
-1157914 : ok 3129 - # SKIP qx.test.toolchain.VariantOptimization:test If simple 'get' call is pruned by the generator - Requirement not met: variantsOptimized
 not ok 3221 - qx.test.util.DisposeUtil:testDestroyContainer - [3.89 ms] - value.show is not a function
 not ok 3282 - qx.test.util.Serializer:testUrlDataArray - [8.51 ms] - Expected 'data1=a&data2=a&data2=b&data3=a&data3=b&data3=c' but found 'data1=a&data2=a%2Cb&data3=a%2Cb%2Cc'!
 DONE testing 2738 ok, 534 not ok, 170 skipped - [1178346 ms]

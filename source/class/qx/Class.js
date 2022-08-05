@@ -700,6 +700,8 @@ qx.Bootstrap.define(
               superclass.apply(this, args);
             }
 
+            // Call any mixins' constructors and those mixins'
+            // dependency mixins' constructors
             if (subclass.constructor.$$flatIncludes)
             {
               subclass.constructor.$$flatIncludes.forEach(
