@@ -574,9 +574,6 @@ not ok 2535 - qx.test.data.store.Json:testErrorEvent - [1.40 ms] - Timeout of 10
 189448 : ok 2607 - # SKIP qx.test.event.Emitter:testAddAsyncFunction - Requirement not met: asyncFunctions
 189918 : ok 2618 - # SKIP qx.test.event.GlobalError:testDontWrapIfSettingIsOff - Requirement not met: NoGlobalErrorHandling
 not ok 2706 - qx.test.html.Iframe:test: set null source if frame is cross-origin - [5.97 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2712 - qx.test.lang.Array:testExclude - [7.69 ms] - Expected value to be an array but found 1,3,5!
-not ok 2731 - qx.test.lang.Function:testGetName - [9.22 ms] - Expected 'qx.test.Name.destruct()' but found 'destructDereferencer()'!
-not ok 2785 - qx.test.lang.Type:testIsArray - [7.75 ms] - Called assertTrue with 'false'
 not ok 2838 - qx.test.log.Logger:testContextObject - [34.11 ms] - Expected 'qxWeb' but found ''undefined''!
 not ok 2844 - qx.test.mobile.LocaleSwitch:testList - [21.87 ms] - Cannot read property 'eq' of undefined
 not ok 2849 - qx.test.mobile.basic.Atom:testIconPosition - [10.22 ms] - Called assertTrue with 'false'
@@ -594,29 +591,7 @@ not ok 3061 - qx.test.theme.manager.Meta:testColorThemeChanged - [4.59 ms] - Can
 1157864 : ok 3127 - # SKIP qx.test.toolchain.VariantOptimization:test If 'if' statement is pruned by the generator - Requirement not met: variantsOptimized
 1157890 : ok 3128 - # SKIP qx.test.toolchain.VariantOptimization:test If 'select' call is pruned by the generator - Requirement not met: variantsOptimized
 1157914 : ok 3129 - # SKIP qx.test.toolchain.VariantOptimization:test If simple 'get' call is pruned by the generator - Requirement not met: variantsOptimized
-not ok 3131 - qx.test.type.Array:testAppend - [8.58 ms] - Expected value to be an array but found 3,4!
-not ok 3132 - qx.test.type.Array:testPrepend - [7.73 ms] - Expected value to be an array but found 3,4!
-not ok 3133 - qx.test.type.BaseArray:testListConstruct - [7.60 ms] - Expected value to be an array but found 1,2,3!
-not ok 3134 - qx.test.type.BaseArray:testSingleItemConstruct - [7.72 ms] - Expected value to be an array but found 42!
-not ok 3136 - qx.test.type.BaseArray:testClear - [7.45 ms] - Expected value to be an array but found !
-not ok 3138 - qx.test.type.BaseArray:testArrayConcat - [7.94 ms] - Expected value to be an array but found 1,2,3,4,5!
-not ok 3139 - qx.test.type.BaseArray:testArrayPop - [8.18 ms] - Expected value to be an array but found 1,2!
-not ok 3140 - qx.test.type.BaseArray:testArrayPush - [7.44 ms] - Expected value to be an array but found 1,2,3!
-not ok 3141 - qx.test.type.BaseArray:testArrayReverse - [7.68 ms] - Expected value to be an array but found 5,4,3,2,1!
-not ok 3142 - qx.test.type.BaseArray:testArrayShift - [7.72 ms] - Expected value to be an array but found 2,3,4,5!
-not ok 3143 - qx.test.type.BaseArray:testArrayUnshift - [7.37 ms] - Expected value to be an array but found 1,2,3,4,5!
-not ok 3144 - qx.test.type.BaseArray:testArraySlice - [7.97 ms] - Expected value to be an array but found 3,4!
-not ok 3145 - qx.test.type.BaseArray:testArraySort - [8.00 ms] - Expected value to be an array but found -1,1,3,5!
-not ok 3146 - qx.test.type.BaseArray:testArraySplice - [7.79 ms] - Expected value to be an array but found 2,3!
-not ok 3152 - qx.test.type.BaseArray:testForEach - [7.62 ms] - Expected value to be an array but found 1,[object Object],str,1!
-not ok 3153 - qx.test.type.BaseArray:testFilter - [7.57 ms] - Expected value to be an array but found 1,2,3,4!
-not ok 3154 - qx.test.type.BaseArray:testMap - [7.86 ms] - Expected value to be an array but found 2,3,4,5!
-not ok 3155 - qx.test.type.BaseArray:testSome - [7.85 ms] - Expected value to be an array but found 1,2,3,4!
-not ok 3156 - qx.test.type.BaseArray:testEvery - [7.60 ms] - Expected value to be an array but found 1,2,3,4!
 not ok 3221 - qx.test.util.DisposeUtil:testDestroyContainer - [3.89 ms] - value.show is not a function
-not ok 3239 - qx.test.util.PropertyUtil:testGetThemeValue - [17.65 ms] - Expected 'true' but found ''undefined''!
-not ok 3240 - qx.test.util.PropertyUtil:testGetInitValue - [17.69 ms] - Expected 'false' but found ''undefined''!
-not ok 3241 - qx.test.util.PropertyUtil:testSetThemed - [31.07 ms] - Expected value to be null but found right.png!
 not ok 3282 - qx.test.util.Serializer:testUrlDataArray - [8.51 ms] - Expected 'data1=a&data2=a&data2=b&data3=a&data3=b&data3=c' but found 'data1=a&data2=a%2Cb&data3=a%2Cb%2Cc'!
 DONE testing 2738 ok, 534 not ok, 170 skipped - [1178346 ms]
 Test 'framework test' failed with exit code 255.

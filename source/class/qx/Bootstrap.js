@@ -704,11 +704,11 @@ window.qx = Object.assign(
       {
         if (name)
         {
-          f.$$displayName = `${classname}.${name}()`;
+          f.$$displayName = f.displayName = `${classname}.${name}()`;
         }
         else
         {
-          f.$$displayName = `${classname}()`;
+          f.$$displayName = f.displayName = `${classname}()`;
         }
       },
 
@@ -720,7 +720,8 @@ window.qx = Object.assign(
 
           if (f instanceof Function)
           {
-            f.$$displayName = `${classname}.${f.name || name}()`;
+            f.$$displayName = f.displayName =
+              `${classname}.${f.name || name}()`;
           }
         }
       },
@@ -827,27 +828,25 @@ window.qx = Object.assign(
        */
       isArray : function(value)
       {
-        return Array.isArray(value);
-
-        // // Added "value !== null" because IE throws an exception
-        // // "Object expected" by executing "value instanceof Array" if
-        // // value is a DOM element that doesn't exist. It seems that
-        // // there is an internal difference between a JavaScript null
-        // // and a null returned from calling DOM. e.q. by
-        // // document.getElementById("ReturnedNull").
-        // return (
-        //   value !== null &&
-        //   (value instanceof Array ||
-        //     (value &&
-        //       qx.data &&
-        //       qx.data.IListData &&
-        //       qx.util.OOUtil.hasInterface(
-        //         value.constructor,
-        //         qx.data.IListData
-        //       )) ||
-        //     qx.Bootstrap.getClass(value) === "Array" ||
-        //     (!!value && !!value.$$isArray))
-        // );
+        // Added "value !== null" because IE throws an exception
+        // "Object expected" by executing "value instanceof Array" if
+        // value is a DOM element that doesn't exist. It seems that
+        // there is an internal difference between a JavaScript null
+        // and a null returned from calling DOM. e.q. by
+        // document.getElementById("ReturnedNull").
+        return (
+          value !== null &&
+          (value instanceof Array ||
+            (value &&
+              qx.data &&
+              qx.data.IListData &&
+              qx.util.OOUtil.hasInterface(
+                value.constructor,
+                qx.data.IListData
+              )) ||
+            qx.Bootstrap.getClass(value) === "Array" ||
+            (!!value && !!value.$$isArray))
+        );
       },
 
       /**

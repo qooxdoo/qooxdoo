@@ -1341,9 +1341,6 @@ qx.Bootstrap.define(
                         }
                       }
 
-                      // Also specify that this was a user-specified value
-                      obj[`$$user_${prop}`] = value;
-
                       if (tracker.promise)
                       {
                         return tracker.promise.then(() => value);
@@ -1526,7 +1523,8 @@ qx.Bootstrap.define(
             }
 
             // Allow easily identifying this method
-            qx.Bootstrap.setDisplayName(member, clazz.classname, key);
+            qx.Bootstrap.setDisplayName(
+              member, clazz.classname, `prototype.${key}`);
 
             if (qx["core"]["Environment"].get("qx.aspects"))
             {
@@ -1584,22 +1582,37 @@ qx.Bootstrap.define(
             {
               get : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   let value = this[prop];
 
-                  if (value === undefined && property.nullable)
+                  if (value === undefined)
                   {
-                    value = null;
+                    if (property.nullable)
+                    {
+                      value = null;
+                    }
+
+                    if (property.check == "Boolean")
+                    {
+                      value = false;
+                    }
                   }
 
                   return value;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.get${propertyFirstUp}`);
+
+                return f;
               },
 
               set : function(prop, property)
               {
-                return function(value)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(value)
                 {
                   if (this[`$$variant_${prop}`] == "init")
                   {
@@ -1607,15 +1620,22 @@ qx.Bootstrap.define(
                   }
 
                   this[prop] = value;
+                  this[`$$user_${prop}`] = value;
 
                   this[`$$variant_${prop}`] = "set";
                   return value;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.set${propertyFirstUp}`);
+
+                return f;
               },
 
               reset : function(prop, property)
               {
-                return function(value)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(value)
                 {
                   // Get the current inherited and init values
                   let             inheritValue =
@@ -1629,22 +1649,33 @@ qx.Bootstrap.define(
                           ? property.init
                           : (property.nullable
                              ? null
-                             : undefined)));
+                             : (property.check == "Boolean"
+                                ? false
+                                : undefined))));
 
                   // Unset the user value
                   this[`$$user_${prop}`] = undefined;
                   this[`$$variant_${prop}`] = null;
+
+                  // Save the init value
+                  this[`$$init_${prop}`] = initValue;
 
                   // Select the new value
                   this[prop] = (inheritValue !== undefined
                                 ? inheritValue
                                 : initValue);
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.reset${propertyFirstUp}`);
+
+                return f;
               },
 
               refresh : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   let             inheritedValue;
                   let             layoutParent;
@@ -1660,7 +1691,8 @@ qx.Bootstrap.define(
                   }
 
                   // If there's an init value, inherited value is not applied
-                  if (typeof property.init != "undefined" || property.initFunction)
+                  if (typeof property.init != "undefined" ||
+                      property.initFunction)
                   {
                     return;
                   }
@@ -1690,11 +1722,17 @@ qx.Bootstrap.define(
                     }
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.refresh${propertyFirstUp}`);
+
+                return f;
               },
 
               setThemed : function(prop, property)
               {
-                return function(value)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(value)
                 {
                   // Get the current user-specified value
                   let             userValue = this[`$$user_${prop}`];
@@ -1710,11 +1748,17 @@ qx.Bootstrap.define(
                     this[`$$variant_${prop}`] = null;
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.setThemed${propertyFirstUp}`);
+
+                return f;
               },
 
               resetThemed : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   // Get the current user-specified value
                   let             userValue = this[`$$user_${prop}`];
@@ -1732,11 +1776,17 @@ qx.Bootstrap.define(
                   this[prop] = userValue !== undefined ? userValue : initValue;
                   this[`$$variant_${prop}`] = null;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.resetThemed${propertyFirstUp}`);
+
+                return f;
               },
 
               init : function(prop, property)
               {
-                return function(value)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(value)
                 {
                   if (typeof value != "undefined")
                   {
@@ -1753,54 +1803,104 @@ qx.Bootstrap.define(
                     property.storage.set.call(this, prop, value);
                   }
 
+                  if (value === undefined)
+                  {
+                    if (property.nullable)
+                    {
+                      value = null;
+                    }
+
+                    if (property.check == "Boolean")
+                    {
+                      value = false;
+                    }
+                  }
+
+                  this[`$$init_${prop}`] = value;
                   this[`$$variant_${prop}`] = "init";
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.init${propertyFirstUp}`);
+
+                return f;
               },
 
               is : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   return !! this[prop];
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.is${propertyFirstUp}`);
+
+                return f;
               },
 
               toggle : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   this[prop] = ! this[prop];
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.toggle${propertyFirstUp}`);
+
+                return f;
               },
 
               isAsyncSetActive : function(prop, property)
               {
-                let           propertyFirstUp = qx.Bootstrap.firstUp(prop);
-
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   return this[`$$activePromise${propertyFirstUp}`] !== null;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.isAsyncSetActive${propertyFirstUp}`);
+
+                return f;
               },
 
               getAsync : function(prop, property, get)
               {
-                return async function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = async function()
                 {
                   let value = get.call(this);
 
-                  if (value === undefined && property.nullable)
+                  if (value === undefined)
                   {
-                    value = null;
+                    if (property.nullable)
+                    {
+                      value = null;
+                    }
+
+                    if (property.check == "Boolean")
+                    {
+                      value = false;
+                    }
                   }
 
                   return value;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.getAsync${propertyFirstUp}`);
+
+                return f;
               },
 
               setAsync : function(prop, property, apply)
               {
-                return async function(value)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = async function(value)
                 {
                   let  activePromise;
                   let  propertyFirstUp = qx.Bootstrap.firstUp(prop);
@@ -1909,11 +2009,17 @@ qx.Bootstrap.define(
                   this[activePromiseProp] = activePromise;
                   return activePromise;
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.setAsync${propertyFirstUp}`);
+
+                return f;
               },
 
               groupSet : function(prop, property)
               {
-                return function(...args)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(...args)
                 {
                   // We can have received separate arguments, or a single
                   // array of arguments. Convert the former to the latter if
@@ -1942,11 +2048,17 @@ qx.Bootstrap.define(
                     }
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.groupSet${propertyFirstUp}`);
+
+                return f;
               },
 
               groupReset : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   for (let i = 0; i < property.group.length; i++)
                   {
@@ -1956,11 +2068,17 @@ qx.Bootstrap.define(
                     this[`reset${propertyFirstUp}`]();
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.groupReset${propertyFirstUp}`);
+
+                return f;
               },
 
               groupSetThemed : function(prop, property)
               {
-                return function(args)
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function(args)
                 {
                   // We can have received separate arguments, or a single
                   // array of arguments. Convert the former to the latter if
@@ -1987,11 +2105,17 @@ qx.Bootstrap.define(
                     args.push(value);
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.groupSetThemed${propertyFirstUp}`);
+
+                return f;
               },
 
               groupResetThemed : function(prop, property)
               {
-                return function()
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let f = function()
                 {
                   for (let i = 0; i < property.group.length; i++)
                   {
@@ -2001,6 +2125,11 @@ qx.Bootstrap.define(
                     this[`resetThemed${propertyFirstUp}`]();
                   }
                 };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.groupResetThemed${propertyFirstUp}`);
+
+                return f;
               }
             };
 
@@ -2132,14 +2261,27 @@ qx.Bootstrap.define(
             property.event = property.event || `change${propertyFirstUp}`;
           }
 
-          // There are three values that may be used when
+          // There are various values that may be used when
           // `resetProperty` is called:
+          // - the init value
           // - the user-assigned value
           // - a theme's value (if the property is themeable)
           // - an inherited value (if the property is inheritable)
           //
           // Create the legacy names for these values, which are used at
           // various places in and around the qooxdoo framework code.
+
+          // init (via config.init or config.initFunction())
+          patch && delete clazz.prototype[`$$init_${key}`];
+          Object.defineProperty(
+            clazz.prototype,
+            `$$init_${key}`,
+            {
+              value        : property.init,
+              writable     : true,
+              configurable : false,
+              enumerable   : allEnumerable || false
+            });
 
           // user-specified
           patch && delete clazz.prototype[`$$user_${key}`];
@@ -2263,6 +2405,7 @@ qx.Bootstrap.define(
           if (typeof property.init != "undefined" ||
               typeof property.initFunction == "function" ||
               typeof property.apply != "undefined" ||
+              typeof property.check == "Boolean" ||
               property.deferredInit ||
               property.inheritable)
           {
@@ -2405,6 +2548,7 @@ qx.Bootstrap.define(
           if (typeof property.init != "undefined" ||
               typeof property.initFunction == "function" ||
               typeof property.apply != "undefined" ||
+              typeof property.check == "Boolean" ||
               property.deferredInit ||
               property.inheritable)
           {
