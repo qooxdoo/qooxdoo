@@ -1,516 +1,1024 @@
-# TESTTAPPER: Running tests in chromium
-not ok 32 - qx.test.ui.Destroy:testControls - [4.87 ms] - Exception while creating child control 'control-bar' of widget qx.ui.control.ColorSelector[4862-0]: Exception while creating child control 'control-pane' of widget qx.ui.control.ColorSelector[4862-0]: Exception while creating child control 'preset-field-set' of widget qx.ui.control.ColorSelector[4862-0]: control.show is not a function
-not ok 39 - qx.test.ui.Destroy:testTabView - [10.75 ms] - Could not select qx.ui.tabview.TabButton[5314-0], because it is not a child element!
-not ok 43 - qx.test.ui.Destroy:testRadioGroup - [4.58 ms] - Could not select qx.ui.form.RadioButton[5714-0], because it is not a child element!
-not ok 44 - qx.test.ui.Destroy:testRadioButtonGroup - [3.74 ms] - Could not select qx.ui.form.RadioButton[5737-0], because it is not a child element!
-not ok 45 - qx.test.ui.Destroy:testWindow - [3.55 ms] - control.show is not a function
-not ok 69 - qx.test.ui.RadioItems:testTwiceClickEmptySelectionForm - [2.65 ms] - Could not select qx.ui.form.RadioButton[6226-0], because it is not a child element!
-not ok 70 - qx.test.ui.RadioItems:testTwiceClickEmptySelectionMenu - [2.81 ms] - Could not select qx.ui.menu.RadioButton[6240-0], because it is not a child element!
-not ok 71 - qx.test.ui.RadioItems:testTwiceClickEmptySelectionToolbar - [2.76 ms] - Could not select qx.ui.toolbar.RadioButton[6252-0], because it is not a child element!
-not ok 76 - qx.test.ui.Window:testActiveWindowBeforeWindowOpened - [4.23 ms] - setUp failed: control.show is not a function
-not ok 77 - qx.test.ui.Window:testActiveWindowAfterWindowOpened - [4.58 ms] - setUp failed: control.show is not a function
-not ok 78 - qx.test.ui.Window:testActiveWindowAfterWindowOpened2 - [3.61 ms] - setUp failed: control.show is not a function
-not ok 79 - qx.test.ui.Window:testActiveWindowAfterWindowClosed - [4.21 ms] - setUp failed: control.show is not a function
-not ok 80 - qx.test.ui.Window:testActiveWindowAfterWindowClosed2 - [3.43 ms] - setUp failed: control.show is not a function
-not ok 81 - qx.test.ui.Window:testActiveWindowAfterAllWindowsOpened - [3.50 ms] - setUp failed: control.show is not a function
-not ok 82 - qx.test.ui.Window:testActiveWindowAfterRemovingOpenedWindow - [3.34 ms] - setUp failed: control.show is not a function
-not ok 83 - qx.test.ui.Window:testActiveWindowAfterRemovingOpenedWindow2 - [3.99 ms] - setUp failed: control.show is not a function
-not ok 84 - qx.test.ui.Window:testActiveWindowAfterRemovingAllWindows - [3.62 ms] - setUp failed: control.show is not a function
-not ok 85 - qx.test.ui.Window:testModalWindowIsAlwaysActiveIfOpen - [3.35 ms] - setUp failed: control.show is not a function
-not ok 86 - qx.test.ui.Window:testOrderModalOverAlwaysOnTopOverNormalWindow - [3.68 ms] - setUp failed: control.show is not a function
-not ok 149 - qx.test.ui.core.Appearance:testDefault - [128.32 ms] - setUp failed: this._getLayout(...).setGap is not a function
-not ok 150 - qx.test.ui.core.Appearance:testFallback - [78.02 ms] - setUp failed: this._getLayout(...).setGap is not a function
-not ok 151 - qx.test.ui.core.Appearance:testChange - [77.89 ms] - setUp failed: this._getLayout(...).setGap is not a function
-not ok 152 - qx.test.ui.core.Appearance:testReuseNotDefined - [75.85 ms] - setUp failed: this._getLayout(...).setGap is not a function
-not ok 153 - qx.test.ui.core.Blocker:testBlocker - [3.11 ms] - focusHandler.getFocus is not a function
-not ok 154 - qx.test.ui.core.Blocker:testBlockerThrice - [2.85 ms] - focusHandler.getFocus is not a function
-not ok 155 - qx.test.ui.core.Blocker:testForceUnblock - [2.24 ms] - focusHandler.getFocus is not a function
-not ok 156 - qx.test.ui.core.Blocker:testBlockedEvent - [3.23 ms] - focusHandler.getFocus is not a function
-not ok 157 - qx.test.ui.core.Blocker:testRestoreActiveAndFocusedWidgets - [8.36 ms] - focusHandler.getFocus is not a function
-not ok 158 - qx.test.ui.core.Blocker:testRestoreDisposedWidget - [6.44 ms] - focusHandler.getFocus is not a function
-not ok 169 - qx.test.ui.core.DragDropScrolling:testScrollBy - [258.08 ms] - Maximum call stack size exceeded
-not ok 236 - qx.test.ui.core.Widget:testScrollChildIntoViewChangesScheduled - [239.37 ms] - Maximum call stack size exceeded
-not ok 253 - qx.test.ui.embed.Iframe:testHiddenSetSourceInitial - [3.11 ms] - Expected value not to be null but found null!
-not ok 254 - qx.test.ui.core.Widget:testLazyScrollChildIntoViewY - [11.32 ms] - Called assert with 'false'
-not ok 255 - qx.test.ui.embed.Iframe:testHiddenSetSource - [0.60 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 256 - qx.test.ui.embed.Iframe:testGetWindow - [0.56 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 258 - qx.test.ui.form.AbstractSelectBox:testStatePopupOpen - [12.85 ms] - Cannot read property 'top' of null
-not ok 260 - qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeSelectBox - [23.96 ms] - Cannot read property 'height' of null
-not ok 261 - qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeComboBox - [18.95 ms] - Cannot read property 'height' of null
-not ok 269 - qx.test.ui.form.Color:testColorSelector - [3.75 ms] - Exception while creating child control 'control-bar' of widget qx.ui.control.ColorSelector[11747-0]: Exception while creating child control 'control-pane' of widget qx.ui.control.ColorSelector[11747-0]: Exception while creating child control 'preset-field-set' of widget qx.ui.control.ColorSelector[11747-0]: control.show is not a function
-not ok 270 - qx.test.ui.form.Color:testColorPopup - [4.73 ms] - control.show is not a function
-not ok 294 - qx.test.ui.form.Field:testSelectTextAllBeforeFlush - [1.88 ms] - Expected 'affe' but found 'null'!
-not ok 295 - qx.test.ui.form.Field:testClearTextSelectionBeforeFlush - [6.22 ms] - Expected '' but found 'null'!
-not ok 296 - qx.test.ui.form.Field:testSelectAllTextAfterFlush - [1.67 ms] - Expected 'affe' but found 'null'!
-not ok 297 - qx.test.ui.form.Field:testGetTextSelectionStartEndBeforeFlush - [2.08 ms] - Expected '2' but found 'null'!
-not ok 298 - qx.test.ui.form.Field:testClearTextSelectionAfterFlush - [2.36 ms] - Expected '' but found 'null'!
-not ok 299 - qx.test.ui.form.Field:testGetTextSelectionStartEndAfterFlush - [1.58 ms] - Expected '1' but found 'null'!
-not ok 302 - qx.test.ui.form.Form:testValidSpinner - [2.46 ms] - Cannot read property 'indexOf' of null
-not ok 305 - qx.test.ui.form.Form:testValidTextField - [1.04 ms] - Cannot read property 'indexOf' of null
-not ok 307 - qx.test.ui.form.Form:testValidTextArea - [1.08 ms] - Cannot read property 'indexOf' of null
-not ok 311 - qx.test.ui.form.Form:testValidSelectBox - [2.43 ms] - Cannot read property 'indexOf' of null
-not ok 315 - qx.test.ui.form.Form:testValidRadioButton - [8.25 ms] - resume() called before wait()
-not ok 317 - qx.test.ui.form.Form:testRequiredRadioButton - [10.86 ms] - resume() called before wait()
-not ok 324 - qx.test.ui.form.Form:testRequiredCheckGroupBox - [10.53 ms] - resume() called before wait()
-not ok 329 - qx.test.ui.form.Form:testValidRadioGroup - [3.16 ms] - Could not select qx.ui.form.RadioButton[13746-0], because it is not a child element!
-not ok 332 - qx.test.ui.form.Form:testValidRadioButtonGroup - [2.96 ms] - Could not select qx.ui.form.RadioButton[13784-0], because it is not a child element!
-not ok 333 - qx.test.ui.form.Form:testValidRadioButtonGroup - [9.11 ms] - resume() called before wait()
-not ok 336 - qx.test.ui.form.Form:testRedefineItem - [41.17 ms] - resume() called before wait()
-not ok 337 - qx.test.ui.form.Form:testRedefineItem - [1.78 ms] - Cannot read property 'indexOf' of null
-not ok 338 - qx.test.ui.form.Form:testRedefineItem - [8.27 ms] - resume() called before wait()
-not ok 352 - qx.test.ui.form.FormManager:testAll - [102.29 ms] - Maximum call stack size exceeded
-not ok 369 - qx.test.ui.form.FormValidator:testSyncSelfContained1NotNullRadioButtonGroup - [5.55 ms] - Could not select qx.ui.form.RadioButton[14945-0], because it is not a child element!
-not ok 379 - qx.test.ui.form.FormValidator:testAsyncSelfContained1NotNull - [3.34 ms] - Called assertFalse with 'null'
-not ok 380 - qx.test.ui.form.FormValidator:testAsyncSelfContained3NotNull - [2.82 ms] - Called assertFalse with 'null'
-not ok 384 - qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullAsyncFail - [5.87 ms] - Called assertFalse with 'null'
-not ok 385 - qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullSync - [10.46 ms] - Called assertFalse with 'null'
-not ok 386 - qx.test.ui.form.FormValidator:testMixedRelated3NotNull - [8.39 ms] - Called assertFalse with 'null'
-not ok 387 - qx.test.ui.form.FormValidator:testMixedRelated3NotNullAsyncFail - [9.87 ms] - Called assertFalse with 'null'
-not ok 394 - qx.test.ui.form.FormValidator:testValidateDataBindingSelection - [44.78 ms] - resume() called before wait()
-not ok 400 - qx.test.ui.form.Field:testApplyWebFont - [4.18 ms] - Called fail().
-not ok 401 - qx.test.ui.form.Form:testValidSlider - [1.15 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 402 - qx.test.ui.form.Form:testValidPasswordField - [7.73 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 403 - qx.test.ui.form.Form:testValidComboBox - [1.80 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 404 - qx.test.ui.form.Form:testValidList - [6.69 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 405 - qx.test.ui.form.Form:testValidTree - [2.92 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 406 - qx.test.ui.form.Form:testValidDateField - [1.56 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 407 - qx.test.ui.form.Form:testValidDateChooser - [1.63 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 408 - qx.test.ui.form.FormValidator:testAsyncSelfContained1NotNullFail - [2.07 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 409 - qx.test.ui.form.FormValidator:testAsyncSelfContained3NotNullFail - [2.06 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 410 - qx.test.ui.form.FormValidator:testAsyncSelfContained2NotNullFailMixed - [2.03 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 411 - qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullSyncFail - [0.48 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 412 - qx.test.ui.form.FormValidator:testMixedSelfContained2SyncRequired - [2.03 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 413 - qx.test.ui.form.FormValidator:testMixedRelated3NotNullSyncFail - [2.03 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 414 - qx.test.ui.form.FormValidator:testMixedRelated3NotNullAsyncFormFail - [2.02 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 415 - qx.test.ui.form.Label:testFocusTextField - [0.54 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 416 - qx.test.ui.form.Label:testFocusSpinner - [0.96 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 417 - qx.test.ui.form.Label:testFocusCheckBox - [0.56 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 420 - qx.test.ui.form.List:test: find rich-text item - [13.10 ms] - Expected value to be instanceof 'qx.ui.form.ListItem' but found null!
-not ok 422 - qx.test.ui.form.MenuButton:testOpen - [13.40 ms] - Called assertTrue with 'false'
-not ok 423 - qx.test.ui.form.MenuButton:testOpenSelectFirst - [13.65 ms] - Called assertTrue with 'false'
-not ok 424 - qx.test.ui.form.MenuButton:testOpenSelectFirstWithDisabledElement - [13.40 ms] - Called assertTrue with 'false'
-not ok 438 - qx.test.ui.form.ModelSelection:testRadioGroupGetSingle - [2.77 ms] - Could not select qx.ui.form.RadioButton[16456-0], because it is not a child element!
-not ok 439 - qx.test.ui.form.ModelSelection:testRadioGroupSetSingle - [2.74 ms] - Could not select qx.ui.form.RadioButton[16468-0], because it is not a child element!
-not ok 440 - qx.test.ui.form.ModelSelection:testRadioButtonGroupGetSingle - [3.49 ms] - Could not select qx.ui.form.RadioButton[16485-0], because it is not a child element!
-not ok 441 - qx.test.ui.form.ModelSelection:testRadioButtonGroupSetSingle - [2.90 ms] - Could not select qx.ui.form.RadioButton[16502-0], because it is not a child element!
-not ok 450 - qx.test.ui.form.Placeholder:testFocusTextField - [4.35 ms] - Called assertFalse with 'true'
-not ok 455 - qx.test.ui.form.Placeholder:testFocusTextArea - [4.91 ms] - Called assertFalse with 'true'
-not ok 460 - qx.test.ui.form.Placeholder:testFocusPasswordField - [4.00 ms] - Called assertFalse with 'true'
-not ok 465 - qx.test.ui.form.Placeholder:testFocusComboBox - [6.27 ms] - Called assertFalse with 'true'
-not ok 467 - qx.test.ui.form.Placeholder:testDisabledComboBox - [6.30 ms] - Called assertFalse with 'true'
-not ok 468 - qx.test.ui.form.Placeholder:testFocusDateField - [6.43 ms] - Called assertFalse with 'true'
-not ok 470 - qx.test.ui.form.Placeholder:testDisabledDateField - [6.32 ms] - Called assertFalse with 'true'
-not ok 471 - qx.test.ui.form.RadioButtonGroup:testRemoveAll - [6.24 ms] - setUp failed: Could not select qx.ui.form.RadioButton[16987-0], because it is not a child element!
-not ok 472 - qx.test.ui.form.Label:testFocusNotFocusableTextField - [1,025.81 ms] - resume() called before wait()
-not ok 473 - qx.test.ui.form.Label:testFocusNotFocusableTextField - [0.39 ms] - resume() called before wait()
-not ok 474 - qx.test.ui.form.RadioGroup:testHiddenRadioButtons - [8.99 ms] - Could not select qx.ui.form.RadioButton[17019-0], because it is not a child element!
-not ok 475 - qx.test.ui.form.RadioGroup:testAlteredGroupProperty - [9.38 ms] - Cannot read property 'charAt' of null
-not ok 492 - qx.test.ui.form.Slider:testKnobPositionAfterBlur - [5.56 ms] - Expected '0px' to be not equal with '0px'!
-not ok 497 - qx.test.ui.form.SplitButton:testArrowAvailable - [6.58 ms] - Called assertTrue with 'false'
-not ok 504 - qx.test.ui.form.TextArea:test: textarea set minimal line-height - [32.01 ms] - Called assert with 'false'
-not ok 505 - qx.test.ui.form.TextArea:test: textarea with autoSize grows when input would trigger scrollbar - [9.71 ms] - Called assert with 'false'
-not ok 506 - qx.test.ui.form.TextArea:test: textarea with autoSize shrinks when removal would hide scrollbar - [5.03 ms] - Called assert with 'false'
-not ok 507 - qx.test.ui.form.TextArea:test: textarea with autoSize does not shrink below original height - [3.16 ms] - Cannot read property 'height' of null
-not ok 510 - qx.test.ui.form.TextArea:test: textarea with autoSize hides scroll-bar when finally below maxHeight - [4.78 ms] - Expected 'hidden' but found 'auto'!
-not ok 511 - qx.test.ui.form.TextArea:test: textarea with autoSize respects initial value - [4.34 ms] - Cannot read property 'height' of null
-not ok 512 - qx.test.ui.form.TextArea:test: textarea with autoSize respects initial wrap - [4.73 ms] - Cannot read property 'height' of null
-not ok 513 - qx.test.ui.form.TextArea:test: textarea with autoSize shrinks when long line is unwrapped - [5.02 ms] - Expected '64' to be not equal with '64'!
-not ok 514 - qx.test.ui.form.TextArea:test: textarea with autoSize grows when long line is wrapped - [4.83 ms] - Expected '64' to be not equal with '64'!
-not ok 517 - qx.test.ui.form.TextField:test: reset max length - [2.12 ms] - maxLength: Expected value to be of type PositiveInteger; value=Infinity
-not ok 530 - qx.test.ui.form.Label:testFocusRemoveTextField - [2.27 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 531 - qx.test.ui.form.Label:testFocusRemoveSpinner - [0.51 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 532 - qx.test.ui.form.Label:testFocusRemoveCheckBox - [0.53 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 533 - qx.test.ui.form.VirtualSelectBox:test dropdown list same width as selectbox - [21.95 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 553 - qx.test.ui.list.List:testCreation - [16.40 ms] - Cannot read property 'width' of null
-not ok 556 - qx.test.ui.list.List:testChangeModelContent - [15.92 ms] - Cannot read property 'getLabel' of null
-not ok 557 - qx.test.ui.list.List:testResetModel - [18.63 ms] - Expected 'item 1' (identical) but found 'null'!
-not ok 558 - qx.test.ui.list.List:testComplexModel - [18.08 ms] - Cannot read property 'getLabel' of null
-not ok 559 - qx.test.ui.list.List:testReverseBinding - [15.69 ms] - Cannot read property 'setLabel' of null
-not ok 570 - qx.test.ui.list.List:testChangeModelLengthListener - [114.53 ms] - resume() called before wait()
-not ok 592 - qx.test.ui.groupbox.CheckGroupBox:testEnabledConsistencyBetweenContentAndParent - [7.82 ms] - Called assertFalse with 'true'
-not ok 593 - qx.test.ui.indicator.ProgressBar:testConstructor - [3.68 ms] - Maximum call stack size exceeded
-not ok 594 - qx.test.ui.indicator.ProgressBar:testValue - [2.73 ms] - Maximum call stack size exceeded
-not ok 595 - qx.test.ui.indicator.ProgressBar:testLimitValueToZero - [2.56 ms] - Maximum call stack size exceeded
-not ok 596 - qx.test.ui.indicator.ProgressBar:testLimitValueToMaximum - [2.70 ms] - Maximum call stack size exceeded
-not ok 597 - qx.test.ui.indicator.ProgressBar:testMaximum - [2.31 ms] - Maximum call stack size exceeded
-not ok 598 - qx.test.ui.indicator.ProgressBar:testDoNothingIfMaximumIsSetToZero - [2.47 ms] - Maximum call stack size exceeded
-not ok 599 - qx.test.ui.indicator.ProgressBar:testLimitMaximumToValue - [2.48 ms] - Maximum call stack size exceeded
-not ok 600 - qx.test.ui.indicator.ProgressBar:testChangeEvent - [2.93 ms] - Maximum call stack size exceeded
-not ok 601 - qx.test.ui.indicator.ProgressBar:testCompleteEvent - [2.80 ms] - Maximum call stack size exceeded
-not ok 602 - qx.test.ui.indicator.ProgressBar:testCompleteEventFiresOnTime - [2.65 ms] - Maximum call stack size exceeded
-not ok 603 - qx.test.ui.layout.Box:testExcludeHBox - [7.57 ms] - Expected '100' but found 'NaN'!
-not ok 604 - qx.test.ui.layout.Box:testExcludeVBox - [5.38 ms] - Expected '50' but found 'NaN'!
-not ok 606 - qx.test.ui.layout.Flow:testChildrenFitInLine - [3.19 ms] - Expected '{"left":0,"top":0,"width":100,"height":50}' but found '{}'!
-not ok 607 - qx.test.ui.layout.Flow:testAutoSize - [2.98 ms] - Expected '{"left":0,"top":0,"width":300,"height":50}' but found '{}'!
-not ok 608 - qx.test.ui.layout.Flow:testWrapThirdChild - [3.22 ms] - Expected '0' but found ''undefined''!
-not ok 609 - qx.test.ui.layout.Flow:testAlignX - [3.38 ms] - Expected '0' but found ''undefined''!
-not ok 610 - qx.test.ui.layout.Flow:testAlignXWithWrapping - [2.88 ms] - Expected '30' but found ''undefined''!
-not ok 611 - qx.test.ui.layout.Flow:testLayoutAlignY - [3.34 ms] - Expected '0' but found ''undefined''!
-not ok 612 - qx.test.ui.layout.Flow:testChildAlignY - [3.45 ms] - Expected '0' but found ''undefined''!
-not ok 613 - qx.test.ui.layout.Flow:testReversed - [3.60 ms] - Expected '200' but found ''undefined''!
-not ok 614 - qx.test.ui.layout.Flow:testLineBreakAutoSize - [2.88 ms] - Expected '{"left":0,"top":0,"width":200,"height":100}' but found '{}'!
-not ok 615 - qx.test.ui.layout.Flow:testMargins - [4.02 ms] - Expected '{"left":0,"top":0,"width":360,"height":90}' but found '{}'!
-not ok 616 - qx.test.ui.layout.Flow:testMarginXCollapse - [3.67 ms] - Expected '{"left":0,"top":0,"width":300,"height":170}' but found '{}'!
-not ok 617 - qx.test.ui.layout.Flow:testSpacingX - [3.12 ms] - Expected '320' but found ''undefined''!
-not ok 618 - qx.test.ui.layout.Flow:testSpacingXAndMarginCollapsing - [3.02 ms] - Expected '330' but found ''undefined''!
-not ok 619 - qx.test.ui.layout.Flow:testSpacingY - [3.02 ms] - Expected '170' but found ''undefined''!
-not ok 620 - qx.test.ui.layout.Flow:testHeightForWidth - [3.15 ms] - Expected '{"left":0,"top":0,"width":110,"height":150}' but found '{}'!
-not ok 621 - qx.test.ui.layout.Flow:testLargeChildInLine - [3.22 ms] - Expected '0' but found ''undefined''!
-not ok 622 - qx.test.ui.layout.Grid:testRowSpanWithoutFlex - [4.23 ms] - Expected '300' but found ''undefined''!
-not ok 623 - qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowTrue - [3.02 ms] - Expected '206' but found ''undefined''!
-not ok 624 - qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowFalse - [2.85 ms] - Expected '206' but found ''undefined''!
-not ok 625 - qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowFalseChangeToTrue - [2.88 ms] - Expected '206' but found ''undefined''!
-not ok 627 - qx.test.ui.layout.Grid:testAutoSize - [3.28 ms] - Expected '400' but found ''undefined''!
-not ok 628 - qx.test.ui.layout.Grid:testAddRemove - [3.00 ms] - Expected '420' but found ''undefined''!
-not ok 629 - qx.test.ui.layout.Grid:testVisibility - [3.10 ms] - Expected '420' but found ''undefined''!
-not ok 630 - qx.test.ui.layout.Grid:testCellSize - [2.98 ms] - Expected '70' but found ''undefined''!
-not ok 631 - qx.test.ui.layout.Grid:testCellMinSize - [3.14 ms] - Expected '200' but found ''undefined''!
-not ok 677 - qx.test.ui.selection.RadioGroup:testAllowEmptySelection - [5.87 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23917-0], because it is not a child element!
-not ok 678 - qx.test.ui.selection.RadioGroup:testAdd - [4.24 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23935-0], because it is not a child element!
-not ok 679 - qx.test.ui.selection.RadioGroup:testAddWithAllowEmptySelection - [4.01 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23951-0], because it is not a child element!
-not ok 680 - qx.test.ui.selection.RadioGroup:testSetGroup - [4.23 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23967-0], because it is not a child element!
-not ok 681 - qx.test.ui.selection.RadioGroup:testGetSelection - [4.11 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23983-0], because it is not a child element!
-not ok 682 - qx.test.ui.selection.RadioGroup:testSetSelection - [4.03 ms] - setUp failed: Could not select qx.ui.form.RadioButton[23999-0], because it is not a child element!
-not ok 683 - qx.test.ui.selection.RadioGroup:testDisabledSetSelection - [4.25 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24015-0], because it is not a child element!
-not ok 684 - qx.test.ui.selection.RadioGroup:testSameSetSelection - [4.02 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24031-0], because it is not a child element!
-not ok 685 - qx.test.ui.selection.RadioGroup:testSetSelectionWithNotChildElement - [4.06 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24047-0], because it is not a child element!
-not ok 686 - qx.test.ui.selection.RadioGroup:testSetSelectionWithTooMuchElements - [5.99 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24063-0], because it is not a child element!
-not ok 687 - qx.test.ui.selection.RadioGroup:testResetSelection - [4.02 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24079-0], because it is not a child element!
-not ok 688 - qx.test.ui.selection.RadioGroup:testDisabledResetSelection - [4.02 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24095-0], because it is not a child element!
-not ok 689 - qx.test.ui.selection.RadioGroup:testResetSelectionWithEmptySelection - [3.85 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24111-0], because it is not a child element!
-not ok 690 - qx.test.ui.selection.RadioGroup:testIsSelected - [5.12 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24127-0], because it is not a child element!
-not ok 691 - qx.test.ui.selection.RadioGroup:testIsSelectedWithNotChildElement - [3.97 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24143-0], because it is not a child element!
-not ok 692 - qx.test.ui.selection.RadioGroup:testIsSelectionEmpty - [4.12 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24159-0], because it is not a child element!
-not ok 693 - qx.test.ui.selection.RadioGroup:testGetSelectables - [5.07 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24175-0], because it is not a child element!
-not ok 694 - qx.test.ui.selection.RadioGroup:testDisabledGetSelectables - [4.85 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24191-0], because it is not a child element!
-not ok 695 - qx.test.ui.selection.RadioGroup:testGetUserSelectables - [3.84 ms] - setUp failed: Could not select qx.ui.form.RadioButton[24207-0], because it is not a child element!
-not ok 727 - qx.test.ui.selection.TabView:testAddAtIndex - [16.80 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[25921-0], because it is not a child element!
-not ok 728 - qx.test.ui.selection.TabView:testAddPage - [10.69 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[25970-0], because it is not a child element!
-not ok 729 - qx.test.ui.selection.TabView:testAddAtLastIndex - [12.40 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26017-0], because it is not a child element!
-not ok 730 - qx.test.ui.selection.TabView:testGetSelection - [11.20 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26064-0], because it is not a child element!
-not ok 731 - qx.test.ui.selection.TabView:testSetSelection - [11.19 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26111-0], because it is not a child element!
-not ok 732 - qx.test.ui.selection.TabView:testDisabledSetSelection - [11.07 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26158-0], because it is not a child element!
-not ok 733 - qx.test.ui.selection.TabView:testSameSetSelection - [10.57 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26205-0], because it is not a child element!
-not ok 734 - qx.test.ui.selection.TabView:testSetSelectionWithNotChildElement - [10.66 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26252-0], because it is not a child element!
-not ok 735 - qx.test.ui.selection.TabView:testSetSelectionWithTooMuchElements - [10.64 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26299-0], because it is not a child element!
-not ok 736 - qx.test.ui.selection.TabView:testResetSelection - [12.30 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26346-0], because it is not a child element!
-not ok 737 - qx.test.ui.selection.TabView:testDisabledResetSelection - [10.57 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26393-0], because it is not a child element!
-not ok 738 - qx.test.ui.selection.TabView:testResetSelectionWithEmptySelection - [10.73 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26440-0], because it is not a child element!
-not ok 739 - qx.test.ui.selection.TabView:testIsSelected - [10.44 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26487-0], because it is not a child element!
-not ok 740 - qx.test.ui.selection.TabView:testIsSelectedWithNotChildElement - [10.47 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26534-0], because it is not a child element!
-not ok 741 - qx.test.ui.selection.TabView:testIsSelectionEmpty - [11.17 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26581-0], because it is not a child element!
-not ok 742 - qx.test.ui.selection.TabView:testGetSelectables - [11.26 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26628-0], because it is not a child element!
-not ok 743 - qx.test.ui.selection.TabView:testDisabledGetSelectables - [12.42 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26675-0], because it is not a child element!
-not ok 744 - qx.test.ui.selection.TabView:testGetUserSelectables - [11.09 ms] - setUp failed: Could not select qx.ui.tabview.TabButton[26722-0], because it is not a child element!
-not ok 786 - qx.test.ui.table.Dispose:testSimple - [63.53 ms] - Called fail().
-not ok 787 - qx.test.ui.table.Dispose:testChangeModel - [50.50 ms] - Called fail().
-not ok 792 - qx.test.ui.form.VirtualSelectBox:test dropdown list wider than selectbox - [1.94 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 796 - qx.test.ui.table.Table:testScrollAfterScrollbarVisibilityChange - [242.24 ms] - Maximum call stack size exceeded
-not ok 809 - qx.test.ui.table.celleditor.SelectBox:testCreateCellEditor - [50.75 ms] - Maximum call stack size exceeded
-not ok 829 - qx.test.ui.list.List:testVariableItemHeight - [1.94 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 838 - qx.test.ui.toolbar.OverflowHandling:testHideItem - [8.76 ms] - Cannot read property 'left' of null
-not ok 839 - qx.test.ui.toolbar.OverflowHandling:testShowItem - [11.27 ms] - Event (showItem) not fired.
-not ok 840 - qx.test.ui.toolbar.OverflowHandling:testHideItemPriority - [8.33 ms] - Cannot read property 'left' of null
-not ok 841 - qx.test.ui.toolbar.OverflowHandling:testShowItemPriority - [8.37 ms] - Cannot read property 'left' of null
-not ok 842 - qx.test.ui.toolbar.OverflowHandling:testHideItemRemoved - [15.06 ms] - Cannot read property 'left' of null
-not ok 843 - qx.test.ui.toolbar.OverflowHandling:testShowItemRemoved - [7.90 ms] - Cannot read property 'left' of null
-not ok 844 - qx.test.ui.toolbar.OverflowHandling:testAddItem - [12.06 ms] - Event (changeVisibility) not fired.
-not ok 868 - qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened - [17.06 ms] - Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'null'!
-not ok 869 - qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened - [16.98 ms] - Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
-not ok 872 - qx.test.ui.tree.TreeFolder:testIconWhenOpenedThenClosedWithIconOpened - [17.32 ms] - Expected ''undefined'' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
-not ok 934 - qx.test.ui.tree.virtual.Tree:testOpenNodeWithoutScrolling - [31.60 ms] - Expected '0' to be not equal with '0'!
-not ok 935 - qx.test.ui.tree.virtual.TreeItem:testChildrenSetDeferred - [9.16 ms] - Called assertTrue with 'false'
-not ok 952 - qx.test.ui.toolbar.OverflowHandling:testShowIndicator - [1.94 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 953 - qx.test.ui.toolbar.OverflowHandling:testHideIndicator - [1.62 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 955 - qx.test.ui.toolbar.OverflowHandling:testShowIndicatorHuge - [1.75 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 980 - qx.test.ui.virtual.Pane:testScrollProperties - [4.79 ms] - Expected '30' but found '0'!
-not ok 983 - qx.test.ui.virtual.Pane:testUpdateEvent - [6.58 ms] - Expected '1' but found '0'!
-not ok 984 - qx.test.ui.virtual.Pane:testFullUpdate - [5.33 ms] - Expected '2' but found '0'!
-not ok 985 - qx.test.ui.virtual.Pane:testNoRows - [2.83 ms] - Cannot read property '1' of undefined
-not ok 986 - qx.test.ui.virtual.Pane:testNoColumns - [2.89 ms] - Cannot read property '1' of undefined
-not ok 987 - qx.test.ui.virtual.Pane:testPrefetchYAtTop - [5.27 ms] - Expected '400' but found '0'!
-not ok 988 - qx.test.ui.virtual.Pane:testPrefetchYLimitedAtTop - [5.15 ms] - Expected '500' but found '0'!
-not ok 989 - qx.test.ui.virtual.Pane:testPrefetchYAtBottom - [5.02 ms] - Expected '400' but found '0'!
-not ok 990 - qx.test.ui.virtual.Pane:testPrefetchYLimitedAtBottom - [4.94 ms] - Expected '500' but found '0'!
-not ok 991 - qx.test.ui.virtual.Pane:testPrefetchYInMiddle - [5.45 ms] - Expected '800' but found '0'!
-not ok 992 - qx.test.ui.virtual.Pane:testPrefetchXAtLeft - [5.04 ms] - Expected '300' but found '0'!
-not ok 993 - qx.test.ui.virtual.Pane:testPrefetchXLimitedAtLeft - [6.21 ms] - Expected '400' but found '0'!
-not ok 994 - qx.test.ui.virtual.Pane:testPrefetchXAtBottom - [5.46 ms] - Expected '300' but found '0'!
-not ok 995 - qx.test.ui.virtual.Pane:testPrefetchXLimitedAtBottom - [7.27 ms] - Expected '400' but found '0'!
-not ok 996 - qx.test.ui.virtual.Pane:testPrefetchXInMiddle - [6.59 ms] - Expected '700' but found '0'!
-not ok 997 - qx.test.ui.virtual.Pane:testUpdateLayerWindow - [2.49 ms] - Cannot read property '0' of undefined
-not ok 998 - qx.test.ui.virtual.Pane:testSrollRowIntoView - [2.77 ms] - Cannot read property 'childNodes' of null
-not ok 999 - qx.test.ui.virtual.Pane:testSrollColumnIntoView - [2.87 ms] - Cannot read property 'childNodes' of null
-not ok 1000 - qx.test.ui.virtual.Pane:testGetCellAtPosition - [5.32 ms] - Expected '{"row":0,"column":0}' but found 'null'!
-not ok 1001 - qx.test.ui.virtual.Pane:testGetItemAtPositionEmptySpace - [5.06 ms] - Expected '{"row":0,"column":0}' but found 'null'!
-not ok 1002 - qx.test.ui.virtual.Pane:testMouseCellEvents - [12.39 ms] - Expected '1' but found '0'!
-not ok 1003 - qx.test.ui.virtual.Pane:test mouse click bug #6695 - [8.63 ms] - Expected '1' but found '0'!
-not ok 1004 - qx.test.ui.virtual.Pane:testDestroy - [18.45 ms] - Called fail().
-not ok 1012 - qx.test.ui.virtual.layer.Column:testInit - [3.96 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1013 - qx.test.ui.virtual.layer.Column:testFullUpdate - [2.28 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1014 - qx.test.ui.virtual.layer.Column:testNoOverlap - [2.13 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1015 - qx.test.ui.virtual.layer.Column:testScrollDown - [2.15 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1016 - qx.test.ui.virtual.layer.Column:testScrollUp - [2.09 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1017 - qx.test.ui.virtual.layer.Column:testScrollLeft - [2.24 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1018 - qx.test.ui.virtual.layer.Column:testScrollRight - [3.16 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1019 - qx.test.ui.virtual.layer.Column:testOverlapLeftTop - [2.13 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1020 - qx.test.ui.virtual.layer.Column:testOverlapTop - [2.08 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1021 - qx.test.ui.virtual.layer.Column:testOverlapTopRight - [2.30 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1022 - qx.test.ui.virtual.layer.Column:testOverlapLeft - [2.19 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1023 - qx.test.ui.virtual.layer.Column:testOverlapInner - [1.99 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1024 - qx.test.ui.virtual.layer.Column:testOverlapOuter - [2.15 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1025 - qx.test.ui.virtual.layer.Column:testOverlapRight - [2.20 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1026 - qx.test.ui.virtual.layer.Column:testOverlapBottomLeft - [2.08 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1027 - qx.test.ui.virtual.layer.Column:testOverlapBottom - [2.25 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1028 - qx.test.ui.virtual.layer.Column:testOverlapBottomRight - [2.16 ms] - setUp failed: Cannot read property 'style' of null
-not ok 1030 - qx.test.ui.virtual.layer.GridLinesHorizontal:testInit - [3.00 ms] - Cannot read property 'childNodes' of null
-not ok 1031 - qx.test.ui.virtual.layer.GridLinesHorizontal:testFullUpdate - [2.33 ms] - Cannot read property 'childNodes' of null
-not ok 1032 - qx.test.ui.virtual.layer.GridLinesHorizontal:testNoOverlap - [2.21 ms] - Cannot read property 'childNodes' of null
-not ok 1033 - qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollDown - [2.19 ms] - Cannot read property 'childNodes' of null
-not ok 1034 - qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollUp - [2.15 ms] - Cannot read property 'childNodes' of null
-not ok 1035 - qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollLeft - [2.17 ms] - Cannot read property 'childNodes' of null
-not ok 1036 - qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollRight - [2.18 ms] - Cannot read property 'childNodes' of null
-not ok 1037 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapLeftTop - [2.28 ms] - Cannot read property 'childNodes' of null
-not ok 1038 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapTop - [3.05 ms] - Cannot read property 'childNodes' of null
-not ok 1039 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapTopRight - [2.13 ms] - Cannot read property 'childNodes' of null
-not ok 1040 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapLeft - [2.28 ms] - Cannot read property 'childNodes' of null
-not ok 1041 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapInner - [1.95 ms] - Cannot read property 'childNodes' of null
-not ok 1042 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapOuter - [2.03 ms] - Cannot read property 'childNodes' of null
-not ok 1043 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapRight - [2.14 ms] - Cannot read property 'childNodes' of null
-not ok 1044 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottomLeft - [2.07 ms] - Cannot read property 'childNodes' of null
-not ok 1045 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottom - [2.12 ms] - Cannot read property 'childNodes' of null
-not ok 1046 - qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottomRight - [2.00 ms] - Cannot read property 'childNodes' of null
-not ok 1047 - qx.test.ui.virtual.layer.GridLinesVertical:testInit - [3.07 ms] - Cannot read property 'childNodes' of null
-not ok 1048 - qx.test.ui.virtual.layer.GridLinesVertical:testFullUpdate - [2.18 ms] - Cannot read property 'childNodes' of null
-not ok 1049 - qx.test.ui.virtual.layer.GridLinesVertical:testNoOverlap - [2.08 ms] - Cannot read property 'childNodes' of null
-not ok 1050 - qx.test.ui.virtual.layer.GridLinesVertical:testScrollDown - [2.11 ms] - Cannot read property 'childNodes' of null
-not ok 1051 - qx.test.ui.virtual.layer.GridLinesVertical:testScrollUp - [2.04 ms] - Cannot read property 'childNodes' of null
-not ok 1052 - qx.test.ui.virtual.layer.GridLinesVertical:testScrollLeft - [1.98 ms] - Cannot read property 'childNodes' of null
-not ok 1053 - qx.test.ui.virtual.layer.GridLinesVertical:testScrollRight - [2.10 ms] - Cannot read property 'childNodes' of null
-not ok 1054 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapLeftTop - [2.03 ms] - Cannot read property 'childNodes' of null
-not ok 1055 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapTop - [2.07 ms] - Cannot read property 'childNodes' of null
-not ok 1056 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapTopRight - [2.10 ms] - Cannot read property 'childNodes' of null
-not ok 1057 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapLeft - [2.05 ms] - Cannot read property 'childNodes' of null
-not ok 1058 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapInner - [1.98 ms] - Cannot read property 'childNodes' of null
-not ok 1059 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapOuter - [1.92 ms] - Cannot read property 'childNodes' of null
-not ok 1060 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapRight - [2.26 ms] - Cannot read property 'childNodes' of null
-not ok 1061 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottomLeft - [2.10 ms] - Cannot read property 'childNodes' of null
-not ok 1062 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottom - [1.95 ms] - Cannot read property 'childNodes' of null
-not ok 1063 - qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottomRight - [2.36 ms] - Cannot read property 'childNodes' of null
-not ok 1064 - qx.test.ui.virtual.layer.HtmlCell:testInit - [5.68 ms] - Cannot read property 'childNodes' of null
-not ok 1065 - qx.test.ui.virtual.layer.HtmlCell:testFullUpdate - [2.48 ms] - Cannot read property 'childNodes' of null
-not ok 1066 - qx.test.ui.virtual.layer.HtmlCell:testNoOverlap - [2.33 ms] - Cannot read property 'childNodes' of null
-not ok 1067 - qx.test.ui.virtual.layer.HtmlCell:testScrollDown - [2.21 ms] - Cannot read property 'childNodes' of null
-not ok 1068 - qx.test.ui.virtual.layer.HtmlCell:testScrollUp - [2.15 ms] - Cannot read property 'childNodes' of null
-not ok 1069 - qx.test.ui.virtual.layer.HtmlCell:testScrollLeft - [2.28 ms] - Cannot read property 'childNodes' of null
-not ok 1070 - qx.test.ui.virtual.layer.HtmlCell:testScrollRight - [2.28 ms] - Cannot read property 'childNodes' of null
-not ok 1071 - qx.test.ui.virtual.layer.HtmlCell:testOverlapLeftTop - [2.16 ms] - Cannot read property 'childNodes' of null
-not ok 1072 - qx.test.ui.virtual.layer.HtmlCell:testOverlapTop - [2.14 ms] - Cannot read property 'childNodes' of null
-not ok 1073 - qx.test.ui.virtual.layer.HtmlCell:testOverlapTopRight - [2.32 ms] - Cannot read property 'childNodes' of null
-not ok 1074 - qx.test.ui.virtual.layer.HtmlCell:testOverlapLeft - [2.33 ms] - Cannot read property 'childNodes' of null
-not ok 1075 - qx.test.ui.virtual.layer.HtmlCell:testOverlapInner - [2.39 ms] - Cannot read property 'childNodes' of null
-not ok 1076 - qx.test.ui.virtual.layer.HtmlCell:testOverlapOuter - [2.38 ms] - Cannot read property 'childNodes' of null
-not ok 1077 - qx.test.ui.virtual.layer.HtmlCell:testOverlapRight - [2.31 ms] - Cannot read property 'childNodes' of null
-not ok 1078 - qx.test.ui.virtual.layer.HtmlCell:testOverlapBottomLeft - [2.13 ms] - Cannot read property 'childNodes' of null
-not ok 1079 - qx.test.ui.virtual.layer.HtmlCell:testOverlapBottom - [2.27 ms] - Cannot read property 'childNodes' of null
-not ok 1080 - qx.test.ui.virtual.layer.HtmlCell:testOverlapBottomRight - [2.28 ms] - Cannot read property 'childNodes' of null
-not ok 1081 - qx.test.ui.virtual.layer.HtmlCellSpan:testInit - [4.72 ms] - Cannot read property 'childNodes' of null
-not ok 1082 - qx.test.ui.virtual.layer.HtmlCellSpan:testFullUpdate - [2.85 ms] - Cannot read property 'childNodes' of null
-not ok 1083 - qx.test.ui.virtual.layer.HtmlCellSpan:testNoOverlap - [2.53 ms] - Cannot read property 'childNodes' of null
-not ok 1084 - qx.test.ui.virtual.layer.HtmlCellSpan:testScrollDown - [2.59 ms] - Cannot read property 'childNodes' of null
-not ok 1085 - qx.test.ui.virtual.layer.HtmlCellSpan:testScrollUp - [2.41 ms] - Cannot read property 'childNodes' of null
-not ok 1086 - qx.test.ui.virtual.layer.HtmlCellSpan:testScrollLeft - [2.65 ms] - Cannot read property 'childNodes' of null
-not ok 1087 - qx.test.ui.virtual.layer.HtmlCellSpan:testScrollRight - [2.49 ms] - Cannot read property 'childNodes' of null
-not ok 1088 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapLeftTop - [2.50 ms] - Cannot read property 'childNodes' of null
-not ok 1089 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapTop - [2.31 ms] - Cannot read property 'childNodes' of null
-not ok 1090 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapTopRight - [2.49 ms] - Cannot read property 'childNodes' of null
-not ok 1091 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapLeft - [2.48 ms] - Cannot read property 'childNodes' of null
-not ok 1092 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapInner - [2.33 ms] - Cannot read property 'childNodes' of null
-not ok 1093 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapOuter - [2.39 ms] - Cannot read property 'childNodes' of null
-not ok 1094 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapRight - [2.47 ms] - Cannot read property 'childNodes' of null
-not ok 1095 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottomLeft - [2.33 ms] - Cannot read property 'childNodes' of null
-not ok 1096 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottom - [2.53 ms] - Cannot read property 'childNodes' of null
-not ok 1097 - qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottomRight - [2.38 ms] - Cannot read property 'childNodes' of null
-not ok 1098 - qx.test.ui.virtual.layer.Row:testInit - [3.23 ms] - Cannot read property 'childNodes' of null
-not ok 1099 - qx.test.ui.virtual.layer.Row:testFullUpdate - [2.17 ms] - Cannot read property 'childNodes' of null
-not ok 1100 - qx.test.ui.virtual.layer.Row:testNoOverlap - [2.35 ms] - Cannot read property 'childNodes' of null
-not ok 1101 - qx.test.ui.virtual.layer.Row:testScrollDown - [2.15 ms] - Cannot read property 'childNodes' of null
-not ok 1102 - qx.test.ui.virtual.layer.Row:testScrollUp - [2.02 ms] - Cannot read property 'childNodes' of null
-not ok 1103 - qx.test.ui.virtual.layer.Row:testScrollLeft - [2.14 ms] - Cannot read property 'childNodes' of null
-not ok 1104 - qx.test.ui.virtual.layer.Row:testScrollRight - [2.78 ms] - Cannot read property 'childNodes' of null
-not ok 1105 - qx.test.ui.virtual.layer.Row:testOverlapLeftTop - [2.52 ms] - Cannot read property 'childNodes' of null
-not ok 1106 - qx.test.ui.virtual.layer.Row:testOverlapTop - [3.59 ms] - Cannot read property 'childNodes' of null
-not ok 1107 - qx.test.ui.virtual.layer.Row:testOverlapTopRight - [3.83 ms] - Cannot read property 'childNodes' of null
-not ok 1108 - qx.test.ui.virtual.layer.Row:testOverlapLeft - [2.34 ms] - Cannot read property 'childNodes' of null
-not ok 1109 - qx.test.ui.virtual.layer.Row:testOverlapInner - [2.80 ms] - Cannot read property 'childNodes' of null
-not ok 1110 - qx.test.ui.virtual.layer.Row:testOverlapOuter - [3.44 ms] - Cannot read property 'childNodes' of null
-not ok 1111 - qx.test.ui.virtual.layer.Row:testOverlapRight - [3.48 ms] - Cannot read property 'childNodes' of null
-not ok 1112 - qx.test.ui.virtual.layer.Row:testOverlapBottomLeft - [2.53 ms] - Cannot read property 'childNodes' of null
-not ok 1113 - qx.test.ui.virtual.layer.Row:testOverlapBottom - [2.76 ms] - Cannot read property 'childNodes' of null
-not ok 1114 - qx.test.ui.virtual.layer.Row:testOverlapBottomRight - [2.37 ms] - Cannot read property 'childNodes' of null
-not ok 1115 - qx.test.ui.virtual.layer.WidgetCell:testGetRenderedCellWidget - [4.03 ms] - Cannot read property 'getUserData' of null
-not ok 1116 - qx.test.ui.virtual.layer.WidgetCell:testEmptyCells - [7.15 ms] - Expected value to be instanceof 'qx.ui.core.Widget' but found 'undefined'!
-not ok 1117 - qx.test.ui.virtual.layer.WidgetCell:testInit - [6.65 ms] - Expected '44' but found '0'!
-not ok 1118 - qx.test.ui.virtual.layer.WidgetCell:testFullUpdate - [4.88 ms] - Expected '44' but found '0'!
-not ok 1119 - qx.test.ui.virtual.layer.WidgetCell:testNoOverlap - [5.26 ms] - Expected '18' but found '0'!
-not ok 1120 - qx.test.ui.virtual.layer.WidgetCell:testScrollDown - [5.18 ms] - Expected '44' but found '0'!
-not ok 1121 - qx.test.ui.virtual.layer.WidgetCell:testScrollUp - [5.15 ms] - Expected '44' but found '0'!
-not ok 1122 - qx.test.ui.virtual.layer.WidgetCell:testScrollLeft - [4.96 ms] - Expected '44' but found '0'!
-not ok 1123 - qx.test.ui.virtual.layer.WidgetCell:testScrollRight - [4.81 ms] - Expected '44' but found '0'!
-not ok 1124 - qx.test.ui.virtual.layer.WidgetCell:testOverlapLeftTop - [5.03 ms] - Expected '25' but found '0'!
-not ok 1125 - qx.test.ui.virtual.layer.WidgetCell:testOverlapTop - [5.00 ms] - Expected '16' but found '0'!
-not ok 1126 - qx.test.ui.virtual.layer.WidgetCell:testOverlapTopRight - [5.85 ms] - Expected '16' but found '0'!
-not ok 1127 - qx.test.ui.virtual.layer.WidgetCell:testOverlapLeft - [5.11 ms] - Expected '32' but found '0'!
-not ok 1128 - qx.test.ui.virtual.layer.WidgetCell:testOverlapInner - [4.86 ms] - Expected '16' but found '0'!
-not ok 1129 - qx.test.ui.virtual.layer.WidgetCell:testOverlapOuter - [7.11 ms] - Expected '98' but found '0'!
-not ok 1130 - qx.test.ui.virtual.layer.WidgetCell:testOverlapRight - [5.62 ms] - Expected '32' but found '0'!
-not ok 1131 - qx.test.ui.virtual.layer.WidgetCell:testOverlapBottomLeft - [4.99 ms] - Expected '20' but found '0'!
-not ok 1132 - qx.test.ui.virtual.layer.WidgetCell:testOverlapBottom - [5.22 ms] - Expected '10' but found '0'!
-not ok 1133 - qx.test.ui.virtual.layer.WidgetCell:testOverlapBottomRight - [4.81 ms] - Expected '20' but found '0'!
-not ok 1134 - qx.test.ui.virtual.layer.WidgetCellSpan:testGetRenderedCellWidget - [8.72 ms] - Cannot read property 'getUserData' of null
-not ok 1135 - qx.test.ui.virtual.layer.WidgetCellSpan:testInit - [10.69 ms] - Expected '44' but found '0'!
-not ok 1136 - qx.test.ui.virtual.layer.WidgetCellSpan:testFullUpdate - [6.08 ms] - Expected '44' but found '0'!
-not ok 1137 - qx.test.ui.virtual.layer.WidgetCellSpan:testNoOverlap - [6.43 ms] - Expected '18' but found '0'!
-not ok 1138 - qx.test.ui.virtual.layer.WidgetCellSpan:testScrollDown - [6.09 ms] - Expected '44' but found '0'!
-not ok 1139 - qx.test.ui.virtual.layer.WidgetCellSpan:testScrollUp - [6.08 ms] - Expected '44' but found '0'!
-not ok 1140 - qx.test.ui.virtual.layer.WidgetCellSpan:testScrollLeft - [5.97 ms] - Expected '44' but found '0'!
-not ok 1141 - qx.test.ui.virtual.layer.WidgetCellSpan:testScrollRight - [5.91 ms] - Expected '44' but found '0'!
-not ok 1142 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapLeftTop - [6.38 ms] - Expected '25' but found '0'!
-not ok 1143 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapTop - [6.16 ms] - Expected '16' but found '0'!
-not ok 1144 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapTopRight - [6.07 ms] - Expected '16' but found '0'!
-not ok 1145 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapLeft - [6.59 ms] - Expected '32' but found '0'!
-not ok 1146 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapInner - [5.78 ms] - Expected '16' but found '0'!
-not ok 1147 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapOuter - [6.19 ms] - Expected '98' but found '0'!
-not ok 1148 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapRight - [5.95 ms] - Expected '32' but found '0'!
-not ok 1149 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottomLeft - [6.03 ms] - Expected '20' but found '0'!
-not ok 1150 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottom - [5.94 ms] - Expected '10' but found '0'!
-not ok 1151 - qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottomRight - [6.11 ms] - Expected '20' but found '0'!
-not ok 1152 - qx.test.ui.virtual.PaneUpdate:testNoUpdateBeforeAppear - [22.05 ms] - Expected '2' but found '0'!
-not ok 1153 - qx.test.ui.virtual.PaneUpdate:testInitial - [6.90 ms] - Expected '2' but found '0'!
-not ok 1154 - qx.test.ui.virtual.PaneUpdate:testInitialData - [7.38 ms] - Expected '3' but found '1'!
-not ok 1155 - qx.test.ui.virtual.PaneUpdate:testInitialWindow - [6.98 ms] - Expected '2' but found '0'!
-not ok 1156 - qx.test.ui.virtual.PaneUpdate:testInitialWindowData - [7.36 ms] - Expected '3' but found '1'!
-not ok 1157 - qx.test.ui.virtual.PaneUpdate:testInitialAxis - [7.87 ms] - Expected '2' but found '0'!
-not ok 1158 - qx.test.ui.virtual.PaneUpdate:testInitialAxisData - [7.50 ms] - Expected '3' but found '1'!
-not ok 1159 - qx.test.ui.virtual.PaneUpdate:testInitialAxisWindow - [7.12 ms] - Expected '2' but found '0'!
-not ok 1160 - qx.test.ui.virtual.PaneUpdate:testInitialAxisWindowData - [6.80 ms] - Expected '3' but found '1'!
-not ok 1161 - qx.test.ui.virtual.PaneUpdate:testAxis - [6.94 ms] - Expected '2' but found '0'!
-not ok 1162 - qx.test.ui.virtual.PaneUpdate:testAxisData - [6.68 ms] - Expected '2' but found '0'!
-not ok 1163 - qx.test.ui.virtual.PaneUpdate:testAxisWindow - [7.15 ms] - Expected '2' but found '0'!
-not ok 1164 - qx.test.ui.virtual.PaneUpdate:testAxisWindowData - [6.91 ms] - Expected '2' but found '0'!
-not ok 1165 - qx.test.ui.virtual.PaneUpdate:testWindow - [6.98 ms] - Expected '2' but found '0'!
-not ok 1166 - qx.test.ui.virtual.PaneUpdate:testWindowData - [6.82 ms] - Expected '2' but found '0'!
-not ok 1167 - qx.test.ui.virtual.PaneUpdate:testData - [6.95 ms] - Expected '1' but found '0'!
-not ok 1169 - qx.test.ui.virtual.Scroller:testScrollX - [9.44 ms] - Expected 'true' but found 'false'!
-not ok 1170 - qx.test.ui.virtual.Scroller:testScrollY - [11.58 ms] - Expected 'true' but found 'false'!
-not ok 1171 - qx.test.ui.virtual.Scroller:testMaxScrollPosition - [11.45 ms] - Expected 'true' but found 'false'!
-not ok 1172 - qx.test.ui.virtual.Scroller:testScrollbarYAuto - [11.74 ms] - Expected 'true' but found 'false'!
-not ok 1173 - qx.test.ui.virtual.Scroller:testScrollbarXAuto - [11.51 ms] - Expected 'true' but found 'false'!
-not ok 1174 - qx.test.ui.virtual.Scroller:testScrollbarXYAuto - [11.75 ms] - Expected 'true' but found 'false'!
-not ok 1179 - qx.test.ui.virtual.cell.WidgetCell:testUpdateData - [3.98 ms] - Expected 'label 1' but found 'null'!
-not ok 1182 - qx.test.ui.window.Desktop:testEvents - [5.46 ms] - control.show is not a function
-not ok 1231 - qx.test.Promise:testPropertySetValueAsPromise1 - [1.72 ms] - Timeout of 1000 ms reached before resume() was called.
-not ok 1232 - qx.test.Promise:testPropertySetValueAsPromise2 - [0.44 ms] - alpha: async property requires that both 'get' and 'apply' be provided
-not ok 1233 - qx.test.Promise:testPropertySetValueAsyncApply1 - [3.72 ms] - Expected '0' but found '1'!
-not ok 1234 - qx.test.Promise:testPropertySetValueAsyncApply2 - [0.41 ms] - alpha: async property requires that both 'get' and 'apply' be provided
-not ok 1236 - qx.test.Promise:testBinding - [0.38 ms] - alpha: async property requires that both 'get' and 'apply' be provided
-not ok 1237 - qx.test.Promise:testAsyncEventHandlers - [0.66 ms] - alpha: async property requires that both 'get' and 'apply' be provided
-not ok 1238 - qx.test.Promise:testWaterfallBinding - [0.44 ms] - alpha: async property requires that both 'get' and 'apply' be provided
-not ok 1248 - qx.test.Theme:testExtendTheme - [51.27 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1249 - qx.test.Promise:testWrapping - [141.70 ms] - resume() called before wait()
-not ok 1250 - qx.test.Theme:testIncludeTheme - [46.90 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1251 - qx.test.Theme:testIncludeInvalidTheme - [41.00 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1252 - qx.test.Theme:testPatchTheme - [40.56 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1253 - qx.test.Theme:testPatchInvalidTheme - [40.17 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1254 - qx.test.Theme:testIncludeThemeWithIncludes - [40.91 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1255 - qx.test.Theme:testDoubleExtend - [40.57 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1256 - qx.test.Theme:testExtendThemeWithIncludes - [40.48 ms] - Unable to resolve decorator 'qx-inset'.
-not ok 1258 - qx.test.Promise:testEach2 - [0.88 ms] - Timeout of 1000 ms reached before resume() was called.
-not ok 1259 - qx.test.Promise:testGlobalError - [0.52 ms] - Timeout of 1000 ms reached before resume() was called.
-not ok 1334 - qx.test.bom.Font:testColorAtWidget - [5.79 ms] - Cannot read property 'style' of null
-not ok 1940 - qx.test.io.rest.Resource:test: configure request receives pre-configured but unsent request - [8.72 ms] - Maximum call stack size exceeded
-not ok 1948 - qx.test.io.rest.Resource:test: dynamically created action forwards arguments - [4.84 ms] - requestData: Check function indicates wrong type value; value=1
-not ok 1953 - qx.test.io.rest.Resource:test: invoke action generically - [6.09 ms] - Maximum call stack size exceeded
-not ok 1954 - qx.test.io.rest.Resource:test: invoke action - [5.91 ms] - Maximum call stack size exceeded
-not ok 1958 - qx.test.io.rest.Resource:test: invoke action with positional params - [5.91 ms] - Maximum call stack size exceeded
-not ok 1959 - qx.test.io.rest.Resource:test: invoke action with positional params that evaluate to false - [5.92 ms] - Maximum call stack size exceeded
-not ok 1960 - qx.test.io.rest.Resource:test: invoke action with non-string params - [7.45 ms] - Maximum call stack size exceeded
-not ok 1961 - qx.test.io.rest.Resource:test: invoke action with params and data - [6.49 ms] - Maximum call stack size exceeded
-not ok 1962 - qx.test.io.rest.Resource:test: invoke action with multiple positional params - [6.04 ms] - Maximum call stack size exceeded
-not ok 1963 - qx.test.io.rest.Resource:test: invoke action with positional params in query - [5.84 ms] - Maximum call stack size exceeded
-not ok 1966 - qx.test.io.rest.Resource:test: invoke action when content type json - [6.42 ms] - Maximum call stack size exceeded
-not ok 1967 - qx.test.io.rest.Resource:test: invoke action when content type json and get - [4.80 ms] - req.setMethod.restore is not a function
-not ok 1968 - qx.test.io.rest.Resource:test: invoke action for url with port - [7.45 ms] - Maximum call stack size exceeded
-not ok 1969 - qx.test.io.rest.Resource:test: invoke action for relative url - [5.70 ms] - Maximum call stack size exceeded
-not ok 1970 - qx.test.io.rest.Resource:test: invoke action for relative url with dots - [5.91 ms] - Maximum call stack size exceeded
-not ok 1971 - qx.test.io.rest.Resource:test: invoke action for route with check - [5.66 ms] - Maximum call stack size exceeded
-not ok 1972 - qx.test.io.rest.Resource:test: invoke action fills in empty string when missing param and no default - [7.43 ms] - Maximum call stack size exceeded
-not ok 1973 - qx.test.io.rest.Resource:test: invoke action fills in default when missing param - [6.67 ms] - Maximum call stack size exceeded
-not ok 1981 - qx.test.io.rest.Resource:test: refresh action - [6.37 ms] - Maximum call stack size exceeded
-not ok 1982 - qx.test.io.rest.Resource:test: refresh action replaying previous params - [5.73 ms] - Maximum call stack size exceeded
-not ok 1987 - qx.test.io.rest.Resource:test: poll action replaying previous params - [5.85 ms] - Maximum call stack size exceeded
-not ok 2073 - qx.test.core.Object:testDisposeBindingWithSelfChain - [7.02 ms] - Called fail().
-not ok 2074 - qx.test.core.Object:testDisposeBinding - [0.31 ms] - qx.test.Single is already defined; cannot redefine a class
-not ok 2075 - qx.test.core.Object:testDisposeSingletonObject - [0.29 ms] - qx.test.Single is already defined; cannot redefine a class
-not ok 2080 - qx.test.core.Property:testInheritance - [5.90 ms] - Called assertTrue with ''undefined''
-not ok 2081 - qx.test.core.Property:testParent - [5.10 ms] - Expected ''undefined'' (identical) but found 'null'!
-not ok 2082 - qx.test.core.Property:testMultiValues - [5.61 ms] - Expected ''undefined'' (identical) but found 'black'!
-not ok 2239 - qx.test.data.controller.List:testResetSelectionSingle - [18.79 ms] - Expected 'x' but found ''undefined''!
-not ok 2247 - qx.test.data.controller.List:testSelectionAfterDelete - [9.35 ms] - setUp failed: Attempted to wrap load which is already wrapped
-not ok 2248 - qx.test.data.controller.List:testResetBug - [2.56 ms] - setUp failed: Attempted to wrap load which is already wrapped
-not ok 2249 - qx.test.data.controller.List:testSelectionArrayReverse - [1.92 ms] - Cannot read property 'getItem' of null
-not ok 2254 - qx.test.data.controller.List:testSelectionAfterDeleteEmpty - [1.89 ms] - Cannot read property 'getSelection' of null
-not ok 2256 - qx.test.data.controller.List:testFilterApply - [2.07 ms] - setUp failed: Attempted to wrap load which is already wrapped
-not ok 2270 - qx.test.data.controller.List:testGetVisibleModels - [2.48 ms] - setUp failed: Attempted to wrap load which is already wrapped
-not ok 2272 - qx.test.data.controller.List:testScrollBySelection - [248.84 ms] - Maximum call stack size exceeded
-not ok 2273 - qx.test.data.controller.List:testScrollBySelectionMulti - [215.39 ms] - Maximum call stack size exceeded
-not ok 2275 - qx.test.data.controller.List:testBug1988 - [3.38 ms] - qx.demo.Kid is already defined; cannot redefine a class
-not ok 2295 - qx.test.data.controller.ListWithObjects:testDeepSelection - [2.37 ms] - qx.demo.Kid is already defined; cannot redefine a class
-not ok 2316 - qx.test.data.controller.Tree:testRemoveBindingsRecursive - [40.53 ms] - Called assertTrue with 'false'
-not ok 2317 - qx.test.data.controller.Tree:testFolderCreation - [23.28 ms] - setUp failed: Attempted to wrap load which is already wrapped
-not ok 2320 - qx.test.data.controller.Tree:testModelChange - [0.48 ms] - Cannot read property 'push' of null
-not ok 2362 - qx.test.data.controller.List:testSelectionWithModelChangeSelectBox - [0.70 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2364 - qx.test.data.marshal.Json:testLocalizedString - [0.75 ms] - Cannot convert undefined or null to object
-not ok 2393 - qx.test.data.marshal.Json:testAddValidationRule - [6.75 ms] - Expected 'b|n|s' but found ''undefined''!
-not ok 2399 - qx.test.data.marshal.Json:testGetModelClassDepth - [6.59 ms] - Expected '3' but found '0'!
-not ok 2401 - qx.test.data.marshal.Json:testGetModelSuperClass - [6.26 ms] - Expected '3' but found '0'!
-not ok 2402 - qx.test.data.marshal.Json:testGetModelMixins - [6.66 ms] - Expected '3' but found '0'!
-not ok 2403 - qx.test.data.marshal.Json:testGetPropertyMapping - [0.51 ms] - model.getSss is not a function
-not ok 2451 - qx.test.data.singlevalue.Deep:testDeepTargetChangeWithoutEvent - [7.94 ms] - Expected 'b2' but found '123'!
-not ok 2477 - qx.test.data.singlevalue.Simple:testNullWithConverter - [0.45 ms] - qx.Test is already defined; cannot redefine a class
-not ok 2482 - qx.test.data.singlevalue.Simple:testChangeEventMissing - [6.57 ms] - The function did not raise an exception!
-not ok 2502 - qx.test.data.store.Json:testOwnSuperclassWith - [7.23 ms] - Called assertTrue with 'false'
-not ok 2503 - qx.test.data.store.Json:testOwnSuperclassWithout - [0.68 ms] - qx.test.O is already defined; cannot redefine a class
-not ok 2505 - qx.test.data.store.Json:testOwnMixinWithMultiple - [0.78 ms] - Cannot read property 'a' of null
-not ok 2507 - qx.test.data.store.Json:testDisposeOldModel - [34.68 ms] - resume() called before wait()
-not ok 2508 - qx.test.data.store.Json:testDisposeRequest - [20.41 ms] - tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
-not ok 2509 - qx.test.data.store.Json:testDisposeRequestDone - [0.84 ms] - Attempted to wrap Xhr which is already wrapped
-not ok 2511 - qx.test.data.store.Json:test Internal Server Error - [1.19 ms] - tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
-not ok 2521 - qx.test.data.store.Json:test Internal Server Error - [448.35 ms] - resume() called before wait()
-not ok 2530 - qx.test.data.store.Json:testOwnMixinWith - [1.01 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2531 - qx.test.data.store.Json:testManipulatePrimitive - [1.23 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2532 - qx.test.data.store.Json:testConfigureRequestPrimitive - [0.72 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2535 - qx.test.data.store.Json:testErrorEvent - [1.40 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2706 - qx.test.html.Iframe:test: set null source if frame is cross-origin - [5.97 ms] - Timeout of 10000 ms reached before resume() was called.
-not ok 2838 - qx.test.log.Logger:testContextObject - [34.11 ms] - Expected 'qxWeb' but found ''undefined''!
-not ok 2844 - qx.test.mobile.LocaleSwitch:testList - [21.87 ms] - Cannot read property 'eq' of undefined
-not ok 2849 - qx.test.mobile.basic.Atom:testIconPosition - [10.22 ms] - Called assertTrue with 'false'
-not ok 2881 - qx.test.mobile.container.Scroll:testHorizontalWayPoint - [0.90 ms] - Cannot read property 'setStyle' of undefined
-not ok 2902 - qx.test.mobile.form.CheckBox:testValue - [1.07 ms] - Cannot read property 'hasClass' of undefined
-not ok 2961 - qx.test.mobile.page.NavigationPage:testBackButton - [1.58 ms] - this.__backButton__P_304_0.show is not a function
-not ok 2962 - qx.test.mobile.page.NavigationPage:testButton - [1.54 ms] - this.__actionButton__P_304_1.show is not a function
-not ok 2976 - qx.test.mobile.tabbar.TabBar:testView - [12.36 ms] - Called assertTrue with 'false'
-not ok 2992 - qx.test.performance.Property:testPropertySet - [0.62 ms] - demo.MyClass is already defined; cannot redefine a class
-not ok 2993 - qx.test.performance.Property:testAsyncPropertySet - [0.65 ms] - demo.MyClass is already defined; cannot redefine a class
-not ok 3058 - qx.test.theme.manager.Meta:testAllThemeManagerChanged - [13.23 ms] - Cannot read property 'nodeType' of null
-not ok 3059 - qx.test.theme.manager.Meta:testColorThemeManagerChanged - [5.98 ms] - Cannot read property 'nodeType' of null
-not ok 3060 - qx.test.theme.manager.Meta:testAppearanceThemeManagerChanged - [5.21 ms] - Cannot read property 'nodeType' of null
-not ok 3061 - qx.test.theme.manager.Meta:testColorThemeChanged - [4.59 ms] - Cannot read property 'nodeType' of null
-not ok 3221 - qx.test.util.DisposeUtil:testDestroyContainer - [3.89 ms] - value.show is not a function
-not ok 3282 - qx.test.util.Serializer:testUrlDataArray - [8.51 ms] - Expected 'data1=a&data2=a&data2=b&data3=a&data3=b&data3=c' but found 'data1=a&data2=a%2Cb&data3=a%2Cb%2Cc'!
-DONE testing 2738 ok, 534 not ok, 170 skipped - [1178346 ms]
-Test 'framework test' failed with exit code 255.
-
-real	22m29.986s
-user	4m18.471s
-sys	0m13.318s
+qx.test.ui.Destroy:testControls
+    Exception while creating child control 'control-bar' of widget qx.ui.control.ColorSelector[4862-0]: Exception while creating child control 'control-pane' of widget qx.ui.control.ColorSelector[4862-0]: Exception while creating child control 'preset-field-set' of widget qx.ui.control.ColorSelector[4862-0]: control.show is not a function
+qx.test.ui.Destroy:testTabView
+    Could not select qx.ui.tabview.TabButton[5314-0], because it is not a child element!
+qx.test.ui.Destroy:testRadioGroup
+    Could not select qx.ui.form.RadioButton[5714-0], because it is not a child element!
+qx.test.ui.Destroy:testRadioButtonGroup
+    Could not select qx.ui.form.RadioButton[5737-0], because it is not a child element!
+qx.test.ui.Destroy:testWindow
+    control.show is not a function
+qx.test.ui.RadioItems:testTwiceClickEmptySelectionForm
+    Could not select qx.ui.form.RadioButton[6229-0], because it is not a child element!
+qx.test.ui.RadioItems:testTwiceClickEmptySelectionMenu
+    Could not select qx.ui.menu.RadioButton[6241-0], because it is not a child element!
+qx.test.ui.RadioItems:testTwiceClickEmptySelectionToolbar
+    Could not select qx.ui.toolbar.RadioButton[6253-0], because it is not a child element!
+qx.test.ui.Window:testActiveWindowBeforeWindowOpened
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterWindowOpened
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterWindowOpened2
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterWindowClosed
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterWindowClosed2
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterAllWindowsOpened
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterRemovingOpenedWindow
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterRemovingOpenedWindow2
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testActiveWindowAfterRemovingAllWindows
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testModalWindowIsAlwaysActiveIfOpen
+    setUp failed: control.show is not a function
+qx.test.ui.Window:testOrderModalOverAlwaysOnTopOverNormalWindow
+    setUp failed: control.show is not a function
+qx.test.ui.core.Appearance:testDefault
+    setUp failed: this._getLayout(...).setGap is not a function
+qx.test.ui.core.Appearance:testFallback
+    setUp failed: this._getLayout(...).setGap is not a function
+qx.test.ui.core.Appearance:testChange
+    setUp failed: this._getLayout(...).setGap is not a function
+qx.test.ui.core.Appearance:testReuseNotDefined
+    setUp failed: this._getLayout(...).setGap is not a function
+qx.test.ui.core.Blocker:testBlocker
+    focusHandler.getFocus is not a function
+qx.test.ui.core.Blocker:testBlockerThrice
+    focusHandler.getFocus is not a function
+qx.test.ui.core.Blocker:testForceUnblock
+    focusHandler.getFocus is not a function
+qx.test.ui.core.Blocker:testBlockedEvent
+    focusHandler.getFocus is not a function
+qx.test.ui.core.Blocker:testRestoreActiveAndFocusedWidgets
+    focusHandler.getFocus is not a function
+qx.test.ui.core.Blocker:testRestoreDisposedWidget
+    focusHandler.getFocus is not a function
+qx.test.ui.core.DragDropScrolling:testScrollBy
+    Maximum call stack size exceeded
+qx.test.ui.core.Widget:testScrollChildIntoViewChangesScheduled
+    Maximum call stack size exceeded
+qx.test.ui.embed.Iframe:testHiddenSetSourceInitial
+    Expected value not to be null but found null!
+qx.test.ui.core.Widget:testLazyScrollChildIntoViewY
+    Called assert with 'false'
+qx.test.ui.embed.Iframe:testHiddenSetSource
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.embed.Iframe:testGetWindow
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.AbstractSelectBox:testStatePopupOpen
+    Cannot read property 'top' of null
+qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeSelectBox
+    Cannot read property 'height' of null
+qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeComboBox
+    Cannot read property 'height' of null
+qx.test.ui.form.Color:testColorSelector
+    Exception while creating child control 'control-bar' of widget qx.ui.control.ColorSelector[12441-0]: Exception while creating child control 'control-pane' of widget qx.ui.control.ColorSelector[12441-0]: Exception while creating child control 'preset-field-set' of widget qx.ui.control.ColorSelector[12441-0]: control.show is not a function
+qx.test.ui.form.Color:testColorPopup
+    control.show is not a function
+qx.test.ui.form.Field:testSelectTextAllBeforeFlush
+    Expected 'affe' but found 'null'!
+qx.test.ui.form.Field:testClearTextSelectionBeforeFlush
+    Expected '' but found 'null'!
+qx.test.ui.form.Field:testSelectAllTextAfterFlush
+    Expected 'affe' but found 'null'!
+qx.test.ui.form.Field:testGetTextSelectionStartEndBeforeFlush
+    Expected '2' but found 'null'!
+qx.test.ui.form.Field:testClearTextSelectionAfterFlush
+    Expected '' but found 'null'!
+qx.test.ui.form.Field:testGetTextSelectionStartEndAfterFlush
+    Expected '1' but found 'null'!
+qx.test.ui.form.Form:testValidSpinner
+    Cannot read property 'indexOf' of null
+qx.test.ui.form.Form:testValidTextField
+    Cannot read property 'indexOf' of null
+qx.test.ui.form.Form:testValidTextField
+    resume() called before wait()
+qx.test.ui.form.Form:testValidSelectBox
+    Cannot read property 'indexOf' of null
+qx.test.ui.form.Form:testValidCheckBox
+    resume() called before wait()
+qx.test.ui.form.Form:testRequiredGroupBox
+    resume() called before wait()
+qx.test.ui.form.Form:testValidCheckGroupBox
+    resume() called before wait()
+qx.test.ui.form.Form:testValidRadioGroup
+    Could not select qx.ui.form.RadioButton[14439-0], because it is not a child element!
+qx.test.ui.form.Form:testValidRadioButtonGroup
+    Could not select qx.ui.form.RadioButton[14477-0], because it is not a child element!
+qx.test.ui.form.Form:testRedefineItem
+    resume() called before wait()
+qx.test.ui.form.Form:testRedefineItem
+    Cannot read property 'indexOf' of null
+qx.test.ui.form.Form:testRedefineItem
+    resume() called before wait()
+qx.test.ui.form.Form:testRedefineItem
+    Cannot read property 'indexOf' of null
+qx.test.ui.form.FormManager:testAll
+    Maximum call stack size exceeded
+qx.test.ui.form.FormValidator:testSyncSelfContained1NotNullRadioButtonGroup
+    Could not select qx.ui.form.RadioButton[15638-0], because it is not a child element!
+qx.test.ui.form.FormValidator:testAsyncSelfContained1NotNull
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testAsyncSelfContained3NotNull
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullAsyncFail
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullSync
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testMixedRelated3NotNull
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testMixedRelated3NotNullAsyncFail
+    Called assertFalse with 'null'
+qx.test.ui.form.FormValidator:testValidateDataBindingSelection
+    resume() called before wait()
+qx.test.ui.form.Field:testApplyWebFont
+    Called fail().
+qx.test.ui.form.Form:testValidSlider
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidTextArea
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidPasswordField
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidComboBox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidList
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidTree
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidDateField
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Form:testValidDateChooser
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testAsyncSelfContained1NotNullFail
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testAsyncSelfContained3NotNullFail
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testAsyncSelfContained2NotNullFailMixed
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testMixedSelfContained3NotNullSyncFail
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testMixedSelfContained2SyncRequired
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testMixedRelated3NotNullSyncFail
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.FormValidator:testMixedRelated3NotNullAsyncFormFail
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Label:testFocusTextField
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Label:testFocusSpinner
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Label:testFocusCheckBox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.List:test: find rich-text item
+    Expected value to be instanceof 'qx.ui.form.ListItem' but found null!
+qx.test.ui.form.MenuButton:testOpen
+    Called assertTrue with 'false'
+qx.test.ui.form.MenuButton:testOpenSelectFirst
+    Called assertTrue with 'false'
+qx.test.ui.form.MenuButton:testOpenSelectFirstWithDisabledElement
+    Called assertTrue with 'false'
+qx.test.ui.form.ModelSelection:testRadioGroupGetSingle
+    Could not select qx.ui.form.RadioButton[17155-0], because it is not a child element!
+qx.test.ui.form.ModelSelection:testRadioGroupSetSingle
+    Could not select qx.ui.form.RadioButton[17169-0], because it is not a child element!
+qx.test.ui.form.ModelSelection:testRadioButtonGroupGetSingle
+    Could not select qx.ui.form.RadioButton[17186-0], because it is not a child element!
+qx.test.ui.form.ModelSelection:testRadioButtonGroupSetSingle
+    Could not select qx.ui.form.RadioButton[17203-0], because it is not a child element!
+qx.test.ui.form.Placeholder:testFocusTextField
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testFocusTextArea
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testFocusPasswordField
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testFocusComboBox
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testDisabledComboBox
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testFocusDateField
+    Called assertFalse with 'true'
+qx.test.ui.form.Placeholder:testDisabledDateField
+    Called assertFalse with 'true'
+qx.test.ui.form.RadioButtonGroup:testRemoveAll
+    setUp failed: Could not select qx.ui.form.RadioButton[17686-0], because it is not a child element!
+qx.test.ui.form.Label:testFocusNotFocusableTextField
+    resume() called before wait()
+qx.test.ui.form.Label:testFocusNotFocusableTextField
+    resume() called before wait()
+qx.test.ui.form.RadioGroup:testHiddenRadioButtons
+    Could not select qx.ui.form.RadioButton[17719-0], because it is not a child element!
+qx.test.ui.form.RadioGroup:testAlteredGroupProperty
+    Cannot read property 'charAt' of null
+qx.test.ui.form.Slider:testKnobPositionAfterBlur
+    Expected '0px' to be not equal with '0px'!
+qx.test.ui.form.SplitButton:testArrowAvailable
+    Called assertTrue with 'false'
+qx.test.ui.form.TextArea:test: textarea set minimal line-height
+    Called assert with 'false'
+qx.test.ui.form.TextArea:test: textarea with autoSize grows when input would trigger scrollbar
+    Called assert with 'false'
+qx.test.ui.form.TextArea:test: textarea with autoSize shrinks when removal would hide scrollbar
+    Called assert with 'false'
+qx.test.ui.form.TextArea:test: textarea with autoSize does not shrink below original height
+    Cannot read property 'height' of null
+qx.test.ui.form.TextArea:test: textarea with autoSize hides scroll-bar when finally below maxHeight
+    Expected 'hidden' but found 'auto'!
+qx.test.ui.form.TextArea:test: textarea with autoSize respects initial value
+    Cannot read property 'height' of null
+qx.test.ui.form.TextArea:test: textarea with autoSize respects initial wrap
+    Cannot read property 'height' of null
+qx.test.ui.form.TextArea:test: textarea with autoSize shrinks when long line is unwrapped
+    Expected '64' to be not equal with '64'!
+qx.test.ui.form.TextArea:test: textarea with autoSize grows when long line is wrapped
+    Expected '64' to be not equal with '64'!
+qx.test.ui.form.TextField:test: reset max length
+    maxLength: Expected value to be of type PositiveInteger; value=Infinity
+qx.test.ui.form.Label:testFocusRemoveTextField
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Label:testFocusRemoveSpinner
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.Label:testFocusRemoveCheckBox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.form.VirtualSelectBox:test dropdown list same width as selectbox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.list.List:testCreation
+    Cannot read property 'width' of null
+qx.test.ui.list.List:testChangeModelContent
+    Cannot read property 'getLabel' of null
+qx.test.ui.list.List:testResetModel
+    Expected 'item 1' (identical) but found 'null'!
+qx.test.ui.list.List:testComplexModel
+    Cannot read property 'getLabel' of null
+qx.test.ui.list.List:testReverseBinding
+    Cannot read property 'setLabel' of null
+qx.test.ui.list.List:testChangeModelLengthListener
+    resume() called before wait()
+qx.test.ui.groupbox.CheckGroupBox:testEnabledConsistencyBetweenContentAndParent
+    Called assertFalse with 'true'
+qx.test.ui.indicator.ProgressBar:testConstructor
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testValue
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testLimitValueToZero
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testLimitValueToMaximum
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testMaximum
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testDoNothingIfMaximumIsSetToZero
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testLimitMaximumToValue
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testChangeEvent
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testCompleteEvent
+    Maximum call stack size exceeded
+qx.test.ui.indicator.ProgressBar:testCompleteEventFiresOnTime
+    Maximum call stack size exceeded
+qx.test.ui.layout.Box:testExcludeHBox
+    Expected '100' but found 'NaN'!
+qx.test.ui.layout.Box:testExcludeVBox
+    Expected '50' but found 'NaN'!
+qx.test.ui.layout.Flow:testChildrenFitInLine
+    Expected '{"left":0,"top":0,"width":100,"height":50}' but found '{}'!
+qx.test.ui.layout.Flow:testAutoSize
+    Expected '{"left":0,"top":0,"width":300,"height":50}' but found '{}'!
+qx.test.ui.layout.Flow:testWrapThirdChild
+    Expected '0' but found ''undefined''!
+qx.test.ui.layout.Flow:testAlignX
+    Expected '0' but found ''undefined''!
+qx.test.ui.layout.Flow:testAlignXWithWrapping
+    Expected '30' but found ''undefined''!
+qx.test.ui.layout.Flow:testLayoutAlignY
+    Expected '0' but found ''undefined''!
+qx.test.ui.layout.Flow:testChildAlignY
+    Expected '0' but found ''undefined''!
+qx.test.ui.layout.Flow:testReversed
+    Expected '200' but found ''undefined''!
+qx.test.ui.layout.Flow:testLineBreakAutoSize
+    Expected '{"left":0,"top":0,"width":200,"height":100}' but found '{}'!
+qx.test.ui.layout.Flow:testMargins
+    Expected '{"left":0,"top":0,"width":360,"height":90}' but found '{}'!
+qx.test.ui.layout.Flow:testMarginXCollapse
+    Expected '{"left":0,"top":0,"width":300,"height":170}' but found '{}'!
+qx.test.ui.layout.Flow:testSpacingX
+    Expected '320' but found ''undefined''!
+qx.test.ui.layout.Flow:testSpacingXAndMarginCollapsing
+    Expected '330' but found ''undefined''!
+qx.test.ui.layout.Flow:testSpacingY
+    Expected '170' but found ''undefined''!
+qx.test.ui.layout.Flow:testHeightForWidth
+    Expected '{"left":0,"top":0,"width":110,"height":150}' but found '{}'!
+qx.test.ui.layout.Flow:testLargeChildInLine
+    Expected '0' but found ''undefined''!
+qx.test.ui.layout.Grid:testRowSpanWithoutFlex
+    Expected '300' but found ''undefined''!
+qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowTrue
+    Expected '206' but found ''undefined''!
+qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowFalse
+    Expected '206' but found ''undefined''!
+qx.test.ui.layout.Grid:testColSpanWithoutFlexAllowGrowFalseChangeToTrue
+    Expected '206' but found ''undefined''!
+qx.test.ui.layout.Grid:testAutoSize
+    Expected '400' but found ''undefined''!
+qx.test.ui.layout.Grid:testAddRemove
+    Expected '420' but found ''undefined''!
+qx.test.ui.layout.Grid:testVisibility
+    Expected '420' but found ''undefined''!
+qx.test.ui.layout.Grid:testCellSize
+    Expected '70' but found ''undefined''!
+qx.test.ui.layout.Grid:testCellMinSize
+    Expected '200' but found ''undefined''!
+qx.test.ui.selection.RadioGroup:testAllowEmptySelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24620-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testAdd
+    setUp failed: Could not select qx.ui.form.RadioButton[24638-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testAddWithAllowEmptySelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24654-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testSetGroup
+    setUp failed: Could not select qx.ui.form.RadioButton[24670-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testGetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24686-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testSetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24702-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testDisabledSetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24718-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testSameSetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24734-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testSetSelectionWithNotChildElement
+    setUp failed: Could not select qx.ui.form.RadioButton[24750-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testSetSelectionWithTooMuchElements
+    setUp failed: Could not select qx.ui.form.RadioButton[24766-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testResetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24782-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testDisabledResetSelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24798-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testResetSelectionWithEmptySelection
+    setUp failed: Could not select qx.ui.form.RadioButton[24814-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testIsSelected
+    setUp failed: Could not select qx.ui.form.RadioButton[24830-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testIsSelectedWithNotChildElement
+    setUp failed: Could not select qx.ui.form.RadioButton[24846-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testIsSelectionEmpty
+    setUp failed: Could not select qx.ui.form.RadioButton[24862-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testGetSelectables
+    setUp failed: Could not select qx.ui.form.RadioButton[24878-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testDisabledGetSelectables
+    setUp failed: Could not select qx.ui.form.RadioButton[24894-0], because it is not a child element!
+qx.test.ui.selection.RadioGroup:testGetUserSelectables
+    setUp failed: Could not select qx.ui.form.RadioButton[24910-0], because it is not a child element!
+qx.test.ui.selection.TabView:testAddAtIndex
+    setUp failed: Could not select qx.ui.tabview.TabButton[26624-0], because it is not a child element!
+qx.test.ui.selection.TabView:testAddPage
+    setUp failed: Could not select qx.ui.tabview.TabButton[26673-0], because it is not a child element!
+qx.test.ui.selection.TabView:testAddAtLastIndex
+    setUp failed: Could not select qx.ui.tabview.TabButton[26720-0], because it is not a child element!
+qx.test.ui.selection.TabView:testGetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[26767-0], because it is not a child element!
+qx.test.ui.selection.TabView:testSetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[26814-0], because it is not a child element!
+qx.test.ui.selection.TabView:testDisabledSetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[26861-0], because it is not a child element!
+qx.test.ui.selection.TabView:testSameSetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[26908-0], because it is not a child element!
+qx.test.ui.selection.TabView:testSetSelectionWithNotChildElement
+    setUp failed: Could not select qx.ui.tabview.TabButton[26955-0], because it is not a child element!
+qx.test.ui.selection.TabView:testSetSelectionWithTooMuchElements
+    setUp failed: Could not select qx.ui.tabview.TabButton[27002-0], because it is not a child element!
+qx.test.ui.selection.TabView:testResetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[27049-0], because it is not a child element!
+qx.test.ui.selection.TabView:testDisabledResetSelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[27096-0], because it is not a child element!
+qx.test.ui.selection.TabView:testResetSelectionWithEmptySelection
+    setUp failed: Could not select qx.ui.tabview.TabButton[27143-0], because it is not a child element!
+qx.test.ui.selection.TabView:testIsSelected
+    setUp failed: Could not select qx.ui.tabview.TabButton[27190-0], because it is not a child element!
+qx.test.ui.selection.TabView:testIsSelectedWithNotChildElement
+    setUp failed: Could not select qx.ui.tabview.TabButton[27237-0], because it is not a child element!
+qx.test.ui.selection.TabView:testIsSelectionEmpty
+    setUp failed: Could not select qx.ui.tabview.TabButton[27284-0], because it is not a child element!
+qx.test.ui.selection.TabView:testGetSelectables
+    setUp failed: Could not select qx.ui.tabview.TabButton[27331-0], because it is not a child element!
+qx.test.ui.selection.TabView:testDisabledGetSelectables
+    setUp failed: Could not select qx.ui.tabview.TabButton[27378-0], because it is not a child element!
+qx.test.ui.selection.TabView:testGetUserSelectables
+    setUp failed: Could not select qx.ui.tabview.TabButton[27425-0], because it is not a child element!
+qx.test.ui.table.Dispose:testSimple
+    Called fail().
+qx.test.ui.form.VirtualSelectBox:test dropdown list wider than selectbox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.table.Dispose:testChangeModel
+    Called fail().
+qx.test.ui.table.Table:testScrollAfterScrollbarVisibilityChange
+    Maximum call stack size exceeded
+qx.test.ui.table.celleditor.SelectBox:testCreateCellEditor
+    Maximum call stack size exceeded
+qx.test.ui.list.List:testVariableItemHeight
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.toolbar.OverflowHandling:testHideItem
+    Cannot read property 'left' of null
+qx.test.ui.toolbar.OverflowHandling:testShowItem
+    Event (showItem) not fired.
+qx.test.ui.toolbar.OverflowHandling:testHideItemPriority
+    Cannot read property 'left' of null
+qx.test.ui.toolbar.OverflowHandling:testShowItemPriority
+    Cannot read property 'left' of null
+qx.test.ui.toolbar.OverflowHandling:testHideItemRemoved
+    Cannot read property 'left' of null
+qx.test.ui.toolbar.OverflowHandling:testShowItemRemoved
+    Cannot read property 'left' of null
+qx.test.ui.toolbar.OverflowHandling:testAddItem
+    Event (changeVisibility) not fired.
+qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened
+    Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'null'!
+qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened
+    Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
+qx.test.ui.tree.TreeFolder:testIconWhenOpenedThenClosedWithIconOpened
+    Expected ''undefined'' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
+qx.test.ui.tree.virtual.Tree:testOpenNodeWithoutScrolling
+    Expected '0' to be not equal with '0'!
+qx.test.ui.tree.virtual.TreeItem:testChildrenSetDeferred
+    Called assertTrue with 'false'
+qx.test.ui.toolbar.OverflowHandling:testShowIndicator
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.toolbar.OverflowHandling:testHideIndicator
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.toolbar.OverflowHandling:testShowIndicatorHuge
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.virtual.Pane:testScrollProperties
+    Expected '30' but found '0'!
+qx.test.ui.virtual.Pane:testUpdateEvent
+    Expected '1' but found '0'!
+qx.test.ui.virtual.Pane:testFullUpdate
+    Expected '2' but found '0'!
+qx.test.ui.virtual.Pane:testNoRows
+    Cannot read property '1' of undefined
+qx.test.ui.virtual.Pane:testNoColumns
+    Cannot read property '1' of undefined
+qx.test.ui.virtual.Pane:testPrefetchYAtTop
+    Expected '400' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchYLimitedAtTop
+    Expected '500' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchYAtBottom
+    Expected '400' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchYLimitedAtBottom
+    Expected '500' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchYInMiddle
+    Expected '800' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchXAtLeft
+    Expected '300' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchXLimitedAtLeft
+    Expected '400' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchXAtBottom
+    Expected '300' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchXLimitedAtBottom
+    Expected '400' but found '0'!
+qx.test.ui.virtual.Pane:testPrefetchXInMiddle
+    Expected '700' but found '0'!
+qx.test.ui.virtual.Pane:testUpdateLayerWindow
+    Cannot read property '0' of undefined
+qx.test.ui.virtual.Pane:testSrollRowIntoView
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.Pane:testSrollColumnIntoView
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.Pane:testGetCellAtPosition
+    Expected '{"row":0,"column":0}' but found 'null'!
+qx.test.ui.virtual.Pane:testGetItemAtPositionEmptySpace
+    Expected '{"row":0,"column":0}' but found 'null'!
+qx.test.ui.virtual.Pane:testMouseCellEvents
+    Expected '1' but found '0'!
+qx.test.ui.virtual.Pane:test mouse click bug #6695
+    Expected '1' but found '0'!
+qx.test.ui.virtual.Pane:testDestroy
+    Called fail().
+qx.test.ui.virtual.layer.Column:testInit
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testFullUpdate
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testNoOverlap
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testScrollDown
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testScrollUp
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testScrollLeft
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testScrollRight
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapLeftTop
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapTop
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapTopRight
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapLeft
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapInner
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapOuter
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapRight
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapBottomLeft
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapBottom
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.Column:testOverlapBottomRight
+    setUp failed: Cannot read property 'style' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testInit
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testFullUpdate
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testNoOverlap
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollDown
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollUp
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testScrollRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapLeftTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapTopRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapInner
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapOuter
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottomLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottom
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesHorizontal:testOverlapBottomRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testInit
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testFullUpdate
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testNoOverlap
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testScrollDown
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testScrollUp
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testScrollLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testScrollRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapLeftTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapTopRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapInner
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapOuter
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottomLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottom
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.GridLinesVertical:testOverlapBottomRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testInit
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testFullUpdate
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testNoOverlap
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testScrollDown
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testScrollUp
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testScrollLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testScrollRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapLeftTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapTopRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapInner
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapOuter
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapBottomLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapBottom
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCell:testOverlapBottomRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testInit
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testFullUpdate
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testNoOverlap
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testScrollDown
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testScrollUp
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testScrollLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testScrollRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapLeftTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapTopRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapInner
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapOuter
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottomLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottom
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.HtmlCellSpan:testOverlapBottomRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testInit
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testFullUpdate
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testNoOverlap
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testScrollDown
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testScrollUp
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testScrollLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testScrollRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapLeftTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapTop
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapTopRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapInner
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapOuter
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapBottomLeft
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapBottom
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.Row:testOverlapBottomRight
+    Cannot read property 'childNodes' of null
+qx.test.ui.virtual.layer.WidgetCell:testGetRenderedCellWidget
+    Cannot read property 'getUserData' of null
+qx.test.ui.virtual.layer.WidgetCell:testEmptyCells
+    Expected value to be instanceof 'qx.ui.core.Widget' but found 'undefined'!
+qx.test.ui.virtual.layer.WidgetCell:testInit
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testFullUpdate
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testNoOverlap
+    Expected '18' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testScrollDown
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testScrollUp
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testScrollLeft
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testScrollRight
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapLeftTop
+    Expected '25' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapTop
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapTopRight
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapLeft
+    Expected '32' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapInner
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapOuter
+    Expected '98' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapRight
+    Expected '32' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapBottomLeft
+    Expected '20' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapBottom
+    Expected '10' but found '0'!
+qx.test.ui.virtual.layer.WidgetCell:testOverlapBottomRight
+    Expected '20' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testGetRenderedCellWidget
+    Cannot read property 'getUserData' of null
+qx.test.ui.virtual.layer.WidgetCellSpan:testInit
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testFullUpdate
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testNoOverlap
+    Expected '18' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testScrollDown
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testScrollUp
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testScrollLeft
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testScrollRight
+    Expected '44' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapLeftTop
+    Expected '25' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapTop
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapTopRight
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapLeft
+    Expected '32' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapInner
+    Expected '16' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapOuter
+    Expected '98' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapRight
+    Expected '32' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottomLeft
+    Expected '20' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottom
+    Expected '10' but found '0'!
+qx.test.ui.virtual.layer.WidgetCellSpan:testOverlapBottomRight
+    Expected '20' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testNoUpdateBeforeAppear
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testInitial
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testInitialData
+    Expected '3' but found '1'!
+qx.test.ui.virtual.PaneUpdate:testInitialWindow
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testInitialWindowData
+    Expected '3' but found '1'!
+qx.test.ui.virtual.PaneUpdate:testInitialAxis
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testInitialAxisData
+    Expected '3' but found '1'!
+qx.test.ui.virtual.PaneUpdate:testInitialAxisWindow
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testInitialAxisWindowData
+    Expected '3' but found '1'!
+qx.test.ui.virtual.PaneUpdate:testAxis
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testAxisData
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testAxisWindow
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testAxisWindowData
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testWindow
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testWindowData
+    Expected '2' but found '0'!
+qx.test.ui.virtual.PaneUpdate:testData
+    Expected '1' but found '0'!
+qx.test.ui.virtual.Scroller:testScrollX
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.Scroller:testScrollY
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.Scroller:testMaxScrollPosition
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.Scroller:testScrollbarYAuto
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.Scroller:testScrollbarXAuto
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.Scroller:testScrollbarXYAuto
+    Expected 'true' but found 'false'!
+qx.test.ui.virtual.cell.WidgetCell:testUpdateData
+    Expected 'label 1' but found 'null'!
+qx.test.ui.window.Desktop:testEvents
+    control.show is not a function
+qx.test.Promise:testPropertySetValueAsPromise1
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testPropertySetValueAsPromise2
+    alpha: async property requires that both 'get' and 'apply' be provided
+qx.test.Promise:testPropertySetValueAsyncApply1
+    Expected '0' but found '1'!
+qx.test.Promise:testPropertySetValueAsyncApply2
+    alpha: async property requires that both 'get' and 'apply' be provided
+qx.test.Promise:testBinding
+    alpha: async property requires that both 'get' and 'apply' be provided
+qx.test.Promise:testAsyncEventHandlers
+    alpha: async property requires that both 'get' and 'apply' be provided
+qx.test.Promise:testWaterfallBinding
+    alpha: async property requires that both 'get' and 'apply' be provided
+qx.test.Theme:testExtendTheme
+    this._getLayout(...).setGap is not a function
+qx.test.Promise:testWrapping
+    resume() called before wait()
+qx.test.Theme:testIncludeTheme
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testIncludeInvalidTheme
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testPatchTheme
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testPatchInvalidTheme
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testIncludeThemeWithIncludes
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testDoubleExtend
+    this._getLayout(...).setGap is not a function
+qx.test.Theme:testExtendThemeWithIncludes
+    this._getLayout(...).setGap is not a function
+qx.test.Promise:testEach2
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testGlobalError
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.bom.Font:testColorAtWidget
+    Cannot read property 'style' of null
+qx.test.io.rest.Resource:test: configure request receives pre-configured but unsent request
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: dynamically created action forwards arguments
+    requestData: Check function indicates wrong type value; value=1
+qx.test.io.rest.Resource:test: invoke action generically
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with positional params
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with positional params that evaluate to false
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with non-string params
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with params and data
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with multiple positional params
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action with positional params in query
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action when content type json
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action when content type json and get
+    req.setMethod.restore is not a function
+qx.test.io.rest.Resource:test: invoke action for url with port
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action for relative url
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action for relative url with dots
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action for route with check
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action fills in empty string when missing param and no default
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: invoke action fills in default when missing param
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: refresh action
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: refresh action replaying previous params
+    Maximum call stack size exceeded
+qx.test.io.rest.Resource:test: poll action replaying previous params
+    Maximum call stack size exceeded
+qx.test.core.Object:testDisposeBindingWithSelfChain
+    Called fail().
+qx.test.core.Object:testDisposeBinding
+    qx.test.Single is already defined; cannot redefine a class
+qx.test.core.Object:testDisposeSingletonObject
+    qx.test.Single is already defined; cannot redefine a class
+qx.test.core.Property:testInheritance
+    Called assertTrue with ''undefined''
+qx.test.core.Property:testParent
+    Expected ''undefined'' (identical) but found 'null'!
+qx.test.core.Property:testMultiValues
+    Expected ''undefined'' (identical) but found 'black'!
+qx.test.core.Property:testEventWithoutInitOldData
+    Expected value to be null but found false!
+qx.test.core.Property:testEventWithoutInitAndInheritableOldData
+    Expected value to be null but found false!
+qx.test.data.controller.List:testResetSelectionSingle
+    Expected 'x' but found ''undefined''!
+qx.test.data.controller.List:testSelectionAfterDelete
+    setUp failed: Attempted to wrap load which is already wrapped
+qx.test.data.controller.List:testResetBug
+    setUp failed: Attempted to wrap load which is already wrapped
+qx.test.data.controller.List:testSelectionArrayReverse
+    Cannot read property 'getItem' of null
+qx.test.data.controller.List:testSelectionAfterDeleteEmpty
+    Cannot read property 'getSelection' of null
+qx.test.data.controller.List:testFilterApply
+    setUp failed: Attempted to wrap load which is already wrapped
+qx.test.data.controller.List:testGetVisibleModels
+    setUp failed: Attempted to wrap load which is already wrapped
+qx.test.data.controller.List:testScrollBySelection
+    Maximum call stack size exceeded
+qx.test.data.controller.List:testScrollBySelectionMulti
+    Maximum call stack size exceeded
+qx.test.data.controller.List:testBug1988
+    qx.demo.Kid is already defined; cannot redefine a class
+qx.test.data.controller.ListWithObjects:testDeepSelection
+    qx.demo.Kid is already defined; cannot redefine a class
+qx.test.data.controller.Tree:testRemoveBindingsRecursive
+    Called assertTrue with 'false'
+qx.test.data.controller.Tree:testFolderCreation
+    setUp failed: Attempted to wrap load which is already wrapped
+qx.test.data.controller.Tree:testModelChange
+    Cannot read property 'push' of null
+qx.test.data.controller.List:testSelectionWithModelChangeSelectBox
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.data.marshal.Json:testLocalizedString
+    Cannot convert undefined or null to object
+qx.test.data.marshal.Json:testAddValidationRule
+    Expected 'b|n|s' but found ''undefined''!
+qx.test.data.marshal.Json:testGetModelClassDepth
+    Expected '3' but found '0'!
+qx.test.data.marshal.Json:testGetModelSuperClass
+    Expected '3' but found '0'!
+qx.test.data.marshal.Json:testGetModelMixins
+    Expected '3' but found '0'!
+qx.test.data.marshal.Json:testGetPropertyMapping
+    model.getSss is not a function
+qx.test.data.singlevalue.Deep:testDeepTargetChangeWithoutEvent
+    Expected 'b2' but found '123'!
+qx.test.data.singlevalue.Simple:testNullWithConverter
+    qx.Test is already defined; cannot redefine a class
+qx.test.data.singlevalue.Simple:testChangeEventMissing
+    The function did not raise an exception!
+qx.test.data.store.Json:testOwnSuperclassWith
+    Called assertTrue with 'false'
+qx.test.data.store.Json:testOwnSuperclassWithout
+    qx.test.O is already defined; cannot redefine a class
+qx.test.data.store.Json:testOwnMixinWithMultiple
+    Cannot read property 'a' of null
+qx.test.data.store.Json:testDisposeOldModel
+    resume() called before wait()
+qx.test.data.store.Json:testDisposeRequest
+    tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
+qx.test.data.store.Json:testDisposeRequestDone
+    Attempted to wrap Xhr which is already wrapped
+qx.test.data.store.Json:test Internal Server Error
+    tearDown failed: 'set' on proxy: trap returned truish for property '$$refreshInheritables' which exists in the proxy target as a non-configurable and non-writable data property with a different value
+qx.test.data.store.Json:test Internal Server Error
+    resume() called before wait()
+qx.test.data.store.Json:testOwnMixinWith
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.data.store.Json:testManipulatePrimitive
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.data.store.Json:testConfigureRequestPrimitive
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.data.store.Json:testErrorEvent
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.html.Iframe:test: set null source if frame is cross-origin
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.log.Logger:testContextObject
+    Expected 'qxWeb' but found ''undefined''!
+qx.test.mobile.LocaleSwitch:testList
+    Cannot read property 'eq' of undefined
+qx.test.mobile.basic.Atom:testIconPosition
+    Called assertTrue with 'false'
+qx.test.mobile.container.Scroll:testHorizontalWayPoint
+    Cannot read property 'setStyle' of undefined
+qx.test.mobile.form.CheckBox:testValue
+    Cannot read property 'hasClass' of undefined
+qx.test.mobile.page.NavigationPage:testBackButton
+    this.__backButton__P_304_0.show is not a function
+qx.test.mobile.page.NavigationPage:testButton
+    this.__actionButton__P_304_1.show is not a function
+qx.test.mobile.tabbar.TabBar:testView
+    Called assertTrue with 'false'
+qx.test.performance.Property:testPropertySet
+    demo.MyClass is already defined; cannot redefine a class
+qx.test.performance.Property:testAsyncPropertySet
+    demo.MyClass is already defined; cannot redefine a class
+qx.test.theme.manager.Meta:testAllThemeManagerChanged
+    Cannot read property 'nodeType' of null
+qx.test.theme.manager.Meta:testColorThemeManagerChanged
+    Cannot read property 'nodeType' of null
+qx.test.theme.manager.Meta:testAppearanceThemeManagerChanged
+    Cannot read property 'nodeType' of null
+qx.test.theme.manager.Meta:testColorThemeChanged
+    Cannot read property 'nodeType' of null
+qx.test.util.DisposeUtil:testDestroyContainer
+    value.show is not a function
+qx.test.util.PropertyUtil:testGetThemeValue
+    Expected 'true' but found ''undefined''!
