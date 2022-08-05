@@ -64,8 +64,12 @@ qx.Class.define("qx.ui.form.validation.Manager", {
      * @type {Function | AsyncValidator}
      */
     validator: {
-      check:
-        "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
+      check: function(value) {
+        return (
+          value instanceof Function ||
+            qx.Class.isSubClassOf(
+              value.constructor, qx.ui.form.validation.AsyncValidator));
+      },
       init: null,
       nullable: true
     },

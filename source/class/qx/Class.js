@@ -22,6 +22,9 @@ let allEnumerable = false;
 // To be imlemented in the future
 let FUTURE = false;
 
+// The opposite
+let BROKEN = false;
+
 
 qx.Bootstrap.define(
   "qx.Class",
@@ -1111,7 +1114,7 @@ qx.Bootstrap.define(
                         }
                         else if (typeof property.check == "function")
                         {
-                          if (! property.check(value))
+                          if (! property.check.call(proxy, value))
                           {
                             throw new Error(
                               `${prop}: ` +
@@ -1192,36 +1195,53 @@ qx.Bootstrap.define(
                               }
                             }
 
-                            // Try executing the string as a function
-                            let             fCheck;
-                            try
+                            if (! BROKEN)
                             {
-                              fCheck = new Function(
-                                "value", `return (${property.check});`);
-                            }
-                            catch(e)
-                            {
-                              throw new Error(
-                                `${prop}: ` +
-                                  `Error creating check function: ${property.check}`,
-                                  e);
-                            }
 
-                            try
-                            {
-                              if (! fCheck.call(proxy, value))
+                              // Try executing the string as a function
+                              let             code;
+                              let             fCheck;
+
+                              try
+                              {
+                                code = `return (${property.check});`;
+
+                                // This can cause "too much recursion"
+                                // errors, and there's no aparent
+                                // means to debug it. This is a kludgy
+                                // and inefficient feature anyway.
+                                fCheck = new Function("value", code);
+                              }
+                              catch(e)
                               {
                                 throw new Error(
                                   `${prop}: ` +
+                                    "Error creating check function: " +
+                                    `${property.check}: ` + e);
+                              }
+
+                              try
+                              {
+                                if (! fCheck.call(proxy, value))
+                                {
+                                  throw new Error(
+                                    `${prop}: ` +
                                     `Check code indicates wrong type value; ` +
                                     `value=${value}`);
+                                }
+                              }
+                              catch(e)
+                              {
+                                throw new Error(
+                                  `${prop}: ` +
+                                    `Check code threw error: ${e}`);
                               }
                             }
-                            catch(e)
+                            else
                             {
                               throw new Error(
-                                `${prop}: ` +
-                                  `Check code threw error: ${e}`);
+                                `${prop}: pseudo function as string ` +
+                                  `is no longer supported: ${property.check}`);
                             }
                           }
                         }
