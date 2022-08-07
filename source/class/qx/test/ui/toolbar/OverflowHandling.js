@@ -65,15 +65,15 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
     testShow() {
       this.__addButtons();
 
-      this.__toolbar.setShow("label");
-      this.assertEquals(this.__toolbar.getShow(), this.__b1.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b2.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b3.getShow());
+      this.__toolbar.setShowFeatures("label");
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b1.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b2.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b3.getShowFeatures());
 
-      this.__toolbar.setShow("icon");
-      this.assertEquals(this.__toolbar.getShow(), this.__b1.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b2.getShow());
-      this.assertEquals(this.__toolbar.getShow(), this.__b3.getShow());
+      this.__toolbar.setShowFeatures("icon");
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b1.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b2.getShowFeatures());
+      this.assertEquals(this.__toolbar.getShowFeatures(), this.__b3.getShowFeatures());
     },
 
     testSpacing() {

@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.toolbar.CheckBox", {
       init: "toolbar-button"
     },
 
-    show: {
+    showFeatures: {
       refine: true,
       init: "inherit"
     }

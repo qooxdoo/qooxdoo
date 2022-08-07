@@ -38,7 +38,7 @@ qx.Class.define("qx.tool.cli.Watch", {
   },
 
   properties: {
-    debug: {
+    debugging: {
       init: false,
       check: "Boolean"
     }
@@ -132,7 +132,7 @@ qx.Class.define("qx.tool.cli.Watch", {
     },
 
     start() {
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         qx.tool.compiler.Console.debug("DEBUG: Starting watch");
       }
       if (this.__runningPromise) {
@@ -170,7 +170,7 @@ qx.Class.define("qx.tool.cli.Watch", {
           dirs.push(dir);
         }
       });
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         qx.tool.compiler.Console.debug(
           `DEBUG: applications=${JSON.stringify(
             applications.map(d => d.application.getName()),
@@ -208,7 +208,7 @@ qx.Class.define("qx.tool.cli.Watch", {
             })
         )
       ).then(() => {
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           qx.tool.compiler.Console.debug(
             `DEBUG: confirmed=${JSON.stringify(confirmed, 2)}`
           );
@@ -363,7 +363,7 @@ qx.Class.define("qx.tool.cli.Watch", {
         var outOfDate = false;
 
         if (this.__configFilenames.find(str => str == filename)) {
-          if (this.isDebug()) {
+          if (this.isDebugging()) {
             Console.debug(`DEBUG: onFileChange: configChanged`);
           }
           this.fireEvent("configChanged");
@@ -387,7 +387,7 @@ qx.Class.define("qx.tool.cli.Watch", {
           }
         });
         let outOfDateAppNames = Object.keys(outOfDateApps);
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           if (outOfDateAppNames.length) {
             Console.debug(
               `DEBUG: onFileChange: ${filename} impacted applications: ${JSON.stringify(
@@ -420,7 +420,7 @@ qx.Class.define("qx.tool.cli.Watch", {
         if (isResource) {
           let rm = analyser.getResourceManager();
           let target = this.__maker.getTarget();
-          if (this.isDebug()) {
+          if (this.isDebugging()) {
             Console.debug(`DEBUG: onFileChange: ${filename} is a resource`);
           }
           let asset = rm.getAsset(fName, type != "unlink");
@@ -457,7 +457,7 @@ qx.Class.define("qx.tool.cli.Watch", {
 
       dbc.types[type] = true;
       if (dbc.promise) {
-        if (this.isDebug()) {
+        if (this.isDebugging()) {
           Console.debug(
             `DEBUG: onFileChange: seen '${filename}', but restarting promise`
           );
@@ -470,7 +470,7 @@ qx.Class.define("qx.tool.cli.Watch", {
         dbc.timerId = null;
       }
 
-      if (this.isDebug()) {
+      if (this.isDebugging()) {
         Console.debug(`DEBUG: onFileChange: seen '${filename}', queuing`);
       }
       dbc.timerId = setTimeout(() => {
