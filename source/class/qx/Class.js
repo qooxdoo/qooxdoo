@@ -730,10 +730,13 @@ qx.Bootstrap.define(
         // overwritten if refine: true is specified.
         for (let property in properties)
         {
+          let             refined = false;
+
           if (property in allProperties && ! properties[property].refine)
           {
             throw new Error(
-              `Overwriting property "${property}" without "refine: true"`);
+              `${className}: ` +
+                `Overwriting property "${property}" without "refine: true"`);
           }
 
           // Allow only changing the init or initFunction values if
@@ -748,7 +751,8 @@ qx.Bootstrap.define(
             if (redefinitions.length > 0)
             {
               throw new Error(
-                `Property ${property} ` +
+                `${className}: ` +
+                  `Property "${property}" ` +
                   `redefined with other than "init", "initFunction", "@"`);
             }
 
@@ -759,6 +763,37 @@ qx.Bootstrap.define(
             properties[property] =
               Object.assign(
                 {}, allProperties[property] || {}, properties[property]);
+
+            // We only get here if `refine : true` was in the configuration.
+            // That doesn't say whether there was actually a superclass
+            // property for it to refine. It's not an error to refine a
+            // non-existing property. Keep track of whether we actually
+            // refined a property.
+            refined = property in allProperties;
+          }
+
+          // Ensure that this property isn't attempting to override a
+          // method name from within this configuration. (Never acceptable)
+          if ("members" in config && property in config.members)
+          {
+            throw new Error(
+              `${className}: ` +
+                `Overwriting member "${property}" ` +
+                `with property "${property}"`);
+          }
+
+          // Ensure that this property isn't attempting to override a
+          // member name from the superclass prototype chain that
+          // isn't a refined property.
+          if (superclass &&
+              "property" in superclass &&
+              property in superclass.prototype &&
+              ! refined)
+          {
+            throw new Error(
+              `${className}: ` +
+                `Overwriting superclass member "${property}" ` +
+                `with property "${property}"`);
           }
 
           // Does this property have an initFunction?
