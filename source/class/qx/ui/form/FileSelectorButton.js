@@ -21,11 +21,11 @@
  * files from the local filesystem. A FileList is returned which allows access
  * to the content of the selected files from javascript. The file(s) can now be
  *  processed in javascript, or it/they can be uploaded to a server.
- * 
+ *
  * *Example*
  *
  * Post the content of the file to the server.
- * 
+ *
  * ```javascript
  * let button = new qx.ui.form.FileSelectorButton("Select File");
  * button.addListener('changeFileSelection',function(e){
@@ -40,9 +40,9 @@
  *   });
  * });
  * ```
- * 
+ *
  * Process the file directly in javascript using the FileReader API.
- * 
+ *
  * ```javascript
  * let button = new qx.ui.form.FileSelectorButton("Select File");
  * button.addListener('changeFileSelection',function(e){
@@ -134,9 +134,10 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       let id = "qxFileSelector_" + InputElementIdCounter++;
       let input = (this.__inputObject = new qx.html.Input(
         "file",
-        { display: "none" },
+        null,
         { id: id }
       ));
+      input.hide();
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce(
         "appear",
