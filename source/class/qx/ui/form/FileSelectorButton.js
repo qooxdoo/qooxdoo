@@ -64,12 +64,12 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
   extend: qx.ui.form.Button,
 
   statics: {
-    _FileInputElementIdCounter: 0,
-    _FileInputElementIdPrefix: "qxFileSelector_",
+    _fileInputElementIdCounter: 0,
+    _fileInputElementIdPrefix: "qxFileSelector_",
 
     _generateElementId: function(){
-      ++this._FileInputElementIdCounter;
-      return this._FileInputElementIdPrefix + this._FileInputElementIdCounter;
+      ++this._fileInputElementIdCounter;
+      return this._fileInputElementIdPrefix + this._fileInputElementIdCounter;
     }
   },
 
