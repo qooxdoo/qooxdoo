@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
         null,
         { id: id }
       ));
-      input.exclude();
+
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce(
         "appear",
@@ -157,6 +157,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       );
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
+        input.hide();
         inputEl.addEventListener("change", e => {
           this.fireDataEvent("changeFileSelection", inputEl.files);
           inputEl.value = "";
