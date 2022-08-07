@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
         null,
         { id: id }
       ));
-      input.hide();
+      input.exclude();
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce(
         "appear",
