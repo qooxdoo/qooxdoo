@@ -60,9 +60,19 @@
  * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
  */
 
-let InputElementIdCounter = 0;
 qx.Class.define("qx.ui.form.FileSelectorButton", {
   extend: qx.ui.form.Button,
+
+  statics: {
+    _FileInputElementIdCounter: 0,
+    _FileInputElementIdPrefix: "qxFileSelector_",
+
+    _generateElementId: function(){
+      ++this._FileInputElementIdCounter;
+      return this._FileInputElementIdPrefix + this._FileInputElementIdCounter;
+    }
+  },
+
   events: {
     /**
      * The event is fired when the file selection changes.
@@ -122,7 +132,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     _applyAttribute: function (value, old, attr) {
       if (attr === "directoriesOnly") {
         // while the name of the attribute indicates that this only
-        // works for webkit borwsers, this is not the case. These
+        // works for webkit browsers, this is not the case. These
         // days the attribute is supported by
         // [everyone](https://caniuse.com/?search=webkitdirectory).
         attr = "webkitdirectory";
@@ -131,7 +141,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     },
 
     _createContentElement: function () {
-      let id = "qxFileSelector_" + InputElementIdCounter++;
+      let id = qx.ui.form.FileSelectorButton._generateElementId();
       let input = (this.__inputObject = new qx.html.Input(
         "file",
         null,
