@@ -157,10 +157,10 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       );
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
-       // since qx.html.Node does not even create the
-       // domNode if it is not set to visible initially
-       // we have to quickly hide it after creation.
-       input.setVisible(false);
+        // since qx.html.Node does not even create the
+        // domNode if it is not set to visible initially
+        // we have to quickly hide it after creation.
+        input.setVisible(false);
         inputEl.addEventListener("change", e => {
           this.fireDataEvent("changeFileSelection", inputEl.files);
           inputEl.value = "";
