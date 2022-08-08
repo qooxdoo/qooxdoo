@@ -64,13 +64,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
   extend: qx.ui.form.Button,
 
   statics: {
-    _fileInputElementIdCounter: 0,
-    _fileInputElementIdPrefix: "qxFileSelector_",
-
-    _generateElementId: function(){
-      ++this._fileInputElementIdCounter;
-      return this._fileInputElementIdPrefix + this._fileInputElementIdCounter;
-    }
+    _fileInputElementIdCounter: 0
   },
 
   events: {
@@ -141,7 +135,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     },
 
     _createContentElement: function () {
-      let id = qx.ui.form.FileSelectorButton._generateElementId();
+      let id = "qxFileSelector_" + (++qx.ui.form.FileSelectorButton._fileInputElementIdCounter);
       let input = (this.__inputObject = new qx.html.Input(
         "file",
         null,
