@@ -949,7 +949,7 @@ qx.Bootstrap.define(
                           : qx.core.propertystorage.Default; // for member var setter
 
                     oldForCallback = old === undefined ? null : old;
-                    if (obj[`$$variant_${prop}`] == "init")
+                    if (proxy[`$$variant_${prop}`] == "init")
                     {
                       oldForCallback = null;
                     }
@@ -1310,11 +1310,16 @@ qx.Bootstrap.define(
                       // Is it a synchronous property with an apply
                       // method? (Async properties' apply method is
                       // called directly from setPropertyNameAsync() )
+                      let variant = null;
                       if (property.apply &&
                           ! property.async &&
                           (! property.isEqual.call(proxy, value, oldForCallback) ||
                            ["init", "init->set"].includes(obj[`$$variant_${prop}`])))
                       {
+                        variant = obj[`$$variant_${prop}`];
+                        proxy[`$$variant_${prop}`] =
+                          variant == "init" ? null : "set";
+
                         // Yes. Call it.
                         if (typeof property.apply == "function")
                         {
@@ -1330,7 +1335,7 @@ qx.Bootstrap.define(
                       if (property.event &&
                           ! property.async &&
                           (! property.isEqual.call(proxy, value, oldForCallback) ||
-                           ["init", "init->set"].includes(obj[`$$variant_${prop}`])))
+                           ["init", "init->set"].includes(variant)))
                       {
                         const Reg = qx.event.Registration;
 
@@ -1439,7 +1444,7 @@ qx.Bootstrap.define(
 
                   // Initialize this property
                   obj[`init${propertyFirstUp}`]();
-                  obj[`$$variant_${prop}`] = "init";
+                  proxy[`$$variant_${prop}`] = "init";
                 });
 
               this.apply(target, proxy, args);
@@ -1656,6 +1661,7 @@ qx.Bootstrap.define(
                     this[`$$variant_${prop}`] = "init->set";
                   }
 
+                  // Debugging hint: this will trap into setter code.
                   this[prop] = value;
                   this[`$$user_${prop}`] = value;
 
@@ -1698,6 +1704,7 @@ qx.Bootstrap.define(
                   this[`$$init_${prop}`] = initValue;
 
                   // Select the new value
+                  // Debugging hint: this will trap into setter code.
                   this[prop] = (inheritValue !== undefined
                                 ? inheritValue
                                 : initValue);
@@ -1722,6 +1729,7 @@ qx.Bootstrap.define(
                   if (typeof userValue != "undefined")
                   {
                     // Use the user value as the property value
+                    // Debugging hint: this will trap into setter code.
                     this[prop] = userValue;
                     this[`$$variant_${prop}`] = null;
                     return;
@@ -1755,6 +1763,7 @@ qx.Bootstrap.define(
 
                       // ... and also use the inherited value as the
                       // property value
+                      // Debugging hint: this will trap into setter code.
                       this[prop] = inheritedValue;
                     }
                   }
@@ -1781,6 +1790,7 @@ qx.Bootstrap.define(
                   // use theme value
                   if (userValue === undefined)
                   {
+                    // Debugging hint: this will trap into setter code.
                     this[prop] = value;
                     this[`$$variant_${prop}`] = null;
                   }
@@ -1810,6 +1820,7 @@ qx.Bootstrap.define(
                   this[`$$theme_${prop}`] = undefined;
 
                   // Select the new value
+                  // Debugging hint: this will trap into setter code.
                   this[prop] = userValue !== undefined ? userValue : initValue;
                   this[`$$variant_${prop}`] = null;
                 };
@@ -1882,6 +1893,7 @@ qx.Bootstrap.define(
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = function()
                 {
+                  // Debugging hint: this will trap into setter code.
                   this[prop] = ! this[prop];
                 };
 
@@ -1961,6 +1973,7 @@ qx.Bootstrap.define(
                     old = await this[`get${propertyFirstUp}Async`]();
 
                     // If the value has changed since last time...
+                    let variant = null;
                     if (! property.isEqual.call(this, value, old) ||
                         ["init", "init->set"].includes(this[`$$variant_${prop}`]))
                     {
@@ -1972,13 +1985,21 @@ qx.Bootstrap.define(
                         oldForCallback = null;
                       }
 
+                      variant = this[`$$variant_${prop}`];
+                      this[`$$variant_${prop}`] =
+                        variant == "init" ? null : "set";
+
                       // Call the apply function
                       await apply.call(this, value, oldForCallback, prop);
 
                       // Now that apply has resolved, fire the change event
                       let promiseData = qx.Promise.resolve(value);
 
-                      if (property.event)
+                      if (property.event &&
+                          (! property.isEqual.call(this,
+                                                   value,
+                                                   oldForCallback) ||
+                           ["init", "init->set"].includes(variant)))
                       {
                         const Reg = qx.event.Registration;
 
