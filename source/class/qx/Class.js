@@ -969,7 +969,7 @@ qx.Bootstrap.define(
                       {
                         let       propertyFirstUp = qx.Bootstrap.firstUp(prop);
 
-                        obj[`set${propertyFirstUp}`](value);
+                        obj[`set${propertyFirstUp}`].call(proxy, value);
                         return undefined;
                       }
 
@@ -1340,7 +1340,7 @@ qx.Bootstrap.define(
                           qx.event.Utils.track(
                             tracker,
                             Reg.fireEvent(
-                              obj,
+                              proxy,
                               property.event,
                               qx.event.type.Data,
                               [ value, oldForCallback ]));
@@ -1352,7 +1352,7 @@ qx.Bootstrap.define(
                           qx.event.Utils.track(
                             tracker,
                             Reg.fireEvent(
-                              obj,
+                              proxy,
                               property.event + "Async",
                               qx.event.type.Data,
                               [ qx.Promise.resolve(value), oldForCallback ]));
@@ -1389,7 +1389,7 @@ qx.Bootstrap.define(
                     // If there's a custom proxy handler, call it
                     if (customProxyHandler && customProxyHandler.set)
                     {
-                      customProxyHandler.set(obj, prop, value);
+                      customProxyHandler.set.call(proxy, prop, value);
                       return true;
                     }
 
