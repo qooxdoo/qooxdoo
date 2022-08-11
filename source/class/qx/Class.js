@@ -43,8 +43,9 @@ qx.Bootstrap.define(
          */
         "Warn member not declared" : true,
 
-        /*
-         * Allow all private properties, e.g., those beginning with $$, to be
+        /**
+         * Allow all private and internal-use properties methods -- e.g.,
+         * those beginning with `$$`, setX, getX, resetX, etc. -- to be
          * enumerated, configured, and written to. Ideally, this is set to
          * `false`, so that those private properties don't get mucked with.
          * The unit tests, though, require that they be enumerable,
@@ -54,7 +55,7 @@ qx.Bootstrap.define(
          * use. I think we'll just live with all properties being enumerable,
          * configurable, and writable for the time being.
          */
-        "allAccessible" : true
+        "propsAccessible" : true
       },
 
       /** Supported keys for property definitions */
@@ -444,9 +445,9 @@ qx.Bootstrap.define(
             key,
             {
               value        : staticFuncOrVar,
-              writable     : qx.Class.$$options.allAccessible || true,
-              configurable : qx.Class.$$options.allAccessible || true,
-              enumerable   : qx.Class.$$options.allAccessible || true
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || true,
+              enumerable   : qx.Class.$$options.propsAccessible || true
             });
 
           // Attach annotations
@@ -463,9 +464,9 @@ qx.Bootstrap.define(
             value        : (qx.core.PropertyDescriptorRegistry
                             ? new qx.core.PropertyDescriptorRegistry()
                             : undefined),
-            writable     : qx.Class.$$options.allAccessible || true,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || true,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Create a method to retrieve a property descriptor
@@ -478,9 +479,9 @@ qx.Bootstrap.define(
               return this.constructor.$$propertyDescriptorRegistry.get(
                 this, prop);
             },
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Create a function to ascertain whether a property has been
@@ -496,9 +497,9 @@ qx.Bootstrap.define(
 
               return prop in allProperties && typeof this[prop] != "undefined";
             },
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Add a method to refresh all inheritable properties
@@ -524,9 +525,9 @@ qx.Bootstrap.define(
                 }
               }
             },
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Members, properties, events, and mixins are only allowed for
@@ -866,9 +867,9 @@ qx.Bootstrap.define(
           "$$properties",
           {
             value        : properties || {},
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Save the full chain of properties for this class
@@ -878,9 +879,9 @@ qx.Bootstrap.define(
           "$$allProperties",
           {
             value        : allProperties,
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Save any init functions that need to be called upon instantiation
@@ -889,9 +890,9 @@ qx.Bootstrap.define(
           "$$initFunctions",
           {
             value        : initFunctions,
-            writable     : qx.Class.$$options.allAccessible || false,
-            configurable : qx.Class.$$options.allAccessible || false,
-            enumerable   : qx.Class.$$options.allAccessible || false
+            writable     : qx.Class.$$options.propsAccessible || false,
+            configurable : qx.Class.$$options.propsAccessible || false,
+            enumerable   : qx.Class.$$options.propsAccessible || false
           });
 
         // Proxy the subclass so we can watch for property changes
@@ -1614,9 +1615,9 @@ qx.Bootstrap.define(
             key,
             {
               value        : member,
-              writable     : qx.Class.$$options.allAccessible || true,
-              configurable : qx.Class.$$options.allAccessible || true,
-              enumerable   : qx.Class.$$options.allAccessible || true
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || true,
+              enumerable   : qx.Class.$$options.propsAccessible || true
             });
 
           // Attach annotations
@@ -2359,9 +2360,9 @@ qx.Bootstrap.define(
             `$$init_${key}`,
             {
               value        : property.init,
-              writable     : qx.Class.$$options.allAccessible || true,
-              configurable : qx.Class.$$options.allAccessible || false,
-              enumerable   : qx.Class.$$options.allAccessible || false
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || false,
+              enumerable   : qx.Class.$$options.propsAccessible || false
             });
 
           // user-specified
@@ -2371,9 +2372,9 @@ qx.Bootstrap.define(
             `$$user_${key}`,
             {
               value        : undefined,
-              writable     : qx.Class.$$options.allAccessible || true,
-              configurable : qx.Class.$$options.allAccessible || false,
-              enumerable   : qx.Class.$$options.allAccessible || false
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || false,
+              enumerable   : qx.Class.$$options.propsAccessible || false
             });
 
           // theme-specified
@@ -2385,9 +2386,9 @@ qx.Bootstrap.define(
               `$$theme_${key}`,
               {
                 value        : undefined,
-                writable     : qx.Class.$$options.allAccessible || true,
-                configurable : qx.Class.$$options.allAccessible || false,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || true,
+                configurable : qx.Class.$$options.propsAccessible || false,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2400,9 +2401,9 @@ qx.Bootstrap.define(
                               typeof property.initFunction == "function"
                               ? "init"
                               : null),
-              writable     : qx.Class.$$options.allAccessible || true,
-              configurable : qx.Class.$$options.allAccessible || false,
-              enumerable   : qx.Class.$$options.allAccessible || false
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || false,
+              enumerable   : qx.Class.$$options.propsAccessible || false
             });
 
           // inheritable
@@ -2414,9 +2415,9 @@ qx.Bootstrap.define(
               `$$inherit_${key}`,
               {
                 value        : undefined,
-                writable     : qx.Class.$$options.allAccessible || true,
-                configurable : qx.Class.$$options.allAccessible || false,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || true,
+                configurable : qx.Class.$$options.propsAccessible || false,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2538,9 +2539,9 @@ qx.Bootstrap.define(
               `get${propertyFirstUp}`,
               {
                 value        : propertyDescriptor.get,
-                writable     : qx.Class.$$options.allAccessible || false,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2553,9 +2554,9 @@ qx.Bootstrap.define(
               `set${propertyFirstUp}`,
               {
                 value        : propertyDescriptor.set,
-                writable     : qx.Class.$$options.allAccessible || false,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2568,9 +2569,9 @@ qx.Bootstrap.define(
               `reset${propertyFirstUp}`,
               {
                 value        : propertyDescriptor.reset,
-                writable     : qx.Class.$$options.allAccessible || false,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2585,9 +2586,9 @@ qx.Bootstrap.define(
                 `refresh${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.refresh,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
@@ -2603,9 +2604,9 @@ qx.Bootstrap.define(
                 `setThemed${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.setThemed,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
 
@@ -2618,9 +2619,9 @@ qx.Bootstrap.define(
                 `resetThemed${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.resetThemed,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
@@ -2642,9 +2643,9 @@ qx.Bootstrap.define(
                 `init${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.init,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
@@ -2661,9 +2662,9 @@ qx.Bootstrap.define(
                 `is${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.is,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
 
@@ -2675,9 +2676,9 @@ qx.Bootstrap.define(
                 `toggle${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.toggle,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
@@ -2694,9 +2695,9 @@ qx.Bootstrap.define(
               `$$activePromise${propertyFirstUp}`,
               {
                 value        : null,
-                writable     : qx.Class.$$options.allAccessible || true,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || true,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
 
             // Create a function that tells the user whether there is still
@@ -2709,9 +2710,9 @@ qx.Bootstrap.define(
                 `isAsyncSetActive${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.isAsyncSetActive,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
 
@@ -2724,9 +2725,9 @@ qx.Bootstrap.define(
                 `get${propertyFirstUp}Async`,
                 {
                   value        : propertyDescriptor.getAsync,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
 
@@ -2739,9 +2740,9 @@ qx.Bootstrap.define(
                 `set${propertyFirstUp}Async`,
                 {
                   value        : propertyDescriptor.setAsync,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
@@ -2845,9 +2846,9 @@ qx.Bootstrap.define(
               `set${propertyFirstUp}`,
               {
                 value        : propertyDescriptor.set,
-                writable     : qx.Class.$$options.allAccessible || false,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2860,9 +2861,9 @@ qx.Bootstrap.define(
               `reset${propertyFirstUp}`,
               {
                 value        : propertyDescriptor.reset,
-                writable     : qx.Class.$$options.allAccessible || false,
-                configurable : qx.Class.$$options.allAccessible || true,
-                enumerable   : qx.Class.$$options.allAccessible || false
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
               });
           }
 
@@ -2877,9 +2878,9 @@ qx.Bootstrap.define(
                 `setThemed${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.setThemed,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
 
@@ -2891,9 +2892,9 @@ qx.Bootstrap.define(
                 `resetThemed${propertyFirstUp}`,
                 {
                   value        : propertyDescriptor.resetThemed,
-                  writable     : qx.Class.$$options.allAccessible || false,
-                  configurable : qx.Class.$$options.allAccessible || true,
-                  enumerable   : qx.Class.$$options.allAccessible || false
+                  writable     : qx.Class.$$options.propsAccessible || false,
+                  configurable : qx.Class.$$options.propsAccessible || true,
+                  enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
           }
