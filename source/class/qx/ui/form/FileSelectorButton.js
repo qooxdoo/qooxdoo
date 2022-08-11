@@ -55,8 +55,8 @@
  *   const file = fileList[0];
  *   reader.readAsText(file.slice(0,4));
  * });
-
-*
+ * ```
+ *
  * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
  */
 
@@ -64,13 +64,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
   extend: qx.ui.form.Button,
 
   statics: {
-    _FileInputElementIdCounter: 0,
-    _FileInputElementIdPrefix: "qxFileSelector_",
-
-    _generateElementId: function(){
-      ++this._FileInputElementIdCounter;
-      return this._FileInputElementIdPrefix + this._FileInputElementIdCounter;
-    }
+    _fileInputElementIdCounter: 0
   },
 
   events: {
@@ -141,13 +135,13 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     },
 
     _createContentElement: function () {
-      let id = qx.ui.form.FileSelectorButton._generateElementId();
+      let id = "qxFileSelector_" + (++qx.ui.form.FileSelectorButton._fileInputElementIdCounter);
       let input = (this.__inputObject = new qx.html.Input(
         "file",
         null,
         { id: id }
       ));
-      input.hide();
+
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce(
         "appear",
@@ -157,6 +151,10 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       );
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
+        // since qx.html.Node does not even create the
+        // domNode if it is not set to visible initially
+        // we have to quickly hide it after creation.
+        input.setVisible(false);
         inputEl.addEventListener("change", e => {
           this.fireDataEvent("changeFileSelection", inputEl.files);
           inputEl.value = "";
