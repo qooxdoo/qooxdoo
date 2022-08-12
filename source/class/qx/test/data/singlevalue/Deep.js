@@ -40,6 +40,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep", {
 
         childWithout: {
           check: "qx.test.MultiBinding",
+          event: null,
           nullable: true
         },
 
