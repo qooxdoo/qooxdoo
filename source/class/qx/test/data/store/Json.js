@@ -458,6 +458,7 @@ qx.Class.define("qx.test.data.store.Json", {
 
     testOwnSuperclassWithout() {
       // define a test class
+      qx.Class.undefine("qx.test.O");
       qx.Class.define("qx.test.O", {
         extend: qx.core.Object
       });
