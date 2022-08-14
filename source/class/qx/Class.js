@@ -1326,19 +1326,32 @@ qx.Bootstrap.define(
                       // Save the (possibly updated) value
                       storage.set.call(obj, prop, value);
 
+                      // If we're called in state variant "init" or
+                      // "init->set", it means this is the first call
+                      // where the _apply method may be called or the
+                      // event generated. Tradition (BC) dictates that
+                      // that first time, the _apply method is always
+                      // called even if the new value matches the old
+                      // (init) value. Similarly, the event always is
+                      // generated that first time.
+                      //
+                      // Keep track of that variant, but reset the $$variant
+                      // variable to its new state
+                      let variant = null;
+                      if (["init", "init->set"].includes(obj[`$$variant_${prop}`]))
+                      {
+                        variant = obj[`$$variant_${prop}`];
+                        proxy[`$$variant_${prop}`] = variant == "init" ? null : "set";
+                      }
+
                       // Is it a synchronous property with an apply
                       // method? (Async properties' apply method is
                       // called directly from setPropertyNameAsync() )
-                      let variant = null;
                       if (property.apply &&
                           ! property.async &&
                           (! property.isEqual.call(proxy, value, oldForCallback) ||
-                           ["init", "init->set"].includes(obj[`$$variant_${prop}`])))
+                           ["init", "init->set"].includes(variant)))
                       {
-                        variant = obj[`$$variant_${prop}`];
-                        proxy[`$$variant_${prop}`] =
-                          variant == "init" ? null : "set";
-
                         // Yes. Call it.
                         if (typeof property.apply == "function")
                         {
