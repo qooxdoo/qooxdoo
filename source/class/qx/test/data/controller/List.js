@@ -1489,6 +1489,7 @@ qx.Class.define("qx.test.data.controller.List", {
     },
 
     testBug1947() {
+      qx.Class.undefine("qx.demo.Kid");
       qx.Class.define("qx.demo.Kid", {
         extend: qx.core.Object,
 
@@ -1502,6 +1503,8 @@ qx.Class.define("qx.test.data.controller.List", {
       });
 
       var kid = new qx.demo.Kid();
+
+      qx.Class.undefine("qx.demo.Parent");
       qx.Class.define("qx.demo.Parent", {
         extend: qx.core.Object,
         construct() {
@@ -1553,6 +1556,7 @@ qx.Class.define("qx.test.data.controller.List", {
     },
 
     testBug1988() {
+      qx.Class.undefine("qx.demo.Kid");
       qx.Class.define("qx.demo.Kid", {
         extend: qx.core.Object,
 
@@ -1567,6 +1571,7 @@ qx.Class.define("qx.test.data.controller.List", {
       });
 
       //var kid = new qx.demo.Kid();
+      qx.Class.undefine("qx.demo.Parent");
       qx.Class.define("qx.demo.Parent", {
         extend: qx.core.Object,
         construct() {

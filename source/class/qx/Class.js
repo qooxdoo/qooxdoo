@@ -16,7 +16,7 @@
 
 ************************************************************************ */
 
-// To be imlemented in the future
+// To be implemented in the future
 let FUTURE = false;
 
 // The opposite
@@ -1400,9 +1400,7 @@ qx.Bootstrap.define(
                       }
 
                       // Update inherited values of child objects
-                      if (property.inheritable &&
-                          obj.prototype &&
-                          obj.prototype._getChildren)
+                      if (property.inheritable && obj._getChildren)
                       {
                         let children = obj._getChildren();
                         if (children)
@@ -1410,10 +1408,14 @@ qx.Bootstrap.define(
                           children.forEach(
                             (child) =>
                             {
-                              let { refresh } =
-                                  this.constructor.$$propertyDescriptorRegistry.get(
+                              let propertyDescriptor =
+                                  obj.constructor.$$propertyDescriptorRegistry.get(
                                     child, prop);
-                              refresh();
+
+                              if (propertyDescriptor)
+                              {
+                                propertyDescriptor.refresh();
+                              }
                             });
                         }
                       }
@@ -1671,12 +1673,11 @@ qx.Bootstrap.define(
 
                   if (value === undefined)
                   {
-                    if (property.nullable)
+                    if (property.nullable || property.inheritable)
                     {
                       value = null;
                     }
-
-                    if (property.check == "Boolean")
+                    else if (property.check == "Boolean")
                     {
                       value = false;
                     }
@@ -1725,6 +1726,10 @@ qx.Bootstrap.define(
                       (property.inheritable
                        ? this[`$$inherit_${prop}`]
                        : undefined);
+                  let             themeValue =
+                      (property.themeable
+                       ? this[`$$theme_${prop}`]
+                       : undefined);
                   let             initValue =
                       (property.initFunction
                        ? property.initFunction.call(this)
@@ -1745,9 +1750,11 @@ qx.Bootstrap.define(
 
                   // Select the new value
                   // Debugging hint: this will trap into setter code.
-                  this[prop] = (inheritValue !== undefined
-                                ? inheritValue
-                                : initValue);
+                  this[prop] = (themeValue  !== undefined
+                                ? themeValue
+                                : (inheritValue !== undefined
+                                   ? inheritValue
+                                   : initValue));
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -1834,6 +1841,8 @@ qx.Bootstrap.define(
                     this[prop] = value;
                     this[`$$variant_${prop}`] = null;
                   }
+
+                  return value;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -1848,6 +1857,7 @@ qx.Bootstrap.define(
                 let f = function()
                 {
                   // Get the current user-specified value
+                  let             value;
                   let             userValue = this[`$$user_${prop}`];
                   let             initValue =
                       (property.initFunction
@@ -1860,9 +1870,13 @@ qx.Bootstrap.define(
                   this[`$$theme_${prop}`] = undefined;
 
                   // Select the new value
+                  value = userValue !== undefined ? userValue : initValue;
+
                   // Debugging hint: this will trap into setter code.
-                  this[prop] = userValue !== undefined ? userValue : initValue;
+                  this[prop] = value;
                   this[`$$variant_${prop}`] = null;
+
+                  return value;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -1906,6 +1920,8 @@ qx.Bootstrap.define(
 
                   this[`$$init_${prop}`] = value;
                   this[`$$variant_${prop}`] = "init";
+
+                  return value;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -2065,9 +2081,7 @@ qx.Bootstrap.define(
                       }
 
                       // Update inherited values of child objects
-                      if (property.inheritable &&
-                          this.prototype &&
-                          this.prototype._getChildren)
+                      if (property.inheritable && this._getChildren)
                       {
                         let children = this._getChildren();
                         if (children)
@@ -2075,10 +2089,14 @@ qx.Bootstrap.define(
                           children.forEach(
                             (child) =>
                             {
-                              let { refresh } =
+                              let propertyDescriptor =
                                   this.constructor.$$propertyDescriptorRegistry.get(
                                     child, prop);
-                              refresh();
+
+                              if (propertyDescriptor)
+                              {
+                                propertyDescriptor.refresh();
+                              }
                             });
                         }
                       }
