@@ -58,6 +58,9 @@ qx.Bootstrap.define(
         "propsAccessible" : true
       },
 
+      /** The global object registry */
+      $$registry : qx.Bootstrap.$$registry,
+
       /** Supported keys for property definitions */
       _allowedPropKeys :
         {
