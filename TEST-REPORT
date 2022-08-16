@@ -1,3 +1,7 @@
+(query-replace-regexp "^[^-]+- " "")
+(query-replace-regexp " -[^-]+- " "
+    ")
+
 qx.test.ui.core.Blocker:testRestoreActiveAndFocusedWidgets
     focusHandler.getFocus is not a function
 qx.test.ui.core.Blocker:testRestoreDisposedWidget
@@ -70,88 +74,6 @@ qx.test.Promise:testGlobalError
     Timeout of 1000 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
-qx.test.core.Object:testDisposeBinding
-    qx.test.Single is already defined; cannot redefine a class
-qx.test.core.Object:testDisposeSingletonObject
-    qx.test.Single is already defined; cannot redefine a class
-qx.test.core.Property:testInheritance
-    Called assertTrue with ''undefined''
-qx.test.core.Property:testParent
-    Expected ''undefined'' (identical) but found 'null'!
-qx.test.core.Property:testMultiValues
-    Expected ''undefined'' (identical) but found 'black'!
-qx.test.core.Property:testEventWithoutInitOldData
-    Expected value to be null but found false!
-qx.test.core.Property:testEventWithoutInitAndInheritableOldData
-    Expected value to be null but found false!
-qx.test.data.controller.List:testBug1988
-    qx.demo.Kid is already defined; cannot redefine a class
-qx.test.data.controller.ListWithObjects:testDeepSelection
-    qx.demo.Kid is already defined; cannot redefine a class
-qx.test.data.marshal.Json:testLocalizedString
-    Cannot convert undefined or null to object
-qx.test.data.marshal.Json:testAddValidationRule
-    Expected 'b|n|s' but found ''undefined''!
-qx.test.data.marshal.Json:testGetModelClassDepth
-    Expected '3' but found '0'!
-qx.test.data.marshal.Json:testGetModelSuperClass
-    Expected '3' but found '0'!
-qx.test.data.marshal.Json:testGetModelMixins
-    Expected '3' but found '0'!
-qx.test.data.marshal.Json:testGetPropertyMapping
-    model.getSss is not a function
-qx.test.data.singlevalue.Deep:testDeepTargetChangeWithoutEvent
-    Expected 'b2' but found '123'!
-qx.test.data.singlevalue.Simple:testNullWithConverter
-    qx.Test is already defined; cannot redefine a class
-qx.test.data.singlevalue.Simple:testChangeEventMissing
-    The function did not raise an exception!
-qx.test.data.store.Json:testProgressStates
-    error
-qx.test.data.store.Json:testParseErrorForResource
-    Cannot read property 'getString' of null
-qx.test.data.store.Json:testDispose
-    resume() called before wait()
-qx.test.data.store.Json:testWholeObject
-    Cannot read property 'getString' of null
-qx.test.data.store.Json:testWholeObject
-    resume() called before wait()
-qx.test.data.store.Json:testOwnClassWithout
-    Cannot read property 'getO' of null
-qx.test.data.store.Json:testOwnSuperclassWithout
-    qx.test.O is already defined; cannot redefine a class
-qx.test.data.store.Json:testManipulatePrimitive
-    Cannot read property 'constructor' of null
-qx.test.data.store.Json:testManipulatePrimitive
-    resume() called before wait()
-qx.test.data.store.Json:testManipulatePrimitive
-    Cannot read property 'a' of null
-qx.test.data.store.Json:testDisposeOldModel
-    model.a is not a function
-qx.test.data.store.Json:testDisposeRequestDone
-    resume() called before wait()
-qx.test.data.store.Json:testLoadResource
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testLoadAlias
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testWholePrimitive
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testWholeArray
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testOwnClassWith
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testOwnSuperclassWith
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testOwnMixinWithout
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testOwnMixinWith
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testOwnMixinWithMultiple
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testConfigureRequestPrimitive
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.data.store.Json:testErrorEvent
-    Timeout of 10000 ms reached before resume() was called.
 qx.test.log.Logger:testContextObject
     Expected 'qxWeb' but found ''undefined''!
 qx.test.mobile.LocaleSwitch:testList
