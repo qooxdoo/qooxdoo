@@ -1122,6 +1122,10 @@ qx.Bootstrap.define(
                               v => v !== null && v.$$type === "Interface"
                             ],
                             [
+                              "Promise",
+                              v => qx.lang.Type.isPromise(v)
+                            ],
+                            [
                               "Theme",
                               v => v !== null && v.$$type === "Theme"
                             ],
@@ -1425,6 +1429,20 @@ qx.Bootstrap.define(
                         return tracker.promise.then(() => value);
                       }
 
+                      // Special case: If the value being set is a
+                      // promise, and the property does not have a `check:
+                      // "Promise"` constraint, then store the resolved
+                      // result as soon as it resolves.
+                      if (property.check != "Promise" &&
+                          qx.lang.Type.isPromise(value))
+                      {
+                        value.then(
+                          (resolvedValue) =>
+                          {
+                            storage.set.call(obj, prop, resolvedValue);
+                          });
+                      }
+
                       return value;
                     }
 
@@ -1461,6 +1479,7 @@ qx.Bootstrap.define(
                     }
 
                     storage.set.call(obj, prop, value);
+
                     return true;
                   },
 
@@ -2015,6 +2034,7 @@ qx.Bootstrap.define(
                   {
                     let      old;
                     let      oldForCallback;
+                    let      variant = this[`$$variant_${prop}`];
 
                     // Save the new property value. This is before any async calls
                     if (property.immutable == "readonly")
@@ -2023,37 +2043,25 @@ qx.Bootstrap.define(
                         `Attempt to set value of readonly property ${prop}`);
                     }
 
-                    value = qx.Promise.resolve(value);
-
                     // Obtain the old value, via its async request
                     old = await this[`get${propertyFirstUp}Async`]();
 
-                    // If we're called in state variant "init" or
-                    // "init->set", it means this is the first call
-                    // where the _apply method may be called or the
-                    // event generated. Tradition (BC) dictates that
-                    // that first time, the _apply method is always
-                    // called even if the new value matches the old
-                    // (init) value. Similarly, the event always is
-                    // generated that first time.
-                    //
-                    // Keep track of that variant, but reset the $$variant
-                    // variable to its new state
-                    let variant = null;
-                    if (! property.isEqual.call(this, value, old) ||
-                        ["init", "init->set"].includes(this[`$$variant_${prop}`]))
-                    {
-                      property.storage.set.call(this, prop, value);
+                    // Cache the new value
+                    property.storage.set.call(this, prop, value);
 
+                    // Do we need to call the async apply method?
+                    if (! property.isEqual.call(this, value, old) ||
+                        ["init", "init->set"].includes(variant))
+                    {
+                      // Yup. Prep for it.
                       oldForCallback = old === undefined ? null : old;
                       if (this[`$$variant_${prop}`] == "init")
                       {
                         oldForCallback = null;
                       }
 
-                      variant = this[`$$variant_${prop}`];
-                      this[`$$variant_${prop}`] =
-                        variant == "init" ? null : "set";
+                      // Set the variant to its next value
+                      this[`$$variant_${prop}`] = variant == "init" ? null : "set";
 
                       // Call the apply function
                       await apply.call(this, value, oldForCallback, prop);
@@ -2061,18 +2069,14 @@ qx.Bootstrap.define(
                       // Now that apply has resolved, fire the change event
                       let promiseData = qx.Promise.resolve(value);
 
-                      if (property.event &&
-                          (! property.isEqual.call(this,
-                                                   value,
-                                                   oldForCallback) ||
-                           ["init", "init->set"].includes(variant)))
+                      if (property.event)
                       {
                         const Reg = qx.event.Registration;
 
                         // Yes. Generate a sync event if needed
                         if (Reg.hasListener(this, property.event))
                         {
-                          await Reg.fireEventAsync(
+                          await Reg.fireEvent(
                             this,
                             property.event,
                             qx.event.type.Data,
@@ -2084,9 +2088,9 @@ qx.Bootstrap.define(
                         {
                           await Reg.fireEventAsync(
                             this,
-                          property.event + "Async",
-                          qx.event.type.Data,
-                          [ promiseData, oldForCallback ]);
+                            property.event + "Async",
+                            qx.event.type.Data,
+                            [ promiseData, oldForCallback ]);
                         }
                       }
 
@@ -2117,6 +2121,8 @@ qx.Bootstrap.define(
                     {
                       this[activePromiseProp] = null;
                     }
+
+                    return qx.Promise.resolve(value);
                   }.bind(this);
 
                   // If this property already has an active promise...
@@ -2789,10 +2795,20 @@ qx.Bootstrap.define(
                   enumerable   : qx.Class.$$options.propsAccessible || false
                 });
             }
+
+            // If this is an async property, add the async event name
+            // for this property to the list of events fired by this
+            // class
+            let eventName = property.event + "Async";
+            let events =
+                {
+                  [eventName] : "qx.event.type.Data"
+                };
+            qx.Class.addEvents(clazz, events, true);
           }
 
-          // Add the event name for this property to the list of events
-          // fired by this class
+          // Add the non-async event name for this property to the list
+          // of events fired by this class
           let eventName = property.event;
           let events =
               {
