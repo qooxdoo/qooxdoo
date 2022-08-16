@@ -2028,7 +2028,17 @@ qx.Bootstrap.define(
                     // Obtain the old value, via its async request
                     old = await this[`get${propertyFirstUp}Async`]();
 
-                    // If the value has changed since last time...
+                    // If we're called in state variant "init" or
+                    // "init->set", it means this is the first call
+                    // where the _apply method may be called or the
+                    // event generated. Tradition (BC) dictates that
+                    // that first time, the _apply method is always
+                    // called even if the new value matches the old
+                    // (init) value. Similarly, the event always is
+                    // generated that first time.
+                    //
+                    // Keep track of that variant, but reset the $$variant
+                    // variable to its new state
                     let variant = null;
                     if (! property.isEqual.call(this, value, old) ||
                         ["init", "init->set"].includes(this[`$$variant_${prop}`]))

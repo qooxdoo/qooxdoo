@@ -1,4 +1,4 @@
-(query-replace-regexp "^[^-]+- " "")
+(query-replace-regexp "^ *[0-9][^-]+- " "")
 (query-replace-regexp " -[^-]+- " "
     ")
 
@@ -52,26 +52,10 @@ qx.test.ui.toolbar.OverflowHandling:testShowItemRemoved
     Timeout of 10000 ms reached before resume() was called.
 qx.test.ui.virtual.cell.WidgetCell:testUpdateData
     Expected 'label 1' but found 'null'!
-qx.test.Promise:testPropertySetValueAsPromise1
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testPropertySetValueAsPromise2
-    alpha: async property requires that both 'get' and 'apply' be provided
-qx.test.Promise:testPropertySetValueAsyncApply1
-    Expected '0' but found '1'!
-qx.test.Promise:testPropertySetValueAsyncApply2
-    alpha: async property requires that both 'get' and 'apply' be provided
 qx.test.Promise:testBinding
-    alpha: async property requires that both 'get' and 'apply' be provided
+    Timeout of 1000 ms reached before resume() was called.
 qx.test.Promise:testAsyncEventHandlers
-    alpha: async property requires that both 'get' and 'apply' be provided
-qx.test.Promise:testWaterfallBinding
-    alpha: async property requires that both 'get' and 'apply' be provided
-qx.test.Promise:testWrapping
-    resume() called before wait()
-qx.test.Promise:testEach2
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testGlobalError
-    Timeout of 1000 ms reached before resume() was called.
+    Timeout of 2500 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
 qx.test.log.Logger:testContextObject
@@ -84,9 +68,5 @@ qx.test.mobile.container.Scroll:testHorizontalWayPoint
     Cannot read property 'setStyle' of undefined
 qx.test.mobile.form.CheckBox:testValue
     Cannot read property 'hasClass' of undefined
-qx.test.performance.Property:testPropertySet
-    demo.MyClass is already defined; cannot redefine a class
-qx.test.performance.Property:testAsyncPropertySet
-    demo.MyClass is already defined; cannot redefine a class
 qx.test.util.DeferredCall:testGlobalErrorHandling
     Timeout reached before resume() was called.
