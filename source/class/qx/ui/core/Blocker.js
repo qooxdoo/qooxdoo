@@ -49,8 +49,6 @@ qx.Class.define("qx.ui.core.Blocker", {
     super();
     this._widget = widget;
 
-    widget.addListener("resize", this.__onBoundsChange, this);
-    widget.addListener("move", this.__onBoundsChange, this);
     widget.addListener("disappear", this.__onWidgetDisappear, this);
 
     if (
@@ -144,23 +142,9 @@ qx.Class.define("qx.ui.core.Blocker", {
     __appearListener: null,
 
     /**
-     * Adjust html element size on layout resizes.
-     *
-     * @param e {qx.event.type.Data} event object
-     */
-    __onBoundsChange(e) {
-      var data = e.getData();
-
-      if (this.isBlocked()) {
-        this._updateBlockerBounds(data);
-      }
-    },
-
-    /**
      * Widget re-appears: Update blocker size/position and attach to (new) parent
      */
     __onWidgetAppear() {
-      this._updateBlockerBounds(this._widget.getBounds());
       if (this._widget.isRootWidget()) {
         this._widget.getContentElement().add(this.getBlockerElement());
       } else {
@@ -179,19 +163,6 @@ qx.Class.define("qx.ui.core.Blocker", {
         this.getBlockerElement().getParent().remove(this.getBlockerElement());
         this._widget.addListenerOnce("appear", this.__onWidgetAppear, this);
       }
-    },
-
-    /**
-     * set the blocker's size and position
-     * @param bounds {Map} Map with the new width, height, left and top values
-     */
-    _updateBlockerBounds(bounds) {
-      this.getBlockerElement().setStyles({
-        width: bounds.width + "px",
-        height: bounds.height + "px",
-        left: bounds.left + "px",
-        top: bounds.top + "px"
-      });
     },
 
     // property apply
@@ -360,12 +331,6 @@ qx.Class.define("qx.ui.core.Blocker", {
       if (this.__blockerCount < 2) {
         this._backupActiveWidget();
 
-        var bounds = this._widget.getBounds();
-        // no bounds -> widget not yet rendered -> bounds will be set on resize
-        if (bounds) {
-          this._updateBlockerBounds(bounds);
-        }
-
         blocker.include();
         if (!blockContent) {
           blocker.activate();
@@ -507,8 +472,6 @@ qx.Class.define("qx.ui.core.Blocker", {
       );
     }
 
-    this._widget.removeListener("resize", this.__onBoundsChange, this);
-    this._widget.removeListener("move", this.__onBoundsChange, this);
     this._widget.removeListener("appear", this.__onWidgetAppear, this);
     this._widget.removeListener("disappear", this.__onWidgetDisappear, this);
 
