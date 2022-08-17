@@ -634,8 +634,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           decorator: undefined,
-          padding: [2, 2],
-          backgroundColor: "surface"
+          padding: [2, 2]
         };
       }
     },
@@ -645,10 +644,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "selectbox",
 
       style(states) {
-        return { 
-          padding: [0, 2],
-          backgroundColor: "surface"
-        };
+        return { padding: [0, 2] };
       }
     },
 
@@ -657,10 +653,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "combobox",
 
       style(states) {
-        return { 
-          decorator: undefined,
-          backgroundColor: "surface"
-         };
+        return { decorator: undefined };
       }
     },
 
@@ -1006,18 +999,6 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
-    "menubar-button/icon": {
-      style(states) {
-        return {
-          textColor: states.disabled 
-            ? "text-disabled-on-surface" 
-            : ( states.pressed || states.hovered )
-            ? "text-on-primary" 
-            : "text-on-surface"
-        }
-      }
-    },
-    
 
     /*
     ---------------------------------------------------------------------------
@@ -1029,6 +1010,41 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
     "row-layer": "widget",
     "column-layer": "widget",
+
+    "virtual-background-span": {
+      alias: "widget",
+
+      style(states) {
+        var style = {
+          decorator: "virtual-background-span"
+        };
+
+        if (states.header) {
+          style.decorator = "virtual-background-header";
+          style.backgroundColor = "table-header-cell";
+        } else if (states.selected) {
+          style.backgroundColor = "table-row-background-selected";
+        } else if (states.odd) {
+          style.backgroundColor = "table-row-background-odd";
+        } else {
+          style.backgroundColor = "table-row-background-even";
+        }
+
+        return style;
+      }
+    },
+
+    "virtual-list-header-cell": {
+      alias: "atom",
+
+      style(states) {
+        return {
+          font: "bold",
+          paddingTop: 3,
+          paddingLeft: 5
+        };
+      }
+    },
 
     "group-item": {
       include: "label",
@@ -2029,11 +2045,11 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "toolbar-button",
       include: "toolbar-button",
 
-      style(states) {
+      style(states, source) {
         // set the margin
-        var margin = [7, 0, 7, 10];
+        var margin = [0, 0, 0, 10];
         if (states.left || states.middle || states.right) {
-          margin = [7, 0, 7, 3];
+          margin = [0, 0, 0, 3];
         }
         var decorator = "toolbar-button";
         if (
@@ -2059,9 +2075,9 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
 
       style(states) {
         // set the margin
-        var margin = [7, 10, 7, 0];
+        var margin = [0, 10, 0, 0];
         if (states.left || states.middle || states.right) {
-          margin = [7, 3, 7, 0];
+          margin = [0, 3, 0, 0];
         }
         var decorator = "toolbar-button";
         if (
