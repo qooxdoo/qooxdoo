@@ -36,6 +36,10 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
             describe: "Verbose logging"
           },
 
+          gitPreCommit: {
+            describe: "When used as a Git pre-commit hook"
+          },
+
           overwrite: {
             type: "boolean",
             default: true,
@@ -58,6 +62,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
 
   members: {
     async process() {
+      debugger;
       await super.process();
       const ignoreFileName = ".prettierignore";
       const ig = ignore();
@@ -68,6 +73,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
           throw err;
         }
       }
+
       let exclude = this.argv.exclude;
       if (exclude) {
         if (!qx.lang.Type.isArray(exclude)) {
@@ -89,6 +95,52 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
 
         await ify.transform();
       };
+
+      if (this.argv.gitPreCommit) {
+        let result = await qx.tool.utils.Utils.runCommand(
+          process.cwd(),
+          "git",
+          "diff",
+          "--cached",
+          "--name-only",
+          "--diff-filter=ACMR"
+        );
+
+        if (result.exitCode != 0) {
+          qx.tool.compiler.Console.error(
+            `Failed to run 'git diff': ${JSON.stringify(result, null, 2)}`
+          );
+
+          process.exit(1);
+          return;
+        }
+        let lines = result.output
+          .split(/\n/)
+          .filter(str => !!str.match(/^source\/class\/.*\.js$/));
+        for (let filename of lines) {
+          await processFile(filename);
+          result = await qx.tool.utils.Utils.runCommand(
+            process.cwd(),
+            "git",
+            "add",
+            filename
+          );
+
+          if (result.exitCode != 0) {
+            qx.tool.compiler.Console.error(
+              `Failed to run 'git add ${filename}': ${JSON.stringify(
+                result,
+                null,
+                2
+              )}`
+            );
+
+            process.exit(1);
+            return;
+          }
+        }
+        process.exit(0);
+      }
 
       const scanImpl = async filename => {
         let basename = path.basename(filename);
