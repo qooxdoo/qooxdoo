@@ -72,6 +72,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
      */
     changeFileSelection: "qx.event.type.Data"
   },
+
   properties: {
     /**
      * What type of files should be offered in the fileselection dialog.
@@ -87,6 +88,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       check: "String",
       apply: "_applyAttribute"
     },
+
     /**
      * Specify that the camera should be used for getting the "file". The
      * value defines which camera should be used for capturing images.
@@ -98,6 +100,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       check: ["user", "environment"],
       apply: "_applyAttribute"
     },
+
     /**
      * Set to "true" if you want to allow the selection of multiple files.
      */
@@ -106,6 +109,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       check: "Boolean",
       apply: "_applyAttribute"
     },
+
     /**
      * If present, indicates that only directories should be available for
      * selection.
@@ -116,10 +120,11 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       apply: "_applyAttribute"
     }
   },
+
   members: {
     __inputObject: null,
 
-    _applyAttribute: function (value, old, attr) {
+    _applyAttribute(value, old, attr) {
       if (attr === "directoriesOnly") {
         // while the name of the attribute indicates that this only
         // works for webkit borwsers, this is not the case. These
@@ -130,20 +135,19 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       this.__inputObject.setAttribute(attr, value);
     },
 
-    _createContentElement: function () {
+    _createContentElement() {
       let id = "qxFileSelector_" + InputElementIdCounter++;
       let input = (this.__inputObject = new qx.html.Input(
         "file",
         { display: "none" },
         { id: id }
       ));
+
       let label = new qx.html.Element("label", {}, { for: id });
-      label.addListenerOnce(
-        "appear",
-        e => {
-          label.add(input);
-        }
-      );
+      label.addListenerOnce("appear", e => {
+        label.add(input);
+      });
+
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
         inputEl.addEventListener("change", e => {
