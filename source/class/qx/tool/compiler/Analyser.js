@@ -69,6 +69,13 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       check: "String"
     },
 
+    /** Directory for proxy source files, if they are to be used */
+    proxySourcePath: {
+      init: null,
+      nullable: true,
+      check: "String"
+    },
+
     /** Supported application types */
     applicationTypes: {
       init: ["node", "browser"],
@@ -919,8 +926,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           );
         }
         metaWrittenLog[classname] = true;
-        var filename =
-          qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        var filename = t.getClassOutputPath(classname) + "on";
         return writeFile(filename, JSON.stringify(meta, null, 2), {
           encoding: "utf-8"
         });
@@ -937,8 +943,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         if (cachedMeta[classname]) {
           return Promise.resolve(cachedMeta[classname]);
         }
-        var filename =
-          qx.tool.compiler.ClassFile.getOutputPath(t, classname) + "on";
+        var filename = t.getClassOutputPath(classname) + "on";
         return readFile(filename, { encoding: "utf-8" })
           .then(str => JSON.parse(str))
           .then(meta => (cachedMeta[classname] = meta))
@@ -1065,15 +1070,9 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         return;
       }
 
-      var sourceClassFilename = qx.tool.compiler.ClassFile.getSourcePath(
-        library,
-        className
-      );
+      var sourceClassFilename = this.getClassSourcePath(library, className);
 
-      var outputClassFilename = qx.tool.compiler.ClassFile.getOutputPath(
-        this,
-        className
-      );
+      var outputClassFilename = this.getClassOutputPath(className);
 
       const scanFile = async () => {
         let sourceStat = await qx.tool.utils.files.Utils.safeStat(
@@ -1085,6 +1084,12 @@ qx.Class.define("qx.tool.compiler.Analyser", {
         }
 
         var dbClassInfo = db.classInfo[className];
+        if (
+          !dbClassInfo ||
+          (!forceScan && dbClassInfo.filename != sourceClassFilename)
+        ) {
+          forceScan = true;
+        }
 
         if (!forceScan) {
           let outputStat = await qx.tool.utils.files.Utils.safeStat(
@@ -1119,7 +1124,8 @@ qx.Class.define("qx.tool.compiler.Analyser", {
           : null;
         dbClassInfo = db.classInfo[className] = {
           mtime: sourceStat.mtime,
-          libraryName: library.getNamespace()
+          libraryName: library.getNamespace(),
+          filename: sourceClassFilename
         };
 
         // Analyse it and collect unresolved symbols and dependencies
@@ -1145,6 +1151,48 @@ qx.Class.define("qx.tool.compiler.Analyser", {
       };
 
       qx.tool.utils.Promisify.callback(scanFile(), cb);
+    },
+
+    /**
+     * Returns the absolute path to the class file
+     *
+     * @param library  {qx.tool.compiler.app.Library}
+     * @param className {String}
+     * @returns {String}
+     */
+    getClassSourcePath(library, className) {
+      let filename =
+        className.replace(/\./g, path.sep) +
+        library.getSourceFileExtension(className);
+      if (this.getProxySourcePath()) {
+        let test = path.join(this.getProxySourcePath(), filename);
+        if (fs.existsSync(test)) {
+          return path.resolve(test);
+        }
+      }
+
+      return path.join(
+        library.getRootDir(),
+        library.getSourcePath(),
+        className.replace(/\./g, path.sep) +
+          library.getSourceFileExtension(className)
+      );
+    },
+
+    /**
+     * Returns the path to the rewritten class file
+     *
+     * @param className {String}
+     * @returns {String}
+     */
+    getClassOutputPath(className) {
+      var filename = path.join(
+        this.getOutputDir(),
+        "transpiled",
+        className.replace(/\./g, path.sep) + ".js"
+      );
+
+      return filename;
     },
 
     /**

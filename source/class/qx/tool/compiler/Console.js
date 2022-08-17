@@ -252,6 +252,8 @@ qx.Class.define("qx.tool.compiler.Console", {
         "qx.tool.compiler.symbol.unresolved": "Unresolved use of symbol %1",
         "qx.tool.compiler.environment.unreachable":
           "Environment check '%1' may be indeterminable, add to Manifest/provides/environment or use class name prefix",
+        "qx.tool.compiler.compiler.requireLiteralArguments":
+          "Wrong class name or filename - expected to find at least %1 but only found [%2]",
 
         "qx.tool.compiler.target.missingAppLibrary":
           "Cannot find the application library for %1",
