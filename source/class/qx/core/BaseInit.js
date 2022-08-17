@@ -37,7 +37,7 @@ qx.Class.define("qx.core.BaseInit", {
      * @return {qx.core.Object} The application instance.
      */
     getApplication() {
-      return this.__application || null;
+      return qx.core.BaseInit.__application || null;
     },
 
     /**
@@ -46,7 +46,7 @@ qx.Class.define("qx.core.BaseInit", {
      *
      */
     ready() {
-      if (this.__application) {
+      if (qx.core.BaseInit.__application) {
         return;
       }
 
@@ -71,10 +71,10 @@ qx.Class.define("qx.core.BaseInit", {
       var clazz = qx.Class.getByName(app);
 
       if (clazz) {
-        this.__application = new clazz();
+        qx.core.BaseInit.__application = new clazz();
 
         var start = new Date();
-        this.__application.main();
+        qx.core.BaseInit.__application.main();
         if (qx.core.Environment.get("qx.debug.startupTimings")) {
           qx.log.Logger.debug(
             this,
@@ -83,7 +83,7 @@ qx.Class.define("qx.core.BaseInit", {
         }
 
         var start = new Date();
-        this.__application.finalize();
+        qx.core.BaseInit.__application.finalize();
         if (qx.core.Environment.get("qx.debug.startupTimings")) {
           qx.log.Logger.debug(
             this,
@@ -104,7 +104,7 @@ qx.Class.define("qx.core.BaseInit", {
      * @param e {qx.event.type.Native} Incoming beforeunload event.
      */
     __close(e) {
-      var app = this.__application;
+      var app = qx.core.BaseInit.__application;
       if (app) {
         app.close();
       }
@@ -116,7 +116,7 @@ qx.Class.define("qx.core.BaseInit", {
      *
      */
     __shutdown() {
-      var app = this.__application;
+      var app = qx.core.BaseInit.__application;
 
       if (app) {
         app.terminate();
