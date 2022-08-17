@@ -1,4 +1,4 @@
-#!/bin/sh -vx
+#!/bin/sh
 
 #
 # This pre-commit hook can work when you use `git add` if you run this command:
@@ -7,14 +7,6 @@
 #
 #
 
-FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '^source/class' | grep '.js$' | sed 's| |\\ |g')
-[ -z "$FILES" ] && exit 0
+qx es6ify --git-pre-commit
+exit $?
 
-# Prettify all selected files
-echo $FILES
-echo "$FILES" | xargs qx es6ify
-
-# Add back the modified/prettified files to staging
-echo "$FILES" | xargs git add
-
-exit 0
