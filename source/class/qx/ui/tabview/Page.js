@@ -24,11 +24,7 @@
  * @childControl button {qx.ui.tabview.TabButton} tab button connected to the page
  */
 qx.Class.define("qx.ui.tabview.Page", {
-  extend: qx.ui.core.Widget,
-  include: [
-    qx.ui.core.MRemoteChildrenHandling,
-    qx.ui.core.MRemoteLayoutHandling
-  ],
+  extend: qx.ui.container.Composite,
 
   /*
   *****************************************************************************
