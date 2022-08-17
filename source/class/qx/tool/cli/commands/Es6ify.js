@@ -119,6 +119,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
           .filter(str => !!str.match(/^source\/class\/.*\.js$/));
         for (let filename of lines) {
           await processFile(filename);
+          /* dont think you can reliably run git while git is running (locking conflict)
           result = await qx.tool.utils.Utils.runCommand(
             process.cwd(),
             "git",
@@ -138,6 +139,7 @@ qx.Class.define("qx.tool.cli.commands.Es6ify", {
             process.exit(1);
             return;
           }
+          */
         }
         process.exit(0);
       }
