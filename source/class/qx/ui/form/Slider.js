@@ -80,17 +80,17 @@ qx.Class.define("qx.ui.form.Slider", {
     this.getContentElement().setAttribute("role", "slider");
 
     // Add listeners
-    this.addListener("keypress", this._onKeyPress);
-    this.addListener("roll", this._onRoll);
-    this.addListener("pointerdown", this._onPointerDown);
-    this.addListener("pointerup", this._onPointerUp);
-    this.addListener("losecapture", this._onPointerUp);
-    this.addListener("resize", this._onUpdate);
+    this.addListener("keypress", this._onKeyPress, this);
+    this.addListener("roll", this._onRoll, this);
+    this.addListener("pointerdown", this._onPointerDown, this);
+    this.addListener("pointerup", this._onPointerUp, this);
+    this.addListener("losecapture", this._onPointerUp, this);
+    this.addListener("resize", this._onUpdate, this);
 
     // Stop events
-    this.addListener("contextmenu", this._onStopEvent);
-    this.addListener("tap", this._onStopEvent);
-    this.addListener("dbltap", this._onStopEvent);
+    this.addListener("contextmenu", this._onStopEvent, this);
+    this.addListener("tap", this._onStopEvent, this);
+    this.addListener("dbltap", this._onStopEvent, this);
 
     // Initialize orientation
     if (orientation != null) {
