@@ -482,7 +482,11 @@ qx.Class.define("qx.ui.form.validation.Manager", {
               continue;
             }
 
-            tooltip.setLabel(item.getInvalidMessage());
+            let msg = item.getInvalidMessage();
+            if (qx.core.Environment.get("qx.debug")) {
+              this.assertTrue(msg != null && msg.length > 0);
+            }
+            tooltip.setLabel(msg);
 
             if (tooltip.getPlaceMethod() == "mouse") {
               var location = item.getContentLocation();
@@ -531,12 +535,20 @@ qx.Class.define("qx.ui.form.validation.Manager", {
       for (var i = 0; i < this.__formItems.length; i++) {
         var formItem = this.__formItems[i].item;
         if (!formItem.getValid()) {
-          messages.push(formItem.getInvalidMessage());
+          let msg = formItem.getInvalidMessage();
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertTrue(msg !== null && msg.length > 0);
+          }
+          messages.push(msg);
         }
       }
       // add the forms fail message
-      if (this.getInvalidMessage() != "") {
-        messages.push(this.getInvalidMessage());
+      if (!this.isValid()) {
+        let msg = this.getInvalidMessage();
+        if (qx.core.Environment.get("qx.debug")) {
+          this.assertTrue(msg !== null && msg.length > 0);
+        }
+        messages.push(msg);
       }
 
       return messages;
