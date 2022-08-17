@@ -24,6 +24,7 @@
 /* eslint no-inner-declarations: 0 */
 
 var fs = require("fs");
+const path = require("path");
 var async = require("async");
 
 var hash = require("object-hash");
