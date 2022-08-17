@@ -24,7 +24,11 @@
  * @childControl button {qx.ui.tabview.TabButton} tab button connected to the page
  */
 qx.Class.define("qx.ui.tabview.Page", {
-  extend: qx.ui.container.Composite,
+  extend: qx.ui.core.Widget,
+  include: [
+    qx.ui.core.MRemoteChildrenHandling,
+    qx.ui.core.MRemoteLayoutHandling
+  ],
 
   /*
   *****************************************************************************
@@ -255,6 +259,15 @@ qx.Class.define("qx.ui.tabview.Page", {
       PUBLIC API
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * By default, widgets are added to `this`
+     *
+     * @return {qx.ui.core.Widget} the widget to add to
+     */
+    getChildrenContainer() {
+      return this;
+    },
 
     /**
      * Returns the button used within this page. This method is used by
