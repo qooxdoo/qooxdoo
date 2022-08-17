@@ -173,7 +173,7 @@ qx.Mixin.define("qx.core.MEvent", {
     __promiseWaitForPendingEvents: null,
 
     /**
-     * Internal helper method to track promises returned from evcent handlers
+     * Internal helper method to track promises returned from event handlers
      *
      * @param {var} result the result from the event handler
      * @returns {qx.Promise|var} the value to return
