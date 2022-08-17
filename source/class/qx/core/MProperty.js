@@ -28,7 +28,7 @@ qx.Mixin.define("qx.core.MProperty", {
      * As a fallback, if no generated property setter could be found, a
      * handwritten setter will be searched and invoked if available.
      *
-     * @param data {Map | String} a map of property values. The key is the name of the property.
+     * @param data {Object | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
      * @return {Object} Returns this instance if <code>data</code> is a map
      *   or a non-generated setter is called; otherwise returns <code>value</code>.
