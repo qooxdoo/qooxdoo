@@ -72,10 +72,14 @@ members :
 The applying method is only called when the value has changed.
 
 
-> :memo: When using reference data types like `Object` or `Array` the apply method is
-> **always** called, since these are different objects and indeed different
-> values. This is JavaScript functionality and not Qooxdoo specific.
-
+> :memo: When using reference types like `Object` or `Array`, the apply method
+> is only called if the **object** or **array** itself is different. Changing
+> members of an object, or elements of an array, will not, by default, cause 
+> the apply method to be called, even if that object or array is given back
+> to the setter, because the value hasn't actually changed.
+> If you want the apply method to be called every time the setter is called,
+> you can specify an `isEqual` function for the property that always returns
+> `false`, e.g., `isEqual : (a, b) => false`.
 
 For a more technical description, take a look at the
 [API documentation of qx.core.Property](apps://apiviewer/#qx.core.Property)
