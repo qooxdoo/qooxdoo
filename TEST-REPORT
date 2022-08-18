@@ -2,10 +2,6 @@
 (query-replace-regexp " -[^-]+- " "
     ")
 
-qx.test.ui.core.Blocker:testRestoreActiveAndFocusedWidgets
-    focusHandler.getFocus is not a function
-qx.test.ui.core.Blocker:testRestoreDisposedWidget
-    focusHandler.getFocus is not a function
 qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeSelectBox
     Expected value to be instanceof 'qx.data.Array' but found 'undefined'!
 qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeComboBox
@@ -32,14 +28,6 @@ qx.test.ui.form.Placeholder:testFocusDateField
     Timeout of 10000 ms reached before resume() was called.
 qx.test.ui.list.List:testVariableItemHeight
     Timeout of 10000 ms reached before resume() was called.
-qx.test.ui.toolbar.OverflowHandling:testShowItem
-    Event (showItem) not fired.
-qx.test.ui.toolbar.OverflowHandling:testHideIndicator
-    resume() called before wait()
-qx.test.ui.toolbar.OverflowHandling:testHideItemRemoved
-    resume() called before wait()
-qx.test.ui.toolbar.OverflowHandling:testAddItem
-    resume() called before wait()
 qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened
     Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'icon/16/places/folder.png'!
 qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened
