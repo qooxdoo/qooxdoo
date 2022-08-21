@@ -1738,9 +1738,9 @@ qx.Bootstrap.define(
               reset : function(prop, property)
               {
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
-                let f = function(value)
+                let f = function()
                 {
-                  // Get the current inherited and init values
+                  // Get the current inherited, theme, and init values
                   let             inheritValue =
                       (property.inheritable
                        ? this[`$$inherit_${prop}`]
@@ -1883,7 +1883,11 @@ qx.Bootstrap.define(
                        ? property.initFunction.call(this)
                        : ("init" in property
                           ? property.init
-                          : null));
+                          : (property.nullable
+                             ? null
+                             : (property.check == "Boolean"
+                                ? false
+                                : undefined))));
 
                   // Unset the themed value
                   this[`$$theme_${prop}`] = undefined;
