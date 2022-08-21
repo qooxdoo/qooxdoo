@@ -10,8 +10,6 @@ qx.test.ui.form.Placeholder:testDisabledComboBox
     Called assertFalse with 'true'
 qx.test.ui.form.Placeholder:testDisabledDateField
     Called assertFalse with 'true'
-qx.test.ui.form.RadioGroup:testAlteredGroupProperty
-    Cannot read property 'charAt' of null
 qx.test.ui.form.Placeholder:testDisabledDateField
     resume() called before wait()
 qx.test.ui.form.SplitButton:testArrowAvailable
@@ -32,12 +30,8 @@ qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened
     Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'icon/16/places/folder.png'!
 qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened
     Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
-qx.test.ui.toolbar.OverflowHandling:testShowIndicator
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.ui.toolbar.OverflowHandling:testShowIndicatorHuge
-    Timeout of 10000 ms reached before resume() was called.
-qx.test.ui.toolbar.OverflowHandling:testShowItemRemoved
-    Timeout of 10000 ms reached before resume() was called.
+qx.test.ui.tree.virtual.Tree:testCreation
+    Called assertTrue with 'false'
 qx.test.ui.virtual.cell.WidgetCell:testUpdateData
     Expected 'label 1' but found 'null'!
 qx.test.Promise:testBinding
@@ -46,6 +40,8 @@ qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
+qx.test.core.Property:testInit
+    Expected '["juhu",null]' but found '["juhu","juhu"]'!
 qx.test.log.Logger:testContextObject
     Expected 'qxWeb' but found ''undefined''!
 qx.test.mobile.LocaleSwitch:testList
