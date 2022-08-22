@@ -1351,57 +1351,16 @@ qx.Bootstrap.define(
                         proxy[`$$variant_${prop}`] = variant == "init" ? null : "set";
                       }
 
-                      // Is it a synchronous property with an apply
-                      // method? (Async properties' apply method is
-                      // called directly from setPropertyNameAsync() )
-                      if (property.apply &&
-                          ! property.async &&
-                          (! property.isEqual.call(proxy, value, oldForCallback) ||
-                           ["init", "init->set"].includes(variant)))
-                      {
-                        // Yes. Call it.
-                        if (typeof property.apply == "function")
-                        {
-                          property.apply.call(proxy, value, oldForCallback, prop);
-                        }
-                        else // otherwise it's a string
-                        {
-                          obj[property.apply].call(proxy, value, oldForCallback, prop);
-                        }
-                      }
-
-                      // Are we requested to generate an event?
-                      if (property.event &&
-                          ! property.async &&
-                          (! property.isEqual.call(proxy, value, oldForCallback) ||
-                           ["init", "init->set"].includes(variant)))
-                      {
-                        const Reg = qx.event.Registration;
-
-                        // Yes. Generate a sync event if needed
-                        if (Reg.hasListener(obj, property.event))
-                        {
-                          qx.event.Utils.track(
-                            tracker,
-                            Reg.fireEvent(
-                              proxy,
-                              property.event,
-                              qx.event.type.Data,
-                              [ value, oldForCallback ]));
-                        }
-
-                        // Also generate an async event, if needed
-                        if (Reg.hasListener(obj, property.event + "Async"))
-                        {
-                          qx.event.Utils.track(
-                            tracker,
-                            Reg.fireEvent(
-                              proxy,
-                              property.event + "Async",
-                              qx.event.type.Data,
-                              [ qx.Promise.resolve(value), oldForCallback ]));
-                        }
-                      }
+                      // Call the `apply` method and fire the change
+                      // event, if necessary
+                      qx.Class.__applyAndFireEvent(
+                        proxy,
+                        property,
+                        prop,
+                        value,
+                        oldForCallback,
+                        variant,
+                        tracker);
 
                       // Update inherited values of child objects
                       if (property.inheritable && obj._getChildren)
@@ -1750,22 +1709,11 @@ qx.Bootstrap.define(
                        ? this[`$$theme_${prop}`]
                        : undefined);
                   let             initValue =
-                      (property.initFunction
-                       ? property.initFunction.call(this)
-                       : ("init" in property
-                          ? property.init
-                          : (property.nullable
-                             ? null
-                             : (property.check == "Boolean"
-                                ? false
-                                : undefined))));
+                      this[`$$init_${prop}`];
 
                   // Unset the user value
                   this[`$$user_${prop}`] = undefined;
                   this[`$$variant_${prop}`] = null;
-
-                  // Save the init value
-                  this[`$$init_${prop}`] = initValue;
 
                   // Select the new value
                   // Debugging hint: this will trap into setter code.
@@ -1943,6 +1891,17 @@ qx.Bootstrap.define(
 
                   this[`$$init_${prop}`] = value;
                   this[`$$variant_${prop}`] = "init";
+
+                  // Call the `apply` method and fire the change
+                  // event, if necessary
+                  qx.Class.__applyAndFireEvent(
+                    this,
+                    property,
+                    prop,
+                    value,
+                    null,
+                    "init",
+                    {});
 
                   return value;
                 };
@@ -3245,6 +3204,95 @@ qx.Bootstrap.define(
             }
           }
           superclass = superclass.superclass;
+        }
+      },
+
+      /**
+       * Call the `apply` method and fire an event, if required
+       *
+       * @param proxy {Proxy}
+       *   The object on which the property resides
+       *
+       * @param property {Object}
+       *   The property configuration
+       *
+       * @param propName {String}
+       *   The name of the property described by the configuration in
+       *   `property`
+       *
+       * @param value {Any}
+       *   The new property value
+       *
+       * @param old {Any}
+       *   The current (old) property value
+       *
+       * @param variant {"init"|"init->set"|"set"|null}
+       *   The internal variant at the time the property is being
+       *   manipulated,which affects whether the `apply` method is called and
+       *   the event fired.
+       *
+       * @param tracker {Object}
+       *   Object used for tracking promises
+       */
+      __applyAndFireEvent(
+        proxy,
+        property,
+        propName,
+        value,
+        old,
+        variant,
+        tracker)
+      {
+        // Is it a synchronous property with an apply
+        // method? (Async properties' apply method is
+        // called directly from setPropertyNameAsync() )
+        if (property.apply &&
+            ! property.async &&
+            (! property.isEqual.call(proxy, value, old) ||
+             ["init", "init->set"].includes(variant)))
+        {
+          // Yes. Call it.
+          if (typeof property.apply == "function")
+          {
+            property.apply.call(proxy, value, old, propName);
+          }
+          else // otherwise it's a string
+          {
+            proxy[property.apply].call(proxy, value, old, propName);
+          }
+        }
+
+        // Are we requested to generate an event?
+        if (property.event &&
+            ! property.async &&
+            (! property.isEqual.call(proxy, value, old) ||
+             ["init", "init->set"].includes(variant)))
+        {
+          const Reg = qx.event.Registration;
+
+          // Yes. Generate a sync event if needed
+          if (Reg.hasListener(proxy, property.event))
+          {
+            qx.event.Utils.track(
+              tracker,
+              Reg.fireEvent(
+                proxy,
+                property.event,
+                qx.event.type.Data,
+                [ value, old ]));
+          }
+
+          // Also generate an async event, if needed
+          if (Reg.hasListener(proxy, property.event + "Async"))
+          {
+            qx.event.Utils.track(
+              tracker,
+              Reg.fireEvent(
+                proxy,
+                property.event + "Async",
+                qx.event.type.Data,
+                [ qx.Promise.resolve(value), old ]));
+          }
         }
       },
 
