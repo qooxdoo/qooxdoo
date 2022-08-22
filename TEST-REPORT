@@ -16,8 +16,6 @@ qx.test.ui.form.Placeholder:testDisabledDateField
     resume() called before wait()
 qx.test.ui.form.SplitButton:testArrowAvailable
     Called assertFalse with 'true'
-qx.test.ui.form.TextField:test: reset max length
-    maxLength: Expected value to be of type PositiveInteger; value=Infinity
 qx.test.ui.list.List:testChangeModelLengthListener
     resume() called before wait()
 qx.test.ui.groupbox.CheckGroupBox:testEnabledConsistencyBetweenContentAndParent
