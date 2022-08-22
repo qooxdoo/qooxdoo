@@ -10,8 +10,6 @@ qx.test.ui.form.Placeholder:testDisabledComboBox
     Called assertFalse with 'true'
 qx.test.ui.form.Placeholder:testDisabledDateField
     Called assertFalse with 'true'
-qx.test.ui.form.RadioGroup:testAlteredGroupProperty
-    Cannot read property 'charAt' of null
 qx.test.ui.form.Placeholder:testDisabledDateField
     resume() called before wait()
 qx.test.ui.form.SplitButton:testArrowAvailable

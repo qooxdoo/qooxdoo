@@ -2136,9 +2136,12 @@ qx.Bootstrap.define(
                   {
                     // Get the next value to set
                     let             value = args.shift();
+                    let             prop = property.group[i];
+
 
                     // Set the next property in the group
-                    this[property.group[i]] = value;
+                    this[`$$variant_${prop}`] = "set";
+                    this[prop] = value;
 
                     // If we're in shorthand mode, we may reuse that
                     // value. Put it back at the end of the argument

@@ -66,6 +66,7 @@ qx.Mixin.define(
           {
             if (data[prop] !== undefined)
             {
+              this[`$$variant_${prop}`] = "set";
               this[prop] = data[prop];
             }
             continue;
