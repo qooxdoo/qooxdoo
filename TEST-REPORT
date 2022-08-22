@@ -38,8 +38,6 @@ qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
-qx.test.log.Logger:testContextObject
-    Expected 'qxWeb' but found ''undefined''!
 qx.test.mobile.LocaleSwitch:testList
     Cannot read property 'eq' of undefined
 qx.test.mobile.basic.Atom:testIconPosition
