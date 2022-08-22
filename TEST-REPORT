@@ -2,10 +2,6 @@
 (query-replace-regexp " -[^-]+- " "
     ")
 
-qx.test.ui.form.AbstractVirtualBox:testListLengthAfterModelChangeSelectBox
-    value: Expected value to be of type String; value=undefined
-qx.test.ui.form.Color:testColorPopup
-    Could not parse color: undefined
 qx.test.ui.form.Placeholder:testDisabledComboBox
     Called assertFalse with 'true'
 qx.test.ui.form.Placeholder:testDisabledDateField
@@ -28,20 +24,8 @@ qx.test.Promise:testBinding
     Timeout of 1000 ms reached before resume() was called.
 qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
-qx.test.data.controller.FormWithArrayAndModel:test self update: model
-    Expected value to be instanceof 'qx.core.Object' but found 'undefined'!
-qx.test.data.controller.FormWithArrayAndModel:test updating model: model field
-    Expected value to be instanceof 'qx.core.Object' but found 'undefined'!
-qx.test.data.controller.List:testResetBug
-    value: Expected value to be of type String; value=undefined
-qx.test.data.controller.List:testOnUpdateLabel
-    value: Expected value to be of type String; value=undefined
-qx.test.data.controller.List:testGetVisibleModels
-    setUp failed: Attempted to wrap load which is already wrapped
-qx.test.data.controller.List:testSelectionSequence
-    tearDown failed: Cannot read property 'getChildren' of null
-qx.test.data.controller.ListWithObjects:testOnUpdateLabel
-    value: Expected value to be of type String; value=undefined
+qx.test.core.Object:testDisposeBindingWithSelfChain
+    Called fail().
 qx.test.mobile.LocaleSwitch:testList
     Cannot read property 'eq' of undefined
 qx.test.mobile.basic.Atom:testIconPosition
