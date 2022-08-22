@@ -1024,9 +1024,13 @@ qx.Bootstrap.define(
                         }
                       }
 
-                      // Does it have a check to be done? If nullable and
-                      // the value is null, we don't run the check
-                      if (property.check)
+                      // Does it have a check to be done? If nullable
+                      // and the value is null, we don't run the
+                      // check. Similarly, if the variant is "reset"
+                      // we allow the `init` value to be reassigned
+                      // without checking it.
+                      if (property.check &&
+                          obj[`$$variant_${prop}`] != "reset")
                       {
                         let $$checks = new Map(
                           [
@@ -1713,7 +1717,7 @@ qx.Bootstrap.define(
 
                   // Unset the user value
                   this[`$$user_${prop}`] = undefined;
-                  this[`$$variant_${prop}`] = null;
+                  this[`$$variant_${prop}`] = "reset"; // don't use `check`
 
                   // Select the new value
                   // Debugging hint: this will trap into setter code.
@@ -1722,6 +1726,8 @@ qx.Bootstrap.define(
                                 : (inheritValue !== undefined
                                    ? inheritValue
                                    : initValue));
+
+                  this[`$$variant_${prop}`] = null;
                 };
 
                 qx.Bootstrap.setDisplayName(
