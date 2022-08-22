@@ -10,14 +10,14 @@ qx.test.ui.form.Placeholder:testDisabledComboBox
     Called assertFalse with 'true'
 qx.test.ui.form.Placeholder:testDisabledDateField
     Called assertFalse with 'true'
+qx.test.ui.form.RadioGroup:testAlteredGroupProperty
+    Cannot read property 'charAt' of null
 qx.test.ui.form.Placeholder:testDisabledDateField
     resume() called before wait()
 qx.test.ui.form.SplitButton:testArrowAvailable
     Called assertFalse with 'true'
 qx.test.ui.form.TextField:test: reset max length
     maxLength: Expected value to be of type PositiveInteger; value=Infinity
-qx.test.ui.list.List:testResetModel
-    Expected 'item 1' (identical) but found 'null'!
 qx.test.ui.list.List:testChangeModelLengthListener
     resume() called before wait()
 qx.test.ui.groupbox.CheckGroupBox:testEnabledConsistencyBetweenContentAndParent
@@ -30,8 +30,10 @@ qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened
     Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'icon/16/places/folder.png'!
 qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened
     Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
-qx.test.ui.tree.virtual.Tree:testCreation
-    Called assertTrue with 'false'
+qx.test.ui.tree.virtual.Tree:testSetOpenModeWithTap
+    Expected 'false' but found 'true'!
+qx.test.ui.tree.virtual.Tree:testSetOpenModeWithNone
+    Expected 'false' but found 'true'!
 qx.test.ui.virtual.cell.WidgetCell:testUpdateData
     Expected 'label 1' but found 'null'!
 qx.test.Promise:testBinding
@@ -40,8 +42,6 @@ qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
-qx.test.core.Property:testInit
-    Expected '["juhu",null]' but found '["juhu","juhu"]'!
 qx.test.log.Logger:testContextObject
     Expected 'qxWeb' but found ''undefined''!
 qx.test.mobile.LocaleSwitch:testList
