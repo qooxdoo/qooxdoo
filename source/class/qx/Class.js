@@ -1685,8 +1685,8 @@ qx.Bootstrap.define(
                   }
 
                   // Debugging hint: this will trap into setter code.
-                  this[prop] = value;
                   this[`$$user_${prop}`] = value;
+                  this[prop] = value;
 
                   this[`$$variant_${prop}`] = "set";
                   return value;

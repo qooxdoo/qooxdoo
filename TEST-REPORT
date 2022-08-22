@@ -22,10 +22,6 @@ qx.test.ui.form.Placeholder:testFocusDateField
     Timeout of 10000 ms reached before resume() was called.
 qx.test.ui.list.List:testVariableItemHeight
     Timeout of 10000 ms reached before resume() was called.
-qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconOpened
-    Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'icon/16/places/folder.png'!
-qx.test.ui.tree.TreeFolder:testIconWhenOpenedWithIconAndIconOpened
-    Expected 'qx/icon/Oxygen/22/emotes/face-smile.png' but found 'qx/icon/Oxygen/22/emotes/face-plain.png'!
 qx.test.ui.tree.virtual.Tree:testSetOpenModeWithTap
     Expected 'false' but found 'true'!
 qx.test.ui.tree.virtual.Tree:testSetOpenModeWithNone
