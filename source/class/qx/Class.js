@@ -1703,6 +1703,7 @@ qx.Bootstrap.define(
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = function()
                 {
+                  let             value;
                   // Get the current inherited, theme, and init values
                   let             inheritValue =
                       (property.inheritable
@@ -1719,13 +1720,30 @@ qx.Bootstrap.define(
                   this[`$$user_${prop}`] = undefined;
                   this[`$$variant_${prop}`] = "reset"; // don't use `check`
 
+                  // Calculate the new value
+                  value =
+                    (themeValue  !== undefined
+                     ? themeValue
+                     : (inheritValue !== undefined
+                        ? inheritValue
+                        : initValue));
+
+                  if (value === undefined)
+                  {
+                    if (property.nullable)
+                    {
+                      value = null;
+                    }
+
+                    if (property.check == "Boolean")
+                    {
+                      value = false;
+                    }
+                  }
+
                   // Select the new value
                   // Debugging hint: this will trap into setter code.
-                  this[prop] = (themeValue  !== undefined
-                                ? themeValue
-                                : (inheritValue !== undefined
-                                   ? inheritValue
-                                   : initValue));
+                  this[prop] = value;
 
                   this[`$$variant_${prop}`] = null;
                 };
