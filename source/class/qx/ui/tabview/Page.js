@@ -257,6 +257,15 @@ qx.Class.define("qx.ui.tabview.Page", {
     */
 
     /**
+     * By default, widgets are added to `this`
+     *
+     * @return {qx.ui.core.Widget} the widget to add to
+     */
+    getChildrenContainer() {
+      return this;
+    },
+
+    /**
      * Returns the button used within this page. This method is used by
      * the TabView to access the button.
      *

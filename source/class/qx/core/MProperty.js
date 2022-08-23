@@ -44,7 +44,15 @@ qx.Mixin.define("qx.core.MProperty", {
             return this;
           }
 
-          throw new Error("No such property: " + data);
+          throw new Error(
+            "No such property: " +
+              data +
+              " in " +
+              this.classname +
+              " (" +
+              this +
+              ")"
+          );
         }
 
         return this[setter[data]](value);
@@ -56,7 +64,15 @@ qx.Mixin.define("qx.core.MProperty", {
               continue;
             }
 
-            throw new Error("No such property: " + prop);
+            throw new Error(
+              "No such property: " +
+                prop +
+                " in " +
+                this.classname +
+                " (" +
+                this +
+                ")"
+            );
           }
 
           this[setter[prop]](data[prop]);
@@ -82,7 +98,15 @@ qx.Mixin.define("qx.core.MProperty", {
           return this["get" + qx.Bootstrap.firstUp(prop)]();
         }
 
-        throw new Error("No such property: " + prop);
+        throw new Error(
+          "No such property: " +
+            prop +
+            " in " +
+            this.classname +
+            " (" +
+            this +
+            ")"
+        );
       }
 
       return this[getter[prop]]();
@@ -104,7 +128,15 @@ qx.Mixin.define("qx.core.MProperty", {
           return;
         }
 
-        throw new Error("No such property: " + prop);
+        throw new Error(
+          "No such property: " +
+            prop +
+            " in " +
+            this.classname +
+            " (" +
+            this +
+            ")"
+        );
       }
 
       this[resetter[prop]]();
@@ -123,7 +155,15 @@ qx.Mixin.define("qx.core.MProperty", {
         qx.core.Assert.assertString(prop);
 
         if (!this["get" + qx.Bootstrap.firstUp(prop)]) {
-          throw new Error("No such property: " + prop);
+          throw new Error(
+            "No such property: " +
+              prop +
+              " in " +
+              this.classname +
+              " (" +
+              this +
+              ")"
+          );
         }
       }
 
