@@ -368,6 +368,7 @@ qx.Class.define("qx.ui.basic.Label", {
         this.__fixEllipsis();
       }
       if (rich && this.getBreakWithinWords()) {
+        styles = qx.lang.Object.clone(styles);
         styles.wordBreak = "break-all";
       }
 
@@ -461,12 +462,10 @@ qx.Class.define("qx.ui.basic.Label", {
 
     // property apply
     _applyBreakWithinWords(value, old) {
-      if (this.isRich()) {
         this.getContentElement().setStyle(
           "wordBreak",
-          value ? "break-all" : "normal"
+        this.isRich() && value ? "break-all" : "normal"
         );
-      }
     },
 
     /**
