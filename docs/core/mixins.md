@@ -108,3 +108,13 @@ var result = classC.methodC();
  * Nice to meet you. Thanks for your help!
  */
 ```
+
+## Order of constructor calls
+The constructor of a mixin included by a class is called after
+the constructor of the class itself returns. This means that the
+mixin constructor can depend on the instance of the class in which it
+has been included to be fully constructed, but that the class'
+constructor can not depend on the mixin's constructor having been
+called.
+
+Mixin constructors are called in the order in which they are included.
