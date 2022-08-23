@@ -112,16 +112,5 @@ qx.Class.define("qx.ui.container.Composite", {
         child
       ]);
     }
-  },
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer(statics, members) {
-    qx.ui.core.MChildrenHandling.remap(members);
-    qx.ui.core.MLayoutHandling.remap(members);
   }
 });

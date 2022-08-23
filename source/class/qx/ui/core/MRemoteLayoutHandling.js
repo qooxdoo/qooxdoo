@@ -43,7 +43,12 @@ qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling", {
      *     <code>null</code> to reset the layout.
      */
     setLayout(layout) {
-      this.getChildrenContainer().setLayout(layout);
+      var container = this.getChildrenContainer();
+      if (container === this) {
+        container._setLayout(layout);
+      } else {
+        container.setLayout(layout);
+      }
     },
 
     /**
@@ -52,7 +57,11 @@ qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling", {
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     getLayout() {
-      return this.getChildrenContainer().getLayout();
+      var container = this.getChildrenContainer();
+      if (container === this) {
+        return container._getLayout();
+      }
+      return container.getLayout();
     }
   }
 });
