@@ -446,7 +446,11 @@ qx.Class.define("qx.core.Object", {
   */
 
   environment: {
-    "qx.debug.dispose.level": 0
+    "qx.debug.dispose.level": 0,
+
+    // Ideally this would be in the mixin, but mixins do not support environment blocks
+    // Also, this would be better as false, not true but that would not be BC
+    "qx.core.Object.allowUndefinedObjectId": true
   },
 
   /*

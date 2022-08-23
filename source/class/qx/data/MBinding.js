@@ -32,7 +32,8 @@ qx.Mixin.define("qx.data.MBinding", {
      *   the source property.
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
-     * @param targetProperty {String} The property name of the target object.
+     * @param targetProperty {String?"value"} The property name of the target object,
+     *   defaults to "value".
      * @param options {Map?null} A map containing the options. See
      *   {@link qx.data.SingleValueBinding#bind} for more
      *   information.
@@ -50,7 +51,7 @@ qx.Mixin.define("qx.data.MBinding", {
         this,
         sourcePropertyChain,
         targetObject,
-        targetProperty,
+        targetProperty || "value",
         options
       );
     },
@@ -64,7 +65,8 @@ qx.Mixin.define("qx.data.MBinding", {
      *   the source property.
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
-     * @param targetProperty {String} The property name of the target object.
+     * @param targetProperty {String?"value"} The property name of the target object,
+     *   defaults to "value".
      * @param options {Map} A map containing the options. See
      *   {@link qx.data.SingleValueBinding#bind} for more
      *   information.
@@ -85,7 +87,7 @@ qx.Mixin.define("qx.data.MBinding", {
           this,
           sourcePropertyChain,
           targetObject,
-          targetProperty,
+          targetProperty || "value",
           options
         );
 
