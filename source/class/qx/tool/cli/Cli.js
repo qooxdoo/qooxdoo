@@ -341,6 +341,9 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       await compilerApi.load();
       let config = compilerApi.getConfiguration();
 
+      // Validate compile.json against the schema
+      await qx.tool.config.Compile.getInstance().load(config);
+
       /*
        * Open the lockfile and check versions
        */
