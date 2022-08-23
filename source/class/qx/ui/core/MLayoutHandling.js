@@ -68,8 +68,12 @@ qx.Mixin.define("qx.ui.core.MLayoutHandling", {
      * this methods in the defer block of the including class.
      *
      * @param members {Map} The including classes members map
+     * @deprecated {7.0} this is not necessary in modern compilers and leads to unexpected behaviour
      */
     remap(members) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.debug("Calling qx.ui.core.MLayoutHandling.remap is deprecated, please dont use it");
+      }
       members.getLayout = members._getLayout;
       members.setLayout = members._setLayout;
     }
