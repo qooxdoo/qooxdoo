@@ -970,6 +970,13 @@ qx.Bootstrap.define(
                           ? property.storage
                           : qx.core.propertystorage.Default; // for member var setter
 
+                    // If this is a storage call, just immediately set value
+                    if (proxy[`$$variant_${prop}`] == "immediate")
+                    {
+                      storage.set.call(obj, prop, value);
+                      return;
+                    }
+
                     oldForCallback = old === undefined ? null : old;
                     if (proxy[`$$variant_${prop}`] == "init")
                     {
