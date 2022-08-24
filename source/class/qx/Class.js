@@ -1380,7 +1380,9 @@ qx.Bootstrap.define(
                             let property =
                                 child.constructor.$$allProperties[prop];
 
-                            if (property && property.inheritable)
+                            if (child[`$$user_${prop}`] === undefined &&
+                                property &&
+                                property.inheritable)
                             {
                               // Yup. Save the new value
                               child[`$$inherit_${prop}`] = value;
@@ -2090,7 +2092,9 @@ qx.Bootstrap.define(
                             let property =
                                 child.constructor.$$allProperties[prop];
 
-                            if (property && property.inheritable)
+                            if (child[`$$user_${prop}`] === undefined &&
+                                property &&
+                                property.inheritable)
                             {
                               // Yup. Save the new value
                               child[`$$inherit_${prop}`] = value;
