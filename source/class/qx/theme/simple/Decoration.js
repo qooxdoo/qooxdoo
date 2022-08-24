@@ -930,6 +930,22 @@ qx.Theme.define("qx.theme.simple.Decoration", {
       }
     },
 
+    "virtual-background-header": {
+      style: {
+        gradientStart: ["button-box-bright", 40],
+        gradientEnd: ["button-box-dark", 70],
+        backgroundColor: "button-box-bright"
+      }
+    },
+
+    "virtual-background-span": {
+      include: "table-header-cell",
+      style: {
+        color: "table-row-line",
+        width: [0, 0, 1, 0]
+      }
+    },
+
     "progressive-table-header": {
       include: "button-box",
 

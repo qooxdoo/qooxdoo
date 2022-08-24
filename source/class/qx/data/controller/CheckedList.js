@@ -322,10 +322,10 @@ qx.Class.define("qx.data.controller.CheckedList", {
       let bindData = itemModel.getUserData(this.classname + ".bindData");
       if (bindData) {
         if (bindData.checkedLabelId) {
-          itemModel.removeBinding(bindData.checkedLabelId);
+          itemModel.removeListenerById(bindData.checkedLabelId);
         }
         if (bindData.checkedIconId) {
-          itemModel.removeBinding(bindData.checkedIconId);
+          itemModel.removeListenerById(bindData.checkedIconId);
         }
         itemModel.setUserData(this.classname + ".bindData", null);
       }
