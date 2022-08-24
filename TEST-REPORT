@@ -2,18 +2,8 @@
 (query-replace-regexp " -[^-]+- " "
     ")
 
-qx.test.ui.form.Placeholder:testDisabledComboBox
-    Called assertFalse with 'true'
-qx.test.ui.form.Placeholder:testDisabledDateField
-    Called assertFalse with 'true'
-qx.test.ui.form.Placeholder:testDisabledDateField
-    resume() called before wait()
 qx.test.ui.form.SplitButton:testArrowAvailable
-    Called assertFalse with 'true'
-qx.test.ui.groupbox.CheckGroupBox:testEnabledConsistencyBetweenContentAndParent
-    Called assertFalse with 'true'
-qx.test.ui.form.Placeholder:testFocusDateField
-    Timeout of 10000 ms reached before resume() was called.
+    Called assertTrue with 'false'
 qx.test.ui.tree.virtual.Tree:testSetOpenModeWithTap
     Expected 'false' but found 'true'!
 qx.test.ui.tree.virtual.Tree:testSetOpenModeWithNone
@@ -24,6 +14,8 @@ qx.test.Promise:testBinding
     Timeout of 1000 ms reached before resume() was called.
 qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
+qx.test.bom.Font:testColorAtWidget
+    Expected 'blue' but found 'black'!
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
 qx.test.mobile.LocaleSwitch:testList
@@ -34,5 +26,7 @@ qx.test.mobile.container.Scroll:testHorizontalWayPoint
     Cannot read property 'setStyle' of undefined
 qx.test.mobile.form.CheckBox:testValue
     Cannot read property 'hasClass' of undefined
+qx.test.theme.manager.Meta:testAllThemeManagerChanged
+    Expected 'rgb(0, 0, 0)' but found 'rgb(255, 0, 0)'!
 qx.test.util.DeferredCall:testGlobalErrorHandling
     Timeout reached before resume() was called.
