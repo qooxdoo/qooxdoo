@@ -224,6 +224,10 @@
             "description": "The folder where the deploy outputs to.",
             "type": "string"
           },
+          "proxySourcePath": {
+            "description": "The folder containing proxy classes (normally machine generated) to take precedence over those found in normal library sources",
+            "type": "string"
+          },
           "targetClass": {
             "description": "If you want to use more than the two default target types and/or use custom target classes, you can use the targetClass key to supply the name of the class as a string.",
             "type": "string"

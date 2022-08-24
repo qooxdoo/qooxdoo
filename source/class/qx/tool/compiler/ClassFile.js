@@ -200,10 +200,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     this.__metaStack = [];
     this.__metaDefinitions = {};
     this.__library = library;
-    this.__sourceFilename = qx.tool.compiler.ClassFile.getSourcePath(
-      library,
-      className
-    );
+    this.__sourceFilename = analyser.getClassSourcePath(library, className);
 
     this.__requiredClasses = {};
     this.__environmentChecks = {
@@ -317,10 +314,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * @returns {string}
      */
     getOutputPath() {
-      return qx.tool.compiler.ClassFile.getOutputPath(
-        this.__analyser,
-        this.__className
-      );
+      return this.__analyser.getClassOutputPath(this.__className);
     },
 
     /**
@@ -1314,7 +1308,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.interfaces
             });
-          } else if (keyName == "include") {
+          } else if (keyName == "include" || keyName == "patch") {
             path.skip();
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.mixins
@@ -1690,9 +1684,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
                   if (typeof arg.value != "string") {
-                    log.error(
-                      `${t.__className}: ` +
-                        "Only literal string arguments to require() are supported: " +
+                    t.addMarker(
+                      "compiler.requireLiteralArguments",
+                      path.node.loc,
                         arg.value
                     );
                   } else {
@@ -2947,39 +2941,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   },
 
   statics: {
-    /**
-     * Returns the absolute path to the class file
-     *
-     * @param library  {qx.tool.compiler.app.Library}
-     * @param className {String}
-     * @returns {String}
-     */
-    getSourcePath(library, className) {
-      return pathModule.join(
-        library.getRootDir(),
-        library.getSourcePath(),
-        className.replace(/\./g, pathModule.sep) +
-          library.getSourceFileExtension(className)
-      );
-    },
-
-    /**
-     * Returns the path to the rewritten class file
-     *
-     * @param analyser {qx.tool.compiler.Analyser}
-     * @param className {String}
-     * @returns {String}
-     */
-    getOutputPath(analyser, className) {
-      var filename = pathModule.join(
-        analyser.getOutputDir(),
-        "transpiled",
-        className.replace(/\./g, pathModule.sep) + ".js"
-      );
-
-      return filename;
-    },
-
     /**
      * Returns the root namespace from the classname, or null if it cannot be determined
      * @param className
