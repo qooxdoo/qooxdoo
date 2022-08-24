@@ -550,7 +550,9 @@ qx.Class.define("qx.ui.form.validation.Manager", {
       // add the forms fail message
       if (!this.isValid()) {
         let msg = this.getInvalidMessage();
-        if (qx.core.Environment.get("qx.debug")) {
+        if (!msg && qx.core.Environment.get("qx.ui.form.validation.Manager.allowDefaultInvalidMessage")) {
+          msg = "Invalid field";
+        } else if (qx.core.Environment.get("qx.debug")) {
           this.assertTrue(msg !== null && msg.length > 0);
         }
         messages.push(msg);
