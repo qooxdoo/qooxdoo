@@ -2037,12 +2037,6 @@ qx.Bootstrap.define(
                     // Obtain the old value, via its async request
                     old = await this[`get${propertyFirstUp}Async`]();
 
-                    // If value being set is a promise, await its resolution
-                    if (qx.lang.Type.isPromise(value))
-                    {
-                      value = await value;
-                    }
-
                     // Cache the new value
                     property.storage.set.call(this, prop, value);
 
@@ -2123,6 +2117,22 @@ qx.Bootstrap.define(
                       this[activePromiseProp] = null;
                     }
 
+                    // If the value is a promise...
+                    if (qx.lang.Type.isPromise(value))
+                    {
+                      // ... then arrange to store the resolved value
+                      // when it's available
+                      value.then(
+                        (resolvedValue) =>
+                        {
+                          property.storage.set.call(this, prop, resolvedValue);
+                        });
+
+                      // Give 'em the promise
+                      return value;
+                    }
+
+                    // Otherwise, give 'em a promise for the non-promise value
                     return qx.Promise.resolve(value);
                   }.bind(this);
 
