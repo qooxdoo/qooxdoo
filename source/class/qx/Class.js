@@ -2037,6 +2037,12 @@ qx.Bootstrap.define(
                     // Obtain the old value, via its async request
                     old = await this[`get${propertyFirstUp}Async`]();
 
+                    // If value being set is a promise, await its resolution
+                    if (qx.lang.Type.isPromise(value))
+                    {
+                      value = await value;
+                    }
+
                     // Cache the new value
                     property.storage.set.call(this, prop, value);
 
