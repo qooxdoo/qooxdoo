@@ -256,8 +256,8 @@ qx.Class.define("qx.ui.form.Slider", {
           control = new qx.ui.core.Widget();
 
           control.addListener("resize", this._onUpdate, this);
-          control.addListener("pointerover", this._onPointerOver);
-          control.addListener("pointerout", this._onPointerOut);
+          control.addListener("pointerover", this._onPointerOver, this);
+          control.addListener("pointerout", this._onPointerOut, this);
           this._add(control);
           break;
       }
@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.form.Slider", {
       }
 
       // Register move listener
-      this.addListener("pointermove", this._onPointerMove);
+      this.addListener("pointermove", this._onPointerMove, this);
 
       // Activate capturing
       this.capture();
@@ -524,7 +524,7 @@ qx.Class.define("qx.ui.form.Slider", {
       }
 
       // Remove move listener again
-      this.removeListener("pointermove", this._onPointerMove);
+      this.removeListener("pointermove", this._onPointerMove, this);
 
       // Stop event
       if (e.getType() === "pointerup") {
