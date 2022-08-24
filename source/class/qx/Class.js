@@ -1369,22 +1369,24 @@ qx.Bootstrap.define(
                       // Update inherited values of child objects
                       if (property.inheritable && obj._getChildren)
                       {
-                        let children = obj._getChildren();
-                        if (children)
-                        {
-                          children.forEach(
-                            (child) =>
-                            {
-                              let propertyDescriptor =
-                                  obj.constructor.$$propertyDescriptorRegistry.get(
-                                    child, prop);
+                        let             children = obj._getChildren();
 
-                              if (propertyDescriptor)
-                              {
-                                propertyDescriptor.refresh();
-                              }
-                            });
-                        }
+                        // For each child..
+                        children.forEach(
+                          (child) =>
+                          {
+                            // Does this child have a property of the
+                            // given name, and is it inheritable?
+                            let property =
+                                child.constructor.$$allProperties[prop];
+
+                            if (property && property.inheritable)
+                            {
+                              // Yup. Save the new value
+                              child[`$$inherit_${prop}`] = value;
+                              child[prop] = value;
+                            }
+                          });
                       }
 
                       if (tracker.promise)
@@ -1773,13 +1775,6 @@ qx.Bootstrap.define(
                     return;
                   }
 
-                  // If there's an init value, inherited value is not applied
-                  if (typeof property.init != "undefined" ||
-                      property.initFunction)
-                  {
-                    return;
-                  }
-
                   // If there's a layout parent and if it has a property (not
                   // a member!) of this name, ...
                   layoutParent =
@@ -2084,22 +2079,24 @@ qx.Bootstrap.define(
                       // Update inherited values of child objects
                       if (property.inheritable && this._getChildren)
                       {
-                        let children = this._getChildren();
-                        if (children)
-                        {
-                          children.forEach(
-                            (child) =>
-                            {
-                              let propertyDescriptor =
-                                  this.constructor.$$propertyDescriptorRegistry.get(
-                                    child, prop);
+                        let             children = this._getChildren();
 
-                              if (propertyDescriptor)
-                              {
-                                propertyDescriptor.refresh();
-                              }
-                            });
-                        }
+                        // For each child..
+                        children.forEach(
+                          (child) =>
+                          {
+                            // Does this child have a property of the
+                            // given name, and is it inheritable?
+                            let property =
+                                child.constructor.$$allProperties[prop];
+
+                            if (property && property.inheritable)
+                            {
+                              // Yup. Save the new value
+                              child[`$$inherit_${prop}`] = value;
+                              child[prop] = value;
+                            }
+                          });
                       }
                     }
 
