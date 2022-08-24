@@ -594,14 +594,22 @@ qx.Class.define("qx.bom.webfonts.Manager", {
             cssText = cssText.replace(reg, "");
           }
           sheet.cssText = cssText;
-        } else if (sheet.cssRules) {
-          for (var j = 0, m = sheet.cssRules.length; j < m; j++) {
-            var cssText = sheet.cssRules[j].cssText
-              .replace(/\n/g, "")
-              .replace(/\r/g, "");
-            if (reg.exec(cssText)) {
-              this.__styleSheet.deleteRule(j);
-              return;
+        } else {
+          let cssRules = null;
+          try {
+            cssRules = sheet.cssRules;
+          } catch (ex) {
+            // Exception is thrown if there are no rules (eg a `<link>` tag inserted by the user)
+          }
+          if (cssRules) {
+            for (var j = 0, m = cssRules.length; j < m; j++) {
+              var cssText = cssRules[j].cssText
+                .replace(/\n/g, "")
+                .replace(/\r/g, "");
+              if (reg.exec(cssText)) {
+                this.__styleSheet.deleteRule(j);
+                return;
+              }
             }
           }
         }
