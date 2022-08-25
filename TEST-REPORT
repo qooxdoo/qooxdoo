@@ -2,15 +2,23 @@
 (query-replace-regexp " -[^-]+- " "
     ")
 
-qx.test.ui.form.SplitButton:testArrowAvailable
-    Called assertTrue with 'false'
-qx.test.ui.tree.virtual.Tree:testSetOpenModeWithTap
-    Expected 'false' but found 'true'!
-qx.test.ui.tree.virtual.Tree:testSetOpenModeWithNone
-    Expected 'false' but found 'true'!
 qx.test.ui.virtual.cell.WidgetCell:testUpdateData
     Expected 'label 1' but found 'null'!
+qx.test.Promise:testPropertySetValueAsPromise2
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testPropertySetValueAsyncApply3
+    resume() called before wait()
+qx.test.Promise:testPropertySetValueAsyncApply1
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testBinding2
+    resume() called before wait()
 qx.test.Promise:testBinding
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testWrapping
+    resume() called before wait()
+qx.test.Promise:testEach2
+    Timeout of 1000 ms reached before resume() was called.
+qx.test.Promise:testGlobalError
     Timeout of 1000 ms reached before resume() was called.
 qx.test.Promise:testAsyncEventHandlers
     Timeout of 2500 ms reached before resume() was called.
