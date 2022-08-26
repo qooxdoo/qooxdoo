@@ -970,11 +970,13 @@ qx.Bootstrap.define(
                           ? property.storage
                           : qx.core.propertystorage.Default; // for member var setter
 
-                    // If this is a storage call, just immediately set value
-                    if (proxy[`$$variant_${prop}`] == "immediate")
+                    // If this is not a property being set, or is a
+                    // storage call, just immediately set value
+                    if (! property ||
+                        proxy[`$$variant_${prop}`] == "immediate")
                     {
                       storage.set.call(obj, prop, value);
-                      return;
+                      return true;
                     }
 
                     oldForCallback = old === undefined ? null : old;
@@ -999,7 +1001,7 @@ qx.Bootstrap.define(
                         let       propertyFirstUp = qx.Bootstrap.firstUp(prop);
 
                         obj[`set${propertyFirstUp}`].call(proxy, value);
-                        return undefined;
+                        return true;
                       }
 
                       // Ensure they're not writing to a read-only property
@@ -1398,10 +1400,12 @@ qx.Bootstrap.define(
                           });
                       }
 
+/*
                       if (tracker.promise)
                       {
-                        return tracker.promise.then(() => value);
+                        tracker.promise.then(() => value);
                       }
+*/
 
                       // Special case: If the value being set is a
                       // promise, and the property does not have a `check:
@@ -1416,15 +1420,12 @@ qx.Bootstrap.define(
                             storage.set.call(obj, prop, resolvedValue);
                           });
                       }
-
-                      return value;
                     }
 
                     // If there's a custom proxy handler, call it
                     if (customProxyHandler && customProxyHandler.set)
                     {
                       customProxyHandler.set.call(proxy, prop, value);
-                      return true;
                     }
 
                     // Require that members be declared in the "members"
@@ -1451,8 +1452,6 @@ qx.Bootstrap.define(
                         }
                       }
                     }
-
-                    storage.set.call(obj, prop, value);
 
                     return true;
                   },
