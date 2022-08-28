@@ -286,18 +286,22 @@ window.qx = Object.assign(
           //
           subclass = function(...args)
           {
+            let             ret;
+
             // At the time this function is called, config.construct, even
             // if undefined in the configuration, will have been set to a
             // trivial function. We therefore look at its initial value to
             // decide whether to call it, or the superclass constructor.
             if (initialConstruct)
             {
-              initialConstruct.apply(this, args);
+              ret = initialConstruct.apply(this, args);
             }
             else
             {
-              superclass.apply(this, args);
+              ret = superclass.apply(this, args);
             }
+
+            return ret;
           };
         }
         else
@@ -440,7 +444,7 @@ window.qx = Object.assign(
             apply : function(target, _this, args)
             {
               // Call the constructor
-              subclass.apply(_this, args);
+              return subclass.apply(_this, args);
             },
 
             getPrototypeOf : function(target)
