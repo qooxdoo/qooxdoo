@@ -2,38 +2,16 @@
 (query-replace-regexp " -[^-]+- " "
     ")
 
-qx.test.ui.virtual.cell.WidgetCell:testUpdateData
-    Expected 'label 1' but found 'null'!
-qx.test.Promise:testPropertySetValueAsPromise2
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testPropertySetValueAsyncApply3
-    resume() called before wait()
-qx.test.Promise:testPropertySetValueAsyncApply1
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testBinding2
-    resume() called before wait()
-qx.test.Promise:testBinding
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testWrapping
+qx.test.Promise:testWaterfallBinding
+    Timeout of 10000 ms reached before resume() was called.
+qx.test.Promise:testBindingResolve
     resume() called before wait()
 qx.test.Promise:testEach2
     Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testGlobalError
-    Timeout of 1000 ms reached before resume() was called.
-qx.test.Promise:testAsyncEventHandlers
-    Timeout of 2500 ms reached before resume() was called.
-qx.test.bom.Font:testColorAtWidget
-    Expected 'blue' but found 'black'!
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
-qx.test.mobile.LocaleSwitch:testList
-    Cannot read property 'eq' of undefined
 qx.test.mobile.basic.Atom:testIconPosition
     Called assertTrue with 'false'
-qx.test.mobile.container.Scroll:testHorizontalWayPoint
-    Cannot read property 'setStyle' of undefined
-qx.test.mobile.form.CheckBox:testValue
-    Cannot read property 'hasClass' of undefined
 qx.test.theme.manager.Meta:testAllThemeManagerChanged
     Expected 'rgb(0, 0, 0)' but found 'rgb(255, 0, 0)'!
 qx.test.util.DeferredCall:testGlobalErrorHandling
