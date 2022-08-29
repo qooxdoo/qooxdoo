@@ -645,13 +645,19 @@ qx.Bootstrap.define(
           destructDereferencer, className, "destruct");
 
         // If there's a specified classname...
+        let             basename;
         if (className)
         {
           // Create that namespace
-          qx.Bootstrap.createNamespace(className, clazz);
+          basename = qx.Bootstrap.createNamespace(className, clazz);
 
           // Store class reference in global class registry
           qx.Bootstrap.$$registry[className] = clazz;
+        }
+        clazz.basename = basename || "";
+        if (clazz.prototype)
+        {
+          clazz.prototype.basename = clazz.basename;
         }
 
         // Now that the class has been defined, arrange to call its
