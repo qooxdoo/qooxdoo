@@ -949,6 +949,8 @@ qx.Bootstrap.define(
                 {
                   get : function(obj, prop)
                   {
+                    let             value;
+                    let             calculated = false;
                     let             property = subclass.$$allProperties[prop];
                     const           storage =
                       property && property.storage
@@ -958,14 +960,34 @@ qx.Bootstrap.define(
                     // If there's a custom proxy handler, try it
                     if (customProxyHandler && customProxyHandler.get)
                     {
-                      let value = customProxyHandler.get(obj, prop);
+                      value = customProxyHandler.get(obj, prop);
                       if (typeof value != "undefined")
                       {
-                        return value;
+                        calculated = true;
                       }
                     }
 
-                    return storage.get.call(obj, prop);
+                    if (! calculated)
+                    {
+                      value = storage.get.call(obj, prop);
+                    }
+
+                    // If it's a property and the value is undefined,
+                    // there are some property characteristics that
+                    // can give it a known replacement value.
+                    if (property && value === undefined)
+                    {
+                      if (property.nullable || property.inheritable)
+                      {
+                        value = null;
+                      }
+                      else if (property.check == "Boolean")
+                      {
+                        value = false;
+                      }
+                    }
+
+                    return value;
                   },
 
                   set : function(obj, prop, value)
@@ -1022,6 +1044,13 @@ qx.Bootstrap.define(
                     // Anything from here on, is a property
                     //
 
+                    if (proxy[`$$variant_${prop}`] == "init")
+                    {
+                      proxy[`$$variant_${prop}`] = "init->set";
+                    }
+
+                    proxy[`$$user_${prop}`] = value;
+
                     // Calculate the `old` value to pass to the
                     // `apply` method and for change events
                     oldForCallback = old === undefined ? null : old;
@@ -1053,12 +1082,16 @@ qx.Bootstrap.define(
                         `Attempt to set value of readonly property ${prop}`);
                     }
 
-                    // Ensure they're not setting null to a non-nullable property
-                    if (! property.nullable && value === null)
+                    // Ensure they're not setting null to a
+                    // non-nullable, non-inheritable property
+                    if (! property.nullable &&
+                        ! property.inheritable &&
+                        value === null)
                     {
                       throw new Error(
                         `${className}: ` +
-                          `attempt to set non-nullable property ${prop} to null`);
+                          `attempt to set non-nullable, non-inheritable ` +
+                          `property ${prop} to null`);
                     }
 
                     // Yup. Does it have a transform method?
@@ -1447,6 +1480,12 @@ qx.Bootstrap.define(
                               // Yup. Save the new value
                               child[`$$inherit_${prop}`] = value;
                               child[prop] = value;
+
+                              // The setter code (incorrectly, in this
+                              // case) saved the value as the $$user
+                              // value. Reset it to its original
+                              // value.
+                              child[`$$user_${prop}`] = undefined;
                             }
                           });
                       }
@@ -1486,6 +1525,7 @@ qx.Bootstrap.define(
                       finalizer();
                     }
 
+                    proxy[`$$variant_${prop}`] = "set";
                     return true;
                   },
 
@@ -1694,21 +1734,18 @@ qx.Bootstrap.define(
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = function()
                 {
-                  let value = this[prop];
+                  // *** CAUTION FOR DEVELOPERS!!! ***
+                  // Do not put any code other than `return
+                  // this[prop]` into the `set` property method here.
+                  // This code is called only via `value = o.getX()`
+                  // and not via `value = o.x`. To ensure the
+                  // reliability of first-class properties, i.e., that
+                  // those two statements work identically, all code
+                  // for getting must be in the proxy `get` handler, not
+                  // here.
+                  // *** CAUTION FOR DEVELOPERS!!! ***
 
-                  if (value === undefined)
-                  {
-                    if (property.nullable || property.inheritable)
-                    {
-                      value = null;
-                    }
-                    else if (property.check == "Boolean")
-                    {
-                      value = false;
-                    }
-                  }
-
-                  return value;
+                  return this[prop];
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -1722,25 +1759,18 @@ qx.Bootstrap.define(
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = function(value)
                 {
-                  if (prop.startsWith("$$"))
-                  {
-                    // Debugging hint: this will trap into setter code.
-                    this[prop] = value;
-                  }
-                  else
-                  {
-                    if (this[`$$variant_${prop}`] == "init")
-                    {
-                      this[`$$variant_${prop}`] = "init->set";
-                    }
+                  // *** CAUTION FOR DEVELOPERS!!! ***
+                  // Do not put any code other than `this[prop] =
+                  // value` into the `set` property method here. This
+                  // code is called only via `o.setX(value)` and not
+                  // via `o.x = value`. To ensure the reliability of
+                  // first-class properties, i.e., that those two
+                  // statements work identically, all code for setting
+                  // must be in the proxy `set` handler, not here.
+                  // *** CAUTION FOR DEVELOPERS!!! ***
 
-                    this[`$$user_${prop}`] = value;
-
-                    // Debugging hint: this will trap into setter code.
-                    this[prop] = value;
-
-                    this[`$$variant_${prop}`] = "set";
-                  }
+                  // Debugging hint: this will trap into setter code.
+                  this[prop] = value;
                   return value;
                 };
 
@@ -1798,6 +1828,11 @@ qx.Bootstrap.define(
                   this[prop] = value;
 
                   this[`$$variant_${prop}`] = null;
+
+                  // The setter code (incorrectly, in this case) saved
+                  // the value as the $$user value. Reset it to the
+                  // value we gave it.
+                  this[`$$user_${prop}`] = undefined;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -1848,6 +1883,11 @@ qx.Bootstrap.define(
                       // property value
                       // Debugging hint: this will trap into setter code.
                       this[prop] = inheritedValue;
+
+                      // The setter code (incorrectly, in this case)
+                      // saved the value as the $$user value. Reset
+                      // it to its original value.
+                      this[`$$user_${prop}`] = userValue;
                     }
                   }
                 };
@@ -1875,7 +1915,13 @@ qx.Bootstrap.define(
                   {
                     // Debugging hint: this will trap into setter code.
                     this[prop] = value;
+
                     this[`$$variant_${prop}`] = null;
+
+                    // The setter code (incorrectly, in this case)
+                    // saved the value as the $$user value. Reset
+                    // it to its original value.
+                    this[`$$user_${prop}`] = userValue;
                   }
 
                   return value;
@@ -1915,6 +1961,15 @@ qx.Bootstrap.define(
                   // Debugging hint: this will trap into setter code.
                   this[prop] = value;
                   this[`$$variant_${prop}`] = null;
+
+
+                  // The setter code (possibly incorrectly, in this
+                  // case) saved the value as the $$user value. Reset
+                  // it to its original value.
+                  if (userValue === undefined)
+                  {
+                    this[`$$user_${prop}`] = userValue;
+                  }
 
                   return value;
                 };
@@ -2147,6 +2202,12 @@ qx.Bootstrap.define(
                               // Yup. Save the new value
                               child[`$$inherit_${prop}`] = value;
                               child[prop] = value;
+
+                              // The setter code ( incorrectly, in
+                              // this case) saved the value as the
+                              // $$user value. Reset it to its
+                              // original value.
+                              child[`$$user_${prop}`] = undefined;
                             }
                           });
                       }
