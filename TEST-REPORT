@@ -4,14 +4,8 @@
 
 qx.test.Promise:testWaterfallBinding
     Timeout of 10000 ms reached before resume() was called.
-qx.test.Promise:testBindingResolve
-    resume() called before wait()
-qx.test.Promise:testEach2
-    Timeout of 1000 ms reached before resume() was called.
 qx.test.core.Object:testDisposeBindingWithSelfChain
     Called fail().
-qx.test.mobile.basic.Atom:testIconPosition
-    Called assertTrue with 'false'
 qx.test.theme.manager.Meta:testAllThemeManagerChanged
     Expected 'rgb(0, 0, 0)' but found 'rgb(255, 0, 0)'!
 qx.test.util.DeferredCall:testGlobalErrorHandling
