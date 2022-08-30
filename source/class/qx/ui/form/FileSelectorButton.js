@@ -21,11 +21,11 @@
  * files from the local filesystem. A FileList is returned which allows access
  * to the content of the selected files from javascript. The file(s) can now be
  *  processed in javascript, or it/they can be uploaded to a server.
- * 
+ *
  * *Example*
  *
  * Post the content of the file to the server.
- * 
+ *
  * ```javascript
  * let button = new qx.ui.form.FileSelectorButton("Select File");
  * button.addListener('changeFileSelection',function(e){
@@ -40,9 +40,9 @@
  *   });
  * });
  * ```
- * 
+ *
  * Process the file directly in javascript using the FileReader API.
- * 
+ *
  * ```javascript
  * let button = new qx.ui.form.FileSelectorButton("Select File");
  * button.addListener('changeFileSelection',function(e){
@@ -55,14 +55,18 @@
  *   const file = fileList[0];
  *   reader.readAsText(file.slice(0,4));
  * });
-
-*
+ * ```
+ *
  * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications)
  */
 
-let InputElementIdCounter = 0;
 qx.Class.define("qx.ui.form.FileSelectorButton", {
   extend: qx.ui.form.Button,
+
+  statics: {
+    _fileInputElementIdCounter: 0
+  },
+
   events: {
     /**
      * The event is fired when the file selection changes.
@@ -127,7 +131,7 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     _applyAttribute(value, old, attr) {
       if (attr === "directoriesOnly") {
         // while the name of the attribute indicates that this only
-        // works for webkit borwsers, this is not the case. These
+        // works for webkit browsers, this is not the case. These
         // days the attribute is supported by
         // [everyone](https://caniuse.com/?search=webkitdirectory).
         attr = "webkitdirectory";
@@ -136,10 +140,10 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
     },
 
     _createContentElement() {
-      let id = "qxFileSelector_" + InputElementIdCounter++;
+      let id = "qxFileSelector_" + (++qx.ui.form.FileSelectorButton._fileInputElementIdCounter);
       let input = (this.__inputObject = new qx.html.Input(
         "file",
-        { display: "none" },
+        null,
         { id: id }
       ));
 
@@ -150,6 +154,10 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
 
       input.addListenerOnce("appear", e => {
         let inputEl = input.getDomElement();
+        // since qx.html.Node does not even create the
+        // domNode if it is not set to visible initially
+        // we have to quickly hide it after creation.
+        input.setVisible(false);
         inputEl.addEventListener("change", e => {
           this.fireDataEvent("changeFileSelection", inputEl.files);
           inputEl.value = "";

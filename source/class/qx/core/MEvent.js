@@ -166,6 +166,69 @@ qx.Mixin.define("qx.core.MEvent", {
       return true;
     },
 
+    /** @type{Object<String,qx.Promise>} list of pending events, indexed by hash code */
+    __pendingEvents: null,
+
+    /** @type{qx.Promise} promise that callers are waiting on, ready for when all events are finished */
+    __promiseWaitForPendingEvents: null,
+
+    /**
+     * Internal helper method to track promises returned from event handlers
+     *
+     * @param {var} result the result from the event handler
+     * @returns {qx.Promise|var} the value to return
+     */
+    __trackPendingEvent(result) {
+      if (qx.core.Environment.get("qx.promise")) {
+        if (!qx.Promise.isPromise(result)) return result;
+
+        if (!this.__pendingEvents) {
+          this.__pendingEvents = {};
+        }
+        if (!(result instanceof qx.Promise))
+          result = qx.Promise.resolve(result);
+        let hashCode = result.toHashCode();
+        let newPromise = result
+          .then(result => {
+            delete this.__pendingEvents[hashCode];
+            let promise = this.__promiseWaitForPendingEvents;
+            if (promise && Object.keys(this.__pendingEvents).length == 0) {
+              this.__pendingEvents = null;
+              this.__promiseWaitForPendingEvents = null;
+              promise.resolve();
+            }
+            return result;
+          })
+          .catch(err => {
+            delete this.__pendingEvents[hashCode];
+            let promise = this.__promiseWaitForPendingEvents;
+            if (promise && Object.keys(this.__pendingEvents).length == 0) {
+              this.__pendingEvents = null;
+              this.__promiseWaitForPendingEvents = null;
+              promise.reject(err);
+            }
+            throw err;
+          });
+        this.__pendingEvents[hashCode] = newPromise;
+        return newPromise;
+      } else {
+        return result;
+      }
+    },
+
+    /**
+     * Waits for all pending events to be resolved
+     */
+    async waitForPendingEvents() {
+      if (qx.core.Environment.get("qx.promise")) {
+        if (!this.__pendingEvents) return;
+        if (!this.__promiseWaitForPendingEvents)
+          this.__promiseWaitForPendingEvents = new qx.Promise();
+        let promise = this.__promiseWaitForPendingEvents;
+        await promise;
+      }
+    },
+
     /**
      * Creates and dispatches an event on this object.
      *
@@ -178,7 +241,9 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     fireEvent(type, clazz, args) {
       if (!this.$$disposed) {
-        return this.__Registration.fireEvent(this, type, clazz, args);
+        return this.__trackPendingEvent(
+          this.__Registration.fireEvent(this, type, clazz, args)
+        );
       }
 
       return true;
@@ -204,7 +269,9 @@ qx.Mixin.define("qx.core.MEvent", {
       }
 
       if (!this.$$disposed) {
-        return this.__Registration.fireEventAsync(this, type, clazz, args);
+        return this.__trackPendingEvent(
+          this.__Registration.fireEventAsync(this, type, clazz, args)
+        );
       }
 
       return qx.Promise.resolve(true);
@@ -224,11 +291,8 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     fireNonBubblingEvent(type, clazz, args) {
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEvent(
-          this,
-          type,
-          clazz,
-          args
+        return this.__trackPendingEvent(
+          this.__Registration.fireNonBubblingEvent(this, type, clazz, args)
         );
       }
 
@@ -258,11 +322,8 @@ qx.Mixin.define("qx.core.MEvent", {
       }
 
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEventAsync(
-          this,
-          type,
-          clazz,
-          args
+        return this.__trackPendingEvent(
+          this.__Registration.fireNonBubblingEventAsync(this, type, clazz, args)
         );
       }
 
@@ -289,11 +350,13 @@ qx.Mixin.define("qx.core.MEvent", {
         if (oldData === undefined) {
           oldData = null;
         }
-        return this.__Registration.fireEvent(this, type, qx.event.type.Data, [
-          data,
-          oldData,
-          !!cancelable
-        ]);
+        return this.__trackPendingEvent(
+          this.__Registration.fireEvent(this, type, qx.event.type.Data, [
+            data,
+            oldData,
+            !!cancelable
+          ])
+        );
       }
 
       return true;
@@ -327,11 +390,12 @@ qx.Mixin.define("qx.core.MEvent", {
         if (oldData === undefined) {
           oldData = null;
         }
-        return this.__Registration.fireEventAsync(
-          this,
-          type,
-          qx.event.type.Data,
-          [data, oldData, !!cancelable]
+        return this.__trackPendingEvent(
+          this.__Registration.fireEventAsync(this, type, qx.event.type.Data, [
+            data,
+            oldData,
+            !!cancelable
+          ])
         );
       }
 

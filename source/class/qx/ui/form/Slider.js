@@ -80,17 +80,17 @@ qx.Class.define("qx.ui.form.Slider", {
     this.getContentElement().setAttribute("role", "slider");
 
     // Add listeners
-    this.addListener("keypress", this._onKeyPress);
-    this.addListener("roll", this._onRoll);
-    this.addListener("pointerdown", this._onPointerDown);
-    this.addListener("pointerup", this._onPointerUp);
-    this.addListener("losecapture", this._onPointerUp);
-    this.addListener("resize", this._onUpdate);
+    this.addListener("keypress", this._onKeyPress, this);
+    this.addListener("roll", this._onRoll, this);
+    this.addListener("pointerdown", this._onPointerDown, this);
+    this.addListener("pointerup", this._onPointerUp, this);
+    this.addListener("losecapture", this._onPointerUp, this);
+    this.addListener("resize", this._onUpdate, this);
 
     // Stop events
-    this.addListener("contextmenu", this._onStopEvent);
-    this.addListener("tap", this._onStopEvent);
-    this.addListener("dbltap", this._onStopEvent);
+    this.addListener("contextmenu", this._onStopEvent, this);
+    this.addListener("tap", this._onStopEvent, this);
+    this.addListener("dbltap", this._onStopEvent, this);
 
     // Initialize orientation
     if (orientation != null) {
@@ -256,8 +256,8 @@ qx.Class.define("qx.ui.form.Slider", {
           control = new qx.ui.core.Widget();
 
           control.addListener("resize", this._onUpdate, this);
-          control.addListener("pointerover", this._onPointerOver);
-          control.addListener("pointerout", this._onPointerOut);
+          control.addListener("pointerover", this._onPointerOver, this);
+          control.addListener("pointerout", this._onPointerOut, this);
           this._add(control);
           break;
       }
@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.form.Slider", {
       }
 
       // Register move listener
-      this.addListener("pointermove", this._onPointerMove);
+      this.addListener("pointermove", this._onPointerMove, this);
 
       // Activate capturing
       this.capture();
@@ -524,7 +524,7 @@ qx.Class.define("qx.ui.form.Slider", {
       }
 
       // Remove move listener again
-      this.removeListener("pointermove", this._onPointerMove);
+      this.removeListener("pointermove", this._onPointerMove, this);
 
       // Stop event
       if (e.getType() === "pointerup") {
