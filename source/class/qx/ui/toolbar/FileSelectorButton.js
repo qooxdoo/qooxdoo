@@ -22,8 +22,8 @@
 
 qx.Class.define("qx.ui.toolbar.FileSelectorButton", {
   extend: qx.ui.form.FileSelectorButton,
-  construct: function (label, icon, command) {
-    this.base(arguments, label, icon, command);
+  construct(label, icon, command) {
+    super(label, icon, command);
     // Toolbar buttons should not support the keyboard events
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);
@@ -33,10 +33,12 @@ qx.Class.define("qx.ui.toolbar.FileSelectorButton", {
       refine: true,
       init: "toolbar-button"
     },
+
     show: {
       refine: true,
       init: "inherit"
     },
+
     focusable: {
       refine: true,
       init: false
@@ -45,8 +47,8 @@ qx.Class.define("qx.ui.toolbar.FileSelectorButton", {
 
   members: {
     // overridden
-    _applyVisibility: function (value, old) {
-      this.base(arguments, value, old);
+    _applyVisibility(value, old) {
+      super._applyVisibility(value, old);
       // trigger a appearance recalculation of the parent
       let parent = this.getLayoutParent();
       if (parent && parent instanceof qx.ui.toolbar.PartContainer) {

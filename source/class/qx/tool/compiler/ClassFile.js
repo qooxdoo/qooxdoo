@@ -1694,6 +1694,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                       `${t.__className}:${path.node.loc.start.line}:` +
                         ` automatically detected \'require(${arg.value})\``
                     );
+
                     t.addCommonjsModule(
                       arg.value,
                       t.__className,

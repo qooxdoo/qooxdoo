@@ -30,7 +30,7 @@ qx.Class.define("qx.test.Interface", {
             return true;
           },
 
-          engineStarted : null
+          engineStarted: null
         },
 
         properties: { color: {} }
@@ -53,7 +53,7 @@ qx.Class.define("qx.test.Interface", {
             return "start";
           },
 
-          engineStarted : true
+          engineStarted: true
         },
 
         statics: {
@@ -84,7 +84,7 @@ qx.Class.define("qx.test.Interface", {
             return "start";
           },
 
-          engineStarted : true
+          engineStarted: true
         },
 
         statics: {
@@ -127,9 +127,10 @@ qx.Class.define("qx.test.Interface", {
       qx.Class.define("qx.test.i.Bmw2", {
         extend: Object,
         construct() {},
-        members : {
-          engineStarted : false
+        members: {
+          engineStarted: false
         },
+
         statics: {
           honk() {
             return "honk";
@@ -150,11 +151,12 @@ qx.Class.define("qx.test.Interface", {
       qx.Class.define("qx.test.i.Bmw2", {
         extend: Object,
         construct() {},
-        members : {
+        members: {
           startEngine() {
             return "start";
           }
         },
+
         statics: {
           honk() {
             return "honk";
@@ -181,7 +183,7 @@ qx.Class.define("qx.test.Interface", {
             return "start";
           },
 
-          engineStarted : null
+          engineStarted: null
         },
 
         properties: { color: {} }
@@ -203,7 +205,7 @@ qx.Class.define("qx.test.Interface", {
             return "start";
           },
 
-          engineStarted : false
+          engineStarted: false
         },
 
         statics: {
@@ -248,7 +250,7 @@ qx.Class.define("qx.test.Interface", {
               implement: [qx.test.i.ICar],
 
               members: {
-                engineStarted : false
+                engineStarted: false
               },
 
               statics: {
@@ -277,7 +279,7 @@ qx.Class.define("qx.test.Interface", {
                   return "start";
                 },
 
-                engineStarted : false
+                engineStarted: false
               },
 
               statics: {

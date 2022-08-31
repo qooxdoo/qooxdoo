@@ -127,10 +127,12 @@ qx.Class.define("qx.tool.compiler.targets.meta.Uglify", {
       await fs.writeFileAsync(outJsFilename + ".map", result.map, {
         encoding: "utf8"
       });
+
       if (this._appMeta.getTarget().isSaveUnminified()) {
         await fs.writeFileAsync(outJsFilename + ".unminified", inSourceCode, {
           encoding: "utf8"
         });
+
         await fs.writeFileAsync(
           outJsFilename + ".unminified.map",
           JSON.stringify(inSourceMap, null, 2),

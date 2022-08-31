@@ -34,6 +34,7 @@
     "qx": "bin/deploy/qx"
   },
   "scripts": {
+    "preinstall": "git config core.hooksPath .github/hooks",
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node ./bootstrap-compiler",
