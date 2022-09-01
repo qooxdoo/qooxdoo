@@ -1059,10 +1059,12 @@ qx.Bootstrap.define(
                       oldForCallback = null;
                     }
 
+                    // Ensure they're not writing to a read-only property
                     if (property.immutable == "readonly")
                     {
                       throw new Error(
-                        `Attempt to set value of readonly property ${prop}`);
+                        `${className}: ` +
+                          `attempt to set value of readonly property ${prop}`);
                     }
 
                     // We can handle a group property by simply
@@ -1073,13 +1075,6 @@ qx.Bootstrap.define(
 
                       obj[`set${propertyFirstUp}`].call(proxy, value);
                       return true;
-                    }
-
-                    // Ensure they're not writing to a read-only property
-                    if (property.immutable == "readonly")
-                    {
-                      throw new Error(
-                        `Attempt to set value of readonly property ${prop}`);
                     }
 
                     // Ensure they're not setting null to a
@@ -1108,11 +1103,9 @@ qx.Bootstrap.define(
                       }
                     }
 
-                    // Does it have a check to be done? If nullable
-                    // and the value is null, we don't run the
-                    // check. Similarly, if the variant is "reset"
-                    // we allow the `init` value to be reassigned
-                    // without checking it.
+                    // Does it have a check to be done? If the variant
+                    // is "reset" we allow the `init` value to be
+                    // reassigned without checking it.
                     if (property.check &&
                         obj[`$$variant_${prop}`] != "reset")
                     {
@@ -1392,7 +1385,8 @@ qx.Bootstrap.define(
                           {
                             throw new Error(
                               `${prop}: pseudo function as string ` +
-                                `is no longer supported: ${property.check}`);
+                                `is no longer supported for property check: ` +
+                                `${property.check}`);
                           }
                         }
                       }
@@ -1425,84 +1419,77 @@ qx.Bootstrap.define(
                     let finalizer =
                       () =>
                       {
-                      // If we're called in state variant "init" or
-                      // "init->set", it means this is the first call
-                      // where the _apply method may be called or the
-                      // event generated. Tradition (BC) dictates that
-                      // that first time, the _apply method is always
-                      // called even if the new value matches the old
-                      // (init) value. Similarly, the event always is
-                      // generated that first time.
-                      //
-                      // Keep track of that variant, but reset the $$variant
-                      // variable to its new state
-                      let variant = null;
-                      if (
-                        [
-                          "init",
-                          "init->set"
-                        ].includes(obj[`$$variant_${prop}`]))
-                      {
-                        variant = obj[`$$variant_${prop}`];
-                        proxy[`$$variant_${prop}`] =
-                          variant == "init" ? null : "set";
-                      }
+                        // If we're called in state variant "init" or
+                        // "init->set", it means this is the first call
+                        // where the _apply method may be called or the
+                        // event generated. Tradition (BC) dictates that
+                        // that first time, the _apply method is always
+                        // called even if the new value matches the old
+                        // (init) value. Similarly, the event always is
+                        // generated that first time.
+                        //
+                        // Keep track of that variant, but reset the
+                        // $$variant variable to its new state
+                        let variant = null;
+                        if (
+                          [
+                            "init",
+                            "init->set"
+                          ].includes(obj[`$$variant_${prop}`]))
+                        {
+                          variant = obj[`$$variant_${prop}`];
+                          proxy[`$$variant_${prop}`] =
+                            variant == "init" ? null : "set";
+                        }
 
-                      // Call the `apply` method and fire the change
-                      // event, if necessary
-                      qx.Class.__applyAndFireEvent(
-                        proxy,
-                        property,
-                        prop,
-                        value,
-                        oldForCallback,
-                        variant,
-                        tracker);
+                        // Call the `apply` method and fire the change
+                        // event, if necessary.
+                        qx.Class.__applyAndFireEvent(
+                          proxy,
+                          property,
+                          prop,
+                          value,
+                          oldForCallback,
+                          variant,
+                          tracker);
 
-                      // Update inherited values of child objects
-                      if (property.inheritable && obj._getChildren)
-                      {
-                        let             children = obj._getChildren();
+                        // Update inherited values of child objects
+                        if (property.inheritable && obj._getChildren)
+                        {
+                          let             children = obj._getChildren();
 
-                        // For each child..
-                        children.forEach(
-                          (child) =>
-                          {
-                            // Does this child have a property of the
-                            // given name, and is it inheritable?
-                            let property =
-                                child.constructor.$$allProperties[prop];
-
-                            if (child[`$$user_${prop}`] === undefined &&
-                                property &&
-                                property.inheritable)
+                          // For each child..
+                          children.forEach(
+                            (child) =>
                             {
-                              // Yup. Save the new value
-                              child[`$$inherit_${prop}`] = value;
-                              child[prop] = value;
+                              // Does this child have a property of the
+                              // given name, and is it inheritable?
+                              let property =
+                                  child.constructor.$$allProperties[prop];
 
-                              // The setter code (incorrectly, in this
-                              // case) saved the value as the $$user
-                              // value. Reset it to its original
-                              // value.
-                              child[`$$user_${prop}`] = undefined;
-                            }
-                          });
-                      }
+                              if (child[`$$user_${prop}`] === undefined &&
+                                  property &&
+                                  property.inheritable)
+                              {
+                                // Yup. Save the new value
+                                child[`$$inherit_${prop}`] = value;
+                                child[prop] = value;
 
-  /*
-                      if (tracker.promise)
-                      {
-                        tracker.promise.then(() => value);
-                      }
-  */
+                                // The setter code (incorrectly, in this
+                                // case) saved the value as the $$user
+                                // value. Reset it to its original
+                                // value.
+                                child[`$$user_${prop}`] = undefined;
+                              }
+                            });
+                        }
 
-                      // If there's a custom proxy handler, call it
-                      if (customProxyHandler && customProxyHandler.set)
-                      {
-                        customProxyHandler.set.call(proxy, prop, value);
-                      }
-                    };
+                        // If there's a custom proxy handler, call it
+                        if (customProxyHandler && customProxyHandler.set)
+                        {
+                          customProxyHandler.set.call(proxy, prop, value);
+                        }
+                      };
 
                     // If the value being set is a promise, and the
                     // property does not have a `check:"Promise"`
