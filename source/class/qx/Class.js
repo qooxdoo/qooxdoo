@@ -996,7 +996,6 @@ qx.Bootstrap.define(
                     let             old = Reflect.get(obj, prop);
                     let             oldForCallback;
                     let             property = subclass.$$allProperties[prop];
-                    let             tracker = {};
                     const           storage =
                       property && property.storage
                           ? property.storage
@@ -1450,8 +1449,7 @@ qx.Bootstrap.define(
                           prop,
                           value,
                           oldForCallback,
-                          variant,
-                          tracker);
+                          variant);
 
                         // Update inherited values of child objects
                         if (property.inheritable && obj._getChildren)
@@ -2011,8 +2009,7 @@ qx.Bootstrap.define(
                     prop,
                     value,
                     null,
-                    "init",
-                    {});
+                    "init");
 
                   return value;
                 };
@@ -2052,12 +2049,58 @@ qx.Bootstrap.define(
                 return f;
               },
 
+              getLastSyncSetResult : function(prop, property)
+              {
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let syncSetResultProp = `$$syncSetResult${propertyFirstUp}`;
+                let f = function()
+                {
+                  return this[syncSetResultProp];
+                };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.getLastSyncSetResult${propertyFirstUp}`);
+
+                return f;
+              },
+
+              isSyncSetActive : function(prop, property)
+              {
+                let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let syncSetInProgressProp = `$$syncSetInProgress${propertyFirstUp}`;
+                let f = function()
+                {
+                  // Do we already have a promise that will be completed?
+                  if (this[syncSetInProgressProp]?.onSyncSetComplete) {
+                    return this[syncSetInProgressProp].onSetCompletePromise;
+                  }
+
+                  // Is a set in progress? If so, then we need a
+                  // promise to be completed
+                  if (this[syncSetInProgressProp]?.refCount)
+                  {
+                    this[syncSetInProgressProp].onSetCompletePromise =
+                      new qx.Promise();
+                    return (this[syncSetInProgressProp].onSetCompletePromise);
+                  }
+
+                  // Not being set
+                  return null;
+
+                };
+
+                qx.Bootstrap.setDisplayName(
+                  f, clazz.classname, `prototype.isSyncSetActive${propertyFirstUp}`);
+
+                return f;
+              },
+
               isAsyncSetActive : function(prop, property)
               {
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = function()
                 {
-                  return this[`$$activePromise${propertyFirstUp}`] !== null;
+                  return this[`$$asyncSetPromise${propertyFirstUp}`] !== null;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -2100,9 +2143,9 @@ qx.Bootstrap.define(
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
                 let f = async function(value)
                 {
-                  let  activePromise;
+                  let  asyncSetPromise;
                   let  propertyFirstUp = qx.Bootstrap.firstUp(prop);
-                  let  activePromiseProp = `$$activePromise${propertyFirstUp}`;
+                  let  asyncSetPromiseProp = `$$asyncSetPromise${propertyFirstUp}`;
 
                   const           setImpl = async function()
                   {
@@ -2201,9 +2244,9 @@ qx.Bootstrap.define(
                     }
 
                     // If we are the last promise, dispose of the promise
-                    if (activePromise === this[activePromiseProp])
+                    if (asyncSetPromise === this[asyncSetPromiseProp])
                     {
-                      this[activePromiseProp] = null;
+                      this[asyncSetPromiseProp] = null;
                     }
 
                     // If the value is a promise...
@@ -2226,20 +2269,20 @@ qx.Bootstrap.define(
                   }.bind(this);
 
                   // If this property already has an active promise...
-                  if (this[activePromiseProp])
+                  if (this[asyncSetPromiseProp])
                   {
                     // ... then add this request to the promise chain
-                    activePromise =
-                      this[activePromiseProp].then(setImpl);
+                    asyncSetPromise =
+                      this[asyncSetPromiseProp].then(setImpl);
                   }
                   else
                   {
                     // There are no pending requests. Begin this one right now.
-                    activePromise = setImpl();
+                    asyncSetPromise = setImpl();
                   }
 
-                  this[activePromiseProp] = activePromise;
-                  return activePromise;
+                  this[asyncSetPromiseProp] = asyncSetPromise;
+                  return asyncSetPromise;
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -2616,6 +2659,10 @@ qx.Bootstrap.define(
                 get : propertyMethodFactory.get(key, property),
                 set : propertyMethodFactory.set(key, property),
                 reset : propertyMethodFactory.reset(key, property),
+                isSyncSetActive :
+                  propertyMethodFactory.isSyncSetActive(key, property),
+                getLastSyncSetResult :
+                  propertyMethodFactory.getLastSyncSetResult(key, property)
               };
 
           if (property.inheritable)
@@ -2836,16 +2883,57 @@ qx.Bootstrap.define(
             }
           }
 
-          if (property.async)
-          {
-            let             get;
-            let             apply;
+          // Create a place to store the "result" of the last trap
+          // into the sync setter. This result is a promise if the
+          // `apply` method or event listeners returned a promise; the
+          // provided value otherwise.
+          patch && delete clazz.prototype[`$$syncSetResult${propertyFirstUp}`];
+          Object.defineProperty(
+            clazz.prototype,
+            `$$syncSetResult${propertyFirstUp}`,
+            {
+              value        : null,
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || true,
+              enumerable   : qx.Class.$$options.propsAccessible || false
+            });
 
-            // Create a place to store the current promise for the async setter
-            patch && delete clazz.prototype[`$$activePromises${propertyFirstUp}`];
+          // Create a place to store the current progress of the sync
+          // setter, if the `apply` method returns a promise
+          patch && delete clazz.prototype[`$$syncSetInProgress${propertyFirstUp}`];
+          Object.defineProperty(
+            clazz.prototype,
+            `$$syncSetInProgress${propertyFirstUp}`,
+            {
+              value        : null,
+              writable     : qx.Class.$$options.propsAccessible || true,
+              configurable : qx.Class.$$options.propsAccessible || true,
+              enumerable   : qx.Class.$$options.propsAccessible || false
+            });
+
+          // Create a function that tells the user whether there is still
+          // an active sync setter running
+          patch && delete clazz.prototype[`isSyncSetActive${propertyFirstUp}`];
+          if (! clazz.prototype.hasOwnProperty(`isSyncSetActive${propertyFirstUp}`))
+          {
             Object.defineProperty(
               clazz.prototype,
-              `$$activePromise${propertyFirstUp}`,
+              `isSyncSetActive${propertyFirstUp}`,
+              {
+                value        : propertyDescriptor.isSyncSetActive,
+                writable     : qx.Class.$$options.propsAccessible || false,
+                configurable : qx.Class.$$options.propsAccessible || true,
+                enumerable   : qx.Class.$$options.propsAccessible || false
+              });
+          }
+
+          if (property.async)
+          {
+            // Create a place to store the current promise for the async setter
+            patch && delete clazz.prototype[`$$asyncSetPromises${propertyFirstUp}`];
+            Object.defineProperty(
+              clazz.prototype,
+              `$$asyncSetPromise${propertyFirstUp}`,
               {
                 value        : null,
                 writable     : qx.Class.$$options.propsAccessible || true,
@@ -3348,7 +3436,8 @@ qx.Bootstrap.define(
       },
 
       /**
-       * Call the `apply` method and fire an event, if required
+       * Call the `apply` method and fire an event, if required. This
+       * method is called by both `setX()` and by `initX()`
        *
        * @param proxy {Proxy}
        *   The object on which the property resides
@@ -3370,9 +3459,6 @@ qx.Bootstrap.define(
        *   The internal variant at the time the property is being
        *   manipulated,which affects whether the `apply` method is called and
        *   the event fired.
-       *
-       * @param tracker {Object}
-       *   Object used for tracking promises
        */
       __applyAndFireEvent(
         proxy,
@@ -3380,33 +3466,69 @@ qx.Bootstrap.define(
         propName,
         value,
         old,
-        variant,
-        tracker)
+        variant)
       {
-        // Is it a synchronous property with an apply
-        // method? (Async properties' apply method is
-        // called directly from setPropertyNameAsync() )
-        if (property.apply &&
-            ! property.async &&
-            (! property.isEqual.call(proxy, value, old) ||
-             ["init", "init->set"].includes(variant)))
+        let  promise;
+        let  tracker = {};
+        let  propertyFirstUp = qx.Bootstrap.firstUp(propName);
+        let  syncSetResultProp = `$$syncSetResult${propertyFirstUp}`;
+        let  syncSetInProgressProp = `$$syncSetInProgress${propertyFirstUp}`;
+
+
+        // Ensure we're dealing with a synchronous property, and
+        // either the old and new values differ, or we're in one of
+        // the state variants where we need to call the `apply` method
+        // and generate a change event even if old and new values are
+        // the same. (Async properties' apply method is called
+        // directly from `setPropertyNameAsync()`, not from here )
+        if (property.async ||
+            (property.isEqual.call(proxy, value, old) &&
+             ! ["init", "init->set"].includes(variant)))
+        {
+          return;
+        }
+
+        // This is a synchronous setter. As an extension, though, we
+        // allow the `apply` method and event handlers to return
+        // promises. Change events are not fired until the `apply`
+        // method's promise has resolved. Similarly, completion
+        // (resolving of promises) of change event handlers is
+        // awaited. The method `isSyncSetActive()` can be called to
+        // ascertain if there are any promises yet unfulfilled for
+        // this synchronous setter.
+        if (! proxy[syncSetInProgressProp])
+        {
+          proxy[syncSetInProgressProp] =
+            {
+              refCount: 1
+            };
+        }
+        else
+        {
+          proxy[syncSetInProgressProp].refCount++;
+        }
+
+        // Is there an apply method?
+        if (property.apply)
         {
           // Yes. Call it.
           if (typeof property.apply == "function")
           {
-            property.apply.call(proxy, value, old, propName);
+            promise = property.apply.call(proxy, value, old, propName);
           }
           else // otherwise it's a string
           {
-            proxy[property.apply].call(proxy, value, old, propName);
+            promise = proxy[property.apply].call(proxy, value, old, propName);
           }
         }
 
+        if (promise)
+        {
+          qx.event.Utils.track(tracker, promise);
+        }
+
         // Are we requested to generate an event?
-        if (property.event &&
-            ! property.async &&
-            (! property.isEqual.call(proxy, value, old) ||
-             ["init", "init->set"].includes(variant)))
+        if (property.event)
         {
           const Reg = qx.event.Registration;
 
@@ -3433,6 +3555,40 @@ qx.Bootstrap.define(
                 qx.event.type.Data,
                 [ qx.Promise.resolve(value), old ]));
           }
+
+          // When the last promise has resolved, ...
+          qx.event.Utils.then(
+            tracker,
+            () =>
+            {
+              // ... decrement the reference count. If there are no more...
+              if (--proxy[syncSetInProgressProp].refCount === 0)
+              {
+                // ... obtain any promise created as a result of a
+                // user awaiting completion
+                let waiting = proxy[syncSetInProgressProp].onSyncSetComplete;
+
+                // There is no longer a sync set in progress
+                proxy[syncSetInProgressProp] = null;
+
+                // If there was someone waiting on a promise...
+                if (waiting)
+                {
+                  // ... then resolve it now
+                  return waiting.resolve();
+                }
+              }
+
+              return undefined;
+            });
+
+          if (tracker.promise)
+          {
+            proxy[syncSetResultProp] = tracker.promise.then(() => value);
+            return;
+          }
+
+          proxy[syncSetResultProp] = value;
         }
       },
 
