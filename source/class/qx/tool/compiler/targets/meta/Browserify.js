@@ -55,9 +55,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         this.__appMeta.getEnvironmentValue("qx.compiler.applicationType") ==
         "browser"
       ) {
-        // Get a Set of unique `require`d CommonJS module names from
-        // all classes
-        for (let className in db.classInfo) {
+        // Get a Set of unique `require`d CommonJS module names from classes needed by the application
+        let classnames = this.__appMeta__P_44_0
+          .getApplication()
+          .getDependencies();
+        for (let className of classnames) {
           let classInfo = db.classInfo[className];
           if (classInfo.commonjsModules) {
             Object.keys(classInfo.commonjsModules).forEach(moduleName => {
@@ -121,16 +123,18 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           let message = [];
 
           message.push(`ERROR: could not locate require()d module: "${id}"`);
-          message.push("  required from:");
+          if (references[id]) {
+            message.push("  required from:");
 
-          try {
-            [...references[id]].forEach(refs => {
-              refs.forEach(ref => {
-                message.push(`    ${ref}`);
+            try {
+              [...references[id]].forEach(refs => {
+                refs.forEach(ref => {
+                  message.push(`    ${ref}`);
+                });
               });
-            });
-          } catch (e) {
-            message.push(`    <compile.json:application.localModules'>`);
+            } catch (e) {
+              message.push(`    <compile.json:application.localModules'>`);
+            }
           }
 
           qx.tool.compiler.Console.error(message.join("\n"));
@@ -159,8 +163,13 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         b.bundle((e, output) => {
           if (e) {
             // We've already handled the case of missing module. This is something else.
-            qx.tool.compiler.Console.error(`Failed: ${e}`);
-            throw e;
+            qx.tool.compiler.Console.error(
+              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify: ${e.message}`
+            );
+
+            // Do not throw an error here, otherwise a problem in the users code will kill the watch with pages of error
+            resolve(null);
+            return;
           }
 
           ws.write(output);
