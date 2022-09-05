@@ -1105,12 +1105,9 @@ qx.Class.define("qx.tool.compiler.Analyser", {
             var dbMtime = null;
             try {
               dbMtime = dbClassInfo.mtime && new Date(dbClassInfo.mtime);
-            } catch (e) {
-              // Nothing
-            }
-            // Check for exact matches on the mtime, because the file could have been moved in from somewhere else
+            } catch (e) {}
             if (dbMtime && dbMtime.getTime() == sourceStat.mtime.getTime()) {
-              if (outputStat.mtime.getTime() == sourceStat.mtime.getTime()) {
+              if (outputStat.mtime.getTime() >= sourceStat.mtime.getTime()) {
                 await t.fireDataEventAsync("alreadyCompiledClass", {
                   className: className,
                   dbClassInfo: dbClassInfo
