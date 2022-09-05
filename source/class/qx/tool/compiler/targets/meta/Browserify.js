@@ -56,9 +56,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         "browser"
       ) {
         // Get a Set of unique `require`d CommonJS module names from classes needed by the application
-        let classnames = this.__appMeta__P_44_0
-          .getApplication()
-          .getDependencies();
+        let classnames = this.__appMeta.getApplication().getDependencies();
         for (let className of classnames) {
           let classInfo = db.classInfo[className];
           if (classInfo.commonjsModules) {
