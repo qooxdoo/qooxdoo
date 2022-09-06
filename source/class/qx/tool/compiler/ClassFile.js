@@ -1353,11 +1353,25 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   meta.allowNull = data.nullable;
                 }
                 if (data.check !== undefined) {
+                  let checks;
                   if (qx.lang.Type.isArray(data.check)) {
-                    meta.possibleValues = data.check;
+                    checks = meta.possibleValues = data.check;
                   } else {
                     meta.check = data.check;
+                    checks = [data.check];
                   }
+                  checks.forEach(check => {
+                    if (!qx.tool.compiler.ClassFile.SYSTEM_CHECKS[check]) {
+                      let symbolData = t.__analyser.getSymbolType(check);
+                      if (symbolData?.symbolType == "class") {
+                        t._requireClass(check, {
+                          load: false,
+                          usage: "dynamic",
+                          location: path.node.loc
+                        });
+                      }
+                    }
+                  });
                 }
                 if (data.init !== undefined) {
                   meta.defaultValue = data.init;
@@ -1687,7 +1701,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                     t.addMarker(
                       "compiler.requireLiteralArguments",
                       path.node.loc,
-                        arg.value
+                      arg.value
                     );
                   } else {
                     qx.tool.compiler.Console.log(
@@ -2939,6 +2953,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "in  instanceof  int interface let  long  native  new null  package private protected public  return  short static " +
       "super  switch  synchronized  this throw throws  transient true try typeof  var void volatile  while with  yield";
     str.split(/\s+/).forEach(word => (statics.RESERVED_WORDS[word] = true));
+    statics.SYSTEM_CHECKS = {};
+    "Boolean,String,Number,Integer,PositiveNumber,PositiveInteger,Error,RegExp,Object,Array,Map,Function,Date,Node,Element,Document,Window,Event,Class,Mixin,Interface,Theme,Color,Decorator,Font"
+      .split(",")
+      .forEach(word => (statics.SYSTEM_CHECKS[word] = true));
   },
 
   statics: {
@@ -3138,6 +3156,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.promise": true,
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true
-    }
+    },
+
+    SYSTEM_CHECKS: null
   }
 });
