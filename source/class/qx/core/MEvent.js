@@ -180,13 +180,15 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     __trackPendingEvent(result) {
       if (qx.core.Environment.get("qx.promise")) {
-        if (!qx.Promise.isPromise(result)) return result;
-
+        if (!qx.Promise.isPromise(result)) {
+          return result;
+        }
         if (!this.__pendingEvents) {
           this.__pendingEvents = {};
         }
-        if (!(result instanceof qx.Promise))
+        if (!(result instanceof qx.Promise)) {
           result = qx.Promise.resolve(result);
+        }
         let hashCode = result.toHashCode();
         let newPromise = result
           .then(result => {
@@ -221,9 +223,12 @@ qx.Mixin.define("qx.core.MEvent", {
      */
     async waitForPendingEvents() {
       if (qx.core.Environment.get("qx.promise")) {
-        if (!this.__pendingEvents) return;
-        if (!this.__promiseWaitForPendingEvents)
+        if (!this.__pendingEvents) {
+          return;
+        }
+        if (!this.__promiseWaitForPendingEvents) {
           this.__promiseWaitForPendingEvents = new qx.Promise();
+        }
         let promise = this.__promiseWaitForPendingEvents;
         await promise;
       }
