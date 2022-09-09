@@ -1060,6 +1060,112 @@ qx.Class.define("qx.test.core.Property", {
       object.setPropTwo(arr2);
       this.assertIdentical(savePropTwo, object.getPropTwo());
       this.assertArrayEquals(["2", "3"], savePropTwo.toArray());
+    },
+
+    testPromises() {
+      const promiseDelay = (delay, fn) => {
+        return new qx.Promise(resolve => {
+          setTimeout(async () => {
+            await fn();
+            resolve();
+          }, delay);
+        });
+      };
+
+      qx.Class.define("qxl.TestPromises", {
+        extend: qx.core.Object,
+
+        construct() {
+          super();
+          this.state = [];
+        },
+
+        properties: {
+          propOne: {
+            init: null,
+            nullable: true,
+            apply: "_applyPropOne",
+            event: "changePropOne"
+          },
+
+          propTwo: {
+            init: null,
+            nullable: true,
+            async: true,
+            apply: "_applyPropTwo",
+            event: "changePropTwo"
+          }
+        },
+
+        members: {
+          state: null,
+
+          async _applyPropOne(value) {
+            await promiseDelay(10, () => {
+              this.state.push("apply-one");
+            });
+            return "apply-one";
+          },
+          async _applyPropTwo(value) {
+            await promiseDelay(10, () => {
+              this.state.push("apply-two");
+            });
+            return "apply-two";
+          }
+        }
+      });
+
+      const createTestPromise = () => {
+        let tp = new qxl.TestPromises();
+        tp.addListener("changePropOne", async evt => {
+          await promiseDelay(1, () => {
+            evt.getTarget().state.push("event-one");
+          });
+          return "event-one";
+        });
+        tp.addListener("changePropTwo", async evt => {
+          await promiseDelay(1, () => {
+            evt.getTarget().state.push("event-two");
+          });
+          return "event-two";
+        });
+        return tp;
+      };
+
+      const testImpl = async () => {
+        let tmp;
+        let tp;
+        let result;
+        ("");
+
+        tp = createTestPromise();
+        tmp = tp.setPropOne(12);
+        this.assertTrue(tmp === 12);
+        this.assertArrayEquals(tp.state, []);
+
+        tp = createTestPromise();
+        tmp = tp.setPropOne(qx.Promise.resolve(14));
+        this.assertTrue(qx.lang.Type.isPromise(tmp));
+        this.assertArrayEquals(tp.state, []);
+
+        tp = createTestPromise();
+        tmp = tp.setPropTwoAsync(16);
+        this.assertTrue(qx.lang.Type.isPromise(tmp));
+        this.assertArrayEquals(tp.state, []);
+        result = await tmp;
+        this.assertTrue(result === 16);
+        this.assertArrayEquals(tp.state, ["apply-two", "event-two"]);
+
+        tp = createTestPromise();
+        tmp = tp.setPropTwoAsync(qx.Promise.resolve(18));
+        this.assertTrue(qx.lang.Type.isPromise(tmp));
+        this.assertArrayEquals(tp.state, []);
+        result = await tmp;
+        this.assertTrue(result === 18);
+        this.assertArrayEquals(tp.state, ["apply-two", "event-two"]);
+      };
+      testImpl().then(() => this.resume());
+      this.wait(1000);
     }
   }
 });
