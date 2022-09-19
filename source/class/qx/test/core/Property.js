@@ -331,7 +331,7 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     // BC break for qooxdoo v8: properties, members, and internals are
-    // allin the same namespace now. `classname` is an internal member
+    // all in the same namespace now. `classname` is an internal member
     // name, so can't be used as a property name.
     // testPropertyNamedClassname() {
     //   qx.Class.define("qx.test.clName", {

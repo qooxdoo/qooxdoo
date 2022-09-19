@@ -1742,6 +1742,7 @@ qx.Bootstrap.define(
               set : function(prop, property)
               {
                 let propertyFirstUp = qx.Bootstrap.firstUp(prop);
+                let syncSetResultProp = `$$syncSetResult${propertyFirstUp}`;
                 let f = function(value)
                 {
                   // *** CAUTION FOR DEVELOPERS!!! ***
@@ -1756,7 +1757,15 @@ qx.Bootstrap.define(
 
                   // Debugging hint: this will trap into setter code.
                   this[prop] = value;
-                  return value;
+
+                  // The only actual difference between
+                  // `o.setX(value)` and `o.x = value` is that in the
+                  // former case, the setter returns the (possible)
+                  // promise resulting from the `apply` method or
+                  // change event handler returning a promise. In the
+                  // `o.x = value` case, that potential promise can be
+                  // retrieved by calling `o.getLastSyncSetResult()`
+                  return this[syncSetResultProp];
                 };
 
                 qx.Bootstrap.setDisplayName(
@@ -3474,6 +3483,11 @@ qx.Bootstrap.define(
         let  syncSetResultProp = `$$syncSetResult${propertyFirstUp}`;
         let  syncSetInProgressProp = `$$syncSetInProgress${propertyFirstUp}`;
 
+        // If called by `setX()`, it will get the "return value" of
+        // this handler by looking at the following property.
+        // Initialize it, as we may return early from here if old and
+        // new values are the same.
+        proxy[syncSetResultProp] = undefined;
 
         // Ensure we're dealing with a synchronous property, and
         // either the old and new values differ, or we're in one of

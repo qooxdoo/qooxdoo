@@ -204,11 +204,7 @@ qx.Class.define("qx.test.Promise", {
       });
       obj.setAlpha("abc");
       this.assertTrue(!!p);
-
-      // BC break? This used to be `this.assertEquals(0, eventFired)`
-      // but that makes no sense. The non-async setter always calls the
-      // apply method and fires the event before returning...???
-      this.assertEquals(1, eventFired);
+      this.assertEquals(0, eventFired);
       this.assertEquals("abc", obj.getAlpha());
       p.then(function (value) {
         this.assertEquals("xyz", value); // "xyz" because this is the internal promise
