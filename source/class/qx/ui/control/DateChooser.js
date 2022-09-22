@@ -204,6 +204,20 @@ qx.Class.define("qx.ui.control.DateChooser", {
       nullable: true,
       event: "changeValue",
       apply: "_applyValue"
+    },
+
+    minValue: {
+      check: "Date",
+      init: null,
+      nullable: true,
+      apply: "_applyMinValue"
+    },
+
+    maxValue: {
+      check: "Date",
+      init: null,
+      nullable: true,
+      apply: "_applyMaxValue"
     }
   },
 
@@ -413,6 +427,14 @@ qx.Class.define("qx.ui.control.DateChooser", {
           }
         }
       }
+    },
+
+    _applyMinValue(){
+      this._updateDatePane();
+    },
+
+    _applyMaxValue(){
+      this._updateDatePane();
     },
 
     /*
@@ -724,6 +746,7 @@ qx.Class.define("qx.ui.control.DateChooser", {
 
           dayLabel.setValue("" + dayOfMonth);
           dayLabel.dateTime = helpDate.getTime();
+          dayLabel.setEnabled(!this.__exceedsLimits(helpDate));
 
           // Go to the next day
           helpDate.setDate(helpDate.getDate() + 1);
@@ -733,6 +756,14 @@ qx.Class.define("qx.ui.control.DateChooser", {
       monthYearFormat.dispose();
       weekDayFormat.dispose();
       weekFormat.dispose();
+    },
+
+    __exceedsLimits(date){
+      const d = new Date(date);
+      d.setHours(0,0,0,0);
+      var exceedsMin = this.getMinValue() !== null && d < this.getMinValue();
+      var exceedsMax = this.getMaxValue() !== null && d > this.getMaxValue();
+      return exceedsMin || exceedsMax;
     }
   },
 
