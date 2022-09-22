@@ -95,7 +95,15 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
 
   members: {
     async process() {
-      await this.__applyFixes();
+      let files = this.argv.files || [];
+      if (files.length === 0) {
+        files.push("source/class/**/*.js");
+      }
+      for (let i = 0; i < files.length; i++) {
+        files[i] = path.join(process.cwd(), files[i]);
+      }
+
+      await this.__applyFixes(files);
 
       let helperFilePath = require.main.path;
       while (true) {
@@ -117,6 +125,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
       lintOptions.parserOptions = lintOptions.parserOptions || {};
       lintOptions.parserOptions.requireConfigFile = false;
       lintOptions.parserOptions.babelOptions = {
+        cwd: helperFilePath,
         plugins: ["@babel/plugin-syntax-jsx"],
 
         parserOpts: {
@@ -133,13 +142,6 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         fix: this.argv.fix
       });
 
-      let files = this.argv.files || [];
-      if (files.length === 0) {
-        files.push("source/class/**/*.js");
-      }
-      for (let i = 0; i < files.length; i++) {
-        files[i] = path.join(process.cwd(), files[i]);
-      }
       if (this.argv.printConfig) {
         const fileConfig = await linter.calculateConfigForFile(files[0]);
         qx.tool.compiler.Console.info(JSON.stringify(fileConfig, null, "  "));
@@ -156,13 +158,27 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         }
         if (report.errorCount > 0 || report.warningCount > 0) {
           let outputFormat = this.argv.format || "codeframe";
-
-          // If there are too many errors, the pretty formatter is appallingly slow
-          if (report.errorCount + report.warningCount > 150) {
-            outputFormat = "compact";
-          }
           const formatter = await linter.loadFormatter(outputFormat);
           const s = formatter.format(report);
+          // If there are too many errors, the pretty formatter is appallingly slow so if the
+          // user has not specified a format, change to compact mode
+          const maxDefaultFormatErrorCount = 150;
+          if (
+            report.errorCount + report.warningCount >
+            maxDefaultFormatErrorCount
+          ) {
+            if (!this.argv.format) {
+              qx.tool.compiler.Console.info(
+                `Total errors and warnings exceed ${maxDefaultFormatErrorCount}, switching to "compact" style report`
+              );
+
+              outputFormat = "compact";
+            } else {
+              qx.tool.compiler.Console.info(
+                `Total errors and warnings exceed ${maxDefaultFormatErrorCount}, the report may take some time to generate.`
+              );
+            }
+          }
           if (this.argv.outputFile) {
             if (this.argv.verbose) {
               qx.tool.compiler.Console.info(
@@ -219,19 +235,18 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
      * @return {Promise<void>}
      * @private
      */
-    async __applyFixes() {
+    async __applyFixes(files) {
       const fixParams = this.argv.fixJsdocParams;
       if (fixParams && fixParams !== "off") {
-        let replaceInFiles = [];
         const regex =
           fixParams === "type-first"
             ? /@param\s+([\w$]+)\s+({[\w|[\]{}<>?. ]+})/g
             : /@param\s+({[\w|[\]{}<>?. ]+})\s+([\w$]+)/g;
-        replaceInFiles.push({
-          files: "source/class/**/*.js",
+        let replaceInFiles = {
+          files: files,
           from: regex,
           to: "@param $2 $1"
-        });
+        };
 
         await replaceInFile(replaceInFiles);
       }

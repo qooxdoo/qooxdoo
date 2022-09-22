@@ -33,13 +33,9 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
   construct() {
     super();
     this.__libraryApis = {};
-    this.addListener(
-      "changeCommand",
-      function () {
-        this.afterCommandLoaded(this.getCommand());
-      },
-      this
-    );
+    this.addListener("changeCommand", () => {
+      this.afterCommandLoaded(this.getCommand());
+    });
   },
 
   properties: {

@@ -368,6 +368,7 @@ qx.Class.define("qx.ui.basic.Label", {
         this.__fixEllipsis();
       }
       if (rich && this.getBreakWithinWords()) {
+        styles = qx.lang.Object.clone(styles);
         styles.wordBreak = "break-all";
       }
 
@@ -415,23 +416,19 @@ qx.Class.define("qx.ui.basic.Label", {
 
       if (value != null) {
         value.bind("enabled", this, "enabled");
-        this.__tapListenerId = this.addListener(
-          "tap",
-          function () {
-            // only focus focusable elements [BUG #3555]
-            if (value.isFocusable()) {
-              value.focus.apply(value);
-            }
-            // furthermore toggle if possible [BUG #6881]
-            if (
-              "toggleValue" in value &&
-              typeof value.toggleValue === "function"
-            ) {
-              value.toggleValue();
-            }
-          },
-          this
-        );
+        this.__tapListenerId = this.addListener("tap", () => {
+          // only focus focusable elements [BUG #3555]
+          if (value.isFocusable()) {
+            value.focus.apply(value);
+          }
+          // furthermore toggle if possible [BUG #6881]
+          if (
+            "toggleValue" in value &&
+            typeof value.toggleValue === "function"
+          ) {
+            value.toggleValue();
+          }
+        });
       }
     },
 
@@ -465,12 +462,10 @@ qx.Class.define("qx.ui.basic.Label", {
 
     // property apply
     _applyBreakWithinWords(value, old) {
-      if (this.isRich()) {
         this.getContentElement().setStyle(
           "wordBreak",
-          value ? "break-all" : "normal"
+        this.isRich() && value ? "break-all" : "normal"
         );
-      }
     },
 
     /**

@@ -915,6 +915,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
        */
       let targetOutputPaths = {};
       let makers = [];
+
       targetConfigs.forEach(targetConfig => {
         if (!targetConfig.appConfigs) {
           qx.tool.compiler.Console.print(
@@ -1118,6 +1119,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             .getAnalyser()
             .setApplicationTypes(targetConfig["application-types"]);
         }
+        if (targetConfig["proxySourcePath"]) {
+          maker
+            .getAnalyser()
+            .setProxySourcePath(targetConfig["proxySourcePath"]);
+        }
 
         maker.setLocales(data.locales || ["en"]);
         if (data.writeAllTranslations) {
@@ -1203,7 +1209,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             "loaderTemplate",
             "publish",
             "deploy",
-            "standalone"
+            "standalone",
+            "localModules"
           ].forEach(name => {
             if (appConfig[name] !== undefined) {
               var fname = "set" + qx.lang.String.firstUp(name);
@@ -1223,6 +1230,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           }
           if (appConfig.description) {
             app.setDescription(appConfig.description);
+          }
+
+          if (appConfig.localModules) {
+            app.setLocalModules(appConfig.localModules);
           }
 
           var parts = appConfig.parts || targetConfig.parts || data.parts;

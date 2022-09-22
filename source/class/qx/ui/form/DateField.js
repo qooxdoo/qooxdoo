@@ -67,21 +67,13 @@ qx.Class.define("qx.ui.form.DateField", {
 
     // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
-    this.addListener(
-      "focusin",
-      function (e) {
-        textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-      },
-      this
-    );
+    this.addListener("focusin", e => {
+      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+    });
 
-    this.addListener(
-      "focusout",
-      function (e) {
-        textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
-      },
-      this
-    );
+    this.addListener("focusout", e => {
+      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+    });
 
     // initializes the DateField with the default format
     this._setDefaultDateFormat();
@@ -225,10 +217,9 @@ qx.Class.define("qx.ui.form.DateField", {
       if (qx.core.Environment.get("qx.dynlocale")) {
         this.__localeListenerId = qx.locale.Manager.getInstance().addListener(
           "changeLocale",
-          function () {
+          () => {
             this._setDefaultDateFormat();
-          },
-          this
+          }
         );
       }
     },
@@ -312,7 +303,10 @@ qx.Class.define("qx.ui.form.DateField", {
      * Hides the date chooser popup.
      */
     close() {
-      this.getChildControl("popup").hide();
+      var popup = this.getChildControl("popup", true);
+      if (popup && popup.isVisible()) {
+        popup.hide();
+      }
     },
 
     /**

@@ -184,19 +184,15 @@ qx.Class.define("qx.test.ui.basic.Image", {
     testFailedEvent() {
       var image = new qx.ui.basic.Image("affe.xyz" + Math.random());
       this.addAutoDispose(image);
-      image.addListener(
-        "loadingFailed",
-        function () {
-          this.resume(function () {
-            // use a timeout to dispose the image because it needs to
-            // end its processing after the event has been fired.
-            window.setTimeout(function () {
-              image.destroy();
-            });
+      image.addListener("loadingFailed", () => {
+        this.resume(function () {
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
           });
-        },
-        this
-      );
+        });
+      });
 
       this.wait();
     },
@@ -211,19 +207,15 @@ qx.Class.define("qx.test.ui.basic.Image", {
 
       var image = new qx.ui.basic.Image(source);
       this.addAutoDispose(image);
-      image.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            // use a timeout to dispose the image because it needs to
-            // end its processing after the event has been fired.
-            window.setTimeout(function () {
-              image.destroy();
-            });
+      image.addListener("loaded", () => {
+        this.resume(function () {
+          // use a timeout to dispose the image because it needs to
+          // end its processing after the event has been fired.
+          window.setTimeout(function () {
+            image.destroy();
           });
-        },
-        this
-      );
+        });
+      });
 
       this.wait(1000);
     },
@@ -302,14 +294,10 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce(
-        "loaded",
-        function () {
-          image.resetSource();
-          image.setSource(source);
-        },
-        this
-      );
+      image.addListenerOnce("loaded", () => {
+        image.resetSource();
+        image.setSource(source);
+      });
 
       this.wait(
         500,
@@ -336,14 +324,10 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce(
-        "loaded",
-        function () {
-          image.resetSource();
-          image.setSource(source);
-        },
-        this
-      );
+      image.addListenerOnce("loaded", () => {
+        image.resetSource();
+        image.setSource(source);
+      });
 
       this.wait(
         500,
@@ -381,18 +365,14 @@ qx.Class.define("qx.test.ui.basic.Image", {
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce(
-        "loaded",
-        function () {
-          image.resetSource();
-          image.setSource(source);
+      image.addListenerOnce("loaded", () => {
+        image.resetSource();
+        image.setSource(source);
 
-          // load thrice
-          image.resetSource();
-          image.setSource(source);
-        },
-        this
-      );
+        // load thrice
+        image.resetSource();
+        image.setSource(source);
+      });
 
       this.wait(
         500,

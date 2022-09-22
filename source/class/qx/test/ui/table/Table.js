@@ -189,13 +189,9 @@ qx.Class.define("qx.test.ui.table.Table", {
       var table = new qx.ui.table.Table();
 
       var executed = false;
-      var id = table.addListener(
-        "changeRowHeight",
-        function () {
-          executed = true;
-        },
-        this
-      );
+      var id = table.addListener("changeRowHeight", () => {
+        executed = true;
+      });
 
       this.assertNotNull(id);
 
@@ -214,13 +210,9 @@ qx.Class.define("qx.test.ui.table.Table", {
       table.setMetaColumnCounts([1, -1]);
 
       var executed = false;
-      var id = table.addListener(
-        "cellClick",
-        function () {
-          executed = true;
-        },
-        this
-      );
+      var id = table.addListener("cellClick", () => {
+        executed = true;
+      });
 
       this.assertNotNull(id);
 

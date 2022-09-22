@@ -169,6 +169,14 @@ qx.Mixin.define("qx.core.MObjectId", {
         return childControl;
       }
 
+      if (!qx.core.Environment.get("qx.core.Object.allowUndefinedObjectId")) {
+        if (result === undefined) {
+          throw new Error(
+            `Cannot find a QX Object in ${this.classname} [${this}] with id=${id}`
+          );
+        }
+      }
+
       return result;
     },
 

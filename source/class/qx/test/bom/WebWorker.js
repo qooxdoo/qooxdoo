@@ -64,14 +64,10 @@ qx.Class.define("qx.test.bom.WebWorker", {
       this._worker = new qx.bom.WebWorker(this._url);
 
       this._send = function (message, fn) {
-        this._worker.addListener(
-          "message",
-          function (e) {
-            this.assertType(e.getData(), typeof message);
-            fn.call(this, message, e);
-          },
-          this
-        );
+        this._worker.addListener("message", e => {
+          this.assertType(e.getData(), typeof message);
+          fn.call(this, message, e);
+        });
 
         this._worker.postMessage(message);
       };
@@ -97,13 +93,9 @@ qx.Class.define("qx.test.bom.WebWorker", {
     testErrorEvent() {
       var message = "error";
 
-      this._worker.addListener(
-        "error",
-        function (e) {
-          this.assertTrue(/error/.test(e.getData()));
-        },
-        this
-      );
+      this._worker.addListener("error", e => {
+        this.assertTrue(/error/.test(e.getData()));
+      });
 
       this._worker.postMessage(message);
     },

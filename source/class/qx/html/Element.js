@@ -1044,7 +1044,7 @@ qx.Class.define("qx.html.Element", {
      * @Override
      */
     _applyVisible(value, oldValue) {
-      this.base(arguments, value, oldValue);
+      super._applyVisible(value, oldValue);
       if (value) {
         if (this._domNode) {
           qx.html.Element._visibility[this.toHashCode()] = this;

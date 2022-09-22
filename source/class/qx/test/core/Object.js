@@ -134,13 +134,9 @@ qx.Class.define("qx.test.core.Object", {
 
     testRemoveListenerByIdAsync() {
       var executed = false;
-      var id = this.addListener(
-        "testRemoveListenerByIdAsync",
-        function () {
-          executed = true;
-        },
-        this
-      );
+      var id = this.addListener("testRemoveListenerByIdAsync", () => {
+        executed = true;
+      });
 
       this.removeListenerById(id);
 

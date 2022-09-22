@@ -432,6 +432,18 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         new qx.tool.compiler.targets.meta.PolyfillJs(appMeta)
       );
 
+      // Add browserified CommonJS modules, if any. The Browserify
+      // class will always bundle local modules specified for an
+      // application in compile.json, but will not bundle `require()`d
+      // modules that are Node modules.
+      if (
+        appMeta.getEnvironmentValue("qx.compiler.applicationType") == "browser"
+      ) {
+        bootPackage.addJavascriptMeta(
+          new qx.tool.compiler.targets.meta.Browserify(appMeta)
+        );
+      }	
+
       /*
        * Assemble the Parts
        */

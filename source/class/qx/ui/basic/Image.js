@@ -785,7 +785,7 @@ qx.Class.define("qx.ui.basic.Image", {
       if (this.getScale()) {
         el.setStyle("fontSize", (width > height ? height : width) + "px");
       } else {
-        var source = this.getSource();
+        var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
         var sparts = source.split("/");
         var font = this.__getFont(source);
         var size = parseInt(sparts[2] || font.getSize());

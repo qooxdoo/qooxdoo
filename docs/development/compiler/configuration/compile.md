@@ -136,6 +136,13 @@ The `applications` key is an array of objects, and each object can contain:
   browser on its own (true, default) or is part of a different application
   (false)
 
+- `localModules` - (**optional**) A map, wherein the keys are the
+  names by which a local module may be `require()`d in qooxdoo code. The
+  value for each of those keys is the path, from where `compile.json`
+  is located, to the module to be included. See [the complete
+  documentation of this
+  feature](development/compiler/confguration/README.md), for details.
+
 A complete example is:
 
 ```json5
@@ -275,10 +282,14 @@ functionality - a good example of a use case for this would be a class which, wh
 compiled for the browser, is mostly proxy method calls (or whatever) to the server.
 
 - `addTimestampsToUrls` - (**optional**) if set to true, then all the URLs which are
-  output will have the timestamp of the file appended as a quwery parameter; this allows
-  strong caching parameters to be set by the web server, but also guarantee that
-  newer versions of the files will be detected by the cache.  This defaults to `true`
-  for build targets and `false` for source targets
+  output will have the timestamp of the file appended as a query parameter; this allows
+  strong caching parameters to be set by the web server and also guarantee that
+  newer versions of the files will be detected by the cache. This defaults to `true`
+  for build targets and `false` for source targets. Note that this option is entirely
+  dependent on the application's index.html containing a template reference to the
+  `indexJsTimestamp` variable in the `<script>` tag that loads the `index.js` file:
+  
+  `<script type="text/javascript" src="${appPath}index.js${indexJsTimestamp}"></script>`
 
 ### Multiple Applications and Targets
 

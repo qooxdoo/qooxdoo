@@ -35,19 +35,15 @@ qx.Class.define("qx.test.ui.root.Inline", {
 
     testAppearEvent() {
       var inlineRoot = new qx.ui.root.Inline(this.__inlineIsleElement);
-      inlineRoot.addListener(
-        "appear",
-        function (e) {
-          this.resume(function () {
-            this.assertTrue(
-              qx.dom.Element.isInDom(
-                inlineRoot.getContentElement().getDomElement()
-              )
-            );
-          }, this);
-        },
-        this
-      );
+      inlineRoot.addListener("appear", e => {
+        this.resume(function () {
+          this.assertTrue(
+            qx.dom.Element.isInDom(
+              inlineRoot.getContentElement().getDomElement()
+            )
+          );
+        }, this);
+      });
 
       this.wait();
     }

@@ -97,37 +97,33 @@ qx.Class.define("qx.test.data.store.Jsonp", {
     },
 
     testWholePrimitive() {
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            var model = this.__store.getModel();
-            this.assertEquals(
-              "String",
-              model.getString(),
-              "The model is not created how it should!"
-            );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          var model = this.__store.getModel();
+          this.assertEquals(
+            "String",
+            model.getString(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              12,
-              model.getNumber(),
-              "The model is not created how it should!"
-            );
+          this.assertEquals(
+            12,
+            model.getNumber(),
+            "The model is not created how it should!"
+          );
 
-            this.assertEquals(
-              true,
-              model.getBoolean(),
-              "The model is not created how it should!"
-            );
+          this.assertEquals(
+            true,
+            model.getBoolean(),
+            "The model is not created how it should!"
+          );
 
-            this.assertNull(
-              model.getNull(),
-              "The model is not created how it should!"
-            );
-          }, this);
-        },
-        this
-      );
+          this.assertNull(
+            model.getNull(),
+            "The model is not created how it should!"
+          );
+        }, this);
+      });
 
       var url = this.url;
       this.__store.setUrl(url);
@@ -146,15 +142,11 @@ qx.Class.define("qx.test.data.store.Jsonp", {
 
       var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.assertTrue(manipulated);
-          }, this);
-        },
-        this
-      );
+      store.addListener("loaded", () => {
+        this.resume(function () {
+          this.assertTrue(manipulated);
+        }, this);
+      });
 
       var url = this.url;
       store.setUrl(url);
@@ -177,15 +169,11 @@ qx.Class.define("qx.test.data.store.Jsonp", {
 
       var store = new qx.data.store.Jsonp(null, delegate, "callback");
 
-      store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.assertCalled(delegate.configureRequest);
-          }, this);
-        },
-        this
-      );
+      store.addListener("loaded", () => {
+        this.resume(function () {
+          this.assertCalled(delegate.configureRequest);
+        }, this);
+      });
 
       var url = this.url;
       store.setUrl(url);
@@ -205,16 +193,12 @@ qx.Class.define("qx.test.data.store.Jsonp", {
     testDisposeRequestDone() {
       this.setUpFakeRequest();
       var url = this.url;
-      this.__store.addListener(
-        "loaded",
-        function () {
-          this.resume(function () {
-            this.__store.dispose();
-            this.assertCalled(this.request.dispose);
-          }, this);
-        },
-        this
-      );
+      this.__store.addListener("loaded", () => {
+        this.resume(function () {
+          this.__store.dispose();
+          this.assertCalled(this.request.dispose);
+        }, this);
+      });
 
       this.__store.setUrl(url);
     },
@@ -226,13 +210,9 @@ qx.Class.define("qx.test.data.store.Jsonp", {
         !(qx.core.Environment.get("browser.name") == "ie") &&
         !(qx.core.Environment.get("browser.name") == "opera")
       ) {
-        this.__store.addListener(
-          "error",
-          function () {
-            this.resume(function () {}, this);
-          },
-          this
-        );
+        this.__store.addListener("error", () => {
+          this.resume(function () {}, this);
+        });
 
         this.__store.setUrl("affe");
 

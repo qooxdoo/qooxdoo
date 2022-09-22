@@ -1,5 +1,5 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
+  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
@@ -79,7 +79,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "7.0.0-beta.8",
+    "version": "7.2.1",
     "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
   "provides": {
@@ -94,10 +94,10 @@
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialicons-v70.eot",
-          "qx/iconfont/MaterialIcons/materialicons-v70.woff2",
-          "qx/iconfont/MaterialIcons/materialicons-v70.woff",
-          "qx/iconfont/MaterialIcons/materialicons-v70.ttf"
+          "qx/iconfont/MaterialIcons/materialicons-v126.eot",
+          "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
+          "qx/iconfont/MaterialIcons/materialicons-v126.woff",
+          "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
         ]
       },
       {
@@ -105,10 +105,10 @@
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.eot",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.otf"
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.otf"
         ]
       },
       {
@@ -116,10 +116,10 @@
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsround-v37.eot",
-          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff",
-          "qx/iconfont/MaterialIcons/materialiconsround-v37.otf"
+          "qx/iconfont/MaterialIcons/materialiconsround-v100.eot",
+          "qx/iconfont/MaterialIcons/materialiconsround-v100.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsround-v100.woff",
+          "qx/iconfont/MaterialIcons/materialiconsround-v100.otf"
         ]
       },
       {
@@ -127,10 +127,10 @@
         "comparisonString": "e1feef39",
         "defaultSize": 32,
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconssharp-v38.eot",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff2",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v38.otf"
+          "qx/iconfont/MaterialIcons/materialiconssharp-v101.eot",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff2",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v101.otf"
         ]
       },
       {
@@ -138,10 +138,10 @@
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.eot",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff2",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.otf"
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.eot",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff2",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.otf"
         ]
       }
     ],
@@ -177,6 +177,6 @@
     }
   },
   "requires": {
-    "@qooxdoo/framework": "^7.0.0-beta.1"
+    "@qooxdoo/framework": "^7.0.0"
   }
 }

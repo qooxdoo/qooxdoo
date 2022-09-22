@@ -165,7 +165,33 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
     },
 
     /**
-     * Set the opened state for a node.  (Note that this method has no effect
+     * Opens all nodes in the tree with minimal redraw
+     */
+    nodeOpenAll() {
+      var model = this.getTableModel();
+      model.getData().forEach(node => {
+        if (node) {
+          model.setState(node.nodeId, { bOpened: true }, true);
+        }
+      });
+      model.setData();
+    },
+
+    /**
+     * Closes all nodes in the tree with minimal redraw
+     */
+    nodeCloseAll() {
+      var model = this.getTableModel();
+      model.getData().forEach(node => {
+        if (node) {
+          model.setState(node.nodeId, { bOpened: false }, true);
+        }
+      });
+      model.setData();
+    },
+
+    /**
+     * Internal call to set the opened state for a node. (Note that this method has no effect
      * if the requested state is the same as the current state.)
      *
      * @param nodeReference {Object | Integer}
@@ -173,11 +199,16 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
      *   represented either by the node object, or the node id (as would have
      *   been returned by addBranch(), addLeaf(), etc.)
      *
-     * @param b {Boolean}
+     * @param opened {Boolean}
      *   The new opened state for the specified node.
      *
+     * @param cascade {Boolean}
+     *   Whether to descend the tree changing opened state of all children
+     *
+     * @param isRecursed {Boolean?}
+     *   For internal use when cascading to determine outer level and call setData
      */
-    nodeSetOpened(nodeReference, b) {
+    _nodeSetOpenedInternal(nodeReference, opened, cascade, isRecursed) {
       var node;
 
       if (typeof nodeReference == "object") {
@@ -190,9 +221,35 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
 
       // Only set new state if not already in the requested state, since
       // setting new state involves dispatching events.
-      if (b != node.bOpened) {
-        this.nodeToggleOpened(node);
+      if (opened != node.bOpened) {
+        this.getTableModel().setState(node.nodeId, { bOpened: opened }, true);
       }
+      if (cascade) {
+        node.children.forEach(child =>
+          this.nodeSetOpened(child, opened, cascade, true)
+        );
+      }
+      if (!cascade || !isRecursed) {
+        this.getTableModel().setData();
+      }
+    },
+    /**
+     * Set the opened state for a node.  (Note that this method has no effect
+     * if the requested state is the same as the current state.)
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the opened state is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param opened {Boolean}
+     *   The new opened state for the specified node.
+     *
+     * @param cascade {Boolean}
+     *   Whether to descend the tree changing opened state of all children
+     */
+    nodeSetOpened(nodeReference, opened, cascade) {
+      this._nodeSetOpenedInternal(nodeReference, opened, cascade, false);
     },
 
     /**

@@ -4,7 +4,7 @@ Below is a summary of our plans for v8 and a rough outline of
 what we're thinking about for the future; if there is anything
 you feel strongly about on either list (or you think that there
 is something missing) please feel free to talk to us about it- 
-after all, if you don't us what you think, we'll never know!
+after all, if you don't tell us what you think, we'll never know!
 
 ## v8.0.0
 

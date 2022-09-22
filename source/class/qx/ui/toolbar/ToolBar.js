@@ -41,14 +41,18 @@ qx.Class.define("qx.ui.toolbar.ToolBar", {
   *****************************************************************************
   */
 
-  construct() {
+  /**
+   * Constructor
+   * @param {qx.ui.layout.Abstract?} layout optional layout, defaults to qx.ui.layout.HBox
+   */
+  construct(layout) {
     super();
 
     // ARIA attrs
     this.getContentElement().setAttribute("role", "toolbar");
 
     // add needed layout
-    this._setLayout(new qx.ui.layout.HBox());
+    this._setLayout(layout || new qx.ui.layout.HBox());
 
     // initialize the overflow handling
     this.__removedItems = [];

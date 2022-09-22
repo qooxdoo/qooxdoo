@@ -43,16 +43,12 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote", {
       var req = (this.req = new qx.io.request.Jsonp()),
         url = this.noCache(this.getUrl("qx/test/jsonp_primitive.php"));
 
-      req.addListener(
-        "load",
-        function (e) {
-          this.resume(function () {
-            this.assertObject(req.getResponse());
-            this.assertTrue(req.getResponse()["boolean"]);
-          }, this);
-        },
-        this
-      );
+      req.addListener("load", e => {
+        this.resume(function () {
+          this.assertObject(req.getResponse());
+          this.assertTrue(req.getResponse()["boolean"]);
+        }, this);
+      });
 
       req.setUrl(url);
       req.send();

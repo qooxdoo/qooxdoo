@@ -111,15 +111,11 @@ qx.Class.define("qx.test.ui.form.Label", {
 
       this.__label.setBuddy(this.__formWidget);
 
-      this.__formWidget.addListener(
-        "focus",
-        function () {
-          this.resume(function () {
-            // do nothing. Just check for the event
-          }, this);
-        },
-        this
-      );
+      this.__formWidget.addListener("focus", () => {
+        this.resume(function () {
+          // do nothing. Just check for the event
+        }, this);
+      });
 
       this.tapOn(this.__label);
 
@@ -134,13 +130,9 @@ qx.Class.define("qx.test.ui.form.Label", {
       this.__label.setBuddy(null);
 
       var focused = false;
-      this.__formWidget.addListener(
-        "focus",
-        function () {
-          focused = true;
-        },
-        this
-      );
+      this.__formWidget.addListener("focus", () => {
+        focused = true;
+      });
 
       var self = this;
       window.setTimeout(function () {

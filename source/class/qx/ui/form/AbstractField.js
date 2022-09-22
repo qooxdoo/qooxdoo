@@ -994,18 +994,14 @@ qx.Class.define("qx.ui.form.AbstractField", {
             /* qx Bug #8870: Firefox 35 will not display a text area's
                placeholder text if the attribute is set before the
                element is added to the DOM. This is fixed in FF 36. */
-            this.addListenerOnce(
-              "appear",
-              function () {
-                this.getContentElement()
-                  .getDomElement()
-                  .removeAttribute("placeholder");
-                this.getContentElement()
-                  .getDomElement()
-                  .setAttribute("placeholder", value);
-              },
-              this
-            );
+            this.addListenerOnce("appear", () => {
+              this.getContentElement()
+                .getDomElement()
+                .removeAttribute("placeholder");
+              this.getContentElement()
+                .getDomElement()
+                .setAttribute("placeholder", value);
+            });
           }
         }
       }

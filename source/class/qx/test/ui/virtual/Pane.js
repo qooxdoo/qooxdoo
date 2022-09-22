@@ -100,13 +100,9 @@ qx.Class.define("qx.test.ui.virtual.Pane", {
       var called = 0;
 
       var pane = new qx.ui.virtual.core.Pane(100, 20, 10, 50);
-      pane.addListener(
-        "update",
-        function () {
-          called++;
-        },
-        this
-      );
+      pane.addListener("update", () => {
+        called++;
+      });
 
       pane.set({
         width: 300,

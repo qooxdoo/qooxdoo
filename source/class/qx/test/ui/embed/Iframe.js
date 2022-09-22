@@ -57,18 +57,14 @@ qx.Class.define("qx.test.ui.embed.Iframe", {
       this.__iframe.setSource(src);
       qx.ui.core.queue.Manager.flush();
 
-      this.__iframe.addListenerOnce(
-        "load",
-        function () {
-          this.resume(function () {
-            this.assertEquals(
-              this.__iframe.getSource(),
-              this.__iframe.getWindow().location.href
-            );
-          });
-        },
-        this
-      );
+      this.__iframe.addListenerOnce("load", () => {
+        this.resume(function () {
+          this.assertEquals(
+            this.__iframe.getSource(),
+            this.__iframe.getWindow().location.href
+          );
+        });
+      });
 
       this.wait(10000);
     },
@@ -76,15 +72,11 @@ qx.Class.define("qx.test.ui.embed.Iframe", {
     testGetWindow() {
       this.getRoot().add(this.__iframe);
 
-      this.__iframe.addListener(
-        "load",
-        function () {
-          this.resume(function () {
-            this.assertNotNull(this.__iframe.getWindow());
-          }, this);
-        },
-        this
-      );
+      this.__iframe.addListener("load", () => {
+        this.resume(function () {
+          this.assertNotNull(this.__iframe.getWindow());
+        }, this);
+      });
 
       var src = qx.util.ResourceManager.getInstance().toUri(
         "qx/static/blank.html"

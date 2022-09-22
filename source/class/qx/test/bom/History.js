@@ -171,16 +171,12 @@ qx.Class.define("qx.test.bom.History", {
       // "request" event just will be fired, if a user goes back or forward in
       // the history
       var self = this;
-      this.__history.addListenerOnce(
-        "request",
-        function () {
-          self.resume(function () {
-            // "request" event has been fired
-            this.assertTrue(true);
-          }, self);
-        },
-        this
-      );
+      this.__history.addListenerOnce("request", () => {
+        self.resume(function () {
+          // "request" event has been fired
+          this.assertTrue(true);
+        }, self);
+      });
 
       this.__history.setState("bar");
       history.back();
@@ -188,15 +184,11 @@ qx.Class.define("qx.test.bom.History", {
     },
 
     testRequestEventAddHistory() {
-      this.__history.addListenerOnce(
-        "request",
-        function (ev) {
-          this.resume(function () {
-            this.assertEquals("baz", ev.getData());
-          }, this);
-        },
-        this
-      );
+      this.__history.addListenerOnce("request", ev => {
+        this.resume(function () {
+          this.assertEquals("baz", ev.getData());
+        }, this);
+      });
 
       var self = this;
       window.setTimeout(function () {

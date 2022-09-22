@@ -211,10 +211,9 @@ test("Checks dependencies and environment settings", assert => {
         assert.ok(Boolean(map["abc"]), "missing unresolved abc in testapp.Issue488");
         assert.ok(Boolean(map["request"]), "missing unresolved request in testapp.Issue488");
         assert.ok(Boolean(map["ro"]), "missing unresolved to in testapp.Issue488");
-        assert.ok(Boolean(map["require"]), "missing unresolved require in testapp.Issue488");
         assert.ok(Boolean(map["dontKnow"]), "missing unresolved dontKnow in testapp.Issue488");
         assert.ok(Boolean(map["c"]), "missing unresolved dontKnow in testapp.Issue488");
-        assert.ok(arr.length === 6, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue488");
+        assert.ok(arr.length === 5, "unexpected unresolved " + JSON.stringify(arr) + " in testapp.Issue488");
       })
 
       /*
@@ -307,12 +306,12 @@ test("Checks dependencies and environment settings", assert => {
 
       .then(() => readFile("test-deps/transpiled/testapp/TestThat1.js", "utf8")
       .then(src => {
-        assert.ok(src.match(/testapp\.TestThat1\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+        assert.ok(src.match(/testapp\.TestThat1\.superclass\.prototype\.toHashCode\.call\(other\)/), "Aliased this");
       }))
 
       .then(() => readFile("test-deps/transpiled/testapp/TestThat2.js", "utf8")
       .then(src => {
-        assert.ok(src.match(/testapp\.TestThat2\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+        assert.ok(src.match(/testapp\.TestThat2\.superclass\.prototype\.toHashCode\.call\(other\)/), "Aliased this");
       }))
 
       /*

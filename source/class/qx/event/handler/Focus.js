@@ -88,7 +88,7 @@ qx.Class.define("qx.event.handler.Focus", {
       nullable: true
     },
 
-    /** The focussed DOM element */
+    /** The focused DOM element */
     focus: {
       apply: "_applyFocus",
       nullable: true

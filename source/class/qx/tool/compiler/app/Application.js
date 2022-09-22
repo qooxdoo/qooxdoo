@@ -217,6 +217,20 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     writeIndexHtmlToRoot: {
       init: false,
       check: "Boolean"
+    },
+
+    /**
+     * Map specifying local modules to include in the build. Local modules are
+     * always included in the compiled output, regardless of application type
+     * (node, browser, etc.). Each member of the map has a key that is the
+     * name of the module to be `require`d in code. The value is the path to
+     * the module to be included. The path must begin with "./", and is
+     * relative to the directory containing compile.json. The module may be
+     * either a CommonJS module or an ES6 module.
+     */
+    localModules: {
+      init: null,
+      check: "Object"
     }
   },
 

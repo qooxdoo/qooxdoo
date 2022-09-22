@@ -255,21 +255,19 @@ qx.Bootstrap.define("qx.Interface", {
           } else {
             // Other members are not checked more detailed because of
             // JavaScript's loose type handling
-            if (typeof object[key] === undefined) {
-              if (typeof object[key] !== "function") {
-                if (shouldThrow) {
-                  throw new Error(
-                    'Implementation of member "' +
-                      key +
-                      '" is missing in class "' +
-                      clazz.classname +
-                      '" required by interface "' +
-                      iface.name +
-                      '"'
-                  );
-                } else {
-                  return false;
-                }
+            if (typeof object[key] === "undefined") {
+              if (shouldThrow) {
+                throw new Error(
+                  'Implementation of member "' +
+                    key +
+                    '" is missing in class "' +
+                    clazz.classname +
+                    '" required by interface "' +
+                    iface.name +
+                    '"'
+                );
+              } else {
+                return false;
               }
             }
           }

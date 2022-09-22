@@ -144,7 +144,7 @@ If you look at the files that are created by the compiler (in the
 large in size. This is because even the tiniest application makes use of
 Qooxdoo's core classes, and the compiler produces a large number of artefacts
 that are needed for quick recompilation and debugging. The compiler can also
-produce a deployable version of your app wich will be much smaller and not
+produce a deployable version of your app which will be much smaller and not
 contain any of the debugging support.
 
 ## Reading on

@@ -28,7 +28,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return true;
-          }
+          },
+
+          engineStarted: null
         },
 
         properties: { color: {} }
@@ -49,7 +51,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted: true
         },
 
         statics: {
@@ -78,7 +82,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted: true
         },
 
         statics: {
@@ -117,6 +123,56 @@ qx.Class.define("qx.test.Interface", {
       qx.Class.undefine("qx.test.i.Bmw2");
     },
 
+    testMissingMemberFunction() {
+      qx.Class.define("qx.test.i.Bmw2", {
+        extend: Object,
+        construct() {},
+        members: {
+          engineStarted: false
+        },
+
+        statics: {
+          honk() {
+            return "honk";
+          }
+        },
+
+        properties: { color: {} }
+      });
+
+      this.assertFalse(
+        qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar)
+      );
+
+      qx.Class.undefine("qx.test.i.Bmw2");
+    },
+
+    testMissingMemberVariable() {
+      qx.Class.define("qx.test.i.Bmw2", {
+        extend: Object,
+        construct() {},
+        members: {
+          startEngine() {
+            return "start";
+          }
+        },
+
+        statics: {
+          honk() {
+            return "honk";
+          }
+        },
+
+        properties: { color: {} }
+      });
+
+      this.assertFalse(
+        qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar)
+      );
+
+      qx.Class.undefine("qx.test.i.Bmw2");
+    },
+
     testMissingStatics() {
       // (ie it does implement all necessary)
       qx.Class.define("qx.test.i.Bmw3", {
@@ -125,7 +181,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted: null
         },
 
         properties: { color: {} }
@@ -145,7 +203,9 @@ qx.Class.define("qx.test.Interface", {
         members: {
           startEngine() {
             return "start";
-          }
+          },
+
+          engineStarted: false
         },
 
         statics: {
@@ -189,6 +249,10 @@ qx.Class.define("qx.test.Interface", {
               construct() {},
               implement: [qx.test.i.ICar],
 
+              members: {
+                engineStarted: false
+              },
+
               statics: {
                 honk() {
                   return "honk";
@@ -213,7 +277,9 @@ qx.Class.define("qx.test.Interface", {
               members: {
                 startEngine() {
                   return "start";
-                }
+                },
+
+                engineStarted: false
               },
 
               statics: {

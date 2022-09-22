@@ -66,11 +66,23 @@ qx.Class.define("qx.ui.table.model.Abstract", {
     this.__columnIndexMap = {};
   },
 
+  statics: {
+    /**
+     * Member to control if a table should throw an error when you try to change the
+     * data model data whilst there is an incomplete edit. It could possibly break
+     * current implementations so only introduce the change from QX v8.
+     * Ref: https://github.com/qooxdoo/qooxdoo/pull/10377#discussion_r818697343
+     */
+    THROW_ON_MODEL_CHANGE_DURING_EDIT:
+      parseInt(qx.core.Environment.get("qx.version"), 10) >= 8
+  },
+
   members: {
     __columnIdArr: null,
     __columnNameArr: null,
     __columnIndexMap: null,
     __internalChange: null,
+    __table: null,
 
     /**
      * Initialize the table model <--> table interaction. The table model is
@@ -84,7 +96,17 @@ qx.Class.define("qx.ui.table.model.Abstract", {
      *   The table to which this model is attached
      */
     init(table) {
-      // default implementation has nothing to do
+      // store a reference back to the table
+      this.__table = table;
+    },
+
+    /**
+     *
+     *
+     * @returns table {qx.ui.table.Table}
+     */
+    getTable() {
+      return this.__table;
     },
 
     /**
@@ -292,6 +314,17 @@ qx.Class.define("qx.ui.table.model.Abstract", {
       }
 
       this.setColumnNamesByIndex(columnNameArr);
+    },
+
+    _checkEditing() {
+      if (!qx.ui.table.model.Abstract.THROW_ON_MODEL_CHANGE_DURING_EDIT) {
+        return;
+      }
+      if (this.getTable() && this.getTable().isEditing()) {
+        throw new Error(
+          "A cell is currently being edited. Commit or cancel the edit before setting the table data"
+        );
+      }
     }
   },
 

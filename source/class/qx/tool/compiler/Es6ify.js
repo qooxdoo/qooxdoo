@@ -106,6 +106,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
   construct(filename) {
     super();
     this.__filename = filename;
+    this.__knownApiFunctions = ["addListener", "addListenerOnce"];
   },
 
   properties: {
@@ -125,6 +126,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
 
   members: {
     __filename: null,
+    __knownApiFunctions: null,
 
     async transform() {
       let src = await fs.promises.readFile(this.__filename, "utf8");
@@ -174,7 +176,10 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       while (true) {
         cycleCount++;
         if (cycleCount > 10) {
-          qx.tool.compiler.Console.warn(`Can not find a stable format for ${this.__filename}`);
+          qx.tool.compiler.Console.warn(
+            `Can not find a stable format for ${this.__filename}`
+          );
+
           break;
         }
         result = babelCore.transform(src, config);
@@ -275,6 +280,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
       let t = this;
       const isTest = this.__filename.indexOf("/test/") > -1;
       let arrowFunctions = this.getArrowFunctions();
+      let knownApiFunctions = this.__knownApiFunctions;
 
       return {
         visitor: {
@@ -282,13 +288,15 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
             if (path.node.callee.type == "MemberExpression") {
               let callee = collapseMemberExpression(path.node.callee);
               if (arrowFunctions == "careful") {
-                if (!callee.endsWith(".addListener")) {
+                if (
+                  !knownApiFunctions.some(fName => callee.endsWith("." + fName))
+                ) {
                   return;
                 }
                 if (
                   path.node.arguments.length != 3 ||
                   path.node.arguments[0].type != "StringLiteral" ||
-                  path.node.arguments[1].type != "ArrowFunctionExpression" ||
+                  path.node.arguments[1].type != "FunctionExpression" ||
                   path.node.arguments[2].type != "ThisExpression"
                 ) {
                   return;
@@ -324,14 +332,14 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
      * @returns
      */
     __pluginRemoveUnnecessaryThis() {
+      let knownApiFunctions = this.__knownApiFunctions;
       return {
         visitor: {
           CallExpression(path) {
             if (
               path.node.callee.type == "MemberExpression" &&
-              path.node.callee.object.type == "ThisExpression" &&
               path.node.callee.property.type == "Identifier" &&
-              path.node.callee.property.name == "addListener" &&
+              knownApiFunctions.includes(path.node.callee.property.name) &&
               path.node.arguments.length == 3 &&
               path.node.arguments[0].type == "StringLiteral" &&
               path.node.arguments[1].type == "ArrowFunctionExpression" &&

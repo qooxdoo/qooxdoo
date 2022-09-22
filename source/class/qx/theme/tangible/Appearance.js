@@ -634,7 +634,8 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       style(states) {
         return {
           decorator: undefined,
-          padding: [2, 2]
+          padding: [2, 2],
+          backgroundColor: "surface"
         };
       }
     },
@@ -644,7 +645,10 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "selectbox",
 
       style(states) {
-        return { padding: [0, 2] };
+        return {
+          padding: [0, 2],
+          backgroundColor: "surface"
+        };
       }
     },
 
@@ -653,7 +657,10 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "combobox",
 
       style(states) {
-        return { decorator: undefined };
+        return {
+          decorator: undefined,
+          backgroundColor: "surface"
+        };
       }
     },
 
@@ -996,6 +1003,18 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           cursor: states.disabled ? undefined : "pointer",
           textColor: "text-on-primary",
           decorator: decorator
+        };
+      }
+    },
+
+    "menubar-button/icon": {
+      style(states) {
+        return {
+          textColor: states.disabled
+            ? "text-disabled-on-surface"
+            : states.pressed || states.hovered
+            ? "text-on-primary"
+            : "text-on-surface"
         };
       }
     },

@@ -200,10 +200,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     this.__metaStack = [];
     this.__metaDefinitions = {};
     this.__library = library;
-    this.__sourceFilename = qx.tool.compiler.ClassFile.getSourcePath(
-      library,
-      className
-    );
+    this.__sourceFilename = analyser.getClassSourcePath(library, className);
 
     this.__requiredClasses = {};
     this.__environmentChecks = {
@@ -223,6 +220,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     };
 
     this.__externals = [];
+    this.__commonjsModules = {};
 
     this.__taskQueueDrains = [];
     this.__taskQueue = async.queue(function (task, cb) {
@@ -281,6 +279,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     __privates: null,
     __blockedPrivates: null,
     __externals: null,
+    __commonjsModules: null,
 
     _onTaskQueueDrain() {
       var cbs = this.__taskQueueDrain;
@@ -315,10 +314,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * @returns {string}
      */
     getOutputPath() {
-      return qx.tool.compiler.ClassFile.getOutputPath(
-        this.__analyser,
-        this.__className
-      );
+      return this.__analyser.getClassOutputPath(this.__className);
     },
 
     /**
@@ -390,6 +386,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   qx.tool.compiler.ClassFile.JSX_OPTIONS
                 ]
               ],
+
               generatorOpts: {
                 compact: false
               },
@@ -496,6 +493,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       delete dbClassInfo.translations;
       delete dbClassInfo.markers;
       delete dbClassInfo.fatalCompileError;
+      delete dbClassInfo.commonjsModules;
       for (var key in this.__dbClassInfo) {
         dbClassInfo[key] = this.__dbClassInfo[key];
       }
@@ -665,6 +663,16 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       // Errors
       if (this.__fatalCompileError) {
         dbClassInfo.fatalCompileError = true;
+      }
+
+      // CommonJS modules
+      if (Object.keys(this.__commonjsModules).length > 0) {
+        dbClassInfo.commonjsModules = {};
+        for (let moduleName in this.__commonjsModules) {
+          dbClassInfo.commonjsModules[moduleName] = [
+            ...this.__commonjsModules[moduleName]
+          ];
+        }
       }
 
       return dbClassInfo;
@@ -1300,7 +1308,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.interfaces
             });
-          } else if (keyName == "include") {
+          } else if (keyName == "include" || keyName == "patch") {
             path.skip();
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.mixins
@@ -1345,11 +1353,25 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   meta.allowNull = data.nullable;
                 }
                 if (data.check !== undefined) {
+                  let checks;
                   if (qx.lang.Type.isArray(data.check)) {
-                    meta.possibleValues = data.check;
+                    checks = meta.possibleValues = data.check;
                   } else {
                     meta.check = data.check;
+                    checks = [data.check];
                   }
+                  checks.forEach(check => {
+                    if (!qx.tool.compiler.ClassFile.SYSTEM_CHECKS[check]) {
+                      let symbolData = t.__analyser.getSymbolType(check);
+                      if (symbolData?.symbolType == "class") {
+                        t._requireClass(check, {
+                          load: false,
+                          usage: "dynamic",
+                          location: path.node.loc
+                        });
+                      }
+                    }
+                  });
                 }
                 if (data.init !== undefined) {
                   meta.defaultValue = data.init;
@@ -1648,6 +1670,59 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
               }
             }
 
+            // Are we looking at the Identifier `require`, and is it a
+            // function call (identified by having
+            // `path.node.arguments`? If so, we'll add the discovered
+            // module to the list of modules that must be browserified
+            // if the application is destined for the browser.
+            let scope;
+            let applicationTypes = t.__analyser.getApplicationTypes();
+
+            if (
+              path.node.callee.type == "Identifier" &&
+              path.node?.callee?.name == "require" &&
+              path.node.arguments?.length == 1 &&
+              applicationTypes.includes("browser")
+            ) {
+              // See if this is a reference to global `require` or
+              // something in the scope chain
+              for (scope = t.__scope; scope; scope = scope.parent) {
+                if (scope.vars["require"]) {
+                  // It's in the scope chain. Ignore it.
+                  break;
+                }
+              }
+              // Did we reach top level without finding it in a local scope?
+              if (!scope) {
+                // Yup. It's the global one we're looking for. Ensure the argument is valid.
+                let arg = path.node.arguments[0];
+                if (types.isLiteral(arg)) {
+                  if (typeof arg.value != "string") {
+                    t.addMarker(
+                      "compiler.requireLiteralArguments",
+                      path.node.loc,
+                      arg.value
+                    );
+                  } else {
+                    qx.tool.compiler.Console.log(
+                      `${t.__className}:${path.node.loc.start.line}:` +
+                        ` automatically detected \'require(${arg.value})\``
+                    );
+
+                    t.addCommonjsModule(
+                      arg.value,
+                      t.__className,
+                      path.node.loc.start.line
+                    );
+
+                    // Don't show "unresolved" error for `require` since the
+                    // browserified code defines it as a global
+                    t.addIgnore("require");
+                  }
+                }
+              }
+            }
+
             if (
               types.isMemberExpression(path.node.callee) ||
               (es6ClassDeclarations == 0 &&
@@ -1830,8 +1905,6 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   );
 
                   expr = types.memberExpression(expr, types.identifier("call"));
-                  //expr = expandMemberExpression("qx.Mixin.baseClassMethod(this.constructor, " + t.__classMeta.className + ", \"" + t.__classMeta.functionName + "\").call");
-                  //expr = expandMemberExpression(t.__classMeta.className + ".$$members." + t.__classMeta.functionName + ".base.call");
                 } else if (t.__classMeta.functionName == "$$constructor") {
                   expr = expandMemberExpression(
                     t.__classMeta.superClass + ".constructor.call"
@@ -1839,9 +1912,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 } else if (t.__classMeta.className) {
                   expr = expandMemberExpression(
                     t.__classMeta.className +
+                      ".superclass" +
                       ".prototype." +
                       t.__classMeta.functionName +
-                      ".base.call"
+                      ".call"
                   );
                 } else {
                   expr = expandMemberExpression(
@@ -2509,6 +2583,19 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     },
 
     /**
+     * Adds a CommonJS module to be browserified
+     *
+     * @param name {String} name of the module
+     */
+    addCommonjsModule(moduleName, className, linenum) {
+      if (!this.__commonjsModules[moduleName]) {
+        this.__commonjsModules[moduleName] = new Set();
+      }
+
+      this.__commonjsModules[moduleName].add(`${className}:${linenum}`);
+    },
+
+    /**
      * Adds an ignored symbol
      * @param name {String} name of the symbol
      */
@@ -2866,42 +2953,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "in  instanceof  int interface let  long  native  new null  package private protected public  return  short static " +
       "super  switch  synchronized  this throw throws  transient true try typeof  var void volatile  while with  yield";
     str.split(/\s+/).forEach(word => (statics.RESERVED_WORDS[word] = true));
+    statics.SYSTEM_CHECKS = {};
+    "Boolean,String,Number,Integer,PositiveNumber,PositiveInteger,Error,RegExp,Object,Array,Map,Function,Date,Node,Element,Document,Window,Event,Class,Mixin,Interface,Theme,Color,Decorator,Font"
+      .split(",")
+      .forEach(word => (statics.SYSTEM_CHECKS[word] = true));
   },
 
   statics: {
-    /**
-     * Returns the absolute path to the class file
-     *
-     * @param library  {qx.tool.compiler.app.Library}
-     * @param className {String}
-     * @returns {String}
-     */
-    getSourcePath(library, className) {
-      return pathModule.join(
-        library.getRootDir(),
-        library.getSourcePath(),
-        className.replace(/\./g, pathModule.sep) +
-          library.getSourceFileExtension(className)
-      );
-    },
-
-    /**
-     * Returns the path to the rewritten class file
-     *
-     * @param analyser {qx.tool.compiler.Analyser}
-     * @param className {String}
-     * @returns {String}
-     */
-    getOutputPath(analyser, className) {
-      var filename = pathModule.join(
-        analyser.getOutputDir(),
-        "transpiled",
-        className.replace(/\./g, pathModule.sep) + ".js"
-      );
-
-      return filename;
-    },
-
     /**
      * Returns the root namespace from the classname, or null if it cannot be determined
      * @param className
@@ -3098,6 +3156,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.promise": true,
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true
-    }
+    },
+
+    SYSTEM_CHECKS: null
   }
 });

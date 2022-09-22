@@ -140,13 +140,9 @@ qx.Class.define("qx.tool.cli.Watch", {
 
       var dirs = [];
       var analyser = this.__maker.getAnalyser();
-      analyser.addListener(
-        "compiledClass",
-        function () {
-          this.__stats.classesCompiled++;
-        },
-        this
-      );
+      analyser.addListener("compiledClass", () => {
+        this.__stats.classesCompiled++;
+      });
 
       dirs.push(qx.tool.config.Compile.config.fileName);
       dirs.push("compile.js");
@@ -158,6 +154,9 @@ qx.Class.define("qx.tool.cli.Watch", {
         dir = path.join(lib.getRootDir(), lib.getThemePath());
         dirs.push(dir);
       });
+      if (analyser.getProxySourcePath()) {
+        dirs.push(path.resolve(analyser.getProxySourcePath()));
+      }
       var applications = (this.__applications = []);
       this.__maker.getApplications().forEach(function (application) {
         var data = {

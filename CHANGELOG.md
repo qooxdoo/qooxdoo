@@ -2,6 +2,14 @@
 
 ## Breaking changes
 
+- (>=v8.0.0) Setting model data for a `qx.ui.table.Table` when the table is still editing will
+now raise an error as this could have lead to an invalid edit. To prevent any errors, ensure
+that the table edits are completed or cancelled before refreshing table model data.
+
+# v7.0.0
+
+## Breaking changes
+
 - The `qx.library` config setting is no longer used by the
 compiler. If you want to override the path to the framework
 source, add the path to `compile.json`'s `libraries` array.
@@ -16,8 +24,8 @@ at the bottom. Before that, the 2 values were reversed
 not set the `active` status of the group, thus staying active even if the group
 was inactive.
 
-  ```
-
+- `qx.theme.tangible` fixed typo `focussed` -> `focused`. If inheriting from 
+the theme make sure to update colors to `primary-focused` or `error-focused`.
 
 ## Deprecations:
 

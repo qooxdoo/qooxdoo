@@ -86,7 +86,10 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
      */
     loadNpmModule(module) {
       const { execSync } = require("child_process");
-      let s = `npm install --no-save --no-package-lock ${module}`;
+      // since npm 7 --no-save deletes the node_modules folder
+      // see https://github.com/npm/cli/pull/3907
+      //       let s = `npm install --no-save --no-package-lock ${module}`;
+      let s = `npm install --no-package-lock ${module}`;
       qx.tool.compiler.Console.info(s);
       execSync(s, {
         stdio: "inherit"

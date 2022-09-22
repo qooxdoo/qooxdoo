@@ -255,12 +255,14 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
           lookupListIndexes.forEach(index => {
             let subTable = lookupList[index].subTables[0];
             let leadingCharacters = [];
-            subTable.coverage.rangeRecords.forEach(coverage => {
-              for (let i = coverage.start; i <= coverage.end; i++) {
-                let character = font.stringsForGlyph(i)[0];
-                leadingCharacters.push(character);
-              }
-            });
+            if (subTable.coverage.rangeRecords) {
+              subTable.coverage.rangeRecords.forEach(coverage => {
+                for (let i = coverage.start; i <= coverage.end; i++) {
+                  let character = font.stringsForGlyph(i)[0];
+                  leadingCharacters.push(character);
+                }
+              });
+            }
             let ligatureSets = subTable.ligatureSets.toArray();
             ligatureSets.forEach((ligatureSet, ligatureSetIndex) => {
               let leadingCharacter = leadingCharacters[ligatureSetIndex];

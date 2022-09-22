@@ -53,11 +53,11 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "additionalItems": false,
         "required": [
           "class",
           "name"
         ],
+        "additionalProperties": false,
         "properties": {
           "class" : {
             "description": "The class name of the main application class (it typically inherits from `qx.application.Standalone` for web applications)",
@@ -104,6 +104,10 @@
             "description": "Whether this application is to be deployed. Defaults to true.",
             "type": "boolean",
             "default": true
+          },
+          "default": {
+            "description": "This browser application is written into the root of the target dir. If not set the first application is used instead",
+            "type": "boolean"
           },
           "standalone": {
             "description": "Whether this application can be opened in a browser on its own (true) or is part of a different application (false)",
@@ -168,6 +172,12 @@
           },
           "parts": {
             "$ref": "#/properties/parts"
+          },
+          "localModules": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       }
@@ -212,6 +222,10 @@
           },
           "deployPath": {
             "description": "The folder where the deploy outputs to.",
+            "type": "string"
+          },
+          "proxySourcePath": {
+            "description": "The folder containing proxy classes (normally machine generated) to take precedence over those found in normal library sources",
             "type": "string"
           },
           "targetClass": {

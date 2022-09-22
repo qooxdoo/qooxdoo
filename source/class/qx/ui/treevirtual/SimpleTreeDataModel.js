@@ -795,7 +795,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      * Sets the whole data en bulk, or notifies the data model that node
      * modifications are complete.
      *
-     * @param nodeArr {Array | null}
+     * @param nodeArr {Array?null}
      *   Pass either an Array of node objects, or null.
      *
      *   If non-null, nodeArr is an array of node objects containing the
@@ -813,6 +813,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      * @throws {Error} If the parameter has the wrong type.
      */
     setData(nodeArr) {
+      this._checkEditing();
       if (nodeArr instanceof Array) {
         // Save the user-supplied data.
         this._nodeArr = nodeArr;
@@ -853,6 +854,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      *
      */
     clearData() {
+      this._checkEditing();
       this._clearSelections();
       this.setData([qx.ui.treevirtual.MTreePrimitive._getEmptyTree()]);
     },
@@ -907,9 +909,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
      *   {@link SimpleTreeDataModel}.  Each property value will be assigned
      *   to the corresponding property of the node specified by nodeId.
      *
+     * @param suppressRedraw {Boolean}
+     *    If true then prevents redraw; it becomes the caller's responsibility to
+     *    call setData() subsequently, to cause a redraw.
+     *
      * @throws {Error} If the node object or id is not valid.
      */
-    setState(nodeReference, attributes) {
+    setState(nodeReference, attributes, suppressRedraw) {
       var node;
       var nodeId;
 
@@ -1003,7 +1009,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
 
             // Re-render the row data since formerly visible rows may now be
             // invisible, or vice versa.
-            this.setData();
+            if (!suppressRedraw) {
+              this.setData();
+            }
             break;
 
           default:

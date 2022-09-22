@@ -1650,34 +1650,6 @@ qx.Bootstrap.define("qx.Class", {
     },
 
     /**
-     * Wraps a member function of a mixin, which is included using "patch". This
-     * allows "base" calls in the mixin member function.
-     *
-     * @param member {Function} The mixin method to wrap
-     * @param base {Function} The overwritten method
-     * @return {Function} the wrapped mixin member
-     */
-    __mixinMemberWrapper(member, base) {
-      if (qx.core.Environment.get("qx.compiler")) {
-        throw new Error(
-          "This function should not be used except with code compiled by the generator (ie python toolchain)"
-        );
-      } else {
-        if (base) {
-          return function () {
-            var oldBase = member.base;
-            member.base = base;
-            var retval = member.apply(this, arguments);
-            member.base = oldBase;
-            return retval;
-          };
-        } else {
-          return member;
-        }
-      }
-    },
-
-    /**
      * Add a single interface to a class
      *
      * @param clazz {Class} class to add interface to

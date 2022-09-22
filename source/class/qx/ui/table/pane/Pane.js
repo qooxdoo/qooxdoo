@@ -632,7 +632,9 @@ qx.Class.define("qx.ui.table.pane.Pane", {
       var offset = row - firstRow;
       var rowElem = tableChildNodes[offset];
 
-      if (row > modelRowCount || typeof rowElem == "undefined") {
+      // `row` can be too big if rows were deleted. In that case, we
+      // can't update the current single row
+      if (row >= modelRowCount || typeof rowElem == "undefined") {
         this._updateAllRows();
         return;
       }

@@ -34,18 +34,14 @@ qx.Class.define("qx.test.mobile.container.Scroll", {
         "hidden"
       );
 
-      scrollContainer.addListener(
-        "waypoint",
-        function (wayPoint) {
-          var wayPointData = wayPoint.getData();
-          this.resume(function () {
-            this.assertEquals("x", wayPointData.axis);
-            this.assertEquals(0, wayPointData.index);
-            this.assertEquals("left", wayPointData.direction);
-          }, this);
-        },
-        this
-      );
+      scrollContainer.addListener("waypoint", wayPoint => {
+        var wayPointData = wayPoint.getData();
+        this.resume(function () {
+          this.assertEquals("x", wayPointData.axis);
+          this.assertEquals(0, wayPointData.index);
+          this.assertEquals("left", wayPointData.direction);
+        }, this);
+      });
 
       var content = new qx.ui.mobile.core.Widget();
       qxWeb(content.getContainerElement()).setStyles({

@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.layout.Canvas", {
           if (left == null && right == null) {
             switch (child.getAlignX()) {
               case "center":
-                left = (availWidth - size.width) / 2 - marginRight;
+                left = Math.round((availWidth - size.width) / 2 - marginRight);
                 break;
               case "right":
                 right = 0;
@@ -286,7 +286,10 @@ qx.Class.define("qx.ui.layout.Canvas", {
           if (top == null && bottom == null) {
             switch (child.getAlignY()) {
               case "middle":
-                top = (availHeight - size.height) / 2 - marginBottom;
+                top = Math.round(
+                  (availHeight - size.height) / 2 - marginBottom
+                );
+
                 break;
               case "bottom":
                 bottom = 0;

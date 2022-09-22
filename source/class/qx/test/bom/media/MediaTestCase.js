@@ -163,15 +163,11 @@ qx.Class.define("qx.test.bom.media.MediaTestCase", {
     },
 
     testVolumeChangeEvent() {
-      this._media.addListener(
-        "volumechange",
-        function (e) {
-          this.resume(function () {
-            this.assertEquals(0.5, this._media.getVolume());
-          }, this);
-        },
-        this
-      );
+      this._media.addListener("volumechange", e => {
+        this.resume(function () {
+          this.assertEquals(0.5, this._media.getVolume());
+        }, this);
+      });
 
       this._media.setVolume(0.5);
 
@@ -208,15 +204,11 @@ qx.Class.define("qx.test.bom.media.MediaTestCase", {
       }
       this.assertTrue(this._media.isPaused());
 
-      this._media.addListener(
-        "play",
-        function (e) {
-          this.resume(function () {
-            this.assertFalse(this._media.isPaused());
-          }, this);
-        },
-        this
-      );
+      this._media.addListener("play", e => {
+        this.resume(function () {
+          this.assertFalse(this._media.isPaused());
+        }, this);
+      });
 
       this._media.play();
 
