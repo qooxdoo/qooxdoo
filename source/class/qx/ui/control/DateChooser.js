@@ -206,6 +206,10 @@ qx.Class.define("qx.ui.control.DateChooser", {
       apply: "_applyValue"
     },
 
+    /**
+     * The minimal date value of the widget. Dates which are less
+     * than this property value will be shown as disabled (not clickable).
+     */
     minValue: {
       check: "Date",
       init: null,
@@ -213,6 +217,10 @@ qx.Class.define("qx.ui.control.DateChooser", {
       apply: "_applyMinValue"
     },
 
+    /**
+     * The maximal date value of the widget. Dates which are greater
+     * than this property value will be shown as disabled (not clickable).
+     */
     maxValue: {
       check: "Date",
       init: null,
