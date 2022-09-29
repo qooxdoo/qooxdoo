@@ -322,8 +322,8 @@ qx.Class.define("qx.ui.form.Slider", {
      */
     _onKeyPress(e) {
       var isHorizontal = this.getOrientation() === "horizontal";
-      var backward = isHorizontal ? "Left" : "Up";
-      var forward = isHorizontal ? "Right" : "Down";
+      var backward = isHorizontal ? "Left" : "Down";
+      var forward = isHorizontal ? "Right" : "Up";
 
       switch (e.getKeyIdentifier()) {
         case forward:
@@ -334,11 +334,11 @@ qx.Class.define("qx.ui.form.Slider", {
           this.slideBack();
           break;
 
-        case "PageDown":
+        case "PageUp":
           this.slidePageForward(100);
           break;
 
-        case "PageUp":
+        case "PageDown":
           this.slidePageBack(100);
           break;
 
