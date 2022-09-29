@@ -3,7 +3,7 @@
 Qooxdoo comes with its own, nicely integrated
 [Unit Testing](https://en.wikipedia.org/wiki/Unit_testing) environment, similar
 to JSUnit and based on the
-[Sinon library (v1.9.1)](https://sinonjs.org/releases/v1.17.7). See Qooxdoo's
+[Sinon library (v1.9.1)](https://sinonjs.org/releases/v1). See Qooxdoo's
 [unit testing API](apps://apiviewer/#qx.dev.unit).
 
 Unit Testing is best suited for isolated pieces of functionality without side
