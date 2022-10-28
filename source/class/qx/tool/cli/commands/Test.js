@@ -56,6 +56,20 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         describe: "Disables the start of the webserver",
         default: false,
         type: "boolean"
+      },
+
+      class: {
+        describe: "specify class of tests which will be run",
+        nargs: 1,
+        requiresArg: true,
+        type: "string"
+      },
+
+      method: {
+        describe: "specify test which will be run",
+        nargs: 1,
+        requiresArg: true,
+        type: "string"
       }
     },
 
