@@ -44,6 +44,7 @@
   "files": [
     "LICENSE",
     "addGitHook",
+    "bin/tools/utils.js",
     "CHANGELOG.md",
     "README.md",
     "Manifest.json",
