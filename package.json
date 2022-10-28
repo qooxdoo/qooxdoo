@@ -43,6 +43,7 @@
   },
   "files": [
     "LICENSE",
+    "addGitHook",
     "CHANGELOG.md",
     "README.md",
     "Manifest.json",
