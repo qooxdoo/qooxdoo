@@ -1,5 +1,15 @@
 # Qooxdoo Release Notes
 
+## New features in v7.3
+- Core: add min and max values to DateChooser  (#10462)
+- Core: allows toolbars to be given a different layout (#10452)
+- Core: allows tabview pages to be scrollable (adds ScrollablePage) (#10448)
+
+- Compiler: adding support for proxy classes (#10446)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-07-11&until=2022-10-26
+
+
 ## Noteable changes in v7.2
  - To supplement the ability to bundle CommonJS modules that was added
 in v7.1, it is now additionally possible to bundle local (in the local

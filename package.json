@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.2.1",
+  "version": "7.3.3",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "keywords": [
@@ -34,7 +34,7 @@
     "qx": "bin/deploy/qx"
   },
   "scripts": {
-    "preinstall": "git config core.hooksPath .github/hooks",
+    "preinstall": "node ./addGitHook",
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
     "pretest": "node ./bootstrap-compiler",
@@ -43,6 +43,8 @@
   },
   "files": [
     "LICENSE",
+    "addGitHook",
+    "bin/tools/utils.js",
     "CHANGELOG.md",
     "README.md",
     "Manifest.json",
@@ -83,7 +85,7 @@
     "cldr": "^7.1.1",
     "columnify": "^1.5.4",
     "console-control-strings": "^1.1.0",
-    "core-js-bundle": "^3.19.1",
+    "core-js-bundle": "^3.26.0",
     "dot": "^1.1.3",
     "download": "^6.0.0",
     "es6-promise-pool": "^2.5.0",
