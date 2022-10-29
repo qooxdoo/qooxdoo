@@ -58,14 +58,14 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         type: "boolean"
       },
 
-      class: {
+      "class-name": {
         describe: "specify class of tests which will be run",
         nargs: 1,
         requiresArg: true,
         type: "string"
       },
 
-      method: {
+      "method-name": {
         describe: "specify test which will be run",
         nargs: 1,
         requiresArg: true,
