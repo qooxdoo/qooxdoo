@@ -518,7 +518,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           parsedArgs.environment[key] = value;
         });
       }
-      config.targetType = parsedArgs.target || config.defaultTarget || "source";
+      qx.tool.config.Compile.getInstance().setTargetType(parsedArgs.target || config.defaultTarget || "source");
 
       if (!config.locales) {
         config.locales = [];
@@ -536,7 +536,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       // one and assign it to the target.
       if (config.targets) {
         const target = config.targets.find(
-          target => target.type === config.targetType
+          target => target.type === qx.tool.config.Compile.getInstance().getTargetType()
         );
 
         target.environment = target.environment || {};

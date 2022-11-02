@@ -750,7 +750,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       let targetConfigs = [];
       let defaultTargetConfig = null;
       data.targets.forEach(targetConfig => {
-        if (targetConfig.type === data.targetType) {
+        if (targetConfig.type === qx.tool.config.Compile.getInstance().getTargetType()) {
           if (
             !targetConfig["application-names"] &&
             !targetConfig["application-types"]
