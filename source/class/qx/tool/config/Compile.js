@@ -31,13 +31,5 @@ qx.Class.define("qx.tool.config.Compile", {
 
   construct() {
     super(this.self(arguments).config);
-  },
-  properties: {
-    /**
-     * calculated target type
-     */
-    targetType: {
-      check: "String"
-    }
   }
 });
