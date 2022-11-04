@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+const utils = require("./bin/tools/utils");
+const fs = require("fs");
+(async function() {
+  if (fs.existsSync(".github/hooks")) {
+     await utils.runCommand(".", "git",  "config", "core.hooksPath", ".github/hooks");
+  }
+})();
+
