@@ -21,7 +21,10 @@ const async = require("async");
 const { promisify } = require("util");
 const child_process = require("child_process");
 const psTree = require("ps-tree");
-
+/**
+ * @ignore(process)
+ */
+/* global process */
 /**
  * Utility methods
  */

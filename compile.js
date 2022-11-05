@@ -159,7 +159,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
               path.join(
                 __dirname,
                 "bin",
-                command._getConfig().targetType,
+                command.getTargetType(),
                 "qx"
               ),
               "lint",
@@ -223,7 +223,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
     __getArgs(command, argList) {
       let res = [];
       res.push(
-        path.join(__dirname, "bin", command._getConfig().targetType, "qx")
+        path.join(__dirname, "bin", command.getTargetType(), "qx")
       );
       res.push("test");
       for (const arg of argList) {
