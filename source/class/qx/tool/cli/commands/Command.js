@@ -173,6 +173,14 @@ qx.Class.define("qx.tool.cli.commands.Command", {
       } catch (e) {
         throw new qx.tool.utils.Utils.UserError(e.message);
       }
-    }
+    },
+
+    /**
+     * Returns the calculated target type
+     * @returns {String}
+     */
+    getTargetType() {
+      return this.argv.target || this.getCompilerApi().getConfiguration().defaultTarget || "source";
+    },
   }
 });
