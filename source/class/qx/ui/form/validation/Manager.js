@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.form.validation.Manager", {
     },
 
     /**
-     * The invalid message should store the message why the form validation
+     * The invalid message stores the message why the form validation
      * failed. It will be added to the array returned by
      * {@link #getInvalidMessages}.
      */
