@@ -107,12 +107,6 @@ module.exports = function (argv, data) {
         return "^" + data.qooxdoo_version;
       }
     },
-    "compiler_range": {
-      "description": "the semver range of qooxdoo compiler versions that are compatible with this application",
-      "default": function () {
-        return "^" + qx.tool.config.Utils.getCompilerVersion();
-      }
-    },
     "theme": {
       "description": "the theme of the application",
       "default": argv.theme
