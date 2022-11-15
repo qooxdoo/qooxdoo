@@ -155,7 +155,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       if (this.__showStartpage === undefined || this.__showStartpage === null) {
         this.__showStartpage = defaultMaker === null;
       }
-      var config = this._getConfig();
+      let config = this.getCompilerApi().getConfiguration();
       const app = express();
       app.use((req, res, next) => {
         res.set({
