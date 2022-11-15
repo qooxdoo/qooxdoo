@@ -111,7 +111,11 @@ qx.Class.define("qx.test.ui.form.Form", {
         },
         function (e) {
           self.assertEquals("affe", e.getData(), "Wrong data in the event.");
-          self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+          self.assertEquals(
+            null,
+            e.getOldData(),
+            "Wrong old data in the event."
+          );
         },
         "Change event not fired!"
       );

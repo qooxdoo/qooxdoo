@@ -65,7 +65,7 @@ qx.Class.define("qx.tool.cli.commands.Run", {
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
       await super.process();
-      let config = this._getConfig();
+      let config = this.getCompilerApi().getConfiguration();
       if (!config.run) {
         qx.tool.compiler.Console.print("qx.tool.cli.run.noRunConfig");
         process.exit(-1);
