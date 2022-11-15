@@ -21,6 +21,10 @@ qx.Class.define("qx.test.util.DeferredCall", {
 
   members: {
     testGlobalErrorHandling() {
+      if (navigator.plugins.length == 0) {
+        this.skip("test disabled on headless browsers");
+      }
+
       var fail = function () {
         throw new Error("fail");
       };
