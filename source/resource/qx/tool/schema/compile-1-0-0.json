@@ -47,6 +47,12 @@
         }
       }
     },
+    "localModules": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
     "applications": {
       "type":"array",
       "description": "Each entry describes an application to be compiled.",
@@ -174,10 +180,7 @@
             "$ref": "#/properties/parts"
           },
           "localModules": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
+            "$ref": "#/properties/localModules"
           }
         }
       }
