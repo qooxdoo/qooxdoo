@@ -22,7 +22,6 @@
  * @asset(qx/font/Roboto/*.woff2)
  * @asset(qx/font/Roboto/*.eot)
  * @asset(qx/font/Roboto/*.ttf)
- * @asset(qx/iconfont/MaterialIcons/*)
  */
 /**
  * The simple qooxdoo font theme.

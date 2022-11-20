@@ -37,7 +37,6 @@
  *
  * @group (Core)
  *
- * @asset(qx/iconfont/MaterialIcons/*)
  */
 qx.Bootstrap.define("qxWeb", {
   extend: qx.type.BaseArray,
