@@ -30,12 +30,14 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
   construct(appMeta) {
     super(appMeta, `${appMeta.getApplicationRoot()}commonjs-browserify.js`);
+    this.__commonjsModules = [];
+    this.__references = {};
     this.setNeedsWriteToDisk(true);
   },
 
   members: {
-    __commonjsModules: [],
-    __references: {},
+    __commonjsModules: null,
+    __references: null,
 
     __getCommonjsModules() {
       let commonjsModules = new Set();
@@ -80,6 +82,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       let doIt = !!!(await qx.tool.utils.files.Utils.safeStat(
         this.getFilename()
       ));
+
       // Include any dynamically determined `require()`d modules
       if (commonjsModules.length > 0) {
         modules.push(commonjsModules);
@@ -93,6 +96,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           let stat = await qx.tool.utils.files.Utils.safeStat(
             localModules[requireName]
           );
+
           modulesInfo.localModules[requireName] = stat.mtime.getTime();
           doIt ||=
             modulesInfo.localModules[requireName] >
