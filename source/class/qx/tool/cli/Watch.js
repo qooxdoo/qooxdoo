@@ -170,6 +170,13 @@ qx.Class.define("qx.tool.cli.Watch", {
         if (dir && !dirs.includes(dir)) {
           dirs.push(dir);
         }
+        let localModules = application.getLocalModules();
+        for (let requireName in localModules) {
+          let dir = localModules[requireName];
+          if (dir && !dirs.includes(dir)) {
+            dirs.push(dir);
+          }
+        }
       });
       if (this.isDebug()) {
         qx.tool.compiler.Console.debug(
@@ -291,15 +298,22 @@ qx.Class.define("qx.tool.cli.Watch", {
               data.dependsOn = {};
               var deps = data.application.getDependencies();
               deps.forEach(function (classname) {
-                var info = db.classInfo[classname];
-                var lib = analyser.findLibrary(info.libraryName);
-                var parts = [lib.getRootDir(), lib.getSourcePath()].concat(
+                let info = db.classInfo[classname];
+                let lib = analyser.findLibrary(info.libraryName);
+                let parts = [lib.getRootDir(), lib.getSourcePath()].concat(
                   classname.split(".")
                 );
 
-                var filename = path.resolve.apply(path, parts) + ".js";
+                let filename = path.resolve.apply(path, parts) + ".js";
                 data.dependsOn[filename] = true;
               });
+
+              let localModules = data.application.getLocalModules();
+              for (let requireName in localModules) {
+                let filename = path.resolve(localModules[requireName]);
+                data.dependsOn[filename] = true;
+              }
+
               var filename = path.resolve(data.application.getLoaderTemplate());
               promises.push(
                 qx.tool.utils.files.Utils.correctCase(filename).then(

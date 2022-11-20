@@ -195,17 +195,28 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
       //  will be no dependencies so we just compile anyway, but `qx compile --watch` will call it
       //  multiple times
       let compiledClasses = this.getRecentlyCompiledClasses(true);
-      var appsThisTime = this.__applications.filter(app => {
+      let db = analyser.getDatabase();
+
+      var appsThisTime = await this.__applications.filter(async app => {
         let loadDeps = app.getDependencies();
         if (!loadDeps || !loadDeps.length) {
           return true;
         }
-        return loadDeps.some(name => Boolean(compiledClasses[name]));
+        let res = loadDeps.some(name => Boolean(compiledClasses[name]));
+        let localModules = app.getLocalModules();
+        for (let requireName in localModules) {
+          let stat = await qx.tool.utils.files.Utils.safeStat(
+            localModules[requireName]
+          );
+          res ||=
+            stat.mtime.getTime() >
+            (db?.modulesInfo?.localModules[requireName] || 0);
+        }
+        return res;
       });
 
       let allAppInfos = [];
 
-      let db = analyser.getDatabase();
       for (let i = 0; i < appsThisTime.length; i++) {
         let application = appsThisTime[i];
         if (application.getType() != "browser" && !compileEnv["qx.headless"]) {
