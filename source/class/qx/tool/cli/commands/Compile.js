@@ -1224,8 +1224,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           if (appConfig.description) {
             app.setDescription(appConfig.description);
           }
-          appConfig.localModules = appConfig.localModules || data.localModules;
-          if (appConfig.localModules) {
+          appConfig.localModules = appConfig.localModules || {};
+          qx.lang.Object.mergeWith(
+            appConfig.localModules,
+            data.localModules || {},
+            false
+          );
+          if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }
 
