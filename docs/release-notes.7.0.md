@@ -7,7 +7,7 @@
 It's neccesary when:
     - commonjs-browserify.js does not exits
     - The list of modules has changed
-    - One ore more of the localModules are newer compared to the last run                
+    - One or more of the localModules are newer compared to the last run                
 
 - localModules are now detected by the watch process    
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-10-26&until=2022-11-26
