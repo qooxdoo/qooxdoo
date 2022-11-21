@@ -531,8 +531,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
-
-      var config =  this.getCompilerApi().getConfiguration();
+      var config = this.getCompilerApi().getConfiguration();
       var makers = (this.__makers = await this.createMakersFromConfig(config));
       if (!makers || !makers.length) {
         throw new qx.tool.utils.Utils.UserError(
@@ -1225,8 +1224,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           if (appConfig.description) {
             app.setDescription(appConfig.description);
           }
-
-          if (appConfig.localModules) {
+          appConfig.localModules = appConfig.localModules || {};
+          qx.lang.Object.mergeWith(
+            appConfig.localModules,
+            data.localModules || {},
+            false
+          );
+          if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }
 
@@ -1580,7 +1584,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
     getLibraries() {
       return this.__libraries;
     }
-
   },
 
   defer(statics) {
