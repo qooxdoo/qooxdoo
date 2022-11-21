@@ -1,5 +1,15 @@
 # Qooxdoo Release Notes
 
+## New features in v7.4
+- compile.json: localModules can now be used in the root of the file. So you can adress the modules for all apllications.
+                Application modules will be merged with global ones.
+- browserify of npm modules: Browserify of the used npm modules is a time cosuming process. No it's checked if it's really neccesary.
+It's neccesary when:
+    - commonjs-browserify.js do not exits
+    - The list of modules has changed
+    - One of the localModules are newer compared to the last run                
+- localModules are now detected by the watch process    
+ 
 ## New features in v7.3
 - Core: add min and max values to DateChooser  (#10462)
 - Core: allows toolbars to be given a different layout (#10452)
