@@ -52,7 +52,7 @@ qx.Mixin.define("qx.ui.form.MForm", {
     },
 
     /**
-     * Message which is shown in an invalid tooltip.
+     * Message which will be shown in an tooltip if the widget is invalid.
      */
     invalidMessage: {
       init: null,
@@ -62,7 +62,7 @@ qx.Mixin.define("qx.ui.form.MForm", {
     },
 
     /**
-     * Message which is shown in an invalid tooltip if the {@link #required} is
+     * Message which will be shown in an invalid tooltip if the {@link #required} is
      * set to true.
      */
     requiredInvalidMessage: {

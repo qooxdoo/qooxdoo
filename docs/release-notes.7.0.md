@@ -1,16 +1,38 @@
 # Qooxdoo Release Notes
 
+## New features in v7.4
+- compile.json: localModules can now be used in the root of the file. So you can address the modules for all applications.
+                Application modules will be merged with global ones.
+- browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really neccesary.
+It's neccesary when:
+    - commonjs-browserify.js does not exits
+    - The list of modules has changed
+    - One or more of the localModules are newer compared to the last run                
+
+- localModules are now detected by the watch process    
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-10-26&until=2022-11-26
+ 
+## New features in v7.3
+- Core: add min and max values to DateChooser  (#10462)
+- Core: allows toolbars to be given a different layout (#10452)
+- Core: allows tabview pages to be scrollable (adds ScrollablePage) (#10448)
+
+- Compiler: adding support for proxy classes (#10446)
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-07-11&until=2022-10-26
+
+
 ## Noteable changes in v7.2
  - To supplement the ability to bundle CommonJS modules that was added
 in v7.1, it is now additionally possible to bundle local (in the local
 tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
-documented [here](development/compiler/confguration/README.md).
+documented [here](development/compiler/configuration/README.md).
  - We introduce 2 new widgets: qx.ui.form.FileSelectorButton and qx.ui.toolbar.FileSelectorButton.
  
 
 
 ## New features and fixes in v7.1
- - Browser-based applications may now make Node-style requests to `require` a CommonJS module, and the compiler will automatically create a bundle containing the required modules and inject it into the application so those modules are available for use. Documentation is found [here](development/compiler/confguration/README.md).
+ - Browser-based applications may now make Node-style requests to `require` a CommonJS module, and the compiler will automatically create a bundle containing the required modules and inject it into the application so those modules are available for use. Documentation is found [here](development/compiler/configuration/README.md).
 
 
 

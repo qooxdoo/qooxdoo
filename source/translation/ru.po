@@ -1,5 +1,5 @@
 # Russian
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
@@ -285,7 +285,7 @@ msgstr[1] "тест %1 машины"
 msgstr[2] "тест %1 машин"
 
 msgid "test affe"
-msgstr "тест аффект"
+msgstr ""
 
 msgid "test one"
 msgstr "тест один"

@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.form.validation.Manager", {
     },
 
     /**
-     * The invalid message should store the message why the form validation
+     * The invalid message stores the message why the form validation
      * failed. It will be added to the array returned by
      * {@link #getInvalidMessages}.
      */
@@ -483,8 +483,13 @@ qx.Class.define("qx.ui.form.validation.Manager", {
             }
 
             let msg = item.getInvalidMessage();
-            if (!msg && qx.core.Environment.get("qx.ui.form.validation.Manager.allowDefaultInvalidMessage")) {
-              msg = "Invalid field";
+            if (
+              msg &&
+              qx.core.Environment.get(
+                "qx.ui.form.validation.Manager.allowDefaultInvalidMessage"
+              )
+            ) {
+              msg = qx.locale.Manager.tr("Invalid field");
             } else if (qx.core.Environment.get("qx.debug")) {
               this.assertTrue(msg != null && msg.length > 0);
             }
@@ -538,8 +543,13 @@ qx.Class.define("qx.ui.form.validation.Manager", {
         var formItem = this.__formItems[i].item;
         if (!formItem.getValid()) {
           let msg = formItem.getInvalidMessage();
-          if (!msg && qx.core.Environment.get("qx.ui.form.validation.Manager.allowDefaultInvalidMessage")) {
-            msg = "Invalid field";
+          if (
+            !msg &&
+            qx.core.Environment.get(
+              "qx.ui.form.validation.Manager.allowDefaultInvalidMessage"
+            )
+          ) {
+            msg = qx.locale.Manager.tr("Invalid field");
           } else if (qx.core.Environment.get("qx.debug")) {
             this.assertTrue(msg !== null && msg.length > 0);
           }
@@ -550,12 +560,9 @@ qx.Class.define("qx.ui.form.validation.Manager", {
       // add the forms fail message
       if (!this.isValid()) {
         let msg = this.getInvalidMessage();
-        if (!msg && qx.core.Environment.get("qx.ui.form.validation.Manager.allowDefaultInvalidMessage")) {
-          msg = "Invalid field";
-        } else if (qx.core.Environment.get("qx.debug")) {
-          this.assertTrue(msg !== null && msg.length > 0);
+        if (msg != "") {
+          messages.push(msg);
         }
-        messages.push(msg);
       }
 
       return messages;
@@ -665,7 +672,7 @@ qx.Class.define("qx.ui.form.validation.Manager", {
   },
 
   environment: {
-    // Whether to assume a default "Invalid Field" message for invalid fields; if false, an 
+    // Whether to assume a default "Invalid Field" message for invalid fields; if false, an
     //  exception will be raised if invalid fields do not have an `invalidMessage`
     "qx.ui.form.validation.Manager.allowDefaultInvalidMessage": true
   }

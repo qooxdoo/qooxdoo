@@ -55,6 +55,7 @@ jobs:
 
   dispatch:
     name: Send repository_dispatch
+    continue-on-error: true
     if: ${{ github.repository == 'qooxdoo/qooxdoo' }}
     needs: [provide_repository_names, sleep]
     strategy:

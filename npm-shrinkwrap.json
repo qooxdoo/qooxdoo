@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.2.1",
+  "version": "7.3.3",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -1664,9 +1664,9 @@
       }
     },
     "@xmldom/xmldom": {
-      "version": "0.7.5",
-      "resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.5.tgz",
-      "integrity": "sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A=="
+      "version": "0.8.3",
+      "resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.3.tgz",
+      "integrity": "sha512-Lv2vySXypg4nfa51LY1nU8yDAGo/5YwF+EY/rUZgIbfvwVARcd67ttCM8SMsTeJy51YhHYavEq+FS6R0hW9PFQ=="
     },
     "JSONStream": {
       "version": "1.3.5",
@@ -2566,7 +2566,7 @@
     "chainsaw": {
       "version": "0.0.9",
       "resolved": "https://registry.npmjs.org/chainsaw/-/chainsaw-0.0.9.tgz",
-      "integrity": "sha1-EaBRAtHEx4W20EFdM21aOhYSkT4=",
+      "integrity": "sha512-nG8PYH+/4xB+8zkV4G844EtfvZ5tTiLFoX3dZ4nhF4t3OCKIb9UvaFyNmeZO2zOSmRWzBoTD+napN6hiL+EgcA==",
       "requires": {
         "traverse": ">=0.3.0 <0.4"
       }
@@ -2616,11 +2616,11 @@
       }
     },
     "cldr": {
-      "version": "7.1.1",
-      "resolved": "https://registry.npmjs.org/cldr/-/cldr-7.1.1.tgz",
-      "integrity": "sha512-zHHQLSZT9i/g7wAxGrMj1BRD7JYOSJHvPIT06EFkFEl4m9ItW48i9yWqgRgWESJ5oUqLs9IuMDoKf+21Lscqrg==",
+      "version": "7.2.0",
+      "resolved": "https://registry.npmjs.org/cldr/-/cldr-7.2.0.tgz",
+      "integrity": "sha512-NJB6wpFlIVrS4BhA/Q1a6UuS6MuFr5o2XhfosM6a+W+rad/Rt0HLLX3kuXdRrwHQZvla25iuzTkRnxOKjS+VhQ==",
       "requires": {
-        "@xmldom/xmldom": "^0.7.1",
+        "@xmldom/xmldom": "^0.8.0",
         "escodegen": "^2.0.0",
         "esprima": "^4.0.1",
         "memoizeasync": "^1.1.0",
@@ -2910,9 +2910,9 @@
       "integrity": "sha1-4wOogrNCzD7oylE6eZmXNNqzriw="
     },
     "core-js-bundle": {
-      "version": "3.19.1",
-      "resolved": "https://registry.npmjs.org/core-js-bundle/-/core-js-bundle-3.19.1.tgz",
-      "integrity": "sha512-Gue79dwltEaCVJKIYtA8Wmo7C3FZKZcjn88qIJwR5RtfvityBOWnimsNnkMS0Ya3fJqydAvL8kepMB0XQoR3CQ=="
+      "version": "3.26.0",
+      "resolved": "https://registry.npmjs.org/core-js-bundle/-/core-js-bundle-3.26.0.tgz",
+      "integrity": "sha512-tqjWRBsaozmNTqnLkvb/xBrSs5mlc+Y8c36QTvmrQMrff1mrQ6wJ5ARzz9UYhUfGiT1BZyka+zqUpPQrw0hZ8g=="
     },
     "core-js-compat": {
       "version": "3.22.4",
@@ -4769,7 +4769,7 @@
     "hashish": {
       "version": "0.0.4",
       "resolved": "https://registry.npmjs.org/hashish/-/hashish-0.0.4.tgz",
-      "integrity": "sha1-bWC8b/r3Ebav1g5CbQd5iAFOZVQ=",
+      "integrity": "sha512-xyD4XgslstNAs72ENaoFvgMwtv8xhiDtC2AtzCG+8yF7W/Knxxm9BX+e2s25mm+HxMKh0rBmXVOEGF3zNImXvA==",
       "requires": {
         "traverse": ">=0.2.4"
       }
@@ -5487,7 +5487,7 @@
     "lru-cache": {
       "version": "2.5.0",
       "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.5.0.tgz",
-      "integrity": "sha1-2COIrpyWC+y+oMc7uet5tsbOmus="
+      "integrity": "sha512-dVmQmXPBlTgFw77hm60ud//l2bCuDKkqC2on1EBoM7s9Urm9IQDrnujwZ93NFnAq0dVZ0HBXTS7PwEG+YE7+EQ=="
     },
     "magic-string": {
       "version": "0.25.1",
@@ -5533,7 +5533,7 @@
     "memoizeasync": {
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/memoizeasync/-/memoizeasync-1.1.0.tgz",
-      "integrity": "sha1-nXAopvJm3rczUQu327pfUYeMVh4=",
+      "integrity": "sha512-HMfzdLqClZo8HMyuM9B6TqnXCNhw82iVWRLqd2cAdXi063v2iJB4mQfWFeKVByN8VUwhmDZ8NMhryBwKrPRf8Q==",
       "requires": {
         "lru-cache": "2.5.0",
         "passerror": "1.1.1"
@@ -5739,9 +5739,9 @@
       "integrity": "sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo="
     },
     "minimatch": {
-      "version": "3.0.4",
-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
-      "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
       "requires": {
         "brace-expansion": "^1.1.7"
       }
@@ -6105,7 +6105,7 @@
     "passerror": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/passerror/-/passerror-1.1.1.tgz",
-      "integrity": "sha1-oluI292RCilgOux9y5bpp6l2h7Q="
+      "integrity": "sha512-PwrEQJBkJMxnxG+tdraz95vTstYnCRqiURNbGtg/vZHLgcAODc9hbiD5ZumGUoh3bpw0F0qKLje7Vd2Fd5Lx3g=="
     },
     "path-browserify": {
       "version": "1.0.1",
@@ -6165,7 +6165,7 @@
     "pegjs": {
       "version": "0.10.0",
       "resolved": "https://registry.npmjs.org/pegjs/-/pegjs-0.10.0.tgz",
-      "integrity": "sha1-z4uvrm7d/0tafvsYUmnqr0YQ3b0="
+      "integrity": "sha512-qI5+oFNEGi3L5HAxDwN2LA4Gg7irF70Zs25edhjld9QemOgp0CbvMtbFcMvFtEo1OityPrcCzkQFB8JP/hxgow=="
     },
     "pend": {
       "version": "1.2.0",
@@ -6792,7 +6792,7 @@
     "seq": {
       "version": "0.3.5",
       "resolved": "https://registry.npmjs.org/seq/-/seq-0.3.5.tgz",
-      "integrity": "sha1-rgKvOkJHk9jMvyEtaRdODFTf/jg=",
+      "integrity": "sha512-sisY2Ln1fj43KBkRtXkesnRHYNdswIkIibvNe/0UKm2GZxjMbqmccpiatoKr/k2qX5VKiLU8xm+tz/74LAho4g==",
       "requires": {
         "chainsaw": ">=0.0.7 <0.1",
         "hashish": ">=0.0.2 <0.1"
@@ -7641,7 +7641,7 @@
     "traverse": {
       "version": "0.3.9",
       "resolved": "https://registry.npmjs.org/traverse/-/traverse-0.3.9.tgz",
-      "integrity": "sha1-cXuPIgzAu3tE5AUUwisui7xw2Lk="
+      "integrity": "sha512-iawgk0hLP3SxGKDfnDJf8wTz4p2qImnyihM5Hh/sGvQ3K37dPi/w8sRhdNIxYA1TwFwc5mDhIJq+O0RsvXBKdQ=="
     },
     "trim-repeated": {
       "version": "1.0.0",
@@ -7798,7 +7798,7 @@
     "unicoderegexp": {
       "version": "0.4.1",
       "resolved": "https://registry.npmjs.org/unicoderegexp/-/unicoderegexp-0.4.1.tgz",
-      "integrity": "sha1-r7EOTvHu3ccRQXu7ZSvIhdqdQXE="
+      "integrity": "sha512-ydh8D5mdd2ldTS25GtZJEgLciuF0Qf2n3rwPhonELk3HioX201ClYGvZMc1bCmx6nblZiADQwbMWekeIqs51qw=="
     },
     "unique-string": {
       "version": "2.0.0",
