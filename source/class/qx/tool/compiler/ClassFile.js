@@ -28,7 +28,6 @@ var babelCore = require("@babel/core");
 var types = require("@babel/types");
 var babylon = require("@babel/parser");
 var async = require("async");
-var pathModule = require("upath");
 
 var log = qx.tool.utils.LogManager.createLog("analyser");
 
@@ -1704,11 +1703,12 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                       arg.value
                     );
                   } else {
-                    qx.tool.compiler.Console.log(
-                      `${t.__className}:${path.node.loc.start.line}:` +
-                        ` automatically detected \'require(${arg.value})\``
-                    );
-
+                    if (qx.tool.compiler.Console.getInstance().getVerbose()) {
+                      qx.tool.compiler.Console.log(
+                        `${t.__className}:${path.node.loc.start.line}:` +
+                          ` automatically detected \'require(${arg.value})\``
+                      );
+                    }
                     t.addCommonjsModule(
                       arg.value,
                       t.__className,
