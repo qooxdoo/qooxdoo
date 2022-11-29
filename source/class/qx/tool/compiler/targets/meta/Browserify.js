@@ -30,8 +30,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
 
   construct(appMeta) {
     super(appMeta, `${appMeta.getApplicationRoot()}commonjs-browserify.js`);
-    this.__commonjsModules = [];
-    this.__references = {};
     this.setNeedsWriteToDisk(true);
   },
 
@@ -40,33 +38,40 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     __references: null,
 
     __getCommonjsModules() {
-      let commonjsModules = new Set();
-      let references = {};
-      const db = this.getAppMeta().getAnalyser().getDatabase();
-      const localModules =
-        this.getAppMeta().getApplication().getLocalModules() || {};
-      // Get a Set of unique `require`d CommonJS module names from
-      // all classes
-      for (let className in db.classInfo) {
-        let classInfo = db.classInfo[className];
-        if (classInfo.commonjsModules) {
-          Object.keys(classInfo.commonjsModules).forEach(moduleName => {
-            // Ignore this found `require()` if its a local modules
-            if (!(moduleName in localModules)) {
-              // Add this module name to the set of module names
-              commonjsModules.add(moduleName);
-            }
-            // Add the list of references from which this module was require()d
-            if (!references[moduleName]) {
-              references[moduleName] = new Set();
-            }
-            references[moduleName].add([
-              ...classInfo.commonjsModules[moduleName]
-            ]);
-          });
+      if (this.__commonjsModules === null) {
+        let commonjsModules = new Set();
+        let references = {};
+        const db = this.getAppMeta().getAnalyser().getDatabase();
+        const localModules =
+          this.getAppMeta().getApplication().getLocalModules() || {};
+        // Get a Set of unique `require`d CommonJS module names from
+        // all classes
+        for (let className in db.classInfo) {
+          let classInfo = db.classInfo[className];
+          if (classInfo.commonjsModules) {
+            Object.keys(classInfo.commonjsModules).forEach(moduleName => {
+              // Ignore this found `require()` if its a local modules
+              if (!(moduleName in localModules)) {
+                // Add this module name to the set of module names
+                commonjsModules.add(moduleName);
+              }
+              // Add the list of references from which this module was require()d
+              if (!references[moduleName]) {
+                references[moduleName] = new Set();
+              }
+              references[moduleName].add([
+                ...classInfo.commonjsModules[moduleName]
+              ]);
+            });
+          }
         }
+        this.__commonjsModules = [...commonjsModules];
+        this.__references = references;
       }
-      return { commonjsModules: [...commonjsModules], references: references };
+      return {
+        commonjsModules: this.__commonjsModules,
+        references: this.__references
+      };
     },
 
     /**
@@ -75,7 +80,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
     async writeToDisk() {
       const localModules = this.getAppMeta().getApplication().getLocalModules();
       let db = this.getAppMeta().getAnalyser().getDatabase();
-      const { commonjsModules, references } = this.__getCommonjsModules();
+      const { commonjsModules } = this.__getCommonjsModules();
 
       let modules = [];
       let modulesInfo = {};
@@ -108,8 +113,6 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       if (doIt) {
         db.modulesInfo = modulesInfo;
         await this.getAppMeta().getAnalyser().saveDatabase();
-        this.__commonjsModules = commonjsModules;
-        this.__references = references;
       }
       this.setNeedsWriteToDisk(doIt);
       return super.writeToDisk();
@@ -129,10 +132,11 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
         const localModules = this.getAppMeta()
           .getApplication()
           .getLocalModules();
-        if (this.__commonjsModules || localModules) {
+        const { commonjsModules, references } = this.__getCommonjsModules();
+        if (commonjsModules.length > 0 || localModules) {
           await this.__browserify(
-            this.__commonjsModules,
-            this.__references,
+            commonjsModules,
+            references,
             localModules,
             ws
           );
