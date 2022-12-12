@@ -646,46 +646,47 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 this.fireEvent("made");
               }
             });
-
-            return await maker.make();
           }
-
-          // Continuous make
-          let watch = new qx.tool.cli.Watch(maker);
-          config.applications.forEach(appConfig => {
-            if (appConfig.runWhenWatching) {
-              watch.setRunWhenWatching(
-                appConfig.name,
-                appConfig.runWhenWatching
-              );
+          await maker.make();
+          if (this.argv.watch) {
+            // Continuous make
+            let watch = new qx.tool.cli.Watch(maker);
+            config.applications.forEach(appConfig => {
+              if (appConfig.runWhenWatching) {
+                watch.setRunWhenWatching(
+                  appConfig.name,
+                  appConfig.runWhenWatching
+                );
+              }
+            });
+            if (this.argv["watch-debug"]) {
+              watch.setDebug(true);
             }
-          });
-          if (this.argv["watch-debug"]) {
-            watch.setDebug(true);
+
+            watch.addListener("making", () => {
+              countMaking++;
+              if (countMaking == 1) {
+                this.fireEvent("making");
+              }
+            });
+            watch.addListener("made", () => {
+              countMaking--;
+              if (countMaking == 0) {
+                this.fireEvent("made");
+              }
+            });
+            watch.addListener("configChanged", async () => {
+              await watch.stop();
+              setImmediate(() => this._loadConfigAndStartMaking());
+            });
+            let arr = [
+              this._compileJsFilename,
+              this._compileJsonFilename
+            ].filter(str => Boolean(str));
+
+            watch.setConfigFilenames(arr);
+            return await watch.start();
           }
-
-          watch.addListener("making", () => {
-            countMaking++;
-            if (countMaking == 1) {
-              this.fireEvent("making");
-            }
-          });
-          watch.addListener("made", () => {
-            countMaking--;
-            if (countMaking == 0) {
-              this.fireEvent("made");
-            }
-          });
-          watch.addListener("configChanged", async () => {
-            await watch.stop();
-            setImmediate(() => this._loadConfigAndStartMaking());
-          });
-          let arr = [this._compileJsFilename, this._compileJsonFilename].filter(
-            str => Boolean(str)
-          );
-
-          watch.setConfigFilenames(arr);
-          return await watch.start();
         })
       );
     },
@@ -1230,6 +1231,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             data.localModules || {},
             false
           );
+
           if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }
