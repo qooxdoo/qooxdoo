@@ -58,6 +58,11 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll", {
      * @param e {qx.event.type.Roll} Roll event
      */
     _onRoll(e) {
+      // only wheel and touch
+      if (e.getPointerType() == "mouse") {
+        return;
+      }
+
       if (this._cancelRoll && e.getMomentum()) {
         e.stopMomentum();
         this._cancelRoll = null;
