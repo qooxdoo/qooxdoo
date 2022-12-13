@@ -631,7 +631,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               "source/index.html"
             );
           }
-
+          let res;
           // Simple one of make
           if (!this.argv.watch) {
             maker.addListener("making", () => {
@@ -646,9 +646,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 this.fireEvent("made");
               }
             });
+            res = maker.make();
           }
-          await maker.make();
           if (this.argv.watch) {
+            await maker.make();
             // Continuous make
             let watch = new qx.tool.cli.Watch(maker);
             config.applications.forEach(appConfig => {
@@ -685,8 +686,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             ].filter(str => Boolean(str));
 
             watch.setConfigFilenames(arr);
-            return await watch.start();
+            res = watch.start();
           }
+          return res;
         })
       );
     },
