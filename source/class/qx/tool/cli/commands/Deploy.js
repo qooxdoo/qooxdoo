@@ -102,12 +102,8 @@ qx.Class.define("qx.tool.cli.commands.Deploy", {
     /*
      * @Override
      */
-    processArgs(argv) {
-      super.processArgs(argv);
-      if (!argv.clean) {
-        qx.tool.compiler.Console.print("qx.tool.cli.deploy.notClean");
-      }
-
+    async process() {
+      let argv = this.argv;
       let compileArgv = {
         writeLibraryInfo: false,
         download: false,
@@ -120,15 +116,10 @@ qx.Class.define("qx.tool.cli.commands.Deploy", {
       };
 
       qx.lang.Object.mergeWith(argv, compileArgv);
-    },
-
-    /*
-     * @Override
-     */
-    async process() {
+      if (!argv.clean) {
+        qx.tool.compiler.Console.print("qx.tool.cli.deploy.notClean");
+      }
       await super.process();
-
-      let argv = this.argv;
       let appNames = null;
       if (argv.appName) {
         appNames = {};
