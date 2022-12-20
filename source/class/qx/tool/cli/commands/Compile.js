@@ -359,7 +359,7 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       }
 
       if (this.argv.verbose) {
-        console.log(`
+        qx.tool.compiler.Console.log(`
 Compiler:  v${this.getCompilerVersion()} in ${require.main.filename}
 Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       }
@@ -682,6 +682,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
 
           watch.setConfigFilenames(arr);
+          qx.tool.compiler.Console.log(`Start watching ...`);
           return watch.start();
         })
       );

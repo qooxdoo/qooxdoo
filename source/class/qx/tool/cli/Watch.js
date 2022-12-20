@@ -236,7 +236,6 @@ qx.Class.define("qx.tool.cli.Watch", {
 
         watcher.on("ready", () => {
           this.__watcherReady = true;
-          this.__make();
         });
         watcher.on("error", err => {
           qx.tool.compiler.Console.print(
