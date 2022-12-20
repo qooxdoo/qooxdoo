@@ -631,7 +631,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
               "source/index.html"
             );
           }
-          let res;
           // Simple one of make
           if (!this.argv.watch) {
             maker.addListener("making", () => {
@@ -646,49 +645,44 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
                 this.fireEvent("made");
               }
             });
-            res = maker.make();
+            return maker.make();
           }
-          if (this.argv.watch) {
-            await maker.make();
-            // Continuous make
-            let watch = new qx.tool.cli.Watch(maker);
-            config.applications.forEach(appConfig => {
-              if (appConfig.runWhenWatching) {
-                watch.setRunWhenWatching(
-                  appConfig.name,
-                  appConfig.runWhenWatching
-                );
-              }
-            });
-            if (this.argv["watch-debug"]) {
-              watch.setDebug(true);
+          await maker.make();
+          // Continuous make
+          let watch = new qx.tool.cli.Watch(maker);
+          config.applications.forEach(appConfig => {
+            if (appConfig.runWhenWatching) {
+              watch.setRunWhenWatching(
+                appConfig.name,
+                appConfig.runWhenWatching
+              );
             }
-
-            watch.addListener("making", () => {
-              countMaking++;
-              if (countMaking == 1) {
-                this.fireEvent("making");
-              }
-            });
-            watch.addListener("made", () => {
-              countMaking--;
-              if (countMaking == 0) {
-                this.fireEvent("made");
-              }
-            });
-            watch.addListener("configChanged", async () => {
-              await watch.stop();
-              setImmediate(() => this._loadConfigAndStartMaking());
-            });
-            let arr = [
-              this._compileJsFilename,
-              this._compileJsonFilename
-            ].filter(str => Boolean(str));
-
-            watch.setConfigFilenames(arr);
-            res = watch.start();
+          });
+          if (this.argv["watch-debug"]) {
+            watch.setDebug(true);
           }
-          return res;
+          watch.addListener("making", () => {
+            countMaking++;
+            if (countMaking == 1) {
+              this.fireEvent("making");
+            }
+          });
+          watch.addListener("made", () => {
+            countMaking--;
+            if (countMaking == 0) {
+              this.fireEvent("made");
+            }
+          });
+          watch.addListener("configChanged", async () => {
+            await watch.stop();
+            setImmediate(() => this._loadConfigAndStartMaking());
+          });
+          let arr = [this._compileJsFilename, this._compileJsonFilename].filter(
+            str => Boolean(str)
+          );
+
+          watch.setConfigFilenames(arr);
+          return watch.start();
         })
       );
     },
