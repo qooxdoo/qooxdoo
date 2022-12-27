@@ -47,6 +47,12 @@
         }
       }
     },
+    "localModules": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
     "applications": {
       "type":"array",
       "description": "Each entry describes an application to be compiled.",
@@ -174,10 +180,7 @@
             "$ref": "#/properties/parts"
           },
           "localModules": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
+            "$ref": "#/properties/localModules"
           }
         }
       }
@@ -222,6 +225,10 @@
           },
           "deployPath": {
             "description": "The folder where the deploy outputs to.",
+            "type": "string"
+          },
+          "proxySourcePath": {
+            "description": "The folder containing proxy classes (normally machine generated) to take precedence over those found in normal library sources",
             "type": "string"
           },
           "targetClass": {

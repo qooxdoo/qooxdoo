@@ -344,7 +344,6 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
   members: {
     __gauge: null,
     __makers: null,
-    __config: null,
     __libraries: null,
     __outputDirWasCreated: false,
 
@@ -358,9 +357,6 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
       if (this.argv["feedback"] === null) {
         this.argv["feedback"] = configDb.db("qx.default.feedback", true);
       }
-
-      // Validate compile.json against the schema
-      await qx.tool.config.Compile.getInstance().load();
 
       if (this.argv.verbose) {
         console.log(`
@@ -535,13 +531,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
-      var config = (this.__config =
-        await qx.tool.cli.Cli.getInstance().getParsedArgs());
-      if (!config) {
-        throw new qx.tool.utils.Utils.UserError(
-          "Error: Cannot find any configuration"
-        );
-      }
+      var config = this.getCompilerApi().getConfiguration();
       var makers = (this.__makers = await this.createMakersFromConfig(config));
       if (!makers || !makers.length) {
         throw new qx.tool.utils.Utils.UserError(
@@ -753,7 +743,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
       let targetConfigs = [];
       let defaultTargetConfig = null;
       data.targets.forEach(targetConfig => {
-        if (targetConfig.type === data.targetType) {
+        if (targetConfig.type === this.getTargetType()) {
           if (
             !targetConfig["application-names"] &&
             !targetConfig["application-types"]
@@ -1122,6 +1112,11 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             .getAnalyser()
             .setApplicationTypes(targetConfig["application-types"]);
         }
+        if (targetConfig["proxySourcePath"]) {
+          maker
+            .getAnalyser()
+            .setProxySourcePath(targetConfig["proxySourcePath"]);
+        }
 
         maker.setLocales(data.locales || ["en"]);
         if (data.writeAllTranslations) {
@@ -1229,8 +1224,13 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           if (appConfig.description) {
             app.setDescription(appConfig.description);
           }
-
-          if (appConfig.localModules) {
+          appConfig.localModules = appConfig.localModules || {};
+          qx.lang.Object.mergeWith(
+            appConfig.localModules,
+            data.localModules || {},
+            false
+          );
+          if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }
 
@@ -1574,13 +1574,6 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         let res = maker.getApplications().find(app => app.getName() == appName);
         return res;
       });
-    },
-
-    /**
-     * Returns the configuration object being compiled
-     */
-    _getConfig() {
-      return this.__config;
     },
 
     /**

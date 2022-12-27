@@ -22,7 +22,7 @@
 
 const fs = qx.tool.utils.Promisify.fs;
 const path = require("upath");
-const sourceMap = require("source-map");
+const sourceMap = require("source-map-js");
 
 /**
  * An AbstractJavascriptMeta provides an abstraction of some source code, and might be

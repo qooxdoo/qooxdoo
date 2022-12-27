@@ -299,6 +299,10 @@ qx.Class.define("qx.tool.config.Abstract", {
           );
         }
       }
+      if (data.$schema === undefined) {
+         // don't validate if there is no schema
+         this.setValidate(false);
+      }
       // load schema if validation is enabled
       if (this.isValidate() && this.getVersion() !== null) {
         // check initial data

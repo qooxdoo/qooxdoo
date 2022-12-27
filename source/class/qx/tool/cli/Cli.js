@@ -338,8 +338,12 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
         configFilename: compileJsonFilename
       }));
 
+      // Boot the compiler API, load the compile.json and create configuration data
       await compilerApi.load();
       let config = compilerApi.getConfiguration();
+
+      // Validate configuration data against the schema
+      await qx.tool.config.Compile.getInstance().load(config);
 
       /*
        * Open the lockfile and check versions
@@ -514,7 +518,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           parsedArgs.environment[key] = value;
         });
       }
-      config.targetType = parsedArgs.target || config.defaultTarget || "source";
+
+      let targetType = this._compilerApi.getCommand().getTargetType();
 
       if (!config.locales) {
         config.locales = [];
@@ -532,7 +537,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       // one and assign it to the target.
       if (config.targets) {
         const target = config.targets.find(
-          target => target.type === config.targetType
+          target => target.type === targetType
         );
 
         target.environment = target.environment || {};

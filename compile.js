@@ -21,6 +21,12 @@ qx.Class.define("qx.compiler.CompilerApi", {
           default: false
         };
 
+        args.builder.headless = {
+          describe: "runs test headless",
+          type: "boolean",
+          default: false,
+        };
+
         args.builder.browsers = {
           describe:
             "list of browsers to test against, currently supported chromium, firefox, webkit, none (=node tests only)",
@@ -153,7 +159,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
               path.join(
                 __dirname,
                 "bin",
-                command._getConfig().targetType,
+                command.getTargetType(),
                 "qx"
               ),
               "lint",
@@ -200,6 +206,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
             console.log("# ******** running framework test");
             let args = argList.slice();
             args.push("browsers");
+            args.push("headless");
             result = await qx.tool.utils.Utils.runCommand({
               cwd: "test/framework",
               cmd: "node",
@@ -216,7 +223,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
     __getArgs(command, argList) {
       let res = [];
       res.push(
-        path.join(__dirname, "bin", command._getConfig().targetType, "qx")
+        path.join(__dirname, "bin", command.getTargetType(), "qx")
       );
       res.push("test");
       for (const arg of argList) {

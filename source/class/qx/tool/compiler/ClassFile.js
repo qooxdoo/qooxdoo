@@ -28,7 +28,6 @@ var babelCore = require("@babel/core");
 var types = require("@babel/types");
 var babylon = require("@babel/parser");
 var async = require("async");
-var pathModule = require("upath");
 
 var log = qx.tool.utils.LogManager.createLog("analyser");
 
@@ -200,10 +199,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     this.__metaStack = [];
     this.__metaDefinitions = {};
     this.__library = library;
-    this.__sourceFilename = qx.tool.compiler.ClassFile.getSourcePath(
-      library,
-      className
-    );
+    this.__sourceFilename = analyser.getClassSourcePath(library, className);
 
     this.__requiredClasses = {};
     this.__environmentChecks = {
@@ -320,10 +316,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      * @returns {string}
      */
     getOutputPath() {
-      return qx.tool.compiler.ClassFile.getOutputPath(
-        this.__analyser,
-        this.__className
-      );
+      return this.__analyser.getClassOutputPath(this.__className);
     },
 
     /**
@@ -1317,7 +1310,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.interfaces
             });
-          } else if (keyName == "include") {
+          } else if (keyName == "include" || keyName == "patch") {
             path.skip();
             path.traverse(COLLECT_CLASS_NAMES_VISITOR, {
               collectedClasses: t.__classMeta.mixins
@@ -1362,11 +1355,25 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                   meta.allowNull = data.nullable;
                 }
                 if (data.check !== undefined) {
+                  let checks;
                   if (qx.lang.Type.isArray(data.check)) {
-                    meta.possibleValues = data.check;
+                    checks = meta.possibleValues = data.check;
                   } else {
                     meta.check = data.check;
+                    checks = [data.check];
                   }
+                  checks.forEach(check => {
+                    if (!qx.tool.compiler.ClassFile.SYSTEM_CHECKS[check]) {
+                      let symbolData = t.__analyser.getSymbolType(check);
+                      if (symbolData?.symbolType == "class") {
+                        t._requireClass(check, {
+                          load: false,
+                          usage: "dynamic",
+                          location: path.node.loc
+                        });
+                      }
+                    }
+                  });
                 }
                 if (data.init !== undefined) {
                   meta.defaultValue = data.init;
@@ -1693,16 +1700,18 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
                 let arg = path.node.arguments[0];
                 if (types.isLiteral(arg)) {
                   if (typeof arg.value != "string") {
-                    log.error(
-                      `${t.__className}: ` +
-                        "Only literal string arguments to require() are supported: " +
-                        arg.value
+                    t.addMarker(
+                      "compiler.requireLiteralArguments",
+                      path.node.loc,
+                      arg.value
                     );
                   } else {
-                    qx.tool.compiler.Console.log(
-                      `${t.__className}:${path.node.loc.start.line}:` +
-                        ` automatically detected \'require(${arg.value})\``
-                    );
+                    if (qx.tool.compiler.Console.getInstance().getVerbose()) {
+                      qx.tool.compiler.Console.log(
+                        `${t.__className}:${path.node.loc.start.line}:` +
+                          ` automatically detected \'require(${arg.value})\``
+                      );
+                    }
                     t.addCommonjsModule(
                       arg.value,
                       t.__className,
@@ -2947,42 +2956,13 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "in  instanceof  int interface let  long  native  new null  package private protected public  return  short static " +
       "super  switch  synchronized  this throw throws  transient true try typeof  var void volatile  while with  yield";
     str.split(/\s+/).forEach(word => (statics.RESERVED_WORDS[word] = true));
+    statics.SYSTEM_CHECKS = {};
+    "Boolean,String,Number,Integer,PositiveNumber,PositiveInteger,Error,RegExp,Object,Array,Map,Function,Date,Node,Element,Document,Window,Event,Class,Mixin,Interface,Theme,Color,Decorator,Font"
+      .split(",")
+      .forEach(word => (statics.SYSTEM_CHECKS[word] = true));
   },
 
   statics: {
-    /**
-     * Returns the absolute path to the class file
-     *
-     * @param library  {qx.tool.compiler.app.Library}
-     * @param className {String}
-     * @returns {String}
-     */
-    getSourcePath(library, className) {
-      return pathModule.join(
-        library.getRootDir(),
-        library.getSourcePath(),
-        className.replace(/\./g, pathModule.sep) +
-          library.getSourceFileExtension(className)
-      );
-    },
-
-    /**
-     * Returns the path to the rewritten class file
-     *
-     * @param analyser {qx.tool.compiler.Analyser}
-     * @param className {String}
-     * @returns {String}
-     */
-    getOutputPath(analyser, className) {
-      var filename = pathModule.join(
-        analyser.getOutputDir(),
-        "transpiled",
-        className.replace(/\./g, pathModule.sep) + ".js"
-      );
-
-      return filename;
-    },
-
     /**
      * Returns the root namespace from the classname, or null if it cannot be determined
      * @param className
@@ -3179,6 +3159,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       "qx.promise": true,
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true
-    }
+    },
+
+    SYSTEM_CHECKS: null
   }
 });

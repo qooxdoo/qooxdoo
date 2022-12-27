@@ -226,7 +226,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode", {
       }
       if (cascade) {
         node.children.forEach(child =>
-          this.nodeSetOpened(child, opened, cascade, true)
+          this._nodeSetOpenedInternal(child, opened, cascade, true)
         );
       }
       if (!cascade || !isRecursed) {

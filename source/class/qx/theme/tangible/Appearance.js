@@ -645,7 +645,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "selectbox",
 
       style(states) {
-        return { 
+        return {
           padding: [0, 2],
           backgroundColor: "surface"
         };
@@ -657,10 +657,10 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
       alias: "combobox",
 
       style(states) {
-        return { 
+        return {
           decorator: undefined,
           backgroundColor: "surface"
-         };
+        };
       }
     },
 
@@ -1006,18 +1006,18 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     },
+
     "menubar-button/icon": {
       style(states) {
         return {
-          textColor: states.disabled 
-            ? "text-disabled-on-surface" 
-            : ( states.pressed || states.hovered )
-            ? "text-on-primary" 
+          textColor: states.disabled
+            ? "text-disabled-on-surface"
+            : states.pressed || states.hovered
+            ? "text-on-primary"
             : "text-on-surface"
-        }
+        };
       }
     },
-    
 
     /*
     ---------------------------------------------------------------------------

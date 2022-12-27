@@ -164,6 +164,23 @@ cd test/tool
 
 Requirement for this is that `bootstrap-compiler` has run once.
 
+## Running specific tests
+
+As described above with running framework tests, you can also run
+only specific tests. For example, to run only the tests related to 
+`qx.Interface`, which are in class `qx.test.Interface`, you can do:
+```bash
+cd test/framework
+../../bin/source/qx test --class=qx.test.Interface
+```
+
+And to limit it even further, you can run a specific test:
+```bash
+cd test/framework
+../../bin/source/qx test --class=qx.test.Interface --method=testMissingMemberVariable
+```
+
+
 ## Writing new tests
 
 If you add a new feature, we ask you to provide a unit test that

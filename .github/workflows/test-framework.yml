@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [14.x, 16.x]
+        node-version: [16.x, 18.x, 19.x]
         browser: [chromium]
 
     steps:
@@ -43,4 +43,4 @@ jobs:
         run:  npm  ci
 
       - name: install and run tests with ${{ matrix.browser }}
-        run:  npm test -- --browsers=${{ matrix.browser }} --terse --set-env qx.test.delay.scale=10
+        run:  npm test -- --browsers=${{ matrix.browser }} --terse --headless --set-env qx.test.delay.scale=10

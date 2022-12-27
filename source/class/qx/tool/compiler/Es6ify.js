@@ -179,6 +179,7 @@ qx.Class.define("qx.tool.compiler.Es6ify", {
           qx.tool.compiler.Console.warn(
             `Can not find a stable format for ${this.__filename}`
           );
+
           break;
         }
         result = babelCore.transform(src, config);
