@@ -13,6 +13,7 @@
 
    Authors:
      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
@@ -221,30 +222,31 @@ qx.Class.define("qx.tool.cli.Watch", {
             `DEBUG: confirmed=${JSON.stringify(confirmed, 2)}`
           );
         }
-
-        var watcher = (this._watcher = chokidar.watch(confirmed, {
-          //ignored: /(^|[\/\\])\../
-        }));
-        watcher.on("change", filename =>
-          this.__onFileChange("change", filename)
-        );
-
-        watcher.on("add", filename => this.__onFileChange("add", filename));
-        watcher.on("unlink", filename =>
-          this.__onFileChange("unlink", filename)
-        );
-
-        watcher.on("ready", () => {
-          this.__watcherReady = true;
-          this.__make();
-        });
-        watcher.on("error", err => {
-          qx.tool.compiler.Console.print(
-            err.code == "ENOSPC"
-              ? "qx.tool.cli.watch.enospcError"
-              : "qx.tool.cli.watch.watchError",
-            err
+        this.__make().then(() => {
+          var watcher = (this._watcher = chokidar.watch(confirmed, {
+            //ignored: /(^|[\/\\])\../
+          }));
+          watcher.on("change", filename =>
+            this.__onFileChange("change", filename)
           );
+
+          watcher.on("add", filename => this.__onFileChange("add", filename));
+          watcher.on("unlink", filename =>
+            this.__onFileChange("unlink", filename)
+          );
+
+          watcher.on("ready", () => {
+            qx.tool.compiler.Console.log(`Start watching ...`);
+            this.__watcherReady = true;
+          });
+          watcher.on("error", err => {
+            qx.tool.compiler.Console.print(
+              err.code == "ENOSPC"
+                ? "qx.tool.cli.watch.enospcError"
+                : "qx.tool.cli.watch.watchError",
+              err
+            );
+          });
         });
       });
     },
