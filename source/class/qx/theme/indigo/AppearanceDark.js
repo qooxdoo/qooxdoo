@@ -34,14 +34,6 @@ qx.Theme.define("qx.theme.indigo.AppearanceDark", {
   extend: qx.theme.indigo.Appearance,
 
   appearances: {
-    "label": {
-      style(states) {
-        return {
-          textColor: states.disabled ? "text-disabled" : "text"
-        };
-      }
-    },
-
     "listitem": {
       alias: "atom",
 
