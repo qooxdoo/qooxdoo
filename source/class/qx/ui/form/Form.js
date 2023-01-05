@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.form.Form", {
      * Validates the form using the
      * {@link qx.ui.form.validation.Manager#validate} method.
      *
-     * @return {Boolean | null} The validation result.
+     * @return {Boolean|null} The validation result.
      */
     validate() {
       return this._validationManager.validate();

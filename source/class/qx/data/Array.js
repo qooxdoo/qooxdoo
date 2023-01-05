@@ -922,7 +922,7 @@ qx.Class.define("qx.data.Array", {
      * Returns the highest value in the given array.
      * Supports numeric values only.
      *
-     * @return {Number | null} The highest of all values or undefined if the
+     * @return {Number|null} The highest of all values or undefined if the
      *   array is empty.
      */
     max() {
@@ -941,7 +941,7 @@ qx.Class.define("qx.data.Array", {
      * Returns the lowest value in the array. Supports
      * numeric values only.
      *
-     * @return {Number | null} The lowest of all values or undefined
+     * @return {Number|null} The lowest of all values or undefined
      *   if the array is empty.
      */
     min() {
@@ -1017,7 +1017,7 @@ qx.Class.define("qx.data.Array", {
      *   <li><code>index</code>: the index of the current item</li>
      *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
      * @param self {var?undefined} The context of the callback.
-     * @return {var | undefined} The found item.
+     * @return {var|undefined} The found item.
      */
     find(callback, self) {
       return this.__array.find(callback, self);
