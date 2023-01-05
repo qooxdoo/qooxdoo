@@ -71,26 +71,25 @@ qx.Class.define("qx.core.BaseInit", {
       var clazz = qx.Class.getByName(app);
 
       if (clazz) {
-        this.__application = new clazz();
-
-        var start = new Date();
-        this.__application.main();
-        if (qx.core.Environment.get("qx.debug.startupTimings")) {
-          qx.log.Logger.debug(
-            this,
-            "Main runtime: " + (new Date() - start) + "ms"
-          );
-        }
-
-        var start = new Date();
-        this.__application.finalize();
-        if (qx.core.Environment.get("qx.debug.startupTimings")) {
-          qx.log.Logger.debug(
-            this,
-            "Finalize runtime: " + (new Date() - start) + "ms"
-          );
-        }
-
+        (async () => {
+          this.__application = new clazz();
+          var start = new Date();
+          await this.__application.main();
+          if (qx.core.Environment.get("qx.debug.startupTimings")) {
+            qx.log.Logger.debug(
+              this,
+              "Main runtime: " + (new Date() - start) + "ms"
+            );
+          }
+          var start = new Date();
+          this.__application.finalize();
+          if (qx.core.Environment.get("qx.debug.startupTimings")) {
+            qx.log.Logger.debug(
+              this,
+              "Finalize runtime: " + (new Date() - start) + "ms"
+            );
+          }
+        })();
         qx.event.handler.Application.onAppInstanceInitialized();
       } else {
         qx.log.Logger.warn("Missing application class: " + app);

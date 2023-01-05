@@ -13,6 +13,7 @@
 
    Authors:
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
@@ -27,38 +28,48 @@ const inquirer = require("inquirer");
  *
  */
 qx.Class.define("qx.tool.cli.commands.add.Script", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "script <scriptpath> [options]",
-        describe:
-          "adds a new script file to the current project, to be loaded before application startup.",
-        builder: {
-          resourcedir: {
-            describe:
-              "The subdirectory of the resource folder in which to place the file",
-            alias: "d",
-            default: "js"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "script",
+        description:
+          "adds a new script file to the current project, to be loaded before application startup."
+      });
 
-          rename: {
-            describe: "Rename the file to the given name",
-            alias: "r"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("resourcedir").set({
+          description:
+            "The subdirectory of the resource folder in which to place the file",
+          shortCode: "d",
+          value: "js"
+        })
+      );
 
-          undo: {
-            describe:
-              "Removes the file that would normally be added with the given arguments",
-            alias: "z"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("rename").set({
+          description: "Rename the file to the given name",
+          shortCode: "r"
+        })
+      );
 
-          noninteractive: {
-            alias: "I",
-            describe: "Do not prompt user"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("undo").set({
+          description:
+            "Removes the file that would normally be added with the given arguments",
+          shortCode: "z"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("noninteractive").set({
+          shortCode: "I",
+          description: "Do not prompt user"
+        })
+      );
+
+      return cmd;
     }
   },
 

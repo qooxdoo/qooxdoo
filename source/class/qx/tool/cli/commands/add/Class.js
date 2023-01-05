@@ -13,6 +13,7 @@
 
    Authors:
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 const fs = require("fs");
@@ -40,36 +41,46 @@ const path = require("upath");
  *
  */
 qx.Class.define("qx.tool.cli.commands.add.Class", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "class <classname> [options]",
-        describe:
-          "adds a new class file to the current project, based on a template.",
-        builder: {
-          type: {
-            alias: "t",
-            describe: "the type of the class (optional).",
-            default: "default"
-          },
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "class",
+        description:
+          "adds a new class file to the current project, based on a template."
+      });
 
-          extend: {
-            alias: "e",
-            describe: "the base class of the new class"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("type").set({
+          shortCode: "t",
+          description: "the type of the class (optional).",
+          value: "default"
+        })
+      );
 
-          import: {
-            describe:
-              "import the template to the `templates/class` folder of the current project, where it can be customized"
-          },
+      cmd.addFlag(
+        new qx.cli.Flag("extend").set({
+          shortCode: "e",
+          description: "the base class of the new class"
+        })
+      );
 
-          force: {
-            alias: "f",
-            describe: "overwrite an existing file"
-          }
-        }
-      };
+      cmd.addFlag(
+        new qx.cli.Flag("import").set({
+          description:
+            "import the template to the `templates/class` folder of the current project, where it can be customized"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("overwrite").set({
+          shortCode: "o",
+          description: "overwrite an existing file"
+        })
+      );
+
+      return cmd;
     }
   },
 
