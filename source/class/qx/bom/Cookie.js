@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.bom.Cookie", {
      * Returns the string value of a cookie.
      *
      * @param key {String} The key for the saved string value.
-     * @return {null | String} Returns the saved string value, if the cookie
+     * @return {null|String} Returns the saved string value, if the cookie
      *    contains a value for the key, <code>null</code> otherwise.
      */
     get(key) {
