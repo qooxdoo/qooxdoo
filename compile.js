@@ -76,7 +76,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
     /**
      * runs after the whole process is finished
-     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param cmd {qx.tool.cli.Command} current command
      * @param res {boolean} result of the just finished process
      */
     async afterProcessFinished(cmd, res) {
@@ -143,7 +143,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
 
     /**
      * Register compiler tests
-     * @param {qx.tool.cli.commands.Command} command
+     * @param {qx.tool.cli.Command} command
      * @return {Promise<void>}
      */
     async beforeTests(command) {

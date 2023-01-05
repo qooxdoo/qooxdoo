@@ -62,7 +62,7 @@ qx.Class.define("qx.tool.cli.api.AbstractApi", {
     /**
      *
      * helper to load an npm module. Check if it can be loaded before
-     * If not install the module with 'npm install --no-save --no-package-lock' to the current library
+     * If not install the module with 'npm install --no-package-lock' to the current library
      *
      * @param module {String} module to check
      */

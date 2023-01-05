@@ -24,7 +24,7 @@ const stringify = require("json-stable-stringify");
  * Handles library packages
  */
 qx.Class.define("qx.tool.cli.commands.Package", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
 
   statics: {
     /**

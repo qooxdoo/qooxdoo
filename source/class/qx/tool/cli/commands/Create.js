@@ -32,7 +32,7 @@ const inquirer = require("inquirer");
  * Issues: automatic determination of qooxdoo path doesn't work yet.
  */
 qx.Class.define("qx.tool.cli.commands.Create", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
     getYargsCommand() {
       return {

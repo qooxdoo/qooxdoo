@@ -19,25 +19,29 @@
  * This is the main application class of the compiler.
  *
  * @asset(qx/tool/*)
+ * @use(qx.tool.cli.commands)
  *
  */
 qx.Class.define("qx.tool.cli.Application", {
-  extend: qx.application.Basic,
+  extend: qx.cli.AbstractCliApp,
   members: {
-    /**
-     * This method contains the initial application code and gets called
-     * during startup of the application
-     */
     async main() {
-      process.exitCode = 0;
-      try {
-        await new qx.tool.cli.Cli().run();
-      } catch (e) {
-        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
-        process.exitCode = 1;
-      } finally {
-        process.exit();
-      }
+      await qx.tool.cli.ConfigLoader.getInstance().load();
+      super();
+    },
+
+    /**
+     * @overridden
+     */
+    _createRoot() {
+      return qx.tool.cli.RootCommand.createCliCommand();
+    },
+
+    /**
+     * @overridden
+     */
+    async _addCommands(rootCmd) {
+      await qx.tool.cli.Command.addSubcommands(rootCmd, qx.tool.cli.commands);
     }
   },
 

@@ -22,7 +22,7 @@ const path = require("path");
 const replaceInFile = require("replace-in-file");
 
 qx.Class.define("qx.tool.cli.commands.Lint", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
 
   statics: {
     getYargsCommand() {

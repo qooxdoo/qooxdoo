@@ -50,7 +50,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
     command: {
       init: null,
       nullable: true,
-      check: "qx.tool.cli.commands.Command",
+      check: "qx.tool.cli.Command",
       event: "changeCommand"
     }
   },
@@ -60,7 +60,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * Called after the command is loaded
-     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param cmd {qx.tool.cli.Command} current command
      */
     afterCommandLoaded(cmd) {
       // Nothing
@@ -68,7 +68,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * Register compiler tests
-     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param cmd {qx.tool.cli.Command} current command
      */
     async beforeTests(cmd) {
       // Nothing
@@ -116,7 +116,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
 
     /**
      * runs after the whole process is finished
-     * @param cmd {qx.tool.cli.commands.Command} current command
+     * @param cmd {qx.tool.cli.Command} current command
      * @param res {boolean} result of the just finished process
      */
     async afterProcessFinished(cmd, res) {

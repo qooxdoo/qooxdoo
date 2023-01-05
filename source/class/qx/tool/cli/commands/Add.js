@@ -13,30 +13,28 @@
 
    Authors:
      * Christian Boulanger (info@bibliograph.org, @cboulanger)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 /**
  * Adds scripts, classes, etc. to the projects
+ *
+ * @use(qx.tool.cli.commands.add)
  */
 qx.Class.define("qx.tool.cli.commands.Add", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
 
   statics: {
-    getYargsCommand() {
-      return {
-        command: "add <command> [options]",
-        desc: "adds new elements to an existing qooxdoo application/library",
-        builder(yargs) {
-          qx.tool.cli.Cli.addYargsCommands(
-            yargs,
-            ["Class", "Script"],
-            "qx.tool.cli.commands.add"
-          );
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "add",
+        description:
+          "adds new elements to an existing qooxdoo application/library."
+      });
 
-          return yargs.demandCommand().showHelpOnFail().help();
-        },
-        handler() {}
-      };
+      await qx.tool.cli.Command.addSubcommands(cmd, qx.tool.cli.commands.add);
+      return cmd;
     }
   },
 

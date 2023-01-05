@@ -53,6 +53,12 @@ qx.Class.define("qx.test.core.Property", {
 
       // Type checks: String
       this.assertIdentical(
+        "() => {}",
+        inst.setFunctionProp(() => {}),
+        "string property, set"
+      );
+
+      this.assertIdentical(
         "Hello",
         inst.setStringProp("Hello"),
         "string property, set"
@@ -1063,12 +1069,13 @@ qx.Class.define("qx.test.core.Property", {
     },
 
     testPromises() {
-      const promiseDelay = (delay, fn) => new qx.Promise(resolve => {
-        setTimeout(async () => {
-          await fn();
-          resolve();
-        }, delay);
-      });
+      const promiseDelay = (delay, fn) =>
+        new qx.Promise(resolve => {
+          setTimeout(async () => {
+            await fn();
+            resolve();
+          }, delay);
+        });
 
       qx.Class.define("qxl.TestPromises", {
         extend: qx.core.Object,

@@ -26,19 +26,16 @@ const rimraf = require("rimraf");
  * Cleans generated and cache files
  */
 qx.Class.define("qx.tool.cli.commands.Clean", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
-    getYargsCommand() {
-      return {
-        command: "clean",
-        describe: "cleans generated files and caches.",
-        builder: {
-          verbose: {
-            alias: "v",
-            describe: "Verbose logging"
-          }
-        }
-      };
+    async createCliCommand(clazz = this) {
+      let cmd = await qx.tool.cli.Command.createCliCommand(clazz);
+      cmd.set({
+        name: "clean",
+        description: "cleans generated files and caches."
+      });
+
+      return cmd;
     }
   },
 
@@ -47,7 +44,6 @@ qx.Class.define("qx.tool.cli.commands.Clean", {
      * Deletes all generated and cache files
      */
     async process() {
-      super.process();
       let compileConfig = await qx.tool.config.Compile.getInstance().load();
       for (let target of compileConfig.getValue("targets")) {
         await this.__removePath(path.join(process.cwd(), target.outputPath));

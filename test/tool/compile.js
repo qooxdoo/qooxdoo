@@ -9,7 +9,7 @@ qx.Class.define("qx.compiler.CompilerApi", {
   members: {
     /**
      * Register compiler tests
-     * @param {qx.tool.cli.commands.Command} command
+     * @param {qx.tool.cli.Command} command
      * @return {Promise<void>}
      */
     async beforeTests(command) {

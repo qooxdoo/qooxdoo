@@ -23,12 +23,100 @@ const process = require("process");
 /**
  * Base class for commands
  */
-qx.Class.define("qx.tool.cli.commands.Command", {
+qx.Class.define("qx.tool.cli.Command", {
   extend: qx.core.Object,
+  statics: {
+    /**
+     * abstract factory to create the command
+     * @returns {qx.cli.Command} the created command
+     */
+    async createCliCommand(clazz = this) {
+      let cmd = new qx.cli.Command("");
+      let cls = new clazz();
+      cmd.setRun(async cmd => {
+        let { argv } = cmd.getValues();
+        argv.$cmd = cmd.getName();
+        qx.tool.cli.ConfigLoader.getInstance().getCompilerApi().setCommand(cls);
+        cls.setCompilerApi(
+          qx.tool.cli.ConfigLoader.getInstance().getCompilerApi()
+        );
+        qx.tool.compiler.Console.getInstance().setVerbose(
+          argv.verbose || false
+        );
+        cls.argv = argv;
+        return cls.process();
+      });
+      cmd.addFlag(
+        new qx.cli.Flag("verbose").set({
+          shortCode: "v",
+          description: "enables additional progress output to console",
+          type: "boolean",
+          value: false
+        })
+      );
 
-  construct(argv) {
+      cmd.addFlag(
+        new qx.cli.Flag("config-file").set({
+          description: "Specify the config file to use",
+          type: "string",
+          shortCode: "c"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("debug").set({
+          description: "enables debug output",
+          value: false,
+          type: "boolean"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("quiet").set({
+          shortCode: "q",
+          description: "suppresses normal progress output to console",
+          type: "boolean"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("force").set({
+          description: "Override warnings",
+          type: "boolean",
+          value: false,
+          shortCode: "F"
+        })
+      );
+
+      cmd.addFlag(
+        new qx.cli.Flag("colorize").set({
+          description:
+            "colorize log output to the console using ANSI color codes",
+          value: true,
+          type: "boolean"
+        })
+      );
+
+      return cmd;
+    },
+
+    async addSubcommands(rootCmd, rootClass) {
+      for await (const cls of Object.keys(rootClass)) {
+        let c = rootClass[cls];
+        if (!c) {
+          continue;
+        }
+        if (!c.createCliCommand) {
+          continue;
+        }
+        let cmd = await rootClass[cls].createCliCommand();
+        rootCmd.addSubcommand(cmd);
+      }
+    }
+  },
+
+  construct() {
     super();
-    this.argv = argv;
   },
 
   properties: {
@@ -44,45 +132,9 @@ qx.Class.define("qx.tool.cli.commands.Command", {
 
   members: {
     argv: null,
-    compileJs: null,
 
     async process() {
-      let argv = this.argv;
-      if (argv.set) {
-        let configDb = await qx.tool.cli.ConfigDb.getInstance();
-        argv.set.forEach(function (kv) {
-          var m = kv.match(/^([^=\s]+)(=(.+))?$/);
-          if (m) {
-            var key = m[1];
-            var value = m[3];
-            configDb.setOverride(key, value);
-          } else {
-            throw new qx.tool.utils.Utils.UserError(
-              `Failed to parse environment setting commandline option '--set ${kv}'`
-            );
-          }
-        });
-      }
-    },
-
-    /**
-     * This is to notify the commands after loading the full args.
-     * The commands can overload special arg arguments here.
-     * e.g. Deploy will will overload the target.
-     *
-     * @param {*} argv : args to process
-     *
-     */
-    processArgs(argv) {
-      // Nothing
-    },
-
-    /**
-     * Returns the parsed command line arguments
-     * @return {Object}
-     */
-    getArgs() {
-      return this.argv;
+      throw new Error("Abstract method call");
     },
 
     /**
@@ -109,7 +161,7 @@ qx.Class.define("qx.tool.cli.commands.Command", {
           dryRun: true
         });
 
-        let { pending, applied } = await runner.runMigrations();
+        let { pending } = await runner.runMigrations();
         await fsp.unlink(semaphore);
         if (pending) {
           qx.tool.compiler.Console.warn(

@@ -24,7 +24,7 @@ const ignore = require("ignore");
  * Migrates code to ES6 (partially)
  */
 qx.Class.define("qx.tool.cli.commands.Es6ify", {
-  extend: qx.tool.cli.commands.Command,
+  extend: qx.tool.cli.Command,
   statics: {
     getYargsCommand() {
       return {
