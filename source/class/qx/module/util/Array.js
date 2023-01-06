@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @attachStatic {qxWeb, array.max}
      *
      * @param arr {Array} Array to process.
-     * @return {Number | undefined} The highest of all values or undefined if array is empty.
+     * @return {Number|undefined} The highest of all values or undefined if array is empty.
      */
     max: qx.lang.Array.max,
 
@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @attachStatic {qxWeb, array.min}
      *
      * @param arr {Array} Array to process.
-     * @return {Number | undefined} The lowest of all values or undefined if array is empty.
+     * @return {Number|undefined} The lowest of all values or undefined if array is empty.
      */
     min: qx.lang.Array.min,
 

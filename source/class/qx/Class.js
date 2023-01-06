@@ -491,7 +491,7 @@ qx.Bootstrap.define("qx.Class", {
      *
      * @param clazz {Class} class to look for the property
      * @param name {String} name of the property
-     * @return {Class | null} The class which includes the property
+     * @return {Class|null} The class which includes the property
      */
     getByProperty(clazz, name) {
       while (clazz) {
@@ -554,7 +554,7 @@ qx.Bootstrap.define("qx.Class", {
      *
      * @param clazz {Class} class to look for the mixin
      * @param mixin {Mixin} mixin to look for
-     * @return {Class | null} The class which directly includes the given mixin
+     * @return {Class|null} The class which directly includes the given mixin
      */
     getByMixin(clazz, mixin) {
       var list, i, l;
@@ -619,7 +619,7 @@ qx.Bootstrap.define("qx.Class", {
      * @signature function(clazz, iface)
      * @param clazz {Class} class to look for the interface
      * @param iface {Interface} interface to look for
-     * @return {Class | null} the class which directly implements the given interface
+     * @return {Class|null} the class which directly implements the given interface
      */
     getByInterface: qx.util.OOUtil.getByInterface,
 

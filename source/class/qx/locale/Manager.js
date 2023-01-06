@@ -64,7 +64,7 @@ qx.Class.define("qx.locale.Manager", {
      *
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String | LocalizedString} The translated message or localized string
+     * @return {String|LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     tr(messageId, varargs) {
@@ -82,7 +82,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} singular form if equals 1, otherwise plural
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String | LocalizedString} The translated message or localized string
+     * @return {String|LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     trn(singularMessageId, pluralMessageId, count, varargs) {
@@ -108,7 +108,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String | LocalizedString} The translated message or localized string
+     * @return {String|LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     trc(hint, messageId, varargs) {
@@ -128,7 +128,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} singular form if equals 1, otherwise plural
      * @param varargs {Object} variable number of arguments applied to the format string
-     * @return {String | LocalizedString} The translated message or localized string
+     * @return {String|LocalizedString} The translated message or localized string
      * @see qx.lang.String.format
      */
     trnc(hint, singularMessageId, pluralMessageId, count, varargs) {
@@ -335,7 +335,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param messageId {String} message id (may contain format strings)
      * @param args {Object[]} array of objects, which are inserted into the format string
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
-     * @return {String | LocalizedString} translated message or localized string
+     * @return {String|LocalizedString} translated message or localized string
      */
     translate(messageId, args, locale) {
       var catalog = this.__translations;
@@ -353,7 +353,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param messageId {String} message id (may contain format strings)
      * @param args {Object[]} array of objects, which are inserted into the format string
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
-     * @return {String | LocalizedString} translated message or localized string
+     * @return {String|LocalizedString} translated message or localized string
      */
     localize(messageId, args, locale) {
       var catalog = this.__locales;
@@ -372,7 +372,7 @@ qx.Class.define("qx.locale.Manager", {
      * @param messageId {String} message id (may contain format strings)
      * @param args {Object[]} array of objects, which are inserted into the format string
      * @param locale {String ? #locale} locale to be used; if not given, defaults to the value of {@link #locale}
-     * @return {String | LocalizedString} translated message or localized string
+     * @return {String|LocalizedString} translated message or localized string
      */
     __lookupAndExpand(catalog, messageId, args, locale) {
       if (qx.core.Environment.get("qx.debug")) {
