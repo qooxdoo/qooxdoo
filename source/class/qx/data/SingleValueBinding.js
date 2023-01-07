@@ -927,7 +927,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
      * @param targetProperties {String[]} Array containing the names of the properties
      * @param index {Number?} The array index of the last property to be considered.
      * Default: The last item's index
-     * @return {qx.core.Object | null} The object on which the last property
+     * @return {qx.core.Object|null} The object on which the last property
      *   should be set.
      */
     __getTargetFromChain(targetObject, targetProperties, index) {

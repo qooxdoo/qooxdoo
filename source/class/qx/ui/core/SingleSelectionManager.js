@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager", {
     /**
      * Returns the current selected element.
      *
-     * @return {qx.ui.core.Widget | null} The current selected widget or
+     * @return {qx.ui.core.Widget|null} The current selected widget or
      *    <code>null</code> if the selection is empty.
      */
     getSelected() {

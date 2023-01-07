@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.mobile.form.Form", {
      * {@link qx.ui.form.validation.Manager#validate} method.
      * @lint ignoreDeprecated(alert)
      *
-     * @return {Boolean | null} The validation result.
+     * @return {Boolean|null} The validation result.
      */
     validate() {
       var validateResult = super.validate();
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.mobile.form.Form", {
      * Gets the item with the given group and rowIndex.
      * @param groupIndex {Integer} the index of the group to which the row belongs to
      * @param rowIndex {Integer} the index of the row inside the target group
-     * @return {qx.ui.form.IForm | null} The validation result.
+     * @return {qx.ui.form.IForm|null} The validation result.
      */
     _getItemByIndex(groupIndex, rowIndex) {
       var groups = this.getGroups();

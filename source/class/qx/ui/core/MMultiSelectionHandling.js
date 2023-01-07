@@ -327,7 +327,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling", {
     /**
      * Returns the last selection context.
      *
-     * @return {String | null} One of <code>tap</code>, <code>quick</code>,
+     * @return {String|null} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>.
      */
     getSelectionContext() {

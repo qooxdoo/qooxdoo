@@ -449,7 +449,7 @@ qx.Class.define("qx.ui.list.List", {
     /**
      * Returns the selectable model items.
      *
-     * @return {qx.data.Array | null} The selectable items.
+     * @return {qx.data.Array|null} The selectable items.
      */
     _getSelectables() {
       return this.getModel();
