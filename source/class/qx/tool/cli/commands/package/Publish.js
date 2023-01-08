@@ -80,7 +80,6 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
 
           dryrun: {
             type: "boolean",
-            alias: "d",
             describe: "Deprecated. Use --dry-run"
           },
 
