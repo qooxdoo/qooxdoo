@@ -78,7 +78,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
             describe: "Set commit/release message"
           },
 
-          dryrun: {
+          "dry-run": {
             type: "boolean",
             alias: "d",
             describe: "Show result only, do not publish to GitHub"
