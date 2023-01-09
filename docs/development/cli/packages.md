@@ -341,7 +341,7 @@ execute `qx package publish`. The command has the following options:
   --prerelease, -p       Publish as a prerelease (as opposed to a stable
                          release)                                      [boolean]
   --message, -m          Set commit/release message                     [string]
-  --dryrun, -d           Show result only, do not publish to GitHub    [boolean]
+  --dry-run, -d           Show result only, do not publish to GitHub    [boolean]
   --create-index, -i     Create an index file (qooxdoo.json) with paths to
                          Manifest.json files                           [boolean]
   --qx-version           A semver string. If given, the qooxdoo version for
