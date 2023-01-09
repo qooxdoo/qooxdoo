@@ -34,48 +34,6 @@ qx.Theme.define("qx.theme.indigo.AppearanceDark", {
   extend: qx.theme.indigo.Appearance,
 
   appearances: {
-    "label": {
-      style(states) {
-        return {
-          textColor: states.disabled ? "text-disabled" : "text"
-        };
-      }
-    },
-
-    "listitem": {
-      alias: "atom",
-
-      style(states) {
-        var padding = [3, 5, 3, 5];
-        if (states.lead) {
-          padding = [2, 4, 2, 4];
-        }
-        if (states.dragover) {
-          padding[2] -= 2;
-        }
-
-        var backgroundColor;
-        if (states.selected) {
-          backgroundColor = "background-selected";
-          if (states.disabled) {
-            backgroundColor += "-disabled";
-          }
-        }
-        return {
-          gap: 4,
-          padding: padding,
-          backgroundColor: backgroundColor,
-          textColor: states.selected ? "text-selected" : undefined,
-          decorator: states.lead
-            ? "lead-item"
-            : states.dragover
-              ? "dragover"
-              : undefined,
-          opacity: states.drag ? 0.5 : undefined
-        };
-      }
-    },
-
     "progressbar": {
       style(states) {
         return {

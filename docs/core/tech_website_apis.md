@@ -66,7 +66,6 @@ objects. Wrappers exist for:
 - the current document
 - DOM elements to be connected to Qooxdoo's event system
 - native event management
-- flash embedding
 - CSS font styles
 - several native controls like `iframe`, `form elements`, `label` and `image`
   elements
