@@ -7,7 +7,6 @@
 - [Combobox](/desktop/widget/combobox.md)
 - [Composite](/desktop/widget/composite.md)
 - [Datefield](/desktop/widget/datefield.md)
-- [Flash](/desktop/widget/flash.md)
 - [Groupbox](/desktop/widget/groupbox.md)
 - [Hoverbutton](/desktop/widget/hoverbutton.md)
 - [Html](/desktop/widget/html.md)

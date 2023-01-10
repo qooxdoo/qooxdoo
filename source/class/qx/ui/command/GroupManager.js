@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.command.GroupManager", {
      *
      * @param group {qx.ui.command.Group} Command group
      *
-     * @return {qx.ui.command.Group | null} Command group or null if group was not added before
+     * @return {qx.ui.command.Group|null} Command group or null if group was not added before
      */
     remove(group) {
       if (qx.core.Environment.get("qx.debug")) {
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.command.GroupManager", {
     /**
      * Returns active command group.
      *
-     * @return {qx.ui.command.Group | null} Active command group
+     * @return {qx.ui.command.Group|null} Active command group
      */
     getActive() {
       return this.__activeGroup;
@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.command.GroupManager", {
      *
      * @param group {qx.ui.command.Group} Command group
      *
-     * @return {qx.ui.command.Group | null} Command group or null
+     * @return {qx.ui.command.Group|null} Command group or null
      */
     _getGroup(group) {
       var index = this.__groups.indexOf(group);

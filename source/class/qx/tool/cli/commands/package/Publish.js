@@ -80,6 +80,11 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
 
           dryrun: {
             type: "boolean",
+            describe: "Deprecated. Use --dry-run"
+          },
+
+          "dry-run": {
+            type: "boolean",
             alias: "d",
             describe: "Show result only, do not publish to GitHub"
           },
@@ -145,6 +150,13 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       await super.process();
       // init
       const argv = this.argv;
+
+      if (argv.dryrun) {
+        qx.tool.compiler.Console.info(
+          'The "--dryrun" option is deprecated. Please use "--dry-run" instead.'
+        );
+        argv.dryRun = true
+      }
 
       // qooxdoo version
       let qxVersion = await this.getQxVersion();
@@ -377,7 +389,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         manifestModel
           .setValue("requires.@qooxdoo/framework", semver_range)
           .setValue("info.version", new_version);
-        if (argv.dryrun) {
+        if (argv.dryRun) {
           if (!argv.quiet) {
             qx.tool.compiler.Console.info(
               `Dry run: Not committing ${manifestModel.getRelativeDataPath()} with the following content:`
@@ -397,7 +409,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
       if (await fs.existsAsync(package_json_path)) {
         let data = await qx.tool.utils.Json.loadJsonAsync(package_json_path);
         data.version = new_version;
-        if (this.argv.dryrun) {
+        if (this.argv.dryRun) {
           qx.tool.compiler.Console.info(
             "Dry run: Not changing package.json version..."
           );
@@ -414,7 +426,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
         argv: this.argv
       });
 
-      if (argv.dryrun) {
+      if (argv.dryRun) {
         qx.tool.compiler.Console.info(
           `Dry run: not creating tag and release '${tag}' of ${repo_name}...`
         );
@@ -540,7 +552,7 @@ qx.Class.define("qx.tool.cli.commands.package.Publish", {
 
             // write index file
             const registryModel = qx.tool.config.Registry.getInstance();
-            if (argv.dryrun) {
+            if (argv.dryRun) {
               qx.tool.compiler.Console.info(
                 `Dry run: not creating index file ${registryModel.getRelativeDataPath()} with the following content:`
               );
