@@ -386,7 +386,7 @@ qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
 Having e.g. the Qooxdoo modern theme defined in your `compile.json` file, this line
 of code switches the whole UI to the classic theme. Of course, this can also be
-a custom theme desktop/ui_custom_themes.md#custom_themes.
+a [custom theme](themes.md).
 
 > :memo: Referencing a second theme in the code also adds a dependency to the theme and
 > all the classes and resources necessary. This is only necessary if the theme

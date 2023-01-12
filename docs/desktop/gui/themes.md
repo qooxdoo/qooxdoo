@@ -60,7 +60,7 @@ qx.Theme.define("myApplication.theme.Theme",
 });
 ```
 
-Finally you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
+Finally, you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
 
 ```
 "applications": [
@@ -92,7 +92,7 @@ only have to consider some rules:
   corresponding `@asset` directives.
 - Be sure to check all build in widgets with all states. A Widget may have a
   different looks and feel when disabled or invalid.
-- Its a good idea to copy a existing appearance theme and edit all the stuff you
+- It's a good idea to copy a existing appearance theme and edit all the stuff you
   need. That way, you can be sure that you have all the appearance keys included
   the framework needs.
 
@@ -157,13 +157,13 @@ and are added to each other without the work of the application developer.
 A classic example for this is the `Spinner` widget. A `Spinner` is basically a
 Grid layout with a `TextField` and two `RepeatButtons`. The three internal
 widgets are available under the sub control IDs `textfield`, `upbutton` and
-`downbutton`. The selectors for these kind of child controls are then:
+`downbutton`. The selectors for this kind of child controls are then:
 
 - `spinner/textfield`
 - `spinner/upbutton`
 - `spinner/downbutton`
 
-Each of these selectors must be defined by the selected appearance. Otherwise a
+Each of these selectors must be defined by the selected appearance. Otherwise, a
 warning about missing selectors is displayed.
 
 ### Aliases
@@ -190,12 +190,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 So we have mastered one essential part for appearance themes. It is basically
 the easiest part, but seen quite often. Compared to CSS you always have a full
-control about the styling of such an child control. There is no type of implicit
+control about the styling of such a child control. There is no type of implicit
 inheritance. This may also be seen negatively, but most developers tend to like
 it more.
 
-Such an alias also redirects all child controls of the left hand selector to the
-right hand selector. This means that the icon inside the button is automatically
+Such an alias also redirects all child controls of the left-hand selector to the
+right-hand selector. This means that the icon inside the button is automatically
 redirected as well. Internally this mapping looks like this:
 
 ```
@@ -449,7 +449,7 @@ state is modified.
 
 First of all we have the appearance queue. Widgets which are visible and
 inserted into a visible parent are automatically processed by this queue when
-changes happen or on the initial display of the widget. Otherwise the change is
+changes happen or on the initial display of the widget. Otherwise, the change is
 delayed until the widget gets visible (again).
 
 The queue also minimizes the effect of multiple state changes when they happen
@@ -593,7 +593,7 @@ supply:
 - `_style<yourName>`: This method has a styles map as parameter which should be
   manipulated directly. That way, you can just append your styles and That's it.
   But you should make sure you don't manipulate / override any style another
-  mixin could uses.
+  mixin could use.
 
 As you can see, every mixin can define its own methods for `style`. The theme
 system combines all the methods given by the separate widgets to one big working

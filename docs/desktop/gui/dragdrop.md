@@ -184,7 +184,7 @@ targets.
 
 ## Runtime checks
 
-There are a few other pleasantries. For example it is possible for `droppable`
+There are a few other pleasantries. For example, it is possible for `droppable`
 widgets to ignore a specific incoming data type. This can be done by preventing
 the default action on the incoming `dragover` event:
 
