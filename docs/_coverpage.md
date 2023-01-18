@@ -3,7 +3,7 @@
 > the javascript framework for coders
 
 - full class based oo
-- multi language support
+- multi-language support
 - powerful theming
 
 [About Qooxdoo](about.md#about-Qooxdoo)

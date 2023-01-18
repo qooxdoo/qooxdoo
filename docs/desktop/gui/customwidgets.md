@@ -27,7 +27,7 @@ The Qooxdoo `Spinner` for example extends the `Widget` as well and adds a
 layout. All the children and the chosen layout are hidden from the outside.
 There are no public accessors for the layout or the children. This makes sense
 as no one is interested in the children of a `Spinner` widget. These methods
-would also mean a lot of bloat added to the API of such an widget.
+would also mean a lot of bloat added to the API of such a widget.
 
 ## Setup Content
 
@@ -163,7 +163,7 @@ For details about styling please refer to the theming article (ui_theming).
 A normal Qooxdoo widget consists of one HTML Element
 ([API](apps://apiviewer/#qx.html.Element) ), the content element.
 
-This elements is an instances of `qx.html.Element` so it come with a
+These elements are instances of `qx.html.Element` so it comes with a
 cross-browser fixed API to apply styles and attributes to the DOM node. All of
 these things can be done without the DOM element needing to be created or
 inserted. For details on `qx.html.Element` please have a look at the technical
@@ -245,7 +245,7 @@ qx.Class.define("custom.LinkAtom", {
 
   construct : function(text, icon) { /*...*/ },
 
-  properties {
+  properties: {
     toolTipText: { /*...*/ },
     underline: { /*...*/ },
     bold: { /*...*/ },
@@ -256,12 +256,12 @@ qx.Class.define("custom.LinkAtom", {
 ```
 
 Now only the text and icon parameter remain in the constructor. All other
-parameters have been converted into properties. The hard to read example now
+parameters have been converted into properties. The hard-to-read example now
 becomes:
 
 ```javascript
 var link = new custom.LinkAtom("create").set({
-  underline: false
+  underline: false,
   bold: true,
   wrap: false,
   underlineOnHover: true

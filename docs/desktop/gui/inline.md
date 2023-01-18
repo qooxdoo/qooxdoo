@@ -113,9 +113,9 @@ flow.
 > :memo: You need to define specific DOM nodes in your document which act as islands
 > for the Qooxdoo widgets.
 >
-> Additionally if you use the dynamic mode (automatic resizing) it is important
+> Additionally, if you use the dynamic mode (automatic resizing) it is important
 > that the used DOM node is **not** styled using CSS rules concerning the
-> _width_ and _height_ attribute. Instead style your DOM node with inline
+> _width_ and _height_ attribute. Instead, style your DOM node with inline
 > styles, otherwise the dynamic resizing won't work correctly.
 
 ```javascript

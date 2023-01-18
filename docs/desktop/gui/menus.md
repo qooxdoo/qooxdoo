@@ -2,7 +2,7 @@
 
 Menus are well-established user interface elements in GUIs. They are popup-like
 controls that provide simple or cascading lists of buttons. Typical uses show
-menus opening off from buttons in tool bars, or popping up as context menus on
+menus opening off from buttons in toolbars, or popping up as context menus on
 right-clicks e.g. on a tree element.
 
 Here are a few examples:
@@ -88,9 +88,8 @@ This example should show how to create a menu structure with submenu and how to
 handle with groups.
 
 Qooxdoo has some widgets that need a menu to handle user interaction. For this
-sample we will chose the `qx.ui.toolbar.ToolBar` to create the menu structure.
-To see a overview, witch widgets uses a menu, take a look in the
-/pages/desktop/widget/menu.
+sample we will choose the `qx.ui.toolbar.ToolBar` to create the menu structure.
+To see an overview, which widgets use a menu, take a look in the [article](../widget/menu.md#description).
 
 This code snippet show how to create a "ToolBar" with to menu items "File" and
 "View":
@@ -148,7 +147,7 @@ There are a couple of things to note here:
   CheckBox, ...)
 - The fourth parameter in `qx.ui.menu.Button` is also a menu. So it is possible
   to create submenus.
-- There are tow kinds to add a separator to a menu. The first kind is to create
+- There are two kinds to add a separator to a menu. The first kind is to create
   a `Separator` instance and add this to the menu. Or the other kind is to call
   the `addSeparator` method from the `Menu` instance.
 
@@ -185,15 +184,15 @@ __getSyntaxMenu : function()
 ```
 
 You can see, that the menu contains `RadioButton` and all `RadioButton` should
-grouped in one `RadioGroup`, but the `RadioButton` in the submenu "C Dialect"
+be grouped in one `RadioGroup`, but the `RadioButton` in the submenu "C Dialect"
 should also be considered in the `RadioGroup`.
 
 To add a `RadioButton` to the `RadioGroup` call the `add()` method from the
 `RadioGroup`. The parameter from `add()` is a variable number of items which
 should be added. You can see that the code calls a `langGroup.add.apply()`
-method to add the `RadioButton` from the "C Dialect" submenu. This is no Qooxdoo
-construction, the `apply()` method is a construction from JavaScript and it is
-not important to know how thus the method works.
+method to add the `RadioButton` from the "C Dialect" submenu. This is not Qooxdoo
+construction, the `apply()` method is a construction from JavaScript, and it is
+not important to know how the method works.
 
 ## Additional Menu Topics
 
