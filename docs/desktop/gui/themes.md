@@ -92,7 +92,7 @@ only have to consider some rules:
   corresponding `@asset` directives.
 - Be sure to check all build in widgets with all states. A Widget may have a
   different looks and feel when disabled or invalid.
-- It's a good idea to copy a existing appearance theme and edit all the stuff you
+- It's a good idea to copy an existing appearance theme and edit all the stuff you
   need. That way, you can be sure that you have all the appearance keys included
   the framework needs.
 
@@ -150,7 +150,7 @@ also a child control to the front of the selector. For example:
 the generated selector would be `pane/level1/level2/level3`. For `pane` which is
 not a child control of any other widget the appearance ID is used. For all
 others the child control ID is used. Again `pane` is not managed by any other
-widget so it is basically added by the developer of the application to another
+widget, so it is basically added by the developer of the application to another
 widget while `level1` to `level3` are managed by some type of combined widget
 and are added to each other without the work of the application developer.
 
@@ -168,7 +168,7 @@ warning about missing selectors is displayed.
 
 ### Aliases
 
-A entry can be defined with two different values, a string or a map. The first
+An entry can be defined with two different values, a string or a map. The first
 option is named "alias", it is basically a string, redirecting to another
 selector. In the `Spinner` example from above we may just want to use aliases
 for the buttons. See the example:
@@ -331,12 +331,12 @@ between states can have great impact on the result map.
 #### Includes
 
 Includes are used to reuse the result of another key and merge it with the local
-data. Includes may also used standalone without the `style` key but this is
-merely the same like an alias. An alias is the faster and better choice in this
+data. Includes may also be used standalone without the `style` key but this is
+merely the same as an alias. An alias is the faster and better choice in this
 case.
 
-The results of the include block are merged with lower priority than the local
-data so it just gets added to the map. To remove a key from the included map
+The results of the "include" block are merged with lower priority than the local
+data, so it just gets added to the map. To remove a key from the included map
 just define the key locally as well (using the `style` method) and set it to
 `undefined`.
 

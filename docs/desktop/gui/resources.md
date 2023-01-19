@@ -73,7 +73,7 @@ let button = new qx.ui.form.Button(
 
 ## Using Qooxdoo icons with widgets
 
-If you want to use some of the icons as resources that are part of the icon
+If you want to use some icons as resources that are part of the icon
 themes that come with Qooxdoo, there are the following ways to do so:
 
 1.  Use the explicit resource ID of the icons from the qx namespace. The icons

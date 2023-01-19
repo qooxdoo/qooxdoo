@@ -1,17 +1,17 @@
 # Window Management
 
-Window is a widget used to show dialogs or to realize a MDI (Multiple Document
+Window is a widget used to show dialogs or to realize MDI (Multiple Document
 Interface) applications. Windows can only be added to `qx.ui.window.Desktop`
 widgets, or to widgets which implement the `qx.ui.window.IDesktop` interface.
 
 Each Desktop widget must have a `qx.ui.window.Manager`. If none is provided, the
-default window manager (`qx.ui.window.Window#DEFAULT_MANAGER_CLASS`) is used.
+[default window manager](apps://apiviewer/#qx.ui.window.Window~DEFAULT_MANAGER_CLASS`qx.ui.window.Window#DEFAULT_MANAGER_CLASS`) is used.
 The desktop uses the manager to handle the contained windows.
 
 The manager takes care of windows z-index order. Windows can be normal
 (default), always on top or modal. Always on top windows stay on top of normal
 windows and modal windows appear in front of all other windows. If there are a
-bunch of windows open and we close one, the manager will activate the window
+bunch of open windows, and we close one, the manager will activate the window
 that is higher in the z-index order stack.
 
 Let's see this in action. We'll create a tabview with one page, create a desktop

@@ -156,7 +156,7 @@ widgets added through user code start with their own appearance. For example,
 the items of the `List` widget have the appearance `list-item`. Their appearance
 key is also `list-item` and not `list/item`.
 
-For details about styling please refer to the theming article (ui_theming).
+For details about styling please refer to the [theming article](theming.md#theming).
 
 ## HTML Elements
 
@@ -166,8 +166,7 @@ A normal Qooxdoo widget consists of one HTML Element
 These elements are instances of `qx.html.Element` so it comes with a
 cross-browser fixed API to apply styles and attributes to the DOM node. All of
 these things can be done without the DOM element needing to be created or
-inserted. For details on `qx.html.Element` please have a look at the technical
-documentation (desktop/html_element_handling).
+inserted. For details on `qx.html.Element` please have a look at the [technical documentation](html.md#html-element-handling).
 
 The element is accessible through the functions `getContentElement()` and is
 stored privately in each widget instance.

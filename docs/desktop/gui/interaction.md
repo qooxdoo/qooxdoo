@@ -60,8 +60,8 @@ be used to block events from sub widgets.
 
 Qooxdoo abstracts mouse and touch events in pointer events. This is the
 preferred way to react to user input from either a mouse or a touch device.
-Check out the specified manual page about pointer events
-pointer.md#pointer_events for more details on that topic. Mouse and touch events
+Check out the specified manual page about [pointer events](../../core/pointer.md#pointer-events)
+for more details on that topic. Mouse and touch events
 are also supported and can be used.
 
 ## Mouse Events
