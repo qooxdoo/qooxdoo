@@ -10,7 +10,7 @@ The Resizer is a resizable container widget.
 
 - Configurable whether all four edges are resizable or only the right and bottom
   edge
-- Live resize or resizing using a resize frame (like in the screen shot)
+- Live resize or resizing using a resize frame (like in the screenshot)
 - Sensitivity configurable i.e. The number of pixels on each side of a resize
   edge, where the resize cursor is shown.
 

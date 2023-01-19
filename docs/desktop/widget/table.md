@@ -37,13 +37,13 @@ still decrease performance.
 | Virtual rendering for rows                       | Only the rows visible will be rendered which increases the speed of the table.                                                                                 |
 | Highlight color for hovered row                  | The currently hovered row can be highlighted.                                                                                                                  |
 
-| General Feature                  |                                                                                                                                                                              |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Capable of remote data gathering | A remote data model can fetch data from the server. It fetches only the current visible data which means not the whole data needs to be transfered to the client on startup. |
-| Different selection modes        | The table offers single and multi selection in different variants.                                                                                                           |
-| Editable cells                   | The cells can be set to editable. Build in editors are CheckBox, ComboBox, PasswrodField, SelectBox and TextField.                                                           |
-| Focus indicator                  | The currently selected cell can have a focus indicator.                                                                                                                      |
-| Statusbar                        | The table has a status bar to show the number of rows and/or custom text.                                                                                                    |
+| General Feature                  |                                                                                                                                                                               |
+| -------------------------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Capable of remote data gathering | A remote data model can fetch data from the server. It fetches only the current visible data which means not the whole data needs to be transferred to the client on startup. |
+| Different selection modes        | The table offers single and multi selection in different variants.                                                                                                            |
+| Editable cells                   | The cells can be set to editable. Build in editors are CheckBox, ComboBox, PasswordField, SelectBox and TextField.                                                            |
+| Focus indicator                  | The currently selected cell can have a focus indicator.                                                                                                                       |
+| Statusbar                        | The table has a status bar to show the number of rows and/or custom text.                                                                                                     |
 
 ## Examples
 

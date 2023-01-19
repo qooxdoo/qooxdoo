@@ -5,7 +5,7 @@ page inside the widget.
 
 ## Preview Image
 
-![iframe.png](iframe.png%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../iframe.png)
+![iframe.png](iframe.png)
 
 ## Features
 

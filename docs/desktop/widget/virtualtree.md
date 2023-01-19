@@ -67,7 +67,7 @@ Here are some links that demonstrate the usage of the widget:
 
 - [Example for the VirtualTree widget](apps://demobrowser/#virtual~Tree.html)
 - [Example with custom items as columns](apps://demobrowser/#virtual~Tree_Columns.html)
-- [Example which loads items dynamically when a nodes is opened](apps://demobrowser/#virtual~Tree_Dynamic.html)
+- [Example which loads items dynamically when a nodes are opened](apps://demobrowser/#virtual~Tree_Dynamic.html)
 
 ## API
 

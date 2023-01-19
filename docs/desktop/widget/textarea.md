@@ -16,7 +16,7 @@ A TextArea some long text. The TextArea is classic GUI element.
 ## Description
 
 The TextArea is like a TextField, but for longer text input. So the TextArea
-supports a automatic wrap around which can be deactivated, when it is undesired.
+supports an automatic wrap around which can be deactivated, when it is undesired.
 
 ## Demos
 

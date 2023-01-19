@@ -4,7 +4,7 @@ A List widget has items with plain text and/or icon.
 
 ## Preview Image
 
-![List](list.png%0A%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20:target:%20../../list.png)
+![List](list.png)
 
 ## Features
 
@@ -20,14 +20,14 @@ A List widget has items with plain text and/or icon.
 
 ## Description
 
-A List widget can be used to show a list of items. These items could selected in
+A List widget can be used to show a list of items. These items could be selected in
 different modes:
 
 - `single`: Only one or none could be selected.
 - `multi`: One, more or none could be selected.
-- `additive`: The same selection like `multi`, but each item, which the user
+- `additive`: The same selection as `multi`, but each item, which the user
   taped on it is added or removed to the selection.
-- `one`: The same selection like `single`, but one must selected.
+- `one`: The same selection as `single`, but one must be selected.
 
 The item which are added to the list are `ListItem`. For more details see:
 [ListItem](apps://apiviewer/#qx.ui.form.ListItem).

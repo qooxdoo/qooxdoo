@@ -5,7 +5,7 @@ the space a normal widget of the same size would take.
 
 ## Features
 
-- Spacers are invisible and very light weight because they don't require any DOM
+- Spacers are invisible and very lightweight because they don't require any DOM
   modifications
 
 ## Demos
