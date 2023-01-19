@@ -62,7 +62,7 @@ for example.
   ],
 ```
 
-Then you have to generate the tranlation files with
+Then you have to generate the translation files with
 `qx compile --update-po-files`. The compiler will extract all the text strings
 you marked up and will put them into the `source/translation` folder. There
 you'll find the created files ending in `.po`. You may be familiar with that
@@ -164,7 +164,7 @@ It is pretty easy to get this kind of information. You surely know how to
 continue from here, but before that, I'll show you a little trick. We want to
 keep the name of the selectable language in the translation file itself. That's
 a good place to keep that string because otherwise, we would need a mapping from
-the locale (e.g. en) to its human readable name (e.g. English). Instead we'll,
+the locale (e.g. en) to its human-readable name (e.g. English). Instead, we'll,
 add a special translation key to our application.
 
 ```javascript

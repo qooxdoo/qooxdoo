@@ -3,7 +3,7 @@
 In the previous steps of this tutorial, we laid the groundwork for a tweets
 client application, gave it a neat UI and implemented a communication layer. One
 thing this application still lacks is a nice way for users to input their
-identica user name and password in order to post a status update. Fortunately,
+identica username and password in order to post a status update. Fortunately,
 Qooxdoo comes with a forms API that takes the pain out of creating form elements
 and handling user input.
 
@@ -15,7 +15,7 @@ in this tutorial.
 
 ## The plan
 
-We want to create a new window with user name and password fields that pops up
+We want to create a new window with username and password fields that pops up
 when the tweets application starts. The values will be used to retrieve the
 user's list of Tweets. Seems simple enough, so let's get right down to business.
 
@@ -146,7 +146,7 @@ loginbutton.addListener(
 ## Tying it all together
 
 Now to integrate the login window with the other parts of the application. As we
-are using a mocked API for the tutorials, it is not possible to login or fetch
+are using a mocked API for the tutorials, it is not possible to log in or fetch
 the users tweets. So we skip that step.
 
 All that's left is to show the login window when the application is started and
@@ -172,7 +172,7 @@ this.__loginWindow.addListener("changeLoginData", function (ev) {
 Note how all the other calls to `service.fetchTweets` can remain unchanged: By
 making the login window modal, we've made sure the first call, which creates the
 store, contains the login data. Any subsequent calls (i.e. after reloading or
-posting an update) will use the same store so they won't need the login details.
+posting an update) will use the same store, so they won't need the login details.
 
 OK, time to compile your application with `qx compile` and load the application in a browser to make sure
 everything works like it's supposed to.

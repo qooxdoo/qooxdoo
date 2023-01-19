@@ -28,7 +28,7 @@ this.__list = new qx.ui.list.List();
 this.add(this.__list, { row: 1, column: 0, colSpan: 2 });
 ```
 
-Now we use the virtual List instead of the non virtual List. But before we can
+Now we use the virtual List instead of the non-virtual List. But before we can
 use the tweets application with the virtual List we have to configure the usage
 with a delegate.
 
@@ -91,7 +91,7 @@ the item height. This is due to the huge count of model items.
 ## Update list binding
 
 Finally, we have to adapt the binding between the tweets service and the virtual
-list. The virtual list always needs a model instance so we need to adapt the
+list. The virtual list always needs a model instance, so we need to adapt the
 current binding: :
 
 ```javascript
@@ -117,4 +117,4 @@ The virtual List supports some more features like grouping, for additional
 details have a look at the
 [virtual demos](apps://demobrowser/#virtual~List.html) . As always, the
 [code of the tutorial](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.5)
-is on github.
+is on GitHub.

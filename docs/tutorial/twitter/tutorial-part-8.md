@@ -107,12 +107,12 @@ Installing the `qxl.testtapper` package adds a new application to your
 ```
 
 Now start the server `npx qx serve` and open `http://localhost:8080` in your
-bowser. You will now have the option to open the testtapper application. The
+browser. You will now have the option to open the testtapper application. The
 testtapper does not report any test details in the browser window (PRs welcome).
 It will instead output its results to the browser console.
 
 The testtapper also includes a little node application that can execute the
-tests in 'puppeteer' which is a headless chrome browser, ideal for CI/CD
+tests in 'puppeteer' which is a headless Chrome browser, ideal for CI/CD
 applications.
 
 ```console
@@ -130,7 +130,7 @@ single Tweet along with the user's icon. To this end, it has a property named
 `icon` child control. Our test will check if the `icon` property value is
 correctly applied to the icon widget. First of all, create a corresponding class
 **tweets.test.TweetView** in the `source/class/tweets/test` directory. (We won't
-be needing the DemoTest class any more, so feel free to delete it.)
+be needing the DemoTest class anymore, so feel free to delete it.)
 
 ```javascript
 /**
@@ -247,7 +247,7 @@ the amount of time to wait (in milliseconds) before the test is marked as
 failed. Note that wait **must** always be the last call in an asynchronous test
 function. Any code that follows it will never be executed.
 
-Now, if you run this test a couple times in quick succession, there's a good
+Now, if you run this test a couple of times in quick succession, there's a good
 chance it will at some point fail with the error message "Error in asynchronous
 test: resume() called before wait()". This is because due to the browser caching
 the result of the identica API request sent by TweetService, the `changeTweets`
@@ -274,8 +274,8 @@ the callback code. Otherwise, these would just land on the browser console.
 
 ## Requirements
 
-Finally, let's take a quick look at test requirements
-frame_apps_testrunner.md#requirements. This is a way to define preconditions
+Finally, let's take a quick look at test requirements.
+This is a way to define preconditions
 that must be satisfied before a test can be run. If a requirement isn't met, the
 test will be skipped (and marked as such in the Testrunner GUI). Common
 requirements are:
