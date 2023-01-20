@@ -14,7 +14,7 @@ access object properties directly:
 ```javascript
 // NOT RECOMMENDED: direct access to properties
 obj.width = 200;  // setting a value
-var w = obj.width;  // getting the current value
+const w = obj.width;  // getting the current value
 ```
 
 Instead, you should work with properties only through so-called _ accessor
@@ -40,11 +40,11 @@ the class definition:
 // ordinary example #1
 members:
 {
-  getWidth : function() {
+  getWidth() {
     return this._width;
   },
 
-  setWidth : function(width)
+  setWidth(width)
   {
     this._width = width;
     return width;
@@ -63,7 +63,7 @@ could read:
 // ordinary example #2
 members:
 {
-  setWidth : function(width)
+  setWidth(width)
   {
     if (typeof width != "number") {
       // Type check: Make sure it is a valid number
@@ -102,7 +102,7 @@ properties : {
 
 members :
 {
-  applyWidth : function(value) {
+  applyWidth(value) {
     this.setStyleProperty("width", value + "px");
   }
 }
@@ -291,7 +291,7 @@ properties : {
 
 members :
 {
-  _applyWidth : function(value, old, name) {
+  _applyWidth(value, old, name) {
     // do something...
   }
 }
@@ -498,7 +498,7 @@ inheritance. To refine a property just define two keys inside the property
 must be configured to true.
 
 Normally properties could not be overridden. This is the reason for the `refine`
-flag . The flag informs the implementation that the developer is aware of the
+flag. The flag informs the implementation that the developer is aware of the
 feature and the modification which should be applied.
 
 ```javascript
@@ -656,7 +656,7 @@ properties :
 
 members :
 {
-   _transformWidth : function(value, oldValue)
+   _transformWidth(value, oldValue)
    {
       if ( qx.lang.Type.isString(value) )
       {
@@ -709,7 +709,7 @@ properties :
 
 members :
 {
-   _applyName : function(name)
+   _applyName(name)
    {
        return new qx.Promise(function(fulfilled) {
            // ... do something asynchronous here
@@ -820,7 +820,7 @@ architectures, too.
 Inheritance quickly becomes nothing short of vital for the property system, if
 you consider that it can reduce redundancy dramatically. It is advantageous both
 in terms of coding size and storage space, because a value only needs to be
-declared once for multiple objects inside an hierarchy. Beyond declaring such an
+declared once for multiple objects inside a hierarchy. Beyond declaring such an
 inheritable property once, only intended exceptions to the inherited values need
 to be given to locally override those values.
 
@@ -890,7 +890,7 @@ Property groups is a convenient feature as it automatically generates setters
 and resetters (but no getters) for a group of properties. A definition of such a
 group reads:
 
-```
+```javascript
 properties : {
   location : { group : [ "left", "top" ] }
 }
@@ -938,7 +938,6 @@ obj.setPadding( 10, 20 );
 // obj.setPaddingRight(20);
 // obj.setPaddingBottom(10);
 // obj.setPaddingLeft(20);
-}
 ```
 
 ## When to use properties?

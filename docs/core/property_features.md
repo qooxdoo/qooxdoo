@@ -70,8 +70,6 @@ properties correctly reflect the applied value. Default values assigned by
 `init` also execute the configured `apply` methods and dispatch configured
 events to inform already added listeners.
 
-`property_behavior`
-
 ## Performance
 
 Automatic optimization of all setters to the optimal highly-tuned result code.

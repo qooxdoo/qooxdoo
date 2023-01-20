@@ -59,7 +59,7 @@ function connectToServer() {
 }
 
 async function main() {
-  let result = await connectToServer();
+  const result = await connectToServer();
   console.log("Connecting to server responded: " + result);
 }
 
@@ -121,7 +121,7 @@ When you want to set a property to a value fulfilled by a promise, there is this
 form:
 
 ```javascript
-var myPromise = someOtherValue.getSomethingAsync();
+const myPromise = someOtherValue.getSomethingAsync();
 myPromise.then(function (value) {
   myObj.setMyProp(value);
 });
@@ -134,7 +134,7 @@ they will wait for the promise to be fulfilled before applying it. The example
 above can be re-written as:
 
 ```javascript
-var myPromise = someOtherValue.getSomethingAsync();
+const myPromise = someOtherValue.getSomethingAsync();
 myObj.setMyProp(myPromise);
 ```
 

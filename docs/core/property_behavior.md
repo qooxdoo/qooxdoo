@@ -10,21 +10,21 @@ following:
 
 ```javascript
 qx.Class.define("A", {
-        extend : qx.core.Object,
-        properties : {
-          a : {
-            init : "b",
-            event : "changeA"
-          }
-        }
-      });
+  extend : qx.core.Object,
+  properties : {
+    a : {
+      init : "b",
+      event : "changeA"
+    }
+  }
+});
 ```
 
 As you can see, the property `a` has an init value, `b`. Now, if you access `a`
 with its getter, you get the init value in return:
 
 ```javascript
-var a = new A();
+const a = new A();
 a.getA();  // returns "b"
 ```
 
@@ -40,7 +40,7 @@ new value, the change event will be also fired. The following code shows the
 problem:
 
 ```javascript
-var a = new A();
+const a = new A();
 a.setA(a.getA()); // changeA fired (first set)
 a.setA(a.getA()); // changeA NOT fired (every other set)
 ```
@@ -68,9 +68,9 @@ is the Spinner:
       this.initValue();
     }
 // ...
-    _applyValue: function(value, old)
+    _applyValue(value, old)
 // ...
-            this._updateButtons();
+      this._updateButtons();
 // ...
 ```
 

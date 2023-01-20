@@ -71,7 +71,7 @@ qx.core.Environment.select("myapp.key", {
   "value1" : resvalue1,
   "value2" : resvalue2,
   "default" : catchAllValue
-}
+});
 ```
 
 The `select` method is a way to select a value from a given map. This offers a
@@ -143,7 +143,7 @@ wouldn't be used at run time.
 
 For example,
 
-```
+```javascript
 function foo(a, b) {
   if (qx.core.Environment.get("qx.debug") == true) {
     if ( (arguments.length != 2) || (typeof a != "string") ) {
@@ -156,7 +156,7 @@ function foo(a, b) {
 
 will be reduced in the case _qx.debug_ is _false_ to
 
-```
+```javascript
 function foo(a, b) {
   return 3;
 }
@@ -173,7 +173,7 @@ qx.core.Environment.select("myapp.key", {
 
 will reduce if _myapp.key_ has the value _value2_ to just
 
-```
+```javascript
 resvalue2
 ```
 
@@ -248,7 +248,7 @@ defining a Qooxdoo class:
 ```javascript
 qx.Class.define("myapp.ClassA",
 {
-  [...]
+  /* ... */
 
   environment : {
     "myapp.ClassA.key" : value
@@ -258,8 +258,7 @@ qx.Class.define("myapp.ClassA",
 
 #### In Application Code
 
-You can define a key and its value in a class method using the _
-qx.core.Environment.add_ method:
+You can define a key and its value in a class method using the `qx.core.Environment.add` method:
 
 ```javascript
 qx.core.Environment.add("key", "value");

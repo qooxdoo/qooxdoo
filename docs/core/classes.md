@@ -22,7 +22,7 @@ some existing class, here we take the root class of all Qooxdoo classes:
 ```javascript
 qx.Class.define("qx.test.Cat", {
   extend: qx.core.Object,
-  construct: function () {
+  construct() {
     /* ... */
   }
 });
@@ -36,14 +36,14 @@ An instance of this class is created and its constructor is called by the usual
 statement:
 
 ```javascript
-var kitty = new qx.test.Cat();
+const kitty = new qx.test.Cat();
 ```
 
 ### Members
 
 Members of a class come in two flavors:
 
-- Class members (also called "static" members) are attached to the class itself,
+- Class members (also called **static** members) are attached to the class itself,
   not to individual instances
 
 - Instance members are attached to each individual instance of a class
@@ -74,7 +74,7 @@ qx.Class.define("qx.test.Cat", {
 Accessing those class members involves the fully-qualified class name:
 
 ```javascript
-var foo = qx.test.Cat.LEGS;
+const foo = qx.test.Cat.LEGS;
 alert(qx.test.Cat.makeSound());
 ```
 
@@ -89,7 +89,7 @@ They may be defined in the `members` section of the class declaration:
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
-  ...
+  /* ... */
   members: {
     name : "Kitty",
     getName: function() { return this.name }
@@ -100,7 +100,7 @@ qx.Class.define("qx.test.Cat", {
 Accessing those members involves an instance of the class:
 
 ```javascript
-var kitty = new qx.test.Cat();
+const kitty = new qx.test.Cat();
 kitty.name = "Sweetie";
 alert(kitty.getName());
 ```
@@ -313,7 +313,7 @@ qx.Class.define("qx.test.Cat", {
   extend: qx.test.Animal,
   statics : {
     someStaticMethod(x) {
-      ...
+      /* ... */
     },
     anotherStaticVar: "meow"
   },
@@ -347,7 +347,7 @@ then this works fine _provided that you never subclass your class_.  Statics are
 inherited between classes.
 
 When writing a mixin, `this.constructor` is never the class of the where the code appears, 
-so you must always specify the absolute class name, eg `qx.test.Animal.someStaticVar.
+so you must always specify the absolute class name, eg `qx.test.Animal.someStaticVar`.
 
 The simplest solution is to always write the classname explicitly when accessing static member.
 
@@ -356,7 +356,7 @@ e.g. `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.tes
 because it is a standalone method this code is different:
 
 ```javascript
-var fn = qx.test.Cat.someStaticMethod;
+const fn = qx.test.Cat.someStaticMethod;
 fn(); // "this" will be the global object
 ```
 
@@ -367,7 +367,7 @@ static method's code, or you always explicitly use the class name.
 If you are trying to reduce the amount of typing, this code works as expected:
 
 ```javascript
-var Cat = qx.test.Cat;
+const Cat = qx.test.Cat;
 Cat.someStaticMethod(); // "this" will be qx.test.Cat
 ```
 

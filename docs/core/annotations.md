@@ -72,7 +72,7 @@ qx.Class.define("myapp.forms.annotations.ValidationAnnotation", {
     
     \* @return {Boolean} \*/
 
-    isValid: function (value) {}
+    isValid(value) {}
   }
 });
 qx.Class.define("myapp.forms.annotations.ZipCode", {
@@ -88,8 +88,8 @@ qx.Class.define("myapp.forms.annotations.ZipCode", {
   members: {
     /** @Override \*/
 
-    isValid: function (value) {
-      var ok = true;
+    isValid(value) {
+      const ok = true;
       /* ... zip code validation ... */
       return ok;
     }
@@ -99,11 +99,11 @@ qx.Class.define("myapp.forms.annotations.ZipCode", {
 
 Your form validation logic, when asked to bind to a given property could get a
 list of annotations which derive from
-myapp.forms.annotations.ValidationAnnotation, and use that to implement its
+`myapp.forms.annotations.ValidationAnnotation`, and use that to implement its
 validation logic, for example:
 
 ```javascript
-var propAnnos = qx.Annotation.getProperty(obj.constructor, propName);
+const propAnnos = qx.Annotation.getProperty(obj.constructor, propName);
 propAnnos.forEach(function (propAnno) {
   if (propAnno instanceof myapp.forms.annotations.ValidationAnnotation) {
     /* ... Setup the validation rules (eg for a ZipCode) ... */
@@ -163,7 +163,7 @@ qx.Class.define("myapp.model.Customer", {
         creditLimit: {
             check :"Number",
             "@": [ new myapp.forms.annotations.PositiveCurrency(),
-                    new serverio.annotations.Property().set({ serverName: "maxCreditLimit" ]
+                    new serverio.annotations.Property().set({ serverName: "maxCreditLimit"}) ]
         },
         dirty: {
             init: false,
@@ -172,7 +172,7 @@ qx.Class.define("myapp.model.Customer", {
     },
 
     members: {
-        save: function() {
+        save() {
             if (this.isDirty()) {
                 serverio.Database.save(this);
                 this.setDirty(false);
@@ -187,15 +187,15 @@ endpoint is - there is presumably a server component which provides CRUD
 database access for the CUSTOMER database table.
 
 Each property which is to be sent to the client is marked with an instance of
-the serverio.annotations.Property annotation; note that in this design, it can
+the `serverio.annotations.Property` annotation; note that in this design, it can
 be a static instance (e.g. from getDefaultInstance()) or a whole new instance
 where a special customisation is required.
 
 These annotations provide all the information that is required for a static
-method such as serverio.Database.save() to be able to store the object's
+method such as `serverio.Database.save()` to be able to store the object's
 properties - it can iterate all the properties, discover which is the unique
 server ID for updates, apply customised name mapping on a particular property
-(eg "creditLimit"), and know the endpoint to send the data to.
+(e.g. "creditLimit"), and know the endpoint to send the data to.
 
 Note also how there are two different sets of annotations mixed in together, one
 for form validation in the UI and another for serialising to the server; the
@@ -214,7 +214,7 @@ qx.Class.define("qx.test.Cat", {
   extend: qx.core.Object,
 
   "@construct": ["constructor-annotation"],
-  construct: function () {
+  construct() {
     /* ... */
   }
 });
@@ -238,11 +238,11 @@ qx.Class.define("qx.test.Pet", {
         check: "Boolean"
     },
 
-    color: [
-        "@": [ new qx.serverio.SerialiseColumn("COLOR") ],
+    color: {
+        "@": [new qx.serverio.SerialiseColumn("COLOR")],
         nullable: false,
-        check: [ "black", "brown" ]
-    ]
+        check: ["black", "brown"]
+    }
   }
 });
 
@@ -265,22 +265,22 @@ Annotations are only useful if you can inspect them, and the `qx.Annotation`
 class provides methods for accessing them; for example:
 
 ```javascript
-var pet = this.getPet();
-var annos = qx.Annotation.getProperty(pet.constructor, "color");
+const pet = this.getPet();
+const annos = qx.Annotation.getProperty(pet.constructor, "color");
 qx.core.Assert.assertEquals(1, annos.length);
 qx.core.Assert.assertEquals("qx.serverio.SerialiseColumn", annos[0].classname);
 ```
 
 Note that you can use annotations in super classes and add further annotations
 in derived classes; in the example above, the "hasFur" property has two
-annotations in the qx.test.Cat class, but only one for qx.test.Pet.
+annotations in the `qx.test.Cat` class, but only one for `qx.test.Pet`.
 
 ```javascript
-var pet = this.getPet();
+const pet = this.getPet();
 
 // Only Cat's have the second annotation
 qx.core.Assert.assertTrue(pet instanceof qx.test.Cat);
-var annos = qx.Annotation.getProperty(pet.constructor, "hasFur");
+const annos = qx.Annotation.getProperty(pet.constructor, "hasFur");
 qx.core.Assert.assertEquals(2, annos.length);
 qx.core.Assert.assertEquals("qx.test.otherAnnotation", annos[0]);
 qx.core.Assert.assertEquals("qx.serverio.SerialiseColumn", annos[1].classname);

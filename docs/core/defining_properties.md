@@ -1,7 +1,7 @@
 # Properties in more detail
 
 
-> :memo: Please take a look at `property_features` first to get an compact overview of
+> :memo: Please take a look at `property_features` first to get a compact overview of
 > the available features.
 
 ## Declaration
@@ -63,7 +63,7 @@ properties : {
 
 members :
 {
-  _applyWidth : function(value, old, name) {
+  _applyWidth(value, old, name) {
     // do something...
   }
 }
@@ -158,13 +158,13 @@ call of the initializing function in the constructor.
 
 ```javascript
 qx.Class.define("qx.MyClass", {
-  construct: function() {
+  construct() {
     this.initMyProperty([1, 2, 4, 8]);
   },
   properties : {
     myProperty : { deferredInit : true}
   }
-};
+});
 ```
 
 ### Applying an init value
@@ -189,7 +189,7 @@ method, not like in the usual cases when setting the same value which is already
 set.
 
 ```javascript
-construct : function()
+construct()
 {
   super();
 
@@ -441,7 +441,7 @@ properties :
 
 members :
 {
-   _transformWidth : function(value, oldValue)
+   _transformWidth(value, oldValue)
    {
       if ( qx.lang.Type.isString(value) )
       {
@@ -493,7 +493,7 @@ properties :
 
 members :
 {
-   _applyName : function(name)
+   _applyName(name)
    {
        return new qx.Promise(function(fulfilled) {
            // ... do something asynchronous here
@@ -701,7 +701,7 @@ Additionally, you may also provide a mode which modifies the incoming data
 before calling the setter of each group members. Currently, the only available
 modifier is `shorthand`, which emulates the well-known CSS shorthand support for
 Qooxdoo properties. For more information regarding this feature, please have a
-look at the [user manual](understanding_properties). The definition of such a
+look at the [user manual](understanding_properties.md). The definition of such a
 property group reads:
 
 ```javascript
@@ -725,9 +725,6 @@ obj.setPadding( 10, 20 );
 // obj.setPaddingRight(20);
 // obj.setPaddingBottom(10);
 // obj.setPaddingLeft(20);
-}
-
-.. _pages/defining_properties#when_to_use_properties:
 ```
 
 ## When to use properties?

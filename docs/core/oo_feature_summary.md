@@ -21,7 +21,6 @@ qx.Class.define("my.cool.Class", {
 ```
 
 A regular (non-static) class can simply be instantiated using the `new` keyword:
-:
 
 ```javascript
 var myClass = new my.cool.Class();
@@ -52,7 +51,7 @@ qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
   construct() {
-    ...
+    /* ... */
   }
 });
 ```
@@ -71,7 +70,7 @@ qx.Class.define("my.cool.Class",
   statics :
   {
     FOO : VALUE,
-    BAR : function() { ... }
+    BAR() { /* ... */ }
   }
 });
 ```
@@ -114,14 +113,14 @@ Static members aren't inherited. To call a superclass static method, use
 ```javascript
 qx.Class.define('A', {
   statics: {
-     f: function() {}
+     f() {}
   }
 });
 
 qx.Class.define('B', {
   extend: A,
   members: {
-     e: function() {
+     e() {
         this.constructor.superclass.f();
      }
   }
@@ -130,8 +129,7 @@ qx.Class.define('B', {
 
 Generally, it's easier (and more obvious to readers), to simply use the fully-qualified name: `A.f()` (instead of `this.constructor.superclass.f();`).
 
-Static functions can access other static functions directly through the `this`
-keyword.
+Static functions can access other static functions directly through the `this` keyword.
 
 ## Instance Members
 
@@ -144,7 +142,7 @@ qx.Class.define("my.cool.Class",
   members:
   {
     foo : VALUE,
-    bar() { ... }
+    bar() { /* ... */ }
   }
 });
 ```
@@ -152,7 +150,7 @@ qx.Class.define("my.cool.Class",
 The instance members can be accessed by using an actual instance of a class:
 
 ```javascript
-var myClass1 = new my.cool.Class();
+const myClass1 = new my.cool.Class();
 myClass1.foo = 3.141;
 myClass1.bar();
 ```
@@ -181,7 +179,7 @@ versions.
 qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
-  ...
+  /* ... */
   members : {
     foo(x) {
       super.foo(x);
@@ -200,10 +198,10 @@ qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
   construct() {
-    ...
+    /* ... */
   },
   destruct() {
-    ...
+    /* ... */
   }
 });
 ```
