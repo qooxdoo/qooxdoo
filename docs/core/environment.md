@@ -127,7 +127,7 @@ you can invalidate the cache for a given key, to force a re-calculation on the
 next query:
 
 ```javascript
-qx.core.Environment.invalidateCacheKey("myapp.key"}
+qx.core.Environment.invalidateCacheKey("myapp.key")
 ```
 
 This example would clear a previously calculated value for `myapp.key` .
@@ -168,7 +168,7 @@ In the case of a _select_ call,
 qx.core.Environment.select("myapp.key", {
   "value1" : resvalue1,
   "value2" : resvalue2
-}
+})
 ```
 
 will reduce if _myapp.key_ has the value _value2_ to just
@@ -213,7 +213,7 @@ from eliminating the code, use the "preserveEnvironment" setting.
 Now to actually setting new or overriding existing environment settings. The
 value of an environment key can take one of two forms, as a concrete literal
 value, or as a function that returns a value at run time. The former can be
-achieve in various ways (see further), the latter only through application code.
+achieved in various ways (see further), the latter only through application code.
 (An environment key with its current value is also referred to as an
 _environment setting_). 
 
@@ -267,9 +267,8 @@ qx.core.Environment.add("key", "value");
 
 #### In the Loading index.html
 
-In the web page loading your Qooxdoo application, and before the \`
-
-<script>` tag loading the initial Qooxdoo file, add another `<script>`
+In the web page loading your Qooxdoo application, and before the
+`<script>` tag loading the initial Qooxdoo file, add another `<script>`
 tag with code that assigns a map to `window.qx.$$environment`,
 containing your environment settings.
 
@@ -306,7 +305,7 @@ colons. The first part is the constant `qxenv`, the second part is the key of
 the environment setting and the last part is the value of the setting.
 
 Note that you also need to prevent the compiler from eliminating code
-(see (Code Optimization)[#Code Optimization])
+(see [Code Optimization](environment.md#code-optimization))
 
 ### As a Check Function
 
@@ -348,7 +347,7 @@ qx.core.Environment.addAsync("group.feature", function(callback) {
 });
 ```
 
-This example shows how to add a asynchronous feature check. A timeout is used to
+This example shows how to add an asynchronous feature check. A timeout is used to
 get the asynchronous behavior in this simple example. That can be more
 complicated of course but the timeout is good enough to showcase the API. As you
 can see in the check function we are adding, it has one parameter called

@@ -1,14 +1,13 @@
 # Annotations
 
-Annotations are the ability to add meta data to classes so that the meta data
-can be accessed at runtime; the meta data can be added to individual members,
+Annotations are the ability to add metadata to classes so that the metadata
+can be accessed at runtime; the metadata can be added to individual members,
 properties, statics, constructor, destructor, or the whole class.
 
-Properties already include some meta data - the check attribute allows to
-specify data type or range of values, and Qooxdoo uses this meta data to enforce
-validation; you can access this meta data too, but it's pretty limited in its
-usefulness. Annotations allow you to add your own, application specific meta
-data to describe anything you want (and not just to properties).
+Properties already include some metadata - the check attribute allows specifying data type or range of values, and Qooxdoo uses this metadata to enforce
+validation; you can access this metadata too, but it's pretty limited in its
+usefulness. Annotations allow you to add your own, application specific metadata
+to describe anything you want (and not just to properties).
 
 Annotations can be anything you want - in Java, they have to be a specific type,
 but in this implementation they can be any object and (I find at the moment) a
@@ -34,7 +33,7 @@ When you hand code your form you embed a lot of that business knowledge (about
 who can edit what, and what values are allowed) into your form editor, plus
 there is some basic validation by the property check attribute.
 
-But lets say you edit that object in more than one place - eg a second form
+But let's say you edit that object in more than one place - eg a second form
 editor UI, and maybe there are places where the object is edited by code as a
 result of server interaction or other event. This means duplicating that
 validation logic in all form editors and in the code that manipulates and
@@ -100,7 +99,7 @@ qx.Class.define("myapp.forms.annotations.ZipCode", {
 
 Your form validation logic, when asked to bind to a given property could get a
 list of annotations which derive from
-myapp.forms.annotations.ValidationAnnotation, and use that to implement it's
+myapp.forms.annotations.ValidationAnnotation, and use that to implement its
 validation logic, for example:
 
 ```javascript
@@ -114,7 +113,7 @@ propAnnos.forEach(function (propAnno) {
 
 ## Example 2
 
-Lets refine our example above and say that the Customer objects are part of an
+Let's refine our example above and say that the Customer objects are part of an
 object model which needs to be replicated on to the server; most of the
 properties are business data and need to be kept synchronised with the server
 when the user hits save. This data is usually changed by the CustomerEditor
@@ -126,7 +125,7 @@ because it happens in so many places, it would be much better is Customer just
 "knew" about the properties.
 
 To automate this, you could start by just synchronising _all_ properties in
-Customer to the server, but the likelyhood is that there are properties which
+Customer to the server, but the likelihood is that there are properties which
 only exist in the UI, and anyway the naming conventions might mean that property
 names on the server are always 100% the same as that on the server.
 
@@ -189,7 +188,7 @@ database access for the CUSTOMER database table.
 
 Each property which is to be sent to the client is marked with an instance of
 the serverio.annotations.Property annotation; note that in this design, it can
-be a static instance (eg from getDefaultInstance()) or a whole new instance
+be a static instance (e.g. from getDefaultInstance()) or a whole new instance
 where a special customisation is required.
 
 These annotations provide all the information that is required for a static
@@ -226,7 +225,7 @@ but you have to be careful to avoid name conflicts - if you use strings, make
 sure that it is prefixed with your library namespace.
 
 Perhaps a better way to annotate would be with an instance of a class that has
-well defined properties; for example:
+well-defined properties; for example:
 
 ```javascript
 qx.Class.define("qx.test.Pet", {

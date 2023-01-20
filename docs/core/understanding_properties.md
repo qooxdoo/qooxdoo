@@ -17,7 +17,7 @@ obj.width = 200;  // setting a value
 var w = obj.width;  // getting the current value
 ```
 
-Instead you should work with properties only through so-called _ accessor
+Instead, you should work with properties only through so-called _ accessor
 methods_ ("getters") and _mutator methods_ ("setters"):
 
 ```
@@ -245,7 +245,7 @@ qx.Class.define(
 /* ... */
 properties : {
   myProperty : { nullable : true }
-}
+},
 ...
 ```
 
@@ -265,7 +265,7 @@ from each other.
 
 As a class developer the easiest solution with the best performance is to define
 an apply method. As a user of a class (the one who creates instances) it is the
-best to simply attach an event listener to the instance, if such an
+best to simply attach an event listener to the instance, if such a
 corresponding event is provided in the property declaration.
 
 ### Defining an apply method
@@ -376,7 +376,7 @@ the initializing function in the constructor.
 
 ```javascript
 qx.Class.define("qx.MyClass", {
-  construct: function() {
+  construct() {
     this.initMyProperty([1, 2, 4, 8]);
   },
   properties : {
@@ -387,7 +387,7 @@ qx.Class.define("qx.MyClass", {
 
 ### Applying an init value
 
-It is possible to apply the init value using an user-defined apply method. To do
+It is possible to apply the init value using a user-defined apply method. To do
 this call the init method `this.initMyProperty(value)` somewhere in your
 constructor - this "change" will than trigger calling the apply method. Of
 course, this only makes sense in cases where you have at least an `apply` or
@@ -483,10 +483,10 @@ not accept any parameters. The init methods always use the predefined init
 values. In cases where there is no `init` value given in the property
 declaration, it is possible to call the init method with one parameter, which
 represents the init value. This may be useful to apply reference types to each
-instance. Thus they would not be shared between instances.
+instance. Thus, they would not be shared between instances.
 
 > :memo: Please remember that init values are not for incoming user values. Please use
-> `init` only for class defined things, not for user values. Otherwise you
+> `init` only for class defined things, not for user values. Otherwise, you
 > torpedo the multi-value idea behind the dynamic properties.
 
 ### Refining init values
@@ -508,7 +508,7 @@ properties : {
 ```
 
 This will change the default value at definition time. `refine` is a better
-solution than a simple `set` call inside the constructor because it the initial
+solution than a simple `set` call inside the constructor because its initial
 value is stored in a separate namespace as the user value and so it is possible
 for the user to fall back to the default value suggested by the developer of a
 class.
@@ -638,7 +638,7 @@ value types for a property.
 ### Example
 
 Here we define both a check and transform method for the width property. Though
-the check method requires that the property be a integer, we can use the
+the check method requires that the property be an integer, we can use the
 transform method to accept a string and transform it into an integer. Note that
 we can still rely on the check method to catch any other incorrect values, such
 as if the user mistakenly assigned a Widget to the property.
@@ -677,10 +677,10 @@ parameter will be undefined
 Sometimes it may be necessary for an applyXxx method to take some time to
 complete, in which case it is necessary to consider coding asynchronously to
 allow for a better user experience. Perhaps more importantly, if your apply
-method includes triggering a server roundtrip then changes to the specification
+method includes triggering a server round trip then changes to the specification
 (  
 <https://xhr.spec.whatwg.org/>) have deprecated synchronous XMLHttpRequest, and
-some browsers (eg Safari) already have very short timeouts for synchronous
+some browsers (e.g. Safari) already have very short timeouts for synchronous
 XMLHttpRequests which cannot be overridden.
 
 Properties can be made asynchronous by using qx.Promise.
@@ -855,7 +855,7 @@ properties : {
 
 ### Inheritable CSS properties
 
-To give you an idea for what kind of custom properties inheritance is
+To give you an idea for what kind of custom properties' inheritance is
 particularly useful, the following list of prominent CSS properties which
 support inheritance may be a good orientation:
 
@@ -914,7 +914,7 @@ Additionally, you may also provide a mode which modifies the incoming data
 before calling the setter of each group members. Currently, the only available
 modifier is `shorthand`, which emulates the well-known CSS shorthand support for
 Qooxdoo properties. For more information regarding this feature, please have a
-look at the user manual (understanding_properties). The definition of such a
+look at the [user manual](understanding_properties.md). The definition of such a
 property group reads:
 
 ```

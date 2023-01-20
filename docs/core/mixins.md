@@ -2,7 +2,7 @@
 
 Mixins are collections of code and variables, which can be merged into other
 classes. They are similar to classes but can not be instantiated. Unlike
-interfaces they do contain implementation code. Typically they are made up of
+interfaces, they do contain implementation code. Typically, they are made up of
 only a few members that allow for a generic implementation of some very specific
 functionality.
 

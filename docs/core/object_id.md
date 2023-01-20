@@ -32,7 +32,7 @@ As forms get more complex, so does the constructor; adding event listeners and o
 
 When those widgets need to be referenced by event handlers or other methods, you need to make sure that each one has a unique name, and/or is assigned to a unique member variable too.  With this being the case, you are already assigning a unique ID to most of the objects that you create, the difference is that they are local and/or member variables rather than strings.
 
-This rapidly makes the constructor become a big mixup of UI code, layout code, and normal construction/setup code.  For example:
+This rapidly makes the constructor become a big mix-up of UI code, layout code, and normal construction/setup code.  For example:
 
 
 ```
@@ -224,9 +224,9 @@ There is a working example [of @cboulanger's Event Recorder](https://qooxdoo.org
 ## Child Controls
 `qx.ui.core.Widget` objects have a similar mechanism for managing child controls - your custom widget is expected to override `_createChildControlImpl` and return whatever object (widget) is required.
 
-While it is possible to use the childControl mechanism, that remains as a distinct solution from ObjectID because of a "separation of concerns" argument. Primarily, the object ID mechanism is a means to navigate application-level objects (aka business objects, etc) from outside the application or component - this makes the IDs a form of published API that can expose a specific, designed structure, and as an "API" it needs to be clear and consistent. An API like this can be used by Selenium-type tools, or as part of the application's internal structure.
+While it is possible to use the childControl mechanism, that remains as a distinct solution from ObjectID because of a "separation of concerns" argument. Primarily, the object ID mechanism is a means to navigate application-level objects (aka business objects, etc.) from outside the application or component - this makes the IDs a form of published API that can expose a specific, designed structure, and as an "API" it needs to be clear and consistent. An API like this can be used by Selenium-type tools, or as part of the application's internal structure.
 
-The `childControl` mechanism is tied into appearances and is a much lower level - when looking at a `qx.ui.form.SelectBox`, it's comprised of a list, a button, a popup window, etc - while those objects are published within the context of just a SelectBox, they make little sense when it comes to application testing or finding application objects. ChildControls even have their own relationship with documentation (eg `@childControl` jsdoc tag), and just the term "control" implies some kind of visual aspect.
+The `childControl` mechanism is tied into appearances and is a much lower level - when looking at a `qx.ui.form.SelectBox`, it's comprised of a list, a button, a popup window, etc. - while those objects are published within the context of just a SelectBox, they make little sense when it comes to application testing or finding application objects. ChildControls even have their own relationship with documentation (e.g. `@childControl` jsdoc tag), and just the term "control" implies some kind of visual aspect.
 
 `childControl` and `objectId` are for distinctly different purposes (ie one is presentation layer and the other is data/business object layer) and should be kept separate. And if you do need to find a child control, there's no reason why you can't find the object via an `objectId` and then look inside it's `childControl` mechanism.
 

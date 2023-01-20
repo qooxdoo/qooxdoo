@@ -80,7 +80,7 @@ classes. The syntax matches the `events` key of the class declaration.
 
 With `implement` key of the class declaration, a list of interfaces can be
 listed, which the class implements. The class must implement all properties,
-members and events declared in the interfaces. Otherwise a runtime error will be
+members and events declared in the interfaces. Otherwise, a runtime error will be
 thrown.
 
 Example:

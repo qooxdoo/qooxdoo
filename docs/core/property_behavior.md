@@ -83,7 +83,7 @@ is optional. So we have three cases to consider.
 2.  A value is given different as the init value: So the value is not undefined
     and the setter for the value property will be called, which invokes the
     apply function.
-3.  A value is given and its exactly the init value: In this case, the setter
+3.  A value is given and it's exactly the init value: In this case, the setter
     will be called with the init value. The apply method is called and invokes
     the `_updateButtons` method. This method checks the given value and enables
     / disabled the buttons for increasing / decreasing the spinner. So it is
@@ -98,7 +98,7 @@ Because only in that scenario, one of the buttons need to be disabled.
 
 ## When can it be changed?
 
-Currently we don't plan to change it because it can have some hard to track side
+Currently, we don't plan to change it because it can have some hard to track side
 effects as seen in the example above and we don't have any deprecation strategy.
-Maybe it can be change on a major version like 2.0 but currently there are no
+Maybe it can be changed on a major version like 2.0 but currently there are no
 plans to do so.

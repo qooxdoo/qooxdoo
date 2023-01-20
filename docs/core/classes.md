@@ -194,7 +194,7 @@ types:
 
 A static class is not instantiated and only contains static members. Setting its
 type to `static` makes sure only such static members, no constructor and so on
-are given in the class definition. Otherwise error messages are presented to the
+are given in the class definition. Otherwise, error messages are presented to the
 developer:
 
 ```javascript
@@ -333,7 +333,7 @@ qx.Class.define("qx.test.Dog", {
 The syntax for accessing static methods and variables is to use the classname
 to prefix the method or variable, for example `qx.test.Animal.someStaticVar`.
 
-In member methods, you have anther choice for accessing the class definition - you can 
+In member methods, you have another choice for accessing the class definition - you can 
 use `this.constructor` which returns the class of the object.  Note that `this.constructor`
 will be different depending on the actual instance of the class, for example:
 
@@ -352,7 +352,7 @@ so you must always specify the absolute class name, eg `qx.test.Animal.someStati
 The simplest solution is to always write the classname explicitly when accessing static member.
 
 The code in a static method typically has `this` set to the class because of how you call it - 
-eg `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.test.Cat`.  However,
+e.g. `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.test.Cat`.  However,
 because it is a standalone method this code is different:
 
 ```
