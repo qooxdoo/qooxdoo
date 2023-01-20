@@ -80,8 +80,8 @@ is mapped to a state property. For the loading of the data, a
 The following code shows how to use the JSON data store.
 
 ```javascript
-var url = "json/data.json";
-var store = new qx.data.store.Json(url);
+const url = "json/data.json";
+const store = new qx.data.store.Json(url);
 ```
 
 After setting the URL during the creation process, the loading will begin
@@ -101,8 +101,8 @@ parameter name for the callback and a URL must be specified.
 The following code shows how to use the JSONP data store.
 
 ```javascript
-var url = "json/data.json";
-var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
+const url = "json/data.json";
+const store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 ```
 
 After setting the URL and the callback parameter name during the creation
@@ -119,7 +119,7 @@ the rest.
 The following code demonstrates how to fetch some Twitter messages.
 
 ```javascript
-var query = "select * from twitter.user.timeline where id='wittemann'";
+const query = "select * from twitter.user.timeline where id='wittemann'";
 var store = new qx.data.store.Yql(query);
 ```
 
@@ -134,8 +134,8 @@ your code in.
 The following code demonstrates how to initialize the data store.
 
 ```javascript
-if (qx.core.Environment.get("html.storage.local") {
-  var store = new qx.data.store.Offline("my-test-key", "local");
+if (qx.core.Environment.get("html.storage.local")) {
+  const store = new qx.data.store.Offline("my-test-key", "local");
   if (store.getModel() == null) {
     // initialize model ...
   }
@@ -163,8 +163,8 @@ The model is the centerpiece of data binding. It holds the data and acts as an
 integration point for the [stores](stores.md) and for the [controller](controller.md).
 Almost all models are plain Qooxdoo classes holding the data in simple
 properties, which are configured to fire events on every change. These change
-events are the most important part of the models and the reason, why plain %{JS}
-objects are not enough as models. The same is true for native %{JS} arrays.
+events are the most important part of the models and the reason, why plain 
+objects are not enough as models. The same is true for native arrays.
 Since they do not fire events when items are changed as well, a complementary
 array is added for data binding purposes. More details about that in the <u>data
 array</u> section.
@@ -200,7 +200,7 @@ properties, named `s`, `b` and `a`. Let's take a look at the following Qooxdoo
 code, in which we assume that we have a fitting model:
 
 ```javascript
-var model = new ExampleModel(); // this returns a fitting model
+const model = new ExampleModel(); // this returns a fitting model
 model.getS(); // return the value of the property 's' which is "string"
 model.setB(false); // will fire a change event for the property 'b'
 ```
@@ -212,7 +212,7 @@ scenario.
 ### Data Array
 
 If we take a second look at the example we used above, we also added an array as
-value of property `a`. This array should not be a plain %{JS} array, instead it
+value of property `a`. This array should not be a plain array, instead it
 should be a Qooxdoo data array, which Class is located in `qx.data.Array`. The
 reason for that should be quite obvious right now, the binding needs to get an
 event as soon as some data changed to do all the necessary updates. As regular
@@ -223,7 +223,7 @@ is the accessing of items in the array. The following sample code, based on the
 sample above, shows the differences:
 
 ```javascript
-var array = model.getA();
+const array = model.getA();
 array.setItem(0, "content"); // equals 'array[0] = "content"' and fires a change event
 array.getItem(0); // equals 'array[0]' and returns "content"
 array.length; // like the native API and returns '1'
@@ -275,7 +275,7 @@ This method is static and can be used to invoke both methods at once. By that,
 you can create models for a given JavaScript objects with one line of code:
 
 ```javascript
-var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
+const model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 ```
 
 ### How to get my own code into the model?
@@ -396,7 +396,7 @@ method.
 The following code shows how such a delegate could look like.
 
 ```javascript
-var delegate = {
+const delegate = {
   configureItem : function(item) {
     item.setPadding(3);
   },
@@ -428,17 +428,17 @@ the object controller in action:
 
 ```javascript
 // create two sliders
-var slider1 = new qx.ui.form.Slider();
-var slider2 = new qx.ui.form.Slider();
+const slider1 = new qx.ui.form.Slider();
+const slider2 = new qx.ui.form.Slider();
 // create a controller and use the first slider as a model
-var controller = new qx.data.controller.Object(slider1);
+const controller = new qx.data.controller.Object(slider1);
 // add the second slider as a target
 controller.addTarget(slider2, "value", "value");
 ```
 
 This code snippet ensures that every value set by slider1 will automatically be
 set as value of slider two. As you can see, the object controller only wraps the
-fundamental single-value binding, trying to make its usage a little bit easier.
+fundamental single-value binding, trying to make its usage a little easier.
 
 ### List Controller
 
@@ -451,11 +451,11 @@ snippet shows how to bind an array of strings to a list widget:
 
 ```javascript
 // create the model
-var model = new qx.data.Array(["a", "b", "c", "d", "e"]);
+const model = new qx.data.Array(["a", "b", "c", "d", "e"]);
 // create a list widget
-var list = new qx.ui.form.List();
+const list = new qx.ui.form.List();
 // create the controller
-var listController = new qx.data.controller.List(model, list);
+const listController = new qx.data.controller.List(model, list);
 ```
 
 Now every change in the model array will invoke a change in the list widget.
@@ -478,15 +478,15 @@ following code will bind a data model containing Node objects to a tree widget:
 
 ```javascript
 // create the model
-var rootNode = new Node();
+const rootNode = new Node();
 rootNode.setN("root");
-var childNode = new Node();
+const childNode = new Node();
 childNode.setN("child");
 rootNode.getCh().push(childNode);
 // create the tree view
-var tree = new qx.ui.tree.Tree();
+const tree = new qx.ui.tree.Tree();
 // create the controller
-var treeController = new qx.data.controller.Tree(rootNode, tree, "ch", "n");
+const treeController = new qx.data.controller.Tree(rootNode, tree, "ch", "n");
 ```
 
 After that code snippet, every change in the name or of the children will be
@@ -506,9 +506,9 @@ to get an idea of using it.
 ```javascript
 // a form is available as 'form'
 // create the controller
-var formController = new qx.data.controller.Form(null, form);
+const formController = new qx.data.controller.Form(null, form);
 // create the model
-var model = formController.createModel();
+const model = formController.createModel();
 ```
 
 If you see additional information on forms, see [form handling documentation](../../desktop/gui/forms.md).
@@ -522,9 +522,9 @@ Therefore, we extend the code sample of the tree controller section.
 
 ```javascript
 // create a list widget
-var list = new qx.ui.form.List();
+const list = new qx.ui.form.List();
 // create the controller
-var listController = new qx.data.controller.List(null, list, "n");
+const listController = new qx.data.controller.List(null, list, "n");
 // bind the selection of the tree to the list
 treeController.bind("selection", listController, "model");
 ```
@@ -603,9 +603,9 @@ property instead. So here is a sample what an unshift action on an array might
 look like:
 
 ```javascript
-var array = new qx.data.Array("a", "b", "c");
+const array = new qx.data.Array("a", "b", "c");
 array.addListener("changeBubble", function(e) {
-  var data = e.getData();
+  const data = e.getData();
   // do something with the data
 });
 array.unshift("X");
@@ -642,8 +642,8 @@ simple. You can see this in the following code snippet, which binds two
 properties of the label value together:
 
 ```javascript
-var label1 = new qx.ui.basic.Label();
-var label2 = new qx.ui.basic.Label();
+const label1 = new qx.ui.basic.Label();
+const label2 = new qx.ui.basic.Label();
 
 label1.bind("value", label2, "value");
 ```
@@ -667,13 +667,13 @@ TextField widget, which does not have a direct `value` property, unlike the
 Label of the previous example, which does have a `value` property. The `value`
 of a TextField is only addressed through getter / setter methods and change
 events. Indirectly therefore TextField does indeed have a property for binding,
-though it is not implemented as a direct property. Using the `changeValue`\`
+though it is not implemented as a direct property. Using the `changeValue`
 event, the value can be bound as is shown in the example snippet. The API is
 essentially the same as the property binding case.
 
 ```javascript
-var textField = new qx.ui.form.TextField();
-var label = new qx.ui.basic.Label();
+const textField = new qx.ui.form.TextField();
+const label = new qx.ui.basic.Label();
 
 textField.bind("changeValue", label, "value");
 ```
@@ -685,10 +685,10 @@ In a similar fashion, a controller can bind to the implicit `value` property of
 the TextField:
 
 ```javascript
-var textField = new qx.ui.form.TextField();
+const textField = new qx.ui.form.TextField();
 
 // create the controller
-var controller = new qx.data.controller.Object(model);
+const controller = new qx.data.controller.Object(model);
 
 // connect the name
 controller.addTarget(textfield, "value", "name", true);
@@ -706,8 +706,8 @@ the following code. For using that code a Qooxdoo class is needed which is named
 
 ```javascript
 // create the object hierarchy
-var a = new Node("a");      // set the name to „a“
-var b = new Node("b");      // set the name to „b“
+const a = new Node("a");      // set the name to „a“
+const b = new Node("b");      // set the name to „b“
 a.setChild(b);
 
 // bind the property to a labels value

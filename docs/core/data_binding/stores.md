@@ -18,15 +18,15 @@ is mapped to a state property. For the loading of the data, a
 The following code shows how to use the JSON data store.
 
 ```javascript
-var url = "json/data.json";
-var store = new qx.data.store.Json(url);
+const url = "json/data.json";
+const store = new qx.data.store.Json(url);
 ```
 
 After setting the URL during the creation process, the loading will begin
 immediately. As soon as the data is loaded and converted, you can access the
 model with the following code.
 
-```
+```javascript
 store.getModel();
 ```
 
@@ -39,8 +39,8 @@ data. Therefore, a parameter name for the callback and a URL must be specified.
 The following code shows how to use the JSONP data store.
 
 ```javascript
-var url = "json/data.json";
-var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
+const url = "json/data.json";
+const store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 ```
 
 After setting the URL and the callback parameter name during the creation
@@ -57,8 +57,8 @@ environment you want to run your code in.
 The following code demonstrates how to initialize the data store.
 
 ```javascript
-if (qx.core.Environment.get("html.storage.local") {
-  var store = new qx.data.store.Offline("my-test-key", "local");
+if (qx.core.Environment.get("html.storage.local")) {
+  const store = new qx.data.store.Offline("my-test-key", "local");
   if (store.getModel() == null) {
     // initialize model ...
   }

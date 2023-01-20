@@ -5,8 +5,8 @@ integration point for the [stores](stores.md) and for the
 [controller](controller.md). Almost all models are plain Qooxdoo classes holding
 the data in simple properties, which are configured to fire events on every
 change. These change events are the most important part of the models and the
-reason, why plain %{JS} objects are not enough as models. The same is true for
-native %{JS} arrays. Since they do not fire events when items are changed as
+reason, why plain objects are not enough as models. The same is true for
+native arrays. Since they do not fire events when items are changed as
 well, a complementary array is added for data binding purposes. More details
 about that in the [data array](#data-array) section.
 
@@ -41,7 +41,7 @@ properties, named `s`, `b` and `a`. Let's take a look at the following Qooxdoo
 code, in which we assume that we have a fitting model:
 
 ```javascript
-var model = new ExampleModel(); // this returns a fitting model
+const model = new ExampleModel(); // this returns a fitting model
 model.getS(); // return the value of the property 's' which is "string"
 model.setB(false); // will fire a change event for the property 'b'
 ```
@@ -53,7 +53,7 @@ scenario.
 ## Data Array
 
 If we take a second look at the example we used above, we also added an array as
-value of property `a`. This array should not be a plain %{JS} array, instead it
+value of property `a`. This array should not be a plain array, instead it
 should be a Qooxdoo data array, which Class is located in `qx.data.Array`. The
 reason for that should be quite obvious right now, the binding needs to get an
 event as soon as some data changed to do all the necessary updates. As regular
@@ -64,7 +64,7 @@ is the accessing of items in the array. The following sample code, based on the
 sample above, shows the differences:
 
 ```javascript
-var array = model.getA();
+const array = model.getA();
 array.setItem(0, "content"); // equals 'array[0] = "content"' and fires a change event
 array.getItem(0); // equals 'array[0]' and returns "content"
 array.length; // like the native API and returns '1'
@@ -116,7 +116,7 @@ This method is static and can be used to invoke both methods at once. By that,
 you can create models for a given JavaScript objects with one line of code:
 
 ```javascript
-var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
+const model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 ```
 
 ## How to get my own code into the model?

@@ -17,8 +17,8 @@ simple. You can see this in the following code snippet, which binds two
 properties of the label value together:
 
 ```javascript
-    var label1 = new qx.ui.basic.Label();
-    var label2 = new qx.ui.basic.Label();
+    const label1 = new qx.ui.basic.Label();
+    const label2 = new qx.ui.basic.Label();
 
     label1.bind("value", label2, "value");
 ```
@@ -47,8 +47,8 @@ event, the value can be bound as is shown in the example snippet. The API is
 essentially the same as the property binding case.
 
 ```javascript
-    var textField = new qx.ui.form.TextField();
-    var label = new qx.ui.basic.Label();
+    const textField = new qx.ui.form.TextField();
+    const label = new qx.ui.basic.Label();
 
     textField.bind("changeValue", label, "value");
 ```
@@ -60,10 +60,10 @@ In a similar fashion, a controller can bind to the implicit `value` property of
 the TextField:
 
 ```javascript
-    var textField = new qx.ui.form.TextField();
+    const textField = new qx.ui.form.TextField();
 
     // create the controller
-    var controller = new qx.data.controller.Object(model);
+    const controller = new qx.data.controller.Object(model);
 
     // connect the name
     controller.addTarget(textfield, "value", "name", true);
@@ -81,8 +81,8 @@ the following code. For using that code a Qooxdoo class is needed which is named
 
 ```javascript
     // create the object hierarchy
-    var a = new Node("a");      // set the name to „a“
-    var b = new Node("b");      // set the name to „b“
+    const a = new Node("a");      // set the name to „a“
+    const b = new Node("b");      // set the name to „b“
     a.setChild(b);
 
     // bind the property to a labels value

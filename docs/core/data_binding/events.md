@@ -69,9 +69,9 @@ property instead. So here is a sample what an unshift action on an array might
 look like:
 
 ```javascript
-var array = new qx.data.Array("a", "b", "c");
+const array = new qx.data.Array("a", "b", "c");
 array.addListener("changeBubble", function(e) {
-  var data = e.getData();
+  const data = e.getData();
   // do something with the data
 });
 array.unshift("X");
