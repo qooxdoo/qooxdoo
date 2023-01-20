@@ -120,16 +120,16 @@ extensively in a production app. Feedback and improvements are welcome.
 Example:
 
 ```javascript
-    let client = new qx.io.graphql.Client("https://countries-274616.ew.r.appspot.com/");
-    let query = `query($country:String!) {
+    const client = new qx.io.graphql.Client("https://countries-274616.ew.r.appspot.com/");
+    const query = `query($country:String!) {
        Country(name: $country) {
          nativeName
          officialLanguages { name }
        }
      }`;
-    let request = new qx.io.graphql.protocol.Request();
+    const request = new qx.io.graphql.protocol.Request();
     request.setQuery(query);
     request.setVariables({country:"Belgium"});
-    let response = await client.send(request);
+    const response = await client.send(request);
 ```
 

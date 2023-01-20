@@ -36,7 +36,7 @@ For a complete list of properties, please refer to the API Documentation of
 
 ```javascript
 // Instantiate request
-var req = new qx.io.request.Xhr();
+const req = new qx.io.request.Xhr();
 
 // Set URL (mandatory)
 req.setUrl("/books");
@@ -45,7 +45,7 @@ req.setUrl("/books");
 req.setMethod("POST");
 
 // Alternative notation
-// var req = new qx.io.request.Xhr("/books", "POST");
+// const req = new qx.io.request.Xhr("/books", "POST");
 
 // Set request data. Accepts String, Map
 // or Qooxdoo Object.
@@ -94,8 +94,8 @@ For a complete list of events, please refer to the API Documentation of
 req.addListener(
   "success",
   function (e) {
-    var req = e.getTarget();
-    var response = req.getResponse();
+    const req = e.getTarget();
+    const response = req.getResponse();
     this.doSomething(response);
   },
   this
