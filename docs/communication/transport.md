@@ -59,7 +59,7 @@ and overrides `qx.io.transport.Xhr#_createTransportImpl`. To make
 the client use this transport, provide a `defer` section which registers the
 behavior for your particular class of URIs:
 
-```javascript 
+```javascript
   defer() {
     qx.io.jsonrpc.Client.registerTransport(/^http/, my.custom.Transport); 
   } 

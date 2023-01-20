@@ -5,7 +5,7 @@ Qooxdoo provides different communication APIs with a rich feature set.
 ## HTTP Requests
 
 [`qx.io.request.*`](request_io.md) ([ApiViewer](apps://apiviewer/#qx.io.request)) 
-is qooxdoo's standard low-level API aimed at providing the basic building block 
+is Qooxdoo's standard low-level API aimed at providing the basic building block 
 of other APIs, such as the REST interface.
 
 Before version 7, qooxdoo contained an older, now deprecated implementation which 

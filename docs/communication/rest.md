@@ -30,7 +30,7 @@ POST     /photos
 
 Note `{id}` stands for a placeholder.
 
-This interface comprises of two resources: `photo` and `photos`.
+This interface consists of two resources: `photo` and `photos`.
 
 To declare the specifics of the REST interface declaratively, pass a description
 to the constructor.
