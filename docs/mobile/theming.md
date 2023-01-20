@@ -27,9 +27,9 @@ Two important points for clarification:
 - Valid CSS is also valid SCSS
 
 - If you don't want to install Sass your app will still work but you can only
-  edit the CSS files (\*.css) to adapt the appearance of your app - editing the
-  SCSS files (\*.scss) will have no effect. Furthermore you won't benefit from
-  some of the features promoted here so we strongly recommend using Sass.
+  edit the CSS files (*.css) to adapt the appearance of your app - editing the
+  SCSS files (*.scss) will have no effect. Furthermore, you won't benefit from
+  some of the features promoted here, so we strongly recommend using Sass.
 
 ## SCSS vs. Sass
 
@@ -38,7 +38,7 @@ and the name of a syntax. Sass offers two syntax flavors:
 
 SCSS (Sassy CSS):
 
-```
+```scss
 #main {
   color: blue;
   font-size: 0.3em;
@@ -53,7 +53,7 @@ SCSS (Sassy CSS):
 
 Sass:
 
-```
+```sass
 #main
   color: blue
   font-size: 0.3em
@@ -77,15 +77,15 @@ To automatically compile the SCSS files on change/save, you can use the compiler
 watch job:
 
 ```bash
-qx compile —watch
+qx compile --watch
 ```
 
-It recognizes any changes made to the SCSS files in your qx.Mobile application
+It recognizes any changes made to the SCSS files in your `qx.Mobile` application
 and triggers the compilation to CSS automatically.
 
 ## qx.Mobile Themes
 
-qx.Mobile provides a custom theme which you can adjust to fit your application's
+`qx.Mobile` provides a custom theme which you can adjust to fit your application's
 design goals. This could either follow your corporate design or the guidelines
 of native platforms like iOS, Android, Windows Phone or Blackberry OS.
 
@@ -110,7 +110,7 @@ Into your project's theme file:
 
 After changing this, you have to run the source job in your application's root:
 
-```javascript
+```bash
 qx compile
 ```
 
@@ -125,7 +125,7 @@ For customization, please follow these steps:
 1.  Start the watch job by running
 
     ```bash
-    qx compile —watch
+    qx compile --watch
     ```
 
     in your application's root.
@@ -143,7 +143,7 @@ For customization, please follow these steps:
 3.  Give it a try: Change the background of the NavigationBar to the color
     `green`:
 
-    ```
+    ```scss
     $navigationbar-background: green;
     ```
 
@@ -166,7 +166,7 @@ qx.Mobile app. Continue to adjust the other SCSS variables inside
 
 Most theming variables accept only a single value. Background variables are
 special: With only one value you set the background to a single color. With
-multiple values, separated by `,` you create linear gradients. Additionally you
+multiple values, separated by `,` you create linear gradients. Additionally, you
 can adjust the position of the color stops and adjust the direction of the
 gradient, just as you know from CSS linear gradient syntax.
 
@@ -175,28 +175,28 @@ to 10 color stops.
 
 Examples:
 
-```
+```scss
 // This creates a red background
 $navigationbar-background:  red;
 ```
 
 ![image](red.png)
 
-```
+```scss
 // This creates a vertical background gradient from red to maroon
 $navigationbar-background:  red, maroon;
 ```
 
 ![image](gradient.png)
 
-```
+```scss
 // This creates a diagonal background from red to black
 $navigationbar-background:  45deg, red, black;
 ```
 
 ![image](gradient-diagonal.png)
 
-```
+```scss
 // This creates a diagonal background gradient
 // from red to maroon to black, with special positions
 // of the color stops
@@ -221,7 +221,7 @@ have a look at the Sass website:
 
 ## Resolution Independence
 
-A qx.Mobile theme can be scaled to adjust the application to the resolution of
+A `qx.Mobile` theme can be scaled to adjust the application to the resolution of
 your target devices.
 
 To reach this goal, qx.Mobile theming strictly uses `rem` units instead of `px`
@@ -239,7 +239,7 @@ inside your `_styles.scss`.
 
 Example:
 
-```
+```scss
 // text size should be about 32px, this gets converted to 2rem.
 $navigationbar-text-size:  rem(32);
 ```
