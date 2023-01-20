@@ -24,7 +24,7 @@ with automatic garbage collection of objects that can include destructor and oth
 - **Properties**: rewrite the property system so that it is not based on code 
 generation (which was ony needed for IE6/7/8) and to add features:
   - Native properties, for example allow `myObj[0]` instead of `getMyObj().getItem(0)`;
-  - Allow for getters & setters to be completely redefined, eliminating the need for psuedo-properties to be created by hand;
+  - Allow for getters & setters to be completely redefined, eliminating the need for pseudo-properties to be created by hand;
   - Transparent use of References
   - Better type checking in properties and arrays, with support for parameterised types;
   - Private & protected properties, allowing for member variables to be implemented as properties so that they benefit from type checking and reference support;

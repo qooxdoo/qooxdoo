@@ -5,14 +5,11 @@ write single page web applications in pure JavaScript without touching HTML or
 CSS.
 
 Qooxdoo applications are written in javascript. The Qooxdoo framework is a
-large, well structured class library composed from both graphical and non
-graphical element you can use to build your applications. The following guide
+large, well-structured class library composed of both graphical and non-graphical element you can use to build your applications. The following guide
 will show how this works in practice.
 
 If you have worked with Qooxdoo and its Python-based tool chain before, please
-also have a look at the
-[our guide to migrate your applications to the new NodeJS-based tooling](development/compiler/migration.md)
-.
+also have a look at [our guide to migrate your applications to the new NodeJS-based tooling](development/compiler/migration.md).
 
 The following introduction to Qooxdoo takes less than 10 minutes to complete.
 
@@ -34,7 +31,7 @@ If you don't have node installed, or your version is too old, either go to
 
 Node comes with its own package manager called npm which you can now use to
 install the Qooxdoo framework and the Qooxdoo compiler. There are two ways to
-setup Qooxdoo. You can install it in the same directory as your Qooxdoo project
+set up Qooxdoo. You can install it in the same directory as your Qooxdoo project
 or you can install it globally.
 
 ### Global installation
@@ -151,11 +148,11 @@ contain any of the debugging support.
 
 With the first mini application up and running you are now ready for bigger
 things. You can either start reading our [comprehensive manual](contents.md) 
-or you can try some more hands-on by working through the [tutorials](tutorial/)
+or you can try some more hands-on by working through the [tutorials](tutorial/README.md)
 first.
 
 If you ever get stuck, feel free to open the chat window by pressing the button
-in the bottom right hand corner of the documentation.
+in the bottom right-hand corner of the documentation.
 
 ## How to edit this manual
 

@@ -11,7 +11,7 @@ And although 6.0.0 is a very new release, it's stable because the core developer
 ## Deployment via npmjs.com
 Instead of downloading a tarball or zip file, releases are now distributed via npm - this streamlines version management, and makes it particularly easy for new users.
 
-We've also modularised the repo - using features like (the new packages system)[#packages], things like the API viewer, test runner, etc can be added on demand to your application; internally, as they are separate repositories at GitHub this allows us to vary the release cycle for those added features so that we can get updates out faster (and it's easier for anyone who wants to contribute changes!)
+We've also modularised the repo - using features like (the new package system)[#packages], things like the API viewer, test runner, etc can be added on demand to your application; internally, as they are separate repositories at GitHub this allows us to vary the release cycle for those added features so that we can get updates out faster (and it's easier for anyone who wants to contribute changes!)
 
 
 ## Compiler
@@ -54,14 +54,14 @@ stored in `qx.core.ObjectRegistry` but it was this list that prevented normal ga
 if you want to.
 
 Although it is *mostly* widgets that are in the `ObjectRegistry`, it's actually any class which implements
-the `qx.core.IDisposable` interface; if you add that interface to your own classes, they will automatically
+the `qx.core.IDisposable` interface; if you add that interface to your own classes, they will be automatically
 added to the `ObjectRegistry` and you must manually call `.dispose()`.
 
 [Documentation](https://qooxdoo.org/documentation/#/development/howto/memory_management)
 
 
 ## Object ID
-All objects now support an ID mechanism which is heirarchial and can be navigated by code; this simplifies
+All objects now support an ID mechanism which is hierarchical and can be navigated by code; this simplifies
 development and enables external automated testing tools to find your widgets and other objects.
 
 [Documentation](https://qooxdoo.org/documentation/#/core/object_id)
@@ -76,7 +76,7 @@ the next step.
 
 
 ## Webfonts
-Qooxdoo now supports webfonts / iconfonts everywhere an image can be placed.
+Qooxdoo now supports webfonts / icon-fonts everywhere an image can be placed.
 
 [Documentation](https://qooxdoo.org/documentation/#/development/howto/icon_fonts)
 
@@ -118,7 +118,7 @@ In hindsight of better keyboard accessibility support some components received c
 
 ## Accessibility
 
-Accessibility is an important topic in nowadays webdevelopment in order to allow assistive technologies to better help persons with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility for the following components:
+Accessibility is an important topic in nowadays web development in order to allow assistive technologies to better help persons with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility for the following components:
 
 - Button
 - Checkbox

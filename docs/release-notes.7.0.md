@@ -7,7 +7,7 @@ For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master
 - compile.json: localModules can now be used in the root of the file. So you can address the modules for all applications.
                 Application modules will be merged with global ones.
 - browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really neccesary.
-It's neccesary when:
+It's necessary when:
     - commonjs-browserify.js does not exits
     - The list of modules has changed
     - One or more of the localModules are newer compared to the last run                
@@ -25,7 +25,7 @@ For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-07-11&until=2022-10-26
 
 
-## Noteable changes in v7.2
+## Notable changes in v7.2
  - To supplement the ability to bundle CommonJS modules that was added
 in v7.1, it is now additionally possible to bundle local (in the local
 tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
@@ -40,10 +40,10 @@ documented [here](development/compiler/configuration/README.md).
 
 
 
-## Noteable changes and new features in v7.0
+## Notable changes and new features in v7.0
  - qx es6ify
  - allow super()
- - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental)". Documention is found [here](communication/README.md)
+ - new High-Level-Communication API, including support for JSON-RPC and GraphQL (experimental). Documentation is found [here](communication/README.md)
  - Accessibility is an important topic in modern web development in order to allow assistive technologies to better help people with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility.
 Documentation is found [here](development/howto/accessibility.md)
 
