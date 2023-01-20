@@ -10,7 +10,7 @@ of other APIs, such as the REST interface.
 
 Before version 7, qooxdoo contained an older, now deprecated implementation which 
 supports HTTP requests over different transports (Iframe, Script and XHR), and 
-provides a JSONRPC v2 client. It has be removed from the framework and put into 
+provides a JSON-RPC v2 client. It has be removed from the framework and put into 
 the package [`deprecated.qx.io.remote`](https://github.com/qooxdoo/deprecated.qx.io.remote).
 You can reinstall it by executing `npx qx pkg install qooxdoo/deprecated.qx.io.remote`.
 
