@@ -23,7 +23,7 @@ qx.Class.define("A", {
 As you can see, the property `a` has an init value, `b`. Now, if you access `a`
 with its getter, you get the init value in return:
 
-```
+```javascript
 var a = new A();
 a.getA();  // returns "b"
 ```
@@ -31,7 +31,7 @@ a.getA();  // returns "b"
 If you now set something different than the initial value, you get a change
 event, because the content of the property changed.
 
-```
+```javascript
 a.setA("x");  // changeA fired
 ```
 
@@ -39,7 +39,7 @@ As far, everything behaves as desired. But if set the init value instead of a
 new value, the change event will be also fired. The following code shows the
 problem:
 
-```
+```javascript
 var a = new A();
 a.setA(a.getA()); // changeA fired (first set)
 a.setA(a.getA()); // changeA NOT fired (every other set)
@@ -58,9 +58,9 @@ attached apply is required to run or any listener registered to the change event
 of that property. A good example in the framework where we rely on the behavior
 is the Spinner:
 
-```
+```javascript
 // ...
-  construct : function(min, value, max) {
+  construct(min, value, max) {
 // ...
     if (value !== undefined) {
       this.setValue(value);

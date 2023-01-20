@@ -130,10 +130,10 @@ Calling the "show" method triggers the following lifecycle methods:
 
 **IMPORTANT**: Define all child widgets of a page when the "initialize" _
 lifecycle method is called, either by listening to the "initialize" _ event or
-overriding the `_initialize` method. This is because a \_ page can be
-instantiated during application startup and would \_then decrease performance if
-the widgets would be added during \_ constructor call. The initialize event and
-the `_initialize` lifecycle \_method are only called when the page is shown for
+overriding the `_initialize` method. This is because a page can be
+instantiated during application startup and would then decrease performance if
+the widgets would be added during constructor call. The initialize event and
+the `_initialize` lifecycle method are only called when the page is shown for
 the first time.
 
 Let's try it! Create another page class "Tweets" in the

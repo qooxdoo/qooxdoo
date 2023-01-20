@@ -1,6 +1,6 @@
 # SASS compilation
 
-The Qooxdoo Compiler (`qx compile`) includes a built in SASS compiler which will
+The Qooxdoo Compiler (`qx compile`) includes a built-in SASS compiler which will
 automatically compile any .scss file into a .css file in the target output
 directory's resources folder.
 
@@ -13,7 +13,7 @@ supports a syntax for `@import "..."` and `url(...)` paths where the path can be
 prefixed with the namespace of the library, for example
 "url(qx:qx/icon/somefile.png)" or `@import "mylibrary:path/to/file"`.
 
-Interpretting `url(...)` paths as relative to the file in which the `url(...)`
+Interpreting `url(...)` paths as relative to the file in which the `url(...)`
 statement originally occurred is a notable change from standard SASS, and is
 important because the browser interprets the path in `url(...)` as relative to
 the css file it appears in (i.e. the output file for the SASS compiler), meaning
@@ -25,12 +25,12 @@ without requiring a consensus on file locations.
 
 This feature isn't just to make writing mobile scss files easier, but Qooxdoo is
 useful as a framework for building "ordinary" websites where there has to
-browser based javascript for things like basic form validation, animations, etc
+browser based javascript for things like basic form validation, animations, etc.
 (ie use the compiler to build an application which does not use qx.ui.\* and
 which can be included on web pages). This addition makes it possible to
 incorporate .scss files which are built without any consideration for the
 Qooxdoo app, or file structure, and which share resources and assets with the
-"full blown" desktop style apps.
+"full-blown" desktop style apps.
 
 ### Enabling the new v6 Compilation
 

@@ -79,7 +79,7 @@ is mapped to a state property. For the loading of the data, a
 
 The following code shows how to use the JSON data store.
 
-```
+```javascript
 var url = "json/data.json";
 var store = new qx.data.store.Json(url);
 ```
@@ -88,7 +88,7 @@ After setting the URL during the creation process, the loading will begin
 immediately. As soon as the data is loaded and converted, you can access the
 model with the following code.
 
-```
+```javascript
 store.getModel();
 ```
 
@@ -100,7 +100,7 @@ parameter name for the callback and a URL must be specified.
 
 The following code shows how to use the JSONP data store.
 
-```
+```javascript
 var url = "json/data.json";
 var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 ```
@@ -118,7 +118,7 @@ the rest.
 
 The following code demonstrates how to fetch some Twitter messages.
 
-```
+```javascript
 var query = "select * from twitter.user.timeline where id='wittemann'";
 var store = new qx.data.store.Yql(query);
 ```
@@ -133,7 +133,7 @@ your code in.
 
 The following code demonstrates how to initialize the data store.
 
-```
+```javascript
 if (qx.core.Environment.get("html.storage.local") {
   var store = new qx.data.store.Offline("my-test-key", "local");
   if (store.getModel() == null) {
@@ -149,7 +149,7 @@ after loading. The best solution is to use the model with a controller and then
 bind the model properties with [Single Value Binding](single_value_binding.md)
 together. The code for this could look something like this.
 
-```
+```javascript
 store.bind("model", controller, "model");
 ```
 
@@ -166,13 +166,13 @@ properties, which are configured to fire events on every change. These change
 events are the most important part of the models and the reason, why plain %{JS}
 objects are not enough as models. The same is true for native %{JS} arrays.
 Since they do not fire events when items are changed as well, a complementary
-array is added for data binding purposes. More details about that in the data
-array\_ section.
+array is added for data binding purposes. More details about that in the <u>data
+array</u> section.
 
 Still, there is no need to manually write own model classes for every data
 source you want to work with. The marshallers provide a smart way to
-automatically create these classes during runtime. Take a look at the JSON
-marshaller\_ for details.
+automatically create these classes during runtime. Take a look at the <u>JSON
+marshaller</u> for details.
 
 In the following sections, we first take a look at the models basics and how
 they work. After that, we dig into the role of arrays and how that is solved. As
@@ -187,7 +187,7 @@ properties, which fire change events as soon as new data is available. Let's tak
 a look at a simple example in which we use JSON data to demonstrate how models
 look. The data in the example looks like this:
 
-```
+```javascript
 {
   s: "string",
   b: true,
@@ -199,7 +199,7 @@ A corresponding model should now be an object, which class defines three
 properties, named `s`, `b` and `a`. Let's take a look at the following Qooxdoo
 code, in which we assume that we have a fitting model:
 
-```
+```javascript
 var model = new ExampleModel(); // this returns a fitting model
 model.getS(); // return the value of the property 's' which is "string"
 model.setB(false); // will fire a change event for the property 'b'
@@ -222,7 +222,7 @@ array but in some core things, we needed to change the API. The major difference
 is the accessing of items in the array. The following sample code, based on the
 sample above, shows the differences:
 
-```
+```javascript
 var array = model.getA();
 array.setItem(0, "content"); // equals 'array[0] = "content"' and fires a change event
 array.getItem(0); // equals 'array[0]' and returns "content"
@@ -274,7 +274,7 @@ corresponding to the given data object.
 This method is static and can be used to invoke both methods at once. By that,
 you can create models for a given JavaScript objects with one line of code:
 
-```
+```javascript
 var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 ```
 
@@ -328,7 +328,7 @@ controller.
 
 Here are some samples showing how to manipulate the selection:
 
-```
+```javascript
 // select 'modelItem'
 controller.getSelection().setItem(0, modelItem);
 // empty the selection
@@ -340,7 +340,7 @@ controller.getSelection().push(modelItem);
 If you want to be notified on selection changes, you can again benefit from the
 data array, which offers a change event as soon as the content changes.
 
-```
+```javascript
 controller.getSelection().addListener("change", function(e) {});
 ```
 
@@ -503,7 +503,7 @@ connects the model and the target. An additional feature of the form controller
 is the possibility to create the model for a given form. See the following code
 to get an idea of using it.
 
-```
+```javascript
 // a form is available as 'form'
 // create the controller
 var formController = new qx.data.controller.Form(null, form);

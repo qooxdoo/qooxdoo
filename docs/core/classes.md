@@ -128,11 +128,11 @@ instance variable in the class declaration, it behaves as if each instance just
 pointed to the complex data structure. All instances share the same value,
 unless the corresponding instance variable is assigned a different value.
 
-**Example**: If an instance variable was assigned an array in the \_ class
-declaration, any instance of the class could (knowingly \_or unknowingly)
-manipulate this array in such a way that each \_instance would be affected by
-the changes. Such a manipulation \_could be pushing a new item into the array or
-changing the value \*of a certain array item. All instances would share the
+**Example**: If an instance variable was assigned an array in the class
+declaration, any instance of the class could (knowingly or unknowingly)
+manipulate this array in such a way that each instance would be affected by
+the changes. Such a manipulation could be pushing a new item into the array or
+changing the value of a certain array item. All instances would share the
 array.
 
 You have to be careful when using complex data types in the class declaration,
@@ -148,7 +148,7 @@ If you do _not_ want that instances share the same data, you should defer the
 actual initialization into the constructor:
 
 ```javascript
-construct: function()
+construct()
 {
   this.foo = [1, 2, 4];   // each instance would get assigned its own data structure
 },
@@ -187,7 +187,7 @@ version!_
 
 ### Special Types of Classes
 
-Besides a "regular" class there is built-in support for the following special
+Besides, a "regular" class there is built-in support for the following special
 types:
 
 #### Static Classes
@@ -199,7 +199,7 @@ developer:
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
-  type : "static"
+  type : "static",
   ...
 });
 ```
@@ -214,7 +214,7 @@ developer.
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
-  type : "abstract"
+  type : "abstract",
   ...
 });
 ```
@@ -229,7 +229,7 @@ the `getInstance()` method.
 
 ```javascript
 qx.Class.define("qx.test.Cat", {
-  type : "singleton"
+  type : "singleton",
   ...
 });
 ```
@@ -337,7 +337,7 @@ In member methods, you have another choice for accessing the class definition - 
 use `this.constructor` which returns the class of the object.  Note that `this.constructor`
 will be different depending on the actual instance of the class, for example:
 
-```
+```javascript
 new qx.test.Dog().makeSound(); // outputs qx.test.Dog
 new qx.test.Cat().makeSound(); // outputs qx.test.Cat
 ```
@@ -355,7 +355,7 @@ The code in a static method typically has `this` set to the class because of how
 e.g. `qx.test.Cat.someStaticMethod()` causes Javascript to set `this` to `qx.test.Cat`.  However,
 because it is a standalone method this code is different:
 
-```
+```javascript
 var fn = qx.test.Cat.someStaticMethod;
 fn(); // "this" will be the global object
 ```
@@ -366,7 +366,7 @@ static method's code, or you always explicitly use the class name.
 
 If you are trying to reduce the amount of typing, this code works as expected:
 
-```
+```javascript
 var Cat = qx.test.Cat;
 Cat.someStaticMethod(); // "this" will be qx.test.Cat
 ```

@@ -1,7 +1,7 @@
 # @ignore
 
 pages/development/api_jsdoc_ref#ignore is a very powerful construct that
-probably deserves a bit elaboration on the reference information.
+probably deserves a bit of elaboration on the reference information.
 
 ## Variadic Arguments
 
@@ -64,7 +64,7 @@ Rather, to just cover the _lint_ behavior modify the configuration for the
 ## Name Globbing
 
 @ignore supports globbing in a rather strict way. Already the old # ignore
-supported globs like _#ignore(foo.\*)_ to ignore entire namespaces, but also did
+supported globs like _#ignore(foo.*)_ to ignore entire namespaces, but also did
 some automatic globbing when it thought that _ foo_ was actually a class and not
 a namespace. The effect was that _ #ignore(foo)_ would also ignore _foo.getBar_
 when this looked like an attribute reference on a class object. (As you can

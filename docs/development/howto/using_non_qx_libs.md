@@ -14,7 +14,7 @@ Here is how each of them works.
 
 ## Using `require` to include a Node module
 
-Starting with qooxdo 7.1 the compiler will resolve `require` calls automatically, pulling in packages from the local `node_mopdules` tree.
+Starting with Qooxdoo 7.1 the compiler will resolve `require` calls automatically, pulling in packages from the local `node_modules` tree.
 
 If you want to use the `semver` package in your application, this is pretty simple. First install `semver`
 
@@ -36,7 +36,7 @@ done.
 ## Using the third-party library like a resource of your application
 
 Let's assume you found charting library, called PonyCharts. It is available as
-minified `ponycharts.js` download from the project's web site. It exposes an
+minified `ponycharts.js` download from the project's website. It exposes an
 API for creating and manipulating charts, and you want to use such charts as
 part of your Qooxdoo application. This means calling into the library's API from
 your Qooxdoo code, which in turn means the library has to be loaded ahead of
@@ -159,9 +159,9 @@ context. Using this, here is how your wrapper class may look like:
 qx.Class.define("ponycharts.PonyCharts", {
   extend: qx.core.Object,
 
-  construct: function () {
+  construct () {
     // initialize the script loading
-    var dynLoader = new qx.util.DynamicScriptLoader([
+    const dynLoader = new qx.util.DynamicScriptLoader([
       "ponycharts/ponycharts.js"
     ]);
 
@@ -171,7 +171,7 @@ qx.Class.define("ponycharts.PonyCharts", {
     });
 
     dynLoader.addListener("failed", function (e) {
-      var data = e.getData();
+      const data = e.getData();
       console.log("failed to load " + data.script);
     });
 
@@ -179,14 +179,14 @@ qx.Class.define("ponycharts.PonyCharts", {
   },
 
   members: {
-    paint: function () {
+    paint() {
       ThePonyChartsTopLevelSymbol.paint_demo();
     }
   }
 });
 ```
 
-See qx.util.DynamicScriptLoader\_ for full details.
+See <u>qx.util.DynamicScriptLoader</u> for full details.
 
 5.  Add the new Qooxdoo library to your main application's configuration. In its
     _compile.json_, add under the _libraries_ key
@@ -205,15 +205,15 @@ Better still, publish the library as a
 [package](../cli/packages.md#create-a-new-package) , so that others can use it
 in their application, too.
 
-6.  In the using Qooxdoo application, call the correpsonding methods of the
+6.  In the using Qooxdoo application, call the corresponding methods of the
     wrapper class.
 
 ```javascript
 qx.Class.define("foo.Application", {
   extend: qx.core.Application,
 
-  construct: function () {
-    var myPonyCharts = new ponyCharts.PonyCharts();
+  construct() {
+    const myPonyCharts = new ponyCharts.PonyCharts();
     myPonyCharts.paint();
   }
 });
