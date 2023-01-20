@@ -11,7 +11,7 @@ Let's say we have a property `width` for an object `obj`.
 As is a good practice in regular high-level programming languages you should not
 access object properties directly:
 
-```
+```javascript
 // NOT RECOMMENDED: direct access to properties
 obj.width = 200;  // setting a value
 var w = obj.width;  // getting the current value
@@ -20,7 +20,7 @@ var w = obj.width;  // getting the current value
 Instead, you should work with properties only through so-called _ accessor
 methods_ ("getters") and _mutator methods_ ("setters"):
 
-```
+```javascript
 // direct access is no good practice
 obj.setWidth(200);  // setting a value
 var w = obj.getWidth();  // getting the current value
@@ -36,7 +36,7 @@ A typical implementation of the accessor and mutator methods would look like the
 following, where those instance methods are declared in the `members` section of
 the class definition:
 
-```
+```javascript
 // ordinary example #1
 members:
 {
@@ -59,7 +59,7 @@ advanced features like type checks, performance optimizations, firing events for
 value changes, etc. need to be coded by hand. An improved version of the setter
 could read:
 
-```
+```javascript
 // ordinary example #2
 members:
 {
@@ -94,7 +94,7 @@ implementation. The property itself is declared in the `properties` section of
 the class definition. Only if some property-specific code needs to be run in the
 setter, an additional `apply` method has to be given:
 
-```
+```javascript
 // Qooxdoo version of ordinary example #2
 properties : {
   width : { check : "Number", apply : "applyWidth" }
@@ -142,7 +142,7 @@ question.
 For example, if you would like the `element` property of a Widget instance
 `widget` to fire an event named `"changeElement"` any time the value changes.
 
-```
+```javascript
 properties : {
   element: { event: "changeElement" }
 }
@@ -150,7 +150,7 @@ properties : {
 
 If this happens, you would like to set the DOM element's content:
 
-```
+```javascript
 widget.addEventListener("changeElement", function(e) {
   e.getData().innerHTML = "Hello World";
 });
@@ -186,13 +186,13 @@ paragraphs. They make it possible to set multiple values in one step using one
 simply sets the `paddingLeft`, `paddingRight`, `paddingTop` and `paddingBottom`
 property.
 
-```
+```javascript
 widget.setPadding(10, 20, 30, 40);
 ```
 
 The result is identical to:
 
-```
+```javascript
 widget.setPaddingTop(10);
 widget.setPaddingRight(20);
 widget.setPaddingBottom(30);
@@ -207,7 +207,7 @@ One more thing. The property group handling also supports some CSS like magic
 like the shorthand mode for example. This means that you can define only some
 edges in one call and the others get filled automatically:
 
-```
+```javascript
 // four arguments
 widget.setPadding(top, right, bottom, left);
 
@@ -227,7 +227,7 @@ user-friendly.
 BTW: The values of a property group can also be given an array as first argument
 e.g. these two lines work identically:
 
-```
+```javascript
 // arguments list
 widget.setPadding(10, 20, 30, 40);
 
@@ -284,7 +284,7 @@ be left out.
 
 #### Example
 
-```
+```javascript
 properties : {
   width : { apply : "_applyWidth" }
 },
@@ -321,7 +321,7 @@ respectively.
 
 #### Example
 
-```
+```javascript
 properties : {
   label : { event : "changeLabel" }
 }
@@ -348,7 +348,7 @@ The _preferred_ way for regular init values is to simply declare them by an
 `init` key in the property configuration map. You can use this key standalone or
 in combination with `nullable` and/or `inheritable`.
 
-```
+```javascript
 properties : {
   myProperty : { init : "hello" }
 }
@@ -406,7 +406,7 @@ setter and use the defined init value as parameter. This will call the apply
 method, not like in the usual cases when setting the same value which is already
 set.
 
-```
+```javascript
 construct()
 {
   super();
@@ -436,7 +436,7 @@ This example illustrates how the behavior differs from the default behavior of
 the property system due to the already mentioned inconsistency between init and
 applied value.
 
-```
+```javascript
 construct()
 {
   super();
@@ -501,7 +501,7 @@ Normally properties could not be overridden. This is the reason for the `refine`
 flag . The flag informs the implementation that the developer is aware of the
 feature and the modification which should be applied.
 
-```
+```javascript
 properties : {
   width : { refine : true, init : 100 }
 }
@@ -535,7 +535,7 @@ Due to the fact that JavaScript only supports the `Number` data type, `Float`
 and `Double` are handled identically to `Number`. Both are still useful, though,
 as they are supported by the Javadoc-like comments and the API viewer.
 
-```
+```javascript
 properties : {
   width : { init : 0, check: "Integer" }
 }
@@ -545,7 +545,7 @@ properties : {
 
 One can define an explicit list of possible values:
 
-```
+```javascript
 properties : {
   color: { init : "black", check : [ "red", "blue", "orange" ] }
 }
@@ -563,7 +563,7 @@ instances of _any_ class derived from the given class will be accepted. The
 class is defined using a string, thereby to not influencing the load time
 dependencies of a class.
 
-```
+```javascript
 properties : {
   logger : { nullable : true, check : "qx.log.Logger" }
 }
@@ -576,7 +576,7 @@ The incoming value can be checked against an interface, i.e. the value
 interface is defined using a string, thereby not influencing the load time
 dependencies of a class.
 
-```
+```javascript
 properties : {
   application : { check : "qx.application.IApplication" }
 }
@@ -588,7 +588,7 @@ Custom checks are possible as well, using a custom function defined inside the
 property definition. This is useful for all complex checks which could not be
 solved with the built-in possibilities documented above.
 
-```
+```javascript
 properties :
 {
   progress :
@@ -611,7 +611,7 @@ As an alternative to the custom check _function_, you may also define a _string_
 which will directly be incorporated into the setters and used in a very
 efficient way. The above example could be coded like this:
 
-```
+```javascript
 properties :
 {
   progress :
@@ -643,7 +643,7 @@ transform method to accept a string and transform it into an integer. Note that
 we can still rely on the check method to catch any other incorrect values, such
 as if the user mistakenly assigned a Widget to the property.
 
-```
+```javascript
 properties :
 {
    width :
@@ -694,7 +694,7 @@ return the promise to the caller - to retrieve the promise, you must tell
 Qooxdoo that the property is asynchronous by setting the async: true in the
 property definition and then calling the setXxxAsync method:
 
-```
+```javascript
 properties :
 {
    name :
@@ -743,7 +743,7 @@ If you use predefined validators, they will throw a validation error for you.
 You can find a set of predefined validators in qx.util.Validate. The following
 example shows the usage of a range validator.
 
-```
+```javascript
 properties : {
   application : { validate : qx.util.Validate.range(0, 100) }
 }
@@ -754,7 +754,7 @@ properties : {
 If the predefined validators are not enough for you validation, you can specify
 your own validator.
 
-```
+```javascript
 properties : {
   application : { validate : function(value) {
       if (value > 10) {
@@ -773,7 +773,7 @@ You can define a validation method as a member of the class containing the
 property. If you have such a member validator, you can just specify the method
 name as a sting
 
-```
+```javascript
 properties : {
   application : { validate : "_validateApplication" }
 }
@@ -801,7 +801,7 @@ initProperty([value])         |           init           v        n.a.
 To enable theme support it is sufficient to add a `themeable` key to the
 property definition and set its value to `true`.
 
-```
+```javascript
 properties : {
   width : { themeable : true, init : 100, check : "Number" }
 }
@@ -838,7 +838,7 @@ and appearance values.
 To mark a property as inheritable simply add the key `inheritable` and set it to
 `true`:
 
-```
+```javascript
 properties : {
   color : { inheritable : true, nullable : true }
 }
@@ -847,7 +847,7 @@ properties : {
 Optionally, you can configure an init value of `inherit`. This is especially a
 good idea if the property should not be nullable:
 
-```
+```javascript
 properties : {
   color : { inheritable : true, init: "inherit" }
 }
@@ -900,7 +900,7 @@ As you can see, property groups are defined in the same map as "regular"
 properties. From a user perspective the API with setters and resetters is
 equivalent to the API of regular properties:
 
-```
+```javascript
 obj.setLocation( 50, 100);
 
 // instead of
@@ -917,7 +917,7 @@ Qooxdoo properties. For more information regarding this feature, please have a
 look at the [user manual](understanding_properties.md). The definition of such a
 property group reads:
 
-```
+```javascript
 properties :
 {
   padding :
@@ -930,7 +930,7 @@ properties :
 
 For example, this would allow to set the property in the following way:
 
-```
+```javascript
 obj.setPadding( 10, 20 );
 
 // instead of

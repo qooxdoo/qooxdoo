@@ -4,7 +4,7 @@ The purpose of single value binding is to connect one property to another by
 tying them together. The connection is always in one direction only. If the
 reverse direction is needed, another binding needs to be created. The binding
 will be achieved by an event handler which assigns the data given by the event
-to the target property. Therefore it is necessary for the source event to fire a
+to the target property. Therefore, it is necessary for the source event to fire a
 change event or some other kind of data event. The single value binding is
 mostly a basis for the higher concepts of the data binding.
 
@@ -16,7 +16,7 @@ binding is possible. But if this requirement is met, the binding itself is quite
 simple. You can see this in the following code snippet, which binds two
 properties of the label value together:
 
-```
+```javascript
     var label1 = new qx.ui.basic.Label();
     var label2 = new qx.ui.basic.Label();
 
@@ -41,12 +41,12 @@ through a method or an event that references them. One common case is the
 TextField widget, which does not have a direct `value` property, unlike the
 Label of the previous example, which does have a `value` property. The `value`
 of a TextField is only addressed through getter / setter methods and change
-events. Indirectly therefore Textfield does indeed have a property for binding,
+events. Indirectly therefore TextField does indeed have a property for binding,
 though it is not implemented as a direct property. Using the `changeValue`\`
 event, the value can be bound as is shown in the example snippet. The API is
 essentially the same as the property binding case.
 
-```
+```javascript
     var textField = new qx.ui.form.TextField();
     var label = new qx.ui.basic.Label();
 
@@ -59,7 +59,7 @@ argument is a data event name and not a property name.
 In a similar fashion, a controller can bind to the implicit `value` property of
 the TextField:
 
-```
+```javascript
     var textField = new qx.ui.form.TextField();
 
     // create the controller
@@ -79,7 +79,7 @@ properties to a target property. To understand what that means take a look at
 the following code. For using that code a Qooxdoo class is needed which is named
 `Node` and does have a `child` and a `name` property, both firing change events.
 
-```
+```javascript
     // create the object hierarchy
     var a = new Node("a");      // set the name to „a“
     var b = new Node("b");      // set the name to „b“
@@ -106,7 +106,7 @@ change event to every change in the array. The following code example shows what
 a binding of an array could look like. As a precondition there is an object `a`
 having a property of the `qx.data.Array` type and that array containing strings.
 
-```
+```javascript
     // bind the first array element to a label's value
     a.bind("array[0]", labelFirst, "value");
 
@@ -135,7 +135,7 @@ and use arrays in such property chains.
   - **onSetFail**: The counterpart to onUpdate which will be called if the
     validation fails.
 
-In addition there is a built in default conversion which takes care of the
+In addition, there is a built-in default conversion which takes care of the
 default conversion cases automatically. Default cases are, for example, string
 to number conversion. To get that working it is necessary to know the desired
 target type. This information is taken from the check key in the property
@@ -187,7 +187,7 @@ the event binding function. This is where the heart of the data binding lies. In
 that function a listener will be added to the source object listening to the
 change event. The key part of the listener is the following code part.
 
-```
+```javascript
 targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);
 ```
 

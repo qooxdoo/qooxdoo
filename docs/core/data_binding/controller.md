@@ -2,7 +2,7 @@
 
 The general idea of controllers is connecting a view component to a set of data
 stored in a model. The kind of controller you need depends on the view
-component. Currently there are four types of controller available:
+component. Currently, there are four types of controller available:
 
 - Object Controller
 - List Controller
@@ -55,8 +55,7 @@ controller also offer a `changeSelection` event which is not, like you might
 expect, an event fired as soon as any selected item changes. It is the change
 event for the selection property which holds the selection array.
 
-For more details about the data array, check out the
-`models page data_binding/models.md#data_array`.
+For more details about the data array, check out the [models page](models.md#data-array).
 
 ## Delegate
 
@@ -82,8 +81,8 @@ That place is the `bindItem` method. But you don't want to use the single value
 binding all on your own and bind the stuff. Therefore, the controller offers you
 a method called `bindProperty`, which takes the source path to the data, the
 target property name and the options for the single value binding. The other two
-parameters will just mapped through. But keep in mind that if you use this
-function, the default binding of the label and the icon is gone and the
+parameters will be just mapped through. But keep in mind that if you use this
+function, the default binding of the label and the icon are gone and the
 properties used for those bindings do not work anymore. If you still want to
 have the default binding, use the `bindDefaultProperties` method and pass the
 two given parameters through. But keep in mind that the bindings set up with
@@ -128,7 +127,7 @@ The most simple and lightweight controller is the object controller. It connects
 a model object with one or more views. The data in the model can be anything a
 property can hold, i.e. a primitive data type like String or Number, or a
 reference type like a map. With that you can for instance bind views like
-textfields, sliders and other widgets visualizing primitive JavaScript types.
+text fields, sliders and other widgets visualizing primitive JavaScript types.
 But you can not only use views as targets. A target can be anything that has a
 property with the proper type. Take a look at the following code example to see
 the object controller in action:
@@ -179,7 +178,7 @@ containing the data. As model nodes for the tree, only Qooxdoo objects are
 allowed containing at least two properties, one for holding its own children in
 a data array and a second one holding the name of the node which should be
 showed as the label of the tree folder widgets. Imagine that a model class
-called Node (inheriting from qx.core.Object) is available containing the two
+called Node (inheriting from `qx.core.Object`) is available containing the two
 already mentioned properties called ch for the children and n for the name. The
 following code will bind a data model containing Node objects to a tree widget:
 
@@ -202,9 +201,8 @@ put the corresponding Node object into the selection array of the controller.
 
 ## Form Controller
 
-Also forms do have a special controller. The form controller uses a
-`qx.ui.form.Form` as target and a
-`Object controller data_binding/controller.md#object_controller` for the
+Also, forms do have a special controller. The form controller uses a
+`qx.ui.form.Form` as target and an [Object controller](controller.md#object-controller) for the
 bidirectional bindings. The usage equals to the usage of all other controllers.
 The main properties of it are the model and target property. Given both, the
 controller connects the model and the target. An additional feature of the form
@@ -219,15 +217,15 @@ following code to get an idea of using it.
     var model = formController.createModel();
 ```
 
-If you nee additional information on forms, see
-`form handling documentation desktop/ui_form_handling.md#form_object`. After
+If you see additional information on forms, see
+[form handling documentation](../../desktop/gui/forms.md#form-object). After
 executing this code, the controller and the model variable do have the model
 available and therefore, the controller can set up the bindings.
 
 ## Combining Controller
 
 As a more advanced example we connect the selection of a tree to a list.
-Therefore we extend the code sample of the tree controller section.
+Therefore, we extend the code sample of the tree controller section.
 
 ```
     // create a list widget
