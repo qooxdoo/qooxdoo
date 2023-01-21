@@ -55,7 +55,7 @@ and [polyfilled](https://en.wikipedia.org/wiki/Polyfill_(programming))
 for the target runtime environment.
 
 To help you with this required intermediate step, Qooxdoo provides
-[continuous compilation in the background](compiler/?id=creating-your-first-application)
+[continuous compilation in the background](compiler/README.md#creating-your-first-application)
 and a [built-in web server](cli/commands?id=mini-web-server).
 
 **'source', 'build', and 'deploy' targets**

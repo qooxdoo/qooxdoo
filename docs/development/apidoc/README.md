@@ -20,14 +20,14 @@ with a general description of the method, and then add sections that start with
 of the method. Here is an example:
 
 ```javascript
-    /**
-     * Shows a message to the user.
-     *
-     * @param {string} text The message to show.
-     */
-    showMessage(text) {
-      //...
-    }
+/**
+ * Shows a message to the user.
+ *
+ * @param {string} text The message to show.
+ */
+showMessage(text) {
+  //...
+}
 ```
 
 The `@param` attribute entry describes the parameter `text`. Description texts

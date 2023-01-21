@@ -11,7 +11,7 @@ application.
 Included in the latter is `qx.dev.Debug.debugObject()` which will print out a
 complete recursive hierarchy (or up to some max level) of an object.
 
-This is taken from a interactive javascript console session:
+This is taken from an interactive javascript console session:
 
 ```text
 >>> var myTest = {a:1, b:[2,3], c:4}
@@ -54,7 +54,7 @@ follow to inspect the object in a structured way. This is much easier to
 navigate than to skim through pages of source output.
 
 ```javascript
-var b = new qx.ui.form.Button();
+const b = new qx.ui.form.Button();
 console.log(b);
 ```
 
