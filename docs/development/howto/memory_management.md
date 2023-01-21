@@ -6,7 +6,7 @@ NOTE: This is a new feature in Qooxdoo which is enabled by default since Qooxdoo
 v6 because it is a "breaking change"; for most applications however, you simply
 get free memory management, but you should read this page first to understand
 what the changes are and how they might affect your application. You can disable
-this feature by specifying the "qx.automaticMemoryManagement" as "false" in your
+this feature by specifying the `qx.automaticMemoryManagement` as "false" in your
 application's config.json
 
 Generally, Qooxdoo's runtime will take care of most of the issues around object
@@ -19,7 +19,7 @@ is no longer the case. In Qooxdoo v6.0 and later, almost all objects can be
 disposed automatically.
 
 The principal of using garbage collection for managing objects instead of
-explicitly .dispose()ing them is that destructors and dispose() methods are not
+explicitly `.dispose()`ing them is that destructors and `dispose()` methods are not
 implemented. This is important for many reasons, the principal being that the
 Javascript garbage collector does not notify us when an object is about to be
 collected.
@@ -57,7 +57,7 @@ avoided this approach because the risk of introducing bugs with rash, unfocused
 changes is high.
 
 In many cases, the destructors are for classes which are typically used as
-singletons and need not be tracked - for example the various qx.event.handler.*
+singletons and need not be tracked - for example the various `qx.event.handler.*`
 and qx.event.dispatch.* classes.
 
 There is one remaining global list of objects which could benefit from
@@ -75,7 +75,7 @@ and (b) you must observe any “shutdown” requirements of classes.
 
 ## Disposing an application
 
-You can look at the dispose behaviour of your app if you set the disposer into a
+You can look at the `dispose` behaviour of your app if you set the disposer into a
 verbose mode and then invoke it deliberately while your app is running. This
 will usually render your app unusable, but you will get all those messages
 hinting you at object properties that might need to be looked after. How-To
@@ -101,7 +101,7 @@ destruct()
   entries in this array first. It must contain instances of qx.core.Object only.
 
 - `_disposeMap`: Disposes the map under the given key, but disposes all entries
-  in this map first. It must contain instances of qx.core.Object only.
+  in this map first. It must contain instances of `qx.core.Object` only.
 
 ## How to test the destructor
 

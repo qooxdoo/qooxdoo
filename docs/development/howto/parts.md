@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Source Code Packages (as opposed to [package libraries](../cli/packages.md) are
+Source Code Packages (as opposed to [package libraries](../cli/packages.md)) are
 a concept that allows you to partition your application physically. The idea is
 to spread the entire application over multiple JavaScript files, in order to
 optimize download and startup behaviour. On page load only the essential first
@@ -64,7 +64,7 @@ Dialog" button is pressed which is available from your main application class.
 We put the loading action in the tap event listener of the button:
 
 ```javascript
-var settingsButton = new qx.ui.toolbar.Button("Open Settings Dialog");
+const settingsButton = new qx.ui.toolbar.Button("Open Settings Dialog");
 
 settingsButton.addListener(
   "execute",

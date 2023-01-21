@@ -10,14 +10,14 @@ include the [Ligature Symbols](http://kudakurage.com/ligature_symbols/) , you
 can directly use this code
 
 ```javascript
-var image = new qx.ui.basic.Image("@Ligature/print");
+const image = new qx.ui.basic.Image("@Ligature/print");
 ```
 
 to show the 'print' symbol. Additionally, you have a shortcut for a different
 size than the font's default size:
 
 ```javascript
-var image = new qx.ui.basic.Image("@Ligature/print/16");
+const image = new qx.ui.basic.Image("@Ligature/print/16");
 ```
 
 The latter makes the icon 16px in size.

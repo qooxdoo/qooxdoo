@@ -2,7 +2,10 @@
 
 ## Motivation
 
-Accessibility is an important topic in modern web development, in order to allow assistive technologies to better help people with disabilities. Achieving this is not a simple goal, and requires much work from Qooxdoo as a framework, as well as you as a developer.
+Accessibility is an important topic in modern web development, 
+in order to allow assistive technologies to better help people with disabilities. 
+Achieving this is not a simple goal, and requires much work from Qooxdoo as a framework, 
+as well as you as a developer.
 
 ## Short summary
 
@@ -14,7 +17,7 @@ Accessibility is an important topic in modern web development, in order to allow
 
 ### Make views/forms, e.g. dialogs, more accessible
 
-- Each widget which can not be read out by itself, e.g. a button with only an icon, needs a label or a description. This can be a string, by setting the `aria-label` attrbute; or an array of ids: see `aria-labelledby` and `aria-describedby`
+- Each widget which can not be read out by itself, e.g. a button with only an icon, needs a label or a description. This can be a string, by setting the `aria-label` attribute; or an array of ids: see `aria-labelledby` and `aria-describedby`
 - Each widget which can be read out but needs to have `aria-labelledby`, should have itself in the space-seperated id list in the last position, too
 - Every piece of information you give the user visually should be given to screen reader users too.
 
