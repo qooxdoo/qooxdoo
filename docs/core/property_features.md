@@ -1,18 +1,12 @@
 # Property features summarized
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-The chapter gives you a compact but extensive overview of the features offered
+> **Note**
+> 
+> The chapter gives you a compact but extensive overview of the features offered
 by Qooxdoo's property system. Please refer to `defining_properties` for an
 explanation of how to define and use properties.
 
-</div>
+
 
 ## Value checks
 
