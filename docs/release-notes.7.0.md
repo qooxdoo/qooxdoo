@@ -6,7 +6,7 @@ For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master
 ## New features in v7.4
 - compile.json: localModules can now be used in the root of the file. So you can address the modules for all applications.
                 Application modules will be merged with global ones.
-- browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really neccesary.
+- browserifying the npm modules: Browserify of the used npm modules is a time-consuming process. Now it's checked whether it's really necessary.
 It's necessary when:
     - commonjs-browserify.js does not exits
     - The list of modules has changed
@@ -30,7 +30,7 @@ For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master
 in v7.1, it is now additionally possible to bundle local (in the local
 tree vs. in `node_modules`) CommonJS or ES6 modules as well, as
 documented [here](development/compiler/configuration/README.md).
- - We introduce 2 new widgets: qx.ui.form.FileSelectorButton and qx.ui.toolbar.FileSelectorButton.
+ - We introduce 2 new widgets: `qx.ui.form.FileSelectorButton` and `qx.ui.toolbar.FileSelectorButton`.
  
 
 

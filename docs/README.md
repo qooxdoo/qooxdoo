@@ -87,7 +87,7 @@ apps and it can act as a webserver so that you can use your browser to access
 the application. To get started, lets create a little application and then have
 a look at its code. The `create` command in the Qooxdoo compiler lets you
 quickly produce a simple skeleton app. The following command line assumes that
-you have setup a local copy of the Qooxdoo compiler in the myapp subdirectory.
+you have to set up a local copy of the Qooxdoo compiler in the myapp subdirectory.
 
 ```bash
 $ cd myapp
@@ -164,5 +164,5 @@ your edits. Before creating a PR with your changes, make sure to `npm install`
 and `npm test`. This will check your markdown and enforce certain style rules.
 
 If you move or rename pages, make sure to add a redirection
-in the [alias.js](/alias.js) file, so that internal links
+in the [alias.js](alias.js) file, so that internal links
 and especially external links to them are not broken.

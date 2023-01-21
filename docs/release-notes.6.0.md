@@ -11,7 +11,7 @@ And although 6.0.0 is a very new release, it's stable because the core developer
 ## Deployment via npmjs.com
 Instead of downloading a tarball or zip file, releases are now distributed via npm - this streamlines version management, and makes it particularly easy for new users.
 
-We've also modularised the repo - using features like (the new package system)[#packages], things like the API viewer, test runner, etc can be added on demand to your application; internally, as they are separate repositories at GitHub this allows us to vary the release cycle for those added features so that we can get updates out faster (and it's easier for anyone who wants to contribute changes!)
+We've also modularised the repo - using features like [the new package system](development/cli/packages.md), things like the API viewer, test runner, etc. can be added on demand to your application; internally, as they are separate repositories at GitHub this allows us to vary the release cycle for those added features so that we can get updates out faster (and it's easier for anyone who wants to contribute changes!)
 
 
 ## Compiler
@@ -118,7 +118,10 @@ In hindsight of better keyboard accessibility support some components received c
 
 ## Accessibility
 
-Accessibility is an important topic in nowadays web development in order to allow assistive technologies to better help persons with disabilities. Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) and more keyboard accessibility for the following components:
+Accessibility is an important topic in nowadays web development 
+in order to allow assistive technologies to better help persons with disabilities. 
+Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) 
+and more keyboard accessibility for the following components:
 
 - Button
 - Checkbox
@@ -141,7 +144,7 @@ developed Qooxdoo donated the project completely into the public domain; the pro
 entirely community based and open source, and as part of this we changed the licensing
 model to the MIT license.
 
-None of this should make any practical difference to anyone using Qooxdoo to develop their 
+None of this should make any practical difference to anyone who uses Qooxdoo to develop their 
 applications - the MIT license is at least as liberal as the Eclipse license that was used
 before, and we've made sure that all contributions have formally switched to MIT.
 
