@@ -45,7 +45,7 @@ the controller instantiation: :
 
 ```javascript
 // create the controller
-var controller = new qx.data.controller.List(null, main.getList());
+const controller = new qx.data.controller.List(null, main.getList());
 controller.set({
   labelPath: "text",
   iconPath: "user.profile_image_url",
@@ -66,7 +66,7 @@ Instead of the controller use the virtual List: :
 
 ```javascript
 // setup list binding
-var list = main.getList();
+const list = main.getList();
 list.set({
   itemHeight: 68,
   labelPath: "text",
@@ -74,11 +74,12 @@ list.set({
   delegate: {
     configureItem : function(item) {
       item.getChildControl("icon").set({
-        width: 48,
-        height: 48,
-        scale: true,
-        rich: true
+          width: 48,
+          height: 48,
+          scale: true,
+          rich: true
       });
+    }
   }
 });
 ```

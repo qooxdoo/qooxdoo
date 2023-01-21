@@ -23,7 +23,7 @@ three basic tasks we could do to make the app look different.
 > - Change the default theme.
 > - Change the look of a built-in widget
 
-Lets get started with the first one:
+Let's get started with the first one:
 
 ## Style the widget we created for showing tweets
 
@@ -139,7 +139,7 @@ have to take another look at the files in the `theme` folder. You might have
 already realized that all these files do have an `extend` key which extends from
 the Modern theme's files. That's what we are going to change now. Just open all
 the files in the theme folder and change the `extend` key from
-`qx.theme.modern.xyz` to `qx.theme.simple.xyz` with \_xyz* as a placeholder for
+`qx.theme.modern.xyz` to `qx.theme.simple.xyz` with xyz* as a placeholder for
 the name of the file you are editing. There is only one file you don't have to
 change which is the meta theme named `Theme.js`. It does not refer to the
 framework theme so there is nothing to change. With that change, we included new
@@ -151,7 +151,7 @@ using the Simple theme.
 
 ![image](tutorial_4_2_1-3.png)
 
-## Change the look of a built in widget
+## Change the look of a built-in widget
 
 As a last and final step, I like to show you how to change the styling of a
 built-in Qooxdoo widget. As you can see on the screenshot of the last step, the

@@ -83,7 +83,7 @@ But we already added a members block because we want to add a `method` named
 `fetchTweets`:
 
 ```javascript
-fetchTweets : function() {
+fetchTweets() {
 }
 ```
 
@@ -96,7 +96,7 @@ Just take a look at the method implementation to see how it works.
 
 ```javascript
 if (this.__store == null) {
-  var url = "http://localhost:8080/resource/qxl/tweets/service.js";
+  const url = "http://localhost:8080/resource/qxl/tweets/service.js";
   this.__store = new qx.data.store.Jsonp();
   this.__store.setCallbackName("callback");
   this.__store.setUrl(url);
@@ -107,7 +107,7 @@ if (this.__store == null) {
 ```
 
 We already added the code in case the store exists. In that case, we can just
-invoke a reload. I also mentioned that the instance member should be private.
+invoke a `reload`. I also mentioned that the instance member should be private.
 The two underscores (`__`) mark the member as private in Qooxdoo. The creation
 of the store or the reload method call starts the fetching of the data.
 
@@ -145,8 +145,8 @@ to use later. But that's it for setting up a property. You can find all possible
 property keys in the [documentation](../../core/understanding_properties.md#qooxdoo-properties).
 
 Now we need to connect the property of the store with the property of the
-_identica service_. That's an easy task with the single value binding
-(data_binding/single_value_binding) included in the Qooxdoo data binding. Just
+_identica service_. That's an easy task with the [single value binding](../../core/data_binding/single_value_binding.md) 
+included in the Qooxdoo data binding. Just
 add the following line after the creation of the data store:
 
 ```javascript
@@ -154,7 +154,7 @@ this.__store.bind("model", this, "tweets");
 ```
 
 This line takes care of synchronizing the two properties, the model property of
-the store and the tweets property of our service object. That means as soon as
+the store and the `tweets` property of our service object. That means as soon as
 data is available in the store, the data will also be set as tweets in the
 identica service. That's all we need to do in the identica service class for
 fetching the data. Now it's time to bring the data to the UI.
@@ -165,11 +165,11 @@ For that task we need to go back to our `Application.js` file and create an
 instance of the new service:
 
 ```javascript
-var service = new tweets.IdenticaService();
+const service = new tweets.IdenticaService();
 ```
 
 You remember the debug listener we added in the last tutorial? Now we change the
-reload listener to fetch the tweets:
+`reload` listener to fetch the tweets:
 
 ```javascript
 // reload handling
@@ -223,7 +223,7 @@ the new `this.__list`. Next, we add an accessor method for the list in the
 members section:
 
 ```javascript
-getList : function() {
+getList() {
   return this.__list;
 }
 ```
@@ -236,7 +236,7 @@ straight forward:
 
 ```javascript
 // create the controller
-var controller = new qx.data.controller.List(null, main.getList());
+const controller = new qx.data.controller.List(null, main.getList());
 ```
 
 The first parameter takes a model we don't have right now, so we just set it to

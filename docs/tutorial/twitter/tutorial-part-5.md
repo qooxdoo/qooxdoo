@@ -2,7 +2,7 @@
 
 In this tutorial we will deal with how to create a custom widget for our tweets
 application. It is necessary that you finished the tutorials part 1 through part
-3 to work with this tutorial, but previous knowledge from tutorial 4.1 is not
+3 to work with this tutorial, but previous knowledge from tutorial 4 is not
 needed.
 
 Do you remember the mockup from tutorial part 1?
@@ -16,16 +16,16 @@ This is because we use the default
 can only show an image and/or label. To achieve our goal, we have to create a
 custom widget which we can use instead of the ListItem.
 
-> :memo: The code in this tutorial should also work when you haven't completed the 4.1
-> tutorial because it doesn't depend on the code changes from tutorial 4.1. But
-> if you have any problems to run the tutorial, you can also checkout the code
-> from tutorial 4.1 on
-> [github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1)
+> :memo: The code in this tutorial should also work when you haven't completed the 4
+> tutorial because it doesn't depend on the code changes from tutorial 4. But
+> if you have any problems to run the tutorial, you can also check out the code
+> from tutorial 4 on
+> [GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1)
 > .
 
 ## The plan
 
-First of all we have to create a custom widget which fulfills our requirements
+First of all, we have to create a custom widget which fulfills our requirements
 from the mockup. We will achieve this by combining a widget with two labels and
 one image. Afterwards we have to configure the controller so that it uses our
 custom widget for the tweets.
@@ -126,7 +126,7 @@ with `_add`.
 members : {
   // overridden
   _createChildControlImpl(id) {
-    var control;
+    let control;
     switch(id) {
       case "icon":
         control = new qx.ui.basic.Image(this.getIcon());
@@ -188,7 +188,7 @@ Therefore, we need a special transformation which we can achieve by using
 
 ```javascript
 // initialize the layout and allow wrap for "post"
-var layout = new qx.ui.layout.Grid(4, 2);
+const layout = new qx.ui.layout.Grid(4, 2);
 layout.setColumnFlex(1, 1);
 this._setLayout(layout);
 ```
@@ -204,29 +204,29 @@ this._createChildControl("post");
 ```
 
 Time for our child control implementation. With these lines we trigger the
-subwidget creation which we implemented before.
+sub widget creation which we implemented before.
 
 ## Adding the apply methods
 
 We have already defined the properties, but we haven't implemented the needed
-apply methods for them. So, time to add the missing apply method for the
+`apply` methods for them. So, time to add the missing apply method for the
 properties to the `members` section.
 
 ```javascript
 // property apply
 _applyIcon(value, old) {
-  var icon = this.getChildControl("icon");
+  const icon = this.getChildControl("icon");
   icon.setSource(value);
 },
 
 _applyPost(value, old) {
-  var post = this.getChildControl("post");
+  const post = this.getChildControl("post");
   post.setValue(value);
 },
 
 // property apply
 _applyTime(value, old) {
-  var time = this.getChildControl("time");
+  const time = this.getChildControl("time");
   time.setValue(this._dateFormat.format(value));
 }
 ```
@@ -269,7 +269,7 @@ these lines of code in the `Application.js` file:
 
 ```javascript
 // create the controller
-var controller = new qx.data.controller.List(null, main.getList());
+const controller = new qx.data.controller.List(null, main.getList());
 controller.setLabelPath("text");
 controller.setIconPath("user.profile_image_url");
 controller.setDelegate({
@@ -291,7 +291,7 @@ controller.setIconPath("user.profile_image_url");
 
 Now to the delegate, just replace the current delegate with this one:
 
-```
+```javascript
 controller.setDelegate({
   createItem() {
     return new tweets.TweetView();

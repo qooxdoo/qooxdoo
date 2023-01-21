@@ -49,7 +49,7 @@ code in the `Application.js` file to create and open the window. Make sure to
 add it at the end of the main function in the application class.
 
 ```javascript
-var main = new tweets.MainWindow();
+const main = new tweets.MainWindow();
 main.open();
 ```
 

@@ -2,7 +2,7 @@
 
 We've already covered quite a few of Qooxdoo's features to get to this point. In
 this tutorial, we want to internationalize the tweets client. Additionally, we
-want to add a preferences dialog allowing users to change the language during
+want to add a *preferences* dialog allowing users to change the language during
 runtime. Adding a window containing a form should be familiar to you if you've
 read the form handling tutorial.
 
@@ -21,13 +21,13 @@ code in our main window which means that's the spot we need to look for strings.
 Here we can identify the following strings:
 
 ```javascript
-var reloadButton = new qx.ui.toolbar.Button("Reload");
+const reloadButton = new qx.ui.toolbar.Button("Reload");
 // ...
 reloadButton.setToolTipText("Reload the tweets.");
 // ...
 this.__textarea.setPlaceholder("Enter your message here...");
 // ...
-var postButton = new qx.ui.form.Button("Post");
+const postButton = new qx.ui.form.Button("Post");
 // ...
 postButton.setToolTipText("Post this message on identi.ca");
 ```
@@ -37,13 +37,13 @@ which strings need to be translated. Wrapping the strings with `this.tr()` will
 mark them as translatable strings. That should be an easy task:
 
 ```javascript
-var reloadButton = new qx.ui.toolbar.Button(this.tr("Reload"));
+const reloadButton = new qx.ui.toolbar.Button(this.tr("Reload"));
 // ...
 reloadButton.setToolTipText(this.tr("Reload the tweets."));
 // ...
-this.__textarea.setPlaceholder(this.tr("Enter your message here...");)
+this.__textarea.setPlaceholder(this.tr("Enter your message here..."));
 // ...
-var postButton = new qx.ui.form.Button(this.tr("Post"));
+const postButton = new qx.ui.form.Button(this.tr("Post"));
 // ...
 postButton.setToolTipText(this.tr("Post this message on identica."));
 ```
@@ -135,13 +135,13 @@ line to your constructor.
 ```javascript
 this.setLayout(new qx.ui.layout.Basic());
 
-var form = new qx.ui.form.Form();
-var radioGroup = new qx.ui.form.RadioButtonGroup();
+const form = new qx.ui.form.Form();
+const radioGroup = new qx.ui.form.RadioButtonGroup();
 form.add(radioGroup, this.tr("Language"));
 
 // TODO: create a radio button for every available locale
 
-var renderer = new qx.ui.form.renderer.Single(form);
+const renderer = new qx.ui.form.renderer.Single(form);
 this.add(renderer);
 ```
 
@@ -155,9 +155,9 @@ For that, Qooxdoo offers a locale manager, as you'll see in the following code
 part.
 
 ```javascript
-var localeManager = qx.locale.Manager.getInstance();
-var locales = localeManager.getAvailableLocales();
-var currentLocale = localeManager.getLocale();
+const localeManager = qx.locale.Manager.getInstance();
+const locales = localeManager.getAvailableLocales();
+const currentLocale = localeManager.getLocale();
 ```
 
 It is pretty easy to get this kind of information. You surely know how to
@@ -177,10 +177,10 @@ would have expected, with a loop for all available locales.
 
 ```javascript
 // create a radio button for every available locale
-for (var i = 0; i < locales.length; i++) {
-  var locale = locales[i];
-  var languageName = localeManager.translate("$$languagename", [], locale);
-  var localeButton = new qx.ui.form.RadioButton(languageName.toString());
+for (let i = 0; i < locales.length; i++) {
+  const locale = locales[i];
+  const languageName = localeManager.translate("$$languagename", [], locale);
+  const localeButton = new qx.ui.form.RadioButton(languageName.toString());
   // save the locale as model
   localeButton.setModel(locale);
   radioGroup.add(localeButton);
@@ -216,7 +216,7 @@ radioGroup.getModelSelection().addListener(
   "change",
   function (e) {
     // selection is the first item of the data array
-    var newLocale = radioGroup.getModelSelection().getItem(0);
+    const newLocale = radioGroup.getModelSelection().getItem(0);
     localeManager.setLocale(newLocale);
   },
   this
@@ -242,8 +242,8 @@ where you added the reload button.
 toolbar.addSpacer();
 
 // settings button
-var settingsWindow = null;
-var settingsButton = new qx.ui.toolbar.Button(this.tr("Preferences"));
+let settingsWindow = null;
+const settingsButton = new qx.ui.toolbar.Button(this.tr("Preferences"));
 toolbar.add(settingsButton);
 settingsButton.setToolTipText(this.tr("Change the applications settings."));
 settingsButton.addListener(

@@ -36,16 +36,16 @@ qx.Class.define("tweets.test.DemoTest", {
     /**
      * Here are some simple tests
      */
-    testSimple: function () {
+    testSimpl() {
       this.assertEquals(4, 3 + 1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
     /**
      * Here are some more advanced tests
      */
-    testAdvanced: function () {
-      var a = 3;
-      var b = a;
+    testAdvanced() {
+      let a = 3;
+      let b = a;
       this.assertIdentical(a, b, "A rose by any other name is still a rose");
       this.assertInRange(
         3,
@@ -84,7 +84,7 @@ The [qxl.testtaper](https://github.com/qooxdoo/qxl.testtapper) package provides
 a simple test rig for executing all the test methods you added to your
 application.
 
-```console
+```bash
 $ npx qx package update
 $ npx qx package install qooxdoo/qxl.testtapper
 ```
@@ -115,7 +115,7 @@ The testtapper also includes a little node application that can execute the
 tests in 'puppeteer' which is a headless Chrome browser, ideal for CI/CD
 applications.
 
-```console
+```bash
 $ npm i puppeteer yargs nyc coveralls puppeteer-to-istanbul
 $ node compiled/source/resource/qxl/testtapper/run.js http://localhost:8080/compiled/source/testtapper/
 ```
@@ -140,21 +140,21 @@ qx.Class.define("tweets.test.TweetView", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    setUp: function () {
+    setUp() {
       this.__tweetView = new tweets.TweetView();
     },
 
-    tearDown: function () {
+    tearDown() {
       this.__tweetView.dispose();
       this.__tweetView = null;
     },
 
-    testSetIcon: function () {
+    testSetIcon() {
       var expectedSource = qx.util.ResourceManager.getInstance().toUri(
         "logo.png"
       );
       this.__tweetView.setIcon(expectedSource);
-      var foundSource = this.__tweetView.getChildControl("icon").getSource();
+      const foundSource = this.__tweetView.getChildControl("icon").getSource();
       this.assertEquals(
         expectedSource,
         foundSource,
@@ -169,8 +169,8 @@ qx.Class.define("tweets.test.TweetView", {
 
 Note the `setUp` and `tearDown` methods. Each test class can contain either or
 both (or none). setUp is called before each individual test function and is used
-to perform common initializations. Similarly, tearDown is called after each test
-method (even if the test failed), e.g. to dispose objects created by setUp or
+to perform common initializations. Similarly, `tearDown` is called after each test
+method (even if the test failed), e.g. to dispose objects created by `setUp` or
 the test itself. Together, they can be used to make sure each test method runs
 in a "clean" environment: In this case, we create a new instance of the tested
 class for each test and dispose it afterwards, which is a very common pattern in
@@ -222,7 +222,7 @@ tweets.test.TweetView, except of course they initialize/destroy an instance of
 tweets.IdenticaService instead. Here's the actual test function:
 
 ```javascript
-testFetchTweets : function() {
+testFetchTweets() {
   this.__identicaService.addListener("changeTweets", function() {
     this.resume();
   }, this);
@@ -248,8 +248,8 @@ failed. Note that wait **must** always be the last call in an asynchronous test
 function. Any code that follows it will never be executed.
 
 Now, if you run this test a couple of times in quick succession, there's a good
-chance it will at some point fail with the error message "Error in asynchronous
-test: resume() called before wait()". This is because due to the browser caching
+chance it will at some point fail with the error message "*Error in asynchronous
+test: resume() called before wait()*". This is because due to the browser caching
 the result of the identica API request sent by TweetService, the `changeTweets`
 listener callback is executed immediately after calling fetchTweets. This is a
 common problem in asynchronous tests, encountered whenever the tested code's

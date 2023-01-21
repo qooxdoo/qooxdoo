@@ -18,7 +18,7 @@ class. Just add these lines of code in `MainWindow.js`:
 
 ```javascript
 // add the layout
-var layout = new qx.ui.layout.Grid(0, 0);
+const layout = new qx.ui.layout.Grid(0, 0);
 this.setLayout(layout);
 ```
 
@@ -33,7 +33,7 @@ and adding it is straight forward.
 
 ```javascript
 // toolbar
-var toolbar = new qx.ui.toolbar.ToolBar();
+const toolbar = new qx.ui.toolbar.ToolBar();
 this.add(toolbar, { row: 0, column: 0 });
 ```
 
@@ -51,7 +51,7 @@ Adding the list should look familiar now.
 
 ```javascript
 // list
-var list = new qx.ui.form.List();
+const list = new qx.ui.form.List();
 this.add(list, { row: 1, column: 0 });
 ```
 
@@ -91,7 +91,7 @@ just add the following lines of code.
 
 ```javascript
 // reload button
-var reloadButton = new qx.ui.toolbar.Button("Reload");
+const reloadButton = new qx.ui.toolbar.Button("Reload");
 toolbar.add(reloadButton);
 ```
 
@@ -107,11 +107,11 @@ scenarios.
 
 ```javascript
 // textarea
-var textarea = new qx.ui.form.TextArea();
+const textarea = new qx.ui.form.TextArea();
 this.add(textarea, { row: 2, column: 0 });
 
 // post button
-var postButton = new qx.ui.form.Button("Post");
+const postButton = new qx.ui.form.Button("Post");
 this.add(postButton, { row: 2, column: 1 });
 ```
 
@@ -179,7 +179,7 @@ reloadButton.addListener(
 ```
 
 Here we see two things: First, how to add an event listener and second, that
-firing an event is as easy as a method call. The only parameter to .fireEvent()
+firing an event is as easy as a method call. The only parameter to `.fireEvent()`
 is the name of the event we have declared in the class definition. Another
 interesting thing here is the third parameter of the `addListener` call,
 **this**. It sets the context of the callback function to our window instance,
@@ -276,7 +276,7 @@ the text area has a data event for text changes we can listen to:
 textarea.addListener(
   "input",
   function (e) {
-    var value = e.getData();
+    const value = e.getData();
     postButton.setEnabled(value.length < 140 && value.length > 0);
   },
   this

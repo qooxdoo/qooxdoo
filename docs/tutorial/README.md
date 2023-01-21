@@ -4,7 +4,7 @@ Often the simplest way to learn about a new technology is to work through some
 tutorials.
 
 You may already have worked your way through the
-[getting started](?id=getting-started) one.
+[getting started](../README.md) one.
 
 For a much more in depth encounter with Qooxdoo, we have some comprehensive
 tutorials:
