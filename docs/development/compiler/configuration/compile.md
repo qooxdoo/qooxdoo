@@ -140,8 +140,7 @@ The `applications` key is an array of objects, and each object can contain:
   names by which a local module may be `require()`d in qooxdoo code. The
   value for each of those keys is the path, from where `compile.json`
   is located, to the module to be included. See [the complete
-  documentation of this
-  feature](../configuration/README.md), for details.
+  documentation of this feature](../configuration/README.md), for details.
 
 A complete example is:
 
@@ -194,7 +193,7 @@ be compiled. Each object can contain:
 - `typescript` - see below
 
 - `minify` - (**optional**) determines the minification to be used for
-  applications, if the target supports it; can be overridden on a per
+  applications, if the target supports it; can be overridden on a per-
   application basis. Can be `off`, `minify`, `mangle`, or `beautify`.
   
 - `inline-external-scripts` -- (**optional**) controls whether external scripts are added
@@ -250,7 +249,7 @@ and the value of which is either `true` (to enable), or `false` (to not add the
 plugin), or an object configuring the plugin.
 
 There is risk in adding support for additional, non-standard babel plugins - EG
-the @babel/plugin-proposal-\* plug ins which add early proposed additions to
+the @babel/plugin-proposal-* plug ins which add early proposed additions to
 javascript.
 
 Not surprisingly this comes with caveats, first of which is that changes to the
@@ -436,7 +435,7 @@ an `environment` key, for example:
     /* ... snip ... */
     "defaultTarget": "source",
     "environment": {
-        "qx.icontheme": "Oxygen"
+        "qx.icontheme": "Oxygen",
         "demoapp.myCustomSetting": 42
     }
 }
@@ -480,7 +479,7 @@ example:
         }
     ],
     "environment": {
-        "qx.icontheme": "Oxygen"
+        "qx.icontheme": "Oxygen",
         "demoapp.myCustomSetting": 1
     }
 }
@@ -598,7 +597,7 @@ target output directory, for example:
     ]
 ```
 
-The TypeScript definition is output into `./compiled/source/qooxdoo.d.ts`
+The TypeScript definition is output into `./compiled/source/qooxdoo.d.ts`.
 
 ## Eslint
 

@@ -26,7 +26,7 @@ it only says that the required class has to be available "eventually"
 at runtime. require imposes a stronger constraint as it demands
 that the required class is loaded ahead of the current class, and
 should only be used when the required class is used at load-time of
-the current class (e.g. in the defer method). ¶
+the current class (e.g. in the defer method).
 
 Both compiler hints can only specify individual and fully
 qualified class names. It is not possible to use a `*` wildcard
