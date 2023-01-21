@@ -18,8 +18,8 @@ mobile, 7'' tablets), class tablet or device class desktop.
 The device type is accessible by the environment variable `device.type` . It is
 able to detect 3 classes: `mobile`, `tablet` and `desktop`.
 
-```
-var deviceType = qx.core.Environment.get("device.type");
+```javascript
+const deviceType = qx.core.Environment.get("device.type");
 ```
 
 ### Device type mapping table :
@@ -60,9 +60,9 @@ examples at mobile playground and the tutorial, we always make usage of this
 manager to create a Mobile application.
 
 ```javascript
-var isTablet = false;
-var manager = new qx.ui.mobile.page.Manager(isTablet);
-var page = new qx.ui.mobile.page.NavigationPage();
+let isTablet = false;
+const manager = new qx.ui.mobile.page.Manager(isTablet);
+const page = new qx.ui.mobile.page.NavigationPage();
 manager.addDetail(page);
 page.show();
 ```
@@ -142,11 +142,11 @@ Now, that you gained this knowledge about Mobile tablet support, you surely want
 to create an application using this feature.
 
 ```javascript
-var manager = new qx.ui.mobile.page.Manager();
+const manager = new qx.ui.mobile.page.Manager();
 
-var masterPage = new qx.ui.mobile.page.NavigationPage();
-var detailPage1 = new qx.ui.mobile.page.NavigationPage();
-var detailPage2 = new qx.ui.mobile.page.NavigationPage();
+const masterPage = new qx.ui.mobile.page.NavigationPage();
+const detailPage1 = new qx.ui.mobile.page.NavigationPage();
+const detailPage2 = new qx.ui.mobile.page.NavigationPage();
 
 manager.addMaster(masterPage);
 manager.addDetail([detailPage1,detailPage2]);

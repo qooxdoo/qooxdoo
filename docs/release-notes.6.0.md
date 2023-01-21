@@ -156,7 +156,7 @@ where we have published policies and rules on contributing; we actively encourag
 submit Pull Requests to contribute to the project.
 
 We chat in public on [Gitter](https://gitter.im/qooxdoo/qooxdoo) and answer questions
-on [StackOverflow](https://stackoverflow.com/questions/tagged/qooxdoo)
+on [Stack Overflow](https://stackoverflow.com/questions/tagged/qooxdoo)
 
 And we have [exciting plans for the future](http://qooxdoo.org/documentation/#/roadmap)!
 

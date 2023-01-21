@@ -37,10 +37,10 @@ A page is a widget which provides a screen with which users can interact in
 order to do something. Most times a page provides a single task or a group of
 related tasks. A Qooxdoo mobile application is usually composed of one or more
 loosely connected pages. Typically, there is one page that presents the "main"
-view.\*
+view.
 
 Open the "mobiletweets" folder in your favorite IDE, so that you can edit all
-the files. Navigate to the "source/class/mobiletweets" folder, were all of the
+the files. Navigate to the "source/class/mobiletweets" folder, where all the
 application class files are located. Now you are ready to create the
 application.
 
@@ -82,9 +82,9 @@ example code below. As we don't need this example code, we can safely replace it
 with the following lines of code: :
 
 ```javascript
-var manager = new qx.ui.mobile.page.Manager(false);
+const manager = new qx.ui.mobile.page.Manager(false);
 
-var inputPage = new mobiletweets.page.Input();
+const inputPage = new mobiletweets.page.Input();
 manager.addDetail(inputPage);
 
 inputPage.show();
@@ -172,7 +172,7 @@ members : {
   _initialize() {
     super._initialize();
     // Create a new button instance and set the title of the button to "Show"
-    var button = new qx.ui.mobile.form.Button("Show");
+    const button = new qx.ui.mobile.form.Button("Show");
     // Add the "tap" listener to the button
     button.addListener("tap", this._onTap, this);
     // Add the button the content of the page
@@ -207,7 +207,7 @@ added:
 
 ```javascript
 // New instance of the Tweets page
-var tweetsPage = new mobiletweets.page.Tweets();
+const tweetsPage = new mobiletweets.page.Tweets();
 
 // Add page to manager
 manager.addDetail(tweetsPage);
@@ -246,11 +246,11 @@ Extend the `members` section of the "Application" class by the following code: :
 __loadTweets() {
   // Mocked Identica Tweets API
   // Create a new JSONP store instance with the given url
-  var self = this;
+  const self = this;
 
-  var url = "http://XXXX"+ "/tweets_step4.5/resource/tweets/service.js";
+  const url = "http://XXXX"+ "/tweets_step4.5/resource/tweets/service.js";
 
-  var store = new qx.data.store.Jsonp();
+  const store = new qx.data.store.Jsonp();
   store.setCallbackName("callback");
   store.setUrl(url);
 
@@ -315,15 +315,15 @@ _applyTweets(value, old) {
 Now the username has to be retrieved from the user input. To do so, we have to
 create an input form. The usage of the form classes should be familiar to you if
 you have used the RIA widget set before. Open the "Input" class again and place
-the following code, before the button instance in the `_initialize` method: :
+the following code, before the button instance in the `_initialize` method:
 
 ```javascript
-var title = new qx.ui.mobile.form.Title("Please enter an identi.ca username");
+const title = new qx.ui.mobile.form.Title("Please enter an identi.ca username");
 this.getContent().add(title);
 
-var form = this.__form = new qx.ui.mobile.form.Form();
+const form = this.__form = new qx.ui.mobile.form.Form();
 
-var input = this.__input = new qx.ui.mobile.form.TextField();
+const input = this.__input = new qx.ui.mobile.form.TextField();
 input.setPlaceholder("Username");
 input.setRequired(true);
 form.add(input, "Username");
@@ -350,7 +350,7 @@ Replace the code in the function body by the following code: :
 ```javascript
 // validate the form
 if (this.__form.validate())  {
-  var username = this.__input.getValue();
+  const username = this.__input.getValue();
   this.fireDataEvent("requestTweet", username);
 }
 ```
@@ -392,8 +392,8 @@ members : {
     super._initialize();
 
     // Create a new list instance
-    var list = this.__list = new qx.ui.mobile.list.List();
-    var dateFormat = new qx.util.format.DateFormat();
+    const list = this.__list = new qx.ui.mobile.list.List();
+    const dateFormat = new qx.util.format.DateFormat();
     // Use a delegate to configure each single list item
     list.setDelegate({
       configureItem : function(item, value, row) {
@@ -510,7 +510,7 @@ qx.Class.define("mobiletweets.page.TweetDetail",
     {
       super._initialize();
       // Create a new label instance
-      var label = new qx.ui.mobile.basic.Label();
+      const label = new qx.ui.mobile.basic.Label();
       this.getContent().add(label);
       // bind the "tweet.getText" property to the "value" of the label
       this.bind("tweet.text", label, "value");
@@ -523,7 +523,7 @@ Now create the instance of the "TweetDetail" page in the Application `main`
 method and return to the "Tweets" page, when the `back` listener is called.
 
 ```javascript
-var tweetPage = new mobiletweets.page.TweetDetail();
+const tweetPage = new mobiletweets.page.TweetDetail();
 
 // Add page to manager
 manager.addDetail(tweetPage);
@@ -546,10 +546,10 @@ list.addListener("changeSelection", this.__onChangeSelection, this);
 The `__onChangeSelection` method looks like this: :
 
 ```javascript
-__onChangeSelection : function(evt)
+__onChangeSelection(evt)
 {
   // retrieve the index of the selected row
-  var index = evt.getData();
+  const index = evt.getData();
   this.fireDataEvent("showTweet", index);
 }
 ```
@@ -570,7 +570,7 @@ corresponding tweet from the data. Finally, we show our "TweetDetail" page.
 ```javascript
 // Show the selected tweet
 tweetsPage.addListener("showTweet", function(evt) {
-  var index = evt.getData();
+  const index = evt.getData();
   tweetPage.setTweet(this.getTweets().getItem(index));
   tweetPage.show();
 }, this);

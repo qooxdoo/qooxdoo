@@ -12,7 +12,7 @@ parts are maintained by us in the framework. You will usually just need some
 knowledge of CSS.
 
 If you want to extend or change the Qooxdoo mobile themes you should always
-modify the SCSS files (\*.scss) in the folder
+modify the SCSS files (*.scss) in the folder
 `<APP_ROOT>/source/theme/<APP_NAMESPACE>/scss`. After you modified any SCSS
 files they have to be compiled into CSS, otherwise you will not see any changes.
 
@@ -93,7 +93,7 @@ Instead of trying to deliver several stylesheets which mimic some native look,
 we provide a powerful yet easy system to create custom themes. This way you have
 all the possibilities to adapt your mobile app to any look & feel.
 
-As a starting point use the qx.Mobile "Indigo" theme. This theme can be modified
+As a starting point use the `qx.Mobile` "Indigo" theme. This theme can be modified
 by developers in many ways, like setting colors or change the appearance of
 widgets, e.g. their border radius, etc. See the section below on custom theming.
 
@@ -159,7 +159,7 @@ For customization, please follow these steps:
     > 50%
 
 That is all you need to know to get started customizing the theme of your
-qx.Mobile app. Continue to adjust the other SCSS variables inside
+`qx.Mobile` app. Continue to adjust the other SCSS variables inside
 `_styles.scss`!
 
 ## The background variables
@@ -224,7 +224,7 @@ have a look at the Sass website:
 A `qx.Mobile` theme can be scaled to adjust the application to the resolution of
 your target devices.
 
-To reach this goal, qx.Mobile theming strictly uses `rem` units instead of `px`
+To reach this goal, `qx.Mobile` theming strictly uses `rem` units instead of `px`
 inside its stylesheets.
 
 If you are not familiar with the CSS unit `rem`, please have a look at

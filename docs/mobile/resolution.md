@@ -86,7 +86,7 @@ app. For instance, if the app scale is `1.75` , an image with an original width
 of 100px, would appear on the display as 175 pixels wide.
 
 ```javascript
-var scale = qx.core.Init.getApplication().getRoot().getAppScale();
+const scale = qx.core.Init.getApplication().getRoot().getAppScale();
 ```
 
 The app scale calculation takes into account both the font scale as well as the
