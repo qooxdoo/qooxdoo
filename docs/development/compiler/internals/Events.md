@@ -98,12 +98,13 @@ qx.Class.define("myApp.CompilerApi", {
       return await super.load();
     },
 
-    __appTesting: async function (data) {
+    async __appTesting(data) {
         let result = data.getData();
         return new qx.Promise(async function (resolve) {
            result.setExitCode(testResult);
-        }
+        });
     }
+  }
 });
 module.exports = {
   CompilerApi: myApp.CompilerApi

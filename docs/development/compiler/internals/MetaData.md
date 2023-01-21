@@ -84,11 +84,11 @@ A typical metadata example looks like this:
   "name": "MyClass",
   "type": "class",
   "superClass": "qx.ui.container.Composite",
-  "interfaces": [ myapp.some.interfaces.IMyInterface ],
-  "mixins": [ myapp.some.mixins.MMyMixin ],
+  "interfaces": [ "myapp.some.interfaces.IMyInterface" ],
+  "mixins": [ "myapp.some.mixins.MMyMixin" ],
   "abstract": true,
   "descendants": [
-    "myapp.some.package.MyOtherClass
+    "myapp.some.package.MyOtherClass"
   ],
   "clazz": { },
   "construct": { },

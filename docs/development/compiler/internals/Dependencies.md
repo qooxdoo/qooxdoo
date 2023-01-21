@@ -16,7 +16,7 @@ qx.Class.define("mypackage.MyClassA", {
   implement: [qx.data.IListData],
 
   members: {
-    someMethod: function () {
+    someMethod() {
       new qx.data.Array();
     }
   },

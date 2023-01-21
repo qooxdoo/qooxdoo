@@ -11,7 +11,7 @@ vanilla SASS, where it will translate all `url()` clauses so that they are
 relative to the .scss file where the `url()` statement is written, and also
 supports a syntax for `@import "..."` and `url(...)` paths where the path can be
 prefixed with the namespace of the library, for example
-"url(qx:qx/icon/somefile.png)" or `@import "mylibrary:path/to/file"`.
+`url(qx:qx/icon/somefile.png)` or `@import "mylibrary:path/to/file"`.
 
 Interpreting `url(...)` paths as relative to the file in which the `url(...)`
 statement originally occurred is a notable change from standard SASS, and is
@@ -26,7 +26,7 @@ without requiring a consensus on file locations.
 This feature isn't just to make writing mobile scss files easier, but Qooxdoo is
 useful as a framework for building "ordinary" websites where there has to
 browser based javascript for things like basic form validation, animations, etc.
-(ie use the compiler to build an application which does not use qx.ui.\* and
+(ie use the compiler to build an application which does not use qx.ui.* and
 which can be included on web pages). This addition makes it possible to
 incorporate .scss files which are built without any consideration for the
 Qooxdoo app, or file structure, and which share resources and assets with the
@@ -35,10 +35,10 @@ Qooxdoo app, or file structure, and which share resources and assets with the
 ### Enabling the new v6 Compilation
 
 By default, these new features are disabled unless you set `sass.compiler` in
-`compile.json` to "latest", eg:
+`compile.json` to "latest", e.g.:
 
-```
-  sass: {
+```json5
+  "sass": {
     "compiler": "latest"
   }
 }
@@ -64,10 +64,10 @@ have git reporting changes just because you ran a compilation.
 ## External Resources
 
 If you use `Manifest.json` to cause CSS files to be loaded via the
-`externalResources`, you need to use the original `.scss` filename and _ not_
+`externalResources`, you need to use the original `.scss` filename and _not_
 the `.css` that was generated. For example:
 
-```
+```json5
 "externalResources": {
     "script": [],
     "css": [

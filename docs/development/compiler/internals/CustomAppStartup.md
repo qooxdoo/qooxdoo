@@ -11,7 +11,7 @@ compiler API, see the `title` property of `qx.tool.compiler.app.Application`, bu
 you're using `qx` command line tool modify your `compile.json` to look like
 this:
 
-```json
+```json5
 {
     /** Applications */
     "applications": [
@@ -29,7 +29,7 @@ your own version by adding a "bootPath" setting to your application in
 `compile.json` which contains the path to the directory (normally
 `"source/boot"`), for example:
 
-```json
+```json5
 {
     /** Applications */
     "applications": [
