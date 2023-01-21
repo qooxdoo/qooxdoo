@@ -153,7 +153,7 @@ other classes are `qx.tool.config.Compile`, `qx.tool.config.Registry` (for
     `qx.tool.config.Manifest.getInstance().load().then(manifestModel => {...});`
 2.  Read properties using the `getValue()` method and manipulate the data using
     the `setValue`, `transform()` and `unset()` methods. If you change a value
-    outside this API (such as an array item or a sub key of a reference), you
+    outside this API (such as an array item or a sub-key of a reference), you
     must call the `validate()` method afterwards to ensure that the data is
     correct.
 3.  At the end of the script, check if the model content has changed and, if

@@ -12,7 +12,7 @@ They are:
 
 - `Qooxdoo:load-parallel` - if set to "true", scripts will always be loaded in
   parallel, any other value will turn it off; by default, this is auto-detected
-  based on browser type. Note that on older browsers, turning this on - may break
+  based on browser type. Note that on older browsers, turning this on may break
   the load.
 
 - `Qooxdoo:load-chunked` - if set to "true", then scripts

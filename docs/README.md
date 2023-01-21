@@ -5,7 +5,7 @@ write single page web applications in pure JavaScript without touching HTML or
 CSS.
 
 Qooxdoo applications are written in javascript. The Qooxdoo framework is a
-large, well-structured class library composed of both graphical and non-graphical element you can use to build your applications. The following guide
+large, well-structured class library composed of both graphical and non-graphical elements you can use to build your applications. The following guide
 will show how this works in practice.
 
 If you have worked with Qooxdoo and its Python-based tool chain before, please

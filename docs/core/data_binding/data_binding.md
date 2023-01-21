@@ -255,7 +255,7 @@ and instances. You can initiate each of the two jobs with a method.
 
 #### toClass
 
-This method converts a given JavaScript objects into model classes. Every class
+This method converts a given JavaScript object into model classes. Every class
 will be stored and available in the `qx.data.model` namespace. The name of the
 class will be generated automatically depending on the data which should be
 stored in it. As an optional parameter you can enable the inclusion of bubbling

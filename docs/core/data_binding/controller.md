@@ -81,7 +81,7 @@ That place is the `bindItem` method. But you don't want to use the single value
 binding all on your own and bind the stuff. Therefore, the controller offers you
 a method called `bindProperty`, which takes the source path to the data, the
 target property name and the options for the single value binding. The other two
-parameters will be just mapped through. But keep in mind that if you use this
+parameters will just be mapped through. But keep in mind that if you use this
 function, the default binding of the label and the icon are gone and the
 properties used for those bindings do not work anymore. If you still want to
 have the default binding, use the `bindDefaultProperties` method and pass the
@@ -201,7 +201,7 @@ put the corresponding Node object into the selection array of the controller.
 
 ## Form Controller
 
-Also, forms do have a special controller. The form controller uses a
+Also, forms have a special controller. The form controller uses a
 `qx.ui.form.Form` as target and an [Object controller](controller.md#object-controller) for the
 bidirectional bindings. The usage equals to the usage of all other controllers.
 The main properties of it are the model and target property. Given both, the
@@ -217,7 +217,7 @@ following code to get an idea of using it.
     const model = formController.createModel();
 ```
 
-If you see additional information on forms, see
+If you need additional information on forms, see
 [form handling documentation](../../desktop/gui/forms.md#form-object). After
 executing this code, the controller and the model variable do have the model
 available and therefore, the controller can set up the bindings.

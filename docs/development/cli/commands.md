@@ -80,7 +80,7 @@ However, in most cases you want to customize the generated application skeleton.
 `qx create foo` will interactively ask you all information it needs, providing
 default values where possible. If you are in the top-level folder of the
 application and want to put the application content into it without creating a
-sub folder (for example, in a top-level folder of a cloned empty GitHub project),
+sub-folder (for example, in a top-level folder of a cloned empty GitHub project),
 use `--out=.`.
 
 ## Compile

@@ -21,7 +21,7 @@ which your code can listen. Here is a list of events with a brief explanation:
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
 - `alreadyCompiledClass`: Fired when a class is already compiled (but needed for compilation)
-- `saveDatabase`: Fired when the database is being saved data
+- `saveDatabase`: Fired when the database is being saved
 
 ## CLI Commands
 
@@ -33,7 +33,7 @@ Instances of `qx.tool.cli.commands.Compile` and its subclasses fire the followin
 - `made`: Fired when making of apps is done.
 - `minifyingApplication`: Fired when minification begins.
 - `minifiedApplication`: Fired when minification is done.
-- `saveDatabase`: Fired when the database is being saved data.
+- `saveDatabase`: Fired when the database is being saved.
 - `writingApplication`: Fired when writing of single application starts.
 - `writingApplications`: Fired when application writing starts.
 - `writtenApplication`: Fired when writing of single application is complete.

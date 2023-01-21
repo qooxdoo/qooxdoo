@@ -5,7 +5,7 @@ integration point for the [stores](stores.md) and for the
 [controller](controller.md). Almost all models are plain Qooxdoo classes holding
 the data in simple properties, which are configured to fire events on every
 change. These change events are the most important part of the models and the
-reason, why plain objects are not enough as models. The same is true for
+reason why plain objects are not enough as models. The same is true for
 native arrays. Since they do not fire events when items are changed as
 well, a complementary array is added for data binding purposes. More details
 about that in the [data array](#data-array) section.
@@ -96,7 +96,7 @@ and instances. You can initiate each of the two jobs with a method.
 
 ### toClass
 
-This method converts a given JavaScript objects into model classes. Every class
+This method converts a given JavaScript object into model classes. Every class
 will be stored and available in the `qx.data.model` namespace. The name of the
 class will be generated automatically depending on the data which should be
 stored in it. As an optional parameter you can enable the inclusion of bubbling

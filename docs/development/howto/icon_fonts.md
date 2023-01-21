@@ -137,7 +137,7 @@ let atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/f004");
 ## Drawbacks
 
 Only `qx.ui.basic.Image` and `qx.ui.table.cellrenderer.Image` support icon
-fonts. It is not possible to use these icon fonts based images in decorators.
+fonts. It is not possible to use these icon fonts-based images in decorators.
 
 ## Benefits
 

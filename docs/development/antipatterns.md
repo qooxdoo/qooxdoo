@@ -32,7 +32,7 @@ Running intensive tasks on the client should not be an option. Such tasks should
 reside on the server-side. If it is not possible (or not desired) there should be
 at least a reasonable feedback to the user about the intensive task currently
 running. If long-running tasks can be split into a sequence of small tasks, the
-Progressive (`qx.ui.progressive.Progressive`) widget may allow you to progressive
+Progressive (`qx.ui.progressive.Progressive`) widget may allow you to progressively
 execute the sequence of small tasks without blocking other operation of your
 application. Organizing your application around a finite state machine
 (`qx.util.fsm.FiniteStateMachine`) may also help to avoid the pitfalls of

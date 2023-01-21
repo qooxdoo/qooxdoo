@@ -171,7 +171,7 @@ called), but the Async versions return a promise that will resolve if the event
 completed and `preventDefault` was not called; the promise will be rejected if
 `preventDefault` is called.
 
-Note that if an event handler returns a promise and you use one the "normal"
+Note that if an event handler returns a promise and you use one of the "normal"
 fireXxx methods, the method will return a promise and not `true` - this is
 because the event is not being cancelled (not immediately anyway).
 

@@ -118,7 +118,7 @@ In hindsight of better keyboard accessibility support some components received c
 
 ## Accessibility
 
-Accessibility is an important topic in nowadays web development 
+Accessibility is an important topic in modern web development 
 in order to allow assistive technologies to better help persons with disabilities. 
 Qooxdoo now supports better integration of [WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/) 
 and more keyboard accessibility for the following components:

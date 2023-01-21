@@ -17,7 +17,7 @@ create professional web-based applications.
 **[Communication](communication/README.md)**
 
 Qooxdoo provides three different communication APIs with a rich feature set:
-HTTP Request APIs, a REST Interface which support data-binding, and a JSON-RPC
+HTTP Request APIs, a REST Interface which supports data-binding, and a JSON-RPC
 Client.
 
 **[Qooxdoo on the Server](server/README.md)**

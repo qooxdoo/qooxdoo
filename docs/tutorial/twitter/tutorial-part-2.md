@@ -84,8 +84,8 @@ The first line tells the layout to keep the second row (the row for the list)
 flexible. The second row does the same for the first column.
 
 The last thing we need to fix was the invisible toolbar. If you know the reason
-why it's not visible, you sure know how to fix it. It contains not a single
-element, so it won't be visible. Fixing it means adding an element, in our case
+why it's not visible, you sure know how to fix it. It doesn't contain any elements,
+so it won't be visible. Fixing it means adding an element, in our case
 we just add the reload button. We already know how to create and add widgets so
 just add the following lines of code.
 
@@ -183,7 +183,7 @@ firing an event is as easy as a method call. The only parameter to `.fireEvent()
 is the name of the event we have declared in the class definition. Another
 interesting thing here is the third parameter of the `addListener` call,
 **this**. It sets the context of the callback function to our window instance,
-so this in this.fireEvent() is resolved correctly.
+so `this` in `this.fireEvent()` is resolved correctly.
 
 The next case is a bit different but also easy.
 
@@ -258,7 +258,7 @@ we need to run the compiler once more. After that, the image should be in the
 windows caption bar.
 
 Two more minor things are left to finish. First, the button does not look very
-good. Why don't we just give it a fixed width to fit its height?
+good. Why don't we just give it a fixed width to fit its height:
 
 ```javascript
 postButton.setWidth(60);

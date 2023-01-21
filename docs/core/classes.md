@@ -187,7 +187,7 @@ version!_
 
 ### Special Types of Classes
 
-Besides, a "regular" class there is built-in support for the following special
+Besides a "regular" class, there is built-in support for the following special
 types:
 
 #### Static Classes
@@ -347,7 +347,7 @@ then this works fine _provided that you never subclass your class_.  Statics are
 inherited between classes.
 
 When writing a mixin, `this.constructor` is never the class of the where the code appears, 
-so you must always specify the absolute class name, eg `qx.test.Animal.someStaticVar`.
+so you must always specify the absolute class name, e.g. `qx.test.Animal.someStaticVar`.
 
 The simplest solution is to always write the classname explicitly when accessing static member.
 

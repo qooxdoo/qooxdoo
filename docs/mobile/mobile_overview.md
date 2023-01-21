@@ -124,7 +124,7 @@ You can contribute in different ways:
 
 - Theming: You can optimize the current CSS files or even create your own theme.
 
-- Widgets: Widget / Feature missing? Create a widget a post it back to us.
+- Widgets: Widget / Feature missing? Create a widget and submit it as a Pull Request.
 
 - Bugs: If you have found a bug, or when you have fixed it already, please open
   a new issue in the

@@ -89,7 +89,7 @@ qx.Class.define("myapp.forms.annotations.ZipCode", {
     /** @Override \*/
 
     isValid(value) {
-      const ok = true;
+      let ok = true;
       /* ... zip code validation ... */
       return ok;
     }
