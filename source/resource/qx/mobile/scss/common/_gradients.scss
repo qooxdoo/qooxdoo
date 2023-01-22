@@ -117,7 +117,7 @@
 
       $stops: $stops  + $separator + "color-stop(#{$pos}, #{$color})";
 
-      $i: $i +1;
+      $i: $i + 1;
     }
   }
 
