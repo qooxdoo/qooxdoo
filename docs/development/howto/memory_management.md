@@ -6,8 +6,8 @@ NOTE: This is a new feature in Qooxdoo which is enabled by default since Qooxdoo
 v6 because it is a "breaking change"; for most applications however, you simply
 get free memory management, but you should read this page first to understand
 what the changes are and how they might affect your application. You can disable
-this feature by specifying the "qx.automaticMemoryManagement" as "false" in your
-applications config.json
+this feature by specifying the `qx.automaticMemoryManagement` as "false" in your
+application's config.json
 
 Generally, Qooxdoo's runtime will take care of most of the issues around object
 disposal, so you don't have to be too anxious if you get those 'missing destruct
@@ -19,7 +19,7 @@ is no longer the case. In Qooxdoo v6.0 and later, almost all objects can be
 disposed automatically.
 
 The principal of using garbage collection for managing objects instead of
-explicitly .dispose()ing them is that destructors and dispose() methods are not
+explicitly `.dispose()`ing them is that destructors and `dispose()` methods are not
 implemented. This is important for many reasons, the principal being that the
 Javascript garbage collector does not notify us when an object is about to be
 collected.
@@ -39,7 +39,7 @@ refactored to not have a destructor.
 
 The difficulty here is in making it clear and obvious what needs to be disposed,
 and I’ve taken two approaches: first, each class which needs to be disposed
-implements the marker interface qx.core.IDisposable. Every Object which
+implements the marker interface `qx.core.IDisposable`. Every Object which
 implements that interface will be registered with ObjectRegistry exactly as
 before, so that it can be identified for debugging purposes. This has the side
 effect that fromHashCode will also work for those objects, and that the classes
@@ -57,11 +57,11 @@ avoided this approach because the risk of introducing bugs with rash, unfocused
 changes is high.
 
 In many cases, the destructors are for classes which are typically used as
-singletons and need not be tracked - for example the various qx.event.handler.\*
-and qx.event.dispatch.\* classes.
+singletons and need not be tracked - for example the various `qx.event.handler.*`
+and qx.event.dispatch.* classes.
 
 There is one remaining global list of objects which could benefit from
-refactoring - qx.data.SingleValueBinding keeps a global lookup of every bound
+refactoring - `qx.data.SingleValueBinding` keeps a global lookup of every bound
 object, so any listeners to or from an object property will prevent that object
 from being garbage collected. This could be modified so that the bindings are
 stored with the object, rather than in a global list indexed by hash code, but
@@ -75,7 +75,7 @@ and (b) you must observe any “shutdown” requirements of classes.
 
 ## Disposing an application
 
-You can look at the dispose behaviour of your app if you set the disposer into a
+You can look at the `dispose` behaviour of your app if you set the disposer into a
 verbose mode and then invoke it deliberately while your app is running. This
 will usually render your app unusable, but you will get all those messages
 hinting you at object properties that might need to be looked after. How-To
@@ -85,7 +85,7 @@ the disposer output contains only hints, that still need human interpretation.
 Example destructor
 
 ```javascript
-destruct : function()
+destruct()
 {
   this._data = this._moreData = null;
   this._disposeObjects("_buttonOk", "_buttonCancel");
@@ -101,7 +101,7 @@ destruct : function()
   entries in this array first. It must contain instances of qx.core.Object only.
 
 - `_disposeMap`: Disposes the map under the given key, but disposes all entries
-  in this map first. It must contain instances of qx.core.Object only.
+  in this map first. It must contain instances of `qx.core.Object` only.
 
 ## How to test the destructor
 
@@ -138,7 +138,7 @@ line. As a rule of thumb
 
 - native Javascript types (Number, String, Object, ...) usually don't need to be
   disposed.
-- for Qooxdoo objects (e.g. qx.util.format.DateFormat, testgui.Report, ...) use
+- for Qooxdoo objects (e.g. `qx.util.format.DateFormat`, `testgui.Report`, ...) use
   `_disposeObjects`
 - for arrays or maps of Qooxdoo objects use `_disposeArray` or `_disposeMap`.
 - be sure to cut all references to the DOM because garbage collection can not

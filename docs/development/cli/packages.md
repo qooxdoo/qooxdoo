@@ -14,10 +14,10 @@ You can view a list of currently available packages in the
 the available packages with a GUI application, using the [Qooxdoo
 package viewer](http://www.qooxdoo.org/qxl.packagebrowser).
 
-The CLI supports the use, creation and mainenance of packages with the
+The CLI supports the use, creation and maintenance of packages with the
 `qx package` subcommands.
 
-```
+```bash
 Commands:
   install [uri[@release_tag]]  installs the latest compatible release of package
                                (as per Manifest.json). Use "-r <release tag>" or
@@ -51,7 +51,7 @@ Commands:
 
 A Qooxdoo application is composed of classes that are part of libraries
 identified by top-level namespaces. The main application is a library, the
-Qooxdoo framework itself is a library (qx), and any other resuable code that you
+Qooxdoo framework itself is a library (qx), and any other reusable code that you
 might want to include usually comes from a Qooxdoo library.
 
 The Qooxdoo package system allows to create and share these libraries, providing
@@ -86,7 +86,7 @@ The first step is always to update the local cache of available packages
 libraries. For this, simply execute `qx package update`. The command has the
 following options:
 
-```
+```bash
 qx package update [repository]
 
 Options:
@@ -105,7 +105,7 @@ data which is generated nightly; this is great for speed but will mean that the
 database is slightly out of date, and if you're developing your own package this
 is not ideal.
 
-To have a completely up to date version of the package database, use the
+To have a completely up-to-date version of the package database, use the
 `--search` option - this takes longer because it searches the whole of GitHub
 for packages which are suitable; you can speed this up by specifying the name of
 the repositories you want to search for.
@@ -130,7 +130,7 @@ the contained packages that will be installed. It has the following options:
 Here are the most relevant options (execute `qx pkg list --help` for a 
 complete list):
 
-```
+```bash
   --all, -a              Show all versions, including incompatible ones
   --json, -j             Output list as JSON literal
   --installed, -i        Show only installed libraries
@@ -152,7 +152,7 @@ complete list):
 You can then install any package from this list by executing
 `qx package install <URI>`. Its most relevant options are:
 
-```
+```bash
   --release, -r          Use a specific release tag instead of the tag of the
                          latest compatible release                      [string]
   --ignore, -i           Ignore unmatch of qooxdoo
@@ -191,7 +191,7 @@ special cases since your code can break any time.
 As noted, `qx package list` shows only the packages that are compatible with the
 Qooxdoo framework version used as per the semver range in the
 `require.@qooxdoo/framework` key in their `Manifest.json` . To install libraries
-that are not listed for this reason anyways, do the following:
+that are not listed for this reason anyway, do the following:
 
 ```bash
 qx package list --all # this will list all available packages, regardless of compatibility
@@ -216,20 +216,20 @@ qx package install --from-path ../path/to/the/library
 If you want to install the package as an optional dependency, use the  
 `--save=0` option. This will save the dependency in `qx-lock.json` (see below),
 but not in the Manifest file. This is useful, for example, if you want to use
-one of the [Qooxdoo apps](../apps.md) such as the API viewer in your local build
-without requring it as a dependency in other applications that use your package.
+one of the [Qooxdoo apps](../../apps.md) such as the API viewer in your local build
+without requiring it as a dependency in other applications that use your package.
 
 ### Lockfile "qx-lock.json"
 
 When you install a package, its version, origin, and location on your local
-harddrive will be saved to a lockfile with the name `qx-lock.json` in the root
+hard drive will be saved to a lockfile with the name `qx-lock.json` in the root
 dir of your project, which is roughly (but not completely) similar in function
 to `package-lock.json` file in NPM. It allows to recreate the exact set of
 dependencies via `qx package install` (without arguments).
 
 ### Upgrade your dependencies
 
-You can upgrade the packages listed in the lockfile to the latest avalable
+You can upgrade the packages listed in the lockfile to the latest available
 release compatible with your Qooxdoo version with `qx package upgrade`. Its 
 most relevant options are: 
 
@@ -332,7 +332,7 @@ local clone of the GitHub repository of your package. After committing all
 changes to your code and pushing them to the master branch of your repo, you can
 execute `qx package publish`. The command has the following options:
 
-```
+```bash
   --type, -t             Set the release type
            [string] [choices: "major", "premajor", "minor", "preminor", "patch",
                                     "prepatch", "prerelease"] [default: "patch"]
@@ -362,7 +362,7 @@ $ qx config get github.token
 github.token=0123456789abcdef0123456789abcdef0123456789abcdef
 ```
 
-Please **make sure to [run `qx lint`](./commands.md#lint) before publishing your
+Please **make sure to [run `qx lint`](commands.md#lint) before publishing your
 package**. This insures code quality and lets you spot small bugs that might
 otherwise go unnoticed.
 
@@ -374,7 +374,7 @@ next version, commit the version bump and push it to the master branch
 before releasing the new version. However, you can also override this
 mechanism and determine the version manually, by using `--use-version=x.y.z`.
 
-The command is interactive: it will prompt you the enter the
+The command is interactive: it will prompt you to enter the
 necessary information and will ask for a confirmation before
 doing anything definitive. To be absolutely sure, you can also do a `--dry-run`
 first. In contrast, if you know what you are doing, you can provide all necessary
@@ -386,7 +386,7 @@ breaking (major) release, for example from 7.1.3 to 8.0.0, and this dependency
 is simply copied into the `requires.@qooxdoo/framework` key of `Manifest.json`,
 `qx package list` will no longer show this package to applications that use
 previous versions of qooxdoo, because it is considered incompatible. This
-is why, by default, `qx package publish` will add the the new major version
+is why, by default, `qx package publish` will add the new major version
 to the range rather than replace the previous one. However, if your package
 relies on a new feature or has been modified to work with a breaking change
 in the new qooxdoo version, making it incompatible with a previous one,
@@ -433,7 +433,7 @@ following syntax:
 ```
 
 The first library will be treated as the main library, unless you specify the
-main library by adding a truthy `main` property (see above.
+main library by adding a truthy `main` property (see above).
 
 You can (re)generate the `Qooxdoo.json` file by using
 `qx package publish --create-index`. The command will automatically search for
@@ -471,7 +471,7 @@ installation or build scripts.
 
 The package system uses [semver](http://semver.org) and
 [semver ranges](https://github.com/npm/node-semver#ranges) to manage
-dependencies and compatibilites. The main dependeny is between the Qooxdoo
+dependencies and compatibilities. The main dependency is between the Qooxdoo
 framework used by the application under development and the package libraries
 (which have been also been developed with a particular Qooxdoo version).
 
@@ -480,7 +480,7 @@ additionally in the top level `version.txt` file. The package declares its
 compatibility with Qooxdoo versions using the `requires.@qooxdoo/framework`
 entries in `Manifest.json` (See
 [this example](https://github.com/qooxdoo/qxl.widgetbrowser/blob/master/Manifest.json#L47)
-). , which takes a
+), which takes a
 [semver range string](https://github.com/npm/node-semver#ranges) . You can, for
 example, declare that the package will be compatible with Qooxdoo versions
 starting with 5.02 up until version 6, i.e. as long as there is no breaking

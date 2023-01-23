@@ -34,7 +34,7 @@ qx.Class.define("${namespace}.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    main : function()
+    main()
     {
       if (qx.core.Environment.get("runtime.name") == "rhino") {
         qx.log.Logger.register(qx.log.appender.RhinoConsole);
@@ -59,10 +59,10 @@ qx.Class.define("${namespace}.Application",
      *
      * @param args {String[]} Rhino arguments object
      */
-    _argumentsToSettings : function(args)
+    _argumentsToSettings(args)
     {
-      var opts;
-      for (var i=0, l=args.length; i<l; i++) {
+      let opts;
+      for (let i=0, l=args.length; i<l; i++) {
         if (args[i].indexOf("settings=") == 0) {
           opts = args[i].substr(9);
           break;
@@ -75,8 +75,8 @@ qx.Class.define("${namespace}.Application",
       if (opts) {
         opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
         opts = qx.lang.Json.parse(opts);
-        for (var prop in opts) {
-          var value = opts[prop];
+        for (let prop in opts) {
+          let value = opts[prop];
           if (typeof value == "string") {
             value = value.replace(/\$$/g, " ");
           }

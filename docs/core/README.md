@@ -16,7 +16,7 @@ They provide the foundation for working with Qooxdoo's class system.
 
 Also, have a look at the sections on 
 
-- [Qooxdoo Data Arrays](array.md) and [Data Binding](data_binding/) and
+- [Qooxdoo Data Arrays](array.md) and [Data Binding](data_binding/README.md) and
 - [Promises and Async Programming](promises.md)
 
 for introduction into somewhat more advanced Qooxdoo features.

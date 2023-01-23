@@ -4,20 +4,20 @@ Icon fonts in Qooxdoo need some preprocessing, because the layout managers need
 to know the dimensions of 'images'. In this case, we're extracting this
 information from the glyph's aspect ratio information encoded in the font.
 
-Additionally we use the information placed in the font (glyph names) to
+Additionally, we use the information placed in the font (glyph names) to
 automatically assign the font icon to virtual image names. If you for example
 include the [Ligature Symbols](http://kudakurage.com/ligature_symbols/) , you
 can directly use this code
 
 ```javascript
-var image = new qx.ui.basic.Image("@Ligature/print");
+const image = new qx.ui.basic.Image("@Ligature/print");
 ```
 
 to show the 'print' symbol. Additionally, you have a shortcut for a different
 size than the font's default size:
 
 ```javascript
-var image = new qx.ui.basic.Image("@Ligature/print/16");
+const image = new qx.ui.basic.Image("@Ligature/print/16");
 ```
 
 The latter makes the icon 16px in size.
@@ -28,7 +28,7 @@ information is either incomplete or missing. You need to use a custom font map
 in this case to be able to address all the glyphs by their name/alias.
 
 The integration is generic, so that it does not collide with the framework's
-appearance themes (desktop/ui_theming). Font icons can be addressed using
+[appearance themes](../../desktop/gui/theming.md). Font icons can be addressed using
 `@FontName/GlyphName` or `@FontName/HexUnicode` in the source property of your
 `qx.ui.basic.Image`. To override the default size, you can also use
 `@FontName/GlyphName/size` or `@FontName/HexUnicode/size` to scale it to the
@@ -71,7 +71,7 @@ instead of "FontAwesome", you have to use `@Foobar/<glyphname>` instead.
 
 ## Creating a map file
 
-As mentioned before, some fonts do not contain proper glyphnames. As a result,
+As mentioned before, some fonts do not contain proper glyph names. As a result,
 we can't generate the mapping for you and you've to provide an own mapping.
 
 The format of the mapping file is just JSON as shown here:
@@ -137,7 +137,7 @@ let atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/f004");
 ## Drawbacks
 
 Only `qx.ui.basic.Image` and `qx.ui.table.cellrenderer.Image` support icon
-fonts. It is not possible to use these icon font based images in decorators.
+fonts. It is not possible to use these icon fonts-based images in decorators.
 
 ## Benefits
 

@@ -10,7 +10,7 @@ do with arrays in Qooxdoo.
   array used in the data binding context of Qooxdoo. It does not extend the
   native array of JavaScript but is a wrapper for it. All the native methods are
   included in the implementation and it also fires events if the content or the
-  length of the array changes in any way. Also the `.length` property is
+  length of the array changes in any way. Also, the `.length` property is
   available on the array.
 
 ## Extension of the native array

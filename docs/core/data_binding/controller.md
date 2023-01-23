@@ -2,7 +2,7 @@
 
 The general idea of controllers is connecting a view component to a set of data
 stored in a model. The kind of controller you need depends on the view
-component. Currently there are four types of controller available:
+component. Currently, there are four types of controller available:
 
 - Object Controller
 - List Controller
@@ -34,7 +34,7 @@ controller.
 
 Here are some samples showing how to manipulate the selection:
 
-```
+```javascript
     // select 'modelItem'
     controller.getSelection().setItem(0, modelItem);
     // empty the selection
@@ -46,7 +46,7 @@ Here are some samples showing how to manipulate the selection:
 If you want to be notified on selection changes, you can again benefit from the
 data array, which offers a change event as soon as the content changes.
 
-```
+```javascript
     controller.getSelection().addListener("change", function(e) {});
 ```
 
@@ -55,8 +55,7 @@ controller also offer a `changeSelection` event which is not, like you might
 expect, an event fired as soon as any selected item changes. It is the change
 event for the selection property which holds the selection array.
 
-For more details about the data array, check out the
-`models page data_binding/models.md#data_array`.
+For more details about the data array, check out the [models page](models.md#data-array).
 
 ## Delegate
 
@@ -82,8 +81,8 @@ That place is the `bindItem` method. But you don't want to use the single value
 binding all on your own and bind the stuff. Therefore, the controller offers you
 a method called `bindProperty`, which takes the source path to the data, the
 target property name and the options for the single value binding. The other two
-parameters will just mapped through. But keep in mind that if you use this
-function, the default binding of the label and the icon is gone and the
+parameters will just be mapped through. But keep in mind that if you use this
+function, the default binding of the label and the icon are gone and the
 properties used for those bindings do not work anymore. If you still want to
 have the default binding, use the `bindDefaultProperties` method and pass the
 two given parameters through. But keep in mind that the bindings set up with
@@ -102,8 +101,8 @@ method.
 
 The following code shows how such a delegate could look like.
 
-```
-    var delegate = {
+```javascript
+    const delegate = {
       configureItem : function(item) {
         item.setPadding(3);
       },
@@ -128,24 +127,24 @@ The most simple and lightweight controller is the object controller. It connects
 a model object with one or more views. The data in the model can be anything a
 property can hold, i.e. a primitive data type like String or Number, or a
 reference type like a map. With that you can for instance bind views like
-textfields, sliders and other widgets visualizing primitive JavaScript types.
+text fields, sliders and other widgets visualizing primitive JavaScript types.
 But you can not only use views as targets. A target can be anything that has a
 property with the proper type. Take a look at the following code example to see
 the object controller in action:
 
-```
+```javascript
     // create two sliders
-    var slider1 = new qx.ui.form.Slider();
-    var slider2 = new qx.ui.form.Slider();
+    const slider1 = new qx.ui.form.Slider();
+    const slider2 = new qx.ui.form.Slider();
     // create a controller and use the first slider as a model
-    var controller = new qx.data.controller.Object(slider1);
+    const controller = new qx.data.controller.Object(slider1);
     // add the second slider as a target
     controller.addTarget(slider2, "value", "value");
 ```
 
 This code snippet ensures that every value set by slider1 will automatically be
 set as value of slider two. As you can see, the object controller only wraps the
-fundamental single-value binding, trying to make its usage a little bit easier.
+fundamental single-value binding, trying to make its usage a little easier.
 
 ## List Controller
 
@@ -156,13 +155,13 @@ that contains the model objects. These objects are displayed in the list and can
 either have some primitive type or be real Qooxdoo objects. The following code
 snippet shows how to bind an array of strings to a list widget:
 
-```
+```javascript
     // create the model
-    var model = new qx.data.Array(["a", "b", "c", "d", "e"]);
+    const model = new qx.data.Array(["a", "b", "c", "d", "e"]);
     // create a list widget
-    var list = new qx.ui.form.List();
+    const list = new qx.ui.form.List();
     // create the controller
-    var listController = new qx.data.controller.List(model, list);
+    const listController = new qx.data.controller.List(model, list);
 ```
 
 Now every change in the model array will invoke a change in the list widget.
@@ -179,21 +178,21 @@ containing the data. As model nodes for the tree, only Qooxdoo objects are
 allowed containing at least two properties, one for holding its own children in
 a data array and a second one holding the name of the node which should be
 showed as the label of the tree folder widgets. Imagine that a model class
-called Node (inheriting from qx.core.Object) is available containing the two
+called Node (inheriting from `qx.core.Object`) is available containing the two
 already mentioned properties called ch for the children and n for the name. The
 following code will bind a data model containing Node objects to a tree widget:
 
-```
+```javascript
     // create the model
-    var rootNode = new Node();
+    const rootNode = new Node();
     rootNode.setN("root");
-    var childNode = new Node();
+    const childNode = new Node();
     childNode.setN("child");
     rootNode.getCh().push(childNode);
     // create the tree view
-    var tree = new qx.ui.tree.Tree();
+    const tree = new qx.ui.tree.Tree();
     // create the controller
-    var treeController = new qx.data.controller.Tree(rootNode, tree, "ch", "n");
+    const treeController = new qx.data.controller.Tree(rootNode, tree, "ch", "n");
 ```
 
 After that code snippet, every change in the name or of the children will be
@@ -202,38 +201,37 @@ put the corresponding Node object into the selection array of the controller.
 
 ## Form Controller
 
-Also forms do have a special controller. The form controller uses a
-`qx.ui.form.Form` as target and a
-`Object controller data_binding/controller.md#object_controller` for the
+Also, forms have a special controller. The form controller uses a
+`qx.ui.form.Form` as target and an [Object controller](controller.md#object-controller) for the
 bidirectional bindings. The usage equals to the usage of all other controllers.
 The main properties of it are the model and target property. Given both, the
 controller connects the model and the target. An additional feature of the form
 controller is the possibility to create the model for a given form. See the
 following code to get an idea of using it.
 
-```
+```javascript
     // a form is available as 'form'
     // create the controller
-    var formController = new qx.data.controller.Form(null, form);
+    const formController = new qx.data.controller.Form(null, form);
     // create the model
-    var model = formController.createModel();
+    const model = formController.createModel();
 ```
 
-If you nee additional information on forms, see
-`form handling documentation desktop/ui_form_handling.md#form_object`. After
+If you need additional information on forms, see
+[form handling documentation](../../desktop/gui/forms.md#form-object). After
 executing this code, the controller and the model variable do have the model
 available and therefore, the controller can set up the bindings.
 
 ## Combining Controller
 
 As a more advanced example we connect the selection of a tree to a list.
-Therefore we extend the code sample of the tree controller section.
+Therefore, we extend the code sample of the tree controller section.
 
-```
+```javascript
     // create a list widget
-    var list = new qx.ui.form.List();
+    const list = new qx.ui.form.List();
     // create the controller
-    var listController = new qx.data.controller.List(null, list, "n");
+    const listController = new qx.data.controller.List(null, list, "n");
     // bind the selection of the tree to the list
     treeController.bind("selection", listController, "model");
 ```
