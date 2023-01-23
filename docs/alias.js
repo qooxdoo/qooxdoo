@@ -1,5 +1,5 @@
 /**
- * For each page in the documentation that has been been renamed
+ * For each page in the documentation that has been renamed
  * or moved to a new location, add an entry to the following map.
  * @see https://docsify.js.org/#/configuration?id=alias
  */

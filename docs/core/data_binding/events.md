@@ -8,14 +8,14 @@ your data bound app. In general, there are two different kinds of events.
 ## Change Events
 
 The basic events used in the data binding are the change events of the
-[Qooxdoo property system](/core/understanding_properties). You will find some
+[Qooxdoo property system](../understanding_properties.md). You will find some
 details about the
-[change events of properties](/core/understanding_properties#change_events) in
+[change events of properties](../understanding_properties.md#change-events) in
 the documentation. Those events are fired as soon as a property changes.
 
 ### Array
 
-- There is also an event for [data arrays](models#data_array), which will fire
+- There is also an event for [data arrays](models.md#data-array), which will fire
   events on every change as well. This event is called `change` and is a data
   array containing additional information. The information is stored as data in
   a map and contains the following keys.
@@ -43,9 +43,9 @@ mixin named
 These bubbling events are disabled by default because firing an additional event
 for every change is not always necessary. There are two ways for enabling the
 events. The most easy and preferred way is to use the
-`marhsalerdata_binding/models.md#json_marshaller` to create the models. You will
+[marshaller](models.md#json-marshaller) to create the models. You will
 find more details about how to do that in the
-`marhsaler sectiondata_binding/models.md#json_marshaller`. A second way is to
+[marshaller section](models.md#json-marshaller). A second way is to
 include the mixin to your own classes. More details on that in the
 [API documentation of that mixin](apps:/apiviewer/#qx.data.marshal.MEventBubbling)
 .
@@ -65,13 +65,13 @@ data of the event contains a map offering the following keys:
 
 The data array also offers bubble events with the same details. But the arrays
 don't have properties which change. You can see the index of the array as
-property instead. So here is a sample what a unshift action on an array might
+property instead. So here is a sample what an unshift action on an array might
 look like:
 
-```
-var array = new qx.data.Array("a", "b", "c");
+```javascript
+const array = new qx.data.Array("a", "b", "c");
 array.addListener("changeBubble", function(e) {
-  var data = e.getData();
+  const data = e.getData();
   // do something with the data
 });
 array.unshift("X");

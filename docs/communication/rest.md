@@ -30,14 +30,14 @@ POST     /photos
 
 Note `{id}` stands for a placeholder.
 
-This interface comprises of two resources: `photo` and `photos`.
+This interface consists of two resources: `photo` and `photos`.
 
 To declare the specifics of the REST interface declaratively, pass a description
 to the constructor.
 
 ```javascript
 // Singular resource
-let photo = new qx.io.rest.Resource({
+const photo = new qx.io.rest.Resource({
   // Retrieve photo
   get: {
     method: "GET",
@@ -58,7 +58,7 @@ let photo = new qx.io.rest.Resource({
 });
 
 // Plural resource
-let photos = new qx.io.rest.Resource({
+const photos = new qx.io.rest.Resource({
   // Retrieve list of photos
   get: {
     method: "GET",
@@ -76,7 +76,7 @@ let photos = new qx.io.rest.Resource({
 Or programmatically, for each action.
 
 ```javascript
-let photo = new qx.io.rest.Resource();
+const photo = new qx.io.rest.Resource();
 photo.map("get", "GET", "/photo/{id}");
 ```
 
@@ -107,7 +107,7 @@ Parameters are optional unless a check is defined. A default value can be
 provided.
 
 ```javascript
-let photo = new qx.io.rest.Resource();
+const photo = new qx.io.rest.Resource();
 photo.map("get", "GET", "/photo/{id}/{size=medium}", {
   id: qx.io.rest.Resource.REQUIRED
 });
@@ -175,8 +175,8 @@ each request be handled differently, it is possible to remember the id of the
 action's invocation. The `Rest` event includes this id.
 
 ```javascript
-let getPhotoId = photo.get({ id: 1 });
-let getLargePhotoId = photo.get({ id: 1, size: "large" });
+const getPhotoId = photo.get({ id: 1 });
+const getLargePhotoId = photo.get({ id: 1, size: "large" });
 photo.addListener("getSuccess", function (e) {
   if (e.getId() === getLargePhotoId) {
     // Handle large photo
@@ -202,9 +202,9 @@ attached to an action. Whenever a response is received, the model property of
 the store is updated with the marshaled response.
 
 ```javascript
-var store = new qx.data.store.Rest(photos, "get");
-var list = new qx.ui.form.List();
-var controller = new qx.data.controller.List(null, list);
+const store = new qx.data.store.Rest(photos, "get");
+const list = new qx.ui.form.List();
+const controller = new qx.data.controller.List(null, list);
 store.bind("model", controller, "model");
 photos.longPoll("get");
 ```

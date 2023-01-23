@@ -1,7 +1,7 @@
 # Compiler Events
 
 When you use a [`compile.js`](../configuration/api.md) to configure the
-compilation process, or if you use the compiler's [API](./API.md), in your
+compilation process, or if you use the compiler's [API](API.md), in your
 own code, the different object instances that you work with fire events to
 which your code can listen. Here is a list of events with a brief explanation:
 
@@ -21,19 +21,19 @@ which your code can listen. Here is a list of events with a brief explanation:
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
 - `alreadyCompiledClass`: Fired when a class is already compiled (but needed for compilation)
-- `saveDatabase`: Fired when the database is been saved database
+- `saveDatabase`: Fired when the database is being saved
 
 ## CLI Commands
 
 Instances of `qx.tool.cli.commands.Compile` and its subclasses fire the following events:
-- `checkEnvironment`: Fired after all enviroment data is collected. 
+- `checkEnvironment`: Fired after all environment data is collected. 
 - `compilingClass`: Fired when a class is about to be compiled.
 - `compiledClass`: Fired when a class is compiled.
 - `making`: Fired when making of apps begins.
 - `made`: Fired when making of apps is done.
 - `minifyingApplication`: Fired when minification begins.
 - `minifiedApplication`: Fired when minification is done.
-- `saveDatabase`: Fired when the database is been saved data.
+- `saveDatabase`: Fired when the database is being saved.
 - `writingApplication`: Fired when writing of single application starts.
 - `writingApplications`: Fired when application writing starts.
 - `writtenApplication`: Fired when writing of single application is complete.
@@ -98,12 +98,13 @@ qx.Class.define("myApp.CompilerApi", {
       return await super.load();
     },
 
-    __appTesting: async function (data) {
+    async __appTesting(data) {
         let result = data.getData();
         return new qx.Promise(async function (resolve) {
            result.setExitCode(testResult);
-        }
+        });
     }
+  }
 });
 module.exports = {
   CompilerApi: myApp.CompilerApi

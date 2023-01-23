@@ -28,7 +28,7 @@ qx.Class.define("MyApp.test.DemoTest", {
     /**
      * Here are some simple tests
      */
-    testSimple: function () {
+    testSimple() {
       this.assertEquals(4, 3 + 1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
@@ -36,9 +36,9 @@ qx.Class.define("MyApp.test.DemoTest", {
     /**
      * Here are some more advanced tests
      */
-    testAdvanced: function () {
-      var a = 3;
-      var b = a;
+    testAdvanced() {
+      let a = 3;
+      let b = a;
       this.assertIdentical(a, b, "A rose by any other name is still a rose");
       this.assertInRange(
         3,
@@ -84,8 +84,9 @@ qx.Class.define("myapp.test.MyTest",
   extend : qx.dev.unit.TestCase,
   members :
   {
-    testOne : function() {
+    testOne() {
       this.assertTrue(1 === 1);
+    }
   }
 });
 ```
@@ -107,7 +108,7 @@ application).
 
 - If you want to see the results of your tests in the browsers, execute
   `npx qx serve -S`. This will run the built-in server. Open the link that is
-  printed to the console, which opens the Qooxdoo application server startpage.
+  printed to the console, which opens the Qooxdoo application server start page.
   There, click on "TestTapper" to start the visual testrunner.
 - To see the test results as output of a command line script (in the syntax of
   the [TAP protocol](https://node-tap.org/tap-protocol/)), execute

@@ -6,7 +6,7 @@ at <https://promisesaplus.com/> shows that a promise is little more than an
 object that has a `then()` method. In reality, that specification is lacking a
 range of useful tools and features that day to day programming benefit from and
 the Qooxdoo `qx.Promise` class has been developed to bridge that gap. The
-Qooxdoo `qx.Promise` is also guaranteed cross platform, so even if you still
+Qooxdoo `qx.Promise` is also guaranteed cross-platform, so even if you still
 depend on older browsers such as IE11 which do not have native support for
 Promises built in, you can start using them today.
 
@@ -47,7 +47,7 @@ Connecting to server responded: Success
 ```
 
 Promises are the code that makes `async` and `await` work in ES6 (which you can
-also use cross platform with Qooxdoo, provided you use the Qooxdoo-compiler):
+also use cross-platform with Qooxdoo, provided you use the Qooxdoo-compiler):
 
 ```javascript
 function connectToServer() {
@@ -59,7 +59,7 @@ function connectToServer() {
 }
 
 async function main() {
-  let result = await connectToServer();
+  const result = await connectToServer();
   console.log("Connecting to server responded: " + result);
 }
 
@@ -69,9 +69,9 @@ main();
 ## Creating Asynchronous Properties
 
 When you write a Qooxdoo object, you typically create properties with `apply`
-methods and change events, and its quite possible that your apply method could
+methods and change events, and it's quite possible that your apply method could
 take some time to complete - for example, setting a property could require an
-asynchronous server roundtrip. When this happens, it is necessary to delay the
+asynchronous server round trip. When this happens, it is necessary to delay the
 firing the change event until the apply is complete, otherwise the event could
 be fired before the property value is fully applied.
 
@@ -99,7 +99,7 @@ of how it is implemented.
 For example:
 
 ```javascript
-properties {
+properties : {
   myProp: {
     init: 0,
     async: true,
@@ -107,7 +107,7 @@ properties {
   }
 },
 members: {
-  doStuff: function() {
+  doStuff() {
     this.setMyPropAsync(123).then(function() {
       this.debug("Set value of myProp to 123");
     }, this);
@@ -121,20 +121,20 @@ When you want to set a property to a value fulfilled by a promise, there is this
 form:
 
 ```javascript
-var myPromise = someOtherValue.getSomethingAsync();
+const myPromise = someOtherValue.getSomethingAsync();
 myPromise.then(function (value) {
   myObj.setMyProp(value);
 });
 ```
 
 The above example works, but the code remains relatively lengthy for the task
-you are trying to achieve. The setXxx and setXxxxAsync methods can take values
+you are trying to achieve. The setXxx and setXxxAsync methods can take values
 either as ordinary values, or they can be passed a qx.Promise, in which case
 they will wait for the promise to be fulfilled before applying it. The example
 above can be re-written as:
 
 ```javascript
-var myPromise = someOtherValue.getSomethingAsync();
+const myPromise = someOtherValue.getSomethingAsync();
 myObj.setMyProp(myPromise);
 ```
 
@@ -152,7 +152,7 @@ In many cases, a single event (such as the user clicking a button) can trigger
 an entire graph of effects, for example clicking the mouse triggers multiple
 gesture and pointer events, which filter down to application events such as a
 button's `execute` event, leading to property changes, triggering more events
-etc - and any of the apply methods, event handlers, and utility methods in that
+etc. - and any of the apply methods, event handlers, and utility methods in that
 graph of effects could be asynchronous and return a promise.
 
 When an event handler returns a `qx.Promise`, this will suspend the normal event
@@ -166,12 +166,12 @@ In addition to the "normal" `fireEvent`, `fireDataEvent`, and
 `fireNonBubblingEvent` in Qooxdoo objects (ie `qx.Object`) there are the three
 asynchronous equivalents `fireEventAsync`, `fireDataEventAsync`, and
 `fireNonBubblingEventAsync`. These differ in that the "normal" versions return
-truethy when the event was not cancelled (ie `event.preventDefault()` was not
+truthy when the event was not cancelled (ie `event.preventDefault()` was not
 called), but the Async versions return a promise that will resolve if the event
 completed and `preventDefault` was not called; the promise will be rejected if
 `preventDefault` is called.
 
-Note that if an event handler returns a promise and you use one the the "normal"
+Note that if an event handler returns a promise and you use one of the "normal"
 fireXxx methods, the method will return a promise and not `true` - this is
 because the event is not being cancelled (not immediately anyway).
 

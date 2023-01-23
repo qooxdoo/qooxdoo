@@ -10,28 +10,28 @@ following:
 
 ```javascript
 qx.Class.define("A", {
-        extend : qx.core.Object,
-        properties : {
-          a : {
-            init : "b",
-            event : "changeA"
-          }
-        }
-      });
+  extend : qx.core.Object,
+  properties : {
+    a : {
+      init : "b",
+      event : "changeA"
+    }
+  }
+});
 ```
 
 As you can see, the property `a` has an init value, `b`. Now, if you access `a`
 with its getter, you get the init value in return:
 
-```
-var a = new A();
+```javascript
+const a = new A();
 a.getA();  // returns "b"
 ```
 
 If you now set something different than the initial value, you get a change
 event, because the content of the property changed.
 
-```
+```javascript
 a.setA("x");  // changeA fired
 ```
 
@@ -39,8 +39,8 @@ As far, everything behaves as desired. But if set the init value instead of a
 new value, the change event will be also fired. The following code shows the
 problem:
 
-```
-var a = new A();
+```javascript
+const a = new A();
 a.setA(a.getA()); // changeA fired (first set)
 a.setA(a.getA()); // changeA NOT fired (every other set)
 ```
@@ -58,9 +58,9 @@ attached apply is required to run or any listener registered to the change event
 of that property. A good example in the framework where we rely on the behavior
 is the Spinner:
 
-```
+```javascript
 // ...
-  construct : function(min, value, max) {
+  construct(min, value, max) {
 // ...
     if (value !== undefined) {
       this.setValue(value);
@@ -68,9 +68,9 @@ is the Spinner:
       this.initValue();
     }
 // ...
-    _applyValue: function(value, old)
+    _applyValue(value, old)
 // ...
-            this._updateButtons();
+      this._updateButtons();
 // ...
 ```
 
@@ -83,7 +83,7 @@ is optional. So we have three cases to consider.
 2.  A value is given different as the init value: So the value is not undefined
     and the setter for the value property will be called, which invokes the
     apply function.
-3.  A value is given and its exactly the init value: In this case, the setter
+3.  A value is given and it's exactly the init value: In this case, the setter
     will be called with the init value. The apply method is called and invokes
     the `_updateButtons` method. This method checks the given value and enables
     / disabled the buttons for increasing / decreasing the spinner. So it is
@@ -98,7 +98,7 @@ Because only in that scenario, one of the buttons need to be disabled.
 
 ## When can it be changed?
 
-Currently we don't plan to change it because it can have some hard to track side
+Currently, we don't plan to change it because it can have some hard to track side
 effects as seen in the example above and we don't have any deprecation strategy.
-Maybe it can be change on a major version like 2.0 but currently there are no
+Maybe it can be changed on a major version like 2.0 but currently there are no
 plans to do so.

@@ -33,10 +33,10 @@ key within the `config` map:
   `type` is omitted in this case.
 - **static class**: Only contains class variables and class methods. Often a
   helper or utility class. Use `type : "static"`.
-- **abstract class**: Does not allow an instance to be created. Typically
+- **abstract class**: Does not allow an instance to be created. Typically,
   classes derive from it and provide concrete implementations. `type` is
   `abstract`.
-- **singleton**: Not more than a single instance of the class may exists at any
+- **singleton**: Not more than a single instance of the class may exist at any
   time. A static method `getInstance()` returns the instance. Use
   `type : "singleton"`.
 
@@ -69,4 +69,4 @@ still be realized.
 ## Qooxdoo OO standalone
 
 If you want to use Qooxdoo OO layer standalone take a look at
-[Server](../server) .
+[Server](../server/README.md) .

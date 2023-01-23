@@ -54,5 +54,5 @@ your code base that can make a big difference to readability.
 The compiler also includes support for using `super()` instead of `this.base(arguments)`, which
 is a more concise and clearer way of handling inheritance.
 
-Please [check out the documentation](../cli/commands.md#ES6Ify)
+Please [check out the documentation](../cli/commands.md#es6ify)
 

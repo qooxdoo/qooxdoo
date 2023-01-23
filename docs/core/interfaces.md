@@ -15,11 +15,11 @@ qx.Interface.define("qx.test.ISample",
 
    members:
    {
-     meth1: function() {},
-     meth2: function(a, b) {
+     meth1() {},
+     meth2(a, b) {
        this.assertArgumentsCount(arguments, 2, 2);
      },
-     meth3: function(c) {
+     meth3(c) {
        this.assertInterface(c, qx.some.IInterface);
      }
    },
@@ -67,8 +67,8 @@ the different that only constants are allowed. They are accessible through their
 fully-qualified name. For example, the static variable `PI` could be used like
 this:
 
-```
-    var a = 2 * qx.test.ISample.PI * (r*r);
+```javascript
+    const a = 2 * qx.test.ISample.PI * (r*r);
 ```
 
 ### Events
@@ -80,7 +80,7 @@ classes. The syntax matches the `events` key of the class declaration.
 
 With `implement` key of the class declaration, a list of interfaces can be
 listed, which the class implements. The class must implement all properties,
-members and events declared in the interfaces. Otherwise a runtime error will be
+members and events declared in the interfaces. Otherwise, a runtime error will be
 thrown.
 
 Example:
@@ -97,10 +97,10 @@ Example:
 
        members:
        {
-         meth1: function() { return 42; },
-         meth2: function(a, b) { return a+b },
-         meth3: function(c) { c.foo() }
-       }
+         meth1() { return 42; },
+         meth2(a, b) { return a+b },
+         meth3(c) { c.foo() }
+       },
 
        events :
        {

@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Source Code Packages (as opposed to [package libraries](../cli/packages.md) are
+Source Code Packages (as opposed to [package libraries](../cli/packages.md)) are
 a concept that allows you to partition your application physically. The idea is
 to spread the entire application over multiple JavaScript files, in order to
 optimize download and startup behaviour. On page load only the essential first
@@ -18,7 +18,7 @@ path is not entered during the running session.
 
 ## Development Model
 
-In order to realize this concept, you have the option to specify _ parts_ of
+In order to realize this concept, you have the option to specify _parts_ of
 your application, while the build process takes care of mapping these (logical)
 parts to physical packages that are eventually written to disk. At run time of
 your application, the initial package will contain loader logic that knows about
@@ -52,7 +52,7 @@ tailor more specifics, as mentioned above.
 
 ## Generating parts
 
-See [here](../configuration/compile.md#parts) on how to generate the parts using
+See [here](../compiler/configuration/compile.md#parts) on how to generate the parts using
 the compiler configuration.
 
 ### Add Part Loading to your Class Code
@@ -64,7 +64,7 @@ Dialog" button is pressed which is available from your main application class.
 We put the loading action in the tap event listener of the button:
 
 ```javascript
-var settingsButton = new qx.ui.toolbar.Button("Open Settings Dialog");
+const settingsButton = new qx.ui.toolbar.Button("Open Settings Dialog");
 
 settingsButton.addListener(
   "execute",
@@ -91,7 +91,7 @@ settingsButton.addListener(
 ```
 
 The main thing to note here is that upon pressing the "Open Settings Dialog"
-button _qx.io.PartLoader.require_ is invoked to make sure the _ settings_ part
+button _qx.io.PartLoader.require_ is invoked to make sure the _settings_ part
 will be loaded (It doesn't hurt to invoke this method multiple times, as the
 PartLoader knows which parts have been loaded already).
 

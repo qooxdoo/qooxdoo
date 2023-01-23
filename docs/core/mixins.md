@@ -2,7 +2,7 @@
 
 Mixins are collections of code and variables, which can be merged into other
 classes. They are similar to classes but can not be instantiated. Unlike
-interfaces they do contain implementation code. Typically they are made up of
+interfaces, they do contain implementation code. Typically, they are made up of
 only a few members that allow for a generic implementation of some very specific
 functionality.
 
@@ -23,8 +23,8 @@ qx.Mixin.define("name", {
 
   members: {
     prop1: "foo",
-    meth1: function () {},
-    meth2: function () {}
+    meth1() {},
+    meth2() {}
   }
 });
 ```
@@ -46,7 +46,7 @@ qx.Mixin.define("demo.MMixinA", {
   },
 
   members: {
-    methodA: function () {
+    methodA() {
       return "Hello, I'm method A!\n";
     }
   }
@@ -65,7 +65,7 @@ qx.Mixin.define("demo.MMixinB", {
   },
 
   members: {
-    methodB: function () {
+    methodB() {
       return "Hello, I'm method B!\n";
     }
   }
@@ -81,7 +81,7 @@ qx.Class.define("demo.ClassC", {
   include: [demo1.MMixinA, demo1.MMixinB],
 
   members: {
-    methodC: function () {
+    methodC() {
       return (
         this.getPropertyA() +
         this.methodA() +
@@ -97,8 +97,8 @@ qx.Class.define("demo.ClassC", {
 The result is when calling the method `methodC()` of `ClassC`:
 
 ```javascript
-var classC = new demo.ClassC();
-var result = classC.methodC();
+const classC = new demo.ClassC();
+const result = classC.methodC();
 /*
  * Result:
  * Hello, I'm property A!

@@ -14,12 +14,12 @@ take a look at what tasks our application can handle:
 
 So it's clear that we need to fetch the public timeline, and we need to post a
 message. It's time to take a look at the api so that we know what we need to do
-to communicate with the service. But keep in mind that we are still on a website
+to communicate with the service. But keep in mind that we are still on a website,
 so we can't just send some `POST` or `GET` requests due to cross-site scripting
 restrictions. The one thing we can and should do is take advantage of JSONP. If
 you have never heard of JSONP, take some time to read the
 [article on ajaxian](http://ajaxian.com/archives/jsonp-json-with-padding) to get
-further details. In this tutorial, we won't use the service itself. Instead we
+further details. In this tutorial, we won't use the service itself. Instead, we
 use a simple JavaScript file which will fake the JSON-P call.
 
 ## Creating the Data Access Class
@@ -59,15 +59,15 @@ callback([
 ]);
 ```
 
-This service script is part of the projects resources and therefore acessible
+This service script is part of the projects resources and therefore accessible
 through the web server with `qx serve` and the url
 `http://localhost:8080/resource/qxl/tweets/service.js`.
 
-Now we know how to get the data. Its time for us to go back to the Qooxdoo code.
+Now we know how to get the data. It's time for us to go back to the Qooxdoo code.
 It is, like in the case of the UI, a good idea to create a separate class for
 the communication layer. Therefore, we create a class named `IdenticaService`.
-We don't want to inherit from any advanced Qooxdoo class so we extend straight
-from `qx.core.Object`. The code for that class should looks like this:
+We don't want to inherit from any advanced Qooxdoo class, so we extend straight
+from `qx.core.Object`. The code for that class should look like this:
 
 ```javascript
 qx.Class.define("tweets.IdenticaService", {
@@ -83,7 +83,7 @@ But we already added a members block because we want to add a `method` named
 `fetchTweets`:
 
 ```javascript
-fetchTweets : function() {
+fetchTweets() {
 }
 ```
 
@@ -96,7 +96,7 @@ Just take a look at the method implementation to see how it works.
 
 ```javascript
 if (this.__store == null) {
-  var url = "http://localhost:8080/resource/qxl/tweets/service.js";
+  const url = "http://localhost:8080/resource/qxl/tweets/service.js";
   this.__store = new qx.data.store.Jsonp();
   this.__store.setCallbackName("callback");
   this.__store.setUrl(url);
@@ -107,7 +107,7 @@ if (this.__store == null) {
 ```
 
 We already added the code in case the store exists. In that case, we can just
-invoke a reload. I also mentioned that the instance member should be private.
+invoke a `reload`. I also mentioned that the instance member should be private.
 The two underscores (`__`) mark the member as private in Qooxdoo. The creation
 of the store or the reload method call starts the fetching of the data.
 
@@ -121,7 +121,7 @@ moments.
 
 We want the data to be available as a property on our own service object. First,
 we need to add a property definition to the `IdenticaService.js` file. As with
-the events specification, the property definition goes alongside with the
+the `events` specification, the property definition goes alongside with the
 `members` section:
 
 ```javascript
@@ -140,13 +140,13 @@ We named our property tweets and added two configuration keys for it:
 
 The real advantage here is the `event` key which tells the Qooxdoo property
 system to fire an event every time the property value changes. This event is
-mandatory for the whole data binding (data_binding/single_value_binding) we want
+mandatory for the whole [data binding](../../core/data_binding/single_value_binding.md) we want
 to use later. But that's it for setting up a property. You can find all possible
-property keys in the documentation (core/properties_quickref).
+property keys in the [documentation](../../core/understanding_properties.md#qooxdoo-properties).
 
 Now we need to connect the property of the store with the property of the
-_identica service_. That's an easy task with the single value binding
-(data_binding/single_value_binding) included in the Qooxdoo data binding. Just
+_identica service_. That's an easy task with the [single value binding](../../core/data_binding/single_value_binding.md) 
+included in the Qooxdoo data binding. Just
 add the following line after the creation of the data store:
 
 ```javascript
@@ -154,10 +154,10 @@ this.__store.bind("model", this, "tweets");
 ```
 
 This line takes care of synchronizing the two properties, the model property of
-the store and the tweets property of our service object. That means as soon as
+the store and the `tweets` property of our service object. That means as soon as
 data is available in the store, the data will also be set as tweets in the
 identica service. That's all we need to do in the identica service class for
-fetching the data. Now its time to bring the data to the UI.
+fetching the data. Now it's time to bring the data to the UI.
 
 ## Bring the tweets to the UI
 
@@ -165,11 +165,11 @@ For that task we need to go back to our `Application.js` file and create an
 instance of the new service:
 
 ```javascript
-var service = new tweets.IdenticaService();
+const service = new tweets.IdenticaService();
 ```
 
 You remember the debug listener we added in the last tutorial? Now we change the
-reload listener to fetch the tweets:
+`reload` listener to fetch the tweets:
 
 ```javascript
 // reload handling
@@ -197,7 +197,7 @@ service.addListener(
 );
 ```
 
-Now it's time for a test. We added a new classes so we need to invoke the
+Now it's time for a test. We added a new classes, so we need to invoke the
 compiler and load the index file of the application. Hit the reload button of
 the browser and see the data in your debugging console. The important thing you
 should see is that the data is an array containing objects holding the items we
@@ -211,7 +211,7 @@ case. But we currently can't access the list of the UI. That's something we need
 to change.
 
 Switch to the `MainWindow.js` file which implements the view and search for the
-line where you created the list. We need to implement an accessor for it so its
+line where you created the list. We need to implement an accessor for it, so it's
 a good idea to store the list as a private instance member:
 
 ```javascript
@@ -223,7 +223,7 @@ the new `this.__list`. Next, we add an accessor method for the list in the
 members section:
 
 ```javascript
-getList : function() {
+getList() {
   return this.__list;
 }
 ```
@@ -236,10 +236,10 @@ straight forward:
 
 ```javascript
 // create the controller
-var controller = new qx.data.controller.List(null, main.getList());
+const controller = new qx.data.controller.List(null, main.getList());
 ```
 
-The first parameter takes a model we don't have right now so we just set it to
+The first parameter takes a model we don't have right now, so we just set it to
 null. The second parameter takes the target, the list. Next, we need to specify
 what the controller should use as label, and what to use as icon:
 
@@ -315,7 +315,7 @@ posting of tweets.
 
 That should be possible for you right now! If you need to take a look at an
 implementation, you can always take a look at the
-[code on github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3)
+[code on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3)
 or fork the project.
 
 That's it for the third part of the tutorial. With this tutorial, the
