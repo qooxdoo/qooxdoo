@@ -16,7 +16,7 @@ qx.Class.define("mypackage.MyClassA", {
   implement: [qx.data.IListData],
 
   members: {
-    someMethod: function () {
+    someMethod() {
       new qx.data.Array();
     }
   },
@@ -39,7 +39,7 @@ All of the above can be done with fairly simple static analysis, but there is a
 further difficulty - each class definition can have a `defer()` method which is
 called immediately after the class has been defined; because the code in
 `defer()` can do anything, it can add significant dependencies which can only be
-determined by recursively interpreting the code in `.defer()` and all of the
+determined by recursively interpreting the code in `.defer()` and all the
 methods it calls, i.e. predicting at compile-time what methods will be called at
 runtime so that it can make sure that the load order is correct.
 
@@ -49,7 +49,7 @@ For example, `qx.ui.form.AbstractField.defer()` calls
 `"html.stylesheet.createstylesheet"` environment check which is implemented by
 `qx.bom.client.Stylesheet`. So technically, `qx.ui.form.AbstractField` has a
 load time dependency on `qx.bom.client.Stylesheet` but this can only be
-identified by tracking the dependencies on a per function basis, recursively
+identified by tracking the dependencies on a per-function basis, recursively
 scanning code and statically determining what the runtime dependencies _would_
 be.
 
@@ -57,7 +57,7 @@ It makes dependency analysis hugely more complex and is quite fragile - it would
 be very easy for the author of `qx.bom.Stylesheet` to make a minor change in the 
 constructor and introduce a recursive, unresolvable dependency.
 
-However this is only an issue for loading the class, if we can avoid calling
+However, this is only an issue for loading the class, if we can avoid calling
 `defer()` until all the classes have been loaded then the problem disappears;
 this is the solution used by the compiler in almost all cases. It's important to
 note that a class is not fully defined until it's `defer` method has been
@@ -80,12 +80,12 @@ have dependencies caused by indirect calls from `.defer()`.
 If you find that you have code which is called via a class's `.defer()` method
 and there is an unsatisfied dependency, the solution is to add an `@require` at
 the top of your code to let the compiler know that your class will need it. This
-is fairly rare though - the entire Qooxdoo library only needed 6 additonal
+is fairly rare though - the entire Qooxdoo library only needed 6 additional
 `@require` statements, to add to the 269 that were already in use.
 
 ## Runtime meta data
 
-The meta data about a class, it's dependencies, unresolved symbols, etc are
+The metadata about a class, it's dependencies, unresolved symbols, etc. are
 available as a static object `$$dbClassInfo` for each class, e.g.
 `mypackage.MyClassA.$$dbClassInfo`. Much of this will probably be stripped out
 in future build targets.

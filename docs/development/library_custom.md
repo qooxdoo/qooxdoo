@@ -7,7 +7,7 @@ you create dedicated libraries. This is also the precondition for
 [publishing your code in a package](cli/packages.md#publish-new-versions-of-packages)
 for others to use.
 
-In Qooxdoo all code is organized in [libraries](code_organisation.md). Also the
+In Qooxdoo all code is organized in [libraries](code_organisation.md). Also, the
 code tree that holds your application's main class is, conceptually, a library.
 So even in the simplest skeleton you are already working **in** a library (the
 skeleton), **with** a library (the framework classes). Creating and using
@@ -16,7 +16,7 @@ further libraries is only a repetition of that.
 ## Creating a Custom Library
 
 Run `npx qx create --type=X`, X being any of `desktop`, `mobile`, `package`, or
-`server`, according to the type of library that you want to create. Ususally,
+`server`, according to the type of library that you want to create. Usually,
 you will choose "desktop" (if you omit the type, this is the default). If you
 have existing code that you want to put into the library, just move the files
 over to their new location under the `source/class/(namespace)` path. Don't
@@ -36,7 +36,7 @@ In an existing application, to use your new library you have to do two things.
 
 ### Make it known to the Compiler
 
-You need to make the new library known to the existing application so it knows
+You need to make the new library known to the existing application, so it knows
 where to look for resources. You can do this in two ways:
 
 1.  Add the path to the directory containing the library manually to the

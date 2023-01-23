@@ -1,6 +1,6 @@
 # Getting Started with Qooxdoo Mobile
 
-Working with Mobile requires downloading and using Qooxdoo's compiler tolchain.
+Working with Mobile requires downloading and using Qooxdoo's compiler toolchain.
 See here for the [Qooxdoo requirements](../README.md), and follow its
 _Installation and Setup_ section. This requirement applies to the development
 phase only, the final app is independent of the SDK.
@@ -16,7 +16,7 @@ the mobile skeleton application. Right now the application is pretty useless,
 until we create the `source` version of it. Navigate to the created folder and
 call the Qooxdoo compiler with the following command:
 
-```javascript
+```bash
 qx compile
 ```
 
@@ -32,7 +32,7 @@ application!**
 Now it is your turn. Just open `source/class/helloworld/Application.js` and
 enhance your cross-platform mobile application.
 
-If you need a more detailed tutorial, please have a look at our mobiletweets
+If you need a more detailed tutorial, please have a look at our mobile tweets
 tutorial:
 
 [Mobile Tweets Client Tutorial](tutorial.md)

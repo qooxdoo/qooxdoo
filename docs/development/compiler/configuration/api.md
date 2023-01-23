@@ -29,7 +29,7 @@ exports; for example:
 
 For example, this is an empty `compile.js`:
 
-```
+```javascript
 module.exports = {
     LibraryApi: qx.tool.cli.api.LibraryApi,
     CompilerApi: qx.tool.cli.api.CompilerApi
@@ -62,7 +62,7 @@ module.exports = {
 };
 ```
 
-Note that if you do not provide a class (eg you only provide a value for
+Note that if you do not provide a class (e.g. you only provide a value for
 `CompilerApi` like the above example) the compiler will use the default
 implementation for anything that's missing.
 
@@ -97,7 +97,7 @@ the `environment` block on the fly; assuming that the hostname of your computer
 is set to "MyDevMachine', this will make it look like your `compile.json`
 contained this environment block:
 
-```javascript
+```json5
   /* ... snip ... */
   "environment": {
       "qx.icontheme": "Tango",
@@ -124,7 +124,7 @@ Any library which has a `compile.js` has it's `compile.js` loaded just as in the
 above examples, except that this time the compiler looks for `LibraryApi`. For
 each library that an application uses, an instance of `LibraryApi` is created,
 then added to the `CompilerApi` instance and then the LibraryApi's `.load()`
-method is called to do any initialisation. This allows libaries to ship with
+method is called to do any initialisation. This allows libraries to ship with
 code that changes how they will be compiled into an application.
 
 For example:
@@ -135,12 +135,12 @@ qx.Class.define("abc.somepackage.LibraryApi", {
 
   members: {
     async load() {
-      let command = this.getCompilerApi().getCommand();
+      const command = this.getCompilerApi().getCommand();
       command.addListener("checkEnvironment", e => this._appCompiling(e.getData().application, e.getData().environment));
     },
 
     afterLibrariesLoaded() {
-      let configJson = this.getCompilerApi().getConfiguration();
+      const configJson = this.getCompilerApi().getConfiguration();
       if (!configJson.environment)
         configJson.environment = {};
       configJson.environment["mypackage.someSetting"] = "hello";
@@ -193,10 +193,10 @@ hook methods which are triggered by these events:
 There is only one `CompilerApi` instance for the compiler, and multiple
 `LibraryApi` instances, one for each library.
 
-When you write a typical application, you actual use at least two libraries: one
+When you write a typical application, you actually use at least two libraries: one
 is the Qooxdoo framework library and the other is the library for your own
 code - ie the current directory will have `compile.js` / `compile.json` and is
-also a library (so it also has `Manifest.json` and `source/` directory etc).
+also a library (so it also has `Manifest.json` and `source/` directory etc.).
 
 The compiler generates one or more application(s) by starting with your
 Application class(es) and compiling all the code necessary to make it run. It
@@ -205,7 +205,7 @@ pull from multiple libraries.
 
 The `compile.js` / `compile.json` files can exist on their own - they do not
 need `Manifest.json` or code or anything else which is present in a typical
-application (eg such as the skeleton application created by `qx create ...`);
+application (e.g. such as the skeleton application created by `qx create ...`);
 this is because all those other files are to do with the library that is your
 project. It's just that for most people, most of the time there will be a close
 coupling between `compile.js` and their own project library, so the

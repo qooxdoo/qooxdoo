@@ -20,14 +20,14 @@ with a general description of the method, and then add sections that start with
 of the method. Here is an example:
 
 ```javascript
-    /**
-     * Shows a message to the user.
-     *
-     * @param {string} text The message to show.
-     */
-    showMessage(text) {
-      //...
-    }
+/**
+ * Shows a message to the user.
+ *
+ * @param {string} text The message to show.
+ */
+showMessage(text) {
+  //...
+}
 ```
 
 The `@param` attribute entry describes the parameter `text`. Description texts
@@ -88,9 +88,9 @@ qx.Class.define("mypackage.MyClass", {
 ```
 
 The class description is taken as the first comment in the file which starts
-with `/**`. Therefore if you have a comment at the start of the file which has a
+with `/**`. Therefore, if you have a comment at the start of the file which has a
 first line of `/**********`, that will be taken as the class description,
-overriding any comment above the class itself. Therefore use `/* *********` or
+overriding any comment above the class itself. Therefore, use `/* *********` or
 `/* ==========` etc.
 
 ## Advanced Doc Comments

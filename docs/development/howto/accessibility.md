@@ -2,7 +2,10 @@
 
 ## Motivation
 
-Accessibility is an important topic in modern web development, in order to allow assistive technologies to better help people with disabilities. Achieving this is not a simple goal, and requires much work from Qooxdoo as a framework, as well as you as a developer.
+Accessibility is an important topic in modern web development, 
+in order to allow assistive technologies to better help people with disabilities. 
+Achieving this is not a simple goal, and requires much work from Qooxdoo as a framework, 
+as well as you as a developer.
 
 ## Short summary
 
@@ -14,16 +17,23 @@ Accessibility is an important topic in modern web development, in order to allow
 
 ### Make views/forms, e.g. dialogs, more accessible
 
-- Each widget which can not be read out by itself, e.g. a button with only an icon, needs a label or a description. This can be a string, by setting the `aria-label` attrbute; or an array of ids: see `aria-labelledby` and `aria-describedby`
+- Each widget which can not be read out by itself, e.g. a button with only an icon, needs a label or a description. This can be a string, by setting the `aria-label` attribute; or an array of ids: see `aria-labelledby` and `aria-describedby`
 - Each widget which can be read out but needs to have `aria-labelledby`, should have itself in the space-seperated id list in the last position, too
-- Every piece of information you give the user visually should be given to screenreader users too.
+- Every piece of information you give the user visually should be given to screen reader users too.
 
 ## Details
 
 ### General
 There are different types of users that need to be considered: normal unrestricted users, keyboard-only users, and screen reader users. 
-Accessibility regarding keyboard is quite self-explanatory. Components must be operable with tab, arrow keys and other keys + modifiers. This is not standardized or specified, but there are guidelines. For example, screen reader users usually do not have access to visual information, so that information must be conveyed via screen readers. Everything must be read aloud, down to the smallest detail, if possible. Example: If a text field is described by a label, this association must also be presented to the screen reader. This is implemented in browser applications with ARIA attributes from the WAI-ARIA Specification https://www.w3.org/TR/wai-aria-1.1/. For accessibility, you can use the specification and the corresponding examples https://www.w3.org/TR/wai-aria-practices/examples/ and native HTML elements.
-Not all qooxdoo widgets are barrier-free yet. Supported so far are: Button, Checkbox, Combobox, Menu, RadioButton, SelectBox, Slider, Table, Tabview, ToggleButton, Toolbar and Window. All other or new components must be adapted according to the specification. Often the attribute `role` is sufficient.
+Accessibility regarding keyboard is quite self-explanatory. 
+Components must be operable with tab, arrow keys and other keys + modifiers. This is not standardized or specified, but there are guidelines. 
+For example, screen reader users usually do not have access to visual information, so that information must be conveyed via screen readers. 
+Everything must be read aloud, down to the smallest detail, if possible. 
+Example: If a text field is described by a label, this association must also be presented to the screen reader. 
+This is implemented in browser applications with ARIA attributes from the WAI-ARIA Specification https://www.w3.org/TR/wai-aria-1.1/. 
+For accessibility, you can use the specification and the corresponding examples https://www.w3.org/TR/wai-aria-practices/examples/ and native HTML elements.
+Not all qooxdoo widgets are barrier-free yet. Supported so far are: Button, Checkbox, Combobox, Menu, RadioButton, SelectBox, Slider, Table, Tabview, ToggleButton, Toolbar and Window. 
+All other or new components must be adapted according to the specification. Often the attribute `role` is sufficient.
 
 ### Focus Handling
 Qooxdoo uses its own handler for focus management. This has advantages and disadvantages. In short these are:

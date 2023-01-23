@@ -17,10 +17,10 @@ you need help with this, do not hesitate to ask on
 
 ## Improve the documentation
 
-Good documentation is vital for a great development experience. Therefore we
+Good documentation is vital for a great development experience. Therefore, we
 welcome your thoughts on what could be improved in this documentation. Better
 still, you can improve them right away by clicking on the "Edit document on
-GithHub" button which is at the bottom of every page. If you want to change more
+GitHub" button which is at the bottom of every page. If you want to change more
 than one page or add new pages, please fork the [documentation repository](https://qooxdoo.org/documentation)
 and create a pull request with your changes.
 
@@ -77,7 +77,7 @@ So if you don't have a compiler, how do you compile the compiler?
 Well, there is a special bootstrap process that will take
 care of this for you; these commands will get you started:
 
-```
+```bash
 $ git clone https://github.com/qooxdoo/qooxdoo.git
 $ cd qooxdoo
 $ npm ci
@@ -87,7 +87,7 @@ $ ./bootstrap-compiler
 > Note that this process creates an environment that is specific to the node
 > version. If you upgrade your node version, you need to recompile the compiler
 > after deleting downloaded dependencies with 
-> ```
+> ```bash
 > $ rm -rf ./node_modules
 > $ rm -rf ./known-good/node_modules
 > $ npm ci
@@ -107,7 +107,7 @@ you can create a shortcut in the repository root with `ln -s ./bin/source/qx .`
 If you are editing the compiler code, you'll need to recompile it in order
 to test the new compiled code; you can do this at any time with this command:
 
-```
+```bash
 $ ./bootstrap/qx compile --watch
 ```
 
@@ -149,7 +149,7 @@ automatically.
 
 Running the whole test suite takes quite a while.
 
-If you want to test the framework separatly run:
+If you want to test the framework separately run:
 
 ```bash
 cd test/framework
