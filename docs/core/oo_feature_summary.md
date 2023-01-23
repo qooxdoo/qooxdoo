@@ -21,7 +21,6 @@ qx.Class.define("my.cool.Class", {
 ```
 
 A regular (non-static) class can simply be instantiated using the `new` keyword:
-:
 
 ```javascript
 var myClass = new my.cool.Class();
@@ -30,7 +29,7 @@ var myClass = new my.cool.Class();
 ## Inheritance
 
 In order to derive the current class from another class, the reference to the
-super class is provided by the key `extend`: :
+super class is provided by the key `extend`:
 
 ```javascript
 qx.Class.define("my.great.SuperClass", {
@@ -51,8 +50,8 @@ The constructor of a regular class is provided as a function declaration in key
 qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
-  construct : function() {
-    ...
+  construct() {
+    /* ... */
   }
 });
 ```
@@ -62,7 +61,7 @@ qx.Class.define("my.cool.Class",
 Static members (often called "class" members) are also part of the class
 definition and declared in a map with the `statics` key. Static _ methods_ are
 given by providing a function declaration, while all other values declare static
-_attributes_. Typically they are given in uppercase to distinguish them from
+_attributes_. Typically, they are given in uppercase to distinguish them from
 instance members:
 
 ```javascript
@@ -71,7 +70,7 @@ qx.Class.define("my.cool.Class",
   statics :
   {
     FOO : VALUE,
-    BAR : function() { ... }
+    BAR() { /* ... */ }
   }
 });
 ```
@@ -98,7 +97,7 @@ qx.Class.define("my.cool.Class", {
     PI: 3.141
   },
   members: {
-    circumference: function (radius) {
+    circumference(radius) {
       return 2 * this.constructor.PI * radius;
     }
   }
@@ -114,14 +113,14 @@ Static members aren't inherited. To call a superclass static method, use
 ```javascript
 qx.Class.define('A', {
   statics: {
-     f: function() {}
+     f() {}
   }
 });
 
 qx.Class.define('B', {
   extend: A,
   members: {
-     e: function() {
+     e() {
         this.constructor.superclass.f();
      }
   }
@@ -130,8 +129,7 @@ qx.Class.define('B', {
 
 Generally, it's easier (and more obvious to readers), to simply use the fully-qualified name: `A.f()` (instead of `this.constructor.superclass.f();`).
 
-Static functions can access other static functions directly through the `this`
-keyword.
+Static functions can access other static functions directly through the `this` keyword.
 
 ## Instance Members
 
@@ -144,7 +142,7 @@ qx.Class.define("my.cool.Class",
   members:
   {
     foo : VALUE,
-    bar : function() { ... }
+    bar() { /* ... */ }
   }
 });
 ```
@@ -152,7 +150,7 @@ qx.Class.define("my.cool.Class",
 The instance members can be accessed by using an actual instance of a class:
 
 ```javascript
-var myClass1 = new my.cool.Class();
+const myClass1 = new my.cool.Class();
 myClass1.foo = 3.141;
 myClass1.bar();
 ```
@@ -160,7 +158,7 @@ myClass1.bar();
 ## Calling the Superclass Constructor
 
 Generic form. Requires no updates if super class (name) changes. This code can
-optionally be optimized for performance in build versions. :
+optionally be optimized for performance in build versions.
 
 ```javascript
 qx.Class.define("my.cool.Class", {
@@ -175,13 +173,13 @@ qx.Class.define("my.cool.Class", {
 
 Generic form without using `prototype`. Requires no updates if super class
 (name) changes. This code can optionally be optimized for performance in build
-versions. :
+versions.
 
 ```javascript
 qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
-  ...
+  /* ... */
   members : {
     foo(x) {
       super.foo(x);
@@ -193,17 +191,17 @@ qx.Class.define("my.cool.Class",
 ## Destructor
 
 As a logical match to any existing constructor given by the key `construct`, a
-destructor is explicitly given by the `destruct` key: :
+destructor is explicitly given by the `destruct` key:
 
 ```javascript
 qx.Class.define("my.cool.Class",
 {
   extend : my.great.SuperClass,
-  construct : function() {
-    ...
-  }
-  destruct : function() {
-    ...
+  construct() {
+    /* ... */
+  },
+  destruct() {
+    /* ... */
   }
 });
 ```
@@ -240,7 +238,7 @@ qx.Interface.define("my.cool.IInterface");
 
 Leading uppercase `M` as a naming convention. A [mixin](mixins.md) can have all
 the things a class can have, like properties, constructor, destructor and
-members. :
+members:
 
 ```javascript
 qx.Mixin.define("my.cool.MMixin", {
@@ -251,12 +249,12 @@ qx.Mixin.define("my.cool.MMixin", {
 ## Attaching mixins to a class
 
 The `include` key contains either a reference to a single mixin, or an array of
-mixins: :
+mixins:
 
 ```javascript
 qx.Class.define("my.cool.Class",
 {
-  include : [my.cool.MMixin, my.other.cool.MMixin]
+  include : [my.cool.MMixin, my.other.cool.MMixin],
   ...
 });
 ```
@@ -272,7 +270,7 @@ qx.Class.include(qx.ui.core.Widget, qx.MWidgetExtensions);
 The following naming convention is used. The goal is to be as consistent as
 possible. During the build process private members can optionally be renamed to
 random names (obfuscated) to prevent inadvertently calling them from outside of
-the class. :
+the class.
 
 ```
 publicMember
@@ -283,7 +281,7 @@ __privateMember
 ## Static classes
 
 Explicit declaration allows for useful checks during development. For example.
-`construct` or `members` keys are not allowed in a purely static class. :
+`construct` or `members` keys are not allowed in a purely static class:
 
 ```javascript
 qx.Class.define("my.cool.Class", {
@@ -294,7 +292,7 @@ qx.Class.define("my.cool.Class", {
 ## Abstract classes
 
 Declaring a class as "abstract" allows for useful checks during development and
-does not require explicit code. :
+does not require explicit code.
 
 ```javascript
 qx.Class.define("my.cool.Class", {
@@ -305,7 +303,7 @@ qx.Class.define("my.cool.Class", {
 ## Singletons
 
 A "singleton" declaration allows does not require explicit code. A
-`getInstance()` method is added automatically to each singleton class. :
+`getInstance()` method is added automatically to each singleton class.
 
 ```javascript
 qx.Class.define("my.cool.Class", {
@@ -347,12 +345,12 @@ qx.Class.define("my.cool.Class", {
 ## Browser specific methods
 
 To maintain the closed form, browser switches at the method level is done using
-[environment settings](../core/environment.md). Since the compiler knows about
+[environment settings](environment.md). Since the compiler knows about
 environment settings it is (optionally) possible to only keep the code for each
 specific browser and remove the implementation for all other browsers from the
 code and thus generate highly-optimized browser-specific builds. It is possible
-to use a logical _or_ directly inside a environment key. If none of the keys
-matches the variant, the "default" key is used: :
+to use a logical _or_ directly inside an environment key. If none of the keys
+matches the variant, the "default" key is used:
 
 ```javascript
 members: {
@@ -374,7 +372,7 @@ map, which maps each distinct event name to the name of the event class whose
 instances are passed to the event listeners. The event system can (optionally)
 check whether an event type is supported by the class and issue a warning if an
 event type is unknown. This ensures that each supported event must be listed in
-the event map. :
+the event map.
 
 ```javascript
 qx.Class.define("my.eventful.Class",
@@ -383,16 +381,14 @@ qx.Class.define("my.eventful.Class",
 
   events : {
     "custom": "qx.event.type.Data"
-  }
+  },
   ...
 })
 ```
 
 ## Annotations
 
-Annotations are the ability to add meta data to classes so that the meta data
-can be accessed at runtime; the meta data can be added to individual members,
+Annotations are the ability to add metadata to classes so that the metadata
+can be accessed at runtime; the metadata can be added to individual members,
 properties, statics, constructor, destructor, or the whole class. See the
 [dedicated documentation on Annotations](annotations.md).
-
-## Object Ids

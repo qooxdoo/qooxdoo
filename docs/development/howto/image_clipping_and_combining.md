@@ -4,5 +4,5 @@
 
 Qooxdoo integrates the support for clipped and combined images in the framework
 where both features are heavily used, mainly in the different themes like
-appearance or decoration themes (desktop/ui_theming).
+[appearance or decoration themes](../../desktop/gui/theming.md).
 

@@ -8,7 +8,7 @@ your desktop PC.
 ## SDK
 
 Working with Mobile requires downloading and using Qooxdoo's SDK. See here for
-the [SDK's installation](../README.md), and follow its _ Installation and Setup_
+the [SDK's installation](../README.md), and follow its <u>Installation and Setup</u>
 section. This requirement applies to the development phase only, the final app
 is independent of the SDK.
 

@@ -11,7 +11,7 @@ compiler API, see the `title` property of `qx.tool.compiler.app.Application`, bu
 you're using `qx` command line tool modify your `compile.json` to look like
 this:
 
-```json
+```json5
 {
     /** Applications */
     "applications": [
@@ -29,7 +29,7 @@ your own version by adding a "bootPath" setting to your application in
 `compile.json` which contains the path to the directory (normally
 `"source/boot"`), for example:
 
-```json
+```json5
 {
     /** Applications */
     "applications": [
@@ -63,14 +63,14 @@ Note that previous version of the compiler would also add a `<script>` tag which
 links to `boot.js` but this is now also done by template replacements - you MUST
 include this code (or it's equivalent) in your index.html:
 
-```
+```html
 ${preBootJs}
 <script type="text/javascript" src="${appPath}boot.js"></script>
 ```
 
 Here's a complete, although minimal, example of an index.html:
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,7 +89,7 @@ Here's a complete, although minimal, example of an index.html:
 > :memo: It's fair to say that this is still a work in progress - although this
 treatment for SplashScreens works just fine, it is only able to update the UI
 as each individual script loads, which means that for a `build` target,
-nothing \*will appear because there is only one script file.
+nothing will appear because there is only one script file.
 
 Splash screens are an optional feature of the application loader in
 `Qooxdoo-compiler` that will provide an attractive feedback with a progress bar
@@ -97,7 +97,7 @@ all the way through your application's startup.
 
 By default, the loader does not provide any splash screen or progress bar; to
 add one, you need to replace the application's `.html` file with your own, and
-provide a global object called `QOOXDOO_SPLASH_SCREEN` that the boot loader can
+provide a global object called `QOOXDOO_SPLASH_SCREEN` that the bootloader can
 call during the boot process.
 
 ### Loading Speed
@@ -106,11 +106,11 @@ Splash screens will slow down the load fractionally, but only in the order of
 100-200ms. It's important to remember that loading speed is subjective, and as a
 developer the progress bar emphasises an unnecessary slow down of the load,
 whereas to a user a blank screen emphasises waiting for startup. But if you
-measure it, the difference in time is negligable.
+measure it, the difference in time is negligible.
 
 The new loader supports URL query parameters which allow you to customise the
-startup to fine tune or eliminate the boot loader so that you can time various
-different approaches. If you have installed a boot loader, try appending
+startup to fine tune or eliminate the bootloader so that you can time various
+different approaches. If you have installed a bootloader, try appending
 `?Qooxdoo:feedback-disable=true` to your application's URL and comparing boot
 times. For more information on loader URLs, see [here](LoaderUrls.md).
 
@@ -139,7 +139,7 @@ redraw the screen. This slows the loading because of the 1ms delay and the time
 it takes to redraw, but on the other hand your user will get feedback all the
 way through the load.
 
-By default the chunks are 20% of the total number of scripts, but you can
+By default, the chunks are 20% of the total number of scripts, but you can
 override this with the `getSettings` method in the API.
 
 ### API

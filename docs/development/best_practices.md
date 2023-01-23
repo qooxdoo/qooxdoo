@@ -8,7 +8,7 @@ large-scale Qooxdoo applications.
 ### Share Instances
 
 Creating new widgets is expensive in terms of computation time and memory
-consumption. Further more, disposing of objects in JavaScript does not guarantee
+consumption. Furthermore, disposing of objects in JavaScript does not guarantee
 that the used memory is freed in a timely manner. Especially Internet Explorer
 is known to run the garbage collector only on some particular events, like
 minimizing the browser window.
@@ -51,7 +51,7 @@ pool it and reconfigure it on later use.
 
 ### Initialize Incrementally
 
-- Normally big applications consist of multiple parts which are not visibile
+- Normally big applications consist of multiple parts which are not visible
   initially. This is true for many things like hidden tab pages or not yet
   opened dialogs.
 
@@ -65,12 +65,12 @@ pool it and reconfigure it on later use.
   from each other as good as possible. It is still possible to connect them
   using callbacks: The usage of another part of the application is checked in
   all places and in the place where the initialisation should happen a callback
-  is inserted which waits for the initialization of the new classes.
+  is inserted which waits for the initialisation of the new classes.
 
 ## Fine-grained Events
 
-- Events for changes in data models tend to loose information about the
-  underlaying change.
+- Events for changes in data models tend to lose information about the
+  underlying change.
 
 - For performance reasons it is better to fire more specific events than less
   specific events, even if this means more work for the developer.

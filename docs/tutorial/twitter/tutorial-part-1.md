@@ -1,7 +1,7 @@
 # Tutorial Part 1: Getting started
 
 The first step is to get a working Qooxdoo application where we can start our
-development. Us the compiler create function to setup a new application called
+development. Us the compiler create function to set up a new application called
 `tweets`. If you are unsure as to what is happening here, make sure to first
 work through the [introduction](/)
 
@@ -20,14 +20,14 @@ Now, open the `Application.js` file located in
 `source/class/tweets/Application.js` with your favorite editor (Microsoft Visual
 Code is very popular for example) and you are set up for development!
 
-The skeleton app contains all the code to setup that button, we don't need it
+The skeleton app contains all the code to set up that button, we don't need it
 anymore. You can just remove it, along with the configuration of the listener.
 
 The first task is to create a Window. As the Window contains all the UI
 controls, it is therefore best to extend from the Qooxdoo Window widget and add
 the controls within that news class. Adding a new class is as easy as creating a
 new file. Just create a file in the same folder as `Application.js` and call it
-`MainWindow.js`. We want to create a class so we use the Qooxdoo function
+`MainWindow.js`. We want to create a class, so we use the Qooxdoo function
 `qx.Class.define` for that:
 
 ```javascript
@@ -49,7 +49,7 @@ code in the `Application.js` file to create and open the window. Make sure to
 add it at the end of the main function in the application class.
 
 ```javascript
-var main = new tweets.MainWindow();
+const main = new tweets.MainWindow();
 main.open();
 ```
 
@@ -78,7 +78,7 @@ this.setShowMinimize(false);
 ```
 
 The last thing to change is the size of the window on startup. Of course the
-user can resize the window but it is important to start with good looking
+user can resize the window but it is important to start with good-looking
 initial settings. Changing the size is as easy as hiding the buttons, just tell
 the window in its constructor:
 
@@ -108,7 +108,7 @@ That's it for the first part. If you want, you may take a
 [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step1)
 . If you want to have the
 [code from the tutorial](https://github.com/qooxdoo/qxl.tweet-tutorial) , take a
-look at the project at Github and just fork the project. The next part of the
+look at the project at GitHub and just fork the project. The next part of the
 tutorial will contain the building of the other parts of the UI. If you have
 feedback or want to see something special in further tutorials, just let us
 know!

@@ -1,12 +1,12 @@
 # Models
 
 The model is the centerpiece of data binding. It holds the data and acts as an
-integration point for the [stores](stores) and for the  
-[controller](controller). Almost all models are plain Qooxdoo classes holding
+integration point for the [stores](stores.md) and for the  
+[controller](controller.md). Almost all models are plain Qooxdoo classes holding
 the data in simple properties, which are configured to fire events on every
 change. These change events are the most important part of the models and the
-reason, why plain %{JS} objects are not enough as models. The same is true for
-native %{JS} arrays. Since they do not fire events when items are changed as
+reason why plain objects are not enough as models. The same is true for
+native arrays. Since they do not fire events when items are changed as
 well, a complementary array is added for data binding purposes. More details
 about that in the [data array](#data-array) section.
 
@@ -24,11 +24,11 @@ you don't need to write all the simple models yourself.
 
 As already mentioned in the introduction of this chapter, models are plain
 Qooxdoo objects. The main idea of such a model is to hold all data in
-properties, which fire change events as soon as new data is available. Lets take
+properties, which fire change events as soon as new data is available. Let's take
 a look at a simple example in which we use JSON data to demonstrate how models
 look. The data in the example looks like this:
 
-```
+```javascript
 {
   s: "string",
   b: true,
@@ -37,11 +37,11 @@ look. The data in the example looks like this:
 ```
 
 A corresponding model should now be an object, which class defines three
-properties, named `s`, `b` and `a`. Lets take a look at the following Qooxdoo
+properties, named `s`, `b` and `a`. Let's take a look at the following Qooxdoo
 code, in which we assume that we have a fitting model:
 
-```
-var model = new ExampleModel(); // this returns a fitting model
+```javascript
+const model = new ExampleModel(); // this returns a fitting model
 model.getS(); // return the value of the property 's' which is "string"
 model.setB(false); // will fire a change event for the property 'b'
 ```
@@ -53,7 +53,7 @@ scenario.
 ## Data Array
 
 If we take a second look at the example we used above, we also added an array as
-value of property `a`. This array should not be an plain %{JS} array, instead it
+value of property `a`. This array should not be a plain array, instead it
 should be a Qooxdoo data array, which Class is located in `qx.data.Array`. The
 reason for that should be quite obvious right now, the binding needs to get an
 event as soon as some data changed to do all the necessary updates. As regular
@@ -63,8 +63,8 @@ array but in some core things, we needed to change the API. The major difference
 is the accessing of items in the array. The following sample code, based on the
 sample above, shows the differences:
 
-```
-var array = model.getA();
+```javascript
+const array = model.getA();
 array.setItem(0, "content"); // equals 'array[0] = "content"' and fires a change event
 array.getItem(0); // equals 'array[0]' and returns "content"
 array.length; // like the native API and returns '1'
@@ -80,8 +80,7 @@ information.
 
 The two sections above explained how models look and why. The most mentioned
 reason is the need for change events, which gives them also an important role in
-the data binding. Check out the
-`separate page about events in data binding<events>`.
+the data binding. Check out the [separate page](data_binding.md#events) about events in data binding.
 
 ## Disposing
 
@@ -116,13 +115,13 @@ corresponding to the given data object.
 This method is static and can be used to invoke both methods at once. By that,
 you can create models for a given JavaScript objects with one line of code:
 
-```
-var model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
+```javascript
+const model = qx.data.marshal.Json.createModel({a: {b: {c: "test"}}});
 ```
 
 ## How to get my own code into the model?
 
-What if you want to to bring your own code to the generated model classes or if
+What if you want to bring your own code to the generated model classes or if
 you even want to use your own model classes? That's possible by adding and
 implementing a delegate to the data store. You can either
 

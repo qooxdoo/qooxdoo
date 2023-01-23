@@ -9,9 +9,9 @@ accessing data.
 
 [Twitter](http://twitter.com) itself made its authorization scheme more complex,
 as it starts requiring OAuth even to read public tweets. For this basic tutorial
-it would be too complex to handle such advanced authorization. If your are
+it would be too complex to handle such advanced authorization. If you are
 interested in OAuth, check out how you could handle that in a Qooxdoo app by
-looking at the [Github demo](apps://demobrowser/#data~Github.html) .
+looking at the [GitHub demo](apps://demobrowser/#data~Github.html) .
 
 We use a mock for the identica service to be sure this tutorial always works.
 
@@ -36,11 +36,11 @@ But first of all we have to define what a page is:
 A page is a widget which provides a screen with which users can interact in
 order to do something. Most times a page provides a single task or a group of
 related tasks. A Qooxdoo mobile application is usually composed of one or more
-loosely connected pages. Typically there is one page that presents the "main"
-view.\*
+loosely connected pages. Typically, there is one page that presents the "main"
+view.
 
 Open the "mobiletweets" folder in your favorite IDE, so that you can edit all
-the files. Navigate to the "source/class/mobiletweets" folder, were all of the
+the files. Navigate to the "source/class/mobiletweets" folder, where all the
 application class files are located. Now you are ready to create the
 application.
 
@@ -69,7 +69,7 @@ the constructor of the class we set the title of the page to "Identica Client".
 
 To show the "Input" page, we have to create an instance of the class and a page
 manager. The manager does the layouting and displays our page on the screen.
-Additionally the manager gives us the possibility to use our application in a
+Additionally, the manager gives us the possibility to use our application in a
 mobile or tablet device context. For our example, we just want to work in a
 mobile device context. That is why, we construct the manager with `false`.
 
@@ -81,10 +81,10 @@ comment in the `main` method "_Below is your actual application code..._" with
 example code below. As we don't need this example code, we can safely replace it
 with the following lines of code: :
 
-```
-var manager = new qx.ui.mobile.page.Manager(false);
+```javascript
+const manager = new qx.ui.mobile.page.Manager(false);
 
-var inputPage = new mobiletweets.page.Input();
+const inputPage = new mobiletweets.page.Input();
 manager.addDetail(inputPage);
 
 inputPage.show();
@@ -106,7 +106,7 @@ call the `show` method with an object literal `{reverse:true}` as an argument.
 To change an animation, just add an animation key to the passed object literal,
 e.g. `{animation:fade}`: :
 
-```
+```javascript
 page.show(); // show the page; "slide" is the default animation
 //or
 page.show({reverse:true}); // show the page and reverse the animation of the transition
@@ -119,8 +119,8 @@ page.show({animation : "cube", reverse:true}); // show the page and reverse the 
 A page has predefined lifecycle methods that get called by the page manager when
 a page gets shown. Each time another page is requested to be shown the currently
 shown page is stopped. The other page, if shown for the first time, will be
-initialized and started afterwards. For all called lifecylce methods an event is
-fired.\*
+initialized and started afterwards. For all called lifecycle methods an event is
+fired.
 
 Calling the "show" method triggers the following lifecycle methods:
 
@@ -130,13 +130,13 @@ Calling the "show" method triggers the following lifecycle methods:
 
 **IMPORTANT**: Define all child widgets of a page when the "initialize" _
 lifecycle method is called, either by listening to the "initialize" _ event or
-overriding the `_initialize` method. This is because a \_ page can be
-instantiated during application startup and would \_then decrease performance if
-the widgets would be added during \_ constructor call. The initialize event and
-the `_initialize` lifecycle \_method are only called when the page is shown for
+overriding the `_initialize` method. This is because a page can be
+instantiated during application startup and would then decrease performance if
+the widgets would be added during constructor call. The initialize event and
+the `_initialize` lifecycle method are only called when the page is shown for
 the first time.
 
-Lets try it! Create another page class "Tweets" in the
+Let's try it! Create another page class "Tweets" in the
 "source/class/mobiletweets/page" folder: :
 
 ```javascript
@@ -155,7 +155,7 @@ qx.Class.define("mobiletweets.page.Tweets",
 });
 ```
 
-In the constructor we setup setup the back button and set its text to "Back".
+In the constructor we set up the back button and set its text to "Back".
 The title will be replaced by the given username later.
 
 Now we need a button on the "Input" page, so that we can navigate between the
@@ -165,14 +165,14 @@ the button, the application can handle when the user taps on the button. Add a
 new `member` section to the class definition of the "Input" class and override
 the protected lifecycle method `_initialize` to do that: :
 
-```
+```javascript
 members : {
 
   // overridden
   _initialize() {
     super._initialize();
     // Create a new button instance and set the title of the button to "Show"
-    var button = new qx.ui.mobile.form.Button("Show");
+    const button = new qx.ui.mobile.form.Button("Show");
     // Add the "tap" listener to the button
     button.addListener("tap", this._onTap, this);
     // Add the button the content of the page
@@ -184,7 +184,7 @@ members : {
 As you can see, the `tap` listener has the `_onTap` method as a handler. This
 method has to be implemented in the member section as well:
 
-```
+```javascript
 _onTap(evt)
 {
    this.fireDataEvent("requestTweet", null); // Fire a data event.
@@ -196,7 +196,7 @@ In the `_onTap` method we fire a data event "requestTweet". The empty data will
 be replaced later with the username. The only thing which is missing now is to
 define the event itself. Add a new `events` section to the "Input" class:
 
-```
+```javascript
 events : {
   "requestTweet" : "qx.event.type.Data" // Define the event
 }
@@ -205,9 +205,9 @@ events : {
 In the "Application" class add the following code below the code we have just
 added:
 
-```
+```javascript
 // New instance of the Tweets page
-var tweetsPage = new mobiletweets.page.Tweets();
+const tweetsPage = new mobiletweets.page.Tweets();
 
 // Add page to manager
 manager.addDetail(tweetsPage);
@@ -238,19 +238,19 @@ pages by tapping on the "Show" and on the "Back" button. Nice!
 Ok, here we are. You have learned how to create two pages and to wire them by
 reacting on defined events. That is pretty cool, but without data to display our
 app is worthless. To display the tweets of a user we will use the public Tweet
-service of identica. [Data binding](../core/data_binding/) is a powerful concept
+service of identica. [Data binding](../core/data_binding/README.md) is a powerful concept
 of Qooxdoo which you can leverage off in your mobile applications as well.
 Extend the `members` section of the "Application" class by the following code: :
 
-```
+```javascript
 __loadTweets() {
   // Mocked Identica Tweets API
   // Create a new JSONP store instance with the given url
-  var self = this;
+  const self = this;
 
-  var url = "http://XXXX"+ "/tweets_step4.5/resource/tweets/service.js";
+  const url = "http://XXXX"+ "/tweets_step4.5/resource/tweets/service.js";
 
-  var store = new qx.data.store.Jsonp();
+  const store = new qx.data.store.Jsonp();
   store.setCallbackName("callback");
   store.setUrl(url);
 
@@ -270,7 +270,7 @@ As you might have noticed the `__loadTweets` method uses two properties,
 properties now. Define a new section `properties` in the "Application" class and
 add the following two properties: :
 
-```
+```javascript
 properties :
 {
     tweets :
@@ -300,7 +300,7 @@ print the data in the debugging console. To do so, we call `this.debug` with the
 stringified value in the apply method `_applyTweets`. Add the following code to
 the member section of the "Application" class: :
 
-```
+```javascript
 // property apply
 _applyUsername(value, old) {
   this.__loadTweets();
@@ -315,15 +315,15 @@ _applyTweets(value, old) {
 Now the username has to be retrieved from the user input. To do so, we have to
 create an input form. The usage of the form classes should be familiar to you if
 you have used the RIA widget set before. Open the "Input" class again and place
-the following code, before the button instance in the `_initialize` method: :
+the following code, before the button instance in the `_initialize` method:
 
-```
-var title = new qx.ui.mobile.form.Title("Please enter an identi.ca username");
+```javascript
+const title = new qx.ui.mobile.form.Title("Please enter an identi.ca username");
 this.getContent().add(title);
 
-var form = this.__form = new qx.ui.mobile.form.Form();
+const form = this.__form = new qx.ui.mobile.form.Form();
 
-var input = this.__input = new qx.ui.mobile.form.TextField();
+const input = this.__input = new qx.ui.mobile.form.TextField();
 input.setPlaceholder("Username");
 input.setRequired(true);
 form.add(input, "Username");
@@ -337,8 +337,8 @@ First we add an instance of `qx.ui.mobile.form.Title` to the content of the
 page. To an instance of `qx.ui.mobile.form.Form`, a
 `qx.ui.mobile.form.TextField` instance `input` is added. Both instances are
 assigned to member variables as well, for further reuse. A text is set for the
-`placeholder` property of the textfield. By setting the property `required` to
-true we indicate that the textfield requires an input. Finally we add the form
+`placeholder` property of the text field. By setting the property `required` to
+true we indicate that the text field requires an input. Finally, we add the form
 instance to the page content, by using a
 `qx.ui.mobile.form.renderer.SinglePlaceholder` renderer. The renderer is
 responsible for the look and feel of the form. In this case only the input
@@ -347,22 +347,22 @@ fields with their placeholders are displayed.
 In the `_onTap` method we have to retrieve now the value of the input field.
 Replace the code in the function body by the following code: :
 
-```
+```javascript
 // validate the form
 if (this.__form.validate())  {
-  var username = this.__input.getValue();
+  const username = this.__input.getValue();
   this.fireDataEvent("requestTweet", username);
 }
 ```
 
-After successfully validating the form, we retrieve the value of the textfield
+After successfully validating the form, we retrieve the value of the text field
 from the member variable and pass it as the data to the event.
 
 As you surely remember we listen to the `requestTweet` event in the
 "Application" class. Open the Application class and add the following line to
 the event listener: :
 
-```
+```javascript
 this.setUsername(evt.getData());
 ```
 
@@ -377,14 +377,14 @@ user.
 
 ## Displaying the tweets
 
-Now that we have the tweets for a certain user, it's gonna be pretty easy to
+Now that we have the tweets for a certain user, it's going to be pretty easy to
 display them. All we need for that is a `qx.ui.mobile.list.List` and to set up
-some data binding. Lets proceed with the tutorial.
+some data binding. Let's proceed with the tutorial.
 
-First we have to add the following `_initialize` method to the members section
+First we have to add the following `_initialize` method to the members' section
 of the "Tweets" page.
 
-```
+```javascript
 members : {
   __list : null,
 
@@ -392,8 +392,8 @@ members : {
     super._initialize();
 
     // Create a new list instance
-    var list = this.__list = new qx.ui.mobile.list.List();
-    var dateFormat = new qx.util.format.DateFormat();
+    const list = this.__list = new qx.ui.mobile.list.List();
+    const dateFormat = new qx.util.format.DateFormat();
     // Use a delegate to configure each single list item
     list.setDelegate({
       configureItem : function(item, value, row) {
@@ -432,10 +432,10 @@ individually per row. In addition to those properties, the `showArrow` property
 shows an arrow on the right side of the row, indicating that we have more data
 to display.
 
-Finally the model of the list instance is bound to the `tweets` property, which
+Finally, the model of the list instance is bound to the `tweets` property, which
 we will add to the "Tweets" class right above the `member` section: :
 
-```
+```javascript
 properties :  {
   tweets : {
      check : "qx.data.Array",
@@ -457,7 +457,7 @@ There are only two tasks left:
 Open the "Application" class file and add under the instantiation of the
 "Tweets" page `tweetsPage` the following code: :
 
-```
+```javascript
 this.bind("tweets", tweetsPage, "tweets");
 this.bind("username", tweetsPage, "title");
 ```
@@ -473,7 +473,7 @@ Great, you have made it so far! In the last section we will display a tweet on a
 new page when the user selects a certain tweet. Sometimes it can happen that a
 tweet is too long for a list entry. Ellipses are then shown at the end of the
 tweet. That is why we want to give the user a chance to display the whole tweet.
-Lets create a simple "TweetDetail" page that only shows a
+Let's create a simple "TweetDetail" page that only shows a
 `qx.ui.mobile.basic.Label` with the selected tweet text. To do so, we bind the
 `text` property of the tweet to the label's `value` property. Create the page,
 like you have done before, in the "source/class/mobiletweets/page" folder. The
@@ -510,7 +510,7 @@ qx.Class.define("mobiletweets.page.TweetDetail",
     {
       super._initialize();
       // Create a new label instance
-      var label = new qx.ui.mobile.basic.Label();
+      const label = new qx.ui.mobile.basic.Label();
       this.getContent().add(label);
       // bind the "tweet.getText" property to the "value" of the label
       this.bind("tweet.text", label, "value");
@@ -520,10 +520,10 @@ qx.Class.define("mobiletweets.page.TweetDetail",
 ```
 
 Now create the instance of the "TweetDetail" page in the Application `main`
-method and return to the "Tweets" page, when the `back` listener is called. :
+method and return to the "Tweets" page, when the `back` listener is called.
 
-```
-var tweetPage = new mobiletweets.page.TweetDetail();
+```javascript
+const tweetPage = new mobiletweets.page.TweetDetail();
 
 // Add page to manager
 manager.addDetail(tweetPage);
@@ -534,22 +534,22 @@ tweetPage.addListener("back", function(evt) {
 }, this);
 ```
 
-Until now we will never see the "TweetDetail" page as its `show` method is never
+Until now, we will never see the "TweetDetail" page as its `show` method is never
 called. First we have to react in the "Tweets" page on a selection change event
 of the list, by registering the `changeSelection` event on the list in the
 `_initialize` method: :
 
-```
+```javascript
 list.addListener("changeSelection", this.__onChangeSelection, this);
 ```
 
 The `__onChangeSelection` method looks like this: :
 
-```
-__onChangeSelection : function(evt)
+```javascript
+__onChangeSelection(evt)
 {
   // retrieve the index of the selected row
-  var index = evt.getData();
+  const index = evt.getData();
   this.fireDataEvent("showTweet", index);
 }
 ```
@@ -557,7 +557,7 @@ __onChangeSelection : function(evt)
 As you can see, a `showTweet` data event is fired here. This data event has to
 be defined in the `events` section of the "Tweets" class: :
 
-```
+```javascript
 events : {
   showTweet : "qx.event.type.Data"
 }
@@ -565,12 +565,12 @@ events : {
 
 All we need to do now is to listen to the `showTweet` event in the "Application"
 class main method, retrieve the index from the data event and to get the
-corresponding tweet from the data. Finally we show our "TweetDetail" page. :
+corresponding tweet from the data. Finally, we show our "TweetDetail" page.
 
-```
+```javascript
 // Show the selected tweet
 tweetsPage.addListener("showTweet", function(evt) {
-  var index = evt.getData();
+  const index = evt.getData();
   tweetPage.setTweet(this.getTweets().getItem(index));
   tweetPage.show();
 }, this);

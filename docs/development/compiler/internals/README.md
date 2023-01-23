@@ -8,7 +8,7 @@
 
 - [Handling of SASS compilation](Sass.md)
 
-- [Metadata infomation written by the compiler](MetaData.md)
+- [Metadata information written by the compiler](MetaData.md)
 
 - [How the compiler check class dependencies](Dependencies.md)
 

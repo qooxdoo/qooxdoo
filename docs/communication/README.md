@@ -5,12 +5,12 @@ Qooxdoo provides different communication APIs with a rich feature set.
 ## HTTP Requests
 
 [`qx.io.request.*`](request_io.md) ([ApiViewer](apps://apiviewer/#qx.io.request)) 
-is qooxdoo's standard low-level API aimed at providing the basic building block 
+is Qooxdoo's standard low-level API aimed at providing the basic building block 
 of other APIs, such as the REST interface.
 
 Before version 7, qooxdoo contained an older, now deprecated implementation which 
 supports HTTP requests over different transports (Iframe, Script and XHR), and 
-provides a JSONRPC v2 client. It has be removed from the framework and put into 
+provides a JSON-RPC v2 client. It has be removed from the framework and put into 
 the package [`deprecated.qx.io.remote`](https://github.com/qooxdoo/deprecated.qx.io.remote).
 You can reinstall it by executing `npx qx pkg install qooxdoo/deprecated.qx.io.remote`.
 
@@ -120,16 +120,16 @@ extensively in a production app. Feedback and improvements are welcome.
 Example:
 
 ```javascript
-    let client = new qx.io.graphql.Client("https://countries-274616.ew.r.appspot.com/");
-    let query = `query($country:String!) {
+    const client = new qx.io.graphql.Client("https://countries-274616.ew.r.appspot.com/");
+    const query = `query($country:String!) {
        Country(name: $country) {
          nativeName
          officialLanguages { name }
        }
      }`;
-    let request = new qx.io.graphql.protocol.Request();
+    const request = new qx.io.graphql.protocol.Request();
     request.setQuery(query);
     request.setVariables({country:"Belgium"});
-    let response = await client.send(request);
+    const response = await client.send(request);
 ```
 

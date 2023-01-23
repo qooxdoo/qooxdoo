@@ -3,7 +3,7 @@
 In the previous steps of this tutorial, we laid the groundwork for a tweets
 client application, gave it a neat UI and implemented a communication layer. One
 thing this application still lacks is a nice way for users to input their
-identica user name and password in order to post a status update. Fortunately,
+identica username and password in order to post a status update. Fortunately,
 Qooxdoo comes with a forms API that takes the pain out of creating form elements
 and handling user input.
 
@@ -15,7 +15,7 @@ in this tutorial.
 
 ## The plan
 
-We want to create a new window with user name and password fields that pops up
+We want to create a new window with username and password fields that pops up
 when the tweets application starts. The values will be used to retrieve the
 user's list of Tweets. Seems simple enough, so let's get right down to business.
 
@@ -39,7 +39,7 @@ So for the window itself, a Basic layout will suffice. We'll also make the
 window modal:
 
 ```javascript
-var layout = new qx.ui.layout.Basic();
+const layout = new qx.ui.layout.Basic();
 this.setLayout(layout);
 this.setModal(true);
 ```
@@ -49,13 +49,13 @@ this.setModal(true);
 Now it's time to add a form and populate it with a pair of fields:
 
 ```javascript
-var form = new qx.ui.form.Form();
+const form = new qx.ui.form.Form();
 
-var username = new qx.ui.form.TextField();
+const username = new qx.ui.form.TextField();
 username.setRequired(true);
 form.add(username, "Username", null, "username");
 
-var password = new qx.ui.form.PasswordField();
+const password = new qx.ui.form.PasswordField();
 password.setRequired(true);
 form.add(password, "Password", null, "password");
 ```
@@ -63,13 +63,13 @@ form.add(password, "Password", null, "password");
 Note how the fields are marked as required. This is a simple kind of validation
 and in this case it's all we need, which is why the third argument for
 `form.add` is null instead of a validation function. Required fields will be
-displayed with an asterisk (\*) next to their label.
+displayed with an asterisk (*) next to their label.
 
 The next step is to add a dash of data binding awesomeness:
 
 ```javascript
-var controller = new qx.data.controller.Form(null, form);
-var model = controller.createModel();
+const controller = new qx.data.controller.Form(null, form);
+const model = controller.createModel();
 ```
 
 Just like in the previous tutorial, we create a
@@ -81,10 +81,10 @@ The form still needs a "submit" button, so we'll add one, plus a "cancel" button
 to close the window:
 
 ```javascript
-var loginbutton = new qx.ui.form.Button("Login");
+const loginbutton = new qx.ui.form.Button("Login");
 form.addButton(loginbutton);
 
-var cancelbutton = new qx.ui.form.Button("Cancel");
+const cancelbutton = new qx.ui.form.Button("Cancel");
 form.addButton(cancelbutton);
 cancelbutton.addListener(
   "execute",
@@ -100,7 +100,7 @@ Qooxdoo's built-in [form renderer](apps://apiviewer/#qx.ui.form.renderer)
 classes worry about the form's layout:
 
 ```javascript
-var renderer = new qx.ui.form.renderer.Single(form);
+const renderer = new qx.ui.form.renderer.Single(form);
 this.add(renderer);
 ```
 
@@ -131,7 +131,7 @@ loginbutton.addListener(
   "execute",
   function () {
     if (form.validate()) {
-      var loginData = {
+      const loginData = {
         username: controller.getModel().getUsername(),
         password: controller.getModel().getPassword()
       };
@@ -146,7 +146,7 @@ loginbutton.addListener(
 ## Tying it all together
 
 Now to integrate the login window with the other parts of the application. As we
-are using a mocked API for the tutorials, it is not possible to login or fetch
+are using a mocked API for the tutorials, it is not possible to log in or fetch
 the users tweets. So we skip that step.
 
 All that's left is to show the login window when the application is started and
@@ -164,7 +164,7 @@ And finally, we'll attach a listener to `changeLoginData`:
 
 ```javascript
 this.__loginWindow.addListener("changeLoginData", function (ev) {
-  var loginData = ev.getData();
+  const loginData = ev.getData();
   service.fetchTweets(loginData.username, loginData.password);
 });
 ```
@@ -172,7 +172,7 @@ this.__loginWindow.addListener("changeLoginData", function (ev) {
 Note how all the other calls to `service.fetchTweets` can remain unchanged: By
 making the login window modal, we've made sure the first call, which creates the
 store, contains the login data. Any subsequent calls (i.e. after reloading or
-posting an update) will use the same store so they won't need the login details.
+posting an update) will use the same store, so they won't need the login details.
 
 OK, time to compile your application with `qx compile` and load the application in a browser to make sure
 everything works like it's supposed to.

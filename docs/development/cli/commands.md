@@ -76,11 +76,11 @@ following options:
 
 The fastest way to create a new project is to execute `qx create foo -I`. This
 will create a new application with the namespace "foo", using default values.
-However, in most cases you wamt to customize the generated application skeleton.
+However, in most cases you want to customize the generated application skeleton.
 `qx create foo` will interactively ask you all information it needs, providing
 default values where possible. If you are in the top-level folder of the
 application and want to put the application content into it without creating a
-subfolder (for example, in a top-level folder of a cloned empty GitHub project),
+sub-folder (for example, in a top-level folder of a cloned empty GitHub project),
 use `--out=.`.
 
 ## Compile
@@ -123,7 +123,7 @@ can't do it as perfectly as you could do it by hand, but it can make a few simpl
 your code base that can make a big difference to readability.  
 
 Because editing your code changes the layout, at the end of the ES6-ification the code will
-be reformated using https://prettier.io/.  The Qooxdoo project uses prettier.io as standard
+be reformatted using https://prettier.io/.  The Qooxdoo project uses prettier.io as standard
 and automatically reformats code on every commit (or you can configure editors like VSCode to
 reformat on save).  If you want to customise the few options prettier.io supports, you can
 use `.prettierrc.json` files (see https://prettier.io/docs/en/options.html for details).
@@ -136,7 +136,7 @@ We have used `qx es6ify` on our entire Qooxdoo framework source code.
 This is a reliable but fairly unintrusive upgrade, provided that `--arrow-functions` argument
 property is `careful`.  The issue is that this code: 
 
-```
+```javascript
   setTimeout(function() { something(); })
 ```
 
@@ -147,21 +147,21 @@ from where the code is written.
 However, if you use an API which changes `this` then the switch to arrow functions will break your 
 code.  Mostly, in Qooxdoo, changes to `this` are done via an explicit API.  For example:
 
-```
+```javascript
   obj.addListener("changeXyx", function() {}, this);
 ```
 
 APIs like `addListener` can be translated because we know what the `this` would be and can account
-for it, but there are places which do not work this way (eg the unit tests `qx.dev.unit.TestCase.resume()`).
+for it, but there are places which do not work this way (e.g. the unit tests `qx.dev.unit.TestCase.resume()`).
 And of course, third party integrations are completely unknown.
 
 If `--arrow-functions` is set to `aggressive`, then all functions are switched to arrow functions except
-where there is a known API that does not support it (eg any call to `.resume` in a test class); this
+where there is a known API that does not support it (e.g. any call to `.resume` in a test class); this
 could break your code.  The `aggressive` setting is useful, but you probably want to only use it on
 sections of your code, and test carefully.
 
 If `--arrow-functions` is set to `careful` (the default), then functions are only switched to arrow 
-functions where the API is known  (eg `.addListener`).
+functions where the API is known  (e.g. `.addListener`).
 
 The final step is that the ES6ify will use https://prettier.io/ to reformat the code, and will use
 the nearest `prettierrc.json` for configuration
@@ -186,7 +186,7 @@ Options:
 
 ```
 
-Configuration is done in the `compile.json` file, see here
+Configuration is done in the `compile.json` file, see
 [here](../compiler/configuration/compile.md) .
 
 If no special lint configuration is given in `compile.json` the configuration
@@ -224,7 +224,7 @@ in the background, every time you edit the code - this is equivalent to
 As an example this will compile your application and start the web server on
 port 8082
 
-```
+```bash
 $ qx serve --listenPort=8082
 ```
 
@@ -277,7 +277,7 @@ because they speed up compilation to keep them around or because it's easier for
 you to debug.
 
 By using `qx compile --target=build`, the compiler will produce a completely
-seperate compilation with all debug code automatically removed and where the
+separate compilation with all debug code automatically removed and where the
 Javascript source code is minified and reduced to as small a number of files as
 possible.
 
@@ -287,9 +287,9 @@ down, there are still a number of temporary files which you do not want to copy
 onto your webserver.
 
 When you're ready to distribute the application(s) to your web server, use
-`qx deploy`, EG:
+`qx deploy`, e.g.:
 
-```
+```bash
   $ qx deploy --out=/var/www --source-maps
 ```
 

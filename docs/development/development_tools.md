@@ -13,7 +13,7 @@ development natively or with a plug-in:
   IntelliJ IDEA): Code analysis and navigation (including auto-generated
   methods), auto-complete.
 
-- [VSCode](https://code.visualstudio.com/) VSCode has lots of plugins and is a great
+- [VSCode](https://code.visualstudio.com/) has lots of plugins and is a great
   fit for Qooxdoo development (as well as other platforms).  You can configure VSCode
   with lots of nice features, including automatic reformat on save with Prettier.IO
 

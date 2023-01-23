@@ -1,6 +1,6 @@
 # Tutorial Part 2: Finishing the UI
 
-In the first part (tutorial-part-1) of the tutorial, we built a basic window for
+In the [first part](tutorial-part-1.md) of the tutorial, we built a basic window for
 our target application, a tweets client. In the second part of the tutorial, we
 want to finish the UI of the application. So lets get started, we got a lot to
 do!
@@ -12,18 +12,18 @@ not, here is a little reminder.
 
 The first thing we need to do is to set a layout for our window. You can see
 that the text area and the button are side by side while all the other elements
-are ordered vertically. But all elements are aligned in a grid so we should
+are ordered vertically. But all elements are aligned in a grid, so we should
 choose a grid layout for that. We can add the grid layout in our own window
 class. Just add these lines of code in `MainWindow.js`:
 
 ```javascript
 // add the layout
-var layout = new qx.ui.layout.Grid(0, 0);
+const layout = new qx.ui.layout.Grid(0, 0);
 this.setLayout(layout);
 ```
 
-But a layout without any content is boring so we should add some content to see
-if it's working. Lets add the first two elements to the window, the toolbar and
+But a layout without any content is boring, so we should add some content to see
+if it's working. Let's add the first two elements to the window, the toolbar and
 the list view.
 
 ## Layout and Toolbar
@@ -33,7 +33,7 @@ and adding it is straight forward.
 
 ```javascript
 // toolbar
-var toolbar = new qx.ui.toolbar.ToolBar();
+const toolbar = new qx.ui.toolbar.ToolBar();
 this.add(toolbar, { row: 0, column: 0 });
 ```
 
@@ -51,12 +51,12 @@ Adding the list should look familiar now.
 
 ```javascript
 // list
-var list = new qx.ui.form.List();
+const list = new qx.ui.form.List();
 this.add(list, { row: 1, column: 0 });
 ```
 
-Now its time to see our work in the browser. But again, we have added new class
-dependencies so we need to invoke the compiler with `npx qx serve`. After that,
+Now it's time to see our work in the browser. But again, we have added new class
+dependencies, so we need to invoke the compiler with `npx qx serve`. After that,
 we can see the result in the browser. It's not quite the way we'd like it to
 look. You cannot see any toolbar, the list has too much padding against the
 window border and it doesn't fit the whole window. These are things we should
@@ -84,39 +84,39 @@ The first line tells the layout to keep the second row (the row for the list)
 flexible. The second row does the same for the first column.
 
 The last thing we need to fix was the invisible toolbar. If you know the reason
-why it's not visible, you sure know how to fix it. It contains not a single
-element so it won't be visible. Fixing it means adding an element, in our case
+why it's not visible, you sure know how to fix it. It doesn't contain any elements,
+so it won't be visible. Fixing it means adding an element, in our case
 we just add the reload button. We already know how to create and add widgets so
 just add the following lines of code.
 
 ```javascript
 // reload button
-var reloadButton = new qx.ui.toolbar.Button("Reload");
+const reloadButton = new qx.ui.toolbar.Button("Reload");
 toolbar.add(reloadButton);
 ```
 
-Now its time to see if all the fixes work. But be sure to run the compiler
+Now it's time to see if all the fixes work. But be sure to run the compiler
 before you reload the browser page because we added (again) another class (the
 button). Now everything should look the way we want it to be.
 
 ## Text Area and Button
 
-After that success, we can got to the next task, adding the text area and "Post"
+After that success, we can get to the next task, adding the text area and "Post"
 button. This is also straight forward like we have seen in all the other adding
 scenarios.
 
 ```javascript
 // textarea
-var textarea = new qx.ui.form.TextArea();
+const textarea = new qx.ui.form.TextArea();
 this.add(textarea, { row: 2, column: 0 });
 
 // post button
-var postButton = new qx.ui.form.Button("Post");
+const postButton = new qx.ui.form.Button("Post");
 this.add(postButton, { row: 2, column: 1 });
 ```
 
 This time, we have to add the button in the second column to get the button and
-the text area aligned horizontally. Its time to test this... again generate and
+the text area aligned horizontally. It's time to test this... again generate and
 reload.
 
 Like the last time, the result is not quite what we want it to be. The list and
@@ -132,7 +132,7 @@ this.add(toolbar, { row: 0, column: 0, colSpan: 2 });
 this.add(list, { row: 1, column: 0, colSpan: 2 });
 ```
 
-This time, we did not add a new class dependency so we can just reload the index
+This time, we did not add a new class dependency, so we can just reload the index
 file and see the result.
 
 ## Breathing Life into the UI
@@ -143,9 +143,9 @@ the logic and use events for notifying the behaviour. If you take a look we only
 have two actions where the UI needs to notify the rest of the application:
 reloading the tweets and posting a tweet.
 
-These two events we add to our window. Adding events is a two step process.
+These two events we add to our window. Adding events is a two-step process.
 First, we need to declare what kind of event we want to fire. Therefore, we add
-an events section alongside to the constructor section of the window class
+an "events" section alongside to the constructor section of the window class
 definition:
 
 ```javascript
@@ -165,7 +165,7 @@ why there are two different types of events used.
 Declaring the events is the first step of the process. The second part is firing
 the events! Let's take a look at the reload event. It needs to be fired when the
 reload button was triggered (or "was executed" in Qooxdoo parlance). The button
-itself fires an event on execution so we could use this event to fire our own
+itself fires an event on execution, so we could use this event to fire our own
 reload event.
 
 ```javascript
@@ -179,11 +179,11 @@ reloadButton.addListener(
 ```
 
 Here we see two things: First, how to add an event listener and second, that
-firing an event is as easy as a method call. The only parameter to .fireEvent()
+firing an event is as easy as a method call. The only parameter to `.fireEvent()`
 is the name of the event we have declared in the class definition. Another
 interesting thing here is the third parameter of the `addListener` call,
 **this**. It sets the context of the callback function to our window instance,
-so the this in this.fireEvent() is resolved correctly.
+so `this` in `this.fireEvent()` is resolved correctly.
 
 The next case is a bit different but also easy.
 
@@ -224,7 +224,7 @@ main.addListener(
 You can see in the event listener functions that we use the Qooxdoo debugging
 function `debug`. Now it's time to test the whole UI. Open the index file in a
 browser you like and see the UI. If you want to see the debugging messages you
-have to open either a the debugging tool of your chosen browser or use the
+have to open either the debugging tool of your chosen browser or use the
 Qooxdoo debugging console. Press F7 to get the Qooxdoo console visible.
 
 ## Finishing Touches
@@ -258,7 +258,7 @@ we need to run the compiler once more. After that, the image should be in the
 windows caption bar.
 
 Two more minor things are left to finish. First, the button does not look very
-good. Why don't we just give it a fixed width to fit its height.
+good. Why don't we just give it a fixed width to fit its height:
 
 ```javascript
 postButton.setWidth(60);
@@ -276,7 +276,7 @@ the text area has a data event for text changes we can listen to:
 textarea.addListener(
   "input",
   function (e) {
-    var value = e.getData();
+    const value = e.getData();
     postButton.setEnabled(value.length < 140 && value.length > 0);
   },
   this
@@ -305,5 +305,5 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 That's it for building the UI. Again, if you want to take a
 [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step2)
-, fork the project on github. Next time we will take care of getting the data.
+, fork the project on GitHub. Next time we will take care of getting the data.
 If you have feedback on this post, just let us know!

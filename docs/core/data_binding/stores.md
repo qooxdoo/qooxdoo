@@ -9,7 +9,7 @@ be found in the [models](models) .
 
 ## JSON Store
 
-The JSON store takes an URL, fetches the given data from that URL and converts
+The JSON store takes a URL, fetches the given data from that URL and converts
 the data using the JSON marshaller to Qooxdoo model instances, which will be
 available in the model property after loading. The state of the loading process
 is mapped to a state property. For the loading of the data, a
@@ -17,30 +17,30 @@ is mapped to a state property. For the loading of the data, a
 
 The following code shows how to use the JSON data store.
 
-```
-var url = "json/data.json";
-var store = new qx.data.store.Json(url);
+```javascript
+const url = "json/data.json";
+const store = new qx.data.store.Json(url);
 ```
 
 After setting the URL during the creation process, the loading will begin
 immediately. As soon as the data is loaded and converted, you can access the
 model with the following code.
 
-```
+```javascript
 store.getModel();
 ```
 
 ## JSONP Store
 
 The [JSONP](http://ajaxian.com/archives/jsonp-json-with-padding) store is based
-on the [JSON store](stores#json_store) but uses a script tag for loading the
-data. Therefore, a parameter name for the callback and an URL must be specified.
+on the [JSON store](stores.md#json-store) but uses a script tag for loading the
+data. Therefore, a parameter name for the callback and a URL must be specified.
 
 The following code shows how to use the JSONP data store.
 
-```
-var url = "json/data.json";
-var store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
+```javascript
+const url = "json/data.json";
+const store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 ```
 
 After setting the URL and the callback parameter name during the creation
@@ -50,15 +50,15 @@ process, the loading will begin immediately.
 
 The Offline store uses HTML local or session storage to store the data on the
 client. That can be used for offline storage as well as for other storage
-purposes on the client. You should use the [environment](/core/environment)
+purposes on the client. You should use the [environment](../environment.md)
 checks to make sure that the used storage technology is supported by the
 environment you want to run your code in.
 
 The following code demonstrates how to initialize the data store.
 
-```
-if (qx.core.Environment.get("html.storage.local") {
-  var store = new qx.data.store.Offline("my-test-key", "local");
+```javascript
+if (qx.core.Environment.get("html.storage.local")) {
+  const store = new qx.data.store.Offline("my-test-key", "local");
   if (store.getModel() == null) {
     // initialize model ...
   }
@@ -72,10 +72,10 @@ after loading. The best solution is to use the model with a controller and then
 bind the model properties with `Single Value Binding <single_value_binding>`
 together. The code for this could look something like this.
 
-```
+```javascript
 store.bind("model", controller, "model");
 ```
 
 Using the `Single Value Binding <single_value_binding>`, the binding handles all
 the stuff related with the loading of the model data. That means that the data
-will be available in the controller as soon as its available in the store.
+will be available in the controller as soon as they are available in the store.

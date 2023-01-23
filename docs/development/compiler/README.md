@@ -1,6 +1,6 @@
 # The Qooxdoo Compiler and Command Line Toolchain
 
-Starting with v6, Qooxdoo includes a brand new command line interface called
+Starting with v6, Qooxdoo includes a brand-new command line interface called
 `qx` which automates many of the routine tasks involved in creating and managing
 your application code, including compiling for development or release onto
 production servers.
@@ -8,7 +8,7 @@ production servers.
 Using `qx` you quickly and easily perform daily routine tasks, such as:
 
 - Compile your code!
-- Serve your code via a built in web server
+- Serve your code via a built-in web server
 - Install packages written by yourself or others
 - Create skeleton applications
 
@@ -24,13 +24,13 @@ really useful because packages can have dependencies on other packages, so
 letting `qx` do the hard work of finding and downloading things isn't just
 useful for getting started - it can be a crucial tool in getting reliable
 compilation, whether that means getting it working for everyone in your team, or
-just making sure that your project is up to date with the latest version of all
+just making sure that your project is up-to-date with the latest version of all
 it's dependencies.
 
 ## Installation / Getting Started
 
 The `qx` command is easily installed with `npm` and as it is written in 100%
-Javascript it is entirely cross platform; the only requirement is that you use a
+Javascript it is entirely cross-platform; the only requirement is that you use a
 currently supported version of NodeJs itself (well - we do _try_ to support
 older versions of NodeJs, but it's not guaranteed).
 
@@ -41,7 +41,7 @@ the latest version of Qooxdoo and the compiler.
 
 To install globally, all you need to do is this:
 
-```
+```bash
 npm i -g @qooxdoo/framework
 ```
 
@@ -63,18 +63,18 @@ take the defaults; if you leave it off, then `qx` will just ask you a series of
 questions about how you want your new application to look like. Try it :) )
 
 `qx compile` incorporates Babel and will transpile your code from the latest ES6
-(or ES7 etc) into ES5 that works across all web browsers - this is part of
-Qooxdoo's commitment to make development truely cross platform and entirely
+(or ES7 etc.) into ES5 that works across all web browsers - this is part of
+Qooxdoo's commitment to make development truly cross-platform and entirely
 modern. When it transpiles your code, the compiler also optimises it so that
 only the code that is actually needed is loaded by the web browser - you never
-need to use webpack or uglify etc, because Qooxdoo has it all built in.
+need to use webpack or uglify etc., because Qooxdoo has it all built in.
 
 The only "gotcha" here would be that `qx compile` would have to be run _every
 single time_ that you edit a source file; this would be a hassle, so there is
 the fully automatic version that watches for changes; just run this in a spare
 terminal window:
 
-```javascript
+```bash
 qx compile --watch
 ```
 
@@ -82,7 +82,7 @@ One more really useful tool is that `qx` includes its own webserver, which also
 does automatic compilation. If you're running `qx compile` in a terminal window,
 hit `Ctrl-C` to stop it and then try this instead:
 
-```javascript
+```bash
 qx serve
 ```
 
@@ -100,7 +100,7 @@ new packages is trivial - even if there is a whole set of dependencies, the
 Here's an example where we add a couple of packages into your project, and then
 serve them up:
 
-```javascript
+```bash
 qx package install qooxdoo/qxl.apiviewer
 qx package install qooxdoo/qxl.widgetbrowser
 qx serve --show-startpage
