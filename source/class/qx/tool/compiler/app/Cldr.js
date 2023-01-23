@@ -62,17 +62,27 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
       const fullDir = path.join(cldrPath, data_path);
 
-      return readDir(fullDir).then(names => {
-        return new Promise((resolve, reject) => {
-          const searchedName = locale.toLowerCase() + ".xml";
-          const realName = names.find(name => name.toLowerCase() === searchedName);
-          if (realName){
-            resolve(realName);
-          } else {
-            reject(new Error("Cannot find XML file for locale \"" + locale + "\" in CLDR folder"));
-          }
-        });
-      })
+      return readDir(fullDir)
+        .then(
+          names =>
+            new Promise((resolve, reject) => {
+              const searchedName = locale.toLowerCase() + ".xml";
+              const realName = names.find(
+                name => name.toLowerCase() === searchedName
+              );
+              if (realName) {
+                resolve(realName);
+              } else {
+                reject(
+                  new Error(
+                    'Cannot find XML file for locale "' +
+                      locale +
+                      '" in CLDR folder'
+                  )
+                );
+              }
+            })
+        )
         .then(fileName =>
           readFile(path.join(fullDir, fileName), {
             encoding: "utf-8"
@@ -581,28 +591,34 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
 
             var monthContext = get("months[0].monthContext", cal);
 
-            const parseMonth = (months, where) => {
-              if (!months){
+            const parseMonth = (months, cldrProperty) => {
+              if (!months) {
                 return;
               }
               months.forEach(month => {
-                cldr[where + "_" + month["$"].type] = getText(month);
+                cldr[cldrProperty + "_" + month["$"].type] = getText(month);
               });
-            }
+            };
 
-            const parseMonthContext = (what, where) => {
-              find(monthContext, "type", "format", function (row) {
-                find(row.monthWidth, "type", what, function (row) {
-                  parseMonth(row.month, where);
-                });
-              });
-            }
+            const parseMonthContext = sectionNameInLocaleFile => {
+              find(monthContext, "type", "format", row =>
+                find(row.monthWidth, "type", sectionNameInLocaleFile, row =>
+                  parseMonth(
+                    row.month,
+                    "cldr_month_format_" + sectionNameInLocaleFile
+                  )
+                )
+              );
+            };
 
-            parseMonthContext("abbreviated","cldr_month_format_abbreviated");
-            parseMonthContext("wide","cldr_month_format_wide");
-            find(monthContext, "type", "stand-alone", function (row) {
-              parseMonth(row.monthWidth[0].month, "cldr_month_stand-alone_narrow");
-            });
+            parseMonthContext("abbreviated");
+            parseMonthContext("wide");
+            find(monthContext, "type", "stand-alone", row =>
+              parseMonth(
+                row.monthWidth[0].month,
+                "cldr_month_stand-alone_narrow"
+              )
+            );
 
             function getTimeFormatPattern(row) {
               return row.timeFormat.pattern;
