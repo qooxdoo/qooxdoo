@@ -1,7 +1,7 @@
 # Properties in more detail
 
 
-> :memo: Please take a look at `property_features` first to get an compact overview of
+> :memo: Please take a look at `property_features` first to get a compact overview of
 > the available features.
 
 ## Declaration
@@ -37,7 +37,7 @@ from each other.
 
 As a class developer the easiest solution with the best performance is to define
 an apply method. As a user of a class (the one who creates instances) it is the
-best to simply attach an event listener to the instance, if such an
+best to simply attach an event listener to the instance, if such a
 corresponding event is provided in the property declaration.
 
 ### Defining an apply method
@@ -63,7 +63,7 @@ properties : {
 
 members :
 {
-  _applyWidth : function(value, old, name) {
+  _applyWidth(value, old, name) {
     // do something...
   }
 }
@@ -158,18 +158,18 @@ call of the initializing function in the constructor.
 
 ```javascript
 qx.Class.define("qx.MyClass", {
-  construct: function() {
+  construct() {
     this.initMyProperty([1, 2, 4, 8]);
   },
   properties : {
     myProperty : { deferredInit : true}
   }
-};
+});
 ```
 
 ### Applying an init value
 
-It is possible to apply the init value using an user-defined apply method. To do
+It is possible to apply the init value using a user-defined apply method. To do
 this call the init method `this.initMyProperty(value)` somewhere in your
 constructor - this "change" will than trigger calling the apply method. Of
 course, this only makes sense in cases where you have at least an `apply` or
@@ -189,7 +189,7 @@ method, not like in the usual cases when setting the same value which is already
 set.
 
 ```javascript
-construct : function()
+construct()
 {
   super();
 
@@ -265,10 +265,10 @@ not accept any parameters. The init methods always use the predefined init
 values. In cases where there is no `init` value given in the property
 declaration, it is possible to call the init method with one parameter, which
 represents the init value. This may be useful to apply reference types to each
-instance. Thus they would not be shared between instances.
+instance. Thus, they would not be shared between instances.
 
 > :memo: Please remember that init values are not for incoming user values. Please use
-> `init` only for class defined things, not for user values. Otherwise you torpedo
+> `init` only for class defined things, not for user values. Otherwise, you torpedo
 the multi-value idea behind the dynamic properties.
 
 
@@ -291,7 +291,7 @@ properties : {
 ```
 
 This will change the default value at definition time. `refine` is a better
-solution than a simple `set` call inside the constructor because it the initial
+solution than a simple `set` call inside the constructor because its initial
 value is stored in a separate namespace as the user value and so it is possible
 for the user to fall back to the default value suggested by the developer of a
 class.
@@ -423,7 +423,7 @@ value types for a property.
 ### Example
 
 Here we define both a check and transform method for the width property. Though
-the check method requires that the property be a integer, we can use the
+the check method requires that the property be an integer, we can use the
 transform method to accept a string and transform it into an integer. Note that
 we can still rely on the check method to catch any other incorrect values, such
 as if the user mistakenly assigned a Widget to the property.
@@ -441,7 +441,7 @@ properties :
 
 members :
 {
-   _transformWidth : function(value, oldValue)
+   _transformWidth(value, oldValue)
    {
       if ( qx.lang.Type.isString(value) )
       {
@@ -462,9 +462,9 @@ parameter will be undefined
 Sometimes it may be necessary for an `applyXxx` method to take some time to
 complete, in which case it is necessary to consider coding asynchronously to allow
 for a better user experience. Perhaps more importantly, if your apply method
-includes triggering a server roundtrip then
+includes triggering a server round trip then
 [changes to the specification](https://xhr.spec.whatwg.org/) have deprecated
-synchronous XMLHttpRequest, and some browsers (eg Safari) already have very
+synchronous XMLHttpRequest, and some browsers (e.g. Safari) already have very
 short timeouts for synchronous XMLHttpRequests which cannot be overridden.
 
 Properties can be made asynchronous by using `qx.Promise`.
@@ -493,7 +493,7 @@ properties :
 
 members :
 {
-   _applyName : function(name)
+   _applyName(name)
    {
        return new qx.Promise(function(fulfilled) {
            // ... do something asynchronous here
@@ -605,7 +605,7 @@ architectures, too.
 Inheritance quickly becomes nothing short of vital for the property system, if
 you consider that it can reduce redundancy dramatically. It is advantageous both
 in terms of coding size and storage space, because a value only needs to be
-declared once for multiple objects inside an hierarchy. Beyond declaring such an
+declared once for multiple objects inside a hierarchy. Beyond declaring such an
 inheritable property once, only intended exceptions to the inherited values need
 to be given to locally override those values.
 
@@ -640,7 +640,7 @@ properties : {
 
 ### Inheritable CSS properties
 
-To give you an idea for what kind of custom properties inheritance is
+To give you an idea for what kind of custom properties' inheritance is
 particularly useful, the following list of prominent CSS properties which
 support inheritance may be a good orientation:
 
@@ -701,7 +701,7 @@ Additionally, you may also provide a mode which modifies the incoming data
 before calling the setter of each group members. Currently, the only available
 modifier is `shorthand`, which emulates the well-known CSS shorthand support for
 Qooxdoo properties. For more information regarding this feature, please have a
-look at the [user manual](understanding_properties). The definition of such a
+look at the [user manual](understanding_properties.md). The definition of such a
 property group reads:
 
 ```javascript
@@ -725,9 +725,6 @@ obj.setPadding( 10, 20 );
 // obj.setPaddingRight(20);
 // obj.setPaddingBottom(10);
 // obj.setPaddingLeft(20);
-}
-
-.. _pages/defining_properties#when_to_use_properties:
 ```
 
 ## When to use properties?

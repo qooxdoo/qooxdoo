@@ -101,10 +101,10 @@ This is a sample file:
     `source/resource`).
   - **translation**: Path to the library's translation files relative to the
     Manifest.json file (e.g. `source/translation`).
-  - [**webfonts**]&#x3A; [see here](../development/howto/icon_fonts.md)
+  - [**webfonts**]&#x3A; [see here](../../howto/icon_fonts.md)
   - **type**: One of [`library`, `application`, `add-in`,`contribution`] .
   - **application**: An application description block as described in  
-    [compiler.json](./compile.md). This block will copied to `applications`
+    [compiler.json](compile.md). This block will be copied to `applications`
     section in `compile.json` during installation of the contrib.
   - **environmentChecks**: Provides mappings between short environment keys
     (such as `browser.name`) and the class that implements it; the key name
@@ -120,7 +120,7 @@ This is a sample file:
   for how to use **externalResources** to include a browserified Node module in
   an app.
 
-* **requires**: a list of of needed libraries and [packages](../cli/packages.md)
+* **requires**: a list of needed libraries and [packages](../../cli/packages.md)
   . Format is `package_uri`: `needed_version` where `needed_version` is a semver
   compatible version description. Special handling for:
   - @qooxdoo/framework: This checks the version of the used Qooxdoo framework

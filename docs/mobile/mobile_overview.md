@@ -1,7 +1,7 @@
 # Overview
 
 This is an introduction into Qooxdoo's mobile framework. Qooxdoo mobile provides
-a optimized widget set to build applications for mobile devices.
+an optimized widget set to build applications for mobile devices.
 
 ## Supported Mobile Operating Systems
 
@@ -58,18 +58,14 @@ Have a look into the API documentation of
 the basic concepts of Qooxdoo mobile.
 
 To learn how to develop a basic mobile application, you should try the mobile
-tweets client [tutorial](tutorial.md)
-
-If you are new to Qooxdoo, make sure you have read the getting started
-getting_started/helloworld.md#setup_the_framework tutorial to understand the
-basics of Qooxdoo.
+tweets client [tutorial](tutorial.md).
 
 ## Environment Keys
 
 The following environment keys are available:
 
 - `qx.mobile.nativescroll: true|false` - Whether to use native scrolling or
-  iScroll\_ for scrolling.
+  <u>iScroll</u> for scrolling.
 
 - `device.pixelRatio: Number` - the ratio between physical pixels and
   device-independent pixels (dips) on the device.
@@ -108,7 +104,7 @@ are some differences, listed below:
   a widget that provides a screen which users can interact with in order to do
   something. Most times a page provides a single task or a group of related
   tasks. A Qooxdoo mobile application is usually composed of one or more loosely
-  bound pages. Typically there is one page that presents the "main" view.
+  bound pages. Typically, there is one page that presents the "main" view.
 
 ## Demo Applications
 
@@ -128,7 +124,7 @@ You can contribute in different ways:
 
 - Theming: You can optimize the current CSS files or even create your own theme.
 
-- Widgets: Widget / Feature missing? Create an widget an post it back to us.
+- Widgets: Widget / Feature missing? Create a widget and submit it as a Pull Request.
 
 - Bugs: If you have found a bug, or when you have fixed it already, please open
   a new issue in the

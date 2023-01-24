@@ -22,13 +22,13 @@ common denominator of both transport methods.
 
 ## Basic Setup
 
-Before a request can be send, it must be configured. Configuration is
+Before a request can be sent, it must be configured. Configuration is
 accomplished by setting properties. The most commonly used properties include:
 
 - **url**: The HTTP resource to request
 - **method**: The HTTP method, sometimes also referred to as HTTP verb. `Script`
   only accepts the `GET` method.
-- **requestData**: Data to be send as part of the request.
+- **requestData**: Data to be sent as part of the request.
 - **requestHeaders**: Headers to send with the request
 
 For a complete list of properties, please refer to the API Documentation of
@@ -36,7 +36,7 @@ For a complete list of properties, please refer to the API Documentation of
 
 ```javascript
 // Instantiate request
-var req = new qx.io.request.Xhr();
+const req = new qx.io.request.Xhr();
 
 // Set URL (mandatory)
 req.setUrl("/books");
@@ -45,7 +45,7 @@ req.setUrl("/books");
 req.setMethod("POST");
 
 // Alternative notation
-// var req = new qx.io.request.Xhr("/books", "POST");
+// const req = new qx.io.request.Xhr("/books", "POST");
 
 // Set request data. Accepts String, Map
 // or Qooxdoo Object.
@@ -94,8 +94,8 @@ For a complete list of events, please refer to the API Documentation of
 req.addListener(
   "success",
   function (e) {
-    var req = e.getTarget();
-    var response = req.getResponse();
+    const req = e.getTarget();
+    const response = req.getResponse();
     this.doSomething(response);
   },
   this
@@ -182,8 +182,8 @@ determines the `response`.
 
 Some servers send distinct _representations_ of the same resource depending on
 the content type accepted. For instance, a server may respond with either a
-JSON, XML or a HTML representation while requesting the _same_ URL. By default,
-requests accept every content type. In effect, the server will respond with it's
+JSON, XML or an HTML representation while requesting the _same_ URL. By default,
+requests accept every content type. In effect, the server will respond with its
 default representation. If the server has no default representation, it may
 respond with the status code `406` (Not Acceptable).
 

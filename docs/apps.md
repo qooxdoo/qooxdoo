@@ -34,10 +34,10 @@ with the framework. The applications are:
   
 - **[Icon Font Viewer](http://www.qooxdoo.org/qxl.iconfontviewer)**
   ([Code](https://github.com/qooxdoo/qxl.iconfontviewer)): This application lets
-  you browse the available iconfonts.
+  you browse the available icon-fonts.
   
 - **[Testrunner](https://qooxdoo.org/qxl.testrunner/)**
-  ([Code](https://github.com/qooxdoo/qxl.testrunner)): A special testrunner for
+  ([Code](https://github.com/qooxdoo/qxl.testrunner)): A special test runner for
   the framework unit tests.
   
 - **[Qooxdoo tutorial app](http://www.qooxdoo.org/qxl.tutorial)**

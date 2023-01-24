@@ -11,7 +11,7 @@ applications ready for deployment.
 ## Framework
 
 The Qooxdoo framework enhances the javascript language with a full-fledged,
-class-based object-oriented system, including a powerful properties system,
+class-based object-oriented system, including a powerful property system,
 interfaces, and mixins. Qooxdoo code is based on namespaces to allow rigorous
 and scalable code structure, asy integration with other libraries and existing
 user code. It comes with a [comprehensive API reference](apps://apiviewer) that
@@ -75,8 +75,8 @@ Qooxdoo was originally developed by one of the world's leading web hosters: 1&1
 Internet (now part of United Internet AG). In late 2015, the Qooxdoo framework
 with all its assets, was turned over to the Qooxdoo association, located in
 Switzerland. Qooxdoo development has, since then, been lead by a group of
-dedicated developers congregating on [gitter](https://gitter.im/qooxdoo/qooxdoo)
-and [github](https://github.com/qooxdoo/qooxdoo) .
+dedicated developers congregating on [Gitter](https://gitter.im/qooxdoo/qooxdoo)
+and [GitHub](https://github.com/qooxdoo/qooxdoo) .
 [Contributions](contribute.md) are always welcome.
 
 ## Contact

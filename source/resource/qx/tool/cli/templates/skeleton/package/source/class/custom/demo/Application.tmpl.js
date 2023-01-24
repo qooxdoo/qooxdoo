@@ -24,15 +24,15 @@ qx.Class.define("${namespace}.demo.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
-    main : function()
+    main()
     {
       // Call super class
-      this.base(arguments);
+      super.main();
 
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug"))
@@ -50,10 +50,10 @@ qx.Class.define("${namespace}.demo.Application",
       */
 
       // Create a button
-      var button1 = new ${namespace}.Button("Very special button", "${namespace_as_path}/test.png");
+      const button1 = new ${namespace}.Button("Very special button", "${namespace_as_path}/test.png");
 
       // Document is the application root
-      var doc = this.getRoot();
+      const doc = this.getRoot();
 
       // Add button to document at fixed coordinates
       doc.add(button1, {left: 100, top: 50});
