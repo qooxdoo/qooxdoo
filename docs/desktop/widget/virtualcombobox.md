@@ -163,19 +163,19 @@ group renderer configuration, filtering, sorting, grouping, etc.).
 Here's an example. We create a simple ComboBox example with 2500 items, sorting
 the items (ascending) and log each value change.
 
-```
+```javascript
 //create the model data
-var rawData = [];
-for (var i = 0; i < 2500; i++) {
+let rawData = [];
+for (let i = 0; i < 2500; i++) {
   rawData[i] = "Item No " + i;
 }
-var model = qx.data.marshal.Json.createModel(rawData);
+const model = qx.data.marshal.Json.createModel(rawData);
 
 //create the SelectBox
-var comboBox = new qx.ui.form.VirtualComboBox(model);
+const comboBox = new qx.ui.form.VirtualComboBox(model);
 
 //configure the ComboBox's behavior
-var delegate = {
+const delegate = {
   sorter : function(a, b) {
     return a > b ? 1 : a < b ? -1 : 0;
   }
