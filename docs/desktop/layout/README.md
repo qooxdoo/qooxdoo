@@ -45,8 +45,8 @@ To make layout properties available in a convenient fashion each
 [add()](apps://apiviewer/#qx.ui.container.Composite~add) has an optional second
 parameter: A map with all layout properties to configure. A basic example:
 
-```
-var canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+```javascript
+const canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 canvas.add(new qx.ui.form.Button("Say Hello"), {
   left : 20,
   top: 20
@@ -129,8 +129,8 @@ reduce the width (or the developer using the `width` property) the widget tries
 to solve the requirement dynamically. This certainly works for the height as
 well.
 
-```
-var label = new qx.ui.basic.Label().set({
+```javascript
+const label = new qx.ui.basic.Label().set({
   value: "A long label text which has not enough room.",
   width: 60
 });
@@ -146,10 +146,10 @@ influenced by the available width. The
 feature when using the [rich](apps://apiviewer/#qx.ui.basic.Label~rich) output
 mode (HTML content).
 
-```
-var label = new qx.ui.basic.Label().set({
-  value: "A long label text with auto-wrapping. This also may
-    contain <b style='color:red'>rich HTML</b> markup.",
+```javascript
+const label = new qx.ui.basic.Label().set({
+  value: "A long label text with auto-wrapping. This also may" +
+    "contain <b style='color:red'>rich HTML</b> markup.",
   rich : true,
   width: 120
 });
@@ -191,12 +191,12 @@ be statically hidden or visible. Each bar can be controlled separately. It is
 possible to enable one scrollbar statically and make the other one
 auto-displayed and vice-versa.
 
-```
-var big = new qx.ui.form.TextArea;
+```javascript
+const big = new qx.ui.form.TextArea;
 big.setWidth(600);
 big.setHeight(600);
 
-var area = new qx.ui.container.Scroll;
+const area = new qx.ui.container.Scroll;
 area.setWidth(200);
 area.setHeight(200);
 area.add(big);
@@ -211,10 +211,10 @@ into the viewport. This feature is provided through the method
 [scrollItemIntoView](apps://apiviewer/#qx.ui.core.Widget~scrollChildIntoView) .
 It just needs any child of the widget (at any depth).
 
-```
-var list = new qx.ui.form.List();
-var item;
-for (var i=0; i<20; i++)
+```javascript
+const list = new qx.ui.form.List();
+let item;
+for (let i=0; i<20; i++)
 {
   item = new qx.ui.form.ListItem("Item #" + i);
   list.add(item);
@@ -247,7 +247,7 @@ The [children handling](apps://apiviewer/#qx.ui.core.MChildrenHandling) normally
 allows a second optional parameter `options`. The layout properties are given
 through a simple map e.g.
 
-```
+```javascript
 parent.add(child, {left:20, top: 100});
 ```
 

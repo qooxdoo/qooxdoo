@@ -15,7 +15,7 @@ vertical box layout lays out widgets in a vertical column, from top to bottom.
 - Margins with horizontal (HBox) resp. vertical (VBox) collapsing
 - Auto sizing (ignoring percent values)
 - Percent widths (not size hint relevant)
-- Alignment (Children property {@link qx.ui.core.LayoutItem#alignX} is ignored)
+- Alignment (Children property [alignX](apps://apiviewer/#qx.ui.core.LayoutItem~alignX) is ignored)
 - Horizontal (HBox) resp. vertical (VBox) spacing (collapsed with margins)
 - Property to reverse children ordering (starting from last to first)
 - Vertical (HBox) resp. horizontal (VBox) children stretching (respecting size
