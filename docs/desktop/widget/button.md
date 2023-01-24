@@ -17,7 +17,7 @@ supports pointer and key events.
 ## Description
 
 The button widget is a normal widget for a GUI. The button supports plain text
-and icon. Also it is possible to handle user interactions with pointer and
+and icon. It is also possible to handle user interactions with pointer and
 keyboard.
 
 ## Demos

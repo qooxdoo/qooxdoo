@@ -22,9 +22,9 @@ further has support for percent dimensions and locations.
 ## Description
 
 In addition to the Basic layout the Canvas layout adds support for `right` and
-`bottom` layout properties. These allows to position a child in distance from
+`bottom` layout properties. They allow to position a child in distance from
 the right or bottom edge of the available space. The canvas also adds support
-for percent ui_layouting.md#percent locations and dimensions (layout properties
+for [percent](README.md#percent) locations and dimensions (layout properties
 `width` and `height`). Percents are defined as a string value (otherwise using
 the same layout property) with a "%" postfix.
 

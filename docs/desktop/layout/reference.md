@@ -19,7 +19,7 @@ available width is not sufficient an automatic line break is inserted.
 
 A Dock layout attaches the children to the edges of the available space.
 
-The Grid layout arranges items in a two dimensional grid. Widgets can be placed
+The Grid layout arranges items in a two-dimensional grid. Widgets can be placed
 into the grid's cells and may span multiple rows and columns.
 
 The Grow layout stretches all children to the full available size but still

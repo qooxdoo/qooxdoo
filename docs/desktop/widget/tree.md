@@ -16,7 +16,7 @@ contained subtree structure.
 
 ## Description
 
-A `Tree` contains items in an hierarchically structure. The first item inside a
+A `Tree` contains items in a hierarchical structure. The first item inside a
 `Tree` is called the root. A tree always contains one single `TreeFolder` as the
 root widget which itself can contain several other items. A `TreeFolder` (which
 is also called _node_) can contain `TreeFolder` widgets or `TreeFile` widgets.

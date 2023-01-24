@@ -6,7 +6,7 @@ e.q. MenuBar.
 
 ## Preview Image
 
-![:Menu](menu.png%0A%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20:target:%20../../menu.png)
+![:Menu](menu.png)
 
 ## Features
 
@@ -25,8 +25,8 @@ The menu can contain different item types:
 ## Description
 
 The Menu widget is used in combination with other widgets. The other widgets has
-an instance from the menu and it's shown by user interactions. Each item in a
-menu can get an command key, that is used to get keyboard support for the user.
+an instance from the menu, and it's shown by user interactions. Each item in a
+menu can get a command key, that is used to get keyboard support for the user.
 
 Here a some widgets that use a menu for user interaction:
 

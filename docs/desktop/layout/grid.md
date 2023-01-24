@@ -1,6 +1,6 @@
 # Grid
 
-The grid layout manager arranges the items in a two dimensional grid. Widgets
+The grid layout manager arranges the items in a two-dimensional grid. Widgets
 can be placed into the grid's cells and may span multiple rows and columns.
 
 ## Preview Image
@@ -21,10 +21,10 @@ This image show two nested grids with column and row spans.
 
 ## Description
 
-The grid arranges the child widgets in a two dimensional grid. Each child is
+The grid arranges the child widgets in a two-dimensional grid. Each child is
 associated with a grid `column` and `row`. Widgets can span multiple cells by
-setting the `colSpan` and `rowSpan` layout properties. However each grid cell
-can only contain one widget. Thus child widgets can never overlap.
+setting the `colSpan` and `rowSpan` layout properties. However, each grid cell
+can only contain one widget. Thus, child widgets can never overlap.
 
 The grid computes the preferred with/height of each column/row based on the
 preferred size of the child widgets. The computed column widths and row heights
@@ -33,9 +33,9 @@ can be overridden by explicitly setting them using
 [setRowHeight](apps://apiviewer/#qx.ui.layout.Grid~setRowHeight) . Minimum and
 maximum sizes for columns/rows can be set as well.
 
-By default no column or row is stretched if the available space is
+By default, no column or row is stretched if the available space is
 larger/smaller than the needed space. To allow certain rows/columns to be
-stretched each row/column can have a flex ui_layouting.md#flex value.
+stretched each row/column can have a [flex](README.md#flex) value.
 
 ## Layout properties
 

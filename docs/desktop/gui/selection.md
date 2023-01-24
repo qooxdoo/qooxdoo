@@ -161,7 +161,7 @@ The output should be:
 (3) Selected (selectBox): ListItem5
 ```
 
-The SelectBox's implementation doesn't allow empty selections, so if the first
+The SelectBox's implementation does not allow empty selections, so if the first
 item is added to the SelectBox it will be selected (1). (2) occurs due to the
 selection and (3) from `getSelection`.
 

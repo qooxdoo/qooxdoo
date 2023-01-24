@@ -1,11 +1,11 @@
 # Table Styling
 
-Ever wanted to style the table widget and missed an overview what can by styled
+Ever wanted to style the table widget and missed an overview what can be styled
 exactly? If so, then read on and learn how to style the different parts of the
 table widget and which steps _can_ be applied to customize the appearance of
 this widget.
 
-By default (talking about the _Modern_ theme) the table looks like this:
+By default, (talking about the _Modern_ theme) the table looks like this:
 
 ![table_default_styling.png](table_styling/table_default_styling.png)
 
@@ -33,27 +33,26 @@ This tutorial takes a look at the several _visible_ parts of the table such as
 
 - Scrollbar
 
-- Editable Cells (controls like Textfield, SelectBox and ComboBox)
+- Editable Cells (controls like TextField, SelectBox and ComboBox)
 
 This tutorial assumes you're implementing all styling changes of the table
 widget in your own application theme classes. If you're new to the theming layer
-of Qooxdoo it's a good idea to recap the manual section for the theming layer
-(ui_theming).
+of Qooxdoo it's a good idea to recap the manual section for the [theming layer](theming.md#theming).
 
 If you're familiar with the theming layer we can dive right into the first
 topic.
 
-> Some of the examples are using CSS3 features, so they're not applicable to all
+> Some examples are using CSS3 features, so they're not applicable to all
 > browsers. If you need to achieve a styling which is almost completely
 > identical (a pixel-perfect result is impossible) you have to use graphic files
 > whenever CSS3 features are not present.
 
 ## Table Widget
 
-Since this widget is the container of all sub-components the styling
+Since this widget is the container of all subcomponents the styling
 possibilities are naturally limited. However, limited possibilities does not
 result in low importance. You can e.g. change the border of the widget which can
-have a great visual impact. Since the border is a decorator (ui_decorators) you
+have a great visual impact. Since the border is a [decorator](themes.md#qooxdoo-theme-decorators) you
 can use all possibilities like different kind of borders, shadows and the like.
 
 Sample of a table widget using a decorator with shadow:
@@ -88,7 +87,7 @@ theme as following:
 
 > To get this example working you additionally have to define the colors
 > `table-border-main` and `table-shadow` in your color theme. It's considered as
-> best practice to define all colors as named color in your color theme. This
+> best practice for defining all colors as named color in your color theme. This
 > way you can use these named colors all over your application.
 
 ## Header
@@ -126,13 +125,13 @@ This code snippet will result in the following:
 
 ![table_header_styling.png](table_styling/table_header_styling.png)
 
-Additionally you can change the height of the whole header by using the
+Additionally, you can change the height of the whole header by using the
 `headerCellHeight` property. Changing this property might make sense if you also
 want to customize the appearance of the header cells (e.g. using a larger font).
 
 ### Removing the header
 
-You want to get rid off the whole header? That's also possible by setting two
+You want to get rid of the whole header? That's also possible by setting two
 additional themeable properties. So you only have to drop those two line in your
 appearance theme and you're done:
 
@@ -170,7 +169,7 @@ parts:
 Beside the settings for alignment and paddings all other appearance
 customizations are directly applied to the header cell appearance. If you want
 to e.g. change the hover effect for the header cell you can easily change the
-decorator (and the padding if necessary) to get an custom styling. Exchanging
+decorator (and the padding if necessary) to get a custom styling. Exchanging
 the sort icon is also supported. The sort icons are shown whenever the user does
 tap at one header cell the very first time.
 
@@ -289,7 +288,7 @@ row colors. The pane widget gets only visible if there is more open space left
 than occupied by the rows to show or at the very end of the table pane whenever
 scrollbars are necessary.
 
-One picture says more than thousand words :) The pane with red background color
+One picture says more than a thousand words :) The pane with red background color
 to demonstrate:
 
 ![table_pane_styling.png](table_styling/table_pane_styling.png)
@@ -343,7 +342,7 @@ Customizing these colors is as easy as hiding the grid lines. You can adapt the
 styling of the rows and columns by just setting different colors. These colors
 are available and can be overwritten in your application color theme:
 
-- `table-pane` - background color of the pane when less entries are used than
+- `table-pane` - background color of the pane when fewer entries are used than
   available space
 - `table-row` - text color of the cells
 - `table-row-background-even` - background color of even rows
@@ -397,7 +396,7 @@ The same with an inactive selection:
 
 This section is rather for the sake of completeness. If you want to have full
 control over the cell styling you can create your own cellrenderer classes and
-apply them for each column of your table. This topic is more a programmatic one
+apply them for each column of your table. This topic is a more programmatic one
 and it does not fit in this scope of this article. However, a short introduction
 and a beginners guide will fit in here :)
 
@@ -415,19 +414,19 @@ tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
 to e.g. display a checkbox for the fourth column. This assumes the cell renderer
 fits with the provided data.
 
-If that's still no a solution for you, because you really need some extras for
-the cell rendering the solution has to be an own cell renderer. To get into it
+If that's still no solution for you, because you really need some extras for
+the cell rendering the solution has to be an own cell renderer. To get into it,
 it's recommended to take a look at the existing cell renderers and the base
 class. So basically you should study the implementation of the
 `qx.ui.table.cellrenderer.Abstract` class and as first start the implementation
 of `qx.ui.table.cellrenderer.Default` to give a good overview of this topic.
 Depending on your needs you can start right away by copying the `default`
-renderer and play around a bit to get a impression of how to customize it.
+renderer and play around a bit to get an impression of how to customize it.
 
 ### Focus Indicator
 
 This widget in default visible whenever a selection is present. There are two
-ways of customzing this widget:
+ways of customizing this widget:
 
 - change the decorator and the colors of this widget
 - hide this indicator completely
@@ -497,14 +496,14 @@ resize line would like this:
 
 ## Statusbar
 
-You might guessed it already: yes, the statusbar can also be hidden _ or_
+You might guess it already: yes, the statusbar can also be hidden _ or_
 customized by changing a decorator in your decorator theme of your application.
 This kind of repetition is quite nice, because if you do understand those basic
 things you can take a look at the `Modern` appearance or decorator theme and you
 quickly know what to include in your own theme in order to change the styling of
 a component.
 
-Hiding the statusbar is again an one-liner:
+Hiding the statusbar is again a one-liner:
 
 ```javascript
 table.setStatusBarVisible(false);
@@ -604,7 +603,7 @@ As you can see: only minor changes to the existing appearances. And that's also
 the hint for your customizations: start with the existing appearances and only
 modify single properties by overwriting or adding them.
 
-Here's a little example with an editable textfield with `orange` background
+Here's a little example with an editable text field with `orange` background
 color:
 
 ![table_editable_cells.png](table_styling/table_editable_cells.png)
@@ -627,7 +626,7 @@ so the scrollbars of the `table-scroller` widget integrates the scrollbars as
 child controls and does use the same decorators as the default scrollbars. If
 you want to theme those scrollbars you should take a look at the `scrollbar`
 appearance and all other child controls of this widget. As first step you can
-copy this definitions and modify it to suit your needs. Instead of using the
+copy these definitions and modify it to suit your needs. Instead of using the
 default scrollbars for the table you have to point the
 `table-scroller/scrollbar-x` and `table-scroller/scrollbar-y` to your own
 appearance entries and you're done.

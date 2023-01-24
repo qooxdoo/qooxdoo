@@ -151,7 +151,7 @@ result = {[
 ]};
 ```
 
-Moreover, the backend has to deliver the row count, i. e. the number of rows the
+Moreover, the backend has to deliver the row count, i.e. the number of rows the
 table contains. This is what the `_loadRowCount` function of your subclass
 expects to get. Please make sure that the URLs
 `http://localhost/services/getTableCount.php` and

@@ -18,7 +18,7 @@ The PasswordField widget is a special TextField witch show the input hidden.
 The PasswordField is a special TextField for password input. The PasswordField
 hide the text input.
 
-The act is the same like the TextField, for more details see: textfield
+The act is the same as the TextField, for more details see: [TextField](textfield.md)
 
 ## Demos
 
