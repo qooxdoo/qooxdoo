@@ -5,7 +5,7 @@ Interface) applications. Windows can only be added to `qx.ui.window.Desktop`
 widgets, or to widgets which implement the `qx.ui.window.IDesktop` interface.
 
 Each Desktop widget must have a `qx.ui.window.Manager`. If none is provided, the
-[default window manager](apps://apiviewer/#qx.ui.window.Window~DEFAULT_MANAGER_CLASS`qx.ui.window.Window#DEFAULT_MANAGER_CLASS`) is used.
+[default window manager](apps://apiviewer/#qx.ui.window.Window~DEFAULT_MANAGER_CLASS) is used.
 The desktop uses the manager to handle the contained windows.
 
 The manager takes care of windows z-index order. Windows can be normal
@@ -20,12 +20,12 @@ opened windows stack on each other and when you close one, the highest z-index
 order window will get activated.
 
 ```javascript
-var root = this.getRoot();
-var tabView = new qx.ui.tabview.TabView();
-var page = new qx.ui.tabview.Page("Desktop");
-var windowManager = new qx.ui.window.Manager();
-var desktop = new qx.ui.window.Desktop(windowManager);
-var aWindow = null;
+const root = this.getRoot();
+const tabView = new qx.ui.tabview.TabView();
+const page = new qx.ui.tabview.Page("Desktop");
+const windowManager = new qx.ui.window.Manager();
+const desktop = new qx.ui.window.Desktop(windowManager);
+let aWindow = null;
 
 page.setLayout(new qx.ui.layout.Grow());
 page.add(desktop);
@@ -33,7 +33,7 @@ tabView.add(page);
 root.add(tabView, { edge: 0 });
 
 //create 3 normal windows and add them to the page's desktop
-for (var i = 0; i < 3; i++) {
+for (let i = 0; i < 3; i++) {
   aWindow = new qx.ui.window.Window("Normal Window #" + i).set({
     width: 300
   });
@@ -42,7 +42,7 @@ for (var i = 0; i < 3; i++) {
 }
 
 //create 3 alwaysOnTop windows and add them to the page's desktop
-for (var i = 0; i < 3; i++) {
+for (let i = 0; i < 3; i++) {
   aWindow = new qx.ui.window.Window("AlwaysOnTop Window #" + i).set({
     width: 300
   });
@@ -67,8 +67,8 @@ exactly what the superclass of all root widgets (`qx.ui.root.Abstract`) does.
 This is why we can add windows to a root widget.
 
 ```javascript
-var win = new qx.ui.window.Window("First Window");
-var root = this.getRoot();
+const win = new qx.ui.window.Window("First Window");
+const root = this.getRoot();
 root.add(win);
 win.open();
 ```

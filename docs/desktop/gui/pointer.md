@@ -6,7 +6,7 @@ device type (mouse, touch or stylus) is used. This enables developers to create
 GUIs that work on touch devices such as smartphones and tablets just as well as
 on PCs.
 
-This layer is the foundation for high-level [gesture events](/core/gestures.md#gesture-events), and is based on the
+This layer is the foundation for high-level [gesture events](../../core/gestures.md#gesture-events), and is based on the
 [W3C Pointer Events candidate recommendation](http://www.w3.org/TR/pointerevents/),
 a specification that is based on mouse events and maps all input devices to
 pointer events. It extends the mouse event type with additional information like

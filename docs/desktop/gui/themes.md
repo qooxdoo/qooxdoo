@@ -62,7 +62,7 @@ qx.Theme.define("myApplication.theme.Theme",
 
 Finally, you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
 
-```
+```json5
 "applications": [
   { 
     "class": "myApplication.Application",
@@ -282,10 +282,10 @@ It is required that all properties applied in one state are applied in all other
 states. Something like this is seen as bad style and may result in wrong
 styling:
 
-```
+```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -298,10 +298,10 @@ style : function(states)
 
 Instead, you should always define the else case:
 
-```
+```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -523,7 +523,7 @@ As mentioned above, it is common to define the decorators in a decorator theme.
 This is really easy because you have to specify only a few details about the
 decorator.
 
-```
+```json5
 "main" : {
   style : {
     width : 1,
@@ -543,7 +543,7 @@ Sometimes it is very handy to change only little details about the decorator.
 Imagine a special decorator for hovered buttons. Inheritance comes in very handy
 in such a case.
 
-```
+```json5
 "scroll-knob-pressed" : {
   include : "scroll-knob",
 
@@ -611,8 +611,8 @@ qx.Mixin.define("my.MTextShadow", {
   },
 
   members : {
-    _styleTextShadow : function(styles) {
-      var color = this.getTextShadowColor();
+    _styleTextShadow(styles) {
+      let color = this.getTextShadowColor();
       if (color === null) {
         return;
       }

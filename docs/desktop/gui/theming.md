@@ -242,7 +242,7 @@ These days there are a lot of fonts available, and it's not unusual to want to d
 
 This example uses the [Monserrat font](https://fonts.google.com/specimen/Montserrat)
 
-```javascript
+```json5
     "default": {
       size: 14,
       family: ["Montserrat", "sans-serif"],
@@ -427,21 +427,22 @@ provides multiple themes that can be switched at runtime.
   and set it as the current theme, exemplified here through two methods:
 
   ```javascript
-  _getThemeNames : function() {
-    var theme, theme_names = [];
-    var themes = qx.Theme.getAll();
-    for (var key in themes) {
+  _getThemeNames() {
+    let theme, theme_names = [];
+    const themes = qx.Theme.getAll();
+    for (let key in themes) {
       theme = themes[key];
       if (theme.type === "meta") {
         theme_names.push(theme.name); }
     }
     return theme_names;
-  }
+  },
 
-  _setTheme : function(theme_name) {
-    var theme = qx.Theme.getByName(theme_name);
+  _setTheme(theme_name) {
+    const theme = qx.Theme.getByName(theme_name);
     if (theme) {
-      qx.theme.manager.Meta.getInstance().setTheme(theme); }
+      qx.theme.manager.Meta.getInstance().setTheme(theme); 
+    }
   }
   ```
 
@@ -485,6 +486,6 @@ provides multiple themes that can be switched at runtime.
 
   ```javascript
   // Use an aliased resource id for the icon
-  var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
+  const b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
   ```
 

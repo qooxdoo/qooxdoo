@@ -201,11 +201,11 @@ the `qx.ui.form.IStringForm` interface:
 
 ```javascript
 // create and add a textfield
-var textfield = new qx.ui.form.TextField();
+const textfield = new qx.ui.form.TextField();
 this.getRoot().add(textfield, { left: 10, top: 10 });
 
 // create and add a label
-var label = new qx.ui.basic.Label();
+const label = new qx.ui.basic.Label();
 this.getRoot().add(label, { left: 10, top: 40 });
 
 // set the text of both widgets
@@ -219,12 +219,12 @@ label:
 
 ```javascript
 // create and add a slider
-var slider = new qx.ui.form.Slider();
+const slider = new qx.ui.form.Slider();
 slider.setWidth(200);
 this.getRoot().add(slider, { left: 10, top: 10 });
 
 // create and add a label
-var label = new qx.ui.basic.Label();
+const label = new qx.ui.basic.Label();
 this.getRoot().add(label, { left: 220, top: 10 });
 
 // add the listener
@@ -243,7 +243,7 @@ mark a widget as invalid:
 
 ```javascript
 // create and add a slider
-var slider = new qx.ui.form.Slider();
+const slider = new qx.ui.form.Slider();
 slider.setWidth(200);
 slider.setValue(100);
 this.getRoot().add(slider, { left: 10, top: 10 });
@@ -253,12 +253,8 @@ slider.setInvalidMessage("Please use a number above 50.");
 // add the validation
 slider.addListener(
   "changeValue",
-  function (e) {
-    if (e.getData() > 50) {
-      slider.setValid(true);
-    } else {
-      slider.setValid(false);
-    }
+  function (e) {    
+    slider.setValid(e.getData() > 50);    
   },
   this
 );
@@ -320,9 +316,9 @@ The following subsections cover some common scenarios of synchronous validation.
 See this code snippet as basis for all the examples shown in the subsections.
 
 ```javascript
-var manager = new qx.ui.form.validation.Manager();
-var textField = new qx.ui.form.TextField();
-var checkBox = new qx.ui.form.CheckBox();
+const manager = new qx.ui.form.validation.Manager();
+const textField = new qx.ui.form.TextField();
+const checkBox = new qx.ui.form.CheckBox();
 ```
 
 #### Required Form Fields
@@ -378,7 +374,7 @@ checked.
 ```javascript
 manager.setValidator((items) => {
   if (checkBox.getValue()) {
-    var value = textField.getValue();
+    const value = textField.getValue();
     if (!value || value.length === 0) {
       textField.setValid(false);
       return false;
@@ -398,7 +394,7 @@ want the user to wait for the server to process your request and send the answer
 back. So you need some kind of asynchronous validation.
 
 For all asynchronous validation cases, we need a wrapper for the validator, the
-`qx.ui.form.validation.AsyncValidator`. But that does not mean a lot work for
+`qx.ui.form.validation.AsyncValidator`. But that does not mean a lot of work for
 the application developer. Just take a look at the following example to see the
 AsyncValidator in action.
 
@@ -442,8 +438,8 @@ The main idea behind this was to ensure that it cooperates nicely with features
 like the form widgets and the corresponding data binding components. So we
 decided to split the problem into two different parts. The first part is storing
 the data held in the view components as a model. The second part takes that
-model and serializes its data. Sounds like data binding
-(/pages/data_binding/data_binding)? It is data binding!
+model and serializes its data. 
+Sounds like [data binding](../../core/data_binding/data_binding.md)? It is data binding!
 
 ![Serialization in Qooxdoo](forms/serialization.png)
 
@@ -462,14 +458,14 @@ special additions. Just get the values of the entire form and serialize them.
 
 ```javascript
 // create the ui
-var name = new qx.ui.form.TextField();
-var password = new qx.ui.form.PasswordField();
+const name = new qx.ui.form.TextField();
+const password = new qx.ui.form.PasswordField();
 
 // create the model
-var model = qx.data.marshal.Json.createModel({ name: "a", password: "b" });
+const model = qx.data.marshal.Json.createModel({ name: "a", password: "b" });
 
 // create the controller and connect the form items
-var controller = new qx.data.controller.Object(model);
+const controller = new qx.data.controller.Object(model);
 controller.addTarget(name, "value", "name", true);
 controller.addTarget(password, "value", "password", true);
 
@@ -484,7 +480,7 @@ This way, the serialization is separated from the form itself. So hidden form
 fields are as easy as it could be. Just add another property to the model.
 
 ```javascript
-var model = qx.data.marshal.Json.createModel({
+const model = qx.data.marshal.Json.createModel({
   name: "a",
   password: "b",
   c: "i am hidden"
@@ -494,12 +490,12 @@ var model = qx.data.marshal.Json.createModel({
 Keep in mind that you're creating a model with that and you can access every
 property you created using the default getters and setters.
 
-You might be asking yourself "What if i want to convert the values for
+You might be asking yourself "What if I want to convert the values for
 serialization? My server needs some different values...". That brings us to the
 topic of conversion. But as we have seen before, the mapping from the view to
 the model is handled by the data binding layer which already includes
 conversion. Take a look at the
-[data binding documentation](../../core/data_binding/single_value_binding.md#options_conversion_and_validation)
+[data binding documentation](../../core/data_binding/single_value_binding.md#options-conversion-and-validation)
 for more information on conversion.
 
 #### Need something special?
@@ -532,8 +528,8 @@ method for adding items, and another one for resetting all added items.
 
 Technically, it's not really a challenge thanks to the new form API. You can add
 any items either having a value property defined by one of the data specific
-form interfaces desktop/ui_form_handling.md#number_string_color_date_boolean or
-implementing the selection API (ui_selection) of Qooxdoo. On every addition, the
+[form interfaces](#number--string--color--date--boolean) or
+implementing the [selection API](#model--modelselection) of Qooxdoo. On every addition, the
 resetter grabs the current value and stores it. On a reset all stored values are
 set.
 
@@ -544,29 +540,29 @@ textfield, a checkbox and a list.
 
 ```javascript
 // create a textfield
-var textField = new qx.ui.form.TextField("acb");
+const textField = new qx.ui.form.TextField("acb");
 this.getRoot().add(textField, { left: 10, top: 10 });
 
 // create a checkbox
-var checkBox = new qx.ui.form.CheckBox("box");
+const checkBox = new qx.ui.form.CheckBox("box");
 this.getRoot().add(checkBox, { left: 10, top: 40 });
 
 // create a list
-var list = new qx.ui.form.List();
+const list = new qx.ui.form.List();
 list.add(new qx.ui.form.ListItem("a"));
 list.add(new qx.ui.form.ListItem("b"));
 list.setSelection([list.getSelectables()[0]]);
 this.getRoot().add(list, { left: 10, top: 70 });
 
 // create the resetter
-var resetter = new qx.ui.form.Resetter();
+const resetter = new qx.ui.form.Resetter();
 // add the form items
 resetter.add(textField);
 resetter.add(checkBox);
 resetter.add(list);
 
 // add a reset button
-var resetButton = new qx.ui.form.Button("Reset");
+const resetButton = new qx.ui.form.Button("Reset");
 resetButton.addListener("execute", function () {
   resetter.reset();
 });
@@ -583,9 +579,9 @@ completely until now is layouting the form items. That's where the
 
 The Qooxdoo form is an object which includes three main parts.
 
-- Validation desktop/ui_form_handling.md#validation using the
+- [Validation](forms.md#validation) using the
   `qx.ui.form.validation.Manager` class
-- Resetting desktop/ui_form_handling.md#resetting using the
+- [Resetting](forms.md#resetting) using the
   `qx.ui.form.Resetter` class
 - Handling the layout of the form
 
@@ -615,11 +611,11 @@ form items and one for adding buttons.
 Surely you've recognized the difference to the API of the form itself. Widgets
 are added to the form individually, but the renderer always gets a group of
 widgets at once. This gives the renderer additional information which it may
-need to render the form based on the number of groups rather then on the number
+need to render the form based on the number of groups rather than on the number
 of widgets.
 
 You may ask yourself why we didn't use the layouts we usually use in such
-scenarios if we ant to render widgets on the screen. It may be necessary for a
+scenarios if we want to render widgets on the screen. It may be necessary for a
 renderer to contain even more than one widget. Imagine a wizard or a form spread
 out over multiple tabs. That wouldn't be possible using layouts instead of
 renderer widgets.
@@ -645,9 +641,9 @@ the following picture.
 
 ![Double Renderer](forms/doublerenderer.png)
 
-#### Single Column with Placeholer
+#### Single Column with Placeholder
 
-This renderer is more a of demo showing how easy it can be to implement your own
+This renderer is more than a demo showing how easy it can be to implement your own
 renderer. It has a limitation in that it can only render input fields which have
 the placeholder property. But the result is pretty nice:
 
@@ -667,7 +663,7 @@ First, we need a form object.
 
 ```javascript
 // create the form
-var form = new qx.ui.form.Form();
+const form = new qx.ui.form.Form();
 ```
 
 After that, we can create the first two input fields. As these two fields are
@@ -675,9 +671,9 @@ required, we should mark them as such.
 
 ```javascript
 // create the first two input fields
-var firstname = new qx.ui.form.TextField();
+const firstname = new qx.ui.form.TextField();
 firstname.setRequired(true);
-var lastname = new qx.ui.form.TextField();
+const lastname = new qx.ui.form.TextField();
 lastname.setRequired(true);
 ```
 
@@ -710,7 +706,7 @@ buttons. First, add the save button.
 
 ```javascript
 // add a save button
-var savebutton = new qx.ui.form.Button("Save");
+const savebutton = new qx.ui.form.Button("Save");
 savebutton.addListener("execute", function () {
   if (form.validate()) {
     alert("You can save now...");
@@ -719,12 +715,12 @@ savebutton.addListener("execute", function () {
 form.addButton(savebutton);
 ```
 
-The save button gets an execute listener which first validates the form and, if
+The save button gets an "execute" listener which first validates the form and, if
 the form is valid, alerts the user. The reset button is analogous.
 
 ```javascript
 // add a reset button
-var resetbutton = new qx.ui.form.Button("Reset");
+const resetbutton = new qx.ui.form.Button("Reset");
 resetbutton.addListener("execute", function () {
   form.reset();
 });
@@ -778,7 +774,7 @@ First, we create the form:
 
 ```javascript
 // create the form
-var form = new qx.ui.form.Form();
+const form = new qx.ui.form.Form();
 ```
 
 In a second step we add the three text fields. The important thing here is that
@@ -808,14 +804,14 @@ model.
 
 ```javascript
 // create the controller with the form
-var controller = new qx.data.controller.Form(null, form);
+const controller = new qx.data.controller.Form(null, form);
 ```
 
 The final step for data binding is to create the actual model.
 
 ```javascript
 // create the model
-var model = controller.createModel();
+const model = controller.createModel();
 ```
 
 Take a look at the following sequence diagram to see how it works internally.
