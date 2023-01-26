@@ -99,7 +99,7 @@ look like:
           this._add(control);
           break;
       }
-      return control || super(id);
+      return control || super._createChildControlImpl(id);
     }
 ```
 
@@ -218,7 +218,7 @@ read. As an example lets take this hypothetical LinkAtom widget:
 qx.Class.define("custom.LinkAtom", {
   extend : qx.ui.basic.Atom,
 
-  construct : function(text, icon, toolTipText, underline, bold, wrap, underlineOnHover) { ... }
+  construct(text, icon, toolTipText, underline, bold, wrap, underlineOnHover) { /*...*/ }
 });
 ```
 
@@ -226,8 +226,8 @@ All parameters are optional. This can make the code using this class very hard
 to read:
 
 ```javascript
-var link1 = new custom.LinkAtom("Help");
-var link2 = new custom.LinkAtom("create", null, null, false, true, false, true);
+const link1 = new custom.LinkAtom("Help");
+const link2 = new custom.LinkAtom("create", null, null, false, true, false, true);
 ```
 
 While the first line is perfectly readable, it is virtually impossible to
@@ -259,7 +259,7 @@ parameters have been converted into properties. The hard-to-read example now
 becomes:
 
 ```javascript
-var link = new custom.LinkAtom("create").set({
+const link = new custom.LinkAtom("create").set({
   underline: false,
   bold: true,
   wrap: false,

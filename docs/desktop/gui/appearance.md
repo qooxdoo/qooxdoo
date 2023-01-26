@@ -189,7 +189,7 @@ styling:
 ```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -205,7 +205,7 @@ Instead, you should always define the else case:
 ```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -218,23 +218,15 @@ style : function(states)
 }
 ```
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-The `undefined` value means that no value should be applied. When Qooxdoo runs
+> **Note**
+>
+> The `undefined` value means that no value should be applied. When Qooxdoo runs
 through the returned map it calls the `reset` method for properties with a value
 of `undefined`. In most cases it would be also perfectly valid to use `null`
 instead of `undefined`, but keep in mind that `null` is stored using the setter
 (explicit null) and this way it overrides values given through the inheritance
 or through the init values. In short this means that `undefined` is the better
 choice in almost all cases.
-
-</div>
 
 One thing we have also seen in the example is that it is perfectly possible to
 create the return map using standard JavaScript and fill in keys during the
@@ -408,7 +400,7 @@ state is modified.
 
 ### Appearance Queue
 
-First of all we have the appearance queue. Widgets which are visible and
+First of all, we have the appearance queue. Widgets which are visible and
 inserted into a visible parent are automatically processed by this queue when
 changes happen or on the initial display of the widget. Otherwise, the change is
 delayed until the widget gets visible (again).
