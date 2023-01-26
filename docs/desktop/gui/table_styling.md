@@ -324,7 +324,7 @@ Since the latter solution is a more complex one, I'll only explain the first
 solution which helps you in styling the table rows and columns in a quick way.
 
 ```json5
-// these two lines have to inserted in your application color theme
+// these two lines have to be inserted in your application color theme
 // to remove the grid lines
 "table-row-line" : "transparent",
 "table-column-line" : "transparent",
