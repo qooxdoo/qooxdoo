@@ -1,12 +1,5 @@
 # Technical view on the low-level APIs
 
-> **Note**
->
->This document describes implementation details. The user API is covered in
-%{Website} and the
-`corresponding overview documentation </pages/website/overview>`.
-
-
 ## qx.bom - Browser Object Model
 
 The classes contained in the `qx.bom` namespace provide a cross-browser
