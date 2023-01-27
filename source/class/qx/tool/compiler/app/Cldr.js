@@ -90,7 +90,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
             encoding: "utf-8"
           })
         )
-        .catch(function (err) {
+        .catch(err => {
           qx.tool.compiler.Console.error(err);
           process.exit(1);
         })
