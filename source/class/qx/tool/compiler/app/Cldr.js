@@ -28,6 +28,7 @@ var path = require("path");
 var xml2js = require("xml2js");
 const CLDR = require("cldr");
 const { promisify } = require("util");
+const process = require("process");
 const readFile = promisify(fs.readFile);
 const readDir = promisify(fs.readdir);
 
@@ -70,6 +71,7 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
               const realName = names.find(
                 name => name.toLowerCase() === searchedName
               );
+
               if (realName) {
                 resolve(realName);
               } else {
@@ -88,6 +90,10 @@ qx.Class.define("qx.tool.compiler.app.Cldr", {
             encoding: "utf-8"
           })
         )
+        .catch(err => {
+          qx.tool.compiler.Console.error(err);
+          process.exit(1);
+        })
         .then(data =>
           qx.tool.utils.Utils.promisifyThis(parser.parseString, parser, data)
         )
