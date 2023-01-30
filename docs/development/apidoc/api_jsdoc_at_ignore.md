@@ -46,21 +46,6 @@ idea to simply add `@ignore(...<symbols>...)` in the affected classes, as then
 you would also skip those symbols when building the application, which might
 result in a broken app.
 
-Rather, to just cover the _lint_ behavior modify the configuration for the
-`lint` job in your _config.json_ by adding the missing top-level symbols:
-
-```
-"jobs" : {
-  "lint" : {
-    "lint-check" : {
-      "allowed-globals" : [
-        /* add symbols here that lint should ignore */
-      ]
-    }
-  }
-}
-```
-
 ## Name Globbing
 
 @ignore supports globbing in a rather strict way. Already the old # ignore

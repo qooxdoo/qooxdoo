@@ -165,7 +165,7 @@ Creating new commands is as easy as it can be. A shortcut can simply be defined
 through the constructor, e.g.:
 
 ```javascript
-let findCommand = new qx.ui.command.Command("Ctrl+F");
+const findCommand = new qx.ui.command.Command("Ctrl+F");
 findCommand.addListener("execute", this._onFind, this);
 ```
 

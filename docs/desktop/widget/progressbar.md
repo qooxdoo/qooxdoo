@@ -20,8 +20,8 @@ value is 100). We then listen to change event and complete event. The change
 event is fired every time the % complete is changed, so we can see the new
 value. If the process is 100% complete the complete event is fired.
 
-```
-var pb = new qx.ui.indicator.ProgressBar();
+```javascript
+const pb = new qx.ui.indicator.ProgressBar();
 this.getRoot().add(pb, { left : 20, top: 20});
 
 pb.addListener("change", function(e) {

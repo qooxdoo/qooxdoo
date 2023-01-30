@@ -108,21 +108,6 @@ const store = new qx.data.store.Jsonp(url, null, "CallbackParamName");
 After setting the URL and the callback parameter name during the creation
 process, the loading will begin immediately.
 
-### YQL Store
-
-YQL is the [Yahoo! Query Language](http://developer.yahoo.com/yql/). Yahoo!
-describes it as _"[...] an expressive SQL-like language that lets you query,
-filter, and join data across Web services."_ Based on the JSONP store, Qooxdoo
-offers a YQL store, where you can specify the YQL queries and Qooxdoo handles
-the rest.
-
-The following code demonstrates how to fetch some Twitter messages.
-
-```javascript
-const query = "select * from twitter.user.timeline where id='wittemann'";
-var store = new qx.data.store.Yql(query);
-```
-
 ### Offline Store
 
 The Offline store uses HTML local or session storage to store the data on the

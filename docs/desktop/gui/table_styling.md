@@ -62,7 +62,7 @@ Sample of a table widget using a decorator with shadow:
 To achieve this you can re-define the `table` decorator in your application
 theme as following:
 
-```javascript
+```json5
 "table" :
 {
   // the decorator 'MBoxShadow' is only supported by modern browsers
@@ -99,7 +99,7 @@ visibility button. However, if you want to change the e.g. the background of the
 whole header you're here in the right place, since the container does the
 styling of the background and not the header cells themselves.
 
-```javascript
+```json5
 // change the whole background of the header by changing the decorator
 "table-scroller-header-css" :
 {
@@ -199,7 +199,7 @@ bottom of the hovered header cell. If you only want to change this color you can
 go ahead and add the `table-header-hovered` color in the color theme of your
 application
 
-```
+```json5
 "table-header-hovered" : "orange",
 ```
 
@@ -211,7 +211,7 @@ A bigger change of the header cells might be to change the background color at
 hovering. To do so you can simply modify the existing
 `table-header-cell-hovered` decorator like
 
-```
+```json5
 "table-header-cell-hovered" :
 {
   style :
@@ -232,7 +232,7 @@ alignment, existing padding and the like.
 
 The default appearance of the child controls are defined as
 
-```
+```javascript
 "table-header-cell/label" :
 {
   style : function(states)
@@ -296,7 +296,7 @@ to demonstrate:
 The corresponding code in the color theme of your application is a simple
 one-liner:
 
-```
+```json5
 "table-pane" : "red",
 ```
 
@@ -323,8 +323,8 @@ create your very own appearance by putting together the necessary CSS styles.
 Since the latter solution is a more complex one, I'll only explain the first
 solution which helps you in styling the table rows and columns in a quick way.
 
-```javascript
-// these two lines have to inserted in your application color theme
+```json5
+// these two lines have to be inserted in your application color theme
 // to remove the grid lines
 "table-row-line" : "transparent",
 "table-column-line" : "transparent",
@@ -354,7 +354,7 @@ By changing one or more of these colors you can e.g. achieve this:
 
 by defining these colors:
 
-```
+```json5
 "table-row-background-even" : "#CD661D",
 "table-row-background-odd" : "#EEAD0E",
 "table-row" : "#EEE9E9",
@@ -377,7 +377,7 @@ result will for sure not satisfy you. So let's dive into this topic.
 To better visualize this the following example does use colors which are easy to
 distinguish:
 
-```
+```json5
 "table-row-selected" : "blue",
 "table-row-background-selected" : "orange",
 "table-row-background-focused-selected" : "green",
@@ -405,7 +405,7 @@ A list of existing cell renderer is available at the
 suitable for you all you have to do to use it is
 
 ```javascript
-var tcm = table.getTableColumnModel();
+const tcm = table.getTableColumnModel();
 
 // Display a checkbox in column 3
 tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
@@ -438,7 +438,7 @@ decorator. So either replacing the decorator by an own one or just changing the
 color has a direct effect. So let's look at an example where the decorator is
 changed:
 
-```javascript
+```json5
 "table-scroller-focus-indicator" :
 {
   decorator : qx.ui.decoration.Double,
@@ -496,7 +496,7 @@ resize line would like this:
 
 ## Statusbar
 
-You might guess it already: yes, the statusbar can also be hidden _ or_
+You might guess it already: yes, the statusbar can also be hidden _or_
 customized by changing a decorator in your decorator theme of your application.
 This kind of repetition is quite nice, because if you do understand those basic
 things you can take a look at the `Modern` appearance or decorator theme and you
@@ -511,7 +511,7 @@ table.setStatusBarVisible(false);
 
 And the default implementation of the corresponding decorator looks like
 
-```javascript
+```json5
 "table-statusbar" :
 {
   decorator : qx.ui.decoration.Single,
@@ -529,7 +529,7 @@ As you can see there is no additional background and no other fancy stuff. If
 you like to change this e.g. setting an own background gradient you can use the
 following
 
-```javascript
+```json5
 "table-statusbar" :
  {
    decorator :  [
@@ -617,7 +617,7 @@ this section won't dive too deep into styling scrollbars and just gives hints at
 which appearance you have to get your hands on. The default appearance of the
 scrollbars for the table is
 
-```javascript
+```json5
 "table-scroller/scrollbar-x": "scrollbar",
 "table-scroller/scrollbar-y": "scrollbar",
 ```

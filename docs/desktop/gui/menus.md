@@ -28,10 +28,10 @@ Here is a simple menu example:
 
 ```javascript
 // Create the menu
-var menu = new qx.ui.menu.Menu();
+const menu = new qx.ui.menu.Menu();
 
 // Creates the command
-var command = new qx.ui.command.Command("Control+O");
+const command = new qx.ui.command.Command("Control+O");
 command.addListener(
   "execute",
   function () {
@@ -41,12 +41,12 @@ command.addListener(
 );
 
 // Add some content
-var openButton = new qx.ui.menu.Button(
+const openButton = new qx.ui.menu.Button(
   "Open",
   "icon/16/actions/document-open.png",
   command
 );
-var closeButton = new qx.ui.menu.Button("Close");
+const closeButton = new qx.ui.menu.Button("Close");
 
 menu.add(openButton);
 menu.add(closeButton);
@@ -61,7 +61,7 @@ closeButton.addListener(
 );
 
 // Create a button that will hold the menu
-var button = new qx.ui.form.MenuButton("Menu", null, menu);
+const button = new qx.ui.form.MenuButton("Menu", null, menu);
 ```
 
 There are a couple of things to note here:
@@ -96,7 +96,7 @@ This code snippet show how to create a "ToolBar" with to menu items "File" and
 
 ```javascript
 // Create the toolbar and add to the DOM
-var toolBar = new qx.ui.toolbar.ToolBar();
+const toolBar = new qx.ui.toolbar.ToolBar();
 this.getRoot().add(toolBar, {
   left: 20,
   top: 20,
@@ -104,10 +104,10 @@ this.getRoot().add(toolBar, {
 });
 
 // Create "File" menu
-var fileButton = new qx.ui.toolbar.MenuButton("File");
+const fileButton = new qx.ui.toolbar.MenuButton("File");
 toolBar.add(fileButton);
 
-var fileMenu = new qx.ui.menu.Menu();
+const fileMenu = new qx.ui.menu.Menu();
 fileMenu.add(new qx.ui.menu.Button("New", null, null, this.__getNewMenu()));
 fileMenu.add(
   new qx.ui.menu.Button("Open...", "icon/16/actions/document-open.png")
@@ -126,9 +126,9 @@ fileMenu.add(
 fileButton.setMenu(fileMenu);
 
 // Create "View" menu
-var viewButton = new qx.ui.toolbar.MenuButton("View");
+const viewButton = new qx.ui.toolbar.MenuButton("View");
 toolBar.add(viewButton);
-var viewMenu = new qx.ui.menu.Menu();
+const viewMenu = new qx.ui.menu.Menu();
 viewMenu.add(new qx.ui.menu.Button("Panes", null, null, this.__getPanesMenu()));
 viewMenu.add(
   new qx.ui.menu.Button("Syntax", null, null, this.__getSyntaxMenu())
@@ -155,19 +155,19 @@ The next code snipped should explain how to create a menu, which contain
 RadioButtons, but only one could be selected:
 
 ```javascript
-__getSyntaxMenu : function()
+__getSyntaxMenu()
 {
-  var syntaxMenu = new qx.ui.menu.Menu();
+  const syntaxMenu = new qx.ui.menu.Menu();
 
-  var cDialectMenu = new qx.ui.menu.Menu();
+  const cDialectMenu = new qx.ui.menu.Menu();
   cDialectMenu.add(new qx.ui.menu.RadioButton("C"));
   cDialectMenu.add(new qx.ui.menu.RadioButton("C Sharp"));
   cDialectMenu.add(new qx.ui.menu.RadioButton("C Plus Plus"));
 
-  var htmlButton = new qx.ui.menu.RadioButton("HTML");
-  var jsButton = new qx.ui.menu.RadioButton("JavaScript");
-  var cdialectButton = new qx.ui.menu.Button("C Dialect", null, null, cDialectMenu);
-  var pythonButton = new qx.ui.menu.RadioButton("Python");
+  const htmlButton = new qx.ui.menu.RadioButton("HTML");
+  const jsButton = new qx.ui.menu.RadioButton("JavaScript");
+  const cdialectButton = new qx.ui.menu.Button("C Dialect", null, null, cDialectMenu);
+  const pythonButton = new qx.ui.menu.RadioButton("Python");
 
   syntaxMenu.add(htmlButton);
   syntaxMenu.add(jsButton);
@@ -175,7 +175,7 @@ __getSyntaxMenu : function()
   syntaxMenu.add(pythonButton);
 
   // Configure and fill radio group
-  var langGroup = new qx.ui.form.RadioGroup();
+  const langGroup = new qx.ui.form.RadioGroup();
   langGroup.add(htmlButton, jsButton, pythonButton);
   langGroup.add.apply(langGroup, cdialectButton.getMenu().getChildren());
 

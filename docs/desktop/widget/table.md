@@ -52,14 +52,14 @@ still decrease performance.
 The most simple table can be build in five lines of code, as you can see in this
 example:
 
-```
+```javascript
 // table model
-var tableModel = new qx.ui.table.model.Simple();
+const tableModel = new qx.ui.table.model.Simple();
 tableModel.setColumns(["ID", "A number"]);
 tableModel.setData([[1, 12.23],[3, 849759438750],[2, -2]]);
 
 // table
-var table = new qx.ui.table.Table(tableModel);
+const table = new qx.ui.table.Table(tableModel);
 this.getRoot().add(table);
 ```
 
@@ -73,7 +73,7 @@ table and add it to our application, as the example shows in the last two lines.
 Making for example the second column of our simple example editable can be done
 in one line:
 
-```
+```javascript
 // make second column editable
 tableModel.setColumnEditable(1, true);
 ```
@@ -85,7 +85,7 @@ second one is to change the editable state.
 
 Also adding a default sort order for the table is easy in one single line:
 
-```
+```javascript
 // sort the table on startup
 tableModel.sortByColumn(0, true);
 ```
@@ -98,9 +98,9 @@ the sort order, `true` for ascending.
 As a last addition to our example we build something more complex. We want to
 render all negative numbers in red and all positive numbers in green:
 
-```
+```javascript
 // conditional rendering
-var newRenderer = new qx.ui.table.cellrenderer.Conditional();
+const newRenderer = new qx.ui.table.cellrenderer.Conditional();
 newRenderer.addNumericCondition(">", 0, null, "green");
 newRenderer.addNumericCondition("<", 0, null, "red");
 table.getTableColumnModel().setDataCellRenderer(1, newRenderer);

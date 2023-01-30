@@ -27,7 +27,7 @@ automatically being disposed as well.
 
 For more information on widgets, see the following pages:
 
-- [Introduction](/desktop/widget/)
+- [Introduction](../widget/README.md)
 - [Custom widgets](customwidgets.md)
 - [Interaction](interaction.md)
 - [Resources](resources.md)
