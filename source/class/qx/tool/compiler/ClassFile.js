@@ -854,7 +854,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
         if (sectionName === "members" || sectionName === "statics") {
           if (
             node.type == "ObjectMethod" ||
-            node.value.type === "FunctionExpression"
+            node.value.type === "FunctionExpression" ||
+            node.value.type === "MemberExpression"
           ) {
             meta.type = "function";
           } else {
