@@ -1414,100 +1414,89 @@ qx.Bootstrap.define(
                     // Save the (possibly updated) value
                     storage.set.call(obj, prop, value);
 
-                    // All of the final steps for a property setter
-                    let finalizer =
-                      () =>
-                      {
-                        // If we're called in state variant "init" or
-                        // "init->set", it means this is the first call
-                        // where the _apply method may be called or the
-                        // event generated. Tradition (BC) dictates that
-                        // that first time, the _apply method is always
-                        // called even if the new value matches the old
-                        // (init) value. Similarly, the event always is
-                        // generated that first time.
-                        //
-                        // Keep track of that variant, but reset the
-                        // $$variant variable to its new state
-                        let variant = null;
-                        if (
-                          [
-                            "init",
-                            "init->set"
-                          ].includes(obj[`$$variant_${prop}`]))
-                        {
-                          variant = obj[`$$variant_${prop}`];
-                          proxy[`$$variant_${prop}`] =
-                            variant == "init" ? null : "set";
-                        }
-
-                        // Call the `apply` method and fire the change
-                        // event, if necessary.
-                        qx.Class.__applyAndFireEvent(
-                          proxy,
-                          property,
-                          prop,
-                          value,
-                          oldForCallback,
-                          variant);
-
-                        // Update inherited values of child objects
-                        if (property.inheritable && obj._getChildren)
-                        {
-                          let             children = obj._getChildren();
-
-                          // For each child..
-                          children.forEach(
-                            (child) =>
-                            {
-                              // Does this child have a property of the
-                              // given name, and is it inheritable?
-                              let property =
-                                  child.constructor.$$allProperties[prop];
-
-                              if (child[`$$user_${prop}`] === undefined &&
-                                  property &&
-                                  property.inheritable)
-                              {
-                                // Yup. Save the new value
-                                child[`$$inherit_${prop}`] = value;
-                                child[prop] = value;
-
-                                // The setter code (incorrectly, in this
-                                // case) saved the value as the $$user
-                                // value. Reset it to its original
-                                // value.
-                                child[`$$user_${prop}`] = undefined;
-                              }
-                            });
-                        }
-
-                        // If there's a custom proxy handler, call it
-                        if (customProxyHandler && customProxyHandler.set)
-                        {
-                          customProxyHandler.set.call(proxy, prop, value);
-                        }
-                      };
-
-                    // If the value being set is a promise, and the
-                    // property does not have a `check:"Promise"`
-                    // constraint, then await (and store) the resolved
-                    // result before finalizing. If the value is not a
-                    // promise, we can call the finalizer right away.
-                    if (property.check != "Promise" &&
+                   // If the value being set is a promise, and the
+                   // property does not have a `check:"Promise"`
+                   // constraint, then store the resolved result
+                   // when it is available.
+                   if (property.check != "Promise" &&
                         qx.lang.Type.isPromise(value))
                     {
                       value.then(
                         (resolvedValue) =>
                         {
-                          value = resolvedValue;
-                          storage.set.call(obj, prop, value);
-                          finalizer();
+                          storage.set.call(obj, prop, resolvedValue);
                         });
                     }
-                    else
+
+                    // If we're called in state variant "init" or
+                    // "init->set", it means this is the first call
+                    // where the _apply method may be called or the
+                    // event generated. Tradition (BC) dictates that
+                    // that first time, the _apply method is always
+                    // called even if the new value matches the old
+                    // (init) value. Similarly, the event always is
+                    // generated that first time.
+                    //
+                    // Keep track of that variant, but reset the
+                    // $$variant variable to its new state
+                    let variant = null;
+                    if (
+                      [
+                        "init",
+                        "init->set"
+                      ].includes(obj[`$$variant_${prop}`]))
                     {
-                      finalizer();
+                      variant = obj[`$$variant_${prop}`];
+                      proxy[`$$variant_${prop}`] =
+                        variant == "init" ? null : "set";
+                    }
+
+                    // Call the `apply` method and fire the change
+                    // event, if necessary.
+                    qx.Class.__applyAndFireEvent(
+                      proxy,
+                      property,
+                      prop,
+                      value,
+                      oldForCallback,
+                      variant,
+                      origValue);
+
+                    // Update inherited values of child objects
+                    if (property.inheritable && obj._getChildren)
+                    {
+                      let             children = obj._getChildren();
+
+                      // For each child..
+                      children.forEach(
+                        (child) =>
+                        {
+                          // Does this child have a property of the
+                          // given name, and is it inheritable?
+                          let property =
+                              child.constructor.$$allProperties[prop];
+
+                          if (child[`$$user_${prop}`] === undefined &&
+                              property &&
+                              property.inheritable)
+                          {
+                            // Yup. Save the new value
+                            child[`$$inherit_${prop}`] = value;
+                            child[prop] = value;
+
+                            // The setter code (incorrectly, in this
+                            // case) saved the value as the $$user
+                            // value. Reset it to its original
+                            // value.
+                            child[`$$user_${prop}`] = undefined;
+                          }
+                        });
+                    }
+
+                    // If there's a custom proxy handler, call it
+                    if (customProxyHandler && customProxyHandler.set)
+                    {
+                      customProxyHandler.set.call(proxy, prop, value);
                     }
 
                     proxy[`$$variant_${prop}`] = "set";
@@ -2637,6 +2626,10 @@ qx.Bootstrap.define(
             {
               get = clazz.prototype[property.get];
             }
+            else
+            {
+              get = function() { return this[key]; };
+            }
 
             // Obtain the required apply function
             if (typeof property.apply == "function")
@@ -2647,13 +2640,9 @@ qx.Bootstrap.define(
             {
               apply = clazz.prototype[property.apply];
             }
-
-            // Both get and apply must be provided
-            if (typeof get != "function" || typeof apply != "function")
+            else
             {
-              throw new Error(
-                `${key}: ` +
-                  `async property requires that both 'get' and 'apply' be provided`);
+              apply = () => {};
             }
           }
 
@@ -3468,6 +3457,10 @@ qx.Bootstrap.define(
        *   The internal variant at the time the property is being
        *   manipulated,which affects whether the `apply` method is called and
        *   the event fired.
+       *
+       * @param setterReturnValue {Any|undefined}
+       *   When entered via the setter (vs resetter), this is the value that
+       *   `setX()` should return. Undefined if not entered via the setter.
        */
       __applyAndFireEvent(
         proxy,
@@ -3475,7 +3468,8 @@ qx.Bootstrap.define(
         propName,
         value,
         old,
-        variant)
+        variant,
+        setterReturnValue)
       {
         let  promise;
         let  tracker = {};
@@ -3487,7 +3481,7 @@ qx.Bootstrap.define(
         // this handler by looking at the following property.
         // Initialize it, as we may return early from here if old and
         // new values are the same.
-        proxy[syncSetResultProp] = undefined;
+        proxy[syncSetResultProp] = setterReturnValue;
 
         // Ensure we're dealing with a synchronous property, and
         // either the old and new values differ, or we're in one of
@@ -3551,11 +3545,34 @@ qx.Bootstrap.define(
           {
             qx.event.Utils.track(
               tracker,
-              Reg.fireEvent(
-                proxy,
-                property.event,
-                qx.event.type.Data,
-                [ value, old ]));
+              () =>
+              {
+                if (property.check != "Promise" &&
+                     qx.lang.Type.isPromise(value))
+                {
+                  value.then(
+                    (resolvedValue) =>
+                    {
+                      value = resolvedValue;
+
+                      Reg.fireEvent(
+                        proxy,
+                        property.event,
+                        qx.event.type.Data,
+                        [ value, old ]);
+                    });
+                }
+                else
+                {
+                  Reg.fireEvent(
+                    proxy,
+                    property.event,
+                    qx.event.type.Data,
+                    [ value, old ]);
+                }
+
+                return true;
+              });
           }
 
           // Also generate an async event, if needed
@@ -3563,11 +3580,39 @@ qx.Bootstrap.define(
           {
             qx.event.Utils.track(
               tracker,
-              Reg.fireEvent(
-                proxy,
-                property.event + "Async",
-                qx.event.type.Data,
-                [ qx.Promise.resolve(value), old ]));
+              () =>
+              {
+                if (property.check != "Promise" &&
+                     qx.lang.Type.isPromise(value))
+                {
+                  value.then(
+                    (resolvedValue) =>
+                    {
+                      value = resolvedValue;
+
+                      Reg.fireEvent(
+                        proxy,
+                        property.event + "Async",
+                        qx.event.type.Data,
+                        [ qx.Promise.resolve(value), old ]);
+                    });
+                }
+                else
+                {
+                  Reg.fireEvent(
+                    proxy,
+                    property.event + "Async",
+                    qx.event.type.Data,
+                    [ qx.Promise.resolve(value), old ]);
+                }
+
+                Reg.fireEvent(
+                  proxy,
+                  property.event + "Async",
+                  qx.event.type.Data,
+                  [ qx.Promise.resolve(value), old ]);
+                return true;
+              });
           }
 
           // When the last promise has resolved, ...
@@ -3595,14 +3640,6 @@ qx.Bootstrap.define(
 
               return undefined;
             });
-
-          if (tracker.promise)
-          {
-            proxy[syncSetResultProp] = tracker.promise.then(() => value);
-            return;
-          }
-
-          proxy[syncSetResultProp] = value;
         }
       },
 
