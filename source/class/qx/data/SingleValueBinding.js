@@ -857,6 +857,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
      */
     __setTargetValue(targetObject, targetPropertyChain, value) {
       // get the last target object of the chain
+      var result;
       var properties = this.__getPropertyChainArray(targetPropertyChain);
       var target = this.__getTargetFromChain(targetObject, properties);
       if (target) {
@@ -865,6 +866,7 @@ qx.Class.define("qx.data.SingleValueBinding", {
 
         // check for array notation
         var index = this.__getArrayIndex(lastProperty);
+
         if (index) {
           if (index === "last") {
             // check for the 'last' notation
@@ -880,7 +882,18 @@ qx.Class.define("qx.data.SingleValueBinding", {
               "No setter for '" + lastProperty + "' on target " + target + "."
             );
           }
-          return target["set" + qx.lang.String.firstUp(lastProperty)](value);
+
+          // Ensure that the value change causes the apply method to
+          // be called and the event to be fired, even if the value is
+          // the same as its init or default value, the first time
+          // it is set by binding.
+          var  isBindingTarget = `$$isBindingTarget_${lastProperty}`;
+          if (! (isBindingTarget in target))
+          {
+            target[isBindingTarget] = true;
+          }
+          result = target["set" + qx.lang.String.firstUp(lastProperty)](value);
+          return result;
         }
       }
     },

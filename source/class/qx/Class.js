@@ -3476,6 +3476,7 @@ qx.Bootstrap.define(
         let  propertyFirstUp = qx.Bootstrap.firstUp(propName);
         let  syncSetResultProp = `$$syncSetResult${propertyFirstUp}`;
         let  syncSetInProgressProp = `$$syncSetInProgress${propertyFirstUp}`;
+        let  isBindingTarget = `$$isBindingTarget_${propName}`;
 
         // If called by `setX()`, it will get the "return value" of
         // this handler by looking at the following property.
@@ -3489,11 +3490,23 @@ qx.Bootstrap.define(
         // and generate a change event even if old and new values are
         // the same. (Async properties' apply method is called
         // directly from `setPropertyNameAsync()`, not from here )
-        if (property.async ||
-            (property.isEqual.call(proxy, value, old) &&
-             ! ["init", "init->set"].includes(variant)))
+        //
+        // We don't do this if the set is a result of a binding target, however
+        if (! property.async && ! proxy[isBindingTarget])
         {
-          return;
+          if (property.isEqual.call(proxy, value, old) &&
+              ! ["init", "init->set"].includes(variant))
+          {
+            return;
+          }
+        }
+        else if (proxy[isBindingTarget])
+        {
+          // Ensure we don't call apply or fire event other than the
+          // first time, when binding. We know whether it's a
+          // subsequent time because $$isBindingTarget_propName
+          // exists, but is not true.
+          proxy[isBindingTarget] = false;
         }
 
         // This is a synchronous setter. As an extension, though, we
