@@ -28,13 +28,16 @@ qx.Class.define("qx.tool.cli.Application", {
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    async main() {
-      try {
-        await new qx.tool.cli.Cli().run();
-      } catch (e) {
-        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
-        process.exit(1);
-      }
+    main() {
+      new qx.tool.cli.Cli()
+        .run()
+        .then(() => {
+          process.exit(0);
+        })
+        .catch(e => {
+          qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
+          process.exit(1);
+        });
     }
   },
 
