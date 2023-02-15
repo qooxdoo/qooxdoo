@@ -3572,6 +3572,20 @@ qx.Class.define("qx.ui.core.Widget", {
     ---------------------------------------------------------------------------
     */
 
+    // overridden
+    dispose() {
+      if (this.$$disposed) {
+        return;
+      }
+
+      var parent = this.$$parent;
+      if (parent) {
+        parent._remove(this);
+      }
+
+      super.dispose();
+    },
+
     /**
      * Removes this widget from its parent and disposes it.
      *
