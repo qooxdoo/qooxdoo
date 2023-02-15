@@ -2122,17 +2122,12 @@ qx.Class.define("qx.ui.core.Widget", {
     // property apply
     _applyTextColor(value, old) {
       // empty template
-    },
-
-    // property apply
+    }, // property apply
     _applyZIndex(value, old) {
       this.getContentElement().setStyle("zIndex", value == null ? 0 : value);
-    },
-
-    // property apply
+    }, // property apply
     _applyVisibility(value, old) {
       var content = this.getContentElement();
-
       if (value === "visible") {
         content.show();
       } else {
@@ -2187,22 +2182,16 @@ qx.Class.define("qx.ui.core.Widget", {
     // property apply
     _applyFont(value, old) {
       // empty template
-    },
-
-    /*
+    } /*
     ---------------------------------------------------------------------------
-      DYNAMIC THEME SWITCH SUPPORT
+    DYNAMIC THEME SWITCH SUPPORT
     ---------------------------------------------------------------------------
-    */
-
-    // overridden
+    */, // overridden
     _onChangeTheme() {
       if (this.isDisposed()) {
         return;
       }
-
       super._onChangeTheme();
-
       // update the appearance
       this.updateAppearance();
 
@@ -2561,23 +2550,18 @@ qx.Class.define("qx.ui.core.Widget", {
     syncWidget(jobs) {
       // empty implementation
     },
-
     /*
     ---------------------------------------------------------------------------
-      EVENT SUPPORT
+    EVENT SUPPORT
     ---------------------------------------------------------------------------
-    */
-
-    /**
+    */ /**
      * Returns the next event target in the parent chain. May
      * also return the widget itself if it is not anonymous.
      *
      * @return {qx.ui.core.Widget} A working event target of this widget.
      *    May be <code>null</code> as well.
-     */
-    getEventTarget() {
+     */ getEventTarget() {
       var target = this;
-
       while (target.getAnonymous()) {
         target = target.getLayoutParent();
         if (!target) {
@@ -2751,17 +2735,13 @@ qx.Class.define("qx.ui.core.Widget", {
     // property apply
     _applyNativeContextMenu(value, old, name) {
       // empty body to allow overriding
-    },
-
-    // property apply
+    }, // property apply
     _applyContextMenu(value, old) {
       if (old) {
         old.removeState("contextmenu");
-
         if (old.getOpener() == this) {
           old.resetOpener();
         }
-
         if (!value) {
           this.removeListener("contextmenu", this._onContextMenuOpen);
           this.removeListener("longtap", this._onContextMenuOpen);
@@ -3571,20 +3551,6 @@ qx.Class.define("qx.ui.core.Widget", {
       ENHANCED DISPOSE SUPPORT
     ---------------------------------------------------------------------------
     */
-
-    // overridden
-    dispose() {
-      if (this.$$disposed) {
-        return;
-      }
-
-      var parent = this.$$parent;
-      if (parent) {
-        parent._remove(this);
-      }
-
-      super.dispose();
-    },
 
     /**
      * Removes this widget from its parent and disposes it.
