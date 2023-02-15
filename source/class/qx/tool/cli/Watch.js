@@ -103,11 +103,9 @@ qx.Class.define("qx.tool.cli.Watch", {
         }
         config._process = null;
       }
-
       console.log(
         "Starting application: " + config._cmd + " " + config._args.join(" ")
       );
-
       config._processPromise = new qx.Promise((resolve, reject) => {
         let child = (config._process = require("child_process").spawn(
           config._cmd,
@@ -229,12 +227,10 @@ qx.Class.define("qx.tool.cli.Watch", {
           watcher.on("change", filename =>
             this.__onFileChange("change", filename)
           );
-
           watcher.on("add", filename => this.__onFileChange("add", filename));
           watcher.on("unlink", filename =>
             this.__onFileChange("unlink", filename)
           );
-
           watcher.on("ready", () => {
             qx.tool.compiler.Console.log(`Start watching ...`);
             this.__watcherReady = true;
@@ -249,6 +245,9 @@ qx.Class.define("qx.tool.cli.Watch", {
           });
         });
       });
+      process.on("beforeExit", this.__onStop.bind(this));
+      process.on("exit", this.__onStop.bind(this));
+      return this.__runningPromise;
     },
 
     async stop() {
@@ -352,8 +351,8 @@ qx.Class.define("qx.tool.cli.Watch", {
           }
           return null;
         });
-
-      return (this.__making = runIt());
+      this.__making = runIt();
+      return this.__making;
     },
 
     __scheduleMake() {

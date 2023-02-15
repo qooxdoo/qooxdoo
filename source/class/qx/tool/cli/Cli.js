@@ -249,15 +249,9 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
     async processCommand(command) {
       qx.tool.compiler.Console.getInstance().setVerbose(this.argv.verbose);
       await this.__notifyLibraries();
-      try {
-        const res = await command.process();
-        await this._compilerApi.afterProcessFinished(command, res);
-        return res;
-      } catch (e) {
-        qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
-        process.exit(1);
-        return null;
-      }
+      const res = await command.process();
+      await this._compilerApi.afterProcessFinished(command, res);
+      return res;
     },
 
     /**

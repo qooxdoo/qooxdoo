@@ -206,7 +206,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
           await test.execute();
         }
         // for bash exitcode is not allowed to be more then 255!
-        process.exit(Math.min(255, this.getExitCode()));
+        process.exitCode = Math.min(255, this.getExitCode());
       });
 
       if (this.__needsServer()) {
@@ -216,7 +216,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         // compile only
         await qx.tool.cli.commands.Compile.prototype.process.call(this);
         // since the server is not started, manually fire the event necessary for firing the "runTests" event
-        this.fireEvent("afterStart");
+        await this.fireDataEventAsync("afterStart");
       }
     },
 
