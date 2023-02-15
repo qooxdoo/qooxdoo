@@ -34,9 +34,9 @@ qx.Class.define("qx.tool.cli.Application", {
         await new qx.tool.cli.Cli().run();
       } catch (e) {
         qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
-        process.exitCode = -1;
+        process.exitCode = 1;
       } finally {
-        process.exit(process.exitCode);
+        process.exit();
       }
     }
   },

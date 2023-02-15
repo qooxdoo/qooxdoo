@@ -188,7 +188,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
              See documentation at https://qooxdoo.org/docs/#/development/testing/`
           );
 
-          process.exit(-1);
+          process.exit(1);
         }
       });
 

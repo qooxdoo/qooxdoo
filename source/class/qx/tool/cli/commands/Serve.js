@@ -221,7 +221,7 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
             config.serve.listenPort
           );
 
-          process.exit(-1);
+          process.exit(1);
         } else {
           qx.tool.compiler.Console.log("Error when starting web server: " + e);
         }
