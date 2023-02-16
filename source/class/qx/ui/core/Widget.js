@@ -2132,9 +2132,7 @@ qx.Class.define("qx.ui.core.Widget", {
         content.show();
       } else {
         content.hide();
-      }
-
-      // only force a layout update if visibility change from/to "exclude"
+      } // only force a layout update if visibility change from/to "exclude"
       var parent = this.$$parent;
       if (
         parent &&
@@ -2191,11 +2189,8 @@ qx.Class.define("qx.ui.core.Widget", {
       if (this.isDisposed()) {
         return;
       }
-      super._onChangeTheme();
-      // update the appearance
-      this.updateAppearance();
-
-      // DECORATOR //
+      super._onChangeTheme(); // update the appearance
+      this.updateAppearance(); // DECORATOR //
       var value = this.getDecorator();
       this._applyDecorator(null, value);
       this._applyDecorator(value);
@@ -2568,7 +2563,6 @@ qx.Class.define("qx.ui.core.Widget", {
           return null;
         }
       }
-
       return target;
     },
 
