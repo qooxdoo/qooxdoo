@@ -2180,11 +2180,10 @@ qx.Class.define("qx.ui.core.Widget", {
     // property apply
     _applyFont(value, old) {
       // empty template
-    } /*
-    ---------------------------------------------------------------------------
-    DYNAMIC THEME SWITCH SUPPORT
-    ---------------------------------------------------------------------------
-    */, // overridden
+    }, // ---------------------------------------------------------------------------
+    // DYNAMIC THEME SWITCH SUPPORT
+    // ---------------------------------------------------------------------------
+    // overridden
     _onChangeTheme() {
       if (this.isDisposed()) {
         return;
