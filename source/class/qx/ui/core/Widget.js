@@ -2193,9 +2193,7 @@ qx.Class.define("qx.ui.core.Widget", {
       this.updateAppearance(); // DECORATOR //
       var value = this.getDecorator();
       this._applyDecorator(null, value);
-      this._applyDecorator(value);
-
-      // FONT //
+      this._applyDecorator(value); // FONT //
       value = this.getFont();
       if (qx.lang.Type.isString(value)) {
         this._applyFont(value, value);
