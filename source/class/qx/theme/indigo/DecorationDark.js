@@ -10,19 +10,21 @@
 
    Authors:
      * Scott Knick (sknick)
+     * Dmitrii Zolotov (goldim)
 
 ************************************************************************ */
-/**
- * IndigoDark Theme
- */
-qx.Theme.define("qx.theme.IndigoDark", {
-  title: "IndigoDark",
 
-  meta: {
-    color: qx.theme.indigo.ColorDark,
-    decoration: qx.theme.indigo.DecorationDark,
-    font: qx.theme.indigo.Font,
-    appearance: qx.theme.indigo.AppearanceDark,
-    icon: qx.theme.icon.Tango
+/**
+ * The indigo dark qooxdoo decoration theme.
+ */
+qx.Theme.define("qx.theme.indigo.DecorationDark", {
+  extend: qx.theme.indigo.Decoration,
+
+  decorations: {
+    "menubar-button-hovered": {
+      style: {
+        backgroundColor: "background"
+      }
+    }
   }
 });
