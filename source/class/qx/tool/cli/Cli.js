@@ -58,7 +58,7 @@ qx.Class.define("qx.tool.cli.Cli", {
     _compileJsonFilename: null,
 
     /** @type {Object} Parsed arguments */
-    _parsedArgs: null,
+    __parsedArgs: null,
 
     /** @type {Boolean} Whether libraries have had their `.load()` method called yet */
     __librariesNotified: false,
@@ -567,8 +567,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           config.serve.listenPort || this.argv.listenPort;
       }
 
-      this._parsedArgs = await compilerApi.getConfiguration();
-      return this._parsedArgs;
+      this.__parsedArgs = await compilerApi.getConfiguration();
+      return this.__parsedArgs;
     },
 
     /**
