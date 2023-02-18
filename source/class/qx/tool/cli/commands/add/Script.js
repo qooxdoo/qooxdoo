@@ -140,7 +140,9 @@ qx.Class.define("qx.tool.cli.commands.add.Script", {
       }
       // save
       this.debug(script_list);
-      manifestModel.setValue("externalResources.script", script_list).save();
+      await manifestModel
+        .setValue("externalResources.script", script_list)
+        .save();
     }
   }
 });
