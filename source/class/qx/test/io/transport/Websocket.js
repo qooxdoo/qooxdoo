@@ -24,7 +24,7 @@ qx.Class.define("qx.test.io.transport.Websocket", {
   extend: qx.dev.unit.TestCase,
 
   statics: {
-    TEST_ENDPOINT: "socketsbay.com/wss/v2/2/demo/"
+    TEST_ENDPOINT: "ws.postman-echo.com/raw/"
   },
 
   members: {
