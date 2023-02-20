@@ -188,7 +188,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
              See documentation at https://qooxdoo.org/docs/#/development/testing/`
           );
 
-          process.exit(-1);
+          process.exit(1);
         }
       });
 
@@ -206,6 +206,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
           await test.execute();
         }
         // for bash exitcode is not allowed to be more then 255!
+        // We must exit the process here because serve runs infinite!
         process.exit(Math.min(255, this.getExitCode()));
       });
 
@@ -216,7 +217,7 @@ qx.Class.define("qx.tool.cli.commands.Test", {
         // compile only
         await qx.tool.cli.commands.Compile.prototype.process.call(this);
         // since the server is not started, manually fire the event necessary for firing the "runTests" event
-        this.fireEvent("afterStart");
+        await this.fireDataEventAsync("afterStart");
       }
     },
 

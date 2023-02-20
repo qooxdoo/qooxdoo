@@ -685,7 +685,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
           );
 
           watch.setConfigFilenames(arr);
-          return await watch.start();
+          return watch.start();
         })
       );
     },
@@ -1230,6 +1230,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             data.localModules || {},
             false
           );
+
           if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }
