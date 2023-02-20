@@ -355,7 +355,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
             (await qx.tool.utils.Json.loadJsonAsync(name)) || lockfileContent;
         } catch (ex) {
           // Nothing
-        } // check semver-type compatibility (i.e. compatible as long as major version stays the same)
+        } 
+        // check semver-type compatibility (i.e. compatible as long as major version stays the same)
         let schemaVersion = semver.coerce(
           qx.tool.config.Lockfile.getInstance().getVersion(),
           true
