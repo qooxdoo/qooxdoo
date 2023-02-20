@@ -90,9 +90,6 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
   },
 
   members: {
-    /** @type {qx.tool.utils.Website} the Website instance */
-    _website: null,
-
     /*
      * @Override
      */
@@ -100,18 +97,19 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
       this.argv.watch = true;
       this.argv["machine-readable"] = false;
       this.argv["feedback"] = false;
-      await super.process();
 
       // build website if it hasn't been built yet.
-      const website = (this._website = new qx.tool.utils.Website());
+      const website = new qx.tool.utils.Website();
       if (!(await fs.existsAsync(website.getTargetDir()))) {
         qx.tool.compiler.Console.info(">>> Building startpage...");
-        await this._website.rebuildAll();
+        await website.rebuildAll();
       } else if (this.argv.rebuildStartpage) {
-        this._website.startWatcher();
+        website.startWatcher();
       }
-
-      await this.runWebServer();
+      this.addListenerOnce("made", () => {
+        this.runWebServer();
+      });
+      return super.process();
     },
 
     /**
@@ -210,36 +208,31 @@ qx.Class.define("qx.tool.cli.commands.Serve", {
           res.send(JSON.stringify(appsData, null, 2));
         });
       }
-      this.addListenerOnce("made", e => {
-        let server = http.createServer(app);
-        this.fireDataEvent("beforeStart", {
-          server: server,
-          application: app,
-          outputdir: defaultMaker.getTarget().getOutputDir()
-        });
-
-        server.on("error", e => {
-          if (e.code === "EADDRINUSE") {
-            qx.tool.compiler.Console.print(
-              "qx.tool.cli.serve.webAddrInUse",
-              config.serve.listenPort
-            );
-
-            process.exit(-1);
-          } else {
-            qx.tool.compiler.Console.log(
-              "Error when starting web server: " + e
-            );
-          }
-        });
-        server.listen(config.serve.listenPort, () => {
+      let server = http.createServer(app);
+      this.fireDataEvent("beforeStart", {
+        server: server,
+        application: app,
+        outputdir: defaultMaker.getTarget().getOutputDir()
+      });
+      server.on("error", e => {
+        if (e.code === "EADDRINUSE") {
           qx.tool.compiler.Console.print(
-            "qx.tool.cli.serve.webStarted",
-            "http://localhost:" + config.serve.listenPort
+            "qx.tool.cli.serve.webAddrInUse",
+            config.serve.listenPort
           );
 
-          this.fireEvent("afterStart");
-        });
+          process.exit(1);
+        } else {
+          qx.tool.compiler.Console.log("Error when starting web server: " + e);
+        }
+      });
+      server.listen(config.serve.listenPort, () => {
+        qx.tool.compiler.Console.print(
+          "qx.tool.cli.serve.webStarted",
+          "http://localhost:" + config.serve.listenPort
+        );
+
+        this.fireEvent("afterStart");
       });
     },
 

@@ -29,11 +29,14 @@ qx.Class.define("qx.tool.cli.Application", {
      * during startup of the application
      */
     async main() {
+      process.exitCode = 0;
       try {
         await new qx.tool.cli.Cli().run();
       } catch (e) {
         qx.tool.compiler.Console.error("Error: " + (e.stack || e.message));
-        process.exit(1);
+        process.exitCode = 1;
+      } finally {
+        process.exit();
       }
     }
   },
