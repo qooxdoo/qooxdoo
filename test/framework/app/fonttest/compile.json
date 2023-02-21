@@ -5,7 +5,7 @@
       "type": "source",
       "outputPath": "compiled/source",
       "fonts": {
-        "local": true
+        "local": false
       }
     },
     {

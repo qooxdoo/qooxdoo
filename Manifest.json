@@ -139,6 +139,7 @@
         ]
       },
       "MaterialIcons": {
+        "family": ["Material Icons"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
@@ -155,6 +156,7 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialicons.json"
       },
       "MaterialIconsOutlined": {
+        "family": ["Material Icons Outlined"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "urls": [
@@ -173,6 +175,7 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconsoutlined.json"
       },
       "MaterialIconsRound": {
+        "family": ["Material Icons Round"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "urls": [
@@ -191,6 +194,7 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconsround.json"
       },
       "MaterialIconsSharp": {
+        "family": ["Material Icons Sharp"],
         "comparisonString": "e1feef39",
         "defaultSize": 32,
         "urls": [
@@ -209,6 +213,7 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconssharp.json"
       },
       "MaterialIconsDuoTone": {
+        "family": ["Material Icons Two Tone"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "urls": [

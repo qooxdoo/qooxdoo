@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
         );
       }
 
-      this.getFamily().forEach(name => {
+      this.getFamily().forEach(familyName => {
         if (families.indexOf(familyName) < 0) {
           families.unshift(familyName);
         }

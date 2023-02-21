@@ -347,7 +347,7 @@ qx.Class.define("qx.bom.Font", {
           this.warn("Cannot find a font called " + value);
         } else {
           let toSet = {};
-          ["size", "lineHeight", "family", "comparisonString"].forEach(name => {
+          ["family", "comparisonString"].forEach(name => {
             if (data[name] !== undefined) {
               toSet[name] = data[name];
             }

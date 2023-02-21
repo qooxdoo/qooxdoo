@@ -55,7 +55,7 @@ qx.Class.define("fonttest.Application",
       */
 
       // Create a button
-      var button1 = new qx.ui.form.Button("Click me", "fonttest/test.png");
+      var button1 = new qx.ui.form.Button("Click me", "@MaterialIcons/arrow_back/16");
 
       // Document is the application root
       var doc = this.getRoot();
