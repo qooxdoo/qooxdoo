@@ -28,7 +28,7 @@ qx.Class.define("qx.tool.utils.Http", {
           if (statusCode !== 200) {
             error = new Error(`Request Failed.\nStatus Code: ${statusCode}`);
           } else if (contentTypeRegEx && !contentTypeRegEx.test(contentType)) {
-            error = new Error("Invalid content-type, received ${contentType}");
+            error = new Error(`Invalid content-type, received ${contentType}`);
           }
 
           if (error) {

@@ -646,7 +646,9 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
               let pos = source.lastIndexOf(".");
               if (pos > -1) {
                 let ext = source.substring(pos + 1);
-                if (types.indexOf(ext) > -1) return true;
+                if (types.indexOf(ext) > -1) {
+                  return true;
+                }
               }
               return false;
             });

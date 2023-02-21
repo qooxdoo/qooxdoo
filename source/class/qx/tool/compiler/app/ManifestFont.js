@@ -128,12 +128,10 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       if (!localFonts && this.getUrls()) {
         font.urls = this.getUrls();
       } else if (sources) {
-        font.sources = sources.map(source => {
-          return {
-            family: source.family || this.getName(),
-            source: source.paths
-          };
-        });
+        font.sources = sources.map(source => ({
+          family: source.family || this.getName(),
+          source: source.paths
+        }));
       }
       if (this.getComparisonString()) {
         font.comparisonString = this.getComparisonString();
