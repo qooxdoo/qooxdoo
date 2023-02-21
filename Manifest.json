@@ -124,7 +124,8 @@
               "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
             ]
           }
-        ]
+        ],
+        "urls": ["https://fonts.cdnfonts.com/css/roboto"]
       },
       "Roboto Mono": {
         "sources": [
@@ -136,7 +137,8 @@
               "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.ttf"
             ]
           }
-        ]
+        ],
+        "urls": ["https://fonts.cdnfonts.com/css/roboto-mono"]
       },
       "MaterialIcons": {
         "family": ["Material Icons"],

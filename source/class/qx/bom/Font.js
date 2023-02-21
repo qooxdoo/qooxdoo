@@ -67,6 +67,8 @@ qx.Class.define("qx.bom.Font", {
   */
 
   statics: {
+    __includedUrls: [],
+
     /**
      * Converts a typical CSS font definition string to an font object
      *
@@ -333,7 +335,10 @@ qx.Class.define("qx.bom.Font", {
     _applyUrls(value) {
       if (value) {
         for (let url of value) {
-          qx.bom.Stylesheet.includeFile(url);
+          if (!qx.bom.Font.__includedUrls[url]) {
+            qx.bom.Stylesheet.includeFile(url);
+            qx.bom.Font.__includedUrls[url] = true;
+          }
         }
       }
     },
