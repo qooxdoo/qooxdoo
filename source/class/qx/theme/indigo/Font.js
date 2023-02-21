@@ -24,21 +24,22 @@
 /**
  * The simple qooxdoo font theme.
  *
- * @asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff)
- * @asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf)
+ * @usefont(JosefinSlab)
+ * @usefont(qx.theme.indigo.defaultFont)
+ * @usefont(qx.theme.monospace)
  */
 qx.Theme.define("qx.theme.indigo.Font", {
   fonts: {
     default: {
       size: 12,
-      family: ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
+      fontName: "qx.theme.indigo.defaultFont",
       color: "font",
       lineHeight: 1.8
     },
 
     bold: {
       size: 12,
-      family: ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
+      fontName: "qx.theme.indigo.defaultFont",
       bold: true,
       color: "font",
       lineHeight: 1.8
@@ -47,27 +48,19 @@ qx.Theme.define("qx.theme.indigo.Font", {
     headline: {
       size: 22,
       family: ["serif"],
-      sources: [
-        {
-          family: "JosefinSlab",
-          source: [
-            "qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff",
-            "qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf"
-          ]
-        }
-      ]
+      fontName: "JosefinSlab"
     },
 
     small: {
       size: 11,
-      family: ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"],
+      fontName: "qx.theme.indigo.defaultFont",
       color: "font",
       lineHeight: 1.8
     },
 
     monospace: {
       size: 11,
-      family: ["DejaVu Sans Mono", "Courier New", "monospace"],
+      fontName: "qx.theme.monospace",
       color: "font",
       lineHeight: 1.8
     }

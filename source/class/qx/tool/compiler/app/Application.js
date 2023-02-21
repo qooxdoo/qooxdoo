@@ -834,6 +834,25 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     },
 
     /**
+     * Returns a list of fonts required by the application, where the font is detailed in Manfest.json
+     * in `provides.fonts`
+     *
+     * @returns {String[]}
+     */
+    getFonts() {
+      var fonts = {};
+      var analyser = this.getAnalyser();
+      var db = analyser.getDatabase();
+      this.__loadDeps.forEach(classname => {
+        var classInfo = db.classInfo[classname];
+        if (classInfo.fonts) {
+          classInfo.fonts.forEach(fontName => (fonts[fontName] = true));
+        }
+      });
+      return Object.keys(fonts);
+    },
+
+    /**
      * Returns the class name for the application
      * @returns {String}
      */

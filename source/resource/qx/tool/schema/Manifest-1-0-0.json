@@ -4,10 +4,7 @@
   "$id": "https://qooxdoo.org/schema/Manifest-1-0-0.json",
   "description": "qooxdoo's Manifest files serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed info), which is more interesting for human readers, a technical part (named provides) that is used in the processing of generator configurations, and a part named externalResources to include CSS and Javascript files.",
   "type": "object",
-  "required": [
-    "provides",
-    "$schema"
-  ],
+  "required": ["provides", "$schema"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
@@ -56,22 +53,16 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "name", "email"
-            ],
+            "required": ["name", "email"],
             "additionalProperties": false,
             "properties": {
               "name": {
                 "type": "string",
-                "examples": [
-                  "First Author"
-                ]
+                "examples": ["First Author"]
               },
               "email": {
                 "type": "string",
-                "examples": [
-                  "first.author@site.domain"
-                ]
+                "examples": ["first.author@site.domain"]
               },
               "githubUser": {
                 "type": "string",
@@ -107,10 +98,7 @@
       }
     },
     "provides": {
-      "required": [
-        "namespace",
-        "class"
-      ],
+      "required": ["namespace", "class"],
       "additionalProperties": false,
       "type": "object",
       "properties": {
@@ -142,14 +130,16 @@
           "type": "object",
           "description": "Maps environment check IDs to classes"
         },
+        "fonts": {
+          "type": "object",
+          "additionalProperties": true
+        },
         "webfonts": {
-          "type":"array",
+          "type": "array",
           "description": "A list of webfont definitions",
           "items": {
             "type": "object",
-            "required": [
-              "name", "resources"
-            ],
+            "required": ["name", "resources"],
             "additionalProperties": false,
             "properties": {
               "name": {
@@ -157,7 +147,7 @@
                 "description": "Font name"
               },
               "defaultSize": {
-                "type":"number",
+                "type": "number",
                 "description": "Default font size"
               },
               "mapping": {
@@ -172,7 +162,7 @@
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                  "type":"string",
+                  "type": "string",
                   "description": "Path to the webfont file relative to the resource folder"
                 }
               }
@@ -180,7 +170,7 @@
           }
         },
         "application": {
-          "type":"object"
+          "type": "object"
         }
       }
     },
@@ -197,7 +187,7 @@
       "additionalProperties": false
     },
     "externalResources": {
-      "type":"object",
+      "type": "object",
       "description": "Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the 'provides' section.",
       "properties": {
         "css": {

@@ -111,6 +111,11 @@ qx.Class.define("qx.tool.cli.commands.Compile", {
         type: "string"
       },
 
+      "local-fonts": {
+        describe: "whether to prefer local font files over CDN",
+        type: "boolean"
+      },
+
       watch: {
         describe: "enables watching for changes and continuous compilation",
         type: "boolean",
@@ -997,7 +1002,18 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         target.setWriteLibraryInfo(this.argv.writeLibraryInfo);
         target.setUpdatePoFiles(this.argv.updatePoFiles);
         target.setLibraryPoPolicy(this.argv.libraryPo);
+        let fontsConfig = targetConfig.fonts || {};
+        let localFonts = false;
 
+        if (this.argv.localFonts !== undefined) {
+          localFonts = this.argv.localFonts;
+        } else if (fontsConfig.local !== undefined) {
+          localFonts = fontsConfig.local;
+        }
+        target.setLocalFonts(localFonts);
+        if (fontsConfig.fontTypes !== undefined) {
+          target.setFontTypes(fontsConfig.fontTypes);
+        }
         // Take the command line for `minify` as most precedent only if provided
         var minify;
         if (process.argv.indexOf("--minify") > -1) {
@@ -1230,6 +1246,7 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
             data.localModules || {},
             false
           );
+
           if (!qx.lang.Object.isEmpty(appConfig.localModules)) {
             app.setLocalModules(appConfig.localModules);
           }

@@ -19,6 +19,7 @@
 
 /**
  * The modern font theme.
+ *
  */
 qx.Theme.define("qx.theme.modern.Font", {
   fonts: {

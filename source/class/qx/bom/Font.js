@@ -265,6 +265,25 @@ qx.Class.define("qx.bom.Font", {
       check: "Integer",
       nullable: true,
       apply: "_applyLetterSpacing"
+    },
+
+    /**
+     * List of URLs to add to the page to load the font
+     */
+    urls: {
+      check: "Array",
+      nullable: true,
+      apply: "_applyUrls"
+    },
+
+    /**
+     * This specifies the name of the font defined in Manifest.json in `provides.fonts` - setting it will
+     * copy the values from the Manifest into this font definition
+     */
+    fontName: {
+      check: "String",
+      nullable: true,
+      apply: "_applyFontName"
     }
   },
 
@@ -308,6 +327,34 @@ qx.Class.define("qx.bom.Font", {
       // we have to return a font family - even if it's an empty string to prevent
       // the browser from applying the element style
       this.__lookupMap.fontFamily = family;
+    },
+
+    // property apply
+    _applyUrls(value) {
+      if (value) {
+        for (let url of value) {
+          qx.bom.Stylesheet.includeFile(url);
+        }
+      }
+    },
+
+    // property apply
+    _applyFontName(value) {
+      if (value) {
+        let data =
+          qx.theme.manager.Font.getInstance().getManifestFonts()[value];
+        if (!data) {
+          this.warn("Cannot find a font called " + value);
+        } else {
+          let toSet = {};
+          ["size", "lineHeight", "family", "comparisonString"].forEach(name => {
+            if (data[name] !== undefined) {
+              toSet[name] = data[name];
+            }
+          });
+          this.set(toSet);
+        }
+      }
     },
 
     // property apply

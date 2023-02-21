@@ -325,16 +325,10 @@ qx.Class.define("qx.tool.compiler.app.WebFont", {
      *
      * @param target  {qx.tool.compiler.targets.Target} the target
      * @param application  {qx.tool.compiler.app.Application} the application being built
-     * @param initial {Boolean} true if this is the first pass
      * @return {String}
      */
-    getBootstrapCode(target, application, initial) {
+    getBootstrapCode(target, application) {
       let res = "";
-
-      if (initial) {
-        res = "qx.$$fontBootstrap={};\n";
-      }
-
       let font = {
         size: this.getDefaultSize(),
         lineHeight: 1,

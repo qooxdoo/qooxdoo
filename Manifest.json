@@ -1,16 +1,10 @@
 {
-  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "$schema": "./source/resource/qx/tool/schema/Manifest-2-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
     "description": "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
-    "keywords": [
-      "qooxdoo",
-      "framework",
-      "widget",
-      "cross-browser",
-      "ajax"
-    ],
+    "keywords": ["qooxdoo", "framework", "widget", "cross-browser", "ajax"],
     "homepage": "http://qooxdoo.org",
     "license": "MIT",
     "authors": [
@@ -88,63 +82,151 @@
     "class": "source/class",
     "resource": "source/resource",
     "translation": "source/translation",
-    "webfonts": [
-      {
-        "name": "MaterialIcons",
-        "defaultSize": 32,
-        "comparisonString": "e1feef39",
-        "resources": [
-          "qx/iconfont/MaterialIcons/materialicons-v126.eot",
-          "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
-          "qx/iconfont/MaterialIcons/materialicons-v126.woff",
-          "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
+    "fonts": {
+      "qx.theme.monospace": {
+        "family": ["DejaVu Sans Mono", "Courier New", "monospace"]
+      },
+      "qx.theme.classic.defaultFont": {
+        "family": [
+          "Lucida Grande",
+          "Tahoma",
+          "Verdana",
+          "Bitstream Vera Sans",
+          "Liberation Sans"
         ]
       },
-      {
-        "name": "MaterialIconsOutlined",
-        "defaultSize": 32,
-        "comparisonString": "e1feef39",
-        "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.otf"
+      "qx.theme.indigo.defaultFont": {
+        "family": [
+          "Lucida Grande",
+          "Tahoma",
+          "Verdana",
+          "Bitstream Vera Sans",
+          "Liberation Sans"
         ]
       },
-      {
-        "name": "MaterialIconsRound",
-        "defaultSize": 32,
-        "comparisonString": "e1feef39",
-        "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsround-v100.eot",
-          "qx/iconfont/MaterialIcons/materialiconsround-v100.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsround-v100.woff",
-          "qx/iconfont/MaterialIcons/materialiconsround-v100.otf"
+      "JosefinSlab": {
+        "sources": [
+          {
+            "paths": [
+              "qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff",
+              "qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf"
+            ]
+          }
         ]
       },
-      {
-        "name": "MaterialIconsSharp",
-        "comparisonString": "e1feef39",
-        "defaultSize": 32,
-        "resources": [
-          "qx/iconfont/MaterialIcons/materialiconssharp-v101.eot",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff2",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v101.otf"
+      "Roboto": {
+        "sources": [
+          {
+            "paths": [
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.eot",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff2",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
+            ]
+          }
         ]
       },
-      {
-        "name": "MaterialIconsDuoTone",
+      "Roboto Mono": {
+        "sources": [
+          {
+            "paths": [
+              "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.eot",
+              "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.woff2",
+              "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.woff",
+              "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.ttf"
+            ]
+          }
+        ]
+      },
+      "MaterialIcons": {
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "resources": [
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.eot",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff2",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v104.otf"
-        ]
+        "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
+        "sources": [
+          {
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialicons-v126.eot",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff",
+              "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialicons.json"
+      },
+      "MaterialIconsOutlined": {
+        "defaultSize": 32,
+        "comparisonString": "e1feef39",
+        "urls": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+        ],
+        "sources": [
+          {
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot",
+              "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2",
+              "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff",
+              "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.otf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialiconsoutlined.json"
+      },
+      "MaterialIconsRound": {
+        "defaultSize": 32,
+        "comparisonString": "e1feef39",
+        "urls": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+        ],
+        "sources": [
+          {
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialiconsround-v100.eot",
+              "qx/iconfont/MaterialIcons/materialiconsround-v100.woff2",
+              "qx/iconfont/MaterialIcons/materialiconsround-v100.woff",
+              "qx/iconfont/MaterialIcons/materialiconsround-v100.otf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialiconsround.json"
+      },
+      "MaterialIconsSharp": {
+        "comparisonString": "e1feef39",
+        "defaultSize": 32,
+        "urls": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+        ],
+        "sources": [
+          {
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialiconssharp-v101.eot",
+              "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff2",
+              "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff",
+              "qx/iconfont/MaterialIcons/materialiconssharp-v101.otf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialiconssharp.json"
+      },
+      "MaterialIconsDuoTone": {
+        "defaultSize": 32,
+        "comparisonString": "e1feef39",
+        "urls": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone"
+        ],
+        "sources": [
+          {
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialiconstwotone-v104.eot",
+              "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff2",
+              "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff",
+              "qx/iconfont/MaterialIcons/materialiconstwotone-v104.otf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialiconstwotone.json"
       }
-    ],
+    },
     "environmentChecks": {
       "browser.*": "qx.bom.client.Browser",
       "css.*": "qx.bom.client.Css",

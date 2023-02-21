@@ -216,6 +216,10 @@ qx.Class.define("qx.theme.manager.Font", {
             this.__resolveInclude(source, key);
           }
 
+          if (source[key].fontName) {
+            let preset = this._manifestFonts[source[key].fontName];
+            Object.assign(source[key], preset);
+          }
           var font = this.__getFontClass(source[key]);
           var fo = new font();
 
@@ -243,6 +247,15 @@ qx.Class.define("qx.theme.manager.Font", {
         return qx.bom.webfonts.WebFont;
       }
       return qx.bom.Font;
+    },
+
+    /**
+     * Returns the font information output by the compiler
+     * @internal subject to change
+     * @return {Object}
+     */
+    getManifestFonts() {
+      return this._manifestFonts;
     }
   },
 

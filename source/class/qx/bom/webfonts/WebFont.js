@@ -75,7 +75,9 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
 
       for (var i = 0, l = value.length; i < l; i++) {
         var familyName = this._quoteFontFamily(value[i].family);
-        families.push(familyName);
+        if (families.indexOf(familyName) < 0) {
+          families.push(familyName);
+        }
         var sourcesList = value[i];
         sourcesList.comparisonString = this.getComparisonString();
         sourcesList.version = this.getVersion();
@@ -87,7 +89,12 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
         );
       }
 
-      this.setFamily(families.concat(this.getFamily()));
+      this.getFamily().forEach(name => {
+        if (families.indexOf(familyName) < 0) {
+          families.unshift(familyName);
+        }
+      });
+      this.setFamily(families);
     },
 
     /**

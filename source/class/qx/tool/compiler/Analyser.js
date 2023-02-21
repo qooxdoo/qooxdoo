@@ -61,6 +61,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     this.__translations = {};
     this.__classFiles = {};
     this.__environmentChecks = {};
+    this.__fonts = {};
   },
 
   properties: {
@@ -193,6 +194,9 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     __initialClassesToScan: null,
     __cldrs: null,
     __translations: null,
+
+    /** @type{qx.tool.compiler.app.ManifestFont[]} list of fonts in provides.fonts */
+    __fonts: null,
 
     __classFiles: null,
     __environmentChecks: null,
@@ -1413,6 +1417,47 @@ qx.Class.define("qx.tool.compiler.Analyser", {
     addLibrary(library) {
       this.__libraries.push(library);
       this.__librariesByNamespace[library.getNamespace()] = library;
+    },
+
+    /**
+     * Returns a font by name
+     *
+     * @param {String} name
+     * @param {Boolean?} create whether to create the font if it does not exist (default is false)
+     * @returns {qx.tool.app.ManifestFont?} null if it does not exist and `create` is falsey
+     */
+    getFont(name, create) {
+      let font = this.__fonts[name] || null;
+      if (!font && create) {
+        font = this.__fonts[name] = new qx.tool.compiler.app.ManifestFont(name);
+      }
+      return font;
+    },
+
+    /**
+     * Detects whether the filename is one of the fonts
+     *
+     * @param {*} filename
+     * @returns
+     */
+    isFontAsset(filename) {
+      let isFont = false;
+      if (filename.endsWith("svg")) {
+        for (let fontName in this.__fonts) {
+          let font = this.__fonts[fontName];
+          let sources = font.getSources() || [];
+          isFont = sources.find(source => source == filename);
+        }
+      }
+      return isFont;
+    },
+    /**
+     * Returns the map of all fonts, indexed by name
+     *
+     * @returns {Map<String,qx.tool.app.ManifestFont>}
+     */
+    getFonts() {
+      return this.__fonts;
     },
 
     /**
