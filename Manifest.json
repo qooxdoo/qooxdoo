@@ -73,7 +73,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "7.5.0",
+    "version": "7.5.1",
     "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
   "provides": {

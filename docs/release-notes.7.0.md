@@ -1,4 +1,7 @@
 # Qooxdoo Release Notes
+## Fixes for v7.5.1
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-01-17&until==2023-02-20
+
 ## New features in v7.5
 - add Indigo dark theme to qooxdoo
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2022-11-27&until==2023-01-16
