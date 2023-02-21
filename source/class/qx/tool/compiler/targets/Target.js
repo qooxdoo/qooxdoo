@@ -548,6 +548,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
 
     /**
      * Writes the fonts defined in provides.webfonts
+     * @deprecated
      */
     async __writeDeprecatedWebFonts(application, appMeta, assets) {
       let analyser = application.getAnalyser();

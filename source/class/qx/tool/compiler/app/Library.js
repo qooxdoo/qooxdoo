@@ -388,7 +388,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
     /**
      * Detects whether the filename is one of the library's fonts
      *
-     * @param {*} filename
+     * @param {String} filename
      * @returns
      */
     isFontAsset(filename) {

@@ -59,8 +59,8 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
     /**
      * Updates this from the data in the Manifest.json
      *
-     * @param {Object} data
-     * @param {}
+     * @param {Object} data the data from Manifest
+     * @param {qx.tool.compiler.app.Library} library the library
      */
     async updateFromManifest(data, library) {
       let toSet = {};
@@ -111,8 +111,10 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
     /**
      * Return bootstrap code that is executed before the Application starts.
      *
-     * @param target  {qx.tool.compiler.targets.Target} the target
-     * @param application  {qx.tool.compiler.app.Application} the application being built
+     * @param {qx.tool.compiler.targets.Target} target the target
+     * @param {qx.tool.compiler.app.Application} application the application being built
+     * @param {boolean} localFonts whether to prefer font files from local resources over CDNs
+     * @param {String[]} sources array of URLs for CDN
      * @return {String}
      */
     getBootstrapCode(target, application, localFonts, sources) {

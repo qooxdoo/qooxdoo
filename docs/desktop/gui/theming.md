@@ -281,13 +281,13 @@ Here's three examples from Qooxdoo's Manifest.json:
       },
 ```
 
-In the first example ("qx.theme.monospace") we're defining a short cut that says that anywhere that the font name "qx.theme.monospace" is used, Qooxdoo
+In the first example ("qx.theme.monospace") we're defining a shortcut that says that anywhere that the font name "qx.theme.monospace" is used, Qooxdoo
 should switch to using the font family in the array.  In this case, the various Qooxdoo themes often use this one name, and it makes it a touch easier to
 update it in the future.
 
-In the second example ("Roboto"), we're describing a Google font that is stored inside Qooxdoo repo - it's a copy of the Google font, and will be compiled
+In the second example ("Roboto"), we're describing a Google font that is stored inside the Qooxdoo repo - it's a copy of the Google font, and will be compiled
 into every application that has a theme which uses that font - for example, if you use the `TangibleDark` or `TangibleLight` themes, Qooxdoo will automatically
-include the Roboto font in your application
+include the Roboto font in your application.
 
 In the third example ("MaterialIcons"), we're describing a Google font where we have a URL to use for the CDNs, or we can have it compiled in.  The compiler
 can decide whether to use the CDN or embeded fonts.
