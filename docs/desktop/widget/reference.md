@@ -26,7 +26,7 @@
 
 ## Embed Widgets
 
-[canvas](canvas.md), [html](html.md), [iframe](iframe.md), [flash](flash.md)
+[canvas](canvas.md), [html](html.md), [iframe](iframe.md)
 
 ## Form Widgets
 

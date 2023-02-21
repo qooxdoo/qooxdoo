@@ -18,10 +18,10 @@ but this is quite uncommon and only used in very special cases. It is almost
 always better to position children using a layout manager.
 
 The layout manager can be configured on any widget, but most classes only have
-the protected methods to control the layout. In fact it doesn't make sense to
+the protected methods to control the layout. In fact, it doesn't make sense to
 control the layout manager of a `Spinner`, `ComboBox`, etc. from outside. So
 this scenario is quite common. Some widgets however publish the layout API. One
-of them is the above mentioned widget/composite widget. It exposes the layout
+of them is the above-mentioned widget/composite widget. It exposes the layout
 system and the whole children API.
 
 The nature of layout managers is that each one has specialized options for its
@@ -32,7 +32,7 @@ fact, the best place to handle these options is the layout itself. Every
 [setLayoutProperties](apps://apiviewer/#qx.ui.core.LayoutItem~setLayoutProperties)
 and
 [getLayoutProperties](apps://apiviewer/#qx.ui.core.LayoutItem~getLayoutProperties)
-. Through this API the layout properties can be configured independently from
+. Through this API the layout properties can be configured independently of
 the layout.
 
 The validation of properties is lazy (compared to the classic Qooxdoo
@@ -45,8 +45,8 @@ To make layout properties available in a convenient fashion each
 [add()](apps://apiviewer/#qx.ui.container.Composite~add) has an optional second
 parameter: A map with all layout properties to configure. A basic example:
 
-```
-var canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+```javascript
+const canvas = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 canvas.add(new qx.ui.form.Button("Say Hello"), {
   left : 20,
   top: 20
@@ -64,7 +64,7 @@ Some widgets extend the `Composite` widget above. Typical examples here are:
 - [TabView Page](apps://apiviewer/#qx.ui.tabview.Page)
 - [Popup](apps://apiviewer/#qx.ui.popup.Popup)
 
-These have the same API like the composite. A slightly other type are so-called
+These have the same API as the composite. A slightly other type are so-called
 composite-like widgets. These widgets offer the same type of children management
 and layout management to the outside, but they redirect these properties to an
 inner pane.
@@ -96,8 +96,8 @@ Qooxdoo knows how much it can shrink and how much it can grow without
 interfering the functionality. The application developer can override these
 min/max sizes as well. This is no problem as long as the new value is tougher
 than the automatically detected values (e.g. lower limit of maximum width). When
-overriding the automatic sizes to reduce the limits layout problems may occur.
-It is highly suggested to keep an eye on this to omit such scenarios.
+overriding the automatic sizes to reduce the layout's limits, problems may occur.
+It is highly recommended to keep an eye on this to omit such scenarios.
 
 One thing to keep in mind is that the `width` cannot override the `minWidth` or
 the `maxWidth`. Limitation properties may be overridden by the property itself,
@@ -129,8 +129,8 @@ reduce the width (or the developer using the `width` property) the widget tries
 to solve the requirement dynamically. This certainly works for the height as
 well.
 
-```
-var label = new qx.ui.basic.Label().set({
+```javascript
+const label = new qx.ui.basic.Label().set({
   value: "A long label text which has not enough room.",
   width: 60
 });
@@ -146,16 +146,16 @@ influenced by the available width. The
 feature when using the [rich](apps://apiviewer/#qx.ui.basic.Label~rich) output
 mode (HTML content).
 
-```
-var label = new qx.ui.basic.Label().set({
-  value: "A long label text with auto-wrapping. This also may
-    contain <b style='color:red'>rich HTML</b> markup.",
+```javascript
+const label = new qx.ui.basic.Label().set({
+  value: "A long label text with auto-wrapping. This also may" +
+    "contain <b style='color:red'>rich HTML</b> markup.",
   rich : true,
   width: 120
 });
 ```
 
-Finally this means that every widget can grow and shrink depending on the
+Finally, this means that every widget can grow and shrink depending on the
 limitations given for the respective axis. Two easy accessors which disable
 growing or shrinking respectively are
 [allowGrowX](apps://apiviewer/#qx.ui.core.LayoutItem~allowGrowX) and
@@ -184,19 +184,19 @@ Benefits of this decision are:
 - Own implementation overrides browser quirks
 
 The scrollbars are
-[controlable in a way that is comparable to CSS](apps://apiviewer/#qx.ui.core.scroll.AbstractScrollArea~scrollbarX)
+[controllable in a way that is comparable to CSS](apps://apiviewer/#qx.ui.core.scroll.AbstractScrollArea~scrollbarX)
 . It is possible to have both scrollbars marked as `auto` to automatically
 detect the needs of the content. Or any other combination where a scrollbar may
 be statically hidden or visible. Each bar can be controlled separately. It is
 possible to enable one scrollbar statically and make the other one
 auto-displayed and vice-versa.
 
-```
-var big = new qx.ui.form.TextArea;
+```javascript
+const big = new qx.ui.form.TextArea;
 big.setWidth(600);
 big.setHeight(600);
 
-var area = new qx.ui.container.Scroll;
+const area = new qx.ui.container.Scroll;
 area.setWidth(200);
 area.setHeight(200);
 area.add(big);
@@ -211,10 +211,10 @@ into the viewport. This feature is provided through the method
 [scrollItemIntoView](apps://apiviewer/#qx.ui.core.Widget~scrollChildIntoView) .
 It just needs any child of the widget (at any depth).
 
-```
-var list = new qx.ui.form.List();
-var item;
-for (var i=0; i<20; i++)
+```javascript
+const list = new qx.ui.form.List();
+let item;
+for (let i=0; i<20; i++)
 {
   item = new qx.ui.form.ListItem("Item #" + i);
   list.add(item);
@@ -247,12 +247,12 @@ The [children handling](apps://apiviewer/#qx.ui.core.MChildrenHandling) normally
 allows a second optional parameter `options`. The layout properties are given
 through a simple map e.g.
 
-```
+```javascript
 parent.add(child, {left:20, top: 100});
 ```
 
 This is still good readable and directly defines the properties where the
-children is added to the parent (and the parent's layout). While this is the
+children are added to the parent (and the parent's layout). While this is the
 common use pattern of layout properties in Qooxdoo applications, it is still
 possible to define layout properties afterwards using
 [setLayoutProperties](apps://apiviewer/#qx.ui.core.LayoutItem~setLayoutProperties)
@@ -282,7 +282,7 @@ entirely.
 
 The easiest use case is to make exactly one child consuming the remaining space.
 This is often seen in modern application. For example the location field in
-common browsers are automatically configured to behave like this. To do this add
+common browsers are automatically configured to behave like this. To do this - add
 a flex value of `1` to the child. In order to make more children behave like
 this, one could make them flexible the same way. The available space is
 automatically allocated between all of them. As `flex` allows integer values it
@@ -312,7 +312,7 @@ to the preferred size.
 
 ### Percent
 
-With the above mentioned `flex` feature the use of percents is quite uncommon in
+With the above-mentioned `flex` feature the use of percents is quite uncommon in
 most Qooxdoo applications. Still, there are some cases where it might be
 interesting to define percent locations or dimensions.
 
@@ -324,7 +324,7 @@ coordinate is automatically updated when the outer dimensions are modified.
 
 The [LayoutItem](apps://apiviewer/#qx.ui.core.LayoutItem)'s dimension properties
 only support integer values. To use percentage dimensions some Qooxdoo layout
-managers allow to define width and height using layout properties. This
+managers allow to define width and height using layout properties. These
 dimensions are then _higher_ prioritized than the width and height configured in
 the child using the _normal_ properties. The limitations defined through
 `minWidth` etc. are still respected by the layout manager. Percentage dimensions
@@ -348,7 +348,7 @@ Layout.
 ## Pre-configured Widgets
 
 There are a few containers in Qooxdoo which use a predefined immutable layout
-for rendering their children. Currently these containers are included:
+for rendering their children. Currently, these containers are included:
 
 - widget/scroll: Provides automatic scrollbars for larger content. Does not
   influence the size of the content which is rendered at the preferred size.

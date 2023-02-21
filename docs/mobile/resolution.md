@@ -13,7 +13,7 @@ experience on such devices as explained below.
 Many modern devices ship with high pixel density displays. The measurement of
 pixel density is in units of `ppi` ("pixels per inch"), sometimes called `dpi`
 ("dots per inch"). Starting at about 300ppi a display's individual pixels become
-indistinguishable to the human eye at regular viewing distance. Therefore such
+indistinguishable to the human eye at regular viewing distance. Therefore, such
 devices are commonly said to have "Retina" displays.
 
 In order to let applications continue with their pixel values used internally
@@ -66,7 +66,7 @@ total scale of the app to their liking.
 
 The change is relative to the global font size (e.g. predefined by your
 browser's settings). You set the new relative value, e.g. a factor of 2 for 200%
-scaling) through the method `setFontScale` on `qx.ui.mobile.core.Root`:
+scaling through the method `setFontScale` on `qx.ui.mobile.core.Root`:
 
 ```javascript
 qx.core.Init.getApplication().getRoot().setFontScale(2);
@@ -85,8 +85,8 @@ in the total app scale. This app scale expresses the effective scaling of your
 app. For instance, if the app scale is `1.75` , an image with an original width
 of 100px, would appear on the display as 175 pixels wide.
 
-```
-var scale = qx.core.Init.getApplication().getRoot().getAppScale();
+```javascript
+const scale = qx.core.Init.getApplication().getRoot().getAppScale();
 ```
 
 The app scale calculation takes into account both the font scale as well as the
@@ -106,7 +106,7 @@ resources. The framework picks the best match for each image from the supplied
 high-resolution versions. The code of your app doesn't have to be modified. This
 is possible because your app's images are handled as "managed resources" by the
 Mobile toolchain. In whatever scale or on whatever high-pixel device your app
-runs, it will internally look-up the best possible fit based on the determined
+runs, it will internally look up the best possible fit based on the determined
 app scale.
 
 ### Location and naming conventions
@@ -121,7 +121,7 @@ As an example, assume the following medium resolution image is part of your
 project's resources: `source/resource/<APP_NAME>/icon/image.png`
 
 The "resolution" of an image is given by the total amount of pixels available in
-each dimension. Lets say `image.png` is 200 x 100 pixels. In your image
+each dimension. Let's say `image.png` is 200 x 100 pixels. In your image
 processing tool (e.g. Photoshop) take the original, high-quality sources that
 you created the regular image from. Now create a high-resolution version.
 Optimized for app scale 200% its resolution would become 400 x 200 pixels. Save

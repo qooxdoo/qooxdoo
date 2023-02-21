@@ -147,7 +147,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       });
     },
 
-    async __browserify(commonjsModules, references, localModules, ws) {
+    __browserify(commonjsModules, references, localModules, ws) {
       const babelify = require("babelify");
       const preset = require("@babel/preset-env");
       const browserify = require("browserify");
@@ -157,7 +157,7 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
       // Make them equivalent.
       builtins.process = builtins._process;
 
-      return new Promise(async resolve => {
+      return new Promise((resolve, reject) => {
         let b = browserify([], {
           builtins: builtins,
           ignoreMissing: true,
@@ -200,19 +200,29 @@ qx.Class.define("qx.tool.compiler.targets.meta.Browserify", {
           global: true
         });
 
-        b.bundle((e, output) => {
+        b.bundle(function (e, output) {
           if (e) {
-            // We've already handled the case of missing module. This is something else.
+            // THIS IS A HACK!
+            // In case of error dependency walker never returns from
+            // ```if (self.inputPending > 0) return setTimeout(resolve);```
+            // because inputPending is not decremented anymore.
+            // so set it to 0 here.
+            let d = b.pipeline.get("deps");
+            d.get(0).inputPending = 0;
             qx.tool.compiler.Console.error(
-              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify: ${e.message}`
+              `Unable to browserify - this is probably because a module is being require()'d which is not compatible with Browserify:\n${e.message}`
             );
 
-            // Do not throw an error here, otherwise a problem in the users code will kill the watch with pages of error
-            resolve(null);
+            setTimeout(() => {
+              this.emit("end");
+            });
             return;
           }
-
-          ws.write(output);
+          // in case of end event output can not be writen.
+          // so catch the error and ignore it
+          try {
+            ws.write(output);
+          } catch (err) {}
           resolve(null);
         });
       });

@@ -423,7 +423,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * Checks which elements are placed to position x/y and traverses the array
      * till one element has no "pointer-events:none" inside its style attribute.
      * @param domEvent {Event} DOM event
-     * @return {Element | null} Event target
+     * @return {Element|null} Event target
      */
     __evaluateTarget(domEvent) {
       var clientX = null;

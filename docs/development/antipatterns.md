@@ -29,13 +29,13 @@ received. Always use asynchronous requests to give the control back to the user.
 ### Long-running tasks
 
 Running intensive tasks on the client should not be an option. Such tasks should
-reside on the server-side. If it not possible (or not desired) there should be
+reside on the server-side. If it is not possible (or not desired) there should be
 at least a reasonable feedback to the user about the intensive task currently
 running. If long-running tasks can be split into a sequence of small tasks, the
-Progressive (qx.ui.progressive.Progressive) widget may allow you to progressive
+Progressive (`qx.ui.progressive.Progressive`) widget may allow you to progressively
 execute the sequence of small tasks without blocking other operation of your
 application. Organizing your application around a finite state machine
-(qx.util.fsm.FiniteStateMachine) may also help to avoid the pitfalls of
+(`qx.util.fsm.FiniteStateMachine`) may also help to avoid the pitfalls of
 long-running tasks.
 
 ### Reference types in member section
@@ -45,7 +45,7 @@ members section. This makes it easier to find the data fields, which a may
 otherwise be deeply hidden in the code.
 
 It is possible to initialize these data fields in the members section with
-primite data types like `String` or `Number` but it should never be initialized
+primitive data types like `String` or `Number` but it should never be initialized
 with reference types. Reference types are `Object` (Maps), `Array`, `Date` and
 `RegExp`. The reason for this is that these references will be shared by all
 instances of the class. This is typically not the desired behavior. It is better
@@ -94,7 +94,7 @@ which have to be available at _load-time_, i.e. at the time the class code is
 read and evaluated by Qooxdoo's class factory (currently `qx.Class.define`).
 This is in contrast to dependencies which come into play only at _run-time_ of
 the class code, e.g. when its constructor or member functions are invoked.
-(Run-time dependencies are usually easy to fullfill since they don't impose an
+(Run-time dependencies are usually easy to fulfill since they don't impose an
 order in which classes are loaded into the browser's Javascript interpreter; in
 general, they just have to be loaded eventually).
 
@@ -153,13 +153,11 @@ unfortunately this has a side effect: if you try to loop through an array using
 a for-in-loop you will not only get the content of the array but also the new
 functions.
 
-So loop trough an array with an normal loop:
+So loop through an array with a normal loop:
 
 ```javascript
 var a = [1, 2, 3];
 for (var i=0, l=a.length; i<l; i++) {
   this.debug(a[i]);
 }
-```
-
 ```

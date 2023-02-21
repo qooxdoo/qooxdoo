@@ -1,18 +1,12 @@
 # Property features summarized
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-The chapter gives you an compact but extensive overview of the features offered
+> **Note**
+> 
+> The chapter gives you a compact but extensive overview of the features offered
 by Qooxdoo's property system. Please refer to `defining_properties` for an
 explanation of how to define and use properties.
 
-</div>
+
 
 ## Value checks
 
@@ -35,7 +29,7 @@ explanation of how to define and use properties.
 ## Advanced value handling
 
 > - Multi value support. Support to store different values for init,
->   inheritance, style and user including a automatic fallback mechanism between
+>   inheritance, style and user including an automatic fallback mechanism between
 >   them.
 > - Inheritance support. Inheritance of properties defined by a parent widget
 >   e.g. inherit enabled from a groupbox to all form elements. Uses the
@@ -69,8 +63,6 @@ which are `nullable`. This means that after you have created an instance the
 properties correctly reflect the applied value. Default values assigned by
 `init` also execute the configured `apply` methods and dispatch configured
 events to inform already added listeners.
-
-`property_behavior`
 
 ## Performance
 

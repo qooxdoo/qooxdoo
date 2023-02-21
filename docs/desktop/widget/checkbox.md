@@ -22,7 +22,7 @@ is undetermined.
 
 The CheckBox supports an optional plain text.
 
-Also it is possible to combine a CheckBox with a TreeItem to construct a complex
+Also, it is possible to combine a CheckBox with a TreeItem to construct a complex
 widget.
 
 ## Demos

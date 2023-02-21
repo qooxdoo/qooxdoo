@@ -71,7 +71,7 @@ qx.core.Environment.select("myapp.key", {
   "value1" : resvalue1,
   "value2" : resvalue2,
   "default" : catchAllValue
-}
+});
 ```
 
 The `select` method is a way to select a value from a given map. This offers a
@@ -127,7 +127,7 @@ you can invalidate the cache for a given key, to force a re-calculation on the
 next query:
 
 ```javascript
-qx.core.Environment.invalidateCacheKey("myapp.key"}
+qx.core.Environment.invalidateCacheKey("myapp.key")
 ```
 
 This example would clear a previously calculated value for `myapp.key` .
@@ -143,7 +143,7 @@ wouldn't be used at run time.
 
 For example,
 
-```
+```javascript
 function foo(a, b) {
   if (qx.core.Environment.get("qx.debug") == true) {
     if ( (arguments.length != 2) || (typeof a != "string") ) {
@@ -156,7 +156,7 @@ function foo(a, b) {
 
 will be reduced in the case _qx.debug_ is _false_ to
 
-```
+```javascript
 function foo(a, b) {
   return 3;
 }
@@ -168,12 +168,12 @@ In the case of a _select_ call,
 qx.core.Environment.select("myapp.key", {
   "value1" : resvalue1,
   "value2" : resvalue2
-}
+})
 ```
 
 will reduce if _myapp.key_ has the value _value2_ to just
 
-```
+```javascript
 resvalue2
 ```
 
@@ -213,7 +213,7 @@ from eliminating the code, use the "preserveEnvironment" setting.
 Now to actually setting new or overriding existing environment settings. The
 value of an environment key can take one of two forms, as a concrete literal
 value, or as a function that returns a value at run time. The former can be
-achieve in various ways (see further), the latter only through application code.
+achieved in various ways (see further), the latter only through application code.
 (An environment key with its current value is also referred to as an
 _environment setting_). 
 
@@ -248,7 +248,7 @@ defining a Qooxdoo class:
 ```javascript
 qx.Class.define("myapp.ClassA",
 {
-  [...]
+  /* ... */
 
   environment : {
     "myapp.ClassA.key" : value
@@ -258,8 +258,7 @@ qx.Class.define("myapp.ClassA",
 
 #### In Application Code
 
-You can define a key and its value in a class method using the _
-qx.core.Environment.add_ method:
+You can define a key and its value in a class method using the `qx.core.Environment.add` method:
 
 ```javascript
 qx.core.Environment.add("key", "value");
@@ -267,9 +266,8 @@ qx.core.Environment.add("key", "value");
 
 #### In the Loading index.html
 
-In the web page loading your Qooxdoo application, and before the \`
-
-<script>` tag loading the initial Qooxdoo file, add another `<script>`
+In the web page loading your Qooxdoo application, and before the
+`<script>` tag loading the initial Qooxdoo file, add another `<script>`
 tag with code that assigns a map to `window.qx.$$environment`,
 containing your environment settings.
 
@@ -306,7 +304,7 @@ colons. The first part is the constant `qxenv`, the second part is the key of
 the environment setting and the last part is the value of the setting.
 
 Note that you also need to prevent the compiler from eliminating code
-(see (Code Optimization)[#Code Optimization])
+(see [Code Optimization](environment.md#code-optimization))
 
 ### As a Check Function
 
@@ -348,7 +346,7 @@ qx.core.Environment.addAsync("group.feature", function(callback) {
 });
 ```
 
-This example shows how to add a asynchronous feature check. A timeout is used to
+This example shows how to add an asynchronous feature check. A timeout is used to
 get the asynchronous behavior in this simple example. That can be more
 complicated of course but the timeout is good enough to showcase the API. As you
 can see in the check function we are adding, it has one parameter called

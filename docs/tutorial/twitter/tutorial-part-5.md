@@ -2,7 +2,7 @@
 
 In this tutorial we will deal with how to create a custom widget for our tweets
 application. It is necessary that you finished the tutorials part 1 through part
-3 to work with this tutorial, but previous knowledge from tutorial 4.1 is not
+3 to work with this tutorial, but previous knowledge from tutorial 4 is not
 needed.
 
 Do you remember the mockup from tutorial part 1?
@@ -16,16 +16,16 @@ This is because we use the default
 can only show an image and/or label. To achieve our goal, we have to create a
 custom widget which we can use instead of the ListItem.
 
-> :memo: The code in this tutorial should also work when you haven't completed the 4.1
-> tutorial because it doesn't depend on the code changes from tutorial 4.1. But
-> if you have any problems to run the tutorial, you can also checkout the code
-> from tutorial 4.1 on
-> [github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1)
+> :memo: The code in this tutorial should also work when you haven't completed the 4
+> tutorial because it doesn't depend on the code changes from tutorial 4. But
+> if you have any problems to run the tutorial, you can also check out the code
+> from tutorial 4 on
+> [GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1)
 > .
 
 ## The plan
 
-First of all we have to create a custom widget which fulfills our requirements
+First of all, we have to create a custom widget which fulfills our requirements
 from the mockup. We will achieve this by combining a widget with two labels and
 one image. Afterwards we have to configure the controller so that it uses our
 custom widget for the tweets.
@@ -51,7 +51,7 @@ The attentive reader noticed that we use the `include` key for the first time.
 `include` is used to include a mixin in a class. This is necessary in our case
 to support Data Binding. Our tweets application uses it and therefore it is
 expected that the new widget implements the
-[qx.ui.form.IModel](apps://apiviewer/#qx.ui.form.IModel) interface. Otherwise
+[qx.ui.form.IModel](apps://apiviewer/#qx.ui.form.IModel) interface. Otherwise,
 the widget can't be used with Data Binding. But fortunately the mixin
 `qx.ui.form.MModelProperty` already implements it, so we can reuse the
 implementation.
@@ -95,7 +95,7 @@ the theming, it tells the appearance system that the `TweetView` should be
 styled like the `ListItem`. We could also use a new appearance id, but than we'd
 have to define an appearance for it and that's not part of this tutorial.
 
-How to define properties was explained in tutorial part 3 (tutorial-part-3), so
+How to define properties was explained in [tutorial part 3](tutorial-part-3.md), so
 we don't repeat it. But we use some unfamiliar keys for definition and I will
 explain them:
 
@@ -110,8 +110,8 @@ explain them:
 ## Using Child Control
 
 Qooxdoo has a special system to realize combined widgets like in our case. This
-system is called child controls and you can find a detailed documentation in our
-manual (desktop/ui_develop).
+system is called child controls and you can find a detailed documentation in [our
+manual](../../desktop/gui/customwidgets.md#child-controls).
 
 Okay, back to our problem. To achieve the requirements we need an  
 [Image](apps://apiviewer/#qx.ui.basic.Image) for the photo, a Label for the post
@@ -126,7 +126,7 @@ with `_add`.
 members : {
   // overridden
   _createChildControlImpl(id) {
-    var control;
+    let control;
     switch(id) {
       case "icon":
         control = new qx.ui.basic.Image(this.getIcon());
@@ -183,18 +183,18 @@ this._dateFormat = new qx.util.format.DateFormat(
 
 The property for the date saves only a date object and our requirement from the
 mockup describes a spacial format and a simple `toString` usage is not enough.
-Therefore we need a special transformation which we can achieve by using
+Therefore, we need a special transformation which we can achieve by using
 [DateFormat](apps://apiviewer/#qx.util.format.DateFormat) .
 
 ```javascript
 // initialize the layout and allow wrap for "post"
-var layout = new qx.ui.layout.Grid(4, 2);
+const layout = new qx.ui.layout.Grid(4, 2);
 layout.setColumnFlex(1, 1);
 this._setLayout(layout);
 ```
 
-Now we create a layout for our custom widget. This should be known from tutorial
-part 2 (tutorial-part-2).
+Now we create a layout for our custom widget. This should be known from [tutorial
+part 2](tutorial-part-2.md).
 
 ```javascript
 // create the widgets
@@ -204,29 +204,29 @@ this._createChildControl("post");
 ```
 
 Time for our child control implementation. With these lines we trigger the
-subwidget creation which we implemented before.
+sub widget creation which we implemented before.
 
 ## Adding the apply methods
 
 We have already defined the properties, but we haven't implemented the needed
-apply methods for them. So, time to add the missing apply method for the
+`apply` methods for them. So, time to add the missing apply method for the
 properties to the `members` section.
 
 ```javascript
 // property apply
 _applyIcon(value, old) {
-  var icon = this.getChildControl("icon");
+  const icon = this.getChildControl("icon");
   icon.setSource(value);
 },
 
 _applyPost(value, old) {
-  var post = this.getChildControl("post");
+  const post = this.getChildControl("post");
   post.setValue(value);
 },
 
 // property apply
 _applyTime(value, old) {
-  var time = this.getChildControl("time");
+  const time = this.getChildControl("time");
   time.setValue(this._dateFormat.format(value));
 }
 ```
@@ -264,12 +264,12 @@ Great, now we have finished the custom widget.
 ## Configure the List Controller
 
 At the moment the controller doesn't know that it should use our `TweetView`
-class. Therefore we have to change the old controller configuration. Search for
+class. Therefore, we have to change the old controller configuration. Search for
 these lines of code in the `Application.js` file:
 
 ```javascript
 // create the controller
-var controller = new qx.data.controller.List(null, main.getList());
+const controller = new qx.data.controller.List(null, main.getList());
 controller.setLabelPath("text");
 controller.setIconPath("user.profile_image_url");
 controller.setDelegate({
@@ -291,7 +291,7 @@ controller.setIconPath("user.profile_image_url");
 
 Now to the delegate, just replace the current delegate with this one:
 
-```
+```javascript
 controller.setDelegate({
   createItem() {
     return new tweets.TweetView();
@@ -334,8 +334,8 @@ Let us have a look at the above example. The
 responsible for the binding between model and widget. The first parameter is the
 path from the model, the second is the name of the property in the widget, the
 third parameter is an
-[options map](apps://apiviewer/#qx.data.SingleValueBinding~bind) to do e. g. a
-conversion, the fourth parameter is the widget and the last is the index.
+[options map](apps://apiviewer/#qx.data.SingleValueBinding~bind) to do e.g. a
+conversion, the fourth parameter is the widget and the last one is the index.
 
 In our case the photo and the post need no conversion because the source data
 and target data are of the same type. But the creation time needs a conversion
@@ -349,8 +349,8 @@ converter(data) {
 ```
 
 The converter method creates a date object from the given number (time in
-milliseconds). The `configureItem` method should be known from tutorial part 3
-(tutorial-part-3), there are only some improvements to keep the same behavior as
+milliseconds). The `configureItem` method should be known from [tutorial part 3](tutorial-part-3.md),
+there are only some improvements to keep the same behavior as
 before.
 
 Great, now we've got it! Run `qx serve` to create and run the application.
@@ -359,4 +359,4 @@ Great, now we've got it! Run `qx serve` to create and run the application.
 
 Again, if you want to take a
 [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.2)
-, fork the project on github.
+, fork the project on GitHub.

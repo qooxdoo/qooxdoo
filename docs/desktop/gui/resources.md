@@ -73,7 +73,7 @@ let button = new qx.ui.form.Button(
 
 ## Using Qooxdoo icons with widgets
 
-If you want to use some of the icons as resources that are part of the icon
+If you want to use some icons as resources that are part of the icon
 themes that come with Qooxdoo, there are the following ways to do so:
 
 1.  Use the explicit resource ID of the icons from the qx namespace. The icons
@@ -116,7 +116,7 @@ let button3 = new qx.ui.form.Button(
 current icon theme).
 
 When you use the asset macro variant the used theme and the used icon theme need
-to be in sync. The default icon set for most themes is _ Tango_, but if you want
+to be in sync. The default icon set for most themes is _Tango_, but if you want
 to use the _Classic_ theme make sure that icons from the _Oxygen_ icon theme are
 used.
 

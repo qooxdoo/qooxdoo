@@ -20,7 +20,7 @@ getting these modules to the browser for you automatically. If the compiler find
 to the global function `require` while compiling an application destined for the browser (see
 the documentation for `application.type` in [`compile.json`](compile.md)
 ), such as this call:
-```
+```javascript
 const semver = require("semver");
 ```
 the compiler will create a bundle containing a `require` function, the required
@@ -61,7 +61,7 @@ this can be used:
 ```
 
 `./test/testes6.js`:
-```
+```javascript
 export default "hello world";
 
 import { included } from "./included.js";
@@ -69,17 +69,17 @@ export { included };
 ```
 
 `./test/testcommonjs.js`:
-```
+```javascript
 module.exports = "hi there";
 ```
 
 `./test/included.js`:
-```
+```javascript
 export let included = "INCLUDED";
 ```
 
 `source/class/xxx/Application.js`:
-```
+```javascript
 qx.Class.define("xxx.Application",
 {
   extend : qx.application.Standalone,
@@ -128,9 +128,9 @@ files:
 - [`compile.json`](compile.md) and [`compile.js`](api.md): These files configure
   the compiler and are responsible how the build of a project will be structured
   and what it will contain.
-- [`qx-lock.json`](../cli/packages.md#lockfile-qx-lockjson): This is a library's
+- [`qx-lock.json`](../../cli/packages.md#lockfile-qx-lockjson): This is a library's
   lockfile which contains information on the version of the dependencies
-- [`Qooxdoo.json`](../cli/packages.md#multi-library-repositories): serves as a
+- [`Qooxdoo.json`](../../cli/packages.md#multi-library-repositories): serves as a
   registry of libraries in a package (normally not needed)
 
 `Manifest.json`, `compile.json` and `Qooxdoo.json`are validated against
@@ -153,7 +153,7 @@ other classes are `qx.tool.config.Compile`, `qx.tool.config.Registry` (for
     `qx.tool.config.Manifest.getInstance().load().then(manifestModel => {...});`
 2.  Read properties using the `getValue()` method and manipulate the data using
     the `setValue`, `transform()` and `unset()` methods. If you change a value
-    outside this API (such as an array item or a subkey of a reference), you
+    outside this API (such as an array item or a sub-key of a reference), you
     must call the `validate()` method afterwards to ensure that the data is
     correct.
 3.  At the end of the script, check if the model content has changed and, if

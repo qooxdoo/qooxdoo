@@ -113,7 +113,7 @@ qx.Class.define("qx.tool.cli.commands.Lint", {
         helperFilePath = path.dirname(helperFilePath);
       }
 
-      let config = await qx.tool.cli.Cli.getInstance().getParsedArgs();
+      let config = qx.tool.cli.Cli.getInstance().getParsedArgs();
       let lintOptions = config.eslintConfig || {};
       lintOptions.extends = lintOptions.extends || ["@qooxdoo/qx/browser"];
       lintOptions.globals = Object.assign(

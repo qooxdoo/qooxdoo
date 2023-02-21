@@ -16,17 +16,17 @@ processed by the browser as usual. Here is an example configuration that defines
 mock responses for two different requests:
 
 ```javascript
-var responseData = [
+const responseData = [
   {
     method: "GET",
     url: /\/api\/resource\/\d+/,
     response: function (request) {
-      var status = 200;
-      var headers = { "Content-Type": "application/json" };
-      var responseData = {
+      const status = 200;
+      const headers = { "Content-Type": "application/json" };
+      const responseData = {
         description: "Mock REST response for resource " + request.url
       };
-      var body = qx.lang.Json.stringify(responseData);
+      const body = qx.lang.Json.stringify(responseData);
       request.respond(status, headers, body);
     }
   },
@@ -46,7 +46,7 @@ var responseData = [
 
 The value of the url key can be either a regular expression or a string. If a
 URL string contains placeholders in curly brackets (a common pattern in REST
-client applications using qx.io.rest.Resource), they will be treated as
+client applications using `qx.io.rest.Resource`), they will be treated as
 wildcards.
 
 ## Responses

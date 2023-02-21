@@ -20,7 +20,7 @@ together. With the use of a legend which supports both text and icon it is easy
 label the several group boxes to give the user a short description of the form
 elements.
 
-Additionally it is possible to use checkboxes or radio-buttons within the legend
+Additionally, it is possible to use checkboxes or radio-buttons within the legend
 to enable or disable the connected groupBox (and their child elements)
 completely. This feature is most important for complex forms with multiple
 choices.

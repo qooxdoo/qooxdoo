@@ -85,8 +85,8 @@ qx.Theme.define("qx.theme.indigo.ColorDark", {
     "text-placeholder": "#cbc8cd",
 
     // tooltip
-    "tooltip": "#dddddd",
-    "tooltip-text": "#000000",
+    "tooltip": "#666666",
+    "tooltip-text": "#dddddd",
 
     // table
     "table-header": "#f2f2f2",

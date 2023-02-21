@@ -14,7 +14,7 @@ Docks children to one of the edges.
 - Prioritized growing/shrinking (flex)
 - Auto sizing
 - Margins and Spacings
-- Alignment in orthogonal axis (e.g. alignX of north attached)
+- Alignment in orthogonal axis (e.g. `alignX` of north attached)
 - Different sort options for children
 
 ## Description

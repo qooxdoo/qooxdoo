@@ -27,7 +27,7 @@ The Qooxdoo `Spinner` for example extends the `Widget` as well and adds a
 layout. All the children and the chosen layout are hidden from the outside.
 There are no public accessors for the layout or the children. This makes sense
 as no one is interested in the children of a `Spinner` widget. These methods
-would also mean a lot of bloat added to the API of such an widget.
+would also mean a lot of bloat added to the API of such a widget.
 
 ## Setup Content
 
@@ -99,7 +99,7 @@ look like:
           this._add(control);
           break;
       }
-      return control || super(id);
+      return control || super._createChildControlImpl(id);
     }
 ```
 
@@ -156,18 +156,17 @@ widgets added through user code start with their own appearance. For example,
 the items of the `List` widget have the appearance `list-item`. Their appearance
 key is also `list-item` and not `list/item`.
 
-For details about styling please refer to the theming article (ui_theming).
+For details about styling please refer to the [theming article](theming.md#theming).
 
 ## HTML Elements
 
 A normal Qooxdoo widget consists of one HTML Element
 ([API](apps://apiviewer/#qx.html.Element) ), the content element.
 
-This elements is an instances of `qx.html.Element` so it come with a
+These elements are instances of `qx.html.Element` so it comes with a
 cross-browser fixed API to apply styles and attributes to the DOM node. All of
 these things can be done without the DOM element needing to be created or
-inserted. For details on `qx.html.Element` please have a look at the technical
-documentation (desktop/html_element_handling).
+inserted. For details on `qx.html.Element` please have a look at the [technical documentation](html.md#html-element-handling).
 
 The element is accessible through the functions `getContentElement()` and is
 stored privately in each widget instance.
@@ -219,7 +218,7 @@ read. As an example lets take this hypothetical LinkAtom widget:
 qx.Class.define("custom.LinkAtom", {
   extend : qx.ui.basic.Atom,
 
-  construct : function(text, icon, toolTipText, underline, bold, wrap, underlineOnHover) { ... }
+  construct(text, icon, toolTipText, underline, bold, wrap, underlineOnHover) { /*...*/ }
 });
 ```
 
@@ -227,8 +226,8 @@ All parameters are optional. This can make the code using this class very hard
 to read:
 
 ```javascript
-var link1 = new custom.LinkAtom("Help");
-var link2 = new custom.LinkAtom("create", null, null, false, true, false, true);
+const link1 = new custom.LinkAtom("Help");
+const link2 = new custom.LinkAtom("create", null, null, false, true, false, true);
 ```
 
 While the first line is perfectly readable, it is virtually impossible to
@@ -245,7 +244,7 @@ qx.Class.define("custom.LinkAtom", {
 
   construct : function(text, icon) { /*...*/ },
 
-  properties {
+  properties: {
     toolTipText: { /*...*/ },
     underline: { /*...*/ },
     bold: { /*...*/ },
@@ -256,12 +255,12 @@ qx.Class.define("custom.LinkAtom", {
 ```
 
 Now only the text and icon parameter remain in the constructor. All other
-parameters have been converted into properties. The hard to read example now
+parameters have been converted into properties. The hard-to-read example now
 becomes:
 
 ```javascript
-var link = new custom.LinkAtom("create").set({
-  underline: false
+const link = new custom.LinkAtom("create").set({
+  underline: false,
   bold: true,
   wrap: false,
   underlineOnHover: true

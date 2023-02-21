@@ -162,19 +162,19 @@ group renderer configuration, filtering, sorting, grouping, etc.).
 Here's an example. We create a simple SelectBox example with 2500 items, sort
 the items (ascending), select the 20th item and log each selection change.
 
-```
+```javascript
 //create the model data
-var rawData = [];
-for (var i = 0; i < 2500; i++) {
+let rawData = [];
+for (let i = 0; i < 2500; i++) {
   rawData[i] = "Item No " + i;
 }
-var model = qx.data.marshal.Json.createModel(rawData);
+const model = qx.data.marshal.Json.createModel(rawData);
 
 //create the SelectBox
-var selectBox = new qx.ui.form.VirtualSelectBox(model);
+const selectBox = new qx.ui.form.VirtualSelectBox(model);
 
 //configure the SelectBox's behavior
-var delegate = {
+const delegate = {
   sorter : function(a, b) {
     return a > b ? 1 : a < b ? -1 : 0;
   }

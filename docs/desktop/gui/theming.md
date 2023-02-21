@@ -29,7 +29,7 @@ themes. Those custom themes can either be created by
 or they can be [created from scratch](themes#define-custom-themes).
 
 A complete theme (a so-called _meta theme_) consists of several special themes,
-each designed to play a dedicated role and to setup the different parts of the
+each designed to play a dedicated role and to set up the different parts of the
 whole theming. These special themes are described at the subsequent sections
 followed by a description of how to create own themes.
 
@@ -60,7 +60,7 @@ qx.Theme.define("qx.theme.Modern",
     appearance : qx.theme.modern.Appearance,
     icon : qx.theme.icon.Tango
   }
-}
+});
 ```
 
 This section describes the different types of themes which are used for theming
@@ -69,7 +69,7 @@ a whole application.
 ## Color Theme
 
 A color theme defines all colors used by the framework. Each color is defined by
-an unique name and a value which can be written as hex, rgb or named color. This
+a unique name and a value which can be written as hex, rgb or named color. This
 defined name is usable throughout the whole framework and your application.
 
 > :memo: The best way to organize your color names is to use **semantic ones** like
@@ -116,8 +116,8 @@ The color values are set in the class
 Each widget can be equipped with an independent decoration which can be used to
 set a background-color or -image, define a border, add a shadow and much more.
 In a decoration theme you can use several different decorators depending on the
-results you wish to achieve. Please take a look at the decorator article
-(ui_decorators) to get more information.
+results you wish to achieve. Please take a look at the [theme article](themes.md#custom-decorators) 
+to get more information.
 
 > :memo: It is recommended to define the decorations inside the theme instead of
 > creating manually decorator instances inside your application code. This way
@@ -185,8 +185,7 @@ qx.Theme.define("myApplication.theme.sample.Decoration",
 
 Noted the `@asset` at the top and the `aliases` key inside the theme
 declaration? This is needed to for the images used within the theme. A
-description of how to work with resources is available here
-ui_resources.md#declaring_resources_in_the_code.
+description of how to work with resources is available [here](resources.md#declaring-resources-in-the-code).
 
 > :memo: The `aliases` key is especially important when defining an own decorator
 > theme. This entry does add a new alias at the `AliasManager` class and
@@ -199,7 +198,7 @@ ui_resources.md#declaring_resources_in_the_code.
 This theme is all about the information of the fonts used throughout your
 application. As the number of types/variants of fonts used with application
 isn't that big the font theme is normally a compact one. Web fonts are also
-defined here. See the article on web fontsui_webfonts.md#webfonts for details.
+defined here. See the article on [web fonts](theming.md#web-fonts) for details.
 
 > :memo: It is always a good idea to limit the number of types or variants of fonts to
 > create a homogenous look.
@@ -239,11 +238,11 @@ on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or
 
 ### Web Fonts
 
-These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme. These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as (FontSquirrel's Webfont Generator)[https://www.fontsquirrel.com/tools/webfont-generator] or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources directory, and then add them to your theme font by using the `sources` option.
+These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme. These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as [FontSquirrel's Webfont Generator](https://www.fontsquirrel.com/tools/webfont-generator) or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources' directory, and then add them to your theme font by using the `sources` option.
 
-This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montserrat]
+This example uses the [Monserrat font](https://fonts.google.com/specimen/Montserrat)
 
-```javascript
+```json5
     "default": {
       size: 14,
       family: ["Montserrat", "sans-serif"],
@@ -305,7 +304,7 @@ This example uses the (Monserrat font)[https://fonts.google.com/specimen/Montser
     },
 ```
 
-Note that things like "family" are specified more than once and in different ways - the *top* level of properties (eg `size`, `family`, `bold`, etc relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
+Note that things like "family" are specified more than once and in different ways - the *top* level of properties (e.g. `size`, `family`, `bold`, etc.) relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
 
 The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS, the browser will try the first listed font family then the second etc.
 
@@ -347,7 +346,7 @@ qx.Theme.define("qx.theme.icon.Tango",
 ## Appearance Theme
 
 The appearance theme is by far the biggest theme. Its task is to describe every
-themable widget and their child controls. Since the widgets are styled using
+themeable widget and their child controls. Since the widgets are styled using
 decorators, colors, fonts and icons the appearance theme uses the definitions of
 all the other themes namely the decoration, color, font and icon theme. You can
 think of the appearance theme as the central meeting point where the other
@@ -386,13 +385,12 @@ qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
 
 Having e.g. the Qooxdoo modern theme defined in your `compile.json` file, this line
 of code switches the whole UI to the classic theme. Of course, this can also be
-a custom theme desktop/ui_custom_themes.md#custom_themes.
+a [custom theme](themes.md).
 
 > :memo: Referencing a second theme in the code also adds a dependency to the theme and
 > all the classes and resources necessary. This is only necessary if the theme
-> switch is actively triggered. Parts
-> parts_overview.md#parts_and_packages_overview offer a convenient way of on
-> demand loading of code, like a second theme.
+> switch is actively triggered. [Parts](../../development/howto/parts.md#parts-and-source-code-packages-overview)
+>  offer a convenient way of on demand loading of code, like a second theme.
 
 ## Multi-theme Applications
 
@@ -429,25 +427,26 @@ provides multiple themes that can be switched at runtime.
   and set it as the current theme, exemplified here through two methods:
 
   ```javascript
-  _getThemeNames : function() {
-    var theme, theme_names = [];
-    var themes = qx.Theme.getAll();
-    for (var key in themes) {
+  _getThemeNames() {
+    let theme, theme_names = [];
+    const themes = qx.Theme.getAll();
+    for (let key in themes) {
       theme = themes[key];
       if (theme.type === "meta") {
         theme_names.push(theme.name); }
     }
     return theme_names;
-  }
+  },
 
-  _setTheme : function(theme_name) {
-    var theme = qx.Theme.getByName(theme_name);
+  _setTheme(theme_name) {
+    const theme = qx.Theme.getByName(theme_name);
     if (theme) {
-      qx.theme.manager.Meta.getInstance().setTheme(theme); }
+      qx.theme.manager.Meta.getInstance().setTheme(theme); 
+    }
   }
   ```
 
-  Of course you can use these APIs in different ways, depending on your
+  Of course, you can use these APIs in different ways, depending on your
   application needs.
 
 - **Use theme-dependent icons (opt)**: So far switching the theme will result in
@@ -460,7 +459,7 @@ provides multiple themes that can be switched at runtime.
       snippets to illustrate that.
 
   For 1. add the icon theme in your application's environment variable `qx.icontheme`  which can later be used in
-  the @asset development/api_jsdoc_ref.md#asset hints of class code. E.g.:
+  the [@asset](resources.md#declaring-resources-in-the-code) hints of class code. E.g.:
 
 
   ```json5
@@ -487,6 +486,6 @@ provides multiple themes that can be switched at runtime.
 
   ```javascript
   // Use an aliased resource id for the icon
-  var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
+  const b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
   ```
 

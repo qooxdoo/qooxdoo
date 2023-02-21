@@ -1,6 +1,6 @@
 # Basic Widgets
 
-This chapter introduces some of the widgets found in Qooxdoo. For a full list of
+This chapter introduces some widgets found in Qooxdoo. For a full list of
 widgets, please refer to the [widget reference](reference.md) .
 
 ## Labels

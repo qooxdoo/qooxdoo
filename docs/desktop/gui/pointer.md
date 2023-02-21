@@ -6,8 +6,7 @@ device type (mouse, touch or stylus) is used. This enables developers to create
 GUIs that work on touch devices such as smartphones and tablets just as well as
 on PCs.
 
-This layer is the foundation for high-level gesture events
-gestures.md#gesture_events, and is based on the
+This layer is the foundation for high-level [gesture events](../../core/gestures.md#gesture-events), and is based on the
 [W3C Pointer Events candidate recommendation](http://www.w3.org/TR/pointerevents/),
 a specification that is based on mouse events and maps all input devices to
 pointer events. It extends the mouse event type with additional information like
@@ -35,4 +34,4 @@ The following events are available in all of Qooxdoo's GUI toolkits:
 Note that not all events mentioned in the specification are listed here. We
 chose to only implement the event types required for Qooxdoo's widgets, which is
 one reason why we don't like to call this implementation a polyfill, even if in
-most areas it conforms to the the spec and is quite broad in scope.
+most areas it conforms to the spec and is quite broad in scope.

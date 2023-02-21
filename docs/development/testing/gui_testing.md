@@ -4,7 +4,7 @@ To test your application we provide a test infrastructure based on the `qx test`
 command and an extension in compile.js.
 
 To use this you have to generate a compile.js file as described
-[here](../compiler/configuration/api.md#compile.js).
+[here](../compiler/configuration/api.md#compilejs).
 
 Here is an example for running a browser test based on
 [playwright](https://www.npmjs.com/package/playwright) Note you have to prepare
@@ -37,7 +37,7 @@ qx.Class.define("myapp.compile.LibraryApi", {
 
     // Test application in headless Chrome and Firefox
     // see https://github.com/microsoft/playwright/blob/master/docs/api.md
-    __appTesting: async function (evt) {
+    async __appTesting(evt) {
       // register test
       const cmd = evt.getData();
       const test = new qx.tool.cli.api.Test("Open page in browsers");

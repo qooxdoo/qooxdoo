@@ -30,7 +30,7 @@ contain the current value of the data field listened to.
 Please note that event objects are automatically pooled after their dispatch.
 This is mainly for performance reasons; event objects are reused during the
 application runtime. That's why keeping references to event instances is not a
-good idea! If some of the data is needed later during the application runtime it
+good idea! If some data is needed later during the application runtime it
 is best to store the actual data and not the event object, e.g. store the
 coordinates instead of the pointer event object.
 
@@ -60,8 +60,8 @@ be used to block events from sub widgets.
 
 Qooxdoo abstracts mouse and touch events in pointer events. This is the
 preferred way to react to user input from either a mouse or a touch device.
-Check out the specified manual page about pointer events
-pointer.md#pointer_events for more details on that topic. Mouse and touch events
+Check out the specified manual page about [pointer events](../../core/pointer.md#pointer-events)
+for more details on that topic. Mouse and touch events
 are also supported and can be used.
 
 ## Mouse Events
@@ -69,7 +69,7 @@ are also supported and can be used.
 Qooxdoo supports all the typical mouse events: `mousedown`, `mouseup`, `click`
 and `dblclick` as well as `mouseover` and `mouseout`. For most action-related
 widgets `execute` is the better choice than `click` (see the section about basic
-widgets ui_widgets.md#widgets). All these events behave identically in all
+[widgets](../widget/reference.md#Widget-Reference)). All these events behave identically in all
 supported browsers, even the sequence in which they are fired is identical. All
 of them come with a usable `target` and sometimes even with a `relatedTarget`
 for `mouseover` and `mouseout` events.
@@ -165,7 +165,7 @@ Creating new commands is as easy as it can be. A shortcut can simply be defined
 through the constructor, e.g.:
 
 ```javascript
-let findCommand = new qx.ui.command.Command("Ctrl+F");
+const findCommand = new qx.ui.command.Command("Ctrl+F");
 findCommand.addListener("execute", this._onFind, this);
 ```
 
@@ -208,7 +208,7 @@ manager.addGroup(group3);
 manager.setActiveGroup(group2); // this will deactivate all command groups except group2
 ```
 
-Furthermore you are able to block even the active command group by the manager.
+Furthermore, you are able to block even the active command group by the manager.
 This is useful for disabling commands on focused input field.
 
 ```javascript
@@ -246,7 +246,7 @@ hard-wiring every widget to a specific tab position.
 
 To make a widget focusable just enable the property `focusable`
 ([API](apps://apiviewer/#qx.ui.core.Widget~focusable) ) on it. For most widgets,
-this will also means that the widget is reachable using the `Tab` key, but this
+this will also mean that the widget is reachable using the `Tab` key, but this
 depends on the widget's implementation of the method `isTabable()`.
 
 Every widget can function as a focus root. To register a widget as a focus root

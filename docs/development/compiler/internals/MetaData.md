@@ -1,25 +1,25 @@
 # Meta Data
 
-Every time a javascript source file is transpiled, meta data about the class,
-it's properties, methods, inheritance etc are also serialised into a
+Every time a javascript source file is transpiled, metadata about the class,
+it's properties, methods, inheritance etc. are also serialised into a
 corresponding `.json` file; for example, where the transpiled code for
-`qx.core.Object` is output to `transpiled/qx/core/Object.js`, the meta data is
+`qx.core.Object` is output to `transpiled/qx/core/Object.js`, the metadata is
 in `transpiled/qx/core/Object.json`.
 
-The meta data provides information about the structure of the class as it as
+The metadata provides information about the structure of the class as it is
 written, but also to a large extent provides a description of the class at
 runtime - it will list as methods property accessors (ie `getXxx`, `setXxx`
-etc), and the abstract methods which are required because of interfaces, and
+etc.), and the abstract methods which are required because of interfaces, and
 methods and properties which have been included via mixins.
 
 Another useful feature is that when documentation is missing for a method or
 property and that method/property is defined in a super class, a mixin, or an
 interface, then the missing documentation (including JSDoc `@param` and
-`@return` tags) are copied into the meta data.
+`@return` tags) are copied into the metadata.
 
 ## Common Fields
 
-Many of the objects in the meta data have a set of standard, useful fields; for
+Many of the objects in the metadata have a set of standard, useful fields; for
 example:
 
 ```json
@@ -60,7 +60,7 @@ example:
     }
 ```
 
-The `location` and `jsdoc` objects appear in just about every meta data object;
+The `location` and `jsdoc` objects appear in just about every metadata object;
 the `jsdoc` information may be copied from super class, mixin, or interface so
 that it is readily available.
 
@@ -75,7 +75,7 @@ that it is readily available.
 
 ## Class Definition
 
-A typical meta data example looks like this:
+A typical metadata example looks like this:
 
 ```json
 {
@@ -84,11 +84,11 @@ A typical meta data example looks like this:
   "name": "MyClass",
   "type": "class",
   "superClass": "qx.ui.container.Composite",
-  "interfaces": [ myapp.some.interfaces.IMyInterface ],
-  "mixins": [ myapp.some.mixins.MMyMixin ],
+  "interfaces": [ "myapp.some.interfaces.IMyInterface" ],
+  "mixins": [ "myapp.some.mixins.MMyMixin" ],
   "abstract": true,
   "descendants": [
-    "myapp.some.package.MyOtherClass
+    "myapp.some.package.MyOtherClass"
   ],
   "clazz": { },
   "construct": { },

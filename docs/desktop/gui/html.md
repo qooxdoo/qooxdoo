@@ -4,7 +4,7 @@ This document describes the ideas and concepts behind the classes in the
 `qx.html` namespace ([API](apps://apiviewer/#qx.html)). Qooxdoo also comes with
 a basic low-level abstraction API for DOM manipulation. For details about this
 API please have a look at the  
-[corresponding documentation](../../core/tech_website_apis.md).
+[corresponding documentation](tech_website_apis.md).
 
 ## Idea
 
@@ -29,7 +29,7 @@ In details this means:
 >   normalization method should be called or if the value can be set directly.
 >   `qx.html.Element` does this kind of normalization transparently. The browser
 >   normalization is based on the
->   [existing low-level APIs](../../core/tech_website_apis.md).
+>   [existing low-level APIs](tech_website_apis.md).
 > - **Convenience methods**: These elements have an additional convenience API,
 >   which is not available on pure DOM elements. They have e.g. the
 >   functionality to manage children with methods like `addBefore()` or
@@ -42,9 +42,9 @@ In details this means:
 
 It may be used for smaller things as well, but incurs a large overhead. The size
 of the API, additional to a basic low-level package of Qooxdoo is about 20 KB (5
-KB gzipped). Also it consumes a bit more memory when all underlying DOM elements
+KB gzipped). Also, it consumes a bit more memory when all underlying DOM elements
 are created. Keep in mind that the instances are around all the time. Even when
-all jobs for a instance are done at the moment.
+all jobs for an instance are done at the moment.
 
 ## Features
 
@@ -77,7 +77,7 @@ assigned to be used as the root, using the method `useElement()`.
 
 ### Labels
 
-Used for all types of text content. Supports text or HTML content togglable
+Used for all types of text content. Supports text or HTML content toggleable
 using the `setRich()` method. When using the text mode, ellipsis is supported in
 all browsers, to show an indication when the text is larger than the available
 space. Highly depends on the API of

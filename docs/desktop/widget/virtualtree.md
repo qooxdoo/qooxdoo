@@ -27,10 +27,10 @@ configuration, etc.).
 Here's an example. We create a simple tree example with 2500 items and log each
 selection change.
 
-```
+```javascript
 //create the model data
-var nodes = [];
-for (var i = 0; i < 2500; i++)
+let nodes = [];
+for (let i = 0; i < 2500; i++)
 {
   nodes[i] = {name : "Item " + i};
 
@@ -38,7 +38,7 @@ for (var i = 0; i < 2500; i++)
   if (i !== 0)
   {
     // add the children in some random order
-    var node = nodes[parseInt(Math.random() * i)];
+    const node = nodes[parseInt(Math.random() * i)];
 
     if(node.children == null) {
       node.children = [];
@@ -50,7 +50,7 @@ for (var i = 0; i < 2500; i++)
 nodes = qx.data.marshal.Json.createModel(nodes, true);
 
 // creates the tree
-var tree = new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
+const tree = new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
   width : 200,
   height : 400
 });
@@ -67,7 +67,7 @@ Here are some links that demonstrate the usage of the widget:
 
 - [Example for the VirtualTree widget](apps://demobrowser/#virtual~Tree.html)
 - [Example with custom items as columns](apps://demobrowser/#virtual~Tree_Columns.html)
-- [Example which loads items dynamically when a nodes is opened](apps://demobrowser/#virtual~Tree_Dynamic.html)
+- [Example which loads items dynamically when a nodes are opened](apps://demobrowser/#virtual~Tree_Dynamic.html)
 
 ## API
 

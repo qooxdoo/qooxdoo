@@ -7,7 +7,7 @@ of each other and only the topmost widget is visible.
 
 - Two size hint modes.
   - `dynamic:true`: The stack's size is the preferred size of the visible widget
-  - `dynamic:false`: The stack's size height is the to the height of the tallest
+  - `dynamic:false`: The stack's size height is the height of the tallest
     widget and the stack's width is set to the width of the widest widget
 
 ## Description

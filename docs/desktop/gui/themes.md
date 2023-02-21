@@ -60,9 +60,9 @@ qx.Theme.define("myApplication.theme.Theme",
 });
 ```
 
-Finally you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
+Finally, you have to tell the compiler to actually use your new theme - edit `compile.json` and in the `applications` array, find the block for your application and set the `theme` property, EG:
 
-```
+```json5
 "applications": [
   { 
     "class": "myApplication.Application",
@@ -92,7 +92,7 @@ only have to consider some rules:
   corresponding `@asset` directives.
 - Be sure to check all build in widgets with all states. A Widget may have a
   different looks and feel when disabled or invalid.
-- Its a good idea to copy a existing appearance theme and edit all the stuff you
+- It's a good idea to copy an existing appearance theme and edit all the stuff you
   need. That way, you can be sure that you have all the appearance keys included
   the framework needs.
 
@@ -150,25 +150,25 @@ also a child control to the front of the selector. For example:
 the generated selector would be `pane/level1/level2/level3`. For `pane` which is
 not a child control of any other widget the appearance ID is used. For all
 others the child control ID is used. Again `pane` is not managed by any other
-widget so it is basically added by the developer of the application to another
+widget, so it is basically added by the developer of the application to another
 widget while `level1` to `level3` are managed by some type of combined widget
 and are added to each other without the work of the application developer.
 
 A classic example for this is the `Spinner` widget. A `Spinner` is basically a
 Grid layout with a `TextField` and two `RepeatButtons`. The three internal
 widgets are available under the sub control IDs `textfield`, `upbutton` and
-`downbutton`. The selectors for these kind of child controls are then:
+`downbutton`. The selectors for this kind of child controls are then:
 
 - `spinner/textfield`
 - `spinner/upbutton`
 - `spinner/downbutton`
 
-Each of these selectors must be defined by the selected appearance. Otherwise a
+Each of these selectors must be defined by the selected appearance. Otherwise, a
 warning about missing selectors is displayed.
 
 ### Aliases
 
-A entry can be defined with two different values, a string or a map. The first
+An entry can be defined with two different values, a string or a map. The first
 option is named "alias", it is basically a string, redirecting to another
 selector. In the `Spinner` example from above we may just want to use aliases
 for the buttons. See the example:
@@ -190,12 +190,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 So we have mastered one essential part for appearance themes. It is basically
 the easiest part, but seen quite often. Compared to CSS you always have a full
-control about the styling of such an child control. There is no type of implicit
+control about the styling of such a child control. There is no type of implicit
 inheritance. This may also be seen negatively, but most developers tend to like
 it more.
 
-Such an alias also redirects all child controls of the left hand selector to the
-right hand selector. This means that the icon inside the button is automatically
+Such an alias also redirects all child controls of the left-hand selector to the
+right-hand selector. This means that the icon inside the button is automatically
 redirected as well. Internally this mapping looks like this:
 
 ```
@@ -282,10 +282,10 @@ It is required that all properties applied in one state are applied in all other
 states. Something like this is seen as bad style and may result in wrong
 styling:
 
-```
+```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -298,10 +298,10 @@ style : function(states)
 
 Instead, you should always define the else case:
 
-```
+```javascript
 style : function(states)
 {
-  var result = {};
+  const result = {};
 
   if (states.hovered) {
     result.backgroundColor = "red";
@@ -331,12 +331,12 @@ between states can have great impact on the result map.
 #### Includes
 
 Includes are used to reuse the result of another key and merge it with the local
-data. Includes may also used standalone without the `style` key but this is
-merely the same like an alias. An alias is the faster and better choice in this
+data. Includes may also be used standalone without the `style` key but this is
+merely the same as an alias. An alias is the faster and better choice in this
 case.
 
-The results of the include block are merged with lower priority than the local
-data so it just gets added to the map. To remove a key from the included map
+The results of the "include" block are merged with lower priority than the local
+data, so it just gets added to the map. To remove a key from the included map
 just define the key locally as well (using the `style` method) and set it to
 `undefined`.
 
@@ -449,7 +449,7 @@ state is modified.
 
 First of all we have the appearance queue. Widgets which are visible and
 inserted into a visible parent are automatically processed by this queue when
-changes happen or on the initial display of the widget. Otherwise the change is
+changes happen or on the initial display of the widget. Otherwise, the change is
 delayed until the widget gets visible (again).
 
 The queue also minimizes the effect of multiple state changes when they happen
@@ -523,7 +523,7 @@ As mentioned above, it is common to define the decorators in a decorator theme.
 This is really easy because you have to specify only a few details about the
 decorator.
 
-```
+```json5
 "main" : {
   style : {
     width : 1,
@@ -543,7 +543,7 @@ Sometimes it is very handy to change only little details about the decorator.
 Imagine a special decorator for hovered buttons. Inheritance comes in very handy
 in such a case.
 
-```
+```json5
 "scroll-knob-pressed" : {
   include : "scroll-knob",
 
@@ -593,7 +593,7 @@ supply:
 - `_style<yourName>`: This method has a styles map as parameter which should be
   manipulated directly. That way, you can just append your styles and That's it.
   But you should make sure you don't manipulate / override any style another
-  mixin could uses.
+  mixin could use.
 
 As you can see, every mixin can define its own methods for `style`. The theme
 system combines all the methods given by the separate widgets to one big working
@@ -611,8 +611,8 @@ qx.Mixin.define("my.MTextShadow", {
   },
 
   members : {
-    _styleTextShadow : function(styles) {
-      var color = this.getTextShadowColor();
+    _styleTextShadow(styles) {
+      let color = this.getTextShadowColor();
       if (color === null) {
         return;
       }

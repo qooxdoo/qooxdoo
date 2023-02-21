@@ -37,7 +37,7 @@ qx.Class.define("qx.html.Jsx", {
      * @param tagname {String} the name of the tag
      * @param attributes {Map?} map of attribute values
      * @param children {qx.html.Node[]} array of children
-     * @return {qx.html.Element | qx.data.Array}
+     * @return {qx.html.Element|qx.data.Array}
      */
     createElement(tagname, attributes) {
       var children = qx.lang.Array.fromArguments(arguments, 2);

@@ -90,12 +90,12 @@ appenders is easy. Here's a blueprint to get you started.
 ```javascript
 qx.Class.define("qx.log.appender.MyCustomAppender", {
   statics: {
-    init: function () {
+    init() {
       // register to log engine
       qx.log.Logger.register(this);
     },
 
-    process: function (entry) {
+    process(entry) {
       //handle the entry map
     }
   }

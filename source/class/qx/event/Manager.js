@@ -260,7 +260,7 @@ qx.Class.define("qx.event.Manager", {
      * @param type {String} Event type
      * @param capture {Boolean ? false} Whether the listener is for the
      *       capturing phase of the bubbling phase.
-     * @return {Array | null} Array of registered event handlers. May return
+     * @return {Array|null} Array of registered event handlers. May return
      *       null when no listener were found.
      */
     getListeners(target, type, capture) {
