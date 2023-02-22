@@ -639,15 +639,16 @@ qx.Class.define("qx.ui.window.Window", {
         return;
       }
 
-      if (
-        this.fireNonBubblingEvent("beforeClose", qx.event.type.Event, [
-          false,
-          true
-        ])
-      ) {
-        this.hide();
-        this.fireEvent("close");
+      if (! this.fireNonBubblingEvent(
+              "beforeClose",
+              qx.event.type.Event,
+              [ false, true ])) {
+        // preventDefault() was called
+        return;
       }
+
+      this.hide();
+      this.fireEvent("close");
 
       // If automatically destroying the window upon close was requested, do
       // so now. (Note that we explicitly re-obtain the autoDestroy property
