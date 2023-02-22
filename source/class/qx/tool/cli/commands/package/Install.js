@@ -677,6 +677,9 @@ qx.Class.define("qx.tool.cli.commands.package.Install", {
 
         return false;
       }
+      // relaod config. We need a fresh model here because data will be verified.
+      // The original model is enriched during parsing so validate will fail.
+      compileConfigModel.setLoaded(false);
       await compileConfigModel.load();
       let app = compileConfigModel.getValue("applications").find(app => {
         if (manifestApp.name && app.name) {

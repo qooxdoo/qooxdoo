@@ -68,12 +68,12 @@ qx.Class.define("qx.tool.cli.commands.Run", {
       let config = this.getCompilerApi().getConfiguration();
       if (!config.run) {
         qx.tool.compiler.Console.print("qx.tool.cli.run.noRunConfig");
-        process.exit(-1);
+        process.exit(1);
       }
 
       if (!config.run.application) {
         qx.tool.compiler.Console.print("qx.tool.cli.run.noAppName");
-        process.exit(-1);
+        process.exit(1);
       }
 
       let maker = null;
@@ -85,14 +85,14 @@ qx.Class.define("qx.tool.cli.commands.Run", {
         if (apps.length) {
           if (maker) {
             qx.tool.compiler.Console.print("qx.tool.cli.run.tooManyMakers");
-            process.exit(-1);
+            process.exit(1);
           }
           if (apps.length != 1) {
             qx.tool.compiler.Console.print(
               "qx.tool.cli.run.tooManyApplications"
             );
 
-            process.exit(-1);
+            process.exit(1);
           }
           maker = tmp;
           app = apps[0];
@@ -100,11 +100,11 @@ qx.Class.define("qx.tool.cli.commands.Run", {
       });
       if (!app) {
         qx.tool.compiler.Console.print("qx.tool.cli.run.noAppName");
-        process.exit(-1);
+        process.exit(1);
       }
       if (app.getType() != "node") {
         qx.tool.compiler.Console.print("qx.tool.cli.run.mustBeNode");
-        process.exit(-1);
+        process.exit(1);
       }
 
       let target = maker.getTarget();
@@ -150,7 +150,6 @@ qx.Class.define("qx.tool.cli.commands.Run", {
         child.stdout.on("data", function (data) {
           console.log(data);
         });
-
         child.stderr.setEncoding("utf8");
         child.stderr.on("data", function (data) {
           console.error(data);

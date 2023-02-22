@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-const path=require("path");
-const updateNotifier = require("update-notifier");
-const pkg = require(path.join(__dirname, "..", "..", "package.json"));
-updateNotifier({pkg}).notify({defer:false});
-require(path.join(__dirname, "..", "..", "lib", "compiler"));
+(async () => {
+   const path=require("path");
+   const updateNotifier = (await import("update-notifier")).default;
+   const pkg = require(path.join(__dirname, "..", "..", "package.json"));
+   updateNotifier({pkg}).notify({defer:false});
+   require(path.join(__dirname, "..", "..", "lib", "compiler"));
+})()
 
