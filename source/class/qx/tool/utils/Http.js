@@ -1,8 +1,29 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2023 Zenesis Limited https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (@johnspackman)
+
+************************************************************************ */
+
 const fs = require("fs");
 const path = require("path");
 const tmp = require("tmp");
 const http = require("http");
 
+/**
+ * Helper methods for HTTP
+ */
 qx.Class.define("qx.tool.utils.Http", {
   extend: qx.core.Object,
 

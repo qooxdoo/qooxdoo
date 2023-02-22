@@ -1,6 +1,27 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2023 Zenesis Limited https://www.zenesis.com
+
+   License:
+     MIT: https://opensource.org/licenses/MIT
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * John Spackman (@johnspackman)
+
+************************************************************************ */
+
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * Represents a font as defined in the Manifest.json's
+ */
 qx.Class.define("qx.tool.compiler.app.ManifestFont", {
   extend: qx.core.Object,
 
