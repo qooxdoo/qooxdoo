@@ -214,7 +214,7 @@
         ],
         "glyphs": "qx/iconfont/MaterialIcons/materialiconssharp.json"
       },
-      "MaterialIconsDuoTone": {
+      "MaterialIconsTwoTone": {
         "family": ["Material Icons Two Tone"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",

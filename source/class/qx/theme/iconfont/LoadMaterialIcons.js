@@ -20,9 +20,7 @@
  * A dummy class to trigger the compiler to copy the MaterialIcons font files
  */
 /**
- * @asset(qx/iconfont/MaterialIcons/materialicons-v126.ttf)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v126.woff2)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v126.woff)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v126.eot)
+ * @usefont(MaterialIcons)
+ * @deprecated use the `@usefont` directive directly in your code
  */
 qx.Class.define("qx.theme.iconfont.LoadMaterialIcons", {});
