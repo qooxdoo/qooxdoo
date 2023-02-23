@@ -308,7 +308,7 @@ One other thing to note is the top level `weight` property - the default browser
 #### Using fonts
 Once you've added a font to your library or application, the final step is that you need to tell the compiler which classes need that font - use the `@usefont` jsdoc, which is similar to `@asset` - for example:
 
-```
+```javascript
 /**
  * The simple qooxdoo font theme.
  *
@@ -327,7 +327,7 @@ Note that the third example above has a `"glyphs"` setting, which is the name of
 
 The compiler can typically read the font and generate that mapping for you - eg:
 
-```
+```bash
 $ cd source/resource/qx/iconfont/MaterialIcons
 $ qx export-glyphs materialicons-v126.ttf materialicons.json
 
@@ -344,7 +344,7 @@ application.
 By default, the compiler will use CDN URLs if they are given in Manifest.json, but you can override this in two ways: firstly, the `--local-fonts` compiler
 option, or adding a `fonts` object block in `compile.json`:
 
-```
+```json5
   "targets": [
     {
       "type": "source",
