@@ -218,7 +218,11 @@ qx.Class.define("qx.theme.manager.Font", {
 
           if (source[key].fontName) {
             let preset = this._manifestFonts[source[key].fontName];
-            Object.assign(source[key], preset);
+            Object.keys(preset).forEach(key => {
+              if (source[key] === undefined) {
+                source[key] = preset[key];
+              }
+            });
           }
           var font = this.__getFontClass(source[key]);
           var fo = new font();
