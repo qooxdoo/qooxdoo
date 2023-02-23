@@ -327,7 +327,7 @@ Note that the third example above has a `"glyphs"` setting, which is the name of
 
 The compiler can typically read the font and generate that mapping for you - eg:
 
-```
+```bash
 $ cd source/resource/qx/iconfont/MaterialIcons
 $ qx export-glyphs materialicons-v126.ttf materialicons.json
 
