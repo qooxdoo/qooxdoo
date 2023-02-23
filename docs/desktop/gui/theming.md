@@ -344,7 +344,7 @@ application.
 By default, the compiler will use CDN URLs if they are given in Manifest.json, but you can override this in two ways: firstly, the `--local-fonts` compiler
 option, or adding a `fonts` object block in `compile.json`:
 
-```
+```json5
   "targets": [
     {
       "type": "source",
