@@ -1,5 +1,0 @@
-# fonttest
-
-undefined
-
-undefined
