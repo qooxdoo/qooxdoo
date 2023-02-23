@@ -1438,7 +1438,7 @@ qx.Class.define("qx.tool.compiler.Analyser", {
      * Detects whether the filename is one of the fonts
      *
      * @param {String} filename
-     * @returns
+     * @returns {Boolean} whether the filename is a font asset
      */
     isFontAsset(filename) {
       let isFont = false;
