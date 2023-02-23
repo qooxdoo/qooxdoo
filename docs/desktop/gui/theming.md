@@ -308,7 +308,7 @@ One other thing to note is the top level `weight` property - the default browser
 #### Using fonts
 Once you've added a font to your library or application, the final step is that you need to tell the compiler which classes need that font - use the `@usefont` jsdoc, which is similar to `@asset` - for example:
 
-```
+```javascript
 /**
  * The simple qooxdoo font theme.
  *
