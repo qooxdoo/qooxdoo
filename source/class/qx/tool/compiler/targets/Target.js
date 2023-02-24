@@ -638,7 +638,6 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         for (var key in resources) {
           appMeta.addResource(key, resources[key]);
         }
-        let urls = font.getUrls() || [];
         let sources = font.getSources() || [];
         let types = this.getFontTypes();
         if (types.length) {
@@ -656,22 +655,16 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           }
         }
 
-        let localFonts =
-          !urls.length || (this.isLocalFonts() && sources.length);
-        if (localFonts) {
-          for (let source of sources) {
+        for (let source of sources) {
+          if (this.isLocalFonts() || !source.urls) {
             for (let asset of rm.getAssetsForPaths(source.paths)) {
               bootPackage.addAsset(asset);
               assets[asset.getFilename()] = asset.toString();
             }
           }
         }
-        var code = font.getBootstrapCode(
-          this,
-          application,
-          localFonts,
-          sources
-        );
+
+        var code = font.getBootstrapCode(this, application, sources);
 
         if (code) {
           appMeta.addPreBootCode(code);

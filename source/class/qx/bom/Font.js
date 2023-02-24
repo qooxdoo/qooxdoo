@@ -67,8 +67,6 @@ qx.Class.define("qx.bom.Font", {
   */
 
   statics: {
-    __includedUrls: [],
-
     /**
      * Converts a typical CSS font definition string to an font object
      *
@@ -270,15 +268,6 @@ qx.Class.define("qx.bom.Font", {
     },
 
     /**
-     * List of URLs to add to the page to load the font
-     */
-    urls: {
-      check: "Array",
-      nullable: true,
-      apply: "_applyUrls"
-    },
-
-    /**
      * This specifies the name of the font defined in Manifest.json in `provides.fonts` - setting it will
      * copy the values from the Manifest into this font definition
      */
@@ -329,18 +318,6 @@ qx.Class.define("qx.bom.Font", {
       // we have to return a font family - even if it's an empty string to prevent
       // the browser from applying the element style
       this.__lookupMap.fontFamily = family;
-    },
-
-    // property apply
-    _applyUrls(value) {
-      if (value) {
-        for (let url of value) {
-          if (!qx.bom.Font.__includedUrls[url]) {
-            qx.bom.Stylesheet.includeFile(url);
-            qx.bom.Font.__includedUrls[url] = true;
-          }
-        }
-      }
     },
 
     // property apply

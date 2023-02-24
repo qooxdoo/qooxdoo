@@ -122,10 +122,10 @@
               "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff2",
               "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff",
               "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
-            ]
+            ],
+            "urls": ["https://fonts.cdnfonts.com/css/roboto"]
           }
-        ],
-        "urls": ["https://fonts.cdnfonts.com/css/roboto"]
+        ]
       },
       "Roboto Mono": {
         "sources": [
@@ -135,18 +135,18 @@
               "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.woff2",
               "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.woff",
               "qx/font/Roboto/roboto-mono-v6-latin_latin-ext-regular.ttf"
-            ]
+            ],
+            "urls": ["https://fonts.cdnfonts.com/css/roboto-mono"]
           }
-        ],
-        "urls": ["https://fonts.cdnfonts.com/css/roboto-mono"]
+        ]
       },
       "MaterialIcons": {
         "family": ["Material Icons"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
         "sources": [
           {
+            "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
             "paths": [
               "qx/iconfont/MaterialIcons/materialicons-v126.eot",
               "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
@@ -161,11 +161,11 @@
         "family": ["Material Icons Outlined"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "urls": [
-          "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-        ],
         "sources": [
           {
+            "urls": [
+              "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            ],
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot",
               "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2",
@@ -180,11 +180,11 @@
         "family": ["Material Icons Round"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "urls": [
-          "https://fonts.googleapis.com/icon?family=Material+Icons+Round"
-        ],
         "sources": [
           {
+            "urls": [
+              "https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+            ],
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconsround-v100.eot",
               "qx/iconfont/MaterialIcons/materialiconsround-v100.woff2",
@@ -199,11 +199,11 @@
         "family": ["Material Icons Sharp"],
         "comparisonString": "e1feef39",
         "defaultSize": 32,
-        "urls": [
-          "https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
-        ],
         "sources": [
           {
+            "urls": [
+              "https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+            ],
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconssharp-v101.eot",
               "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff2",
@@ -218,11 +218,11 @@
         "family": ["Material Icons Two Tone"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "urls": [
-          "https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone"
-        ],
         "sources": [
           {
+            "urls": [
+              "https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone"
+            ],
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconstwotone-v104.eot",
               "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff2",

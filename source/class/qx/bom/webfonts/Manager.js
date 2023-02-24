@@ -90,7 +90,10 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     /**
      * Timeout (in ms) to wait before deciding that a web font was not loaded.
      */
-    VALIDATION_TIMEOUT: 5000
+    VALIDATION_TIMEOUT: 5000,
+
+    /** Font URLs which have been included as stylesheets */
+    __includedUrls: {}
   },
 
   /*
@@ -136,13 +139,23 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var fontWeight = sourcesList.fontWeight;
       var fontStyle = sourcesList.fontStyle;
       var sources = [];
-      for (var i = 0, l = sourceUrls.length; i < l; i++) {
-        var split = sourceUrls[i].split("#");
-        var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
-        if (split.length > 1) {
-          src = src + "#" + split[1];
+      if (sourcesList.source) {
+        sourcesList.source.forEach(resourceUri => {
+          var split = resourceUri.split("#");
+          var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
+          if (split.length > 1) {
+            src = src + "#" + split[1];
+          }
+          sources.push(src);
+        });
+      } else if (sourcesList.urls) {
+        for (let url of sourcesList.urls) {
+          if (!qx.bom.webfonts.Manager.__includedUrls[url]) {
+            qx.bom.Stylesheet.includeFile(url);
+            qx.bom.webfonts.Manager.__includedUrls[url] = true;
+          }
+          sources.push(url);
         }
-        sources.push(src);
       }
 
       // old IEs need a break in between adding @font-face rules
@@ -399,6 +412,37 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           "changeStatus",
           callback,
           cbContext
+        );
+      }
+
+      this.__validators[fontLookupKey].validate();
+    },
+
+    validate(familyName, comparisonString, callback, context) {
+      var fontLookupKey = this.__createFontLookupKey(familyName);
+
+      if (!this.__validators[fontLookupKey]) {
+        this.__validators[fontLookupKey] = new qx.bom.webfonts.Validator(
+          familyName,
+          comparisonString
+        );
+
+        this.__validators[fontLookupKey].setTimeout(
+          qx.bom.webfonts.Manager.VALIDATION_TIMEOUT
+        );
+
+        this.__validators[fontLookupKey].addListenerOnce(
+          "changeStatus",
+          this.__onFontChangeStatus,
+          this
+        );
+      }
+
+      if (callback) {
+        this.__validators[fontLookupKey].addListenerOnce(
+          "changeStatus",
+          callback,
+          context || window
         );
       }
 

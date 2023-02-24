@@ -21,6 +21,12 @@ const path = require("path");
 
 /**
  * Represents a font as defined in the Manifest.json's
+ *
+ * @typedef Sources
+ * @param {String?} family the family name that is in the font files (defaults to the name of the font)
+ * @param {String[]?} paths the filenames of font files inside the resources dircetory
+ * @param {String[]?} urls the urls of font files in a CDN
+ *
  */
 qx.Class.define("qx.tool.compiler.app.ManifestFont", {
   extend: qx.core.Object,
@@ -36,36 +42,35 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       check: "String"
     },
 
+    /** Default size of the font */
     defaultSize: {
       init: null,
       nullable: true,
       check: "Integer"
     },
 
+    /** Comparison string to be used */
     comparisonString: {
       init: null,
       nullable: true,
       check: "String"
     },
 
-    urls: {
-      init: null,
-      check: "Array",
-      nullable: true
-    },
-
+    /** Sources array */
     sources: {
       init: null,
       check: "Array",
       nullable: true
     },
 
+    /** Glyphs filename (relative to resources of the library that defines it) */
     glyphs: {
       init: null,
       nullable: true,
       check: "String"
     },
 
+    /** Family names for the browser to search for */
     family: {
       init: null,
       nullable: true,
@@ -88,7 +93,6 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       [
         "defaultSize",
         "comparisonString",
-        "urls",
         "sources",
         "glyphs",
         "family"
@@ -134,11 +138,10 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
      *
      * @param {qx.tool.compiler.targets.Target} target the target
      * @param {qx.tool.compiler.app.Application} application the application being built
-     * @param {boolean} localFonts whether to prefer font files from local resources over CDNs
-     * @param {String[]} sources array of URLs for CDN
-     * @return {String}
+     * @param {Sources} sources (see comment for this class)
+     * @return {String} code to include in the output
      */
-    getBootstrapCode(target, application, localFonts, sources) {
+    getBootstrapCode(target, application, sources) {
       let res = "";
       let font = {
         lineHeight: 1,
@@ -148,13 +151,19 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       if (this.getDefaultSize() !== null) {
         font.size = this.getDefaultSize();
       }
-      if (!localFonts && this.getUrls()) {
-        font.urls = this.getUrls();
-      } else if (sources) {
-        font.sources = sources.map(source => ({
-          family: source.family || this.getName(),
-          source: source.paths
-        }));
+      if (sources && sources.length) {
+        font.sources = sources.map(source => {
+          let data = {
+            family: source.family || this.getName()
+          };
+
+          if (!target.isLocalFonts() && source.urls) {
+            data.urls = source.urls;
+          } else if (source.paths) {
+            data.source = source.paths;
+          }
+          return data;
+        });
       }
       if (this.getComparisonString()) {
         font.comparisonString = this.getComparisonString();

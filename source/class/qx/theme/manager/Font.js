@@ -218,9 +218,9 @@ qx.Class.define("qx.theme.manager.Font", {
 
           if (source[key].fontName) {
             let preset = this._manifestFonts[source[key].fontName];
-            Object.keys(preset).forEach(key => {
-              if (source[key] === undefined) {
-                source[key] = preset[key];
+            Object.keys(preset).forEach(presetKey => {
+              if (source[key][presetKey] === undefined) {
+                source[key][presetKey] = preset[presetKey];
               }
             });
           }
@@ -247,7 +247,7 @@ qx.Class.define("qx.theme.manager.Font", {
      * @return {Class}
      */
     __getFontClass(config) {
-      if (config.sources) {
+      if (config.sources || config.urls) {
         return qx.bom.webfonts.WebFont;
       }
       return qx.bom.Font;
