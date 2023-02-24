@@ -389,7 +389,7 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      * Detects whether the filename is one of the library's fonts
      *
      * @param {String} filename
-     * @returns
+     * @returns {Boolean}
      */
     isFontAsset(filename) {
       let isWebFont = false;

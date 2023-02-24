@@ -834,7 +834,7 @@ qx.Class.define("qx.tool.compiler.app.Application", {
     },
 
     /**
-     * Returns a list of fonts required by the application, where the font is detailed in Manfest.json
+     * Returns a list of fonts required by the application, where the font is detailed in Manifest.json
      * in `provides.fonts`
      *
      * @returns {String[]}
