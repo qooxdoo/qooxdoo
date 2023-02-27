@@ -144,7 +144,6 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
     getBootstrapCode(target, application, sources) {
       let res = "";
       let font = {
-        lineHeight: 1,
         family: this.getFamily() || [this.getName()]
       };
 
