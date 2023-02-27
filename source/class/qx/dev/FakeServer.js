@@ -227,7 +227,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
       if (!this.__fakeServer) {
         var sinon = (this.__sinon = qx.dev.unit.Sinon.getSinon());
         sinon.FakeXMLHttpRequest.useFilters = true;
-        this.__fakeServer = sinon.sandbox.useFakeServer();
+        this.__fakeServer = sinon.useFakeServer();
         this.__fakeServer.autoRespond = true;
       }
       return this.__fakeServer;
