@@ -43,11 +43,17 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
 
   properties: {
     /**
-     * The source of the webfont.
+     * The fontFaces which need to be defined
      */
-    sources: {
+    fontFaces: {
       nullable: true,
-      apply: "_applySources"
+      apply: "_applyFontFaces"
+    },
+
+    /** CSS urls or paths which need to be loaded */
+    css: {
+      nullable: true,
+      check: "Array"
     },
 
     /**
@@ -70,20 +76,20 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     __families: null,
 
     // property apply
-    _applySources(value, old) {
+    _applyFontFaces(fontFaces, old) {
       var families = [];
 
-      for (var i = 0, l = value.length; i < l; i++) {
-        var familyName = this._quoteFontFamily(value[i].family);
+      for (var i = 0, l = fontFaces.length; i < l; i++) {
+        let fontFace = fontFaces[i];
+        var familyName = this._quoteFontFamily(fontFace.family);
         if (families.indexOf(familyName) < 0) {
           families.push(familyName);
         }
-        var sourcesList = value[i];
-        sourcesList.comparisonString = this.getComparisonString();
-        sourcesList.version = this.getVersion();
+        fontFace.comparisonString = this.getComparisonString();
+        fontFace.version = this.getVersion();
         qx.bom.webfonts.Manager.getInstance().require(
           familyName,
-          sourcesList,
+          fontFace,
           this._onWebFontChangeStatus,
           this
         );
@@ -126,5 +132,17 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     _quoteFontFamily(familyName) {
       return familyName.replace(/["']/g, "");
     }
+  },
+
+  statics: {
+    __loadedStylesheets: {},
+
+    __loadStylesheet(url) {
+      if (qx.bom.webfonts.WebFont.__loadedStylesheets[url]) {
+        return;
+      }
+    },
+
+    __addFontFace(url) {}
   }
 });

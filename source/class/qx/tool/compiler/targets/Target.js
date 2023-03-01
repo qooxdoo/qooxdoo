@@ -109,7 +109,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
     /**
      * Whether to prefer local fonts instead of CDNs
      */
-    localFonts: {
+    preferLocalFonts: {
       init: false,
       check: "Boolean"
     },
@@ -628,6 +628,13 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
       let analyser = application.getAnalyser();
       let rm = analyser.getResourceManager();
 
+      const addResourcesToBuild = resourcePaths => {
+        for (let asset of rm.getAssetsForPaths(resourcePaths)) {
+          bootPackage.addAsset(asset);
+          assets[asset.getFilename()] = asset.toString();
+        }
+      };
+
       let fontNames = application.getFonts();
       for (let fontName of fontNames) {
         let font = analyser.getFont(fontName);
@@ -638,33 +645,62 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
         for (var key in resources) {
           appMeta.addResource(key, resources[key]);
         }
-        let sources = font.getSources() || [];
+        let fontFaces = font.getFontFaces() || [];
+
+        // Break out the CSS into local resource files and URLs
+        let fontCss = font.getCss() || [];
+        let cssUrls = [];
+        let cssResources = [];
+        for (let urlOrPath of fontCss) {
+          if (urlOrPath.match(/^https?:/)) {
+            cssUrls.push(urlOrPath);
+          } else {
+            cssResources.push(urlOrPath);
+          }
+        }
+
+        // Exclude font files that we do not want to include
         let types = this.getFontTypes();
+        let hasLocalFontResources = false;
+        let hasUrlFontResources = false;
         if (types.length) {
-          for (let source of sources) {
-            source.paths = source.paths.filter(source => {
-              let pos = source.lastIndexOf(".");
+          for (let fontFace of fontFaces) {
+            fontFace.paths = fontFace.paths.filter(filename => {
+              let pos = filename.lastIndexOf(".");
               if (pos > -1) {
-                let ext = source.substring(pos + 1);
+                let ext = filename.substring(pos + 1);
                 if (types.indexOf(ext) > -1) {
                   return true;
                 }
+              }
+              if (!filename.match(/^https?:/)) {
+                hasLocalFontResources = true;
+              } else {
+                hasUrlFontResources = true;
               }
               return false;
             });
           }
         }
 
-        for (let source of sources) {
-          if (this.isLocalFonts() || !source.urls) {
-            for (let asset of rm.getAssetsForPaths(source.paths)) {
-              bootPackage.addAsset(asset);
-              assets[asset.getFilename()] = asset.toString();
-            }
+        let useLocalFonts = cssUrls.length == 0 && !hasUrlFontResources;
+        if (
+          this.isPreferLocalFonts() &&
+          (cssResources.length > 0 || hasLocalFontResources)
+        ) {
+          useLocalFonts = true;
+        }
+
+        // Make sure we add any CSS and font resource files to the target output
+        if (useLocalFonts) {
+          addResourcesToBuild(cssResources);
+
+          for (let fontFace of fontFaces) {
+            addResourcesToBuild(fontFace.paths);
           }
         }
 
-        var code = font.getBootstrapCode(this, application, sources);
+        var code = font.getBootstrapCode(this, application, useLocalFonts);
 
         if (code) {
           appMeta.addPreBootCode(code);

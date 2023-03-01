@@ -56,8 +56,15 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       check: "String"
     },
 
-    /** Sources array */
-    sources: {
+    /** CSS filenames or URLs to be loaded (indicating that font-face will be defined outside of Qooxdoo) */
+    css: {
+      init: null,
+      check: "Array",
+      nullable: true
+    },
+
+    /** Font faces that have to be defined, including the resource paths or urls */
+    fontFaces: {
       init: null,
       check: "Array",
       nullable: true
@@ -93,7 +100,8 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
       [
         "defaultSize",
         "comparisonString",
-        "sources",
+        "css",
+        "fontFaces",
         "glyphs",
         "family"
       ].forEach(name => {
@@ -138,33 +146,27 @@ qx.Class.define("qx.tool.compiler.app.ManifestFont", {
      *
      * @param {qx.tool.compiler.targets.Target} target the target
      * @param {qx.tool.compiler.app.Application} application the application being built
-     * @param {Sources} sources (see comment for this class)
+     * @param {Boolean} useLocalFonts whether to use local fonts or use CSS
      * @return {String} code to include in the output
      */
-    getBootstrapCode(target, application, sources) {
+    getBootstrapCode(target, application, useLocalFonts) {
       let res = "";
       let font = {
         family: this.getFamily() || [this.getName()]
       };
 
-      if (this.getDefaultSize() !== null) {
-        font.size = this.getDefaultSize();
+      if (!useLocalFonts) {
+        if (this.getCss()) {
+          font.css = this.getCss();
+        }
+      } else {
+        font.fontFaces = this.getFontFaces();
       }
-      if (sources && sources.length) {
-        font.sources = sources.map(source => {
-          let data = {
-            family: source.family || this.getName()
-          };
 
-          if (!target.isLocalFonts() && source.urls) {
-            data.urls = source.urls;
-          } else if (source.paths) {
-            data.source = source.paths;
-          }
-          return data;
-        });
+      if (this.getDefaultSize() !== null) {
+        font.defaultSize = this.getDefaultSize();
       }
-      if (this.getComparisonString()) {
+      if (this.getComparisonString() !== null) {
         font.comparisonString = this.getComparisonString();
       }
 

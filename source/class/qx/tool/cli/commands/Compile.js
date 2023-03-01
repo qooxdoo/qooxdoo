@@ -1003,14 +1003,14 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         target.setUpdatePoFiles(this.argv.updatePoFiles);
         target.setLibraryPoPolicy(this.argv.libraryPo);
         let fontsConfig = targetConfig.fonts || {};
-        let localFonts = false;
+        let preferLocalFonts = false;
 
         if (this.argv.localFonts !== undefined) {
-          localFonts = this.argv.localFonts;
+          preferLocalFonts = this.argv.localFonts;
         } else if (fontsConfig.local !== undefined) {
-          localFonts = fontsConfig.local;
+          preferLocalFonts = fontsConfig.local;
         }
-        target.setLocalFonts(localFonts);
+        target.setPreferLocalFonts(preferLocalFonts);
         if (fontsConfig.fontTypes !== undefined) {
           target.setFontTypes(fontsConfig.fontTypes);
         }

@@ -321,11 +321,14 @@ qx.Class.define("qx.ui.basic.Label", {
         this.__font = qx.theme.manager.Font.getInstance().resolve(value);
         if (this.__font instanceof qx.bom.webfonts.WebFont) {
           if (!this.__font.isValid()) {
+            console.log(this.getValue() + ": not valid");
             this.__webfontListenerId = this.__font.addListener(
               "changeStatus",
               this._onWebFontStatusChange,
               this
             );
+          } else {
+            console.log(this.getValue() + ": valid");
           }
         }
         styles = this.__font.getStyles();
@@ -462,10 +465,10 @@ qx.Class.define("qx.ui.basic.Label", {
 
     // property apply
     _applyBreakWithinWords(value, old) {
-        this.getContentElement().setStyle(
-          "wordBreak",
+      this.getContentElement().setStyle(
+        "wordBreak",
         this.isRich() && value ? "break-all" : "normal"
-        );
+      );
     },
 
     /**
@@ -491,18 +494,20 @@ qx.Class.define("qx.ui.basic.Label", {
      * @param ev {qx.event.type.Data} "changeStatus" event
      */
     _onWebFontStatusChange(ev) {
+      console.log(this.getValue() + ": statusChange: " + ev.getData().valid);
       if (ev.getData().valid === true) {
         // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
         if (
-          qx.core.Environment.get("browser.name") == "safari" &&
-          parseFloat(qx.core.Environment.get("browser.version")) >= 8
+          true ||
+          (qx.core.Environment.get("browser.name") == "safari" &&
+            parseFloat(qx.core.Environment.get("browser.version")) >= 8)
         ) {
           window.setTimeout(
             function () {
               this.__invalidContentSize = true;
               qx.ui.core.queue.Layout.add(this);
             }.bind(this),
-            0
+            100
           );
         }
 

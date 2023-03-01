@@ -247,7 +247,7 @@ qx.Class.define("qx.theme.manager.Font", {
      * @return {Class}
      */
     __getFontClass(config) {
-      if (config.sources || config.urls) {
+      if (config.fontFaces || config.css) {
         return qx.bom.webfonts.WebFont;
       }
       return qx.bom.Font;
