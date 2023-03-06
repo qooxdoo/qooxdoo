@@ -326,10 +326,6 @@ qx.Class.define("qx.ui.basic.Label", {
           this.__webfontListenerId = this.__font.addListener(
             "changeStatus",
             evt => {
-              console.log(
-                this.getValue() + ": data=" + JSON.stringify(evt.getData())
-              );
-
               if (evt.getData().valid) {
                 this.__invalidContentSize = true;
                 qx.ui.core.queue.Layout.add(this);
