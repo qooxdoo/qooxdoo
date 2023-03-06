@@ -12,7 +12,8 @@
       "description": "the json schema of the version of Manifest.json",
       "enum": [
         "https://qooxdoo.org/schema/Manifest-1-0-0.json",
-        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json"
+        "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
+        "./source/resource/qx/tool/schema/Manifest-1-0-0.json"
       ]
     },
     "info": {
@@ -132,7 +133,69 @@
         },
         "fonts": {
           "type": "object",
-          "additionalProperties": true
+          "description": "List of fonts; the key is the font ID, the value is an object describing the font to declare",
+          "additionalProperties": {
+            "type": "object",
+            "description": "Font declarations",
+            "additionalProperties": false,
+            "properties": {
+              "family": {
+                "type": "array",
+                "description": "List of font family names that this font identifier represents",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "defaultSize": {
+                "type": "integer",
+                "description": "Default size of the font in pixels, usually only defined for icon fonts"
+              },
+              "comparisonString": {
+                "type": "string",
+                "description": "String to use when looking for size differences, in order to detect that the font has loaded (default usually works just fine)"
+              },
+              "fontFaces": {
+                "type": "array",
+                "description": "list of @font-face ruless need to be defined in order to use this font",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "fontFamily": {
+                      "type": "string",
+                      "description": "the font face family name provided by the font files in `paths`, defaults to the font ID"
+                    },
+                    "fontWeight": {
+                      "type": "string",
+                      "description": "the font-weight provided by the font files in `paths`"
+                    },
+                    "fontStyle": {
+                      "type": "string",
+                      "description": "the font-style provided by the font files in `paths`"
+                    },
+                    "paths": {
+                      "type": "array",
+                      "description": "List of paths in the local resources that contain the fonts",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "css": {
+                "type": "array",
+                "description": "List of URLs for CSS, eg from a CDN",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "glyphs": {
+                "type": "string",
+                "description": "JSON mapping that lists the glyphs to use (see `qx export-glyphs`)"
+              }
+            }
+          }
         },
         "webfonts": {
           "type": "array",

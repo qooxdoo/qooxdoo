@@ -1,5 +1,5 @@
 {
-  "$schema": "./source/resource/qx/tool/schema/Manifest-2-0-0.json",
+  "$schema": "./source/resource/qx/tool/schema/Manifest-1-0-0.json",
   "info": {
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
@@ -153,7 +153,7 @@
         "css": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
         "fontFaces": [
           {
-            "familyName": "Material Icons",
+            "fontFamily": "Material Icons",
             "paths": [
               "qx/iconfont/MaterialIcons/materialicons-v126.eot",
               "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
@@ -173,7 +173,7 @@
         ],
         "fontFaces": [
           {
-            "familyName": "Material Icons Outlined",
+            "fontFamily": "Material Icons Outlined",
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.eot",
               "qx/iconfont/MaterialIcons/materialiconsoutlined-v101.woff2",
@@ -193,7 +193,7 @@
         ],
         "fontFaces": [
           {
-            "familyName": "Material Icons Round",
+            "fontFamily": "Material Icons Round",
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconsround-v100.eot",
               "qx/iconfont/MaterialIcons/materialiconsround-v100.woff2",
@@ -213,7 +213,7 @@
         ],
         "fontFaces": [
           {
-            "familyName": "Material Icons Sharp",
+            "fontFamily": "Material Icons Sharp",
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconssharp-v101.eot",
               "qx/iconfont/MaterialIcons/materialiconssharp-v101.woff2",
@@ -233,7 +233,7 @@
         ],
         "fontFaces": [
           {
-            "familyName": "Material Icons Two Tone",
+            "fontFamily": "Material Icons Two Tone",
             "paths": [
               "qx/iconfont/MaterialIcons/materialiconstwotone-v104.eot",
               "qx/iconfont/MaterialIcons/materialiconstwotone-v104.woff2",

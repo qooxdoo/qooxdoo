@@ -260,22 +260,36 @@ Here's three examples from Qooxdoo's Manifest.json:
         "family": ["DejaVu Sans Mono", "Courier New", "monospace"]
       },
       "Roboto": {
-        "sources": [
-          "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.eot",
-          "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff2",
-          "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff",
-          "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
+        "css": ["https://fonts.cdnfonts.com/css/roboto"],
+        "fontFaces": [
+          {
+            "fontFamily": "Roboto",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "paths": [
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.eot",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff2",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
+            ]
+          }
         ]
       },
       "MaterialIcons": {
+        "family": ["Material Icons"],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
-        "sources": [
-          "qx/iconfont/MaterialIcons/materialicons-v126.eot",
-          "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
-          "qx/iconfont/MaterialIcons/materialicons-v126.woff",
-          "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
+        "css": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
+        "fontFaces": [
+          {
+            "fontFamily": "Material Icons",
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialicons-v126.eot",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff",
+              "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
+            ]
+          }
         ],
         "glyphs": "qx/iconfont/MaterialIcons/materialicons.json"
       },
@@ -292,17 +306,15 @@ include the Roboto font in your application.
 In the third example ("MaterialIcons"), we're describing a Google font where we have a URL to use for the CDNs, or we can have it compiled in.  The compiler
 can decide whether to use the CDN or embeded fonts.
 
-Note that things like "family" are specified more than once and in different ways - the *top* level of properties (e.g. `size`, `family`, `bold`, etc.) relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
+Note that in the Roboto and MaterialIcons example, there is a `fontFaces` key - this is an array of CSS `@font-face` declarations that need to be made by
+Qooxdoo when it uses that font - for each element in the `fontFaces` array, you specify the filenames (or URLs) of the font files.  By default, the family
+name of the font is the font ID (eg "MaterialIcons") but in the examples above that's not correct - the font file will provide a font called "Material Icons" 
+(ie with a space), so you can override that for your `fontFaces` declaration.  Similarly, you have to specify the `fontWeight` and `fontStyle`, which default to
+just `"normal"`.  All of this matches exactly as a browser would consider `@font-face`.
 
-The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS, the browser will try the first listed font family then the second etc.
-
-The `sources` property, tells Qooxdoo where to load the fonts from and what font variants are in the font files; the `family` property in this section is not an array - it is the actual family of the font contained in the file.
-
-When looking at all the fonts in your theme, Qooxdoo will only load a font file once - however, due to restrictions on how a browser allows us to detect when a font is loaded, the way it does this is to create a unique key based on `sources.family`, `sources.fontWeight`, and `sources.fontStyle`.  The net effect is that if you use more than one font from the same family, then you *must* make sure that the `sources` key describes `fontWeight` and `fontStyle` and that the addition of `fontWeight` and `fontStyle` make a unique key.
-
-Note also the top level `weight`, `bold`, and `italic` properties - these do not need to match whatever is provided by the font file - for example, you could use a regular, non-italic font for the "italic" font; Qooxdoo and the browser won't care that the font does not appear italic on the screen.
-
-One other thing to note is the top level `weight` property - the default browser font weight is 400, and if your font is not 400 in weight then you must specify the actual weight at the top level.
+However, a better example is often to use the actual fonts from a CDN - to do this, use the "css" key and provide an array of URLs.  These CSS files can 
+include multiple `@font-face` declarations, and while there would normally be only one font family in the CSS that's not actually a requirement.  When you use 
+"css", you must provide the "family" array to tell Qooxdoo which families are provided.
 
 
 #### Using fonts
