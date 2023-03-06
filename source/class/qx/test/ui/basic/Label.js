@@ -41,8 +41,6 @@ qx.Class.define("qx.test.ui.basic.Label", {
     tearDown() {
       super.tearDown();
       this.getSandbox().restore();
-      qx.bom.webfonts.Manager.getInstance().dispose();
-      delete qx.bom.webfonts.Manager.$$instance;
     },
 
     testHeightForWidth() {

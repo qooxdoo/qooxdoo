@@ -14,11 +14,29 @@
 ************************************************************************ */
 
 /**
- * Requests web fonts from {@link qx.bom.webfonts.Manager} and fires events
+ * Requests web fonts via {@link qx.bom.webfonts.WebFontLoader} and fires events
  * when their loading status is known.
  */
 qx.Class.define("qx.bom.webfonts.WebFont", {
   extend: qx.bom.Font,
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties: {
+    /**
+     * Indicates that the font has loaded successfully
+     */
+    valid: {
+      init: false,
+      check: "Boolean",
+      event: "changeValid",
+      apply: "__applyValid"
+    }
+  },
 
   /*
   *****************************************************************************
@@ -37,112 +55,65 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties: {
-    /**
-     * The fontFaces which need to be defined
-     */
-    fontFaces: {
-      nullable: true,
-      apply: "_applyFontFaces"
-    },
-
-    /** CSS urls or paths which need to be loaded */
-    css: {
-      nullable: true,
-      check: "Array"
-    },
-
-    /**
-     * Indicates that the font has loaded successfully
-     */
-    valid: {
-      init: false,
-      check: "Boolean",
-      event: "changeValid"
-    }
-  },
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
   members: {
     __families: null,
+    __allValidPromise: null,
 
-    // property apply
-    _applyFontFaces(fontFaces, old) {
-      var families = [];
+    /**
+     * @override
+     */
+    async loadComplete() {
+      let promises = [];
+      for (let fontFamily of this.getFamily()) {
+        let loader = qx.bom.webfonts.WebFontLoader.getLoader(fontFamily);
+        if (loader) {
+          let fontWeight = this.isBold() ? "bold" : "normal";
+          if (this.getWeight() !== null) {
+            fontWeight = this.getWeight();
+          }
+          let fontStyle = this.isItalic() ? "italic" : "normal";
 
-      for (var i = 0, l = fontFaces.length; i < l; i++) {
-        let fontFace = fontFaces[i];
-        var familyName = this._quoteFontFamily(fontFace.family);
-        if (families.indexOf(familyName) < 0) {
-          families.push(familyName);
+          let validator = new qx.bom.webfonts.Validator(
+            fontFamily,
+            this.getComparisonString(),
+            fontWeight,
+            fontStyle
+          );
+
+          validator.setTimeout(qx.bom.webfonts.WebFont.VALIDATION_TIMEOUT);
+          validator.validate();
+          promises.push(validator.isValid());
         }
-        fontFace.comparisonString = this.getComparisonString();
-        fontFace.version = this.getVersion();
-        qx.bom.webfonts.Manager.getInstance().require(
-          familyName,
-          fontFace,
-          this._onWebFontChangeStatus,
-          this
-        );
       }
-
-      this.getFamily().forEach(familyName => {
-        if (families.indexOf(familyName) < 0) {
-          families.unshift(familyName);
+      this.__allValidPromise = qx.Promise.all(promises).then(results => {
+        if (results.length == 0 || results.indexOf(true) > -1) {
+          this.setValid(true);
+        } else {
+          this.setValid(false);
         }
       });
-      this.setFamily(families);
     },
 
-    /**
-     * Propagates web font status changes
-     *
-     * @param ev {qx.event.type.Data} "changeStatus"
-     */
-    _onWebFontChangeStatus(ev) {
-      var result = ev.getData();
-      this.setValid(!!result.valid);
-      this.fireDataEvent("changeStatus", result);
-      if (qx.core.Environment.get("qx.debug")) {
-        if (result.valid === false) {
-          this.warn(
-            "WebFont " +
-              result.family +
-              " was not applied, perhaps the source file could not be loaded."
-          );
-        }
-      }
+    async checkValid() {
+      await this.__allValidPromise;
     },
 
-    /**
-     * Makes sure font-family names containing spaces are properly quoted
-     *
-     * @param familyName {String} A font-family CSS value
-     * @return {String} The quoted family name
-     */
-    _quoteFontFamily(familyName) {
-      return familyName.replace(/["']/g, "");
+    __applyValid(value) {
+      this.fireDataEvent("changeStatus", {
+        family: this.getFamily(),
+        valid: value
+      });
     }
   },
 
   statics: {
-    __loadedStylesheets: {},
-
-    __loadStylesheet(url) {
-      if (qx.bom.webfonts.WebFont.__loadedStylesheets[url]) {
-        return;
-      }
-    },
-
-    __addFontFace(url) {}
+    /**
+     * Timeout (in ms) to wait before deciding that a web font was not loaded.
+     */
+    VALIDATION_TIMEOUT: 5000
   }
 });

@@ -118,7 +118,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
      * Types of fonts to be included
      */
     fontTypes: {
-      init: ["ttf"],
+      init: ["woff"],
       check: "Array"
     },
 

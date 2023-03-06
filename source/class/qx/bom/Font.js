@@ -287,6 +287,13 @@ qx.Class.define("qx.bom.Font", {
   members: {
     __lookupMap: null,
 
+    /**
+     * Called by the theme manager when all the properties to be set, have been set
+     */
+    async loadComplete() {
+      // Nothing
+    },
+
     // property apply
     _applySize(value, old) {
       this.__lookupMap.fontSize = value === null ? null : value + "px";

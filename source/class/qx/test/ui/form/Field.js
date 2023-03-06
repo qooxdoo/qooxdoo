@@ -43,8 +43,6 @@ qx.Class.define("qx.test.ui.form.Field", {
 
     tearDown() {
       this.getSandbox().restore();
-      qx.bom.webfonts.Manager.getInstance().dispose();
-      delete qx.bom.webfonts.Manager.$$instance;
     },
 
     testSelectTextAllBeforeFlush() {
