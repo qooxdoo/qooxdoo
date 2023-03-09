@@ -690,6 +690,7 @@ qx.Bootstrap.define(
         const           superclass = config.extend || Object;
         const           properties = config.properties;
         const           customProxyHandler = config.proxyHandler;
+        const           _this = this;
         let             allProperties = superclass.$$allProperties || {};
         let             initFunctions = [];
         let             subclass;
@@ -1108,292 +1109,7 @@ qx.Bootstrap.define(
                     if (property.check &&
                         obj[`$$variant_${prop}`] != "reset")
                     {
-                      let $$checks = new Map(
-                        [
-                          [
-                            "Boolean",
-                            v => qx.lang.Type.isBoolean(v)
-                          ],
-                          [
-                            "String",
-                            v => qx.lang.Type.isString(v)
-                          ],
-                          [
-                            "Number",
-                            v => qx.lang.Type.isNumber(v) && isFinite(v)
-                          ],
-                          [
-                            "Integer",
-                            v =>
-                              qx.lang.Type.isNumber(v) &&
-                                isFinite(v) && v % 1 === 0
-                          ],
-                          [
-                            "PositiveNumber",
-                            v => qx.lang.Type.isNumber(v) && isFinite(v) && v >= 0
-                          ],
-                          [
-                            "PositiveInteger",
-                            v =>
-                              qx.lang.Type.isNumber(v ) &&
-                                isFinite(v) && v % 1 === 0 && v >= 0
-                          ],
-                          [
-                            "Error",
-                            v => v instanceof Error
-                          ],
-                          [
-                            "RegExp",
-                            v => v instanceof RegExp
-                          ],
-                          [
-                            "Object",
-                            v =>
-                              v !== null &&
-                                (qx.lang.Type.isObject(v) || typeof v === "object")
-                          ],
-                          [
-                            "Array",
-                            v => qx.lang.Type.isArray(v)
-                          ],
-                          [
-                            "Map",
-                            v => qx.lang.Type.isObject(v)
-                          ],
-                          [
-                            "Function",
-                            v => qx.lang.Type.isFunction(v)
-                          ],
-                          [
-                            "Date",
-                            v => v instanceof Date
-                          ],
-                          [
-                            "Node",
-                            v => v !== null && v.nodeType !== undefined
-                          ],
-                          [
-                            "Element",
-                            v => v !== null && v.nodeType === 1 && v.attributes
-                          ],
-                          [
-                            "Document",
-                            v =>
-                              v !== null && v.nodeType === 9 && v.documentElement
-                          ],
-                          [
-                            "Window",
-                            v => v !== null && v.document
-                          ],
-                          [
-                            "Event",
-                            v => v !== null && v.type !== undefined
-                          ],
-                          [
-                            "Class",
-                            v => v !== null && v.$$type === "Class"
-                          ],
-                          [
-                            "Mixin",
-                            v => v !== null && v.$$type === "Mixin"
-                          ],
-                          [
-                            "Interace",
-                            v => v !== null && v.$$type === "Interface"
-                          ],
-                          [
-                            "Promise",
-                            v => qx.lang.Type.isPromise(v)
-                          ],
-                          [
-                            "Theme",
-                            v => v !== null && v.$$type === "Theme"
-                          ],
-                          [
-                            "Color",
-                            v => (qx.lang.Type.isString(v) &&
-                                 qx.util.ColorUtil.isValidPropertyValue(v))
-                          ],
-                          [
-                            "Decorator",
-                            v =>
-                            {
-                              let themeManager =
-                                  qx.theme.manager.Decoration.getInstance();
-                              return (v !== null &&
-                                      themeManager.isValidPropertyValue(v));
-                            }
-                          ],
-                          [
-                            "Font",
-                            v =>
-                            {
-                              let fontManager =
-                                  qx.theme.manager.Font.getInstance();
-                              return v !== null && fontManager.isDynamic(v);
-                            }
-                          ]
-                        ]);
-
-                      // If the property is nullable and the value is null...
-                      if (property.nullable && value === null)
-                      {
-                        // ... then we don't do the check
-                      }
-                      else if (property.inheritable && value == "inherit")
-                      {
-                        // Request to explicitly inherit from
-                        // parent. Ignore check.
-                      }
-                      else if ($$checks.has(property.check))
-                      {
-                        if (! $$checks.get(property.check)(value))
-                        {
-                          throw new Error(
-                            `${prop}: ` +
-                              `Expected value to be of type ${property.check}; ` +
-                              `value=${value}`);
-                        }
-                      }
-                      else if (typeof property.check == "function")
-                      {
-                        if (! property.check.call(proxy, value))
-                        {
-                          throw new Error(
-                            `${prop}: ` +
-                              `Check function indicates wrong type value; ` +
-                              `value=${value}`);
-                        }
-                      }
-                      else if (Array.isArray(property.check))
-                      {
-                        if (value instanceof String)
-                        {
-                          value = value.valueOf();
-                        }
-
-                        qx.core.Assert.assertInArray(
-                          value,
-                          property.check,
-                          "Expected value to be one of: [" +
-                            property.check +
-                            "]");
-                      }
-                      else if (typeof property.check == "string")
-                      {
-                        if (qx.Class.isDefined(property.check))
-                        {
-                          qx.core.Assert.assertInstance(
-                            value,
-                            qx.Class.getByName(property.check),
-                            "Expected value to be an instance of " +
-                              property.check);
-                        }
-                        else if (qx.Interface &&
-                                 qx.Interface.isDefined(property.check))
-                        {
-                            qx.core.Assert.assertInterface(
-                              value,
-                              qx.Interface.getByName(property.check),
-                              "Expected value to implement " +
-                                property.check);
-                        }
-                        else
-                        {
-                          if (FUTURE)
-                          {
-                            // Next  try to parse the check string as JSDoc
-                            let             bJSDocParsed = false;
-                            try
-                            {
-                              const   { parse } = require("jsdoctypeparser");
-                              const   ast = parse(property.check);
-
-                              // Temporarily, while we don't yet
-                              // support checks based on the jsdoc
-                              // AST, flag whether we successfully
-                              // parsed the type. If so, we'll stop
-                              // the check when the error is thrown
-                              // by _checkValueAgainstJSdocAST(); If
-                              // not, we want to fall through to
-                              // additional checks.
-                              bJSDocParsed = true;
-                              qx.Class._checkValueAgainstJSdocAST(
-                                prop, value, ast, property.check);
-                            }
-                            catch(e)
-                            {
-                              // If we successfully parsed, rethrow
-                              // the check error
-                              if (bJSDocParsed)
-                              {
-                                throw e;
-                              }
-
-                              // Couldn't parse JSDoc so the check string is
-                              // not a JSDoc one. Fall through to next
-                              // possible use of the check string.
-                              //
-                              // FALL THROUGH
-                            }
-                          }
-
-                          if (! BROKEN)
-                          {
-
-                            // Try executing the string as a function
-                            let             code;
-                            let             fCheck;
-
-                            try
-                            {
-                              code = `return (${property.check});`;
-
-                              // This can cause "too much recursion"
-                              // errors, and there's no aparent
-                              // means to debug it. This is a kludgy
-                              // and inefficient feature anyway.
-                              fCheck = new Function("value", code);
-                            }
-                            catch(e)
-                            {
-                              throw new Error(
-                                `${prop}: ` +
-                                  "Error creating check function: " +
-                                  `${property.check}: ` + e);
-                            }
-
-                            try
-                            {
-                              if (! fCheck.call(proxy, value))
-                              {
-                                throw new Error(
-                                  `${prop}: ` +
-                                  `Check code indicates wrong type value; ` +
-                                  `value=${value}`);
-                              }
-                            }
-                            catch(e)
-                            {
-                              throw new Error(
-                                `${prop}: ` +
-                                  `Check code threw error: ${e}`);
-                            }
-                          }
-                          else
-                          {
-                            throw new Error(
-                              `${prop}: pseudo function as string ` +
-                                `is no longer supported for property check: ` +
-                                `${property.check}`);
-                          }
-                        }
-                      }
-                      else
-                      {
-                        throw new Error(
-                          `${prop}: Unrecognized check type: ${property.check}`);
-                      }
+                      _this._check(obj, proxy, property, prop, value);
                     }
 
                     // Does it have a validation function?
@@ -1548,6 +1264,296 @@ qx.Bootstrap.define(
         return subclass.prototype.constructor;
       },
 
+      _check(obj, proxy, property, prop, value)
+      {
+        let $$checks = new Map(
+          [
+            [
+              "Boolean",
+              v => qx.lang.Type.isBoolean(v)
+            ],
+            [
+              "String",
+              v => qx.lang.Type.isString(v)
+            ],
+            [
+              "Number",
+              v => qx.lang.Type.isNumber(v) && isFinite(v)
+            ],
+            [
+              "Integer",
+              v =>
+                qx.lang.Type.isNumber(v) &&
+                  isFinite(v) && v % 1 === 0
+            ],
+            [
+              "PositiveNumber",
+              v => qx.lang.Type.isNumber(v) && isFinite(v) && v >= 0
+            ],
+            [
+              "PositiveInteger",
+              v =>
+                qx.lang.Type.isNumber(v ) &&
+                  isFinite(v) && v % 1 === 0 && v >= 0
+            ],
+            [
+              "Error",
+              v => v instanceof Error
+            ],
+            [
+              "RegExp",
+              v => v instanceof RegExp
+            ],
+            [
+              "Object",
+              v =>
+                v !== null &&
+                  (qx.lang.Type.isObject(v) || typeof v === "object")
+            ],
+            [
+              "Array",
+              v => qx.lang.Type.isArray(v)
+            ],
+            [
+              "Map",
+              v => qx.lang.Type.isObject(v)
+            ],
+            [
+              "Function",
+              v => qx.lang.Type.isFunction(v)
+            ],
+            [
+              "Date",
+              v => v instanceof Date
+            ],
+            [
+              "Node",
+              v => v !== null && v.nodeType !== undefined
+            ],
+            [
+              "Element",
+              v => v !== null && v.nodeType === 1 && v.attributes
+            ],
+            [
+              "Document",
+              v =>
+                v !== null && v.nodeType === 9 && v.documentElement
+            ],
+            [
+              "Window",
+              v => v !== null && v.document
+            ],
+            [
+              "Event",
+              v => v !== null && v.type !== undefined
+            ],
+            [
+              "Class",
+              v => v !== null && v.$$type === "Class"
+            ],
+            [
+              "Mixin",
+              v => v !== null && v.$$type === "Mixin"
+            ],
+            [
+              "Interace",
+              v => v !== null && v.$$type === "Interface"
+            ],
+            [
+              "Promise",
+              v => qx.lang.Type.isPromise(v)
+            ],
+            [
+              "Theme",
+              v => v !== null && v.$$type === "Theme"
+            ],
+            [
+              "Color",
+              v => (qx.lang.Type.isString(v) &&
+                   qx.util.ColorUtil.isValidPropertyValue(v))
+            ],
+            [
+              "Decorator",
+              v =>
+              {
+                let themeManager =
+                    qx.theme.manager.Decoration.getInstance();
+                return (v !== null &&
+                        themeManager.isValidPropertyValue(v));
+              }
+            ],
+            [
+              "Font",
+              v =>
+              {
+                let fontManager =
+                    qx.theme.manager.Font.getInstance();
+                return v !== null && fontManager.isDynamic(v);
+              }
+            ]
+          ]);
+
+        // If the property is nullable and the value is null...
+        if (property.nullable && value === null)
+        {
+          // ... then we don't do the check
+        }
+        else if (property.inheritable && value == "inherit")
+        {
+          // Request to explicitly inherit from
+          // parent. Ignore check.
+        }
+        else if ($$checks.has(property.check))
+        {
+          if (! $$checks.get(property.check)(value))
+          {
+            throw new Error(
+              `${prop}: ` +
+                `Expected value to be of type ${property.check}; ` +
+                `value=${value}`);
+          }
+        }
+        else if (typeof property.check == "function")
+        {
+          if (! property.check.call(proxy, value))
+          {
+            throw new Error(
+              `${prop}: ` +
+                `Check function indicates wrong type value; ` +
+                `value=${value}`);
+          }
+        }
+        else if (Array.isArray(property.check))
+        {
+          if (value instanceof String)
+          {
+            value = value.valueOf();
+          }
+
+          qx.core.Assert.assertInArray(
+            value,
+            property.check,
+            "Expected value to be one of: [" +
+              property.check +
+              "]");
+        }
+        else if (typeof property.check == "string")
+        {
+          if (qx.Class.isDefined(property.check))
+          {
+            qx.core.Assert.assertInstance(
+              value,
+              qx.Class.getByName(property.check),
+              "Expected value to be an instance of " +
+                property.check);
+          }
+          else if (qx.Interface &&
+                   qx.Interface.isDefined(property.check))
+          {
+              qx.core.Assert.assertInterface(
+                value,
+                qx.Interface.getByName(property.check),
+                "Expected value to implement " +
+                  property.check);
+          }
+          else
+          {
+            if (FUTURE)
+            {
+              // Next  try to parse the check string as JSDoc
+              let             bJSDocParsed = false;
+              try
+              {
+                const   { parse } = require("jsdoctypeparser");
+                const   ast = parse(property.check);
+
+                // Temporarily, while we don't yet
+                // support checks based on the jsdoc
+                // AST, flag whether we successfully
+                // parsed the type. If so, we'll stop
+                // the check when the error is thrown
+                // by _checkValueAgainstJSdocAST(); If
+                // not, we want to fall through to
+                // additional checks.
+                bJSDocParsed = true;
+                qx.Class._checkValueAgainstJSdocAST(
+                  prop, value, ast, property.check);
+              }
+              catch(e)
+              {
+                // If we successfully parsed, rethrow
+                // the check error
+                if (bJSDocParsed)
+                {
+                  throw e;
+                }
+
+                // Couldn't parse JSDoc so the check string is
+                // not a JSDoc one. Fall through to next
+                // possible use of the check string.
+                //
+                // FALL THROUGH
+              }
+            }
+
+            if (! BROKEN)
+            {
+
+              // Try executing the string as a function
+              let             code;
+              let             fCheck;
+
+              try
+              {
+                code = `return (${property.check});`;
+
+                // This can cause "too much recursion"
+                // errors, and there's no aparent
+                // means to debug it. This is a kludgy
+                // and inefficient feature anyway.
+                fCheck = new Function("value", code);
+              }
+              catch(e)
+              {
+                throw new Error(
+                  `${prop}: ` +
+                    "Error creating check function: " +
+                    `${property.check}: ` + e);
+              }
+
+              try
+              {
+                if (! fCheck.call(proxy, value))
+                {
+                  throw new Error(
+                    `${prop}: ` +
+                    `Check code indicates wrong type value; ` +
+                    `value=${value}`);
+                }
+              }
+              catch(e)
+              {
+                throw new Error(
+                  `${prop}: ` +
+                    `Check code threw error: ${e}`);
+              }
+            }
+            else
+            {
+              throw new Error(
+                `${prop}: pseudo function as string ` +
+                  `is no longer supported for property check: ` +
+                  `${property.check}`);
+            }
+          }
+        }
+        else
+        {
+          throw new Error(
+            `${prop}: Unrecognized check type: ${property.check}`);
+        }
+      },
+
       /**
        * Removes a class from qooxdoo defined by {@link #define}
        *
@@ -1698,6 +1704,7 @@ qx.Bootstrap.define(
        */
       addProperties : function(clazz, properties, patch)
       {
+        const _this = this;
         let groupProperties = {};
 
         // Factories for property methods
@@ -2161,8 +2168,38 @@ qx.Bootstrap.define(
                     // Obtain the old value, via its async request
                     old = await this[`get${propertyFirstUp}Async`]();
 
+                    // If the set value is a promise, be sure it's
+                    // resolved before `apply` is called, unless a
+                    // promise is the specified type fot this property
+                    if (property.check != "Promise") {
+                      value = await value;
+                    }
+
                     // Cache the new value
                     property.storage.set.call(this, prop, value);
+
+                    // Yup. Does it have a transform method?
+                    if (property.transform)
+                    {
+                      // It does. Call it. It returns the new value.
+                      if (typeof property.transform == "function")
+                      {
+                        value = property.transform.call(this, value, old);
+                      }
+                      else // otherwise it's a string
+                      {
+                        value = this[property.transform].call(this, value, old);
+                      }
+                    }
+
+                    // Does it have a check to be done? If the variant
+                    // is "reset" we allow the `init` value to be
+                    // reassigned without checking it.
+                    if (property.check &&
+                        this[`$$variant_${prop}`] != "reset")
+                    {
+                      _this._check(this, this, property, prop, value);
+                    }
 
                     // Do we need to call the async apply method?
                     if (! property.isEqual.call(this, value, old) ||
@@ -2262,7 +2299,7 @@ qx.Bootstrap.define(
                       return value;
                     }
 
-                    // Otherwise, give 'em a promise for the non-promise value
+                    // Objerwise, give 'em a promise for the new value
                     return qx.Promise.resolve(value);
                   }.bind(this);
 

@@ -740,6 +740,7 @@ qx.Class.define("qx.test.Promise", {
 
           alpha: {
             init: null,
+            check: "String",
             nullable: true,
             async: true,
             apply: "_applyAlpha",
