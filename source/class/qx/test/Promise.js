@@ -148,7 +148,9 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: () => {},
-            get: function() { return this.alpha; }
+            get() {
+              return this.alpha;
+            }
           }
         }
       });
@@ -230,7 +232,9 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get: function() { return this.alpha; },
+            get() {
+              return this.alpha;
+            },
             event: "changeAlpha"
           }
         },
@@ -253,21 +257,25 @@ qx.Class.define("qx.test.Promise", {
       });
       var p = obj.setAlphaAsync("abc");
       this.assertEquals(0, eventFired);
-      p.then(function (value) {
-        this.assertEquals("abc", value);
-        this.assertEquals("abc", obj.getAlpha());
-        this.assertEquals(1, eventFired);
-
-        // Set the same value, should return a new promise but not fire an event
-        p = obj.setAlphaAsync("abc");
-        p.then(function (value) {
+      p.then(
+        function (value) {
           this.assertEquals("abc", value);
           this.assertEquals("abc", obj.getAlpha());
           this.assertEquals(1, eventFired);
-          qx.Class.undefine("testPropertySetValueAsyncApply2.Clazz");
-          t.resume();
-        }.bind(this));
-      }.bind(this));
+
+          // Set the same value, should return a new promise but not fire an event
+          p = obj.setAlphaAsync("abc");
+          p.then(
+            function (value) {
+              this.assertEquals("abc", value);
+              this.assertEquals("abc", obj.getAlpha());
+              this.assertEquals(1, eventFired);
+              qx.Class.undefine("testPropertySetValueAsyncApply2.Clazz");
+              t.resume();
+            }.bind(this)
+          );
+        }.bind(this)
+      );
       this.wait(1000);
     },
 
@@ -305,7 +313,9 @@ qx.Class.define("qx.test.Promise", {
             async: true,
             event: "changeAlpha",
             apply: () => {},
-            get: function() { return this.alpha; }
+            get() {
+              return this.alpha;
+            }
           }
         }
       });
@@ -425,7 +435,9 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get: function() { return this.alpha; },
+            get() {
+              return this.alpha;
+            },
             event: "changeAlpha"
           },
 
@@ -434,7 +446,9 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyBravo",
-            get: function() { return this.bravo; },
+            get() {
+              return this.bravo;
+            },
             event: "changeBravo"
           }
         },
@@ -514,12 +528,14 @@ qx.Class.define("qx.test.Promise", {
       });
 
       console.log("objOne.alphaAsync going to set value=abc");
-      objOne.setAlphaAsync("abc").then(function () {
-        console.log("objOne.alphaAsync completed set value=abc");
-        this.assertEquals("one,twoxxx", str);
-        qx.Class.undefine("testAsyncEventHandlers.Clazz");
-        this.resume();
-      }.bind(this));
+      objOne.setAlphaAsync("abc").then(
+        function () {
+          console.log("objOne.alphaAsync completed set value=abc");
+          this.assertEquals("one,twoxxx", str);
+          qx.Class.undefine("testAsyncEventHandlers.Clazz");
+          this.resume();
+        }.bind(this)
+      );
       this.wait(2500);
     },
 
@@ -744,7 +760,9 @@ qx.Class.define("qx.test.Promise", {
             nullable: true,
             async: true,
             apply: "_applyAlpha",
-            get: function() { return this.alpha; },
+            get() {
+              return this.alpha;
+            },
             event: "changeAlpha"
           }
         },
@@ -752,7 +770,6 @@ qx.Class.define("qx.test.Promise", {
         members: {
           _applyAlpha(value, oldValue) {
             var t = this;
-            /** Manually assert because `check` is not working in this release */
             console.log("pre applyAlpha[" + t.getValue() + "] = " + value);
             return new qx.Promise(function (resolve) {
               setTimeout(function () {
