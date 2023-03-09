@@ -752,6 +752,7 @@ qx.Class.define("qx.test.Promise", {
         members: {
           _applyAlpha(value, oldValue) {
             var t = this;
+            /** Manually assert because `check` is not working in this release */
             console.log("pre applyAlpha[" + t.getValue() + "] = " + value);
             return new qx.Promise(function (resolve) {
               setTimeout(function () {
