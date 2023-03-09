@@ -740,6 +740,7 @@ qx.Class.define("qx.test.Promise", {
 
           alpha: {
             init: null,
+            check: "String", // NOTE: this check is not currently working
             nullable: true,
             async: true,
             apply: "_applyAlpha",
@@ -751,6 +752,8 @@ qx.Class.define("qx.test.Promise", {
         members: {
           _applyAlpha(value, oldValue) {
             var t = this;
+            /** Manually assert because `check` is not working in this release */
+            qx.core.Assert.assertTrue(qx.lang.Type.isString(value));
             console.log("pre applyAlpha[" + t.getValue() + "] = " + value);
             return new qx.Promise(function (resolve) {
               setTimeout(function () {
