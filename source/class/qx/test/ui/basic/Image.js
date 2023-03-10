@@ -556,10 +556,10 @@ qx.Class.define("qx.test.ui.basic.Image", {
             lineHeight: 1,
             comparisonString: "\uf1e3\uf1f7\uf11b\uf19d",
             family: ["FontAwesome"],
-            sources: [
+            fontFaces: [
               {
-                family: "FontAwesome",
-                source: [
+                fontFamily: "FontAwesome",
+                paths: [
                   "qx/test/webfonts/fontawesome-webfont.ttf",
                   "qx/test/webfonts/fontawesome-webfont.woff"
                 ]

@@ -121,8 +121,10 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
         this.__fontFacesCreatedPromise = new qx.Promise();
       }
       this.__dequeueFontFaces();
+    },
 
-      await this.__fontFacesCreatedPromise;
+    async promiseLoaded() {
+      return await this.__fontFacesCreatedPromise;
     },
 
     /**

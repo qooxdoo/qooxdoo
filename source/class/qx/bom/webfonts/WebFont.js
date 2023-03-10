@@ -66,7 +66,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
     /**
      * @override
      */
-    async loadComplete() {
+    loadComplete() {
       let promises = [];
       for (let fontFamily of this.getFamily()) {
         let loader = qx.bom.webfonts.WebFontLoader.getLoader(fontFamily);

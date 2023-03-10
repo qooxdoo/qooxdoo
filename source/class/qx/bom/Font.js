@@ -290,7 +290,7 @@ qx.Class.define("qx.bom.Font", {
     /**
      * Called by the theme manager when all the properties to be set, have been set
      */
-    async loadComplete() {
+    loadComplete() {
       // Nothing
     },
 
