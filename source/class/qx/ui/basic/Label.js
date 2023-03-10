@@ -318,7 +318,10 @@ qx.Class.define("qx.ui.basic.Label", {
       // Apply
       var styles;
       if (value) {
-        this.__font = qx.theme.manager.Font.getInstance().resolve(value);
+        if (qx.lang.Type.isString(value)) {
+          value = qx.theme.manager.Font.getInstance().resolve(value);
+        }
+        this.__font = value;
         if (
           this.__font instanceof qx.bom.webfonts.WebFont &&
           !this.__font.isValid()

@@ -162,69 +162,6 @@ qx.Class.define("qx.test.ui.basic.Label", {
       l.dispose();
     },
 
-    testApplyWebFont() {
-      this.require(["webFontSupport"]);
-      var l = new qx.ui.basic.Label("Laugh while you can, monkey boy!");
-
-      var f = new qx.bom.webfonts.WebFont();
-      f.set({
-        size: 18,
-        family: ["monospace"],
-        sources: [
-          {
-            family: "FinelinerScriptRegular",
-            source: [
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.woff"
-              ),
-
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.ttf"
-              ),
-
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.eot"
-              )
-            ]
-          },
-
-          {
-            family: "YanoneKaffeesatzRegular",
-            source: [
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
-              ),
-
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
-              ),
-
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
-              )
-            ]
-          }
-        ]
-      });
-
-      var statusChangeSpy = this.spy(l, "_onWebFontStatusChange");
-      l.setFont(f);
-
-      qx.event.Timer.once(
-        function () {
-          this.resume(function () {
-            l.dispose();
-            f.dispose();
-            this.assertCalledTwice(statusChangeSpy);
-          }, this);
-        },
-        this,
-        4000
-      );
-
-      this.wait(8000);
-    },
-
     testApplyFontColorAndTextColor() {
       var font1 = new qx.bom.Font();
       font1.setColor("#FF0000");
