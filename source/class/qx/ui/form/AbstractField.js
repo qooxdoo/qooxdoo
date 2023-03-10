@@ -462,11 +462,8 @@ qx.Class.define("qx.ui.form.AbstractField", {
       // Apply
       var styles;
       if (value) {
-        if (qx.core.Environment.get("qx.debug")) {
-          // This should not be necessary because the property definition in qx.ui.core.Widget has a check, but the code before was
-          //  working as though it was a string.  This whole test snippet should be considered @deprecated, but it is here just as a
-          //  sanity check
-          this.assertTrue(value instanceof qx.bom.Font);
+        if (qx.lang.Type.isString(value)) {
+          value = qx.theme.manager.Font.getInstance().resolve(value);
         }
         this.__font = value;
         if (
