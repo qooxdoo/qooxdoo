@@ -110,6 +110,7 @@ qx.Class.define("qx.util.format.DateFormat", {
   },
 
   destruct() {
+    // has to be cleared explicitly as it is pointing to a complex datastructure
     this.__formatTree = null;
   },
 
