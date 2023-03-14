@@ -109,6 +109,10 @@ qx.Class.define("qx.util.format.DateFormat", {
     }
   },
 
+  destruct() {
+    this.__formatTree = null;
+  },
+
   /*
   *****************************************************************************
      STATICS
