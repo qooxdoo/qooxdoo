@@ -462,8 +462,14 @@ qx.Class.define("qx.ui.form.AbstractField", {
       // Apply
       var styles;
       if (value) {
-        this.__font = qx.theme.manager.Font.getInstance().resolve(value);
-        if (this.__font instanceof qx.bom.webfonts.WebFont) {
+        if (qx.lang.Type.isString(value)) {
+          value = qx.theme.manager.Font.getInstance().resolve(value);
+        }
+        this.__font = value;
+        if (
+          this.__font instanceof qx.bom.webfonts.WebFont &&
+          !this.__font.isValid()
+        ) {
           this.__webfontListenerId = this.__font.addListener(
             "changeStatus",
             this._onWebFontStatusChange,

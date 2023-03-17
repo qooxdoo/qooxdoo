@@ -53,6 +53,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       this.setFontFamily(fontFamily);
       this.__requestedHelpers = this._getRequestedHelpers();
     }
+    this.__promiseValid = new qx.Promise();
   },
 
   /*
@@ -186,6 +187,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
     __requestedHelpers: null,
     __checkTimer: null,
     __checkStarted: null,
+    __promiseValid: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -213,6 +215,15 @@ qx.Class.define("qx.bom.webfonts.Validator", {
           0
         );
       }
+    },
+
+    /**
+     * Waits for the font to become invalid or valid
+     *
+     * @returns {Boolean} whether valid or not
+     */
+    async isValid() {
+      return await this.__promiseValid;
     },
 
     /*
@@ -380,17 +391,31 @@ qx.Class.define("qx.bom.webfonts.Validator", {
      */
     __onTimerInterval() {
       if (this._isFontValid()) {
-        this.__checkTimer.stop();
-        this._reset();
-        this.fireDataEvent("changeStatus", {
-          family: this.getFontFamily(),
-          valid: true
-        });
+        const setValidImpl = () => {
+          this.__checkTimer.stop();
+          this._reset();
+          this.__promiseValid.resolve(true);
+          this.fireDataEvent("changeStatus", {
+            family: this.getFontFamily(),
+            valid: true
+          });
+        };
+
+        // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
+        if (
+          qx.core.Environment.get("browser.name") == "safari" &&
+          parseFloat(qx.core.Environment.get("browser.version")) >= 8
+        ) {
+          setTimeout(setValidImpl, 100);
+        } else {
+          setValidImpl();
+        }
       } else {
         var now = new Date().getTime();
         if (now - this.__checkStarted >= this.getTimeout()) {
           this.__checkTimer.stop();
           this._reset();
+          this.__promiseValid.resolve(false);
           this.fireDataEvent("changeStatus", {
             family: this.getFontFamily(),
             valid: false
