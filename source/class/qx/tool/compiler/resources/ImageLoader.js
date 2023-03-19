@@ -50,18 +50,8 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
      * @Override
      */
     matches(filename, library) {
-      if (filename.endsWith("svg")) {
-        let isWebFont =
-          library.getWebFonts() &&
-          library
-            .getWebFonts()
-            .find(webFont =>
-              webFont.getResources().find(resource => resource == filename)
-            );
-
-        if (isWebFont) {
-          return false;
-        }
+      if (library.isFontAsset(filename)) {
+        return false;
       }
 
       return super.matches(filename, library);
