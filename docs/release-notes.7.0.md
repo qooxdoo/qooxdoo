@@ -4,7 +4,7 @@
 improved support for webfonts:
 
 - Manifest.json's `provides.webfonts` is deprecated and now `provides.fonts` is preferred
-- The entries in `provides.fonts` are declaring available fonts "IDs", which could be reusable private names (eg `qx.theme.monospace`) or ones which follow the well-known name (eg `MaterialIcons`)
+- The entries in `provides.fonts` are declaring available font "IDs", which could be reusable private names (eg `qx.theme.monospace`) or ones which follow the well-known name (eg `MaterialIcons`)
 - Classes declare that they need a font by using `@usefont(FontIdFromManifest)`
 - The font can be defined with URLs (for use with a CDN) and/or with sources
 - The compiler decides which font files (if any) to include in the application build, and the user can decide whether to use the CDN or compile fonts into the app (via command line and `compile.json` configuration)
