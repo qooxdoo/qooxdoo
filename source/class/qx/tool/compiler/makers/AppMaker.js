@@ -169,8 +169,11 @@ qx.Class.define("qx.tool.compiler.makers.AppMaker", {
         let fontsData = library.getFontsData();
         for (let fontName in fontsData) {
           let fontData = fontsData[fontName];
-          let font = analyser.getFont(fontName, true);
-          await font.updateFromManifest(fontData, library);
+          let font = analyser.getFont(fontName);
+          if (!font) {
+            font = analyser.getFont(fontName, true);
+            await font.updateFromManifest(fontData, library);
+          }
         }
       }
 
