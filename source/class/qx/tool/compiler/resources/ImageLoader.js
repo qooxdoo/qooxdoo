@@ -27,8 +27,13 @@ var log = qx.tool.utils.LogManager.createLog("resource-manager");
 qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
   extend: qx.tool.compiler.resources.ResourceLoader,
 
-  construct() {
-    super([".png", ".gif", ".jpg", ".jpeg", ".svg"]);
+  /**
+   * Constructor
+   *
+   * @param {qx.tool.compiler.resources.Manager} manager resource manager
+   */
+  construct(manager) {
+    super([".png", ".gif", ".jpg", ".jpeg", ".svg"], manager);
   },
 
   members: {
@@ -54,6 +59,18 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
         return false;
       }
 
+      if (filename.endsWith(".svg")) {
+        let withoutExt = filename.substring(0, filename.length - 3);
+        let manager = this.getManager();
+        if (
+          ["eot", "woff2", "woff", "ttf"].find(
+            ext => !!manager.findLibraryForResource(withoutExt + ext)
+          )
+        ) {
+          return false;
+        }
+      }
+
       return super.matches(filename, library);
     },
 
@@ -69,7 +86,7 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
         fileInfo.width = dimensions.width;
         fileInfo.height = dimensions.height;
       } catch (ex) {
-        log.warn("Cannot get image size of " + filename + ": " + ex);
+        //log.warn("Cannot get image size of " + filename + ": " + ex);
         delete fileInfo.width;
         delete fileInfo.height;
       }

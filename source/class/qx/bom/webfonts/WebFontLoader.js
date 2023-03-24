@@ -174,8 +174,14 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
       }
 
       if (!qx.bom.webfonts.WebFontLoader.__styleSheet) {
-        qx.bom.webfonts.WebFontLoader.__styleSheet =
-          qx.bom.Stylesheet.createElement();
+        let styleSheet = qx.bom.Stylesheet.createElement();
+        qx.bom.webfonts.WebFontLoader.__styleSheet = styleSheet;
+        if (qx.core.Environment.get("qx.debug")) {
+          styleSheet.ownerNode.setAttribute(
+            "data-qx-created-by",
+            qx.bom.webfonts.WebFontLoader.classname
+          );
+        }
       }
 
       let sourcesMap = {};
@@ -184,6 +190,11 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
           qx.bom.webfonts.WebFontLoader.getPreferredFormats().join("|") +
           ")"
       );
+
+      /*
+       * When compiling a `@font-face` rule, note that the first "src:" must never specify a format
+       * and that EOT must go first if there is one
+       */
 
       let fontFaceSrcRules = [];
       for (let i = 0; i < fontFace.paths.length; i++) {
@@ -197,27 +208,38 @@ qx.Class.define("qx.bom.webfonts.WebFontLoader", {
         if (this.getVersion()) {
           url += "?" + this.getVersion();
         }
-        if (fontFormat == "eot") {
-          url =
-            "url('" +
-            url +
-            "');" +
-            "src: url('" +
-            url +
-            "?#iefix') format('embedded-opentype')";
-        } else {
-          url = "url('" + url + "') format('" + fontFormat + "')";
-        }
 
-        fontFaceSrcRules.push(url);
+        fontFaceSrcRules.push({
+          url: url,
+          format: fontFormat
+        });
+
+        if (fontFormat == "eot") {
+          fontFaceSrcRules.push({
+            url: url + "?#iefix'",
+            format: "embedded-opentype"
+          });
+        }
+      }
+      fontFaceSrcRules = fontFaceSrcRules.sort((a, b) => {
+        a.fontFormat == "embedded-opentype" ? -1 : 0;
+      });
+
+      let strSources = "";
+      for (let i = 0; i < fontFaceSrcRules.length; i++) {
+        strSources += "src: url('" + fontFaceSrcRules[i].url + "')";
+        if (i > 0) {
+          strSources += " format('" + fontFaceSrcRules[i].format + "')";
+        }
+        strSources += ";";
       }
 
-      let rule = "src: " + fontFaceSrcRules.join(",\n") + ";";
-      rule = "font-family: " + fontFamily + ";\n" + rule;
-      rule = rule + "\nfont-style: " + (fontFace.fontStyle || "normal") + ";";
-      rule = rule + "\nfont-weight: " + (fontFace.fontWeight || "normal") + ";";
+      let rule = "font-family: " + fontFamily + ";\n";
+      rule += strSources + "\n";
+      rule += "font-style: " + (fontFace.fontStyle || "normal") + ";\n";
+      rule += "font-weight: " + (fontFace.fontWeight || "normal") + ";\n";
 
-      rule = "@font-face {" + rule + "}\n";
+      rule = "@font-face {\n" + rule + "}\n";
 
       let styleSheet = qx.bom.webfonts.WebFontLoader.__styleSheet;
       try {
