@@ -393,7 +393,6 @@ qx.Class.define("qx.tool.compiler.app.Library", {
      */
     isFontAsset(filename) {
       let isWebFont = false;
-      if (filename.match(/src-fonts\/Anonymous_Pro.svg/)) debugger;
       if (filename.endsWith("svg")) {
         let fonts = this.getWebFonts() || [];
         isWebFont = fonts.find(webFont =>
