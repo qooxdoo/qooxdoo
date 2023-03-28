@@ -86,7 +86,10 @@ qx.Class.define("qx.tool.compiler.resources.ImageLoader", {
         fileInfo.width = dimensions.width;
         fileInfo.height = dimensions.height;
       } catch (ex) {
-        //log.warn("Cannot get image size of " + filename + ": " + ex);
+        // When we can't get the image size, we don't report it because there are SVG types
+        //  that have no size (eg fonts) and it's proved quite hard (or impossible) to
+        //  suppress the warning accurately in those cases.  Ultimately, if the image is
+        //  corrupt it will be found.
         delete fileInfo.width;
         delete fileInfo.height;
       }
