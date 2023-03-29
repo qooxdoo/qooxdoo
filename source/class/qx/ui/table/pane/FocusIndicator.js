@@ -124,9 +124,9 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator", {
               wl = deco.getWidthLeft();
             }
           }
-          var userHeight = rowHeight + (wl + wr - 2);
+          var userHeight = rowHeight + (wt + wb - 2);
           var renderedRowHeight = this.__scroller.getTablePane().getRenderedRowHeight();
-          var userTop = Math.floor((row - firstRow) * renderedRowHeight) - (wr - 1);
+          var userTop = Math.floor((row - firstRow) * renderedRowHeight) - (wt - 1);
           if (
             editing &&
             this.__scroller.getMinCellEditHeight() &&
@@ -140,9 +140,9 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator", {
           }
 
           this.setUserBounds(
-            paneModel.getColumnLeft(col) - (wt - 1),
+            paneModel.getColumnLeft(col) - (wl - 1),
             userTop,
-            columnModel.getColumnWidth(col) + (wt + wb - 3),
+            columnModel.getColumnWidth(col) + (wl + wr - 3),
             userHeight
           );
 
