@@ -125,7 +125,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator", {
             }
           }
           var userHeight = rowHeight + (wl + wr - 2);
-          var userTop = (row - firstRow) * rowHeight - (wr - 1);
+          var renderedRowHeight = this.__scroller.getTablePane().getRenderedRowHeight();
+          var userTop = Math.floor((row - firstRow) * renderedRowHeight) - (wr - 1);
           if (
             editing &&
             this.__scroller.getMinCellEditHeight() &&
