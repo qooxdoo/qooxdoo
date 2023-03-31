@@ -133,6 +133,27 @@ qx.Class.define("qx.data.Array", {
     __array: null,
 
     /**
+     * Returns an iterator, ie an object which follows the "Iterator Protocol" so that
+     * arrays can be used natively in `for...of`.  See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+     *
+     * @returns {Iterator}
+     */
+    iterator() {
+      let index = 0;
+      let array = this;
+      return {
+        next: () => {
+          if (index >= this.getLength()) {
+            return { done: true };
+          }
+          return {
+            value: this.getItem(index++)
+          };
+        }
+      };
+    },
+
+    /**
      * Concatenates the current and the given array into a new one.
      *
      * @param array {qx.data.Array|Array} The javaScript array which should be concatenated
@@ -1133,5 +1154,11 @@ qx.Class.define("qx.data.Array", {
     }
 
     this.__array = null;
+  },
+
+  defer(statics) {
+    statics.prototype[Symbol.iterator] = function () {
+      return this.iterator();
+    };
   }
 });
