@@ -236,85 +236,139 @@ It is important to note that you can only specify values available as property
 on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or
 [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont).
 
-### Web Fonts
 
-These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme. These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as [FontSquirrel's Webfont Generator](https://www.fontsquirrel.com/tools/webfont-generator) or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your resources' directory, and then add them to your theme font by using the `sources` option.
+### Specifying Fonts
 
-This example uses the [Monserrat font](https://fonts.google.com/specimen/Montserrat)
+These days there are a lot of fonts available, and it's not unusual to want to download and use a font specifically chosen for your theme. These webfonts are available from a variety of sources (whether open source licensed or proprietary / paid for); you can use an online service such as [FontSquirrel's Webfont Generator](https://www.fontsquirrel.com/tools/webfont-generator) or other tools to convert your fonts into webfonts (provided of course that your license for the font permits it) and add them to your application.
+
+**Note**
+>This section describes using the `provides.fonts` part of `Manifest.json` to describe the fonts that your application or library will use; there was a previous mechanism which used `provides.webfonts` but that is deprecated and should no longer be used.
+
+>The main difference between the two is that `provides.webfonts` only support font files which are compiled into the application (URLs, including CDNs, were not supported), every font file is loaded all of the time, and the filenames are embedded in code.  The `provides.fonts` is smarter and will only load those fonts which are needed, and can choose at compile time which files (or URLs) to use - this can greatly reduce the size of applications
+
+The Manifest.json's `provides.fonts` lists fonts, giving each on a unique name (you can choose your own identifier or use something well known), specify the 
+download URLs and/or resource paths, and then only refer to the unique identifier in code.
+
+If you are using built-in fonts (ie you do not have any URLs or resource paths to use) then it is still useful to define fonts here so that you can avoid repetition
+later on, and if you're writing a theme in a library, you are also allowing applications to override your font definitions.
+
+Here's three examples from Qooxdoo's Manifest.json:
 
 ```json5
-    "default": {
-      size: 14,
-      family: ["Montserrat", "sans-serif"],
-      color: "text-primary-on-surface",
-      weight: "300",
-      sources: [
-        {
-          family: "Montserrat",
-          fontWeight: "300",
-          source: [
-            "grasshopper/font/Montserrat/Montserrat-Light.woff2",
-            "grasshopper/font/Montserrat/Montserrat-Light.woff",
-            "grasshopper/font/Montserrat/Montserrat-Light.ttf"
-          ]
-        }
-      ]
-    },
-    
-    "bold":
-    {
-      size: 14,
-      family: ["Montserrat", "sans-serif"],
-      bold: true,
-      color: "text-primary-on-surface",
-      weight: "500",
-      sources: [
-        {
-          family: "Montserrat",
-          fontWeight: "500",
-          source: [
-            "grasshopper/font/Montserrat/Montserrat-Medium.eot",
-            "grasshopper/font/Montserrat/Montserrat-Medium.woff2",
-            "grasshopper/font/Montserrat/Montserrat-Medium.woff",
-            "grasshopper/font/Montserrat/Montserrat-Medium.ttf"
-          ]
-        }
-      ]
-    },
-    
-    "italic": {
-      size: 14,
-      family: ["Montserrat", "sans-serif"],
-      color: "text-primary-on-surface",
-      italic: true,
-      weight: "300",
-      sources: [
-        {
-          family: "Montserrat",
-          fontWeight: "300",
-          fontStyle: "italic",
-          source: [
-            "grasshopper/font/Montserrat/Montserrat-LightItalic.eot",
-            "grasshopper/font/Montserrat/Montserrat-LightItalic.woff2",
-            "grasshopper/font/Montserrat/Montserrat-LightItalic.woff",
-            "grasshopper/font/Montserrat/Montserrat-LightItalic.ttf"
-          ]
-        }
-      ]
-    },
+    "fonts": {
+      "qx.theme.monospace": {
+        "family": ["DejaVu Sans Mono", "Courier New", "monospace"]
+      },
+      "Roboto": {
+        "css": ["https://fonts.cdnfonts.com/css/roboto"],
+        "fontFaces": [
+          {
+            "fontFamily": "Roboto",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "paths": [
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.eot",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff2",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.woff",
+              "qx/font/Roboto/roboto-v18-latin_latin-ext-regular.ttf"
+            ]
+          }
+        ]
+      },
+      "MaterialIcons": {
+        "family": ["Material Icons"],
+        "defaultSize": 32,
+        "comparisonString": "e1feef39",
+        "css": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
+        "fontFaces": [
+          {
+            "fontFamily": "Material Icons",
+            "paths": [
+              "qx/iconfont/MaterialIcons/materialicons-v126.eot",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff2",
+              "qx/iconfont/MaterialIcons/materialicons-v126.woff",
+              "qx/iconfont/MaterialIcons/materialicons-v126.ttf"
+            ]
+          }
+        ],
+        "glyphs": "qx/iconfont/MaterialIcons/materialicons.json"
+      },
 ```
 
-Note that things like "family" are specified more than once and in different ways - the *top* level of properties (e.g. `size`, `family`, `bold`, etc.) relate to properties in the [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont) class, whereas the properties of the `sources` key are slightly different.
+In the first example ("qx.theme.monospace") we're defining a shortcut that says that anywhere that the font name "qx.theme.monospace" is used, Qooxdoo
+should switch to using the font family in the array.  In this case, the various Qooxdoo themes often use this one name, and it makes it a touch easier to
+update it in the future.
 
-The top level properties are typically for defining what properties you would allow the browser to apply, and are analogous to the CSS properties. For example, you can see that `family` is an array, because just like CSS, the browser will try the first listed font family then the second etc.
+In the second example ("Roboto"), we're describing a Google font that is stored inside the Qooxdoo repo - it's a copy of the Google font, and will be compiled
+into every application that has a theme which uses that font - for example, if you use the `TangibleDark` or `TangibleLight` themes, Qooxdoo will automatically
+include the Roboto font in your application.
 
-The `sources` property, tells Qooxdoo where to load the fonts from and what font variants are in the font files; the `family` property in this section is not an array - it is the actual family of the font contained in the file.
+In the third example ("MaterialIcons"), we're describing a Google font where we have a URL to use for the CDNs, or we can have it compiled in.  The compiler
+can decide whether to use the CDN or embeded fonts.
 
-When looking at all the fonts in your theme, Qooxdoo will only load a font file once - however, due to restrictions on how a browser allows us to detect when a font is loaded, the way it does this is to create a unique key based on `sources.family`, `sources.fontWeight`, and `sources.fontStyle`.  The net effect is that if you use more than one font from the same family, then you *must* make sure that the `sources` key describes `fontWeight` and `fontStyle` and that the addition of `fontWeight` and `fontStyle` make a unique key.
+Note that in the Roboto and MaterialIcons example, there is a `fontFaces` key - this is an array of CSS `@font-face` declarations that need to be made by
+Qooxdoo when it uses that font - for each element in the `fontFaces` array, you specify the filenames (or URLs) of the font files.  By default, the family
+name of the font is the font ID (eg "MaterialIcons") but in the examples above that's not correct - the font file will provide a font called "Material Icons" 
+(ie with a space), so you can override that for your `fontFaces` declaration.  Similarly, you have to specify the `fontWeight` and `fontStyle`, which default to
+just `"normal"`.  All of this matches exactly as a browser would consider `@font-face`.
 
-Note also the top level `weight`, `bold`, and `italic` properties - these do not need to match whatever is provided by the font file - for example, you could use a regular, non-italic font for the "italic" font; Qooxdoo and the browser won't care that the font does not appear italic on the screen.
+However, a better example is often to use the actual fonts from a CDN - to do this, use the "css" key and provide an array of URLs.  These CSS files can 
+include multiple `@font-face` declarations, and while there would normally be only one font family in the CSS that's not actually a requirement.  When you use 
+"css", you must provide the "family" array to tell Qooxdoo which families are provided.
 
-One other thing to note is the top level `weight` property - the default browser font weight is 400, and if your font is not 400 in weight then you must specify the actual weight at the top level.
+
+#### Using fonts
+Once you've added a font to your library or application, the final step is that you need to tell the compiler which classes need that font - use the `@usefont` jsdoc, which is similar to `@asset` - for example:
+
+```javascript
+/**
+ * The simple qooxdoo font theme.
+ *
+ * @usefont(Roboto)
+ * @usefont(Roboto Mono)
+ */
+qx.Theme.define("qx.theme.tangible.Font", {
+```
+
+
+#### Icon Fonts
+That third example is also an Icon Font, which means that it has a set of glyphs/ligatures which can be referenced by name - for example, if you use an
+image with "@MaterialIcons/warning/16" the "warning" is the name of a glyph, and has to be translated to `\u57346`.  
+
+Note that the third example above has a `"glyphs"` setting, which is the name of a .json file that has those mappings from names to characters.
+
+The compiler can typically read the font and generate that mapping for you - eg:
+
+```bash
+$ cd source/resource/qx/iconfont/MaterialIcons
+$ qx export-glyphs materialicons-v126.ttf materialicons.json
+
+```
+
+(BTW there is a file called `source/resource/qx/iconfont/export-glyphs.sh` which does this already for all MaterialIcon fonts)
+
+#### Choosing whether to use CDN URLs or embed
+
+Embedding a font in your application guarantees that it can't change, and if your app is running off a local intranet (or your developing over a slow
+internet link) you may prefer to *not* use CDNs.  This means that you app will be larger because the compiler has to include the font files in the generated
+application.
+
+By default, the compiler will use CDN URLs if they are given in Manifest.json, but you can override this in two ways: firstly, the `--local-fonts` compiler
+option, or adding a `fonts` object block in `compile.json`:
+
+```json5
+  "targets": [
+    {
+      "type": "source",
+      "fonts": {
+        "local": true,
+        "fontTypes" ["ttf"]
+      }
+```
+
+If you set the `targets[].fonts.local` to true, it will have the same effect as `--local-fonts`, ie embed rather than use URLs.  The `compile.json` also
+has a `fontTypes` array, which is the list of font extensions to include - by default this is just "ttf", but you can also specify any of "eot", "otf", 
+"woff", and "woff2".
 
 
 ## Icon Theme

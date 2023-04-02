@@ -14,11 +14,29 @@
 ************************************************************************ */
 
 /**
- * Requests web fonts from {@link qx.bom.webfonts.Manager} and fires events
+ * Requests web fonts via {@link qx.bom.webfonts.WebFontLoader} and fires events
  * when their loading status is known.
  */
 qx.Class.define("qx.bom.webfonts.WebFont", {
   extend: qx.bom.Font,
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties: {
+    /**
+     * Indicates that the font has loaded successfully
+     */
+    valid: {
+      init: false,
+      check: "Boolean",
+      event: "changeValid",
+      apply: "__applyValid"
+    }
+  },
 
   /*
   *****************************************************************************
@@ -37,87 +55,65 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties: {
-    /**
-     * The source of the webfont.
-     */
-    sources: {
-      nullable: true,
-      apply: "_applySources"
-    },
-
-    /**
-     * Indicates that the font has loaded successfully
-     */
-    valid: {
-      init: false,
-      check: "Boolean",
-      event: "changeValid"
-    }
-  },
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
   members: {
     __families: null,
-
-    // property apply
-    _applySources(value, old) {
-      var families = [];
-
-      for (var i = 0, l = value.length; i < l; i++) {
-        var familyName = this._quoteFontFamily(value[i].family);
-        families.push(familyName);
-        var sourcesList = value[i];
-        sourcesList.comparisonString = this.getComparisonString();
-        sourcesList.version = this.getVersion();
-        qx.bom.webfonts.Manager.getInstance().require(
-          familyName,
-          sourcesList,
-          this._onWebFontChangeStatus,
-          this
-        );
-      }
-
-      this.setFamily(families.concat(this.getFamily()));
-    },
+    __allValidPromise: null,
 
     /**
-     * Propagates web font status changes
-     *
-     * @param ev {qx.event.type.Data} "changeStatus"
+     * @override
      */
-    _onWebFontChangeStatus(ev) {
-      var result = ev.getData();
-      this.setValid(!!result.valid);
-      this.fireDataEvent("changeStatus", result);
-      if (qx.core.Environment.get("qx.debug")) {
-        if (result.valid === false) {
-          this.warn(
-            "WebFont " +
-              result.family +
-              " was not applied, perhaps the source file could not be loaded."
+    loadComplete() {
+      let promises = [];
+      for (let fontFamily of this.getFamily()) {
+        let loader = qx.bom.webfonts.WebFontLoader.getLoader(fontFamily);
+        if (loader) {
+          let fontWeight = this.isBold() ? "bold" : "normal";
+          if (this.getWeight() !== null) {
+            fontWeight = this.getWeight();
+          }
+          let fontStyle = this.isItalic() ? "italic" : "normal";
+
+          let validator = new qx.bom.webfonts.Validator(
+            fontFamily,
+            this.getComparisonString(),
+            fontWeight,
+            fontStyle
           );
+
+          validator.setTimeout(qx.bom.webfonts.WebFont.VALIDATION_TIMEOUT);
+          validator.validate();
+          promises.push(validator.isValid());
         }
       }
+      this.__allValidPromise = qx.Promise.all(promises).then(results => {
+        if (results.length == 0 || results.indexOf(true) > -1) {
+          this.setValid(true);
+        } else {
+          this.setValid(false);
+        }
+      });
     },
 
-    /**
-     * Makes sure font-family names containing spaces are properly quoted
-     *
-     * @param familyName {String} A font-family CSS value
-     * @return {String} The quoted family name
-     */
-    _quoteFontFamily(familyName) {
-      return familyName.replace(/["']/g, "");
+    async checkValid() {
+      await this.__allValidPromise;
+    },
+
+    __applyValid(value) {
+      this.fireDataEvent("changeStatus", {
+        family: this.getFamily(),
+        valid: value
+      });
     }
+  },
+
+  statics: {
+    /**
+     * Timeout (in ms) to wait before deciding that a web font was not loaded.
+     */
+    VALIDATION_TIMEOUT: 5000
   }
 });

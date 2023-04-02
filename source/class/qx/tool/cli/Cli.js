@@ -189,6 +189,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           "Config",
           "Deploy",
           "Es6ify",
+          "ExportGlyphs",
           "Package",
           "Pkg", // alias for Package
           "Create",

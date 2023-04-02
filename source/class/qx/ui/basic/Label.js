@@ -318,15 +318,23 @@ qx.Class.define("qx.ui.basic.Label", {
       // Apply
       var styles;
       if (value) {
-        this.__font = qx.theme.manager.Font.getInstance().resolve(value);
-        if (this.__font instanceof qx.bom.webfonts.WebFont) {
-          if (!this.__font.isValid()) {
-            this.__webfontListenerId = this.__font.addListener(
-              "changeStatus",
-              this._onWebFontStatusChange,
-              this
-            );
-          }
+        if (qx.lang.Type.isString(value)) {
+          value = qx.theme.manager.Font.getInstance().resolve(value);
+        }
+        this.__font = value;
+        if (
+          this.__font instanceof qx.bom.webfonts.WebFont &&
+          !this.__font.isValid()
+        ) {
+          this.__webfontListenerId = this.__font.addListener(
+            "changeStatus",
+            evt => {
+              if (evt.getData().valid) {
+                this.__invalidContentSize = true;
+                qx.ui.core.queue.Layout.add(this);
+              }
+            }
+          );
         }
         styles = this.__font.getStyles();
       } else {
@@ -462,10 +470,10 @@ qx.Class.define("qx.ui.basic.Label", {
 
     // property apply
     _applyBreakWithinWords(value, old) {
-        this.getContentElement().setStyle(
-          "wordBreak",
+      this.getContentElement().setStyle(
+        "wordBreak",
         this.isRich() && value ? "break-all" : "normal"
-        );
+      );
     },
 
     /**
@@ -484,32 +492,6 @@ qx.Class.define("qx.ui.basic.Label", {
 
       false: null
     }),
-
-    /**
-     * Triggers layout recalculation after a web font was loaded
-     *
-     * @param ev {qx.event.type.Data} "changeStatus" event
-     */
-    _onWebFontStatusChange(ev) {
-      if (ev.getData().valid === true) {
-        // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
-        if (
-          qx.core.Environment.get("browser.name") == "safari" &&
-          parseFloat(qx.core.Environment.get("browser.version")) >= 8
-        ) {
-          window.setTimeout(
-            function () {
-              this.__invalidContentSize = true;
-              qx.ui.core.queue.Layout.add(this);
-            }.bind(this),
-            0
-          );
-        }
-
-        this.__invalidContentSize = true;
-        qx.ui.core.queue.Layout.add(this);
-      }
-    },
 
     // property apply
     _applyValue: qx.core.Environment.select("qx.dynlocale", {
