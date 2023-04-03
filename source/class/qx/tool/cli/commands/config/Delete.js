@@ -13,6 +13,7 @@
 
    Authors:
    * Christian Boulanger (info@bibliograph.org, @cboulanger)
+   * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
 
