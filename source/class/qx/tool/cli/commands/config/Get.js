@@ -26,7 +26,7 @@ qx.Class.define("qx.tool.cli.commands.config.Get", {
     getYargsCommand() {
       return {
         command: "get <key> [options]",
-        c
+        describe: "Gets a configuration value"
       };
     }
   },
