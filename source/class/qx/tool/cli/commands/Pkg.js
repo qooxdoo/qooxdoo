@@ -47,7 +47,7 @@ qx.Class.define("qx.tool.cli.commands.Pkg", {
 
           return yargs.demandCommand().showHelpOnFail().help();
         },
-        handler(argv) {
+        handler() {
           // Nothing
         }
       };
