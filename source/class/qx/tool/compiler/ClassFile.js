@@ -884,6 +884,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             node.value.type === "MemberExpression"
           ) {
             meta.type = "function";
+            if (sectionName === "statics"){
+              meta.isStatic = true;
+            }
           } else {
             meta.type = "variable";
           }
