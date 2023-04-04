@@ -472,7 +472,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       if (
         (Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) ||
         this.__stopMomentum[oldTimeoutId] ||
-        !this.getWindow()
+        (this.getWindow && !this.getWindow())
       ) {
         delete this.__stopMomentum[oldTimeoutId];
         delete this.__momentum[domEvent.pointerId];
