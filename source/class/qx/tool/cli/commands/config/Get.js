@@ -16,10 +16,6 @@
    * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-
-/**
- * Lists compatible packages
- */
 qx.Class.define("qx.tool.cli.commands.config.Get", {
   extend: qx.tool.cli.commands.Config,
   statics: {
@@ -30,7 +26,7 @@ qx.Class.define("qx.tool.cli.commands.config.Get", {
     getYargsCommand() {
       return {
         command: "get <key> [options]",
-        describe: "Gets a configuration value"
+        c
       };
     }
   },

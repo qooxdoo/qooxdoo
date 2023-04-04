@@ -16,9 +16,6 @@
    * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-/**
- * Lists compatible packages
- */
 qx.Class.define("qx.tool.cli.commands.config.Set", {
   extend: qx.tool.cli.commands.Config,
   statics: {

@@ -16,9 +16,7 @@
    * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-const semver = require("semver");
 const columnify = require("columnify");
-const path = require("upath");
 
 /**
  * Lists compatible packages
