@@ -65,6 +65,7 @@ qx.Class.define("qx.event.handler.Focus", {
     if (
       qx.core.Environment.get("os.name") == "ios" &&
       parseFloat(qx.core.Environment.get("os.version")) > 6 &&
+      parseFloat(qx.core.Environment.get("os.version")) < 15 &&
       (!qx.application.Inline ||
         !qx.core.Init.getApplication() instanceof qx.application.Inline)
     ) {
@@ -1512,7 +1513,7 @@ qx.Class.define("qx.event.handler.Focus", {
       if (value) {
         this.__fireEvent(value, old, "activate", true);
       }
-      // correct scroll position for iOS 7
+      // correct scroll position for iOS 7 to 14 [ISSUE #9393 and #10565]
       if (this.__needsScrollFix) {
         window.scrollTo(0, 0);
       }

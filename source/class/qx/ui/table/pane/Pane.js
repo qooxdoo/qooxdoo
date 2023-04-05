@@ -710,6 +710,20 @@ qx.Class.define("qx.ui.table.pane.Pane", {
       this.__lastColCount = colCount;
       this.__lastRowCount = rowCount;
       this.fireEvent("paneUpdated");
+    },
+
+    getRenderedRowHeight() {
+      var rowHeight = this.getTable().getRowHeight();
+
+      var elem = this.getContentElement().getDomElement();
+      if (elem && elem.firstChild) {
+        // pane has been rendered
+        var tableBody = elem.firstChild;
+        if (tableBody.childNodes && tableBody.childNodes.length > 0) {
+          rowHeight = tableBody.childNodes[0].getBoundingClientRect().height;
+        }
+      }
+      return rowHeight;
     }
   },
 

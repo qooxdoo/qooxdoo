@@ -75,6 +75,9 @@ qx.Class.define("qx.tool.cli.commands.Package", {
           );
 
           return yargs.showHelpOnFail().help();
+        },
+        handler() {
+          // Nothing
         }
       };
     }
