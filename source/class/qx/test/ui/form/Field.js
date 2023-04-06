@@ -194,32 +194,28 @@ qx.Class.define("qx.test.ui.form.Field", {
         }
       ]);
 
-      loader.load();
+      loader.load().then(() => {
+        var f = new qx.bom.webfonts.WebFont();
+        f.set({
+          size: 18,
+          family: ["FinelinerScriptRegular", "monospace"]
+        });
 
-      var f = new qx.bom.webfonts.WebFont();
-      f.set({
-        size: 18,
-        family: ["FinelinerScriptRegular", "monospace"]
-      });
-
-      f.loadComplete();
-
-      var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
-      tf.setFont(f);
-
-      qx.event.Timer.once(
-        function () {
+        f.addListener("changeValid", () => {
           this.resume(function () {
             tf.dispose();
             f.dispose();
             this.assertCalledOnce(statusChangeSpy);
           }, this);
-        },
-        this,
-        4000
-      );
+        });
 
-      this.wait(8000);
+        f.loadComplete();
+
+        var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
+        tf.setFont(f);
+      });
+
+      this.wait(30000);
     }
   }
 });

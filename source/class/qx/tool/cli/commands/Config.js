@@ -13,13 +13,9 @@
 
    Authors:
      * John Spackman (john.spackman@zenesis.com, @johnspackman)
+     * Henner Kollmann (Henner.Kollmann@gmx.de, @hkollmann)
 
 ************************************************************************ */
-const process = require("process");
-const path = require("path");
-const columnify = require("columnify");
-const fs = qx.tool.utils.Promisify.fs;
-
 /**
  * Handles persistent configuration
  */
@@ -29,64 +25,20 @@ qx.Class.define("qx.tool.cli.commands.Config", {
 
   statics: {
     getYargsCommand() {
-      function run(argv, name) {
-        var cmd = new qx.tool.cli.commands.Config(argv);
-        return cmd[name](argv).catch(e => {
-          qx.tool.compiler.Console.error(e.stack || e.message);
-          process.exit(1);
-        });
-      }
       return {
-        command: "config <key> [value]",
-        describe: "gets/sets persistent configuration",
+        command: "config <command> [options]",
+        desc: "handles persistent configuration",
         builder(yargs) {
-          yargs
-            .option("quiet", {
-              alias: "q",
-              describe:
-                "Suppresses warnings (eg about unknown configuration keys)",
-              type: "boolean"
-            })
-            .command(
-              "set <key> <value>",
-              "Sets a configuration value",
-              () => {},
-              argv => run(argv, "cmdSet")
-            )
-            .command(
-              "get <key> [options]",
-              "Gets a configuration value",
-              {
-                bare: {
-                  type: "boolean",
-                  describe: "Restricts output to just the value"
-                }
-              },
+          qx.tool.cli.Cli.addYargsCommands(
+            yargs,
+            ["List", "Set", "Get", "Delete"],
 
-              argv => run(argv, "cmdGet")
-            )
-            .command(
-              "delete <key>",
-              "Deletes a configuration value",
-              () => {},
-              argv => run(argv, "cmdDelete")
-            )
-            .command(
-              "list",
-              "Lists all known configuration values",
-              {
-                all: {
-                  type: "boolean",
-                  describe: "Shows all keys, including unset"
-                }
-              },
+            "qx.tool.cli.commands.config"
+          );
 
-              argv => run(argv, "cmdList")
-            );
+          return yargs.demandCommand().showHelpOnFail().help();
         },
-        handler(argv) {
-          // Nothing
-        }
+        handler() {}
       };
     },
 
@@ -124,14 +76,14 @@ qx.Class.define("qx.tool.cli.commands.Config", {
   },
 
   members: {
-    __describe(key) {
+    _describe(key) {
       var data = qx.tool.cli.commands.Config.KNOWN_VALUES[key];
       return data && data.desc;
     },
 
-    __checkKey(argv) {
+    _checkKey(argv) {
       if (!argv.quiet) {
-        let desc = this.__describe(argv.key);
+        let desc = this._describe(argv.key);
         if (!desc) {
           qx.tool.compiler.Console.warn(
             "Warning: Unrecognised configuration key " + argv.key
@@ -140,7 +92,7 @@ qx.Class.define("qx.tool.cli.commands.Config", {
       }
     },
 
-    __breakout(key) {
+    _breakout(key) {
       let pos = key.lastIndexOf(".");
       let parentKey = pos > -1 ? key.substring(0, pos) : "";
       let childKey = key.substring(pos + 1);
@@ -150,83 +102,6 @@ qx.Class.define("qx.tool.cli.commands.Config", {
         parentKey: parentKey,
         childKey: childKey
       };
-    },
-
-    async cmdSet(argv) {
-      this.__checkKey(argv);
-      let cfg = await qx.tool.cli.ConfigDb.getInstance();
-      let setting = qx.tool.cli.commands.Config.KNOWN_VALUES[argv.key];
-      let value = argv.value;
-      if (setting && typeof setting.set == "function") {
-        value = await setting.set(value);
-      }
-
-      let keyInfo = this.__breakout(argv.key);
-      let parent = cfg.db(keyInfo.parentKey, {});
-      if (value === undefined) {
-        delete parent[keyInfo.childKey];
-      } else {
-        parent[keyInfo.childKey] = value;
-      }
-      await cfg.save();
-    },
-
-    async cmdDelete(argv) {
-      this.__checkKey(argv);
-      let cfg = await qx.tool.cli.ConfigDb.getInstance();
-      let keyInfo = this.__breakout(argv.key);
-      let parent = cfg.db(keyInfo.parentKey);
-      if (parent) {
-        delete parent[keyInfo.childKey];
-      }
-      await cfg.save();
-    },
-
-    async cmdGet(argv) {
-      this.__checkKey(argv);
-      let cfg = await qx.tool.cli.ConfigDb.getInstance();
-      let value = cfg.db(argv.key);
-      if (argv.bare) {
-        qx.tool.compiler.Console.info(value || "");
-      } else if (value !== undefined) {
-        qx.tool.compiler.Console.info(argv.key + "=" + value);
-      } else {
-        qx.tool.compiler.Console.info(argv.key + " is not set");
-      }
-    },
-
-    async cmdList(argv) {
-      let cfg = await qx.tool.cli.ConfigDb.getInstance();
-
-      let keys = {};
-      function scan(obj, parentKey) {
-        for (let [key, value] of Object.entries(obj)) {
-          let fullKey = parentKey + (parentKey.length ? "." : "") + key;
-          if (qx.tool.utils.Utils.isPlainObject(value)) {
-            scan(value, fullKey);
-            continue;
-          }
-          keys[fullKey] = true;
-        }
-      }
-      if (argv.all) {
-        for (let key in qx.tool.cli.commands.Config.KNOWN_VALUES) {
-          keys[key] = true;
-        }
-      }
-
-      // Recursively get a list of all known keys
-      scan(cfg.db(), "");
-      keys = Object.keys(keys);
-      keys.sort();
-      keys = keys.map(key => ({
-        key: key,
-        value: cfg.db(key),
-        description: this.__describe(key) || "Unrecognised key"
-      }));
-
-      // Display each value
-      qx.tool.compiler.Console.info(columnify(keys));
     }
   }
 });

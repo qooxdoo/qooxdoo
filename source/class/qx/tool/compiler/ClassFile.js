@@ -887,6 +887,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
           } else {
             meta.type = "variable";
           }
+          if (node.async) {
+            meta.async = true;
+          }
           if (functionName.startsWith("__")) {
             meta.access = "private";
           } else if (functionName.startsWith("_")) {
