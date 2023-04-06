@@ -101,6 +101,9 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
       let config = {};
       if (await fs.existsAsync(compileJsonPath)) {
         config = await qx.tool.utils.Json.loadJsonAsync(compileJsonPath);
+      } else {
+        qx.tool.compiler.Console.error("Cannot find compile.json");
+        process.exit(1);
       }
       this.setConfiguration(config);
       return super.load();
