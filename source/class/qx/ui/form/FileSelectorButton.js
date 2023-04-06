@@ -147,6 +147,12 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
         { id: id }
       ));
 
+      input.addListener("click", function(e){
+        if (!this.getEnabled()) {
+          e.preventDefault();
+        }
+      }, this);
+
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce("appear", e => {
         label.add(input);
