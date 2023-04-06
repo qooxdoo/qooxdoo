@@ -683,6 +683,7 @@ qx.Class.define("qx.tool.compiler.targets.Target", {
           }
         }
 
+        // It is important to always prefer local fonts if we have them and are not instructed to prefer CDNs
         let useLocalFonts = cssUrls.length == 0 && !hasUrlFontResources;
         if (
           this.isPreferLocalFonts() &&
