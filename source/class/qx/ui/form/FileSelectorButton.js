@@ -139,6 +139,11 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
       this.__inputObject.setAttribute(attr, value);
     },
 
+    setEnabled(value){
+      this.__inputObject.setEnabled(value);
+      super.setEnabled(value);
+    },
+
     _createContentElement() {
       let id = "qxFileSelector_" + (++qx.ui.form.FileSelectorButton._fileInputElementIdCounter);
       let input = (this.__inputObject = new qx.html.Input(
@@ -146,12 +151,6 @@ qx.Class.define("qx.ui.form.FileSelectorButton", {
         null,
         { id: id }
       ));
-
-      input.addListener("click", e => {
-        if (!this.getEnabled()) {
-          e.preventDefault();
-        }
-      });
 
       let label = new qx.html.Element("label", {}, { for: id });
       label.addListenerOnce("appear", e => {
