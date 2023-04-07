@@ -339,8 +339,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       }));
 
       // Boot the compiler API, load the compile.json and create configuration data
-      await compilerApi.load();
-      let config = compilerApi.getConfiguration();
+      let config = await compilerApi.load();
 
       // Validate configuration data against the schema
       await qx.tool.config.Compile.getInstance().load(config);
