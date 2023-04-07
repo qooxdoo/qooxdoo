@@ -536,6 +536,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
+      if (!this.getCompilerApi().compileJsonExists()) {
+        qx.tool.compiler.Console.error("Cannot find compile.json");
+        process.exit(1);
+      }
       var config = this.getCompilerApi().getConfiguration();
       var makers = (this.__makers = await this.createMakersFromConfig(config));
       if (!makers || !makers.length) {
