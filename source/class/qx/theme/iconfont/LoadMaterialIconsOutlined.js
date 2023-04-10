@@ -20,7 +20,7 @@
  * A dummy class to trigger the compiler to copy the MaterialIconsOutlined font files
  */
 /**
- * @usefont(MaterialIconsOutlines)
+ * @usefont(MaterialIconsOutlined)
  * @deprecated use the `@usefont` directive directly in your code
  */
 qx.Class.define("qx.theme.iconfont.LoadMaterialIconsOutlined", {});
