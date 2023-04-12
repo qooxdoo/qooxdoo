@@ -21,6 +21,9 @@ const fs = require("fs");
 const path = require("upath");
 const chokidar = require("chokidar");
 
+/**
+ * @ignore(setImmediate)
+ */
 qx.Class.define("qx.tool.cli.Watch", {
   extend: qx.core.Object,
 
