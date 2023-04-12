@@ -325,10 +325,10 @@ qx.Class.define("qx.tool.cli.commands.package.Update", {
           }
 
           // create a list of libraries via their manifests
-          for (let [index, { path: manifest_path }] of manifests.entries()) {
+          for (let [index, manifest] of manifests.entries()) {
             let manifest_data;
-            manifest_path = path.join(
-              manifest_path,
+            const manifest_path = path.join(
+              manifest.path,
               qx.tool.config.Manifest.config.fileName
             );
 
