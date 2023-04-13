@@ -27,6 +27,7 @@ require("app-module-path").addPath(process.cwd() + "/node_modules");
 
 /**
  * Handles compilation of the project
+ * @ignore(setImmediate)
  */
 qx.Class.define("qx.tool.cli.commands.Compile", {
   extend: qx.tool.cli.commands.Command,
@@ -536,6 +537,10 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
+      if (!this.getCompilerApi().compileJsonExists() && !qx.tool.cli.Cli.getInstance().compileJsExists()) {
+        qx.tool.compiler.Console.error("Cannot find either compile.json nor compile.js");
+        process.exit(1);
+      }
       var config = this.getCompilerApi().getConfiguration();
       var makers = (this.__makers = await this.createMakersFromConfig(config));
       if (!makers || !makers.length) {
@@ -1002,8 +1007,9 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
         target.setWriteLibraryInfo(this.argv.writeLibraryInfo);
         target.setUpdatePoFiles(this.argv.updatePoFiles);
         target.setLibraryPoPolicy(this.argv.libraryPo);
+
         let fontsConfig = targetConfig.fonts || {};
-        let preferLocalFonts = false;
+        let preferLocalFonts = true;
 
         if (this.argv.localFonts !== undefined) {
           preferLocalFonts = this.argv.localFonts;

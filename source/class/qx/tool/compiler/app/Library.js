@@ -398,6 +398,19 @@ qx.Class.define("qx.tool.compiler.app.Library", {
         isWebFont = fonts.find(webFont =>
           webFont.getResources().find(resource => resource == filename)
         );
+
+        if (!isWebFont) {
+          for (let fontId in this.__fontsData) {
+            let fontData = this.__fontsData[fontId];
+            isWebFont = (fontData.fontFaces || []).find(fontFace =>
+              (fontFace.paths || []).find(resource => resource == filename)
+            );
+
+            if (isWebFont) {
+              break;
+            }
+          }
+        }
       }
       return isWebFont;
     },

@@ -261,7 +261,7 @@ qx.Class.define("qx.theme.manager.Font", {
               fontStyle: fontDef.sources.fontStyle
             };
 
-            fontDefs[family].fontfaces.push(fontFace);
+            fontDefs[family].fontFaces.push(fontFace);
           }
         }
         if (fontDef.css || fontDef.fontFaces) {
