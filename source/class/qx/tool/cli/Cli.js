@@ -36,6 +36,7 @@ qx.Class.define("qx.tool.cli.Cli", {
     if (qx.tool.cli.Cli.__instance) {
       throw new Error("qx.tool.cli.Cli has already been initialized!");
     }
+    this.__compileJsExists = false;
     qx.tool.cli.Cli.__instance = this;
     // include & register log appender
     qx.log.appender.NodeConsole;
@@ -327,6 +328,7 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
 
       let CompilerApi = qx.tool.cli.api.CompilerApi;
       if (await fs.existsAsync(compileJsFilename)) {
+        this.__compileJsExists = true;
         let compileJs = await this.__loadJs(compileJsFilename);
         this._compileJsFilename = compileJsFilename;
         if (compileJs.CompilerApi) {
@@ -339,7 +341,8 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
       }));
 
       // Boot the compiler API, load the compile.json and create configuration data
-      let config = await compilerApi.load();
+      await compilerApi.load();
+      let config = compilerApi.getConfiguration();
 
       // Validate configuration data against the schema
       await qx.tool.config.Compile.getInstance().load(config);
@@ -606,6 +609,15 @@ Version: v${await qx.tool.config.Utils.getQxVersion()}
           );
         }
       }
+    },
+
+    /**
+     * Returns if the file compile.js exists
+     * 
+     * @returns {Boolean}
+     */
+    compileJsExists(){
+      return this.__compileJsExists;
     },
 
     /**
