@@ -4,7 +4,13 @@
     "name": "qooxdoo framework",
     "summary": "The qooxdoo framework library",
     "description": "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
-    "keywords": ["qooxdoo", "framework", "widget", "cross-browser", "ajax"],
+    "keywords": [
+      "qooxdoo",
+      "framework",
+      "widget",
+      "cross-browser",
+      "ajax"
+    ],
     "homepage": "http://qooxdoo.org",
     "license": "MIT",
     "authors": [
@@ -73,7 +79,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "7.5.1",
+    "version": "7.6.0",
     "sourceViewUri": "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
   "provides": {
@@ -84,7 +90,11 @@
     "translation": "source/translation",
     "fonts": {
       "qx.theme.monospace": {
-        "family": ["DejaVu Sans Mono", "Courier New", "monospace"]
+        "family": [
+          "DejaVu Sans Mono",
+          "Courier New",
+          "monospace"
+        ]
       },
       "qx.theme.classic.defaultFont": {
         "family": [
@@ -96,7 +106,12 @@
         ]
       },
       "qx.theme.indigo.defaultFont": {
-        "family": ["Lucida Grande", "DejaVu Sans", "Verdana", "sans-serif"]
+        "family": [
+          "Lucida Grande",
+          "DejaVu Sans",
+          "Verdana",
+          "sans-serif"
+        ]
       },
       "JosefinSlab": {
         "fontFaces": [
@@ -109,7 +124,9 @@
         ]
       },
       "Roboto": {
-        "css": ["https://fonts.cdnfonts.com/css/roboto"],
+        "css": [
+          "https://fonts.cdnfonts.com/css/roboto"
+        ],
         "fontFaces": [
           {
             "fontFamily": "Roboto",
@@ -125,7 +142,9 @@
         ]
       },
       "Roboto Mono": {
-        "css": ["https://fonts.cdnfonts.com/css/roboto-mono"],
+        "css": [
+          "https://fonts.cdnfonts.com/css/roboto-mono"
+        ],
         "fontFaces": [
           {
             "fontFamily": "Roboto Mono",
@@ -141,10 +160,14 @@
         ]
       },
       "MaterialIcons": {
-        "family": ["Material Icons"],
+        "family": [
+          "Material Icons"
+        ],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
-        "css": ["https://fonts.googleapis.com/icon?family=Material+Icons"],
+        "css": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons"
+        ],
         "fontFaces": [
           {
             "fontFamily": "Material Icons",
@@ -159,7 +182,9 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialicons.json"
       },
       "MaterialIconsOutlined": {
-        "family": ["Material Icons Outlined"],
+        "family": [
+          "Material Icons Outlined"
+        ],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "css": [
@@ -179,7 +204,9 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconsoutlined.json"
       },
       "MaterialIconsRound": {
-        "family": ["Material Icons Round"],
+        "family": [
+          "Material Icons Round"
+        ],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "css": [
@@ -199,7 +226,9 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconsround.json"
       },
       "MaterialIconsSharp": {
-        "family": ["Material Icons Sharp"],
+        "family": [
+          "Material Icons Sharp"
+        ],
         "comparisonString": "e1feef39",
         "defaultSize": 32,
         "css": [
@@ -219,7 +248,9 @@
         "glyphs": "qx/iconfont/MaterialIcons/materialiconssharp.json"
       },
       "MaterialIconsTwoTone": {
-        "family": ["Material Icons Two Tone"],
+        "family": [
+          "Material Icons Two Tone"
+        ],
         "defaultSize": 32,
         "comparisonString": "e1feef39",
         "css": [
