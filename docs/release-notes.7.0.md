@@ -10,7 +10,9 @@ improved support for webfonts:
 - The compiler decides which font files (if any) to include in the application build, and the user can decide whether to use the CDN or compile fonts into the app (via command line and `compile.json` configuration)
 - Glyphs are manually extracted via `qx export-glyphs`, instead of on every compile
 
-The benefits of all this is faster compiles, with smaller build targets - and no space consumed by icon fonts at all
+The benefits of all this is faster compiles, with smaller build targets - and no space consumed by icon fonts at all.
+
+For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-02-21&until==2023-04-13
 
 ## Fixes for v7.5.1
 For a full list of changes see https://github.com/qooxdoo/qooxdoo/commits/master?branch=master&qualified_name=refs%2Fheads%2Fmaster&since=2023-01-17&until==2023-02-20
