@@ -536,8 +536,8 @@ Framework: v${await this.getQxVersion()} in ${await this.getQxPath()}`);
      * @return {Boolean} true if all makers succeeded
      */
     async _loadConfigAndStartMaking() {
-      if (!this.getCompilerApi().compileJsonExists()) {
-        qx.tool.compiler.Console.error("Cannot find compile.json");
+      if (!this.getCompilerApi().compileJsonExists() && !qx.tool.cli.Cli.getInstance().compileJsExists()) {
+        qx.tool.compiler.Console.error("Cannot find neither compile.json nor compile.js");
         process.exit(1);
       }
       var config = this.getCompilerApi().getConfiguration();
