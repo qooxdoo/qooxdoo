@@ -102,16 +102,12 @@ qx.Class.define("qx.theme.manager.Font", {
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (theme !== null && theme.fonts[value]) {
-        var font = this.__getFontClass(theme.fonts[value]);
-        var fo = new font();
-
-        // Inject information about custom charcter set tests before we apply the
-        // complete blob in one.
-        if (theme.fonts[value].comparisonString) {
-          fo.setComparisonString(theme.fonts[value].comparisonString);
+        let createdFonts = this.__initialiseFonts(theme.fonts);
+        let font = createdFonts[value] || null;
+        if (font) {
+          cache[value] = font;
         }
-
-        return (cache[value] = fo.set(theme.fonts[value]));
+        return font;
       }
       if (qx.core.Environment.get("qx.debug")) {
         if (theme) {
@@ -154,16 +150,16 @@ qx.Class.define("qx.theme.manager.Font", {
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (theme !== null && value && theme.fonts[value]) {
-        var font = this.__getFontClass(theme.fonts[value]);
-        var fo = new font();
+        var fontClass = this.__getFontClass(theme.fonts[value]);
+        var font = new fontClass();
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
         if (theme.fonts[value].comparisonString) {
-          fo.setComparisonString(theme.fonts[value].comparisonString);
+          font.setComparisonString(theme.fonts[value].comparisonString);
         }
 
-        cache[value] = fo.set(theme.fonts[value]);
+        cache[value] = font.set(theme.fonts[value]);
         return true;
       }
 
@@ -195,41 +191,149 @@ qx.Class.define("qx.theme.manager.Font", {
       }
     },
 
+    /**
+     * Initialises fonts from a set of font definitions (eg from a theme Font configuration)
+     *
+     * @param {Map<String,Object>} fontDefs indexed by font ID
+     * @return {Map<String,qx.bom.Font>} created fonts
+     */
+    __initialiseFonts(fontDefs) {
+      let webFontDefs = [];
+      let createdFonts = {};
+
+      for (var fontId in fontDefs) {
+        let fontDef = fontDefs[fontId];
+        if (fontDef.include && fontDefs[fontDef.include]) {
+          this.__resolveInclude(fontDefs, fontId);
+        }
+
+        if (fontDef.fontName) {
+          let preset = this._manifestFonts[fontDef.fontName];
+          Object.keys(preset).forEach(presetKey => {
+            if (fontDef[presetKey] === undefined) {
+              fontDef[presetKey] = preset[presetKey];
+            }
+          });
+        }
+
+        // If the theme font is defining sources, then we want to intercept that and either
+        //  fabricate a Manifest font, or if the qx.bom.webfonts.WebFont has already been
+        //  created we need to add the font face definition to the existing one
+        if (fontDef.sources) {
+          // Make sure the font family is specified in the font definition (it was previously allowable to
+          //  only specify the font family in the sources object)
+          if (
+            fontDef.sources.family &&
+            fontDef.family.indexOf(fontDef.sources.family) < 0
+          ) {
+            fontDef.family.unshift(fontDef.sources.family);
+          }
+          let family = fontDef.family[0];
+
+          // Make sure that there is a font definition
+          if (!fontDefs[family]) {
+            fontDefs[family] = {
+              fontFaces: []
+            };
+          }
+
+          // Create a lookup of the fontFaces within the font definition
+          let fontFacesLookup = {};
+          fontDefs[family].fontFaces.forEach(fontFace => {
+            let fontKey = qx.bom.webfonts.WebFontLoader.createFontLookupKey(
+              fontFace.family,
+              fontFace.fontWeight,
+              fontFace.fontStyle
+            );
+
+            fontFacesLookup[fontKey] = fontFace;
+          });
+          let fontKey = qx.bom.webfonts.WebFontLoader.createFontLookupKey(
+            fontDef.sources.family,
+            fontDef.sources.fontWeight,
+            fontDef.sources.fontStyle
+          );
+
+          if (!fontFacesLookup[fontKey]) {
+            let fontFace = {
+              fontFamily: fontDef.sources.family,
+              fontWeight: fontDef.sources.fontWeight,
+              fontStyle: fontDef.sources.fontStyle
+            };
+
+            fontDefs[family].fontFaces.push(fontFace);
+          }
+        }
+        if (fontDef.css || fontDef.fontFaces) {
+          webFontDefs.push(fontDef);
+        }
+        var fontClass = this.__getFontClass(fontDef);
+        var font = new fontClass();
+
+        // Inject information about custom charcter set tests before we apply the
+        // complete blob in one.
+        if (fontDef.comparisonString) {
+          font.setComparisonString(fontDef.comparisonString);
+        }
+
+        createdFonts[fontId] = font;
+        qx.Class.getProperties(qx.bom.Font).forEach(propertyName => {
+          let value = fontDef[propertyName];
+          if (value !== undefined) {
+            font["set" + qx.lang.String.firstUp(propertyName)](value);
+          }
+        });
+        createdFonts[fontId].themed = true;
+      }
+
+      // Load all of the web fonts
+      for (let webFontDef of webFontDefs) {
+        let loader = qx.bom.webfonts.WebFontLoader.getLoader(
+          webFontDef.family[0],
+          true
+        );
+
+        ["css", "fontFaces", "comparisonString", "version"].forEach(
+          propertyName => {
+            if (webFontDef[propertyName]) {
+              loader["set" + qx.lang.String.firstUp(propertyName)](
+                webFontDef[propertyName]
+              );
+            }
+          }
+        );
+
+        loader.load();
+      }
+
+      // Initialise the fonts, including those that refer to the loaded web fonts
+      for (let fontId in createdFonts) {
+        let font = createdFonts[fontId];
+        font.loadComplete();
+      }
+
+      return createdFonts;
+    },
+
     // apply method
     _applyTheme(value) {
-      var dest = (this._dynamic = {});
+      let createdFonts = (this._dynamic = {});
 
-      for (var key in dest) {
-        if (dest[key].themed) {
-          dest[key].dispose();
-          delete dest[key];
+      for (let key in createdFonts) {
+        if (createdFonts[key].themed) {
+          createdFonts[key].dispose();
+          delete createdFonts[key];
         }
       }
 
       if (value) {
-        var source = this._manifestFonts
+        var fonts = this._manifestFonts
           ? Object.assign(value.fonts, this._manifestFonts)
           : value.fonts;
-
-        for (var key in source) {
-          if (source[key].include && source[source[key].include]) {
-            this.__resolveInclude(source, key);
-          }
-
-          var font = this.__getFontClass(source[key]);
-          var fo = new font();
-
-          // Inject information about custom charcter set tests before we apply the
-          // complete blob in one.
-          if (source[key].comparisonString) {
-            fo.setComparisonString(source[key].comparisonString);
-          }
-
-          dest[key] = fo.set(source[key]);
-          dest[key].themed = true;
-        }
+        createdFonts = this.__initialiseFonts(fonts);
       }
-      this._setDynamic(dest);
+
+      this._setDynamic(createdFonts);
     },
 
     /**
@@ -239,10 +343,19 @@ qx.Class.define("qx.theme.manager.Font", {
      * @return {Class}
      */
     __getFontClass(config) {
-      if (config.sources) {
+      if (config.fontFaces || config.css) {
         return qx.bom.webfonts.WebFont;
       }
       return qx.bom.Font;
+    },
+
+    /**
+     * Returns the font information output by the compiler
+     * @internal subject to change
+     * @return {Object}
+     */
+    getManifestFonts() {
+      return this._manifestFonts;
     }
   },
 

@@ -24,11 +24,8 @@
 /**
  * Mapping class for all images used in the tangible theme.
  *
- * @asset(qx/iconfont/MaterialIcons/materialicons-v50.ttf)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v50.woff2)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v50.woff)
- * @asset(qx/iconfont/MaterialIcons/materialicons-v50.eot)
  * @asset(qx/static/blank.png)
+ * @usefont(MaterialIcons)
  */
 
 qx.Class.define("qx.theme.tangible.Image", {

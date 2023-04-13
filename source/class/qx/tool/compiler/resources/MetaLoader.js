@@ -23,8 +23,13 @@
 qx.Class.define("qx.tool.compiler.resources.MetaLoader", {
   extend: qx.tool.compiler.resources.ResourceLoader,
 
-  construct() {
-    super(".meta");
+  /**
+   * Constructor
+   *
+   * @param {qx.tool.compiler.resources.Manager} manager resource manager
+   */
+  construct(manager) {
+    super(".meta", manager);
   },
 
   members: {

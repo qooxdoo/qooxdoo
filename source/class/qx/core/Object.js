@@ -353,7 +353,7 @@ qx.Class.define("qx.core.Object", {
 
       // Additional checks
       if (qx.core.Environment.get("qx.debug")) {
-        if (qx.core.Environment.get("qx.debug.dispose.level") > 0) {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0 && qx.Class.hasOwnInterface(this.constructor, qx.core.IDisposable)) {
           var key, value;
           for (key in this) {
             value = this[key];
