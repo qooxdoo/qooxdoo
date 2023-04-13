@@ -33,7 +33,7 @@ qx.Class.define("qx.test.core.Validation", {
         custom: {
           init: "Some String",
           check: "String",
-          validate: "__validateCustom"
+          validate: "_validateCustom"
         },
 
         number: {
@@ -78,7 +78,7 @@ qx.Class.define("qx.test.core.Validation", {
       },
 
       members: {
-        __validateCustom(value) {
+        _validateCustom(value) {
           // if the length is lower than 4
           if (value.length < 4) {
             throw new qx.core.ValidationError(
