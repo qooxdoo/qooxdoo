@@ -54,7 +54,7 @@ qx.Class.define("qx.test.performance.Property", {
             event: "changeAlpha",
             async: true,
             apply: () => {},
-            get: () => { return null; }
+            get: () => null
           }
         }
       });
