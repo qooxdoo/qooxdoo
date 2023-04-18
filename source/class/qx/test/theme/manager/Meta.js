@@ -88,6 +88,8 @@ qx.Class.define("qx.test.theme.manager.Meta", {
       /(orange.*yellow|rgb\(255, 0, 0\).*rgb\(0, 0, 255\)|none|data:image\/png;base64,iVBORw0K)/,
 
     setUp() {
+      super.setUp();
+
       if (
         qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9
