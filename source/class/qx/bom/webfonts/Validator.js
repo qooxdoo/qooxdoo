@@ -206,12 +206,10 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       if (document.fonts && typeof document.fonts.load == "function") {
         this.__checkStarted = new Date().getTime();
         let fontExpr = `${this.getFontStyle()} ${this.getFontWeight()} 12px ${this.getFontFamily()}`;
-        console.log(`checking for valid font ${fontExpr} ${this.toHashCode()}`);
         document.fonts
           .load(fontExpr)
           .then(() => document.fonts.ready)
           .then(() => {
-            console.log(`valid font ${fontExpr} ${this.toHashCode()}`);
             qx.bom.Label.getTextSize("Hello World", {
               fontFamily: this.getFontFamily(),
               fontStyle: this.getFontStyle(),
@@ -242,8 +240,6 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
         const timerCheck = () => {
           if (this._isFontValid()) {
-            console.log(`valid font ${fontExpr} ${this.toHashCode()}`);
-
             // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
             if (
               qx.core.Environment.get("browser.name") == "safari" &&
@@ -256,12 +252,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
           } else {
             var now = new Date().getTime();
             if (now - this.__checkStarted >= this.getTimeout()) {
-              console.log(`not valid font ${fontExpr} ${this.toHashCode()}`);
               setValidImpl(false);
-            } else {
-              console.log(
-                `retrying failed check for valid font ${fontExpr} ${this.toHashCode()}`
-              );
             }
           }
         };
