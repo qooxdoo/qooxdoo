@@ -156,8 +156,10 @@ qx.Class.define("qx.bom.element.Decoration", {
         var css = "";
         for (var _style in styles) {
           if (styles.hasOwnProperty(_style)) {
-            css +=
-              qx.bom.Style.getCssName(_style) + ": " + styles[_style] + ";";
+            let value = styles[_style];
+            if (value !== null) {
+              css += qx.bom.Style.getCssName(_style) + ": " + value + ";";
+            }
           }
         }
 
