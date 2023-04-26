@@ -145,6 +145,7 @@ qx.Class.define("qx.bom.element.Decoration", {
         var styles = qx.lang.Object.clone(font.getStyles());
         styles["width"] = style.width;
         styles["height"] = style.height;
+        styles["lineHeight"] = style.height;
         styles["fontSize"] =
           parseInt(style.width) > parseInt(style.height)
             ? style.height
