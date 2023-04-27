@@ -206,10 +206,12 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       if (document.fonts && typeof document.fonts.load == "function") {
         this.__checkStarted = new Date().getTime();
         let fontExpr = `${this.getFontStyle()} ${this.getFontWeight()} 12px ${this.getFontFamily()}`;
-        document.fonts
-          .load(fontExpr)
-          .then(() => document.fonts.ready)
-          .then(() => {
+
+        const loadImpl = async () => {
+          try {
+            await document.fonts.load(fontExpr);
+            await document.fonts.ready;
+
             qx.bom.Label.getTextSize("Hello World", {
               fontFamily: this.getFontFamily(),
               fontStyle: this.getFontStyle(),
@@ -223,7 +225,11 @@ qx.Class.define("qx.bom.webfonts.Validator", {
                 valid: true
               });
             }, 100);
-          });
+          } catch (ex) {
+            this.warn(`Exception while loading font ${fontExpr}: ` + ex);
+          }
+        };
+        loadImpl();
       } else {
         this.__checkStarted = new Date().getTime();
 

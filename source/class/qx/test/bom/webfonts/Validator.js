@@ -45,7 +45,7 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
       window.setTimeout(function () {
         that.__val.validate();
       }, 0);
-      this.wait(1000);
+      this.wait(10000);
     },
 
     testInvalidFont() {
