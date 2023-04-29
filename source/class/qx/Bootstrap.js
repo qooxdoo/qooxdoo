@@ -56,6 +56,7 @@ window.qx = Object.assign(window.qx || {}, {
       "@destruct": "object",
       type: "string", // String
       extend: "function", // Function
+      extendNativeClass: "boolean", // Boolean
       implement: "object", // Interface[]
       include: "object", // Mixin[]
       construct: "function", // Function
@@ -1069,7 +1070,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
 
       /*
     -----------------------------------------------------------------------
-      OBJECT UTILITY FUNCTIONS
+    OBJECT UTILITY FUNCTIONS
     -----------------------------------------------------------------------
     */
 
@@ -1215,7 +1216,7 @@ qx.Bootstrap.define("qx.Bootstrap", {
 
       /*
     -----------------------------------------------------------------------
-      LOGGING UTILITY FUNCTIONS
+    LOGGING UTILITY FUNCTIONS
     -----------------------------------------------------------------------
     */
 

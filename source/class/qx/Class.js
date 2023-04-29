@@ -296,6 +296,35 @@ qx.Bootstrap.define("qx.Class", {
 
         implicitType = true;
         config.type = "static";
+      } else if (config.extendNativeClass) {
+        // They're extending a native `class`. We need ability to call
+        // its constructor, so the native class must be enhanced. We
+        // need the new `extendNativeClass` config key because there's
+        // otherwise no way to know that it's a native class without
+        // inspecting the transpiled code (`config.extend.toString()`)
+        // to see if it contains `"_classCallCheck(this"`, and that's
+        // not reliable because someone could use that function name
+        // in their own, non-native class. Note that the native class
+        // is munged: its 'constructor' method is altered.
+        let orig = config.extend;
+        config.extend.constructor = function (...args) {
+          let instance = new orig(...args);
+          return instance;
+        };
+      } else if (
+        qx["core"]["Environment"].get("qx.debug") &&
+        config.extend.toString().includes("_classCallCheck(this")
+      ) {
+        console.warn(
+          `${className}: ` +
+            "It looks like you may be extending a native JavaScript class " +
+            "but you neglected to add `extendNativeClass : true` to your " +
+            "configuration. Calling the native class (superclass) constructor " +
+            "and methods may not work reliably. " +
+            "If you are not extending a native JavaScript class, you are " +
+            "seeing this warning because your superclass constructor " +
+            "references the function `_classCallCheck`."
+        );
       }
 
       if (qx["core"]["Environment"].get("qx.debug")) {
@@ -690,6 +719,7 @@ qx.Bootstrap.define("qx.Class", {
           let redefinitions = Object.keys(properties[property]).filter(
             key => !["refine", "init", "initFunction", "@"].includes(key)
           );
+
           if (redefinitions.length > 0) {
             throw new Error(
               `${className}: ` +
@@ -909,6 +939,7 @@ qx.Bootstrap.define("qx.Class", {
                           "Warning: member not declared: " +
                             `${obj.constructor.classname}: ${prop}`
                         );
+
                         undeclared[obj.constructor.classname][prop] = true;
                       }
                     }
@@ -2434,6 +2465,7 @@ qx.Bootstrap.define("qx.Class", {
               key,
               property
             ),
+
             getAsync: propertyMethodFactory.getAsync(key, property, get),
             setAsync: propertyMethodFactory.setAsync(key, property, apply)
           });
@@ -3259,6 +3291,7 @@ qx.Bootstrap.define("qx.Class", {
               qx.Promise.resolve(value),
               old
             ]);
+
             return true;
           });
         }
