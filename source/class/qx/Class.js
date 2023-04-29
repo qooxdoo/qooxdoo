@@ -313,7 +313,7 @@ qx.Bootstrap.define("qx.Class", {
         };
       } else if (
         qx["core"]["Environment"].get("qx.debug") &&
-        config.extend.toString().includes("_classCallCheck(this")
+        config.extend.toString()?.includes("_classCallCheck(this")
       ) {
         console.warn(
           `${className}: ` +
