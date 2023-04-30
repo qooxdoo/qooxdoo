@@ -43,8 +43,6 @@ qx.Class.define("qx.test.ui.form.Field", {
 
     tearDown() {
       this.getSandbox().restore();
-      qx.bom.webfonts.Manager.getInstance().dispose();
-      delete qx.bom.webfonts.Manager.$$instance;
     },
 
     testSelectTextAllBeforeFlush() {
@@ -155,63 +153,69 @@ qx.Class.define("qx.test.ui.form.Field", {
       this.require(["webFontSupport"]);
       var tf = new qx.ui.form.TextField("Laugh while you can, monkey boy!");
 
-      var f = new qx.bom.webfonts.WebFont();
-      f.set({
-        size: 18,
-        family: ["monospace"],
-        sources: [
-          {
-            family: "FinelinerScriptRegular",
-            source: [
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.woff"
-              ),
+      let loader = qx.bom.webfonts.WebFontLoader.getLoader(
+        "FinelinerScriptRegular",
+        true
+      );
 
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.ttf"
-              ),
+      loader.setFontFaces([
+        {
+          fontFamily: "FinelinerScriptRegular",
+          paths: [
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/fineliner_script-webfont.woff"
+            ),
 
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/fineliner_script-webfont.eot"
-              )
-            ]
-          },
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/fineliner_script-webfont.ttf"
+            ),
 
-          {
-            family: "YanoneKaffeesatzRegular",
-            source: [
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
-              ),
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/fineliner_script-webfont.eot"
+            )
+          ]
+        },
 
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
-              ),
+        {
+          fontFamily: "YanoneKaffeesatzRegular",
+          paths: [
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/yanonekaffeesatz-regular-webfont.woff"
+            ),
 
-              qx.util.ResourceManager.getInstance().toUri(
-                "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
-              )
-            ]
-          }
-        ]
-      });
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/yanonekaffeesatz-regular-webfont.ttf"
+            ),
 
-      var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
-      tf.setFont(f);
+            qx.util.ResourceManager.getInstance().toUri(
+              "qx/test/webfonts/yanonekaffeesatz-regular-webfont.eot"
+            )
+          ]
+        }
+      ]);
 
-      qx.event.Timer.once(
-        function () {
+      loader.load().then(() => {
+        var f = new qx.bom.webfonts.WebFont();
+        f.set({
+          size: 18,
+          family: ["FinelinerScriptRegular", "monospace"]
+        });
+
+        f.addListener("changeValid", () => {
           this.resume(function () {
             tf.dispose();
             f.dispose();
-            this.assertCalledTwice(statusChangeSpy);
+            this.assertCalledOnce(statusChangeSpy);
           }, this);
-        },
-        this,
-        4000
-      );
+        });
 
-      this.wait(8000);
+        f.loadComplete();
+
+        var statusChangeSpy = this.spy(tf, "_onWebFontStatusChange");
+        tf.setFont(f);
+      });
+
+      this.wait(30000);
     }
   }
 });

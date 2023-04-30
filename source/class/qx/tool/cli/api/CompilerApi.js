@@ -33,6 +33,7 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
   construct() {
     super();
     this.__libraryApis = {};
+    this.__compileJsonExists = true;
     this.addListener("changeCommand", () => {
       this.afterCommandLoaded(this.getCommand());
     });
@@ -101,9 +102,15 @@ qx.Class.define("qx.tool.cli.api.CompilerApi", {
       let config = {};
       if (await fs.existsAsync(compileJsonPath)) {
         config = await qx.tool.utils.Json.loadJsonAsync(compileJsonPath);
+      } else {
+        this.__compileJsonExists = false;
       }
       this.setConfiguration(config);
       return super.load();
+    },
+
+    compileJsonExists() {
+      return this.__compileJsonExists;
     },
 
     /**

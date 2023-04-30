@@ -21,6 +21,9 @@ const fs = require("fs");
 const path = require("upath");
 const chokidar = require("chokidar");
 
+/**
+ * @ignore(setImmediate)
+ */
 qx.Class.define("qx.tool.cli.Watch", {
   extend: qx.core.Object,
 
@@ -53,7 +56,7 @@ qx.Class.define("qx.tool.cli.Watch", {
   },
 
   members: {
-    _watcher:  undefined,
+    _watcher: undefined,
 
     __runningPromise: null,
     __applications: null,
@@ -108,6 +111,7 @@ qx.Class.define("qx.tool.cli.Watch", {
       console.log(
         "Starting application: " + config._cmd + " " + config._args.join(" ")
       );
+
       config._processPromise = new qx.Promise((resolve, reject) => {
         let child = (config._process = require("child_process").spawn(
           config._cmd,
@@ -229,10 +233,12 @@ qx.Class.define("qx.tool.cli.Watch", {
           watcher.on("change", filename =>
             this.__onFileChange("change", filename)
           );
+
           watcher.on("add", filename => this.__onFileChange("add", filename));
           watcher.on("unlink", filename =>
             this.__onFileChange("unlink", filename)
           );
+
           watcher.on("ready", () => {
             qx.tool.compiler.Console.log(`Start watching ...`);
             this.__watcherReady = true;

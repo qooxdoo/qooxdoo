@@ -156,25 +156,31 @@ qx.Class.define("qx.test.core.Environment", {
     },
 
     testAddFunction() {
-      qx.core.Environment.add("affe", function () {
+      qx.core.Environment.add("qx.test.core.Environment.affe", function () {
         return "AFFE";
       });
 
-      this.assertEquals("AFFE", qx.core.Environment.get("affe"));
+      this.assertEquals(
+        "AFFE",
+        qx.core.Environment.get("qx.test.core.Environment.affe")
+      );
 
       // clear the check
-      delete qx.core.Environment.getChecks()["affe"];
-      qx.core.Environment.invalidateCacheKey("affe");
+      delete qx.core.Environment.getChecks()["qx.test.core.Environment.affe"];
+      qx.core.Environment.invalidateCacheKey("qx.test.core.Environment.affe");
     },
 
     testAddValue() {
-      qx.core.Environment.add("affe", "AFFE");
+      qx.core.Environment.add("qx.test.core.Environment.affe", "AFFE");
 
-      this.assertEquals("AFFE", qx.core.Environment.get("affe"));
+      this.assertEquals(
+        "AFFE",
+        qx.core.Environment.get("qx.test.core.Environment.affe")
+      );
 
       // clear the check
-      delete qx.core.Environment.getChecks()["affe"];
-      qx.core.Environment.invalidateCacheKey("affe");
+      delete qx.core.Environment.getChecks()["qx.test.core.Environment.affe"];
+      qx.core.Environment.invalidateCacheKey("qx.test.core.Environment.affe");
     },
 
     testAddAsyncFunction() {

@@ -43,8 +43,8 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
     this.__analyser = analyser;
     this.__dbFilename = analyser.getResDbFilename() || "resource-db.json";
     this.__loaders = [
-      new qx.tool.compiler.resources.ImageLoader(),
-      new qx.tool.compiler.resources.MetaLoader()
+      new qx.tool.compiler.resources.ImageLoader(this),
+      new qx.tool.compiler.resources.MetaLoader(this)
     ];
 
     this.__converters = [
@@ -54,7 +54,7 @@ qx.Class.define("qx.tool.compiler.resources.Manager", {
   },
 
   members: {
-    __assets : undefined,
+    __assets: undefined,
 
     /** {String} filename of database */
     __dbFilename: null,

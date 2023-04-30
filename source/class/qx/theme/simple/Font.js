@@ -18,6 +18,8 @@
 
 /**
  * The simple qooxdoo font theme.
+ *
+ * @usefont(qx.theme.monospace)
  */
 qx.Theme.define("qx.theme.simple.Font", {
   fonts: {
@@ -44,7 +46,7 @@ qx.Theme.define("qx.theme.simple.Font", {
 
     monospace: {
       size: 11,
-      family: ["DejaVu Sans Mono", "Courier New", "monospace"]
+      fontName: "qx.theme.monospace"
     }
   }
 });

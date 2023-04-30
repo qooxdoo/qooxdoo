@@ -267,7 +267,12 @@ qx.Class.define("qx.tool.compiler.Console", {
         /* eslint-enable no-template-curly-in-string */
 
         "qx.tool.compiler.maker.appNotHeadless":
-          "Compiling application '%1' but the target supports non-headless output, you may find unwanted dependencies are loaded during startup"
+          "Compiling application '%1' but the target supports non-headless output, you may find unwanted dependencies are loaded during startup",
+
+        // Fonts
+        "qx.tool.compiler.webfonts.deprecated":
+          "Manifest uses deprecated provides.webfonts, consider switching to provides.font",
+        "qx.tool.compiler.fonts.unresolved": "Cannot find font with name %1"
       },
 
       "warning"

@@ -208,6 +208,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     };
 
     this.__requiredAssets = [];
+    this.__requiredFonts = {};
     this.__translations = [];
     this.__markers = [];
     this.__haveMarkersFor = {};
@@ -249,8 +250,8 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
   },
 
   members: {
-    __privateMangling : undefined,
-    __usesJsx : undefined,
+    __privateMangling: undefined,
+    __usesJsx: undefined,
 
     __analyser: null,
     __className: null,
@@ -259,6 +260,10 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
     __requiredClasses: null,
     __environmentChecks: null,
     __requiredAssets: null,
+
+    /** @type{Map<String,Object>} list of fonts indexed by name; the value is an object with `name` and `loc` */
+    __requiredFonts: null,
+
     __translateMessageIds: null,
     __scope: null,
     __inDefer: false,
@@ -634,6 +639,22 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
       if (assets.length) {
         dbClassInfo.assets = assets;
       }
+
+      // Fonts
+      var fontNames = Object.keys(this.__requiredFonts);
+      if (fontNames.length) {
+        dbClassInfo.fonts = fontNames;
+        for (let fontName in this.__requiredFonts) {
+          if (!this.__analyser.getFont(fontName)) {
+            t.addMarker(
+              "fonts.unresolved#" + fontName,
+              this.__requiredFonts[fontName].loc.start,
+              fontName
+            );
+          }
+        }
+      }
+
       if (meta) {
         if (meta.aliases) {
           dbClassInfo.aliases = {};
@@ -757,6 +778,11 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             t._requireAsset(elem.body);
           });
         }
+        if (jsdoc["@usefont"]) {
+          jsdoc["@usefont"].forEach(function (elem) {
+            t._requireFont(elem.body, loc);
+          });
+        }
         return jsdoc;
       }
 
@@ -863,6 +889,9 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             meta.type = "function";
           } else {
             meta.type = "variable";
+          }
+          if (node.async) {
+            meta.async = true;
           }
           if (functionName.startsWith("__")) {
             meta.access = "private";
@@ -2897,6 +2926,18 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
      */
     getAssets() {
       return this.__requiredAssets;
+    },
+
+    /**
+     * Adds a required font
+     * @param {String} name  name of the font
+     * @param {Location} the Babel location
+     */
+    _requireFont(name, loc) {
+      this.__requiredFonts[name] = {
+        name,
+        loc
+      };
     },
 
     /**

@@ -34,6 +34,7 @@
  * @asset(qx/icon/Tango/16/actions/window-close.png)
  * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
  * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
+ * @usefont(MaterialIcons)
  */
 qx.Theme.define("qx.theme.tangible.Appearance", {
   appearances: {
