@@ -16,28 +16,22 @@
 
 ************************************************************************ */
 
-qx.Interface.define(
-  "qx.core.propertystorage.IStorage",
-  {
-    // Interfaces can't define requirements for static functions.
-    // These are listed here as documentation of the static functions
-    // that must be implemented in property storage classes.
-    statics :
-    {
-      init(prop, property, clazz)
-      {
-      },
-
-      get(prop)
-      {
-      },
-
-      set(prop, value)
-      {
-      },
-
-      dereference(prop, property)
-      {
-      }
-    }
-  });
+qx.Interface.define("qx.core.propertystorage.IStorage", {
+  // Interfaces can't define requirements for static functions.
+  // These are listed here as documentation of the static functions
+  // that must be implemented in property storage classes.
+  statics: {
+    // init(prop, property, clazz)
+    // {
+    // },
+    // get(prop)
+    // {
+    // },
+    // set(prop, value)
+    // {
+    // },
+    // dereference(prop, property)
+    // {
+    // }
+  }
+});

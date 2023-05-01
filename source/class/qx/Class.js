@@ -233,11 +233,11 @@ qx.Bootstrap.define("qx.Class", {
      *         <td>The destructor of the class.</td>
      *       </tr>
      *       <tr>
-     *         <th>proxyHandler</th>
+     *         <th>delegate</th>
      *         <td>Map</td>
      *         <td>
-     *           Special use-case handling of setters/getters. See the
-     *           developer documentation.
+     *           Special-use-case handling of storage setters/getters for non-properties.
+     *           See the developer documentation.
      *         </td>
      *       </tr>
      *     </table>
@@ -298,18 +298,24 @@ qx.Bootstrap.define("qx.Class", {
         config.type = "static";
       } else if (config.extendNativeClass) {
         // They're extending a native `class`. We need ability to call
-        // its constructor, so the native class must be enhanced. We
-        // need the new `extendNativeClass` config key because there's
+        // its constructor. That is supposed to work only via the
+        // `new` keyword; there's no way I've found yet to call a
+        // native lass (superclass) constructor from a qooxdoo class'
+        // constructor, so the native class must be enhanced. We need
+        // the new `extendNativeClass` config key because there's
         // otherwise no way to know that it's a native class without
         // inspecting the transpiled code (`config.extend.toString()`)
         // to see if it contains `"_classCallCheck(this"`, and that's
         // not reliable because someone could use that function name
         // in their own, non-native class. Note that the native class
         // is munged: its 'constructor' method is altered.
+        //
+        // THIS IS NOT YET FUNCTIONAL. Until we get it working,
+        // `extendNativeClass` is commented out in
+        // qx.Bootstrap._allowedNonStaticKeys, so we can't get here.
         let orig = config.extend;
         config.extend.constructor = function (...args) {
-          let instance = new orig(...args);
-          return instance;
+          return Reflect.construct(orig, ...args, this);
         };
       } else if (
         qx["core"]["Environment"].get("qx.debug") &&
@@ -875,24 +881,15 @@ qx.Bootstrap.define("qx.Class", {
             handler = {
               get(obj, prop) {
                 let value;
-                let calculated = false;
                 let property = subclass.$$allProperties[prop];
                 const storage =
                   property && property.storage
                     ? property.storage
+                    : config.delegate
+                    ? config.delegate
                     : qx.core.propertystorage.Default; // for member var getter
 
-                // If there's a custom proxy handler, try it
-                if (customProxyHandler && customProxyHandler.get) {
-                  value = customProxyHandler.get(obj, prop);
-                  if (typeof value != "undefined") {
-                    calculated = true;
-                  }
-                }
-
-                if (!calculated) {
-                  value = storage.get.call(obj, prop);
-                }
+                value = storage.get.call(obj, prop);
 
                 // If it's a property and the value is undefined,
                 // there are some property characteristics that
@@ -916,6 +913,8 @@ qx.Bootstrap.define("qx.Class", {
                 const storage =
                   property && property.storage
                     ? property.storage
+                    : config.delegate
+                    ? config.delegate
                     : qx.core.propertystorage.Default; // for member var setter
 
                 // Require that members be declared in the "members"
@@ -946,6 +945,13 @@ qx.Bootstrap.define("qx.Class", {
                   }
                 }
 
+                if (prop == 3)
+                  console.log(
+                    "before storage call, prop=",
+                    prop,
+                    ", storage=",
+                    storage
+                  );
                 // If this is not a property being set, or is a
                 // storage call, just immediately set value
                 if (!property || proxy[`$$variant_${prop}`] == "immediate") {
@@ -953,6 +959,7 @@ qx.Bootstrap.define("qx.Class", {
                   return true;
                 }
 
+                if (prop == 3) console.log(`${prop} is a property`);
                 //
                 // Anything from here on, is a property
                 //
@@ -1104,11 +1111,6 @@ qx.Bootstrap.define("qx.Class", {
                       child[`$$user_${prop}`] = undefined;
                     }
                   });
-                }
-
-                // If there's a custom proxy handler, call it
-                if (customProxyHandler && customProxyHandler.set) {
-                  customProxyHandler.set.call(proxy, prop, value);
                 }
 
                 proxy[`$$variant_${prop}`] = "set";

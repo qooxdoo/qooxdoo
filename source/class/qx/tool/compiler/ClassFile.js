@@ -1173,6 +1173,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             "@destruct": "object",
             type: "string", // String
             extend: "function", // Function
+            // extendNativeClass: "boolean", // Boolean - Does not work yet
             implement: "object", // Interface[]
             include: "object", // Mixin[]
             construct: "function", // Function
@@ -1181,6 +1182,7 @@ qx.Class.define("qx.tool.compiler.ClassFile", {
             members: "object", // Map
             environment: "object", // Map
             events: "object", // Map
+            delegate: "object", // Map
             defer: "function", // Function
             destruct: "function" // Function
           }
