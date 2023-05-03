@@ -93,9 +93,9 @@
 - Properties and members are now in the same namespace. Formerly, a
   class could have a member variable and a property with the same
   name, and there was no conflict. Now, since properties are
-  first-class and can be manipulated as if they were normal members,
-  the properties and members use the same namespace, so a single name
-  can not be defined in both.
+  first-class and can be manipulated as normal members, the properties
+  and members use the same namespace, so a single name can not be
+  defined in both.
   
 - Refining a property in a subclass used to modify it in place. It now
   adds it to the subclass' prototype, so it ends up in the prototype

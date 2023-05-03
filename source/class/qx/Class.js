@@ -1520,7 +1520,7 @@ qx.Bootstrap.define("qx.Class", {
           let f = function () {
             // *** CAUTION FOR DEVELOPERS!!! ***
             // Do not put any code other than `return
-            // this[prop]` into the `set` property method here.
+            // this[prop]` into the `get` property method here.
             // This code is called only via `value = o.getX()`
             // and not via `value = o.x`. To ensure the
             // reliability of first-class properties, i.e., that
