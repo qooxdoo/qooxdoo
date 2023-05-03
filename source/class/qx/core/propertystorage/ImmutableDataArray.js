@@ -16,38 +16,36 @@
 
 ************************************************************************ */
 
-qx.Bootstrap.define(
-  "qx.core.propertystorage.ImmutableDataArray",
-  {
-    type : "static",
-//    implement : [ qx.core.propertystorage.IStorage ],
+/**
+ * @Experimental
+ */
+qx.Bootstrap.define("qx.core.propertystorage.ImmutableDataArray", {
+  type: "static",
+  //    implement : [ qx.core.propertystorage.IStorage ],
 
-    statics :
-    {
-      init : qx.core.propertystorage.Default.init,
+  statics: {
+    init: qx.core.propertystorage.Default.init,
 
-      get : qx.core.propertystorage.Default.get,
+    get: qx.core.propertystorage.Default.get,
 
-      set(prop, value)
-      {
-        // The storage `init` method created the property with initial
-        // value`undefined`, so if it's undefined, this is a call from
-        // the property's `init` or `initFunction`.
-        if (this[prop] === undefined)
-        {
-          this[prop] = value;
-          return;
-        }
+    set(prop, value) {
+      // The storage `init` method created the property with initial
+      // value`undefined`, so if it's undefined, this is a call from
+      // the property's `init` or `initFunction`.
+      if (this[prop] === undefined) {
+        this[prop] = value;
+        return;
+      }
 
-        // Otherwise, they're providing a new value. Instead of
-        // replacing the qx.data.Array itself, we replace the contents
-        // of the existing qx.data.Array.
-        //
-        // FIXME: Is this the correct way to replace the contents of a
-        // data array???
-        this[prop].replace(value);
-      },
+      // Otherwise, they're providing a new value. Instead of
+      // replacing the qx.data.Array itself, we replace the contents
+      // of the existing qx.data.Array.
+      //
+      // FIXME: Is this the correct way to replace the contents of a
+      // data array???
+      this[prop].replace(value);
+    },
 
-      dereference : qx.core.propertystorage.Default.dereference,
-    }
-  });
+    dereference: qx.core.propertystorage.Default.dereference
+  }
+});

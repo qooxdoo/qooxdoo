@@ -1,0 +1,117 @@
+# Qooxdoo Release Notes
+
+## Notable changes and new features in v8.0
+- Qooxdoo version 8.0 includes a nearly completely rewriten class and
+  property system. The benefits of this rewrite include easier
+  debugging into internals of properties when unexpected behavior is
+  anticipated, and some new, exciting property features:
+
+  - Properties are now first-class citizens. Whereas previously you
+    would assign a new value to a property with a function, e.g., for
+    property `myProp`, `this.setMyProp(23);` (and you can still do
+    that), you can now also simply assign to the property as if it
+    were a normal member variable, e.g., `myProp = 23;`. Similarly, in
+    addition too the traditional getter, `let value = this.getMyProp();`, 
+    you can use the first-class nature of the property, `let value = myProp;`
+
+  - Properties can be immutable in two different ways. Any property's
+    configuration can specify `immutable : "readonly"` so that its
+    value is set by the `init` key and can not otherwise be altered.
+    Properties with `check : "Array"` or `check : `Object` can be
+    marked as `immutable : "replace"`. Doing so will ensure that the
+    initially allocated array or object continues to be used, so that
+    when a new array or object is provided to the setter, the *values*
+    in the original array or object are replaced by those in the array
+    or object passed to the setter, rather than replacing the actual
+    array with what's specified in the setter. In other words, the
+    base array or object becomes immutable, and its values are
+    replaced by those in the argument to a setter call.
+
+  - Storage of property values can be completely replaced. In addition
+    to developers being able to create their own storage mechanism,
+    there are three some built-in storage mechanisms:
+    - `qx.core.propertystorage.Default` is (duh!) the default one. It
+      stores values in the object containing the property.
+    - `qx.core.propertystorage.ImmutableArray` is used for Array
+      members. It intercepts set operations, replacing all elements in
+      the existing array with the elements in the given array. This is
+      how `immutable : "replace" is implemented for `check : "Array"`
+      properties.
+    - `qx.core.propertystorage.ImmutableObject` is used for native
+      Object members. It intercepts set operations, replacing all
+      members of the existing object with the elements in the given
+      object. This is how `immutable : "replace" is implemented for
+      `check : "Object"` properties.
+
+  - A class can specify a delegate which intercepts attempts to set or
+    get values on an instance that are not properties. This can allow
+    in the future, for example, a class like `qx.data.Array` to
+    intercept setting numeric properties, so that the following code
+    works as intuitively expected:
+
+    ```
+    let arr = new qx.data.Array( [ 10, 11, 12 ] );
+    
+    arr.setItem(0, 20); // traditional way to change values
+    arr[1] = 21;        // new potential way to change values
+    ```
+
+  - Properties are maintained in a Property Registry. This allows
+    retrieving a Property Descriptor for a property, and accessing its
+    methods. For example, to set a property value via the descriptor,
+    you might set the property's value using the descriptor like so:
+   
+    ```
+      let propDesc = myClassInstance.getPropertyDescriptor("myProp");
+      propDesc.set(2);
+    ```
+
+## Breaking changes in v8.0
+
+- Properties and members are now in the same namespace. Formerly, a
+  class could have a member variable and a property with the same
+  name, and there was no conflict. Now, since properties are
+  first-class and can be manipulated as if they were normal members,
+  the properties and members use the same namespace, so a single name
+  can not be defined in both.
+  
+- Refining a property in a subclass used to modify it in place. It now
+  adds it to the subclass' prototype, so it ends up in the prototype
+  chain twice.
+  
+- The predefined `instance.name` variable is no longer predefined
+  because, with first-class properties, it conflicts with the commonly
+  used property name `name`. Use `instance.classname` instead.
+  
+- It was formerly technically possible to define the same class twice,
+  and have the configurations merged. That could only be done by
+  defining classes within classes, since otherwise, it is required
+  that the path name match the class name. Merging of configurations
+  is no longer supported. Each class must be defined only once. A
+  class can be redefined by undefining it and then redefining it.
+
+- Fixed an inconsistency where setting an appearance and then setting
+  a font color, in some cases, would continue to use the appearance's
+  font color. Now, setting a font after setting an appearance uses the
+  specified font's color.
+  
+- Because the entire class and property system was rewritten, there
+  may be other obscure backward-compatibility changes that pop up.
+  Those listed above are the only ones that reared their heads while
+  confirming that the entire qooxdoo test suite successfully runs to
+  completion.
+
+## Licensing and Open Source Ownership
+
+As a team, we are a small group of experienced developers based around the world who use
+Qooxdoo every day and have a vested interest in maintaining the project and keeping it strong.
+
+All code is available at GitHub [https://github.com/qooxdoo](https://github.com/qooxdoo),
+where we have published policies and rules on contributing; We actively encourage anyone to
+submit Pull Requests to contribute to the project.
+
+We chat in public on [Gitter](https://gitter.im/qooxdoo/qooxdoo) and answer questions
+on [Stack Overflow](https://stackoverflow.com/questions/tagged/qooxdoo).
+
+[Documentation](https://qooxdoo.org/documentation/#/development/contribute)
+
