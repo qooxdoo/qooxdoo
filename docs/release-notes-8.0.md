@@ -7,12 +7,15 @@
   anticipated, and some new, exciting property features:
 
   - Properties are now first-class citizens. Whereas previously you
-    would assign a new value to a property with a function, e.g., for
-    property `myProp`, `this.setMyProp(23);` (and you can still do
-    that), you can now also simply assign to the property as if it
-    were a normal member variable, e.g., `myProp = 23;`. Similarly, in
-    addition too the traditional getter, `let value = this.getMyProp();`, 
-    you can use the first-class nature of the property, `let value = myProp;`
+    would assign a new value to a property with a setter function,
+    e.g., for property `myProp`, `this.setMyProp(23);`, and you can
+    still do that, you can now also simply assign to the property as
+    if it were a normal member variable, e.g., `myProp = 23;`... while
+    still having all of the capabilities of properties, such as the
+    `check`, `validate`, and `apply` methods, etc. Similarly, in
+    addition too the traditional getter, `let value =
+    this.getMyProp();`, you can use the first-class nature of the
+    property, `let value = myProp;`
 
   - Properties can now be initialized with reference values, use the
     new `initFunction` feature instead of `init`. This eliminates the
