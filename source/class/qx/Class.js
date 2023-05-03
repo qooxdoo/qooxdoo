@@ -952,6 +952,7 @@ qx.Bootstrap.define("qx.Class", {
                     ", storage=",
                     storage
                   );
+
                 // If this is not a property being set, or is a
                 // storage call, just immediately set value
                 if (!property || proxy[`$$variant_${prop}`] == "immediate") {
@@ -2390,7 +2391,7 @@ qx.Bootstrap.define("qx.Class", {
         }
 
         if (property.async) {
-          // Obtain the required get function
+          // Obtain the optional get function
           if (typeof property.get == "function") {
             get = property.get;
           } else if (typeof property.get == "string") {

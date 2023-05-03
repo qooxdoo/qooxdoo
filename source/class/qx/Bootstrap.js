@@ -67,8 +67,7 @@ window.qx = Object.assign(window.qx || {}, {
       events: "object", // Map
       delegate: "object", // Map
       defer: "function", // Function
-      destruct: "function", // Function
-      proxyHandler: "object" // Map
+      destruct: "function" // Function
     },
 
     define(className, config) {

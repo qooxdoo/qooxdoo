@@ -14,56 +14,69 @@
     addition too the traditional getter, `let value = this.getMyProp();`, 
     you can use the first-class nature of the property, `let value = myProp;`
 
-  - Properties can be immutable in two different ways. Any property's
-    configuration can specify `immutable : "readonly"` so that its
-    value is set by the `init` key and can not otherwise be altered.
-    Properties with `check : "Array"` or `check : `Object` can be
-    marked as `immutable : "replace"`. Doing so will ensure that the
-    initially allocated array or object continues to be used, so that
-    when a new array or object is provided to the setter, the *values*
-    in the original array or object are replaced by those in the array
-    or object passed to the setter, rather than replacing the actual
-    array with what's specified in the setter. In other words, the
-    base array or object becomes immutable, and its values are
-    replaced by those in the argument to a setter call.
+  - Properties can now be initialized with reference values, use the
+    new `initFunction` feature instead of `init`. This eliminates the
+    need to assign initial values of properties storing reference
+    types in the constructor. They can now be specified within the
+    definition of the property, and the `initFunction` will be called
+    to initialize the value each time a new instance of the class is
+    instantiated.
+
+  - Properties can be immutable in two different ways.
+    - Any property's configuration can specify `immutable :
+      "readonly"` so that its value is set by the `init` key and can
+      not otherwise be altered. 
+    - Properties with `check : "Array"` or `check : "Object"` can be
+      marked as `immutable : "replace"`. Doing so will ensure that the
+      initially allocated array or object continues to be used, so
+      that when a new array or object is provided to the setter, the
+      *values* in the original array or object are replaced by those
+      in the array or object passed to the setter, rather than
+      replacing the actual array with what's specified in the setter.
+      In other words, the base array or object becomes immutable, and
+      its values are replaced by those in the argument to a setter
+      call.
 
   - Storage of property values can be completely replaced. In addition
     to developers being able to create their own storage mechanism,
-    there are three some built-in storage mechanisms:
+    there are some built-in storage mechanisms:
     - `qx.core.propertystorage.Default` is (duh!) the default one. It
       stores values in the object containing the property.
-    - `qx.core.propertystorage.ImmutableArray` is used for Array
-      members. It intercepts set operations, replacing all elements in
-      the existing array with the elements in the given array. This is
-      how `immutable : "replace" is implemented for `check : "Array"`
-      properties.
+    - `qx.core.propertystorage.ImmutableArray` is used for `check :
+      Array` properties. It intercepts set operations, replacing all
+      elements in the existing array with the elements in the given
+      array. This is how `immutable : "replace"` is implemented for
+      `check : "Array"` properties.
     - `qx.core.propertystorage.ImmutableObject` is used for native
-      Object members. It intercepts set operations, replacing all
+      Object properties. It intercepts set operations, replacing all
       members of the existing object with the elements in the given
-      object. This is how `immutable : "replace" is implemented for
+      object. This is how `immutable : "replace"` is implemented for
       `check : "Object"` properties.
+
+  - Properties are maintained in a Property Registry. This allows
+    retrieving a Property Descriptor for a property, and accessing its
+    methods. For example, you might set a property value via the
+    descriptor like so:
+   
+    ```
+      let propDesc = myClassInstance.getPropertyDescriptor("myProp");
+      propDesc.set(2);
+    ```
+    
+  - Async properties can now provide a `get` function, in addition to
+    the `apply` function.
 
   - A class can specify a delegate which intercepts attempts to set or
     get values on an instance that are not properties. This can allow
     in the future, for example, a class like `qx.data.Array` to
     intercept setting numeric properties, so that the following code
-    works as intuitively expected:
+    would work as intuitively expected:
 
     ```
     let arr = new qx.data.Array( [ 10, 11, 12 ] );
     
     arr.setItem(0, 20); // traditional way to change values
     arr[1] = 21;        // new potential way to change values
-    ```
-
-  - Properties are maintained in a Property Registry. This allows
-    retrieving a Property Descriptor for a property, and accessing its
-    methods. For example, to set a property value via the descriptor,
-    you might set the property's value using the descriptor like so:
-   
-    ```
-      let propDesc = myClassInstance.getPropertyDescriptor("myProp");
-      propDesc.set(2);
     ```
 
 ## Breaking changes in v8.0
